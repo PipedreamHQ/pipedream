@@ -17,31 +17,43 @@ export default {
       ],
     },
     ...commonImage.props,
-    imageData: {
-      ...nyckel.propDefinitions.imageData,
-      optional: true,
+    labelCount: {
+      propDefinition: [
+        nyckel,
+        "labelCount",
+      ],
     },
-    classifications: nyckel.propDefinitions.classifications,
+    includeMetadata: {
+      propDefinition: [
+        nyckel,
+        "includeMetadata",
+      ],
+    },
+    capture: {
+      propDefinition: [
+        nyckel,
+        "capture",
+      ],
+    },
+    externalId: {
+      propDefinition: [
+        nyckel,
+        "externalId",
+      ],
+    },
   },
   async run({ $ }) {
-    if (!this.imageUrl && !this.imageData) {
-      throw new Error("You must provide either an Image URL or Image Data.");
-    }
-
-    let response;
-    if (this.imageUrl) {
-      response = await this.nyckel.classifyImageData({
-        functionId: this.functionId,
-        imageUrl: this.imageUrl,
-        classifications: this.classifications,
-      });
-    } else if (this.imageData) {
-      response = await this.nyckel.classifyImageData({
-        functionId: this.functionId,
-        imageData: this.imageData,
-        classifications: this.classifications,
-      });
-    }
+    const response = await this.nyckel.invokeFunction({
+      $,
+      functionId: this.functionId,
+      ...this.getImageData(),
+      params: {
+        labelCount: this.labelCount,
+        includeMetadata: this.includeMetadata,
+        capture: this.capture,
+        externalId: this.externalId,
+      },
+    });
 
     $.export("$summary", "Image classification completed successfully");
     return response;
