@@ -77,7 +77,7 @@ export default {
     for (const column of columns) {
       if (this[column.id]) {
         if (column.type === "file") {
-          await this.monday.uploadFile({
+          await this.uploadFile({
             $,
             itemId: this.itemId,
             column,
