@@ -198,8 +198,8 @@ export default {
       addedTime, modifiedTime,
     }) {
       return [
-        addedTime && `${constants.ADDED_TIME_FIELD} > '${addedTime}'`,
-        modifiedTime && `${constants.MODIFIED_TIME_FIELD} > '${modifiedTime}'`,
+        addedTime && `${constants.ADDED_TIME_FIELD} >= '${addedTime}'`,
+        modifiedTime && `${constants.MODIFIED_TIME_FIELD} >= '${modifiedTime}'`,
       ].reduce(
         (reduction, criteria) =>
           (criteria && reduction.concat(criteria) || reduction),

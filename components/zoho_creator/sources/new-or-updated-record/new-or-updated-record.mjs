@@ -42,11 +42,11 @@ export default {
   methods: {
     ...common.methods,
     getMetadata(record) {
-      const id = JSON.stringify(record);
+      const ts = Date.parse(record[constants.MODIFIED_TIME_FIELD]);
       return {
-        id,
-        summary: id,
-        ts: Date.parse(record[constants.MODIFIED_TIME_FIELD]),
+        id: `${record.ID}-${ts}`,
+        summary: JSON.stringify(record),
+        ts,
       };
     },
     validateRecord(record) {
