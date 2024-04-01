@@ -15,6 +15,8 @@ module.exports = withNextra({
       {
         protocol: "https",
         hostname: "pipedream.com",
+        port: "",
+        pathname: "**",
       },
     ],
     // loader: 'custom',
