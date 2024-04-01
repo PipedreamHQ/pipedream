@@ -1,5 +1,5 @@
+import { parseObject } from "../../common/utils.mjs";
 import sendx from "../../sendx.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "sendx-create-update-contact",
@@ -18,11 +18,13 @@ export default {
       type: "string",
       label: "First Name",
       description: "The first name of the contact.",
+      optional: true,
     },
     lastName: {
       type: "string",
       label: "Last Name",
       description: "The last name of the contact.",
+      optional: true,
     },
     newEmail: {
       type: "string",
@@ -56,16 +58,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.sendx.createOrUpdateContact({
-      email: this.email,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      newEmail: this.newEmail,
-      company: this.company,
-      birthday: this.birthday,
-      customFields: this.customFields,
-      tags: this.tags,
+    const response = await this.sendx.upsertContact({
+      $,
+      data: {
+        email: this.email,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        newEmail: this.newEmail,
+        company: this.company,
+        birthday: this.birthday,
+        customFields: parseObject(this.customFields),
+        tags: parseObject(this.tags),
+      },
     });
+    console.log("response: ", response);
+
     $.export("$summary", `Successfully created or updated the contact with email: ${this.email}`);
     return response;
   },

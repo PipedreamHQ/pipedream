@@ -1,5 +1,4 @@
 import sendx from "../../sendx.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "sendx-add-tag-contact",
@@ -9,22 +8,33 @@ export default {
   type: "action",
   props: {
     sendx,
-    contactIdentification: sendx.propDefinitions.contactIdentification,
+    contactEmail: {
+      propDefinition: [
+        sendx,
+        "contactEmail",
+      ],
+    },
     tag: {
-      ...sendx.propDefinitions.tag,
-      optional: true,
+      propDefinition: [
+        sendx,
+        "tag",
+      ],
     },
   },
   async run({ $ }) {
-    if (!this.tag) {
-      $.export("$summary", "No tag provided, no association made.");
-      return;
-    }
-    const response = await this.sendx.associateTag({
-      contactIdentification: this.contactIdentification,
-      tag: this.tag,
+    const response = await this.sendx.updateTag({
+      $,
+      params: {
+        email: this.contactEmail,
+      },
+      data: {
+        addTags: [
+          this.tag,
+        ],
+      },
     });
-    $.export("$summary", `Successfully associated tag '${this.tag}' with contact '${this.contactIdentification}'`);
+
+    $.export("$summary", `Successfully associated tag '${this.tag}' with contact '${this.contactEmail}'`);
     return response;
   },
 };

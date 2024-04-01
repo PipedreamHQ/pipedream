@@ -9,16 +9,15 @@ export default {
       label: "Contact Details",
       description: "The details of the contact to create or update, including name, email, and other essential information.",
     },
-    contactIdentification: {
+    contactEmail: {
       type: "string",
-      label: "Contact Identification",
-      description: "The identification detail of the contact, used for associating or de-associating tags.",
+      label: "Contact Email",
+      description: "The email of the contact.",
     },
     tag: {
       type: "string",
       label: "Tag",
-      description: "The tag to associate or de-associate with a contact.",
-      optional: true,
+      description: "The tag to associate with a contact.",
     },
     firstName: {
       type: "string",
@@ -68,71 +67,41 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.sendx.io";
+      return "https://app.sendx.io/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "api_key": `${this.$auth.api_key}`,
+      };
+    },
+    _params(params) {
+      return {
+        ...params,
+        team_id: `${this.$auth.team_id}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, params, ...otherOpts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        params: this._params(params),
+        ...otherOpts,
       });
     },
-    async createOrUpdateContact({
-      email, firstName, lastName, newEmail, company, birthday, customFields, tags,
-    }) {
+    upsertContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contact/identify",
-        data: {
-          email,
-          firstName,
-          lastName,
-          newEmail,
-          company,
-          birthday,
-          customFields,
-          tags,
-        },
+        ...opts,
       });
     },
-    async associateTag({
-      contactIdentification, tag,
-    }) {
+    updateTag(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contact/track",
-        data: {
-          email: contactIdentification,
-          addTags: [
-            tag,
-          ],
-        },
-      });
-    },
-    async deAssociateTag({
-      contactIdentification, tag,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/contact/track",
-        data: {
-          email: contactIdentification,
-          removeTags: [
-            tag,
-          ],
-        },
+        ...opts,
       });
     },
   },
