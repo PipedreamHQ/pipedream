@@ -1,5 +1,6 @@
 import mysqlClient from "mysql2/promise";
 import { sqlProxy } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -97,6 +98,40 @@ export default {
   },
   methods: {
     ...sqlProxy.methods,
+    getSslConfig() {
+      const {
+        ca,
+        key,
+        cert,
+        ssl_verification_mode: mode,
+      } = this.$auth;
+
+      const defaultConfig = {
+        ...(ca && {
+          rejectUnauthorized: true,
+          verifyIdentity: true,
+        }),
+      };
+
+      const sslConfg = constants.SSL_CONFIG[mode] || defaultConfig;
+
+      const ssl = {
+        ...(ca && {
+          ca,
+        }),
+        ...(key && {
+          key,
+        }),
+        ...(cert && {
+          cert,
+        }),
+        ...sslConfg,
+      };
+
+      return Object.keys(ssl).length > 0
+        ? ssl
+        : undefined;
+    },
     /**
      * A helper method to get the configuration object that's directly fed to
      * the MySQL client constructor. Used by other features (like the SQL proxy)
@@ -106,29 +141,25 @@ export default {
      */
     getClientConfiguration() {
       const {
+        getSslConfig,
+        $auth: auth,
+      } = this;
+
+      const {
         host,
         port,
-        username,
+        username: user,
         password,
         database,
-        ca,
-        key,
-        cert,
-        reject_unauthorized: rejectUnauthorized = true,
-      } = this.$auth;
+      } = auth;
 
       return {
         host,
         port,
-        user: username,
+        user,
         password,
         database,
-        ssl: {
-          rejectUnauthorized,
-          ca,
-          cert,
-          key,
-        },
+        ssl: getSslConfig(),
       };
     },
     /**
