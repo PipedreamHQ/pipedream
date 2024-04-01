@@ -5364,8 +5364,10 @@ importers:
   components/nyckel:
     specifiers:
       '@pipedream/platform': ^1.6.2
+      form-data: ^4.0.0
     dependencies:
       '@pipedream/platform': 1.6.2
+      form-data: 4.0.0
 
   components/oauth_app_demo:
     specifiers: {}
