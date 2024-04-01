@@ -437,7 +437,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/anyflow:
     specifiers: {}
@@ -752,7 +752,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/beehiiv:
     specifiers:
@@ -766,7 +766,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/better_uptime:
     specifiers: {}
@@ -1362,7 +1362,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/clicktime:
     specifiers: {}
@@ -1609,7 +1609,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/confluent:
     specifiers: {}
@@ -2062,7 +2062,7 @@ importers:
       form-data: ^4.0.0
       lodash.maxby: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
       form-data: 4.0.0
       lodash.maxby: 4.6.0
 
@@ -2287,7 +2287,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/dynamics_365_business_central_api:
     specifiers:
@@ -2650,9 +2650,9 @@ importers:
 
   components/figma:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^1.6.1
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 1.6.2
 
   components/file_store:
     specifiers: {}
@@ -4296,7 +4296,10 @@ importers:
     specifiers: {}
 
   components/leiga:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/lemlist:
     specifiers:
@@ -4516,7 +4519,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/luminous:
     specifiers: {}
@@ -5795,7 +5798,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/phrase:
     specifiers:
@@ -6274,7 +6277,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/qstash:
     specifiers: {}
@@ -6310,7 +6313,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/quickbooks:
     specifiers:
@@ -6741,7 +6744,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/rosette_text_analytics:
     specifiers: {}
@@ -6968,7 +6971,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/seatable:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/segment:
     specifiers:
@@ -7020,7 +7026,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/sender:
     specifiers: {}
@@ -7175,7 +7181,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/sharepoint:
     specifiers:
@@ -8772,7 +8778,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/wachete:
     specifiers:
@@ -9421,7 +9427,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/zoho_people:
     specifiers: {}
@@ -13943,7 +13949,7 @@ packages:
   /@pipedream/helper_functions/0.3.12:
     resolution: {integrity: sha512-0n0kKCdrQQWOW275gDHBu0EUAdNssEzT3LLHcOTlzoTXP/V9Ue0VVTmtLDiDdaF9W3a4e2++tICFoVSGSyoMew==}
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
@@ -14001,17 +14007,6 @@ packages:
 
   /@pipedream/platform/1.6.1:
     resolution: {integrity: sha512-CrMADngji23PEmYI4FafY8s8fcovXaMeuhd6Y9SD9Cbii3d5CJ1TyYhy2xMp9JLjKCpGZydLaaqfXYCMixW82w==}
-    dependencies:
-      axios: 1.6.5
-      fp-ts: 2.16.1
-      io-ts: 2.2.20_fp-ts@2.16.1
-      querystring: 0.2.1
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /@pipedream/platform/1.6.2:
-    resolution: {integrity: sha512-NESkp7r0znsdvvJTvKX9xw2MKyrnByAIY/ikS/aUuZJb/A8FHVgN4ynkAf7sEz25BjziaG4+8A8w9KDq8ZK1LQ==}
     dependencies:
       axios: 1.6.5
       fp-ts: 2.16.1
