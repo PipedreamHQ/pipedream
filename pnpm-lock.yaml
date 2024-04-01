@@ -7068,7 +7068,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sendx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.1
 
   components/sendy:
     specifiers: {}
