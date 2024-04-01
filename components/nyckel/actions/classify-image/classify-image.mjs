@@ -5,7 +5,7 @@ export default {
   ...commonImage,
   key: "nyckel-classify-image",
   name: "Classify Image",
-  description: "Classifies image data based on pre-trained classifiers in Nyckel. Requires image data as input, with optional specifications for classifications to focus on. [See the documentation](https://www.nyckel.com/docs)",
+  description: "Classifies image data based on pre-trained classifiers in Nyckel. [See the documentation](https://www.nyckel.com/docs#invoke-image)",
   version: "0.0.1",
   type: "action",
   props: {

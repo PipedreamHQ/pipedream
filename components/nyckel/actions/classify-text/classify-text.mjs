@@ -3,7 +3,7 @@ import nyckel from "../../nyckel.app.mjs";
 export default {
   key: "nyckel-classify-text",
   name: "Classify Text",
-  description: "Classifies text data based on pre-trained classifiers in Nyckel. Requires data as input, with optional specifications for classifications to focus on. [See the documentation](https://www.nyckel.com/docs)",
+  description: "Classifies text data based on pre-trained classifiers in Nyckel.  [See the documentation](https://www.nyckel.com/docs#invoke-text)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {

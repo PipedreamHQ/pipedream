@@ -5,7 +5,7 @@ export default {
   ...commonImage,
   key: "nyckel-extract-text-from-image",
   name: "Extract Text from Image",
-  description: "Extracts text from an image URL. [See the documentation](https://www.nyckel.com/docs#ocr)",
+  description: "Extracts text from an image URL. [See the documentation](https://www.nyckel.com/docs#ocr-image)",
   version: "0.0.1",
   type: "action",
   props: {
