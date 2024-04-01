@@ -1,41 +1,54 @@
-import loopify from "../../loopify.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../loopify.app.mjs";
 
 export default {
   key: "loopify-add-contact-to-new-entry",
-  name: "Add Contact to New Entry",
-  description: "Adds a contact to an 'API Entry' block in a Loopify flow. [See the documentation](https://api.loopify.com/docs)",
-  version: "0.0.{{ts}}",
+  name: "Add Contact To New Entry",
+  description: "Adds a contact to an **API Entry** block in a Loopify flow. [See the documentation](https://api.loopify.com/docs/index.html#tag/Flows/operation/addContactToNewEntry)",
+  version: "0.0.1",
   type: "action",
   props: {
-    loopify,
-    contact: {
-      propDefinition: [
-        loopify,
-        "contact",
-      ],
-    },
-    apiEntry: {
-      propDefinition: [
-        loopify,
-        "apiEntry",
-      ],
-    },
+    app,
     flowId: {
       propDefinition: [
-        loopify,
+        app,
         "flowId",
       ],
     },
+    contactId: {
+      propDefinition: [
+        app,
+        "contactId",
+      ],
+    },
+  },
+  methods: {
+    addContactToNewEntryBlock({
+      flowId, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/flows/${flowId}/new-entry`,
+        ...args,
+      });
+    },
   },
   async run({ $ }) {
-    const response = await this.loopify.addContactToApiEntryBlock({
-      contact: this.contact,
-      apiEntry: this.apiEntry,
-      flowId: this.flowId,
+    const {
+      addContactToNewEntryBlock,
+      flowId,
+      contactId,
+    } = this;
+
+    const response = await addContactToNewEntryBlock({
+      $,
+      flowId,
+      data: {
+        contactIds: [
+          contactId,
+        ],
+      },
     });
 
-    $.export("$summary", `Successfully added contact to the API Entry Block '${this.apiEntry}' in the Loopify flow '${this.flowId}'.`);
+    $.export("$summary", `Successfully added contact to the New Entry Block in the Loopify flow with status \`${response.status}\``);
     return response;
   },
 };

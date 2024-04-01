@@ -4,112 +4,85 @@ export default {
   type: "app",
   app: "loopify",
   propDefinitions: {
-    eventType: {
-      type: "integer",
-      label: "Event Type",
-      description: "The type of event to emit",
-    },
-    contact: {
-      type: "object",
-      label: "Contact",
-      description: "The contact details",
-      options: async function (opts) {
-        // To be implemented: logic to retrieve contact options.
-        // This is a placeholder to show where you would call an API to get contacts.
-        return [];
-      },
-    },
-    apiEntry: {
-      type: "string",
-      label: "API Entry Block",
-      description: "The block to which the contact should be added in a Loopify flow",
-      options: async function (opts) {
-        // To be implemented: logic to retrieve API Entry Block options.
-        // This is a placeholder to show where you would call an API to get API entry blocks.
-        return [];
-      },
-    },
     flowId: {
       type: "string",
       label: "Flow ID",
       description: "The ID of the flow",
-      options: async function (opts) {
-        // To be implemented: logic to retrieve flow ID options.
-        // This is a placeholder to show where you would call an API to get flow IDs.
-        return [];
+      useQuery: true,
+      async options({ query: search }) {
+        const { documents } = await this.flowsSearch({
+          data: {
+            search,
+          },
+        });
+        return documents.map(({
+          _id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    contactId: {
+      type: "string",
+      label: "Contact ID",
+      description: "The ID of the contact",
+      async options({ page }) {
+        const { contacts } = await this.getContacts({
+          params: {
+            pageSize: 50,
+            pageIndex: page + 1,
+          },
+        });
+        return contacts.map(({
+          _id: value, firstName, lastName, email,
+        }) => ({
+          label: `${firstName} ${lastName} ${email}`.trim() || value,
+          value,
+        }));
       },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.loopify.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
+        ...args,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": "application/json",
         },
       });
     },
-    async emitEvent({ eventType }) {
-      // Logic to emit event based on eventType
-      // Placeholder for actual event emission logic
-    },
-    async addContactToApiEntryBlock({
-      contact, apiEntry, flowId,
-    }) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/flows/${flowId}/new-entry`,
-        data: {
-          contactIds: [
-            contact.id,
-          ],
-          segment: {
-            filterGroups: [
-              {
-                index: 0,
-                type: "contact",
-                conjunction: "AND",
-                joinType: "some",
-                filters: [
-                  {
-                    index: 0,
-                    source: contact.source,
-                    sourceType: contact.sourceType,
-                    comparator: "contains",
-                    patternType: contact.patternType,
-                    pattern: contact.pattern,
-                  },
-                ],
-                excludeEventResult: true,
-              },
-            ],
-          },
-        },
+        ...args,
       });
     },
-    async createOrUpdateContact({ contact }) {
+    put(args = {}) {
       return this._makeRequest({
-        method: "POST",
+        method: "PUT",
+        ...args,
+      });
+    },
+    flowsSearch(args = {}) {
+      return this.post({
+        path: "/flows/search",
+        ...args,
+      });
+    },
+    getContacts(args = {}) {
+      return this._makeRequest({
         path: "/contacts",
-        data: contact,
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };

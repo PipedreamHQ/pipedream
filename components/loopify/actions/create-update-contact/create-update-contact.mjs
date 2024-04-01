@@ -1,69 +1,150 @@
-import loopify from "../../loopify.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../loopify.app.mjs";
 
 export default {
   key: "loopify-create-update-contact",
-  name: "Create or Update Contact",
-  description: "Creates or updates a contact in Loopify. If the contact exists, it will be updated; otherwise, a new contact will be created. [See the documentation](https://api.loopify.com/docs)",
-  version: "0.0.{{ts}}",
+  name: "Create Or Update Contact",
+  description: "Creates or updates a contact in Loopify. If the contact exists, it will be updated; otherwise, a new contact will be created. [See the documentation](https://api.loopify.com/docs/index.html#tag/Contacts)",
+  version: "0.0.1",
   type: "action",
   props: {
-    loopify,
-    contact: {
-      propDefinition: [
-        loopify,
-        "contact",
-      ],
+    app,
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the contact",
     },
-    apiEntry: {
-      propDefinition: [
-        loopify,
-        "apiEntry",
-      ],
+    externalId: {
+      type: "string",
+      label: "External ID",
+      description: "The external ID of the contact",
       optional: true,
     },
-    flowId: {
-      propDefinition: [
-        loopify,
-        "flowId",
-      ],
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the contact",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the contact",
+      optional: true,
+    },
+    mobile: {
+      type: "string",
+      label: "Mobile",
+      description: "The mobile number of the contact",
+      optional: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the contact",
+      optional: true,
+    },
+    companyName: {
+      type: "string",
+      label: "Company Name",
+      description: "The company name of the contact",
+      optional: true,
+    },
+    address: {
+      type: "string",
+      label: "Address",
+      description: "The address of the contact",
+      optional: true,
+    },
+    zip: {
+      type: "string",
+      label: "Zip",
+      description: "The zip code of the contact",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "The city of the contact",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "The country of the contact",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The state of the contact",
+      optional: true,
+    },
+    leadScore: {
+      type: "integer",
+      label: "Lead Score",
+      description: "The lead score of the contact",
       optional: true,
     },
   },
+  methods: {
+    createContact(args = {}) {
+      return this.app.post({
+        path: "/contacts",
+        ...args,
+      });
+    },
+    updateContact({
+      contactId, ...args
+    } = {}) {
+      return this.app.put({
+        path: `/contacts/${contactId}`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    let contactResponse;
-    const existingContactResponse = await this.loopify._makeRequest({
-      method: "GET",
-      path: `/contacts?email=${encodeURIComponent(this.contact.email)}`,
+    const {
+      app,
+      createContact,
+      updateContact,
+      email,
+      ...props
+    } = this;
+
+    const { contacts } = await app.getContacts({
+      $,
+      params: {
+        search: email,
+      },
     });
 
-    if (existingContactResponse.length > 0) {
-      // Contact exists, update it
-      const existingContactId = existingContactResponse[0].id;
-      contactResponse = await this.loopify._makeRequest({
-        method: "PUT",
-        path: `/contacts/${existingContactId}`,
-        data: this.contact,
+    const [
+      contact,
+    ] = contacts;
+
+    if (contact) {
+      const response = await updateContact({
+        $,
+        contactId: contact._id,
+        data: {
+          email,
+          ...props,
+        },
       });
-      $.export("$summary", `Updated existing contact with ID ${existingContactId}`);
-    } else {
-      // Contact does not exist, create it
-      contactResponse = await this.loopify.createOrUpdateContact({
-        contact: this.contact,
-      });
-      $.export("$summary", `Created new contact with ID ${contactResponse.id}`);
+
+      $.export("$summary", `Successfully updated contact with ID \`${response._id}\``);
+      return response;
     }
 
-    // If an API Entry Block is specified, add the contact to it
-    if (this.apiEntry && this.flowId) {
-      await this.loopify.addContactToApiEntryBlock({
-        contact: contactResponse,
-        apiEntry: this.apiEntry,
-        flowId: this.flowId,
-      });
-      $.export("$summary", `Added contact to API Entry Block with ID ${this.apiEntry}`);
-    }
+    const response = await createContact({
+      $,
+      data: {
+        email,
+        ...props,
+      },
+    });
 
-    return contactResponse;
+    $.export("$summary", `Successfully created contact with ID \`${response._id}\``);
+    return response;
   },
 };
