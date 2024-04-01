@@ -8,10 +8,17 @@ export default {
   type: "action",
   props: {
     nyckel,
-    functionId: nyckel.propDefinitions.functionId,
-    imageUrl: {
-      ...nyckel.propDefinitions.imageUrl,
-      optional: true,
+    functionId: {
+      propDefinition: [
+        nyckel,
+        "functionId",
+      ],
+    },
+    imagePathOrUrl: {
+      propDefinition: [
+        nyckel,
+        "imageUrl",
+      ],
     },
     imageData: {
       ...nyckel.propDefinitions.imageData,
