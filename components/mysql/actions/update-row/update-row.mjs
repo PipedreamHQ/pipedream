@@ -6,7 +6,7 @@ export default {
   name: "Update Row",
   description: "Updates an existing row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/update.html)",
   type: "action",
-  version: "1.0.1",
+  version: "2.0.0",
   props: {
     mysql,
     table: {
