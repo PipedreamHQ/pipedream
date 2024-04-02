@@ -1,75 +1,26 @@
-import paigo from "../../paigo.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "paigo-new-customer-instant",
-  name: "New Customer Instant",
-  description: "Emit new event when customer account is created. [See the documentation](http://www.api.docs.paigo.tech/)",
-  version: "0.0.{{ts}}",
+  name: "New Customer (Instant)",
+  description: "Emit new event when a customer account is created. [See the documentation](http://www.api.docs.paigo.tech/#tag/Webhooks/operation/Subscribe%20a%20Webhook)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    paigo: {
-      type: "app",
-      app: "paigo",
-    },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: "$.service.db",
-    accountDetails: {
-      propDefinition: [
-        paigo,
-        "accountDetails",
-      ],
-    },
-  },
   methods: {
-    generateMeta(data) {
-      const {
-        id, created_at,
-      } = data;
+    ...common.methods,
+    getWebhookType() {
+      return "CUSTOMER_CREATED";
+    },
+    generateMeta(customer) {
       return {
-        id,
-        summary: `New customer created with ID: ${id}`,
-        ts: Date.parse(created_at),
+        id: customer.customerId,
+        summary: `New Customer ${customer.customerName}`,
+        ts: Date.now(),
       };
     },
   },
-  hooks: {
-    async activate() {
-      const { data } = await this.paigo.createCustomer(this.accountDetails);
-      this.db.set("customerId", data.id);
-    },
-    async deactivate() {
-      const id = this.db.get("customerId");
-      await this.paigo.deleteWebhook(id);
-    },
-  },
-  async run(event) {
-    const {
-      headers, body,
-    } = event;
-
-    if (headers["content-type"] !== "application/json") {
-      return this.http.respond({
-        status: 400,
-        body: "Expected application/json",
-      });
-    }
-
-    if (body.id !== this.db.get("customerId")) {
-      return this.http.respond({
-        status: 404,
-        body: "Not Found",
-      });
-    }
-
-    const meta = this.generateMeta(body);
-    this.$emit(body, meta);
-
-    this.http.respond({
-      status: 200,
-    });
-  },
+  sampleEmit,
 };

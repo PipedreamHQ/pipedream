@@ -1,144 +1,178 @@
-import axios from "@pipedream/platform";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
   app: "paigo",
   propDefinitions: {
-    accountId: {
+    offeringId: {
       type: "string",
-      label: "Customer Account ID",
-      description: "The unique identifier for the customer account",
-    },
-    accountDetails: {
-      type: "object",
-      label: "Account Details",
-      description: "The details for the new customer account",
-    },
-    invoiceId: {
-      type: "string",
-      label: "Invoice ID",
-      description: "The unique identifier for the invoice",
-    },
-    invoiceDetails: {
-      type: "object",
-      label: "Invoice Details",
-      description: "The details for the new invoice",
+      label: "Offering ID",
+      description: "The unique identifier for the offering",
+      async options() {
+        const { data } = await this.listOfferings();
+        return data?.map(({
+          offeringId: value, offeringName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     customerId: {
       type: "string",
       label: "Customer ID",
       description: "The unique identifier for the customer",
+      async options() {
+        const { data } = await this.listCustomers();
+        return data?.map(({
+          customerId: value, customerName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    creditAmount: {
-      type: "integer",
-      label: "Credit Amount",
-      description: "The amount of credit to be added to the customer's account",
-    },
-    offeringDetails: {
-      type: "object",
-      label: "Offering Details",
-      description: "The details for the new offering",
-    },
-    offeringId: {
+    invoiceId: {
       type: "string",
-      label: "Offering ID",
-      description: "The unique identifier for the offering",
-    },
-    dimensionDetails: {
-      type: "object",
-      label: "Dimension Details",
-      description: "The details for the new dimension",
+      label: "Invoice ID",
+      description: "The unique identifier for the invoice",
+      async options({ customerId }) {
+        if (!customerId) {
+          return [];
+        }
+        const { data } = await this.getCustomer({
+          customerId,
+        });
+        if (!data?.length) {
+          return [];
+        }
+        const { invoices } = data[0];
+        return invoices?.map(({
+          invoiceId: value, invoiceDate, currency, amountPaid,
+        }) => ({
+          value,
+          label: `${invoiceDate} - ${amountPaid} ${currency}`,
+        })) || [];
+      },
     },
     dimensionId: {
       type: "string",
       label: "Dimension ID",
       description: "The unique identifier for the dimension",
-    },
-    usageAmount: {
-      type: "integer",
-      label: "Usage Amount",
-      description: "The amount of the specific usage type",
+      async options() {
+        const { data } = await this.listDimensions();
+        return data?.map(({
+          dimensionId: value, dimensionName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.paigo.io";
+      return "https://api.prod.paigo.tech";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_token}`,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async createCustomer(accountDetails) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/customers",
-        data: accountDetails,
+        path: "/webhooks/subscribe",
+        ...opts,
       });
     },
-    async createInvoice(invoiceDetails) {
+    deleteWebhook({
+      hookId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/invoices",
-        data: invoiceDetails,
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
+        ...opts,
       });
     },
-    async incrementCreditBalance(customerId, creditAmount) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/customers/${customerId}/credits`,
-        data: {
-          amount: creditAmount,
-        },
-      });
-    },
-    async createOffering(offeringDetails) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/offerings",
-        data: offeringDetails,
-      });
-    },
-    async assignOfferingToCustomer(offeringId, customerDetails) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/offerings/${offeringId}/customers`,
-        data: customerDetails,
-      });
-    },
-    async getInvoiceDetails(invoiceId) {
+    getInvoice({
+      invoiceId, ...opts
+    }) {
       return this._makeRequest({
         path: `/invoices/${invoiceId}`,
+        ...opts,
       });
     },
-    async createDimension(dimensionDetails) {
+    getCustomer({
+      customerId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/customers/${customerId}`,
+        ...opts,
+      });
+    },
+    listOfferings(opts = {}) {
+      return this._makeRequest({
+        path: "/offerings",
+        ...opts,
+      });
+    },
+    listCustomers(opts = {}) {
+      return this._makeRequest({
+        path: "/customers",
+        ...opts,
+      });
+    },
+    listDimensions(opts = {}) {
+      return this._makeRequest({
+        path: "/dimensions",
+        ...opts,
+      });
+    },
+    recordUsage(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/usage",
+        ...opts,
+      });
+    },
+    createDimension(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/dimensions",
-        data: dimensionDetails,
+        ...opts,
       });
     },
-    async recordUsage(customerId, dimensionId, usageAmount) {
+    incrementCreditBalance({
+      customerId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/customers/${customerId}/usage`,
-        data: {
-          dimensionId,
-          amount: usageAmount,
-        },
+        path: `/customers/${customerId}/transactions`,
+        ...opts,
+      });
+    },
+    createOffering(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/offerings",
+        ...opts,
+      });
+    },
+    createCustomer(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customers",
+        ...opts,
       });
     },
   },

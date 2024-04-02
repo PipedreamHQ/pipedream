@@ -1,11 +1,10 @@
 import paigo from "../../paigo.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "paigo-add-credits",
   name: "Add Credits",
-  description: "Increments the credit balance of a specific customer. Requires input of customer id and the amount of credits to be added. It returns the updated balance.",
-  version: "0.0.{{ts}}",
+  description: "Increments the credit balance of a specific customer. [See the documentation](http://www.api.docs.paigo.tech/#tag/Customers/operation/Create%20a%20wallet%20transaction)",
+  version: "0.0.1",
   type: "action",
   props: {
     paigo,
@@ -16,14 +15,19 @@ export default {
       ],
     },
     creditAmount: {
-      propDefinition: [
-        paigo,
-        "creditAmount",
-      ],
+      type: "string",
+      label: "Credit Amount",
+      description: "The amount to credit the customer. Can be positive or negative. Customers cannot have a negative balance set via the API.",
     },
   },
   async run({ $ }) {
-    const response = await this.paigo.incrementCreditBalance(this.customerId, this.creditAmount);
+    const response = await this.paigo.incrementCreditBalance({
+      $,
+      customerId: this.customerId,
+      data: {
+        transactionAmount: this.creditAmount,
+      },
+    });
     $.export("$summary", `Successfully added ${this.creditAmount} credits to customer ${this.customerId}`);
     return response;
   },

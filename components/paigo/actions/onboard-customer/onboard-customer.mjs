@@ -1,32 +1,49 @@
 import paigo from "../../paigo.app.mjs";
-import { axios } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "paigo-onboard-customer",
   name: "Onboard Customer",
-  description: "Creates a new customer and assigns them an offering in Paigo. Returns the details of the customer and the associated offering.",
-  version: "0.0.{{ts}}",
+  description: "Creates a new customer and assigns them an offering in Paigo. [See the documentation](http://www.api.docs.paigo.tech/#tag/Customers/operation/Create%20a%20customer)",
+  version: "0.0.1",
   type: "action",
   props: {
     paigo,
-    offeringId: {
+    customerName: {
       type: "string",
-      label: "Offering ID",
-      description: "The unique identifier for the offering to be assigned to the customer",
+      label: "Customer Name",
+      description: "The friendly, human-readable name for the customer profile",
     },
-    customerDetails: {
-      type: "object",
-      label: "Customer Details",
-      description: "The details for the new customer",
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Customer email address",
+    },
+    paymentChannel: {
+      type: "string",
+      label: "Payment Channel",
+      description: "The payment channel associated with a customer",
+      options: constants.PAYMENT_CHANNELS,
+    },
+    offeringId: {
+      propDefinition: [
+        paigo,
+        "offeringId",
+      ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    const customer = await this.paigo.createCustomer(this.customerDetails);
-    const offering = await this.paigo.assignOfferingToCustomer(this.offeringId, customer.id);
-    $.export("$summary", `Successfully onboarded customer with ID ${customer.id} and assigned offering with ID ${offering.id}`);
-    return {
-      customer,
-      offering,
-    };
+    const response = await this.paigo.createCustomer({
+      $,
+      data: {
+        customerName: this.customerName,
+        email: this.email,
+        paymentChannel: this.paymentChannel,
+        offeringId: this.offeringId,
+      },
+    });
+    $.export("$summary", `Successfully onboarded customer with ID ${response.customerId}`);
+    return response;
   },
 };
