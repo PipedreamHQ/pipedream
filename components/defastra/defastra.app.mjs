@@ -16,49 +16,36 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.defastra.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "X-API-KEY": this.$auth.api_key,
+        "Content-Type": "application/x-www-form-urlencoded",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...otherOpts
+    }) {
       return axios($, {
-        method,
+        ...otherOpts,
         url: this._baseUrl() + path,
-        data,
-        params,
-        headers: {
-          ...headers,
-          "X-API-KEY": this.$auth.api_key,
-          "Content-Type": "application/x-www-form-urlencoded",
-          ...otherOpts.headers,
-        },
+        headers: this._headers(),
       });
     },
-    async performEmailRiskAnalysis({ email }) {
-      const params = new URLSearchParams();
-      params.append("email", email);
+    performEmailRiskAnalysis(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/deep_email_check",
-        data: params,
+        ...opts,
       });
     },
-    async performPhoneRiskAnalysis({ phoneNumber }) {
-      const params = new URLSearchParams();
-      params.append("phone", phoneNumber);
+    performPhoneRiskAnalysis(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/deep_phone_check",
-        data: params,
+        ...opts,
       });
     },
   },
