@@ -6,7 +6,7 @@ export default {
   name: "Contact Created",
   description: "Triggers when a contact is created. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   methods: {
     ...common.methods,
