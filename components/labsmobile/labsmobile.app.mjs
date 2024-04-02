@@ -10,7 +10,7 @@ export default {
     _auth() {
       return {
         username: this.$auth.email,
-        password: this.$auth.api_token,
+        password: this.$auth.api_token_or_password,
       };
     },
     _makeRequest({
