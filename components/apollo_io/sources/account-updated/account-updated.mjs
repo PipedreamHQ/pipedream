@@ -1,5 +1,5 @@
-import common from "../common/polling.mjs";
 import md5 from "md5";
+import common from "../common/polling.mjs";
 
 export default {
   ...common,
@@ -7,7 +7,7 @@ export default {
   name: "Account Updated",
   description: "Triggers when an account is updated. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

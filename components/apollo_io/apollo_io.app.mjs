@@ -97,6 +97,50 @@ export default {
         })) || [];
       },
     },
+    ownerId: {
+      type: "string",
+      label: "Owner ID",
+      description: "Identifier of the user to associate as owner.",
+      async options() {
+        const { users } = await this.listUsers();
+        return users?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    opportunityId: {
+      type: "string",
+      label: "Opportunity ID",
+      description: "The ID of the opportunity.",
+      async options({ page }) {
+        const { opportunities } = await this.listOpportunities({
+          page: page + 1,
+        });
+        return opportunities?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    opportunityStageId: {
+      type: "string",
+      label: "Opportunity Stage ID",
+      description: "The ID of the current stage.",
+      async options() {
+        const { opportunity_stages: stages } = await this.listOpportunityStages();
+        return stages?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     email: {
       type: "string",
       label: "Email",
@@ -231,6 +275,24 @@ export default {
         ...args,
       });
     },
+    listUsers(args = {}) {
+      return this.makeRequest({
+        path: "/users/search",
+        ...args,
+      });
+    },
+    listOpportunities(args = {}) {
+      return this.makeRequest({
+        path: "/opportunities/search",
+        ...args,
+      });
+    },
+    listOpportunityStages(args = {}) {
+      return this.makeRequest({
+        path: "/opportunity_stages",
+        ...args,
+      });
+    },
     createContact(args = {}) {
       return this.makeRequest({
         method: "POST",
@@ -261,6 +323,30 @@ export default {
         ...args,
       });
     },
+    createOpportunity(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/opportunities",
+        ...args,
+      });
+    },
+    updateOpportunity({
+      opportunityId, ...args
+    }) {
+      return this.makeRequest({
+        method: "PATCH",
+        path: `/opportunities/${opportunityId}`,
+        ...args,
+      });
+    },
+    getOpportunity({
+      opportunityId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/opportunities/${opportunityId}`,
+        ...args,
+      });
+    },
     updateAccount({
       accountId, ...args
     }) {
@@ -283,6 +369,12 @@ export default {
       return this.makeRequest({
         method: "POST",
         path: `/emailer_campaigns/${sequenceId}/add_contact_ids`,
+        ...args,
+      });
+    },
+    searchAccounts(args = {}) {
+      return this.makeRequest({
+        path: "/accounts/search",
         ...args,
       });
     },
