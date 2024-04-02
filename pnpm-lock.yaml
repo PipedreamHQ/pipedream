@@ -1353,7 +1353,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.1
     dependencies:
-      '@pipedream/platform': 1.6.2
+      '@pipedream/platform': 1.6.1
 
   components/clickmeeting:
     specifiers: {}
@@ -4302,7 +4302,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/lemlist:
     specifiers:
@@ -14011,8 +14011,8 @@ packages:
       - debug
     dev: false
 
-  /@pipedream/platform/1.6.2:
-    resolution: {integrity: sha512-NESkp7r0znsdvvJTvKX9xw2MKyrnByAIY/ikS/aUuZJb/A8FHVgN4ynkAf7sEz25BjziaG4+8A8w9KDq8ZK1LQ==}
+  /@pipedream/platform/1.6.1:
+    resolution: {integrity: sha512-CrMADngji23PEmYI4FafY8s8fcovXaMeuhd6Y9SD9Cbii3d5CJ1TyYhy2xMp9JLjKCpGZydLaaqfXYCMixW82w==}
     dependencies:
       axios: 1.6.5
       fp-ts: 2.16.1
