@@ -25,7 +25,7 @@ jobs:
       name: Spellcheck Markdown files
       run: |-
         files=''
-        for f in ${{ steps.changed_files.outputs.all }}
+        for f in ${{ steps.changed_files.outputs.added_modified }}
         do
           ext="${f##*.}"
           if [ $ext = "md" ] || [ $ext = "mdx" ]
