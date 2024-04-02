@@ -451,6 +451,9 @@ importers:
   components/api2pdf:
     specifiers: {}
 
+  components/api4ai:
+    specifiers: {}
+
   components/api_bible:
     specifiers: {}
 
