@@ -8,7 +8,7 @@ export default {
       type: "string",
       label: "Function ID",
       description: "Select a function or provide a custom function ID.",
-      async options({ context: { cursor } }) {
+      async options({ prevContext: { cursor } }) {
         const items = await this.listFunctions({
           params: {
             cursor,

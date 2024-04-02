@@ -1,4 +1,4 @@
-import nyckel from "../../nyckel.app.mjs";
+import nyckel from "../nyckel.app.mjs";
 import FormData from "form-data";
 import fs from "fs";
 
@@ -13,12 +13,12 @@ export default {
   },
   methods: {
     getImageData() {
-      const { fileOrUrl } = this;
-      const isUrl = fileOrUrl.startsWith("http");
+      const { imageOrUrl } = this;
+      const isUrl = imageOrUrl.startsWith("http");
       if (isUrl) {
         return {
           data: {
-            data: fileOrUrl,
+            data: imageOrUrl,
           },
           headers: {
             "Content-Type": "application/json",
@@ -28,9 +28,9 @@ export default {
 
       const data = new FormData();
       data.append("data", fs.createReadStream(
-        fileOrUrl.includes("tmp/")
-          ? fileOrUrl
-          : `/tmp/${fileOrUrl}`,
+        imageOrUrl.includes("tmp/")
+          ? imageOrUrl
+          : `/tmp/${imageOrUrl}`,
       ));
 
       return {
