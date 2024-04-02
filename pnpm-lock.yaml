@@ -3309,7 +3309,10 @@ importers:
       mime: 3.0.0
 
   components/google_postmaster_tools_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/google_recaptcha:
     specifiers:
