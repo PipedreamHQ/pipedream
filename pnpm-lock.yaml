@@ -7067,6 +7067,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/sendsms:
+    specifiers: {}
+
   components/sendx:
     specifiers:
       '@pipedream/platform': ^1.5.1
