@@ -451,6 +451,9 @@ importers:
   components/api2pdf:
     specifiers: {}
 
+  components/api4ai:
+    specifiers: {}
+
   components/api_bible:
     specifiers: {}
 
@@ -1353,7 +1356,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.1
     dependencies:
-      '@pipedream/platform': 1.6.2
+      '@pipedream/platform': 1.6.1
 
   components/clickmeeting:
     specifiers: {}
@@ -2065,14 +2068,6 @@ importers:
       '@pipedream/platform': 1.6.2
       form-data: 4.0.0
       lodash.maxby: 4.6.0
-
-  components/discord_webhook:
-    specifiers:
-      '@pipedream/platform': ^1.4.0
-      form-data: ^4.0.0
-    dependencies:
-      '@pipedream/platform': 1.5.1
-      form-data: 4.0.0
 
   components/discourse:
     specifiers:
@@ -3313,6 +3308,9 @@ importers:
       '@pipedream/platform': 1.5.1
       mime: 3.0.0
 
+  components/google_postmaster_tools_api:
+    specifiers: {}
+
   components/google_recaptcha:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -4299,7 +4297,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.2
 
   components/lemlist:
     specifiers:
@@ -5085,16 +5083,6 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
       mysql2: 3.9.2
-      mysql2-promise: 0.1.4
-      uuid: 8.3.2
-
-  components/mysql_ssl:
-    specifiers:
-      '@pipedream/platform': ^1.2.0
-      mysql2-promise: ^0.1.4
-      uuid: ^8.3.2
-    dependencies:
-      '@pipedream/platform': 1.5.1
       mysql2-promise: 0.1.4
       uuid: 8.3.2
 
@@ -6078,7 +6066,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/pretix:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/printautopilot:
     specifiers:
@@ -7077,7 +7068,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sendx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.1
 
   components/sendy:
     specifiers: {}
@@ -8636,14 +8630,11 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
-  components/vercel:
+  components/vercel_token_auth:
     specifiers:
       '@pipedream/platform': ^1.2.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-
-  components/vercel_token_auth:
-    specifiers: {}
+      '@pipedream/platform': 1.6.2
 
   components/verdict_as_a_service:
     specifiers:
@@ -13993,6 +13984,17 @@ packages:
 
   /@pipedream/platform/1.6.0:
     resolution: {integrity: sha512-/qP5qEdY+FD0ylBDwfqC+Uz0J9zNWQRKhvQ30M+hAB1VWTcZZkUng+Df+ZMooUqZBT7jnC8t6fk5eHkSSeHukw==}
+    dependencies:
+      axios: 1.6.5
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.6.1:
+    resolution: {integrity: sha512-CrMADngji23PEmYI4FafY8s8fcovXaMeuhd6Y9SD9Cbii3d5CJ1TyYhy2xMp9JLjKCpGZydLaaqfXYCMixW82w==}
     dependencies:
       axios: 1.6.5
       fp-ts: 2.16.1
