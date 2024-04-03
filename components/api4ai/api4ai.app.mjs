@@ -6,11 +6,6 @@ export default {
   type: "app",
   app: "api4ai",
   propDefinitions: {
-    apiKey: {
-      type: "string",
-      label: "API Key",
-      secret: true,
-    },
     image: {
       type: "string",
       label: "Image",
@@ -18,12 +13,16 @@ export default {
     },
   },
   methods: {
+    // this.$auth contains connected account data
+    authKeys() {
+      console.log(Object.keys(this.$auth));
+    },
+
     /**
      * Make HTTP request.
      *
      * @param {Object} $ - Pipedream.
      * @param {string} url - API Endpoint URL.
-     * @param {string} apiKey - API Key.
      * @param {*} image - Input image.
      *     Various types are accepted:
      *       - a path to a file
@@ -34,7 +33,7 @@ export default {
      * @param {Object} params - Query parameters.
      * @returns Axios response.
      */
-    async makeRequest($, url, apiKey, image, params = {}) {
+    async makeRequest($, url, image, params = {}) {
       // Prepare form data.
       const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
       const urlregex = /^(http|ftp)s?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
@@ -71,7 +70,7 @@ export default {
       // Prepare headers.
       const headers = {
         "Content-Type": "multipart/form-data",
-        "X-RapidAPI-Key": apiKey,
+        "X-RapidAPI-Key": this.$auth.api_key,
         "A4A-CLIENT-USER-ID": "pipedream.com",
       };
 

@@ -1,6 +1,7 @@
 import common from "../common.mjs";
 import utils from "../../common/utils.mjs";
 import constants from "../../constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 const { zohoCreator } = common.props;
 const { toSingleLineString } = utils;
@@ -18,7 +19,7 @@ export default {
   `),
   type: "source",
   name: "New or Updated Record",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -41,16 +42,16 @@ export default {
   methods: {
     ...common.methods,
     getMetadata(record) {
-      const id = JSON.stringify(record);
+      const ts = Date.parse(record[constants.MODIFIED_TIME_FIELD]);
       return {
-        id,
-        summary: id,
-        ts: Date.parse(record[constants.MODIFIED_TIME_FIELD]),
+        id: `${record.ID}-${ts}`,
+        summary: JSON.stringify(record),
+        ts,
       };
     },
     validateRecord(record) {
       if (!record[constants.MODIFIED_TIME_FIELD]) {
-        throw new Error("Record is missing the \"Modified Time\" field. Add the \"Modified Time\" Grouping field in the Zoho Creator record properties for the Report.");
+        throw new ConfigurationError("Record is missing the \"Modified Time\" field. Add the \"Modified Time\" Grouping field in the Zoho Creator record properties for the Report.");
       }
     },
     processEvent(record) {
