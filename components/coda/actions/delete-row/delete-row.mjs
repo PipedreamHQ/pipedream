@@ -4,7 +4,7 @@ export default {
   key: "coda-delete-row",
   name: "Delete Row",
   description: "Delete a single row by name or ID. [See docs](https://coda.io/developers/apis/v1#tag/Rows/operation/deleteRow)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     coda,

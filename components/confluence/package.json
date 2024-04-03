@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/confluence",
+  "version": "0.0.1",
+  "description": "Pipedream Confluence Components",
+  "main": "confluence.app.mjs",
+  "keywords": [
+    "pipedream",
+    "confluence"
+  ],
+  "homepage": "https://pipedream.com/apps/confluence",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

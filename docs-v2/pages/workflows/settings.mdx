@@ -114,7 +114,7 @@ By default, workflows run with {process.env.MEMORY_LIMIT} of memory. If you're p
 
 ## Eliminate cold starts
 
-A **cold start** refers to the delay between the invocation of workflow and the execution of the workflow code. Cold starts happen when Pipedream spins up a new [execution environment](/privacy-and-security/#execution-environment) to handle incoming requests.
+A **cold start** refers to the delay between the invocation of workflow and the execution of the workflow code. Cold starts happen when Pipedream spins up a new [execution environment](/privacy-and-security/#execution-environment) to handle incoming events.
 
 Specifically, cold starts occur on the first request to your workflow after a period of inactivity (roughly 5 minutes), or if your initial worker is already busy and a new worker needs to be initialized. In these cases, Pipedream creates a new execution environment to process your event. **Initializing this environment takes a few seconds, which delays the execution of this first event**.
 
@@ -192,25 +192,6 @@ Additionally, any change to dedicated worker configuration, (including worklow d
   alt="Dedicated worker overlap"
 />
 <br />
-
-## Attachments
-
-Sometimes, you'll need to reference static files in your workflow, like a CSV. Files uploaded in the **Attachments** section can be referenced in your workflow under the `steps.trigger.context.attachments` object.
-
-For example, if you upload a file named `test.csv`, Pipedream will expose the _file path_ of the uploaded file at `steps.trigger.context.attachments["test.csv"]`. You can read the contents of the file using `fs.readFileSync`:
-
-```javascript
-import fs from "fs";
-
-export default defineComponent({
-  async run({ steps, $ }) {
-    const fileData = fs
-      .readFileSync(steps.trigger.context.attachments["test.csv"])
-      .toString();
-    console.log(fileData);
-  },
-});
-```
 
 ### Limits
 

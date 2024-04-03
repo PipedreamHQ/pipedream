@@ -21,6 +21,20 @@ export default {
       ],
     },
   },
+  hooks: {
+    async deploy() {
+      const { data } = await this.zohoCreator.getRecords({
+        appLinkName: this.appLinkName,
+        reportLinkName: this.reportLinkName,
+        params: {
+          limit: 1,
+        },
+      });
+      if (data?.length) {
+        this.validateRecord(data[0]);
+      }
+    },
+  },
   methods: {
     getLastTimestamp() {
       return this.db.get(constants.LAST_TIMESTAMP);

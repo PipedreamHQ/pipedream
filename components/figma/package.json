@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/figma",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Figma Components",
-  "main": "figma.app.js",
+  "main": "figma.app.mjs",
   "keywords": [
     "pipedream",
     "figma"
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^0.10.0"
+    "@pipedream/platform": "^1.6.1"
   }
 }

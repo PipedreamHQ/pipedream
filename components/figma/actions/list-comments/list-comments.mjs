@@ -1,19 +1,15 @@
-import figmaApp from "../../figma.app.mjs";
+import common from "../../common/common.mjs";
+const { figmaApp } = common.props;
 
 export default {
+  ...common,
   name: "List Comments",
   description: "Lists all comments left on a file. [See the docs here](https://www.figma.com/developers/api#get-comments-endpoint)",
   key: "figma-list-comments",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
-    figmaApp,
-    teamId: {
-      propDefinition: [
-        figmaApp,
-        "teamId",
-      ],
-    },
+    ...common.props,
     projectId: {
       propDefinition: [
         figmaApp,
