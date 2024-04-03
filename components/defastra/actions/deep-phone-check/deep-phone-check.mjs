@@ -20,5 +20,10 @@ export default {
     getFn() {
       return this.defastra.performPhoneRiskAnalysis;
     },
+    getData() {
+      return {
+        phone: this.phoneNumber,
+      };
+    },
   },
 };

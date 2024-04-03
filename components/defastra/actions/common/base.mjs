@@ -27,7 +27,9 @@ export default {
       const fn = this.getFn();
       const response = await fn({
         data: {
-          email: this.email,
+          ...this.getData(),
+          timeout: this.timeout,
+          label: this.label,
         },
       });
 

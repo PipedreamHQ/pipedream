@@ -20,5 +20,10 @@ export default {
     getFn() {
       return this.defastra.performEmailRiskAnalysis;
     },
+    getData() {
+      return {
+        email: this.email,
+      };
+    },
   },
 };
