@@ -1964,6 +1964,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/dex:
+    specifiers: {}
+
   components/dexatel:
     specifiers:
       '@pipedream/platform': ^1.5.1
