@@ -1955,6 +1955,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/device_magic:
+    specifiers: {}
+
   components/devrev:
     specifiers:
       '@pipedream/platform': ^1.5.1
