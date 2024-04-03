@@ -10,13 +10,10 @@ export default {
   type: "action",
   props: {
     app,
-    apiKey: {
-      propDefinition: [
-        app,
-        "apiKey",
-      ],
-      description:
-        "Subscribe to [API4AI NSFW](https://rapidapi.com/api4ai-api4ai-default/api/nsfw3/pricing) on the RapidAPI hub to obtain an API Key.",
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Subscribe to [API4AI NSFW](https://rapidapi.com/api4ai-api4ai-default/api/nsfw3/pricing) on the RapidAPI hub before you start using it.",
     },
     image: {
       propDefinition: [
@@ -43,7 +40,6 @@ export default {
       this.app.makeRequest(
         $,
         "https://nsfw3.p.rapidapi.com/v1/results",
-        this.apiKey,
         this.image,
         {
           strictness: this.strictness,

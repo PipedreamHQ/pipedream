@@ -9,13 +9,10 @@ export default {
   type: "action",
   props: {
     app,
-    apiKey: {
-      propDefinition: [
-        app,
-        "apiKey",
-      ],
-      description:
-        "Subscribe to [API4AI Brand Recognition](https://rapidapi.com/api4ai-api4ai-default/api/brand-recognition/pricing) on the RapidAPI hub to obtain an API Key.",
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Subscribe to [API4AI Brand Recognition](https://rapidapi.com/api4ai-api4ai-default/api/brand-recognition/pricing) on the RapidAPI hub before you start using it.",
     },
     image: {
       propDefinition: [
@@ -34,7 +31,6 @@ export default {
       this.app.makeRequest(
         $,
         "https://brand-recognition.p.rapidapi.com/v2/results",
-        this.apiKey,
         this.image,
       );
     const response = await retryWithExponentialBackoff(cb);

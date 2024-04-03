@@ -12,13 +12,10 @@ export default {
   type: "action",
   props: {
     app,
-    apiKey: {
-      propDefinition: [
-        app,
-        "apiKey",
-      ],
-      description:
-        "Subscribe to [API4AI Cars Image Background Removal](https://rapidapi.com/api4ai-api4ai-default/api/cars-image-background-removal/pricing) on the RapidAPI hub to obtain an API Key.",
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Subscribe to [API4AI Cars Image Background Removal](https://rapidapi.com/api4ai-api4ai-default/api/cars-image-background-removal/pricing) on the RapidAPI hub before you start using it.",
     },
     image: {
       propDefinition: [
@@ -92,7 +89,6 @@ export default {
       this.app.makeRequest(
         $,
         "https://cars-image-background-removal.p.rapidapi.com/v1/results",
-        this.apiKey,
         this.image,
         {
           mode,
