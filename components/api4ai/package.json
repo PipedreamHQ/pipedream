@@ -2,7 +2,7 @@
   "name": "@pipedream/api4ai",
   "version": "1.0.0",
   "description": "Pipedream API4AI Components",
-  "main": "api4ai.app.js",
+  "main": "api4ai.app.mjs",
   "keywords": [
     "pipedream",
     "api4ai",

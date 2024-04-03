@@ -1,6 +1,5 @@
 import fs from "node:fs";
 
-
 /**
  * HTTP request wrapper with retry logic.
  *
@@ -32,7 +31,6 @@ const retryWithExponentialBackoff = (func, maxAttempts = 3, baseDelayS = 2) => {
   return execute();
 };
 
-
 /**
  * Represent file.
  *
@@ -45,7 +43,9 @@ const representFile = (file, format, representation) => {
   if (representation != "Base64 string" && representation != "URL to file") {
     const buf = Buffer.from(file, "base64");
     if (representation == "Path to file") {
-      const name = Math.random().toString(36).substring(2, 10);
+      const name = Math.random()
+        .toString(36)
+        .substring(2, 10);
       file = `/tmp/${name}`;
       if (format !== "" && format !== undefined) {
         file = `${file}.${format.toLowerCase()}`;
@@ -66,5 +66,7 @@ const representFile = (file, format, representation) => {
   return file;
 };
 
-
-export { retryWithExponentialBackoff, representFile };
+export {
+  retryWithExponentialBackoff,
+  representFile,
+};
