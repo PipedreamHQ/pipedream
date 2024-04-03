@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import outreach from "../../outreach.app.mjs";
 
 export default {
@@ -20,30 +21,48 @@ export default {
         "sequenceId",
       ],
     },
-    sequenceStartDate: {
+    mailboxId: {
       propDefinition: [
         outreach,
-        "sequenceStartDate",
+        "mailboxId",
       ],
-      optional: true,
-    },
-    sequenceStepsToExclude: {
-      propDefinition: [
-        outreach,
-        "sequenceStepsToExclude",
-      ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.outreach.addProspectToSequence({
-      prospectId: this.prospectId,
-      sequenceId: this.sequenceId,
-      sequenceStartDate: this.sequenceStartDate,
-      sequenceStepsToExclude: this.sequenceStepsToExclude,
-    });
+    try {
+      const response = await this.outreach.addProspectToSequence({
+        $,
+        data: {
+          data: {
+            type: "sequenceState",
+            relationships: {
+              prospect: {
+                data: {
+                  type: "prospect",
+                  id: this.prospectId,
+                },
+              },
+              sequence: {
+                data: {
+                  type: "sequence",
+                  id: this.sequenceId,
+                },
+              },
+              mailbox: {
+                data: {
+                  type: "mailbox",
+                  id: this.mailboxId,
+                },
+              },
+            },
+          },
+        },
+      });
 
-    $.export("$summary", `Successfully added prospect ${this.prospectId} to sequence ${this.sequenceId}`);
-    return response;
+      $.export("$summary", `Successfully added prospect ${this.prospectId} to sequence ${this.sequenceId}`);
+      return response;
+    } catch ({ message }) {
+      throw new ConfigurationError(JSON.parse(message).errors[0].detail);
+    }
   },
 };

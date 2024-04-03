@@ -1,165 +1,184 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "outreach",
-  version: "0.0.1",
   propDefinitions: {
-    accountName: {
+    mailboxId: {
       type: "string",
-      label: "Account Name",
-      description: "The name of the account.",
-    },
-    accountIndustry: {
-      type: "string",
-      label: "Industry",
-      description: "The industry the account belongs to.",
-    },
-    accountLocation: {
-      type: "string",
-      label: "Location",
-      description: "The location of the account.",
-    },
-    accountDescription: {
-      type: "string",
-      label: "Description",
-      description: "A description of the account.",
-      optional: true,
-    },
-    accountPhoneNumber: {
-      type: "string",
-      label: "Phone Number",
-      description: "The phone number of the account.",
-      optional: true,
-    },
-    prospectName: {
-      type: "string",
-      label: "Name",
-      description: "The name of the prospect.",
-    },
-    prospectEmail: {
-      type: "string",
-      label: "Email",
-      description: "The email of the prospect.",
-    },
-    prospectTitle: {
-      type: "string",
-      label: "Title",
-      description: "The title of the prospect.",
-      optional: true,
-    },
-    prospectCompanyName: {
-      type: "string",
-      label: "Company Name",
-      description: "The company name of the prospect.",
-      optional: true,
-    },
-    prospectPhoneNumber: {
-      type: "string",
-      label: "Phone Number",
-      description: "The phone number of the prospect.",
-      optional: true,
+      label: "Mailbox Id",
+      description: "The ID of the mailboxId.",
+      async options({ prevContext: { after } }) {
+        if (after) {
+          const params = new URLSearchParams(after);
+          after = params.get("page[after]");
+        }
+
+        const {
+          data, links,
+        } = await this.listMailboxes({
+          params: {
+            "count": false,
+            "page[size]": LIMIT,
+            "page[after]": after,
+          },
+        });
+
+        return {
+          options: data.map(({
+            id: value, attributes: { email: label },
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            after: links.next,
+          },
+        };
+      },
     },
     prospectId: {
       type: "string",
       label: "Prospect ID",
       description: "The ID of the prospect.",
+      async options({ prevContext: { after } }) {
+        if (after) {
+          const params = new URLSearchParams(after);
+          after = params.get("page[after]");
+        }
+
+        const {
+          data, links,
+        } = await this.listPropspects({
+          params: {
+            "count": false,
+            "page[size]": LIMIT,
+            "page[after]": after,
+          },
+        });
+
+        return {
+          options: data.map(({
+            id: value, attributes: { name: label },
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            after: links.next,
+          },
+        };
+      },
     },
     sequenceId: {
       type: "string",
       label: "Sequence ID",
       description: "The ID of the sequence.",
+      async options({ prevContext: { after } }) {
+        if (after) {
+          const params = new URLSearchParams(after);
+          after = params.get("page[after]");
+        }
+
+        const {
+          data, links,
+        } = await this.listSequences({
+          params: {
+            "count": false,
+            "page[size]": LIMIT,
+            "page[after]": after,
+          },
+        });
+
+        return {
+          options: data.map(({
+            id: value, attributes: { name: label },
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            after: links.next,
+          },
+        };
+      },
     },
-    sequenceStartDate: {
+    sharingTeamId: {
       type: "string",
-      label: "Start Date",
-      description: "The start date for the sequence.",
-      optional: true,
-    },
-    sequenceStepsToExclude: {
-      type: "string[]",
-      label: "Steps to Exclude",
-      description: "The steps to exclude from the sequence.",
-      optional: true,
+      label: "Sharing Team Id",
+      description: "The ID of the sharing team associated with this object. Access is currently in beta.",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.outreach.io";
+      return "https://api.outreach.io/api/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...otherOpts
+    }) {
+      const config = {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
+        headers: this._headers(),
+      };
+      return axios($, config);
     },
-    async createAccount({
-      accountName, accountIndustry, accountLocation, accountDescription, accountPhoneNumber,
-    }) {
+    createAccount(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/v2/accounts",
-        data: {
-          data: {
-            attributes: {
-              name: accountName,
-              industry: accountIndustry,
-              location: accountLocation,
-              description: accountDescription,
-              phone: accountPhoneNumber,
-            },
-            type: "account",
-          },
-        },
+        path: "/accounts",
+        ...opts,
       });
     },
-    async createProspect({
-      prospectName, prospectEmail, prospectTitle, prospectCompanyName, prospectPhoneNumber,
-    }) {
+    createProspect(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/v2/prospects",
-        data: {
-          data: {
-            attributes: {
-              name: prospectName,
-              email: prospectEmail,
-              title: prospectTitle,
-              companyName: prospectCompanyName,
-              phone: prospectPhoneNumber,
-            },
-            type: "prospect",
-          },
-        },
+        path: "/prospects",
+        ...opts,
       });
     },
-    async addProspectToSequence({
-      prospectId, sequenceId, sequenceStartDate, sequenceStepsToExclude,
-    }) {
+    createHook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/api/v2/prospects/${prospectId}/sequences/${sequenceId}`,
-        data: {
-          data: {
-            attributes: {
-              startDate: sequenceStartDate,
-              excludeSteps: sequenceStepsToExclude,
-            },
-            type: "sequenceState",
-          },
-        },
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteHook(hookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
+      });
+    },
+    listMailboxes(opts = {}) {
+      return this._makeRequest({
+        path: "/mailboxes",
+        ...opts,
+      });
+    },
+    listPropspects(opts = {}) {
+      return this._makeRequest({
+        path: "/prospects",
+        ...opts,
+      });
+    },
+    listSequences(opts = {}) {
+      return this._makeRequest({
+        path: "/sequences",
+        ...opts,
+      });
+    },
+    addProspectToSequence(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/sequenceStates",
+        ...opts,
       });
     },
   },
