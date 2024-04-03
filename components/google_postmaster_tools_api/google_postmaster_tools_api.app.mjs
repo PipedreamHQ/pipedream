@@ -6,14 +6,21 @@ export default {
   propDefinitions: {
     domain: {
       type: "string",
-      label: "Domain",
-      description: "Select a domain",
-      async options() {
-        const response = await this.listDomains();
-        return response.domains.map((domain) => ({
-          label: domain.name,
-          value: domain.name,
-        }));
+      label: "Domain Name",
+      description: "Select a domain or provide a custom domain name.",
+      async options({ prevContext: { pageToken } }) {
+        const response = await this.listDomains({
+          params: {
+            pageToken,
+          },
+        });
+        const nextPageToken = response?.nextPageToken;
+        return {
+          context: {
+            pageToken: nextPageToken,
+          },
+          options: response?.domains?.map(({ name }) => name.split("/").pop()) ?? [],
+        };
       },
     },
     ipReputation: {
@@ -169,28 +176,27 @@ export default {
     _baseUrl() {
       return "https://gmailpostmastertools.googleapis.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, headers, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async listDomains() {
+    async listDomains(args) {
       return this._makeRequest({
-        path: "/domains",
+        url: "/domains",
+        ...args,
       });
     },
     async getDomainTrafficStats({ domainName }) {
       return this._makeRequest({
-        path: `/domains/${domainName}/trafficStats`,
+        url: `/domains/${domainName}/trafficStats`,
       });
     },
   },
