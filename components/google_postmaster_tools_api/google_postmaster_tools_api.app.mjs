@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { REPUTATION_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -24,51 +25,17 @@ export default {
       },
     },
     ipReputation: {
-      type: "string",
+      type: "string[]",
       label: "IP Reputation",
-      description: "Filter events by IP reputation",
-      options: [
-        {
-          label: "High",
-          value: "HIGH",
-        },
-        {
-          label: "Medium",
-          value: "MEDIUM",
-        },
-        {
-          label: "Low",
-          value: "LOW",
-        },
-        {
-          label: "Bad",
-          value: "BAD",
-        },
-      ],
+      description: "If specified, events will only be emitted if there is at least one IP address in one of the specified categories",
+      options: REPUTATION_OPTIONS,
       optional: true,
     },
     domainReputation: {
       type: "string",
       label: "Domain Reputation",
-      description: "Filter events by domain reputation",
-      options: [
-        {
-          label: "High",
-          value: "HIGH",
-        },
-        {
-          label: "Medium",
-          value: "MEDIUM",
-        },
-        {
-          label: "Low",
-          value: "LOW",
-        },
-        {
-          label: "Bad",
-          value: "BAD",
-        },
-      ],
+      description: "If specified, events will only be emitted if the domain reputation matches one of the specified categories",
+      options: REPUTATION_OPTIONS,
       optional: true,
     },
     userReportedSpamRatio: {

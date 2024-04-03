@@ -1,10 +1,11 @@
-/* eslint-disable max-len */
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googlePostmasterToolsApi from "../../google_postmaster_tools_api.app.mjs";
 
 export default {
   key: "google_postmaster_tools_api-new-matched-traffic-stats",
   name: "New Matched Traffic Stats",
-  description: "Emits a new event when traffic stats match certain criteria. [See the documentation](https://developers.google.com/gmail/postmaster/reference/rest)",
+  description:
+    "Emits a new event when traffic stats match certain criteria. [See the documentation](https://developers.google.com/gmail/postmaster/reference/rest)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -14,7 +15,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 86400, // 24 hours
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     domain: {
@@ -85,30 +86,96 @@ export default {
     },
   },
   methods: {
+    getDateValues(date) {
+      const [
+        year,
+        month,
+        day,
+      ] = date.toISOString().split("T")[0].split("-");
+      return {
+        year,
+        month,
+        day,
+      };
+    },
     async getTrafficStats() {
       const today = new Date();
       const oneDayAgo = new Date(today);
       oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-      const endDate = today.toISOString().split("T")[0];
-      const startDate = oneDayAgo.toISOString().split("T")[0];
+      const endDate = this.getDateValues(today);
+      const startDate = this.getDateValues(oneDayAgo);
 
-      return await this.googlePostmasterToolsApi.getDomainTrafficStats({
+      return this.googlePostmasterToolsApi.getDomainTrafficStats({
         domainName: this.domain,
         startDate,
         endDate,
       });
     },
     matchesCriteria(stats) {
-      if (this.ipReputation && stats.ipReputation !== this.ipReputation) return false;
-      if (this.domainReputation && stats.domainReputation !== this.domainReputation) return false;
-      if (this.userReportedSpamRatio && stats.userReportedSpamRatio < this.userReportedSpamRatio) return false;
-      if (this.spfSuccessRatio && stats.spfSuccessRatio > this.spfSuccessRatio) return false;
-      if (this.dkimSuccessRatio && stats.dkimSuccessRatio > this.dkimSuccessRatio) return false;
-      if (this.dmarcSuccessRatio && stats.dmarcSuccessRatio > this.dmarcSuccessRatio) return false;
-      if (this.outboundEncryptionRatio && stats.outboundEncryptionRatio > this.outboundEncryptionRatio) return false;
-      if (this.inboundEncryptionRatio && stats.inboundEncryptionRatio > this.inboundEncryptionRatio) return false;
-      if (this.deliveryError && !stats.deliveryErrors.some((error) => error.type === this.deliveryError)) return false;
-      if (this.errorRatio && stats.errorRatio <= this.errorRatio) return false;
+      if (this.ipReputation && stats.ipReputation !== this.ipReputation) {
+        return false;
+      }
+
+      if (
+        this.domainReputation &&
+        stats.domainReputation !== this.domainReputation
+      ) {
+        return false;
+      }
+
+      if (
+        this.userReportedSpamRatio &&
+        stats.userReportedSpamRatio < this.userReportedSpamRatio
+      ) {
+        return false;
+      }
+
+      if (
+        this.spfSuccessRatio &&
+        stats.spfSuccessRatio > this.spfSuccessRatio
+      ) {
+        return false;
+      }
+
+      if (
+        this.dkimSuccessRatio &&
+        stats.dkimSuccessRatio > this.dkimSuccessRatio
+      ) {
+        return false;
+      }
+
+      if (
+        this.dmarcSuccessRatio &&
+        stats.dmarcSuccessRatio > this.dmarcSuccessRatio
+      ) {
+        return false;
+      }
+
+      if (
+        this.outboundEncryptionRatio &&
+        stats.outboundEncryptionRatio > this.outboundEncryptionRatio
+      ) {
+        return false;
+      }
+
+      if (
+        this.inboundEncryptionRatio &&
+        stats.inboundEncryptionRatio > this.inboundEncryptionRatio
+      ) {
+        return false;
+      }
+
+      if (
+        this.deliveryError &&
+        !stats.deliveryErrors.some((e) => e.type === this.deliveryError)
+      ) {
+        return false;
+      }
+
+      if (this.errorRatio && stats.errorRatio <= this.errorRatio) {
+        return false;
+      }
+
       return true;
     },
   },
