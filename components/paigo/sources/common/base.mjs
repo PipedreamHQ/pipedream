@@ -1,10 +1,18 @@
 import paigo from "../../paigo.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   props: {
     paigo,
     db: "$.service.db",
     http: "$.interface.http",
+    environment: {
+      type: "string",
+      label: "Environment",
+      description: "The environment the webhook is for. This is used to differentiate between sandbox and production. Will default to `production` if not provided.",
+      options: constants.ENVIRONMENTS,
+      optional: true,
+    },
   },
   hooks: {
     async activate() {
@@ -14,6 +22,9 @@ export default {
       };
       if (this.offeringId) {
         data.offeringId = this.offeringId;
+      }
+      if (this.environment) {
+        data.environment = this.environment;
       }
       const { webhookId } = await this.paigo.createWebhook({
         data,

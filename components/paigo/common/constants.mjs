@@ -42,6 +42,11 @@ const PAYMENT_CHANNELS = [
   "manual",
 ];
 
+const ENVIRONMENTS = [
+  "production",
+  "sandbox",
+];
+
 export default {
   CONSUMPTION_UNITS,
   USAGE_ROUNDING,
@@ -49,4 +54,5 @@ export default {
   OFFERING_TYPE,
   BILLING_CYCLE,
   PAYMENT_CHANNELS,
+  ENVIRONMENTS,
 };
