@@ -72,16 +72,16 @@ export default {
         "inboundEncryptionRatio",
       ],
     },
-    deliveryError: {
-      propDefinition: [
-        googlePostmasterToolsApi,
-        "deliveryError",
-      ],
-    },
     errorRatio: {
       propDefinition: [
         googlePostmasterToolsApi,
         "errorRatio",
+      ],
+    },
+    errorCategories: {
+      propDefinition: [
+        googlePostmasterToolsApi,
+        "errorCategories",
       ],
     },
   },
@@ -110,6 +110,30 @@ export default {
         startDate,
         endDate,
       });
+    },
+    filterIpReputation(item) {
+      let { ipReputation } = this;
+      if (typeof ipReputation === "string") ipReputation = [
+        ipReputation,
+      ];
+      if (!ipReputation?.length) return undefined;
+      return item.ipReputations.some(
+        ({
+          reputation, ipCount,
+        }) =>
+          ipReputation.includes(reputation) && ipCount > 0,
+      );
+    },
+    filterDomainReputation(item) {
+      let { domainReputation } = this;
+      if (typeof domainReputation === "string")
+        domainReputation = [
+          domainReputation,
+        ];
+      return (
+        domainReputation?.length &&
+        domainReputation.includes(item.domainReputation)
+      );
     },
     matchesCriteria(stats) {
       if (this.ipReputation && stats.ipReputation !== this.ipReputation) {
