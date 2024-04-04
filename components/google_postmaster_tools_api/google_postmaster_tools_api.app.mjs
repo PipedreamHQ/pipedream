@@ -112,9 +112,12 @@ export default {
         ...args,
       });
     },
-    async getDomainTrafficStats({ domainName }) {
+    async getDomainTrafficStats({
+      domainName, ...args
+    }) {
       return this._makeRequest({
         url: `/domains/${domainName}/trafficStats`,
+        ...args,
       });
     },
   },

@@ -6,7 +6,7 @@ export default {
   name: "New Matched Traffic Stats",
   description:
     "Emits a new event when traffic stats match certain criteria. [See the documentation](https://developers.google.com/gmail/postmaster/reference/rest)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -86,12 +86,18 @@ export default {
     },
   },
   methods: {
+    _getSavedItems() {
+      return this.db.get("savedItems") ?? [];
+    },
+    _setSavedItems(value) {
+      this.db.set("savedItems", value);
+    },
     getDateValues(date) {
       const [
         year,
         month,
         day,
-      ] = date.toISOString().split("T")[0].split("-");
+      ] = date.toISOString().split("T")[0].split("-").map((i) => Number(i));
       return {
         year,
         month,
@@ -101,14 +107,20 @@ export default {
     async getTrafficStats() {
       const today = new Date();
       const oneDayAgo = new Date(today);
-      oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+      oneDayAgo.setDate(oneDayAgo.getDate() - 7);
       const endDate = this.getDateValues(today);
       const startDate = this.getDateValues(oneDayAgo);
 
       return this.googlePostmasterToolsApi.getDomainTrafficStats({
         domainName: this.domain,
-        startDate,
-        endDate,
+        params: {
+          "startDate.day": startDate.day,
+          "startDate.month": startDate.month,
+          "startDate.year": startDate.year,
+          "endDate.day": endDate.day,
+          "endDate.month": endDate.month,
+          "endDate.year": endDate.year,
+        },
       });
     },
     filterIpReputation(item) {
@@ -210,16 +222,20 @@ export default {
     },
   },
   async run() {
+    const savedItems = this.getSavedItems();
     const ts = Date.now();
     const stats = await this.getTrafficStats();
-    stats?.trafficStats?.forEach((stat) => {
-      if (this.matchesCriteria(stat)) {
-        this.$emit(stat, {
-          id: `${stat.name}-${ts}`,
-          summary: `Matched Traffic Stat: ${stat.name}`,
+    stats?.trafficStats?.filter(({ name }) => !savedItems.includes(name)).forEach((item) => {
+      const id = item.name;
+      if (this.matchesCriteria(item)) {
+        this.$emit(item, {
+          id,
+          summary: `Matched Traffic Stats: ${id}`,
           ts,
         });
+        savedItems.push(id);
       }
     });
+    this._setSavedItems(savedItems);
   },
 };
