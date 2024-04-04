@@ -132,7 +132,7 @@ export default {
         },
       });
 
-      $.export("$summary", `Successfully updated contact with ID \`${response._id}\``);
+      $.export("$summary", `Successfully updated contact with ID \`${contact._id}\``);
       return response;
     }
 
