@@ -1402,9 +1402,9 @@ importers:
 
   components/cliniko:
     specifiers:
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.6.2
     dependencies:
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.6.2
 
   components/clockify:
     specifiers:
@@ -2054,7 +2054,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dingconnect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/discogs:
     specifiers:
@@ -4512,7 +4515,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/loopify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/loopmessage:
     specifiers:
@@ -5007,12 +5013,14 @@ importers:
   components/monday:
     specifiers:
       '@pipedream/platform': ^1.6.0
+      form-data: ^4.0.0
       lodash.flatmap: ^4.5.0
       lodash.map: ^4.6.0
       lodash.uniqby: ^4.7.0
       monday-sdk-js: ^0.1.3
     dependencies:
       '@pipedream/platform': 1.6.0
+      form-data: 4.0.0
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
       lodash.uniqby: 4.7.0
@@ -5627,7 +5635,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/paigo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/pandadoc:
     specifiers:
@@ -7098,7 +7109,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.1
+      '@pipedream/platform': 1.6.2
 
   components/sendy:
     specifiers: {}
@@ -8038,7 +8049,10 @@ importers:
       moment: 2.29.4
 
   components/teamioo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/teamleader_focus:
     specifiers:
