@@ -6,7 +6,7 @@ export default {
   name: "New Matched Traffic Stats",
   description:
     "Emits a new event when traffic stats match certain criteria. [See the documentation](https://developers.google.com/gmail/postmaster/reference/rest)",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -144,7 +144,7 @@ export default {
     },
     filterRatio(prop, value, greater = false) {
       const ratio = Number(prop);
-      if (isNaN(ratio)) return undefined;
+      if (isNaN(ratio) || value === undefined) return undefined;
       return greater
         ? value > ratio
         : value < ratio;
@@ -222,7 +222,7 @@ export default {
     },
   },
   async run() {
-    const savedItems = this.getSavedItems();
+    const savedItems = this._getSavedItems();
     const ts = Date.now();
     const stats = await this.getTrafficStats();
     stats?.trafficStats?.filter(({ name }) => !savedItems.includes(name)).forEach((item) => {
