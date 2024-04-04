@@ -1,5 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
 import anymailFinder from "../../anymail_finder.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "anymail_finder-search-email",
@@ -9,59 +9,49 @@ export default {
   type: "action",
   props: {
     anymailFinder,
-    company: {
+    domain: {
       propDefinition: [
         anymailFinder,
-        "company",
+        "domain",
       ],
+      optional: true,
     },
-    personName: {
+    companyName: {
       propDefinition: [
         anymailFinder,
-        "personName",
-        (c) => ({
-          optional: true,
-        }),
+        "companyName",
       ],
+      optional: true,
+    },
+    fullName: {
+      type: "string",
+      label: "Full Name",
+      description: "The full name of the person to search.",
+    },
+    countryCode: {
+      type: "string",
+      label: "Country Code",
+      description: "The country code (e.g. US) to target the company name conversion in.",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const domain = this.company.includes(".")
-      ? this.company
-      : "";
-    const companyName = domain
-      ? ""
-      : this.company;
 
-    let response;
-    if (this.personName) {
-      // Split person's name to first and last name for a more refined search
-      const [
-        firstName,
-        lastName,
-      ] = this.personName.split(" ").length > 1
-        ? this.personName.split(" ")
-        : [
-          this.personName,
-          "",
-        ];
-      response = await this.anymailFinder.searchPersonEmail({
-        fullName: this.personName,
-        firstName,
-        lastName,
-        domain,
-        companyName,
-      });
-    } else {
-      response = await this.anymailFinder.searchPopularEmails({
-        domain,
-        companyName,
-      });
+    if (!this.domain && !this.companyName) {
+      throw new ConfigurationError("You must provide either a `domain` or a `company_name`");
     }
 
-    $.export("$summary", `Successfully searched for emails related to ${this.company}${this.personName
-      ? " for " + this.personName
-      : ""}`);
+    const response = await this.anymailFinder.searchPersonEmail({
+      $,
+      data: {
+        full_name: this.fullName,
+        domain: this.domain,
+        company_name: this.companyName,
+        country_code: this.countryCode,
+      },
+    });
+
+    $.export("$summary", `Successfully searched for emails related to ${this.domain || this.companyName} for ${this.fullName}`);
     return response;
   },
 };
