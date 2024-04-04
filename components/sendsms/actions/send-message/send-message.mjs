@@ -103,10 +103,11 @@ export default {
       }
     });
 
-    // Make the request with the constructed params
-    return await axios($, {
+    const response = await axios($, {
       url: "https://api.sendsms.ro/json?action=message_send",
       params: params,
     });
+    $.export("$summary", `Successfully sent message to '${this.to}'`);
+    return response;
   },
 };
