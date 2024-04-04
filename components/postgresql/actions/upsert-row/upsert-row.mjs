@@ -5,7 +5,7 @@ export default {
   name: "Upsert Row",
   key: "postgresql-upsert-row",
   description: "Adds a new row or updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "1.0.0",
+  version: "2.0.0",
   type: "action",
   props: {
     postgresql,
@@ -56,11 +56,7 @@ export default {
      * @throws {Error} Will throw an error if the query fails.
      */
     upsertRow({
-      schema,
-      table,
-      columns,
-      values,
-      conflictTarget = "id",
+      schema, table, columns, values, conflictTarget = "id",
     } = {}) {
       const placeholders = this.postgresql.getPlaceholders({
         values,
