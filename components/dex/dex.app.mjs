@@ -1,139 +1,90 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "dex",
   propDefinitions: {
-    time: {
-      type: "string",
-      label: "Reminder Time",
-      description: "The time to set for the reminder",
-    },
-    message: {
-      type: "string",
-      label: "Message",
-      description: "The content of the reminder",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the contact",
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email of the contact",
-    },
-    phoneNumber: {
-      type: "string",
-      label: "Phone Number",
-      description: "The phone number of the contact",
-    },
-    address: {
-      type: "string",
-      label: "Address",
-      description: "The address of the contact",
-      optional: true,
-    },
-    companyName: {
-      type: "string",
-      label: "Company Name",
-      description: "The company name of the contact",
-      optional: true,
-    },
-    title: {
-      type: "string",
-      label: "Note Title",
-      description: "The title of the note",
-    },
-    content: {
-      type: "string",
-      label: "Note Content",
-      description: "The content of the note",
-    },
-    tags: {
+    contactIds: {
       type: "string[]",
-      label: "Note Tags",
-      description: "The tags for categorizing the note",
+      label: "Contact IDs",
+      description: "Array of contact IDs",
       optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { contacts } = await this.listContacts({
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return contacts?.map(({
+          id: value, first_name: firstname, last_name: lastname,
+        }) => ({
+          value,
+          label: `${firstname} ${lastname}`,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.getdex.com/api/rest";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "x-hasura-dex-api-key": `${this.$auth.api_key}`,
         },
       });
     },
-    async createReminder({
-      time, message,
-    }) {
+    getContact(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/reminders",
-        data: {
-          reminder: {
-            title: message,
-            due_at_time: time,
-          },
-        },
+        path: "/search/contacts",
+        ...opts,
       });
     },
-    async createOrUpdateContact({
-      name, email, phoneNumber, address, companyName,
-    }) {
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contacts",
-        data: {
-          contact: {
-            first_name: name,
-            contact_emails: {
-              data: {
-                email,
-              },
-            },
-            contact_phone_numbers: {
-              data: {
-                phone_number: phoneNumber,
-              },
-            },
-            address,
-            company_name: companyName,
-          },
-        },
+        ...opts,
       });
     },
-    async createNote({
-      title, content, tags,
+    updateContact({
+      contactId, ...opts
     }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/contacts/${contactId}`,
+        ...opts,
+      });
+    },
+    createReminder(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/reminders",
+        ...opts,
+      });
+    },
+    createNote(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/timeline_items",
-        data: {
-          timeline_event: {
-            note: content,
-            event_time: new Date().toISOString(),
-            meeting_type: "note",
-          },
-          title,
-          tags,
-        },
+        ...opts,
       });
     },
   },

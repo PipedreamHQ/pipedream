@@ -1,38 +1,49 @@
 import dex from "../../dex.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "dex-create-note",
   name: "Create Note",
-  description: "Establishes a brand new note within dex. The 'title' and 'content' props are vital for this action. 'tags' can be added as an optional prop to categorize and efficiently search the notes.",
-  version: "0.0.{{ts}}",
+  description: "Establishes a brand new note within dex. [See the documentation](https://guide.getdex.com/dex-user-api/post-a-note)",
+  version: "0.0.1",
   type: "action",
   props: {
     dex,
-    title: {
+    note: {
       type: "string",
-      label: "Note Title",
-      description: "The title of the note",
+      label: "Note",
+      description: "Content of the note",
     },
-    content: {
+    contactIds: {
+      propDefinition: [
+        dex,
+        "contactIds",
+      ],
+    },
+    eventTime: {
       type: "string",
-      label: "Note Content",
-      description: "The content of the note",
-    },
-    tags: {
-      type: "string[]",
-      label: "Note Tags",
-      description: "The tags for categorizing the note",
+      label: "Event Time",
+      description: "Time of the note in ISO 8601 format (`2023-05-19T01:03:27.083Z`)",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.dex.createNote({
-      title: this.title,
-      content: this.content,
-      tags: this.tags,
+      $,
+      data: {
+        timeline_event: {
+          note: this.note,
+          event_time: this.eventTime || utils.getCurrentDatetime(),
+          meeting_type: "note",
+          timeline_items_contacts: this.contactIds?.length
+            ? {
+              data: utils.buildContactData(this.contactIds),
+            }
+            : undefined,
+        },
+      },
     });
-
-    $.export("$summary", `Successfully created note with title: ${this.title}`);
+    $.export("$summary", `Successfully created note with ID: ${response.insert_timeline_items_one.id}`);
     return response;
   },
 };
