@@ -113,9 +113,8 @@ export default {
     },
     filterIpReputation(item) {
       let { ipReputation } = this;
-      if (typeof ipReputation === "string") ipReputation = [
-        ipReputation,
-      ];
+      if (typeof ipReputation === "string")
+        ipReputation = ipReputation.split(",");
       if (!ipReputation?.length) return undefined;
       return item.ipReputations.some(
         ({
@@ -127,90 +126,98 @@ export default {
     filterDomainReputation(item) {
       let { domainReputation } = this;
       if (typeof domainReputation === "string")
-        domainReputation = [
-          domainReputation,
-        ];
-      return (
-        domainReputation?.length &&
-        domainReputation.includes(item.domainReputation)
+        domainReputation = domainReputation.split(",");
+      if (!domainReputation?.length) return undefined;
+      return domainReputation.includes(item.domainReputation);
+    },
+    filterRatio(prop, value, greater = false) {
+      const ratio = Number(prop);
+      if (isNaN(ratio)) return undefined;
+      return greater
+        ? value > ratio
+        : value < ratio;
+    },
+    filterSpamRatio(item) {
+      return this.filterRatio(
+        this.userReportedSpamRatio,
+        item.userReportedSpamRatio,
+        true,
       );
     },
-    matchesCriteria(stats) {
-      if (this.ipReputation && stats.ipReputation !== this.ipReputation) {
-        return false;
+    filterSpfSuccessRatio(item) {
+      return this.filterRatio(this.spfSuccessRatio, item.spfSuccessRatio);
+    },
+    filterDkimSuccessRatio(item) {
+      return this.filterRatio(this.dkimSuccessRatio, item.dkimSuccessRatio);
+    },
+    filterDmarcSuccessRatio(item) {
+      return this.filterRatio(this.dmarcSuccessRatio, item.dmarcSuccessRatio);
+    },
+    filterOutboundEncryptionRatio(item) {
+      return this.filterRatio(
+        this.outboundEncryptionRatio,
+        item.outboundEncryptionRatio,
+      );
+    },
+    filterInboundEncryptionRatio(item) {
+      return this.filterRatio(
+        this.inboundEncryptionRatio,
+        item.inboundEncryptionRatio,
+      );
+    },
+    filterErrorRatio(item) {
+      const ratio = Number(this.errorRatio);
+      if (isNaN(ratio)) return undefined;
+
+      let { errorCategories } = this;
+      if (typeof errorCategories === "string")
+        errorCategories = errorCategories.split(",");
+
+      return item.deliveryErrors.some(
+        ({
+          errorType, errorRatio,
+        }) =>
+          (!errorCategories || errorCategories.includes(errorType)) && errorRatio > ratio,
+      );
+    },
+    matchesCriteria(item) {
+      // Filters return undefined if the prop is not set, or true/false otherwise
+      // Filters are a logical AND - if any filter returns false, the item is not emitted
+      const filters = [
+        this.filterIpReputation,
+        this.filterDomainReputation,
+        this.filterSpamRatio,
+        this.filterSpfSuccessRatio,
+        this.filterDkimSuccessRatio,
+        this.filterDmarcSuccessRatio,
+        this.filterOutboundEncryptionRatio,
+        this.filterInboundEncryptionRatio,
+        this.filterErrorRatio,
+      ];
+
+      let hasMatch = false;
+
+      for (let filter of filters) {
+        const result = filter(item);
+        if (result === true) {
+          hasMatch = true;
+        } else if (result === false) {
+          return false;
+        }
       }
 
-      if (
-        this.domainReputation &&
-        stats.domainReputation !== this.domainReputation
-      ) {
-        return false;
-      }
-
-      if (
-        this.userReportedSpamRatio &&
-        stats.userReportedSpamRatio < this.userReportedSpamRatio
-      ) {
-        return false;
-      }
-
-      if (
-        this.spfSuccessRatio &&
-        stats.spfSuccessRatio > this.spfSuccessRatio
-      ) {
-        return false;
-      }
-
-      if (
-        this.dkimSuccessRatio &&
-        stats.dkimSuccessRatio > this.dkimSuccessRatio
-      ) {
-        return false;
-      }
-
-      if (
-        this.dmarcSuccessRatio &&
-        stats.dmarcSuccessRatio > this.dmarcSuccessRatio
-      ) {
-        return false;
-      }
-
-      if (
-        this.outboundEncryptionRatio &&
-        stats.outboundEncryptionRatio > this.outboundEncryptionRatio
-      ) {
-        return false;
-      }
-
-      if (
-        this.inboundEncryptionRatio &&
-        stats.inboundEncryptionRatio > this.inboundEncryptionRatio
-      ) {
-        return false;
-      }
-
-      if (
-        this.deliveryError &&
-        !stats.deliveryErrors.some((e) => e.type === this.deliveryError)
-      ) {
-        return false;
-      }
-
-      if (this.errorRatio && stats.errorRatio <= this.errorRatio) {
-        return false;
-      }
-
-      return true;
+      return hasMatch;
     },
   },
   async run() {
+    const ts = Date.now();
     const stats = await this.getTrafficStats();
-    stats.trafficStats.forEach((stat) => {
+    stats?.trafficStats?.forEach((stat) => {
       if (this.matchesCriteria(stat)) {
         this.$emit(stat, {
-          id: `${stat.domainName}-${stat.startDate}`,
-          summary: `Matched Traffic Stat for ${stat.domainName}`,
-          ts: Date.parse(stat.startDate),
+          id: `${stat.name}-${ts}`,
+          summary: `Matched Traffic Stat: ${stat.name}`,
+          ts,
         });
       }
     });
