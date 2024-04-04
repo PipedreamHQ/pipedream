@@ -1402,9 +1402,9 @@ importers:
 
   components/cliniko:
     specifiers:
-      '@pipedreamhq/platform': ^0.8.1
+      '@pipedream/platform': ^1.6.2
     dependencies:
-      '@pipedreamhq/platform': 0.8.1
+      '@pipedream/platform': 1.6.2
 
   components/clockify:
     specifiers:
@@ -7095,7 +7095,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.1
+      '@pipedream/platform': 1.6.2
 
   components/sendy:
     specifiers: {}
