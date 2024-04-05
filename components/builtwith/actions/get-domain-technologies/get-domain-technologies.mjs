@@ -23,6 +23,10 @@ export default {
       },
     });
 
+    if (response.Errors.length) {
+      throw new Error(response.Errors[0].Message);
+    }
+
     $.export("$summary", `Retrieved technology information for domain ${this.domain}`);
 
     return response;

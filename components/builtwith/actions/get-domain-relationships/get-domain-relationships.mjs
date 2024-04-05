@@ -23,6 +23,10 @@ export default {
       },
     });
 
+    if (response.Errors.length) {
+      throw new Error(response.Errors[0].Message);
+    }
+
     if (response.Relationships.length) {
       $.export("$summary", `Retrieved relationships for domain ${this.domain}`);
     }

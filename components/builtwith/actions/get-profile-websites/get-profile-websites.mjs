@@ -23,6 +23,10 @@ export default {
       },
     });
 
+    if (response.Errors.length) {
+      throw new Error(response.Errors[0].Message);
+    }
+
     $.export("$summary", `Successfully retrieved websites associated with the social media URL: ${this.domain}`);
 
     return response;
