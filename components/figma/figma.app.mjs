@@ -13,7 +13,7 @@ export default {
       type: "string",
       label: "Project Id",
       description: "Id of the project to list files from",
-      async options({ teamId }) {
+      async options({ teamId = this._getTeamId() }) {
         const projects = await this.listTeamProjects(teamId);
         return projects.map((item) => ({
           label: item.name,
@@ -62,6 +62,9 @@ export default {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
       };
+    },
+    _getTeamId() {
+      return this.$auth.team_id;
     },
     _getAxiosParams(opts = {}) {
       const res = {

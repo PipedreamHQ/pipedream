@@ -1,6 +1,7 @@
 import common from "../common.mjs";
 import utils from "../../common/utils.mjs";
 import constants from "../../constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 const { zohoCreator } = common.props;
 const { toSingleLineString } = utils;
@@ -18,7 +19,7 @@ export default {
   `),
   type: "source",
   name: "New Record",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -49,7 +50,7 @@ export default {
     },
     validateRecord(record) {
       if (!record[constants.ADDED_TIME_FIELD]) {
-        throw new Error("Record is missing the \"Added Time\" field. Add the \"Added Time\" Grouping field in the Zoho Creator record properties for the Report.");
+        throw new ConfigurationError("Record is missing the \"Added Time\" field. Add the \"Added Time\" Grouping field in the Zoho Creator record properties for the Report.");
       }
     },
     processEvent(record) {
