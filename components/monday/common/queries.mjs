@@ -99,6 +99,7 @@ export default {
         columns {
           id
           title
+          type
         }
       }
     }
