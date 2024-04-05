@@ -1,33 +1,86 @@
-import pixiebrix from "../../pixiebrix.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../pixiebrix.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "pixiebrix-update-group-membership",
   name: "Update Group Membership",
-  description: "Updates the memberships of a group in PixieBrix. [See the documentation](https://docs.pixiebrix.com/developer-api/team-management-apis)",
-  version: "0.0.{{ts}}",
+  description: "Updates the memberships of a group in PixieBrix. [See the documentation](https://docs.pixiebrix.com/developer-api/team-management-apis#update-group-membership)",
+  version: "0.0.1",
   type: "action",
   props: {
-    pixiebrix,
-    groupId: {
+    app,
+    organizationId: {
       propDefinition: [
-        pixiebrix,
-        "groupId",
+        app,
+        "organizationId",
       ],
     },
-    members: {
+    groupId: {
       propDefinition: [
-        pixiebrix,
-        "members",
+        app,
+        "groupId",
+        ({ organizationId }) => ({
+          organizationId,
+        }),
+      ],
+    },
+    userIds: {
+      type: "string[]",
+      label: "User IDs",
+      description: "The IDs or emails of the users to update in the group",
+      propDefinition: [
+        app,
+        "userId",
+        ({ organizationId }) => ({
+          organizationId,
+          mapper: ({
+            user: {
+              email: value, name,
+            },
+          }) => ({
+            label: [
+              name,
+              value,
+            ].join(" ").trim(),
+            value,
+          }),
+        }),
       ],
     },
   },
+  methods: {
+    updateGroupMemberships({
+      groupId, ...args
+    }) {
+      return this.app.put({
+        headers: {
+          "Accept": "application/json; version=1.0",
+        },
+        path: `/groups/${groupId}/memberships/`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.pixiebrix.updateGroupMemberships({
-      groupId: this.groupId,
-      members: this.members.map(JSON.parse),
+    const {
+      updateGroupMemberships,
+      groupId,
+      userIds,
+    } = this;
+
+    await updateGroupMemberships({
+      $,
+      groupId,
+      data: utils.parseArray(userIds)
+        ?.map((value) => ({
+          email: value,
+        })),
     });
-    $.export("$summary", `Updated group memberships for group ID ${this.groupId}`);
-    return response;
+
+    $.export("$summary", `Successfully updated memberships of group ID \`${groupId}\``);
+
+    return {
+      success: true,
+    };
   },
 };

@@ -1,26 +1,42 @@
-import pixiebrix from "../../pixiebrix.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../pixiebrix.app.mjs";
 
 export default {
   key: "pixiebrix-list-group-memberships",
   name: "List Group Memberships",
-  description: "Gets the current memberships of a group. [See the PixieBrix API documentation](https://docs.pixiebrix.com/developer-api/team-management-apis)",
-  version: "0.0.{{ts}}",
+  description: "Gets the current memberships of a group. [See the PixieBrix API documentation](https://docs.pixiebrix.com/developer-api/team-management-apis#list-group-memberships)",
+  version: "0.0.1",
   type: "action",
   props: {
-    pixiebrix,
+    app,
+    organizationId: {
+      propDefinition: [
+        app,
+        "organizationId",
+      ],
+    },
     groupId: {
       propDefinition: [
-        pixiebrix,
+        app,
         "groupId",
+        ({ organizationId }) => ({
+          organizationId,
+        }),
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.pixiebrix.listGroupMemberships({
-      groupId: this.groupId,
+    const {
+      app,
+      groupId,
+    } = this;
+
+    const response = await app.listGroupMemberships({
+      $,
+      groupId,
     });
-    $.export("$summary", `Successfully listed group memberships for group ID ${this.groupId}`);
-    return response;
+
+    $.export("$summary", `Successfully listed \`${response?.length || 0}\` group membership(s)`);
+
+    return response || [];
   },
 };

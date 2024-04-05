@@ -1,39 +1,83 @@
-import pixiebrix from "../../pixiebrix.app.mjs";
-import { axios } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
+import app from "../../pixiebrix.app.mjs";
 
 export default {
   key: "pixiebrix-add-group-memberships",
   name: "Add Group Memberships",
-  description: "Adds a user to a group in PixieBrix. [See the documentation](https://docs.pixiebrix.com/developer-api/team-management-apis)",
-  version: "0.0.{{ts}}",
+  description: "Adds user mamberships to a group in PixieBrix. [See the documentation](https://docs.pixiebrix.com/developer-api/team-management-apis#add-group-memberships)",
+  version: "0.0.1",
   type: "action",
   props: {
-    pixiebrix,
-    groupId: {
+    app,
+    organizationId: {
       propDefinition: [
-        pixiebrix,
-        "groupId",
+        app,
+        "organizationId",
       ],
     },
-    userId: {
+    groupId: {
       propDefinition: [
-        pixiebrix,
+        app,
+        "groupId",
+        ({ organizationId }) => ({
+          organizationId,
+        }),
+      ],
+    },
+    userIds: {
+      type: "string[]",
+      label: "User IDs",
+      description: "The IDs or emails of the users to add to the group",
+      propDefinition: [
+        app,
         "userId",
+        ({ organizationId }) => ({
+          organizationId,
+        }),
       ],
     },
   },
+  methods: {
+    addGroupMemberships({
+      groupId, ...args
+    } = {}) {
+      return this.app.post({
+        headers: {
+          "Accept": "application/json; version=1.0",
+        },
+        path: `/groups/${groupId}/memberships/`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const members = JSON.stringify([
-      this.userId,
-    ]); // Ensuring the members prop is an array of JSON strings as per the app file
-    const response = await this.pixiebrix.addGroupMemberships({
-      groupId: this.groupId,
-      members: [
-        members,
-      ],
+    const {
+      addGroupMemberships,
+      groupId,
+      userIds,
+    } = this;
+
+    await addGroupMemberships({
+      $,
+      groupId,
+      data: utils.parseArray(userIds)
+        ?.map((value) => {
+          const isEmail = utils.isEmail(value);
+          return {
+            ...(isEmail && {
+              email: value,
+            }),
+            ...(!isEmail && {
+              user_id: value,
+            }),
+          };
+        }),
     });
 
-    $.export("$summary", `Successfully added user ID ${this.userId} to group ID ${this.groupId}`);
-    return response;
+    $.export("$summary", `Successfully added memberships to group ID \`${groupId}\``);
+
+    return {
+      success: true,
+    };
   },
 };
