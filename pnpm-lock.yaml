@@ -446,7 +446,10 @@ importers:
     specifiers: {}
 
   components/anymail_finder:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/apex_27:
     specifiers: {}
@@ -1910,7 +1913,10 @@ importers:
     specifiers: {}
 
   components/defastra:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/degreed:
     specifiers: {}
@@ -5639,7 +5645,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/paigo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/pandadoc:
     specifiers:
