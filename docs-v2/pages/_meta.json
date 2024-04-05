@@ -37,6 +37,7 @@
     "title": "Security"
   },
   "limits": "Limits",
+  "glossary": "Glossary of Terms",
   "support": {
     "title": "Support",
     "type": "page",
@@ -54,6 +55,20 @@
     "type": "page",
     "href": "https://status.pipedream.com",
     "newWindow": true
+  },
+  "version": {
+    "title": "Version",
+    "type": "menu",
+    "items": {
+      "v2": {
+        "title": "Linear",
+        "href": "https://pipedream.com/docs"
+      },
+      "v3": {
+        "title": "Canvas (new)",
+        "href": "https://pipedream.com/docs/v3"
+      }
+    }
   },
   "workspaces-and-credits-faq": {
     "display": "children"

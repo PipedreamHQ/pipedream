@@ -6,7 +6,7 @@ export default {
   key: "shopify-update-page",
   name: "Update Page",
   description: "Update an existing page. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/page#put-pages-page-id)",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     app,

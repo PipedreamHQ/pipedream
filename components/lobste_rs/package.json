@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lobste_rs",
+  "version": "0.0.1",
+  "description": "Pipedream lobste.rs Components",
+  "main": "lobste_rs.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lobste_rs"
+  ],
+  "homepage": "https://pipedream.com/apps/lobste_rs",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
