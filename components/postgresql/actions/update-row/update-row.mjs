@@ -4,7 +4,7 @@ export default {
   name: "Update Row",
   key: "postgresql-update-row",
   description: "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "1.0.0",
+  version: "2.0.0",
   type: "action",
   props: {
     postgresql,
