@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 export default {
   key: "google_meet-schedule-meeting",
   name: "Schedule Meeting",
-  description: "Creates a new event in Google Calendar with a Google Meet link. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#insert)",
+  description: "Creates a new event in Google Calendar with a Google Meet link. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -52,7 +52,7 @@ export default {
     recurrence: {
       label: "Recurrence",
       type: "string[]",
-      description: "Recurrence rule(s) for the event. For example, `FREQ=DAILY;INTERVAL=2` means once every two days, `RRULE:FREQ=YEARLY` means annually.\nYou can combine multiple recurrence rules. [See the documentation](https://developers.google.com/calendar/api/concepts/events-calendars#recurrence_rule)",
+      description: "Recurrence rule(s) for the event. For example, `RRULE:FREQ=DAILY;INTERVAL=2` means once every two days, `RRULE:FREQ=YEARLY` means annually.\nYou can combine multiple recurrence rules. [See the documentation](https://developers.google.com/calendar/api/concepts/events-calendars#recurrence_rule)",
       optional: true,
     },
     timeZone: {
@@ -124,7 +124,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const timeZone = this.getTimeZone(this.timeZone);
+    const timeZone = await this.getTimeZone(this.timeZone);
     const attendees = this.formatAttendees(this.attendees);
 
     const data = {
