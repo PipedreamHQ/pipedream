@@ -114,7 +114,7 @@ By default, workflows run with {process.env.MEMORY_LIMIT} of memory. If you're p
 
 ## Eliminate cold starts
 
-A **cold start** refers to the delay between the invocation of workflow and the execution of the workflow code. Cold starts happen when Pipedream spins up a new [execution environment](/privacy-and-security/#execution-environment) to handle incoming requests.
+A **cold start** refers to the delay between the invocation of workflow and the execution of the workflow code. Cold starts happen when Pipedream spins up a new [execution environment](/privacy-and-security/#execution-environment) to handle incoming events.
 
 Specifically, cold starts occur on the first request to your workflow after a period of inactivity (roughly 5 minutes), or if your initial worker is already busy and a new worker needs to be initialized. In these cases, Pipedream creates a new execution environment to process your event. **Initializing this environment takes a few seconds, which delays the execution of this first event**.
 

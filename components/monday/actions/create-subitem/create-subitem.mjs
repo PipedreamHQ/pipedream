@@ -8,7 +8,7 @@ export default {
   name: "Create Subitem",
   description: "Creates a subitem. [See the documentation](https://developer.monday.com/api-reference/docs/introduction-to-graphql#mondaycom-schema)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     monday,
     boardId: {
