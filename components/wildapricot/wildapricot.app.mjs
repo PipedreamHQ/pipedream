@@ -94,7 +94,6 @@ export default {
       type: "string",
       label: "Event Registration Type ID",
       description: "The unique identifier for the event registration type",
-      optional: true,
       async options({
         accountId, eventId,
       }) {

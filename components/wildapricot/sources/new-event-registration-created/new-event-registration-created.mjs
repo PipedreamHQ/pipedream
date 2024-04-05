@@ -1,5 +1,6 @@
 import common from "../common/base.mjs";
 import sampleEmit from "./test-event.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -32,6 +33,13 @@ export default {
       optional: true,
     },
   },
+  hooks: {
+    async deploy() {
+      if (!this.eventId && !this.contactId) {
+        throw new ConfigurationError("Must provide one of Contact ID or Event ID");
+      }
+    },
+  },
   methods: {
     ...common.methods,
     generateMeta(registration) {
@@ -43,9 +51,6 @@ export default {
     },
   },
   async run() {
-    if (!this.eventId && !this.contactId) {
-      throw new Error("Must provide one of Contact ID or Event ID");
-    }
     const lastTs = this._getLastTs();
     let maxTs = lastTs;
     const eventRegistrations = await this.wildapricot.listEventRegistrations({
