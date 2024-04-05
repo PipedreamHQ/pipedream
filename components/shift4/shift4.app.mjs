@@ -1,50 +1,51 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "shift4",
   propDefinitions: {
-    orderIdentifier: {
-      type: "string",
-      label: "Order Identifier",
-      description: "The identifier of the order related to the charge that was updated.",
-      required: true,
-    },
     amount: {
       type: "integer",
       label: "Amount",
       description: "The charge amount in minor units of a given currency. For example, 10€ is represented as '1000'.",
-      required: true,
+    },
+    card: {
+      type: "string",
+      label: "Card",
+      description: "Card token, card details or card identifier.",
     },
     currency: {
       type: "string",
       label: "Currency",
       description: "The charge currency represented as a three-letter ISO currency code.",
-      required: true,
     },
-    interval: {
+    customerId: {
       type: "string",
-      label: "Interval",
-      description: "The interval at which a plan is set to recur. Could be 'day', 'week', 'month', or 'year'.",
-      required: true,
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the plan.",
-      required: true,
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email address of the customer.",
-      required: true,
-    },
-    type: {
-      type: "string",
-      label: "Type",
-      description: "The type of the charge.",
-      optional: true,
+      label: "Customer ID",
+      description: "Identifier of the customer that will be associated with this charge.",
+      async options({ prevContext }) {
+        const { list } = await this.listCustomers({
+          params: {
+            limit: LIMIT,
+            startingAfterId: prevContext.lastId,
+          },
+        });
+
+        return {
+          options: list.map(({
+            id: value, email: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            lastId: list.length
+              ? list[list.length - 1].id
+              : null,
+          },
+        };
+      },
     },
     description: {
       type: "string",
@@ -52,152 +53,132 @@ export default {
       description: "A description for the charge.",
       optional: true,
     },
-    customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: "Identifier of the customer that will be associated with this charge.",
-      optional: true,
-    },
-    card: {
-      type: "string",
-      label: "Card",
-      description: "Card token, card details or card identifier.",
-      optional: true,
-    },
-    paymentMethod: {
-      type: "string",
-      label: "Payment Method",
-      description: "Payment method details or identifier.",
-      optional: true,
-    },
-    flow: {
-      type: "object",
-      label: "Flow",
-      description: "Details specific to the payment method charge.",
-      optional: true,
-    },
-    captured: {
-      type: "boolean",
-      label: "Captured",
-      description: "Whether this charge should be immediately captured.",
-      optional: true,
-    },
-    shipping: {
-      type: "object",
-      label: "Shipping",
-      description: "Shipping details.",
-      optional: true,
-    },
-    billing: {
-      type: "object",
-      label: "Billing",
-      description: "Billing details.",
-      optional: true,
-    },
-    threeDSecure: {
-      type: "object",
-      label: "3D Secure",
-      description: "3D Secure options.",
-      optional: true,
-    },
-    merchantAccountId: {
-      type: "string",
-      label: "Merchant Account ID",
-      description: "Identifier of the merchant account that will be used to create this charge.",
-      optional: true,
-    },
     metadata: {
       type: "object",
       label: "Metadata",
       description: "Metadata object.",
-      optional: true,
+    },
+    orderIdentifier: {
+      type: "string",
+      label: "Order Identifier",
+      description: "The identifier of the order related to the charge that was updated.",
+    },
+    recursTo: {
+      type: "string",
+      label: "Recurs To",
+      description: "The plan to which this plan will recur after the billing cycles have completed.",
+      async options({ prevContext }) {
+        const { list } = await this.listPlans({
+          params: {
+            limit: LIMIT,
+            startingAfterId: prevContext.lastId,
+          },
+        });
+
+        return {
+          options: list.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            lastId: list.length
+              ? list[list.length - 1].id
+              : null,
+          },
+        };
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.shift4.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        username: `${this.$auth.api_key_secret}`,
+        password: "",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data,
-        params,
+        auth: this._auth(),
       });
     },
-    async createCharge({
-      amount, currency, type, description, customerId, card, paymentMethod, flow, captured, shipping, billing, threeDSecure, merchantAccountId, metadata,
-    }) {
+    createCharge(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/charges",
-        data: {
-          amount,
-          currency,
-          type,
-          description,
-          customerId,
-          card,
-          paymentMethod,
-          flow,
-          captured,
-          shipping,
-          billing,
-          threeDSecure,
-          merchantAccountId,
-          metadata,
-        },
+        ...opts,
       });
     },
-    async createPlan({
-      amount, currency, interval, name, intervalCount, billingCycles, trialPeriodDays, recursTo, metadata,
-    }) {
+    createPlan(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/plans",
-        data: {
-          amount,
-          currency,
-          interval,
-          name,
-          intervalCount,
-          billingCycles,
-          trialPeriodDays,
-          recursTo,
-          metadata,
-        },
+        ...opts,
       });
     },
-    async createCustomer({
-      email, description, card, metadata,
-    }) {
+    createCustomer(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/customers",
-        data: {
-          email,
-          description,
-          card,
-          metadata,
-        },
+        ...opts,
       });
+    },
+    listCustomers(opts = {}) {
+      return this._makeRequest({
+        path: "/customers",
+        ...opts,
+      });
+    },
+    listEvents(opts = {}) {
+      return this._makeRequest({
+        path: "/events",
+        ...opts,
+      });
+    },
+    listPlans(opts = {}) {
+      return this._makeRequest({
+        path: "/plans",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, filterTypes, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let lastId = null;
+
+      do {
+        params.limit = LIMIT;
+        params.startingAfterId = lastId;
+        const {
+          list,
+          hasMore: hasMoreItems,
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of list) {
+          if (filterTypes.includes(d.type)) {
+            yield d;
+
+            if (maxResults && ++count === maxResults) {
+              return count;
+            }
+          }
+        }
+
+        hasMore = hasMoreItems;
+
+      } while (hasMore);
     },
   },
 };

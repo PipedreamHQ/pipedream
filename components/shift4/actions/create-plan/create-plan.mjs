@@ -1,10 +1,10 @@
+import { parseObject } from "../../common/utils.mjs";
 import shift4 from "../../shift4.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "shift4-create-plan",
   name: "Create Plan",
-  description: "Creates a new plan object. [See the documentation](https://dev.shift4.com/docs/api)",
+  description: "Creates a new plan object. [See the documentation](https://dev.shift4.com/docs/api#plan-create)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,24 +14,30 @@ export default {
         shift4,
         "amount",
       ],
+      description: "Subscription charge amount in minor units of a given currency. For example, 10€ is represented as \"1000\", and 10¥ is represented as \"10\".",
     },
     currency: {
       propDefinition: [
         shift4,
         "currency",
       ],
+      description: "Subscription charge currency represented as a three-letter ISO currency code.",
     },
     interval: {
-      propDefinition: [
-        shift4,
-        "interval",
+      type: "string",
+      label: "Interval",
+      description: "The interval at which a plan is set to recur. Could be 'day', 'week', 'month', or 'year'.",
+      options: [
+        "day",
+        "week",
+        "month",
+        "year",
       ],
     },
     name: {
-      propDefinition: [
-        shift4,
-        "name",
-      ],
+      type: "string",
+      label: "Name",
+      description: "The name of the plan.",
     },
     intervalCount: {
       type: "integer",
@@ -52,32 +58,36 @@ export default {
       optional: true,
     },
     recursTo: {
-      type: "string",
-      label: "Recurs To",
-      description: "The plan to which this plan will recur after the billing cycles have completed.",
+      propDefinition: [
+        shift4,
+        "recursTo",
+      ],
       optional: true,
     },
     metadata: {
-      type: "object",
-      label: "Metadata",
-      description: "A set of key-value pairs that you can attach to a plan object.",
+      propDefinition: [
+        shift4,
+        "metadata",
+      ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.shift4.createPlan({
-      amount: this.amount,
-      currency: this.currency,
-      interval: this.interval,
-      name: this.name,
-      intervalCount: this.intervalCount,
-      billingCycles: this.billingCycles,
-      trialPeriodDays: this.trialPeriodDays,
-      recursTo: this.recursTo,
-      metadata: this.metadata,
+    const {
+      shift4,
+      metadata,
+      ...data
+    } = this;
+
+    const response = await shift4.createPlan({
+      $,
+      data: {
+        ...data,
+        metadata: metadata && parseObject(metadata),
+      },
     });
 
-    $.export("$summary", `Successfully created plan '${this.name}'`);
+    $.export("$summary", `Successfully created plan with Id: '${response.id}'`);
     return response;
   },
 };

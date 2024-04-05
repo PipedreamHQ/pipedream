@@ -1,5 +1,7 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { TYPE_OPTIONS } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import shift4 from "../../shift4.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "shift4-create-charge",
@@ -9,40 +11,122 @@ export default {
   type: "action",
   props: {
     shift4,
-    amount: shift4.propDefinitions.amount,
-    currency: shift4.propDefinitions.currency,
-    type: shift4.propDefinitions.type,
-    description: shift4.propDefinitions.description,
-    customerId: shift4.propDefinitions.customerId,
-    card: shift4.propDefinitions.card,
-    paymentMethod: shift4.propDefinitions.paymentMethod,
-    flow: shift4.propDefinitions.flow,
-    captured: shift4.propDefinitions.captured,
-    shipping: shift4.propDefinitions.shipping,
-    billing: shift4.propDefinitions.billing,
-    threeDSecure: shift4.propDefinitions.threeDSecure,
-    merchantAccountId: shift4.propDefinitions.merchantAccountId,
-    metadata: shift4.propDefinitions.metadata,
+    customerId: {
+      propDefinition: [
+        shift4,
+        "customerId",
+      ],
+      optional: true,
+    },
+    amount: {
+      propDefinition: [
+        shift4,
+        "amount",
+      ],
+    },
+    currency: {
+      propDefinition: [
+        shift4,
+        "currency",
+      ],
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The type of the charge.",
+      options: TYPE_OPTIONS,
+      optional: true,
+    },
+    description: {
+      propDefinition: [
+        shift4,
+        "description",
+      ],
+      optional: true,
+    },
+    card: {
+      propDefinition: [
+        shift4,
+        "card",
+      ],
+      optional: true,
+    },
+    paymentMethod: {
+      type: "string",
+      label: "Payment Method",
+      description: "Payment method details or identifier.",
+      optional: true,
+    },
+    flow: {
+      type: "object",
+      label: "Flow",
+      description: "Details specific to the payment method charge.",
+      optional: true,
+    },
+    captured: {
+      type: "boolean",
+      label: "Captured",
+      description: "Whether this charge should be immediately captured.",
+      optional: true,
+    },
+    shipping: {
+      type: "object",
+      label: "Shipping",
+      description: "Shipping details.",
+      optional: true,
+    },
+    billing: {
+      type: "object",
+      label: "Billing",
+      description: "Billing details.",
+      optional: true,
+    },
+    threeDSecure: {
+      type: "object",
+      label: "3D Secure",
+      description: "3D Secure options.",
+      optional: true,
+    },
+    merchantAccountId: {
+      type: "string",
+      label: "Merchant Account ID",
+      description: "Identifier of the merchant account that will be used to create this charge.",
+      optional: true,
+    },
+    metadata: {
+      propDefinition: [
+        shift4,
+        "metadata",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
+    if (!this.customerId && !this.card && !this.paymentMethod) {
+      throw new ConfigurationError("Either **CustomerId**, **Card** or **PaymentMethod** is required!");
+    }
+
     const response = await this.shift4.createCharge({
-      amount: this.amount,
-      currency: this.currency,
-      type: this.type,
-      description: this.description,
-      customerId: this.customerId,
-      card: this.card,
-      paymentMethod: this.paymentMethod,
-      flow: this.flow,
-      captured: this.captured,
-      shipping: this.shipping,
-      billing: this.billing,
-      threeDSecure: this.threeDSecure,
-      merchantAccountId: this.merchantAccountId,
-      metadata: this.metadata,
+      $,
+      data: {
+        amount: this.amount,
+        currency: this.currency,
+        type: this.type,
+        description: this.description,
+        customerId: this.customerId,
+        card: this.card && parseObject(this.card),
+        paymentMethod: this.paymentMethod && parseObject(this.paymentMethod),
+        flow: this.flow && parseObject(this.flow),
+        captured: this.captured,
+        shipping: this.shipping && parseObject(this.shipping),
+        billing: this.billing && parseObject(this.billing),
+        threeDSecure: this.threeDSecure && parseObject(this.threeDSecure),
+        merchantAccountId: this.merchantAccountId,
+        metadata: this.metadata && parseObject(this.metadata),
+      },
     });
 
-    $.export("$summary", `Successfully created charge with ID ${response.id}`);
+    $.export("$summary", `Successfully created charge with Id: ${response.id}`);
     return response;
   },
 };
