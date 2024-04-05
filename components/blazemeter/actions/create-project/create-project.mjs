@@ -8,10 +8,19 @@ export default {
   type: "action",
   props: {
     app,
+    accountId: {
+      propDefinition: [
+        app,
+        "accountId",
+      ],
+    },
     workspaceId: {
       propDefinition: [
         app,
         "workspaceId",
+        (c) => ({
+          accountId: c.accountId,
+        }),
       ],
     },
     projectName: {
