@@ -107,7 +107,15 @@ export default {
       url: "https://api.sendsms.ro/json?action=message_send",
       params: params,
     });
-    $.export("$summary", `Successfully sent message to '${this.to}'`);
+
+    if (response.status == 1) {
+      $.export("$summary", `Successfully sent message to '${this.to}'`);
+    }
+
+    if (response.status < 0) {
+      $.export("$summary", `There has been an error: '${response.message}'`);
+    }
+
     return response;
   },
 };
