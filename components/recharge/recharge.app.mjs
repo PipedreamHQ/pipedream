@@ -26,7 +26,7 @@ export default {
       type: "string",
       label: "Subscription ID",
       description: "Select a subscription or provide a custom subscription ID.",
-      async options({ page }) {
+      async options({ page = 1 }) {
         const { subscriptions } = await this.listSubscriptions({
           params: {
             page,
