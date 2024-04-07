@@ -54,7 +54,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully created booth "${this.boothName}"`,
+      `Successfully added booth "${this.boothName}"`,
     );
 
     return response;

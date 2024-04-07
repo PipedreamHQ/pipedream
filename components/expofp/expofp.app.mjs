@@ -45,10 +45,7 @@ export default {
           },
         });
 
-        return booths.map((item) => ({
-          label: item.name,
-          value: item.id,
-        }));
+        return booths.map(({ name }) => name);
       },
     },
   },
@@ -80,6 +77,13 @@ export default {
     async getExhibitors(args) {
       return this._makeRequest({
         path: "/list-exhibitors",
+        method: "post",
+        ...args,
+      });
+    },
+    async getBooths(args) {
+      return this._makeRequest({
+        path: "/list-booths",
         method: "post",
         ...args,
       });
