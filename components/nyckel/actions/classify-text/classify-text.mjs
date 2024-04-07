@@ -52,7 +52,7 @@ export default {
         data: this.textInput,
       },
       params: {
-        queryCount: this.queryCount,
+        labelCount: this.labelCount,
         includeMetadata: this.includeMetadata,
         capture: this.capture,
         externalId: this.externalId,
