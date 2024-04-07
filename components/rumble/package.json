@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rumble",
+  "version": "0.0.1",
+  "description": "Pipedream Rumble Components",
+  "main": "rumble.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rumble"
+  ],
+  "homepage": "https://pipedream.com/apps/rumble",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
