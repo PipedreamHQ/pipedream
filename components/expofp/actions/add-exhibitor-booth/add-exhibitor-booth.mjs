@@ -25,9 +25,13 @@ export default {
       ],
     },
     boothName: {
-      type: "string",
-      label: "Booth Name",
-      description: "Unique name of booth, e.g. `101`",
+      propDefinition: [
+        expofp,
+        "boothName",
+        ({ eventId }) => ({
+          eventId,
+        }),
+      ],
     },
   },
   methods: {
