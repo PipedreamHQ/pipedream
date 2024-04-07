@@ -19,10 +19,10 @@ export default {
       label: "Text Input",
       description: "The text input to classify",
     },
-    queryCount: {
+    labelCount: {
       propDefinition: [
         nyckel,
-        "queryCount",
+        "labelCount",
       ],
     },
     includeMetadata: {
