@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sendsms",
+  "version": "0.0.1",
+  "description": "Pipedream sendSMS Components",
+  "main": "sendsms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sendsms"
+  ],
+  "homepage": "https://pipedream.com/apps/sendsms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

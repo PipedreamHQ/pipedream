@@ -6,7 +6,7 @@ export default {
   key: "shopify-delete-article",
   name: "Delete Article",
   description: "Delete an existing blog article. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#delete-blogs-blog-id-articles-article-id)",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     app,

@@ -10,6 +10,8 @@ Object.defineProperty(exports, "cloneSafe", { enumerable: true, get: function ()
 Object.defineProperty(exports, "jsonStringifySafe", { enumerable: true, get: function () { return utils_1.jsonStringifySafe; } });
 var errors_1 = require("./errors");
 Object.defineProperty(exports, "ConfigurationError", { enumerable: true, get: function () { return errors_1.ConfigurationError; } });
+var sql_proxy_1 = require("./sql-proxy");
+Object.defineProperty(exports, "sqlProxy", { enumerable: true, get: function () { return sql_proxy_1.default; } });
 var constants_1 = require("./constants");
 Object.defineProperty(exports, "DEFAULT_POLLING_SOURCE_TIMER_INTERVAL", { enumerable: true, get: function () { return constants_1.DEFAULT_POLLING_SOURCE_TIMER_INTERVAL; } });
 const SendPayload = t.union([
