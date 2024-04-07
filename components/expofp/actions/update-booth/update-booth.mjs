@@ -23,10 +23,14 @@ export default {
         "eventId",
       ],
     },
-    boothId: {
-      label: "Booth ID/Name",
-      type: "string",
-      description: "The booth ID or name. E.g. `101` or `A21`",
+    boothName: {
+      propDefinition: [
+        expofp,
+        "boothName",
+        ({ eventId }) => ({
+          eventId,
+        }),
+      ],
     },
     adminNotes: {
       label: "Admin Notes",
