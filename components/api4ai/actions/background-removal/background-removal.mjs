@@ -59,9 +59,9 @@ export default {
     const mode = this.mask
       ? "fg-mask"
       : "fg-image";
-    const representation = this.base64
-      ? "base64"
-      : "url";
+    const representation = this.representation == "URL to file"
+      ? "url"
+      : "base64";
 
     // Perform request and parse results.
     const cb = () =>
