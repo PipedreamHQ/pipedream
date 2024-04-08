@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -20,6 +21,40 @@ export default {
       type: "integer",
       label: "Product Id",
       description: "The id of the product",
+      async options({
+        page, prevContext: { hasMore },
+        mapper = ({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }),
+      }) {
+        if (hasMore === false) {
+          return [];
+        }
+        const {
+          data,
+          meta: {
+            pagination: {
+              total,
+              count,
+            },
+          },
+        } = await this.getAllProducts({
+          params: {
+            page,
+            limit: constants.DEFAULT_LIMIT,
+          },
+        });
+        const options = data.map(mapper);
+        return {
+          options,
+          context: {
+            hasMore: count < total,
+          },
+        };
+      },
     },
     categoryId: {
       type: "integer",
@@ -35,31 +70,56 @@ export default {
         }));
       },
     },
+    imageUrl: {
+      type: "string",
+      label: "Image URL",
+      description: "The image URL to upload. 255 character limit. Supported image file types are BMP, GIF, JPEG, PNG, WBMP, XBM, and WEBP. Each image uploaded by URL can be up to 8 MB.",
+      optional: true,
+    },
+    imageFile: {
+      type: "string",
+      label: "Product Image File",
+      description: "The local path to the original image file previously downloaded to Pipedream E.g. (`/tmp/my-image.png`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory). Supported image file types are BMP, GIF, JPEG, PNG, WBMP, XBM, and WEBP. Each image file can be up to 8 MB.",
+      optional: true,
+    },
   },
   methods: {
-    _getHeaders() {
+    getHeaders() {
       return {
         "X-Auth-Token": `${this.$auth.access_token}`,
       };
     },
-    _defaultConfig({
-      path, version = "v3", ...otherConfig
-    }) {
-      const config = {
-        url: `${constants.BASE_URL}/${this.$auth.store_hash}/${version}${path}`,
-        headers: this._getHeaders(),
-        ...otherConfig,
-      };
-      return config;
+    getUrl(path, version = "v3") {
+      return `${constants.BASE_URL}/${this.$auth.store_hash}/${version}${path}`;
     },
-    async _makeRequest({
-      $, ...otherConfig
-    }) {
-      const config = this._defaultConfig({
-        ...otherConfig,
-      });
+    getFormDataConfig({
+      headers, data: preData, ...args
+    } = {}) {
+      const contentType = constants.CONTENT_TYPE_KEY_HEADER;
+      const hasMultipartHeader = utils.hasMultipartHeader(headers);
+      const data = hasMultipartHeader && utils.getFormData(preData) || preData;
+      const currentHeaders = this.getHeaders(headers);
 
-      return axios($ || this, config);
+      return {
+        headers: hasMultipartHeader
+          ? {
+            ...currentHeaders,
+            [contentType]: data.getHeaders()[contentType.toLowerCase()],
+          }
+          : currentHeaders,
+        data,
+        ...args,
+      };
+    },
+    _makeRequest({
+      $ = this, path, version, ...args
+    }) {
+      const config = this.getFormDataConfig({
+        debug: true,
+        url: this.getUrl(path, version),
+        ...args,
+      });
+      return axios($, config);
     },
     async *paginate({
       $, fn, params = {}, cursor,
@@ -142,13 +202,12 @@ export default {
         params: qparams,
       });
     },
-    async getProduct({
-      $, productId,
-    }) {
-      return await this._makeRequest({
-        $,
-        method: "GET",
+    getProduct({
+      productId, ...args
+    } = {}) {
+      return this._makeRequest({
         path: `/catalog/products/${productId}`,
+        ...args,
       });
     },
     async getProductVariants({
@@ -158,29 +217,6 @@ export default {
         $,
         method: "GET",
         path: `/catalog/products/${productId}/variants`,
-      });
-    },
-    async createProduct({
-      $, props,
-    }) {
-      return await this._makeRequest({
-        $,
-        method: "POST",
-        path: "/catalog/products",
-        data: props,
-      });
-    },
-    async updateProduct({
-      $, props,
-    }) {
-      const {
-        productId, ...data
-      } = props;
-      return await this._makeRequest({
-        $,
-        method: "PUT",
-        path: `/catalog/products/${productId}`,
-        data,
       });
     },
     async deleteProduct({
@@ -219,6 +255,15 @@ export default {
         $,
         method: "GET",
         path: `/catalog/brands?page=${page}&limit=${limit}`,
+      });
+    },
+    createProductImage({
+      productId, ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/catalog/products/${productId}/images`,
+        ...args,
       });
     },
   },
