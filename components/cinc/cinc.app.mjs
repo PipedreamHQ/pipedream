@@ -1,128 +1,124 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "cinc",
   propDefinitions: {
-    inquiryIdentifier: {
-      type: "string",
-      label: "Inquiry Identifier",
-      description: "The identifier for the inquiry request",
-    },
-    leadDetails: {
-      type: "object",
-      label: "Lead Details",
-      description: "Details of the new lead",
-    },
-    leadSource: {
-      type: "string",
-      label: "Lead Source",
-      description: "The source of the lead",
-      optional: true,
-    },
-    timeOfAddition: {
-      type: "string",
-      label: "Time of Addition",
-      description: "The time the lead was added",
-      optional: true,
-    },
-    leadIdentifier: {
+    leadId: {
       type: "string",
       label: "Lead Identifier",
       description: "The identifier for the lead",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { leads } = await this.listLeads({
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return leads?.map(({
+          id: value, info,
+        }) => ({
+          value,
+          label: `${info.contact.first_name} ${info.contact.last_name}`,
+        })) || [];
+      },
     },
-    updatedDetails: {
-      type: "object",
-      label: "Updated Details",
-      description: "The details to be updated for the lead",
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of the lead",
     },
-    customFields: {
-      type: "object",
-      label: "Custom Fields",
-      description: "Custom fields for the new lead",
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the lead",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email address of the lead",
+    },
+    cellphone: {
+      type: "string",
+      label: "Cellphone",
+      description: "Cellphone number of the lead",
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "Status of the lead",
       optional: true,
     },
-    leadSearchData: {
-      type: "object",
-      label: "Lead's Search Data",
-      description: "Search data for creating a saved search",
+    source: {
+      type: "string",
+      label: "Source",
+      description: "Source of the lead",
+      optional: true,
     },
-    fieldsToUpdate: {
-      type: "object",
-      label: "Fields to Update",
-      description: "Fields to update for an existing lead",
+    medianListingPrice: {
+      type: "string",
+      label: "Median Listing Price",
+      description: "Median listing price of the lead",
+      optional: true,
+    },
+    averageListingPrice: {
+      type: "string",
+      label: "Average Listing Price",
+      description: "Average listing price of the lead",
+      optional: true,
+    },
+    isBuyerLead: {
+      type: "boolean",
+      label: "Is Buyer Lead",
+      description: "Whether the lead is a buyer lead or not",
+      optional: true,
+    },
+    isSellerLead: {
+      type: "boolean",
+      label: "Is Seller Lead",
+      description: "Whether the lead is a seller lead or not",
       optional: true,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.cinc.com";
+      return "https://public.cincapi.com/v2/site";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async emitInquiryEvent(inquiryId) {
-      this.$emit({
-        inquiryId,
-      }, {
-        summary: `New inquiry requested: ${inquiryId}`,
+    getLead({
+      leadId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/leads/${leadId}`,
+        ...opts,
       });
     },
-    async emitNewLeadEvent(leadDetails) {
-      this.$emit({
-        leadDetails,
-      }, {
-        summary: "New lead added",
+    listLeads(opts = {}) {
+      return this._makeRequest({
+        path: "/leads",
+        ...opts,
       });
     },
-    async emitLeadUpdateEvent(leadIdentifier, updatedDetails) {
-      this.$emit({
-        leadIdentifier,
-        updatedDetails,
-      }, {
-        summary: "Lead's information updated",
-      });
-    },
-    async createLead(leadDetails, customFields) {
+    createLead(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/leads",
-        data: {
-          ...leadDetails,
-          custom_fields: customFields,
-        },
-      });
-    },
-    async createSavedSearch(leadSearchData) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/saved_searches",
-        data: leadSearchData,
-      });
-    },
-    async updateLead(leadId, fieldsToUpdate) {
-      return this._makeRequest({
-        method: "PATCH",
-        path: `/leads/${leadId}`,
-        data: fieldsToUpdate,
+        ...opts,
       });
     },
   },

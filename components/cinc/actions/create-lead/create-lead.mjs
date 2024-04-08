@@ -1,33 +1,100 @@
 import cinc from "../../cinc.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "cinc-create-lead",
-  name: "Create New Lead in Cinc",
-  description: "This component creates a new lead in Cinc. [See the documentation](https://cinc.com/api/docs/)",
+  name: "Create New Lead",
+  description: "This component creates a new lead in Cinc. [See the documentation](https://public.cincapi.com/v2/docs/#post-site-leads)",
   version: "0.0.1",
   type: "action",
   props: {
     cinc,
-    leadDetails: {
+    firstName: {
       propDefinition: [
         cinc,
-        "leadDetails",
+        "firstName",
       ],
     },
-    customFields: {
+    lastName: {
       propDefinition: [
         cinc,
-        "customFields",
-        (c) => ({
-          leadDetails: c.leadDetails,
-        }),  // Assuming customFields depends on leadDetails
+        "lastName",
       ],
-      optional: true,
+    },
+    email: {
+      propDefinition: [
+        cinc,
+        "email",
+      ],
+    },
+    cellphone: {
+      propDefinition: [
+        cinc,
+        "cellphone",
+      ],
+    },
+    status: {
+      propDefinition: [
+        cinc,
+        "status",
+      ],
+    },
+    source: {
+      propDefinition: [
+        cinc,
+        "source",
+      ],
+    },
+    medianListingPrice: {
+      propDefinition: [
+        cinc,
+        "medianListingPrice",
+      ],
+    },
+    averageListingPrice: {
+      propDefinition: [
+        cinc,
+        "averageListingPrice",
+      ],
+    },
+    isBuyerLead: {
+      propDefinition: [
+        cinc,
+        "isBuyerLead",
+      ],
+    },
+    isSellerLead: {
+      propDefinition: [
+        cinc,
+        "isSellerLead",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.cinc.createLead(this.leadDetails, this.customFields);
+    const response = await this.cinc.createLead({
+      $,
+      data: {
+        info: {
+          contact: {
+            first_name: this.firstName,
+            last_name: this.lastName,
+            email: this.email,
+            phone_numbers: {
+              cell_phone: this.cellphone,
+            },
+          },
+          status: this.status,
+          source: this.source,
+          buyer: this.medianListingPrice || this.averageListingPrice
+            ? {
+              median_price: this.medianListingPrice,
+              average_price: this.averageListingPrice,
+            }
+            : undefined,
+          is_buyer: this.isBuyerLead,
+          is_seller: this.isSellerLead,
+        },
+      },
+    });
     $.export("$summary", `New lead added with ID: ${response.id}`);
     return response;
   },
