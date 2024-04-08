@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "New Customer",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   key: "bigcommerce-new-customer",
   description: "Emit new created customer",
