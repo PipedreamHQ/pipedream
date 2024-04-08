@@ -66,6 +66,17 @@ export default {
         ...opts,
       });
     },
+    sendSmsGDPR({
+      params, ...opts
+    }) {
+      return this._makeRequest({
+        params: {
+          action: "message_send_gdpr",
+          ...params,
+        },
+        ...opts,
+      });
+    },
     checkBlocklist({
       params, ...opts
     }) {

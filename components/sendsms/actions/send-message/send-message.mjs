@@ -1,18 +1,17 @@
-import { axios } from "@pipedream/platform";
 import sendsms from "../../sendsms.app.mjs";
 
 export default {
   name: "Send Message",
-  description: "This action sends an SMS message using the SendSMS.ro API.",
+  description: "This action sends an SMS message using the SendSMS.ro API. [See the documentation](https://www.sendsms.ro/api/#send-message)",
   key: "sendsms-send-message",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     sendsms,
     to: {
       type: "string",
       label: "To",
-      description: "The recipient phone number.",
+      description: "The phone number to send the SMS to, in E.164 format without the + sign (e.g., 40727363767).",
     },
     text: {
       type: "string",
@@ -30,7 +29,28 @@ export default {
       label: "Report Mask",
       description: "Reporting options for delivery status.",
       optional: true,
-      default: 19,
+      options: [
+        {
+          label: "Delivered",
+          value: 1,
+        },
+        {
+          label: "Undelivered",
+          value: 2,
+        },
+        {
+          label: "Queued at network",
+          value: 4,
+        },
+        {
+          label: "Sent to network",
+          value: 8,
+        },
+        {
+          label: "Failed at network",
+          value: 16,
+        },
+      ],
     },
     report_url: {
       type: "string",
@@ -78,34 +98,22 @@ export default {
     },
   },
   async run({ $ }) {
-    let params = {
-      username: this.sendsms.$auth.username,
-      password: this.sendsms.$auth.api_key,
-      to: this.to,
-      text: this.text,
-    };
+    const {
+      sendsms,
+      report_mask,
+      ...params
+    } = this;
 
-    const properties = [
-      "from",
-      "report_mask",
-      "report_url",
-      "charset",
-      "data_coding",
-      "message_class",
-      "auto_detect_encoding",
-      "short",
-      "ctype",
-    ];
+    const totalMask = report_mask?.length
+      ? report_mask.reduce((partialSum, a) => partialSum + a, 0)
+      : null;
 
-    properties.forEach((property) => {
-      if (this[property] !== null) {
-        params[property] = this[property];
-      }
-    });
-
-    const response = await axios($, {
-      url: "https://api.sendsms.ro/json?action=message_send",
-      params: params,
+    const response = await sendsms.sendSms({
+      $,
+      params: {
+        ...params,
+        report_mask: totalMask,
+      },
     });
 
     if (response.status == 1) {

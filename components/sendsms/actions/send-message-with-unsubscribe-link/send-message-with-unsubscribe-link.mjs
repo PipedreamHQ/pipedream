@@ -1,11 +1,10 @@
-import { axios } from "@pipedream/platform";
 import sendsms from "../../sendsms.app.mjs";
 
 export default {
   name: "Send Message with Unsubscribe Link",
-  description: "This action sends an SMS message with an unsubscribe link using the SendSMS.ro API.",
+  description: "This action sends an SMS message with an unsubscribe link using the SendSMS.ro API. [See the documentation](https://www.sendsms.ro/api/?shell#send-message-with-unsubscribe-link)",
   key: "sendsms-send-message-with-unsubscribe-link",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     sendsms,
@@ -30,7 +29,28 @@ export default {
       label: "Report Mask",
       description: "Reporting options for delivery status.",
       optional: true,
-      default: 19,
+      options: [
+        {
+          label: "Delivered",
+          value: 1,
+        },
+        {
+          label: "Undelivered",
+          value: 2,
+        },
+        {
+          label: "Queued at network",
+          value: 4,
+        },
+        {
+          label: "Sent to network",
+          value: 8,
+        },
+        {
+          label: "Failed at network",
+          value: 16,
+        },
+      ],
     },
     report_url: {
       type: "string",
@@ -78,34 +98,22 @@ export default {
     },
   },
   async run({ $ }) {
-    let params = {
-      username: this.sendsms.$auth.username,
-      password: this.sendsms.$auth.api_key,
-      to: this.to,
-      text: this.text,
-    };
+    const {
+      sendsms,
+      report_mask,
+      ...params
+    } = this;
 
-    const properties = [
-      "from",
-      "report_mask",
-      "report_url",
-      "charset",
-      "data_coding",
-      "message_class",
-      "auto_detect_encoding",
-      "short",
-      "ctype",
-    ];
+    const totalMask = report_mask?.length
+      ? report_mask.reduce((partialSum, a) => partialSum + a, 0)
+      : null;
 
-    properties.forEach((property) => {
-      if (this[property] !== null) {
-        params[property] = this[property];
-      }
-    });
-
-    const response = await axios($, {
-      url: "https://api.sendsms.ro/json?action=message_send_gdpr",
-      params: params,
+    const response = await sendsms.sendSmsGDPR({
+      $,
+      params: {
+        ...params,
+        report_mask: totalMask,
+      },
     });
 
     if (response.status == 1) {
