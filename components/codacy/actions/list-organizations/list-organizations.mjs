@@ -13,6 +13,7 @@ export default {
         app,
         "provider",
       ],
+      optional: false,
     },
   },
   async run({ $ }) {
