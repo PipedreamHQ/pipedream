@@ -795,6 +795,14 @@ importers:
   components/bigbox:
     specifiers: {}
 
+  components/bigcommerce:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.2
+      form-data: 4.0.0
+
   components/bigmailer:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1971,7 +1979,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dex:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/dexatel:
     specifiers:
@@ -7106,7 +7117,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sendsms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/sendx:
     specifiers:
