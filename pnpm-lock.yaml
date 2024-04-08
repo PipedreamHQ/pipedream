@@ -7885,6 +7885,9 @@ importers:
   components/suitedash:
     specifiers: {}
 
+  components/sumup:
+    specifiers: {}
+
   components/supabase:
     specifiers:
       '@pipedream/platform': ^1.2.1
