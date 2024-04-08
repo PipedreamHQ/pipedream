@@ -3093,6 +3093,9 @@ importers:
       lodash: 4.17.21
       uuid: 8.3.2
 
+  components/gitlab_developer_app:
+    specifiers: {}
+
   components/givebutter:
     specifiers: {}
 
