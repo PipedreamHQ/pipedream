@@ -859,7 +859,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/blazemeter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/blink:
     specifiers:
@@ -14093,17 +14096,6 @@ packages:
       - debug
     dev: false
 
-  /@pipedream/platform/1.6.2:
-    resolution: {integrity: sha512-NESkp7r0znsdvvJTvKX9xw2MKyrnByAIY/ikS/aUuZJb/A8FHVgN4ynkAf7sEz25BjziaG4+8A8w9KDq8ZK1LQ==}
-    dependencies:
-      axios: 1.6.5
-      fp-ts: 2.16.1
-      io-ts: 2.2.20_fp-ts@2.16.1
-      querystring: 0.2.1
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /@pipedream/types/0.0.5:
     resolution: {integrity: sha512-VVQB9j+94XG/EB7fzKA1t0McQcQIPhaireePeLRTlJIN4y5W59SJjERjW4h5l7zWIfTnwpLizk3qGholyiw1Vw==}
     dependencies:
@@ -17568,7 +17560,7 @@ packages:
   /axios/1.6.5_debug@3.2.7:
     resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
     dependencies:
-      follow-redirects: 1.15.5_debug@3.2.7
+      follow-redirects: 1.15.4_debug@3.2.7
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -20641,8 +20633,8 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.15.5_debug@3.2.7:
-    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
+  /follow-redirects/1.15.4_debug@3.2.7:
+    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -20651,6 +20643,16 @@ packages:
         optional: true
     dependencies:
       debug: 3.2.7
+    dev: false
+
+  /follow-redirects/1.15.5:
+    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /follow-redirects/1.5.10:
