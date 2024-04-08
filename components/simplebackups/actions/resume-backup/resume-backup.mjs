@@ -3,8 +3,8 @@ import { axios } from "@pipedream/platform";
 export default {
   name: "Resume Backup",
   version: "0.0.1",
-  key: "resume-backup",
-  description: "Resume a backup.",
+  key: "simplebackups-resume-backup",
+  description: "Resume a backup schedule given its ID. [See the documentation](https://simplebackups.docs.apiary.io/#/reference/backups/resume-backup)",
   props: {
     token: {
       type: "string",

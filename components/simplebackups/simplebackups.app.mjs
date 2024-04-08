@@ -33,12 +33,6 @@ export default {
       return "https://my.simplebackups.io/api";
     },
 
-    /**
-     * Logs the authentication keys to the console.
-     */
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
 
     /**
      * Returns the Axios headers for making requests.
@@ -77,12 +71,13 @@ export default {
      * @param {string} [backupLogId=null] - The ID of the backup log.
      * @returns {Promise} A promise that resolves with the download link.
      */
-    async getDownloadLink(backupId, backupLogId = null) {
+    async getDownloadLink($, backupId, backupLogId = null) {
       let endpoint = `/backup/${backupId}/download-link`;
       if (backupLogId) {
         endpoint = `/backup/${backupId}/download-link/${backupLogId}`;
       }
       return this._makeAxiosRequest({
+      $,
         endpoint,
       });
     },
@@ -92,8 +87,9 @@ export default {
      * @param {string} [filters=""] - Additional filters for the list.
      * @returns {Promise} A promise that resolves with the list of backups.
      */
-    async listBackups(filters = "") {
+    async listBackups($, filters = "") {
       return this._makeAxiosRequest({
+      $,
         endpoint: "/backup/list" + filters,
       });
     },
@@ -102,8 +98,9 @@ export default {
      * Retrieves a list of servers.
      * @returns {Promise} A promise that resolves with the list of servers.
      */
-    async listServers() {
+    async listServers($) {
       return this._makeAxiosRequest({
+      $,
         endpoint: "/server/list",
       });
     },
@@ -113,8 +110,9 @@ export default {
      * @param {string} [filters=""] - Additional filters for the list.
      * @returns {Promise} A promise that resolves with the list of storages.
      */
-    async listStorages(filters = "") {
+    async listStorages($, filters = "") {
       return this._makeAxiosRequest({
+      $,
         endpoint: "/storage/list" + filters,
       });
     },
@@ -124,8 +122,9 @@ export default {
      * @param {string} backupId - The ID of the backup to pause.
      * @returns {Promise} A promise that resolves when the backup is paused.
      */
-    async pauseBackup(backupId) {
+    async pauseBackup($, backupId) {
       return this._makeAxiosRequest({
+      $,
         endpoint: `/backup/${backupId}/pause`,
         method: "PATCH",
       });
@@ -136,8 +135,9 @@ export default {
      * @param {string} backupId - The ID of the backup to resume.
      * @returns {Promise} A promise that resolves when the backup is resumed.
      */
-    async resumeBackup(backupId) {
+    async resumeBackup($, backupId) {
       return this._makeAxiosRequest({
+      $,
         endpoint: `/backup/${backupId}/resume`,
         method: "PATCH",
       });
@@ -148,8 +148,9 @@ export default {
      * @param {string} backupId - The ID of the backup to run.
      * @returns {Promise} A promise that resolves when the backup is run.
      */
-    async runBackup(backupId) {
+    async runBackup($, backupId) {
       return this._makeAxiosRequest({
+      $,
         endpoint: `/backup/${backupId}/run`,
       });
     },

@@ -3,8 +3,8 @@ import app from "../../simplebackups.app.mjs";
 export default {
   name: "List Backups",
   version: "0.0.1",
-  key: "list-backups",
-  description: "List backups.",
+  key: "simplebackups-list-backups",
+  description: "List all backups on your SimpleBackups account. [See the documentation](https://simplebackups.docs.apiary.io/#/reference/backups/list-backups)",
   props: {
     app,
     id: {
@@ -89,7 +89,7 @@ export default {
 
     const filters = this.buildFilters();
 
-    const { data } = await this.app.listBackups(filters);
+    const { data } = await this.app.listBackups($, filters);
 
     $.export("$summary", `Found ${data.length} backup(s).`);
 

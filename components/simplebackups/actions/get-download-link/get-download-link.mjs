@@ -3,15 +3,14 @@ import app from "../../simplebackups.app.mjs";
 export default {
   name: "Get Download Link",
   version: "0.0.1",
-  key: "get-download-link",
-  description: "Get the download link for a backup or backup log.",
+  key: "simplebackups-get-download-link",
+  description: "Get the download link for a backup or backup log. [See the documentation](https://simplebackups.docs.apiary.io/#/reference/backups/get-download-link)",
   props: {
     app,
     backupId: {
       type: "integer",
       label: "Backup ID",
       description: "The ID of the backup to get the download link for.",
-      optional: false,
     },
     backupLogId: {
       type: "integer",
@@ -24,11 +23,12 @@ export default {
 
   async run({ $ }) {
     const { data } = await this.app.getDownloadLink(
+    $,
       this.backupId,
       this.backupLogId ?? null,
     );
 
-    $.export("$summary", `Download links: ${data}`);
+    $.export("$summary", data.message);
 
     return {
       data,

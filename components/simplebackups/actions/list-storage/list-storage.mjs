@@ -3,8 +3,8 @@ import app from "../../simplebackups.app.mjs";
 export default {
   name: "List Storages",
   version: "0.0.1",
-  key: "list-storages",
-  description: "List storages.",
+  key: "simplebackups-list-storages",
+  description: "List all storage providers added to your SimpleBackups account. [See the documentation](https://simplebackups.docs.apiary.io/#/reference/storage/list-storage)",
   props: {
     app,
     name: {
@@ -38,7 +38,7 @@ export default {
   },
 
   async run({ $ }) {
-    const { data } = await this.app.listStorages(this.buildFilters());
+    const { data } = await this.app.listStorages($, this.buildFilters());
 
     $.export("$summary", `Found ${data.length} storage(s).`);
 
