@@ -24,7 +24,7 @@ export default {
       description: "The sender ID that appears on the recipient's device.",
       optional: true,
     },
-    report_mask: {
+    reportMask: {
       type: "integer",
       label: "Report Mask",
       description: "Reporting options for delivery status.",
@@ -100,12 +100,12 @@ export default {
   async run({ $ }) {
     const {
       sendsms,
-      report_mask,
+      reportMask,
       ...params
     } = this;
 
-    const totalMask = report_mask?.length
-      ? report_mask.reduce((partialSum, a) => partialSum + a, 0)
+    const totalMask = reportMask?.length
+      ? reportMask.reduce((partialSum, a) => partialSum + a, 0)
       : null;
 
     const response = await sendsms.sendSms({
