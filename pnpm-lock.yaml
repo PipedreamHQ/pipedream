@@ -849,6 +849,9 @@ importers:
   components/bitport:
     specifiers: {}
 
+  components/bitquery:
+    specifiers: {}
+
   components/bitrix24:
     specifiers: {}
 
