@@ -1,5 +1,4 @@
 import sendsms from "../../sendsms.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "sendsms-check-blocklist",
@@ -9,23 +8,21 @@ export default {
   type: "action",
   props: {
     sendsms,
-    phoneNumberToCheck: {
-      propDefinition: [
-        sendsms,
-        "phoneNumberToCheck",
-      ],
+    phoneNumber: {
+      type: "integer",
+      label: "Phone Number to Check",
+      description: "The phone number to check in the blocklist, in E.164 format without the + sign (e.g., 40727363767).",
     },
   },
   async run({ $ }) {
     const response = await this.sendsms.checkBlocklist({
-      phoneNumberToCheck: this.phoneNumberToCheck,
+      $,
+      params: {
+        phonenumber: this.phoneNumber,
+      },
     });
 
-    const summaryMessage = response.status === 0
-      ? `The phone number ${this.phoneNumberToCheck} is not in the blocklist`
-      : `The phone number ${this.phoneNumberToCheck} is in the blocklist`;
-
-    $.export("$summary", summaryMessage);
+    $.export("$summary", `The phone number ${this.phoneNumber} is ${response.message}`);
     return response;
   },
 };
