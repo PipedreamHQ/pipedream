@@ -2128,6 +2128,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/docker_hub:
+    specifiers: {}
+
   components/docmosis:
     specifiers: {}
 
