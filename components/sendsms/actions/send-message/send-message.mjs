@@ -113,7 +113,8 @@ export default {
     }
 
     if (response.status < 0) {
-      $.export("$summary", `There has been an error: '${response.message}'`);
+      console.error(response);
+      throw new Error(response.message);
     }
 
     return response;
