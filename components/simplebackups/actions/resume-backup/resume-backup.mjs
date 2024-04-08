@@ -1,42 +1,31 @@
-import { axios } from "@pipedream/platform";
+import app from "../../simplebackups.app.mjs";
 
 export default {
   name: "Resume Backup",
   version: "0.0.1",
   key: "simplebackups-resume-backup",
-  description: "Resume a backup schedule given its ID. [See the documentation](https://simplebackups.docs.apiary.io/#/reference/backups/resume-backup)",
+  description:
+    "Resume a backup schedule given its ID. [See the documentation](https://simplebackups.docs.apiary.io/#/reference/backups/resume-backup)",
   props: {
-    token: {
-      type: "string",
-      label: "API Token",
-      description: "The API token for SimpleBackups.",
-      optional: false,
-    },
+    app,
     backupId: {
       type: "integer",
       label: "Backup ID",
       description: "The ID of the backup to get the download link for.",
-      optional: false,
     },
   },
   type: "action",
   methods: {},
   async run({ $ }) {
-    const endpoint = `/backup/${this.backupId}/resume`;
+    const { data } = await this.app.resumeBackup($, this.backupId);
 
-    const response = await axios($, {
-      url: `https://my.simplebackups.io/api${endpoint}`,
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "User-Agent": "@PipedreamHQ/pipedream v0.1",
-        "Authorization": `Bearer ${this.token}`,
-      },
-    });
+    $.export(
+      "$summary",
+      `Backup paused successfully. Backup ID: ${this.backupId}`,
+    );
 
-    console.log(response);
-
-    return response;
+    return {
+      data,
+    };
   },
 };
