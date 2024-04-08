@@ -115,13 +115,13 @@ export interface IApi {
 
 export interface IFile {
   delete(): Promise<void>;
-  createReadStream(): Promise<ReadableStream<any>>;
-  createWriteStream(contentType?: string, contentLength?: number): Promise<WritableStream<any>>;
+  createReadStream(): Promise<NodeJS.ReadableStream>;
+  createWriteStream(contentType?: string, contentLength?: number): Promise<NodeJS.WritableStream>;
   toEncodedString(encoding?: string, start?: number, end?: number): Promise<string>;
   toUrl(): Promise<string>;
   toFile(localFilePath: string): Promise<void>;
   toBuffer(): Promise<Buffer>;
-  fromReadableStream(readableStream: ReadableStream<any>, contentType?: string, contentSize?: number): Promise<IFile>;
+  fromReadableStream(readableStream: NodeJS.ReadableStream, contentType?: string, contentSize?: number): Promise<IFile>;
   fromFile(localFilePath: string, contentType?: string): Promise<IFile>;
   fromUrl(url: string, options?: any): Promise<IFile>;
   toJSON(): any;
