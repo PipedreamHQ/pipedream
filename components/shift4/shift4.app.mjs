@@ -124,6 +124,13 @@ export default {
         ...opts,
       });
     },
+    createToken(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/tokens",
+        ...opts,
+      });
+    },
     createCustomer(opts = {}) {
       return this._makeRequest({
         method: "POST",

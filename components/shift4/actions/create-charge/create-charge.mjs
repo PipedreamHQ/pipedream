@@ -72,13 +72,13 @@ export default {
     shipping: {
       type: "object",
       label: "Shipping",
-      description: "Shipping details.",
+      description: "Shipping details. **Sample object: {name: \"string\",address:{line1: \"string\",line2: \"string\",zip: \"string\",city: \"string\",state: \"string\",country: \"string\",phone: \"string\"}}**",
       optional: true,
     },
     billing: {
       type: "object",
       label: "Billing",
-      description: "Billing details.",
+      description: "Billing details. **Sample object: {name: \"string\",email: \"string\",address: {line1: \"string\",line2: \"string\",zip: \"string\",city: \"string\",state: \"string\",country: \"string\",}phone: \"string\",vat: \"string\"}**",
       optional: true,
     },
     threeDSecure: {
@@ -106,27 +106,31 @@ export default {
       throw new ConfigurationError("Either **CustomerId**, **Card** or **PaymentMethod** is required!");
     }
 
-    const response = await this.shift4.createCharge({
-      $,
-      data: {
-        amount: this.amount,
-        currency: this.currency,
-        type: this.type,
-        description: this.description,
-        customerId: this.customerId,
-        card: this.card && parseObject(this.card),
-        paymentMethod: this.paymentMethod && parseObject(this.paymentMethod),
-        flow: this.flow && parseObject(this.flow),
-        captured: this.captured,
-        shipping: this.shipping && parseObject(this.shipping),
-        billing: this.billing && parseObject(this.billing),
-        threeDSecure: this.threeDSecure && parseObject(this.threeDSecure),
-        merchantAccountId: this.merchantAccountId,
-        metadata: this.metadata && parseObject(this.metadata),
-      },
-    });
+    try {
+      const response = await this.shift4.createCharge({
+        $,
+        data: {
+          amount: this.amount,
+          currency: this.currency,
+          type: this.type,
+          description: this.description,
+          customerId: this.customerId,
+          card: this.card && parseObject(this.card),
+          paymentMethod: this.paymentMethod && parseObject(this.paymentMethod),
+          flow: this.flow && parseObject(this.flow),
+          captured: this.captured,
+          shipping: this.shipping && parseObject(this.shipping),
+          billing: this.billing && parseObject(this.billing),
+          threeDSecure: this.threeDSecure && parseObject(this.threeDSecure),
+          merchantAccountId: this.merchantAccountId,
+          metadata: this.metadata && parseObject(this.metadata),
+        },
+      });
 
-    $.export("$summary", `Successfully created charge with Id: ${response.id}`);
-    return response;
+      $.export("$summary", `Successfully created charge with Id: ${response.id}`);
+      return response;
+    } catch ({ message }) {
+      throw new ConfigurationError(JSON.parse(message).error.message);
+    }
   },
 };

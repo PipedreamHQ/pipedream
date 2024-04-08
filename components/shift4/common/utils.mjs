@@ -12,7 +12,11 @@ export const parseObject = (obj) => {
     });
   }
   if (typeof obj === "string") {
-    return JSON.parse(obj);
+    try {
+      return JSON.parse(obj);
+    } catch (e) {
+      return obj;
+    }
   }
   return obj;
 };
