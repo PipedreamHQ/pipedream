@@ -80,9 +80,6 @@ importers:
   components/__1msg:
     specifiers: {}
 
-  components/_46elks:
-    specifiers: {}
-
   components/_twocaptcha:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1059,7 +1056,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.1
     dependencies:
-      '@pipedream/platform': 1.6.1
+      '@pipedream/platform': 1.6.2
 
   components/bulkgate:
     specifiers:
@@ -7182,7 +7179,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.1
+      '@pipedream/platform': 1.6.2
 
   components/sendy:
     specifiers: {}
@@ -7254,7 +7251,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sevdesk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/seven:
     specifiers: {}
@@ -21045,15 +21045,6 @@ packages:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
 
-  /get-intrinsic/1.2.1:
-    resolution: {integrity: sha512-2DcsyfABl+gVHEfCOaTrWgyt+tb6MSEGmKq+kI5HwLbIYgjgmMcV8KQ41uaKz1xxUcn9tJtgFbQUEVcEbd0FYw==}
-    dependencies:
-      function-bind: 1.1.2
-      has: 1.0.3
-      has-proto: 1.0.1
-      has-symbols: 1.0.3
-    dev: false
-
   /get-intrinsic/1.2.4:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
     engines: {node: '>= 0.4'}
@@ -25794,6 +25785,7 @@ packages:
 
   /object-inspect/1.12.3:
     resolution: {integrity: sha512-geUvdk7c+eizMNUDkRpW1wJwgfOiOeHbxBR/hLXK1aT6zmVSO0jsQcs7fj6MGw89jC/cjGfLcNOrtMYtGqm81g==}
+    dev: true
 
   /object-inspect/1.13.1:
     resolution: {integrity: sha512-5qoj1RUiKOMsCCNLV1CBiPYE10sziTsnmNxkAI/rZhiD63CF7IqdFGC/XzjWjpSgLf0LxXX3bDFIh0E18f6UhQ==}
@@ -28188,9 +28180,9 @@ packages:
   /side-channel/1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
     dependencies:
-      call-bind: 1.0.2
-      get-intrinsic: 1.2.1
-      object-inspect: 1.12.3
+      call-bind: 1.0.7
+      get-intrinsic: 1.2.4
+      object-inspect: 1.13.1
     dev: false
 
   /side-channel/1.0.6:
