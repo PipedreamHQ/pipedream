@@ -1,26 +1,53 @@
-import sheetdb from "../../sheetdb.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../sheetdb.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "sheetdb-search-content",
-  name: "Search Content in Google Sheet",
+  name: "Search Content",
   description: "Search for content in a Google Sheet using the SheetDB API. [See the documentation](https://docs.sheetdb.io/sheetdb-api/search)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    sheetdb,
+    app,
     params: {
       propDefinition: [
-        sheetdb,
+        app,
         "params",
       ],
     },
   },
+  methods: {
+    searchContent(args = {}) {
+      return this.app._makeRequest({
+        path: "/search_or",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.sheetdb.searchContent({
-      params: this.params,
+    const {
+      searchContent,
+      params,
+    } = this;
+
+    const response = await searchContent({
+      $,
+      params: Object.entries(utils.parse(params))
+        .reduce((acc, [
+          key,
+          value,
+        ]) => ({
+          ...acc,
+          [key]: value,
+        }), {}),
     });
-    $.export("$summary", "Successfully searched content in Google Sheet");
+
+    if (!response.length) {
+      $.export("$summary", "No rows were found.");
+      return response;
+    }
+
+    $.export("$summary", `Successfully retrieved \`${response.length}\` row(s).`);
     return response;
   },
 };

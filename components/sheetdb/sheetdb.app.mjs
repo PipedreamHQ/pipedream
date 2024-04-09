@@ -7,89 +7,88 @@ export default {
     params: {
       type: "object",
       label: "Search Query",
-      description: "An object to specify the search query for finding content in a Google Sheet.",
+      description: "An object to specify the search query for finding content in a Google Sheet. The key is the column name and the value is the value to search for in that column. Eg. `{\"column1\": \"My Content\"}`.",
     },
     data: {
       type: "string[]",
       label: "Row Data",
-      description: "An array of strings representing the rows to create or update in a Google Sheet as JSON objects.",
+      description: "An array of strings representing the rows to create or update in a Google Sheet as JSON objects. The keys inside the object should be the column names, and the values will be filled in the spreadsheet. The rows will be added at the end of the sheet. Eg. `[ { \"column1\": \"My Content\" } ]`",
     },
     columnName: {
       type: "string",
       label: "Column Name",
-      description: "The name of the column to match for delete operations.",
+      description: "The name of the column.",
+      async options() {
+        const columns = await this.getKeys();
+        return columns.map((value) => value);
+      },
     },
     columnValue: {
       type: "string",
       label: "Column Value",
-      description: "The value of the column to match for delete operations.",
+      description: "The value of the column to match for update/delete operations.",
     },
   },
   methods: {
     _baseUrl() {
       return "https://sheetdb.io/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    getHeaders(headers) {
+      return {
+        ...headers,
+        // Authorization: `Bearer ${this.$auth.api_key}`,
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Basic ${btoa("jorge.c@gmail.com:@45oP8xC7^Ejry")}`,
+      };
+    },
+    async _makeRequest({
+      $ = this, path = "", headers, ...args
+    } = {}) {
+      try {
+        const response = await axios($, {
+          ...args,
+          debug: true,
+          url: `${this._baseUrl()}/${this.$auth.api_id}${path}`,
+          headers: this.getHeaders(headers),
+        });
 
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: `${this._baseUrl()}/${this.$auth.api_id}${path}`,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
-        data,
-        params,
-      });
+        return response;
+
+      } catch (error) {
+        const STAUS_ERROR_CODES = [
+          400,
+          404,
+        ];
+        if (STAUS_ERROR_CODES.includes(error.response?.status)) {
+          return error.response.data;
+        }
+        throw error;
+      }
     },
-    async getColumnNames() {
-      return this._makeRequest({
-        path: "/keys",
-      });
-    },
-    async searchContent(opts = {}) {
-      return this._makeRequest({
-        path: "/search",
-        params: opts.params,
-      });
-    },
-    async createRows(opts = {}) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "",
-        data: {
-          data: opts.data.map(JSON.parse),
-        },
+        ...args,
       });
     },
-    async updateRows(opts = {}) {
-      return this._makeRequest({
-        method: "PATCH",
-        path: "",
-        data: {
-          data: opts.data.map(JSON.parse),
-        },
-      });
-    },
-    async deleteRows(opts = {}) {
+    delete(args = {}) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/search?${opts.columnName}=${encodeURIComponent(opts.columnValue)}`,
+        ...args,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    patch(args = {}) {
+      return this._makeRequest({
+        method: "PATCH",
+        ...args,
+      });
+    },
+    getKeys(args = {}) {
+      return this._makeRequest({
+        path: "/keys",
+        ...args,
+      });
     },
   },
-  version: "0.0.{{ts}}",
 };

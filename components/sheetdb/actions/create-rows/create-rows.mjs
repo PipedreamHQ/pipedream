@@ -1,39 +1,45 @@
-import sheetdb from "../../sheetdb.app.mjs";
-import { axios } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
+import app from "../../sheetdb.app.mjs";
 
 export default {
   key: "sheetdb-create-rows",
-  name: "Create Rows in Google Sheet",
+  name: "Create Rows",
   description: "Create rows in a Google Sheet using the SheetDB API. [See the documentation](https://docs.sheetdb.io/sheetdb-api/create)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    sheetdb,
+    app,
     data: {
+      description: "An array of strings representing the rows to create in a Google Sheet as JSON objects. The keys inside the object should be the column names, and the values will be filled in the spreadsheet. The rows will be added at the end of the sheet. Eg. `[ { \"column1\": \"My Content\" } ]`",
       propDefinition: [
-        sheetdb,
+        app,
         "data",
       ],
-      type: "string[]",
-      label: "Row Data",
-      description: "An array of strings representing the rows to create in a Google Sheet as JSON objects.",
+    },
+  },
+  methods: {
+    createRows(args = {}) {
+      return this.app.post(args);
     },
   },
   async run({ $ }) {
-    let createdRowsCount = 0;
-    try {
-      const parsedData = this.data.map(JSON.parse);
-      const response = await this.sheetdb.createRows({
-        data: parsedData,
-      });
-      createdRowsCount = response.created;
-    } catch (error) {
-      throw new Error(`Error creating rows: ${error.message}`);
+    const {
+      createRows,
+      data,
+    } = this;
+
+    const response = await createRows({
+      $,
+      data: utils.parseArray(data),
+    });
+
+    if (response.error) {
+      $.export("$summary", "No rows were created.");
+      return response;
     }
 
-    $.export("$summary", `Successfully created ${createdRowsCount} row(s) in Google Sheet`);
-    return {
-      createdRowsCount,
-    };
+    $.export("$summary", `Successfully created \`${response.created}\` row(s).`);
+
+    return response;
   },
 };

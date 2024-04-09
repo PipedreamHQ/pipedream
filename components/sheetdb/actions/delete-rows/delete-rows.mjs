@@ -1,34 +1,55 @@
-import sheetdb from "../../sheetdb.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../sheetdb.app.mjs";
 
 export default {
   key: "sheetdb-delete-rows",
   name: "Delete Rows",
-  description: "Deletes the specified row(s) in a SheetDB sheet by matching a column name and value. [See the documentation](https://docs.sheetdb.io/sheetdb-api/delete)",
-  version: "0.0.{{ts}}",
+  description: "Deletes the specified row(s) in a SheetDB sheet by matching a column name and value. [See the documentation](https://docs.sheetdb.io/sheetdb-api/delete#delete-with-single-query)",
+  version: "0.0.1",
   type: "action",
   props: {
-    sheetdb,
+    app,
     columnName: {
       propDefinition: [
-        sheetdb,
+        app,
         "columnName",
       ],
     },
     columnValue: {
       propDefinition: [
-        sheetdb,
+        app,
         "columnValue",
       ],
     },
   },
+  methods: {
+    deleteRows({
+      columnName, columnValue, ...args
+    } = {}) {
+      return this.app.delete({
+        path: `/${columnName}/${encodeURIComponent(columnValue)}`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.sheetdb.deleteRows({
-      columnName: this.columnName,
-      columnValue: this.columnValue,
+    const {
+      deleteRows,
+      columnName,
+      columnValue,
+    } = this;
+
+    const response = await deleteRows({
+      $,
+      columnName,
+      columnValue,
     });
 
-    $.export("$summary", `Deleted rows where ${this.columnName} is ${this.columnValue}`);
+    if (response.error) {
+      $.export("$summary", "No rows were deleted.");
+      return response;
+    }
+
+    $.export("$summary", `Successfully deleted \`${response.deleted}\` row(s).`);
     return response;
   },
 };
