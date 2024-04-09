@@ -22,7 +22,7 @@ export default {
     },
     size: {
       label: "Size",
-      type: "string",
+      type: "integer",
       description: "The batch size or the maximum number of matched records to return for this query if they exist",
       default: 1,
       min: 1,
@@ -32,7 +32,7 @@ export default {
     datasets: {
       label: "Datasets",
       type: "string[]",
-      description: "Specifies which [dataset(s)](https://docs.peopledatalabs.com/docs/datasets the API should search against.",
+      description: "Specifies which [dataset(s)](https://docs.peopledatalabs.com/docs/datasets) the API should search against.",
       optional: true,
     },
     titlecase: {
