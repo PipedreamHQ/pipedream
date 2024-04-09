@@ -348,9 +348,10 @@ async function run() {
   }
 
   if (componentsDiffContents.length) {
-    let linuxCommand, macCommand = ''
+    let linuxCommand = ''
+    let macCommand = ''
 
-    for ({ dependencyFilePath, componentFilePath } of componentsDiffContents) {
+    for ({ componentFilePath } of componentsDiffContents) {
       try {
         const content = await readFile(componentFilePath, "utf-8")
         const currentVersion = getVersion(content)
@@ -366,11 +367,15 @@ async function run() {
     core.setFailed(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased.`)
     core.setFailed(`🚀 To fix the versions, in your terminal go to project root path and run the command below:`)
 
+    core.setOutput('#Linux Command', linuxCommand)
+    core.setOutput('#MacOs Command', macCommand)
+    
     console.log(`\n#Linux
 ${linuxCommand}
 
 #MacOS
-${macCommand}\n`)
+${macCommand}\n`
+    )
   }
 
 
