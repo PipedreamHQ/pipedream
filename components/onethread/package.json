@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/onethread",
+  "version": "0.0.1",
+  "description": "Pipedream Onethread Components",
+  "main": "onethread.app.mjs",
+  "keywords": [
+    "pipedream",
+    "onethread"
+  ],
+  "homepage": "https://pipedream.com/apps/onethread",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
