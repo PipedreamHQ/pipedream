@@ -5,7 +5,6 @@ on:
   pull_request:
     branches:
       - master
-      - autorev-fix-commands
     paths:
       - 'components/**'
 
