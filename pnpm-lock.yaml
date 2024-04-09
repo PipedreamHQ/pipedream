@@ -80,9 +80,6 @@ importers:
   components/__1msg:
     specifiers: {}
 
-  components/_46elks:
-    specifiers: {}
-
   components/_twocaptcha:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1059,7 +1056,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.6.1
     dependencies:
-      '@pipedream/platform': 1.6.1
+      '@pipedream/platform': 1.6.2
 
   components/bulkgate:
     specifiers:
