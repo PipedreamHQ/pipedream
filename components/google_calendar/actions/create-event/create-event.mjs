@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 export default {
   key: "google_calendar-create-event",
   name: "Create Event",
-  description: "Create an event to the Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#insert)",
-  version: "0.1.8",
+  description: "Create an event to the Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
+  version: "0.2.2",
   type: "action",
   props: {
     googleCalendar,
@@ -25,12 +25,18 @@ export default {
     ...createEventCommon.props({
       isUpdate: false,
     }),
+    colorId: {
+      propDefinition: [
+        googleCalendar,
+        "colorId",
+      ],
+    },
   },
   methods: {
     ...createEventCommon.methods,
   },
   async run({ $ }) {
-    const timeZone = this.getTimeZone(this.timeZone);
+    const timeZone = await this.getTimeZone(this.timeZone);
     const attendees = this.formatAttendees(this.attendees);
 
     const data = {
@@ -51,6 +57,7 @@ export default {
         }),
         recurrence: this.recurrence,
         attendees,
+        colorId: this.colorId,
       },
     };
 

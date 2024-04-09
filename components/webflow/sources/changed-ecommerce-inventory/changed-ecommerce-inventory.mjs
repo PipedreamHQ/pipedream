@@ -5,7 +5,7 @@ export default {
   key: "webflow-changed-ecommerce-inventory",
   name: "New Changed E-commerce Inventory",
   description: "Emit new event when an e-commerce inventory level changes. [See the docs here](https://developers.webflow.com/#item-inventory)",
-  version: "0.2.2",
+  version: "0.2.3",
   ...common,
   methods: {
     ...common.methods,

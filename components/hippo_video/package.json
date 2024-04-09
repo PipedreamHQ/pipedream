@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hippo_video",
+  "version": "0.0.1",
+  "description": "Pipedream Hippo Video Components",
+  "main": "hippo_video.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hippo_video"
+  ],
+  "homepage": "https://pipedream.com/apps/hippo_video",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

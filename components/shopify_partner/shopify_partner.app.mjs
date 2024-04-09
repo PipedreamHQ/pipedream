@@ -7,8 +7,9 @@ export default {
   propDefinitions: {
     appId: {
       type: "string",
-      description: "gid://partners/App/<your App ID here>",
+      description: "Open your app in the partner portal, and look at the URL to find its ID. If your URL is *https://partners.shopify.com/3027494/apps/51358007297/overview*, enter `51358007297` here.",
       label: "Shopify App ID",
+      reloadProps: true,
     },
     occurredAtMin: {
       type: "string",
@@ -73,7 +74,7 @@ export default {
       paginationDirection = "forward",
       recordsPerRun = 50,
     }) {
-      const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2023-04/graphql.json`;
+      const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2024-04/graphql.json`;
       const client = new GraphQLClient(endpoint, {
         headers: {
           "Content-Type": "application/json",
@@ -84,7 +85,7 @@ export default {
       // the key is unique to the source module, so we should always be getting the last message
       console.log("key", key);
       console.log("paginationDirection", paginationDirection);
-      const lastCursor = db.get(key);
+      const lastCursor = db?.get?.(key);
       const direction = paginationDirection === "forward"
         ? "before"
         : "after";

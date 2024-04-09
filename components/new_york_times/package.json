@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/new_york_times",
+  "version": "0.0.1",
+  "description": "Pipedream New York Times Components",
+  "main": "new_york_times.app.mjs",
+  "keywords": [
+    "pipedream",
+    "new_york_times"
+  ],
+  "homepage": "https://pipedream.com/apps/new_york_times",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

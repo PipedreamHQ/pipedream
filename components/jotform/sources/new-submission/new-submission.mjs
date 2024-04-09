@@ -5,47 +5,41 @@ export default {
   key: "jotform-new-submission",
   name: "New Submission (Instant)",
   description: "Emit new event when a form is submitted",
-  version: "0.1.2",
+  version: "0.1.5",
   type: "source",
   dedupe: "unique",
   props: {
     jotform,
     http: "$.interface.http",
+    teamId: {
+      propDefinition: [
+        jotform,
+        "teamId",
+      ],
+    },
     formId: {
       propDefinition: [
         jotform,
         "formId",
+        (c) => ({
+          teamId: c.teamId,
+          excludeDeleted: true,
+        }),
       ],
     },
-    encrypted: {
-      propDefinition: [
-        jotform,
-        "encrypted",
-      ],
-      reloadProps: true,
-    },
-  },
-  async additionalProps() {
-    const props = {};
-    if (this.encrypted) {
-      props.privateKey = jotform.propDefinitions.privateKey;
-    }
-    return props;
   },
   hooks: {
     async deploy() {
-      const { content: form } = await this.jotform.getForm(this.formId);
+      const { content: form } = await this.jotform.getForm(this.formId, this.teamId);
       const { content: submissions } = await this.jotform.getFormSubmissions({
         formId: this.formId,
+        teamId: this.teamId,
         params: {
           limit: 25,
           orderby: "created_at",
         },
       });
       for (let submission of submissions.reverse()) {
-        if (this.encrypted) {
-          submission = this.jotform.decryptSubmission(submission, this.privateKey);
-        }
         const meta = {
           id: submission.id,
           summary: form.title,
@@ -58,12 +52,14 @@ export default {
       return (await this.jotform.createHook({
         endpoint: this.http.endpoint,
         formId: this.formId,
+        teamId: this.teamId,
       }));
     },
     async deactivate() {
       return (await this.jotform.deleteHook({
         endpoint: this.http.endpoint,
         formId: this.formId,
+        teamId: this.teamId,
       }));
     },
   },
@@ -71,6 +67,7 @@ export default {
     const { body } = event;
     let { content: submission } = await this.jotform.getFormSubmission({
       submissionId: body.submissionID,
+      teamId: this.teamId,
     });
 
     // insert answers from the webhook event
@@ -81,10 +78,6 @@ export default {
       if (match && match[1]) {
         submission.answers[match[1]].answer = rawRequest[key];
       }
-    }
-
-    if (this.encrypted) {
-      submission = this.jotform.decryptSubmission(submission, this.privateKey);
     }
 
     this.$emit(submission, {

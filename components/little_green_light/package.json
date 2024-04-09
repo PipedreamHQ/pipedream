@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/little_green_light",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Little Green Light Components",
-  "main": "dist/app/little_green_light.app.mjs",
+  "main": "little_green_light.app.mjs",
   "keywords": [
     "pipedream",
     "little_green_light"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/little_green_light",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
+

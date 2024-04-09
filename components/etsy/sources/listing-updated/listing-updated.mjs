@@ -7,7 +7,7 @@ export default {
   name: "Listing Updated",
   description: "Emit new event when a listing is updated. [See the Documentation](https://developers.etsy.com/documentation/reference#operation/getListingsByShop)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,

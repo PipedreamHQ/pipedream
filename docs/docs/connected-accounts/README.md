@@ -10,7 +10,7 @@ Pipedream provides native integrations for [{{$site.themeConfig.PUBLIC_APPS}}+ A
 
 Pipedream handles OAuth for you, ensuring you always have a fresh access token to authorize requests, and [credentials are tightly-secured](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables).
 
-If you use an existing secrets store, or manage credentials in a database, you can also [pass those to Pipedream at runtime](/connected-accounts/runtime-auth/) instead of connecting accounts in the UI.
+If you use an existing secrets store, or manage credentials in a database, you can also [pass those to Pipedream at runtime](/connected-accounts/external-auth/) instead of connecting accounts in the UI.
 
 [[toc]]
 
@@ -244,9 +244,9 @@ Yes, see the section on [collaborating with others](#collaborating-with-others).
 
 You can access credentials for any connected account via API, letting you build services anywhere and use Pipedream to handle auth. See [the guide for accessing credentials via API](/connected-accounts/api/) for more details.
 
-## Passing credentials at runtime
+## Passing external credentials at runtime
 
-If you use a secrets store like [HashiCorp Vault](https://www.vaultproject.io/) or [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), store credentials in a database, or use a service like [Nango](https://www.nango.dev/) to manage auth, you can retrieve these secrets at runtime and pass them to any step. [See the full guide here](/connected-accounts/runtime-auth/).
+If you use a secrets store like [HashiCorp Vault](https://www.vaultproject.io/) or [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), store credentials in a database, or use a service like [Nango](https://www.nango.dev/) to manage auth, you can retrieve these secrets at runtime and pass them to any step. [See the full guide here](/connected-accounts/external-auth/).
 
 ## Account security
 

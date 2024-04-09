@@ -8,13 +8,16 @@ import {
   DOCS_LINK, MAX_RESULTS_PER_PAGE,
 } from "../../actions/list-user-tweets/list-user-tweets";
 import cacheUserId from "../common/cacheUserId";
+import {
+  getObjIncludes, getTweetIncludeIds,
+} from "../../common/addObjIncludes";
 
 export default defineSource({
   ...common,
   key: "twitter-new-tweet-posted-by-user",
   name: "New Tweet Posted by User",
   description: `Emit new event when the specified User posts a Tweet [See the documentation](${DOCS_LINK})`,
-  version: "2.0.7",
+  version: "2.1.0",
   type: "source",
   props: {
     ...common.props,
@@ -43,7 +46,10 @@ export default defineSource({
         userId,
       };
 
-      const { data } = await this.app.getUserTweets(params);
+      const {
+        data, includes,
+      } = await this.app.getUserTweets(params);
+      data.forEach((tweet) => tweet.includes = getObjIncludes(tweet, includes, getTweetIncludeIds));
       return data;
     },
   },

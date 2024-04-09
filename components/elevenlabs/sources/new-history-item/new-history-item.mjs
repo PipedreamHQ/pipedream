@@ -4,7 +4,7 @@ import elevenlabs from "../../elevenlabs.app.mjs";
 export default {
   key: "elevenlabs-new-history-item",
   name: "New History Item Created",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a new history item is created.",
   type: "source",
   dedupe: "unique",

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/optimoroute",
+  "version": "0.0.1",
+  "description": "Pipedream OptimoRoute Components",
+  "main": "optimoroute.app.mjs",
+  "keywords": [
+    "pipedream",
+    "optimoroute"
+  ],
+  "homepage": "https://pipedream.com/apps/optimoroute",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

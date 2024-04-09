@@ -9,7 +9,7 @@ export default {
       return this.$auth.oauth_access_token;
     },
     _apiUrl() {
-      return "https://api.awork.io/api/v1";
+      return "https://api.awork.com/api/v1";
     },
     async _makeRequest({
       $ = this, path, ...args

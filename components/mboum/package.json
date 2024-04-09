@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mboum",
+  "version": "0.0.1",
+  "description": "Pipedream Mboum Components",
+  "main": "mboum.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mboum"
+  ],
+  "homepage": "https://pipedream.com/apps/mboum",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

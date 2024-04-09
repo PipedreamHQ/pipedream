@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/passslot",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream PassSlot Components",
-  "main": "dist/app/passslot.app.mjs",
+  "main": "passslot.app.mjs",
   "keywords": [
     "pipedream",
     "passslot"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/passslot",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0",
+    "md5": "^2.3.0"
   }
 }

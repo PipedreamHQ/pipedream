@@ -27,9 +27,17 @@ export default {
       type: "string",
       label: "Table Name",
       description: "The name of the Snowflake table you want to run the query on",
-      async options() {
-        const options = await this.listTables();
-        return options.map((i) => i.name);
+      async options({
+        database, schema,
+      }) {
+        const options = await this.listTables({
+          database,
+          schema,
+        });
+        return options.map((i) => ({
+          value: `${database}.${schema}.${i.name}`,
+          label: i.name,
+        }));
       },
     },
     columns: {
@@ -81,7 +89,7 @@ export default {
 
       this.connection = snowflake.createConnection({
         ...this.$auth,
-        application: "PIPEDREAM_PIPEDEAM",
+        application: "PIPEDREAM_PIPEDREAM",
       });
       await promisify(this.connection.connect).bind(this.connection)();
       return this.connection;
@@ -99,8 +107,10 @@ export default {
       }
       return rows;
     },
-    async listTables() {
-      const sqlText = "SHOW TABLES";
+    async listTables({
+      database, schema,
+    }) {
+      let sqlText = `SHOW TABLES IN SCHEMA ${database}.${schema}`;
       return this.collectRows({
         sqlText,
       });

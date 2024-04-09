@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/omnivore",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Omnivore Components",
   "main": "omnivore.app.mjs",
   "keywords": [
@@ -10,7 +10,8 @@
   "homepage": "https://pipedream.com/apps/omnivore",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.5.1"
+    "@pipedream/platform": "^1.6.0",
+    "uuid": "^9.0.1"
   },
   "publishConfig": {
     "access": "public"

@@ -31,6 +31,56 @@ export default {
         };
       },
     },
+    userId: {
+      type: "integer",
+      label: "User ID",
+      description: "The ID of the user assigned to the ticket",
+      optional: true,
+      async options({ prevContext }) {
+        const {
+          data: users,
+          meta,
+        } = await this.listUsers({
+          params: {
+            cursor: prevContext.nextCursor,
+          },
+        });
+        return {
+          options: users.map((user) => ({
+            label: user.name,
+            value: user.id,
+          })),
+          context: {
+            nextCursor: meta.next_cursor,
+          },
+        };
+      },
+    },
+    ticketId: {
+      type: "integer",
+      label: "Ticket ID",
+      description: "The ID of a ticket to watch for new messages",
+      optional: true,
+      async options({ prevContext }) {
+        const {
+          data: tickets,
+          meta,
+        } = await this.listTickets({
+          params: {
+            cursor: prevContext.nextCursor,
+          },
+        });
+        return {
+          options: tickets.map((ticket) => ({
+            label: ticket.subject,
+            value: ticket.id,
+          })),
+          context: {
+            nextCursor: meta.next_cursor,
+          },
+        };
+      },
+    },
     address: {
       type: "string",
       label: "Address",
@@ -247,6 +297,12 @@ export default {
       return this._makeRequest({
         $,
         path: `tickets/${id}`,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
       });
     },
   },

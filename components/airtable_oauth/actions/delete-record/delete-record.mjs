@@ -5,7 +5,7 @@ export default {
   key: "airtable_oauth-delete-record",
   name: "Delete Record",
   description: "Delete a record from a table by record ID. [See the documentation](https://airtable.com/developers/web/api/delete-record)",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
@@ -34,7 +34,6 @@ export default {
         baseId,
         tableId,
         recordId,
-        $,
       });
     } catch (err) {
       this.airtable.throwFormattedError(err);

@@ -5,7 +5,7 @@ export default {
   name: "Create Request",
   description:
     "Creates a new customer request. [See the documentation](https://docs.atlassian.com/jira-servicedesk/REST/3.6.2/#servicedeskapi/request-createCustomerRequest)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     jiraServiceDesk,
@@ -41,7 +41,14 @@ export default {
       type: "string[]",
       label: "Request Participants",
       description:
-        "Not available to users who only have the Service Desk customer permission.",
+        "Not available to users who only have the Service Desk Customer permission or if the feature is turned off for customers..",
+      optional: true,
+    },
+    raiseOnBehalfOf: {
+      type: "string",
+      label: "Raise On Behalf Of",
+      description:
+        "Not available to users who only have the Service Desk Customer permission.",
       optional: true,
     },
   },
@@ -83,6 +90,7 @@ Field description: "${field.description}"`
       serviceDeskId,
       requestTypeId,
       requestParticipants,
+      raiseOnBehalfOf,
       ...requestFieldValues
     } = this;
 
@@ -107,6 +115,7 @@ Field description: "${field.description}"`
         requestTypeId,
         requestFieldValues,
         requestParticipants,
+        raiseOnBehalfOf,
       },
     });
     $.export("$summary", "Successfully created request");

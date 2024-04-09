@@ -6,7 +6,7 @@ export default {
   key: "google_contacts-contact-group-created",
   name: "New Contact Group Created",
   description: "Emit new event when a new contact group is created. [See the documentation](https://developers.google.com/people/api/rest/v1/contactGroups/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

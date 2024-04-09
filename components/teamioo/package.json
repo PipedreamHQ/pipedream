@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/teamioo",
+  "version": "0.1.0",
+  "description": "Pipedream Teamioo Components",
+  "main": "teamioo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "teamioo"
+  ],
+  "homepage": "https://pipedream.com/apps/teamioo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

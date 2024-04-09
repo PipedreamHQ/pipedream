@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/interzoid",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Interzoid Components",
-  "main": "dist/app/interzoid.app.mjs",
+  "main": "interzoid.app.mjs",
   "keywords": [
     "pipedream",
     "interzoid"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/interzoid",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
   }
 }

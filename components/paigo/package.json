@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/paigo",
+  "version": "0.1.0",
+  "description": "Pipedream Paigo Components",
+  "main": "paigo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "paigo"
+  ],
+  "homepage": "https://pipedream.com/apps/paigo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

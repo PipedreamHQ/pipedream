@@ -6,7 +6,7 @@ export default {
   name: "Get Article",
   description: "Get a single article and its content. [See the documentation](https://github.com/omnivore-app/omnivore/blob/main/packages/api/src/schema.ts#L2659)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     username: {

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/dux_soup",
+  "version": "0.1.0",
+  "description": "Pipedream Dux Soup Components",
+  "main": "dux_soup.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dux_soup"
+  ],
+  "homepage": "https://pipedream.com/apps/dux_soup",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0",
+    "jssha": "^3.3.1"
+  }
+}

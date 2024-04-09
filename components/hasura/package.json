@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hasura",
+  "version": "0.0.1",
+  "description": "Pipedream Hasura Components",
+  "main": "hasura.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hasura"
+  ],
+  "homepage": "https://pipedream.com/apps/hasura",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

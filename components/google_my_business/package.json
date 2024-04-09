@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_my_business",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Google My Business Components",
   "main": "dist/app/google_my_business.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.5.1",
+    "@pipedream/platform": "^1.6.0",
     "@pipedream/types": "^0.1.6"
   }
 }

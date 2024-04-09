@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sendy",
+  "version": "0.0.1",
+  "description": "Pipedream Sendy Components",
+  "main": "sendy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sendy"
+  ],
+  "homepage": "https://pipedream.com/apps/sendy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -95,6 +95,17 @@ function includesVersion(contents) {
   return contents.match(new RegExp(/version: "\d+\.\d+\.\d+"/g)) || contents.match(new RegExp(/"version": "\d+\.\d+\.\d+"/g));
 }
 
+function getVersion(contents) {
+  return includesVersion(contents)[0].match(/(\d+\.){2}\d+/)[0];
+}
+
+function increaseVersion(version) {
+  let versions = version.split('.')
+  ++versions[2]
+
+  return versions.join('.')
+}
+
 function getPackageJsonFilePath(filePaths) {
   if (Array.isArray(filePaths)) {
     const packages = new Set();
@@ -336,20 +347,47 @@ async function run() {
     componentsDiffContents = await checkVersionModification(componentsPendingForGitDiff, componentsThatDidNotModifyVersion);
   }
 
-  const totalErrors = componentsThatDidNotModifyVersion.length + componentsDiffContents.length;
+  if (componentsDiffContents.length) {
+    let linuxCommand = ''
+    let macCommand = ''
+
+    for ({ componentFilePath } of componentsDiffContents) {
+      try {
+        const content = await readFile(componentFilePath, "utf-8")
+        const currentVersion = getVersion(content)
+        const increasedVersion = increaseVersion(currentVersion)
+
+        linuxCommand += `${linuxCommand.length ? " && " : ""}sed -i 0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/} ${getComponentFilePath(componentFilePath)}`
+        macCommand += `${macCommand.length ? " && " : ""}sed -i '' 's/${currentVersion}/${increasedVersion}/' ${getComponentFilePath(componentFilePath)}`
+      } catch (error) {
+        console.error(`❌ Error checking component diff of ${getComponentFilePath(componentFilePath)}: ${error}`);
+      }
+    };
+
+    core.setFailed(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased.`)
+    core.setFailed(`🚀 To fix the versions, in your terminal go to project root path and run the command below:`)
+
+    console.log(`\n# Linux
+${linuxCommand}
+\n
+# MacOS
+${macCommand}\n`
+    )
+  }
+
+
+
+  const totalErrors = componentsThatDidNotModifyVersion.length;
   let counter = 1;
 
   componentsThatDidNotModifyVersion.forEach((filePath) => {
     console.log(`${counter++}) You need to change the version of ${filePath}.`);
   });
 
-  componentsDiffContents.forEach(({ dependencyFilePath, componentFilePath }) => {
-    console.log(`${counter++}) You need to change the version of ${getComponentFilePath(componentFilePath)} since dependency file ${getComponentFilePath(dependencyFilePath)} was modified.`);
-  });
-
   if (totalErrors) {
     core.setFailed(`You need to increment the version of ${totalErrors} component(s). Please see the output above and https://pipedream.com/docs/components/guidelines/#versioning for more information.`);
   }
+
 }
 
 run().catch(error => core.setFailed(error ?? error?.message));

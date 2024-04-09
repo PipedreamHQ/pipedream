@@ -3,8 +3,8 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-batch-create-or-update-contact",
   name: "Batch Create or Update Contact",
-  description: "Create or update a batch of contacts by its ID. [See the docs here](https://developers.hubspot.com/docs/api/crm/contacts)",
-  version: "0.0.4",
+  description: "Create or update a batch of contacts by its ID. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts)",
+  version: "0.0.5",
   type: "action",
   props: {
     hubspot,

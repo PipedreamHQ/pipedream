@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/mx_technologies",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream MX Technologies Components",
-  "main": "dist/app/mx_technologies.app.mjs",
+  "main": "mx_technologies.app.mjs",
   "keywords": [
     "pipedream",
     "mx_technologies"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/mx_technologies",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

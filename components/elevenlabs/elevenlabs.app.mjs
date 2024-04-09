@@ -121,6 +121,13 @@ export default {
         ...args,
       });
     },
+    addVoice(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "voices/add",
+        ...args,
+      });
+    },
     textToSpeech({
       voiceId, ...args
     }) {

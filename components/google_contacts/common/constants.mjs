@@ -35,6 +35,11 @@ export default {
     "emailAddresses",
     "phoneNumbers",
     "addresses",
+    "biographies",
+    "birthdays",
+    "calendarUrls",
+    "genders",
+    "urls",
   ],
   RESOURCE_NAME: "people/me",
   GROUP_FIELDS: [

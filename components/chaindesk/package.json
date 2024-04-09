@@ -1,16 +1,19 @@
 {
   "name": "@pipedream/chaindesk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Chaindesk Components",
-  "main": "dist/app/chaindesk.app.mjs",
+  "main": "chaindesk.app.mjs",
   "keywords": [
     "pipedream",
     "chaindesk"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/chaindesk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
+

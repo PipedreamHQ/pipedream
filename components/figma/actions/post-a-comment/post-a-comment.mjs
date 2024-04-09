@@ -1,19 +1,15 @@
-import figmaApp from "../../figma.app.mjs";
+import common from "../../common/common.mjs";
+const { figmaApp } = common.props;
 
 export default {
+  ...common,
   name: "Post a Comment",
   description: "Posts a comment to a file. [See the docs here](https://www.figma.com/developers/api#post-comments-endpoint)",
   key: "figma-post-a-comment",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
-    figmaApp,
-    teamId: {
-      propDefinition: [
-        figmaApp,
-        "teamId",
-      ],
-    },
+    ...common.props,
     projectId: {
       propDefinition: [
         figmaApp,

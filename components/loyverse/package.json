@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/loyverse",
+  "version": "0.1.0",
+  "description": "Pipedream Loyverse Components",
+  "main": "loyverse.app.mjs",
+  "keywords": [
+    "pipedream",
+    "loyverse"
+  ],
+  "homepage": "https://pipedream.com/apps/loyverse",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

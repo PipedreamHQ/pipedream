@@ -8,7 +8,7 @@ export default {
   key: "airtable_oauth-create-multiple-records",
   name: "Create Multiple Records",
   description: "Create one or more records in a table by passing an array of objects containing field names and values as key/value pairs. [See the documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
@@ -49,15 +49,14 @@ export default {
     const responses = [];
     for (const c of chunk(data, BATCH_SIZE)) {
       try {
-        const { records } = await this.airtable.createRecord({
+        const records = await this.airtable.createRecord({
           baseId,
           tableId,
-          data: {
+          data: c,
+          opts: {
             typecast: this.typecast,
             returnFieldsByFieldId: this.returnFieldsByFieldId,
-            records: c,
           },
-          $,
         });
         responses.push(...records);
       } catch (err) {

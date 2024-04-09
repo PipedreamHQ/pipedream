@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hr_partner",
+  "version": "0.0.1",
+  "description": "Pipedream HR Partner Components",
+  "main": "hr_partner.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hr_partner"
+  ],
+  "homepage": "https://pipedream.com/apps/hr_partner",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

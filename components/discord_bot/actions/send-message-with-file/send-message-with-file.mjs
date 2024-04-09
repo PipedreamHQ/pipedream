@@ -9,7 +9,7 @@ export default {
   key: "discord_bot-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file. [See the docs here](https://discord.com/developers/docs/reference#uploading-files)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     discord,

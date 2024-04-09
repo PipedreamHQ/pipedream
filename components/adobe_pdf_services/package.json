@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/adobe_pdf_services",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Adobe PDF Services Components",
   "main": "adobe_pdf_services.app.mjs",
   "keywords": [

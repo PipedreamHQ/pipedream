@@ -1,0 +1,21 @@
+export default {
+  "assigneeUserName": "admin",
+  "body": null,
+  "createdOn": "2024-03-27T19:28:30",
+  "ftsSnippetHtml": null,
+  "ftsTitleHtml": null,
+  "fullUrl": "https://docs.hedron.org.try.clickhelp.co/articles/project-sample-project/1",
+  "html": null,
+  "id": "1",
+  "indexKeywords": [],
+  "modifiedOn": "2024-03-27T19:28:30",
+  "ownerUserName": "admin",
+  "projectId": "project-sample-project",
+  "projectTitle": "Sample Project",
+  "projectUrl": "project-sample-project",
+  "smartLink": "https://docs.hedron.org.try.clickhelp.co/smart/project-sample-project/1",
+  "statusName": "Draft",
+  "title": "New Topic",
+  "tocNodeId": "9dd629e1-7083-4f16-a7e0-b9d3dd5ed759",
+  "url": "1"
+}

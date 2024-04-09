@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/google_meet",
+  "version": "0.1.0",
+  "description": "Pipedream Google Meet Components",
+  "main": "google_meet.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_meet"
+  ],
+  "homepage": "https://pipedream.com/apps/google_meet",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@googleapis/calendar": "^9.7.0",
+    "moment-timezone": "^0.5.45",
+    "uuid": "^9.0.1"
+  }
+}

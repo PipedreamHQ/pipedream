@@ -8,7 +8,7 @@ export default {
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.0.14",
+  version: "0.0.15",
   type: "source",
   dedupe: "unique",
   props: {
@@ -28,8 +28,14 @@ export default {
           parentType: "database",
         }),
       ],
-      description: "Only emit events when one or more of the selected properties has changed",
+      description: "Only emit events when one or more of the selected properties have changed",
       optional: true,
+    },
+    includeNewPages: {
+      type: "boolean",
+      label: "Include New Pages",
+      description: "Emit events when pages are created or updated. Set to `true` to include newly created pages. Set to `false` to only emit updated pages. Defaults to `false`.",
+      default: false,
     },
   },
   hooks: {
@@ -106,6 +112,10 @@ export default {
         if (!propertyChangeFound) {
           continue;
         }
+      }
+
+      if (!this.includeNewPages && page?.last_edited_time === page?.created_time) {
+        continue;
       }
 
       const meta = this.generateMeta(

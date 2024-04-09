@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "hubspot-new-company-property-change",
   name: "New Company Property Change",
-  description: "Emit new event when a specified property is provided or updated on a company. [See the docs here](https://developers.hubspot.com/docs/api/crm/companies)",
-  version: "0.0.4",
+  description: "Emit new event when a specified property is provided or updated on a company. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies)",
+  version: "0.0.6",
   dedupe: "unique",
   type: "source",
   props: {
@@ -16,12 +16,11 @@ export default {
       label: "Property",
       description: "The company property to watch for changes",
       async options() {
-        const { results: properties } = await this.hubspot.getProperties("companies");
+        const properties = await this.getWriteOnlyProperties("companies");
         return properties.map((property) => property.name);
       },
     },
   },
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(company) {
@@ -95,8 +94,9 @@ export default {
       );
     },
     async processResults(after, params) {
-      const { results: properties } = await this.hubspot.getProperties("companies");
+      const properties = await this.getWriteOnlyProperties("companies");
       const propertyNames = properties.map((property) => property.name);
+
       if (!propertyNames.includes(this.property)) {
         throw new Error(`Property "${this.property}" not supported for Companies. See Hubspot's default company properties documentation - https://knowledge.hubspot.com/companies/hubspot-crm-default-company-properties`);
       }
@@ -107,24 +107,12 @@ export default {
         return;
       }
 
-      const inputs = updatedCompanies.map(({ id }) => ({
-        id,
-      }));
-      // get companies w/ `propertiesWithHistory`
-      const { results } = await this.batchGetCompanies(inputs);
+      const results = await this.processChunks({
+        batchRequestFn: this.batchGetCompanies,
+        chunks: this.getChunks(updatedCompanies),
+      });
 
-      let maxTs = after;
-      for (const result of results) {
-        if (this.isRelevant(result, after)) {
-          this.emitEvent(result);
-          const ts = this.getTs(result);
-          if (ts > maxTs) {
-            maxTs = ts;
-          }
-        }
-      }
-
-      this._setAfter(maxTs);
+      this.processEvents(results, after);
     },
   },
 };

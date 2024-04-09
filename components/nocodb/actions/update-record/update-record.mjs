@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "nocodb-update-record",
   name: "Update Record",
-  description: "This action updates a record in a table. [See the docs here](https://all-apis.nocodb.com/#tag/DB-table-row/operation/db-table-row-update)",
-  version: "0.0.2",
+  description: "This action updates a record in a table. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-update)",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -13,6 +13,9 @@ export default {
       propDefinition: [
         common.props.nocodb,
         "rowId",
+        (c) => ({
+          tableId: c.tableId.value,
+        }),
       ],
     },
     data: {
@@ -23,22 +26,21 @@ export default {
     },
   },
   methods: {
-    async processEvent() {
-      const {
-        projectId,
-        tableName,
-        rowId,
-        data,
-      } = this;
+    async processEvent($) {
+      const data = typeof this.data === "string"
+        ? JSON.parse(this.data)
+        : this.data;
       return this.nocodb.updateTableRow({
-        projectId,
-        tableName: tableName.value,
-        rowId,
-        data,
+        tableId: this.tableId.value,
+        data: {
+          Id: this.rowId,
+          ...data,
+        },
+        $,
       });
     },
     getSummary() {
-      return `Successfully updated row in ${this.tableName.label} table`;
+      return `Successfully updated row in ${this.tableId.label} table`;
     },
   },
 };

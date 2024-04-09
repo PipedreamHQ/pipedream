@@ -29,6 +29,9 @@ export default {
     _setLastId(lastId) {
       this.db.set("lastId", lastId);
     },
+    filterRelevantItems(items, lastId) {
+      return items.filter((item) => item.Id > lastId);
+    },
     async startEvent(maxResults) {
       const {
         bloomGrowth,
@@ -41,7 +44,7 @@ export default {
         meetingId,
       });
 
-      items = items.filter((item) => item.Id > lastId).slice(-maxResults);
+      items = (this.filterRelevantItems(items, lastId)).slice(-maxResults);
       if (items.length) this._setLastId(items[items.length - 1].Id);
 
       for (const item of items.reverse()) {

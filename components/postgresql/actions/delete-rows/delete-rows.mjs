@@ -4,23 +4,14 @@ export default {
   name: "Delete Row(s)",
   key: "postgresql-delete-rows",
   description: "Deletes a row or rows from a table. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.10",
+  version: "2.0.1",
   type: "action",
   props: {
     postgresql,
-    rejectUnauthorized: {
-      propDefinition: [
-        postgresql,
-        "rejectUnauthorized",
-      ],
-    },
     schema: {
       propDefinition: [
         postgresql,
         "schema",
-        (c) => ({
-          rejectUnauthorized: c.rejectUnauthorized,
-        }),
       ],
     },
     table: {
@@ -29,7 +20,6 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -40,7 +30,6 @@ export default {
         (c) => ({
           table: c.table,
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
       label: "Lookup Column",
@@ -54,7 +43,6 @@ export default {
           table: c.table,
           column: c.column,
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -65,7 +53,6 @@ export default {
       schema,
       column,
       value,
-      rejectUnauthorized,
     } = this;
 
     try {
@@ -74,7 +61,6 @@ export default {
         table,
         column,
         value,
-        rejectUnauthorized,
       );
       $.export("$summary", `Deleted ${rows.length} rows from ${table}`);
       return rows;

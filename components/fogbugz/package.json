@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/fogbugz",
+  "version": "0.1.0",
+  "description": "Pipedream FogBugz Components",
+  "main": "fogbugz.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fogbugz"
+  ],
+  "homepage": "https://pipedream.com/apps/fogbugz",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

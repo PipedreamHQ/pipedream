@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/youtube_data_api_custom_app",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pipedream Youtube Custom App Components",
   "main": "youtube_data_api_custom_app.app.mjs",
   "keywords": [
