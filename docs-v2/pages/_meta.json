@@ -23,12 +23,15 @@
   "sources": "Sources",
   "event-history": "Event History",
   "http": "HTTP",
-  "apps": "Integrations",
-  "rest-api": "API Reference",
-  "cli": "CLI",
   "environment-variables": {
     "title": "Environment Variables"
   },
+  "databases": {
+    "title": "Databases"
+  },
+  "apps": "Integrations",
+  "rest-api": "API Reference",
+  "cli": "CLI",
   "destinations": "Destinations",
   "user-settings": "User and Billing Settings",
   "troubleshooting": "Troubleshooting",
