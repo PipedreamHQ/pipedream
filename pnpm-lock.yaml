@@ -5837,6 +5837,12 @@ importers:
   components/pendo:
     specifiers: {}
 
+  components/people_data_labs:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
+
   components/perry_github_test:
     specifiers: {}
 
