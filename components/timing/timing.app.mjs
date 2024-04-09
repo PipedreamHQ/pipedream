@@ -4,46 +4,46 @@ export default {
   type: "app",
   app: "timing",
   propDefinitions: {
-    userCredentials: {
-      type: "object",
-      label: "User Credentials",
-      description: "User credentials",
-      required: true,
-    },
-    timerInfo: {
-      type: "object",
-      label: "Timer Info",
-      description: "Information about the timer",
-      optional: true,
-    },
-    timeEntryInfo: {
-      type: "object",
-      label: "Time Entry Info",
-      description: "Information about the time entry",
-      optional: true,
-    },
-    projectId: {
+    project: {
       type: "string",
-      label: "Project ID",
-      description: "The ID of the project",
+      label: "Project",
+      description: "The project reference of the project. Example: `/projects/1`",
+      async options() {
+        const { data } = await this.listProjects();
+        return data?.map(({
+          self: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "The time entry's start date and time. Example: `2019-01-01T00:00:00+00:00`",
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description: "The time entry's end date and time. Example: `2019-01-01T01:00:00+00:00`",
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The time entry's title",
       optional: true,
     },
-    startTime: {
+    notes: {
       type: "string",
-      label: "Start Time",
-      description: "The start time for the time entry",
+      label: "Notes",
+      description: "The time entry's notes",
       optional: true,
     },
-    endTime: {
-      type: "string",
-      label: "End Time",
-      description: "The end time for the time entry",
-      optional: true,
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "Additional details for the time entry",
+    replaceExisting: {
+      type: "boolean",
+      label: "Replace Existing",
+      description: "If `true`, any existing time entries that overlap with the new time entry will be adjusted to avoid overlap, or deleted altogether. Defaults to `false`.",
       optional: true,
     },
   },
@@ -51,73 +51,53 @@ export default {
     _baseUrl() {
       return "https://web.timingapp.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.userCredentials.token}`,
-          "Content-Type": "application/json",
+          "Authorization": `Bearer ${this.$auth.api_key}`,
           "Accept": "application/json",
         },
       });
     },
-    async emitNewProjectEvent() {
-      this.$emit(this.userCredentials, {
-        summary: "New project created",
+    listProjects(opts = {}) {
+      return this._makeRequest({
+        path: "/projects",
+        ...opts,
       });
     },
-    async emitNewTimerEvent() {
-      this.$emit({
-        ...this.userCredentials,
-        ...this.timerInfo,
-      }, {
-        summary: "New timer started",
+    listTimeEntries(opts = {}) {
+      return this._makeRequest({
+        path: "/time-entries",
+        ...opts,
       });
     },
-    async emitNewTimeEntryEvent() {
-      this.$emit({
-        ...this.userCredentials,
-        ...this.timeEntryInfo,
-      }, {
-        summary: "New time entry created",
-      });
-    },
-    async startNewTimer() {
-      const response = await this._makeRequest({
+    startNewTimer(opts = {}) {
+      return this._makeRequest({
         method: "POST",
         path: "/time-entries/start",
+        ...opts,
       });
-      return response;
     },
-    async stopActiveTimer() {
-      const response = await this._makeRequest({
+    stopActiveTimer(opts = {}) {
+      return this._makeRequest({
         method: "PUT",
         path: "/time-entries/stop",
+        ...opts,
       });
-      return response;
     },
-    async createNewTimeEntry() {
-      const response = await this._makeRequest({
+    createNewTimeEntry(opts = {}) {
+      return this._makeRequest({
         method: "POST",
         path: "/time-entries",
-        data: {
-          project: this.projectId,
-          start_date: this.startTime,
-          end_date: this.endTime,
-          description: this.description,
-        },
+        ...opts,
       });
-      return response;
     },
   },
 };

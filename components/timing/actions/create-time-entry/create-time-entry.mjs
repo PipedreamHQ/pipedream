@@ -1,51 +1,63 @@
 import timing from "../../timing.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "timing-create-time-entry",
   name: "Create Time Entry",
-  description: "Generates a new time entry in Timing app",
-  version: "0.0.{{ts}}",
+  description: "Generates a new time entry in Timing app. [See the documentation](https://web.timingapp.com/docs/#time-entries-POSTapi-v1-time-entries)",
+  version: "0.0.1",
   type: "action",
   props: {
     timing,
-    projectId: {
+    project: {
       propDefinition: [
         timing,
-        "projectId",
+        "project",
       ],
-      required: true,
     },
-    startTime: {
+    startDate: {
       propDefinition: [
         timing,
-        "startTime",
+        "startDate",
       ],
-      required: true,
     },
-    endTime: {
+    endDate: {
       propDefinition: [
         timing,
-        "endTime",
+        "endDate",
       ],
-      required: true,
     },
-    description: {
+    title: {
       propDefinition: [
         timing,
-        "description",
+        "title",
       ],
-      optional: true,
+    },
+    notes: {
+      propDefinition: [
+        timing,
+        "notes",
+      ],
+    },
+    replaceExisting: {
+      propDefinition: [
+        timing,
+        "replaceExisting",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.timing.createNewTimeEntry({
-      projectId: this.projectId,
-      startTime: this.startTime,
-      endTime: this.endTime,
-      description: this.description,
+    const { data } = await this.timing.createNewTimeEntry({
+      $,
+      data: {
+        start_date: this.startDate,
+        end_date: this.endDate,
+        project: this.project,
+        title: this.title,
+        notes: this.notes,
+        replace_existing: this.replaceExisting,
+      },
     });
-    $.export("$summary", `Time entry for project ${this.projectId} created successfully`);
-    return response;
+    $.export("$summary", `Time entry ${data.self} created successfully`);
+    return data;
   },
 };

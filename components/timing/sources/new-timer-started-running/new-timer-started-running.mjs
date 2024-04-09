@@ -1,54 +1,43 @@
-import timing from "../../timing.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "timing-new-timer-started-running",
   name: "New Timer Started Running",
   description: "Emit new event each time a new timer is started",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    timing,
-    userCredentials: {
-      propDefinition: [
-        timing,
-        "userCredentials",
-      ],
-    },
-    timerInfo: {
-      propDefinition: [
-        timing,
-        "timerInfo",
-      ],
-    },
-    db: "$.service.db",
-  },
   methods: {
-    ...timing.methods,
-    _getTimer() {
-      return this.db.get("timer") || null;
+    ...common.methods,
+    _getLastStartedTs() {
+      return this.db.get("lastStartedTs") || 0;
     },
-    _setTimer(id) {
-      this.db.set("timer", id);
+    _setLastStartedTs(lastStartedTs) {
+      this.db.set("lastStartedTs", lastStartedTs);
+    },
+    generateMeta(timeEntry) {
+      const startTime = Date.parse(timeEntry.start_date);
+      return {
+        id: `${timeEntry.self}-${startTime}`,
+        summary: `Timer started: ${timeEntry.title || timeEntry.self}`,
+        ts: startTime,
+      };
     },
   },
   async run() {
-    const {
-      userCredentials, timerInfo,
-    } = this;
-    const newTimer = await this.timing.startNewTimer({
-      userCredentials,
-      timerInfo,
-    });
-    const currentTimer = this._getTimer();
-
-    if (currentTimer !== newTimer.self) {
-      this._setTimer(newTimer.self);
-      this.$emit(newTimer, {
-        id: newTimer.self,
-        summary: `New timer started: ${newTimer.self}`,
-        ts: Date.now(),
-      });
+    const lastStartedTs = this._getLastStartedTs();
+    let maxTs = lastStartedTs;
+    const timeEntries = await this.getPaginatedTimeEntries();
+    const newlyStarted = timeEntries
+      .filter(({ start_date: startDate }) => Date.parse(startDate) >= lastStartedTs);
+    for (const timeEntry of newlyStarted) {
+      maxTs = Math.max(Date.parse(timeEntry.start_date), maxTs);
+      const meta = this.generateMeta(timeEntry);
+      this.$emit(timeEntry, meta);
     }
+    this._setLastStartedTs(maxTs);
   },
+  sampleEmit,
 };
