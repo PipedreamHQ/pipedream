@@ -86,8 +86,8 @@ export default {
           source: this.source,
           buyer: this.medianListingPrice || this.averageListingPrice
             ? {
-              median_price: this.medianListingPrice,
-              average_price: this.averageListingPrice,
+              median_price: this.medianListingPrice && +this.medianListingPrice,
+              average_price: this.averageListingPrice && +this.averageListingPrice,
             }
             : undefined,
           is_buyer: this.isBuyerLead,
