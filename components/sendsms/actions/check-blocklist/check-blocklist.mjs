@@ -22,6 +22,10 @@ export default {
       },
     });
 
+    if (response.status < 0) {
+      throw new Error(response.message);
+    }
+
     $.export("$summary", `The phone number ${this.phoneNumber} is ${response.message}`);
     return response;
   },

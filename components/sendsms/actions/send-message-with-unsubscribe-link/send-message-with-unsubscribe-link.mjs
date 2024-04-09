@@ -116,15 +116,11 @@ export default {
       },
     });
 
-    if (response.status == 1) {
-      $.export("$summary", `Successfully sent message to '${this.to}'`);
-    }
-
     if (response.status < 0) {
-      console.error(response);
       throw new Error(response.message);
     }
 
+    $.export("$summary", `Successfully sent message to '${this.to}'`);
     return response;
   },
 };
