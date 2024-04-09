@@ -9,92 +9,79 @@ export default {
   props: {
     sendsms,
     to: {
-      type: "string",
-      label: "To",
-      description: "The phone number to send the SMS to, in E.164 format without the + sign (e.g., 40727363767).",
+      propDefinition: [
+        sendsms,
+        "to",
+      ],
     },
     text: {
-      type: "string",
-      label: "Text",
-      description: "The text message to send.",
+      propDefinition: [
+        sendsms,
+        "text",
+      ],
     },
     from: {
-      type: "string",
-      label: "From",
-      description: "The sender ID that appears on the recipient's device.",
+      propDefinition: [
+        sendsms,
+        "from",
+      ],
       optional: true,
     },
     reportMask: {
-      type: "integer",
-      label: "Report Mask",
-      description: "Reporting options for delivery status.",
-      optional: true,
-      options: [
-        {
-          label: "Delivered",
-          value: 1,
-        },
-        {
-          label: "Undelivered",
-          value: 2,
-        },
-        {
-          label: "Queued at network",
-          value: 4,
-        },
-        {
-          label: "Sent to network",
-          value: 8,
-        },
-        {
-          label: "Failed at network",
-          value: 16,
-        },
+      propDefinition: [
+        sendsms,
+        "reportMask",
       ],
+      optional: true,
     },
     report_url: {
-      type: "string",
-      label: "Report URL",
-      description: "The URL to send delivery reports to.",
+      propDefinition: [
+        sendsms,
+        "report_url",
+      ],
       optional: true,
     },
     charset: {
-      type: "string",
-      label: "Charset",
-      description: "Character encoding for the text message.",
+      propDefinition: [
+        sendsms,
+        "charset",
+      ],
       optional: true,
-      default: "UTF-8",
     },
     data_coding: {
-      type: "string",
-      label: "Data Coding",
-      description: "The encoding scheme of the message text.",
+      propDefinition: [
+        sendsms,
+        "data_coding",
+      ],
       optional: true,
     },
     message_class: {
-      type: "string",
-      label: "Message Class",
-      description: "Class of the SMS message.",
+      propDefinition: [
+        sendsms,
+        "message_class",
+      ],
       optional: true,
     },
     auto_detect_encoding: {
-      type: "integer",
-      label: "Auto Detect Encoding",
-      description: "Automatically detect text encoding.",
+      propDefinition: [
+        sendsms,
+        "auto_detect_encoding",
+      ],
       optional: true,
     },
     short: {
-      type: "boolean",
-      label: "Short",
-      description: "Use short encoding if possible.",
+      propDefinition: [
+        sendsms,
+        "short",
+      ],
       optional: true,
     },
     ctype: {
-      type: "integer",
-      label: "CType",
-      description: "Type of the content.",
+      propDefinition: [
+        sendsms,
+        "ctype",
+      ],
       optional: true,
-      default: 1,
     },
   },
   async run({ $ }) {
