@@ -35,15 +35,29 @@ export default {
       description: "Specifies which [dataset(s)](https://docs.peopledatalabs.com/docs/datasets the API should search against.",
       optional: true,
     },
+    titlecase: {
+      type: "boolean",
+      label: "Title Case",
+      description: "By default, all text in the response data returns as lowercase. Setting to `true` will titlecase any records returned.",
+      optional: true,
+    },
+    pretty: {
+      propDefinition: [
+        app,
+        "pretty",
+      ],
+    },
   },
   async run({ $ }) {
+    const {
+      app, query, queryType, ...data
+    } = this;
     const params = {
-      [this.queryType]: this.query,
-      size: this.size,
-      datasets: this.datasets,
+      [queryType]: query,
+      ...data,
     };
 
-    const res = await this.app.searchPeople(params);
+    const res = await app.searchPeople(params);
     $.export(`Found ${res.data.length} records`);
     return res;
   },
