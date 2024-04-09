@@ -1,9 +1,14 @@
+import timing from "../../timing.app.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
-  type: "app",
-  app: "timing",
-  propDefinitions: {
+  key: "timing-start-timer",
+  name: "Start Timer",
+  description: "Starts a new ongoing timer as per the current timestamp. No props required.",
+  version: "0.0.{{ts}}",
+  type: "action",
+  props: {
+    timing,
     userCredentials: {
       type: "object",
       label: "User Credentials",
@@ -119,5 +124,10 @@ export default {
       });
       return response;
     },
+  },
+  async run({ $ }) {
+    const response = await this.timing.startNewTimer();
+    $.export("$summary", "Successfully started new timer");
+    return response;
   },
 };
