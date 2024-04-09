@@ -367,13 +367,10 @@ async function run() {
     core.setFailed(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased.`)
     core.setFailed(`🚀 To fix the versions, in your terminal go to project root path and run the command below:`)
 
-    core.setOutput('#Linux Command', linuxCommand)
-    core.setOutput('#MacOs Command', macCommand)
-    
-    console.log(`\n#Linux
+    console.log(`\n# Linux
 ${linuxCommand}
-
-#MacOS
+\n
+# MacOS
 ${macCommand}\n`
     )
   }
