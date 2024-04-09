@@ -458,7 +458,12 @@ importers:
     specifiers: {}
 
   components/api4ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.2
+      form-data: 4.0.0
 
   components/api_bible:
     specifiers: {}
@@ -849,6 +854,9 @@ importers:
   components/bitport:
     specifiers: {}
 
+  components/bitquery:
+    specifiers: {}
+
   components/bitrix24:
     specifiers: {}
 
@@ -1045,7 +1053,10 @@ importers:
     specifiers: {}
 
   components/builtwith:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.1
+    dependencies:
+      '@pipedream/platform': 1.6.1
 
   components/bulkgate:
     specifiers:
@@ -1516,7 +1527,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/codacy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/code_climate:
     specifiers: {}
@@ -1647,6 +1661,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
+
+  components/contact_enhance:
+    specifiers: {}
 
   components/content_snare:
     specifiers:
@@ -2130,6 +2147,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/docker_hub:
+    specifiers: {}
 
   components/docmosis:
     specifiers: {}
@@ -2740,6 +2760,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/fireflies:
+    specifiers: {}
+
   components/firmalyzer_iotvas:
     specifiers: {}
 
@@ -3086,6 +3109,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
       uuid: 8.3.2
+
+  components/gitlab_developer_app:
+    specifiers: {}
 
   components/givebutter:
     specifiers: {}
@@ -3486,6 +3512,9 @@ importers:
   components/grist:
     specifiers: {}
 
+  components/groovehq:
+    specifiers: {}
+
   components/groundhogg:
     specifiers: {}
 
@@ -3563,6 +3592,9 @@ importers:
       moment: 2.29.4
 
   components/hashnode:
+    specifiers: {}
+
+  components/hasura:
     specifiers: {}
 
   components/heartbeat:
@@ -5263,6 +5295,9 @@ importers:
   components/newsman:
     specifiers: {}
 
+  components/nextcloud:
+    specifiers: {}
+
   components/nextdns:
     specifiers: {}
 
@@ -5502,6 +5537,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/onethread:
+    specifiers: {}
 
   components/oneuptime:
     specifiers: {}
@@ -7144,7 +7182,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.2
+      '@pipedream/platform': 1.6.1
 
   components/sendy:
     specifiers: {}
@@ -7867,6 +7905,9 @@ importers:
   components/suitedash:
     specifiers: {}
 
+  components/sumup:
+    specifiers: {}
+
   components/supabase:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -8298,6 +8339,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/timing:
+    specifiers: {}
 
   components/tisane_labs:
     specifiers:

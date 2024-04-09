@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nextcloud",
+  "version": "0.0.1",
+  "description": "Pipedream Nextcloud Components",
+  "main": "nextcloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nextcloud"
+  ],
+  "homepage": "https://pipedream.com/apps/nextcloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
