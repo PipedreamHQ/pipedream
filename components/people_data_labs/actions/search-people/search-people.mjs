@@ -57,8 +57,13 @@ export default {
       ...data,
     };
 
-    const res = await app.searchPeople(params);
-    $.export(`Found ${res.data.length} records`);
+    const res = await app.searchPeople({
+      $,
+      params,
+    });
+    $.export(res?.status === 200
+      ? `Found ${res?.data?.length} records`
+      : "No records found");
     return res;
   },
 };
