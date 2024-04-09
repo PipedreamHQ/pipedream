@@ -1,0 +1,29 @@
+# Connecting to Databases
+_need an intro here_
+
+Every Pipedream workflow is deployed to its own virtual machine in AWS. This means your workflow runs in its own execution environment with dedicated RAM and disk space, isolated from other users' workflows.
+
+However, outbound traffic from your workflows uses the same network as other AWS services in the us-east-1 region. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
+
+## Working with restricted databases
+When you need to connect to a database that restricts access to a specific set of IP addresses, you have a couple options:
+
+### Create a Virtual Private Cloud (VPC)
+- The most secure, recommended approach
+- VPCs give you a dedicated static IP for all the workflows within your workspace
+- Learn more about VPCs [here](/workflows/vpcs/)
+
+### Use Pipedream's SQL Proxy
+- The Pipedream SQL Proxy routes network requests via a static IP block
+- When you create a connected account with any of the [supported database apps](#supported-databases), steps using this account will route through the SQL Proxy, using the static IPs listed below.
+
+#### Supported Databases
+The SQL Proxy currently supports [MySQL](https://pipedream.com/apps/mysql), [PostgreSQL](https://pipedream.com/apps/postgresql), and [Snowflake](https://pipedream.com/apps/snowflake). Please let us know if you'd like to see support for other database types!
+
+#### Static IPs
+For database allow-listing, add the following IP block:
+```
+44.223.89.56/29
+```
+
+## Frequently Asked Questions
