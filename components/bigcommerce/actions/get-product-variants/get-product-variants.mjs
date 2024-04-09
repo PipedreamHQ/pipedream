@@ -5,7 +5,7 @@ export default {
   name: "Get Product Variants",
   description:
     "Get all product variants. [See the docs here](https://developer.bigcommerce.com/api-reference/02db3ddfc6be7-get-all-product-variants)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     bigcommerce,

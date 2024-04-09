@@ -1,6 +1,5 @@
 import pg from "pg";
 import format from "pg-format";
-
 import { sqlProxy } from "@pipedream/platform";
 
 export default {
@@ -28,8 +27,7 @@ export default {
       label: "Column",
       description: "The name of a column in the table to use for deduplication. Defaults to the table's primary key",
       async options({
-        table,
-        schema,
+        table, schema,
       }) {
         return this.getColumns(table, this.getNormalizedSchema(schema));
       },
@@ -50,10 +48,7 @@ export default {
       label: "Lookup Value",
       description: "Value to search for",
       async options({
-        table,
-        column,
-        prevContext,
-        schema,
+        table, column, prevContext, schema,
       }) {
         const limit = 20;
         const normalizedSchema = this.getNormalizedSchema(schema);
@@ -75,6 +70,32 @@ export default {
   },
   methods: {
     ...sqlProxy.methods,
+    getSslConfig() {
+      const {
+        ca,
+        key,
+        cert,
+        ssl_verification_mode: mode,
+      } = this.$auth;
+
+      const ssl = {
+        ...(ca && {
+          ca,
+        }),
+        ...(key && {
+          key,
+        }),
+        ...(cert && {
+          cert,
+        }),
+        rejectUnauthorized: mode !== "skip_verification",
+      };
+
+      return Object.keys(ssl).length > 0
+        ? ssl
+        : undefined;
+    },
+
     /**
      * A helper method to get the configuration object that's directly fed to
      * the PostgreSQL client constructor. Used by other features (like SQL
@@ -83,38 +104,36 @@ export default {
      */
     getClientConfiguration() {
       const {
-        user,
-        password,
-        host,
-        database,
-        port,
-        reject_unauthorized: rejectUnauthorized = true,
-      } = this.$auth;
+        getSslConfig,
+        $auth: auth,
+      } = this;
 
-      // See the node-postgres docs for more information:
-      // https://node-postgres.com/apis/client#new-client
-      return {
+      const {
+        host,
+        port,
         user,
         password,
-        host,
         database,
+      } = auth;
+
+      return {
+        host,
         port,
-        ssl: {
-          rejectUnauthorized,
-        },
+        user,
+        password,
+        database,
+        ssl: getSslConfig(),
       };
     },
     async getClient() {
-      const { Client } = pg;
       const config = this.getClientConfiguration();
-      const client = new Client(config);
+      const client = new pg.Client(config);
       try {
         await client.connect();
       } catch (err) {
         console.error("Connection error", err.stack);
         throw err;
       }
-
       return client;
     },
     async endClient(client) {
