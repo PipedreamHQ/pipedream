@@ -72,13 +72,13 @@ export default {
     shipping: {
       type: "object",
       label: "Shipping",
-      description: "Shipping details. **Sample object: {name: \"string\",address:{line1: \"string\",line2: \"string\",zip: \"string\",city: \"string\",state: \"string\",country: \"string\",phone: \"string\"}}**",
+      description: "Shipping details. Sample object: `{name: \"string\", address: {line1: \"string\", line2: \"string\", zip: \"string\", city: \"string\", state: \"string\", country: \"string\", phone: \"string\"}}`",
       optional: true,
     },
     billing: {
       type: "object",
       label: "Billing",
-      description: "Billing details. **Sample object: {name: \"string\",email: \"string\",address: {line1: \"string\",line2: \"string\",zip: \"string\",city: \"string\",state: \"string\",country: \"string\",}phone: \"string\",vat: \"string\"}**",
+      description: "Billing details. Sample object: `{name: \"string\", email: \"string\", address: {line1: \"string\", line2: \"string\", zip: \"string\", city: \"string\", state: \"string\", country: \"string\"}, phone: \"string\", vat: \"string\"}`",
       optional: true,
     },
     threeDSecure: {
