@@ -14,13 +14,26 @@ export default {
       type: "string",
       label: "Project ID",
       description: "The unique identifier of the project",
-      required: true,
+      async options() {
+        const response = await this.listProjects({});
+        const projectsIDs = response.projects;
+        return projectsIDs.map(({
+          token, title,
+        }) => ({
+          value: token,
+          label: title,
+        }));
+      },
     },
     runToken: {
       type: "string",
       label: "Run Token",
       description: "The token of the run to retrieve data for",
-      required: true,
+    },
+    startUrl: {
+      type: "string",
+      label: "Start URL",
+      description: "The url to start running on",
     },
   },
   methods: {
@@ -29,51 +42,50 @@ export default {
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        params,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
+        params: {
+          ...params,
+          api_key: `${this.$auth.api_key}`,
         },
       });
     },
-    async getProjectDetails({ projectId }) {
+    async getProjectDetails({
+      projectId, ...args
+    }) {
       return this._makeRequest({
         path: `/projects/${projectId}`,
-        params: {
-          api_key: this.$auth.api_key,
-        },
+        ...args,
       });
     },
-    async runProject({ projectId }) {
+    async runProject({
+      projectId, ...args
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/projects/${projectId}/run`,
-        data: {
-          api_key: this.$auth.api_key,
-        },
+        ...args,
       });
     },
-    async getRunData({ runToken }) {
+    async getRunData({
+      runToken, ...args
+    }) {
       return this._makeRequest({
         path: `/runs/${runToken}/data`,
-        params: {
-          api_key: this.$auth.api_key,
-        },
+        ...args,
       });
     },
-    async emitEvents({ projectName }) {
-      console.log(`New event emitted for project: ${projectName}`);
-      // Placeholder for event emission logic
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async listProjects(args = {}) {
+      return this._makeRequest({
+        path: "/projects",
+        ...args,
+      });
     },
   },
-  version: "0.0.{{ts}}",
 };
