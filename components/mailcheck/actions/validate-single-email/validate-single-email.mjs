@@ -1,10 +1,9 @@
 import mailcheck from "../../mailcheck.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "mailcheck-validate-single-email",
-  name: "Validate Single Email",
-  description: "Fetches deliverability data (trust rate) about a single email and enriches it with owner information, if possible.",
+  name: "Process Single Email",
+  description: "Process a single email synchronously. [See the documentation](https://app.mailcheck.co/docs?from=docs#post-/v1/singleEmail-check)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -17,19 +16,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const deliverabilityData = await this.mailcheck.fetchDeliverabilityData({
-      email: this.email,
-    });
-    const verificationData = await this.mailcheck.verifyEmail({
-      email: this.email,
+
+    const response = await this.mailcheck.verifyEmail({
+      $,
+      data: {
+        email: this.email,
+      },
     });
 
-    const result = {
-      deliverabilityData: deliverabilityData,
-      verificationData: verificationData,
-    };
-
-    $.export("$summary", `Fetched deliverability and verification data for ${this.email}`);
-    return result;
+    $.export("$summary", `Successfully fetched data for ${this.email}`);
+    return response;
   },
 };
