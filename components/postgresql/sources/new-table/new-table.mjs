@@ -5,7 +5,7 @@ export default {
   name: "New Table",
   key: "postgresql-new-table",
   description: "Emit new event when a new table is added to the database. [See Docs](https://node-postgres.com/features/queries)",
-  version: "2.0.1",
+  version: "2.0.2",
   type: "source",
   props: {
     ...common.props,
