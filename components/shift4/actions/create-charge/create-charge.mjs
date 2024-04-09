@@ -72,25 +72,19 @@ export default {
     shipping: {
       type: "object",
       label: "Shipping",
-      description: "Shipping details. Sample object: `{name: \"string\", address: {line1: \"string\", line2: \"string\", zip: \"string\", city: \"string\", state: \"string\", country: \"string\", phone: \"string\"}}`",
+      description: "Shipping details. Sample object: `{name: \"string\", address: {line1: \"string\", line2: \"string\", zip: \"string\", city: \"string\", state: \"string\", country: \"country represented as two-letter ISO country code\"}}`",
       optional: true,
     },
     billing: {
       type: "object",
       label: "Billing",
-      description: "Billing details. Sample object: `{name: \"string\", email: \"string\", address: {line1: \"string\", line2: \"string\", zip: \"string\", city: \"string\", state: \"string\", country: \"string\"}, phone: \"string\", vat: \"string\"}`",
+      description: "Billing details. Sample object: `{name: \"string\", email: \"string\", address: {line1: \"string\", line2: \"string\", zip: \"string\", city: \"string\", state: \"string\", country: \"country represented as two-letter ISO country code\"}, vat: \"string\"}`",
       optional: true,
     },
     threeDSecure: {
       type: "object",
       label: "3D Secure",
       description: "3D Secure options.",
-      optional: true,
-    },
-    merchantAccountId: {
-      type: "string",
-      label: "Merchant Account ID",
-      description: "Identifier of the merchant account that will be used to create this charge.",
       optional: true,
     },
     metadata: {
@@ -122,7 +116,6 @@ export default {
           shipping: this.shipping && parseObject(this.shipping),
           billing: this.billing && parseObject(this.billing),
           threeDSecure: this.threeDSecure && parseObject(this.threeDSecure),
-          merchantAccountId: this.merchantAccountId,
           metadata: this.metadata && parseObject(this.metadata),
         },
       });
