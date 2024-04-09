@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/groovehq",
+  "version": "0.0.1",
+  "description": "Pipedream GrooveHQ Components",
+  "main": "groovehq.app.mjs",
+  "keywords": [
+    "pipedream",
+    "groovehq"
+  ],
+  "homepage": "https://pipedream.com/apps/groovehq",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

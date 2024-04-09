@@ -4,7 +4,7 @@ export default {
   name: "Execute Custom Query",
   key: "postgresql-execute-custom-query",
   description: "Executes a custom query you provide. [See Docs](https://node-postgres.com/features/queries)",
-  version: "2.0.0",
+  version: "2.0.1",
   type: "action",
   props: {
     postgresql,
