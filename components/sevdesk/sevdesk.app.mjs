@@ -1,141 +1,203 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "sevdesk",
   propDefinitions: {
-    contactDetails: {
-      type: "object",
-      label: "Contact Details",
-      description: "Details of the contact that has been created",
-    },
-    orderDetails: {
-      type: "object",
-      label: "Order Details",
-      description: "Details of the order that has been created",
-    },
-    voucherDetails: {
-      type: "object",
-      label: "Voucher Details",
-      description: "Details of the voucher that has been created",
+    addressCountryId: {
+      type: "string",
+      label: "Address Country ID",
+      description: "Can be omitted as complete address is defined in address attribute.",
+      async options() {
+        const { objects } = await this.listCountries({
+          params: {
+            limit: 999,
+          },
+        });
+
+        return objects.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "The ID of the contact for the invoice",
-    },
-    orderId: {
-      type: "string",
-      label: "Order ID",
-      description: "The ID of the order for the invoice",
-    },
-    invoiceDate: {
-      type: "string",
-      label: "Invoice Date",
-      description: "The date of the invoice",
-      optional: true,
-    },
-    dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "The due date for the invoice",
-      optional: true,
-    },
-    discountAmount: {
-      type: "number",
-      label: "Discount Amount",
-      description: "The discount amount for the invoice",
-      optional: true,
-    },
-    invoiceItems: {
-      type: "string[]",
-      label: "Invoice Items",
-      description: "Items to be included in the invoice",
-      optional: true,
+      description: "The ID of the contact for the invoice.",
+      async options() {
+        const { objects } = await this.listContacts();
+
+        return objects.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     invoiceId: {
-      type: "string",
-      label: "Invoice ID",
-      description: "The ID of the invoice to cancel or send via email",
+      type: "integer",
+      label: "Invoice Id",
+      description: "ID of invoice to be manipulated.",
+      async options() {
+        const { objects } = await this.listInvoices();
+
+        return objects.filter((item) => item.status != 1000).map(({
+          id, header, invoiceNumber,
+        }) => ({
+          label: `${header || id} - ${invoiceNumber}`,
+          value: parseInt(id),
+        }));
+      },
     },
-    emailAddress: {
+    originId: {
       type: "string",
-      label: "Email Address",
-      description: "The email address to send the invoice to",
-      optional: true,
+      label: "Origin Id",
+      description: "The Id of the order.",
+      async options() {
+        const { objects } = await this.listOrders();
+
+        return objects.map(({
+          id: value, header, orderNumber,
+        }) => ({
+          label: `${header} - ${orderNumber}`,
+          value,
+        }));
+      },
     },
-    customMessage: {
+    paymentMethodId: {
       type: "string",
-      label: "Custom Message",
-      description: "A custom message for the invoice email",
-      optional: true,
+      label: "Payment Method Id",
+      description: "Payment method used for the invoice.",
+      async options() {
+        const { objects } = await this.listPaymentMethods();
+
+        return objects.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.sevdesk.de";
+      return "https://my.sevdesk.de/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `${this.$auth.api_token}`,
+        "Content-Type": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...otherOpts
+    }) {
       return axios($, {
-        method,
         url: this._baseUrl() + path,
-        data,
-        params,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
         ...otherOpts,
       });
     },
-    async createInvoice({
-      contactId, orderId, invoiceDate, dueDate, discountAmount, invoiceItems,
-    }) {
+    checkMe(opts = {}) {
+      return this._makeRequest({
+        path: "/SevUser",
+        ...opts,
+      });
+    },
+    createInvoice(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/Invoice",
-        data: {
-          contactId,
-          orderId,
-          invoiceDate,
-          dueDate,
-          discountAmount,
-          invoiceItems,
-          mapAll: true,
-          objectName: "Invoice",
-        },
+        ...opts,
       });
     },
-    async cancelInvoice({ invoiceId }) {
+    cancelInvoice({
+      invoiceId, ...opts
+    }) {
       return this._makeRequest({
-        method: "DELETE",
-        path: `/Invoice/${invoiceId}`,
+        method: "POST",
+        path: `/Invoice/${invoiceId}/cancelInvoice`,
+        ...opts,
       });
     },
-    async sendInvoice({
-      invoiceId, emailAddress, customMessage,
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/Contact",
+        ...opts,
+      });
+    },
+    listCountries(opts = {}) {
+      return this._makeRequest({
+        path: "/StaticCountry",
+        ...opts,
+      });
+    },
+    listInvoices(opts = {}) {
+      return this._makeRequest({
+        path: "/Invoice",
+        ...opts,
+      });
+    },
+    listOrders(opts = {}) {
+      return this._makeRequest({
+        path: "/Order",
+        ...opts,
+      });
+    },
+    listVouchers(opts = {}) {
+      return this._makeRequest({
+        path: "/Voucher",
+        ...opts,
+      });
+    },
+    listPaymentMethods(opts = {}) {
+      return this._makeRequest({
+        path: "/PaymentMethod",
+        ...opts,
+      });
+    },
+    sendInvoice({
+      invoiceId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/Invoice/${invoiceId}/sendViaEmail`,
-        data: {
-          toEmail: emailAddress,
-          subject: "Invoice",
-          text: customMessage || "Please find the attached invoice.",
-        },
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT *  page;
+        page++;
+
+        const { objects } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of objects) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = objects.length;
+
+      } while (hasMore);
     },
   },
 };

@@ -1,10 +1,10 @@
+import { ConfigurationError } from "@pipedream/platform";
 import sevdesk from "../../sevdesk.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "sevdesk-cancel-invoice",
   name: "Cancel Invoice",
-  description: "Cancels an existing invoice in sevDesk. [See the documentation](https://api.sevdesk.de/)",
+  description: "Cancels an existing invoice in sevDesk. [See the documentation](https://api.sevdesk.de/#tag/Invoice/operation/cancelInvoice)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -17,10 +17,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.sevdesk.cancelInvoice({
-      invoiceId: this.invoiceId,
-    });
-    $.export("$summary", `Successfully canceled invoice with ID ${this.invoiceId}`);
-    return response;
+    try {
+      const response = await this.sevdesk.cancelInvoice({
+        $,
+        invoiceId: this.invoiceId,
+      });
+      $.export("$summary", `Successfully canceled invoice with ID ${this.invoiceId}`);
+      return response;
+    } catch ({ message }) {
+      throw new ConfigurationError(JSON.parse(message).error.message);
+    }
   },
 };
