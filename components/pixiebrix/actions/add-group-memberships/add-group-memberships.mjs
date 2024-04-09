@@ -4,7 +4,7 @@ import app from "../../pixiebrix.app.mjs";
 export default {
   key: "pixiebrix-add-group-memberships",
   name: "Add Group Memberships",
-  description: "Adds user mamberships to a group in PixieBrix. [See the documentation](https://docs.pixiebrix.com/developer-api/team-management-apis#add-group-memberships)",
+  description: "Adds user memberships to a group in PixieBrix. [See the documentation](https://docs.pixiebrix.com/developer-api/team-management-apis#add-group-memberships)",
   version: "0.0.1",
   type: "action",
   props: {
