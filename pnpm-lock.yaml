@@ -5285,7 +5285,12 @@ importers:
     specifiers: {}
 
   components/new_york_times:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      moment: ^2.30.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
+      moment: 2.30.1
 
   components/newscatcher:
     specifiers: {}
@@ -30545,7 +30550,7 @@ packages:
   /woodpecker-api/1.1.0:
     resolution: {integrity: sha512-OLKMUEb1Fla1wq5JWM5G/RS+apcpAwq8oJVMRPDpG/9p/u+dbChtNVbqOnyEU3om8+WArvjQrGtMuKzxUS2paA==}
     dependencies:
-      moment: 2.29.4
+      moment: 2.30.1
       request: 2.88.2
       request-promise-any: 1.0.9_request@2.88.2
     dev: false
