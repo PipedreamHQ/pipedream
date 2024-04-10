@@ -30,6 +30,8 @@ Response data is available for both coded (Node.js, Python) and no-code steps wi
 
 ## Getting Started
 
+The HTTP / Webhook action is flexible. You can use it with your [Pipedream connected accounts](https://pipedream.com/docs/connected-accounts), import cURL commands, or manually define authentication headers with API keys stored in [Environment Variables](https://pipedream.com/docs/environment-variables).
+
 ### Connecting to an API with a Pipedream connected account
 
 We recommend choosing this approach to authenticate your HTTP requests. Pipedream will manage your connected accounts, even rotating OAuth tokens, and you can focus on implementing the payload details.
@@ -91,6 +93,16 @@ Then paste in the cURL command and click *Import*:
 This will configure the HTTP request to match the details of the cURL statement:
 
 ![The image is a screenshot of the Pipedream HTTP Request Configuration panel after importing a cURL command. It displays a filled-out form with a GET request set to the URL 'https://api.openai.com/v1/chat/completions'. The 'Auth' tab is highlighted, indicating that authentication has been configured. The 'Headers' tab shows '3' indicating multiple headers have been set, including 'Content-Type' with the value 'application/json'. The 'Body' tab is active, showing 'model' set to 'gpt-3.5-turbo' and 'messages' containing a JSON array with two objects, each specifying a 'role' and 'content', indicating the structure of the data to be sent with the request.](https://res.cloudinary.com/pipedreamin/image/upload/v1712767841/marketplace/apps/http/CleanShot_2024-04-10_at_12.50.29_ia5ago.png)
+
+Don't forget to inject your API keys into the headers. We recommend using [Environment Variables](https://pipedream.com/docs/environment-variables) to store your non-Pipedream managed account API keys.
+
+For example, storing your OpenAI API key as `OPEN_API_KEY` you can then reference it in the `Authorization` header like so:
+
+```
+{{ process.env["OPEN_API_KEY"] }}
+```
+
+Then your key will be injected into the request.
 
 ## Troubleshooting
 
