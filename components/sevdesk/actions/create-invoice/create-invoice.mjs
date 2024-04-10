@@ -95,7 +95,7 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "Please have a look in our [Types and status of invoices](https://api.sevdesk.de/#section/Types-and-status-of-invoices) to see what the different status codes mean.",
+      description: "Please have a look in Sevdesk's [Types and status of invoices](https://api.sevdesk.de/#section/Types-and-status-of-invoices) to see what the different status codes mean.",
       options: STATUS_OPTIONS,
     },
     smallSettlement: {
