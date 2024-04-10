@@ -1296,7 +1296,10 @@ importers:
     specifiers: {}
 
   components/cinc:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/circl_hash_lookup:
     specifiers: {}
