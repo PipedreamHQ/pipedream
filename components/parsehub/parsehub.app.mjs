@@ -4,12 +4,6 @@ export default {
   type: "app",
   app: "parsehub",
   propDefinitions: {
-    projectName: {
-      type: "string",
-      label: "Project Name",
-      description: "The name of the project to trigger a new run for",
-      required: true,
-    },
     projectId: {
       type: "string",
       label: "Project ID",
