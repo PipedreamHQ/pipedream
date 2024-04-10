@@ -8,4 +8,4 @@ The Algorand Developer Portal API allows you to interact with the Algorand block
 
 - **Transaction Alerting System**: Build a Pipedream workflow triggered by webhooks that listens for specific transaction events on the Algorand blockchain. When a transaction meets your criteria, send a Slack message to a designated channel using the Slack app on Pipedream, keeping your team immediately informed about high-priority transactions.
 
-- **Blockchain Analytics Dashboard**: Set up a workflow that periodically calls the Algorand Developer Portal API to retrieve recent block data. Process this data to extract insights and trends, then push t
+- **Blockchain Analytics Dashboard**: Set up a workflow that periodically calls the Algorand Developer Portal API to retrieve recent block data. Process this data to extract insights and trends, then push the results to a service like Datadog or a custom dashboard, enabling you to visualize blockchain operations and performance metrics over time.
