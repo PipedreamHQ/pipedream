@@ -1,18 +1,26 @@
 import sendy from "../../sendy.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "sendy-unsubscribe-email",
   name: "Unsubscribe Email",
-  description: "Removes a subscriber from a specified list.",
+  description: "Removes a subscriber from a specified list. [See the documentation](https://sendy.co/api?app_path=https://sendy.email/dev2#unsubscribe)",
   version: "0.0.1",
   type: "action",
   props: {
     sendy,
+    brandId: {
+      propDefinition: [
+        sendy,
+        "brandId",
+      ],
+    },
     listId: {
       propDefinition: [
         sendy,
         "listId",
+        ({ brandId }) => ({
+          brandId,
+        }),
       ],
     },
     email: {
@@ -24,10 +32,17 @@ export default {
   },
   async run({ $ }) {
     const response = await this.sendy.removeSubscriber({
-      listId: this.listId,
-      email: this.email,
+      $,
+      data: {
+        list: this.listId,
+        email: this.email,
+        boolean: true,
+      },
     });
-    $.export("$summary", `Successfully unsubscribed email: ${this.email} from list: ${this.listId}`);
+
+    $.export("$summary", response != 1
+      ? response
+      : `Successfully unsubscribed email: ${this.email} from list: ${this.listId}`);
     return response;
   },
 };
