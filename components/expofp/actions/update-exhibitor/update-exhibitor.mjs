@@ -6,7 +6,7 @@ export default {
   name: "Update Exhibitor",
   version: "0.0.3",
   key: "expofp-update-exhibitor",
-  description: "Updates an exhibitor. [See docs here](https://expofp.docs.apiary.io/#reference/0/update-exhibitor/update-exhibitor)",
+  description: "Updates an exhibitor. [See the documentation](https://expofp.docs.apiary.io/#reference/0/update-exhibitor/update-exhibitor)",
   type: "action",
   methods: {
     async updateExhibitor(args) {

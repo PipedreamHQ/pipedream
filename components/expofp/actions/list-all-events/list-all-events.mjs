@@ -5,7 +5,7 @@ export default {
   version: "0.0.2",
   key: "expofp-list-all-events",
   description:
-    "List all events. [See docs here](https://expofp.docs.apiary.io/#reference/0/list-all-events/list-all-events)",
+    "List all events. [See the documentation](https://expofp.docs.apiary.io/#reference/0/list-all-events/list-all-events)",
   type: "action",
   methods: {
     async listAllEvents(args) {

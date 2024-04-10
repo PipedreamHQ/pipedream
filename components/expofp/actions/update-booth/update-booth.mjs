@@ -4,7 +4,7 @@ export default {
   name: "Update Booth",
   version: "0.0.3",
   key: "expofp-update-booth",
-  description: "Updates a booth. [See docs here](https://expofp.docs.apiary.io/#reference/0/update-booth/update-booth)",
+  description: "Updates a booth. [See the documentation](https://expofp.docs.apiary.io/#reference/0/update-booth/update-booth)",
   type: "action",
   methods: {
     async updateBooth(args) {

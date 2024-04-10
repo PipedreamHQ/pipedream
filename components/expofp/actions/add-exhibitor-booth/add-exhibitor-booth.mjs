@@ -5,7 +5,7 @@ export default {
   version: "0.0.1",
   key: "expofp-add-exhibitor-booth",
   description:
-    "Adds an exhibitor booth. [See docs here](https://expofp.docs.apiary.io/#reference/0/add-exhibitor-booth/add-exhibitor-booth)",
+    "Adds an exhibitor booth. [See the documentation](https://expofp.docs.apiary.io/#reference/0/add-exhibitor-booth/add-exhibitor-booth)",
   type: "action",
   props: {
     expofp,
