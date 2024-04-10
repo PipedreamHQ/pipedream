@@ -77,7 +77,7 @@ export default {
     payDate: {
       type: "string",
       label: "Pay Date",
-      description: "Needs to be timestamp or dd.mm.yyyy.",
+      description: "Needs to be timestamp or `dd.mm.yyyy`.",
       optional: true,
     },
     deliveryDate: {
