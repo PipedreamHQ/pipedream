@@ -3,36 +3,30 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "onstrategy",
-  propDefinitions: {},
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.onstrategyapp.com";
+      return "https://api.onstrategyhq.com/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
+        params,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        url: `${this._baseUrl()}${path}`,
+        params: {
+          ...params,
+          key: `${this.$auth.api_key}`,
         },
       });
     },
-    async emitNewGoalEvent() {
+    listGoals(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/events/new_goal",
+        path: "/goals.json",
+        ...opts,
       });
     },
   },
