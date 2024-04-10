@@ -2,7 +2,7 @@
 
 The Algorand Developer Portal API allows you to interact with the Algorand blockchain, performing operations like checking account balances, creating transactions, and reading the current state of the blockchain. When used within Pipedream, you can automate workflows that respond to real-time events on the blockchain, integrate with other APIs for cross-platform actions, or analyze blockchain data to inform business decisions.
 
-## Algorand Developer Portal Workflows on Pipedream
+# Workflows
 
 - **Automated Asset Tracking**: Create a workflow that triggers on a schedule to fetch the balance and asset details for specified Algorand accounts. Use this data to update a Google Sheet, sending an email alert if certain assets exceed a threshold value, integrating with the Google Sheets and Gmail apps on Pipedream.
 
