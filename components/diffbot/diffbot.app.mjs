@@ -4,73 +4,81 @@ export default {
   type: "app",
   app: "diffbot",
   propDefinitions: {
-    webhookUrl: {
+    name: {
       type: "string",
-      label: "Webhook URL",
-      description: "The Webhook URL to notify when the crawl finishes",
+      label: "Entity Name",
+      description: "The name of the entity to enhance",
+      optional: true,
     },
-    organizationNameOrUrl: {
+    url: {
       type: "string",
-      label: "Organization Name or URL",
-      description: "The name or URL of the organization to find detailed information about",
+      label: "URL",
+      description: "URL to extract or enhance",
+      optional: true,
     },
-    personName: {
+    location: {
       type: "string",
-      label: "Person Name",
-      description: "The name of the person to search for and return collected information",
+      label: "Entity location",
+      description: "Location of the entity to enhance",
+      optional: true,
     },
-    websiteUrl: {
+    type: {
       type: "string",
-      label: "Website URL",
-      description: "The URL of the website to analyze and extract meaningful data from",
+      label: "Entity type",
+      description: "Diffbot entity type",
+      options: [
+        "person",
+        "organization",
+      ],
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    _baseUrl() {
-      return "https://api.diffbot.com";
+    _baseUrl(base) {
+      return `https://${base}.diffbot.com/v3`;
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        params,
+        base,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        url: this._baseUrl(base) + path,
+        params: {
+          ...params,
+          token: `${this.$auth.api_token}`,
         },
       });
     },
-    async emitCrawlbotCompletionEvent({ webhookUrl }) {
+    async enhanceEntity(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/v3/webhook",
-        data: {
-          eventType: "crawlbotCompletion",
-          webhookUrl,
-        },
+        method: "post",
+        base: "kg",
+        path: "/enhance",
+        ...args,
       });
     },
-    async findOrganization({ organizationNameOrUrl }) {
+    async extractPage(args = {}) {
       return this._makeRequest({
-        path: `/v3/organization?token=${this.$auth.oauth_access_token}&nameOrUrl=${encodeURIComponent(organizationNameOrUrl)}`,
+        base: "api",
+        path: "/analyze",
+        ...args,
       });
     },
-    async searchPerson({ personName }) {
+    async createProject(args = {}) {
       return this._makeRequest({
-        path: `/v3/person?token=${this.$auth.oauth_access_token}&name=${encodeURIComponent(personName)}`,
+        path: "/analyse",
+        ...args,
       });
     },
-    async analyzeWebsite({ websiteUrl }) {
+    async listAccounts(args = {}) {
       return this._makeRequest({
-        path: `/v3/analyze?token=${this.$auth.oauth_access_token}&url=${encodeURIComponent(websiteUrl)}`,
+        path: "/accounts",
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };
