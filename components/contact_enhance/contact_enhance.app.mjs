@@ -3,42 +3,34 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "contact_enhance",
-  propDefinitions: {
-    recordId: {
-      type: "string",
-      label: "Record ID",
-      description: "The unique identifier for the record in the Contact Enhance database",
-      required: true,
-    },
-  },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getHost() {
+      return "contactenhance-91b9c0ef8a71.herokuapp.com";
     },
-    _baseUrl() {
-      return "https://api.contactenhance.com";
+    getUrl(path) {
+      return `https://${this.getHost()}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Host": this.getHost(),
+        "Content-Type": "application/json",
+        "Authorization": this.$auth.api_key,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        ...args,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
       });
     },
-    async getRecord({ recordId }) {
+    post(args = {}) {
       return this._makeRequest({
-        path: `/records/${recordId}`,
+        method: "post",
+        ...args,
       });
     },
   },

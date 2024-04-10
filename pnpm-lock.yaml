@@ -1670,7 +1670,10 @@ importers:
       lodash: 4.17.21
 
   components/contact_enhance:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/content_snare:
     specifiers:
