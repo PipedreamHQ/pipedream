@@ -7922,7 +7922,10 @@ importers:
     specifiers: {}
 
   components/sumup:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/supabase:
     specifiers:
