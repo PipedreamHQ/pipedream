@@ -5,7 +5,7 @@ export default {
   key: "zamzar-start-job-from-file",
   name: "Start Job From File",
   description: "Starts a conversion job and upload a source file in a single request. [See the documentation](https://developers.zamzar.com/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

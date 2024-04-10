@@ -5,7 +5,7 @@ export default {
   name: "Chat With Document",
   description: "Chat with a document. [See the documentation](https://docs.askyourpdf.com/askyourpdf-docs/#3.-chat-endpoint)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     docId: {
