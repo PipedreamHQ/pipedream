@@ -5,7 +5,7 @@ export default {
   name: "Get Product By Id",
   description:
     "Get a specific product by id. [See the docs here](https://developer.bigcommerce.com/api-reference/6fe995bba597e-get-a-product)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     bigcommerce,

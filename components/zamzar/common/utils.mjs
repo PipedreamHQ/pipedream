@@ -9,7 +9,7 @@ function buildFormData(formData, data, parentKey) {
         buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
       });
 
-  } else if (data && constants.FILE_PROP_NAMES.some((prop) => prop.includes(parentKey))) {
+  } else if (data && constants.FILE_PROP_NAMES.some((prop) => parentKey.includes(prop))) {
     formData.append(parentKey, createReadStream(data));
 
   } else if (data) {

@@ -1,4 +1,5 @@
 import monday from "../../monday.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   props: {
@@ -15,6 +16,9 @@ export default {
       const columns = await this.monday.listColumns({
         boardId: +boardId,
       });
+      if (!columns) {
+        throw new ConfigurationError(`No columns found for board ${boardId}`);
+      }
       return columns.filter(({ id }) => id !== "name");
     },
     formatColumnValues(items) {
