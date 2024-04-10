@@ -43,7 +43,7 @@ export default {
       } = opts;
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         params: {
           ...params,
           api_key: `${this.$auth.api_key}`,
