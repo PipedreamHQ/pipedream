@@ -161,6 +161,7 @@ const methods = {
       }
 
       const shouldSkipItem = (
+        !value ||
         !this.isItemTypeRelevant(value) ||
         !this.isItemRelevant(value)
       );
@@ -272,6 +273,9 @@ async function run(event) {
       Received an HTTP call containing 'validationToken'.
       Validating webhook subscription and exiting...
     `);
+    this.http.respond({
+      status: 202,
+    });
     return;
   }
 
@@ -282,10 +286,10 @@ async function run(event) {
     return this._renewSubscription();
   }
 
-  // Every HTTP call made by a OneDrive webhook expects a '202 Accepted`
+  // Every HTTP call made by a OneDrive webhook expects a '200 Accepted`
   // response, and it should be done as soon as possible.
   this.http.respond({
-    status: 202,
+    status: 200,
   });
 
   // Using the last known Delta Link, we retrieve and process the items that
