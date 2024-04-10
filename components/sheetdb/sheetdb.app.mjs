@@ -36,10 +36,9 @@ export default {
     getHeaders(headers) {
       return {
         ...headers,
-        // Authorization: `Bearer ${this.$auth.api_key}`,
+        Authorization: `Bearer ${this.$auth.api_key}`,
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Basic ${btoa("jorge.c@gmail.com:@45oP8xC7^Ejry")}`,
       };
     },
     async _makeRequest({
