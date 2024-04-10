@@ -4784,10 +4784,10 @@ importers:
   components/mattermost:
     specifiers:
       '@pipedream/platform': ^1.6.0
-      '@pipedream/types': ^0.2.0
+      '@pipedream/types': ^0.3.0
     dependencies:
       '@pipedream/platform': 1.6.0
-      '@pipedream/types': 0.2.0
+      '@pipedream/types': 0.3.0
 
   components/mautic:
     specifiers:
@@ -14205,8 +14205,8 @@ packages:
     dependencies:
       typescript: 4.9.5
 
-  /@pipedream/types/0.2.0:
-    resolution: {integrity: sha512-n+yf9InY0pNqlcU7Ckn99Dp+LIWLyW6klh1jDTss9qEHF+Z6HlasXksU6y371o1c3qavaHtiDTmyU9TJTO99rw==}
+  /@pipedream/types/0.3.0:
+    resolution: {integrity: sha512-cG71shIBMVN9a7vCJxIiIuawwTV+brw4ZwS0QJs7cCFiQxNXQzMCUrN/Q4PjbXOzHvCuX8P3+qskYTsDQ6Uj+w==}
     dependencies:
       typescript: 5.3.3
     dev: false
