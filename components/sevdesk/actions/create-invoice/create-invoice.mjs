@@ -83,7 +83,7 @@ export default {
     deliveryDate: {
       type: "string",
       label: "Delivery Date",
-      description: "Timestamp. This can also be a date range if you also use the attribute deliveryDateUntil.",
+      description: "Timestamp. This can also be a date range if you also use `Delivery Date Until`.",
       optional: true,
     },
     deliveryDateUntil: {
