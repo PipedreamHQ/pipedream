@@ -50,7 +50,7 @@ export default {
         },
       });
     },
-    async getProjectDetails({
+    getProjectDetails({
       projectId, ...args
     }) {
       return this._makeRequest({
