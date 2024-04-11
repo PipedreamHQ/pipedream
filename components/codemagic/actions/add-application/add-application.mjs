@@ -1,7 +1,7 @@
 import app from "../../codemagic.app.mjs";
 
 export default {
-  key: "codemagic-create-application",
+  key: "codemagic-add-application",
   name: "Create Application",
   description: "Creates a new application codemagic. [See the documentation](https://docs.codemagic.io/rest-api/applications/#add-a-new-application)",
   version: "0.0.1",

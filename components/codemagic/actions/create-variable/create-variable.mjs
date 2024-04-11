@@ -1,7 +1,7 @@
 import app from "../../codemagic.app.mjs";
 
 export default {
-  key: "codemagic-create-variables",
+  key: "codemagic-create-variable",
   name: "Create Variable",
   description: "Create a variable in the specified workflow. [See the documentation](https://docs.codemagic.io/rest-api/applications/#add-new-variable)",
   version: "0.0.1",

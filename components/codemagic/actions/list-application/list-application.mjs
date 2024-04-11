@@ -1,7 +1,7 @@
 import app from "../../codemagic.app.mjs";
 
 export default {
-  key: "codemagic-list-applications",
+  key: "codemagic-list-application",
   name: "List Applications",
   description: "List applications in codemagic. [See the documentation](https://docs.codemagic.io/rest-api/applications/#retrieve-all-applications)",
   version: "0.0.1",
