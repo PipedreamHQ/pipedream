@@ -8,10 +8,10 @@ export default {
       type: "string",
       label: "Customer ID",
       description: "Select a customer or provide a custom customer ID.",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const { customers } = await this.listCustomers({
           params: {
-            page,
+            page: page + 1,
           },
         });
         return customers?.map?.(({
@@ -46,10 +46,10 @@ export default {
       type: "string",
       label: "Address ID",
       description: "Select an address or provide a custom address ID.",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const { addresses } = await this.listAddresses({
           params: {
-            page,
+            page: page + 1,
           },
         });
         return addresses?.map?.((item) => ({
@@ -59,6 +59,22 @@ export default {
           ].filter((i) => i).join(),
           value: item.id,
         }));
+      },
+    },
+    externalVariantId: {
+      type: "string",
+      label: "External Variant ID",
+      description: "The variant id as it appears in the external e-commerce platform.",
+      async options({ page = 0 }) {
+        const { products } = await this.listProducts({
+          params: {
+            page: page + 1,
+          },
+        });
+        return products?.flatMap(({ variants }) => variants?.map((item) => ({
+          label: item.title ?? item.sku,
+          value: item.external_variant_id,
+        }))).filter((i) => i) ?? [];
       },
     },
     discountId: {
@@ -137,6 +153,12 @@ export default {
     async listCustomers(args) {
       return this._makeRequest({
         url: "/customers",
+        ...args,
+      });
+    },
+    async listProducts(args) {
+      return this._makeRequest({
+        url: "/products",
         ...args,
       });
     },
