@@ -4650,7 +4650,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/mailcheck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/mailchimp:
     specifiers:
