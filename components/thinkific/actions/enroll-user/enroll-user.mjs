@@ -3,8 +3,8 @@ import thinkific from "../../thinkific.app.mjs";
 export default {
   key: "thinkific-enroll-user",
   name: "Enroll User",
-  description: "Enroll a user in a course or bundle. A user is either created or found on the Thinkific site for enrollment. [See the documentation](https://developers.thinkific.com/api/api-documentation/)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new Enrollment for specified student in specified course. [See the documentation](https://developers.thinkific.com/api/api-documentation/#/Enrollments/createEnrollment)",
+  version: "0.0.1",
   type: "action",
   props: {
     thinkific,
@@ -13,45 +13,23 @@ export default {
         thinkific,
         "userId",
       ],
-      optional: true,
     },
-    userEmail: {
+    courseId: {
       propDefinition: [
         thinkific,
-        "userEmail",
+        "courseId",
       ],
-      optional: true,
-    },
-    courseBundleIds: {
-      propDefinition: [
-        thinkific,
-        "courseBundleIds",
-      ],
-    },
-    userInfo: {
-      propDefinition: [
-        thinkific,
-        "userInfo",
-      ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    if (this.userId) {
-      // Update user if userInfo is provided
-      if (this.userInfo) {
-        await this.thinkific.updateUser(this.userId, this.userInfo);
-      }
-    } else if (this.userEmail) {
-      // Create user if userInfo is provided
-      if (this.userInfo) {
-        await this.thinkific.createUser(this.userInfo);
-      }
-    } else {
-      throw new Error("User ID or User Email must be provided.");
-    }
-    // Enroll user to courses or bundles
-    await this.thinkific.enrollUser(this.userId, this.userEmail, this.courseBundleIds);
-    $.export("$summary", `Successfully enrolled user ${this.userId || this.userEmail} to courses/bundles ${this.courseBundleIds.join(", ")}`);
+    const response = await this.thinkific.enrollUser({
+      $,
+      data: {
+        user_id: this.userId,
+        course_id: this.courseId,
+      },
+    });
+    $.export("$summary", `Successfully enrolled user ${this.userId} in course ${this.courseId}`);
+    return response;
   },
 };

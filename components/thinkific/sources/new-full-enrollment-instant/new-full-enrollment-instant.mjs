@@ -1,50 +1,22 @@
-import thinkific from "../../thinkific.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "thinkific-new-full-enrollment-instant",
-  name: "New Full Enrollment Instant",
-  description: "Emits an event when a user enrolls in your course. [See the documentation](https://developers.thinkific.com/api/api-documentation/)",
-  version: "0.0.{{ts}}",
+  name: "New Full Enrollment (Instant)",
+  description: "Emit new event when a user enrolls in your course.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    thinkific: {
-      type: "app",
-      app: "thinkific",
+  methods: {
+    ...common.methods,
+    getTopic() {
+      return "enrollment.created";
     },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: "$.service.db",
-  },
-  hooks: {
-    async activate() {
-      const webhookId = await this.thinkific.createWebhook("enrollment.completed", this.http.endpoint);
-      this.db.set("webhookId", webhookId);
-    },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      await this.thinkific.deleteWebhook(webhookId);
+    getSummary(event) {
+      return `New Enrollment in Course: ${event.payload.course.name}`;
     },
   },
-  async run(event) {
-    const {
-      body, headers,
-    } = event;
-    if (headers["topic"] !== "enrollment.completed") {
-      this.http.respond({
-        status: 200,
-      });
-      return;
-    }
-    this.http.respond({
-      status: 200,
-    });
-    this.$emit(body, {
-      id: body.id,
-      summary: `New enrollment: ${body.id}`,
-      ts: Date.now(),
-    });
-  },
+  sampleEmit,
 };
