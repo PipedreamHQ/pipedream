@@ -4653,7 +4653,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/mailcheck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/mailchimp:
     specifiers:
@@ -5303,7 +5306,10 @@ importers:
     specifiers: {}
 
   components/nextcloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/nextdns:
     specifiers: {}
@@ -7204,7 +7210,10 @@ importers:
       '@pipedream/platform': 1.6.1
 
   components/sendy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/sensibo:
     specifiers: {}
@@ -7311,7 +7320,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sheetdb:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/shift4:
     specifiers:
@@ -7928,7 +7940,10 @@ importers:
     specifiers: {}
 
   components/sumup:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/supabase:
     specifiers:
