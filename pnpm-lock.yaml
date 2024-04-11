@@ -142,6 +142,9 @@ importers:
       '@pipedream/platform': 1.6.0
       inflection: 3.0.0
 
+  components/acuity_scheduling:
+    specifiers: {}
+
   components/acumbamail:
     specifiers: {}
 
