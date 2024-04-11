@@ -81,7 +81,6 @@ export default {
       const ssl = {
         ...(ca && {
           ca,
-          rejectUnauthorized: mode !== "skip_verification",
         }),
         ...(key && {
           key,
@@ -89,12 +88,14 @@ export default {
         ...(cert && {
           cert,
         }),
+        rejectUnauthorized: mode !== "skip_verification",
       };
 
       return Object.keys(ssl).length > 0
         ? ssl
         : undefined;
     },
+
     /**
      * A helper method to get the configuration object that's directly fed to
      * the PostgreSQL client constructor. Used by other features (like SQL
@@ -103,17 +104,12 @@ export default {
      */
     getClientConfiguration() {
       const {
-        getSslConfig,
-        $auth: auth,
-      } = this;
-
-      const {
         host,
         port,
         user,
         password,
         database,
-      } = auth;
+      } = this.$auth;
 
       return {
         host,
@@ -121,7 +117,7 @@ export default {
         user,
         password,
         database,
-        ssl: getSslConfig(),
+        ssl: this.getSslConfig(),
       };
     },
     async getClient() {
