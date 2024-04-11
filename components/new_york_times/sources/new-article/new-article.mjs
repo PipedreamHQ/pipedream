@@ -28,7 +28,7 @@ export default {
     facetFields: {
       type: "string[]",
       label: "Facet Fields",
-      description: "the relative importance of certain fields to a search term, and gain insight about how to best refine your queries and filter your search results.",
+      description: "Use facets to view the relative importance of certain fields to a search term, and gain insight about how to best refine your queries and filter your search results.",
       options: [
         "day_of_week",
         "document_type",
@@ -96,8 +96,8 @@ export default {
         params: {
           begin_date: moment(lastDate).format("YYYYMMDD"),
           facet: this.facet,
-          facetFields: this.facetFields && this.facetFields.join(),
-          facetFilter: this.facetFilter,
+          facet_fields: this.facetFields && this.facetFields.join(),
+          facet_filter: this.facetFilter,
           fl: this.fl && this.fl.join(),
           fq: this.fq,
           q: this.q,
