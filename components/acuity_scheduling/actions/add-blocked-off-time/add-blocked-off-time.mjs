@@ -1,5 +1,4 @@
 import acuityScheduling from "../../acuity_scheduling.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "acuity_scheduling-add-blocked-off-time",
@@ -36,10 +35,13 @@ export default {
   },
   async run({ $ }) {
     const response = await this.acuityScheduling.blockTime({
-      startTime: this.startTime,
-      endTime: this.endTime,
-      calendarId: this.calendarId,
-      notes: this.notes,
+      $,
+      data: {
+        start: this.startTime,
+        end: this.endTime,
+        calendarID: this.calendarId,
+        notes: this.notes,
+      },
     });
 
     $.export("$summary", `Successfully blocked off time from ${this.startTime} to ${this.endTime}`);

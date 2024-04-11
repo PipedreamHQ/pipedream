@@ -4,11 +4,6 @@ export default {
   type: "app",
   app: "acuity_scheduling",
   propDefinitions: {
-    clientNameOrEmail: {
-      type: "string",
-      label: "Client Name or Email",
-      description: "The client's name or email address to filter appointments.",
-    },
     startTime: {
       type: "string",
       label: "Start Time",
@@ -19,12 +14,34 @@ export default {
       label: "End Time",
       description: "The ending time of the blocked off period (e.g., '2023-01-01T01:00:00Z').",
     },
+    appointmentTypeId: {
+      type: "string",
+      label: "Appointment Type ID",
+      description: "Show only appointments of this type.",
+      async options() {
+        const data = await this.listAppointmentTypes();
+
+        return data.filter((item) => item.active).map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     calendarId: {
       type: "string",
       label: "Calendar ID",
-      description: "Numeric ID of the calendar.",
+      description: "Show only appointments on calendar with specified ID.",
       async options() {
-        return this.listCalendars();
+        const data = await this.listCalendars();
+
+        return data.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
       },
     },
   },
@@ -32,60 +49,70 @@ export default {
     _baseUrl() {
       return "https://acuityscheduling.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Basic ${Buffer.from(`${this.$auth.acuity_user_id}:${this.$auth.acuity_api_key}`).toString("base64")}`,
-        },
+        headers: this._headers(),
       });
     },
-    async listCalendars() {
-      const response = await this._makeRequest({
+    listAppointmentTypes() {
+      return this._makeRequest({
+        path: "/appointment-types",
+      });
+    },
+    listCalendars() {
+      return this._makeRequest({
         path: "/calendars",
       });
-      return response.map((calendar) => ({
-        label: calendar.name,
-        value: calendar.id.toString(),
-      }));
     },
-    async getAppointments({ clientNameOrEmail }) {
-      const params = new URLSearchParams();
-      if (clientNameOrEmail.includes("@")) {
-        params.append("email", clientNameOrEmail);
-      } else {
-        const [
-          firstName,
-          lastName,
-        ] = clientNameOrEmail.split(" ");
-        if (firstName) params.append("firstName", firstName);
-        if (lastName) params.append("lastName", lastName);
-      }
+    listAppointments(opts = {}) {
       return this._makeRequest({
-        path: `/appointments?${params.toString()}`,
+        path: "/appointments",
+        ...opts,
       });
     },
-    async blockTime({
-      startTime, endTime, calendarId,
+    getAppointment({
+      id, ...opts
     }) {
+      return this._makeRequest({
+        path: `/appointments/${id}`,
+        ...opts,
+      });
+    },
+    getOrder({
+      id, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/orders/${id}`,
+        ...opts,
+      });
+    },
+    blockTime(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/blocks",
-        data: {
-          start: startTime,
-          end: endTime,
-          calendarID: calendarId,
-        },
+        ...opts,
+      });
+    },
+    createHook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteHook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
       });
     },
   },
