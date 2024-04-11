@@ -4,33 +4,46 @@ export default {
   type: "app",
   app: "codemagic",
   propDefinitions: {
-    applicationId: {
+    appID: {
       type: "string",
       label: "Application ID",
-      description: "The ID of the Codemagic application.",
-      async options({ page = 0 }) {
-        const response = await this.listApplications({
-          page,
-        });
-        return response.map((app) => ({
-          label: app.appName,
-          value: app.id,
+      description: "The ID of the application",
+      async options() {
+        const { applications } = await this.listApps();
+
+        return applications.map(({
+          _id, appName,
+        }) => ({
+          value: _id,
+          label: appName,
         }));
       },
     },
-    buildId: {
+    workflowID: {
       type: "string",
-      label: "Build ID",
-      description: "The ID of the build in Codemagic.",
-      async options({ applicationId }) {
-        const response = await this.listBuilds({
-          applicationId,
-        });
-        return response.map((build) => ({
-          label: `Build number: ${build.buildNumber}`,
-          value: build.id,
-        }));
-      },
+      label: "Workflow ID",
+      description: "The ID of the workflow",
+    },
+    repositoryUrl: {
+      type: "string",
+      label: "Repository URL",
+      description: "SSH or HTTPS URL for cloning the repository",
+    },
+    key: {
+      type: "string",
+      label: "Variable Key",
+      description: "Name of the variable",
+    },
+    value: {
+      type: "string",
+      label: "Variable Value",
+      description: "Value of the variable",
+    },
+    teamId: {
+      type: "string",
+      label: "Team ID",
+      description: "Team ID, if you wish to add an app directly to one of your teams. You must be an admin in the team specified",
+      optional: true,
     },
   },
   methods: {
@@ -39,66 +52,44 @@ export default {
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        headers,
+        params,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
+        params,
         headers: {
           ...headers,
-          "x-auth-token": this.$auth.api_token,
+          "Content-Type": "application/json",
+          "x-auth-token": `${this.$auth.api_token}`,
         },
       });
     },
-    async listApplications(opts = {}) {
+    async listApps(args = {}) {
       return this._makeRequest({
-        path: `/applications?page=${opts.page}`,
+        path: "/apps",
+        ...args,
       });
     },
-    async listBuilds({
-      applicationId, page,
+    async listVariables({
+      app_id, ...args
     }) {
-      const response = await this._makeRequest({
-        path: `/builds?appId=${applicationId}&page=${page}`,
-      });
-      return response;
-    },
-    async getBuildDetails({ buildId }) {
       return this._makeRequest({
-        path: `/builds/${buildId}`,
+        method: "post",
+        path: `/apps/${app_id}/variables`,
+        ...args,
       });
     },
-    async startBuild({ applicationId }) {
+    async addApp(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/builds/start",
-        data: {
-          appId: applicationId,
-        },
+        path: "/apps",
+        ...args,
       });
-    },
-    async cancelBuild({ buildId }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/builds/${buildId}/cancel`,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    async checkRateLimitStatus() {
-      const response = await this._makeRequest({
-        path: "/",
-        method: "HEAD",
-      });
-
-      return {
-        rateLimit: response.headers["X-RateLimit-Limit"],
-        rateLimitRemaining: response.headers["X-RateLimit-Remaining"],
-        rateLimitReset: response.headers["X-RateLimit-Reset"],
-      };
     },
   },
-  version: `0.0.${Date.now()}`,
 };
