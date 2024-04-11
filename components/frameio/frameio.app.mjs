@@ -52,21 +52,13 @@ export default {
     _baseUrl() {
       return "https://api.frame.io/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
-        method,
-        url: `${this._baseUrl()}${path}`,
-        data,
-        params,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
@@ -75,42 +67,28 @@ export default {
       });
     },
     async sendComment({
-      assetId, message, timestamp,
+      assetId, ...args
     }) {
-      const data = {
-        text: message,
-      };
-      if (timestamp) {
-        data.timestamp = timestamp;
-      }
       return this._makeRequest({
         method: "POST",
-        path: `/assets/${assetId}/comments`,
-        data,
+        url: `/assets/${assetId}/comments`,
+        ...args,
       });
     },
-    async createProject({
-      name, teamId,
-    }) {
-      const data = {
-        name,
-      };
-      if (teamId) {
-        data.team_id = teamId;
-      }
+    async createProject(args) {
       return this._makeRequest({
         method: "POST",
-        path: "/projects",
-        data,
+        url: "/projects",
+        ...args,
       });
     },
     async modifyAsset({
-      assetId, updateValues,
+      assetId, ...args
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/assets/${assetId}`,
-        data: updateValues,
+        url: `/assets/${assetId}`,
+        ...args,
       });
     },
   },
