@@ -7,7 +7,7 @@ export default {
   key: "shopify_partner-new-app-relationship-events",
   name: "New App Relationship Events",
   type: "source",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Emit new events when new shops installs, uninstalls, subscribes or unsubscribes your app.",
   ...common,
   props: {
@@ -56,9 +56,13 @@ export default {
 
     const variables = {
       appId: `gid://partners/App/${appId}`,
-      ...(occurredAtMin || {}),
-      ...(occurredAtMax || {}),
     };
+    if (occurredAtMin) {
+      variables.occurredAtMin = occurredAtMin;
+    }
+    if (occurredAtMax) {
+      variables.occurredAtMax = occurredAtMax;
+    }
 
     console.log("Querying events");
 
