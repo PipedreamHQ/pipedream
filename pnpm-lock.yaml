@@ -7317,7 +7317,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sheetdb:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/shift4:
     specifiers:
