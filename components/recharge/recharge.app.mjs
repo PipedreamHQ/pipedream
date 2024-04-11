@@ -85,13 +85,13 @@ export default {
     },
     firstName: {
       type: "string",
-      label: "Name",
+      label: "First Name",
       description: "Customer's first name.",
       optional: true,
     },
     lastName: {
       type: "string",
-      label: "Name",
+      label: "Last Name",
       description: "Customer's last name.",
       optional: true,
     },

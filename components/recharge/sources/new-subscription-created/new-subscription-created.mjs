@@ -17,7 +17,7 @@ export default {
       return {
         topic: "subscription/created",
         included_objects: [
-          "customer",
+          // "customer", // listed in documentation, but API returns an error
           "metafields",
         ],
       };

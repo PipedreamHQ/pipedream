@@ -24,7 +24,7 @@ export default {
         address: this.http.endpoint,
       };
 
-      const { id } = await this.app.createWebhook({
+      const { webhook: { id } } = await this.app.createWebhook({
         data,
       });
       this._setWebhookId(id);

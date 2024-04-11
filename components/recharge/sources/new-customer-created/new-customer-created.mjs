@@ -19,7 +19,7 @@ export default {
         included_objects: [
           "addresses",
           "metafields",
-          "payment_methods",
+          // "payment_methods", // listed in documentation, but API returns an error
         ],
       };
     },
