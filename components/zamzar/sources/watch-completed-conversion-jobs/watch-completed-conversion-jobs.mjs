@@ -6,7 +6,7 @@ export default {
   key: "zamzar-watch-completed-conversion-jobs",
   name: "Watch Completed Conversion Jobs",
   description: "Emit new event as soon as a conversion job has been completed. [See the documentation](https://developers.zamzar.com/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "greatest",
   methods: {
