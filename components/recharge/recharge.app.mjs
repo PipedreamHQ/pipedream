@@ -26,15 +26,19 @@ export default {
       type: "string",
       label: "Subscription ID",
       description: "Select a subscription or provide a custom subscription ID.",
-      async options({ page = 1 }) {
+      async options({ page = 0 }) {
         const { subscriptions } = await this.listSubscriptions({
           params: {
-            page,
+            page: page + 1,
           },
         });
-        return subscriptions?.map?.((item) => ({
-          label: `SKU ${item.sku}`,
-          value: item.id,
+        return subscriptions?.map?.(({
+          id, sku,
+        }) => ({
+          label: sku
+            ? `SKU ${sku}`
+            : `ID ${id}`,
+          value: id,
         }));
       },
     },

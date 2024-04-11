@@ -26,7 +26,7 @@ export default {
     },
     orderIntervalFrequency: {
       type: "integer",
-      label: "Change Interval Frequency",
+      label: "Order Interval Frequency",
       description: "The number of units, specified in `Order Interval Unit`, between each order.",
     },
     orderIntervalUnit: {
