@@ -5303,7 +5303,10 @@ importers:
     specifiers: {}
 
   components/nextcloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/nextdns:
     specifiers: {}
