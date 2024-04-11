@@ -1,10 +1,10 @@
-## Overview
+# Overview
 
 Build, test, and send HTTP requests without code using your Pipedream workflows. The HTTP / Webhook action is a tool to build HTTP requests with a Postman-like graphical interface.
 
 ![An interface for configuring an HTTP request within Pipedream's workflow system. The current selection is a GET request with fields for the request URL, authorization type (set to 'None' with a note explaining "This request does not use authorization"), parameters, headers (with a count of 1, though the detail is not visible), and body. Below the main configuration area is an option to "Include Response Headers," and a button labeled "Configure to test." The overall layout suggests a user-friendly, no-code approach to setting up custom HTTP requests.](https://res.cloudinary.com/pipedreamin/image/upload/v1712765140/marketplace/apps/http/CleanShot_2024-04-10_at_11.53.07_u5anis.png)
 
-### Point and click HTTP requests
+## Point and click HTTP requests
 
 Define the target URL, HTTP verb, headers, query parameters, and payload body without writing custom code.
 
@@ -12,7 +12,7 @@ Define the target URL, HTTP verb, headers, query parameters, and payload body wi
 
 [Here's an example workflow that uses the HTTP / Webhook action to send an authenticated API request to OpenAI.](https://pipedream.com/new?h=tch_v4fzLp)
 
-### Focus on integrating, not authenticating
+## Focus on integrating, not authenticating
 
 This action can also use your connected accounts with third-party APIs. Selecting an integrated app will automatically update the request’s headers to authenticate with the app properly, and even inject your token dynamically. 
 
@@ -20,7 +20,7 @@ This action can also use your connected accounts with third-party APIs. Selectin
 
 Pipedream integrates with thousands of APIs, but if you can’t find a Pipedream integration simply use [Environment Variables](https://pipedream.com/docs/environment-variables) in your request headers to authenticate with.
 
-### Compatible with no code actions or Node.js and Python
+## Compatible with no code actions or Node.js and Python
 
 The HTTP/Webhook action exports HTTP response data for use in subsequent workflow steps, enabling easy data transformation, further API calls, database storage, and more.
 
@@ -28,11 +28,11 @@ Response data is available for both coded (Node.js, Python) and no-code steps wi
 
 ![An image showing the Pipedream interface where the HTTP Webhook action has returned response data as a step export. The interface highlights a structured view of the returned data with collapsible sections. We can see 'steps.custom_request1' expanded to show 'return_value' which is an object containing a 'list'. Inside the list, an item 'data' is expanded to reveal an element with an 'id' of 'whisper-1', indicating a model created by and owned by 'openai-internal'. Options to 'Copy Path' and 'Copy Value' are available for easy access to the data points.](https://res.cloudinary.com/pipedreamin/image/upload/v1712765724/marketplace/apps/http/CleanShot_2024-04-10_at_12.15.11_mkezj8.png)
 
-## Getting Started
+# Getting Started
 
 The HTTP / Webhook action is flexible. You can use it with your [Pipedream connected accounts](https://pipedream.com/docs/connected-accounts), import cURL commands, or manually define authentication headers with API keys stored in [Environment Variables](https://pipedream.com/docs/environment-variables).
 
-### Connecting to an API with a Pipedream connected account
+## Connecting to an API with a Pipedream connected account
 
 We recommend choosing this approach to authenticate your HTTP requests. Pipedream will manage your connected accounts, even rotating OAuth tokens, and you can focus on implementing the payload details.
 
@@ -104,7 +104,7 @@ For example, storing your OpenAI API key as `OPEN_API_KEY` you can then referenc
 
 Then your key will be injected into the request.
 
-## Troubleshooting
+# Troubleshooting
 
 You may run into issues integrating with other APIs. Typically these are errors thrown by the API you’re attempting to integrate with.
 
@@ -112,19 +112,19 @@ Common HTTP status codes provide a standard, but implementations may vary. Pleas
 
 Below are a list of common errors when sending HTTP requests to 3rd party APIs:
 
-### Resource Not Found (404)
+## Resource Not Found (404)
 
 This means that the API request successfully authenticated, but the resource you’re attempting to retrieve or act on doesn’t exist.
 
 For example, if you’re attempting to update a Google Sheet but that sheet has been deleted, then you’ll see a 404 HTTP status code.
 
-### Method not allowed (405)
+## Method not allowed (405)
 
 This error message means that you attempted to access an endpoint but the HTTP verb the request is using isn’t supported.
 
 For example, you might have sent a `GET` request instead of a `POST` request or vice versa. This error is usually fixed by double checking that the HTTP action the request is configured with matches what the endpoint supports.
 
-### Invalid Request (422)
+## Invalid Request (422)
 
 This error indicates the request's payload lacks data or contains invalid data.
 
@@ -134,7 +134,7 @@ For example, if you attempt to create a Google Calendar event, but the `start_at
 
 If this error happens only intermittently, it could mean that downstream data is missing or occasionally produces invalid payloads. You’ll need to select the broken use case in the builder, and test it to find the culprit.
 
-### Rate limited (429)
+## Rate limited (429)
 
 APIs typically implement rate limits. A rate limit defines how many times you’re allowed to send requests to the API within a specific time frame.
 
@@ -142,7 +142,7 @@ Exceeding this limit prompts the API to respond with a 429 status code and rejec
 
 You can use Concurrency and Rate Limiting controls within your Pipedream workflow settings to respect these 3rd party API limits, and you can also enable Automatic Retries to attempt the request again.
 
-### Not Authorized or Forbidden (401)
+## Not Authorized or Forbidden (401)
 
 This error means that either your request isn’t authentication properly, meaning that your API token is missing or is in the incorrect header; or potentially it means that your API key is valid but it doesn’t have the permissions required to access that resource.
 
@@ -154,7 +154,7 @@ An authorization error can happen if you attempt to modify a resource your accou
 
 For example, modifying a Google Sheet not shared with your Google Drive account will result in a permissions error.
 
-### Internal Server Error (50x)
+## Internal Server Error (50x)
 
 This means that the API encountered a fatal error and it wasn’t able to perform your request. It could be that this service is having an outage, or there’s a specific issue with this particular resource you’re attempting to access or modify.
 
