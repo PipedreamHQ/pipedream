@@ -8,10 +8,41 @@ export default {
   type: "action",
   props: {
     frame,
+    accountId: {
+      propDefinition: [
+        frame,
+        "accountId",
+      ],
+    },
+    teamId: {
+      propDefinition: [
+        frame,
+        "teamId",
+        ({ accountId }) => ({
+          accountId,
+        }),
+      ],
+    },
+    projectId: {
+      propDefinition: [
+        frame,
+        "projectId",
+        ({ teamId }) => ({
+          teamId,
+        }),
+      ],
+    },
     assetId: {
       propDefinition: [
         frame,
         "assetId",
+        ({
+          accountId, teamId, projectId,
+        }) => ({
+          accountId,
+          teamId,
+          projectId,
+        }),
       ],
     },
     text: {
@@ -51,6 +82,7 @@ export default {
     },
   },
   async run({ $ }) {
+    // remove accountId, etc.
     const {
       frame, assetId, ...data
     } = this;
