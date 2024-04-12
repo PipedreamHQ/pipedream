@@ -61,7 +61,7 @@ export default {
       $,
       params,
     });
-    $.export(res?.status === 200
+    $.export("$summary", res?.status === 200
       ? `Found ${res?.data?.length} records`
       : "No records found");
     return res;
