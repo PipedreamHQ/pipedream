@@ -2,58 +2,68 @@ import codat from "../../codat.app.mjs";
 
 export default {
   key: "codat-new-webhook-message-instant",
-  name: "New Webhook Message Instant",
-  description: "Emits an event when a specified event type is produced by Codat.",
+  name: "New Webhook Message (Instant)",
+  description: "Emit new event when a specified event type is produced by Codat. [See the documentation](https://docs.codat.io/platform-api#/operations/create-webhook-consumer)",
   version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {
     codat,
-    eventType: {
-      propDefinition: [
-        codat,
-        "eventType",
-      ],
-    },
     http: {
       type: "$.interface.http",
       customResponse: true,
     },
-    db: "$.service.db",
+    eventTypes: {
+      propDefinition: [
+        codat,
+        "eventTypes",
+      ],
+    },
+    companyId: {
+      propDefinition: [
+        codat,
+        "companyId",
+      ],
+    },
   },
   hooks: {
     async activate() {
-      const events = await this.codat.getEvents(this.eventType);
-      for (const event of events) {
-        this.$emit(event, {
-          id: event.id,
-          summary: `New event: ${event.name}`,
-          ts: Date.parse(event.ts),
+      const data = {
+        url: this.http.endpoint,
+        eventTypes: this.eventTypes,
+      };
+      if (this.companyId) {
+        data.companyId = this.companyId;
+      }
+      const { id } = await this.codat.createWebhook({
+        data,
+      });
+      this._setHookId(id);
+    },
+    async deactivate() {
+      const hookId = this._getHookId();
+      if (hookId) {
+        await this.codat.deleteWebhook({
+          hookId,
         });
       }
     },
-    async deactivate() {
-      console.log("Webhook deactivated");
+  },
+  methods: {
+    _getHookId() {
+      return this.db.get("hookId");
+    },
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
+    },
+    generateMeta() {
+
     },
   },
   async run(event) {
-    if (event.headers["Content-Type"] !== "application/json") {
-      this.http.respond({
-        status: 400,
-        body: "Expected application/json",
-      });
-      return;
-    }
-    const incomingEventType = event.body.event_type;
-    if (incomingEventType !== this.eventType) {
-      console.log(`Ignoring event type: ${incomingEventType}`);
-      return;
-    }
-    const eventDetails = await this.codat.getEvents(this.eventType);
-    this.$emit(eventDetails, {
-      id: eventDetails.id,
-      summary: `New ${this.eventType} event`,
-      ts: +new Date(),
+    this.http.respond({
+      status: 200,
     });
+    console.log(event);
   },
 };
