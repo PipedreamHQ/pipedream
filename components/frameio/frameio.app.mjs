@@ -5,27 +5,6 @@ export default {
   app: "frameio",
   version: "0.0.{{ts}}",
   propDefinitions: {
-    commentId: {
-      type: "string",
-      label: "Comment ID",
-      description: "The ID of the comment.",
-    },
-    message: {
-      type: "string",
-      label: "Message",
-      description: "The comment message.",
-    },
-    timestamp: {
-      type: "string",
-      label: "Timestamp",
-      description: "The timestamp of the comment.",
-      optional: true,
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the project.",
-    },
     accountId: {
       type: "string",
       label: "Account ID",
@@ -92,11 +71,6 @@ export default {
         }));
       },
     },
-    updateValues: {
-      type: "object",
-      label: "Update Values",
-      description: "The values to update the asset with.",
-    },
   },
   methods: {
     _baseUrl() {
@@ -150,15 +124,6 @@ export default {
       return this._makeRequest({
         method: "POST",
         url: "/projects",
-        ...args,
-      });
-    },
-    async modifyAsset({
-      assetId, ...args
-    }) {
-      return this._makeRequest({
-        method: "PUT",
-        url: `/assets/${assetId}`,
         ...args,
       });
     },

@@ -3,7 +3,7 @@ import frameio from "../../frameio.app.mjs";
 export default {
   key: "frameio-create-comment",
   name: "Create Comment",
-  description: "Creates a new comment on an asset in Frame.io. [See the documentation](https://developer.frame.io/api/reference/operation/createcomment/)",
+  description: "Creates a new comment on an asset in Frame.io. [See the documentation](https://developer.frame.io/api/reference/operation/createComment/)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
@@ -14,27 +14,52 @@ export default {
         "assetId",
       ],
     },
-    message: {
-      propDefinition: [
-        frameio,
-        "message",
-      ],
+    text: {
+      type: "string",
+      label: "Text",
+      description: "The body of the comment.",
+    },
+    annotation: {
+      type: "string",
+      label: "Annotation",
+      description: "Serialized list of geometry and/or drawing data. [Learn more here](https://developer.frame.io/docs/workflows-assets/working-with-annotations)",
+      optional: true,
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number for a comment (documents only).",
+      optional: true,
     },
     timestamp: {
-      propDefinition: [
-        frameio,
-        "timestamp",
-      ],
+      type: "string",
+      label: "Timestamp",
+      description: "Timestamp for the comment, in frames, starting at 0.",
+      optional: true,
+    },
+    duration: {
+      type: "integer",
+      label: "Duration",
+      description: "Used to produce range-based comments, this is the duration measured in frames.",
+      optional: true,
+    },
+    private: {
+      type: "boolean",
+      label: "Private",
+      description: "Set to true to make your comment a \"Team-only Comment\" that won't be visible to anonymous reviewers or Collaborators.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.frameio.sendComment({
-      assetId: this.assetId,
-      message: this.message,
-      timestamp: this.timestamp,
+    const {
+      frameio, assetId, ...data
+    } = this;
+    const response = await frameio.sendComment({
+      $,
+      assetId,
+      data,
     });
-    $.export("$summary", `Successfully created comment on asset ${this.assetId}`);
+    $.export("$summary", `Successfully created comment (ID: ${response.id})`);
     return response;
   },
 };
