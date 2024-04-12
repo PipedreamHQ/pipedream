@@ -836,6 +836,9 @@ importers:
   components/bill:
     specifiers: {}
 
+  components/billplz:
+    specifiers: {}
+
   components/billsby:
     specifiers: {}
 
