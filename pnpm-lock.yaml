@@ -6571,6 +6571,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/recharge:
+    specifiers:
+      '@pipedream/platform': 1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/recreation_gov:
     specifiers:
       '@pipedream/platform': ^1.5.1
