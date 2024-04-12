@@ -1,6 +1,6 @@
 # Overview
 
-The Ikigai API offers a suite of tools focused on simplifying and enhancing financial services. Through Pipedream, developers can connect the Ikigai API with numerous other apps to create custom, automated workflows. These workflows can handle tasks such as managing investments, analyzing financial markets, and monitoring personal finance health. The power of Pipedream lies in its ability to integrate with over 800 apps, enabling vast possibilities for automation and data processing without the need to manage infrastructure.
+The Ikigai API offers a suite of tools focused on simplifying and enhancing financial services. Through Pipedream, developers can connect the Ikigai API with numerous other apps to create custom, automated workflows. These workflows can handle tasks such as managing investments, analyzing financial markets, and monitoring personal finance health. The power of Pipedream lies in its ability to integrate with over 2000 apps, enabling vast possibilities for automation and data processing without the need to manage infrastructure.
 
 # Example Use Cases
 
