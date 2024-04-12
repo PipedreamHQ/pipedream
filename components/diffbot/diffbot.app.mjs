@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     _baseUrl(base) {
-      return `https://${base}.diffbot.com/v3`;
+      return `https://${base}.diffbot.com`;
     },
     async _makeRequest(opts = {}) {
       const {
@@ -57,26 +57,14 @@ export default {
       return this._makeRequest({
         method: "post",
         base: "kg",
-        path: "/enhance",
+        path: "/kg/v3/enhance",
         ...args,
       });
     },
     async extractPage(args = {}) {
       return this._makeRequest({
         base: "api",
-        path: "/analyze",
-        ...args,
-      });
-    },
-    async createProject(args = {}) {
-      return this._makeRequest({
-        path: "/analyse",
-        ...args,
-      });
-    },
-    async listAccounts(args = {}) {
-      return this._makeRequest({
-        path: "/accounts",
+        path: "/v3/analyze",
         ...args,
       });
     },
