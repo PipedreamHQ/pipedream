@@ -104,17 +104,12 @@ export default {
      */
     getClientConfiguration() {
       const {
-        getSslConfig,
-        $auth: auth,
-      } = this;
-
-      const {
         host,
         port,
         user,
         password,
         database,
-      } = auth;
+      } = this.$auth;
 
       return {
         host,
@@ -122,7 +117,7 @@ export default {
         user,
         password,
         database,
-        ssl: getSslConfig(),
+        ssl: this.getSslConfig(),
       };
     },
     async getClient() {
