@@ -5,20 +5,10 @@ export default {
   app: "frameio",
   version: "0.0.{{ts}}",
   propDefinitions: {
-    assetId: {
-      type: "string",
-      label: "Asset ID",
-      description: "The ID of the asset.",
-    },
     commentId: {
       type: "string",
       label: "Comment ID",
       description: "The ID of the comment.",
-    },
-    projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "The ID of the project.",
     },
     message: {
       type: "string",
@@ -42,9 +32,11 @@ export default {
       description: "Select an account or provide a custom ID.",
       async options() {
         const data = await this.listAccounts();
-        return data?.map((account) => ({
-          label: account.name,
-          value: account.id,
+        return data?.map(({
+          name, id,
+        }) => ({
+          label: name,
+          value: id,
         }));
       },
     },
@@ -54,9 +46,49 @@ export default {
       description: "The ID of the team.",
       async options({ accountId }) {
         const data = await this.listTeams(accountId);
-        return data?.map((team) => ({
-          label: team.name,
-          value: team.id,
+        return data?.map(({
+          name, id,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "Select a project or provide a custom ID.",
+      async options({ teamId }) {
+        const data = await this.listProjects(teamId);
+        return data?.map(({
+          name, id,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+    assetId: {
+      type: "string",
+      label: "Asset ID",
+      description: "Select an asset or provide a custom ID.",
+      useQuery: true,
+      async options({
+        accountId, teamId, projectId, query,
+      }) {
+        const data = await this.searchAssets({
+          params: {
+            account_id: accountId,
+            team_id: teamId,
+            project_id: projectId,
+            query,
+          },
+        });
+        return data?.map(({
+          name, id,
+        }) => ({
+          label: name,
+          value: id,
         }));
       },
     },
@@ -92,6 +124,17 @@ export default {
     async listTeams(accountId) {
       return this._makeRequest({
         url: `/accounts/${accountId}/teams`,
+      });
+    },
+    async listProjects(teamId) {
+      return this._makeRequest({
+        url: `/teams/${teamId}/projects`,
+      });
+    },
+    async searchAssets(args) {
+      return this._makeRequest({
+        url: "/search/assets",
+        ...args,
       });
     },
     async sendComment({
