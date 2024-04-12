@@ -1,122 +1,113 @@
-import { axios } from "@pipedream/platform";
 import sendsms from "../../sendsms.app.mjs";
 
 export default {
   name: "Send Message with Unsubscribe Link",
-  description: "This action sends an SMS message with an unsubscribe link using the SendSMS.ro API.",
+  description: "This action sends an SMS message with an unsubscribe link using the SendSMS.ro API. [See the documentation](https://www.sendsms.ro/api/?shell#send-message-with-unsubscribe-link)",
   key: "sendsms-send-message-with-unsubscribe-link",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     sendsms,
     to: {
-      type: "string",
-      label: "To",
-      description: "The recipient phone number.",
+      propDefinition: [
+        sendsms,
+        "to",
+      ],
     },
     text: {
-      type: "string",
-      label: "Text",
-      description: "The text message to send.",
+      propDefinition: [
+        sendsms,
+        "text",
+      ],
     },
     from: {
-      type: "string",
-      label: "From",
-      description: "The sender ID that appears on the recipient's device.",
+      propDefinition: [
+        sendsms,
+        "from",
+      ],
       optional: true,
     },
-    report_mask: {
-      type: "integer",
-      label: "Report Mask",
-      description: "Reporting options for delivery status.",
+    reportMask: {
+      propDefinition: [
+        sendsms,
+        "reportMask",
+      ],
       optional: true,
-      default: 19,
     },
     report_url: {
-      type: "string",
-      label: "Report URL",
-      description: "The URL to send delivery reports to.",
+      propDefinition: [
+        sendsms,
+        "report_url",
+      ],
       optional: true,
     },
     charset: {
-      type: "string",
-      label: "Charset",
-      description: "Character encoding for the text message.",
+      propDefinition: [
+        sendsms,
+        "charset",
+      ],
       optional: true,
-      default: "UTF-8",
     },
     data_coding: {
-      type: "string",
-      label: "Data Coding",
-      description: "The encoding scheme of the message text.",
+      propDefinition: [
+        sendsms,
+        "data_coding",
+      ],
       optional: true,
     },
     message_class: {
-      type: "string",
-      label: "Message Class",
-      description: "Class of the SMS message.",
+      propDefinition: [
+        sendsms,
+        "message_class",
+      ],
       optional: true,
     },
     auto_detect_encoding: {
-      type: "integer",
-      label: "Auto Detect Encoding",
-      description: "Automatically detect text encoding.",
+      propDefinition: [
+        sendsms,
+        "auto_detect_encoding",
+      ],
       optional: true,
     },
     short: {
-      type: "boolean",
-      label: "Short",
-      description: "Use short encoding if possible.",
+      propDefinition: [
+        sendsms,
+        "short",
+      ],
       optional: true,
     },
     ctype: {
-      type: "integer",
-      label: "CType",
-      description: "Type of the content.",
+      propDefinition: [
+        sendsms,
+        "ctype",
+      ],
       optional: true,
-      default: 1,
     },
   },
   async run({ $ }) {
-    let params = {
-      username: this.sendsms.$auth.username,
-      password: this.sendsms.$auth.api_key,
-      to: this.to,
-      text: this.text,
-    };
+    const {
+      sendsms,
+      reportMask,
+      ...params
+    } = this;
 
-    const properties = [
-      "from",
-      "report_mask",
-      "report_url",
-      "charset",
-      "data_coding",
-      "message_class",
-      "auto_detect_encoding",
-      "short",
-      "ctype",
-    ];
+    const totalMask = reportMask?.length
+      ? reportMask.reduce((partialSum, a) => partialSum + a, 0)
+      : null;
 
-    properties.forEach((property) => {
-      if (this[property] !== null) {
-        params[property] = this[property];
-      }
+    const response = await sendsms.sendSmsGDPR({
+      $,
+      params: {
+        ...params,
+        report_mask: totalMask,
+      },
     });
-
-    const response = await axios($, {
-      url: "https://api.sendsms.ro/json?action=message_send_gdpr",
-      params: params,
-    });
-
-    if (response.status == 1) {
-      $.export("$summary", `Successfully sent message to '${this.to}'`);
-    }
 
     if (response.status < 0) {
-      console.error(response);
       throw new Error(response.message);
     }
 
+    $.export("$summary", `Successfully sent message to '${this.to}'`);
     return response;
   },
 };

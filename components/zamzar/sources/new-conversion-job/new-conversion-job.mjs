@@ -6,7 +6,7 @@ export default {
   key: "zamzar-new-conversion-job",
   name: "New Conversion Job",
   description: "Emit new event when a conversion job has completed. [See the documentation](https://developers.zamzar.com/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "last",
   props: {

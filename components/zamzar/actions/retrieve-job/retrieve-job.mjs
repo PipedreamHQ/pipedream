@@ -4,7 +4,7 @@ export default {
   key: "zamzar-retrieve-job",
   name: "Retrieve Job",
   description: "Finds the file that has been processed under the specified job id. [See the documentation](https://developers.zamzar.com/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

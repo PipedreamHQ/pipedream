@@ -546,9 +546,13 @@ importers:
 
   components/askyourpdf:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.2
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.2
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/assemblyai:
     specifiers:
@@ -1292,7 +1296,10 @@ importers:
     specifiers: {}
 
   components/cinc:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/circl_hash_lookup:
     specifiers: {}
@@ -1528,6 +1535,9 @@ importers:
       '@pipedream/platform': ^1.6.2
     dependencies:
       '@pipedream/platform': 1.6.2
+
+  components/codat:
+    specifiers: {}
 
   components/code_climate:
     specifiers: {}
@@ -3377,7 +3387,10 @@ importers:
       mime: 3.0.0
 
   components/google_postmaster_tools_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/google_recaptcha:
     specifiers:
@@ -4643,7 +4656,10 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/mailcheck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/mailchimp:
     specifiers:
@@ -4777,10 +4793,10 @@ importers:
   components/mattermost:
     specifiers:
       '@pipedream/platform': ^1.6.0
-      '@pipedream/types': ^0.2.0
+      '@pipedream/types': ^0.3.0
     dependencies:
       '@pipedream/platform': 1.6.0
-      '@pipedream/types': 0.2.0
+      '@pipedream/types': 0.3.0
 
   components/mautic:
     specifiers:
@@ -5293,7 +5309,10 @@ importers:
     specifiers: {}
 
   components/nextcloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/nextdns:
     specifiers: {}
@@ -5658,6 +5677,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/outreach:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.2
+
   components/outscraper:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -5728,7 +5753,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/parsehub:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/parseur:
     specifiers:
@@ -7191,7 +7219,10 @@ importers:
       '@pipedream/platform': 1.6.1
 
   components/sendy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/sensibo:
     specifiers: {}
@@ -7298,10 +7329,16 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sheetdb:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/shift4:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/shipcloud:
     specifiers:
@@ -7912,7 +7949,10 @@ importers:
     specifiers: {}
 
   components/sumup:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/supabase:
     specifiers:
@@ -8347,7 +8387,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/timing:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/tisane_labs:
     specifiers:
@@ -9360,11 +9403,11 @@ importers:
 
   components/zamzar:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.2
       form-data: ^4.0.0
       fs: ^0.0.1-security
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.2
       form-data: 4.0.0
       fs: 0.0.1-security
 
@@ -9506,9 +9549,15 @@ importers:
 
   components/zoho_desk:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.2
+      async-retry: ^1.3.3
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.2
+      async-retry: 1.3.3
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/zoho_expense:
     specifiers:
@@ -9557,9 +9606,15 @@ importers:
 
   components/zoho_projects:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.2
+      async-retry: ^1.3.3
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.2
+      async-retry: 1.3.3
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/zoho_recruit:
     specifiers:
@@ -14177,8 +14232,8 @@ packages:
     dependencies:
       typescript: 4.9.5
 
-  /@pipedream/types/0.2.0:
-    resolution: {integrity: sha512-n+yf9InY0pNqlcU7Ckn99Dp+LIWLyW6klh1jDTss9qEHF+Z6HlasXksU6y371o1c3qavaHtiDTmyU9TJTO99rw==}
+  /@pipedream/types/0.3.0:
+    resolution: {integrity: sha512-cG71shIBMVN9a7vCJxIiIuawwTV+brw4ZwS0QJs7cCFiQxNXQzMCUrN/Q4PjbXOzHvCuX8P3+qskYTsDQ6Uj+w==}
     dependencies:
       typescript: 5.3.3
     dev: false
