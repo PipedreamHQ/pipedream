@@ -1,16 +1,16 @@
-import frameio from "../../frameio.app.mjs";
+import frame from "../../frame.app.mjs";
 
 export default {
-  key: "frameio-create-comment",
+  key: "frame-create-comment",
   name: "Create Comment",
   description: "Creates a new comment on an asset in Frame.io. [See the documentation](https://developer.frame.io/api/reference/operation/createComment/)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
-    frameio,
+    frame,
     assetId: {
       propDefinition: [
-        frameio,
+        frame,
         "assetId",
       ],
     },
@@ -52,9 +52,9 @@ export default {
   },
   async run({ $ }) {
     const {
-      frameio, assetId, ...data
+      frame, assetId, ...data
     } = this;
-    const response = await frameio.sendComment({
+    const response = await frame.sendComment({
       $,
       assetId,
       data,

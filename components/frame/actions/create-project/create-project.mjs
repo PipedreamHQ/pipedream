@@ -1,17 +1,17 @@
-import frameio from "../../frameio.app.mjs";
+import frame from "../../frame.app.mjs";
 import { parseObjectValues } from "../../common/utils.mjs";
 
 export default {
-  key: "frameio-create-project",
+  key: "frame-create-project",
   name: "Create Project",
   description: "Creates a new project on Frame.io. [See the documentation](https://developer.frame.io/api/reference/operation/createProject/)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
-    frameio,
+    frame,
     teamId: {
       propDefinition: [
-        frameio,
+        frame,
         "teamId",
       ],
     },
@@ -35,7 +35,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.frameio.createProject({
+    const response = await this.frame.createProject({
       $,
       data: {
         team_id: this.teamId,

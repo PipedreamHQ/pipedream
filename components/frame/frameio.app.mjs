@@ -2,8 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "frameio",
-  version: "0.0.{{ts}}",
+  app: "frame",
   propDefinitions: {
     accountId: {
       type: "string",

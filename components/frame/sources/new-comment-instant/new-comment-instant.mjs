@@ -1,14 +1,14 @@
-import frameio from "../../frameio.app.mjs";
+import frame from "../../frame.app.mjs";
 
 export default {
-  key: "frameio-new-comment-instant",
+  key: "frame-new-comment-instant",
   name: "New Comment Instant",
   description: "Emit new event when a new comment is left on an asset",
   version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {
-    frameio,
+    frame,
     http: {
       type: "$.interface.http",
       customResponse: true,
@@ -16,13 +16,13 @@ export default {
     db: "$.service.db",
     assetId: {
       propDefinition: [
-        frameio,
+        frame,
         "assetId",
       ],
     },
     commentId: {
       propDefinition: [
-        frameio,
+        frame,
         "commentId",
       ],
     },

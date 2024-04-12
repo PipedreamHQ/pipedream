@@ -1,14 +1,14 @@
-import frameio from "../../frameio.app.mjs";
+import frame from "../../frame.app.mjs";
 
 export default {
-  key: "frameio-new-asset-instant",
+  key: "frame-new-asset-instant",
   name: "New Asset Instant",
   description: "Emit new event when an asset is uploaded.",
   version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {
-    frameio,
+    frame,
     http: {
       type: "$.interface.http",
       customResponse: true,
@@ -16,7 +16,7 @@ export default {
     db: "$.service.db",
     assetId: {
       propDefinition: [
-        frameio,
+        frame,
         "assetId",
       ],
     },
@@ -42,7 +42,7 @@ export default {
       return;
     }
 
-    const assetDetails = await this.frameio.getAssetDetails({
+    const assetDetails = await this.frame.getAssetDetails({
       assetId: this.assetId,
     });
 

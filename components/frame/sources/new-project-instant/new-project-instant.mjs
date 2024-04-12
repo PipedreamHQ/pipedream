@@ -1,14 +1,14 @@
-import frameio from "../../frameio.app.mjs";
+import frame from "../../frame.app.mjs";
 
 export default {
-  key: "frameio-new-project-instant",
+  key: "frame-new-project-instant",
   name: "New Project Instant",
   description: "Emit new event when a new project is created.",
   version: "0.0.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {
-    frameio,
+    frame,
     http: {
       type: "$.interface.http",
       customResponse: true,
@@ -16,7 +16,7 @@ export default {
     db: "$.service.db",
     projectId: {
       propDefinition: [
-        frameio,
+        frame,
         "projectId",
       ],
     },
@@ -24,7 +24,7 @@ export default {
   hooks: {
     async deploy() {
       // Fetch the 50 most recent projects to backfill events on first run
-      const projects = await this.frameio.getProjects({
+      const projects = await this.frame.getProjects({
         pageSize: 50,
       });
       projects.forEach((project) => {
@@ -48,7 +48,7 @@ export default {
     } = event;
 
     // Perform necessary validation of incoming webhook (if applicable)
-    if (!headers["x-frameio-signature"]) {
+    if (!headers["x-frame-signature"]) {
       this.http.respond({
         status: 401,
         body: "Unauthorized: No Frame.io signature header present",
