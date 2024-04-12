@@ -1,148 +1,156 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "vivocalendar",
   propDefinitions: {
-    staffMemberId: {
-      type: "string",
-      label: "Staff Member ID",
-      description: "The unique identifier for the staff member",
-    },
-    customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: "The unique identifier for the customer",
-    },
     customerName: {
       type: "string",
       label: "Customer Name",
       description: "The name of the customer",
     },
-    customerContact: {
-      type: "string",
-      label: "Customer Contact",
-      description: "The contact information for the customer",
-    },
-    staffName: {
-      type: "string",
-      label: "Staff Name",
-      description: "The full name of the staff member",
-    },
-    staffContact: {
-      type: "string",
-      label: "Staff Contact",
-      description: "The contact information for the staff member",
-    },
-    staffPosition: {
-      type: "string",
-      label: "Staff Position",
-      description: "The position or role of the staff member",
-    },
-    appointmentId: {
-      type: "string",
-      label: "Appointment ID",
-      description: "The unique identifier for the appointment",
-    },
-    appointmentDate: {
-      type: "string",
-      label: "Appointment Date",
-      description: "The date of the appointment",
-    },
-    appointmentTime: {
-      type: "string",
-      label: "Appointment Time",
-      description: "The time of the appointment",
-    },
-    appointmentNotes: {
-      type: "string",
-      label: "Appointment Notes",
-      description: "Additional details about the appointment",
-      optional: true,
-    },
     customerEmail: {
       type: "string",
       label: "Customer Email",
       description: "The email address of the customer",
+      optional: true,
     },
-    customerPhoneNumber: {
+    customerPhone: {
       type: "string",
       label: "Customer Phone Number",
       description: "The phone number of the customer",
       optional: true,
     },
-    customerAddress: {
+    customerBirthDate: {
       type: "string",
-      label: "Customer Address",
-      description: "The address of the customer",
+      label: "Customer Date of Birth",
+      description: "The date of birth of the customer",
       optional: true,
+    },
+    customerHobby: {
+      type: "string",
+      label: "Customer Hobby",
+      description: "The hobby of the customer",
+      optional: true,
+    },
+    staffUserId: {
+      type: "string",
+      label: "User ID",
+      description: "The unique identifier for the user",
+      async options({
+        mapper = ({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }),
+      }) {
+        const { response: { staff_members: users } } = await this.listStaffUsers();
+        return users.map(mapper);
+      },
+    },
+    serviceId: {
+      type: "string",
+      label: "Service ID",
+      description: "The unique identifier for the service",
+      async options() {
+        const { response: { services } } = await this.listServices();
+        return services.map(({
+          id: value, service_name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    appointmentStartTime: {
+      type: "string",
+      label: "Appointment Start Time",
+      description: "The start time of the appointment. Eg `2024-01-01 16:30`",
+    },
+    appointmentDate: {
+      type: "string",
+      label: "Appointment Date",
+      description: "The date of the appointment. Eg `2024-01-01`",
+    },
+    appointmentEndTime: {
+      type: "string",
+      label: "Appointment End Time",
+      description: "The end time of the appointment. Eg `2024-01-01 17:30`",
+    },
+    appointmentId: {
+      type: "string",
+      label: "Appointment ID",
+      description: "The unique identifier for the appointment",
+      async options({
+        page, email,
+      }) {
+        const { response: { appointment } } = await this.listAppointments({
+          params: {
+            page,
+            email,
+          },
+        });
+        return appointment.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://app.vivocalendar.com/api";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Content-Type": "application/json",
+        "accept": "application/json",
+        "api-key": this.$auth.api_key,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        ...args,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
       });
     },
-    async createCustomer(opts = {}) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/customers",
-        data: {
-          name: opts.customerName,
-          contact: opts.customerContact,
-          email: opts.customerEmail,
-          phone_number: opts.customerPhoneNumber,
-          address: opts.customerAddress,
-        },
+        ...args,
       });
     },
-    async createStaffMember(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/staff",
-        data: {
-          name: opts.staffName,
-          contact: opts.staffContact,
-          position: opts.staffPosition,
-        },
-      });
-    },
-    async createAppointment(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/appointments",
-        data: {
-          customer_id: opts.customerId,
-          staff_member_id: opts.staffMemberId,
-          date: opts.appointmentDate,
-          time: opts.appointmentTime,
-          notes: opts.appointmentNotes,
-        },
-      });
-    },
-    async cancelAppointment(opts = {}) {
+    delete(args = {}) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/appointments/${opts.appointmentId}`,
+        ...args,
+      });
+    },
+    listStaffUsers(args = {}) {
+      return this._makeRequest({
+        path: "/staff_members",
+        ...args,
+      });
+    },
+    listServices(args = {}) {
+      return this._makeRequest({
+        path: "/services",
+        ...args,
+      });
+    },
+    listAppointments(args = {}) {
+      return this._makeRequest({
+        path: "/appointments",
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };

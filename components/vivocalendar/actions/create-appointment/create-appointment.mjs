@@ -1,51 +1,122 @@
-import vivocalendar from "../../vivocalendar.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../vivocalendar.app.mjs";
 
 export default {
   key: "vivocalendar-create-appointment",
   name: "Create Appointment",
-  description: "Creates a new appointment in VIVO Calendar. [See the documentation](https://app.vivocalendar.com/api-docs/index.html)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new appointment. [See the documentation](https://app.vivocalendar.com/api-docs/index.html)",
+  version: "0.0.1",
   type: "action",
   props: {
-    vivocalendar,
-    customerId: {
+    app,
+    userId: {
       propDefinition: [
-        vivocalendar,
-        "customerId",
+        app,
+        "staffUserId",
       ],
     },
-    appointmentDate: {
+    serviceId: {
       propDefinition: [
-        vivocalendar,
+        app,
+        "serviceId",
+      ],
+    },
+    startTime: {
+      propDefinition: [
+        app,
+        "appointmentStartTime",
+      ],
+    },
+    date: {
+      propDefinition: [
+        app,
         "appointmentDate",
       ],
     },
-    appointmentTime: {
+    endTime: {
       propDefinition: [
-        vivocalendar,
-        "appointmentTime",
+        app,
+        "appointmentEndTime",
       ],
     },
-    appointmentNotes: {
+    title: {
+      type: "string",
+      label: "Appointment Title",
+      description: "The title of the appointment",
+      optional: true,
+    },
+    price: {
+      type: "integer",
+      label: "Appointment Price",
+      description: "The price of the appointment",
+      optional: true,
+      default: 0,
+    },
+    duration: {
+      type: "integer",
+      label: "Appointment Duration",
+      description: "The duration of the appointment in minutes",
+    },
+    description: {
+      type: "string",
+      label: "Appointment Description",
+      description: "The description of the appointment",
+      optional: true,
+    },
+    customerName: {
       propDefinition: [
-        vivocalendar,
-        "appointmentNotes",
-        (c) => ({
-          optional: true,
-        }),
+        app,
+        "customerName",
+      ],
+    },
+    customerEmail: {
+      propDefinition: [
+        app,
+        "customerEmail",
       ],
     },
   },
+  methods: {
+    createAppointment(args = {}) {
+      return this.app.post({
+        path: "/appointments",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.vivocalendar.createAppointment({
-      customerId: this.customerId,
-      appointmentDate: this.appointmentDate,
-      appointmentTime: this.appointmentTime,
-      appointmentNotes: this.appointmentNotes,
+    const {
+      createAppointment,
+      userId,
+      serviceId,
+      startTime,
+      date,
+      endTime,
+      title,
+      description,
+      price,
+      duration,
+      customerName,
+      customerEmail,
+    } = this;
+
+    const response = await createAppointment({
+      $,
+      params: {
+        "appointment[user_id]": userId,
+        "appointment[service_id]": serviceId,
+        "appointment[appointment_start_time]": startTime,
+        "appointment[appointment_date]": date,
+        "appointment[appointment_end_time]": endTime,
+        "appointment[price]": price,
+        "appointment[title]": title,
+        "appointment[duration]": duration,
+        "appointment[description]": description,
+        "customer[name]": customerName,
+        "customer[email]": customerEmail,
+      },
     });
 
-    $.export("$summary", `Successfully created appointment for customer ID: ${this.customerId}`);
+    $.export("$summary", `Successfully created appointment with ID \`${response?.response?.appointment?.id}\``);
     return response;
   },
 };
