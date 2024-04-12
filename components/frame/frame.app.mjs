@@ -10,11 +10,9 @@ export default {
       description: "Select an account or provide a custom ID.",
       async options() {
         const data = await this.listAccounts();
-        return data?.map(({
-          name, id,
-        }) => ({
-          label: name,
-          value: id,
+        return data?.map((account) => ({
+          label: account.display_name,
+          value: account.id,
         }));
       },
     },
@@ -119,10 +117,12 @@ export default {
         ...args,
       });
     },
-    async createProject(args) {
+    async createProject({
+      teamId, ...args
+    }) {
       return this._makeRequest({
         method: "POST",
-        url: "/projects",
+        url: `/teams/${teamId}/projects`,
         ...args,
       });
     },

@@ -5,14 +5,23 @@ export default {
   key: "frame-create-project",
   name: "Create Project",
   description: "Creates a new project on Frame.io. [See the documentation](https://developer.frame.io/api/reference/operation/createProject/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     frame,
+    accountId: {
+      propDefinition: [
+        frame,
+        "accountId",
+      ],
+    },
     teamId: {
       propDefinition: [
         frame,
         "teamId",
+        ({ accountId }) => ({
+          accountId,
+        }),
       ],
     },
     name: {
@@ -37,8 +46,8 @@ export default {
   async run({ $ }) {
     const response = await this.frame.createProject({
       $,
+      teamId: this.teamId,
       data: {
-        team_id: this.teamId,
         name: this.name,
         private: this.private,
         project_preferences: parseObjectValues(this.projectPreferences),
