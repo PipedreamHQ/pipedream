@@ -7,7 +7,7 @@ export default {
     assigneeId: {
       type: "string",
       label: "Assignee Id",
-      description: "The user id the task should be assigned to.",
+      description: "The user ID the task should be assigned to.",
       async options({
         workspaceId, taskId,
       }) {
@@ -86,7 +86,7 @@ export default {
     projectId: {
       type: "string",
       label: "Project Id",
-      description: "The id of the project.",
+      description: "The ID of the project.",
       async options({
         workspaceId, taskId,
       }) {
@@ -113,7 +113,7 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "The id of the task status.",
+      description: "The ID of the task status. To configure auto scheduling, enter `Auto-Scheduled` as a custom expression.",
       async options({
         workspaceId, taskId,
       }) {
@@ -135,7 +135,7 @@ export default {
     taskId: {
       type: "string",
       label: "Task Id",
-      description: "The id of the task.",
+      description: "The ID of the task.",
       async options() {
         const { tasks } = await this.listTasks();
 
@@ -150,7 +150,7 @@ export default {
     workspaceId: {
       type: "string",
       label: "Workspace Id",
-      description: "The id of the workspace.",
+      description: "The ID of the workspace.",
       async options() {
         const { workspaces } = await this.listWorkspaces();
 

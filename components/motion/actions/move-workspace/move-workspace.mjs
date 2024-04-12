@@ -19,7 +19,7 @@ export default {
         motion,
         "workspaceId",
       ],
-      description: "The id of the workspace where the task is going.",
+      description: "The ID of the workspace where the task is going.",
     },
     assigneeId: {
       propDefinition: [
