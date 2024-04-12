@@ -1,6 +1,6 @@
 # Overview
 
-The Go API on Pipedream allows developers to run Go code as part of serverless workflows. You can execute custom Go scripts on-demand or in response to various triggers and integrate with hundreds of apps supported by Pipedream. It enables backend operations like data processing, automation, or invoking other APIs, all within the Pipedream ecosystem. By leveraging Go's performance and efficiency, you can design powerful and fast workflows to streamline complex tasks.
+You can execute custom Go scripts on-demand or in response to various triggers and integrate with thousands of apps supported by Pipedream. Writing with Go on Pipedream enables backend operations like data processing, automation, or invoking other APIs, all within the Pipedream ecosystem. By leveraging Go's performance and efficiency, you can design powerful and fast workflows to streamline complex tasks.
 
 # Example Use Cases
 
