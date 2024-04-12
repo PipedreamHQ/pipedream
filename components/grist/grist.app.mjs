@@ -1,117 +1,91 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "grist",
   propDefinitions: {
-    tableName: {
+    docId: {
       type: "string",
-      label: "Table Name",
-      description: "The name of the table in which to operate",
+      label: "Document ID",
+      description: "The ID of the Grist document to operate on. You can find this in the **Settings** menu of the document.",
     },
-    recordData: {
-      type: "object",
-      label: "Record Data",
-      description: "The data for the new or updated record",
+    tableId: {
+      type: "string",
+      label: "Table ID",
+      description: "The ID of the table to operate on.",
+      async options({ docId }) {
+        const { tables } = await this.listTables({
+          docId,
+        });
+        return tables.map(({ id: value }) => value);
+      },
     },
-    matchKeys: {
-      type: "object",
-      label: "Match Keys",
-      description: "The keys to identify records for potential update",
+    noParse: {
+      type: "boolean",
+      label: "Do Not Parse",
+      description: "Set to `true` to prohibit parsing strings according to the column type.",
       optional: true,
     },
-    searchParameters: {
-      type: "object",
-      label: "Search Parameters",
-      description: "The parameters to search for the record",
-      optional: true,
-    },
-    recordsData: {
+    records: {
       type: "string[]",
-      label: "Records Data",
-      description: "The data for the records to append in bulk",
+      label: "Data Records",
+      description: "The data for the records to append or update. Each record should be a JSON-formatted string, mapping column names to [cell values](https://support.getgrist.com/code/modules/GristData/#cellvalue). Eg. `[ { \"fields\": { \"pet\": \"cat\", \"popularity\": 67 } } ]`.",
     },
   },
   methods: {
-    _baseUrl() {
-      return `https://{subdomain}.getgrist.com/api`;
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
-      });
-    },
-    async createOrUpdateRecord({
-      tableName, recordData, matchKeys,
-    }) {
-      const body = {
-        records: [
-          {
-            require: matchKeys || {},
-            fields: recordData,
-          },
-        ],
+    getHeaders(headers) {
+      return {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+        ...headers,
       };
-      return this._makeRequest({
-        method: "PUT",
-        path: `/docs/${this.docId}/tables/${tableName}/records`,
-        data: body,
+    },
+    _makeRequest({
+      $ = this, path, headers, ...args
+    } = {}) {
+      return axios($, {
+        ...args,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
       });
     },
-    async searchAndCreateRecord({
-      tableName, recordData, searchParameters,
-    }) {
-      // Search for the record using the provided searchParameters
-      const existingRecord = await this.searchRecord({
-        tableName,
-        searchParameters,
-      });
-
-      // If record exists, return it
-      if (existingRecord) {
-        return existingRecord;
-      }
-
-      // If not, create a new record
-      return this.createOrUpdateRecord({
-        tableName,
-        recordData,
-        matchKeys: searchParameters,
-      });
-    },
-    async searchRecord({
-      tableName, searchParameters,
-    }) {
-      // Implement the search logic based on the API's capabilities
-      // This is a placeholder for the search logic
-      // Return the record if found
-    },
-    async appendRecords({
-      tableName, recordsData,
-    }) {
-      const records = recordsData.map(JSON.parse);
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/docs/${this.docId}/tables/${tableName}/records`,
-        data: {
-          records,
-        },
+        ...args,
+      });
+    },
+    put(args = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        ...args,
+      });
+    },
+    delete(args = {}) {
+      return this._makeRequest({
+        method: "DELETE",
+        ...args,
+      });
+    },
+    listTables({
+      docId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/docs/${docId}/tables`,
+        ...args,
+      });
+    },
+    addRecords({
+      docId, tableId, ...args
+    } = {}) {
+      return this.post({
+        path: `/docs/${docId}/tables/${tableId}/records`,
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };
