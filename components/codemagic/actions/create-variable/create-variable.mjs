@@ -8,10 +8,10 @@ export default {
   type: "action",
   props: {
     app,
-    appID: {
+    appId: {
       propDefinition: [
         app,
-        "appID",
+        "appId",
       ],
     },
     workflowID: {
@@ -34,9 +34,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.listVariables({
+    const response = await this.app.createVariable({
       $,
-      app_id: this.appID,
+      appId: this.appId,
       data: {
         key: this.key,
         value: this.value,

@@ -4,7 +4,7 @@ export default {
   type: "app",
   app: "codemagic",
   propDefinitions: {
-    appID: {
+    appId: {
       type: "string",
       label: "Application ID",
       description: "The ID of the application",
@@ -55,13 +55,11 @@ export default {
         $ = this,
         path,
         headers,
-        params,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
-        params,
         headers: {
           ...headers,
           "Content-Type": "application/json",
@@ -75,12 +73,12 @@ export default {
         ...args,
       });
     },
-    async listVariables({
-      app_id, ...args
+    async createVariable({
+      appId, ...args
     }) {
       return this._makeRequest({
         method: "post",
-        path: `/apps/${app_id}/variables`,
+        path: `/apps/${appId}/variables`,
         ...args,
       });
     },
