@@ -5584,7 +5584,10 @@ importers:
       ongage: 1.1.7_node-fetch@2.7.0
 
   components/onstrategy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/ontraport:
     specifiers:
