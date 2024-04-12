@@ -5294,7 +5294,12 @@ importers:
     specifiers: {}
 
   components/new_york_times:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      moment: ^2.30.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
+      moment: 2.30.1
 
   components/newscatcher:
     specifiers: {}
@@ -5579,7 +5584,10 @@ importers:
       ongage: 1.1.7_node-fetch@2.7.0
 
   components/onstrategy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/ontraport:
     specifiers:
@@ -6563,6 +6571,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/recharge:
+    specifiers:
+      '@pipedream/platform': 1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/recreation_gov:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6839,6 +6853,12 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/rocket_chat:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/rocketreach:
     specifiers:
@@ -8297,6 +8317,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       dayjs: 1.11.10
+
+  components/thinkific:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/thoughtful_gpt:
     specifiers:
@@ -12695,12 +12721,12 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.2.8:
-    resolution: {integrity: sha512-EbwPQxkjJ2dG5F+kZy/D5eMvFeM3FBJ+A8oXy6eOr+8aoRBzS94PiSyfHStZHJzruHDG/Lo2v9+0nSGsPJiOdw==}
+  /@definitelytyped/header-parser/0.2.9:
+    resolution: {integrity: sha512-1Un7VpVtBgI4yL9ik9MJmfoDSbSSy81k3BA52KNUiY7ZIQrEB3Lz6SYdcAttyj5BwOn9vIHUmlFoqI0AcuDWnw==}
     engines: {node: '>=18.18.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.1
-      '@definitelytyped/utils': 0.1.5
+      '@definitelytyped/utils': 0.1.6
       semver: 7.5.4
     dev: true
 
@@ -12709,8 +12735,8 @@ packages:
     engines: {node: '>=18.18.0'}
     dev: true
 
-  /@definitelytyped/utils/0.1.5:
-    resolution: {integrity: sha512-DwWL7/wwmK9Oe0zPYTYX3KBv6m92+tCxX8cD/K/wyEv4kfZerW21xNFzOFiwrpmtg6ghCMmvoeklvJ120B5v5A==}
+  /@definitelytyped/utils/0.1.6:
+    resolution: {integrity: sha512-QRA3Gr2jfQcPoN35yLexdW/JCoYNNLSLX0xKMa+y28nZXyv+9RVr+UruoYiyxtwcf+W3b49X2I8fGYIlzoGw6w==}
     engines: {node: '>=18.18.0'}
     dependencies:
       '@qiwi/npm-registry-client': 8.9.1
@@ -12718,7 +12744,7 @@ packages:
       cachedir: 2.4.0
       charm: 1.0.2
       minimatch: 9.0.3
-      tar: 6.2.0
+      tar: 6.2.1
       tar-stream: 3.1.6
       which: 4.0.0
     dev: true
@@ -19598,7 +19624,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.8
+      '@definitelytyped/header-parser': 0.2.9
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -19613,7 +19639,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.8
+      '@definitelytyped/header-parser': 0.2.9
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -19629,9 +19655,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.8
+      '@definitelytyped/header-parser': 0.2.9
       '@definitelytyped/typescript-versions': 0.1.1
-      '@definitelytyped/utils': 0.1.5
+      '@definitelytyped/utils': 0.1.6
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -19649,9 +19675,9 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.8
+      '@definitelytyped/header-parser': 0.2.9
       '@definitelytyped/typescript-versions': 0.1.1
-      '@definitelytyped/utils': 0.1.5
+      '@definitelytyped/utils': 0.1.6
       dts-critic: 3.3.11_typescript@5.3.3
       fs-extra: 6.0.1
       json-stable-stringify: 1.0.2
@@ -29123,8 +29149,8 @@ packages:
       fast-fifo: 1.3.2
       streamx: 2.15.5
 
-  /tar/6.2.0:
-    resolution: {integrity: sha512-/Wo7DcT0u5HUV486xg675HtjNd3BXZ6xDbzsCUZPt5iw8bTQ63bP0Raut3mvro9u+CUyq7YQd8Cx55fsZXxqLQ==}
+  /tar/6.2.1:
+    resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
     dependencies:
       chownr: 2.0.0
@@ -30566,7 +30592,7 @@ packages:
   /woodpecker-api/1.1.0:
     resolution: {integrity: sha512-OLKMUEb1Fla1wq5JWM5G/RS+apcpAwq8oJVMRPDpG/9p/u+dbChtNVbqOnyEU3om8+WArvjQrGtMuKzxUS2paA==}
     dependencies:
-      moment: 2.29.4
+      moment: 2.30.1
       request: 2.88.2
       request-promise-any: 1.0.9_request@2.88.2
     dev: false

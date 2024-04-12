@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/recharge",
+  "version": "0.1.0",
+  "description": "Pipedream Recharge Components",
+  "main": "recharge.app.mjs",
+  "keywords": [
+    "pipedream",
+    "recharge"
+  ],
+  "homepage": "https://pipedream.com/apps/recharge",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "1.6.0"
+  }
+}
