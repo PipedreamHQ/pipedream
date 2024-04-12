@@ -36,11 +36,29 @@ export default {
       label: "Name",
       description: "The name of the project.",
     },
+    accountId: {
+      type: "string",
+      label: "Account ID",
+      description: "Select an account or provide a custom ID.",
+      async options() {
+        const data = await this.listAccounts();
+        return data?.map((account) => ({
+          label: account.name,
+          value: account.id,
+        }));
+      },
+    },
     teamId: {
       type: "string",
       label: "Team ID",
       description: "The ID of the team.",
-      optional: true,
+      async options({ accountId }) {
+        const data = await this.listTeams(accountId);
+        return data?.map((team) => ({
+          label: team.name,
+          value: team.id,
+        }));
+      },
     },
     updateValues: {
       type: "object",
@@ -64,6 +82,16 @@ export default {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
         ...otherOpts,
+      });
+    },
+    async listAccounts() {
+      return this._makeRequest({
+        url: "/accounts",
+      });
+    },
+    async listTeams(accountId) {
+      return this._makeRequest({
+        url: `/accounts/${accountId}/teams`,
       });
     },
     async sendComment({
