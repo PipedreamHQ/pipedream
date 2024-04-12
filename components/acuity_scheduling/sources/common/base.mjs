@@ -44,7 +44,7 @@ export default {
     this.$emit(details, {
       id: details.id,
       summary: this.getSummary(details),
-      ts: Date.parse(details.time),
+      ts: Date.parse(details.datetime),
     });
   },
 };
