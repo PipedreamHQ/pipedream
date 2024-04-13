@@ -1,53 +1,81 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { INVOICE_TYPES } from "../../common/constants.mjs";
 import finmei from "../../finmei.app.mjs";
 
 export default {
   key: "finmei-create-invoice",
   name: "Create Invoice",
-  description: "Generates a new invoice within Finmei. [See the documentation](https://api.finmei.com/docs)",
+  description: "Generates a new invoice within Finmei. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0)",
   version: "0.0.1",
   type: "action",
   props: {
     finmei,
-    customerId: {
-      propDefinition: [
-        finmei,
-        "customerId",
-      ],
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The type of invoice to create",
+      options: INVOICE_TYPES,
     },
-    billingAddress: {
-      propDefinition: [
-        finmei,
-        "billingAddress",
-      ],
+    date: {
+      type: "string",
+      label: "Date",
+      description: "Date showed in the invoice. Format: `YYYY-MM-DD`",
     },
-    transactionDetails: {
-      propDefinition: [
-        finmei,
-        "transactionDetails",
-      ],
+    series: {
+      type: "string",
+      label: "Series",
+      description: "Invoice series in string format",
     },
-    dueDate: {
-      propDefinition: [
-        finmei,
-        "dueDate",
-      ],
+    currency: {
+      type: "string",
+      label: "Currency",
+      description: "Uppercase three letter currency code, e.g. `USD`",
     },
-    notes: {
-      propDefinition: [
-        finmei,
-        "notes",
-      ],
+    buyer: {
+      type: "string[]",
+      label: "Buyer(s)",
+      description: "One or more buyers as JSON-stringified objects. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0) for the properties. Example: `{ \"type\": \"company\", \"company_name\": \"My Company\" }`",
+    },
+    products: {
+      type: "string[]",
+      label: "Product(s)",
+      description: "One or more products as JSON-stringified objects. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0) for the properties. Example: `{ \"name\": \"My Product\", \"units\": \"pcs\", \"quantity\": 2, \"price\": 10 }`",
+    },
+    additionalOptions: {
+      type: "object",
+      label: "Additional Options",
+      description: "Additional parameters to send in the request. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0) for available parameters. Values will be parsed as JSON where applicable.",
     },
   },
   async run({ $ }) {
-    const response = await this.finmei.createInvoice({
-      customerId: this.customerId,
-      billingAddress: this.billingAddress,
-      transactionDetails: this.transactionDetails,
-      dueDate: this.dueDate,
-      notes: this.notes,
+    const [
+      buyer,
+      products,
+      additionalOptions,
+    ] = [
+      this.buyer,
+      this.products,
+      this.additionalOptions,
+    ].map((value) => {
+      try {
+        return value && JSON.parse(value);
+      } catch (e) {
+        throw new ConfigurationError(`Error parsing value as JSON: \`${value}\``);
+      }
     });
-    $.export("$summary", `Successfully created invoice for customer ID ${this.customerId}`);
+    const response = await this.finmei.createInvoice({
+      $,
+      data: {
+        type: this.type,
+        invoice_date: this.date,
+        series: this.series,
+        currency: this.currency,
+        buyer,
+        products,
+        ...additionalOptions,
+      },
+    });
+    $.export("$summary", `Successfully created invoice (ID: ${response?.data?.id})`);
     return response;
   },
 };
