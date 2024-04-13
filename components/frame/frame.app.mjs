@@ -126,5 +126,14 @@ export default {
         ...args,
       });
     },
+    async createAsset({
+      assetId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/assets/${assetId}/children`,
+        ...args,
+      });
+    },
   },
 };
