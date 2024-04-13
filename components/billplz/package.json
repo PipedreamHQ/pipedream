@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/billplz",
+  "version": "0.0.1",
+  "description": "Pipedream Billplz Components",
+  "main": "billplz.app.mjs",
+  "keywords": [
+    "pipedream",
+    "billplz"
+  ],
+  "homepage": "https://pipedream.com/apps/billplz",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -836,6 +836,9 @@ importers:
   components/bill:
     specifiers: {}
 
+  components/billplz:
+    specifiers: {}
+
   components/billsby:
     specifiers: {}
 
@@ -1535,6 +1538,9 @@ importers:
       '@pipedream/platform': ^1.6.2
     dependencies:
       '@pipedream/platform': 1.6.2
+
+  components/codat:
+    specifiers: {}
 
   components/code_climate:
     specifiers: {}
@@ -3384,7 +3390,10 @@ importers:
       mime: 3.0.0
 
   components/google_postmaster_tools_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/google_recaptcha:
     specifiers:
@@ -5288,7 +5297,12 @@ importers:
     specifiers: {}
 
   components/new_york_times:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      moment: ^2.30.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
+      moment: 2.30.1
 
   components/newscatcher:
     specifiers: {}
@@ -5573,7 +5587,10 @@ importers:
       ongage: 1.1.7_node-fetch@2.7.0
 
   components/onstrategy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/ontraport:
     specifiers:
@@ -6557,6 +6574,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/recharge:
+    specifiers:
+      '@pipedream/platform': 1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/recreation_gov:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6833,6 +6856,12 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/rocket_chat:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/rocketreach:
     specifiers:
@@ -7207,7 +7236,10 @@ importers:
       '@pipedream/platform': 1.6.1
 
   components/sendy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/sensibo:
     specifiers: {}
@@ -7314,7 +7346,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sheetdb:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/shift4:
     specifiers:
@@ -7931,7 +7966,10 @@ importers:
     specifiers: {}
 
   components/sumup:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/supabase:
     specifiers:
@@ -8282,6 +8320,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       dayjs: 1.11.10
+
+  components/thinkific:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/thoughtful_gpt:
     specifiers:
@@ -17407,7 +17451,7 @@ packages:
   /array.prototype.findindex/2.2.2:
     resolution: {integrity: sha512-fnTMT+Xq/VloVDsroPW9JLL1M5UxNTVfoNxU4KeyDcH5C/Jmjikf5+KDH5207wWMC8MBlSOn7kZkkys8XnqWNg==}
     dependencies:
-      call-bind: 1.0.7
+      call-bind: 1.0.2
       define-properties: 1.2.1
       es-abstract: 1.22.2
       es-shim-unscopables: 1.0.0
@@ -30554,7 +30598,7 @@ packages:
   /woodpecker-api/1.1.0:
     resolution: {integrity: sha512-OLKMUEb1Fla1wq5JWM5G/RS+apcpAwq8oJVMRPDpG/9p/u+dbChtNVbqOnyEU3om8+WArvjQrGtMuKzxUS2paA==}
     dependencies:
-      moment: 2.29.4
+      moment: 2.30.1
       request: 2.88.2
       request-promise-any: 1.0.9_request@2.88.2
     dev: false
