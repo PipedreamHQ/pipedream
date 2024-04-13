@@ -1,73 +1,22 @@
-import frame from "../../frame.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "frame-new-project-instant",
-  name: "New Project Instant",
-  description: "Emit new event when a new project is created.",
-  version: "0.0.{{ts}}",
+  name: "New Project (Instant)",
+  description: "Emit new event when a new project is created. [See the documentation](https://developer.frame.io/api/reference/operation/createWebhookForTeam/)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    frame,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  methods: {
+    ...common.methods,
+    getSummary() {
+      return "New Asset";
     },
-    db: "$.service.db",
-    projectId: {
-      propDefinition: [
-        frame,
-        "projectId",
-      ],
+    getHookData() {
+      return [
+        "project.created",
+      ];
     },
-  },
-  hooks: {
-    async deploy() {
-      // Fetch the 50 most recent projects to backfill events on first run
-      const projects = await this.frame.getProjects({
-        pageSize: 50,
-      });
-      projects.forEach((project) => {
-        this.$emit(project, {
-          id: project.id,
-          summary: `New project: ${project.name}`,
-          ts: Date.parse(project.inserted_at),
-        });
-      });
-    },
-    async activate() {
-      // Placeholder for webhook subscription logic if available
-    },
-    async deactivate() {
-      // Placeholder for webhook deletion logic if available
-    },
-  },
-  async run(event) {
-    const {
-      body, headers,
-    } = event;
-
-    // Perform necessary validation of incoming webhook (if applicable)
-    if (!headers["x-frame-signature"]) {
-      this.http.respond({
-        status: 401,
-        body: "Unauthorized: No Frame.io signature header present",
-      });
-      return;
-    }
-
-    // Assuming the body contains the project information directly
-    if (body && body.id) {
-      this.$emit(body, {
-        id: body.id,
-        summary: `New project: ${body.name}`,
-        ts: Date.parse(body.inserted_at),
-      });
-    } else {
-      this.http.respond({
-        status: 400,
-        body: "Bad Request: Missing project ID",
-      });
-    }
   },
 };

@@ -1,68 +1,22 @@
-import frame from "../../frame.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "frame-new-asset-instant",
-  name: "New Asset Instant",
-  description: "Emit new event when an asset is uploaded.",
-  version: "0.0.{{ts}}",
+  name: "New Asset (Instant)",
+  description: "Emit new event when an asset is uploaded. [See the documentation](https://developer.frame.io/api/reference/operation/createWebhookForTeam/)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    frame,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+  methods: {
+    ...common.methods,
+    getSummary() {
+      return "New Asset";
     },
-    db: "$.service.db",
-    assetId: {
-      propDefinition: [
-        frame,
-        "assetId",
-      ],
+    getHookData() {
+      return [
+        "asset.created",
+      ];
     },
-  },
-  hooks: {
-    async activate() {
-      // Placeholder for webhook subscription logic if required
-    },
-    async deactivate() {
-      // Placeholder for webhook deletion logic if required
-    },
-  },
-  async run(event) {
-    const { body } = event;
-
-    // Assuming the event structure contains an asset ID at `body.asset_id`
-    // and this asset ID matches the configured `assetId` prop.
-    if (!body || !body.asset_id || body.asset_id !== this.assetId) {
-      this.http.respond({
-        status: 404,
-        body: "Asset not found or doesn't match the configured asset ID",
-      });
-      return;
-    }
-
-    const assetDetails = await this.frame.getAssetDetails({
-      assetId: this.assetId,
-    });
-
-    if (!assetDetails) {
-      this.http.respond({
-        status: 404,
-        body: "Asset details not found",
-      });
-      return;
-    }
-
-    this.$emit(assetDetails, {
-      id: assetDetails.id,
-      summary: `New asset uploaded: ${assetDetails.name}`,
-      ts: Date.parse(assetDetails.created_at),
-    });
-
-    this.http.respond({
-      status: 200,
-      body: "Event processed",
-    });
   },
 };
