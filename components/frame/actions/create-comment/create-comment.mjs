@@ -4,7 +4,7 @@ export default {
   key: "frame-create-comment",
   name: "Create Comment",
   description: "Creates a new comment on an asset in Frame.io. [See the documentation](https://developer.frame.io/api/reference/operation/createComment/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     frame,
@@ -82,14 +82,20 @@ export default {
     },
   },
   async run({ $ }) {
-    // remove accountId, etc.
     const {
-      frame, assetId, ...data
+      frame, assetId, text, annotation, page, timestamp, duration,
     } = this;
     const response = await frame.sendComment({
       $,
       assetId,
-      data,
+      data: {
+        text,
+        annotation,
+        page,
+        timestamp,
+        duration,
+        private: this.private,
+      },
     });
     $.export("$summary", `Successfully created comment (ID: ${response.id})`);
     return response;
