@@ -2911,6 +2911,12 @@ importers:
   components/foxy:
     specifiers: {}
 
+  components/frame:
+    specifiers:
+      '@pipedream/platform': ^1.6.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
+
   components/fraudlabs_pro:
     specifiers:
       fraudlabspro-nodejs: ^3.0.0
