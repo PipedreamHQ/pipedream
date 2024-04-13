@@ -7,85 +7,86 @@ export default {
     locationId: {
       type: "string",
       label: "Location ID",
-      description: "The unique identifier for the location.",
+      description: "The ID of the location",
+      async options({ searchQuery }) {
+        const { data: resources } = await this.searchLocations({
+          params: {
+            searchQuery,
+          },
+        });
+        return resources.map(({
+          location_id, name,
+        }) => ({
+          value: location_id,
+          label: name,
+        }));
+      },
     },
-    query: {
+    searchQuery: {
       type: "string",
       label: "Search Query",
-      description: "The search query to find locations.",
+      description: "The search query to find locations",
+    },
+    address: {
+      type: "string",
+      label: "Location Address",
+      description: "The address of the location",
       optional: true,
     },
-    latitude: {
+    category: {
       type: "string",
-      label: "Latitude",
-      description: "The latitude of the location for a nearby search.",
-    },
-    longitude: {
-      type: "string",
-      label: "Longitude",
-      description: "The longitude of the location for a nearby search.",
+      label: "Location Category",
+      description: "The category of the location",
+      optional: true,
+      options: [
+        "hotels",
+        "attractions",
+        "restaurants",
+        "geos",
+      ],
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.tripadvisor.com/api/v1";
+      return "https://api.content.tripadvisor.com/api/v1";
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         params,
-        data,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "X-TripAdvisor-API-Key": `${this.$auth.api_key}`,
-        },
-        params,
-        data,
-      });
-    },
-    async getLocationDetails({ locationId }) {
-      return this._makeRequest({
-        path: `/locations/${locationId}`,
-      });
-    },
-    async getLocationPhotos({ locationId }) {
-      return this._makeRequest({
-        path: `/locations/${locationId}/photos`,
-      });
-    },
-    async getLocationReviews({ locationId }) {
-      return this._makeRequest({
-        path: `/locations/${locationId}/reviews`,
-      });
-    },
-    async searchForLocations({ query }) {
-      return this._makeRequest({
-        path: "/locations/search",
         params: {
-          query,
+          ...params,
+          key: `${this.$auth.api_key}`,
         },
       });
     },
-    async searchForNearbyLocations({
-      latitude, longitude,
+    async getLocationDetails({
+      locationId, ...args
     }) {
       return this._makeRequest({
-        path: "/locations/mapsearch",
-        params: {
-          latitude,
-          longitude,
-        },
+        ...args,
+        path: `/location/${locationId}/details`,
+      });
+    },
+    async getLocationReviews({
+      locationId, ...args
+    }) {
+      return this._makeRequest({
+        ...args,
+        path: `/location/${locationId}/reviews`,
+      });
+    },
+    async searchLocations(args = {}) {
+      return this._makeRequest({
+        ...args,
+        path: "/location/search",
       });
     },
   },
-  version: "0.0.{{ts}}",
 };
