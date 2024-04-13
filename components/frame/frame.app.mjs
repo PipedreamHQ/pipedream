@@ -135,5 +135,20 @@ export default {
         ...args,
       });
     },
+    async createWebhook({
+      teamId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/teams/${teamId}/hooks`,
+        ...args,
+      });
+    },
+    async deleteWebhook(hookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        url: `/hooks/${hookId}`,
+      });
+    },
   },
 };
