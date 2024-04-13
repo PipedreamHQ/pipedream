@@ -6,7 +6,7 @@ export default {
   propDefinitions: {},
   methods: {
     _baseUrl() {
-      return "https://api.finmei.com";
+      return "https://app.finmei.com/api";
     },
     async _makeRequest({
       $ = this,

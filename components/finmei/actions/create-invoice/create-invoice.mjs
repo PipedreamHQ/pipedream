@@ -5,7 +5,8 @@ import finmei from "../../finmei.app.mjs";
 export default {
   key: "finmei-create-invoice",
   name: "Create Invoice",
-  description: "Generates a new invoice within Finmei. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0)",
+  description:
+    "Generates a new invoice within Finmei. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -32,37 +33,72 @@ export default {
       description: "Uppercase three letter currency code, e.g. `USD`",
     },
     buyer: {
-      type: "string[]",
-      label: "Buyer(s)",
-      description: "One or more buyers as JSON-stringified objects. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0) for the properties. Example: `{ \"type\": \"company\", \"company_name\": \"My Company\" }`",
+      type: "object",
+      label: "Buyer",
+      description:
+        "The buyer info, as an object. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0) for the properties. Example: `{ \"type\": \"company\", \"company_name\": \"My Company\" }`",
     },
     products: {
       type: "string[]",
       label: "Product(s)",
-      description: "One or more products as JSON-stringified objects. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0) for the properties. Example: `{ \"name\": \"My Product\", \"units\": \"pcs\", \"quantity\": 2, \"price\": 10 }`",
+      description:
+        "One or more products as JSON-stringified objects. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0) for the properties. Example: `{ \"name\": \"My Product\", \"units\": \"pcs\", \"quantity\": 2, \"price\": 10 }`",
+    },
+    useDefaultSellerInfo: {
+      type: "boolean",
+      label: "Use Default Seller Info",
+      description:
+        "If true, you do not need to provide seller info. Your business info and latest invoice information will be used.",
+      optional: true,
+      default: true,
     },
     additionalOptions: {
       type: "object",
       label: "Additional Options",
-      description: "Additional parameters to send in the request. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0) for available parameters. Values will be parsed as JSON where applicable.",
+      description:
+        "Additional parameters to send in the request. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0) for available parameters. Values will be parsed as JSON where applicable.",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const [
-      buyer,
-      products,
-      additionalOptions,
-    ] = [
-      this.buyer,
-      this.products,
-      this.additionalOptions,
-    ].map((value) => {
-      try {
-        return value && JSON.parse(value);
-      } catch (e) {
-        throw new ConfigurationError(`Error parsing value as JSON: \`${value}\``);
-      }
-    });
+    let products, buyer;
+    try {
+      products = this.products.map(JSON.parse);
+    } catch (e) {
+      throw new ConfigurationError(
+        `Error parsing JSON value in \`Product(s)\` prop as JSON: \`${e}\``,
+      );
+    }
+    try {
+      buyer = typeof this.buyer === "string"
+        ? JSON.parse(this.buyer)
+        : this.buyer;
+    } catch (e) {
+      throw new ConfigurationError(
+        `Error parsing JSON value in \`Product(s)\` prop as JSON: \`${e}\``,
+      );
+    }
+
+    let additionalOptions = Object.fromEntries(
+      Object.entries(this.additionalOptions ?? {}).map(([
+        key,
+        value,
+      ]) => {
+        // optional JSON parsing
+        try {
+          return [
+            key,
+            JSON.parse(value),
+          ];
+        } catch (e) {
+          return [
+            key,
+            value,
+          ];
+        }
+      }),
+    );
+
     const response = await this.finmei.createInvoice({
       $,
       data: {
@@ -70,12 +106,16 @@ export default {
         invoice_date: this.date,
         series: this.series,
         currency: this.currency,
+        use_default_seller_info: this.useDefaultSellerInfo,
         buyer,
         products,
         ...additionalOptions,
       },
     });
-    $.export("$summary", `Successfully created invoice (ID: ${response?.data?.id})`);
+    $.export(
+      "$summary",
+      `Successfully created invoice (ID: ${response?.data?.id})`,
+    );
     return response;
   },
 };
