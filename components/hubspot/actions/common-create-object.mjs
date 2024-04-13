@@ -54,7 +54,7 @@ export default {
     } catch (err) {
       if (updateIfExists && err?.message) {
         const errorObj = JSON.parse(err?.message);
-        if (errorObj?.category === "CONFLICT") {
+        if (errorObj?.category === "CONFLICT" || errorObj?.category === "OBJECT_ALREADY_EXISTS") {
           const objectId = parseInt(errorObj.message.replace(/[^\d]/g, ""));
           const response = await hubspot.updateObject(objectType, properties, objectId, $);
           const objectName = hubspot.getObjectTypeName(objectType);
