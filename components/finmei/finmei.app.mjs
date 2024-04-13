@@ -36,45 +36,26 @@ export default {
     _baseUrl() {
       return "https://api.finmei.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path,
-        headers,
-        data,
-        params,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `Bearer ${this.$auth.api_token}`,
         },
-        data,
-        params,
       });
     },
-    async createInvoice({
-      customerId, billingAddress, transactionDetails, dueDate = null, notes = null,
-    }) {
+    async createInvoice(args) {
       return this._makeRequest({
-        path: "/invoices",
-        data: {
-          customer_id: customerId,
-          billing_address: billingAddress,
-          transaction_details: transactionDetails,
-          due_date: dueDate,
-          notes,
-        },
+        method: "post",
+        url: "/invoices",
+        ...args,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
