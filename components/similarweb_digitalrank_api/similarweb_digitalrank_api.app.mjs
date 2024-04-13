@@ -4,71 +4,57 @@ export default {
   type: "app",
   app: "similarweb_digitalrank_api",
   propDefinitions: {
-    similarwebApiKey: {
-      type: "string",
-      label: "Similarweb API Key",
-      description: "Your Similarweb API key",
-      secret: true,
-    },
     limit: {
       type: "integer",
       label: "Limit",
       description: "The number of desired results",
       optional: true,
-      default: 10,
-      min: 1,
-      max: 100,
     },
     domain: {
       type: "string",
       label: "Domain",
-      description: "Enter the domain to retrieve its global rank",
+      description: "Enter the domain to retrieve its global rank, i.e. `google.com`",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.similarweb.com/v1";
+      return "https://api.similarweb.com";
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         params,
         ...otherOpts
       } = opts;
       return axios($, {
-        method,
-        url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.similarwebApiKey}`,
+        url: this._baseUrl() + path,
+        params: {
+          ...params,
+          api_key: `${this.$auth.api_key}`,
         },
-        params,
         ...otherOpts,
       });
     },
-    async listTopRankingWebsites(opts = {}) {
-      const { limit } = opts;
+    async listTopRankingWebsites(args = {}) {
       return this._makeRequest({
-        path: "/similar-rank/top-sites/all-traffic",
-        params: {
-          limit: limit || this.limit,
-        },
+        path: "/v1/similar-rank/top-sites/",
+        ...args,
       });
     },
-    async getWebsiteRank(opts = {}) {
-      const { domain } = opts;
+    async getWebsiteRank({
+      domain, ...args
+    }) {
       return this._makeRequest({
-        path: `/similar-rank/${domain}/rank`,
+        path: `/v1/similar-rank/${domain}/rank`,
+        ...args,
       });
     },
-    async getSubscriptionStatus() {
+    async getSubscriptionStatus(args = {}) {
       return this._makeRequest({
         path: "/user-capabilities",
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };

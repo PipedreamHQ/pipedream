@@ -1,24 +1,26 @@
-import similarweb from "../../similarweb_digitalrank_api.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../similarweb_digitalrank_api.app.mjs";
 
 export default {
   key: "similarweb_digitalrank_api-get-ranked-sites",
   name: "Get Ranked Sites",
-  description: "List the top-ranking websites globally. [See the documentation](https://developers.similarweb.com/reference/top-similarrank-sites-all-traffic)",
-  version: "0.0.{{ts}}",
+  description: "List the top-ranking websites globally. [See the documentation](https://developers.similarweb.com/docs/digital-rank-api)",
+  version: "0.0.1",
   type: "action",
   props: {
-    similarweb,
+    app,
     limit: {
       propDefinition: [
-        similarweb,
+        app,
         "limit",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.similarweb.listTopRankingWebsites({
-      limit: this.limit,
+    const response = await this.app.listTopRankingWebsites({
+      $,
+      params: {
+        limit: this.limit,
+      },
     });
 
     $.export("$summary", `Successfully listed the top ${this.limit} ranking websites globally.`);

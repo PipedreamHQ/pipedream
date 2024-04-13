@@ -1,28 +1,21 @@
-import similarweb from "../../similarweb_digitalrank_api.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../similarweb_digitalrank_api.app.mjs";
 
 export default {
   key: "similarweb_digitalrank_api-get-subscription-status",
   name: "Get Subscription Status",
-  description: "Returns the number of monthly data points remaining in your Similarweb account. [See the documentation](https://developers.similarweb.com/docs/digital-rank-api#section-Get-Subscription-Status)",
-  version: "0.0.{{ts}}",
+  description: "Returns the number of monthly data points remaining in your Similarweb account. [See the documentation](https://developers.similarweb.com/docs/digital-rank-api)",
+  version: "0.0.1",
   type: "action",
   props: {
-    similarweb,
+    app,
   },
   async run({ $ }) {
-    const response = await this.similarweb.getSubscriptionStatus();
+    const response = await this.app.getSubscriptionStatus({
+      $,
+    });
 
-    const remainingDataPoints = response.headers["sw-datapoint-remaining"];
-    if (!remainingDataPoints) {
-      throw new Error("Could not retrieve remaining data points. Please check your Similarweb account.");
-    }
+    $.export("$summary", `You have ${response.user_remaining} monthly data points remaining in your Similarweb account.`);
 
-    const summaryMessage = `You have ${remainingDataPoints} monthly data points remaining in your Similarweb account.`;
-
-    $.export("$summary", summaryMessage);
-    return {
-      remainingDataPoints,
-    };
+    return response;
   },
 };
