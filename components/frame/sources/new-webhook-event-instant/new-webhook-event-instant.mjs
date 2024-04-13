@@ -5,10 +5,10 @@ export default {
   ...common,
   key: "frame-new-webhook-event-instant",
   name: "New Webhook Event (Instant)",
-  description: "Emit new event when a new project is created. [See the documentation](https://developer.frame.io/api/reference/operation/createWebhookForTeam/)",
+  description:
+    "Emit new event when a new project is created. [See the documentation](https://developer.frame.io/api/reference/operation/createWebhookForTeam/)",
   version: "0.0.1",
   type: "source",
-  dedupe: "unique",
   props: {
     ...common.props,
     eventTypes: {
@@ -20,8 +20,10 @@ export default {
   },
   methods: {
     ...common.methods,
-    getSummary() {
-      return "New Event";
+    getSummary(body) {
+      return `New Event${body
+        ? ` (${body?.type})`
+        : ""}`;
     },
     getHookData() {
       return this.eventTypes;

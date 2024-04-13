@@ -5,10 +5,19 @@ export default {
     app,
     http: "$.interface.http",
     db: "$.service.db",
+    accountId: {
+      propDefinition: [
+        app,
+        "accountId",
+      ],
+    },
     teamId: {
       propDefinition: [
         app,
         "teamId",
+        ({ accountId }) => ({
+          accountId,
+        }),
       ],
     },
   },
@@ -27,11 +36,12 @@ export default {
     async activate() {
       const data = {
         url: this.http.endpoint,
-        name: `Pipedream Source (${this.getHookName()})`,
+        name: `Pipedream Source (${this.getSummary()})`,
         events: this.getHookData(),
       };
 
       const { id } = await this.app.createWebhook({
+        teamId: this.teamId,
         data,
       });
       this._setWebhookId(id);

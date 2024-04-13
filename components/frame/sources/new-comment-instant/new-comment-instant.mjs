@@ -7,7 +7,6 @@ export default {
   description: "Emit new event when a new comment is left on an asset. [See the documentation](https://developer.frame.io/api/reference/operation/createWebhookForTeam/)",
   version: "0.0.1",
   type: "source",
-  dedupe: "unique",
   methods: {
     ...common.methods,
     getSummary() {
