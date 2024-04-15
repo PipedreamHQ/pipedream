@@ -1,6 +1,6 @@
 # Overview
 
-The SFTP (password-based auth) API on Pipedream enables secure file management on remote servers directly from your workflows. Utilize this app to automate file uploads, downloads, and synchronization tasks between your systems and SFTP servers. Implement robust data pipelines or deploy content to web servers without manual intervention, all while maintaining a high level of security with password-based authentication.
+SFTP on Pipedream enables secure file management on remote servers directly from your workflows. Utilize this app to automate file uploads, downloads, and synchronization tasks between your systems and SFTP servers. Implement robust data pipelines or deploy content to web servers without manual intervention, all while maintaining a high level of security with password-based authentication.
 
 # Example Use Cases
 
