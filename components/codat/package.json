@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/codat",
+  "version": "0.0.1",
+  "description": "Pipedream Codat Components",
+  "main": "codat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "codat"
+  ],
+  "homepage": "https://pipedream.com/apps/codat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
