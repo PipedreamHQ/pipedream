@@ -1,6 +1,6 @@
 # Overview
 
-MongoDB API on Pipedream allows you to leverage MongoDB's capabilities within serverless workflows, automating tasks such as data insertion, querying, updates, and deletions. You can orchestrate these operations in response to HTTP requests, schedules, or events from over 300+ Pipedream-supported apps. By connecting MongoDB to other services, you can synchronize data across platforms, process and analyze collected data, and react to changes in real-time, all within Pipedream's easy-to-use interface.
+MongoDB API on Pipedream allows you to leverage MongoDB's capabilities within serverless workflows, automating tasks such as data insertion, querying, updates, and deletions. You can orchestrate these operations in response to HTTP requests, schedules, or events from over 2000+ Pipedream-supported apps. By connecting MongoDB to other services, you can synchronize data across platforms, process and analyze collected data, and react to changes in real-time, all within Pipedream's easy-to-use interface.
 
 # Example Use Cases
 
