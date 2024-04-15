@@ -1,14 +1,11 @@
 # Overview
 
-With the Twilio API, you can build telephone applications that make and receive
-phone calls, as well astext messaging applications that send and receive text
-messages.
+Twilio's API unlocks powerful communication capabilities, allowing you to send and receive text messages, make calls, and perform other telephony functions programmatically. Integrate Twilio with Pipedream to automate notifications, connect with customers, and streamline various communication workflows. Pipedream's serverless platform facilitates the quick deployment of these integrations, offering a code-free environment for setting up event-driven workflows or a code-centric approach for customized logic.
 
-Some examples of applications you could build include:
+# Example Use Cases
 
-- A phone call application that allows you to make and receive phone calls over
-  the internet
-- A text messaging application that allows you to send and receive text
-  messages over the internet
-- A voicemail application that allows you to leave and receive voicemails over
-  the internet
+- **Automated SMS Notifications upon Order Status Update**: Trigger an SMS to customers when their order status changes in your e-commerce platform. This keeps customers in the know, enhancing their shopping experience.
+
+- **Scheduled Appointment Reminders**: Connect Twilio with a calendar app to send appointment reminders via SMS. Reduce no-shows by automating reminders a day before the scheduled appointment.
+
+- **Two-Factor Authentication (2FA) System**: Use Twilio in conjunction with a user management platform to send out 2FA codes, adding an extra layer of security to your application's authentication process.

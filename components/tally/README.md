@@ -1,24 +1,11 @@
 # Overview
 
-Using Tally API, you can build powerful applications that allow business users
-to track, analyze, and automate their data. Here are some examples of what you
-can build with the Tally API:
+Tally's API lets you craft workflows for seamless data management and interaction with Tally forms. With Pipedream, you can automate actions based on form submissions, orchestrate data flows, and connect Tally to hundreds of other apps. Create dynamic forms, analyze submissions, and trigger events in other services like CRMs, databases, or communication platforms. Pipedream’s serverless platform empowers you to build, modify, and scale these integrations with minimal fuss.
 
-- Accounting Integrations: Integrate financial data from Tally into any
-  third-party accounting and finance platform.
-- Reporting & Analysis: Create custom dashboards and reports to get deep
-  insights into your business.
-- Business Automations: Automate anything from customer support inquiries to
-  employee paychecks.
-- Advertising & Marketing: Connect Tally with ad networks and marketing
-  platforms for better understanding of campaign performance.
-- CRM Integrations: Improve customer satisfaction and support by integrating
-  Tally with your CRM.
-- Connected Devices: Connect Tally with IoT devices so you can monitor and
-  analyze data in realtime.
-- Inventory Management: Track inventory levels and manage stock level
-  automatically.
-- ECommerce Platforms: Connect Tally with popular eCommerce platforms to get
-  accurate orders and transactions data.
-- Billing & Payment Solutions: Connect Tally with payment gateways and billing
-  software to automate customer invoices and payments.
+# Example Use Cases
+
+- **Automate Contact Collection to CRM**: When a new Tally form submission includes contact info, Pipedream can automatically add or update the contact details in a CRM like Salesforce, keeping your lead database fresh and up-to-date.
+
+- **Feedback Analysis and Notification**: Analyze feedback from Tally form submissions in real-time. Use Pipedream to send sentiment analysis to a Google Sheet and trigger an alert via Slack or email if a response requires immediate attention.
+
+- **Event Registration and Calendar Integration**: Use Pipedream to streamline event sign-ups. When someone registers through a Tally form, Pipedream can create a new event in a Google Calendar and send a customized confirmation email to the participant.
