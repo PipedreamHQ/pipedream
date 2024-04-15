@@ -1,20 +1,11 @@
 # Overview
 
-Cloudinary is a powerful image and video management API that can be used to
-deliver images and videos for a number of different use cases, including:
+The Cloudinary API unlocks powerful media management capabilities within Pipedream. By leveraging this API, you can automate image and video uploads, apply transformations, and manage your digital asset library programmatically. Imagine orchestrating media optimization tasks, dynamically generating content, and maintaining your assets without manual intervention—all within Pipedream's serverless environment.
 
-- Social media applications
-- E-commerce websites
-- News websites
-- Blogs
-- And more!
+# Example Use Cases
 
-Here are some examples of what you can build with the Cloudinary API:
+- **Dynamic Image Resizing and Optimization for E-commerce**: Automate the process of resizing product images upon upload, optimizing them for web display. Integrate Shopify or WooCommerce with Cloudinary on Pipedream to streamline media handling for your online store.
 
-- An image gallery that displays images from a Cloudinary account
-- A social media application that allows users to upload and share images and
-  videos
-- An e-commerce website that allows users to manage their product images and
-  videos
-- A news website that allows journalists to upload and share images and videos
-- A blog that allows bloggers to manage their blog images and videos
+- **Content Moderation Pipeline**: Build a workflow that flags and reviews potentially inappropriate user-generated content. Use the Cloudinary API to analyze and categorize images, then connect to Slack or another communication platform to alert moderators within Pipedream.
+
+- **Social Media Content Scheduler**: Schedule and publish optimized images or videos to your social media accounts like Twitter or Facebook. Combine the Cloudinary API with Pipedream's cron scheduler to regularly update your social channels with fresh, engaging content.

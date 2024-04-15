@@ -1,22 +1,11 @@
 # Overview
 
-NoCodeDB offers a powerful API that allows you to build compelling web and
-mobile applications without writing code. With this API, you can create robust
-applications that interact with millions of users, securely store data, and
-build integrations with other services. Here’s a short list of some of the
-things you can do with NoCodeDB:
+The NocoDB API turns your databases into a smart spreadsheet interface, allowing for CRUD operations on your data. With Pipedream's ability to connect to virtually any API, you can leverage NocoDB's API to automate database operations, sync data across multiple platforms, and create dynamic, serverless workflows. On Pipedream, you can trigger workflows using various events, from webhooks to schedules, and use NocoDB's API for intricate data manipulation, analysis, or reporting tasks.
 
-- Create real-time web applications by connecting to your users via WebSockets
-- Securely store and manage data for user accounts and settings
-- Create custom APIs to extend your applications
-- Create integrations with third-party services such as Stripe, Salesforce,
-  Google Drive, and Dropbox
-- Deploy on serverless infrastructure to ensure fast and reliable results
-- Create custom data models to define relationships between data
-- Create custom queries to access data in powerful ways
-- Automate tasks with serverless functions
-- Monitor application performance and security with detailed analysis
-- Extend existing applications with custom data and logic
-- Utilize modern data practices such as GraphQL and cloud storage
-- Create secure and fully compliant serverless environments
-- And more!
+# Example Use Cases
+
+- **Automated Data Entry Workflow**: Trigger a workflow on Pipedream when a form is submitted on your website or app. Use the NocoDB API to add this new data directly into your database, keeping your records up to date without manual input.
+
+- **Database Syncing Workflow**: Sync contacts between NocoDB and a CRM tool like Salesforce. When new contacts are added or updated in NocoDB, the changes are automatically reflected in Salesforce, ensuring consistent data across your business tools.
+
+- **Issue Tracker Integration**: Connect NocoDB with a project management tool like GitHub. When an issue is marked as resolved in GitHub, the workflow updates the corresponding record in NocoDB to reflect the change, maintaining an accurate project status overview.

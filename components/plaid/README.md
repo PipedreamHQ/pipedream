@@ -1,18 +1,11 @@
 # Overview
 
- What can I do with the Plaid API?
+The Plaid API provides robust financial data services, allowing you to connect user bank accounts to your app, retrieve account transactions, monitor for account changes, and verify account ownership. On Pipedream, you can leverage these capabilities to create powerful, serverless workflows that react to a variety of financial events, aggregate and analyze financial data, or integrate with other apps to streamline finance-related processes.
 
-The Plaid API enables developers to access financial data from a powerful network of over 11,000 banks, credit cards, investment firms, and more. It helps developers build applications and products that can securely connect with financial institutions, while addressing financial crimes and privacy issues.
+# Example Use Cases
 
-The Plaid API can be used to:
+- **Transaction Monitoring and Alerts**: Build a workflow that triggers whenever new transactions are detected in a user's bank account. Use this to send real-time alerts via email or SMS, or log the transactions to a Google Sheet for easy monitoring and analysis.
 
-- Build a financial management web or mobile application that lets users monitor their accounts, get their credit score, and analyze their spending patterns
-- Create an ACH payments gateway that streamlines transactions between customers and businesses
-- Develop a personal finance application that helps users compare rates, compare deals and save money
-- Link up users' financial accounts within financial management platforms, providing a more comprehensive overview
-- Connect customer bank accounts for businesses looking to offer a cash back rewards program
-- Create a fraud detection and prevention system
-- Integrate with banking and credit card processing systems
-- Build a budgeting application
-- Generate a financial matching service so users can find the right financial products for their needs
-- Enable money transfers, allowing users to move money between accounts securely and easily
+- **Expense Tracking and Categorization**: Develop an automatic expense tracker by triggering a workflow on each transaction. Using Pipedream's built-in code steps, categorize transactions by type, vendor, or custom rules, then push this categorized data into accounting software like QuickBooks for simplified bookkeeping.
+
+- **Account Verification for Payment Processing**: Set up a workflow that uses Plaid's account verification capabilities to streamline onboarding for payment processing. Once a user's account is linked and verified, use Pipedream to connect to payment gateways like Stripe to initiate payments or manage subscriptions.

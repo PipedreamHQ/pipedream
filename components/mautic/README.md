@@ -1,13 +1,11 @@
 # Overview
 
-Mautic's API enables you to build custom integrations and applications on top
-of Mautic. This means you can connect Mautic to other tools in your tech stack,
-automate processes, or even build your own Mautic-powered app.
+Mautic, an open-source marketing automation platform, provides a powerful API that lets you interact with your marketing data programmatically. With Pipedream, you can harness this API to create bespoke workflows that automate your marketing processes, sync data between platforms, and react to events in real-time. Whether you're managing contacts, campaigns, or measuring analytics, integrating Mautic with Pipedream simplifies complex tasks, cutting them down to size.
 
-Here are a few examples of what you can build using the Mautic API:
+# Example Use Cases
 
-- A CRM integration that syncs contact data between Mautic and your CRM system
-- An ecommerce integration that tracks purchase data from your store in Mautic
-- A marketing automation workflow that sends automated emails based on contact
-  activity in Mautic
-- A custom app that uses Mautic data to power some unique functionality
+- **Sync Mautic Contacts with a CRM**: Automatically sync new or updated contacts between Mautic and your preferred CRM platform. When a contact is added or modified in Mautic, trigger a Pipedream workflow that updates the contact's information in the CRM, ensuring consistent data across platforms.
+
+- **Automate Campaign Follow-ups**: Create a workflow that listens for webhook events from Mautic indicating a user has completed a certain action, like downloading an eBook. Use this trigger to automatically enroll the contact into a tailored follow-up email sequence in Mautic, or another email platform, to keep the conversation going.
+
+- **Lead Scoring with Custom Logic**: Implement a Pipedream workflow that reacts to changes in a contact's engagement level, as tracked by Mautic. Apply custom logic to assign or adjust lead scores based on the contact's behavior, and then use this data to segment contacts into different nurturing streams or notify your sales team of hot leads.

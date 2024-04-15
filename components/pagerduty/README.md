@@ -1,16 +1,11 @@
 # Overview
 
-PagerDuty's APIs allow you to integrate the powerful incident response
-capabilities of PagerDuty with your own custom applications. With PagerDuty's
-APIs, you can build applications to optimize your incident response process,
-collaborate with teams more effectively, and analyze data from your incident
-response process. Here are some examples of what you can do with PagerDuty's
-APIs:
+The PagerDuty API provides a powerful interface for automating and integrating your incident management processes within Pipedream. With this API, you can create incidents, manage on-call schedules, trigger alerts, and much more, directly from your Pipedream workflows. By linking PagerDuty to other apps and services, you can build dynamic, responsive systems that streamline your operations, reduce downtime, and keep your teams notified and coordinated in real time.
 
-- Create and manage automated incident response workflows
-- Automatically trigger actions based on incident response events
-- Enable communication between PagerDuty and other third party applications
-- Pull data from your previous incident response processes to identify best
-  practices
-- Create custom reporting tools and insights into incident response processes
-- Monitor multiple teams and services at once
+# Example Use Cases
+
+- **Incident Automation with GitHub**: Trigger a PagerDuty incident when a GitHub issue with a specific label is created. This ensures your team promptly handles critical bugs or issues that require immediate attention.
+
+- **Monitoring System Integration**: Connect PagerDuty with a monitoring system like Datadog. When Datadog detects an anomaly or an outage, it automatically creates an incident in PagerDuty, mobilizing your on-call engineer to act without delay.
+
+- **Scheduled On-Call Notifications**: Sync PagerDuty's on-call schedules with Google Calendar. Each shift change automatically creates a calendar event, keeping everyone informed about their on-call responsibilities.

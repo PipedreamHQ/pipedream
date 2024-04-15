@@ -1,19 +1,11 @@
 # Overview
 
-The Smartsheet API gives developers access to Smartsheet platform features and
-data, enabling you to build custom applications and integrations that extend
-the functionality of Smartsheet. With the Smartsheet API, you can create
-powerful integrations that are tailored to your specific business needs.
+The Smartsheet API on Pipedream allows for seamless integration and automation of your spreadsheet and project management tasks. With this API, you can create, update, delete, and read sheets, rows, columns, and attachments. It simplifies the synchronization of data between Smartsheet and other services, triggering workflows on data changes, and performing batch operations to enhance productivity.
 
-Using the Smartsheet API, you can:
+# Example Use Cases
 
-- Create and manage sheets, rows, and columns
-- Automate and manage sheet features such as formulas and conditional
-  formatting
-- Develop custom sheet views, including sorting and filtering options
-- Capture and track changes with versioning
-- Read, write, and delete data
-- Create reports, dashboards, and timelines
-- Collaborate with comments and notifications
-- Store and organize files in Google Drive, Box and Dropbox
-- Run workflows and automate actions
+- **Automate Project Task Creation**: When a new ticket is created in your project management tool, such as Jira, use Pipedream to automatically create a corresponding task in a Smartsheet project sheet, ensuring project tracking is always up-to-date.
+
+- **Sync Contacts with CRM**: Keep your CRM platform, like Salesforce, in sync with Smartsheet by using Pipedream to create or update contacts in Salesforce whenever a new row is added to a Smartsheet containing contact information.
+
+- **Aggregate Social Media Metrics**: Collect and consolidate social media data into a Smartsheet report by setting up a Pipedream workflow that fetches metrics from various platforms like Twitter, Facebook, and Instagram at regular intervals.

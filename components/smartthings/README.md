@@ -1,31 +1,11 @@
 # Overview
 
-The Samsung SmartThings API is an open platform that enables developers to
-quickly and securely connect a wide range of devices, services, and
-applications to the SmartThings smart home and connected environment. With the
-API, you can integrate your SmartThings-compatible products with a range of
-third-party services and applications for enhanced convenience, automation, and
-control.
+The Samsung SmartThings API lets you connect and automate your smart home devices. With Pipedream, you can harness this API to create custom workflows that interact with your gadgets, respond to events, and orchestrate devices to work together seamlessly. Trigger actions based on sensor readings, automate lighting, or even secure your home with custom routines that fit your life like a glove.
 
-Using the SmartThings API, you can create custom automations and routines,
-helpful notifications, unique user experiences, and otherwise extend the
-functionality of your SmartThings-enabled devices. You can also control your
-devices with voice commands or control remotely over the internet, adding an
-extra layer of convenience to your home or business.
+# Example Use Cases
 
-Examples of What You Can Build with the SmartThings API
+- **Smart Security Alerts**: Send an alert to your phone or email when your SmartThings motion sensor detects unexpected movement. Combine this with facial recognition software to determine if the movement is from a stranger or a known person.
 
-- Automatically adjust the temperature of your thermostat when motion is
-  detected in a certain room
-- Set up lights to turn off when you leave the room
-- Display your garden’s temperature and weather conditions on a mobile app
-- Set connected appliances to run at certain times and even synchronize them
-  with a calendar
-- Control the lighting around your home from your smartphone
-- Receive notifications when doors and windows are opened
-- Create a security system by connecting detectors and cameras
-- Automate the lock on your doors based on the location of your smartphone
-- Track your energy usage and set energy-saving schedules for connected
-  appliances
-- Receive personalized alerts about air quality based on changes in the
-  environment.
+- **Energy Saving Mode**: Automatically turn off lights and set thermostats to eco-mode when your SmartThings presence sensors indicate no one is home. Integrate with weather services to adjust settings based on the exterior environment for maximum energy efficiency.
+
+- **Routine Starters**: Kick off your morning or evening routine by controlling multiple devices with a single command. Have your coffee maker start brewing, play your favorite playlist, and gradually brighten lights at a set time or when your alarm goes off.

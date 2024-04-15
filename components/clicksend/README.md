@@ -1,15 +1,11 @@
 # Overview
 
-With ClickSend's SMS API, you can:
+The ClickSend SMS API on Pipedream allows you to harness the power of SMS messaging within your automated workflows. Send text messages, manage contacts, and track the delivery status of your messages, all programmatically through Pipedream's robust integration platform. Combine ClickSend with other apps available on Pipedream to craft custom notifications, alerts, and communication flows that can scale with your needs.
 
-- Send SMS messages
-- Check SMS delivery status
-- Receive inbound SMS messages
-- Set up SMS webhooks
+# Example Use Cases
 
-Here are some examples of what you can build with the SMS API:
+- **Customer Order Updates via SMS**: Automate the process of sending SMS updates to customers when their order status changes. Connect ClickSend with an e-commerce platform like Shopify to trigger an SMS whenever an order is shipped, out for delivery, or delivered.
 
-- A service that sends SMS messages to users
-- A system that tracks the delivery status of SMS messages
-- A service that receioves inbound SMS messages
-- A system that sets up SMS webhooks
+- **SMS Alert for Website Downtime**: Set up a monitoring system by combining ClickSend with uptime tracking services like UptimeRobot. Send an SMS alert to your team the moment your website experiences downtime, ensuring quick response to minimize service disruption.
+
+- **Event Reminder Texts**: Use ClickSend to send out reminders for upcoming events. Sync with Google Calendar to automatically dispatch reminder texts a day before an event to all participants, ensuring better attendance and engagement.

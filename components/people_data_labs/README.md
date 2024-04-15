@@ -1,22 +1,11 @@
 # Overview
 
-People Data Labs API provides reliable access to massive and up-to-date
-worldwide datasets, enabling businesses to get the data they need to make more
-informed decisions. With People Data Labs' easy-to-use API, you can explore and
-access a variety of datasets to build innovative solutions. Here are a few
-examples of what you can build using the People Data Labs API:
+The People Data Labs API offers a wealth of person and company data, empowering developers to enrich contact information, profile details, and company data within their applications. On Pipedream, you can leverage this API to create powerful workflows that automate data enrichment, lead scoring, or even sync enriched data to your CRM. With access to over 3 billion profiles, the opportunities to enhance your data-driven processes are vast.
 
-- Build comprehensive people profiles using data from a variety of sources,
-  including public records, job history, digital identities, and more.
-- Create dynamic user segmentation tools to better target and engage with
-  customers.
-- Provide sophisticated background checks for due diligence and fraud
-  detection.
-- Create predictive models for developing valuable insights on consumer
-  behavior.
-- Generate powerful analytics by blending different datasets to uncover
-  patterns and trends.
-- Create decision-making tools to improve recruitment and onboarding processes.
-- Develop powerful lead generation & retargeting tools to drive more sales.
-- Develop apps that automatically surface the most relevant personal
-  information for tasks.
+# Example Use Cases
+
+- **Enrich Contact Profiles for Marketing Campaigns**: Integrate People Data Labs API with your email marketing tool on Pipedream. When a new subscriber is added to your mailing list, automatically enrich their profile data to personalize and segment your email campaigns more effectively.
+
+- **Automated Lead Qualification**: Pair the People Data Labs API with a CRM app on Pipedream, like Salesforce. As new leads come in, use the API to gather additional information about them. Based on the enriched data, employ logic to score and prioritize leads, ensuring your sales team focuses on the most promising prospects.
+
+- **Sync LinkedIn Connections to a Database**: Use the People Data Labs API to enrich your LinkedIn connections' information, then connect to a database app such as Google Sheets or Airtable on Pipedream. Automatically create or update records with the enriched data, keeping your professional network information current and accessible for networking opportunities.
