@@ -1,19 +1,11 @@
 # Overview
 
-What Can You Build With The Product Hunt API?
+The Product Hunt API on Pipedream offers a gateway to automate interactions with the Product Hunt platform, allowing for the ingestion of data about products, votes, and comments. Leverage this API to track new product launches, analyze trends, or even engage with the Product Hunt community programmatically. With Pipedream, you can build workflows that trigger on specific events and perform actions like notifying your team, aggregating data for reports, or integrating with other apps to enhance your product's visibility and engagement.
 
-Product Hunt is a great platform for discovering new and noteworthy products. With the Product Hunt API, you can build custom tools and integrate Product Hunt into your existing applications. Below are some examples of what you can build with the Product Hunt API.
+# Example Use Cases
 
-1. Search and filter for trending products - Find the most popular products on Product Hunt by searching or filtering by category or date, and get detailed information about each product.
+- **Daily Product Digest**: Compile a daily digest of new products launched on Product Hunt. Use Pipedream's schedule trigger to run the workflow every 24 hours, fetching new product listings via the API. Then, format the list and post it to a Slack channel to keep your team updated on the latest market trends.
 
-2. Create custom leaderboards - Create custom leaderboards sorted by total votes, comments, or status.
+- **User Engagement Tracker**: Monitor comments and votes on your product's page. Set up a workflow that triggers on new comments or votes from the Product Hunt API. It could log this data into Google Sheets for analysis, or trigger a thank-you email via SendGrid to everyone who interacts with your product, fostering community engagement.
 
-3. Measure users' Product Hunt activity - Track your followers' Product Hunt activity and get insights on what's popular and what's not.
-
-4. Build a recommendation engine - Create personalized product recommendations for users by analyzing the product data and scouring the user's activity.
-
-5. Enhance existing applications - Integrate Product Hunt data into existing applications, such as integrating product information into a directory site or adding product ratings to an ecommerce store.
-
-6. Monitor competitor activity - Use the API to keep an eye on the latest products from your competitors so you can stay one step ahead.
-
-7. Build custom tools - Take data from Product Hunt and make it instantly actionable with custom tools, such as a real-time product analyzer or trends explorer.
+- **Competitor Activity Alert**: Stay informed about competitor activity by creating a workflow that triggers when specific competitors post new products. The workflow would use the Product Hunt API to search for new posts by competitor names or keywords, then send alerts via email or SMS through Twilio, enabling you to respond swiftly to market changes.

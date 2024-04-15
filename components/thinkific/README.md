@@ -1,30 +1,11 @@
 # Overview
 
-The Thinkific API provides a comprehensive set of tools to help you create an
-engaging online course. It can be used to create automated course creation,
-course delivery, and course management systems. You can build a variety of
-different applications and integrations with Thinkific’s API, ranging from
-customer service to marketing to sales automation.
+The Thinkific API unlocks the potential to automate and integrate your online course platform with a plethora of services and tools. On Pipedream, you can harness this API to craft custom workflows, such as synchronizing course data with other platforms, automating student onboarding processes, and generating real-time analytics. With Pipedream's serverless architecture, you can create these workflows without writing extensive code and trigger them based on a variety of events.
 
-Here are a few examples of how you can benefit from the Thinkific API:
+# Example Use Cases
 
-- Enroll and manage users for your course: The Thinkific API allows you to
-  create new users, enroll them in your course, manage enrollment, and provide
-  access to their course content.
-- Create custom payment systems and access coupon codes: Utilize the Thinkific
-  API to build custom payment systems, allowing you to create unique offers to
-  your users. Additionally, you can create customer coupon codes to give your
-  customers a discount on their purchase.
-- Track and analyze user activity: Keep track of user activity in your course
-  using the Thinkific API. You can track page views, tries, completions, and
-  other user engagement metrics.
-- Embed third party applications in your course: Embed third party apps into
-  your course with the Thinkific API. You can utilize existing apps to bring
-  new content and interactivity to your course.
-- Automate sales and customer service: Automate sales and customer service
-  processes with the Thinkific API. Create automated sales funnels and respond
-  to customer inquiries with the Thinkific API.
+- **Enroll New Email Subscribers in a Course**: Automatically enroll users in a Thinkific course whenever new subscribers are added to your Mailchimp list. This smooths the path for interested learners to get started without manual intervention.
 
-There are many more possibilities with the Thinkific API, giving you complete
-control over how you build and manage your online course. With the Thinkific
-API, you have full control to bring all your ideas to life.
+- **Sync Course Completion to CRM**: Update your CRM records, like HubSpot or Salesforce, as soon as a student completes a course. Maintain a current view of learner progress and tailor your follow-up marketing efforts based on course completions.
+
+- **Generate Custom Analytics Reports**: Compile custom analytics by sending course progress and quiz performance data from Thinkific to Google Sheets. Use this data for more personalized student outreach or to improve course content.

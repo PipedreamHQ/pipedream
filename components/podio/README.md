@@ -1,14 +1,11 @@
 # Overview
 
-The Podio API (Application Programming Interface) is an open and powerful tool for developers to create sophisticated apps and services that can interact with the data stored inside Podio. Using the Podio API, developers can create a wide variety of customized applications that will allow users to stay connected to their data on the cloud, while allowing collaboration and data sharing.
+The Podio API allows you to interact with the Podio platform to manage workspaces, tasks, projects, and collaboration. On Pipedream, you can harness these capabilities to craft automated workflows that react to events in Podio or connect Podio to hundreds of other services. Pipedream's serverless platform lets you run code that integrates the Podio API without provisioning servers, enabling tasks like syncing data between apps, automating project updates, and processing forms.
 
-Here are a few examples of what you can do with the Podio API:
+# Example Use Cases
 
-- Create custom reports and dashboards
-- Automate tasks like data import/export and synchronization
-- Create mobile and web apps that can interact with Podio data
-- Build integrations with other software, such as CRM systems
-- Build custom workflows to manage processes and tasks
-- Build applications to track sales, customer feedback and more
-- Automate notifications and reminders for important events and deadlines
-- Create custom business apps that facilitate collaboration, data sharing and communication
+- **Task Automation Across Apps**: Connect Podio to Trello using Pipedream to create cards in Trello whenever new tasks are added in Podio. This workflow ensures task visibility across different project management tools and keeps your teams in sync.
+
+- **Lead Capture to CRM**: Capture leads from a Podio web form and automatically save them into a CRM like Salesforce. Every time a new form is submitted in Podio, Pipedream can push that data into Salesforce, keeping your sales pipeline up-to-date with no manual entry required.
+
+- **Project Management Dashboard Updates**: Utilize Pipedream to integrate Podio with a dashboard tool like Google Data Studio. Whenever projects in Podio reach a new milestone, Pipedream can trigger an update to a Google Data Studio report, providing real-time project analytics to stakeholders.

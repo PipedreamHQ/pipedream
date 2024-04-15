@@ -1,14 +1,11 @@
 # Overview
 
-The Kucoin Futures API allows developers to programmatically access Kucoin's
-futures trading functionality. Using the API, developers can create
-applications that can trade futures contracts on Kucoin's platform.
+The Kucoin Futures API provides robust tools for accessing real-time trading data, managing trades, and leveraging market analytics on the Kucoin platform. With Pipedream, you can harness this API to automate trading strategies, synchronize portfolio management tasks, and trigger actions based on market changes. The platform's serverless architecture lets you create custom workflows that interact with the Kucoin Futures API to streamline operations, analyze market trends, and execute trades programmatically.
 
-Here are some examples of what you can build using the Kucoin Futures API:
+# Example Use Cases
 
-- A futures trading bot that automatically trades contracts on Kucoin's
-  platform
-- A mobile app that lets users trade futures contracts on Kucoin
-- A web app that shows real-time data for Kucoin's futures markets
-- A trading platform that integrated with Kucoin's API to allow for trading
-  futures contracts
+- **Automated Trading Bot**: Create a Pipedream workflow that tracks specific market indicators from the Kucoin Futures API. When predefined conditions are met, execute trades automatically, ensuring you capitalize on market opportunities the moment they arise.
+
+- **Portfolio Synchronization**: Build a workflow that periodically fetches your current positions and balances from Kucoin Futures and syncs them with a Google Sheet. This allows for easy monitoring and management of your portfolio, keeping all your investment data in one accessible location.
+
+- **Slack Trade Alerts**: Set up a Pipedream workflow to monitor Kucoin Futures market data for significant price movements or volume changes. When an important shift is detected, send a real-time alert to a Slack channel, keeping you and your team informed for swift decision-making.

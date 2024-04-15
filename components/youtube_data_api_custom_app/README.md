@@ -1,16 +1,11 @@
 # Overview
 
- What can I build using YouTube's Data API?
+The YouTube (Data API) - Custom App on Pipedream allows you to automate interactions with YouTube, such as uploading videos, updating playlists, managing subscriptions, and more. Integrating YouTube with Pipedream's serverless platform enables you to build custom workflows to streamline your video management tasks, engage with your audience, and analyze your channel's performance. With Pipedream's ability to connect to hundreds of other apps, you can create powerful automations that trigger from various events and perform actions on YouTube programmatically.
 
-The YouTube Data API (also known as the YouTube Custom App API) is a powerful tool that enables developers to build applications that interact with YouTube's platform. With it, developers can create apps that display data about the videos and channels on YouTube, fetch metadata about specific videos, modify existing videos, and much more.
+# Example Use Cases
 
-Some of the many possibilities enabled by the YouTube Data API include:
+- **Automated Video Uploader**: Automatically upload videos to your YouTube channel when a new file is added to a specified Dropbox folder. This workflow listens for new files in Dropbox, retrieves the video, and uses YouTube's Data API to upload the video to your channel.
 
-- Building applications that search for relevant videos and channels within YouTube
-- Displaying detailed information about specific videos and channels
-- Modifying existing videos
-- Uploading videos to YouTube
-- Constructing an application that categorizes videos and channels by topics
-- Constructing an application that shows video comments
-- Creating an object detection detection application that can detect objects present in a video
-- Fetching metadata about videos and channels
+- **Playlist Curator**: Keep your playlists updated by watching for new videos with specific tags or categories. When a new video that matches your criteria is found, the workflow adds it to a designated playlist on your channel, ensuring your content stays fresh and relevant.
+
+- **Channel Performance Reporter**: Generate regular performance reports for your YouTube channel. This workflow can be scheduled to pull analytics data from YouTube, format the information, and send a summary report to your email or a Slack channel to keep you informed about your channel's growth and engagement.

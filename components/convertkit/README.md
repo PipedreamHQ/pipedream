@@ -1,10 +1,11 @@
 # Overview
 
-With the ConvertKit API, you can build a wide variety of apps and integrations
-to help you grow your business. Here are just a few examples:
+ConvertKit's API on Pipedream allows for automation and integration of email marketing efforts. You can manage subscribers, send emails, tag contacts for segmentation, and trigger automations. Additionally, you can analyze and track the performance of email campaigns and sequences. By leveraging the power of Pipedream's serverless platform, you can connect ConvertKit with other apps to create custom workflows, automate repetitive tasks, and sync data across various platforms, without the need for dedicated infrastructure.
 
-- An app that allows you to sign up for ConvertKit courses and products
-- An integration that allows you to sell ConvertKit products on your website
-- A tool that allows you to automatically add ConvertKit subscribers to your
-  CRM
-- An app that allows you to send ConvertKit broadcasts to your customers
+# Example Use Cases
+
+- **Subscriber Segmentation Workflow**: Automate the tagging of new subscribers based on their actions. For instance, when someone purchases a product from your Shopify store, use Pipedream to trigger a webhook that adds a "Purchased" tag to the subscriber in ConvertKit.
+
+- **Automated Content Delivery**: Create a workflow where new blog posts from your WordPress site are automatically emailed to your subscribers. When a new post is published, Pipedream can send the post's content to your ConvertKit account to be included in your next campaign.
+
+- **Lead Scoring and Engagement Tracking**: Implement a lead scoring system by integrating ConvertKit with a CRM like Salesforce. Use Pipedream to monitor email engagement—such as opens and clicks—and update lead scores in Salesforce accordingly, allowing your sales team to prioritize follow-ups based on subscriber interaction.

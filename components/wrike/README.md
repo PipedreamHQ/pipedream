@@ -1,19 +1,11 @@
 # Overview
 
-The Wrike API is an easy-to-use Application Programming Interface that allows
-users to build custom apps and other solutions to integrate with the Wrike
-platform. With the Wrike API, developers can access and leverage Wrike features
-and data to create a wide range of applications and integrations.
+The Wrike API on Pipedream enables you to automate project management tasks, synchronize data across platforms, and create custom workflows to enhance productivity. With Pipedream, you can connect the Wrike API to hundreds of other services without writing code, set up event-driven workflows, and easily access and manage tasks, folders, projects, and teams within Wrike. Whether you're looking to trigger actions based on specific updates in Wrike or sync data between Wrike and other tools, Pipedream provides a robust platform for building powerful automations.
 
-The possibilities are almost endless when using the Wrike API. Here are some
-examples:
+# Example Use Cases
 
-- Automatically sync your CRM with Wrike
-- Build a custom time-tracking integration to show project- Or task-level
-  metrics
-- Create an AI-powered automation tool to route tasks to specific users
-- Develop a project and task management app for internal teams or external
-  clients
-- Generate custom reports to keep an eye on project progress
-- Create a custom search engine and analysis tool to monitor user behavior
-- Develop custom tools to automate and streamline task allocation
+- **Task Status Update Notifications**: Send a Slack message to a designated channel whenever a task in Wrike is updated or reaches a certain status. This keeps your team informed in real time about project progress and ensures prompt action on critical tasks.
+
+- **Sync Wrike Tasks with Google Calendar**: Create events in Google Calendar automatically for new Wrike tasks assigned to you. This helps maintain an updated calendar, ensuring that deadlines are visible across all the platforms you use for managing your time and work.
+
+- **Aggregate Wrike Reports to Google Sheets**: Compile task and project data from Wrike into a Google Sheets spreadsheet on a scheduled basis. This workflow enables you to create custom reports, analyze project progress, and share insights with stakeholders without manual data entry.

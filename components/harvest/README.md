@@ -1,16 +1,11 @@
 # Overview
 
-The Harvest API allows developers to programmatically access data and objects
-in Harvest, a web-based time tracking application. With the API, developers can
-create applications that submit and retrieve time tracking data, as well as
-automate various aspects of the Harvest user experience.
+The Harvest API allows you to seamlessly integrate time tracking and invoicing features into your apps or workflows. With Pipedream, you can leverage this API to automate your timesheet management, project budget tracking, and invoicing processes. Pipedream's serverless platform enables you to connect Harvest with hundreds of other apps, triggering workflows on events like new time entries or invoices, and even synchronizing data across your tech stack.
 
-Some examples of what you can build using the Harvest API include:
+# Example Use Cases
 
-- A time tracking application that automatically submits time tracking data to
-  Harvest on behalf of the user
-- A reporting application that retrieves time tracking data from Harvest and
-  presents it in various charts and graphs
-- An integration with a third-party project management application that pulls
-  in time tracking data from Harvest to provide a more complete picture of
-  project progress
+- **Sync Time Entries with Google Sheets**: Automatically push new time entries from Harvest to a Google Sheets spreadsheet. This workflow is ideal for creating backup logs, generating custom reports, or allowing team members to view time entries without direct access to Harvest.
+
+- **Project Budget Monitoring**: Set up alerts in Slack or email when project hours reach a certain threshold. By connecting Harvest to notification services, you can keep your team informed and proactively manage project budgets to avoid overruns.
+
+- **Invoice Creation and Payment Tracking**: Generate invoices in Harvest based on project completion or time intervals, then track payments by updating a CRM like Salesforce. This workflow ensures that client data stays in sync and your sales team is up to date on account statuses.

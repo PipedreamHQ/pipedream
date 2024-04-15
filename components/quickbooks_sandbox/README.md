@@ -1,24 +1,11 @@
 # Overview
 
-QuickBooks Sandbox API provides a powerful and reliable platform to develop,
-customize, and test applications related to accounting and finance. The API
-allows developers to access a variety of features, such as:
+The QuickBooks Sandbox API enables you to experiment with QuickBooks Online features in a non-production environment. This gives developers a safe space to build and test applications and workflows without affecting real QuickBooks data. With Pipedream, you can harness this API to create seamless automations and integrate with other apps. Think invoices syncing, expense tracking, and more, all happening in the background, triggered by real-time events.
 
-- Create, read, update and delete financial data.
-- Create and manage Invoices, Estimates, Orders, Payments and other objects.
-- Log in and manage customers, vendors, and suppliers.
-- Record and manage expenses, taxes, banking transactions and other financial
-  transactions.
+# Example Use Cases
 
-With the Quickbooks Sandbox API, you can build the following applications:
+- **Automate Invoice Creation**: Trigger a workflow on Pipedream to create invoices in the QuickBooks Sandbox whenever new orders are received from an e-commerce platform like Shopify. This streamlines the sales process, ensuring that financial records are always synchronized with sales data.
 
-- A financial record-keeping and reporting app.
-- An expense manager and budget tracker.
-- A customer, vendor & supplier management system.
-- A payments & receipts processing application.
-- An invoicing & estimate management system.
-- An accounts receivable & payable system.
-- A multi-currency payment processing system.
-- A tax calculation and reporting tool.
-- A virtual banking application.
-- A dynamic accounting dashboard.
+- **Expense Approval Workflow**: Set up a system where expense reports submitted via Slack trigger a Pipedream workflow that creates corresponding expense entries in QuickBooks Sandbox. This adds a layer of convenience for expense tracking and approval without manual data entry.
+
+- **Synchronize Customer Data**: When a new customer is added to a CRM like Salesforce, trigger a workflow on Pipedream to create or update that customer's details in QuickBooks Sandbox. This keeps financial records up to date with the latest customer information, ensuring accurate billing and service.

@@ -1,21 +1,11 @@
 # Overview
 
-The Keap API enables developers to build integrations and applications for
-Infusionsoft customers. With the Keap API, you can:
+The Keap (Infusionsoft) API lets you automate and integrate your CRM and marketing automation tasks seamlessly. With this API in Pipedream, you can create, update, and track contacts, trigger email campaigns, manage e-commerce operations, and synchronize data across different platforms. Pipedream’s serverless platform empowers you to build scalable, event-driven workflows with minimal setup, connecting Keap to numerous other apps and services.
 
-- Query and update data in Infusionsoft
-- AutomateInfusionsoft tasks
-- Build custom Infusionsoft reports
-- Trigger Infusionsoft workflows
-- And much more!
+# Example Use Cases
 
-Here are some examples of things you can build with the Keap API:
+- **Sync New Stripe Customers to Keap Contacts**: Automate the process of adding new Stripe customers as contacts in your Keap account. When a new customer is created in Stripe, the workflow triggers, creating or updating the corresponding contact in Keap, ensuring your CRM is always up-to-date.
 
-- A CRM integration that updates Infusionsoft contact records when a new deal
-  is won in your sales CRM
-- A reporting tool that shows Infusionsoft campaign stats in real-time
-- An ecommerce integration that automatically adds Infusionsoft contacts to a
-  campaign when they purchase a product on your site
-- A tool that allows Infusionsoft users to schedulegenerate and send mass
-  personalised email campaigns
-- And much more!
+- **Schedule Email Campaigns Based on User Activity**: Trigger Keap email campaigns based on user activity tracked in your app or website. Use webhooks to capture events like sign-ups or purchase completions in Pipedream, then start a targeted Keap campaign to engage your users with relevant content at the right time.
+
+- **Aggregate Contacts for Reporting**: Pull contact data from Keap into Google Sheets for advanced reporting and analysis. Set up a workflow that periodically fetches contact information from Keap and appends it to a Google Sheet. This can be a powerful way to visualize sales funnel progress or to perform custom data analysis.

@@ -1,23 +1,11 @@
 # Overview
 
-The SmugMug API makes it possible to access and build upon the powerful SmugMug
-platform in creative and custom ways. With the SmugMug API, you can build
-applications that interact with users' photos, galleries and albums on the
-SmugMug platform. Whether you wish to create a custom photo store, custom photo
-workflow, or customize the way people interact with your SmugMug galleries, the
-SmugMug API makes it all possible. Here are some examples of what you can
-create with the SmugMug API:
+The SmugMug API on Pipedream opens doors to managing and showcasing your photography in new and dynamic ways. By leveraging this API, you can automate the upload process, manage galleries, and even respond to events within your SmugMug account, like new comments or gallery creations. The API is a powerful tool for photographers, developers, and content managers who wish to streamline their workflow and integrate their SmugMug content with other services or custom applications.
 
-- Create a custom photo store to display, sell, and deliver photos to
-  customers.
-- Integrate photo albums into blogs and websites.
-- Upload photos to SmugMug from your own apps.
-- Automate photo workflow and editing tasks.
-- Access image meta data and create custom photo searches.
-- Retrieve and impose photo upload restrictions.
-- Connect SmugMug galleries to custom themes.
-- Automatically resize, crop, and watermark photos.
-- Create your own custom photo galleries.
-- Allow customers to download photos with custom watermarks.
-- Build applications to allow mass uploads and downloads.
-- Monitor and track photo download activity.
+# Example Workflows
+
+- **Automated Photo Uploads**: Automatically upload new images to a designated SmugMug gallery whenever files are added to a Dropbox folder. This workflow can ensure that your online portfolio is consistently up-to-date with your latest work.
+
+- **Social Media Integration**: Share new SmugMug gallery images to social media platforms such as Twitter or Facebook. Whenever a new photo is added to a gallery, it triggers a social media post with a link back to the image, driving traffic to your SmugMug page.
+
+- **Gallery Sync with Google Drive**: Sync a SmugMug gallery with a folder in Google Drive. When new photos are added to a specific Google Drive folder, a Pipedream workflow automatically uploads them to the corresponding gallery on SmugMug. This helps maintain a backup of your work and simplifies the process of keeping your galleries in sync.
