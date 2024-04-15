@@ -1,12 +1,11 @@
 # Overview
 
-MySQL is a powerful database management system used by some of the largest
-organizations in the world, including Facebook, Google, and Amazon. MySQL is an
-open-source relational database management system (RDBMS), as well as a popular
-choice for web applications used by millions of websites.
+With the MySQL API on Pipedream, you can easily connect to your MySQL databases to run queries, manage tables, and interact with your data in real-time. Pipedream's serverless platform allows you to create workflows that trigger on various events and perform actions on your database without managing infrastructure. You can use SQL to fetch, insert, update, or delete records, and integrate with hundreds of apps to automate your data flow.
 
-Some applications that can be built using the MySQL API include:
+# Example Use Cases
 
-- A web application that stores and retrieves data from a MySQL database
-- A desktop application that uses a MySQL database for data storage
-- A mobile application that interacts with a MySQL database
+- **Dynamic Reporting**: Automate the generation of reports by fetching data from MySQL and sending it to Google Sheets. Each time the workflow runs, it can extract the latest data and update your reports in real-time.
+
+- **Database Backup Notifications**: Set up a workflow that periodically runs a MySQL dump to back up your database and stores the output in cloud storage like AWS S3. Follow that with a notification via email or Slack, confirming the successful backup.
+
+- **User Activity Tracking**: Track user actions from your web application in a MySQL database, then trigger a workflow that evaluates this data and sends personalized marketing emails through SendGrid when certain conditions are met.

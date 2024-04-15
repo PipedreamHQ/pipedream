@@ -1,13 +1,11 @@
 # Overview
 
-Using the Jotform API, you can easily add forms to your website or application.
-You can also use the Jotform API to manage your form submissions, gather
-insights from your form data, and more.
+The Jotform API on Pipedream allows you to harness the power of form submissions to automate tasks, sync data with other services, and manage your forms and their data dynamically. By leveraging Jotform's API, you can trigger workflows on new submissions, fetch form details, and manipulate submission data, all within Pipedream's serverless platform. This bridges the gap between data collection and action, enabling seamless integration with other apps and services.
 
-Here are some examples of what you can build using the Jotform API:
+# Example Use Cases
 
-- A contact form for your website
-- A survey form to collect data from your users
-- A registration form for your events or courses
-- A payment form for your products or services
-- A lead capture form to collect leads from your website visitors
+- **Submission Auto-Responder**: Trigger a Pipedream workflow with every new Jotform submission. Use the data to send personalized follow-up emails through SendGrid or any other email service available on Pipedream, thanking users for their submission or providing them with additional information.
+
+- **Data Synchronization to Google Sheets**: Sync every new Jotform submission to a Google Sheet for easy data analysis and record-keeping. This workflow can automatically add new entries, update them, or even delete rows in Sheets based on the Jotform submission data, keeping your datasets up-to-date.
+
+- **Slack Notification for Form Approvals**: Set up a workflow where Jotform submissions that meet certain criteria are sent to a Slack channel for approval. When a submission is approved within Slack, a corresponding update can be made on the Jotform submission or trigger further actions within other connected apps.

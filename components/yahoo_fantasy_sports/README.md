@@ -1,24 +1,11 @@
 # Overview
 
-The Yahoo! Fantasy Sports API is an application programming interface (API)
-publicly available for connecting with Yahoo's fantasy sports platform. It
-provides the necessary tools for developers to create multi-tenant
-applications, as well as for individual users to build custom applications
-faster and easier than ever before.
+The Yahoo! Fantasy Sports API offers a playground for sports enthusiasts and developers to access fantasy sports data like league stats, player rankings, and draft results. With Pipedream, you can use this API to automate your fantasy sports management, create custom alerts, or even integrate with other services for enriched data analysis. Pipedream’s serverless platform allows for quick and effortless integration, enabling you to craft custom workflows that interact with the Yahoo! Fantasy Sports API without managing infrastructure.
 
-The Yahoo! Fantasy Sports API can be used to build a variety of applications
-and websites related to fantasy sports. Some of the possible applications built
-with the Yahoo! Fantasy Sports API include:
+# Example Use Cases
 
-- Fantasy sports mobile apps, such as mobile versions of fantasy football,
-  basketball, baseball and hockey
-- Websites for creating and tracking fantasy sports teams
-- Websites for fantasy sports leagues
-- Tools for calculating fantasy sports player rankings
-- Tools for managing fantasy drafts
-- Tools for analyzing and visualizing fantasy sports performance and trends
-- Integrations with third party services such as scoring and stat tracking
-  services
-- Widgets and plugins for fantasy sports websites and applications
-- Bots and automation tools for fantasy sports
-- Search tools for finding players in fantasy sports leagues
+- **Automate Player Status Updates**: Track your players and get automatic updates on their statuses. Use Pipedream to set up a workflow that checks for player injuries, game results, or rest days, and sends notifications via Slack or email, keeping you informed for timely roster decisions.
+
+- **Sync Fantasy League Standings to Google Sheets**: Keep a real-time record of your league's standings by creating a Pipedream workflow that fetches the latest data from the Yahoo! Fantasy Sports API and updates a Google Sheet. This provides an easy way to share standings with friends or analyze trends over time.
+
+- **Generate Weekly Matchup Previews**: Build excitement and strategic planning for your league’s weekly matchups with automated previews. Use Pipedream to fetch matchup data, including player stats and historical performance, and send a detailed report to your league via a Discord bot or a mailing list prior to each game week.

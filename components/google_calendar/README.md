@@ -1,20 +1,11 @@
 # Overview
 
-The Google Calendar API gives developers access to Google Calendar data,
-allowing them to create their own applications that can read, write, and update
-calendar data. With the API, users can integrate their own calendar
-applications with Google Calendar, giving them the ability to manage their
-calendars in one place. The API also provides the ability to search for events
-and create new events.
+The Google Calendar API on Pipedream allows you to seamlessly integrate your calendar events with other services for a variety of automations and workflows. Create events, fetch your upcoming schedule, or sync calendars across platforms – all with real-time triggers and without writing a single line of server-side code. Power-up your time management and event coordination by automating reminders, meeting preparation tasks, or syncing with project management tools.
 
-Possible applications that could be built using the Google Calendar API
-include:
+# Example Use Cases
 
-- A calendar application that integrates with Google Calendar, allowing users
-  to manage their calendars in one place.
-- A calendar application that allows users to search for events and create new
-  events.
-- A to-do list application that integrates with Google Calendar, allowing users
-  to see their tasks and events in one place.
-- A reminder application that uses Google Calendar data to remind users of
-  upcoming events.
+- **Automated Event Reminders via SMS**: Use the Google Calendar API to watch for upcoming events, and set SMS reminders through the Twilio app. When an event is approaching, Pipedream can trigger a workflow that sends a text message reminder with the event details.
+
+- **Sync Google Calendar with Trello**: Automatically create Trello cards for new Google Calendar events. Whenever you add an event to your Google Calendar, Pipedream can create a corresponding Trello card with the event name, time, and details, ensuring your project management stays up to date with your schedule.
+
+- **Daily Agenda Email Digest**: Compile a daily summary of your Google Calendar events and send it via email each morning. Pipedream can list today's events and use an email service like SendGrid to dispatch a well-formatted digest, so you start your day fully informed about your schedule.

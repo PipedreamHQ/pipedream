@@ -1,32 +1,11 @@
 # Overview
 
-WordPress API can help you create a variety of different projects with greater
-efficiency and functionality. Whether it’s developing and creating a custom
-WordPress site, creating an API for a product, or developing a plugin for a
-program, the WordPress API offers more possibilities than ever to customize and
-enhance your online experience. Here are a few examples of things you can build
-using the WordPress API:
+The WordPress.org API offers a wealth of capabilities for interacting with WordPress site data programmatically. Using this API in Pipedream, you can create, update, delete, and retrieve posts, pages, comments, users, and custom post types. You can also manage categories and tags, and automate content moderation or SEO tasks. Pipedream's serverless platform empowers you to build intricate workflows to streamline your content management and site monitoring tasks with event-driven automation.
 
-- Custom WordPress Sites: With WordPress API, you can create specialized and
-  customized sites that fit your exact needs and vision. From e-commerce stores
-  to magazine websites and anything else imaginable, WordPress API can help you
-  create and customize a website that’s tailored to your exact needs.
-- Product API: If you’re a developer and you have products that require an API,
-  WordPress API can help you easily create one. You can create a custom API
-  that helps you manage your products and make them available to other
-  applications and websites.
-- Plugin Creation: If you need a plugin for something you’re developing, the
-  WordPress API can help you create something tailored to your exact needs.
-  From custom shortcodes to mini programs and full-fledged plugins, the
-  WordPress API has what you need.
-- Widgets: Widgets are small pieces of code that you can use on your website to
-  display different types of content. You can use the WordPress API to create
-  custom widgets that help you display plugins, videos, images, and more.
-- Custom Social Network Platforms: The WordPress API offers more possibilities
-  than ever to create custom social network platforms. With access to the API,
-  you can create specialized networks for your website, unfettered by
-  third-party restrictions.
-- Mobile Applications:Do you need to create a mobile application that interacts
-  with your website? The WordPress API can provide the tools and features you
-  need to create a smooth and seamless integration between your website and
-  your app.
+# Example Use Cases
+
+- **Automated Content Syncing**: Sync content between WordPress and other CMS platforms or databases. For instance, every time a new post is published in WordPress, you can use Pipedream to push that post to a Shopify blog section.
+
+- **Dynamic Comment Moderation**: Automatically moderate comments by integrating WordPress with machine learning APIs such as Google Natural Language API. Use Pipedream to analyze comments for sentiment or toxicity, and automatically approve, flag, or delete them based on the results.
+
+- **User Engagement Tracking**: Track and engage users by connecting WordPress with CRM platforms like Salesforce. When a user submits a form or comments on a post, trigger a Pipedream workflow to create or update their profile in the CRM, and maybe even send a personalized follow-up email.

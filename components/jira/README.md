@@ -1,12 +1,11 @@
 # Overview
 
-With the Jira API, you can create custom integrations to automatically track
-and manage issues in Jira. For example, you could create a custom integration
-that:
+The Jira API allows for seamless integration and automation of your project management tasks within Pipedream. Harnessing the Jira API, you can create, update, retrieve, and manage issues, transitions, and fields, as well as work with sprints, users, and other resources. This makes it possible to automate workflows, sync with other tools, and create custom notifications, ensuring your project's processes are streamlined and efficient.
 
-- Automatically creates Jira issues when new items are added to a specified RSS
-  feed
-- Tracks all changes made to a Jira issue in a database
-- Sends a notification to a specified Slack channel whenever a Jira issue is
-  updated
-- Creates a new Jira issue when a customer submits a support ticket
+# Example Use Cases
+
+- **Automate Issue Creation from External Triggers**: When a form is submitted through Typeform, automatically create a new Jira ticket. This ensures that every customer request or feedback is tracked and actioned upon without manual intervention.
+
+- **Sync Jira Issues with Google Sheets**: Keep a Google Sheet updated with the latest status of Jira issues. Whenever an issue is updated in Jira, the corresponding row in a Google Sheets document is also updated, keeping stakeholders informed in real-time.
+
+- **Slack Notifications for Critical Bugs**: Send immediate Slack messages to a designated channel when a high-priority bug is reported in Jira. This allows teams to quickly respond to critical issues as soon as they arise.

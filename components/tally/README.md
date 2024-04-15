@@ -1,24 +1,11 @@
 # Overview
 
-Using Tally API, you can build powerful applications that allow business users
-to track, analyze, and automate their data. Here are some examples of what you
-can build with the Tally API:
+Tally is a form builder that lets you craft forms quickly and integrate them with various services. With the Tally API on Pipedream, you can automate form submission handling, synchronize responses with your database, or trigger actions across different apps. Pipedream's serverless platform facilitates these automations by connecting Tally to hundreds of other services without managing infrastructure.
 
-- Accounting Integrations: Integrate financial data from Tally into any
-  third-party accounting and finance platform.
-- Reporting & Analysis: Create custom dashboards and reports to get deep
-  insights into your business.
-- Business Automations: Automate anything from customer support inquiries to
-  employee paychecks.
-- Advertising & Marketing: Connect Tally with ad networks and marketing
-  platforms for better understanding of campaign performance.
-- CRM Integrations: Improve customer satisfaction and support by integrating
-  Tally with your CRM.
-- Connected Devices: Connect Tally with IoT devices so you can monitor and
-  analyze data in realtime.
-- Inventory Management: Track inventory levels and manage stock level
-  automatically.
-- ECommerce Platforms: Connect Tally with popular eCommerce platforms to get
-  accurate orders and transactions data.
-- Billing & Payment Solutions: Connect Tally with payment gateways and billing
-  software to automate customer invoices and payments.
+# Example Use Cases
+
+- **Auto-Respond to Submissions**: Trigger an email to the form submitter using the SendGrid app on Pipedream. Whenever a new Tally submission is detected, parse the content and send a tailored email thanking them for their input or providing further instructions.
+
+- **Sync Form Responses to Google Sheets**: Archive every Tally form response to a Google Sheet for easy sharing and analysis. This workflow can be set up to ensure that whenever a new submission is received, it's automatically added to a specified Google Sheet, keeping all team members up-to-date.
+
+- **Slack Notifications for New Responses**: Get instant notifications in a Slack channel when a Tally form is submitted. Set up a Pipedream workflow that listens for new Tally submissions and posts a summary or the entire response to a designated Slack channel, keeping your team informed in real-time.
