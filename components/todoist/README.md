@@ -1,6 +1,6 @@
 # Overview
 
-The Todoist API unlocks the potential to automate task management with precision. With Pipedream's help, you can craft workflows that react to events in Todoist, like task completions or due date changes, or drive actions in Todoist, such as creating tasks or updating projects. By integrating Todoist with Pipedream, you can seamlessly connect your to-do list with other apps to streamline your productivity, manage tasks based on triggers from other services, or compile reports on your task management patterns.
+The Todoist API unlocks the potential to automate task management with precision. With Pipedream, you can craft workflows that react to events in Todoist, like task completions or due date changes, or drive actions in Todoist, such as creating tasks or updating projects. By integrating Todoist with Pipedream, you can seamlessly connect your to-do list with other apps to streamline your productivity, manage tasks based on triggers from other services, or compile reports on your task management patterns.
 
 # Example Use Cases
 
