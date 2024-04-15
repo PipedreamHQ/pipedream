@@ -34,14 +34,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.enhanceEntity({
+    const { app, ...data } = this;
+    const response = await app.enhanceEntity({
       $,
-      data: {
-        type: this.type,
-        name: this.name,
-        location: this.location,
-        url: this.url,
-      },
+      data,
     });
 
     $.export("$summary", "Successfully enhanced entity");
