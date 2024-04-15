@@ -1,6 +1,6 @@
 # Overview
 
-The Clockify API empowers you to interact with time tracking capabilities programmatically within Pipedream workflows. Create and manage users, projects, tasks, and time entries with ease. Automate reports, integrate time tracking data with other systems, and trigger actions based on the time logged by you or your team. With Pipedream, you can harness the Clockify API to build seamless workflows that connect your time tracking data with over 800+ third-party services.
+The Clockify API empowers you to interact with time tracking capabilities programmatically within Pipedream workflows. Create and manage users, projects, tasks, and time entries with ease. Automate reports, integrate time tracking data with other systems, and trigger actions based on the time logged by you or your team. With Pipedream, you can harness the Clockify API to build seamless workflows that connect your time tracking data with over 2000+ third-party services.
 
 # Example Use Cases
 
