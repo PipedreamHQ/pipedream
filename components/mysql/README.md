@@ -1,6 +1,6 @@
 # Overview
 
-The MySQL API on Pipedream enables direct interaction with your MySQL databases, allowing you to perform CRUD operations—create, read, update, delete—on your data with ease. You can leverage these capabilities to automate data synchronization, report generation, and event-based triggers that kick off workflows in other apps. With Pipedream's serverless platform, you can connect MySQL to hundreds of other services without managing infrastructure, crafting complex code, or handling authentication.
+The MySQL application on Pipedream enables direct interaction with your MySQL databases, allowing you to perform CRUD operations—create, read, update, delete—on your data with ease. You can leverage these capabilities to automate data synchronization, report generation, and event-based triggers that kick off workflows in other apps. With Pipedream's serverless platform, you can connect MySQL to hundreds of other services without managing infrastructure, crafting complex code, or handling authentication.
 
 # Example Use Cases
 
