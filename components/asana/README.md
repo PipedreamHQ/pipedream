@@ -1,6 +1,11 @@
 # Overview
 
-Using the Asana API, you can build software that integrates with Asana to help
-your team track their work. For example, you could build a tool to help your
-team plan their work for the week, or a reporting tool to help you track
-progress on a project.
+The Asana API enables you to interact with your Asana tasks and projects programmatically, offering a rich interface for automating and enhancing your project management workflows. With Pipedream, you can leverage this API to create custom integrations and event-driven automations. By connecting Asana to other apps, you can streamline processes such as synchronizing tasks with calendars, triggering notifications, or managing resources across multiple platforms.
+
+# Example Use Cases
+
+- **Task Synchronization with Google Calendar**: Create a workflow that listens for new tasks in Asana and automatically adds them as events to a Google Calendar. Keep your schedule in sync without manual updates.
+
+- **Slack Notifications for Completed Asana Tasks**: Set up a workflow that triggers a notification in a designated Slack channel whenever a task in Asana is marked as completed. Keep your team informed and celebrate milestones as they happen.
+
+- **GitHub Commit Linked Task Updates**: Craft a workflow where any new commits in a GitHub repository containing specific keywords in the commit message will automatically update related Asana tasks with the commit details. Ensure your project management reflects the latest development progress.
