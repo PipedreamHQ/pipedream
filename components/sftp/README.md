@@ -1,6 +1,6 @@
 # Overview
 
-The SFTP (key-based auth) API on Pipedream allows you to securely transfer and manage files over a network. It uses SSH for data transfer and provides the same level of security as SSH, without requiring password authentication, making automation workflows more secure and less prone to human error. You can automate file uploads, downloads, synchronization tasks, and efficiently manage your remote files in a serverless environment. Integrating this with other Pipedream-supported apps enables you to craft powerful and secure data flow systems.
+The SFTP (key-based auth) app on Pipedream allows you to securely transfer and manage files over a network. It uses SSH for data transfer and provides the same level of security as SSH, without requiring password authentication, making automation workflows more secure and less prone to human error. You can automate file uploads, downloads, synchronization tasks, and efficiently manage your remote files in a serverless environment. Integrating this with other Pipedream-supported apps enables you to craft powerful and secure data flow systems.
 
 # Example Use Cases
 
