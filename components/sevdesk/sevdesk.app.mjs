@@ -84,6 +84,21 @@ export default {
         }));
       },
     },
+    taxSetId: {
+      type: "string",
+      label: "Tax Set Id",
+      description: "Tax set of the invoice. Needs to be added if you chose the tax type custom.",
+      async options() {
+        const { objects } = await this.listTaxSets();
+
+        return objects.map(({
+          id: value, displayText: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -159,6 +174,12 @@ export default {
     listPaymentMethods(opts = {}) {
       return this._makeRequest({
         path: "/PaymentMethod",
+        ...opts,
+      });
+    },
+    listTaxSets(opts = {}) {
+      return this._makeRequest({
+        path: "/TaxSet",
         ...opts,
       });
     },

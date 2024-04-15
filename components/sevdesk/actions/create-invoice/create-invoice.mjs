@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import {
   CURRENCY_OPTIONS,
   INVOICE_TYPE_OPTIONS,
@@ -120,10 +121,11 @@ export default {
       description: "Tax type of the invoice.",
       options: TAX_TYPE_OPTIONS,
     },
-    taxSet: {
-      type: "string",
-      label: "Tax Set",
-      description: "Tax set of the invoice. Needs to be added if you chose the tax type custom.",
+    taxSetId: {
+      propDefinition: [
+        sevdesk,
+        "taxSetId",
+      ],
       optional: true,
     },
     paymentMethodId: {
@@ -189,6 +191,10 @@ export default {
       originId,
       ...data
     } = this;
+
+    if (this.taxType && !taxSetId) {
+      throw new ConfigurationError("Tax Set needs to be added when you chose the tax type custom!");
+    }
 
     if (paymentMethodId) {
       data.paymentMethod = {
