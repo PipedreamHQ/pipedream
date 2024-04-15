@@ -1,26 +1,11 @@
 # Overview
 
-The Outreach API is a powerful way to harness the power of Outreach, the
-leading platform for sales engagement and orchestration. With the Outreach API,
-you can unlock the full potential of Outreach, allowing you to build and
-integrate custom apps, automate workflows, and even extend your sales
-activities beyond the core platform. With Outreach, you'll have the ability to
-develop the exact tools that your organization needs to achieve the best
-results from your sales engagements.
+The Outreach API provides a way to automate interactions with your sales engagement platform. With Outreach, you can manage prospects, sequences, tasks, and more. When you harness the power of the Outreach API on Pipedream, you step into a world of seamless automation and integration. You can trigger workflows on new events, sync data between platforms, or even create custom analytics. It's a game-changer for sales teams wanting to capitalize on efficiency and data-driven strategies.
 
-Below are just a few of the examples of what you can do with the Outreach API:
+# Example Use Cases
 
-- Automatically sync data between your CRM and Outreach
-- Build custom solutions to manage and monitor outreach sequences
-- Import and send large sets of templates and emails
-- Set up automated workflows to streamline actions like follow-ups and feedback
-  loops
-- Create and upload account-based marketing campaigns
-- Customize emails with dynamic, personalized content
-- Monitor sales performance with detailed analytics
-- Segment target accounts and build hyper-targeted outreach campaigns
-- Create custom reports to capture key performance insights
-- Monitor sentiment across your outreach and sales channels
-- Integrate outreach with communication channels like Slack
-- Automate activities to increase sales efficiency
-- Create custom API endpoints to extend the functionality of Outreach
+- **Sync Outreach Prospects with a CRM**: Automatically update a CRM like Salesforce when a prospect is added or updated in Outreach. This keeps your sales team aligned and ensures that prospect data is consistent across your sales stack.
+
+- **Outreach Sequence Subscription via Webhook**: Use a webhook to enroll contacts in an Outreach sequence when they fill out a form on your website. This can streamline lead nurturing and ensure immediate follow-up actions.
+
+- **Automate Task Creation Based on Email Replies**: Trigger a Pipedream workflow when an email reply is detected in Outreach. The workflow can create a follow-up task in a project management tool like Asana, helping you keep track of next steps without manual input.

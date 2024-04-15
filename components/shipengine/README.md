@@ -1,24 +1,11 @@
 # Overview
 
-Using ShipEngine's API, you can build software applications that enable
-seamless and powerful e-commerce shipping experiences for customers,
-businesses, and marketplace integrations.
+Shipengine API on Pipedream allows you to automate shipping-related tasks, streamline label creation, track parcels, and manage orders. With Pipedream's serverless platform, you can easily connect Shipengine to various services, creating bespoke workflows that fit exactly into your logistics and e-commerce operations. Pipedream's low-code environment facilitates quick integration with Shipengine, enabling you to trigger actions based on events, schedule tasks, and process shipments without manual intervention.
 
-The ShipEngine API enables you to access the full range of shipping features,
-from calculating rates and creating shipments to tracking packages and printing
-labels. With the ShipEngine API, you can effortlessly bring top-tier shipping
-capabilities to your business, marketplace, or website.
+# Example Use Cases
 
-Some of the things you can build with ShipEngine's API include:
+- **Automate Shipping Labels Creation**: Automatically create shipping labels when an order is placed on your e-commerce platform, like Shopify. Once an order is received, Pipedream can trigger a workflow that calls the Shipengine API to generate a shipping label and then send the label URL to the customer or store it in a database for future reference.
 
-- Instantly provide customers with accurate shipping rates, tailored to their
-  region, package weight, and other factors
-- Create custom fulfillment process and manage orders throughout the order
-  lifecycle
-- Automate the quoting, printing, and tracking of shipments
-- Offer discounted shipping rates on multiple carriers
-- Access detailed tracking information for packages, including estimated
-  delivery date, current location in transit, and any delivery exceptions
-- Schedule pickups from carriers and print return labels
-- Integrate with multiple carriers such as UPS, FedEx, and USPS, with more
-  being added all the time
+- **Order Fulfillment and Tracking**: Integrate Shipengine with an inventory management app, like Airtable, to streamline the order fulfillment process. When a new record is added to Airtable, Pipedream can use the Shipengine API to schedule a pickup, create a shipment, and then update the Airtable record with tracking information, ensuring that all order details are in sync.
+
+- **Automated Shipping Cost Comparison**: Dynamically compare shipping rates from different carriers using Shipengine's rate comparison feature. Set up a Pipedream workflow to request shipping quotes based on the package details from multiple carriers and then, based on predefined rules, select the best option and proceed with the shipping label creation, saving you money and time on every shipment.

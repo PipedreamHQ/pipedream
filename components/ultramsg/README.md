@@ -1,30 +1,11 @@
 # Overview
 
-Using UltraMsg API, you can build powerful messaging applications quickly and
-easily. This API allows developers to quickly implement communication solutions
-such as chat, messaging, voice & video calls, presence, notifications, and data
-publishing/subscribing. With the UltraMsg API, it's easier than ever to add
-robust features to your app.
+UltraMsg API unlocks the power to automate interactions over WhatsApp. By integrating with Pipedream, you can create serverless workflows that handle everything from auto-responding to messages, sending notifications, or even managing customer support tickets. With UltraMsg's connection to WhatsApp, your apps can engage in two-way conversations, push media content, or trigger actions based on message content, all flowing seamlessly through Pipedream's easy-to-use platform.
 
-These are some of the features you can achieve with UltraMsg API:
+# Example Use Cases
 
-- Secure messaging, voice & video calls and group management
-- Presence, group management, and notifications
-- Easy data publishing and subscribing
-- Support for custom messages and rich message formats
-- Message delivery and delivery notifications
-- Reliable, secure and efficient delivery of messages
-- Device-agnostic messaging including web, mobile, and desktop
-- Easy integration with existing services
-- Robust user and identity management
+- **WhatsApp Notifications for E-commerce Orders**: Send order confirmations and shipping updates directly to your customers on WhatsApp. Combine UltraMsg with Stripe on Pipedream. When a new payment is captured in Stripe, trigger a workflow that sends a personalized message via UltraMsg.
 
-Below are some example applications that you can build using the UltraMsg API:
+- **Customer Support Ticketing via WhatsApp**: Integrate UltraMsg with a CRM like HubSpot. When a new message is received on WhatsApp, the workflow can create or update a ticket in HubSpot, ensuring that support teams can track and respond to customer inquiries effectively.
 
-- Chat applications
-- Video conferencing and collaboration
-- Mobile messaging and notifications
-- Gaming platforms and chat lobbies
-- IoT and sensor data streaming
-- Enterprise notification systems
-- Inter-application communication
-- Real-time analytics and data collection
+- **Event Alert System**: Use UltraMsg together with Google Calendar. Set up a workflow that sends a WhatsApp message reminder through UltraMsg when an upcoming event is 15 minutes away, ensuring participants are well informed and punctual.

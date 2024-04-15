@@ -1,21 +1,11 @@
 # Overview
 
-The Quickbase API enables developers to build business solutions quickly and
-efficiently. With it, you can quickly create custom databases and applications
-that support your organization. The API supports all the core features
-Quickbase has to offer, like records and fields, table-level authentication,
-and views and reports. All of these add up to the ability to build powerful
-solutions that solve real-world problems.
+Quickbase API on Pipedream allows you to seamlessly integrate your Quickbase apps with other services to automate workflows. With this API, you can manage records, tables, and fields; interact with Quickbase using CRUD operations; and trigger workflows on events like record creation or updates. This opens up possibilities for syncing data across platforms, streamlining reporting, and enhancing project management processes in real-time.
 
-Below are some examples of what developers can build using the Quickbase API:
+# Example Use Cases
 
-- Automated reports and dashboards that present data from different sources in
-  different ways.
-- Customized applications that store and display data from Quickbase and other
-  external sources.
-- Workflows and business processes that leverage internal and external data to
-  streamline operations.
-- Integrations with external systems and websites that pull in data from
-  Quickbase and keep it up-to-date.
-- A platform for developing mobile applications that access and display data
-  stored in Quickbase.
+- **Automated Data Sync Between Quickbase and Google Sheets**: Sync data between Quickbase and Google Sheets to maintain up-to-date records across platforms. Whenever a new record is added or updated in Quickbase, the changes are mirrored in a specific Google Sheet, ensuring data consistency.
+
+- **Project Management with Quickbase and Slack Notifications**: Improve project communication by sending notifications to a Slack channel when the status of a project in Quickbase changes. This keeps the team informed of project progress and critical milestones without manual updates.
+
+- **Email Alerts for New Quickbase Records**: Set up automated email notifications using Gmail or another email service whenever a new record is created in Quickbase. This can be especially useful for sales teams who need to act quickly on new leads or support tickets.

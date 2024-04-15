@@ -1,23 +1,11 @@
 # Overview
 
-Zoho WorkDrive API is a powerful tool for managing and sharing content
-collaboration, storage and documents online. With the API, you can build
-solutions to handle document organization, store, process and share enterprise
-data securely, in a cloud-based environment. Here are a few examples of what
-you can do with the API:
+The Zoho WorkDrive API lets you manage your Zoho WorkDrive team folders, files, and users programmatically. With Pipedream, you can connect Zoho WorkDrive to hundreds of other apps, orchestrating workflows that automate file management, user provisioning, and data sharing. Whether you're syncing files to cloud storage platforms, updating CRM records with file links, or collaborating with your team through notifications, Pipedream's serverless platform makes these integrations seamless.
 
-- Create and store new documents, spreadsheets, presentations and other files
-- Automate document sharing and processing
-- Architecture document storage solutions to suit your organization
-- Access and sync documents and folders across multiple devices
-- Integrate with other third-party applications
-- Create and share link-based documents and folders
-- Add metadata to documents and files in the cloud
-- Share documents with users or groups
-- Focus content search results with filters
-- Secure documents with user authentication
-- Enable authentication policies and control access
-- Monitor user activity to ensure compliance
-- Create automated backup for documents and files
-- Track changes and version control for documents and files
-- Create reports and analytics for documents and folders
+# Example Use Cases
+
+- **Automate File Backup to Cloud Storage**: Sync newly added Zoho WorkDrive files to a cloud storage, like Google Drive or Dropbox. Every time a file is added to a specified WorkDrive folder, Pipedream triggers a workflow that uploads the file to another cloud service, ensuring data redundancy and accessibility.
+
+- **Sync CRM with Updated Sales Materials**: Keep your CRM updated with the latest sales materials. When new materials are uploaded to a WorkDrive folder, Pipedream automatically updates corresponding CRM records, attaching the most recent files to ensure your sales team has the latest resources.
+
+- **Distribute Team Meeting Notes**: After a meeting, automatically share the notes and action items stored in Zoho WorkDrive with your team. Pipedream can trigger a workflow that sends these files to communication platforms like Slack or Microsoft Teams, ensuring everyone stays in the loop.

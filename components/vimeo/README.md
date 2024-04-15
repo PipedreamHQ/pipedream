@@ -1,23 +1,11 @@
 # Overview
 
-The Vimeo API is a powerful tool for developers to access a wide range of
-features on the Vimeo platform. With the Vimeo API, you can build a variety of
-applications to enhance the user experience sharing videos. Here are a few
-examples of applications that can be built using the Vimeo API:
+The Vimeo API on Pipedream allows you to interact with your Vimeo account programmatically. You can automate video upload processes, manage your video library, and extract valuable data for analysis. With Pipedream's serverless platform, you can create workflows that trigger on various events and integrate with other services to enhance your video management capabilities.
 
-- Video streaming applications: With the Vimeo API, developers can quickly
-  build streaming applications that offer users high-quality, secure, and
-  reliable video streaming services.
-- Content discovery tools: Vimeo is home to a wide variety of content that you
-  can make more accessible with content discovery tools built with the Vimeo
-  API.
-- Engagement platforms: With the Vimeo API, developers can craft engaging
-  platforms that allow users to easily find, watch, and interact with videos.
-- Editing tools: With the Vimeo API, developers can easily create editing tools
-  that give users the ability to quickly and easily edit their video files.
-- Video usage analytics: Vimeo’s API offers developers powerful video
-  analytics, providing users with insights into how their videos are being
-  watched, helping to make better decisions about their content.
-- Video monetization: The Vimeo API is a great tool for monetizing videos,
-  allowing users to easily set up paywalls and offer subscriptions for
-  controlled access to their videos.
+# Example Use Cases
+
+- **Automated Video Uploads**: Streamline content creation by automating video uploads to Vimeo. Once a video file is added to your Dropbox folder, a Pipedream workflow can automatically upload it to your Vimeo account, saving you time and hassle.
+
+- **Video Analytics Reporting**: Gain insights into your audience by setting up a workflow that fetches video analytics from Vimeo and sends a daily or weekly report to your email or Slack. You can track views, likes, and comments to understand viewer engagement.
+
+- **Content Moderation Workflow**: Keep your Vimeo channel clean and professional by automating content moderation. When a new comment is posted on any of your videos, a workflow can assess it for inappropriate content using a sentiment analysis API, flagging or removing negative comments instantly.

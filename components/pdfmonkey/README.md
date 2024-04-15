@@ -1,22 +1,11 @@
 # Overview
 
-PDFMonkey is an API that enables users to build powerful applications that
-generate and manipulate PDF files. The API allows developers to generate and
-manipulate documents such as modifying texts, adding images, creating form
-fields and content, as well as signing and securing documents.
+PDFMonkey API on Pipedream empowers you to automate the generation of PDFs from predefined templates. It simplifies the process of creating dynamic documents, be it invoices, reports, or personalized contracts. With Pipedream’s serverless platform, you can seamlessly integrate PDFMonkey with other apps to trigger PDF creation, process data received from webhooks, handle the generated PDFs, and much more, all in an easy-to-use workflow environment.
 
-Below are some of the great products you can build using the PDFMonkey API:
+# Example Use Cases
 
-- Create custom invoices
-- Create contact sheets
-- Generate PDFs from HTML documents
-- Convert HTML to PDF
-- Print web pages
-- Merge multiple PDF documents into one
-- Extract text from PDFs
-- Redact confidential information from PDFs
-- Generate dynamic PDFs for web applications
-- Sign PDF documents
-- Verify a digital signature
-- Crop PDF pages
-- Extract images from PDF documents
+- **Automated Invoice Generation**: Trigger PDFMonkey to create invoices when new orders are placed through an e-commerce platform like Shopify. Once the PDF is generated, it can be emailed to customers using an email service like SendGrid, all orchestrated within Pipedream.
+
+- **Dynamic Report Creation**: Set up a workflow where PDFMonkey generates daily, weekly, or monthly reports based on data from a database like PostgreSQL. When a new row is inserted or at specific intervals, generate a report and store it in Google Drive or Dropbox for easy access and sharing.
+
+- **Contract Generation from Webform Submissions**: When a user fills out a webform, such as Typeform, use the submitted data to populate and create a custom contract with PDFMonkey. Once the contract is ready, notify the relevant team or individual via Slack and attach the PDF for review.

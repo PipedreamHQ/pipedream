@@ -1,14 +1,11 @@
 # Overview
 
-Using the Grist API, you can build applications that can:
+The Grist API allows for programmable interactions with Grist, a robust spreadsheet-database hybrid tool. Within Pipedream, you can leverage this API to automate document creation, management, and data manipulation. Think of any spreadsheet task that could benefit from automation—like syncing data, integrating with other tools, or dynamically updating records based on external triggers—and Grist API in Pipedream can handle it.
 
-- Create and manage customer orders
-- Create and manage products
-- Create and manageblogs
-- Create and manage users
-- Create and manage events
-- Create and manage files
-- Create and manage photos
-- Create and manage galleries
-- Create and manage comments
-- Create and manage pages
+# Example Use Cases
+
+- **Automated Data Sync between Grist and Google Sheets**: Use Pipedream to detect changes in a Grist document and automatically reflect those changes in a corresponding Google Sheets file. This ensures data consistency across platforms without manual input.
+
+- **Dynamic CRM Updates with Grist and SendGrid**: With Pipedream, set up a workflow where updates to a Grist-based CRM trigger emails via SendGrid. For instance, when a new contact is added to Grist, automatically send a welcome email.
+
+- **Issue Tracking Integration between Grist and GitHub**: Connect Grist to GitHub using Pipedream. Automatically create an issue in GitHub whenever a new bug is reported in your Grist tracker. This bridges the gap between project management and development workflows.

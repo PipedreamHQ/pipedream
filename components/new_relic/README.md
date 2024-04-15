@@ -1,15 +1,11 @@
 # Overview
 
-New Relic's API enables you to do the following:
+The New Relic API provides a powerful interface for monitoring and managing your application's performance data in real-time. With New Relic on Pipedream, you can automate interactions with your New Relic data, create custom alerts, and connect with other services to streamline your DevOps workflows. Fetch metrics, trigger deployments, or update configurations automatically, all within Pipedream's serverless platform.
 
-- Automate your New Relic account and data
-- Retrieve data from New Relic for use in other tools
-- Build New Relic-powered tools and applications
+# Example Use Cases
 
-Here are some examples of what you can build using the New Relic API:
+- **Alerts to Communication Channels**: Use the New Relic API to monitor application performance and send alerts to communication apps like Slack or Discord when certain thresholds are breached. This can help your team respond to issues faster.
 
-- A custom dashboard to display the data that matters most to you
-- An alerting system that notifies you when your app is experiencing problems
-- A tool to help you track your New Relic bill and usage
-- An application that integrates with New Relic to provide additional data or
-  functionality
+- **Automated Performance Reporting**: Collect and aggregate performance data from New Relic at regular intervals and send formatted reports to stakeholders through email or a Google Sheets document, ensuring everyone is informed about the system's health.
+
+- **Trigger Workflows Based on New Relic Events**: Set up a Pipedream workflow that listens for New Relic deployment events or other significant incidents and triggers additional actions, such as posting a message to a project management tool like Jira or Asana, or perhaps invoking AWS Lambda functions for remediation tasks.
