@@ -1,5 +1,4 @@
 import smallImprovements from "../../small_improvements.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "small_improvements-list-users",
@@ -9,10 +8,35 @@ export default {
   type: "action",
   props: {
     smallImprovements,
+    includeGuests: {
+      type: "boolean",
+      label: "Include Guests",
+      description: "whether the request will only bring fully registered users or not.",
+      optional: true,
+    },
+    managerId: {
+      type: "string",
+      label: "Manager Id",
+      description: "The id of a manager to filter the results.",
+      optional: true,
+    },
+    showLocked: {
+      type: "boolean",
+      label: "Show Locked",
+      description: "whether the request will bring blocked users or not",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const response = await this.smallImprovements.listAllUsers();
-    $.export("$summary", "Successfully listed all users");
+    const response = await this.smallImprovements.listAllUsers({
+      $,
+      params: {
+        includeGuests: this.includeGuests || false,
+        managerId: this.managerId,
+        showLocked: this.showLocked || false,
+      },
+    });
+    $.export("$summary", `Successfully listed ${response.length} users`);
     return response;
   },
 };

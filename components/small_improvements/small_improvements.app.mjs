@@ -4,60 +4,84 @@ export default {
   type: "app",
   app: "small_improvements",
   propDefinitions: {
-    command: {
-      type: "string",
-      label: "Command",
-      description: "The command to execute for the meeting notes.",
-    },
     meetingId: {
       type: "string",
       label: "Meeting ID",
       description: "The ID of the meeting.",
+      async options({ participantId }) {
+        const data = await this.listMeetings({
+          params: {
+            participants: participantId,
+          },
+        });
+
+        return data.map(({
+          id: value, title,
+        }) => ({
+          label: title || value,
+          value,
+        }));
+      },
+    },
+    participantId: {
+      type: "string",
+      label: "Participant ID",
+      description: "The ID of the participant in the meeting.",
+      async options() {
+        const data = await this.listAllUsers({
+          params: {
+            includeGuests: true,
+            showLocked: true,
+          },
+        });
+
+        return data.map(({
+          id: value, name, email,
+        }) => ({
+          label: `${name} (${email})`,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.small-improvements.com/v2";
+      return "https://app.small-improvements.com/api/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data,
-        params,
+        headers: this._headers(),
       });
     },
-    async createMeetingNotes({
-      meetingId, command,
+    createMeetingNotes({
+      meetingId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/meetings/${meetingId}/notes`,
-        data: {
-          command,
-        },
+        ...opts,
       });
     },
-    async listAllUsers() {
+    listAllUsers(opts = {}) {
       return this._makeRequest({
-        method: "GET",
         path: "/users",
+        ...opts,
+      });
+    },
+    listMeetings(opts = {}) {
+      return this._makeRequest({
+        path: "/meetings",
+        ...opts,
       });
     },
   },
-  version: "0.0.1",
 };
