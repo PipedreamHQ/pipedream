@@ -1,6 +1,6 @@
 # Overview
 
-PostgreSQL, an advanced open-source database, offers a robust API for managing data. On Pipedream, you can leverage this API to create workflows that automate database operations, synchronize data across platforms, and react to database events in real-time. Think handling new row entries, updating records from webhooks, or even compiling reports on a set schedule. Pipedream's serverless platform provides a powerful way to connect PostgreSQL with a variety of apps, enabling you to create tailored automation that fits your specific needs.
+On Pipedream, you can leverage the PostgreSQL app to create workflows that automate database operations, synchronize data across platforms, and react to database events in real-time. Think handling new row entries, updating records from webhooks, or even compiling reports on a set schedule. Pipedream's serverless platform provides a powerful way to connect PostgreSQL with a variety of apps, enabling you to create tailored automation that fits your specific needs.
 
 # Example Use Cases
 
