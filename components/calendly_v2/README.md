@@ -1,17 +1,11 @@
 # Overview
 
-The Calendly (OAuth) API allows developers to integrate Calendly with their
-applications, allowing their users to schedule appointments and events directly
-from the app. With the API, developers can create, read, update, and delete
-Calendly event types, invitees, and schedule events on behalf of their users.
+The Calendly API grants your workflows the power to interact with your Calendly scheduling data programmatically. Using Pipedream, you can automate actions like creating events, sending custom emails after a meeting is scheduled, syncing your Calendly events with other calendars, or triggering workflows based on new event creation. The seamless integration provided by Pipedream allows for real-time data processing, enabling automations that keep your schedule in sync with other business tools and streamline your appointment management.
 
-Example applications that could be built using the Calendly (OAuth) API
-include:
+# Example Use Cases
 
-- A scheduling app that allows users to schedule appointments and events
-  directly from the app
-- An online booking system that allows users to book appointments and events
-  directly from the app
-- A calendar app that allows users to view and manage their Calendly events and
-  appointments
-- A to-do list app that allows users to track and manage their Calendly events and appointments  
+- **Sync Calendly with Google Sheets**: When a new event is scheduled on Calendly, automatically add the event details to a Google Sheet. This workflow can be used for record-keeping, attendance tracking, or data analysis.
+
+- **Trigger Email Campaigns After Booking**: After a meeting is booked on Calendly, trigger an email sequence using an email marketing tool like Mailchimp to nurture leads or provide meeting preparation instructions.
+
+- **Create Trello Cards for New Events**: Integrate Calendly events with Trello. When someone books an appointment, automatically create a Trello card with the event details in a specified board and list, helping your team stay organized and prepared for upcoming meetings.

@@ -1,17 +1,11 @@
 # Overview
 
-With the Google Classroom API, you can manage your Google Classroom classes and
-coursework. You can also use the API to create and manage announcements,
-assignments, and student submissions.
+Utilize the Google Classroom API on Pipedream to craft seamless educational experiences. With these integrations, you can automate course management, sync student data, push notifications, and streamline assignments and grades across platforms. Harness the power of serverless workflows to react to Classroom events, manage classroom resources, and bridge interactions between educational tools.
 
-Here are some example applications you could build with the Google Classroom
-API:
+# Example Use Cases
 
-- A course management system that allows teachers to create and manage their
-  courses online
-- An announcement system that allows teachers to post announcements to their
-  classes
-- An assignment management system that allows teachers to create and manage
-  assignments for their classes
-- A student submission system that allows teachers to view and grade student
-  submissions
+- **Sync Grades to a Spreadsheet**: Automatically transfer student grades from Google Classroom to a Google Sheets spreadsheet after an assignment is marked. This keeps all grades in one place, simplifying grade tracking and reporting.
+
+- **Course Enrollment Notifications**: Send Slack notifications to staff whenever a student joins or leaves a course. This ensures team members are immediately informed of changes in course enrollment, allowing for prompt adjustments.
+
+- **Automate Assignment Creation**: On a set schedule, trigger a workflow that creates and posts new assignments in Google Classroom from a predefined template or content pool, saving educators time and ensuring consistency across class sections.

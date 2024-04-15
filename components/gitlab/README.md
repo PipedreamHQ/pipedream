@@ -1,11 +1,11 @@
 # Overview
 
-Gitlab API allows developers to access the functionality of Gitlab. With the
-Gitlab API, developers can integrate Gitlab with other applications, create
-custom applications, or automate tasks.
+The GitLab API taps into the vast capabilities of GitLab's software development platform, letting you automate tasks, manage repositories, issues, merge requests, and more programmatically. With Pipedream, you can leverage this API to create custom workflows that respond to events in GitLab, manipulate data, and integrate with other services, all without managing servers.
 
-Some examples of what you can build using the Gitlab API include:
+# Example Use Cases
 
-- Automate tasks such as creating and managing repositories
-- Integrate Gitlab with other applications such as your chat application
-- Create custom applications on top of Gitlab
+- **Automated Issue Labeling**: Automatically label issues based on keywords in the issue's title or description. When a new issue is created in GitLab, the Pipedream workflow analyzes the content and adds relevant labels, streamlining the categorization process.
+
+- **Merge Request Notifications**: Send real-time notifications to a Slack channel when new merge requests are created. This keeps the team informed and can speed up the review process by ensuring merge requests don't go unnoticed.
+
+- **Continuous Deployment Trigger**: Trigger a deployment or a series of automated tests when changes are pushed to a specific branch. By connecting GitLab to AWS Lambda via Pipedream, you can initiate a serverless function that deploys the latest code to your production environment.

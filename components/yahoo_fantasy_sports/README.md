@@ -1,24 +1,11 @@
 # Overview
 
-The Yahoo! Fantasy Sports API is an application programming interface (API)
-publicly available for connecting with Yahoo's fantasy sports platform. It
-provides the necessary tools for developers to create multi-tenant
-applications, as well as for individual users to build custom applications
-faster and easier than ever before.
+The Yahoo! Fantasy Sports API provides access to fantasy sports data and functionality such as leagues, teams, and player stats. With this API on Pipedream, you can automate aspects of managing a fantasy team, retrieve real-time statistics, and integrate with other services to enhance the fantasy sports experience. Pipedream's serverless platform allows you to create workflows that react to events in the Yahoo! Fantasy Sports ecosystem, handle complex logic, schedule regular tasks, and connect with numerous other apps available in Pipedream's marketplace.
 
-The Yahoo! Fantasy Sports API can be used to build a variety of applications
-and websites related to fantasy sports. Some of the possible applications built
-with the Yahoo! Fantasy Sports API include:
+# Example Use Cases
 
-- Fantasy sports mobile apps, such as mobile versions of fantasy football,
-  basketball, baseball and hockey
-- Websites for creating and tracking fantasy sports teams
-- Websites for fantasy sports leagues
-- Tools for calculating fantasy sports player rankings
-- Tools for managing fantasy drafts
-- Tools for analyzing and visualizing fantasy sports performance and trends
-- Integrations with third party services such as scoring and stat tracking
-  services
-- Widgets and plugins for fantasy sports websites and applications
-- Bots and automation tools for fantasy sports
-- Search tools for finding players in fantasy sports leagues
+- **Automated Fantasy Team Management**: Create a workflow that automatically adjusts your fantasy lineup based on player performance, injury reports, or other criteria. Use Pipedream's built-in cron service to schedule checks and updates to your team before game time.
+
+- **Real-Time Player Stat Alerts**: Set up a workflow to monitor player statistics and send notifications via email, SMS, or a messaging app like Slack when a player on your roster hits certain milestones during a game.
+
+- **League Activity Digest**: Compile a weekly digest of league activity, including transactions, top performers, and waiver wire trends, and send it to league members through a platform like Mailgun or directly via the Gmail app on Pipedream.
