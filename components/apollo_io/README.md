@@ -1,11 +1,11 @@
 # Overview
 
-Some things you can build using the Apollo.io API include:
+The Apollo.io API enables sales and marketing teams to streamline their prospecting efforts. With this API, you can access a vast database of contacts and companies, automate lead scoring, and integrate with a variety of CRM systems. On Pipedream, you can leverage this API to build custom, serverless workflows that react to events, automate tasks, and sync data across apps without provisioning any infrastructure. You could, for instance, enrich contact data, score leads in real-time, or sync new leads to other platforms like Salesforce or Slack.
 
-- A platform for connecting with doctors and medical professionals
-- A social network for connecting with like-minded people
-- A messaging app for sending messages and getting advice from experts
-- A marketplace for finding and buying products and services
-- An online community for discussing various topics
-- A news site for getting the latest news and updates
-- A blog for sharing your thoughts and ideas with others
+# Example Use Cases
+
+- **Lead Enrichment on New Form Submission**: When a new form submission occurs, use the Apollo.io API to enrich contact data and append additional details such as job title, company size, and industry. This enriched data can be sent to your CRM to maintain rich, updated profiles of potential leads.
+
+- **Real-time Lead Scoring**: Set up a workflow where leads captured from various sources are scored in real-time using Apollo's scoring system. Based on the score, you could route high-scoring leads to a sales team's Slack channel and add them to an email marketing app like Mailchimp for immediate engagement.
+
+- **Automated Outreach Sequences**: Trigger an automated outreach sequence in Apollo.io when a new contact is added to your CRM. You can set conditions based on the contact's data, such as industry or company size, to personalize the outreach and increase engagement chances.

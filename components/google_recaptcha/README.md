@@ -1,15 +1,11 @@
 # Overview
 
-The Google reCAPTCHA API allows you to build various types of CAPTCHA forms,
-including:
+The Google reCAPTCHA API helps discern humans from bots, safeguarding websites from spam and abuse. With Pipedream, you can integrate this API into workflows to validate user interactions in real-time. This enhances security by ensuring only genuine users can trigger actions or access data. You can set up workflows that react to form submissions, activate upon successful recaptcha verifications, or conditionally process data based on verification status.
 
-- Simple CAPTCHA forms that can be used to protect your website from spam and
-  abuse
-- Advanced CAPTCHA forms that can be used to protect your website from more
-  sophisticated attacks
+# Example Use Cases
 
-Here are some examples of what you can build using the Google reCAPTCHA API:
+- **Enhance Form Submission Security**: Verify reCAPTCHA responses when a user submits a form, then proceed with data processing or storage only if the verification is successful. Connect with databases like Airtable or Google Sheets for data handling.
 
-- A simple CAPTCHA form that can be used to protect your website from spam
-- An advanced CAPTCHA form that can be used to protect your website from more
-  sophisticated attacks
+- **User Verification for Account Creation**: Integrate reCAPTCHA with user signup flows. After the reCAPTCHA challenge is cleared, trigger a workflow to create a new user account in your authentication service, such as Auth0 or Firebase Authentication.
+
+- **Conditional Content Delivery**: Secure API endpoints by requiring a valid reCAPTCHA token before serving sensitive content. Set up a Pipedream workflow that validates the token and, upon success, fetches content from a CMS like Contentful or directly serves data from a Pipedream data store.

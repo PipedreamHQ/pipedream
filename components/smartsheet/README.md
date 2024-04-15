@@ -1,19 +1,11 @@
 # Overview
 
-The Smartsheet API gives developers access to Smartsheet platform features and
-data, enabling you to build custom applications and integrations that extend
-the functionality of Smartsheet. With the Smartsheet API, you can create
-powerful integrations that are tailored to your specific business needs.
+The Smartsheet API unlocks the power of automating and integrating workflows with your Smartsheet data. Use Pipedream to harness this API for custom automations that sync data, manage projects, or orchestrate events across various apps. With ease, trigger actions in Smartsheet, react to changes, or pipe data from other sources into your sheets.
 
-Using the Smartsheet API, you can:
+# Example Use Cases
 
-- Create and manage sheets, rows, and columns
-- Automate and manage sheet features such as formulas and conditional
-  formatting
-- Develop custom sheet views, including sorting and filtering options
-- Capture and track changes with versioning
-- Read, write, and delete data
-- Create reports, dashboards, and timelines
-- Collaborate with comments and notifications
-- Store and organize files in Google Drive, Box and Dropbox
-- Run workflows and automate actions
+- **Project Management Automation**: Automatically create tasks in Smartsheet from new Trello cards. When a card moves to a "Done" list in Trello, mark the corresponding task in Smartsheet as completed, keeping your projects in sync.
+
+- **Data Synchronization**: Sync customer support tickets from Zendesk into a Smartsheet grid. As tickets are updated in Zendesk, a Pipedream workflow can refresh the corresponding rows in Smartsheet, ensuring your team has the latest information at a glance.
+
+- **Event Coordination**: Handle event registrations by connecting a Google Forms response to Smartsheet. When a new submission is made, add the registrant's details to a Smartsheet for streamlined attendee management.

@@ -1,21 +1,11 @@
 # Overview
 
-The Secure Shell (SSH) API is an powerful tool for securely connecting to
-remote systems over a network, allowing users to easily and securely access
-their systems or services. This API is useful for a variety of tasks including
-data transfer and remote system management.
+The SSH (key-based auth) API on Pipedream allows you to securely manage and automate tasks on remote servers. Through Pipedream's serverless platform, you can execute shell commands, transfer files, and even orchestrate complex deployments with ease. Leveraging key-based authentication provides a more secure alternative to password-based logins, minimizing the risk of unauthorized access. Pipedream's integration enables you to trigger these SSH actions from a wide variety of events, from GitHub commits to scheduled cron jobs.
 
-Key-based authentication is a way of validating the identity of the client to
-the server. It works by generating and exchanging a digital key that must match
-in order for the user to access the server. This provides an extra layer of
-security, as it is much harder to guess a digital key than a user password.
+# Example Use Cases
 
-With the SSH (key-based auth) API, you can use key-based authentication to
-create an encrypted, authenticated channel between two computers. This can be
-used for securely accessing services, such as:
+- **Automated Backups to Cloud Storage**: Trigger an SSH command to create a backup of your server data and subsequently use Pipedream's built-in S3 app to upload that backup to an AWS S3 bucket. This ensures your backups are stored securely off-site and can be automated to run at regular intervals.
 
-- Securing server access
-- Sharing data with other systems
-- Managing remote systems
-- Transferring large files between computers
-- Encrypting communication between two computers
+- **Continuous Deployment Pipeline**: Combine SSH with GitHub's app on Pipedream to detect new commits or releases. Upon such triggers, Pipedream can run SSH commands to pull the latest code changes and deploy them to your production or staging servers, automating your deployment process.
+
+- **Database Maintenance Automation**: Schedule regular database maintenance tasks, such as optimizations or clean-ups, by triggering SSH commands from Pipedream's cron scheduler. Additionally, integrate with Slack to send notifications about the status of the maintenance tasks directly to your team's channel.
