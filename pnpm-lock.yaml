@@ -7507,7 +7507,10 @@ importers:
     specifiers: {}
 
   components/similarweb_digitalrank_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/simple_analytics:
     specifiers: {}
