@@ -35,10 +35,10 @@ export default {
 
     const variables = {};
     if (createdAtMin) {
-      variables.createdAtMin = createdAtMin;
+      variables.createdAtMin = createdAtMin.trim();
     }
     if (createdAtMax) {
-      variables.createdAtMax = createdAtMax;
+      variables.createdAtMax = createdAtMax.trim();
     }
 
     await this.shopify.query({

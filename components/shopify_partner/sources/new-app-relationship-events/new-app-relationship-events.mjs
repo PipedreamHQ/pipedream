@@ -58,10 +58,10 @@ export default {
       appId: `gid://partners/App/${appId}`,
     };
     if (occurredAtMin) {
-      variables.occurredAtMin = occurredAtMin;
+      variables.occurredAtMin = occurredAtMin.trim();
     }
     if (occurredAtMax) {
-      variables.occurredAtMax = occurredAtMax;
+      variables.occurredAtMax = occurredAtMax.trim();
     }
 
     console.log("Querying events");
