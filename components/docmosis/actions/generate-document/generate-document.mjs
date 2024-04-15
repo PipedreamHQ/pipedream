@@ -1,47 +1,76 @@
-import docmosis from "../../docmosis.app.mjs";
-import { axios } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
+import app from "../../docmosis.app.mjs";
+import { writeFileSync  } from "fs";
 
 export default {
   key: "docmosis-generate-document",
   name: "Generate Document",
-  description: "Generates a document by merging data with a Docmosis template. [See the documentation](https://resources.docmosis.com/documentation/cloud/dws4/cloud-web-services-guide-dws4.pdf)",
-  version: "0.0.{{ts}}",
+  description: "Generates a document by merging data with a Docmosis template. [See the documentation](https://resources.docmosis.com/Documentation/Cloud/DWS4/Cloud-Web-Services-Guide-DWS4.pdf)",
+  version: "0.0.1",
   type: "action",
   props: {
-    docmosis,
-    templateId: {
+    app,
+    templateName: {
       propDefinition: [
-        docmosis,
-        "templateId",
+        app,
+        "templateName",
       ],
     },
-    dataToMerge: {
+    data: {
       propDefinition: [
-        docmosis,
-        "dataToMerge",
+        app,
+        "data",
+      ],
+    },
+    outputName: {
+      propDefinition: [
+        app,
+        "outputName",
       ],
     },
     outputFormat: {
       propDefinition: [
-        docmosis,
+        app,
         "outputFormat",
       ],
     },
   },
+  methods: {
+    render(args = {}) {
+      return this.app.post({
+        path: "/render",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.docmosis.generateDocument({
-      templateId: this.templateId,
-      dataToMerge: this.dataToMerge,
-      outputFormat: this.outputFormat,
+    const {
+      render,
+      templateName,
+      outputName,
+      data,
+      outputFormat,
+    } = this;
+    const downloadedFilepath = `/tmp/${outputName}`;
+
+    const response = await render({
+      $,
+      responseType: "arraybuffer",
+      data: {
+        templateName,
+        data: utils.parseProp(data),
+        outputName,
+        outputFormat,
+      },
     });
 
-    const outputPath = `/tmp/generatedDocument.${this.outputFormat || "pdf"}`;
-    const fs = require("fs");
-    fs.writeFileSync(outputPath, response);
+    writeFileSync(downloadedFilepath, response);
 
-    $.export("$summary", `Generated document with template ID ${this.templateId} is stored at ${outputPath}`);
-    return {
-      outputPath,
-    };
+    $.export("$summary", `Successfully generated document with name \`${outputName}\``);
+
+    return [
+      outputName,
+      downloadedFilepath,
+    ];
   },
 };

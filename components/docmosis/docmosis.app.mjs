@@ -4,90 +4,89 @@ export default {
   type: "app",
   app: "docmosis",
   propDefinitions: {
-    templateId: {
+    templateName: {
       type: "string",
-      label: "Template ID",
-      description: "The ID of the template to merge data with",
+      label: "Template Name",
+      description: "The name of the template to merge data with",
+      async options() {
+        const { templateList } = await this.listTemplates();
+        return templateList
+          .filter(({ name }) => !name.endsWith("/"))
+          .map(({ name: value }) => value);
+      },
     },
-    dataToMerge: {
+    data: {
       type: "object",
-      label: "Data to Merge",
+      label: "Data To Merge",
       description: "The data to be merged with the template",
+    },
+    outputName: {
+      type: "string",
+      label: "Output Name",
+      description: "The name of the generated document. Eg `result.pdf`",
     },
     outputFormat: {
       type: "string",
       label: "Output Format",
       description: "The output format of the generated document",
-      options: [
-        {
-          label: "PDF",
-          value: "pdf",
-        },
-        {
-          label: "DOC",
-          value: "doc",
-        },
-        {
-          label: "DOCX",
-          value: "docx",
-        },
-        {
-          label: "HTML",
-          value: "html",
-        },
-      ],
       optional: true,
-      default: "pdf",
+      options: [
+        "pdf",
+        "docx",
+        "odt",
+        "rtf",
+        "html",
+        "txt",
+      ],
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getUrl(path) {
+      return `${this.$auth.location_base_url}${path}`;
     },
-    _baseUrl() {
-      return "https://dws4.docmosis.com/services/rs/render";
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Content-Type": "application/json",
+      };
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path = "",
-        headers,
-        data,
-        params,
-        responseType = "arraybuffer",
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
-        data,
-        params,
-        responseType,
+    getAuthData(data) {
+      return {
+        ...data,
+        accessKey: this.$auth.access_key,
+      };
+    },
+    async _makeRequest({
+      $ = this, path = "", headers, data, ...args
+    } = {}) {
+      try {
+        return await axios($, {
+          ...args,
+          url: this.getUrl(path),
+          headers: this.getHeaders(headers),
+          data: this.getAuthData(data),
+        });
+
+      } catch (error) {
+        if (Buffer.isBuffer(error?.response?.data)) {
+          const decoder = new TextDecoder();
+          const msg = decoder.decode(error.response.data);
+          throw new Error(msg);
+        }
+        throw error;
+      }
+    },
+    post(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        ...args,
       });
     },
-    async generateDocument({
-      templateId, dataToMerge, outputFormat,
-    }) {
-      const response = await this._makeRequest({
-        data: {
-          templateName: templateId,
-          outputName: `output.${outputFormat || "pdf"}`,
-          data: dataToMerge,
-        },
+    listTemplates(args = {}) {
+      return this.post({
+        path: "/listTemplates",
+        ...args,
       });
-      const fs = require("fs");
-      const path = require("path");
-      const outputPath = path.join("/tmp", `generatedDocument.${outputFormat || "pdf"}`);
-      fs.writeFileSync(outputPath, response);
-      return outputPath;
     },
   },
-  version: "0.0.{{ts}}",
 };
