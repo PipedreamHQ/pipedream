@@ -1,29 +1,11 @@
 # Overview
 
-The Toggl Track API allows developers to build apps that help measure and
-visualize employee productivity. Using the API, it is possible to build tools
-such as timesheet managers, project-based dashboards, expense analysis, team
-management applications, and more.
+Toggl Track API provides robust time tracking functionality, enabling you to automate time entry management, report generation, and project tracking. By leveraging Pipedream, you can seamlessly connect Toglass Track with other apps and services to streamline your workflow. Pipedream's serverless platform allows you to trigger actions based on events in Toggl Track, manipulate and pass data between Toggl Track and other services, and automate repetitive tasks without writing complex code.
 
-The Toggl Track API also offers data overviews and integrated reporting, as
-well as access to Toggl Track’s easy-to-use user interface. This facilitates
-the creation of customized application features that can help businesses save
-time and maximize productivity.
+# Example Use Cases
 
-Here are a few examples of what you can build using the Toggl Track API:
+- **Sync Toggl Entries to Google Sheets**: Automatically export time entries from Toggl Track to a Google Sheets spreadsheet. This workflow is perfect for creating backup logs, sharing time reports with stakeholders, or further data analysis.
 
-- Timesheet manager: Create an application that gives users an overview of
-  their time tracking data.
-- Project-based dashboard: Visualize employee’s performance data on a
-  project-by-project basis.
-- Expense analysis: Analyze employees' expense data so that businesses can make
-  more informed decisions.
-- Team management applications: Manage employee workloads more efficiently with
-  customized tools.
-- Customized reports: Build customized reports based on specific criteria
-  related to time tracking data.
-- User interface: Access and integrate Toggl Track's intuitive user interface
-  into applications.
+- **Slack Notifications for New Projects**: Set up a workflow where a Slack notification is sent to a specified channel whenever a new project is created in Toggl Track. Keep your team instantly informed about new time tracking initiatives.
 
-- The API Reference has been updated to V9 and has been relocated [here](https://developers.track.toggl.com/)
-- This current implementation in pipdream only utilizes time entries. Toggl also offers coverage at the workspace level down to the individual task level. The workspace docs located [here](https://developers.track.toggl.com/docs/api/workspaces) provide insight in how to begin creating workspaces and allowing other individuals to be added to those workspaces allowing the tracking of whole teams at a time.
+- **GitHub Time Tracking Integration**: Implement a system where time spent on GitHub issues is tracked in Toggl Track. Whenever a GitHub issue is closed, the workflow can record the time automatically, ensuring accurate project management and billing.

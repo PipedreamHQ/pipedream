@@ -1,20 +1,11 @@
 # Overview
 
-The Internet Message Access Protocol (IMAP) is a mail protocol used for
-accessing email on a remote web server.
+The IMAP API on Pipedream allows you to interact with email messages and mailboxes from any IMAP server. By leveraging Pipedream's capabilities, you can automate tasks such as reading messages, searching for specific emails, and triggering workflows based on incoming emails. You can create complex email processing systems without managing servers, whilst taking advantage of Pipedream's integrations with other apps for extended functionality.
 
-IMAP provides a way to access email stored on a server, allowing you to read,
-write, and delete emails from your account.
+# Example Use Cases
 
-IMAP is a popular protocol for accessing email, and is supported by most email
-providers.
+- **Email to Slack Alert**: Automatically send a Slack message when you receive an email from a VIP client. This workflow triggers when a new email hits your inbox, with conditions set to filter for emails from specific addresses, then posts a summary and link to the message in a designated Slack channel.
 
-Here are some things you can build using the IMAP API:
+- **Support Ticket Creation**: Convert incoming support requests via email into tickets in a tool like Zendesk or Jira. When an email arrives at your support address, parse the content in Pipedream and use it to create a new ticket in your tracking system, streamlining your support process.
 
-- A web-based email client
-- A desktop email client
-- A mobile email client
-- A command-line email client
-- A script to automatically delete old emails
-- A script to automatically forward emails to another address
-- A script to automatically save attachments to your computer
+- **Email Digest**: Compile a daily or weekly digest of emails from specified folders or with particular labels, and send the digest to a Google Doc. This workflow can be scheduled to run at regular intervals, fetching emails and formatting them into a readable document that can be easily shared or archived.

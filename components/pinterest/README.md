@@ -1,23 +1,11 @@
 # Overview
 
-The Pinterest API is an open service that allows developers to access the
-Pinterest platform and build amazing experiences for Pinterest users. It
-provides a wide range of capabilities for creating amazing applications that
-allow users to view, save, and share beautiful images and content. With the
-Pinterest API, you can build apps that let users browse, search and create
-collections of images from around the web. You can also build apps that allow
-users to easily organize and manage their Pins, Boards and Likes.
+The Pinterest API on Pipedream allows you to interact with Pinterest programmatically, enabling the creation and management of boards, pins, and advertisements. With Pipedream's serverless platform, you can automate workflows, integrate Pinterest with other apps, and build custom actions based on triggers like new pins or comments. Pipedream's no-code interface coupled with code steps offers flexibility for both non-coders and developers to build complex integrations.
 
-Some of the great things you can build with the Pinterest API include:
+# Example Use Cases
 
-- An application that lets users search Pins across multiple sources
-- A visual discovery tool that organizes pins into categories
-- A creative showcase platform that lets users easily view and share the best
-  content
-- A social network that allows users to interact with and follow other pins
-- A personalized shopping experience that displays tailored product
-  recommendations based on user interests
-- An app that lets users save their own customized collections of images and
-  content
-- A messaging platform that lets users connect with brands, stores and friends
-  through group conversations
+- **Automate Pin Creation**: Trigger a workflow whenever you upload a new image to Dropbox or Google Drive, automatically creating a new pin on a specified Pinterest board with that image.
+
+- **Monitor Pinterest Engagement**: Set up a workflow to track comments and saves on your pins. Whenever there's a new comment or a pin is saved, Pipedream can send a notification to your Slack channel or email inbox, helping you stay engaged with your audience.
+
+- **Sync Pinterest Activities with a CRM**: Whenever a new pin is created on your Pinterest account, use Pipedream to add or update the information about the pin in your CRM, like Salesforce or HubSpot, keeping your customer interaction data up to date.

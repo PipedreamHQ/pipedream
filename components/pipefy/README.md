@@ -1,19 +1,11 @@
 # Overview
 
-Using the Pipefy API, it is possible to build powerful workflows that help to streamline the entire process of managing any given task or process. The API provides access to all of Pipefy’s features, allowing developers to create custom-built workflows that are tailored for their specific needs.
+The Pipefy API on Pipedream allows you to automate workflows and integrate with the Pipefy platform, a tool designed for managing processes and workflows. With this API, you can create, update, and manage cards, phases, and fields within your Pipefy account. It's a powerful way to connect Pipefy to hundreds of other apps, set up event-driven workflows, and streamline processes such as task assignment, data collection, and project management.
 
-With Pipefy’s API, developers can take advantage of the following:
+# Example Use Cases
 
-- Create and manage customized pipelines
-- Automatically trigger events between different phases
-- Track progress and milestones
-- Establish custom notifications
-- Manage resources
+- **Automate Task Assignment**: When a new form submission is received in Typeform, you can use Pipedream to automatically create a card in a specific phase in Pipefy, assigning it to the relevant team member. This streamlines the process of capturing leads or feedback and ensuring they're actioned promptly.
 
-Examples of what you can build with the Pipefy API:
+- **Sync Project Management Tools**: If you're using Trello for project management but managing tasks within Pipefy, you can set up a workflow on Pipedream to sync new Trello cards to Pipefy. Whenever a card is added to a Trello list, a corresponding Pipefy card is created, ensuring all your project information is up-to-date across platforms.
 
-- A workflow to oversee the recruitment process, from applicant submission to onboarding.
-- A workflow to organize the marketing team’s daily, weekly and monthly tasks.
-- A workflow to oversee the development of software products, from planning to the release.
-- An automated system for processing customer requests and complaints.
-- A workflow to manage product releases from inception to launch.
+- **Streamlined Reporting**: Integrate Pipefy with Google Sheets using Pipedream to automatically add new card details to a spreadsheet. This can be used for reporting on project status, resource allocation, or task completion, providing a real-time overview without manual data entry.

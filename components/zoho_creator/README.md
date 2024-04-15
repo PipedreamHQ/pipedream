@@ -1,22 +1,11 @@
 # Overview
 
-The Zoho Creator API lets you build powerful applications and custom components
-quickly, easily, and securely. It's a platform designed to let you quickly
-develop custom components and applications, without having to worry about
-server-side code or hosting. You can use it to create your own integrated
-applications and custom components, and to securely incorporate them into your
-existing business applications.
+Zoho Creator's API lets you tap into the power of your custom apps built with Zoho Creator. With the API, you can create, read, update, and delete data records across your apps, retrieve form properties, and trigger workflows. Integrating Zoho Creator with Pipedream facilitates automation of tasks, syncing data across multiple platforms, and extending the functionality of your Zoho apps. Build no-code connectors and design workflows that react to events in real-time within your Zoho Creator environment.
 
-Using the Zoho Creator API, you can create:
+# Example Use Cases
 
-- Custom business applications, such as helpdesks, invoicing, or asset
-  management
-- Custom single-page web apps
-- AutonDBS integration
-- Business rules and trigger-based automation
-- Data-driven user interfaces
-- Reporting and data visualizations
-- Custom integrations and plugins
-- Custom API endpoints
-- Third-party API integration
-- Desktop and mobile app support
+- **Sync Zoho Creator Records with Google Sheets**: Automatically export new records added to a Zoho Creator form into a Google Sheet. Useful for maintaining backups and enabling easier data analysis and sharing with teams who operate primarily on Google Workspace.
+
+- **Manage Support Tickets with Zoho Creator and Slack**: Whenever a new support ticket is generated in Zoho Creator, send a notification to a specific Slack channel. This helps in providing immediate attention to support queries and improves team collaboration.
+
+- **Automate Order Processing with Zoho Creator and Stripe**: Integrate Zoho Creator with Stripe to process payments automatically when a new order is placed. Keep track of payment statuses and update records in Zoho Creator accordingly to streamline the order-to-cash cycle.

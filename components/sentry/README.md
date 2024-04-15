@@ -1,18 +1,11 @@
 # Overview
 
-Sentry is an error tracking and monitoring platform that can be used to detect
-and debug problems with applications. With the Sentry API, developers and
-system administrators can build custom tools and applications using the Sentry
-platform.
+Sentry's API enables you to plug into the power of Sentry directly, giving you the ability to manage and automate error tracking and performance monitoring. With Pipedream, you can harness this capability to create custom workflows that react to events in Sentry, automate issue management, and integrate with other services. By connecting Sentry to Pipedream's ecosystem, developers can craft powerful automation that streamlines their development and monitoring processes.
 
-Using the Sentry API, here are some examples of the kinds of custom tools and
-applications that can be built:
+# Example Use Cases
 
-- Debugging tool to detect and troubleshoot errors
-- Application monitoring dashboard
-- Alert system to send notifications when an error occurs
-- Anomaly detection system to identify potential issues
-- Automated testing system to quickly identify and correct bugs
-- Event logging system to track system metrics and usage data
-- Visualization tool to track the progress and performance over time of the
-  application or system
+- **Automated Error Notification System**: Create a workflow that listens for new issues in Sentry and automatically sends notifications with issue details to a Slack channel, letting your team immediately know about and respond to errors.
+
+- **Issue Management Automation**: Set up a workflow on Pipedream that automatically assigns new Sentry issues to the appropriate team member based on the error type or content. You can further integrate this with Jira to create and assign tickets, ensuring seamless issue tracking and resolution.
+
+- **Performance Alert and Analysis**: Build a workflow that triggers when performance events in Sentry cross a certain threshold, such as increased latency or a spike in error rates. This workflow could then post a summary to a Google Sheets document for analysis or alert the team using Twilio SMS, facilitating proactive performance management.

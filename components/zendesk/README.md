@@ -1,19 +1,11 @@
 # Overview
 
-Using the Zendesk API, you can build custom apps and integrations to automate
-processes and help your teams build better customer relationships.
+The Zendesk API empowers you to interact with your Zendesk account programmatically via Pipedream. With it, you can automate tasks such as ticket management, user creation, and data retrieval. You can trigger workflows on new tickets, changes to tickets, or even schedule regular data synchronizations. The API allows for creating, reading, updating, and deleting (CRUD) operations across different Zendesk objects like tickets, users, and organizations, making it a robust tool for customer service automation and integration.
 
-The API provides a range of methods to interact with your customer help desk,
-customer data, and customer communication tools. This enables you to create
-custom customer experiences that are tailored to your business needs.
+# Example Use Cases
 
-Some examples of what you can build using the Zendesk API include:
+- **Sync Zendesk Tickets to a Google Sheet**: Automatically push new or updated Zendesk tickets into a Google Sheet for archiving or reporting. This is helpful for teams that require advanced analysis or record-keeping that isn't native to Zendesk.
 
-- Create a custom customer feedback widget
-- Automate customer service processes
-- Identify customer trends and insights
-- Help manage customer data in real-time
-- Create a custom customer profile and segmentation tool
-- Trigger automated messages based on customer events
-- Integrate customer service processes with your company’s backend system
-- Create a custom customer self-service portal
+- **Create Zendesk Tickets from Email Parsing**: Parse incoming emails with a service like Mailparser and use the parsed data to create tickets in Zendesk. This is useful for automating ticket creation from emails that come to a shared inbox or from an email form on your website.
+
+- **Slack Notifications for High-Priority Tickets**: Set up a workflow that sends a message to a designated Slack channel when high-priority tickets are created or updated in Zendesk. This ensures immediate action from your team and improves response times for critical issues.

@@ -1,18 +1,11 @@
 # Overview
 
-RingCentral API is a powerful tool that allows users to build applications and
-solutions that make communication easier and more convenient. With RingCentral
-API, developers can build communication solutions that include voice and video,
-SMS/MMS, Fax, and other features.
+RingCentral is a robust communication platform offering messaging, video, and phone services. With the RingCentral API, you can automate various aspects of your communication workflows directly within Pipedream. This integration allows you to send messages, manage calls, control user accounts, and more, all triggered by custom events or on a schedule. The Pipedream platform's ability to connect to hundreds of apps opens up a wide array of automation possibilities, making manual coordination between your business tools a thing of the past.
 
-With RingCentral API, developers can build:
+# Example Use Cases
 
-- Voice and Video calls with advanced interactions, such as ringback tones,
-  call screening, call forwarding, call recording and conference calling.
-- Rich messaging applications leveraging SMS, MMS, and chat functionality.
-- Fax solutions, such as sending and receiving faxes through a web application.
-- Presence and availability services, allowing users to set their status and
-  view the status of other users.
-- Automated voice solutions such as voice recognition, voice menus and more.
-- Voice analytics and call quality monitoring.
-- Contact center solutions with the ability to monitor and manage queues.
+- **Automated Support Ticket Creation**: When a voicemail is received on RingCentral, automatically create a support ticket in Zendesk. Include the transcript and customer information, streamlining your support process.
+
+- **Sales Lead Alerts**: Set up a workflow where new incoming SMS messages on RingCentral that contain specific keywords are piped into a CRM like Salesforce, tagging them as hot leads. Notify the sales team instantly via a Slack channel to act upon these leads efficiently.
+
+- **Meeting Summary Distribution**: After a RingCentral video meeting ends, automatically transcribe the recording, save it to Google Drive, and send a summary with the link to the document to all meeting participants via email.
