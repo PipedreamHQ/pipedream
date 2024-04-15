@@ -836,6 +836,9 @@ importers:
   components/bill:
     specifiers: {}
 
+  components/billplz:
+    specifiers: {}
+
   components/billsby:
     specifiers: {}
 
@@ -1670,7 +1673,10 @@ importers:
       lodash: 4.17.21
 
   components/contact_enhance:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/content_snare:
     specifiers:
@@ -2054,7 +2060,10 @@ importers:
     specifiers: {}
 
   components/diffbot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/diffchecker:
     specifiers:
@@ -5873,6 +5882,12 @@ importers:
   components/pendo:
     specifiers: {}
 
+  components/people_data_labs:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
+
   components/perry_github_test:
     specifiers: {}
 
@@ -6570,6 +6585,12 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/recharge:
+    specifiers:
+      '@pipedream/platform': 1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
 
   components/recreation_gov:
     specifiers:
@@ -7498,7 +7519,10 @@ importers:
     specifiers: {}
 
   components/similarweb_digitalrank_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/simple_analytics:
     specifiers: {}
@@ -17439,7 +17463,7 @@ packages:
   /array.prototype.findindex/2.2.2:
     resolution: {integrity: sha512-fnTMT+Xq/VloVDsroPW9JLL1M5UxNTVfoNxU4KeyDcH5C/Jmjikf5+KDH5207wWMC8MBlSOn7kZkkys8XnqWNg==}
     dependencies:
-      call-bind: 1.0.7
+      call-bind: 1.0.2
       define-properties: 1.2.1
       es-abstract: 1.22.2
       es-shim-unscopables: 1.0.0
