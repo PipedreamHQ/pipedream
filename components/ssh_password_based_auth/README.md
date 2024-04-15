@@ -1,6 +1,6 @@
 # Overview
 
-The SSH (password-based auth) API on Pipedream facilitates the orchestration of commands and automations on remote servers securely. With it, you can execute shell commands, manage files, and run scripts on your server as part of Pipedream workflows. This unlocks the potential for a host of automations like deploying applications, monitoring system performance, or automating backups — all triggered by events from numerous apps supported on Pipedream.
+The SSH (password-based auth) app on Pipedream facilitates the orchestration of commands and automations on remote servers securely. With it, you can execute shell commands, manage files, and run scripts on your server as part of Pipedream workflows. This unlocks the potential for a host of automations like deploying applications, monitoring system performance, or automating backups — all triggered by events from numerous apps supported on Pipedream.
 
 # Example Use Cases
 
