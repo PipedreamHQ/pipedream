@@ -1,21 +1,11 @@
 # Overview
 
-SFTP (SSH File Transfer Protocol) is a secure file transfer protocol for
-exchanging files between computers over a secure connection. The protocol
-utilizes public-key cryptography to provide authentication and encryption of
-the data being transferred. SFTP is widely used in enterprise environments for
-securely transferring data between locations and users, as well as for managing
-remote computer systems (for example, for monitoring and software/security
-updates).
+The SFTP (SSH File Transfer Protocol) with key-based authentication on Pipedream allows secure file operations over SSH. Using Pipedream's serverless platform, you can automate file transfers, integrate SFTP operations with other services, and trigger workflows based on file changes. Pipedream simplifies the process of connecting to SFTP servers by handling the connection process and authentication, letting you focus on the logic of your workflows.
 
-Here are some examples of what you can build using the SFTP (key-based auth)
-API:
+# Example Use Cases
 
-- Secure file backup and restore solutions.
-- Text editors that can securely open, modify and save remote files.
-- Manage remote uploads, downloads, editing, navigation, etc.
-- Automate remote system management tasks (e.g., installation of applications,
-  software/security updates).
-- Share and sync files between multiple systems.
-- Remote user authentication.
-- Custom solutions tailored to specific needs.
+- **Automated Data Backup**: Sync files from your SFTP server to cloud storage like Google Drive or Dropbox. Whenever a new file is added or updated on your SFTP server, Pipedream can detect the change and copy the file to a cloud storage service, ensuring your data is backed up automatically.
+
+- **Website Content Deployment**: Deploy static website content from a GitHub repository to your SFTP server. Set up a Pipedream workflow that triggers on a push to the master branch in your GitHub repo, then automatically transfers updated files to your SFTP server to update your website.
+
+- **Database Export and Transfer**: Schedule regular database exports from a tool like Airtable or Google Sheets and transfer the exported files to an SFTP server for secure archiving or data sharing. Pipedream can handle the export process and move the data to SFTP at intervals you define.

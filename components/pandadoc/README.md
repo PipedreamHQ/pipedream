@@ -1,22 +1,11 @@
 # Overview
 
-The PandaDoc API is a powerful tool that can be used to create and customize
-documents with ease. With the PandaDoc API, you can connect to the PandaDoc
-cloud Platform and create automated document workflows, streamline document
-creation and editing, and more.
+PandaDoc API on Pipedream allows for powerful document automation—create, send and track documents seamlessly. With this integration, you can streamline document workflows, inject data from various sources, and trigger actions based on document status. Automate proposals, contracts, HR documents, and more.
 
-Using the PandaDoc API, you can:
+# Example Use Cases
 
-- Automate and streamline document creation and editing
-- Create custom document workflows
-- Securely store documents and access document data
-- Track document activity and analyze document data
-- Automate document approvals and sign-off
-- Integrate PandaDoc with third-party applications
-- Personalize documents with dynamic data fields
-- Generate intelligent document insights
-- View, sign, and approve documents online
-- Automatically store documents in cloud-based file storage
-- Automatically send documents directly to customers
-- Customize integration with your organization's branding
-- Create reports and dashboard to monitor document performance
+- **Automated Contract Creation**: Trigger a workflow when a new deal is closed in your CRM, such as Salesforce, to automatically create and send a PandaDoc contract using customer data from the CRM.
+
+- **Document Status Tracking to Slack**: Set up a workflow that listens for status updates on documents in PandaDoc and sends notifications to a designated Slack channel. This keeps your team instantly informed about document views, completions, and signatures.
+
+- **Data Collection for Document Generation**: Combine PandaDoc with Google Forms to collect information. When a form is submitted, use that data to populate and send a document via PandaDoc, simplifying the collection and usage of user-provided information.

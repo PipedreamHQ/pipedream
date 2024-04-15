@@ -1,24 +1,11 @@
 # Overview
 
-The pCloud API allows you to build a variety of products and applications that
-integrate with the pCloud service. With the pCloud API, you can get access to a
-wide range of features, including:
+The pCloud API on Pipedream allows for streamlined interactions with pCloud storage services, enabling you to automate file management and user interactions. By leveraging this API, you can craft workflows that handle file uploads, downloads, sharing, and synchronization tasks without manual intervention. It's well-suited for integrating cloud storage capabilities into your apps, backing up content, or even orchestrating media and data workflows across multiple cloud platforms.
 
-- Storage for cloud-based file sharing
-- Automated synchronization of content
-- Content and account management
-- Automation of user-related tasks
-- Programmatic access to all pCloud services
+# Example Workflows
 
-With pCloud, you can easily build:
+- **Automate Photo Backup**: When new images are uploaded to a Dropbox folder, this Pipedream workflow listens for the event and automatically backs up the images to a specific folder in pCloud, ensuring your data is duplicated for safety.
 
-- Web and mobile applications
-- Cloud-based backup & storage services
-- Content management solutions
-- User authentication & identities
-- File collaboration & sharing
-- Automated media streaming
-- Photo & video sharing services
-- Online Photo & Video Editor
-- Business process automation
-- Business intelligence & analytics
+- **Sync Files Across Cloud Platforms**: Set up a Pipedream workflow that monitors a GitHub repository for new releases. Whenever a new release is detected, the associated files are automatically uploaded to a designated pCloud directory, keeping your cloud storage in sync with your codebase.
+
+- **Media Sharing Automation**: Construct a Pipedream workflow that triggers when you save a new contact in Google Contacts. It creates a shared folder in pCloud and sends an invitation to the contact, making it easier to share relevant files or media with new acquaintances or team members.

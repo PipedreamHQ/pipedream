@@ -1,16 +1,11 @@
 # Overview
 
-The Confluence API allows developers to interact with Confluence remotely, from
-within another application. This means that you can create, update, delete, and
-retrieve information from Confluence, without needing to use the Confluence
-user interface.
+The Confluence API unlocks the ability to programmatically interact with Confluence content and settings. With this API on Pipedream, you can automate document creation and management, harvest insights from page analytics, and streamline collaboration. You can construct workflows that react to events in Confluence or use it as a node in a multi-app automation chain, thereby enhancing productivity and ensuring information consistency.
 
-Some examples of what you can build using the Confluence API include:
+# Example Use Cases
 
-- A process manager that updates Confluence pages as processes are completed
-- A tool that automatically generates meeting minutes based on information
-  stored in Confluence
-- A customer support system that creates and updates Confluence pages based on
-  customer queries
-- A project management tool that updates Confluence pages as project milestones
-  are reached
+- **Sync Confluence Updates with Slack**: Automate notifications to a Slack channel when a Confluence page is updated. This keeps your team informed of document changes without manual posting. For example, each time a page is modified in a specified space, a message is sent to a pertinent Slack channel with the update summary.
+
+- **Manage Confluence Content with GitHub**: Developers can tie documentation updates to code changes by triggering Confluence page edits or new page creation whenever a GitHub repo receives a new commit or release. This ensures that your documentation stays in sync with the latest codebase developments.
+
+- **Automate User Onboarding Documents**: When a new employee is added to your HR system, such as BambooHR, automatically generate a set of personalized Conformance pages from templates. This can include their onboarding schedule, policy documents, and personal wikis for project tracking.

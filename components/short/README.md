@@ -1,22 +1,11 @@
 # Overview
 
-With the Short.io API, you can create powerful links for a variety of
-use-cases. It is possible to shorten, brand, measure, and even monetize your
-links.
+Short.io provides URL shortening services that let you create, manage, and track short links. By leveraging Short.io's API within Pipedream, you can automate link creation, orchestrate workflows that react to link events, and analyze the performance of your links programmatically. For instance, you can shorten URLs on the fly for social media posts, track click metrics, or even integrate with customer support platforms to streamline sharing of resources.
 
-Here is a list of uses for the Short.io API:
+# Example Use Cases
 
-- Shorten URLs – Create shortened URLs you can share on social media, web
-  pages, and other places where you want a clean, concise link.
-- Brand Links – Create SEO-friendly branded links with custom domains and
-  analytics tracking.
-- Measure Performance – Analyze ROI and user engagement via links in app
-  notifications, emails, SMS, etc.
-- Monetize Your Links – Monetize traffic with pay-per-click advertising links,
-  affiliate programs, and subscription services.
-- Automation – Automatically shorten URLs for SEO purposes, or for integrating
-  into other websites and services.
-- Track & Report – Get real-time statistics about link performance, as well as
-  performance on integrated services.
-- Security & Privacy – Secure your links with password protection and UTM
-  parameters to better protect your data.
+- **Automated Link Shortening for New Content**: Whenever new content is posted to your CMS (like WordPress), automatically generate a short link using Short.io and post it to your social media channels using the Twitter or Facebook APIs.
+
+- **Link Analytics to Spreadsheet**: Collect data on link clicks and automatically log them in a Google Sheets document for easy analysis and reporting. Use Short.io to capture link event data and Pipedream's built-in Google Sheets actions to update your spreadsheet.
+
+- **Customer Support Resource Sharing**: Integrate Short.io with a customer support platform like Zendesk. When support articles are updated or created, Short.io can automatically generate short, branded links that are then shared with customers through Zendesk tickets, creating a seamless support experience.

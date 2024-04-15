@@ -1,16 +1,11 @@
 # Overview
 
- What can I build using YouTube's Data API?
+The YouTube Data API - Custom App on Pipedream allows you to interact with YouTube's vast platform directly from your workflows. You can automate tasks such as retrieving video analytics, managing playlists, and posting comments. The API's integration with Pipedream provides a serverless environment where you can run code that reacts to events, processes data, and connects with other services, without the hassle of managing infrastructure.
 
-The YouTube Data API (also known as the YouTube Custom App API) is a powerful tool that enables developers to build applications that interact with YouTube's platform. With it, developers can create apps that display data about the videos and channels on YouTube, fetch metadata about specific videos, modify existing videos, and much more.
+# Example Use Cases
 
-Some of the many possibilities enabled by the YouTube Data API include:
+- **Automated Video Metrics Reporting**: Create a workflow that periodically fetches and aggregates video analytics like views, likes, and comments. This can be scheduled to run at regular intervals, sending a report to Slack or email for easy monitoring.
 
-- Building applications that search for relevant videos and channels within YouTube
-- Displaying detailed information about specific videos and channels
-- Modifying existing videos
-- Uploading videos to YouTube
-- Constructing an application that categorizes videos and channels by topics
-- Constructing an application that shows video comments
-- Creating an object detection detection application that can detect objects present in a video
-- Fetching metadata about videos and channels
+- **Dynamic Playlist Management**: Build a system that automatically adds new videos to a playlist based on specific criteria such as keywords, channel activity, or popularity. It can help in maintaining thematic or curated content, ensuring your playlists are always up-to-date.
+
+- **Engagement Booster**: Develop a workflow that monitors new comments on your videos and uses sentiment analysis (by connecting to an app like Google Natural Language API) to automatically respond to positive comments, encourage interactions, and flag negative feedback for review.

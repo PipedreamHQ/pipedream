@@ -1,16 +1,11 @@
 # Overview
 
-Remove.bg is an automated background removal tool, allowing you to quickly and
-easily remove backgrounds from any image. With a few API requests, you can
-easily transform any image into a background-free photo.
+The Remove.bg API is a powerful tool that lets you automatically remove backgrounds from images, making it ideal for creating clean visuals for various applications. With Pipedream's serverless platform, you can integrate this API into workflows to streamline processes like photo editing for e-commerce, profile picture curation for social networks, or even preparing images for graphic design projects. Leverage Pipedream to trigger these workflows on events from hundreds of apps, manipulate the images using built-in code steps, and connect to other services for further processing or storage.
 
-The [Remove.bg API](https://remove.bg) will allow you to quickly and
-efficiently edit your images, adding a little bit of extra finesse to any image
-editing. Here are just a few examples what you can do with the Remove.bg API:
+# Example Use Cases
 
-- Easily remove objects and people from any images
-- Generate stock photos by removing backgrounds
-- Outline objects by eliminating their backgrounds
-- Quickly and easily prepare images for printing
-- Create playful montages by putting objects on different backgrounds
-- Transform any photo into a sharp, vibrant visual
+- **Automated Product Image Prep for E-Commerce**: Whenever a new product image is uploaded to a cloud storage service like Google Drive or Dropbox, trigger a Pipedream workflow to send the image to Remove.bg. The API removes the background and the processed image is then stored back, ready for listing on an e-commerce platform.
+
+- **Profile Picture Moderation for Social Platforms**: On receiving a new user profile image submission via a webhook, a Pipedream workflow could automatically pass the image to Remove.bg. After background removal, the workflow could use facial recognition to ensure compliance with profile picture standards before updating the user's profile.
+
+- **Marketing Material Generation**: Upon a new image upload to a CMS or marketing platform, invoke a Pipedream workflow to send the image to Remove.bg to strip the background. Combine the cleaned image with branding elements using an image processing service like Cloudinary, then automatically post the final graphic to social media or an advertising network.

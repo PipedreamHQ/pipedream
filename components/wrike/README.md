@@ -1,19 +1,11 @@
 # Overview
 
-The Wrike API is an easy-to-use Application Programming Interface that allows
-users to build custom apps and other solutions to integrate with the Wrike
-platform. With the Wrike API, developers can access and leverage Wrike features
-and data to create a wide range of applications and integrations.
+The Wrike API on Pipedream allows you to automate project management tasks by connecting Wrike's features with various other services. You can create workflows to handle tasks such as synchronizing project details, managing tasks and subtasks, and automating notifications. With these integrations, you can streamline processes, reduce manual entry, and keep all team members updated on project changes in real time.
 
-The possibilities are almost endless when using the Wrike API. Here are some
-examples:
+# Example Use Cases
 
-- Automatically sync your CRM with Wrike
-- Build a custom time-tracking integration to show project- Or task-level
-  metrics
-- Create an AI-powered automation tool to route tasks to specific users
-- Develop a project and task management app for internal teams or external
-  clients
-- Generate custom reports to keep an eye on project progress
-- Create a custom search engine and analysis tool to monitor user behavior
-- Develop custom tools to automate and streamline task allocation
+- **Task Synchronization with Google Sheets**: Create a workflow that synchronizes Wrike tasks with a Google Sheet. Whenever a new task is added or updated in Wrike, it's automatically reflected in the Google Sheet. This ensures that all stakeholders have the latest information, even if they're not directly using Wrike.
+
+- **Slack Notifications on Task Completion**: Set up a Pipedream workflow to send a Slack message to a designated channel whenever a task in Wrike is marked as completed. This keeps the team informed about project progress and can trigger subsequent activities that depend on the task's completion.
+
+- **GitHub Issue Creation for New Wrike Tasks**: Build a workflow where new tasks created in Wrike automatically generate GitHub issues. This is particularly useful for development teams that track technical tasks in GitHub but use Wrike for broader project management.

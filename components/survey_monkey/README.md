@@ -1,23 +1,11 @@
 # Overview
 
-The SurveyMonkey API provides a convenient way for developers to build amazing
-survey solutions. With the development of the API, developers have a limitless
-potential to create products that make collecting, analyzing, and sharing
-survey data easier than ever before.
+The SurveyMonkey API lets you automate surveys, collect and analyze responses in real-time, and integrate survey data with other apps. Using Pipedream, you can harness this power to trigger workflows from new survey responses, sync data across platforms, and create custom analytics tools. It's perfect for improving response rates, getting insights faster, and connecting feedback to your broader data ecosystem.
 
-With the SurveyMonkey API, you can
+# Example Use Cases
 
-- Create survey-driven mobile apps
-- Build custom survey experiences
-- Enhance your existing software with survey capabilities
-- Create email surveys
-- Analyze survey data more quickly
-- Integrate surveys into online and physical products
-- Develop custom survey designs
-- Create and edit surveys programmatically
-- Create complex survey logic
-- and more!
+- **Automated Response Aggregation**: Compile responses from SurveyMonkey into a Google Sheets document for easy review and analysis. Whenever a new response is submitted, it's automatically added to the sheet, keeping your data up-to-date without manual entry.
 
-The possibilities are endless with the SurveyMonkey API. With its powerful
-features, there is a world of solutions possible for businesses and individuals
-alike. Let SurveyMonkey power your data collection and analysis needs.
+- **Real-time Notifications**: Set up notifications to be sent via Slack, email, or SMS when a survey receives a new response. This helps teams immediately engage with the feedback, ensuring quick follow-up actions or simply keeping everyone in the loop.
+
+- **Dynamic CRM Updates**: When a new survey response indicates a change in customer sentiment, use the SurveyMonkey API to trigger updates in a customer relationship management (CRM) system like Salesforce. This keeps customer records current, aiding in retention and support strategies.
