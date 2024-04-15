@@ -1,23 +1,11 @@
 # Overview
 
-The Pinterest API is an open service that allows developers to access the
-Pinterest platform and build amazing experiences for Pinterest users. It
-provides a wide range of capabilities for creating amazing applications that
-allow users to view, save, and share beautiful images and content. With the
-Pinterest API, you can build apps that let users browse, search and create
-collections of images from around the web. You can also build apps that allow
-users to easily organize and manage their Pins, Boards and Likes.
+The Pinterest API on Pipedream allows for the automation of tasks on the Pinterest platform, such as pin creation, board management, and user interactions. By leveraging this API, you can streamline content sharing, analyze engagement metrics, and integrate Pinterest activities with other services to expand your social media presence efficiently.
 
-Some of the great things you can build with the Pinterest API include:
+# Example Use Cases
 
-- An application that lets users search Pins across multiple sources
-- A visual discovery tool that organizes pins into categories
-- A creative showcase platform that lets users easily view and share the best
-  content
-- A social network that allows users to interact with and follow other pins
-- A personalized shopping experience that displays tailored product
-  recommendations based on user interests
-- An app that lets users save their own customized collections of images and
-  content
-- A messaging platform that lets users connect with brands, stores and friends
-  through group conversations
+- **Automated Pin Posting:** Build a workflow that automatically posts new pins to your boards, triggered by an event such as a new post on your blog or a new product in your e-commerce store.
+
+- **Pinterest Analytics to Google Sheets:** Create a pipeline that fetches Pinterest analytics data and sends it to Google Sheets. This allows for advanced analysis and reporting on pin performance and audience engagement metrics.
+
+- **Content Moderation Alerts:** Design a Pipedream workflow that monitors your Pinterest account for pins with specific keywords or images and sends an alert to Slack or another communication platform if content moderation is needed.

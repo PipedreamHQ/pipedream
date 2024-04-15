@@ -1,18 +1,11 @@
 # Overview
 
-SFTP (Secure File Transfer Protocol) is a network protocol that provides secure
-file transfers over secure shell (SSH) connections. It is an extension of the
-Secure Shell protocol, designed for secure file exchange between hosts. A user
-can securely transfer files between systems without having to worry about
-external threats, as the protocol is encrypted and authenticated.
+The SFTP (password-based auth) API on Pipedream allows you to interact with an SFTP server to perform a variety of file operations securely. This includes uploading, downloading, and managing files and directories over an encrypted connection. By incorporating SFTP API within Pipedream workflows, you can automate file transfers, synchronize directories, process data, and integrate with other services seamlessly.
 
-With the SFTP API, you can build applications that securely transfer data, such
-as files and documents, between two different systems. Some example
-applications include:
+# Example Use Cases
 
-- Secure document sharing between two systems
-- Secure file synchronization between two systems
-- Secure backups of data over the network
-- Secure transfers of large files
-- Secure uploads and downloads of data
-- Media streaming between two systems
+- **Automated Backup to SFTP Server**: Create a workflow that regularly backs up local or cloud-stored files to an SFTP server. After files are backed up, you could trigger a notification via email or chat app to confirm completion.
+
+- **Data Ingestion and Processing**: Set up a Pipedream workflow to listen for new files on an SFTP server, download them, process the data (e.g., parsing CSV, processing images with AI), and then push the results to a database like PostgreSQL or to a service like Google Sheets for further analysis.
+
+- **Website Asset Synchronization**: Craft a workflow that watches for changes in your website's asset directory on services like GitHub, and upon detecting changes, automatically synchronizes the updated assets to the SFTP server where your website is hosted.

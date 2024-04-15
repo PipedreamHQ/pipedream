@@ -1,18 +1,11 @@
 # Overview
 
- Vercel provides an API that allows you to authenticate users and manage access
- to your applications and services. With the Vercel API, you can easily build
- an array of applications, from complete single-page applications to scalable
- applications and services. Here are a few examples of what you can build with
- Vercel's API:
+The Vercel API taps into the functionality of Vercel's platform, allowing users to automate and enhance their web deployment workflows. Within Pipedream, you can harness this API to create deployments, fetch project info, or manage domains and aliases programmatically. Pipedream's serverless platform enables you to craft workflows that respond to various triggers, such as HTTP requests, schedules, or events from other apps. You can also pair it with other apps for cross-functional automation, enhancing your continuous deployment pipelines, syncing deployment statuses to other parts of your tech stack, or even automating performance monitoring.
 
-- SSO (Single Sign-On) solutions that securely authenticate users across
-  multiple devices and applications
-- Secure access control solutions to protect sensitive data and services
-- APIs that provide easy access to third-party data
-- User registration and management tools
-- Content management solutions
-- Data analysis tools and applications
-- Back-end services for web applications
-- Customizable dashboards for web applications
-- Automated email notifications for applications and services
+# Example Use Cases
+
+- **Continuous Deployment Notifications**: Trigger a workflow in Pipedream whenever a new deployment finishes on Vercel. Use this to notify your team in Slack, sending a message with the deployment URL and status. This keeps everyone in the loop and speeds up the feedback process.
+
+- **Automated Domain Management**: Automatically add domains to your Vercel projects when you register them elsewhere. For example, when a new domain is purchased on GoDaddy, a Pipedream workflow can add that domain to a Vercel project, streamlining your setup process.
+
+- **Deployment Performance Tracking**: After each deployment through Vercel, use a Pipedream workflow to trigger a series of performance tests with Lighthouse. Collect and store these metrics in a Google Sheet or a database, giving you a historical view of your site's performance over time.

@@ -1,24 +1,11 @@
 # Overview
 
-Using Wise's API, you can build a variety of applications that leverage the
-company's international payments infrastructure. The API provides a unified,
-hardware-agnostic interface to bank networks around the world and allows
-merchants, marketplaces, and financial services to quickly and easily accept
-payments with multi-currency support.
+The Wise API on Pipedream allows for seamless integration of international money transfer services directly into your workflows. With it, you can automate cross-border payments, manage your account balances, and retrieve real-time exchange rates, all from within Pipedream's serverless platform. This enables developers to construct tailored financial solutions, connect the Wise platform to other apps, and trigger actions based on financial events, enhancing efficiency and expanding the capabilities of your financial operations.
 
-Wise also provides powerful tools and features to monitor, analyze, and
-optimize payments. With the API, developers can easily access currency
-conversion, health checks, transaction reports, and more. With the help of the
-API, developers can easily integrate into the platform to create a custom
-payments experience.
+# Example Use Cases
 
-The following are some examples of applications that can be built with Wise's
-API:
+- **Automated Invoice Settlements**: Use Wise with Pipedream to monitor incoming invoice payments through a connected accounting app like QuickBooks. When a new payment is recorded, automatically trigger a workflow to convert and send funds in the required currency to an international vendor, minimizing manual intervention and exchange rate risks.
 
-- Payment platforms
-- E-commerce applications
-- International money transfers
-- Merchant payment processing
-- Currency exchange applications
-- Multi-currency wallets
-- Payment analysis and optimization tools
+- **Real-Time Financial Dashboard Updates**: Combine Wise with a dashboard app like Geckoboard on Pipedream. Set up a workflow to fetch current account balances and exchange rates at regular intervals, and then update your financial dashboard, providing a live view of your company's financial health.
+
+- **Expense Reimbursement Automation**: Use Wise to streamline employee expense reimbursements. By integrating with an expense tracking app like Expensify on Pipedream, automatically approve and initiate cross-border reimbursement payments to employees when a new approved expense report is detected, ensuring timely and accurate payments.
