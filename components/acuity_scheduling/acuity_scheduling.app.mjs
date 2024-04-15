@@ -87,14 +87,6 @@ export default {
         ...opts,
       });
     },
-    getOrder({
-      id, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/orders/${id}`,
-        ...opts,
-      });
-    },
     blockTime(opts = {}) {
       return this._makeRequest({
         method: "POST",

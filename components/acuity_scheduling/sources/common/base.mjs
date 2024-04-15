@@ -41,10 +41,12 @@ export default {
       body: "Success",
     });
 
+    const ts = Date.parse(details.datetime) || Date.now();
+
     this.$emit(details, {
       id: details.id,
       summary: this.getSummary(details),
-      ts: Date.parse(details.datetime),
+      ts: ts,
     });
   },
 };
