@@ -1,4 +1,6 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+import queries from "./common/queries.mjs";
 
 export default {
   type: "app",
@@ -8,76 +10,71 @@ export default {
       type: "string",
       label: "Meeting ID",
       description: "The unique identifier for the meeting.",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { data: { transcripts } } = await this.query({
+          data: {
+            query: queries.listTranscripts,
+            variables: {
+              limit,
+              skip: page * limit,
+            },
+          },
+        });
+        return transcripts?.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    audioFile: {
+    userId: {
       type: "string",
-      label: "Audio File",
-      description: "The audio file for the meeting.",
-    },
-    meetingDetails: {
-      type: "object",
-      label: "Meeting Details",
-      description: "The details of the meeting including participants, date, time, etc.",
-    },
-    transcriptionOption: {
-      type: "boolean",
-      label: "Transcription Option",
-      description: "Determines whether the uploaded audio will be transcribed.",
-      optional: true,
+      label: "User ID",
+      description: "The unique identifier for the user.",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { data: { users } } = await this.query({
+          data: {
+            query: queries.listUsers,
+            variables: {
+              limit,
+              skip: page * limit,
+            },
+          },
+        });
+        return users?.map(({
+          user_id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.fireflies.ai";
+      return "https://api.fireflies.ai/graphql";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
-        path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: this._baseUrl(),
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async getMeeting(meetingId) {
-      return this._makeRequest({
-        path: `/v1/meetings/${meetingId}`,
-      });
-    },
-    async getRecentMeeting() {
-      return this._makeRequest({
-        path: "/v1/meetings/recent",
-      });
-    },
-    async createMeeting(audioFile, meetingDetails, transcriptionOption) {
+    query(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/meetings",
-        data: {
-          audio_file: audioFile,
-          meeting_details: meetingDetails,
-          transcription_option: transcriptionOption,
-        },
+        ...opts,
       });
-    },
-    async emitNewMeetingEvent(meetingId) {
-      const meeting = await this.getMeeting(meetingId);
-      if (meeting.transcripts) {
-        this.$emit(meeting, {
-          summary: "New meeting with transcripts created",
-          id: meeting.id,
-          ts: Date.now(),
-        });
-      }
     },
   },
 };
