@@ -23,7 +23,7 @@ export default {
 
   async run({ $ }) {
     const { data } = await this.app.getDownloadLink(
-    $,
+      $,
       this.backupId,
       this.backupLogId ?? null,
     );

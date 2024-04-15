@@ -33,7 +33,6 @@ export default {
       return "https://my.simplebackups.io/api";
     },
 
-
     /**
      * Returns the Axios headers for making requests.
      * @private
@@ -77,7 +76,7 @@ export default {
         endpoint = `/backup/${backupId}/download-link/${backupLogId}`;
       }
       return this._makeAxiosRequest({
-      $,
+        $,
         endpoint,
       });
     },
@@ -89,7 +88,7 @@ export default {
      */
     async listBackups($, filters = "") {
       return this._makeAxiosRequest({
-      $,
+        $,
         endpoint: "/backup/list" + filters,
       });
     },
@@ -100,7 +99,7 @@ export default {
      */
     async listServers($) {
       return this._makeAxiosRequest({
-      $,
+        $,
         endpoint: "/server/list",
       });
     },
@@ -112,7 +111,7 @@ export default {
      */
     async listStorages($, filters = "") {
       return this._makeAxiosRequest({
-      $,
+        $,
         endpoint: "/storage/list" + filters,
       });
     },
@@ -124,7 +123,7 @@ export default {
      */
     async pauseBackup($, backupId) {
       return this._makeAxiosRequest({
-      $,
+        $,
         endpoint: `/backup/${backupId}/pause`,
         method: "PATCH",
       });
@@ -137,7 +136,7 @@ export default {
      */
     async resumeBackup($, backupId) {
       return this._makeAxiosRequest({
-      $,
+        $,
         endpoint: `/backup/${backupId}/resume`,
         method: "PATCH",
       });
@@ -150,7 +149,7 @@ export default {
      */
     async runBackup($, backupId) {
       return this._makeAxiosRequest({
-      $,
+        $,
         endpoint: `/backup/${backupId}/run`,
       });
     },
