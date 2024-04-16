@@ -7545,6 +7545,9 @@ importers:
   components/simple_analytics:
     specifiers: {}
 
+  components/simplebackups:
+    specifiers: {}
+
   components/simplehash:
     specifiers: {}
 
