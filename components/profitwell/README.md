@@ -1,14 +1,11 @@
 # Overview
 
-The ProfitWell API enables you to build powerful subscription analytics and optimization solutions. With it, you can access key insights from your subscription data that allows you to make smarter decisions, boost customer retention, and increase revenue.
+The ProfitWell API provides programmatic access to metrics and data related to subscription-based businesses. By integrating with Pipedream, you can automate complex workflows involving your financial metrics, customer insights, and growth tracking. Whether it's syncing subscriber data with marketing platforms, triggering alerts based on revenue milestones, or creating custom analytics dashboards, Pipedream's serverless platform enables you to connect ProfitWell with a plethora of other services without writing extensive code.
 
-Here are some of the key features you can create with the ProfitWell API:
+# Example Use Cases
 
-- Access subscription insights and analytics
-- Bandwidth meter within your app that updates in real-time
-- Create custom dashboards that display key metrics
-- Automatically split test price points and promotions
-- Turn on personalized emails and notifications to customers
-- Launch product-specific upgrades and downgrades
-- Offer promotions for churning customers
-- Create upsell paths with simple-to-configure workflows
+- **Alerting on Key Financial Events**: Connect ProfitWell to Slack using Pipedream to trigger notifications. Set up a workflow that sends a message to a finance channel whenever your MRR crosses a certain threshold or you get a new churned customer, enabling real-time team updates.
+
+- **Customer Lifecycle Email Campaigns**: Use ProfitWell's API to feed customer subscription data into Mailchimp via Pipedream. Automate a sequence of emails that target customers at different stages of their lifecycle, such as onboarding sequences for new signups or win-back campaigns for those who are at risk of churning.
+
+- **Cross-Platform Revenue Reporting**: Combine ProfitWell with Google Sheets on Pipedream. Automate the extraction of financial reports from ProfitWell and append them to a Google Sheet for easy sharing and analysis, ensuring stakeholders always have the latest subscription data at their fingertips.
