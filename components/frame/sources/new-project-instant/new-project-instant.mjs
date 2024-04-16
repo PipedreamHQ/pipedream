@@ -10,7 +10,7 @@ export default {
   methods: {
     ...common.methods,
     getSummary() {
-      return "New Asset";
+      return "New Project";
     },
     getHookData() {
       return [
