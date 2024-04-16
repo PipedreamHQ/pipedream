@@ -1,20 +1,14 @@
 # Overview
 
-Turn your locks into a smart lock system with RemoteLock. The RemoteLock API
-enables users to build access control solutions for a variety of environments,
-making controlling access easier than ever. With the RemoteLock API, users can
-develop:
+The RemoteLock API offers a platform to control and monitor physical access to properties by managing locks and users remotely. This API allows for the integration of lock management into custom applications, enabling automation in granting access, tracking entry, and ensuring security. Leveraging this with Pipedream's serverless platform, users can create automations that react to various triggers, like scheduling access for guests or syncing access permissions with property management systems.
 
-- An online lock system for residences that allows for remote access for
-  keyless entry
-- Limit access rights for employees in an office, factory, or other work
-  environment with an automated access control system
-- Connect locks to existing access control systems for added security and
-  convenience
-- Customize entry and exit requirements for medical and academic buildings
-- Integrate locks with business applications to improve customer experience and
-  maintain tight security
-- Create automated and combination locks for commercial, retail, and industrial
-  use
-- Provide clients and users with a secure alternative to traditional keyed
-  locks
+# Example Use Cases
+
+- **Scheduled Access for Short-Term Rentals**  
+  Automate the generation of access codes for guests based on short-term rental bookings from platforms like Airbnb. When a new booking is detected in the rental platform, generate a unique code via RemoteLock and send it to the guest.
+
+- **Employee Onboarding and Offboarding**  
+  Streamline the process of granting or revoking building access as part of HR workflows. When an employee is added to or removed from the company's HR system, automatically update their access permissions in RemoteLock.
+
+- **Sync Access Codes with Event Registrations**  
+  For event spaces that use RemoteLock, create a workflow that syncs attendee registration from an event management app like Eventbrite. Generate and send personalized access codes to attendees before the event.
