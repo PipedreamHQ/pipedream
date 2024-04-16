@@ -1,24 +1,11 @@
 # Overview
 
-The Zulip API allows developers to create powerful applications that integrate
-with their Zulip workspaces. This can be used to build advanced automation,
-custom integrations, and other features not built into the Zulip platform.
+Zulip is a powerful chat platform designed for productive and threaded group conversations. With the Zulip API, you can automate and extend the capabilities of your Zulip instance directly within Pipedream. This includes managing streams, users, messages, and events. Automations can help streamline communication, respond to specific triggers, and integrate chat data with other business tools to centralize workflows.
 
-With the Zulip API you can create automated bots, build custom notification
-systems, manage users and groups, and even build advanced analytics. The API
-provides access to the same data stored in the Zulip web and mobile
-applications, allowing applications to use the same data and features.
+# Example Use Cases
 
-Here are some examples of things you can build with the Zulip API:
+- **Automated Support Ticket Creation**: When a message tagged with #support is sent on Zulip, trigger a workflow that creates a ticket in a tool like Zendesk or Jira. This ensures that customer queries are promptly turned into trackable support tickets.
 
-- Automated bots: Create automated bots which respond to messages according to
-  logic you define.
-- Custom notifications: Send notifications to specific users in a stream or
-  send bulk notifications to an entire organization or group.
-- Manage users and groups: Automatically create and manage users and groups.
-- Advanced analytics: Analyze patterns and trends in conversations and build
-  visualizations to present the data.
-- Custom integrations: Integrate other applications and services like social
-  media, project management tools, and more.
-- Create custom apps: Create your own web applications that interact with
-  Zulip.
+- **Real-time CRM Updates**: Use Pipedream to detect when a user mentions a sales deal in Zulip. Extract the details and update the corresponding opportunity in a CRM like Salesforce, ensuring the sales team has the latest information.
+
+- **Daily Standup Summaries**: Schedule a Pipedream workflow to collect the previous day's standup messages from a designated Zulip stream. Compile and send a summary email to the team using a service like SendGrid, keeping everyone in sync even if they missed the live standup.

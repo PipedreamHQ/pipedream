@@ -1,12 +1,9 @@
 # Overview
 
-With Docparser, you can easily extract data from PDF documents and convert them
-into usable formats such as JSON, CSV or XML. This way you can easily get the
-data you need from PDF documents without having to manually copy and paste it.
+Docparser is a tool for extracting data from documents, such as PDFs, Word, and images. With the Docparser API, you can automate the process of capturing data without manual entry, transforming documents into actionable information. It shines in scenarios where structured information needs to be pulled from files that typically require manual data entry, such as invoices, forms, and reports.
 
-Here are some examples of what you can build using the Docparser API:
+# Example Use Cases
 
-- A tool to extract data from PDF documents and convert it into JSON, CSV or
-  XML
-- A tool to automate data entry by extracting data from PDF documents
-- A tool to track data changes over time by extracting data from PDF documents
+- **Invoice Processing Workflow**: Automate invoice data extraction by sending PDF invoices from an email to Docparser via Pipedream. Then, use Pipedream to pass the structured data to an accounting app like QuickBooks for invoice creation and archiving.
+- **Employee Onboarding Documents**: Streamline the onboarding process by extracting details from new hire documents. When a document is uploaded to a cloud storage service, trigger a Pipedream workflow that uses Docparser to extract personal information and populate it in an HR management system like BambooHR.
+- **Monthly Report Analysis**: Set up a Pipedream workflow to process monthly sales reports. Docparser can extract sales data from reports, which Pipedream then sends to a data visualization tool like Google Sheets or Tableau for tracking trends and generating insights.
