@@ -1,32 +1,11 @@
 # Overview
 
-Introducing the Qwilr API - It enables you to create and deliver stunning,
-interactive documents like proposals, quotes, briefs, presentations and more.
-With Qwilr API, you can build an array of document types that give your
-business the professional edge.
+The Qwilr API offers a programmable way to generate and manage proposals, quotes, and web-based documents. Using Pipedream, you can automate document lifecycle events, streamline proposal approvals, and synchronize Qwilr data with CRM platforms or other databases. Leverage the power of serverless workflows to react to new document events, update records in real-time, and create notifications or follow-ups that enhance collaboration and efficiency.
 
-Using the Qwilr API, you can quickly create stunning and engaging documents in
-a few easy steps:
+# Example Use Cases
 
-1. Choose a stunning template
-2. Add content
-3. Share your interactive document with potential customers
+- **Automated Proposal Follow-Up**: When a Qwilr document is viewed by a client, trigger a workflow that logs this event in a CRM like Salesforce, and automatically sends a follow-up email to the client using a service like SendGrid, asking if they have any questions or require further assistance.
 
-The Qwilr API offers a range of document types which you can instantly create
-and share with your customers:
+- **New Document Alert & Assignment**: On creation of a new Qwilr document, trigger a Pipedream workflow that posts a notification in a Slack channel and assigns a team member to review the document. Use Slack's API to mention the assigned team member directly, ensuring the immediate attention and handling of the new document.
 
-- Proposals: Create and track winning proposals with Qwilr's templates, giving
-  customers an immersive viewing experience
-- Quotes: Design and send beautiful, customised quotes with real-time data and
-  pricing
-- Presentations: Create interactive, immersive presentations that are engaging
-  and memorable
-- Briefs: Design and share attractive briefs with custom elements like
-  interactive mockups and video
-- Legal Agreements: Streamline the process of creating and sharing legal
-  documents to customers in an easy and effective manner
-- eSign: Send documents for easy, secure eSignatures
-
-With the Qwilr API, you can give your business the professional edge while
-creating beautiful, interactive documents that engage your customers from start
-to finish. Try it today!
+- **Document Analytics to Dashboard**: Capture Qwilr document interaction analytics, such as views and time spent on the document, and push this data to a business intelligence tool like Google Sheets or a data visualization app like Tableau. Use this data to refine sales strategies and monitor engagement trends.
