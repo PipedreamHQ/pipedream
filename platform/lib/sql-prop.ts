@@ -1,5 +1,5 @@
 import { ConfigurationError } from "./errors";
-import { JsonValue } from "./index";
+import { JsonValue } from "type-fest";
 
 export type DbSchema = JsonValue;
 
