@@ -1,6 +1,6 @@
 # Overview
 
-The Helper Functions API on Pipedream is a set of pre-built functions that streamline common tasks in your workflows. It acts like a Swiss Army knife for developers, providing essential tools such as format conversion, date manipulation, and text processing. By leveraging these functions, you can reduce the boilerplate code needed for routine operations, speeding up the development of intricate automations. The Helper Functions API can be a game changer when it comes to tasks like parsing dates in user-friendly formats, encoding and decoding data, or generating UUIDs, making them more efficient and less error-prone.
+The Helper Functions app on Pipedream is a set of pre-built functions that streamline common tasks in your workflows. It acts like a Swiss Army knife for developers, providing essential tools such as format conversion, date manipulation, and text processing. By leveraging these functions, you can reduce the boilerplate code needed for routine operations, speeding up the development of intricate automations. The Helper Functions API can be a game changer when it comes to tasks like parsing dates in user-friendly formats, encoding and decoding data, or generating UUIDs, making them more efficient and less error-prone.
 
 # Example Use Cases
 
