@@ -4,74 +4,92 @@ export default {
   type: "app",
   app: "ambivo",
   propDefinitions: {
-    contactId: {
+    contactIds: {
+      type: "string[]",
+      label: "Contact IDs",
+      description: "The IDs of the contacts whose status updates you want to monitor",
+      optional: true,
+      async options() {
+        const contacts = await this.listContacts();
+        return contacts?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    firstName: {
       type: "string",
-      label: "Contact ID",
-      description: "The ID of the contact whose status updates you want to monitor",
+      label: "First Name",
+      description: "First name of the contact",
     },
-    contactDetails: {
-      type: "object",
-      label: "Contact Details",
-      description: "Details of the contact to be created or updated",
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the contact",
     },
-    leadDetails: {
-      type: "object",
-      label: "Lead Details",
-      description: "Details of the lead to be created or updated",
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "Phone number of the contact",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email address of the contact",
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://fapi.ambivo.com";
+      return "https://fapi.ambivo.com/crm";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `Bearer ${this.$auth.access_token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
         },
       });
     },
-    async getNewContact() {
+    listContacts(opts = {}) {
       return this._makeRequest({
-        path: "/crm/contacts/created",
+        path: "/contacts/created",
+        ...opts,
       });
     },
-    async getContactStatusUpdate(contactId) {
+    listContactStatusUpdated(opts = {}) {
       return this._makeRequest({
-        path: `/crm/contacts/status_updated/${contactId}`,
+        path: "/contacts/status_updated",
+        ...opts,
       });
     },
-    async getNewLead() {
+    listLeads(opts = {}) {
       return this._makeRequest({
-        path: "/crm/leads/created",
+        path: "/leads/created",
+        ...opts,
       });
     },
-    async createOrUpdateContact(contactDetails) {
+    createOrUpdateContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/crm/contacts",
-        data: contactDetails,
+        path: "/contacts",
+        ...opts,
       });
     },
-    async createOrUpdateLead(leadDetails) {
+    createOrUpdateLead(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/crm/leads",
-        data: leadDetails,
+        path: "/leads",
+        ...opts,
       });
     },
   },

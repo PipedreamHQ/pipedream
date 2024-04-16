@@ -1,53 +1,42 @@
-import ambivo from "../../ambivo.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "ambivo-contact-status-updated",
   name: "Contact Status Updated",
-  description: "Emits a new event when a contact's status has been updated. [See the documentation](https://fapi.ambivo.com/docs)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a contact's status has been updated.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    ambivo,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    contactId: {
+    ...common.props,
+    contactIds: {
       propDefinition: [
-        ambivo,
-        "contactId",
+        common.props.ambivo,
+        "contactIds",
       ],
     },
   },
   methods: {
-    _getContactId() {
-      return this.db.get("contactId");
+    ...common.methods,
+    getResourceFn() {
+      return this.ambivo.listContactStatusUpdated;
     },
-    _setContactId(id) {
-      this.db.set("contactId", id);
+    getTsField() {
+      return "status_updated_date";
     },
-    generateMeta(data) {
-      const id = data.id;
-      const summary = `Contact ${data.id} status updated`;
-      const ts = Date.now();
+    isRelevant(contact) {
+      return !this.contactactIds || this.contactIds.includes(contact.id);
+    },
+    generateMeta(contact) {
+      const ts = Date.parse(contact.status_updated_date);
       return {
-        id,
-        summary,
+        id: `${contact.id}-${ts}`,
+        summary: `Status Updated for Contact: ${contact.name}`,
         ts,
       };
     },
   },
-  async run() {
-    const contactId = this._getContactId();
-    if (contactId !== this.contactId) {
-      this._setContactId(this.contactId);
-    }
-    const updatedContact = await this.ambivo.getContactStatusUpdate(this.contactId);
-    const meta = this.generateMeta(updatedContact);
-    this.$emit(updatedContact, meta);
-  },
+  sampleEmit,
 };

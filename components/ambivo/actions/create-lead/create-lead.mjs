@@ -1,41 +1,52 @@
 import ambivo from "../../ambivo.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ambivo-create-lead",
   name: "Create or Update Lead",
-  description: "Produces a new lead for your business. If the lead doesn't exist, it returns updated lead.",
+  description: "Produces a new lead for your business. If the lead doesn't exist, it returns updated lead. [See the documentation](https://fapi.ambivo.com/docs#/CRM%20Service%20Calls/post_leads_crm_leads_post)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
     ambivo,
-    leadDetails: {
+    firstName: {
       propDefinition: [
         ambivo,
-        "leadDetails",
+        "firstName",
       ],
-      description: "Details of the lead to be created or updated. Include information such as name, contact details, and lead source.",
+      description: "First name of the lead",
     },
-    notes: {
-      type: "string",
-      label: "Notes",
-      description: "Additional notes about the lead",
-      optional: true,
+    lastName: {
+      propDefinition: [
+        ambivo,
+        "lastName",
+      ],
+      description: "Last name of the lead",
     },
-    leadStatus: {
-      type: "string",
-      label: "Lead Status",
-      description: "The status of the lead",
-      optional: true,
+    phone: {
+      propDefinition: [
+        ambivo,
+        "phone",
+      ],
+      description: "Phone number of the lead",
+    },
+    email: {
+      propDefinition: [
+        ambivo,
+        "email",
+      ],
+      description: "Email address of the lead",
     },
   },
   async run({ $ }) {
-    const payload = {
-      ...this.leadDetails,
-      notes: this.notes,
-      status: this.leadStatus,
-    };
-    const response = await this.ambivo.createOrUpdateLead(payload);
+    const response = await this.ambivo.createOrUpdateLead({
+      $,
+      data: {
+        name: `${this.firstName} ${this.lastName}`,
+        phone_list: this.phone,
+        email_list: this.email,
+        lead_status: "open",
+      },
+    });
     $.export("$summary", `Successfully created or updated lead with ID: ${response.id}`);
     return response;
   },

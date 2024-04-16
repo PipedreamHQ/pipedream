@@ -1,58 +1,29 @@
-import ambivo from "../../ambivo.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "ambivo-new-lead",
   name: "New Lead Created",
-  description: "Emits a new event when a new lead is created in Ambivo CRM. [See the documentation](https://fapi.ambivo.com/docs)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new lead is created in Ambivo CRM.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    ambivo,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-  },
   methods: {
-    _getLeadId(lead) {
-      return lead._id;
+    ...common.methods,
+    getResourceFn() {
+      return this.ambivo.listLeads;
     },
-    _getLeadTimestamp(lead) {
-      return Date.parse(lead.created);
+    getTsField() {
+      return "created_date";
     },
-  },
-  hooks: {
-    async deploy() {
-      const leads = await this.ambivo.getNewLead();
-      if (leads.length > 0) {
-        const maxLead = leads.reduce((prev, current) => (prev.id > current.id)
-          ? prev
-          : current);
-        this.db.set("lastLeadId", maxLead.id);
-      }
+    generateMeta(lead) {
+      return {
+        id: lead.id,
+        summary: `New Lead: ${lead.name}`,
+        ts: Date.parse(lead.created_date),
+      };
     },
   },
-  async run() {
-    const newLeads = await this.ambivo.getNewLead();
-    const lastLeadId = this.db.get("lastLeadId");
-    for (const lead of newLeads) {
-      if (lead.id > lastLeadId) {
-        this.$emit(lead, {
-          id: this._getLeadId(lead),
-          summary: `New Lead: ${lead.name}`,
-          ts: this._getLeadTimestamp(lead),
-        });
-      }
-    }
-    if (newLeads.length > 0) {
-      const maxLead = newLeads.reduce((prev, current) => (prev.id > current.id)
-        ? prev
-        : current);
-      this.db.set("lastLeadId", maxLead.id);
-    }
-  },
+  sampleEmit,
 };
