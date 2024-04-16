@@ -1,25 +1,9 @@
 # Overview
 
-Using Workbook CRM's powerful API, you have the opportunity to build powerful
-business applications like never before. With its intuitive interface,
-streamlined processes and wraparound features, the Workbooks CRM API offers
-sophisticated software solutions to meet a variety of organizational needs.
+The Workbooks CRM API unlocks a treasure trove of possibilities for automating customer relationship management tasks. With this API, you can seamlessly sync contact info, manage sales leads, automate follow-up tasks, and build custom reports to unlock actionable insights. Harnessing the power of the Workbooks CRM API on Pipedream allows you to supercharge these functionalities, triggering workflows on custom events, and connecting to numerous other apps to streamline your CRM processes even further.
 
-From custom tailored customer Account and Contact Management dashboards to
-project tracking and sales order automation, the Workbooks CRM API enables you
-to create, store and access data seamlessly. With its secure, cloud-based
-architecture, you can create, update, delete and query data, ensuring that only
-authorized personnel can access the necessary materials.
+# Example Use Cases
 
-The areas you can build with the Workbooks CRM API, include:
-
-- Customizable customer account and contact management
-- Real-time project tracking and asset management
-- Sales order automation
-- Accurate data collection and analysis
-- Automated CRM reporting
-- Powerful marketing automation tools
-- Robust service management and support
-- Streamlined customer onboarding processes
-- Comprehensive B2B and B2C portals
-- User-friendly lead and opportunity management
+- **Sales Lead Auto-Assignment**: Automatically assign new leads to sales reps based on custom criteria such as geographic location or industry. When a new lead is created in Workbooks CRM, a Pipedream workflow can parse the lead details and assign it to the correct sales rep in your team, sending them a notification via Slack or email.
+- **Customer Onboarding Sequence**: Kick off a customer onboarding sequence when a deal is marked as won. This could involve sending a series of welcome emails via SendGrid, creating tasks for account managers in Asana, and scheduling a check-in call using the Zoom API.
+- **Support Ticket Integration**: Integrate customer support by creating a ticket in a service like Zendesk whenever there is a significant update on a customer's account in Workbooks CRM. Use Pipedream to monitor for changes in account status or other key fields, and automatically create or update tickets in Zendesk to ensure timely customer support.
