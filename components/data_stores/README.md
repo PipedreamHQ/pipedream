@@ -1,6 +1,6 @@
 # Overview
 
-Pipedream's Data Stores API is a key-value store that allows you to persist state and share data across workflows. You can perform CRUD operations, enabling dynamic data management within your serverless architecture. Use it to save results from API calls, user inputs, or interim data; then read, update, or enrich this data in subsequent steps or workflows. Data Stores simplify stateful logic and cross-workflow communication, making them ideal for tracking process statuses, aggregating metrics, or serving as a simple configuration store.
+Data Stores are a key-value store that allow you to persist state and share data across workflows. You can perform CRUD operations, enabling dynamic data management within your serverless architecture. Use it to save results from API calls, user inputs, or interim data; then read, update, or enrich this data in subsequent steps or workflows. Data Stores simplify stateful logic and cross-workflow communication, making them ideal for tracking process statuses, aggregating metrics, or serving as a simple configuration store.
 
 # Example Use Cases
 
