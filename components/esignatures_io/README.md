@@ -1,17 +1,11 @@
 # Overview
 
-The eSignatures.io API enables you to create, manage, and automate eSignatures
-and eSignature workflows. With the eSignatures.io API, you can:
+The eSignatures.io API enables automated, legally-binding online contract signing. With this API, you can generate contracts from templates, send them to signees, and track the entire signing process. Leveraging this functionality within Pipedream allows you to create powerful automations that streamline contract management, integrate with CRM systems, trigger actions upon contract completion, and much more, eliminating manual tasks and enhancing productivity.
 
-- Create eSignature documents
-- Manage eSignature workflows
-- Automate eSignature document creation and management
-- Integrate eSignature functionality into your existing workflow
+# Example Use Cases
 
-Here are a few examples of what you can build using the eSignatures.io API:
+- **Contract Generation on New CRM Deal**: When a new deal is marked as won in a CRM like HubSpot, automatically generate a contract via eSignatures.io and send it to the client. Streamline the sales process by ensuring contracts are sent out immediately following a deal's closure.
 
-- A web application that allows users to create and manage eSignature documents
-- A mobile application that allows users to sign eSignature documents
-- A service that automates the creation and management of eSignature workflows
-- An integration that allows you to sign eSignature documents from within your
-  existing workflow
+- **Contract Status Tracking in Project Management Tools**: Monitor contract signing status and, upon completion, update tasks in project management apps like Trello or Asana. This can automate the transition of tasks from 'pending contract' to 'in progress', ensuring project workflows are updated in real-time.
+
+- **Automated Follow-up Emails Post-Signing**: After a contract is fully signed, trigger an email through an email service like SendGrid to thank the signees, provide additional resources, or outline next steps. This can enhance client relations and ensure timely communication.
