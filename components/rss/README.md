@@ -1,6 +1,6 @@
 # Overview
 
-The RSS API allows users to automatically fetch and parse updates from web feeds. This functionality is pivotal for staying abreast of content changes or updates from websites, blogs, and news outlets that offer RSS feeds. With Pipedream, you can harness the RSS API to trigger workflows that enable a broad range of automations, like content aggregation, monitoring for specific keywords, notifications, and data synchronization across platforms.
+The RSS app allows users to automatically fetch and parse updates from web feeds. This functionality is pivotal for staying abreast of content changes or updates from websites, blogs, and news outlets that offer RSS feeds. With Pipedream, you can harness the RSS API to trigger workflows that enable a broad range of automations, like content aggregation, monitoring for specific keywords, notifications, and data synchronization across platforms.
 
 # Example Use Cases
 
