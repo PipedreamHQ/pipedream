@@ -3872,7 +3872,10 @@ importers:
     specifiers: {}
 
   components/icypeas:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/idealpostcodes:
     specifiers: {}
