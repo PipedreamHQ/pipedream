@@ -1,18 +1,11 @@
 # Overview
 
-SFTP (Secure File Transfer Protocol) is a network protocol that provides secure
-file transfers over secure shell (SSH) connections. It is an extension of the
-Secure Shell protocol, designed for secure file exchange between hosts. A user
-can securely transfer files between systems without having to worry about
-external threats, as the protocol is encrypted and authenticated.
+SFTP on Pipedream enables secure file management on remote servers directly from your workflows. Utilize this app to automate file uploads, downloads, and synchronization tasks between your systems and SFTP servers. Implement robust data pipelines or deploy content to web servers without manual intervention, all while maintaining a high level of security with password-based authentication.
 
-With the SFTP API, you can build applications that securely transfer data, such
-as files and documents, between two different systems. Some example
-applications include:
+# Example Use Cases
 
-- Secure document sharing between two systems
-- Secure file synchronization between two systems
-- Secure backups of data over the network
-- Secure transfers of large files
-- Secure uploads and downloads of data
-- Media streaming between two systems
+- **Scheduled Data Backups**: Automatically back up critical data from your local systems to an SFTP server. Set a cron trigger in Pipedream to periodically upload files, ensuring your backups are both current and off-site.
+
+- **E-commerce Order Processing**: When a new order is placed via a platform like Shopify, use Pipedream's Shopify trigger to fetch order details, generate invoices, and securely transfer them to an SFTP server for archiving and further processing.
+
+- **Website Content Deployment**: Set up a Git-triggered workflow that responds to commits or tags. When updates are pushed to your repository, Pipedream can fetch the latest content and deploy it to your web server via SFTP, streamlining your deployment process.

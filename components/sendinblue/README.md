@@ -1,20 +1,11 @@
 # Overview
 
-With the SendinBlue API, you can create and manage powerful marketing campaigns
-and communications with ease. From transactional emails and SMS to newsletters
-and more, the SendinBlue API has you covered. Here are some examples of what
-you can build:
+The SendinBlue API offers a suite of email marketing tools, including campaign creation, contact list management, and transactional email sending. It's designed for crafting personalized messages, automating marketing workflows, and tracking the performance of email campaigns. With Pipedream, you can harness the power of SendinBlue by automating interactions with other services, reacting to events with custom code, and stitching together complex workflows with minimal effort.
 
-- Create engaging emails using SendinBlue's drag-and-drop email editor, and
-  send them to your subscribers with the API
-- Connect multiple communication channels including email, SMS, voice and chat
-  for a unified customer experience
-- Automate your workflow with SendinBlue's automated campaigns and optimize the
-  process with advanced segmentation
-- Personalize each message to your recipients with dynamic tags, merge fields
-  and attachments
-- Set up transactional emails to streamline communication and ensure your users
-  receive important notifications quickly and securely
-- Generate powerful analytics to measure the success of your campaigns
-- Integrate with third party applications using the SendinBlue REST API and
-  webhooks
+# Example Use Cases
+
+- **Automated Welcome Email Series**: When a new user signs up for your service, trigger a Pipedream workflow that adds them to a SendinBlue contact list and starts a drip email campaign to onboard them smoothly.
+
+- **Support Ticket Follow-Up Surveys**: After a support ticket is marked resolved in your helpdesk software, use Pipedream to send a follow-up survey via SendinBlue to gauge customer satisfaction and collect feedback for service improvement.
+
+- **Event-Triggered Promotions**: Combine SendinBlue with your e-commerce platform. When a customer makes a purchase, or an item goes on sale, Pipedream can kick off a targeted email campaign, offering relevant products, discounts, or loyalty rewards.

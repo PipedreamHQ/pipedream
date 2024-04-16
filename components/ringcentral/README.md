@@ -1,18 +1,11 @@
 # Overview
 
-RingCentral API is a powerful tool that allows users to build applications and
-solutions that make communication easier and more convenient. With RingCentral
-API, developers can build communication solutions that include voice and video,
-SMS/MMS, Fax, and other features.
+RingCentral is a comprehensive cloud communication platform that melds messaging, video, and phone services. Integrating RingCentral with Pipedream allows for automated workflows involving SMS sending, call management, and leveraging communication logs for data-driven insights. With Pipedream's serverless execution model, you can trigger actions based on specific RingCentral events or schedule tasks to run at predetermined intervals, all without writing extensive code.
 
-With RingCentral API, developers can build:
+# Example Use Cases
 
-- Voice and Video calls with advanced interactions, such as ringback tones,
-  call screening, call forwarding, call recording and conference calling.
-- Rich messaging applications leveraging SMS, MMS, and chat functionality.
-- Fax solutions, such as sending and receiving faxes through a web application.
-- Presence and availability services, allowing users to set their status and
-  view the status of other users.
-- Automated voice solutions such as voice recognition, voice menus and more.
-- Voice analytics and call quality monitoring.
-- Contact center solutions with the ability to monitor and manage queues.
+- **Customer Support Ticket Trigger**: When a missed call is detected on RingCentral, create a support ticket in Zendesk. This ensures timely follow-up and maintains high customer service standards.
+
+- **SMS Campaign Analytics**: Capture SMS messages sent from RingCentral, store them with Pipedream's built-in data stores, and analyze the data for campaign performance. Integrate with Google Sheets to easily share insights across your team.
+
+- **Automated Meeting Reminders**: Before a scheduled meeting, use RingCentral API to send a reminder via SMS to all participants. Sync meeting details from a Google Calendar event to ensure reminders are accurate and timely.
