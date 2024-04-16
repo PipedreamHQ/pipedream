@@ -1,29 +1,11 @@
 # Overview
 
-SwagUp API is a powerful tool that puts the power of automated product
-fulfillment in anyone’s hands. With the SwagUp automated product fulfillment
-service, you can build custom features for your platform, mobile app, website,
-or product in order to deliver physical goods quickly and easily. Here are some
-of the things you can create using the SwagUp API:
+The SwagUp API allows you to automate the creation and distribution of swag packs. You can programmatically design swag items, assemble them into packs, and manage orders and inventory. Integrating SwagUp with Pipedream opens up endless possibilities for sending personalized swag to customers, employees, or event attendees efficiently, aligning this delightful process with various triggers from other apps and services.
 
-- Manage Fulfillment Experiences: Develop custom, on-demand product fulfillment
-  experiences that are tailored to your customer’s needs.
-- Create Brand Templates: Design and create personalizable templates for your
-  physical products that can be used to customize product packaging or design
-  display pieces.
-- Integrate with Platforms: Integrate SwagUp with existing platforms to enable
-  unified and seamless product fulfillment.
-- Build Custom websites: Build custom websites with SwagUp’s product
-  fulfillment system, allowing you to offer an engaging customer experience.
-- Develop Custom Apps: Develop custom apps for product fulfillment that allow
-  personalized order processing with tailored features.
-- Automate Product Supply Chains: Automate and manage the entire product supply
-  chain from product delivery to invoicing with the SwagUp API.
-- Connect Third-Party APIs: Connect third-party APIs to the SwagUp platform for
-  seamless order processing and product delivery.
+# Example Use Cases
 
-With the SwagUp API, you can create a multitude of automated product
-fulfillment experiences that are tailored directly to customer needs. With this
-powerful platform, you can offer unique product experiences and boost customer
-engagement, while simultaneously streamlining order processing, invoicing and
-product delivery.
+- **Customer Milestone Rewards**: Trigger a SwagUp pack order when a user reaches a new level in your service's reward program. Connect SwagUp to a CRM like Salesforce, so once a user achieves the milestone, Salesforce sends an event to Pipedream, which then calls SwagUp to dispatch the reward.
+
+- **Welcome Kits for New Employees**: Onboard new hires with a custom swag pack. Set up a workflow where an HR platform like BambooHR, upon adding a new employee, triggers a SwagUp API request through Pipedream to send out a branded welcome kit, making the new employee feel part of the team from day one.
+
+- **Event Attendee Thank-Yous**: After an event concludes, send attendees a thank-you pack. Use an event management platform like Eventbrite to track registrations and attendance. When an event ends, Pipedream listens for the trigger, and then the SwagUp API is called to send swag to participants as a token of appreciation, enhancing post-event engagement.
