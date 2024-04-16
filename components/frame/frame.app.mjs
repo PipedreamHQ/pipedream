@@ -54,7 +54,7 @@ export default {
       }) {
         return this.getAssetOptions({
           account_id: accountId,
-          query,
+          q: query,
           page,
         }, "file");
       },
@@ -69,7 +69,7 @@ export default {
       }) {
         return this.getAssetOptions({
           account_id: accountId,
-          query,
+          q: query,
           page,
         }, "folder");
       },
