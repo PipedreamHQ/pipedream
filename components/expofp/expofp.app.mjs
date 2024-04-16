@@ -28,10 +28,24 @@ export default {
           },
         });
 
-        return exhibitors.map((event) => ({
-          label: event.name,
-          value: event.id,
+        return exhibitors.map((item) => ({
+          label: item.name,
+          value: item.id,
         }));
+      },
+    },
+    boothName: {
+      label: "Booth Name",
+      type: "string",
+      description: "Select a booth or provide a booth name",
+      async options({ eventId }) {
+        const booths = await this.getBooths({
+          data: {
+            expoId: eventId,
+          },
+        });
+
+        return booths.map(({ name }) => name);
       },
     },
   },
@@ -63,6 +77,13 @@ export default {
     async getExhibitors(args) {
       return this._makeRequest({
         path: "/list-exhibitors",
+        method: "post",
+        ...args,
+      });
+    },
+    async getBooths(args) {
+      return this._makeRequest({
+        path: "/list-booths",
         method: "post",
         ...args,
       });

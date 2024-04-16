@@ -1,22 +1,11 @@
 # Overview
 
-The PandaDoc API is a powerful tool that can be used to create and customize
-documents with ease. With the PandaDoc API, you can connect to the PandaDoc
-cloud Platform and create automated document workflows, streamline document
-creation and editing, and more.
+The PandaDoc API opens up a realm of possibilities for automating document workflows, creating a seamless bridge between document management and various business processes. With it, you can programmatically create, send, and track documents, streamline electronic signatures, and manage templates, among others. Integrations through Pipedream can harness these capabilities, enabling you to trigger actions in PandaDoc based on events from other apps, or vice versa.
 
-Using the PandaDoc API, you can:
+# Example Use Cases
 
-- Automate and streamline document creation and editing
-- Create custom document workflows
-- Securely store documents and access document data
-- Track document activity and analyze document data
-- Automate document approvals and sign-off
-- Integrate PandaDoc with third-party applications
-- Personalize documents with dynamic data fields
-- Generate intelligent document insights
-- View, sign, and approve documents online
-- Automatically store documents in cloud-based file storage
-- Automatically send documents directly to customers
-- Customize integration with your organization's branding
-- Create reports and dashboard to monitor document performance
+- **Sales Pipeline Automation**: When a new deal is marked as "won" in a CRM like Salesforce, trigger a PandaDoc workflow to automatically generate a contract from a template, fill it with the deal details, and send it out for e-signature.
+
+- **HR Onboarding Processes**: Sync PandaDoc with an HR platform like BambooHR. Once a new employee is added to the HR system, kick off a workflow that auto-populates and sends out onboarding paperwork through PandaDoc.
+
+- **Real-time Notifications**: Combine PandaDoc with a messaging platform like Slack. Set up a workflow that sends a message to a designated channel or direct message when a document is completed or a specific action is taken on a document in PandaDoc.

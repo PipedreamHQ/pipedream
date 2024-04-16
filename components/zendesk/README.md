@@ -1,19 +1,14 @@
 # Overview
 
-Using the Zendesk API, you can build custom apps and integrations to automate
-processes and help your teams build better customer relationships.
+The Zendesk API enables seamless integration of Zendesk's customer service platform with your existing business processes and third-party applications. By leveraging this API with Pipedream, you can automate ticket tracking, sync customer data, escalate issues, and streamline communication across multiple channels. This can significantly increase efficiency, accelerate response times, and enhance the overall customer experience. Automations can range from simple notifications to complex workflows involving data transformation and multi-step actions across various services.
 
-The API provides a range of methods to interact with your customer help desk,
-customer data, and customer communication tools. This enables you to create
-custom customer experiences that are tailored to your business needs.
+# Example Use Cases
 
-Some examples of what you can build using the Zendesk API include:
+**Ticket Management Automation**
+Automatically create Zendesk tickets from emails, chat messages, or form submissions captured in other apps like Gmail or Slack. Use Pipedream to parse the incoming information and create a ticket in Zendesk with the appropriate tags, priorities, and assignments.
 
-- Create a custom customer feedback widget
-- Automate customer service processes
-- Identify customer trends and insights
-- Help manage customer data in real-time
-- Create a custom customer profile and segmentation tool
-- Trigger automated messages based on customer events
-- Integrate customer service processes with your company’s backend system
-- Create a custom customer self-service portal
+**Customer Feedback Loop**
+After a ticket is resolved, trigger a workflow to send a follow-up survey using a platform like Typeform. Record responses back in Zendesk to ensure customer feedback influences service quality. An automated workflow could tag the ticket with the feedback score or add notes for support agents.
+
+**Real-Time Notifications for Critical Issues**
+Set up a Pipedream workflow that monitors Zendesk for tickets with 'Urgent' priority or specific keywords and sends instant notifications to a dedicated Slack channel or via SMS through Twilio. This ensures that critical issues are promptly addressed by support teams.

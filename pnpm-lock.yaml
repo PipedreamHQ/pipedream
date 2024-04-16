@@ -71,6 +71,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/_2markdown:
+    specifiers: {}
+
   components/_46elks:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -834,6 +837,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/bill:
+    specifiers: {}
+
+  components/billplz:
     specifiers: {}
 
   components/billsby:
@@ -1670,7 +1676,10 @@ importers:
       lodash: 4.17.21
 
   components/contact_enhance:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/content_snare:
     specifiers:
@@ -2054,7 +2063,10 @@ importers:
     specifiers: {}
 
   components/diffbot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/diffchecker:
     specifiers:
@@ -2739,7 +2751,10 @@ importers:
     specifiers: {}
 
   components/finmei:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/finmo:
     specifiers: {}
@@ -2907,6 +2922,12 @@ importers:
 
   components/foxy:
     specifiers: {}
+
+  components/frame:
+    specifiers:
+      '@pipedream/platform': ^1.6.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/fraudlabs_pro:
     specifiers:
@@ -5873,6 +5894,12 @@ importers:
   components/pendo:
     specifiers: {}
 
+  components/people_data_labs:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
+
   components/perry_github_test:
     specifiers: {}
 
@@ -6571,6 +6598,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/recharge:
+    specifiers:
+      '@pipedream/platform': 1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.0
+
   components/recreation_gov:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7224,7 +7257,7 @@ importers:
     specifiers:
       '@pipedream/platform': ^1.5.1
     dependencies:
-      '@pipedream/platform': 1.6.1
+      '@pipedream/platform': 1.6.2
 
   components/sendy:
     specifiers:
@@ -7299,7 +7332,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sevdesk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/seven:
     specifiers: {}
@@ -7498,7 +7534,10 @@ importers:
     specifiers: {}
 
   components/similarweb_digitalrank_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/simple_analytics:
     specifiers: {}
@@ -7581,7 +7620,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/small_improvements:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/smartengage:
     specifiers: {}
@@ -17439,7 +17481,7 @@ packages:
   /array.prototype.findindex/2.2.2:
     resolution: {integrity: sha512-fnTMT+Xq/VloVDsroPW9JLL1M5UxNTVfoNxU4KeyDcH5C/Jmjikf5+KDH5207wWMC8MBlSOn7kZkkys8XnqWNg==}
     dependencies:
-      call-bind: 1.0.7
+      call-bind: 1.0.2
       define-properties: 1.2.1
       es-abstract: 1.22.2
       es-shim-unscopables: 1.0.0
@@ -21119,15 +21161,6 @@ packages:
   /get-caller-file/2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
-
-  /get-intrinsic/1.2.1:
-    resolution: {integrity: sha512-2DcsyfABl+gVHEfCOaTrWgyt+tb6MSEGmKq+kI5HwLbIYgjgmMcV8KQ41uaKz1xxUcn9tJtgFbQUEVcEbd0FYw==}
-    dependencies:
-      function-bind: 1.1.2
-      has: 1.0.3
-      has-proto: 1.0.1
-      has-symbols: 1.0.3
-    dev: false
 
   /get-intrinsic/1.2.4:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
@@ -25869,6 +25902,7 @@ packages:
 
   /object-inspect/1.12.3:
     resolution: {integrity: sha512-geUvdk7c+eizMNUDkRpW1wJwgfOiOeHbxBR/hLXK1aT6zmVSO0jsQcs7fj6MGw89jC/cjGfLcNOrtMYtGqm81g==}
+    dev: true
 
   /object-inspect/1.13.1:
     resolution: {integrity: sha512-5qoj1RUiKOMsCCNLV1CBiPYE10sziTsnmNxkAI/rZhiD63CF7IqdFGC/XzjWjpSgLf0LxXX3bDFIh0E18f6UhQ==}
@@ -28263,9 +28297,9 @@ packages:
   /side-channel/1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
     dependencies:
-      call-bind: 1.0.2
-      get-intrinsic: 1.2.1
-      object-inspect: 1.12.3
+      call-bind: 1.0.7
+      get-intrinsic: 1.2.4
+      object-inspect: 1.13.1
     dev: false
 
   /side-channel/1.0.6:
