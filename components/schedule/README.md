@@ -1,6 +1,6 @@
 # Overview
 
-The Schedule API in Pipedream is a powerful tool that allows you to trigger workflows at regular intervals, ranging from every minute to once a year. This enables the automation of repetitive tasks and the scheduling of actions to occur without manual intervention. By leveraging this API, you can execute code, run integrations, and process data on a reliable schedule, all within Pipedream's serverless environment.
+The Schedule app in Pipedream is a powerful tool that allows you to trigger workflows at regular intervals, ranging from every minute to once a year. This enables the automation of repetitive tasks and the scheduling of actions to occur without manual intervention. By leveraging this API, you can execute code, run integrations, and process data on a reliable schedule, all within Pipedream's serverless environment.
 
 # Example Use Cases
 
