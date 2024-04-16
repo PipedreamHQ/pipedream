@@ -7545,6 +7545,12 @@ importers:
   components/simple_analytics:
     specifiers: {}
 
+  components/simplebackups:
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
+
   components/simplehash:
     specifiers: {}
 

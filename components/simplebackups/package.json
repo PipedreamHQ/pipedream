@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/simplebackups",
+  "version": "0.1.0",
+  "description": "Pipedream SimpleBackups Components",
+  "main": "simplebackups.app.mjs",
+  "keywords": [
+    "pipedream",
+    "simplebackups"
+  ],
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
