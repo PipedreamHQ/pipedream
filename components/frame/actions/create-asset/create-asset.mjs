@@ -8,10 +8,21 @@ export default {
   type: "action",
   props: {
     frame,
+    accountId: {
+      propDefinition: [
+        frame,
+        "accountId",
+      ],
+    },
     assetId: {
-      type: "string",
+      propDefinition: [
+        frame,
+        "assetId",
+        ({ accountId }) => ({
+          accountId,
+        }),
+      ],
       label: "Parent Asset ID",
-      description: "The ID of the parent asset (such as a folder or the project's root asset).",
     },
     type: {
       type: "string",

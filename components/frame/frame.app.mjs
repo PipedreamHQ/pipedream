@@ -30,34 +30,33 @@ export default {
         }));
       },
     },
-    projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "Select a project or provide a custom ID.",
-      async options({ teamId }) {
-        const data = await this.listProjects(teamId);
-        return data?.map(({
-          name, id,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
-    },
+    // projectId: {
+    //   type: "string",
+    //   label: "Project ID",
+    //   description: "Select a project or provide a custom ID.",
+    //   async options({ teamId }) {
+    //     const data = await this.listProjects(teamId);
+    //     return data?.map(({
+    //       name, id,
+    //     }) => ({
+    //       label: name,
+    //       value: id,
+    //     }));
+    //   },
+    // },
     assetId: {
       type: "string",
       label: "Asset ID",
       description: "Select an asset or provide a custom ID.",
       useQuery: true,
       async options({
-        accountId, teamId, projectId, query,
+        accountId, page, query,
       }) {
         const data = await this.searchAssets({
           params: {
             account_id: accountId,
-            team_id: teamId,
-            project_id: projectId,
             query,
+            page,
           },
         });
         return data?.map(({
@@ -97,14 +96,14 @@ export default {
         url: `/accounts/${accountId}/teams`,
       });
     },
-    async listProjects(teamId) {
-      return this._makeRequest({
-        url: `/teams/${teamId}/projects`,
-      });
-    },
+    // async listProjects(teamId) {
+    //   return this._makeRequest({
+    //     url: `/teams/${teamId}/projects`,
+    //   });
+    // },
     async searchAssets(args) {
       return this._makeRequest({
-        url: "/search/assets",
+        url: "/search/library",
         ...args,
       });
     },

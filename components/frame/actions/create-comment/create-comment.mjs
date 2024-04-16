@@ -14,34 +14,12 @@ export default {
         "accountId",
       ],
     },
-    teamId: {
-      propDefinition: [
-        frame,
-        "teamId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        frame,
-        "projectId",
-        ({ teamId }) => ({
-          teamId,
-        }),
-      ],
-    },
     assetId: {
       propDefinition: [
         frame,
         "assetId",
-        ({
-          accountId, teamId, projectId,
-        }) => ({
+        ({ accountId }) => ({
           accountId,
-          teamId,
-          projectId,
         }),
       ],
     },
