@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/diffbot",
+  "name": "@pipedream/people_data_labs",
   "version": "0.1.0",
-  "description": "Pipedream Diffbot Components",
-  "main": "diffbot.app.mjs",
+  "description": "Pipedream People Data Labs Components",
+  "main": "people_data_labs.app.mjs",
   "keywords": [
     "pipedream",
-    "diffbot"
+    "people_data_labs"
   ],
-  "homepage": "https://pipedream.com/apps/diffbot",
+  "homepage": "https://pipedream.com/apps/people_data_labs",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
