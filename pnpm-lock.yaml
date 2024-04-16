@@ -9788,6 +9788,7 @@ importers:
       io-ts: ^2.0.0
       jest: ^29.1.2
       querystring: ^0.2.1
+      type-fest: ^4.15.0
       typescript: ^3.5.3
     dependencies:
       axios: 1.6.5
@@ -9798,6 +9799,7 @@ importers:
       '@octokit/core': 3.6.0
       husky: 3.1.0
       jest: 29.7.0
+      type-fest: 4.15.0
       typescript: 3.9.10
 
   types:
@@ -29719,6 +29721,11 @@ packages:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
     dev: false
+
+  /type-fest/4.15.0:
+    resolution: {integrity: sha512-tB9lu0pQpX5KJq54g+oHOLumOx+pMep4RaM6liXh2PKmVRFF+/vAtUP0ZaJ0kOySfVNjF6doBWPHhBhISKdlIA==}
+    engines: {node: '>=16'}
+    dev: true
 
   /type-is/1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
