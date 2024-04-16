@@ -1,11 +1,11 @@
 # Overview
 
-The BitBucket API taps the potential of BitBucket's Git-based version control system, enabling you to automate workflows around code commits, pull requests, and overall repository management. With this API, you can streamline the collaboration process, enforce coding standards, or integrate with other tools to create a cohesive development ecosystem. Pipedream, as a serverless integration and compute platform, provides a seamless environment to connect BitBucket with various apps and services, enabling you to harness its API for efficient, customized automations.
+The BitBucket API on Pipedream allows developers to automate workflows by leveraging BitBucket's comprehensive suite of repository management and collaboration features. By integrating BitBucket with Pipedream, you can create custom automation that reacts to events in BitBucket, such as pushes, pull requests, or issue updates, and interacts with other services to streamline your development processes. This API can facilitate a variety of tasks including code deployment, team notifications, and syncing issues across platforms.
 
 # Example Use Cases
 
-- **Automated Code Quality Checks**: Trigger a workflow on Pipedream whenever a new commit is pushed to a BitBucket repository. The workflow could then run code quality checks using tools like ESLint or SonarQube, and report the results back as comments on the commit or pull request in BitBucket.
+- **Automate Deployment on Push**: Trigger a deployment pipeline whenever new commits are pushed to a specific branch. This workflow can deploy code to staging or production environments automatically, reducing manual overhead and speeding up delivery times.
 
-- **Deployment Automation**: Set up a Pipedream workflow to deploy the latest code pushed to a specific BitBucket branch. On push events, the workflow can trigger deployment scripts on platforms like AWS, Google Cloud, or Azure, and notify your team via Slack or email upon successful deployment.
+- **Sync Pull Requests with Trello**: Create or update Trello cards when a new pull request is made in BitBucket. This keeps project management in sync with development work, providing a clear overview of features or bug fixes in progress and streamlining team communication.
 
-- **Syncing Issues Across Platforms**: Create a workflow that synchronizes BitBucket issues with an external project management tool like Jira or Trello. Whenever an issue is created or updated in BitBucket, it reflects on the connected platform in real-time, ensuring seamless tracking and management of development tasks.
+- **Send Custom Notifications on Issue Updates**: Generate custom notifications via Slack, email, or SMS when issues in BitBucket are created, updated, or resolved. This ensures that the right team members are alerted to changes immediately, improving response times and issue management.

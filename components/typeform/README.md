@@ -1,11 +1,11 @@
 # Overview
 
-The Typeform API furnishes you with the means to create dynamic forms and collect user responses in real-time. By leveraging this API within Pipedream's serverless platform, you can automate workflows to process this data, integrate seamlessly with other services, and react to form submissions instantaneously. This empowers you to craft tailored responses, synchronize with databases, trigger email campaigns, or even manage event registrations without manual intervention.
+The Typeform API on Pipedream lets you automate interactions with Typeform surveys and forms, enabling you to integrate survey data into your apps and workflows seamlessly. With the API, you can capture real-time responses, analyze submissions to glean insights, and trigger actions based on respondent behavior. By leveraging Pipedream's capabilities, you can connect Typeform with a multitude of other services to create powerful, automated workflows without writing a single line of code.
 
 # Example Use Cases
 
-- **Customer Feedback to Slack Alerts**: Automate the collection of customer feedback by sending new Typeform responses to a designated Slack channel. This workflow enables real-time alerts for your team to swiftly address customer concerns or praises.
+- **Customer Feedback to Slack Alert**: When a new Typeform entry is submitted for customer feedback, trigger a Pipedream workflow to parse the response and automatically send a formatted alert to a designated Slack channel. This keeps the team informed and responsive to customer needs.
 
-- **Event Registration and Calendar Sync**: Streamline the event registration process by using Typeform to capture attendee details and automatically add new registrants to a Google Calendar event. This ensures a seamless and organized experience for both the planners and the participants.
+- **Event Registration to Google Sheets**: Upon receiving a new Typeform registration for an event, use a Pipedream workflow to add the participant's details to a Google Sheets spreadsheet. This can act as an automated guest list that's always up to date and easily shareable with collaborators.
 
-- **Lead Capture to CRM Integration**: Convert Typeform entries into leads by piping responses directly into a CRM platform like Salesforce. Automatically create contacts or update existing records, ensuring your sales team always has the latest lead information at their disposal.
+- **Lead Qualification and Email Follow-up**: When a potential lead completes a Typeform survey, set up a Pipedream workflow to assess the lead quality based on their responses. If they meet certain criteria, trigger an email sequence via SendGrid to engage them further, ensuring no warm lead goes unattended.

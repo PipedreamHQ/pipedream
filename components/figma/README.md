@@ -1,11 +1,11 @@
 # Overview
 
-The Figma API unlocks the power to automate and integrate design workflows, enabling both designers and developers to extract assets, update designs, and manage files programmatically. By leveraging the Figma API on Pipedream, you can create automated processes that sync design updates with other tools, notify team members of changes, or feed design information into other parts of your digital ecosystem.
+The Figma API allows for programmatic access to various elements of a Figma design file, providing a gateway to create, read, update, and interact with design data programmatically. With Pipedream, you can harness this capability to automate design workflows, synchronize design assets across platforms, and integrate Figma into your broader tech stack. By tapping into the Figma API on Pipedream, you can trigger actions on design updates, export assets for use in other applications, and manipulate design elements, all in an efficient and scalable manner.
 
 # Example Use Cases
 
-- **Design Sync to Cloud Storage**: Automatically upload new versions of design files from Figma to a cloud storage provider like Google Drive or Dropbox when a file is updated. Keep your assets backed up and accessible to team members who don't use Figma.
+- **Automated Design Handoff**: When a design is marked as 'final' in Figma, trigger a workflow on Pipedream to automatically export the design's assets and create a pull request in GitHub with the updated assets. This bridges the gap between design and development by streamlining the handoff process.
 
-- **Project Management Updates**: Trigger an update in your project management tool, such as Trello or Asana, when a Figma design file changes status. Ensure that project timelines and tasks are in sync with the design progress.
+- **Project Management Integration**: Connect Figma to a project management tool like Trello or Asana. Automatically create/update cards with the latest design previews whenever a new version is saved in Figma. This keeps project stakeholders up-to-date with the latest design progress without manual updates.
 
-- **Slack Notifications on Comments**: Send a message to a designated Slack channel whenever a new comment is added to a Figma file. Keep your team informed and quickly actionable on feedback without leaving their communication hub.
+- **Dynamic Asset Synchronization**: Set up a Pipedream workflow to monitor changes in a Figma file and synchronize updated design elements to a CMS like WordPress or a digital asset management tool. When a designer updates icons or images in Figma, the workflow can replace the old assets in the CMS with the new versions, ensuring consistent branding across platforms.

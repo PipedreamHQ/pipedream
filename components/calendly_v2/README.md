@@ -1,11 +1,11 @@
 # Overview
 
-The Calendly API lets you craft bespoke scheduling experiences within your apps or automate repetitive tasks involving your calendar. With this API, you can read event types, set up webhooks for new events, list invitees, or create and cancel invitation links programmatically. Pipedream's serverless platform takes the heavy lifting out of integrating Calendly with hundreds of other apps, enabling you to focus on creating workflows that save time, enhance productivity, and eliminate scheduling errors.
+The Calendly API unlocks the power to automate scheduling, enabling seamless integration with other tools and workflows. With it, you can sync Calendly events with your calendar, send custom notifications, or trigger actions in other apps post-event creation or cancellation. Use this API on Pipedream to craft workflows that react in real-time to new meetings or updates, manage contacts across platforms, and personalize your scheduling logic without manual intervention.
 
 # Example Use Cases
 
-- **Automated Follow-Up Emails**: When a meeting is scheduled on Calendly, trigger an email via SendGrid to send personalized follow-up details and preparation materials to the invitee.
+- **Sync New Calendly Events to Google Sheets**: When a new event is scheduled on Calendly, trigger a workflow that captures the event details and appends them to a Google Sheet. This allows for easy tracking of appointments and attendee information in a centralized location.
 
-- **Zoom Meeting Creation**: Automatically create a Zoom meeting and send the invite link to participants as soon as they book a time slot on Calendly, ensuring seamless video conference scheduling.
+- **Automated Follow-up Emails After Calendly Events**: After a Calendly event concludes, trigger an email through SendGrid to the attendee. Customize this email for feedback requests, thank-you notes, or sharing additional resources, improving the post-meeting experience without manual effort.
 
-- **Slack Notifications for New Bookings**: For every new appointment scheduled, send a notification to a designated Slack channel to keep your team informed about upcoming meetings and availability changes.
+- **Dynamic Event Creation via Slack Commands**: Use Slack slash commands to create new Calendly events. When a command is issued in Slack, Pipedream triggers a workflow that interacts with the Calendly API to set up the event with predefined settings or custom inputs from the Slack message.

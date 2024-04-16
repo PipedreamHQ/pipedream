@@ -1,11 +1,11 @@
 # Overview
 
-The Todoist API unlocks the potential to automate task management with precision. With Pipedream, you can craft workflows that react to events in Todoist, like task completions or due date changes, or drive actions in Todoist, such as creating tasks or updating projects. By integrating Todoist with Pipedream, you can seamlessly connect your to-do list with other apps to streamline your productivity, manage tasks based on triggers from other services, or compile reports on your task management patterns.
+The Todoist API unlocks the potential to automate task management and enhance productivity by interfacing with Todoist's robust task management features. With this API, you can create tasks, retrieve tasks, update task details, and manage projects programmatically on Pipedream. You can also trigger workflows from Todoist events, such as task completion or project updates, and connect Todoist with other apps to streamline your personal and professional to-dos.
 
 # Example Use Cases
 
-- **Task Completion Notifications**: Send a notification through Slack or email when a high-priority task is completed in Todoist. This keeps your team in sync and immediately alerts members of critical task progress.
+- **Task Completion Notifications**: Send a notification to a Slack channel when a task is marked complete in Todoist. This keeps your team updated on project progress without manual reporting.
 
-- **Calendar Syncing**: Automatically create a Google Calendar event when a new task with a due date is added to Todoist. This ensures you never miss a deadline and integrates your task list with your personal or work calendar.
+- **Daily Task Digest**: Compile a list of tasks due each day and send it via email each morning. Use Pipedream's scheduled triggers to pull tasks from Todoist and an email service like SendGrid to automate your daily agenda.
 
-- **GitHub Issue Tracking**: Whenever a new GitHub issue is reported, create a corresponding task in Todoist and assign it to the relevant team member. This bridges the gap between issue tracking and personal task management.
+- **GitHub Issue Sync**: When a GitHub issue is created, automatically add a corresponding task in Todoist. If the task is completed in Todoist, mark the GitHub issue as closed. This ensures developers keep track of issues to work on within their task management tool.
