@@ -1,6 +1,6 @@
 # Overview
 
-Sendfox is an email marketing tool designed for content creators. Via its Personal Access Token API, you can automate your email marketing operations by programmatically managing contacts, campaigns, and lists. Pipedream leverages this by allowing you to connect Sendfox with numerous other apps, providing a seamless integration platform to streamline your email marketing workflows. Automate the process of gathering leads from various platforms, syncing your subscriber lists, or triggering personalized email sequences based on specific actions or events.
+Sendfox is an email marketing tool designed for content creators. You can automate your email marketing operations by programmatically managing contacts, campaigns, and lists. Pipedream leverages this by allowing you to connect Sendfox with numerous other apps, providing a seamless integration platform to streamline your email marketing workflows. Automate the process of gathering leads from various platforms, syncing your subscriber lists, or triggering personalized email sequences based on specific actions or events.
 
 # Example Use Cases
 
