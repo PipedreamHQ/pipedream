@@ -1,16 +1,11 @@
 # Overview
 
-Polly AI is an AI-powered natural language processing (NLP) platform that can take any text and turn it into a human-like voice. With Polly, you can easily deploy natural language applications that comprehend and respond to user interactions using natural language processing (NLP). In addition, you can build sophisticated text-to-speech applications that are capable of transforming written words into life-like conversational speech.
+The Polly API allows you to automate and personalize the creation of images for marketing campaigns, emails, and web content. It provides the capability to dynamically generate images with custom text, fonts, and other variables at scale. Specifically in Pipedream, you can harness this API to craft on-the-fly marketing assets that are tailored to individual recipients or audience segments, integrate with email services to deliver personalized images within newsletters, or trigger image creation based on specific events or actions taken by your users.
 
-Here are a few examples of applications you can build with the Polly API:
+# Example Use Cases
 
-- Voice-activated virtual assistant applications
-- Text-to-speech applications
-- Speech-driven video and gaming applications
-- Text-to-audio conversions
-- Speech recognition systems and applications
-- Natural language understanding (NLU) solutions and applications
-- Automated customer service solutions
-- Automated audio transcription solutions
-- Voice biometrics and authentication solutions
-- Text analytics solutions
+- **Personalized Email Campaigns:** Integrate Polly with SendGrid on Pipedream to create and send personalized images within email campaigns. When a new subscriber is added to a mailing list, trigger an event that uses Polly to generate a custom welcome image, then send it via SendGrid to the new subscriber's email address.
+
+- **Event-Driven Social Media Posts:** Link Polly with Twitter via Pipedream. Set up a workflow where event registrations from Eventbrite trigger image creations with Polly, including event details and personalized attendee names. Then automatically post these images to a Twitter account to engage attendees and promote the event.
+
+- **E-commerce Product Personalization:** Connect Polly with Shopify on Pipedream to offer personalized product images. When a customer orders a customizable product, use their details to create a unique image preview of the product with their chosen text or design, then email it to the customer for approval before shipment.
