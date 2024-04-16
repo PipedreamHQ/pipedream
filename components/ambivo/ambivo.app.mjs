@@ -19,26 +19,6 @@ export default {
         })) || [];
       },
     },
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "First name of the contact",
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Last name of the contact",
-    },
-    phone: {
-      type: "string",
-      label: "Phone",
-      description: "Phone number of the contact",
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "Email address of the contact",
-    },
   },
   methods: {
     _baseUrl() {
@@ -75,20 +55,6 @@ export default {
     listLeads(opts = {}) {
       return this._makeRequest({
         path: "/leads/created",
-        ...opts,
-      });
-    },
-    createOrUpdateContact(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/contacts",
-        ...opts,
-      });
-    },
-    createOrUpdateLead(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/leads",
         ...opts,
       });
     },

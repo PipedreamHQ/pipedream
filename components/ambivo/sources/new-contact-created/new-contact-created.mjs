@@ -3,25 +3,25 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "ambivo-new-lead",
-  name: "New Lead Created",
-  description: "Emit new event when a new lead is created in Ambivo CRM.",
+  key: "ambivo-new-contact-created",
+  name: "New Contact Created",
+  description: "Emit new event when a new contact is created in Ambivo.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.ambivo.listLeads;
+      return this.ambivo.listContacts;
     },
     getTsField() {
       return "created_date";
     },
-    generateMeta(lead) {
+    generateMeta(contact) {
       return {
-        id: lead.id,
-        summary: `New Lead: ${lead.name}`,
-        ts: Date.parse(lead.created_date),
+        id: contact.id,
+        summary: `New Contact: ${contact.name}`,
+        ts: Date.parse(contact.created_date),
       };
     },
   },
