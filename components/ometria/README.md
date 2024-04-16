@@ -1,20 +1,11 @@
 # Overview
 
-What can I build with the Ometria API?
+The Ometria API is a data-driven tool designed to empower marketers to efficiently orchestrate personalized customer experiences across multiple channels. With this API, you can automate the management of customer data, track customer behaviors, and trigger personalized marketing campaigns. By leveraging the power of Pipedream's integration capabilities, you can seamlessly connect Ometria with other services, sync data in real-time, and create custom, scalable automations to enhance your marketing efforts.
 
-The Ometria API provides a comprehensive set of tools to help you create robust
-and comprehensive customer segmentation and analytics for your eCommerce store.
-With access to Ometria’s full suite of products, you can build the following:
+# Example Use Cases
 
-- Real-time customer behaviour tracking and reporting
-- Create better targeted email campaigns
-- Create automated segmentation rules to segment customers into different
-  groups
-- Create advanced personalisation ideas for each customer
-- Create requests for audience-specific product recommendations
-- Create marketing automation and loyalty programs
-- Create automated recommendations based on customer behaviour
-- Automatically score customers’ buying habits and preferences
-- Generate powerful insights into business performance
-- Monitor customer feedback, returns and reviews
-- Automatically trigger re-engagement campaigns
+- **Sync Customer Data with CRM**: Automate the process of syncing new customer data from Ometria to your CRM platform, like Salesforce or HubSpot. When a new customer is added in Ometria, trigger a workflow that enriches and syncs this data to the CRM, ensuring your sales team has the latest information at their fingertips.
+
+- **Personalized Email Campaigns Trigger**: Set up a workflow to monitor customer activity via the Ometria API, such as recent purchases or cart abandonment. Use this data to trigger personalized email campaigns through an email marketing service like Mailchimp, sending targeted offers or reminders to nudge customers towards conversion.
+
+- **Real-Time Customer Segmentation and Reporting**: Create a workflow that uses customer interaction data from Ometria to segment customers in real-time based on their behavior. Connect to a visualization tool like Google Data Studio to generate dynamic reports that help tailor marketing strategies and track the performance of different customer segments.

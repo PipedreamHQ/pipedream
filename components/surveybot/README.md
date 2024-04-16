@@ -1,36 +1,11 @@
 # Overview
 
-The Surveybot API is an easy-to-use platform that allows you to create powerful
-automated surveys. With the Surveybot API, you can build a variety of automated
-surveys that can help you garner feedback, measure user engagement, and gain
-insight into customer opinions. Some of the features available with the
-Surveybot API include:
+The Surveybot API is a tool designed to enhance engagement and gather insights through conversational surveys within Facebook Messenger. By leveraging Pipedream's capabilities, you can automate responses, analyze survey data, and integrate with an array of other services such as CRMs, email marketing platforms, or helpdesk software to streamline workflows and act upon the gathered data effectively.
 
-- Intuitive and easy-to-use survey creation tools
-- Customizable survey logic and settings
-- Advanced voice and text recognition capabilities
-- Integration with CRMs and other third-party services
-- In-depth analytics and data visualization
+# Example Use Cases
 
-Here are some of the things you can create and do with the Surveybot API:
+- **Customer Feedback Collection to Data Analysis Tools**: With Pipedream, set up a workflow where Surveybot collects customer satisfaction data post-purchase, and automatically send the results to data analysis tools such as Google Sheets or BigQuery. Slice and dice the data to gain actionable insights or trigger follow-up actions based on customer sentiment.
 
-- Gamified surveys that reward and incentivize users
-- Stickier, interactive surveys that ask different questions based on previous
-  answers
-- Automated surveys that trigger after an app user completes a specific task or
-  event
-- Specific surveys based on user profiles and preferences
-- Automate customer onboarding surveys
-- Track customer sentiment and feedback over time
-- Gather product feedback to improve the user experience
-- Test hypotheses, product ideations, and prototypes
-- Optimize user experience and measure user engagement
-- Send automated, timely reminders to encourage survey completion
-- Gain insights into customer preferences, opinions, and feature requests
-- And much more!
+- **Support Ticket Creation from Survey Responses**: Whenever a survey response indicates a customer issue, use Pipedream to create a ticket in a customer support app like Zendesk or Intercom. This quick conversion from feedback to support ticket can help resolve issues swiftly and improve overall customer experience.
 
-So whether you're a B2B business looking to better understand customer needs, a
-startup looking to gain market insights, or a brand looking to measure user
-experience and gain feedback, the Surveybot API has you covered. With its
-comprehensive set of features and advanced data analytics, Surveybot can easily
-create an automated survey tailored to fit your specific needs.
+- **Lead Qualification and Addition to CRM**: Use Surveybot to qualify leads through a set of questions. With Pipedream, assess the responses and automatically add qualified leads to a CRM such as Salesforce or HubSpot, including all relevant data points. This can significantly cut down manual entry and ensure timely follow-up with potential customers.
