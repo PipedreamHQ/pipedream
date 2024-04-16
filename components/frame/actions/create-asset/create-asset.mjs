@@ -17,12 +17,11 @@ export default {
     assetId: {
       propDefinition: [
         frame,
-        "assetId",
+        "parentAssetId",
         ({ accountId }) => ({
           accountId,
         }),
       ],
-      label: "Parent Asset ID",
     },
     type: {
       type: "string",

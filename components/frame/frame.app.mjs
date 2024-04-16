@@ -47,24 +47,31 @@ export default {
     assetId: {
       type: "string",
       label: "Asset ID",
-      description: "Select an asset or provide a custom ID.",
+      description: "Select an asset (file) or provide a custom ID.",
       useQuery: true,
       async options({
         accountId, page, query,
       }) {
-        const data = await this.searchAssets({
-          params: {
-            account_id: accountId,
-            query,
-            page,
-          },
-        });
-        return data?.map(({
-          name, id,
-        }) => ({
-          label: name,
-          value: id,
-        }));
+        return this.getAssetOptions({
+          account_id: accountId,
+          query,
+          page,
+        }, "file");
+      },
+    },
+    parentAssetId: {
+      type: "string",
+      label: "Parent Asset ID",
+      description: "Select a parent asset (folder) or provide a custom ID.",
+      useQuery: true,
+      async options({
+        accountId, page, query,
+      }) {
+        return this.getAssetOptions({
+          account_id: accountId,
+          query,
+          page,
+        }, "folder");
       },
     },
   },
@@ -106,6 +113,18 @@ export default {
         url: "/search/library",
         ...args,
       });
+    },
+    async getAssetOptions(params, assetType) {
+      let data = await this.searchAssets({
+        params,
+      });
+      if (assetType) data = data?.filter((e) => e.type === assetType);
+      return data?.map(({
+        name, id,
+      }) => ({
+        label: name,
+        value: id,
+      }));
     },
     async sendComment({
       assetId, ...args
