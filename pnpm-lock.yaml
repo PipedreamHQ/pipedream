@@ -1673,7 +1673,10 @@ importers:
       lodash: 4.17.21
 
   components/contact_enhance:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/content_snare:
     specifiers:
@@ -2057,7 +2060,10 @@ importers:
     specifiers: {}
 
   components/diffbot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/diffchecker:
     specifiers:
@@ -5879,6 +5885,12 @@ importers:
   components/pendo:
     specifiers: {}
 
+  components/people_data_labs:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
+
   components/perry_github_test:
     specifiers: {}
 
@@ -7510,7 +7522,10 @@ importers:
     specifiers: {}
 
   components/similarweb_digitalrank_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/simple_analytics:
     specifiers: {}
