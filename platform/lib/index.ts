@@ -4,6 +4,10 @@ import axios, { transformConfigForOauth } from "./axios";
 import { AxiosRequestConfig as AxiosConfig } from "axios";
 
 export {
+  JsonValue,
+} from "type-fest";
+
+export {
   axios, transformConfigForOauth,
 };
 export {
@@ -13,6 +17,10 @@ export {
 export {
   ConfigurationError,
 } from "./errors";
+
+export {
+  default as sqlProp,
+} from "./sql-prop";
 
 export {
   default as sqlProxy,
