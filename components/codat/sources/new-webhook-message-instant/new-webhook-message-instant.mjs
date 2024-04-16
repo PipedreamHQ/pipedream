@@ -1,14 +1,16 @@
 import codat from "../../codat.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "codat-new-webhook-message-instant",
   name: "New Webhook Message (Instant)",
   description: "Emit new event when a specified event type is produced by Codat. [See the documentation](https://docs.codat.io/platform-api#/operations/create-webhook-consumer)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     codat,
+    db: "$.service.db",
     http: {
       type: "$.interface.http",
       customResponse: true,
@@ -56,14 +58,20 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
-    generateMeta() {
-
+    generateMeta(body) {
+      return {
+        id: body.AlertId,
+        summary: body.Message,
+        ts: Date.now(),
+      };
     },
   },
-  async run(event) {
+  async run({ body }) {
     this.http.respond({
       status: 200,
     });
-    console.log(event);
+    const meta = this.generateMeta(body);
+    this.$emit(body, meta);
   },
+  sampleEmit,
 };
