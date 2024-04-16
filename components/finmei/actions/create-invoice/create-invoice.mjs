@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { INVOICE_TYPES } from "../../common/constants.mjs";
 import finmei from "../../finmei.app.mjs";
+import { parseAsJSON } from "../../common/utils.mjs";
 
 export default {
   key: "finmei-create-invoice",
@@ -63,16 +64,15 @@ export default {
   async run({ $ }) {
     let products, buyer;
     try {
-      products = this.products.map(JSON.parse);
+      const value = parseAsJSON(this.products);
+      products = value.map(parseAsJSON);
     } catch (e) {
       throw new ConfigurationError(
         `Error parsing JSON value in \`Product(s)\` prop as JSON: \`${e}\``,
       );
     }
     try {
-      buyer = typeof this.buyer === "string"
-        ? JSON.parse(this.buyer)
-        : this.buyer;
+      buyer = parseAsJSON(this.buyer);
     } catch (e) {
       throw new ConfigurationError(
         `Error parsing JSON value in \`Product(s)\` prop as JSON: \`${e}\``,
