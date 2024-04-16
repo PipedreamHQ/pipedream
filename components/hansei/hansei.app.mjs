@@ -4,11 +4,50 @@ export default {
   type: "app",
   app: "hansei",
   propDefinitions: {
-    url: {
+    botId: {
       type: "string",
-      label: "Webpage URL",
-      description: "The URL of the webpage you want to extract content from",
+      label: "Bot ID",
+      description: "Identifier of a bot",
+      async options() {
+        const bots = await this.listBots();
+        return bots?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    collectionIds: {
+      type: "string[]",
+      label: "Collection IDs",
+      description: "The collections to which this source belongs",
+      async options() {
+        const collections = await this.listCollections();
+        return collections?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    conversationId: {
+      type: "string",
+      label: "Conversation ID",
+      description: "Conversation Id provides the bot with additional context of last few messages to answer the question. A new Conversation Id is created when it is not provided.",
       optional: true,
+      async options({ botId }) {
+        const conversations = await this.listConversations({
+          botId,
+        });
+        return conversations?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     metadata: {
       type: "object",
@@ -36,55 +75,59 @@ export default {
     _baseUrl() {
       return "https://api.hansei.app/public/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this, path, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "X-API-KEY": this.$auth.api_key,
+          "Content-Type": "application/json",
         },
       });
     },
-    async addWebpageToKnowledgeBase({
-      url, metadata,
+    listBots(opts = {}) {
+      return this._makeRequest({
+        path: "/bots",
+        ...opts,
+      });
+    },
+    listCollections(opts = {}) {
+      return this._makeRequest({
+        path: "/collections",
+        ...opts,
+      });
+    },
+    listConversations({
+      botId, ...opts
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/webpagesource",
-        data: {
-          url,
-          metadata,
-        },
+        path: `/bots/${botId}/conversations`,
+        ...opts,
       });
     },
-    async getAnswerToQuestion({ question }) {
+    addWebpage(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/sendmessage",
-        data: {
-          question,
-        },
+        path: "/sources/webpage",
+        ...opts,
       });
     },
-    async uploadFileToKnowledgeBase({
-      file, filetype,
-    }) {
+    getAnswerToQuestion(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/uploadsource",
-        data: {
-          file,
-          filetype,
-        },
+        path: "/messages",
+        ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    uploadFile(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/sources/upload",
+        ...opts,
+      });
     },
   },
 };
