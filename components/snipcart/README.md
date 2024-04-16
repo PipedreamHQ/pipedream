@@ -1,25 +1,11 @@
 # Overview
 
-The Snipcart API offers a powerful and versitile way to build ecommerce
-functionality into your web applications. With its RESTful API, it offers an
-intuitive way to add shopping cart and payment processing capabilities.
+Snipcart is a developer-centric e-commerce solution designed to be easily embedded into any website. With the Snipcart API, you gain the ability to automate cart and checkout operations, manage products, retrieve order details, update inventory, and handle customers. The flexibility of this API opens doors to enhancing e-commerce workflows, including real-time inventory management, order processing, and personalized customer engagement.
 
-Snipcart is also great for creating a custom user experience for customers.
-With its flexibility and customization options, you can use Snipcart to provide
-your users with tailored uses for their shopping experience. Here are just some
-of the things you could build with Snipcart:
+# Example Use Cases
 
-- Create an interactive ecommerce website with product pages and checkout
-  processes
-- Build a customized product database with easy search and filtering options
-- Have the ability to take orders and payments quickly
-- Define shipping rules and implementations
-- Add discounts and coupons to encourage customer loyalty
-- Allow customers to track their orders
-- Set up secure payment methods and payment gateways
-- Integrate your payment system with other third-party services
-- Create multiple languages, currencies, and payment options
-- Integrate with other API systems to enable automatic inventory tracking and
-  management
-- Create customer segmentation rules to target specific customers
-- Create custom thank you pages after each purchase
+- **Order Fulfillment Automation**: Automate the order fulfillment process by integrating Snipcart with a shipping service like Shippo. When a new order is placed in Snipcart, trigger a workflow in Pipedream that automatically creates a new shipment in Shippo, prints shipping labels, and updates the order status in Snipcart.
+
+- **Real-Time Inventory Sync**: Keep inventory levels in sync across multiple platforms. When a product's stock changes in Snipcart, use Pipedream to reflect those changes in an external inventory management system or another sales channel like Shopify, ensuring accurate stock counts and preventing overselling.
+
+- **Post-Purchase Customer Engagement**: Strengthen customer relationships with post-purchase communication. After an order is completed, trigger a Pipedream workflow that sends personalized follow-up emails via SendGrid, requests feedback, or enrolls customers in a rewards program, enriching the overall customer experience.
