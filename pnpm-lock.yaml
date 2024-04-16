@@ -71,6 +71,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/_2markdown:
+    specifiers: {}
+
   components/_46elks:
     specifiers:
       '@pipedream/platform': ^1.6.0
