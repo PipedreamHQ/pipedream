@@ -1,26 +1,11 @@
 # Overview
 
-The Yanado API is a powerful tool that enables developers to build custom
-project, task and relationship management solutions quickly and easily. By
-integrating it into your existing application, you can vastly improve overall
-productivity. Here are some of the useful applications you can create:
+Yanado turns your Gmail into a powerful collaboration tool, allowing you to manage tasks and projects directly within your inbox. With the Yanado API, you can automate task creation, project management, task updates, and notifications, syncing your email activities with project workflows. Pipedream's platform empowers you to integrate Yanado with a myriad of other apps, enabling seamless automation of complex workflows that bridge your email communications with task management, CRM updates, calendar scheduling, and more.
 
-- Automated project workflows: Automate repetitive project steps and processes,
-  assign tasks to team members and receive reminders as they finish their
-  tasks.
-- Resource management: Monitor, manage and update your team's time and
-  resources to optimize their performance.
-- Collaboration tools: Coordinate team collaboration, receive timely
-  notifications and customer feedback with the help of user friendly
-  collaboration tools.
-- Reporting & visuals: Generate automated reports with real-time data visuals,
-  analyze and review current project metrics with easy to interpret visuals.
-- Custom fields & rules: Customize the Yanado API to match specific business
-  needs, create custom rules and monitor their success.
-- API integrations: Connect the Yanado API to popular third-party apps to
-  further extend its functionality.
-- Scheduling & tracking: Automate and track critical schedules, tasks and
-  events quickly and easily with intuitive scheduling components.
+# Example Use Cases
 
-With the Yanado API, you can expect to build custom solutions faster and with
-greater ease. So start building your application today!
+- **Email to Task Conversion**: When you receive an email from a new client, Pipedream can automatically create a task in Yanado. Link this to CRM software like Salesforce or HubSpot; when an email is tagged with "new-client", Pipedream creates a new client profile in your CRM and schedules a follow-up task in Yanado.
+
+- **Project Status Updates**: Set up a workflow on Pipedream where updates to tasks in Yanado trigger notifications in Slack. When a task reaches a certain status, such as "In Review", Pipedream sends a message to the designated Slack channel, keeping the team informed without leaving their workspace.
+
+- **Automated Task Prioritization**: Connect Yanado to Google Calendar via Pipedream, so when a meeting is scheduled that pertains to a specific project, a high-priority task is automatically created in Yanado. This ensures that action items from meetings are captured and prioritized correctly, without manual input.
