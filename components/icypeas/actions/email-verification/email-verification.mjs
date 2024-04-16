@@ -1,5 +1,4 @@
 import icypeas from "../../icypeas.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "icypeas-email-verification",
@@ -9,13 +8,21 @@ export default {
   type: "action",
   props: {
     icypeas,
-    email: icypeas.propDefinitions.email,
+    email: {
+      propDefinition: [
+        icypeas,
+        "email",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.icypeas.verifyEmail({
-      email: this.email,
+      $,
+      data: {
+        email: this.email,
+      },
     });
-    $.export("$summary", `Email verification status for ${this.email} retrieved successfully`);
+    $.export("$summary", `Email verification status for ${this.email} retrieved successfully!`);
     return response;
   },
 };
