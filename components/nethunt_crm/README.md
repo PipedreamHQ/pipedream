@@ -1,19 +1,11 @@
 # Overview
 
-NetHunt CRM API is a powerful tool that lets you build custom applications on
-top of the NetHunt CRM platform. With the API, you can access data stored in
-NetHunt CRM, including contacts, tasks, notes, deals, and more. You can also
-use the API to create custom applications that interact with NetHunt CRM data.
+The NetHunt CRM API provides powerful access to manage customer relationship data programmatically. With this API and Pipedream, you can automate tasks, synchronize customer data across platforms, trigger communications based on customer interactions, and much more. Pipedream's serverless execution model and vast library of app integrations open up a myriad of possibilities for streamlining sales processes and enhancing customer engagement by automating the flow of information between NetHunt CRM and other business tools.
 
-The NetHunt CRM API is a REST API, so it can be used with any programming
-language that supports making HTTP requests. In addition, the NetHunt CRM API
-is fully documented, so you can easily find the information you need to get
-started.
+# Example Use Cases
 
-Here are some examples of what you can build with the NetHunt CRM API:
+- **Lead Qualification Automation**: Automatically qualify and score leads in NetHunt CRM based on data from web forms submitted through Typeform. When a prospect fills out a contact form, the workflow can enrich the lead data with additional information, score the lead based on predefined criteria, and update the lead status in NetHunt CRM for immediate follow-up by the sales team.
 
-- A custom contact manager that displays data from NetHunt CRM in a custom way
-- A task manager that lets you view and manage tasks from NetHunt CRM
-- A deal tracker that lets you see which deals are close to being won
-- A custom report that displays data from NetHunt CRM in a custom way
-- A custom application that interacts with NetHunt CRM data in some way
+- **Customer Support Ticket Creation**: Create a support ticket in Zendesk whenever a new conversation is started by a customer in NetHunt CRM. This workflow can also include fetching relevant customer data from NetHunt CRM to provide context within the Zendesk ticket, ensuring that support agents have all the information they need to assist the customer efficiently.
+
+- **Automated Data Sync Between CRM and Newsletter Service**: Sync contact updates from NetHunt CRM to a Mailchimp list, ensuring that email marketing campaigns are always targeting the most current customer information. This workflow can be designed to trigger whenever a contact is updated or added in NetHunt CRM, automatically updating subscriber details or adding new subscribers to designated Mailchimp audience lists.
