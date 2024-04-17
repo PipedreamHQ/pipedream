@@ -1,16 +1,11 @@
 # Overview
 
-# What can be Built with the Pipedrive API?
+Pipedrive API on Pipedream allows you to create powerful sales automation and data management workflows. With access to Pipedrive's CRM capabilities, you can automate deal updates, contact management, and sales reporting. Whether you're syncing customer information across platforms or triggering actions based on deal stages, Pipedream makes these integrations seamless.
 
-The Pipedrive API is a powerful source of data that allows developers to build custom applications and integrations that can "plug-and-play" into the back-end of Pipedrive. With a few lines of code, developers can create amazing ways to use Pipedrive's data for productivity and success. Here are a few examples of what can be done with the Pipedrive API:
+# Example Use Cases
 
-1. Automate the addition of leads into the back-end of Pipedrive from other sources such as Salesforce, or other 3rd party applications.
-2. Customize new views and filters for managing deals and activities.
-3. Integrate with other platforms to build custom reports and insights.
-4. Develop custom modules such as invoice generation and payment processing.
-5. Create custom tasks, reminders, and notifications that sync with other tools and platforms.
-6. Automate the creation of tasks and activities based on arbitrary criteria.
-7. Monitor and track changes that happen within Pipedrive with webhooks.
-8. Create dynamic logic-driven processes with automated decision making.
-9. Create custom dashboards and data visualizations to get an overview of the business performance.
-10. Automatically export data to other cloud-based services such as Google Drive, Dropbox, or other cloud-based applications.
+- **Lead Scoring and Distribution**: Automatically score leads based on activity and distribute them to the appropriate sales reps. When a new deal is added to Pipedrive, an automated workflow can assign a score based on predefined criteria and assign the lead to a rep in your sales team.
+
+- **Email Campaign Follow-Up**: After an email campaign, use Pipedrive's API to track responses and engagement. Create workflows to update deal status or move deals to the next stage when a prospect interacts with an email, ensuring timely follow-ups.
+
+- **Syncing with Marketing Platforms**: Keep your sales and marketing teams aligned by syncing Pipedrive contacts with a platform like Mailchimp. When a contact is updated in Pipedrive, a workflow can trigger an update in Mailchimp, ensuring both platforms have the most current information.

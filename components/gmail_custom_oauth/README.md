@@ -1,5 +1,6 @@
 # Overview
-By connecting your personal Gmail account to Pipedream, you'll be able to incorporate email into whatever you're building with any of the 900+ apps that are available on Pipedream.
+With the Gmail (Developer App) API on Pipedream, you can automate a variety of email-related tasks, directly manipulating your Gmail account to streamline workflows. From sending emails programmatically to parsing new inbound messages for data extraction, the API allows for deep interaction with your Gmail inbox. Use cases include automating follow-ups, organizing your inbox with filters and labels, and synchronizing important email events with other services to act upon new information instantly.
+
 
 # Getting Started
 
@@ -96,6 +97,14 @@ Google has a [7 day expiration window](https://developers.google.com/identity/pr
 ![Publish your application](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.06_AM_lve7wq.png)
 
 ![Confirmation of changes](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.18_AM_mndtyc.png)
+
+# Example Use Cases
+
+- **Email Digest Aggregator**: Collect and send a daily digest email of all the new messages from a specific label or search query. This could integrate with Slack, sending a summary message to a designated channel every morning.
+
+- **Customer Support Auto-Responder**: Instantly acknowledge incoming support requests by triggering an auto-response email. This workflow can be enhanced by using sentiment analysis via an AI service to categorize the urgency of the request.
+
+- **Invoice Processing**: Detect emails with invoices attached, extract relevant data, and input it into an accounting app like QuickBooks. Upon receipt, the workflow can also send back a confirmation email to the sender.
 
 # Troubleshooting
 **Application disconnects after 7 days**<br>

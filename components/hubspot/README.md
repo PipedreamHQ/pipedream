@@ -1,6 +1,6 @@
 # Overview
 
-The Pipedream HubSpot app enables you to build event-driven workflows that interact with the HubSpot API. We have a variety of pre-built triggers and actions that don't require any code to configure.
+HubSpot's API opens a world of CRM automation opportunities, interfacing directly with customer data, marketing campaigns, sales pipelines, and service tickets. On Pipedream, you can tap into this wellspring of data and harness HubSpot's capabilities for personalized workflows, syncing data across platforms, triggering actions based on customer interactions, and refining sales and marketing strategies through real-time analytics.
 
 # Getting Started
 
@@ -32,3 +32,11 @@ Please see the [Pipedream Privacy Policy](https://pipedream.com/privacy) for a d
 ## Troubleshooting
 
 Please [reach out](https://pipedream.com/support/) to the Pipedream team with any technical issues or questions about the HubSpot integration. We're happy to help!
+
+# Example Use Cases
+
+- **Lead Scoring and Segmentation**: Enhance leads automatically by pulling in enrichment data from external sources and categorizing them in HubSpot. Use customer interaction data from social media or support platforms to adjust lead scores and segment leads into appropriate marketing campaigns within HubSpot.
+
+- **Automated Ticketing and Support**: Create a workflow where new support queries on HubSpot trigger the creation of tickets in a tool like Zendesk. The workflow can also update the customer record in HubSpot with the ticket information, ensuring the sales team has visibility into customer issues.
+
+- **Syncing Contacts with Email Platforms**: Set up a bi-directional sync between HubSpot and email marketing platforms like Mailchimp. When a contact is updated in HubSpot, it triggers an update in Mailchimp and vice versa. This keeps mailing lists current and enables targeted campaign efforts based on the most relevant data.
