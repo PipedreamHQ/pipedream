@@ -74,7 +74,7 @@ export default {
         path: `/location/${locationId}/details`,
       });
     },
-    async getLocationReviews({
+    getLocationReviews({
       locationId, ...args
     }) {
       return this._makeRequest({
