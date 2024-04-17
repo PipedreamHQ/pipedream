@@ -22,5 +22,28 @@ export default {
         ...otherOpts,
       });
     },
+    async createContact(args) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/contacts",
+        ...args,
+      });
+    },
+    async updateContact({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/contacts/${contactId}`,
+        ...args,
+      });
+    },
+    async upsertContact(args) {
+      return this._makeRequest({
+        method: "POST",
+        url: "/contacts/upsert",
+        ...args,
+      });
+    },
   },
 };
