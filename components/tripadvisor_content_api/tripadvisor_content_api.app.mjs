@@ -50,7 +50,7 @@ export default {
     _baseUrl() {
       return "https://api.content.tripadvisor.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
         path,
