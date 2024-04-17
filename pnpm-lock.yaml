@@ -1546,7 +1546,10 @@ importers:
     specifiers: {}
 
   components/code_climate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/codegpt:
     specifiers: {}
