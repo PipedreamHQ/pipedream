@@ -1,16 +1,9 @@
 # Overview
-By connecting your personal Gmail account to Pipedream, you'll be able to incorporate email into whatever you're building with any of the thousands of apps that are available on Pipedream.
 
-# Getting Started
+The Gmail API provides a versatile set of endpoints for interacting with Gmail accounts, enabling the automation of email management tasks such as sending emails, reading incoming messages, and modifying labels. With its functionality exposed via Pipedream's serverless platform, you can craft workflows that react to new messages, programmatically send emails based on triggers from other apps, and organize your inbox without writing a single line of server-side code. Pipedream turns these capabilities into an automation powerhouse, easily connecting Gmail with hundreds of other services.
 
-To connect your Gmail account to Pipedream, just accept the prompt when connecting your Gmail account.
+# Example Use Cases
 
-## What's the difference between the **Gmail** app and the **Gmail Developer App**?
-
-Google requires integration platforms such as Pipedream, to restrict the scopes users can enable for Gmail, in order to regulate the ability of users to build workflows and connect applications.
-
-Currently, the **Gmail** app on Pipedream is limited to only sending emails on behalf of your Gmail email address associated with this app.
-
-However, the **Gmail Developer App** is unrestricted because you have the ability to control the scopes through creating your own Google Cloud Project.
-
-Because you can define your own scopes, you can read and write emails with your own Google Cloud Project. To learn how to create and authenticate a **Gmail Developer App** read [our setup guide](https://pipedream.com/apps/gmail-custom-oauth).
+- **Email Digest Creation**: Aggregate emails received over a certain period, label them, and send a consolidated digest to a specified address. Useful for summarizing important notifications or project updates.
+- **Customer Support Ticketing**: On receiving an email with a specific subject line or from a certain domain, create a ticket in a customer support platform like Zendesk. This bridges email communication directly into your support workflow.
+- **Email-to-Slack Notifications**: Forward specific emails or email categories from Gmail to a designated Slack channel. Ideal for team alerts, such as when an important client sends a message or when there's an email marked as 'urgent'.

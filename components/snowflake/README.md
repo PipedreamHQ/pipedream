@@ -1,23 +1,11 @@
 # Overview
 
-Snowflake offers a cloud database and related tools to help developers create robust, secure, and scalable data warehouses. See Snowflake's [Key Concepts & Architecture](https://docs.snowflake.com/en/user-guide/intro-key-concepts.html).
+The Snowflake API on Pipedream allows you to orchestrate and automate data operations in Snowflake's Data Cloud. You can execute SQL queries, manage data pipelines, and integrate data analytics seamlessly within workflows. The API empowers you to create sophisticated, event-driven processes that respond in real-time, making it possible to leverage Snowflake's powerful computing capabilities in conjunction with diverse services and APIs available through Pipedream.
 
-## Getting Started
+# Example Use Cases
 
-### 1. Create a user, role and warehouse in Snowflake
+- **Real-Time Data Syncing with Salesforce**: Execute SQL statements in Snowflake to transform and load new or updated Salesforce records. Whenever a Salesforce record is created or updated, trigger a workflow on Pipedream that processes the data and syncs it to Snowflake, ensuring your datasets are always current.
 
-Snowflake recommends you create a new user, role, and warehouse when you integrate a third-party tool like Pipedream. This way, you can control permissions via the user / role, and separate Pipedream compute and costs with the warehouse. You can do this [directly in the Snowflake UI](https://docs.snowflake.com/en/user-guide/ui-snowsight-admin.html).
+- **Slack Alerts for Query Results**: Set up a workflow that runs a Snowflake query on a schedule, then processes the results and sends a summary or alert to a Slack channel if certain conditions are met. This is useful for monitoring business metrics and KPIs, or for alerting teams to anomalies in real-time.
 
-**We recommend you [create a read-only account](https://docs.snowflake.com/en/user-guide/organizations-manage-accounts.html) if you only need to query Snowflake**. If you need to insert data into Snowflake, add permissions on the appropriate objects after you create your user.
-
-### 2. Enter those details in Pipedream
-
-Visit [https://pipedream.com/accounts](https://pipedream.com/accounts). Click the button to **Connect an App**. Enter the required Snowflake account data.
-
-You'll only need to connect your account once in Pipedream. You can connect this account to multiple workflows to run queries against Snowflake, insert data, and more.
-
-### 3. Build your first workflow
-
-Visit [https://pipedream.com/new](https://pipedream.com/new) to build your first workflow. Pipedream workflows let you connect Snowflake with 1,000+ other apps. You can trigger workflows on Snowflake queries, sending results to Slack, Google Sheets, or any app that exposes an API. Or you can accept data from another app, transform it with Python, Node.js, Go or Bash code, and insert it into Snowflake.
-
-Learn more at [Pipedream University](https://pipedream.com/university).
+- **Automated Data Backup to S3**: Trigger a workflow to export data from Snowflake tables or views to an S3 bucket at regular intervals. This can serve as an automated backup solution or be part of a larger data archival strategy, ensuring your data is safe and replicable outside of Snowflake's environment.

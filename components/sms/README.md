@@ -1,27 +1,11 @@
 # Overview
 
-Use Pipedream's SMS app to send a message from a workflow to the [verified phone number for your account](https://pipedream.com/settings) and incorporate SMS into whatever you're building with any of the 1000+ apps that are available on Pipedream. Use the pre-built action to send an SMS without writing any code, or for more control pass a string to `$.send.sms()` in a Node.js code step.
+The SMS API on Pipedream allows you to send and manage text messages programmatically. With this capability, you can craft workflows that automate communication with customers, alert staff in real-time, or integrate SMS notifications into your existing systems. By leveraging Pipedream's robust platform, you can trigger SMS actions based on a variety of events from different services, streamlining processes that depend on quick and reliable messaging.
 
-**Important:** Pipedream SMS is currently in alpha. You may send up to 10 messages per day from workflows in a personal account (organization accounts are not currently supported).
+# Example Use Cases
 
-# Getting Started
+- **Customer Appointment Reminders**: Streamline the process of reminding customers about their appointments. Connect the SMS API with a calendar service like Google Calendar. When a scheduled appointment is approaching, the workflow triggers an SMS reminder to the customer, reducing no-shows.
 
-## Adding an SMS number
+- **Real-time Stock Alerts**: Create a workflow that monitors stock prices using a financial data source, such as the Yahoo Finance API. When a stock hits a specific threshold, an SMS alert is sent to subscribers, allowing them to make timely investment decisions.
 
-To get started, go to <https://pipedream.com/alpha> and enable the SMS feature.
-
-Next, go to your [account settings](https://pipedream.com/settings) and enter and save an **SMS Number** (only US numbers are supported):
-
-![Enter an SMS number](https://res.cloudinary.com/pipedreamin/image/upload/v1663724994/marketplace/apps/sms/sms-account-settings_uhsvqa.png)
-
-![Save an SMS number](https://res.cloudinary.com/pipedreamin/image/upload/v1663724994/marketplace/apps/sms/sms-account-settings-save-phone-number_gfiwm9.png)
-
-Pipedream will automatically send a verification code to the number you provided. Enter the code where prompted and click **Verify**:
-
-![Verify your number](https://res.cloudinary.com/pipedreamin/image/upload/v1663724994/marketplace/apps/sms/sms-account-settings-verify_zsbjqt.png)
-
-Finally, add a step to a workflow to use the pre-built action to send an SMS without writing any code, or for more control pass a string to `$.send.sms()` in a Node.js code step.
-
-## Removing an SMS number
-
-To remove an SMS number, go to your account settings, delete the number from the field and then save.
+- **Order Confirmation and Shipping Updates**: Improve e-commerce experiences by integrating the SMS API with Shopify. Automatically send an order confirmation text after a purchase and follow-up with shipping updates, keeping customers informed every step of the way.

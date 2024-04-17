@@ -1,18 +1,11 @@
 # Overview
 
-# What You Can Build with Pizzly 🍕
+Pizzly is a feature-rich API integration tool simplifying the OAuth dance for developers. It manages the headache of dealing with API authentication, providing a seamless way to connect with various APIs. By leveraging Pizzly on Pipedream, you can automate interactions with multiple services, such as syncing data between apps, automating social media posts, or aggregating analytics from different platforms. Pipedream’s low-code environment empowers you to create complex workflows by connecting Pizzly-authenticated APIs with other Pipedream-supported services.
 
-Pizzly is an API integration platform that helps developers connect to any app or service through easy, secure, and real-time integration. With Pizzly, developers can connect various services to create powerful integrations and automation, streamlining processes and creating a more productive and effective workflow.
+# Example Use Cases
 
-Here are some examples of what you can build with Pizzly:
+- **Automated Data Syncing Between CRMs**: Use Pizzly to authenticate to CRM platforms like HubSpot or Salesforce, then set up a Pipedream workflow to sync contact information between them in real-time. This can ensure that your sales teams across different divisions have the same data without manual updates.
 
-- Automatically create new users in your app from Slack
-- Connect to external services to send out personalized emails, texts, and notifications
-- Create automated customer support using A.I. bots
-- Automatically sync customer data between two or more services
-- Create a unified dashboard for reporting and analytics
-- Build automated customer follow-ups and onboarding schedules
-- Connect data analytics services to generate customer insights
-- Automatically synchronize customer reviews across various services
-- Create data pipelines to analyze customer sentiment and sentiment changes over time
-- Automate customer journey marketing
+- **Social Media Management Automation**: With Pizzly handling the authentication, you can build a Pipedream workflow to automate social media postings across platforms like Twitter, LinkedIn, and Facebook. When a new blog post is published on your CMS, trigger a flow that shares this content across your social accounts, keeping your audience engaged without manual effort.
+
+- **Consolidated Analytics Reporting**: Connect Pizzly to various analytics services like Google Analytics and Mixpanel. Use Pipedream to orchestrate a workflow that collects key metrics from each service, consolidates the data, and generates a comprehensive report delivered to your email or a Slack channel on a daily or weekly schedule.
