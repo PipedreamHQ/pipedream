@@ -22,6 +22,26 @@ export default {
         }));
       },
     },
+    contactId: {
+      type: "string",
+      label: "Contact ID",
+      description: "Search for a contact or provide a custom contact ID",
+      useQuery: true,
+      async options({ query }) {
+        const { contacts } = await this.searchContacts({
+          params: {
+            query,
+            limit: 100,
+          },
+        });
+        return contacts?.map(({
+          id, name, email,
+        }) => ({
+          label: name ?? email ?? id,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -61,6 +81,12 @@ export default {
       return this._makeRequest({
         method: "POST",
         url: "/contacts/upsert",
+        ...args,
+      });
+    },
+    async searchContacts(args) {
+      return this._makeRequest({
+        url: "/contacts",
         ...args,
       });
     },
