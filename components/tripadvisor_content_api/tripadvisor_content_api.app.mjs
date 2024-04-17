@@ -66,7 +66,7 @@ export default {
         },
       });
     },
-    async getLocationDetails({
+    getLocationDetails({
       locationId, ...args
     }) {
       return this._makeRequest({
