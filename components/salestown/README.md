@@ -1,36 +1,11 @@
 # Overview
 
-The Salestown API provides a powerful set of tools to help developers build
-sophisticated, feature-rich applications quickly and easily. With this API, it
-is possible to create customized web and mobile apps with powerful features,
-such as:
+The Salestown API enables automation around retail management, allowing you to streamline inventory, sales, and customer data processes. By leveraging Pipedream's serverless platform, you can create workflows that respond to events in Salestown in real-time, connect to hundreds of other services, and process data without managing servers. Use cases may range from syncing inventory levels with an eCommerce store to automating customer outreach after a purchase.
 
-- Social media integration
-- Mobile commerce
-- Data visualization
-- Automated marketing
-- Personalization
-- Location-based searches
-- Payment integration
-- Custom checkout forms
+# Example Use Cases
 
-These are some of the amazing things that can be built with the Salestown API:
+- **Inventory Level Syncing**: Automatically update the stock levels on your Shopify store whenever a sale is recorded in Salestown. This ensures that your online and physical inventories are in sync, reducing the risk of overselling products that are no longer in stock.
 
-- Online stores - Create online stores with marketplaces, payment gateways, and
-  other ecommerce features.
-- Auction sites - Develop auction sites with rich features like multiple
-  payment options, discounts and promotions.
-- Customized dashboards - Create data-driven dashboards with visualizations and
-  analytics.
-- User profiles - Design custom user profiles with ratings, reviews,
-  recommendations and more.
-- Chatbots - Build chatbots that can engage visitors, answer questions and
-  provide support.
-- API-driven applications - Develop API-driven applications that allow users to
-  access data from different sources.
-- Online marketplaces - Build online marketplaces with listing and search
-  functionality.
-- Community websites - Create community websites with discussion forums, polls
-  and other social features.
-- Mobile apps - Develop mobile apps with features like push notifications,
-  in-app purchases and much more.
+- **Customer Satisfaction Surveys**: Trigger an email survey to a customer using SendGrid after a purchase is completed in Salestown. Gain insights into your customer service and product satisfaction, and use this data to improve your offerings.
+
+- **Sales Data Analysis and Reporting**: On a scheduled basis, aggregate your sales data from Salestown and send it to a Google Sheets spreadsheet. Use this to analyze sales trends, generate reports, and forecast inventory needs without manual data entry.

@@ -1,24 +1,11 @@
 # Overview
 
-Tookan is an API that enables developers to create powerful applications that
-enable businesses to automate their operations and enable customers to have
-greater control over their orders. The Tookan API provides a range of features,
-including task scheduling, order tracking and monitoring, customer
-notifications and more, that allow businesses to better manage their workflow
-and customer service. Here is a list of some of the things you can build using
-the Tookan API:
+The Tookan API allows for the automation and streamlining of delivery and field services. By integrating with Pipedream, users can trigger workflows based on events within Tookan, such as new task creation, task status updates, or agent alerts. This enables businesses to connect Tookan with other apps and services, automating notifications, data synchronization, and logistics operations, leading to improved coordination, customer satisfaction, and operational efficiency.
 
-- Delivery Management Applications – Automate the scheduling, tracking, and
-  completion of delivery services.
-- Mobile Apps – Create task-tracking applications that send notifications to
-  customers and employees.
-- Logistics Management Software – Create software that allows businesses to
-  track their shipment, delivery, and customer information.
-- Maintenance Service Applications – Create applications to manage the
-  scheduling and tracking of maintenance services.
-- Geolocation Services – Create location-based services to allow customers to
-  track their deliveries and deliveries to be tracked in real-time.
-- Fleet Management Systems – Create applications that enable businesses to
-  manage and monitor their fleet operations.
-- Task Management Systems – Create applications that manage tasks and track
-  customer communications.
+# Example Use Cases
+
+- **Task Completion to Customer SMS Notification**: When a delivery task is marked as completed in Tookan, trigger a workflow on Pipedream that sends an SMS to the customer via Twilio, informing them of the delivery completion.
+
+- **New Tookan Task to Google Calendar Event**: For every new task created in Tookan, use Pipedream to create a corresponding event in Google Calendar, helping to keep track of deliveries or service appointments in a shared calendar.
+
+- **Tookan Agent GPS Update to Slack Notification**: Each time an agent's GPS location is updated in Tookan, trigger a Pipedream workflow that sends a real-time notification to a Slack channel, providing live updates on agent location for improved team awareness and coordination.

@@ -1,19 +1,11 @@
 # Overview
 
-The Freshstatus API allows developers to integrate Freshstatus into their
-applications, enabling them to create, update, and manage their Freshstatus
-account data. With the Freshstatus API, developers can manage:
+Freshstatus by Freshworks is an API that lets you manage incident updates and maintenance events for your services. With it, you can communicate real-time status to your users, schedule maintenance windows, and keep a pulse on your system's health, all programmatically. When integrated with Pipedream, Freshstatus becomes even more powerful, allowing you to automate status updates, sync with your monitoring tools, and trigger notifications across various platforms.
 
-- Users
-- Organizations
-- Services
-- Incidents
-- Maintenance windows
+# Example Use Cases
 
-Example applications that can be built using the Freshstatus API include:
+- **Incident Alerting through Communication Channels**: Set up a workflow that triggers an alert on Slack, Teams, or Discord when a new incident is reported or an existing one is updated in Freshstatus. This keeps your team immediately informed and can speed up response times.
 
-- A Freshstatus client for a desktop or mobile application
-- A Freshstatus integration for a third-party ticketing system
-- A Freshstatus dashboard for displaying status information
-- A Freshstatus widget for a website or blog
-- A Freshstatus bot for a chat application
+- **Scheduled Maintenance Reminder**: Create a workflow that sends a reminder email to your customers a day before a scheduled maintenance. Use the Freshstatus API to fetch upcoming maintenances and connect to an email service like SendGrid to automate the notification process.
+
+- **Status Sync with Monitoring Tools**: Integrate Freshstatus with a monitoring tool like Datadog or Uptime Robot using Pipedream. When the monitoring tool detects downtime or issues, it automatically updates the status on Freshstatus, ensuring your status page reflects the most current information.

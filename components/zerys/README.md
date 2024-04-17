@@ -1,28 +1,11 @@
 # Overview
 
-The Zerys API is a powerful software development platform that can be used to
-create a variety of applications. With Zerys, developers can create innovative
-software Tools, Applications and APIs (Application Programming Interfaces)
-tailored to specific needs.
+The Zerys API offers a platform for content marketing and production, enabling programmatic interactions with Zerys content services. With Pipedream, you can automate content ordering, manage projects, and streamline the content creation pipeline by integrating with other business tools. This API could be a powerhouse for those looking to automate their content operations, ensuring consistent quality and timely delivery.
 
-Zerys provides businesses with a fast and reliable cloud platform for creating
-high quality software solutions at scale. The platform supports a wide range of
-well-defined and intuitive APIs that make integrating applications with other
-services and products effortless. Zerys provides a comprehensive set of tools
-for quickly designing, building, and testing new applications.
+# Example Use Cases
 
-Furthermore, Zerys enables developers to rapidly deploy hosted applications
-using fully-managed services, allowing businesses to take advantage of the
-latest technologies quickly and efficiently.
+- **Content Request Automation**: Automate the process of requesting new content as soon as your inventory drops below a certain threshold. Trigger a Zerys API call to create a new content project when a stock management system, like Shopify, indicates you need more content for product descriptions or blog posts.
 
-Below are a few examples of what you can create using the Zerys API:
+- **Project Management Sync**: Sync Zerys projects with project management tools like Trello or Asana. Whenever a new task is added in these tools that requires content creation, trigger a workflow to create a corresponding content order in Zerys, keeping your project plans and content needs aligned.
 
-- Content Management Systems
-- Social Media Tools
-- Mobile Applications
-- Custom Dashboards
-- Automation Workflows
-- Online Stores
-- Data Analysis Platforms
-- Interactivity Integrations
-- Serverless Applications
+- **Feedback Loop Integration**: After content is delivered through Zerys, automatically send it to a review platform like Google Docs or Grammarly. Once reviewed and approved, trigger an event to update the content status in Zerys and notify your team via Slack or email that the content is ready for publishing.

@@ -1,28 +1,11 @@
 # Overview
 
-The Quentn API offers a powerful platform to help you build custom applications
-and websites by using artificial intelligence (AI). The AI-based technology
-makes it easy to create automated processes and optimize customer engagement.
-With the Quentn API, you can develop applications that can automate customer
-support, provide personalized customer experiences, and create intelligent
-customer journeys. In addition, the Quentn API offers data analytics to help
-you measure and optimize the performance of your applications.
+Quentn is a marketing automation platform that enables users to streamline communication with their leads and customers. With the Quentn API on Pipedream, you can automate tasks like managing contacts, sending personalized emails, and triggering actions based on customer behaviors. It allows for a more targeted approach to marketing by engaging with your audience at critical points in the customer journey, all while saving time with automated workflows.
 
-The following is a list of some examples of applications you can build using
-the Quentn API:
+# Example Use Cases
 
-- Chatbots: Automate customer support, provide personalized product
-  recommendations, and manage customer inquiries.
-- Personalization Engines: Tailor customer engagement by delivering relevant
-  content, videos, product recommendations, and more.
-- Autoresponders: Set up automatic responses for specific customer inquiries or
-  requests.
-- Data Analytics: Analyze customer behavior and preferences to optimize user
-  experience and improve product performance.
-- Journeys: Automate customer journeys by integrating the Quentn API with
-  third-party tools and services.
-- Custom Applications: Build custom applications that use Quentn's AI-based
-  features.
-- Website Optimization: Optimize the design and performance of your website.
-- Machine Learning: Utilize machine learning to make decisions about customer
-  engagement.
+- **Automated Lead Scoring and Segmentation**: Use Quentn to track customer interactions and score leads based on activity. Combine this data with Pipedream's functionality to segment and transfer leads to different lists or CRMs, ensuring tailored follow-ups.
+
+- **Targeted Email Campaigns Triggered by User Behavior**: Set up a Pipedream workflow that listens for specific actions taken by users, like visiting a pricing page or downloading a white paper. Leverage Quentn's API to trigger an email sequence offering further information, discounts, or a personal consultation, pushing them further down the funnel.
+
+- **Customer Feedback and Reactivation Campaigns**: Implement a Pipedream workflow to monitor customer activity. Use Quentn to reach out with a feedback request survey after a purchase or to re-engage users who haven't interacted with your brand in a while with a special offer.

@@ -1,24 +1,11 @@
 # Overview
 
-Range can help you build great products by making it easy to store, version
-control, and collaborate on code and designs. The [Range API](https://range.co)
-is a powerful tool that you can use to build amazing products. Here are some
-examples of what you can build using Range's API:
+The Range API provides a platform for managing print shop operations, including job status tracking, quoting, invoicing, and scheduling. Leveraging Pipedream, users can automate workflows between Range and other apps, creating a seamless integration that boosts productivity. Whether it's syncing order details with a CRM, triggering notifications based on job status updates, or automating invoice creation, Pipedream acts as a conduit for connecting Range's print shop management capabilities with a myriad of other services.
 
-- A Visual Design Editor - You can use the Range API to build a graphical
-  editor for visual design. With the API, you can easily create and manipulate
-  complex layouts, fonts, colors, and more.
-- Version Control - The Range API makes it easy to store different versions of
-  an application, store code changes in multiple branches, and collaborate on
-  code.
-- Collaborative Workspaces - Create collaborative workspaces with the Range API
-  that can be used to share and collaborate on code, designs, and more.
-- A Knowledge Base - Easily create and manage a knowledge base where developers
-  and designers can go to answer questions and learn new skills.
-- Performance Monitoring - With the Range API, you can track the performance of
-  applications and services in real time.
-- Automation - Automate tedious development and design processes with the Range
-  API. You can create automated flows between core development and design
-  processes, such as code review and deployment.
-- Machine Learning - Use the Range API to build smarter applications by
-  integrating machine learning into the development and design processes.
+# Example Use Cases
+
+- **Automated Job Status Updates to Slack**: Use Pipedream to monitor changes in job statuses on Range and automatically send custom notifications to a Slack channel. This keeps teams informed in real-time about production flow without manual checks.
+
+- **Dynamic Invoice Generation with QuickBooks**: Configure a workflow where Pipedream listens for new completed jobs in Range and generates invoices in QuickBooks. This seamless connection ensures that accounting is updated without the need for manual data entry.
+
+- **CRM Synchronization with HubSpot**: Establish a Pipedream workflow that syncs new customer data from Range to HubSpot. Whenever a new order is placed, the customer's details are updated in the CRM, ensuring the sales team has the latest information for follow-ups and relationship management.

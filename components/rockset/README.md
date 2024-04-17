@@ -1,32 +1,11 @@
 # Overview
 
-Rockset API is a modern API for real-time query on complex data. With Rockset,
-you can build applications with routinely updated datasets, such as web traffic
-logs, machine generated data, sensor data, ad-tracking data, and IoT device
-data, to unlock real-time insights and actionability. In this article, we’ll
-discuss the various types of applications you can build with Rockset API.
+Rockset is a real-time indexing database service designed for low-latency, high-concurrency analytics. With the Rockset API, you can query your datasets, create and manage collections, and integrate with event streams for real-time analytics. Using Pipedream's serverless platform, you can automate workflows that react to database events, sync data across services, or trigger actions based on analytical insights.
 
-Rockset gives you the power to:
+# Example Use Cases
 
-- Quickly ingest and index data from a variety of sources such as Kafka,
-  MongoDB and Amazon S3.
-- Perform complex analytical queries regardless of data complexity, structure
-  and size.
-- Perform interactive computing on large volumes of data using SQL.
-- Build web or mobile applications with sophisticated analytics capabilities.
+- **Real-Time Dashboard Updates:** Couple Rockset with a web app service like Netlify to automatically deploy updates to your dashboards. When Rockset detects a significant data change or trend, a Pipedream workflow triggers a rebuild of your static site hosted on Netlify, ensuring your analytics dashboards reflect the latest insights.
 
-Here are some example applications you can build using Rockset API:
+- **Data Pipeline Orchestration:** Use Rockset in tandem with AWS Lambda to process and move large datasets. Set up a Pipedream workflow that listens for new data in Rockset collections, processes the data with a Lambda function, and then pipes it to another database or data warehouse like Amazon Redshift for long-term storage and complex querying.
 
-- Personalized Shopping Experiences: Leverage data from many customer
-  touchpoints, such as social media, web and app usage, customer support
-  tickets and customer reviews, to build personalized shopping experiences.
-- Automated Fraud Detection: Create and monitor automated fraud detection
-  systems that ingest and analyze various types of data in real-time to detect
-  anomalous user behaviors.
-- Smart IoT: Create a connected infrastructure that lets you develop and deploy
-  intelligent applications that can understand, store and analyze IoT data
-  streams.
-- Machine Learning: Build applications that can quickly access, prepare and
-  analyze data used for predictive analysis.
-- Log Management and Analytics: Collect, monitor and analyze log data from
-  various sources to monitor system performance and alert on anomalies.
+- **Event-Driven Notifications:** Combine Rockset with communication apps like Slack or email services such as SendGrid. Create a Pipedream workflow that sends notifications or reports to specified channels or recipients when the Rockset API returns query results that meet certain business-critical conditions, like inventory levels falling below a threshold or unusual patterns in user activity.

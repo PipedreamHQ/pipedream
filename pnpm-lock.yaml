@@ -384,7 +384,10 @@ importers:
     specifiers: {}
 
   components/ambivo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/amcards:
     specifiers: {}
@@ -3872,7 +3875,10 @@ importers:
     specifiers: {}
 
   components/icypeas:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/idealpostcodes:
     specifiers: {}
@@ -4428,6 +4434,9 @@ importers:
   components/lessonspace:
     specifiers: {}
 
+  components/letterdrop:
+    specifiers: {}
+
   components/lettria:
     specifiers: {}
 
@@ -4818,6 +4827,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
       '@pipedream/types': 0.3.0
+
+  components/matterport:
+    specifiers: {}
 
   components/mautic:
     specifiers:
@@ -7540,6 +7552,9 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/simple_analytics:
+    specifiers: {}
+
+  components/simplebackups:
     specifiers: {}
 
   components/simplehash:

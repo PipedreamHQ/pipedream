@@ -1,22 +1,11 @@
 # Overview
 
-The Rise API gives developers the tools to create custom financial applications
-for users. From basic budgeting and expense tracking apps to complex digital
-asset portfolios, the Rise API can help you develop the perfect application for
-users.
+The Rise API empowers users to automate and integrate their learning management system workflows with ease. With this API, you can manipulate course data, track user progress, and manage enrollments without manual intervention. Imagine the possibilities when you connect Rise to your HR system, Customer Support platform, or Content Management System. Streamline onboarding, keep tabs on employee training, and ensure compliance requirements are met seamlessly.
 
-With the Rise API, users can securely access their financial accounts, gain
-insights into their spending habits, and programmatically move money into and
-out of accounts.
+# Example Use Cases
 
-Here are some examples of applications you can build using the Rise API:
+- **Automated Employee Onboarding and Training Programs**: Trigger an automated workflow in Pipedream to enroll new hires in essential training courses as soon as they are added to your HR system. Courses can be assigned based on role, department, or location, and progress can be reported back to managers or HR for compliance tracking.
 
-- Automated investment portfolios
-- Automatically sync bank accounts with your app
-- Personalized budgeting and expense tracking
-- Real-time financial insights and predictions
-- Create a digital wallet to store and make payments
-- Automate tax filing and direct payment services
-- Bank-grade authentication for app users
-- Reward-based savings and investment accounts
-- And much more!
+- **Customer Education Tracking**: Connect Rise with your Customer Relationship Management (CRM) system. When a customer signs up for your product or service, automatically enroll them in a product tutorial or training course. Monitor their progress and send follow-up reminders or additional resources based on their engagement with the course materials.
+
+- **Content Update Notifications**: Set up a workflow to monitor changes in course content. Whenever a course is updated on Rise, automatically notify relevant teams or individuals via email, Slack, or other communication platforms. This ensures all stakeholders are kept in the loop about the latest training content and materials.

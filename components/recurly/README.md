@@ -1,22 +1,11 @@
 # Overview
 
-The Recurly API provides developers an array of powerful methods to build and
-integrate with Recurly’s subscription billing service. Using the API, you can
-create unique customer experiences, customized to fit your brand and needs, as
-well as payment collection, tracking usage in real-time, setting up promotions,
-and managing customer subscriptions.
+Recurly API provides robust functionality for subscription management, including creating and updating customer accounts, managing billing information, and handling subscription lifecycle events. With Pipedream, you can leverage these capabilities to create automated workflows that respond to events in Recurly, sync data with other systems, and perform actions that enhance your subscription operations and customer experiences.
 
-Here are some common examples you can build with the Recurly API:
+# Example Use Cases
 
-- Manage customers & accounts: Create and update customers, their billing info
-  and subscription plans.
-- Collect payments: Accept ACH payments, one-time credit cards, and update
-  subscription payment methods.
-- Real-time usage tracking: Track changes in user usage to power usage-based
-  billing & usage-based access management.
-- Promotions & discounts: Create and apply discounts to accounts, including
-  coupon codes and percentage discounts.
-- Reporting & Analytics: Get real-time reports to quickly gauge and understand
-  your business performance.
-- Security & Fraud Prevention: Prevent fraudulent transactions and manage
-  customer data securely.
+- **Invoice Payment Tracking to Slack**: Send a notification to a designated Slack channel when a Recurly invoice is paid. This keeps your team instantly informed about revenue events and can be expanded to include customer details for a personal touch.
+
+- **Dunning Process Management with Email Notifications**: Trigger an email campaign using SendGrid for customers entering the dunning process. Customize reminders and payment updates to encourage subscription continuity and maintain positive customer relationships.
+
+- **Sync New Subscribers to a Google Sheets**: Automatically add new Recurly subscribers to a Google Sheet for easy access to subscription data. This can assist with reporting, analysis, and sharing up-to-date information with team members who may not have direct access to Recurly.

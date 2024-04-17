@@ -1,29 +1,11 @@
 # Overview
 
-The SimpleTexting API provides developers with tools to build powerful
-applications that leverage the power of SMS. With the API, you can easily send
-and receive text messages, manage contacts, create and send surveys, create
-automated campaigns, and more. Here are some examples of what you can build
-using the SimpleTexting API:
+The SimpleTexting API offers a suite of messaging capabilities that can be leveraged to build powerful communication workflows on Pipedream. It enables automated sending of SMS and MMS messages, managing contacts, and receiving message replies. By integrating SimpleTexting with Pipedream, you can create real-time, event-driven automations that trigger SMS campaigns based on user behavior, synchronize contacts across platforms, and streamline notifications for various operational processes.
 
-- Interactive customer service bots: Use automated text messages to create
-  interactive conversations with customers, providing answers to common
-  queries, product recommendations, and more.
-- SMS alerts: Leverage automated text messages to send alerts and updates to
-  customers, such as ticket confirmations and order tracking.
-- Automated campaign flows: Create automated workflows that consist of multiple
-  steps, such as sending targeted messages, setting triggers, and tracking user
-  response.
-- Assistive scheduling: Automatically schedule messages to be sent out at a
-  later date, such as appointment reminders, notifications of upcoming
-  deadlines, and so on.
-- Text-to-landline services: Create automated surveys and connect your users to
-  a representative via their phone.
-- Two-way broadcasting: Design broadcast messages that allow users to reply
-  with a selection of options and create automated follow-ups based on their
-  response.
-- Bulk messaging: Send text messages to large numbers of contacts, with
-  built-in tools to target specific audiences and track open and response
-  rates.
-- Message segmentation: Group contacts into segments based on user data and
-  create targeted messages based on those segments.
+# Example Use Cases
+
+- **Automated Customer Support Follow-up**: Create a workflow where after a customer support ticket is resolved in your helpdesk software (e.g., Zendesk), an SMS message is automatically sent via SimpleTexting to gather feedback on the support experience.
+
+- **E-commerce Order Confirmation and Updates**: Set up an automation where once a new order is placed through an e-commerce platform (e.g., Shopify), a confirmation message is sent to the customer. Further, track the order status and send real-time shipping updates via SMS as the order progresses.
+
+- **Event Registration Alerts**: When a participant registers for an event via an event management platform (e.g., Eventbrite), use SimpleTexting to send a confirmation message with event details, and schedule reminder texts leading up to the event date.

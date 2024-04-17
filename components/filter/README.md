@@ -1,11 +1,11 @@
 # Overview
 
-The Filter API is a great way to build powerful workflows that can manipulate
-and transform data. Here are some examples of what you can build using the
-Filter API:
+The Filter API in Pipedream allows for real-time data processing within workflows. It's designed to evaluate data against predefined conditions, enabling workflows to branch or perform specific actions based on those conditions. This API is instrumental in creating efficient, targeted automations that respond dynamically to diverse datasets. Using the Filter API, you can refine streams of data, ensuring that subsequent steps in your Pipedream workflow only execute when the data meets your specified criteria. This cuts down on unnecessary processing and facilitates the creation of more intelligent, context-aware systems.
 
-- A workflow that transforms data from one format to another
-- A workflow that filters out data that does not meet certain criteria
-- A workflow that sorts data in a specific order
-- A workflow that calculates statistics or aggregates data
-- A workflow that combines data from multiple sources
+# Example Use Cases
+
+- **Customer Support Ticket Prioritization**: Automate the prioritization of incoming customer support tickets by filtering them based on keywords, severity, or customer tier. Once filtered, tickets can be routed to the appropriate support staff or escalated if they meet certain critical conditions.
+
+- **Social Media Sentiment Analysis**: Stream social media mentions into a Pipedream workflow, and use the Filter API to only process posts with negative sentiment. These can then be forwarded to your customer relations team, or logged into a CRM for follow-up, ensuring proactive engagement with potentially dissatisfied customers.
+
+- **E-commerce Order Processing**: Implement a workflow that filters incoming e-commerce orders by value, location, or item availability. High-value orders could trigger an instant alert to the sales team, whereas orders with out-of-stock items could be placed on hold automatically, improving operational efficiency and customer satisfaction.

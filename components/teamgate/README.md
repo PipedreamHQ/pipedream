@@ -1,17 +1,11 @@
 # Overview
 
-The Teamgate API is the perfect tool for developers to create custom
-applications and integrations with the Teamgate CRM. With the Teamgate API, you
-can build a wide range of custom tools or integrations to optimize your use of
-Teamgate. Here are a few examples of what you can build with the Teamgate API:
+Teamgate's API provides the ability to manage a sales pipeline, customer data, and interactions within the Teamgate CRM system. By leveraging the Teamgate API on Pipedream, you can automate various aspects of the sales process, synchronize customer information across platforms, and generate insights from sales data. With Pipedream's serverless integration capabilities, connecting Teamgate to other services becomes a streamlined process, enabling users to create custom workflows that trigger actions, process data, and manage tasks without manual intervention.
 
-- Automate prospecting tasks, like creating contacts and deals in bulk and
-  updating existing records
-- Sync customer data between Teamgate and other external systems, like an
-  ecommerce store or an email service
-- Create custom dashboards that include Teamgate data
-- Build custom workflows, like generating invoices and sending them to
-  customers
-- Create custom reports and graphs to draw insights from data
-- Create custom notifications to alert the team of important events
-- Create a data migration tool to transition from one CRM system to Teamgate
+# Example Use Cases
+
+- **Sales Lead Scoring and Distribution:** Automate the process of scoring sales leads based on custom criteria and distribute them to the appropriate sales rep. Using Teamgate's API on Pipedream, you can evaluate new lead information, score them, and assign them to team members in Teamgate based on their score, location, or product interest.
+
+- **Customer Data Enrichment:** Enhance customer profiles in Teamgate by integrating with enrichment services like Clearbit. As new contacts are added to Teamgate, trigger a workflow on Pipedream to fetch additional data points such as company size, industry, and social profiles, then update the corresponding records in Teamgate to ensure sales reps have rich, actionable data.
+
+- **Automated Deal Follow-ups:** Set up a workflow that sends personalized follow-up emails or SMS messages to prospects after a deal reaches a certain stage in Teamgate. Connect Teamgate to email platforms like SendGrid or messaging services like Twilio on Pipedream to automate communication, keeping deals moving and maintaining engagement without manual effort.

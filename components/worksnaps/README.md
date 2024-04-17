@@ -1,24 +1,11 @@
 # Overview
 
-Using the Worksnaps API, you can build applications to help teams better
-understand and track their work. These applications can provide insight into
-how to improve project management, increase employee engagement and
-productivity, and evaluate productivity goals.
+Worksnaps is a time-tracking service designed for remote work that offers detailed project and user activity insights. With Pipedream, you can automate actions based on time-tracking data, trigger workflows with specific user activities, or sync time logs with other management tools. Pipedream's serverless platform allows you to connect the Worksnaps API with countless apps to streamline project management, payroll processing, and productivity analysis.
 
-The Worksnaps API allows you to build a range of applications, including:
+# Example Use Cases
 
-- Timesheet Tracking and Management System: Track employee time and project
-  progress in real-time, view reports on employee and team performance,
-  generate activity reports and invoices.
-- Employee Engagement and Performance Tracking: Track employee performance and
-  engagement, analyze how individual and team performance is affected by events
-  and changes in the environment, and provide feedback and motivation to
-  employees.
-- Automated Task and Project Management: Create custom workflows that are
-  optimized for team performance and client satisfaction, manage team task
-  lists and deadlines, organize projects in a shared workspace and assign tasks
-  to individual employees.
-- Analytics and Insights: Generate interactive insights into team and employee
-  performance, track projects and tasks over time, discover patterns in project
-  progress, analyze trends in employee engagement and productivity, and create
-  custom reports to identify performance issues and opportunities.
+- **Project Time Tracking to Google Sheets**: Automate the export of detailed time logs from Worksnaps to a Google Sheets spreadsheet for real-time project tracking and reporting. This workflow triggers whenever new time entries are logged, keeping all stakeholders updated with the latest data.
+
+- **Slack Alerts for Project Milestones**: Set up notifications in a Slack channel when team members reach certain milestones or when specific projects accumulate a certain number of hours. This workflow helps in celebrating team achievements and keeping the momentum going.
+
+- **Invoice Generation with QuickBooks**: Create invoices in QuickBooks based on time logged in Worksnaps. This workflow can be scheduled to run at the end of each billing period, ensuring that clients are invoiced accurately and promptly for the hours worked.

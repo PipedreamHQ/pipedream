@@ -1,21 +1,11 @@
 # Overview
 
-The Stormboard API allows developers to access and integrate the functionality
-of Stormboard with other applications. With the Stormboard API, developers can
-build applications to allow their users to collaborate, brainstorm, build
-lists, and organize workflow in teams. Here are some of the many things you can
-build with the Stormboard API:
+Stormboard is a digital workspace designed for interactive planning and collaboration. Leveraging its API on Pipedream, you can automate workflows to streamline idea management and decision-making processes. Create, update, and manage ideas captured in Stormboard in real-time, and sync them with other business tools for enhanced productivity.
 
-- Real-time group discussion boards
-- Generate meeting agendas with tasks and timelines
-- Create and assign tasks to team members
-- Collect feedback from stakeholders
-- Prioritize ideas and features for product development
-- Integrate data from other applications into collaborative workspaces
-- Manage project progress from concept to completion
-- Leverage data from customer surveys and feedback loops
-- Visualize sales pipelines
-- Create interactive maps of customer locations
-- Brainstorm and execute complex marketing campaigns
-- Track and changes to team documents in real-time
-- Create automated alerts and notifications
+# Example Use Cases
+
+- **Automated Idea Distribution:** Once ideas are brainstormed in Stormboard, use Pipedream to classify and send them to relevant team members through email or messaging apps like Slack. This ensures that ideas are promptly acted upon.
+
+- **Enhanced Project Management:** Integrate Stormboard with project management tools such as Trello or Asana. Convert Stormboard sticky notes into tasks automatically, assigning them to team members and setting due dates based on predefined criteria.
+
+- **Real-Time Reporting and Analytics:** Use Pipedream to extract data from Stormboard for real-time analytics. Feed this data into BI tools like Tableau or Google Sheets to visualize the progress of brainstorming sessions and the status of ideas and decisions.
