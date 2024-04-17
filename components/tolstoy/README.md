@@ -1,28 +1,11 @@
 # Overview
 
-Are you looking for a way to harness the power of the world’s most famous
-authors? Look no further! The Tolstoy API provides an array of resources to
-help you construct impressive applications and programs.
+The Tolstoy API offers a suite of tools for engaging with customers through interactive video experiences. With it, you can automate the creation, analysis, and management of interactive video content, streamlining how you engage with your audience. By leveraging the Tolstoy API on Pipedream, you can create powerful automations that react to video interactions, manage leads, and trigger personalized follow-ups based on viewer behavior. This supports a more dynamic and responsive marketing strategy, improves lead qualification processes, and enhances customer support by providing interactive video experiences tailored to user actions and feedback.
 
-From writing toys for children to hardcore software engineering applications,
-the Tolstoy API provides users with access to a massive assortment of
-literature by the world’s best and most respected authors, such as Fyodor
-Dostoyevsky, Leo Tolstoy, Anton Chekhov, and many more.
+# Example Use Cases
 
-Want to get started with the Tolstoy API and start building projects? Here are
-a few examples of what you can create:
+- **Automated Lead Qualification and Follow-Up**: When a prospect completes a Tolstoy interactive video, Pipedream can capture their responses, qualify the lead based on pre-defined criteria, and automatically send personalized follow-up content via email through integration with an email marketing service such as Mailchimp.
 
-- A recommendation engine that uses AI to suggest classic books from Russian
-  authors.
-- A comprehensive search platform for books and study materials for college
-  students.
-- A family-friendly game based on Russian literature.
-- A guided tour of Russian literature and literature-related museums for
-  tourists.
-- A web application to explore the history and popularity of Russian
-  literature.
-- An online encyclopedia for highlighting the works of Russian authors.
-- A text-based adventure game that places players in scenarios from Russian
-  novels.
-- An educational platform for children to learn and explore the works of
-  Russian writers.
+- **Dynamic Video Content Distribution**: Create a workflow that monitors customer behavior on your platform. Based on specific actions, such as visiting a product page multiple times, Pipedream triggers a Tolstoy API call to send a personalized interactive video to the customer, providing them with additional product information or a special offer.
+
+- **Real-Time Support Ticket Generation**: Implement a system where customer responses from a support-related Tolstoy video are sent to Pipedream, which then creates a support ticket in Zendesk or another customer service platform. This can include tagging the ticket based on the issues highlighted in the video interaction, ensuring the right support team member addresses the concern rapidly.

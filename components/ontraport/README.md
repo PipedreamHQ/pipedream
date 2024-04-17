@@ -1,27 +1,11 @@
 # Overview
 
-The Ontraport API enables developers to create powerful applications by
-integrating Ontraport’s suite of CRM and marketing automation tools. It allows
-developers to access information and control most aspects of the Ontraport
-platform, such as contacts, campaigns, products, orders, and more. With the
-power of the Ontraport API, developers can create applications that can:
+Ontraport's API offers robust capabilities for automating business processes, managing customer relationships, and streamlining marketing efforts. Use it to create dynamic, serverless workflows on Pipedream that react to events in real-time, sync data between services, or enhance customer interactions. With this API, you can automate tasks such as updating contact information, tracking customer behaviors, and sending targeted communications, all customizable to your specific business needs.
 
-- Automate contact and customer segmentation
-- Create email marketing campaigns and send automated emails
-- Generate custom reports
-- Update customer information
-- Create and manage accounts, users, and access
-- Capture leads and process payments
-- Track customer interactions
-- Monitor leads and sales funnels
+# Example Use Cases
 
-Examples of Applications You Can Build Using the Ontraport API:
+- **Contact Segmentation and Email Campaigns**: Automatically tag and segment contacts in Ontraport based on their activity or data points from other apps. Trigger personalized email campaigns in Ontraport for each segment, enhancing marketing precision and engagement.
 
-- Customer Relationship Management (CRM) solutions
-- Online marketing solutions
-- eCommerce solutions
-- Lead generation solutions
-- Automated sales tracking solutions
-- Email marketing solutions
-- Affiliate management solutions
-- Reporting solutions
+- **Lead Scoring and Salesforce Integration**: Implement a lead scoring system using Ontraport to assign points for various customer actions. Sync high-scoring leads to Salesforce, ensuring your sales team focuses on the most promising prospects.
+
+- **Customer Feedback and Support Ticket Creation**: Capture customer feedback through surveys or web forms. Use Ontraport to analyze sentiments and, based on defined criteria, create support tickets in apps like Zendesk for follow-up, ensuring customer issues are promptly addressed.

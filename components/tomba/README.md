@@ -1,23 +1,11 @@
 # Overview
 
-With Tomba, you can build high-performance, secure, and intuitive web, mobile,
-and desktop applications. Using the [Tomba API](https://tomba.io/), developers
-have access to advanced functionalities and features they can use to create
-powerful applications quickly and efficiently.
+The Tomba API is a potent tool for email discovery and domain search. With it, you can automate the process of finding and verifying email addresses linked to a domain, which could be pivotal for lead generation, outreach campaigns, or market research. By leveraging the Tomba API on Pipedream, you streamline these tasks into efficient workflows that can interact with numerous other apps and services, such as CRMs, marketing automation tools, or database managers. The synergy between Tomba and Pipedream allows for real-time processing and integration of email data within your existing business systems.
 
-Tomba is an all-in-one platform that provides a unified API, allowing
-developers to create reliable, secure and scalable applications. The Tomba API
-enables developers to develop and deploy advanced and intuitive applications
-with minimal effort.
+# Example Use Cases
 
-Here are some of the applications you can build using the Tomba API:
+- **Lead Generation Automation**: Trigger a workflow when a new company is added to your CRM. Use Tomba to find email addresses associated with the company's domain. Enrich lead data in the CRM and follow up with an automated outreach sequence using an email marketing tool like Mailchimp.
 
-- Low-Latency Web Applications
-- Mobile Applications
-- Real-Time Browser-based Applications
-- Robust Desktop Applications
-- Secure Cloud and Network Applications
-- Intelligent IoT Applications
-- Location-Aware Applications
-- eCommerce Platforms
-- Secure Financial Applications
+- **Domain Research and Monitoring**: Schedule a regular Pipedream workflow that checks a list of domains and uses Tomba to gather any new email addresses. Store the findings in a Google Sheets document and send a Slack notification to the sales team with any updates or new leads.
+
+- **Verification and Clean-up for Marketing Campaigns**: Before launching an email campaign, run your email list through a Pipedream workflow that uses Tomba to verify the validity of each address. Update the campaign list in your email platform, like Sendgrid, to omit invalid or nonexistent emails, ensuring higher deliverability and engagement rates.

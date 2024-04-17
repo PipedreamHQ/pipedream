@@ -1,14 +1,11 @@
 # Overview
 
-Mailmodo is a powerful API that allows you to create and send custom email
-newsletters. With Mailmodo, you can create beautiful, responsive email
-newsletters that look great on any device. Plus, Mailmodo makes it easy to
-manage your subscribers and track your results.
+Mailmodo's API turns email marketing into a more powerful tool by allowing you to automate and personalize your email campaigns. Through Pipedream, you can trigger workflows based on events from other apps, update customer data in real time, send transactional emails without leaving your app, and analyze the performance of your campaigns. By leveraging Pipedream's serverless platform, you can integrate Mailmodo with countless apps to enhance your marketing strategies, improve customer engagement, and streamline your communication processes.
 
-Here are some examples of what you can build with the Mailmodo API:
+# Example Use Cases
 
-- A custom email newsletter for your business
-- A weekly email digest of your blog posts
-- A monthly email update for your customers
-- An email course or tutorial
-- A promotional email campaign
+- **Order Confirmation Emails**: Automate the sending of personalized order confirmation emails via Mailmodo when a new order is placed in your e-commerce platform like Shopify or WooCommerce. Include details such as order summary, estimated delivery date, and a thank you message.
+
+- **Event Registration Follow-ups**: After a participant signs up for an event through an app like Eventbrite, use Mailmodo to send a detailed itinerary, reminders, and personalized content based on the participant's interests or past behavior.
+
+- **Survey Feedback Integration**: Send a Mailmodo email survey to users who have interacted with your customer service platform like Zendesk. Once they complete the survey, trigger workflows that update their customer profile with feedback scores and comments for future reference and action.

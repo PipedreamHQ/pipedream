@@ -1,17 +1,11 @@
 # Overview
 
-The Sifter API enables developers to build custom solutions that leverage data
-from the Sifter bug tracking system. With the API, developers can create
-actions and integrations that enables Sifter to interact with other
-applications, making Sifter even more powerful and customizable.
+The Sifter API enables developers to craft workflows for tracking and managing customer interactions and support inquiries efficiently. By leveraging the Sifter API on Pipedream, users can automate issue tracking, streamline customer communication, and ensure quick resolution of support tickets. With Pipedream's ability to connect to hundreds of apps, you can create multi-step workflows that trigger actions in other tools, leading to increased productivity and a better support experience.
 
-The following are some examples of what can be built using the Sifter API:
+# Example Use Cases
 
-- Custom dashboards that allow users to view and interact with Sifter data.
-- Automated solutions to create, modify, and close Sifter issues without manual
-  intervention.
-- Browser plug-ins that allow for auto-complete when entering Sifter data.
-- Mobile apps that allow users to work with Sifter on the go.
-- Add-ons that help make Sifter more accessible to users with disabilities.
-- Custom tools that facilitate data import and export between Sifter and other
-  applications.
+- **Support Ticket Triaging**: Automatically classify and assign new support tickets from Sifter to the appropriate team or team member within your organization. Use sentiment analysis to prioritize urgent issues and notify the team via Slack or email.
+
+- **Customer Feedback Loop**: When a ticket is marked as resolved in Sifter, trigger a workflow to follow up with the customer via email. Include a survey link to gather feedback, and post the responses to a Google Sheet for analysis.
+
+- **Issue Resolution Tracking**: Set up a workflow that updates a project management tool like Trello or Asana whenever an issue status changes in Sifter. Create a card for new issues, move it to the appropriate list based on status, and notify project stakeholders.

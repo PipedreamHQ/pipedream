@@ -1,26 +1,11 @@
 # Overview
 
-Using the Uploadcare API, you can build a variety of applications that improve
-the user experience while minimizing their reliance on third-party services.
-With the API, you can:
+Uploadcare is a file uploading, processing, and delivery platform that provides developers with tools to handle the entire file lifecycle with ease. With its robust API, you can upload files from any device, transform images and documents on-the-fly, and manage digital content with a comprehensive set of features. Integrating Uploadcare with Pipedream allows you to craft workflows that automate file operations and connect them seamlessly with other services, such as CRMs, marketing platforms, and data analysis tools.
 
-- Create a fast and secure content delivery system. This is useful for
-  businesses that need to deploy large amounts of content quickly and securely.
-- Design web and mobile applications that are optimized for fast loading and
-  providing the best user experience.
-- Create a storage for media files, photos, and video that can be accessed from
-  any part of the world.
-- Store files in the cloud, and provide users access to them from anywhere.
-- Create advanced image editing tools, with advanced cropping and resizing
-  tools, filters, etc.
-- Allow users to share files from anywhere on the web, adding social features
-  that let them create and share albums and stories.
-- Create notifications for users when their uploads have completed, allowing
-  for quick feedback about the progress of their uploads.
-- Allow users to edit documents in the cloud, providing advanced features such
-  as spell-check, format conversion, and more.
-- Automate media content delivery, ensuring that users are always served the
-  most updated versions.
-- Provide a secure authentication system, allowing businesses to easily manage
-  who has access to their media and applications.
-- And much, much more!
+# Example Use Cases
+
+- **Automated Image Moderation and Posting to Social Media**: When new images are uploaded to Uploadcare, trigger a Pipedream workflow that utilizes image recognition APIs to moderate content. Once approved, automatically resize and optimize the images using Uploadcare's processing capabilities, then post them to social media platforms like Twitter or Instagram.
+
+- **E-Commerce Order Fulfillment Automation**: For an e-commerce platform, use an Uploadcare upload widget to receive customer's customization files at checkout. Trigger a Pipedream workflow that processes these files, attaches them to the relevant order in your e-commerce system (like Shopify), and sends a notification to the fulfillment team with the order details and processed files.
+
+- **Event-Driven Backup to Cloud Storage**: Set up an event listener in Pipedream for new files uploaded to Uploadcare. Upon upload, initiate a workflow that performs any necessary file conversions, then automatically backs up the files to cloud storage solutions such as Amazon S3 or Google Drive, ensuring that business-critical files are always securely stored and accessible.

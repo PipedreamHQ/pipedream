@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/small_improvements",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Small Improvements Components",
-  "main": "dist/app/small_improvements.app.mjs",
+  "main": "small_improvements.app.mjs",
   "keywords": [
     "pipedream",
     "small_improvements"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/small_improvements",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }

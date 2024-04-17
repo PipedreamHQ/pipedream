@@ -1,24 +1,14 @@
 # Overview
 
-The Yahoo! Fantasy Sports API is an application programming interface (API)
-publicly available for connecting with Yahoo's fantasy sports platform. It
-provides the necessary tools for developers to create multi-tenant
-applications, as well as for individual users to build custom applications
-faster and easier than ever before.
+The Yahoo! Fantasy Sports API opens a realm of possibilities for sports enthusiasts and developers, allowing them to tap into fantasy leagues, player stats, and real-time scoring. Leverage this data source within Pipedream to automate team management, notifications, and data analysis. You can create dynamic workflows that react to league updates, automate team roster changes, or aggregate statistics for insightful analytics, all with real-time triggers and seamless integrations with hundreds of apps.
 
-The Yahoo! Fantasy Sports API can be used to build a variety of applications
-and websites related to fantasy sports. Some of the possible applications built
-with the Yahoo! Fantasy Sports API include:
+# Example Use Cases
 
-- Fantasy sports mobile apps, such as mobile versions of fantasy football,
-  basketball, baseball and hockey
-- Websites for creating and tracking fantasy sports teams
-- Websites for fantasy sports leagues
-- Tools for calculating fantasy sports player rankings
-- Tools for managing fantasy drafts
-- Tools for analyzing and visualizing fantasy sports performance and trends
-- Integrations with third party services such as scoring and stat tracking
-  services
-- Widgets and plugins for fantasy sports websites and applications
-- Bots and automation tools for fantasy sports
-- Search tools for finding players in fantasy sports leagues
+**Fantasy Team Performance Tracker**
+Automatically collect your fantasy team's performance data after each game. Aggregate and store this data in Google Sheets using Pipedream's Google Sheets integration. Analyze trends over time, making data-driven decisions to optimize your roster.
+
+**Real-time Injury Alerts**
+Set up a Pipedream workflow that monitors player statuses in real-time and sends a push notification via Twilio or Slack when a player on your fantasy team is listed as injured. This enables quick roster adjustments to avoid points loss.
+
+**Automated Trade Proposals**
+Create a workflow where Pipedream assesses player stats and performance metrics, then automatically generates and sends out trade proposals to other managers in your league via Gmail when it identifies a beneficial trade opportunity.

@@ -1,20 +1,11 @@
 # Overview
 
-Using Planyo Online Booking API, you can create custom booking systems for any type of business or service. The API provides all the tools you need to build a powerful, modern booking system tailored to your specific needs.
+The Planyo Online Booking API facilitates interaction with a versatile reservation system, allowing for booking management and integration with external calendars, payment systems, and customer relationship tools. With Pipedream's serverless platform, you can wield this API to construct dynamic, event-driven workflows. Automate notifications, synchronize bookings with other services, or generate detailed reports on reservation trends. Streamline scheduling tasks, minimize manual data entry, and enhance the customer booking experience with customized automations.
 
-Planyo's API tools make it easy for developers to implement a wide variety of features. You can quickly add booking forms and interfaces, as well as offer advanced payment and customer management tools. You can also create custom dynamic reservations or cart-based checkout experiences which are reliable and secure.
+# Example Use Cases
 
-Here are some examples of what you can do with Planyo's API:
+- **Automated Reservation Confirmation Emails**: Trigger a workflow in Pipedream when a new booking is made via Planyo. Automatically send a personalized confirmation email to the customer using SendGrid, including details like date, time, and any necessary preparation steps.
 
-- Create interactive booking forms and interfaces
-- Offer numerous payment gateways and payment methods
-- Create automated customer communication and follow-up emails
-- Create a dynamic reservation system with customizable search filters
-- Offer dynamic promotions, discounts and coupons
-- Create custom cart-based checkout experiences
-- Integrate a loyalty program
-- Create automated invoicing and payment tracking
-- Customize customer profiles and access options
-- Utilize dynamic real-time availability
-- Generate integrated calendar views
-- Integrate with external content systems via REST API or JavaScript calls
+- **Synchronization with Google Calendar**: Whenever a booking is modified on Planyo, use Pipedream to catch this event and update an associated Google Calendar event. This ensures that any changes in the booking schedule are reflected across all staff calendars in real-time, preventing double bookings and scheduling conflicts.
+
+- **Slack Notifications for New Bookings**: Set up a Pipedream workflow that listens for new reservations on Planyo and sends a message to a designated Slack channel. This keeps your team instantly informed about new bookings, allowing for swift planning and resource allocation.

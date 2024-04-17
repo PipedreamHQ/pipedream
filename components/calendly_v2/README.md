@@ -1,17 +1,11 @@
 # Overview
 
-The Calendly (OAuth) API allows developers to integrate Calendly with their
-applications, allowing their users to schedule appointments and events directly
-from the app. With the API, developers can create, read, update, and delete
-Calendly event types, invitees, and schedule events on behalf of their users.
+The Calendly API lets you craft bespoke scheduling experiences within your apps or automate repetitive tasks involving your calendar. With this API, you can read event types, set up webhooks for new events, list invitees, or create and cancel invitation links programmatically. Pipedream's serverless platform takes the heavy lifting out of integrating Calendly with hundreds of other apps, enabling you to focus on creating workflows that save time, enhance productivity, and eliminate scheduling errors.
 
-Example applications that could be built using the Calendly (OAuth) API
-include:
+# Example Use Cases
 
-- A scheduling app that allows users to schedule appointments and events
-  directly from the app
-- An online booking system that allows users to book appointments and events
-  directly from the app
-- A calendar app that allows users to view and manage their Calendly events and
-  appointments
-- A to-do list app that allows users to track and manage their Calendly events and appointments  
+- **Automated Follow-Up Emails**: When a meeting is scheduled on Calendly, trigger an email via SendGrid to send personalized follow-up details and preparation materials to the invitee.
+
+- **Zoom Meeting Creation**: Automatically create a Zoom meeting and send the invite link to participants as soon as they book a time slot on Calendly, ensuring seamless video conference scheduling.
+
+- **Slack Notifications for New Bookings**: For every new appointment scheduled, send a notification to a designated Slack channel to keep your team informed about upcoming meetings and availability changes.

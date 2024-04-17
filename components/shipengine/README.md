@@ -1,24 +1,11 @@
 # Overview
 
-Using ShipEngine's API, you can build software applications that enable
-seamless and powerful e-commerce shipping experiences for customers,
-businesses, and marketplace integrations.
+The Shipengine API enables robust automation possibilities for shipping logistics. From label creation, rate comparison, to tracking shipments, the API provides the tools to streamline e-commerce and shipping workflows. By harnessing Shipengine's capabilities through Pipedream, you can build seamless integrations that connect your shipping operations with other business processes, enhancing efficiency and reducing manual overhead.
 
-The ShipEngine API enables you to access the full range of shipping features,
-from calculating rates and creating shipments to tracking packages and printing
-labels. With the ShipEngine API, you can effortlessly bring top-tier shipping
-capabilities to your business, marketplace, or website.
+# Example Use Cases
 
-Some of the things you can build with ShipEngine's API include:
+- **Automated Shipping Label Creation**: Trigger a workflow on Pipedream when an order is placed in your e-commerce platform, like Shopify or WooCommerce. Automatically create a shipping label with Shipengine, attach the label to the customer's order details, and update the order status to "Shipped."
 
-- Instantly provide customers with accurate shipping rates, tailored to their
-  region, package weight, and other factors
-- Create custom fulfillment process and manage orders throughout the order
-  lifecycle
-- Automate the quoting, printing, and tracking of shipments
-- Offer discounted shipping rates on multiple carriers
-- Access detailed tracking information for packages, including estimated
-  delivery date, current location in transit, and any delivery exceptions
-- Schedule pickups from carriers and print return labels
-- Integrate with multiple carriers such as UPS, FedEx, and USPS, with more
-  being added all the time
+- **Real-time Shipping Rates Comparison**: Set up a Pipedream workflow that triggers when a customer reaches the checkout page on your website. Call Shipengine to fetch real-time shipping rates from multiple carriers, then present the best options to the customer, optimizing for cost or delivery speed.
+
+- **Order Tracking and Notifications**: Implement a workflow on Pipedream that monitors the status of shipments via Shipengine's tracking API. When a shipment status changes (e.g., "Out for Delivery"), send an automatic update to the customer through email or SMS, using services like SendGrid or Twilio.

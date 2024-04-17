@@ -1,25 +1,11 @@
 # Overview
 
-With the Zenler API, you can transform the way you and your learners access,
-experience, and interact with content. Here are just some of the things you can
-build with Zenler:
+The Zenler API lets you tap into your online course platform to automate tasks, streamline student engagement, and track course performance. By harnessing the power of the Zenler API on Pipedream, you can create dynamic serverless workflows that respond to course interactions, manage users, and analyze educational content effectiveness, all in real-time. Whether you're looking to enhance the learning experience, or make your course administration more efficient, the Zenler API on Pipedream offers the tools to make it happen.
 
-- Interactive online learning experiences: Create online lessons, modules, and
-  courses with text, videos, and audio, as well as quizzes, tests, and surveys
-  that engage your learners.
-- Learning Paths: Create personalized learning paths for each learner based on
-  their interests, progress and learning goals.
-- Self-paced Learning: Provide self-paced learning pathways to deliver content
-  to learners on their own.
-- Mobile Learning: Deploy your content to mobile devices, including phones, and
-  tablets.
-- Gamified Learning: Reward learners for engagement, such as completing modules
-  or earning badges and achievements.
-- Virtual Classrooms: Engage learners in real-time or asynchronous discussions
-  with live audio, video, and chat.
-- Offline Support: Download content for offline use and create projects for
-  learners to work on or collaborate with others in an offline setting.
-- Advanced Analytics: Use data-driven optimization to track the usage and
-  testing results for each individual learner.
-- Integration: Integrate with third-party systems and APIs to access and manage
-  your content with existing solutions.
+# Example Use Cases
+
+- **Automated Student Welcome Messages**: Trigger a personalized welcome email via SendGrid whenever a new user enrolls in a course on Zenler. This workflow ensures that every student receives all the necessary information they need to get started, while also adding a personal touch.
+
+- **Course Completion Certificates**: Generate and send a certificate using a service like PDF.co when a student completes a course. This workflow can monitor course completions, create a personalized certificate, and then email it to the student, all without manual intervention.
+
+- **Real-time Course Progress Tracking**: Integrate with a tool like Google Sheets to track student progress in real-time. Each time a student completes a lesson or a module, append their progress to a spreadsheet. This allows for at-a-glance monitoring and can be used to identify students who might need additional support or encouragement.

@@ -1,21 +1,11 @@
 # Overview
 
-The Ringba API is a cloud-native tool that helps businesses around the world
-better manage, analyze, and optimize their website operations. With the Ringba
-API, businesses can easily incorporate dynamic features, such as dynamic
-routing, ad trafficking, and analytics, into their websites to improve customer
-experience and maximize profits. Here are some examples of what you can build
-with the Ringba API:
+The Ringba API provides programmatic access to call tracking and management functionalities, allowing users to automate their telephony operations, analyze call data, and streamline caller experiences. By leveraging the Ringba API on Pipedream, you can create custom serverless workflows that respond dynamically to call events, synchronize call details with CRM systems, generate real-time analytics, and optimize marketing efforts based on call patterns.
 
-- Dynamic Routing: Route customers to different landing pages or offers
-  depending on their traffic source and other attributes.
-- Website Tracking: Monitor website performance and user behaviors to optimize
-  engagement and conversions.
-- Ad Trafficking and Management: Manage and optimize ad campaigns from one
-  central hub, including trafficking, monitoring, and reporting.
-- Real-time Call Tracking: Monitor inbound and outbound calls to better
-  identify and serve customers.
-- Call Routing: Route inbound phone calls to the appropriate agents based on
-  customer filters.
-- Custom reporting: Generate custom reports to show key performance statistics
-  from a centralized dashboard.
+# Example Use Cases
+
+- **Real-Time Call Data Sync to CRM**: When a call is completed in Ringba, use Pipedream to automatically capture the call details and log them in a CRM like Salesforce. Pipedream can parse call metadata, such as caller ID, call duration, and outcome, and then map this data to the corresponding CRM record, ensuring sales teams have real-time access to call interactions.
+
+- **Dynamic Call Routing Based on Marketing Campaigns**: Use Pipedream to analyze incoming call data against active marketing campaigns. If a caller ID or dialed number matches a specific campaign, you can trigger a workflow that dynamically routes the call to the most appropriate agent or team, optimizing caller experience and campaign performance.
+
+- **Automated Call Analytics Reporting**: With Pipedream, set up a workflow that aggregates call data from Ringba at regular intervals, processes it to compute key performance metrics like call volume trends, conversion rates, and caller demographics, and then compiles the insights into a report that can be automatically sent to stakeholders via email or Slack.

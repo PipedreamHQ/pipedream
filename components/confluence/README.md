@@ -1,16 +1,11 @@
 # Overview
 
-The Confluence API allows developers to interact with Confluence remotely, from
-within another application. This means that you can create, update, delete, and
-retrieve information from Confluence, without needing to use the Confluence
-user interface.
+The Confluence API allows you to harness the collaborative power of Confluence programmatically. With it, you can automate content creation, update pages, manage spaces, and extract data for reporting or integration with other tools. Leveraging this API within Pipedream enables streamlined workflows that can react to events or schedule tasks, interacting with Confluence data and connecting to an array of other apps and services.
 
-Some examples of what you can build using the Confluence API include:
+# Example Use Cases
 
-- A process manager that updates Confluence pages as processes are completed
-- A tool that automatically generates meeting minutes based on information
-  stored in Confluence
-- A customer support system that creates and updates Confluence pages based on
-  customer queries
-- A project management tool that updates Confluence pages as project milestones
-  are reached
+- **Automated Content Management**: Trigger a workflow when a new Jira ticket is created to generate a Confluence page pre-populated with the ticket details. This page can then be linked back to the Jira ticket, ensuring that documentation is initiated from the outset of a project.
+
+- **Team Onboarding**: Onboard new team members by creating a personalized Confluence space with essential reading and tasks when a new user is added to your HR system, like BambooHR. You could also set up reminders to check in on their progress by sending follow-up emails after a set period.
+
+- **Meeting Minute Distribution**: After a meeting is concluded in a tool like Zoom, automatically create a Confluence page using the meeting notes and distribute it to attendees via Slack or email, ensuring everyone has access to the discussed points and action items.

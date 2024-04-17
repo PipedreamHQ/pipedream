@@ -1,30 +1,11 @@
 # Overview
 
-The Thinkific API provides a comprehensive set of tools to help you create an
-engaging online course. It can be used to create automated course creation,
-course delivery, and course management systems. You can build a variety of
-different applications and integrations with Thinkific’s API, ranging from
-customer service to marketing to sales automation.
+Thinkific's API opens a treasure trove of possibilities for automating and enhancing the e-learning experience. It provides programmatic access to your Thinkific site, allowing you to manage courses, users, enrollments, and more. With Pipedream's serverless platform, you can connect Thinkific to a multitude of other applications, automate tasks, sync data across various services, and trigger workflows based on specific events, all without writing a line of server code.
 
-Here are a few examples of how you can benefit from the Thinkific API:
+# Example Use Cases
 
-- Enroll and manage users for your course: The Thinkific API allows you to
-  create new users, enroll them in your course, manage enrollment, and provide
-  access to their course content.
-- Create custom payment systems and access coupon codes: Utilize the Thinkific
-  API to build custom payment systems, allowing you to create unique offers to
-  your users. Additionally, you can create customer coupon codes to give your
-  customers a discount on their purchase.
-- Track and analyze user activity: Keep track of user activity in your course
-  using the Thinkific API. You can track page views, tries, completions, and
-  other user engagement metrics.
-- Embed third party applications in your course: Embed third party apps into
-  your course with the Thinkific API. You can utilize existing apps to bring
-  new content and interactivity to your course.
-- Automate sales and customer service: Automate sales and customer service
-  processes with the Thinkific API. Create automated sales funnels and respond
-  to customer inquiries with the Thinkific API.
+- **Automated Student Onboarding**: When a student signs up for a course on Thinkific, use Pipedream to send a personalized welcome email via SendGrid, create a new contact in HubSpot, and enroll them in an onboarding email sequence.
 
-There are many more possibilities with the Thinkific API, giving you complete
-control over how you build and manage your online course. With the Thinkific
-API, you have full control to bring all your ideas to life.
+- **Course Completion Certificates**: Trigger a workflow on Pipedream when a student completes a course on Thinkific. Generate a personalized certificate using a tool like Canva or Google Slides and email it to the student, while also logging this achievement in Airtable for record-keeping.
+
+- **Synchronize Course Progress with CRM**: Keep track of student progress by triggering a Pipedream workflow every time a course lesson is completed. Update a custom field in a CRM platform like Salesforce to reflect their current completion percentage, enabling targeted follow-up campaigns.

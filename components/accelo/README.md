@@ -1,13 +1,11 @@
 # Overview
 
-Accelo's API lets you build a wide variety of integrations and automations to
-streamline your workflows. Here are some examples of what you can build:
+Accelo's API provides a gateway to streamline professional service operations, offering endpoints that manage projects, tickets, sales, and more. With Pipedream, you can harness this API to automate routine tasks, sync data across platforms, and trigger custom workflows. Accelo's API lets you manipulate client data, automate service processes, and integrate with other tools for a seamless business ecosystem.
 
-- A tool to automatically generate invoices and send them to clients
-- A system to track billable hours and generate reports on project
-  profitability
-- A way to sync your company's contact list with your CRM
-- An integration with your accounting software to automate billing
-- A system to automatically generate quotes and send them to prospects
-- A project management tool that integrates with Accelo to automatically create
-  and update project milestones, tasks, and events
+# Example Use Cases
+
+- **Sales Lead to Project Conversion**: When a sales lead in Accelo is marked as 'won', automatically create a new project in your project management tool, such as Asana or Trello. This bridges the gap between sales and project execution by immediately translating successful deals into actionable tasks.
+
+- **Support Ticket Response Sync**: Sync support ticket updates from Accelo with a customer support platform like Zendesk. Whenever a ticket is updated in Accelo, an equivalent update or notification can be sent in Zendesk to keep all customer-facing teams in the loop.
+
+- **Time Tracking Integration**: Integrate Accelo's time tracking features with an accounting app like QuickBooks. When time entries are added in Accelo, corresponding invoices can be automatically created in QuickBooks, ensuring accurate and timely billing.

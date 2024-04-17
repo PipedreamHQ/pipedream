@@ -1,22 +1,11 @@
 # Overview
 
-PaperForm is a powerful, easy to use form builder that provides powerful tools
-to quickly build forms and collect data. The PaperForm API enables developers
-to customize the forms they create, set up notifications and triggers, and
-access data collected from forms in real time. With the PaperForm API,
-developers are able to build robust, efficient web applications to meet their
-needs.
+The PaperForm API offers a robust means to interact programmatically with PaperForm's features, allowing you to automate form submissions, retrieve form data, and integrate with various other services. With Pipedream's serverless platform, you can construct workflows that respond to events from PaperForm forms—like new submissions—by triggering actions in other apps, or perform operations on the submissions themselves.
 
-Some examples of what can be built with the PaperForm API include:
+# Example Use Cases
 
-- Online forms for gathering customer feedback, surveys, and registration
-- A secure portal for customers to access and make payments
-- A tool for collecting and securely storing applicants’ resumes and interview
-  documents
-- A secure database of contact information for customers and prospects
-- Automated reminders for appointments or events
-- Integrations to other third-party applications, like Salesforce or Mailchimp
-- Secure online booking and scheduling solutions
-- Automated thank you messages to customers after form completion
-- Customized form validation rules based on specific data sets or user input
-- Automated process flows and notifications after form submission
+- **Automated Lead Capture and CRM Integration**: When a potential customer submits a form on PaperForm, trigger a workflow that captures the submission data and feeds it directly into a CRM such as Salesforce or HubSpot. This can help ensure immediate follow-up and maintain an organized lead pipeline.
+
+- **Feedback Collection and Analysis Workflow**: After receiving a new submission from a feedback form, use Pipedream to parse the data, send it to a Google Sheet for aggregation, and then use sentiment analysis tools to gauge customer satisfaction. You could even trigger an automated email response thanking them for their input.
+
+- **Event Registration and Calendar Synchronization**: For new event registrations via PaperForm, trigger a Pipedream workflow that creates an event in a Google Calendar, sends a personalized confirmation email with event details to the registrant, and posts a message in a Slack channel to notify the team.
