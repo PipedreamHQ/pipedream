@@ -1,23 +1,6 @@
 # Overview
 
-Using the ServiceNow API, you can build a variety of powerful applications that
-help you extend and enhance the capabilities of your ServiceNow implementation.
-The possibilities are endless! You can:
-
-- Create custom pages and widgets that provide additional functionality and
-  data visualizations tailored to your needs
-- Automate user and business processes with the help of integration tools
-- Streamline production deployments and drive up efficiency with workflow
-  systems
-- Develop custom plugins to facilitate data exchange with other systems
-- Leverage machine learning to extract knowledge from large data sets and
-  create predictive models
-- Create interactive chatbots for providing support or collecting feedback
-- Generate custom reports for tracking performance and resource utilization
-- And much more!
-
-No matter whether you are looking to extend existing features or build
-something totally new, the ServiceNow API offers the perfect solution!
+The ServiceNow API enables developers to tap into the robust capabilities of ServiceNow's IT service management platform. With the API, you can create, read, update, and delete records, manage workflows, and integrate with other services. By leveraging these capabilities, you can automate routine tasks, sync data across multiple platforms, and enhance operational efficiencies.
 
 # Getting Started
 
@@ -71,6 +54,15 @@ In these instances, the following tips may be helpful:
 * Assign snc_internal to this service account. This is important if you are using the explicit roles plugin as part of instance security hardening.
 
 Finally, while not required, you should also check that the role has associated ACLs for any tables you want to work with; by default they may if you use snc_internal, but some fields extended from task or other tables may require additional ACLs based on your instance's configuration.
+
+# Example Use Cases
+
+- **Incident Management Automation**: Automatically create incidents in ServiceNow when critical alerts are triggered in monitoring tools like Datadog or New Relic. This ensures timely attention to potential issues and streamlines the incident response process.
+
+- **HR Onboarding Workflow**: When a new employee is added to an HR system like Workday, trigger a workflow in Pipedream that creates a new user account in ServiceNow, assigns the necessary roles, and initiates onboarding tasks. This can significantly cut the time needed to get a new team member up and running.
+
+- **Customer Support Ticket Sync**: Synchronize customer support tickets between ServiceNow and a CRM platform like Salesforce. When a ticket is updated in ServiceNow, automatically reflect those changes in Salesforce to keep all teams aligned and informed about customer issues, ensuring a unified approach to customer service.
+
 
 # Troubleshooting
 If you're getting a **504 Gateway Time-out** error when attempting to connect your ServiceNow account, review the section above on "Additional Guidance For Hardened or Mature Instances".
