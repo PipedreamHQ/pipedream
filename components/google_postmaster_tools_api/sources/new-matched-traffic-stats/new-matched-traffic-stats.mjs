@@ -1,5 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googlePostmasterToolsApi from "../../google_postmaster_tools_api.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "google_postmaster_tools_api-new-matched-traffic-stats",
@@ -9,6 +10,7 @@ export default {
   version: "0.0.2",
   type: "source",
   dedupe: "unique",
+  sampleEmit,
   props: {
     googlePostmasterToolsApi,
     db: "$.service.db",
@@ -143,7 +145,7 @@ export default {
       return domainReputation.includes(item.domainReputation);
     },
     filterRatio(prop, value, greaterOrEqual = false) {
-      if (prop?.endsWith("%")) prop = parseInt(prop) / 100;
+      if (prop?.endsWith("%")) prop = Number(prop.slice(0, -1)) / 100;
       const ratio = Number(prop);
       if (isNaN(ratio) || value === undefined) return undefined;
       return greaterOrEqual
