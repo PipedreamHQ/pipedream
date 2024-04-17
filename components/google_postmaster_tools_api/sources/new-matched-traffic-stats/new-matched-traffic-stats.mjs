@@ -142,11 +142,12 @@ export default {
       if (!domainReputation?.length) return undefined;
       return domainReputation.includes(item.domainReputation);
     },
-    filterRatio(prop, value, greater = false) {
+    filterRatio(prop, value, greaterOrEqual = false) {
+      if (prop?.endsWith("%")) prop = parseInt(prop) / 100;
       const ratio = Number(prop);
       if (isNaN(ratio) || value === undefined) return undefined;
-      return greater
-        ? value > ratio
+      return greaterOrEqual
+        ? value >= ratio
         : value < ratio;
     },
     filterSpamRatio(item) {
