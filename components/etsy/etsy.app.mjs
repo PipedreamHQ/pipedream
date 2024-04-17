@@ -212,6 +212,14 @@ export default {
         ...args,
       });
     },
+    getListingInventory({
+      listingId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/application/listings/${listingId}/inventory`,
+        ...args,
+      });
+    },
     getListingProperties({
       shopId, listingId, ...args
     } = {}) {
