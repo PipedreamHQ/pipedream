@@ -24,15 +24,10 @@ export default {
       await this.acuityScheduling.deleteHook(webhookId);
     },
   },
-  methods: {
-    getFn() {
-      return this.acuityScheduling.getAppointment;
-    },
-  },
   async run(event) {
     const { body } = event;
 
-    const details = await this.getFn({
+    const details = await this.acuityScheduling.getAppointment({
       id: body.id,
     });
 
