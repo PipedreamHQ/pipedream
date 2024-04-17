@@ -32,6 +32,12 @@ export default {
         "value",
       ],
     },
+    group: {
+      propDefinition: [
+        app,
+        "group",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.app.createVariable({
@@ -41,6 +47,7 @@ export default {
         key: this.key,
         value: this.value,
         workflowId: this.workflowID,
+        group: this.group,
       },
     });
 

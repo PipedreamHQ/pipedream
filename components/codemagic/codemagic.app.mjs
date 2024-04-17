@@ -34,6 +34,12 @@ export default {
       label: "Variable Key",
       description: "Name of the variable",
     },
+    group: {
+      type: "string",
+      label: "Group Name",
+      description: "Required for applications using yaml configuration. Name of the group that the variable should be added to. If the group does not exist, it will be created.",
+      optional: true,
+    },
     value: {
       type: "string",
       label: "Variable Value",
