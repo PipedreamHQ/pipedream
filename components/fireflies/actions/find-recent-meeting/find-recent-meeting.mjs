@@ -26,6 +26,10 @@ export default {
         },
       },
     });
+    if (!meetingId) {
+      $.export("$summary", `No meeting found for user with ID ${this.userId}`);
+      return;
+    }
     const meeting = await this.fireflies.query({
       $,
       data: {
