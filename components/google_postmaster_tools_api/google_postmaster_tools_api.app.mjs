@@ -81,7 +81,7 @@ export default {
     errorRatio: {
       type: "string",
       label: "Error Ratio Greater Than or Equal To",
-      description: "Emit events only when the error ratio (in the specified `Error Categories`, or any if not specified) is greater than, or equal to, the specified value **(should be a number between 0.0 and 1.0).**",
+      description: `Emit events only when the error ratio (in the specified \`Error Categories\`, or any if not specified) is greater than, or equal to, the specified value ${percentageRatioText}`,
       optional: true,
     },
     errorCategories: {
