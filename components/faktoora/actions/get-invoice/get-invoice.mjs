@@ -1,26 +1,34 @@
+import fs from "fs";
 import faktoora from "../../faktoora.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "faktoora-get-invoice",
-  name: "Get Invoice",
-  description: "Fetches an invoice using the unique invoice ID. [See the documentation](https://api.faktoora.com/api/v1/api-docs/static/index.html)",
+  name: "Download Invoice",
+  description: "Download an invoice using the unique invoice number to '/tmp' folder. [See the documentation](https://api.faktoora.com/api/v1/api-docs/static/index.html)",
   version: "0.0.1",
   type: "action",
   props: {
     faktoora,
-    invoiceId: {
+    invoiceNumber: {
       propDefinition: [
         faktoora,
-        "invoiceId",
+        "invoiceNumber",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.faktoora.fetchInvoice({
-      invoiceId: this.invoiceId,
+      $,
+      responseType: "arraybuffer",
+      params: {
+        invoiceNumber: this.invoiceNumber,
+      },
     });
-    $.export("$summary", `Successfully fetched invoice with ID ${this.invoiceId}`);
-    return response;
+
+    const filePath = `/tmp/invoice-${this.invoiceNumber.replace(/\//g, "-")}.pdf`;
+    fs.writeFileSync(filePath, response);
+
+    $.export("$summary", `Successfully downloaded invoice with number: ${this.invoiceNumber}`);
+    return filePath;
   },
 };
