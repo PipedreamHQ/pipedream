@@ -82,7 +82,7 @@ export default {
         path: `/location/${locationId}/reviews`,
       });
     },
-    async searchLocations(args = {}) {
+    searchLocations(args = {}) {
       return this._makeRequest({
         ...args,
         path: "/location/search",
