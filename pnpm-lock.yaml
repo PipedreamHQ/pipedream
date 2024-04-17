@@ -3604,7 +3604,10 @@ importers:
     specifiers: {}
 
   components/hansei:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/happy_scribe:
     specifiers:
