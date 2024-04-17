@@ -1,31 +1,11 @@
 # Overview
 
-With the Spondyr API, you can build powerful digital experiences in less time.
-It is an API that connects multiple services, databases, and resources in one
-place, enabling developers to quickly build serverless applications with
-enterprise-grade security, scalability, and performance.
+The Spondyr API, known as MailboxValidator, is a tool designed to clean and verify email lists, ensuring that businesses can keep their email marketing databases free of invalid, inactive, or disposable email addresses. By integrating Spondyr with Pipedream, you can automate the process of maintaining a high-quality email list, triggering email validation workflows, and integrating with other services to enhance user management, campaign effectiveness, and overall data hygiene.
 
-The Spondyr API can help developers reduce the complexity of creating
-applications by providing the tools to connect multiple services, eliminate
-excess code, and rapidly develop user experiences. Here are a few examples of
-the experiences you can create with Spondyr API:
+# Example Use Cases
 
-- ECommerce Applications – Spondyr API allows developers to create secure and
-  reliable eCommerce applications with integration to multiple payment
-  providers.
-- Cloud Storage Systems – Build cloud-based storage systems that are flawless,
-  fast, and secure.
-- Enterprise Dashboards – Create interactive dashboards with insights that your
-  customers need to make the right decisions.
-- Mobile Applications – Build mobile apps with real-time data updates and
-  secure authentication.
-- Chatbots – Create interactive and AI-powered chatbots to provide instant
-  customer support.
-- Social Networks – Create powerful and secure social networks with the
-  flexibility to add and modify features.
-- Data Visualization – Leverage Spondyr API and create stunning data
-  visualization applications.
+- **Email Verification on User Sign-up**: Trigger a workflow in Pipedream when a new user signs up via your app's API. Use the Spondyr API to validate the email address. If it's valid, continue the sign-up process; if not, reject the sign-up and notify the user to provide a valid email.
 
-With Spondyr API, the possibilities of what you can create are endless. So the
-next time you need to build a digital experience, give Spondyr API a try and
-see what you can create.
+- **Scheduled Email List Cleaning**: Set up a Pipedream cron job to periodically trigger a workflow that sends batches of email addresses from your database to the Spondyr API for validation. After cleaning, update your database by removing invalid emails, and use Pipedream's built-in integrations to log the results to a Google Sheets spreadsheet for record-keeping and further analysis.
+
+- **Real-time Lead Validation in Marketing Campaigns**: Integrate the Spondyr API with your marketing platform via Pipedream. When a lead is captured through a landing page form, instantly validate their email with Spondyr. Based on the validation result, you could route the lead to different nurturing tracks or notify your sales team about high-quality leads with valid email addresses.

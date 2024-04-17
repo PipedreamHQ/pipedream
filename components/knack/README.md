@@ -1,20 +1,11 @@
 # Overview
 
-The Knack API allows developers to access and manipulate data stored in Knack
-databases. With the API, developers can
+The Knack API allows for robust interactions with your Knack database, enabling automation of data entry, retrieval, updates, and deletion. With Pipedream, you can leverage these capabilities to create seamless workflows that react to events in real-time, sync data across platforms, and enhance your database management without manual intervention. Think less about CRUD operations and more about the magic of connecting your Knack data to the digital tools ecosystem.
 
-- Create new records
-- Update existing records
-- Delete records
-- Search for records
-- Get a list of all records
-- Get detailed information about a record
+# Example Use Cases
 
-In addition, the Knack API provides developer with access to Knack's powerful
-customization features, such as
+- **Automated Contact Syncing**: When a new contact is added to a CRM like Salesforce, trigger a Pipedream workflow that creates or updates the corresponding record in a Knack database, ensuring your contact lists are always in sync.
 
-- Creating and updating custom objects
-- Creating and updating custom fields
-- Creating and updating views
-- Creating and updating forms
-- Creating and updating reports
+- **Support Ticket Management**: Use Pipedream to watch for new support tickets submitted via a form on your website. Once a ticket is received, automatically create a new record in Knack and send a Slack message to your support team to prompt immediate action.
+
+- **Inventory Alerts**: Set up a Pipedream workflow to monitor inventory levels in Knack. When stock for a particular item falls below a threshold, automatically send an email alert via SendGrid to your procurement team to reorder, keeping inventory levels optimal.

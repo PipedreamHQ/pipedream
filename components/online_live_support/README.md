@@ -1,23 +1,11 @@
 # Overview
 
-With the WhatsApp by Online Live Support API, you can easily and quickly
-integrate WhatsApp as part of your business process. This API provides
-optimized API for Whatsapp and allows your customers to communicate with you
-through the world's most popular messaging app. This API not only ensures
-customers can conveniently make contact but also increases your customer
-service quality and efficiency.
+The WhatsApp by Online Live Support API on Pipedream lets you automate interactions with WhatsApp, enabling you to send messages, create groups, and manage chats within a workflow. By leveraging this API with Pipedream's capabilities, you can craft event-driven automations that trigger actions in WhatsApp based on external events or conditions defined in other apps, such as receiving a customer support ticket, triggering a follow-up after a certain period, or coordinating team alerts.
 
-Some examples of what you can build with this API include:
+# Example Use Cases
 
-- Chatbots: Leverage AI and automation to respond to customer inquiries quickly
-  and accurately.
-- Automated Broadcast Messages: Send messages automatically to all of your
-  customers or a targeted segment of your contacts.
-- Contact Routing: Route customer messages to the right specialized operators
-  or departments based on their inquiry.
-- Automate Sales Funnells: Pre-define a chat path and trigger automated
-  messages with targeted content at the right time.
-- Integrate WhatsApp with Your Business: Link WhatsApp to your CRM and other
-  systems to move customers through the entire sales funnel.
-- Customize APIs: Customize the API to fit your needs, including creating
-  private custom extensions.
+- **Customer Support Ticket Resolution**: When a new support ticket is created in Zendesk, use Pipedream to trigger an automated WhatsApp message to the customer, acknowledging the issue and providing an estimated time for resolution. This creates a prompt and personal line of communication.
+
+- **E-commerce Order Updates**: Combine WooCommerce events with WhatsApp messaging to inform customers of their order status. After an order is placed, Pipedream can send a confirmation message via WhatsApp. It can also notify customers when their order is shipped or delivered for a seamless shopping experience.
+
+- **Team Coordination Alerts**: In a Slack-driven team environment, use Pipedream to monitor for specific messages or keywords. Once detected, trigger a WhatsApp message to alert off-Slack team members. This is especially useful for urgent issues requiring immediate attention from various team members who might not be active on Slack.

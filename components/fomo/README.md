@@ -1,16 +1,11 @@
 # Overview
 
-With the Fomo API, you can build a variety of applications that can help
-increase engagement and conversions on your website or online store. Examples
-of applications that can be built using the Fomo API include:
+The Fomo API enables real-time social proof by broadcasting customer interactions, like purchases or sign-ups, to site visitors, fostering a sense of urgency and trust. Leveraging this API on Pipedream, developers can create dynamic, event-driven workflows that respond to these social cues with automated actions like sending emails, updating CRM records, or triggering custom notifications.
 
-- A social proof notifications app that can display recent customer activity on
-  your site in real-time, such as recent purchases, sign-ups, or downloads.
-- An email capture form that can be triggered when a user shows interest in a
-  product or service on your site.
-- A live chat widget that can be used to engage with visitors in real-time and
-  answer any questions they may have.
-- A referral program that can incentivize users to spread the word about your
-  products or services.
-- A live blog or news feed that can keep visitors up-to-date on the latest
-  happenings on your site.
+# Example Use Cases
+
+- **Boost Email Marketing with Real-time Triggers**: When a new purchase event is broadcasted by Fomo, a Pipedream workflow can automatically capture this event and use it to trigger a personalized follow-up email to the buyer, perhaps offering a discount on their next purchase or requesting a product review.
+
+- **Enhanced Customer Relations with CRM Integration**: Upon receiving a new 'sign-up' event via Fomo, Pipedream can seamlessly update a CRM platform like Salesforce or HubSpot, adding the new user to a targeted outreach campaign, ensuring they're engaged with relevant content from the outset.
+
+- **Social Proof Driven Inventory Management**: Fomo's 'product sold' events can be utilized by Pipedream workflows to monitor sales in real-time, interfacing with inventory management systems to adjust stock levels, reorder products, or analyze sales trends for future planning.

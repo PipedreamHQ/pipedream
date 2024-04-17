@@ -1,16 +1,11 @@
 # Overview
 
-The Pointerpro API lets you develop interactive, visually stunning tools and applications. With the Pointerpro API, you can harness the power of the web to build apps that move beyond the browser and into the physical world.
+The Pointerpro API enables automated interactions with Pointerpro's survey platform, allowing developers to create, manage, and analyze surveys without manual intervention. This can streamline feedback collection and data analysis, making it easier to integrate customer insights into business processes. With Pipedream, you can leverage the Pointerpro API to build custom workflows that trigger actions in other apps, based on survey responses or other events, making your data work for you in real-time.
 
-Here are some examples of what you can create using the Pointerpro API:
+# Example Use Cases
 
-- Apps that allow users to explore physical spaces, such as retail stores or warehouses.
-- Interactive web applications that allow users to interact with objects in augmented reality.
-- Services for creating virtual and blended reality travel experiences.
-- Tools for data visualization, such as charts, graphs, and business intelligence.
-- Real-time 3D game development platforms.
-- Automated, AI-driven digital marketing campaigns.
-- Augmented reality apps for decision-making and analytics.
-- Cloud-based inventory management systems.
-- Interactive guides for learning about new products and services.
-- Smart home automation devices.
+- **Survey Response to CRM Update**: When a survey is completed, Pipedream can capture the response and update a contact or lead record in a CRM like Salesforce or HubSpot with the new data. This keeps customer profiles up-to-date with their latest feedback and preferences.
+
+- **Net Promoter Score (NPS) Alerting**: Create a workflow where Pipedream listens for new NPS survey submissions. If a score falls below a certain threshold, trigger an alert in Slack or send an email to the customer success team, prompting immediate follow-up with the dissatisfied customer.
+
+- **Automated Survey Result Analysis**: Use Pipedream to send completed survey responses to a data analysis tool like Google Sheets or Tableau. Apply formulas or visualizations to identify trends and insights, which can then be shared with stakeholders through automated reports.

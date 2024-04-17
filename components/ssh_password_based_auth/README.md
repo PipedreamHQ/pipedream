@@ -1,29 +1,11 @@
 # Overview
 
-The SSH (Secure Shell) API provides users with a secure and reliable way to
-connect to a remote server. This can be used to connect to remote systems and
-transfer data and files, as well as manage and configure remote systems. With
-the SSH API, you can authenticate with a password-based authentication.
+The SSH (password-based auth) app on Pipedream facilitates the orchestration of commands and automations on remote servers securely. With it, you can execute shell commands, manage files, and run scripts on your server as part of Pipedream workflows. This unlocks the potential for a host of automations like deploying applications, monitoring system performance, or automating backups — all triggered by events from numerous apps supported on Pipedream.
 
-This is a powerful tool for managing remote systems and networks, providing a
-secure and efficient way to access and manage resources. You can use the SSH
-API to build the following applications and services:
+# Example Use Cases
 
-- Remote Tunneling/Port Forwarding - Create secure tunnels over a network,
-  allowing traffic to pass through a secure port.
-- File Transfers - Move files securely to and from remote systems.
-- System/Network Management - Manage and configure remote hosts, networks, and
-  systems.
-- Remote System Backup/Restore - Create secure backups of systems and networks,
-  and restore them in case of an emergency.
-- Scripting/Automation - Automate administrative and maintenance tasks.
-- Secure Shell Hosting - Create and host secure shell servers, allowing users
-  to connect securely to remote systems and networks.
-- Secure Network Tunneling - Create secure tunnels over an existing network,
-  allowing encrypted traffic to pass through.
-- Secure Chat - Create secure chat servers, allowing users to communicate
-  securely through an encrypted channel.
-- Secure File Storage - Create secure file storage solutions, allowing users to
-  store their data securely behind encryption.
-- Secure VPN - Create secure Virtual Private Network (VPN) systems, allowing
-  users to remotely connect securely to remote networks.
+- **Automated Deployment on Git Push**: When a new commit is pushed to a specific branch on GitHub, trigger a Pipedream workflow that uses SSH to pull the latest code changes and restarts the application on a remote server. This streamlines deployment processes and ensures that the latest version is always running.
+
+- **Scheduled Database Backups**: Set up a Pipedream workflow that triggers on a schedule (e.g., nightly) to SSH into your server and execute a database backup script. The workflow could then save the backup file to cloud storage like Google Drive or Dropbox, offering you both automation and offsite backup storage.
+
+- **Real-time Server Monitoring and Alerts**: Create a Pipedream workflow that periodically runs diagnostics via SSH on your server. The results could be sent to a monitoring app like Datadog, or used to trigger alerts via email or Slack if certain metrics exceed predefined thresholds, ensuring prompt response to potential issues.

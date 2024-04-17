@@ -1,26 +1,11 @@
 # Overview
 
-What You Can Build With the OANDA API
+The OANDA API enables you to tap into the world of forex trading, providing real-time currency exchange rates, and the ability to automate trading strategies, manage accounts, access market data, and more. On Pipedream, you can craft workflows that capitalize on OANDA's capabilities, such as reacting to market changes, automating trades based on custom logic, and syncing forex data with other business applications for analysis and decision-making.
 
-The OANDA API allows developers to build a wide range of financial trading
-applications. It provides APIs for Spot, FX, and CFD Trading, Historical
-Currency Conversion, and Exchange Rates. With the tools and services offered by
-OANDA, you can create the following types of programs and applications:
+# Example Use Cases
 
-- Automated Trading System: With OANDA's API, you can create rules-based
-  trading systems which are capable of automatically executing trades based on
-  user-defined parameters.
-- Currency Conversion: OANDA's API enables you to access and convert currency
-  exchange rates on demand.
-- Market Data and Analysis: OANDA's APIs allow developers to access market data
-  and perform technical analysis to form trading decisions.
-- Portfolio Management: OANDA's APIs enable developers to monitor and manage
-  portfolios of different financial instruments.
-- Risk Management and Fraud Protection: OANDA's APIs help developers to control
-  risks and detect fraudulent activities in their trading applications.
-- Regulatory Compliance: With OANDA's APIs, developers can ensure that their
-  investment applications comply with the necessary regulations.
-- Multi-Currency Support: OANDA's APIs enable developers to easily add support
-  for multiple currencies to their applications.
-- Algorithmic Trading: OANDA's APIs can be used to develop sophisticated
-  algorithms for trading various financial instruments.
+- **Automated Trading Strategy**: Trigger a Pipedream workflow when specific forex signals are detected in OANDA. Use conditional logic to place trades automatically back on OANDA when certain technical indicators or price thresholds are met, ensuring timely execution of your trading strategy.
+
+- **Forex Data Sync for Analytics**: Schedule a recurring Pipedream workflow that fetches the latest exchange rates from OANDA and pushes them to a Google Sheets document. Leverage this for ongoing analysis or to fuel business intelligence dashboards that help inform company financial decisions.
+
+- **Market Alert Notifications**: Create a Pipedream workflow that monitors OANDA for significant market events or price movements. When specified conditions are detected, automatically send out alert notifications via email, SMS (Twilio), or messaging apps like Slack to keep you or your team instantly informed about critical market changes.

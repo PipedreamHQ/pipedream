@@ -1,15 +1,11 @@
 # Overview
 
-Using Productboard API, you can create powerful solutions to help better manage your product development needs. With the API, you can access and manipulate data stored in the Productboard platform, including project management, customer relationship management (CRM) tasks, and product development tracking. Here are just a few examples of what can be built with Productboard API:
+The Productboard API offers a way to extend the capabilities of Productboard, a product management platform that helps teams organize and prioritize user feedback and feature requests. By leveraging this API on Pipedream, you can automate repetitive tasks, sync data across various apps, and create custom integrations to streamline your product management process. This can include automating feedback collection, updating roadmaps, or coordinating cross-functional team efforts.
 
-- Automate process: With a custom API integration, businesses can quickly automate routine processes and instead focus more on other creative endeavors.
+# Example Use Cases
 
-- Build better product roadmaps: With the API, teams can access and update product roadmap data in real-time to help craft the vision for the future of their product line.
+- **Feature Request Syncing**: Automatically sync new feature requests from Productboard to a project management tool like JIRA or Trello. Once a new feature is noted in Productboard, a Pipedream workflow can create a corresponding ticket or card in your project tracking app, ensuring no request goes unnoticed by the development team.
 
-- Generate project reports: The API enables product teams to quickly retrieve project data to compile reports that analyze a product development's performance.
+- **User Feedback Aggregation**: Collect user feedback from multiple channels, such as support tickets or social media mentions, and funnel this information into Productboard. Use Pipedream to monitor these channels, parse the relevant data, and create new insights or notes in Productboard to inform your product's direction.
 
-- Collect product feedback: After implementing an API-powered feedback form, teams can inform future product decisions with customer feedback.
-
-- Craft effective customer onboarding: API solutions can help streamline customer onboarding processes to ensure quick adoption and long-term customer retention.
-
-- Manage customer support tickets: With API access to customer support tickets data, teams can reduce their response times and resolve customer issues faster.
+- **Automated Roadmap Updates**: Integrate Productboard with your internal communication tools like Slack. Whenever there's a status update on a feature in Productboard, Pipedream can trigger a notification in a dedicated Slack channel, keeping the entire team informed about what's next on the product roadmap.

@@ -1,24 +1,17 @@
 # Overview
 
-OnceHub API is an efficient and reliable way to build automated,
-programmatically managed appointment scheduling for your organization. With the
-OnceHub API, you can build a wide range of applications like booking systems,
-appointment and event scheduling, automated marketing campaigns, and much more.
+The OnceHub API is a powerful tool for automating the scheduling of meetings and appointments. With this API, you can dynamically manage bookings, sync calendars, personalize notifications, and streamline the entire process of setting up and following up on appointments. When used on Pipedream, you can harness the serverless power of the platform to trigger workflows based on events in OnceHub, or to act upon data from other services, making the maintenance of your calendar and scheduling needs a breeze.
 
-Some of the specific applications that you can create with OnceHub API include:
+# Example Use Cases
 
-- Automated appointment booking systems
-- Event scheduling and management tools
-- Automated marketing campaigns
-- Automated task scheduling and tracking
-- Automated customer relationship management (CRM) tools
-- Automated customer feedback systems
-- Automated customer segmentation and targeting
-- Automated sales and support team organization
-- Custom-built third-party integrations
+**Automated Meeting Follow-Up Emails**
 
-By leveraging OnceHub API, businesses can create more efficient and
-cost-effective appointment management processes, helping to reduce manual labor
-and free up time to focus on other areas of their business. Moreover, with the
-ability to manage booking and scheduling across multiple time zones, businesses
-can better optimize their resources for better performance.
+- After a meeting is scheduled via OnceHub, a Pipedream workflow automatically triggers, sending a personalized follow-up email through a service like SendGrid or Gmail. This email can include meeting notes, action items, or a link to a feedback survey to enhance client engagement.
+
+**Slack Notifications for New Bookings**
+
+- When a new booking is made in OnceHub, Pipedream detects this event and posts a message to a designated Slack channel. This immediate notification enables a team to swiftly acknowledge new appointments and prepare accordingly, keeping everyone in the loop.
+
+**Sync Appointments to Google Calendar**
+
+- As soon as an appointment is booked through OnceHub, Pipedream triggers a workflow that creates an event in Google Calendar. This ensures that all appointments made through OnceHub are automatically reflected on your primary calendar, keeping your schedule up-to-date across platforms.

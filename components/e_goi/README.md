@@ -1,14 +1,11 @@
 # Overview
 
-The E-goi API allows developers to access and integrate the functionality of
-E-goi with other applications.
+E-goi's API lets you automate multichannel marketing campaigns, manage contacts, send out transactional emails, and much more. Pipedream, as a serverless integration and compute platform, amplifies these capabilities by allowing you to create workflows that trigger actions in E-goi based on events from a myriad of other services or custom logic.
 
-Some example applications that can be built using the E-goi API include:
+# Example Use Cases
 
-- A CRM application that integrates with E-goi to allow users to manage their
-  contacts and campaigns
-- An email marketing application that uses E-goi to send out mass emails
-- A web application that allows users to sign up for newsletters and other
-  email lists
-- A mobile application that allows users to manage their E-goi account and
-  campaigns on the go
+- **Sync New E-commerce Customers to E-goi**: Automatically add new customers from Shopify to a specific list in E-goi. When a customer is created in Shopify, the workflow triggers, adding the customer's details to E-goi for future email marketing campaigns.
+
+- **Update CRM Leads with Email Engagement Data**: Sync engagement data from E-goi to Salesforce leads. If someone opens an email or clicks a link, the corresponding lead in Salesforce is updated with this interaction, keeping sales teams informed about prospect engagement.
+
+- **Automate Support Ticket Creation from Email Replies**: When a customer replies to a marketing email, automatically create a support ticket in Zendesk. This ensures that customer inquiries are swiftly addressed without manual email monitoring.

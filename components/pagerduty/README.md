@@ -1,16 +1,11 @@
 # Overview
 
-PagerDuty's APIs allow you to integrate the powerful incident response
-capabilities of PagerDuty with your own custom applications. With PagerDuty's
-APIs, you can build applications to optimize your incident response process,
-collaborate with teams more effectively, and analyze data from your incident
-response process. Here are some examples of what you can do with PagerDuty's
-APIs:
+The PagerDuty API offers a powerful interface to automate your digital operations management. By leveraging its capabilities on Pipedream, you can create workflows that respond to incidents, automate alerts, and synchronize incident data across various platforms. PagerDuty's API enables you to manage services, teams, and incidents, ensuring that your systems remain operational and that the right people are notified at the right time.
 
-- Create and manage automated incident response workflows
-- Automatically trigger actions based on incident response events
-- Enable communication between PagerDuty and other third party applications
-- Pull data from your previous incident response processes to identify best
-  practices
-- Create custom reporting tools and insights into incident response processes
-- Monitor multiple teams and services at once
+# Example Use Cases
+
+- **Incident Response Coordination**: Trigger a workflow on Pipedream when a new incident is reported in PagerDuty. Automatically notify team members via Slack, create a Zoom meeting for immediate response, and log the incident details in a Google Sheet for record keeping.
+
+- **Scheduled On-Call Reminders**: Use Pipedream to schedule and send on-call reminders to team members. The workflow could check the PagerDuty on-call schedule and send an SMS via Twilio to the on-call engineer the day before their shift starts, ensuring they are aware and prepared.
+
+- **Automated Incident Escalation**: Create a Pipedream workflow that listens for incidents that haven't been acknowledged within a set time frame. Automatically escalate the issue by creating a Jira ticket, posting a message to a specific Microsoft Teams channel, and calling the secondary on-call person via Twilio.

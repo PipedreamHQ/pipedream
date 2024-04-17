@@ -1,28 +1,11 @@
 # Overview
 
-The [VivifyScrum API](https://www.vivifyscrum.com/) enables developers to
-create powerful and customised tools for their customers. By harnessing the
-VivifyScrum API, users can access a wide range of options for building tools
-for their business.
+The VivifyScrum API unleashes the potential to automate your agile project management by interfacing with your scrum boards, backlogs, and work items. Through Pipedream's serverless platform, you can create workflows that respond to events within VivifyScrum, such as new tasks or status updates. This allows for synchronization of project data across various platforms, reporting, and triggering actions in other tools, thereby enhancing productivity and providing real-time insights.
 
-VivifyScrum offers a range of tools for customising customer’s online
-experiences. You can create applications that allows customers to manage
-customer accounts, manage customer records, and manage data in general.
-VivifyScrum also offers access to the customer’s customer relationship
-management (CRM) system.
+# Example Use Cases
 
-Some of the other features of the VivifyScrum API include visual customisation,
-data manipulation, and more. The API also provides support for integrations
-with third-party services such as payment gateways, email services, and chat
-applications.
+**Automate Task Creation from Emails**: When you receive an email in Gmail with a specific subject or from a particular sender, use Pipedream to parse the email and automatically create a backlog item or task in VivifyScrum. This ensures that action items from emails are captured without manual entry.
 
-These are just a few examples of the kinds of tools you can create with the
-VivifyScrum API:
+**Sync Tasks with Calendar**: Integrate VivifyScrum with Google Calendar to add due dates from tasks as events. Whenever a due date is assigned or updated in VivifyScrum, it triggers a Pipedream workflow that creates or updates a corresponding event in Google Calendar, helping to keep track of deadlines visually.
 
-- Automated product recommendations
-- Customised customer surveys
-- Data-driven customer segmentation
-- Automated lead qualification
-- Seamless integrations with external systems and services
-- Analytics and reporting of customer data
-- Tools for managing customer relationships
+**Slack Notifications for Board Updates**: Set up a Pipedream workflow that listens for changes on VivifyScrum boards and sends a notification to a designated Slack channel. This keeps the team informed in real-time when tasks are moved across stages, completed, or when comments are added, fostering collaboration and immediate response to updates.

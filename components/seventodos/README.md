@@ -1,17 +1,11 @@
 # Overview
 
-7todos is a powerful task automation API for managing tasks and to-dos. With
-this powerful API, you can easily create custom workflows and automate
-processes that help you save valuable time. In short, it is an efficient way to
-simplify your task management.
+The 7todos API empowers you to streamline the task management process by allowing you to create, read, update, and delete todos within your 7todos lists. With Pipedream, you can leverage these capabilities to automate workflows, sync tasks across multiple platforms, set reminders, or even analyze task completion rates. By connecting 7todos to other apps, you can create a seamless ecosystem for personal productivity or team collaboration.
 
-Here are some of the things that you can build with the 7todos API:
+# Example Use Cases
 
-- Automate repetitive tasks like data recording, filtering and sorting.
-- Create custom task filters that show relevant tasks only.
-- Send out task notifications, reminders and updates to users.
-- Automate team task assignments.
-- Create projects and assign tasks to members of your team.
-- Track and monitor task progress.
-- Create custom task views and dashboards.
-- Create custom reports to view task and activity analysis.
+- **Task Synchronization with Google Calendar**: Create a Pipedream workflow that listens for new tasks added in 7todos, then automatically creates corresponding events in Google Calendar. This ensures that your tasks are not just confined to your todo list but are also visible as part of your daily schedule.
+
+- **Slack Notifications for Completed Tasks**: Set up a Pipedream automation that monitors for task completions in 7todos. Once a task is marked completed, trigger a notification to a specified Slack channel or direct message to keep your team updated on project progress in real-time.
+
+- **Email Digest of Daily Tasks**: Use Pipedream to construct a daily workflow that fetches all tasks due for the day from 7todos each morning and compiles them into an email digest. Send this digest to your email or distribute it to your team to provide a clear outline of the day's priorities.

@@ -1,29 +1,11 @@
 # Overview
 
-Yelp's API enables developers to access Yelp's vast collection of business
-data, including descriptions, user reviews, and more. With the help of the Yelp
-API, you can leverage the wealth of information within the Yelp network to
-create powerful applications and services.
+The Yelp API provides access to rich data on local businesses across various categories, including restaurants, bars, and service providers. Leveraging Yelp's API on Pipedream allows you to automate the retrieval of business information, ratings, and customer reviews, which can be instrumental in making data-driven decisions for market analysis, customer insights, or even personal use. By stitching the Yelp API into Pipedream workflows, you unlock potential for real-time monitoring, data collection, and cross-application synergy, enhancing your business intelligence and operational efficiency.
 
-There are countless possibilities for what you can create with the Yelp API, a
-few notable examples include:
+# Example Use Cases
 
-- Restaurant recommendations app - Make use of the Yelp API to create a
-  restaurant recommendation app for users. It can offer suggestions of nearby
-  dining options based on user's current location, preferences, budget and so
-  on.
-- Business Finder App - Create a business-finding application using the Yelp
-  API's information about business owners, locations, reviews and more. It can
-  quickly source results according to a user's search query.
-- Custom Review Aggregator - With the Yelp API, you can create a custom review
-  aggregator that takes reviews from Yelp, along with other review sources, and
-  organizes them into one single place.
-- Benchmarking Reports - Create detailed reports with the help of the Yelp API
-  and visualize the comparative success of a user's business to their
-  competitors.
-- Visual Search - Another interesting application that can be created with the
-  Yelp API is a visual search engine. It can take an image and provide search
-  results related to the image.
-- Trip Planning Tool - Utilize the Yelp API to build a trip planning tool that
-  provides all the details about the places to see, things to do and places to
-  visit on a particular trip.
+- **Local Restaurant Insights Dashboard**: Aggregate data from Yelp for all restaurants in a specific area, categorize them based on ratings and reviews, and then pipe this data into Google Sheets using Pipedream. This creates a real-time dashboard that updates automatically, allowing users to quickly identify top-rated restaurants for market analysis or personal culinary exploration.
+
+- **Notification System for New Reviews**: Monitor Yelp for new reviews on a particular set of businesses. When a new review is detected, use Pipedream's workflow to trigger an email or a Slack message to the business owner or the customer service team, providing them with immediate feedback for quality control and rapid response management.
+
+- **Competitive Analysis Automation**: Set up a Pipedream workflow that periodically fetches ratings and reviews of competitors and compares them against your own business metrics. By integrating this data with a tool like Airtable, you can maintain a live database of competitive intelligence, helping in strategic business planning and marketing efforts.

@@ -1,23 +1,11 @@
 # Overview
 
-The ProProfs Project API allows developers to build sophisticated project management applications. With its straightforward integration and comprehensive toolkits, the ProProfs Project API can easily be used to build powerful websites and applications. With its comprehensive endpoints, you can access and manipulate project workspaces, tasks, assignments, resources, events, projects, and more. Here are a few examples of what you can build with the ProProfs Project API:
+The Project Bubble (ProProfs Project) API offers a suite of project management tools that can help streamline workflows, improve collaboration, and track progress on tasks and milestones within a project. Using Pipedream, you can automate interactions between Project Bubble and other apps, create custom events based on project changes, and manage your projects efficiently. From syncing tasks with calendar apps to triggering notifications when project milestones are reached, the possibilities are vast for enhancing productivity and project oversight.
 
-1. Task Management Applications - Easily create and manage tasks, as well as assign tasks to people or groups.
+# Example Use Cases
 
-2. Resource Management - Track resources and manage their availability.
+- **Project Updates to Slack Notifications**: Automate the process of informing your team by sending notifications to a Slack channel whenever there is an update in Project Bubble, such as a new task creation, task completion, or a change in project status. This keeps the team aligned and promptly informed.
 
-3. Task Scheduling - Automatically create calendar entries and assign tasks based on availability.
+- **Task Synchronization with Google Calendar**: Keep your schedules in sync by creating events in Google Calendar whenever a new task with a due date is added in Project Bubble. This ensures that deadlines are visible across different platforms and helps with time management.
 
-4. Timelogging - Track everyone’s time spent on tasks to ensure everyone is efficient.
-
-5. Project Dashboards - Create high-level overviews of project progress.
-
-6. Milestone Tracking - Monitor progress towards project milestones.
-
-7. Team Collaboration - Foster collaboration among project teams with built-in tools.
-
-8. Project Analytics - Track project success and monitor performance metrics.
-
-9. Project Planning & Forecasting - Understand project dependencies and forecast outcomes.
-
-10. Notification & Alerts - Automatically notify project managers and team members of important tasks and events.
+- **Project Metrics to Google Sheets**: Compile project data, like time tracking and task completion metrics, into a Google Sheet automatically. This can serve for reporting purposes, performance reviews, or resource allocation analysis, providing a clear view of project health and team productivity.
