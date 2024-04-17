@@ -3215,6 +3215,12 @@ importers:
   components/godial:
     specifiers: {}
 
+  components/gohighlevel:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
+
   components/gong:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3704,7 +3710,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/highlevel_oauth:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/hippo_video:
     specifiers: {}
