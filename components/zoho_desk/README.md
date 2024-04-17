@@ -12,3 +12,15 @@ After a ticket is marked as resolved in Zoho Desk, trigger an automated follow-u
 
 **Support Dashboard Sync**
 Sync Zoho Desk data to a business intelligence tool like Google Data Studio to visualize customer support performance. With Pipedream, you can set up a workflow that periodically extracts ticket metrics and pushes them to your dashboard, providing your team with real-time insights into support operations and customer satisfaction trends.
+
+# Troubleshooting
+
+**Issues Connecting My Account: IP Allowlist**
+
+If your Zoho security policy includes an IP Allowlist, update it to connect your account:
+
+1. Add this IP Range: `44.223.89.56` - `44.223.89.63`.
+2. Include your current IP Address because the initial OAuth authorization request originates from your browser.
+3. Set up a [Virtual Private Cloud (VPC) on Pipedream](https://pipedream.com/docs/workflows/vpc#create-a-new-vpc). Add the [static IP address](https://pipedream.com/docs/workflows/vpc#find-the-static-outbound-ip-address-for-a-vpc) to Zoho's IP Allowlist. Note: VPCs are available with Pipedream's **Business Plan** or higher. See [pricing](https://pipedream.com/pricing) for details.
+
+After connecting your account, make sure to [run the workflow within a VPC](https://pipedream.com/docs/workflows/vpc#run-workflows-within-a-vpc).
