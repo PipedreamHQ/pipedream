@@ -1,13 +1,26 @@
-import { defineApp } from "@pipedream/types";
+import { axios } from "@pipedream/platform";
 
-export default defineApp({
+export default {
   type: "app",
   app: "highlevel_oauth",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://services.leadconnectorhq.com";
+    },
+    async _makeRequest({
+      $ = this,
+      headers,
+      ...otherOpts
+    }) {
+      return axios($, {
+        baseURL: this._baseUrl(),
+        headers: {
+          ...headers,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        ...otherOpts,
+      });
     },
   },
-});
+};
