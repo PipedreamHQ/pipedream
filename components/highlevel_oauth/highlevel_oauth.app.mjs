@@ -3,7 +3,26 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "highlevel_oauth",
-  propDefinitions: {},
+  propDefinitions: {
+    locationId: {
+      type: "string",
+      label: "Location ID",
+      description: "Select a location or provide a custom location ID",
+      async options({ page }) {
+        const { locations } = await this.searchLocations({
+          params: {
+            limit: page,
+          },
+        });
+        return locations?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://services.leadconnectorhq.com";
@@ -42,6 +61,12 @@ export default {
       return this._makeRequest({
         method: "POST",
         url: "/contacts/upsert",
+        ...args,
+      });
+    },
+    async searchLocations(args) {
+      return this._makeRequest({
+        url: "/locations/search",
         ...args,
       });
     },
