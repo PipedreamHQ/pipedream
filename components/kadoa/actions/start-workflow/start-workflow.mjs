@@ -1,5 +1,4 @@
 import kadoa from "../../kadoa.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "kadoa-start-workflow",
@@ -18,6 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.kadoa.triggerWorkflow({
+      $,
       workflowId: this.workflowId,
     });
     $.export("$summary", `Successfully triggered workflow ${this.workflowId}`);

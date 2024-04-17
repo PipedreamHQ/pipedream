@@ -7,60 +7,65 @@ export default {
     workflowId: {
       type: "string",
       label: "Workflow ID",
-      description: "The ID of the workflow to be triggered.",
+      description: "The ID of the workflow to be triggered. The workflow must be approved.",
+      async options() {
+        const data = await this.getWorkflowsOverview();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.kadoa.com";
+      return "https://api.kadoa.com/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "x-api-key": `${this.$auth.api_key}`,
+        "Accept": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
       });
     },
-    async triggerWorkflow({ workflowId }) {
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks/subscribe",
+        ...opts,
+      });
+    },
+    deleteWebhook(hookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/unsubscribe/${hookId}`,
+      });
+    },
+    triggerWorkflow({
+      workflowId, ...opts
+    }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/v2/controller/run/${workflowId}`,
+        path: `/controller/run/${workflowId}`,
+        ...opts,
       });
     },
-    async getWorkflowData({ workflowId }) {
+    getWorkflowsOverview() {
       return this._makeRequest({
         method: "GET",
-        path: `/v2/data/${workflowId}`,
-      });
-    },
-    async getWorkflowStatus({ workflowId }) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/v2/controller/status/${workflowId}`,
-      });
-    },
-    async getWorkflowRunsHistory({ workflowId }) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/v2/workflow-runs-history/${workflowId}`,
-      });
-    },
-    async getWorkflowsOverview() {
-      return this._makeRequest({
-        method: "GET",
-        path: "/v2/controller/overview",
+        path: "/controller/overview",
       });
     },
   },
-  version: "0.0.1",
 };
