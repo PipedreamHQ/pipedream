@@ -44,8 +44,8 @@ export default {
     },
     userReportedSpamRatio: {
       type: "string",
-      label: "User Reported Spam Ratio Greater Than",
-      description: `Emit events only when the user reported spam ratio is greater than the specified value ${percentageRatioText}`,
+      label: "User Reported Spam Ratio Greater Than or Equal To",
+      description: `Emit events only when the user reported spam ratio is greater than, or equal to, the specified value ${percentageRatioText}`,
       optional: true,
     },
     spfSuccessRatio: {
