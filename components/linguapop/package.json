@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/linguapop",
+  "version": "0.0.1",
+  "description": "Pipedream Linguapop Components",
+  "main": "linguapop.app.mjs",
+  "keywords": [
+    "pipedream",
+    "linguapop"
+  ],
+  "homepage": "https://pipedream.com/apps/linguapop",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
