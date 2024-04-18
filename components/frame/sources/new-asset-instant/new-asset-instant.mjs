@@ -19,5 +19,8 @@ export default {
         "asset.created",
       ];
     },
+    async getResourceData(id) {
+      return this.app.getAsset(id);
+    },
   },
 };

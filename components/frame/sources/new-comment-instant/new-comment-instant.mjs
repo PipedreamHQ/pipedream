@@ -19,5 +19,8 @@ export default {
         "comment.created",
       ];
     },
+    async getResourceData(id) {
+      return this.app.getComment(id);
+    },
   },
 };

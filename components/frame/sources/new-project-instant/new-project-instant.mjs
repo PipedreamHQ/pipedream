@@ -19,5 +19,8 @@ export default {
         "project.created",
       ];
     },
+    async getResourceData(id) {
+      return this.app.getProject(id);
+    },
   },
 };
