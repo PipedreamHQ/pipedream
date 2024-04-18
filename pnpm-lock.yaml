@@ -1283,6 +1283,9 @@ importers:
   components/chatfuel_dashboard_api_:
     specifiers: {}
 
+  components/chatlayer:
+    specifiers: {}
+
   components/chatpdf:
     specifiers:
       '@pipedream/platform': ^1.6.0
