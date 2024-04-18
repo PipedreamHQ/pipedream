@@ -1,20 +1,19 @@
-# ⭐️ Image Anonymization
+# Overview
 
-High-Accuracy solution for automatic detection and blurring of sensitive areas in images. Cloud-based Image Anonymization API detects and blurs faces and license plates in photos, ensuring sensitive information remains unrecognizable for secure privacy protection.
+⭐️ **Image Anonymization** – is a high-Accuracy solution for automatic detection and blurring of sensitive areas in images. Cloud-based Image Anonymization API detects and blurs faces and license plates in photos, ensuring sensitive information remains unrecognizable for secure privacy protection.
 
 ![image-anonymization](https://storage.googleapis.com/api4ai-static/rapidapi/img_anonymization_0.gif)
 
 
-
-# 🤖 Demo
+## 🤖 Demo
 
 Discover the Image Anonymization Web demo for free and get a feel for its capabilities before diving deeper. No registration is required: https://api4.ai/apis/image-anonymization/#demo-wrapper
 
 
 
-# 🚀 Getting started
+# Getting started
 
-## Subscribe and get API key
+## 🚀 Subscribe and get API key
 
 To use Image Anonymization, start at [RapidAPI](https://rapidapi.com/), a well-known API hub. Register, subscribe to begin, and obtain an API key:
 
@@ -23,7 +22,7 @@ To use Image Anonymization, start at [RapidAPI](https://rapidapi.com/), a well-k
 3. In the "Header Parameters" section, your API Key will be shown in the `X-RapidAPI-Key` field.
 
 
-## Parameters
+## 🛠 Parameters
 
 ### API Key
 
@@ -86,7 +85,7 @@ By default, Image Anonymization detects and hides both faces and license plates.
 💡 **Hint**: Enabling the `Faces only` or `Licence plates only` mode may also improve overall performance.
 
 
-## Returned values
+## ↩️ Returned values
 
 The "Image Anonymization" action returns a set of values which can be used to obtain processing results:
 
@@ -121,16 +120,3 @@ Bounding box coordinates are normalized, meaning they range from `0.0` to `1.0`.
 Possible classes:
 * `Face`
 * `License plate`
-
-
-
-# 📌 Contacts and social links
-
-👉️️ Website: https://api4.ai  
-🤖 Web demo: https://api4.ai/apis/image-anonymization#demo-wrapper  
-📩 Email: hello@api4.ai  
-💬 Chat: https://t.me/a4a_support_bot  
-🔗 Instagram: https://www.instagram.com/api4ai  
-🔗 Facebook: https://www.facebook.com/api4ai.solution  
-🔗 X (twitter): https://twitter.com/api4ai  
-🔗 LinkedIn: https://www.linkedin.com/company/api4ai/
