@@ -1,93 +1,99 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "videoask",
   propDefinitions: {
-    formName: {
+    organizationId: {
       type: "string",
-      label: "Form Name",
-      description: "Name for the new form",
-    },
-    formSettings: {
-      type: "object",
-      label: "Form Settings",
-      description: "Optional settings for the form creation such as public or private status, form design, etc",
-      optional: true,
+      label: "Organization ID",
+      description: "ID of an organization",
+      async options() {
+        const { results } = await this.listOrganizations();
+        return results?.map(({
+          organization_id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     formId: {
       type: "string",
       label: "Form ID",
-      description: "ID of the form where the question will be created",
-    },
-    questionContent: {
-      type: "string",
-      label: "Question Content",
-      description: "Content of the question to be created",
-    },
-    questionConfig: {
-      type: "object",
-      label: "Question Configuration",
-      description: "Optional configurations for the question including type, options for multiple choice, layout, etc",
-      optional: true,
-    },
-    contactInfo: {
-      type: "object",
-      label: "Contact Information",
-      description: "Contact information including name, email, phone number, etc",
+      description: "ID of the form",
+      async options({
+        page, organizationId,
+      }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { results } = await this.listForms({
+          organizationId,
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return results?.map(({
+          form_id: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.videoask.com";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
+        organizationId,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `Bearer ${this.$auth.api_token}`,
+          "organization-id": organizationId,
         },
       });
     },
-    async createForm({
-      formName, formSettings,
-    }) {
+    listOrganizations(opts = {}) {
+      return this._makeRequest({
+        path: "/organizations",
+        ...opts,
+      });
+    },
+    listForms(opts = {}) {
+      return this._makeRequest({
+        path: "/forms",
+        ...opts,
+      });
+    },
+    createForm(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/forms",
-        data: {
-          name: formName,
-          settings: formSettings,
-        },
+        ...opts,
       });
     },
-    async createQuestion({
-      formId, questionContent, questionConfig,
-    }) {
+    createQuestion(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/forms/${formId}/questions`,
-        data: {
-          content: questionContent,
-          config: questionConfig,
-        },
+        path: "/questions",
+        ...opts,
       });
     },
-    async createContact(contactInfo) {
+    createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/contacts",
-        data: contactInfo,
+        path: "/respondents",
+        ...opts,
       });
     },
   },
