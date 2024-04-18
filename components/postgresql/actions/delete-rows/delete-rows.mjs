@@ -65,7 +65,7 @@ export default {
       $.export("$summary", `Deleted ${rows.length} rows from ${table}`);
       return rows;
     } catch (error) {
-      let errorMsg = "Row not deleted due to an error.";
+      let errorMsg = "Row not deleted due to an error. ";
       errorMsg += `${error}`.includes("SSL verification failed")
         ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
         : error;
