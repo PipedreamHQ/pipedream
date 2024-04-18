@@ -161,6 +161,26 @@ export default {
       };
     },
     /**
+     * A method that performs the inverse transformation of `proxyAdapter`.
+     *
+     * @param {object} proxyArgs - The output of `proxyAdapter`.
+     * @param {string} proxyArgs.query - The SQL query to be executed.
+     * @param {string[]} proxyArgs.params - The values to replace in the SQL
+     * query.
+     * @returns {object} - The adapted query and parameters, compatible with
+     * `executeQuery`.
+     */
+    executeQueryAdapter(proxyArgs = {}) {
+      const {
+        query: text = "",
+        params: values = [],
+      } = proxyArgs;
+      return {
+        text,
+        values,
+      };
+    },
+    /**
      * Executes a query against the PostgreSQL database. This method takes care
      * of connecting to the database, executing the query, and closing the
      * connection.

@@ -8,7 +8,7 @@ export default {
   key: "mysql-new-row-custom-query",
   name: "New Row (Custom Query)",
   description: "Emit new event when new rows are returned from a custom query. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
-  version: "2.0.1",
+  version: "2.0.2",
   type: "source",
   dedupe: "unique",
   props: {
