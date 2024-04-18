@@ -115,6 +115,15 @@ Google has a [7 day expiration window](https://developers.google.com/identity/pr
 
 ![Confirmation of changes](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.18_AM_mndtyc.png)
 
+# Example Use Cases
+
+- **Automated Helpdesk Bot**: Create a bot within Google Chat that listens for keywords related to IT support and automatically responds with troubleshooting advice or escalates the issue by creating a ticket in a service like Zendesk or Jira.
+
+- **Project Management Notifications**: Set up a workflow that monitors project management tools such as Asana or Trello for updates, and then posts these updates to a dedicated Google Chat space, ensuring your team stays informed about project progress in real-time.
+
+- **Meeting Coordinator**: Develop a bot that helps schedule meetings by integrating with Google Calendar. When a meeting request is mentioned in a chat, the bot can check participants' availability, propose times, and send calendar invites, streamlining the scheduling process.
+
+
 # Troubleshooting
 **Application disconnects after 7 days**<br>
 If your developer application disconnects after 7 days, you need to follow the steps above to Publish your Google Chat app in order to keep your account connected.
