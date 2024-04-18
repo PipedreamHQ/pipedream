@@ -851,16 +851,16 @@ export default {
       await this.stopNotifications(channelID, resourceId);
     },
     async renewSubscription(drive, subscription, url, channelID, pageToken) {
-      const newChannelID = channelID || uuid();
       const driveId = this.getDriveId(drive);
       const newPageToken = pageToken || (await this.getPageToken(driveId));
 
       const {
         expiration,
         resourceId,
+        newChannelID,
       } = await this.checkResubscription(
         subscription,
-        newChannelID,
+        channelID,
         newPageToken,
         url,
         drive,
@@ -880,6 +880,7 @@ export default {
       endpoint,
       drive,
     ) {
+      const newChannelID = uuid();
       const driveId = this.getDriveId(drive);
       if (subscription && subscription.resourceId) {
         console.log(
@@ -893,7 +894,7 @@ export default {
         expiration,
         resourceId,
       } = await this.watchDrive(
-        channelID,
+        newChannelID,
         endpoint,
         pageToken,
         driveId,
@@ -901,6 +902,7 @@ export default {
       return {
         expiration,
         resourceId,
+        newChannelID,
       };
     },
     async renewFileSubscription(subscription, url, channelID, fileId, nextRunTimestamp) {
