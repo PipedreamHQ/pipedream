@@ -6721,6 +6721,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/relevance_ai:
+    specifiers: {}
+
   components/remarkety:
     specifiers: {}
 
