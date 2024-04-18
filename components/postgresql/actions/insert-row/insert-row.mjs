@@ -51,7 +51,7 @@ export default {
       let errorMsg = "New row not inserted due to an error. ";
       errorMsg += `${error}`.includes("SSL verification failed")
         ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
-        : error;
+        : `${error}`;
       throw new Error(errorMsg);
     }
   },
