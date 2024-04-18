@@ -1,41 +1,45 @@
 import relevanceAi from "../../relevance_ai.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "relevance_ai-message-agent",
   name: "Send Message to Agent",
   description: "Sends a message directly to an agent in Relevance AI. This action doesn't wait for an agent response.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     relevanceAi,
     agentId: {
+      type: "string",
+      label: "Agent ID",
+      description: "The ID of the agent to send the message to.",
+    },
+    conversationId: {
       propDefinition: [
         relevanceAi,
-        "agentId",
+        "conversationId",
+        ({ agentId }) => ({
+          agentId,
+        }),
       ],
     },
     message: {
-      propDefinition: [
-        relevanceAi,
-        "message",
-      ],
-    },
-    cc: {
-      propDefinition: [
-        relevanceAi,
-        "cc",
-        (c) => ({
-          optional: true,
-        }), // Making CC optional explicitly
-      ],
+      type: "string",
+      label: "Message",
+      description: "The message to send to the agent.",
     },
   },
   async run({ $ }) {
     const response = await this.relevanceAi.sendMessage({
-      agentId: this.agentId,
-      message: this.message,
-      cc: this.cc,
+      $,
+      data: {
+        message: {
+          role: "user",
+          content: this.message,
+        },
+        debug: false,
+        agent_id: this.agentId,
+        conversation_id: this.conversationId,
+      },
     });
 
     $.export("$summary", `Message sent to agent ID ${this.agentId}`);
