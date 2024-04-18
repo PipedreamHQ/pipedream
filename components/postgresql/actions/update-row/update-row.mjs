@@ -3,8 +3,8 @@ import postgresql from "../../postgresql.app.mjs";
 export default {
   name: "Update Row",
   key: "postgresql-update-row",
-  description: "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "2.0.2",
+  description: "Updates an existing row. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.3",
   type: "action",
   props: {
     postgresql,
@@ -75,10 +75,11 @@ export default {
       $.export("$summary", summary);
       return res;
     } catch (error) {
-      throw new Error(`
-      Row not updated due to an error. ${error}.
-      This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
-    `);
+      let errorMsg = "Row not updated due to an error.";
+      errorMsg += `${error}`.includes("SSL verification failed")
+        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
+        : error;
+      throw new Error(errorMsg);
     }
   },
 };

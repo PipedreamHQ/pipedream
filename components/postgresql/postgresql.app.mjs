@@ -1,6 +1,8 @@
 import pg from "pg";
 import format from "pg-format";
-import { sqlProxy } from "@pipedream/platform";
+import {
+  sqlProxy, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -126,6 +128,9 @@ export default {
       try {
         await client.connect();
       } catch (err) {
+        if (err.code === "SELF_SIGNED_CERT_IN_CHAIN") {
+          throw new ConfigurationError(`SSL verification failed: \`${err}\`. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again.`);
+        }
         console.error("Connection error", err.stack);
         throw err;
       }
