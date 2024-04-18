@@ -1,11 +1,100 @@
+import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+
 export default {
   type: "app",
   app: "videoask",
-  propDefinitions: {},
+  propDefinitions: {
+    organizationId: {
+      type: "string",
+      label: "Organization ID",
+      description: "ID of an organization",
+      async options() {
+        const { results } = await this.listOrganizations();
+        return results?.map(({
+          organization_id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    formId: {
+      type: "string",
+      label: "Form ID",
+      description: "ID of the form",
+      async options({
+        page, organizationId,
+      }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { results } = await this.listForms({
+          organizationId,
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return results?.map(({
+          form_id: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.videoask.com";
+    },
+    _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        path,
+        organizationId,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          "Authorization": `Bearer ${this.$auth.api_token}`,
+          "organization-id": organizationId,
+        },
+      });
+    },
+    listOrganizations(opts = {}) {
+      return this._makeRequest({
+        path: "/organizations",
+        ...opts,
+      });
+    },
+    listForms(opts = {}) {
+      return this._makeRequest({
+        path: "/forms",
+        ...opts,
+      });
+    },
+    createForm(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/forms",
+        ...opts,
+      });
+    },
+    createQuestion(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/questions",
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/respondents",
+        ...opts,
+      });
     },
   },
 };
