@@ -1,6 +1,6 @@
 import googleDrive from "../../google_drive.app.mjs";
 import fs from "fs";
-import got from "got@13.0.0";
+import got from "got";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
