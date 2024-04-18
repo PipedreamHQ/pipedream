@@ -1102,6 +1102,9 @@ importers:
       '@pipedream/platform': 1.6.0
       crypto-js: 4.2.0
 
+  components/bytenite:
+    specifiers: {}
+
   components/cabinpanda:
     specifiers: {}
 
