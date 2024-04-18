@@ -1,27 +1,42 @@
-import letterdrop from "../../letterdrop.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../letterdrop.app.mjs";
 
 export default {
   key: "letterdrop-remove-subscriber",
   name: "Remove Subscriber",
-  description: "Removes a subscriber from your publication if the email matches an existing one. [See the documentation](https://docs.letterdrop.com/api)",
-  version: "0.0.{{ts}}",
+  description: "Removes a subscriber from your publication if the email matches an existing one. [See the documentation](https://docs.letterdrop.com/api#remove-subscriber)",
+  version: "0.0.1",
   type: "action",
   props: {
-    letterdrop,
+    app,
     email: {
       propDefinition: [
-        letterdrop,
+        app,
         "email",
       ],
     },
   },
+  methods: {
+    removeSubscriber(args = {}) {
+      return this.app.post({
+        path: "/subscriber/remove",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.letterdrop.removeSubscriber({
-      email: this.email,
+    const {
+      removeSubscriber,
+      email,
+    } = this;
+
+    const response = await removeSubscriber({
+      $,
+      data: {
+        email,
+      },
     });
 
-    $.export("$summary", `Successfully removed subscriber with email: ${this.email}`);
+    $.export("$summary", `Successfully removed subscriber with email \`${response.email}\``);
     return response;
   },
 };

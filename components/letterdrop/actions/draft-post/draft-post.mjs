@@ -1,56 +1,56 @@
-import letterdrop from "../../letterdrop.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../letterdrop.app.mjs";
 
 export default {
   key: "letterdrop-draft-post",
   name: "Draft Blog Post",
-  description: "Drafts a new blog post in your workspace with the required title and content, and optional images and tags. [See the documentation](https://docs.letterdrop.com/api)",
-  version: "0.0.{{ts}}",
+  description: "Drafts a new blog post in your workspace with the required title and content, and optional images and tags. [See the documentation](https://docs.letterdrop.com/api#draft-post)",
+  version: "0.0.1",
   type: "action",
   props: {
-    letterdrop,
+    app,
     title: {
-      propDefinition: [
-        letterdrop,
-        "title",
-      ],
+      type: "string",
+      label: "Title",
+      description: "The title of the blog post",
     },
-    content: {
-      propDefinition: [
-        letterdrop,
-        "content",
-      ],
-    },
-    images: {
-      propDefinition: [
-        letterdrop,
-        "images",
-        (c) => ({
-          previousPropValue: c.content,
-        }), // Assuming content is a dependency for images
-      ],
+    subtitle: {
+      type: "string",
+      label: "Subtitle",
+      description: "The subtitle of the blog post",
       optional: true,
     },
-    tags: {
-      propDefinition: [
-        letterdrop,
-        "tags",
-        (c) => ({
-          previousPropValue: c.content,
-        }), // Assuming content is a dependency for tags
-      ],
-      optional: true,
+    html: {
+      type: "string",
+      label: "Content",
+      description: "The HTML content of the blog post",
+    },
+  },
+  methods: {
+    draftPost(args = {}) {
+      return this.app.post({
+        path: "/post/draft",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const response = await this.letterdrop.draftPost({
-      title: this.title,
-      content: this.content,
-      images: this.images,
-      tags: this.tags,
+    const {
+      draftPost,
+      title,
+      subtitle,
+      html,
+    } = this;
+
+    const response = await draftPost({
+      $,
+      data: {
+        title,
+        subtitle,
+        html,
+      },
     });
 
-    $.export("$summary", `Successfully drafted the blog post titled "${this.title}"`);
+    $.export("$summary", `Successfully drafted the post with link \`${response.draftLink}\``);
     return response;
   },
 };

@@ -1,47 +1,76 @@
-import letterdrop from "../../letterdrop.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../letterdrop.app.mjs";
 
 export default {
   key: "letterdrop-add-subscriber",
   name: "Add Subscriber",
-  description: "Adds a new subscriber to your Letterdrop publication. [See the documentation](https://docs.letterdrop.com/api)",
-  version: "0.0.{{ts}}",
+  description: "Adds a new subscriber to your Letterdrop publication. [See the documentation](https://docs.letterdrop.com/api#add-subscriber)",
+  version: "0.0.1",
   type: "action",
   props: {
-    letterdrop,
+    app,
     email: {
       propDefinition: [
-        letterdrop,
+        app,
         "email",
       ],
     },
-    name: {
-      propDefinition: [
-        letterdrop,
-        "name",
-        (c) => ({
-          optional: true,
-        }),
-      ],
+    welcomeEmail: {
+      type: "boolean",
+      label: "Send Welcome Email",
+      description: "Whether the subscriber should receive a welcome email",
+      optional: true,
     },
-    subscriptionTier: {
-      propDefinition: [
-        letterdrop,
-        "subscriptionTier",
-        (c) => ({
-          optional: true,
-        }),
-      ],
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the subscriber",
+      optional: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Job title of the subscriber",
+      optional: true,
+    },
+  },
+  methods: {
+    addSubscriber(args = {}) {
+      return this.app.post({
+        path: "/subscriber/add",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const response = await this.letterdrop.addSubscriber({
-      email: this.email,
-      name: this.name,
-      subscriptionTier: this.subscriptionTier,
+    const {
+      addSubscriber,
+      email,
+      welcomeEmail,
+      name,
+      title,
+    } = this;
+
+    const additionalData = {
+      ...(name && {
+        name,
+      }),
+      ...(title && {
+        title,
+      }),
+    };
+
+    const response = await addSubscriber({
+      $,
+      data: {
+        email,
+        welcomeEmail,
+        ...(Object.keys(additionalData).length && {
+          additionalData,
+        }),
+      },
     });
 
-    $.export("$summary", `Successfully added subscriber with email: ${this.email}`);
+    $.export("$summary", `Successfully added subscriber with email \`${response.email}\``);
     return response;
   },
 };

@@ -4477,7 +4477,10 @@ importers:
     specifiers: {}
 
   components/letterdrop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/lettria:
     specifiers: {}
