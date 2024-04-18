@@ -3027,6 +3027,9 @@ importers:
   components/funnelcockpit:
     specifiers: {}
 
+  components/gan_ai:
+    specifiers: {}
+
   components/gatekeeper:
     specifiers: {}
 
