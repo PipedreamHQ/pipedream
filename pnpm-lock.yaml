@@ -1246,6 +1246,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/chaser:
+    specifiers: {}
+
   components/chatbot:
     specifiers:
       '@pipedream/platform': ^0.10.0
