@@ -65,6 +65,12 @@ export default {
       label: "Invoice Items",
       description: "A list of product objects. E.g. **{\"productId\": \"39887\", \"name\": \"Freezer Z7749\", \"quantity\": \"1\", \"unitCode\": \"C62\", \"price\": 100, \"taxes\": [{\"typeCode\": \"VAT\", \"categoryCode\": \"S\", \"rate\": 16}] }**. For further information about init code [click here](https://www.unece.org/fileadmin/DAM/cefact/recommendations/rec20/rec20_rev3_Annex1e.pdf). For further information about Category Code [click here](https://docs.peppol.eu/poacc/billing/3.0/codelist/UNCL5305/)",
     },
+    additionalData: {
+      type: "object",
+      label: "Additional Data",
+      description: "An object to manual input other fields.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.faktoora.createInvoice({
@@ -88,6 +94,7 @@ export default {
                 id: `${index + 1}`,
                 product: item,
               })),
+            ...(parseObject(this.additionalData) || {}),
           },
         ],
       },

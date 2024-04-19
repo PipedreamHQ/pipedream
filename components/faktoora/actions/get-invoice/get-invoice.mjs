@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import faktoora from "../../faktoora.app.mjs";
 
@@ -17,18 +18,22 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.faktoora.fetchInvoice({
-      $,
-      responseType: "arraybuffer",
-      params: {
-        invoiceNumber: this.invoiceNumber,
-      },
-    });
+    try {
+      const response = await this.faktoora.fetchInvoice({
+        $,
+        responseType: "arraybuffer",
+        params: {
+          invoiceNumber: this.invoiceNumber,
+        },
+      });
 
-    const filePath = `/tmp/invoice-${this.invoiceNumber.replace(/\//g, "-")}.pdf`;
-    fs.writeFileSync(filePath, response);
+      const filePath = `/tmp/invoice-${this.invoiceNumber.replace(/\//g, "-")}.pdf`;
+      fs.writeFileSync(filePath, response);
 
-    $.export("$summary", `Successfully downloaded invoice with number: ${this.invoiceNumber}`);
-    return filePath;
+      $.export("$summary", `Successfully downloaded invoice with number: ${this.invoiceNumber}`);
+      return filePath;
+    } catch (e) {
+      throw new ConfigurationError("Invoice not found.");
+    }
   },
 };
