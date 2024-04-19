@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_postmaster_tools_api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Google Postmaster Tools Components",
   "main": "google_postmaster_tools_api.app.mjs",
   "keywords": [

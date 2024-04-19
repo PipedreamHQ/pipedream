@@ -1,20 +1,19 @@
-# ⭐️ Background Removal
+# Overview
 
-Background Removal offers advanced image analysis for foreground segmentation and effortless background removal.
+⭐️ **Background Removal** offers advanced image analysis for foreground segmentation and effortless background removal.
 
 ![bg-removal](https://storage.googleapis.com/api4ai-static/rapidapi/background-removal/bg-removal.png)
 
 
-
-# 🤖 Demo
+## 🤖 Demo
 
 Discover the Background Removal Web demo for free and get a feel for its capabilities before diving deeper. No registration is required: https://api4.ai/apis/bg-removal#demo-wrapper
 
 
 
-# 🚀 Getting started
+# Getting started
 
-## Subscribe and get API key
+## 🚀 Subscribe and get API key
 
 To use Background Removal, start at [RapidAPI](https://rapidapi.com/), a well-known API hub. Register, subscribe to begin, and obtain an API key:
 
@@ -23,7 +22,7 @@ To use Background Removal, start at [RapidAPI](https://rapidapi.com/), a well-kn
 3. In the "Header Parameters" section, your API Key will be shown in the `X-RapidAPI-Key` field.
 
 
-## Parameters
+## 🛠 Parameters
 
 ### API Key
 
@@ -81,7 +80,7 @@ By default, the Background Removal returns a PNG image with the background remov
 ![image-vs-mask](https://storage.googleapis.com/api4ai-static/rapidapi/background-removal/image-vs-mask.png)
 
 
-## Returned values
+## ↩️ Returned values
 
 The "Background removal" action returns a set of values which can be used to obtain processing results:
 
@@ -113,16 +112,3 @@ Where:
 Bounding box coordinates are normalized, meaning they range from `0.0` to `1.0`. Multiply `X` and `W` by the image's width and `Y` and `H` by the image's height to convert to pixels.
 
 ℹ️ **Note**: Currently, the "Background Removal" always returns only one object – `opaque-content`, corresponding to the area of opaque content in the result image. The content outside this area in the result image is fully transparent.
-
-
-
-# 📌 Contacts and social links
-
-👉️️ Website: https://api4.ai  
-🤖 Web demo: https://api4.ai/apis/bg-removal#demo-wrapper  
-📩 Email: hello@api4.ai  
-💬 Chat: https://t.me/a4a_support_bot  
-🔗 Instagram: https://www.instagram.com/api4ai  
-🔗 Facebook: https://www.facebook.com/api4ai.solution  
-🔗 X (twitter): https://twitter.com/api4ai  
-🔗 LinkedIn: https://www.linkedin.com/company/api4ai/
