@@ -4,89 +4,55 @@ export default {
   type: "app",
   app: "softr",
   propDefinitions: {
-    appName: {
+    email: {
       type: "string",
-      label: "App Name",
-      description: "The name of the Softr app",
-    },
-    userInfo: {
-      type: "object",
-      label: "User Information",
-      description: "Information about the user to be created",
-    },
-    userRole: {
-      type: "string",
-      label: "User Role",
-      description: "The role of the user within the app",
-      optional: true,
-    },
-    accessPermissions: {
-      type: "string",
-      label: "Access Permissions",
-      description: "The access permissions for the user within the app",
-      optional: true,
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The unique identifier of the user to be removed",
-    },
-    domainName: {
-      type: "string",
-      label: "Domain Name",
-      description: "The name of the Softr.io domain to which the user will be added",
+      label: "Email",
+      description: "Email address of the user",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.softr.io";
+      return "https://studio-api.softr.io/v1/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "get",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Softr-Api-Key": `${this.$auth.api_key}`,
+          "Softr-Domain": `${this.$auth.domain}`,
+          "Content-Type": "application/json",
         },
       });
     },
-    async createUser({
-      appName, userInfo, userRole, accessPermissions,
-    }) {
+    createUser(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/apps/${appName}/users`,
-        data: {
-          userInfo,
-          userRole,
-          accessPermissions,
-        },
+        path: "/users",
+        ...opts,
       });
     },
-    async removeUser({
-      appName, userId,
+    deleteUser({
+      email, ...opts
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/apps/${appName}/users/${userId}`,
+        path: `/users/${email}`,
+        ...opts,
       });
     },
-    async addUserToDomain({
-      domainName, userInfo,
+    generateMagicLink({
+      email, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/domains/${domainName}/users`,
-        data: userInfo,
+        path: `/users/magic-link/generate/${email}`,
+        ...opts,
       });
     },
   },
