@@ -31,7 +31,7 @@ export default {
     },
     deliveryContactName: {
       type: "string",
-      label: "Delivery ContactName",
+      label: "Delivery Contact Name",
       description: "Name of the contact person.",
       optional: true,
     },
