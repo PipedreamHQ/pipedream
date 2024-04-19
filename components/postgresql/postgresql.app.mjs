@@ -1,7 +1,9 @@
 import pg from "pg";
 import format from "pg-format";
 import {
-  sqlProxy, ConfigurationError,
+  sqlProp,
+  sqlProxy,
+  ConfigurationError,
 } from "@pipedream/platform";
 
 export default {
@@ -71,6 +73,7 @@ export default {
     },
   },
   methods: {
+    ...sqlProp.methods,
     ...sqlProxy.methods,
     getSslConfig() {
       const {
@@ -200,6 +203,37 @@ export default {
       } finally {
         await this.endClient(client);
       }
+    },
+    /**
+     * A helper method to get the schema of the database. Used by other features
+     * (like the `sql` prop) to enrich the code editor and provide the user with
+     * auto-complete and fields suggestion.
+     *
+     * @returns {DbSchema} The schema of the database, which is a
+     * JSON-serializable object.
+     */
+    async getSchema() {
+      const text = `
+        SELECT table_name AS "tableName",
+          column_name AS "columnName",
+          is_nullable AS "isNullable",
+          data_type AS "dataType",
+          column_default AS "columnDefault"
+        FROM information_schema.columns
+        WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
+        ORDER BY table_name,
+          ordinal_position
+      `;
+      const rows = await this.executeQuery({
+        text,
+      });
+      return rows.reduce((acc, row) => {
+        acc[row.tableName] ??= {};
+        acc[row.tableName][row.columnName] = {
+          ...row,
+        };
+        return acc;
+      }, {});
     },
     /**
      * Gets an array of table names in a database
