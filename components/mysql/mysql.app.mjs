@@ -1,5 +1,8 @@
 import mysqlClient from "mysql2/promise";
-import { sqlProxy } from "@pipedream/platform";
+import {
+  sqlProxy,
+  sqlProp,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -98,6 +101,7 @@ export default {
   },
   methods: {
     ...sqlProxy.methods,
+    ...sqlProp.methods,
     getSslConfig() {
       const {
         ca,
@@ -224,6 +228,46 @@ export default {
           await this.closeConnection(connection);
         }
       }
+    },
+    /**
+     * A helper method to get the schema of the database. Used by other features
+     * (like the `sql` prop) to enrich the code editor and provide the user with
+     * auto-complete and fields suggestion.
+     *
+     * @returns {DbSchema} The schema of the database, which is a
+     * JSON-serializable object.
+     */
+    async getSchema() {
+      const sql = `
+        SELECT t.table_schema AS tableSchema,
+            t.table_name AS tableName,
+            t.table_rows AS rowCount,
+            c.column_name AS columnName,
+            c.data_type AS dataType,
+            c.is_nullable AS isNullable,
+            c.column_default AS columnDefault
+        FROM information_schema.tables AS t
+            JOIN information_schema.columns AS c ON t.table_name = c.table_name
+            AND t.table_schema = c.table_schema
+        WHERE t.table_schema = ?
+        ORDER BY t.table_name,
+            c.ordinal_position
+      `;
+      const rows = await this.executeQuery({
+        sql,
+        values: [
+          this.$auth.database,
+        ],
+      });
+      return rows.reduce((acc, row) => {
+        acc[row.tableName] ??= {
+          _rowCount: row.rowCount,
+        };
+        acc[row.tableName][row.columnName] = {
+          ...row,
+        };
+        return acc;
+      }, {});
     },
     async closeConnection(connection) {
       await connection.end();
