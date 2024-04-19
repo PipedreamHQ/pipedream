@@ -658,7 +658,7 @@ importers:
       '@aws-sdk/client-ssm': 3.423.0
       '@aws-sdk/client-sts': 3.423.0
       '@pipedream/helper_functions': 0.3.12
-      '@pipedream/platform': 1.6.3
+      '@pipedream/platform': 1.6.4
       adm-zip: 0.5.10
       dedent: 1.5.1
       mailparser: 3.6.6
@@ -14696,7 +14696,7 @@ packages:
     resolution: {integrity: sha512-r0H0A1HsSEDVTPVSvK4XXcExEeUnkpIqLMNVM2aLh1bwdOblTS1sxLZ9mz/7DwAr8wRNCoW6zlXZBEhexIyyAg==}
     dependencies:
       '@googleapis/drive': 2.4.0
-      '@pipedream/platform': 1.6.3
+      '@pipedream/platform': 1.6.4
       cron-parser: 4.9.0
       lodash: 4.17.21
       mime-db: 1.52.0
@@ -14710,7 +14710,7 @@ packages:
   /@pipedream/helper_functions/0.3.12:
     resolution: {integrity: sha512-0n0kKCdrQQWOW275gDHBu0EUAdNssEzT3LLHcOTlzoTXP/V9Ue0VVTmtLDiDdaF9W3a4e2++tICFoVSGSyoMew==}
     dependencies:
-      '@pipedream/platform': 1.6.3
+      '@pipedream/platform': 1.6.4
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
