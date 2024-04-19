@@ -14,21 +14,21 @@ export default {
       }) {
         const { results } = await this.listConversations({
           data: {
-            "filters": [
+            filters: [
               {
-                "filter_type": "exact_match",
-                "field": "type",
-                "condition_value": "conversation",
+                filter_type: "exact_match",
+                field: "type",
+                condition_value: "conversation",
               },
               {
-                "filter_type": "exact_match",
-                "field": "conversation.agent_id",
-                "condition_value": agentId,
+                filter_type: "exact_match",
+                field: "conversation.agent_id",
+                condition_value: agentId,
               },
             ],
-            "include_hidden": true,
-            "page": page + 1,
-            "page_size": LIMIT,
+            include_hidden: true,
+            page: page + 1,
+            page_size: LIMIT,
           },
         });
 
@@ -47,16 +47,16 @@ export default {
       async options({ page }) {
         const { results } = await this.listTools({
           params: {
-            "filters": JSON.stringify([
+            filters: JSON.stringify([
               {
-                "field": "project",
-                "condition": "==",
-                "condition_value": this.$auth.project,
-                "filter_type": "exact_match",
+                field: "project",
+                condition: "==",
+                condition_value: this.$auth.project,
+                filter_type: "exact_match",
               },
             ]),
-            "page": page + 1,
-            "page_size": LIMIT,
+            page: page + 1,
+            page_size: LIMIT,
           },
         });
 
