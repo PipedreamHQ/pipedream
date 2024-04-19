@@ -6,7 +6,7 @@ export default {
   key: "frame-new-project-instant",
   name: "New Project (Instant)",
   description: "Emit new event when a new project is created. [See the documentation](https://developer.frame.io/api/reference/operation/createWebhookForTeam/)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "source",
   sampleEmit,
   methods: {

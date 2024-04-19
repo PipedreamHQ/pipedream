@@ -6,7 +6,7 @@ export default {
   key: "frame-new-asset-instant",
   name: "New Asset (Instant)",
   description: "Emit new event when an asset is uploaded. [See the documentation](https://developer.frame.io/api/reference/operation/createWebhookForTeam/)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "source",
   sampleEmit,
   methods: {

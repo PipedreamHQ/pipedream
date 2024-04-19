@@ -6,7 +6,7 @@ export default {
   key: "frame-new-comment-instant",
   name: "New Comment (Instant)",
   description: "Emit new event when a new comment is left on an asset. [See the documentation](https://developer.frame.io/api/reference/operation/createWebhookForTeam/)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "source",
   sampleEmit,
   methods: {
