@@ -4219,7 +4219,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/kadoa:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/kajabi:
     specifiers: {}
