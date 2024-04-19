@@ -1555,7 +1555,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/codat:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/code_climate:
     specifiers: {}
