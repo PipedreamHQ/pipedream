@@ -1,14 +1,16 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googlePostmasterToolsApi from "../../google_postmaster_tools_api.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "google_postmaster_tools_api-new-matched-traffic-stats",
   name: "New Matched Traffic Stats",
   description:
     "Emits a new event when traffic stats match certain criteria. [See the documentation](https://developers.google.com/gmail/postmaster/reference/rest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
+  sampleEmit,
   props: {
     googlePostmasterToolsApi,
     db: "$.service.db",
@@ -142,11 +144,12 @@ export default {
       if (!domainReputation?.length) return undefined;
       return domainReputation.includes(item.domainReputation);
     },
-    filterRatio(prop, value, greater = false) {
+    filterRatio(prop, value, greaterOrEqual = false) {
+      if (prop?.endsWith("%")) prop = Number(prop.slice(0, -1)) / 100;
       const ratio = Number(prop);
       if (isNaN(ratio) || value === undefined) return undefined;
-      return greater
-        ? value > ratio
+      return greaterOrEqual
+        ? value >= ratio
         : value < ratio;
     },
     filterSpamRatio(item) {
