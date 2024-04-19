@@ -1,6 +1,6 @@
-# ⭐️ Alcohol Label Recognition
+# Overview
 
-Advanced label scanning API, powered by cutting-edge computer vision and neural network technology, designed to accurately identify various alcoholic beverages from their labels.
+⭐️ **Alcohol Label Recognition** – is a advanced label scanning API, powered by cutting-edge computer vision and neural network technology, designed to accurately identify various alcoholic beverages from their labels.
 
 This solution analyzes an image containing one or several alcohol labels and provides detailed information about the type of each beverage, along with its unique properties.
 
@@ -63,16 +63,15 @@ This solution analyzes an image containing one or several alcohol labels and pro
 </table>
 
 
-
-# 🤖 Demo
+## 🤖 Demo
 
 Explore the Alcohol Label Recognition Web demo for free before delving into the details (no registration is required): https://api4.ai/apis/household-stuff#demo-wrapper
 
 
 
-# 🚀 Getting started
+# Getting started
 
-## Subscribe and get API key
+## 🚀 Subscribe and get API key
 
 To use Alcohol Label Recognition, start at [RapidAPI](https://rapidapi.com/), a well-known API hub. Register, subscribe to begin, and obtain an API key:
 
@@ -81,7 +80,7 @@ To use Alcohol Label Recognition, start at [RapidAPI](https://rapidapi.com/), a 
 3. In the "Header Parameters" section, your API Key will be shown in the `X-RapidAPI-Key` field.
 
 
-## Parameters
+## 🛠 Parameters
 
 ### API Key
 
@@ -115,7 +114,7 @@ Input image. Various types are accepted:
     ```
 
 
-## Returned values
+## ↩️ Returned values
 
 The "Alcohol Label Recognition" action returns the following value:
 
@@ -148,16 +147,3 @@ The other properties of a label object depends on kind of the drink. For example
   }
 ]
 ```
-
-
-
-# 📌 Contacts and social links
-
-👉️️ Website: https://api4.ai  
-🤖 Web demo: https://api4.ai/apis/household-stuff#demo-wrapper  
-📩 Email: hello@api4.ai  
-💬 Chat: https://t.me/a4a_support_bot  
-🔗 Instagram: https://www.instagram.com/api4ai  
-🔗 Facebook: https://www.facebook.com/api4ai.solution  
-🔗 X (twitter): https://twitter.com/api4ai  
-🔗 LinkedIn: https://www.linkedin.com/company/api4ai/
