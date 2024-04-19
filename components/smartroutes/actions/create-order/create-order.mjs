@@ -1,4 +1,5 @@
 import smartroutes from "../../smartroutes.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "smartroutes-create-order",
@@ -149,6 +150,72 @@ export default {
       description: "Number of parts in the order.",
       optional: true,
     },
+    lineItems: {
+      type: "string[]",
+      label: "Line Items",
+      description: "Array of line items in the order. Each line item object must contain `product_code`, `product_name`, and `product_quantity`.",
+      optional: true,
+    },
+    timeWindows: {
+      type: "string[]",
+      label: "Time Windows",
+      description: "Array of time windows for order delivery or pickup. Each time window object must contain `from` (Start time of the time window. Ex: \"08:00\") and `to` (End time of the time window. Ex: \"12:00\").",
+      optional: true,
+    },
+    skills: {
+      type: "string[]",
+      label: "Skills",
+      description: "List of required skills for the order. Skills listed must exist within your Vehicle Settings.",
+      optional: true,
+    },
+    customFields: {
+      propDefinition: [
+        smartroutes,
+        "customFields",
+      ],
+      reloadProps: true,
+    },
+    capacities: {
+      propDefinition: [
+        smartroutes,
+        "capacities",
+      ],
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.customFields?.length) {
+      for (const field of this.customFields) {
+        props[`customField_${field}`] = {
+          type: "string",
+          label: `Value of ${field}`,
+        };
+      }
+    }
+    if (this.capacities?.length) {
+      for (const capacity of this.capacities) {
+        props[`capacity_${capacity}`] = {
+          type: "integer",
+          label: `Capacity of ${capacity}`,
+        };
+      }
+    }
+    return props;
+  },
+  methods: {
+    buildCustomFieldsObj() {
+      return this.customFields.map((field) => ({
+        name: field,
+        value: this[`customField_${field}`],
+      }));
+    },
+    buildCapacitiesObj() {
+      return this.capacities.map((capacity) => ({
+        type: capacity,
+        capacity: this[`capacity_${capacity}`],
+      }));
+    },
   },
   async run({ $ }) {
     const { orders } = await this.smartroutes.createOrder({
@@ -180,6 +247,11 @@ export default {
           pickup_contact_number: this.pickupContactNumber,
           pickup_contact_email: this.pickupContactEmail,
           parts: this.parts,
+          line_items: utils.parseObjArray(this.lineItems),
+          time_windows: utils.parseObjArray(this.timeWindows),
+          skills: this.skills,
+          custom_fields: this.customFields?.length && this.buildCustomFieldsObj(),
+          capacities: this.capacities?.length && this.buildCapacitiesObj(),
         },
       ],
     });

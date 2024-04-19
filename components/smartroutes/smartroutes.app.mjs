@@ -18,6 +18,26 @@ export default {
         })) || [];
       },
     },
+    customFields: {
+      type: "string[]",
+      label: "Custom Fields",
+      description: "Custom fields for the order",
+      optional: true,
+      async options() {
+        const { custom_fields: fields } = await this.listCustomFields();
+        return fields?.map(({ name }) => name ) || [];
+      },
+    },
+    capacities: {
+      type: "string[]",
+      label: "Capacities",
+      description: "Capacities for the order",
+      optional: true,
+      async options() {
+        const { capacities } = await this.listCapacities();
+        return capacities?.map(({ type }) => type ) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -40,6 +60,18 @@ export default {
     listCustomers(opts = {}) {
       return this._makeRequest({
         path: "/customers",
+        ...opts,
+      });
+    },
+    listCustomFields(opts = {}) {
+      return this._makeRequest({
+        path: "/custom-fields",
+        ...opts,
+      });
+    },
+    listCapacities(opts = {}) {
+      return this._makeRequest({
+        path: "/capacities",
         ...opts,
       });
     },
