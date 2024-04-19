@@ -3027,6 +3027,9 @@ importers:
   components/funnelcockpit:
     specifiers: {}
 
+  components/gan_ai:
+    specifiers: {}
+
   components/gatekeeper:
     specifiers: {}
 
@@ -4523,6 +4526,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/linguapop:
+    specifiers: {}
 
   components/linkedin:
     specifiers:
