@@ -77,7 +77,7 @@ export default {
     appointmentEndTime: {
       type: "string",
       label: "Appointment End Time",
-      description: "The end time of the appointment. Eg `2024-01-01 17:30`",
+      description: "The end time of the appointment. Eg `17:30`",
     },
     appointmentId: {
       type: "string",
