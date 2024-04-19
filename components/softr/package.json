@@ -2,7 +2,7 @@
   "name": "@pipedream/softr",
   "version": "0.1.0",
   "description": "Pipedream Softr Components",
-  "main": "app/softr.app.mjs",
+  "main": "softr.app.mjs",
   "keywords": [
     "pipedream",
     "softr"
