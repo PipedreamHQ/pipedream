@@ -47,6 +47,14 @@ export default {
       async options({ page }) {
         const { results } = await this.listTools({
           params: {
+            "filters": JSON.stringify([
+              {
+                "field": "project",
+                "condition": "==",
+                "condition_value": this.$auth.project,
+                "filter_type": "exact_match",
+              },
+            ]),
             "page": page + 1,
             "page_size": LIMIT,
           },
@@ -88,7 +96,7 @@ export default {
     },
     listTools(opts = {}) {
       return this._makeRequest({
-        path: "/studios/list_public",
+        path: "/studios/list",
         ...opts,
       });
     },
