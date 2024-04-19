@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/videoask",
+  "version": "0.0.1",
+  "description": "Pipedream VideoAsk Components",
+  "main": "videoask.app.mjs",
+  "keywords": [
+    "pipedream",
+    "videoask"
+  ],
+  "homepage": "https://pipedream.com/apps/videoask",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

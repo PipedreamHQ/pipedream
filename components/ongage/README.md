@@ -1,27 +1,13 @@
 # Overview
 
-With the Ongage API, you can build powerful, data-driven marketing automation
-tools that make complex campaigns easy to manage, saving both time and money.
-Here are some examples of what you can build by leveraging the Ongage API:
+The Ongage API provides a robust platform for email marketing campaign management, allowing for the creation, management, and analysis of email campaigns. With Pipedream's capabilities, you can automate tasks like syncing subscriber lists, triggering email campaigns based on specific events, and analyzing campaign performance directly within your workflow.
 
-- Create dynamic segments of customers and prospects based on a variety of
-  criteria.
-- Create and schedule email campaigns, automated messages, and SMS messages.
-- Monitor the performance of campaigns and optimize ad impressions for more
-  effective results.
-- Integrate with third-party services such as Salesforce, HubSpot, and Marketo
-  to easily store and track customer and prospect data for better marketing
-  decision-making.
-- Automate marketing processes like onboarding and retention, providing a
-  seamless experience for customers and prospects.
-- Track results from multiple campaigns and measure ROI using detailed
-  analytics and reporting.
-- Build custom dashboards and reporting based on the data collected from
-  campaigns.
-- Automate segmentation and targeting to ensure campaigns are always sent to
-  the right audience.
-- Create automated triggered campaigns that respond in real-time to customer
-  and prospect behavior.
-- Easily sync data between multiple platforms to keep customer and prospect
-  data up-to-date.
-- And much more!
+# Example Use Cases
+
+- **List Synchronization Workflow**: Synchronize contact lists between Ongage and a CRM like Salesforce. As contacts are added or updated in Salesforce, the workflow updates the corresponding list in Ongage, ensuring your email campaigns target the right audience without manual intervention.
+
+- **Behavior-Triggered Email Campaign**: Launch email campaigns in Ongage based on user behavior tracked by analytics tools such as Google Analytics. For example, if a user visits a specific product page multiple times but doesn't make a purchase, trigger a personalized discount offer via email through Ongage to encourage conversion.
+
+- **Campaign Performance Dashboard**: Aggregate email campaign performance data from Ongage into a BI tool like Google Data Studio. With each campaign sent, the workflow fetches open rates, click-through rates, and other relevant metrics, providing a real-time dashboard to analyze and optimize your email marketing strategy.
+
+Note: The link provided for the Ongage API appears to be incorrect and points to the invoiced.com website. If further information is required for Ongage, please provide the correct URL.

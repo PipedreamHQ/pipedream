@@ -1,22 +1,11 @@
 # Overview
 
-The Orbit API is an open source toolkit for building real-time synchronization
-and communication applications in the browser. It allows developers to easily
-and efficiently build user experiences that are multi-user, real-time, and
-fully secure. With the Orbit API, you can easily create applications that are
-multi-user and real-time, with no servers needed. Here are some examples of
-applications that you can build with the Orbit API:
+The Orbit API enables you to monitor and manage the uptime and performance of your websites and internet services. Through automation and integration on Pipedream, you can streamline incident management, aggregate performance data, and enhance communication across your tech stack. By leveraging real-time data from Orbit, you can trigger workflows based on site status changes, get aggregated insights, and automate responses to performance issues.
 
-- Multiplayer Games - Create real-time gaming experiences with multiple players
-  interacting in the same environment.
-- Collaboration Apps - Create multi-user applications where multiple people can
-  share data, edit documents, and collaborate in the same environment.
-- Chat - Create an application where multiple people can chat in real-time.
-- Real-Time Dashboards - Connect multiple users to the same data source, and
-  display information in real-time on a dashboard.
-- Trading Platforms - Create advanced real-time trading platforms where users
-  can view pricing information in real-time and respond with trades.
-- Tracking Apps - Create applications for tracking objects and viewing them in
-  real-time.
-- Virtual Reality - Create a virtual reality experience with users interacting
-  in the same environment.
+# Example Use Cases
+
+- **Incident Response Automation**: When Orbit detects a website down event, trigger an automated workflow on Pipedream that sends an alert to Slack, creates an incident in PagerDuty, and sends an email to the support team. This ensures that the right people are notified instantly for a quick response.
+
+- **Performance Monitoring Dashboard**: Collect and aggregate data from Orbit on site performance and uptime, then use Pipedream to send this data to a Google Sheets document. Create a live dashboard that provides an at-a-glance view of the health of all monitored services, making it easier for the team to spot issues and trends over time.
+
+- **Scheduled Uptime Reports**: Set up a Pipedream workflow that periodically retrieves uptime statistics from Orbit and compiles a comprehensive report. Email this report to stakeholders on a weekly or monthly basis, or post it to a team channel in Microsoft Teams, to maintain transparency and keep everyone informed about site reliability.

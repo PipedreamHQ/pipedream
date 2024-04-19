@@ -1,24 +1,11 @@
 # Overview
 
-The Smiirl API is a powerful tool that allows developers to create custom
-integrations to monitor and analyze their customers' activity. With the Smiirl
-API, developers can build and integrate digital displays that communicate
-real-time data from a variety of online sources. These sources include social
-media, e-commerce stores, emails, mobile apps, and more. By combining dynamic
-data with physical displays, developers can create interactive digital signage
-experiences that engage and inform customers in exciting new ways.
+The Smiirl API lets you interface with Smiirl counters to dynamically update and manage the display of real-time data. Leveraging Pipedream's robust integration platform, you can connect Smiirl to various data sources, triggering updates that reflect key metrics like social media followers, sales figures, or any other number that's essential to your business or personal goals.
 
-Examples of What You Can Build Using the Smiirl API:
+# Example Use Cases
 
-- Digital counters that display live follower counts and other metrics from
-  social media platforms
-- Live product and sales data displayed in physical stores
-- Live customer feedback ratings and reviews
-- Attendance monitors that track active users and long-time customers in a
-  space
-- Reward and loyalty programs that use physical displays to recognize customer
-  achievements
-- Live polls that crowd-sourcing opinions and opinions from people in a certain
-  location
-- Connection meters that show how many people are connected to devices in a
-  location
+- **Automatically Update Counter with E-Commerce Sales**: Set up an automation that listens for new orders on your e-commerce platform (like Shopify). Whenever a new sale is processed, a Pipedream workflow triggers an update to your Smiirl counter, instantly reflecting the updated sales numbers in your physical store or office.
+
+- **Display Real-Time Subscriber Growth**: Hook up Smiirl to your YouTube or Twitch account using Pipedream. Each time your subscriber count increases, the Smiirl counter is updated, offering a live view of your channel's growing popularity to visitors or employees.
+
+- **Showcase Environmental Metrics**: If you're monitoring environmental data, such as energy consumption or carbon footprint, link your monitoring tools to Smiirl via Pipedream. As the data updates, so does your Smiirl counter, making your commitment to sustainability visible and keeping the team informed and motivated.

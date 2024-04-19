@@ -1,28 +1,11 @@
 # Overview
 
-With the Payhere API, you can build a variety of powerful and user-friendly
-payment solutions. Whether you are creating an online store, accepting
-donations, taking payments for services, or creating a membership system, the
-Payhere API allows you to securely handle payment solutions without having to
-worry about any of the technical complexities that come with implementing
-payments.
+Payhere, powered by Xendit, offers a powerful API that allows you to craft seamless payment experiences within your apps and websites. By leveraging this API on Pipedream, you can automate payment processing, synchronize transaction data with accounting systems, or trigger communication based on payment events. Pipedream's serverless platform enables the orchestration of Payhere with an array of other services to streamline financial operations, enhance customer engagement, and maintain robust financial records.
 
-Payhere provides a host of useful features, like:
+# Example Use Cases
 
-- Securely handle payments from most major credit cards and debit cards
-- Accept payments from bank transfers, PayPal, mobile money, and more
-- Stay up-to-date on the status of payments and customers with real-time
-  notifications
-- Automate sorting and reconciling payments using the Payhere features
+- **Automated Receipt Generation**: When a payment is successfully processed via Payhere, trigger a workflow on Pipedream to generate a digital receipt using a service like PDF.co. The workflow can then email the receipt to the customer automatically using an email service like SendGrid.
 
-Below are a few examples of what you can build using the Payhere API:
+- **Real-Time Sales Dashboard Update**: Create a Pipedream workflow that listens for new transactions from Payhere and updates a real-time dashboard on Google Sheets or Geckoboard. This allows for instantaneous monitoring of sales data, which can be particularly useful for flash sales or promotions.
 
-- Online stores with product and inventory management
-- Donation portals
-- Online ticketing systems
-- Billing platforms for services
-- Subscription systems for membership sites
-- Peer-to-peer (P2P) payments within an application
-- Marketplace payment solutions
-- Ecommerce payment processing
-- Mobile payment options for on-the-go payment options
+- **Customer Support Ticket Creation**: Use Pipedream to detect failed or disputed transactions from Payhere, automatically creating a support ticket in a customer service platform like Zendesk or Freshdesk. This workflow can help prioritize and streamline customer support responses to payment issues.

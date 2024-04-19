@@ -1,32 +1,8 @@
 # Overview
 
-Zoho Books is an online accounting software that helps you manage your
-finances, get paid faster, and work collaboratively with your clients and
-teams. The Zoho Books API provides a wide variety of integration possibilities
-to connect with your accounting software and build powerful, efficient
-applications. With the API, you can quickly and easily add functionality that
-simplifies your complex tasks, such as invoicing, payments, bank
-reconciliation, reporting, and more.
+Zoho Books API unlocks the potential to automate and streamline accounting tasks by integrating with Pipedream's serverless platform. With this powerful combo, you can automate invoicing, manage your accounts, reconcile bank transactions, and handle contacts and items without manual input. By setting up event-driven workflows, you can ensure data consistency across platforms, trigger notifications, and generate reports, all while saving time and reducing human error.
 
-Below are some of the features, tasks, and applications that can be built using
-the Zoho Books API:
-
-- Create, update, and delete customers
-- Manage invoice payments
-- Automate bank reconciliations
-- Generate financial statements and reports
-- Track time and billable expenses
-- Sync data across multiple applications
-- Integrate with online payment platforms
-- Automate GST compliance reporting
-- Post journal entries
-- Link tax payments to invoices
-- View cash flow reports
-- Generate client statements
-- Implement multi-currency support
-- Monitor inventory and sales performance
-
-## Getting Started
+# Getting Started
 
 1. First, sign up for Pipedream at [https://pipedream.com](https://pipedream.com). 
 2. [Create a new workflow](https://pipedream.com/new).
@@ -35,3 +11,24 @@ the Zoho Books API:
 5. Once you've added a step, press the **Connect Zoho Books** button near the top. If this is your first time authorizing Pipedream's access to your Zoho Books account, you'll be prompted to accept that access, and Pipedream will store the authorization grant to enable the workflow to access the API. If you've already linked a Zoho Books account via Pipedream, pressing **Connect Zoho Books** will list any existing accounts you've linked.
 
 Once you've connected your account, you can run your workflow and fetch data from the API. You can change any of the code associated with this step, changing the API endpoint you'd like to retrieve data from, or modifying the results in any way.
+
+# Example Use Cases
+
+- **Invoice Automation**: Create or update invoices in Zoho Books whenever a new order is placed on your e-commerce platform like Shopify. This can trigger an email to the customer with the invoice attached, streamlining the billing process.
+
+- **Expense Tracking**: Connect Zoho Books to your expense management app like Expensify. Whenever a new expense report is approved in Expensify, create a corresponding expense record in Zoho Books, keeping your accounts up to date.
+
+- **Customer Synchronization**: Sync new customer data from a CRM like Salesforce to Zoho Books. When a new contact is added in Salesforce, automatically create or update the customer information in Zoho Books, ensuring accurate and consistent customer data across business tools.
+
+
+# Troubleshooting
+
+**Issues Connecting My Account: IP Allowlist**
+
+If your Zoho security policy includes an IP Allowlist, update it to connect your account:
+
+1. Add this IP Range: `44.223.89.56` - `44.223.89.63`.
+2. Include your current IP Address because the initial OAuth authorization request originates from your browser.
+3. Set up a [Virtual Private Cloud (VPC) on Pipedream](https://pipedream.com/docs/workflows/vpc#create-a-new-vpc). Add the [static IP address](https://pipedream.com/docs/workflows/vpc#find-the-static-outbound-ip-address-for-a-vpc) to Zoho's IP Allowlist. Note: VPCs are available with Pipedream's **Business Plan** or higher. See [pricing](https://pipedream.com/pricing) for details.
+
+After connecting your account, make sure to [run the workflow within a VPC](https://pipedream.com/docs/workflows/vpc#run-workflows-within-a-vpc).

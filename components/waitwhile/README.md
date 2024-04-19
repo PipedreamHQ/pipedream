@@ -1,25 +1,11 @@
 # Overview
 
-With the Waitwhile API, you can create a variety of powerful
-customer-engagement tools to manage your business and how it interacts with
-customers.
+Waitwhile is a queue management and scheduling platform that lets you optimize appointments and waitlists, enhancing the customer experience. By leveraging the Waitwhile API on Pipedream, you can automate processes such as updating waitlists, syncing customer data, or triggering notifications when a customer's status changes. This seamless integration can streamline operations for businesses like restaurants, healthcare providers, or service centers where queue management is crucial.
 
-The API provides the following benefits:
+# Example Use Cases
 
-- Create customer profiles
-- Schedule appointments
-- Track customer activity
-- Collect customer feedback
+- **Automated Customer Check-in**: When a customer signs in using a custom form or app, trigger a workflow on Pipedream to add them to the Waitwhile waitlist automatically. Connect to a CRM like Salesforce to log the visit and update the customer's profile with the wait time and service details.
 
-Here are some examples of what you can build with the Waitwhile API:
+- **Real-time Waitlist Syncing**: Sync Waitwhile's waitlist with Google Sheets in real-time. Each time a customer's status changes or they're added/removed from the list, a Pipedream workflow updates the corresponding sheet, keeping all stakeholders informed without manual data entry.
 
-- Customized customer experiences - Customize the booking process and include
-  unique details that create comprehensive customer profiles.
-- Automated appointment management - Automatically manage and book appointments
-  using the Waitwhile API.
-- Scalable customer engagement - Ensure customer engagement and increase
-  customer loyalty with features like automated customer-engagement surveys.
-- Customized notifications - Create personalized messages to customers based on
-  their activity and profile.
-- Customized communication - Enhance customer communication with customized
-  email blasts, texts, and push notifications.
+- **Appointment Reminder System**: Set up a workflow to send SMS reminders to customers about their upcoming appointments. When Waitwhile schedules an appointment, Pipedream can trigger an SMS via Twilio, reminding the customer of their appointment time and providing options to confirm or reschedule.

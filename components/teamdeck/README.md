@@ -1,22 +1,11 @@
 # Overview
 
-With Teamdeck's API you can rapidly build powerful applications to help you
-manage your workforce. With its RESTful interface it makes it easy to access
-Teamdeck's resources such as contact management, scheduling, reporting, and
-more. This allows you to quickly create applications that streamline and
-automate the way you manage your workforce.
+Teamdeck offers a versatile API that allows you to manage and automate aspects of resource management, like booking, time tracking, and reporting. With the Teamdeck API on Pipedream, you can create custom workflows to connect Teamdeck’s resource scheduling capabilities with other apps to streamline project management, automate timesheet collection, monitor team availability, and generate analytics. It's perfect for managers who want to optimize their team's productivity and for teams who aim to improve their operational workflows.
 
-Here are just a few of the useful applications that you can build using
-Teamdeck's API:
+# Example Use Cases
 
-- Scheduling Applications: Create applications that simplify creating, viewing,
-  and editing team schedules.
-- Contact Management: Build applications to store and manage contact details of
-  employees and clients.
-- Automated Reporting: Create automated reports on employment earnings and
-  hours worked.
-- Time Tracking: Build applications that track hours worked by employees.
-- Payroll Management: Create applications to manage payrolls for employees and
-  contractors.
-- Recruiting Applications: Develop applications to manage recruitment and
-  onboarding of new staff.
+- **Automated Timesheet Collection**: Set up a workflow that triggers weekly, automatically fetching timesheets from Teamdeck and sending them to your accounting software, such as QuickBooks, for payroll processing. This can save time and reduce manual entry errors.
+
+- **Project Management Integration**: Create a workflow that connects Teamdeck with project management tools like Trello or Asana. When a new project is created in your project management tool, automatically create corresponding bookings in Teamdeck to reserve time for your team members.
+
+- **Team Availability Notification**: Build a workflow that monitors your team’s availability in Teamdeck and sends alerts via Slack or email when a team member is overbooked or has free capacity. This can help in reallocating resources efficiently and ensuring a balanced workload.

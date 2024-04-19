@@ -1,30 +1,11 @@
 # Overview
 
-The Rat Genome Database (RGD) is a public, online resource that provides
-genetic information about the rat. It is a powerful tool for researchers and
-developers, enabling them to access and use data archived in the RGD database.
-The RGD API has many uses, from research to data integration, and can help you
-create useful applications for rat-related data.
+The Rat Genome Database (RGD) API provides access to a wealth of genetic and genomic data related to rats, a key model organism in medical research. Via this API, researchers can query for gene information, phenotypic data, and genomic sequences, creating a treasure trove for geneticists, bioinformaticians, and medical researchers seeking to understand disease pathways and potential treatments. On Pipedream, this can be leveraged to automate data retrieval, sync genetic information with other databases, or trigger workflows based on specific genomic updates or criteria.
 
-Here are some examples of what you can build using the RGD API:
+# Example Use Cases
 
-- Create an application that displays the gene expression profiles of rat
-  genes.
-- Develop a program that uses the search capabilities provided by the RGD API
-  to search rat genetic data.
-- Develop a web-based program that provides genetic analysis tools for use in
-  research.
-- Write a program that uses the RGD API to access sequence information for
-  specific rat genes.
-- Use the RGD API to build an application that can compare genetic codes
-  between species.
-- Create a research project that searches through rat data stored in the RGD
-  database.
-- Design a web application that enables integration of rat gene data into
-  existing databases.
-- Use the RGD API to assemble data on disease models and other research topics.
+- **Automated Genetic Data Sync**: Sync rat genetic data from RGD to a research database like MongoDB on a regular basis. When new genes or phenotypes are added to RGD, a Pipedream workflow can be triggered, automatically fetching and inserting this data into the MongoDB database, ensuring researchers always have access to the latest data without manual intervention.
 
-With the RGD API you can quickly build applications and projects that access,
-use and analyse rat genetic data. So if you are a researcher looking for a tool
-to help you tackle a rat-related research project, the RGD API is a great place
-to start.
+- **Disease Research Notification System**: Set up a Pipedream workflow that monitors RGD for updates on specific genes or phenotypic data related to a particular disease. When updates are detected, the workflow sends out email notifications using the SendGrid app to a list of subscribed researchers, keeping them informed of the latest findings and potentially accelerating the pace of medical research.
+
+- **Genomic Data Analysis Pipeline**: Trigger a data analysis pipeline whenever new genomic sequences are released on RGD. A Pipedream workflow could invoke AWS Lambda functions to process and analyze the data, comparing it with human genome datasets from apps like Ensembl or NCBI. The results could then be stored in AWS S3 and a summary report sent to the research team, providing valuable insights into comparative genomics and cross-species disease models.

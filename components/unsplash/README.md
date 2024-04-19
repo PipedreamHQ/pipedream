@@ -1,25 +1,11 @@
 # Overview
 
-You can do a lot of amazing things with the Unsplash API! Whether you're
-looking to build a photo-editing app, a wallpaper app, or a photo-sharing
-website, you can use the Unsplash API to get access to over a million free,
-high resolution photos. Here are some of the amazing things you can build with
-the Unsplash API:
+The Unsplash API provides programmatic access to a vast library of high-quality, royalty-free images. This enables developers to search for and retrieve photos based on keywords, collections, or featured content. With Pipedream's integration, you can automate tasks like updating social media banners, populating website content with dynamic images, or even analyzing photo metadata for insights. By leveraging Unsplash's API within Pipedream, you can create workflows that trigger on various events, process image data, and interact with countless other apps available on the platform, streamlining your digital asset management and content creation processes.
 
-- Photo-editing apps: You can use the Unsplash API to access, search for, and
-  download high resolution photos so your users can use them as a starting
-  point for their own creations.
-- Wallpaper apps: Why deal with copyright issues? With the Unsplash API you can
-  easily obtain millions of photos to use as wallpaper in your app.
-- Photo-sharing websites: Why spend countless hours uploading and curating
-  photos? With the Unsplash API you can access, search for, and download high
-  resolution photos directly onto your website.
-- Image recognition: With the Unsplash API, you can leverage the millions of
-  photos available to develop AI-powered image recognition and object detection
-  software.
-- Advertisement websites: With the Unsplash API, you can easily integrate ads
-  into your website by providing high resolution photos and links to the
-  products in the photos.
-- Image search engines: Thanks to the variety of photos available, you can
-  create a powerful image search engine to help your users find what they're
-  looking for quickly.
+# Example Use Cases
+
+- **Social Media Content Update:** Automate the updating of your social media profiles with fresh, high-resolution images by setting a Pipedream workflow that periodically queries the Unsplash API for new photos based on specific search criteria, and then posts those images to platforms like Twitter, Facebook, or Instagram using their respective APIs.
+
+- **Dynamic Website Imagery:** Enhance your website's visual appeal by creating a Pipedream workflow that pulls a curated set of images from Unsplash based on tags or collections, then pushes these images to your website's CMS (such as WordPress) to keep the visual content fresh and engaging without manual intervention.
+
+- **Marketing Asset Management:** Build a Pipedream workflow that listens for new uploads from your company’s designated photographers to Unsplash, downloads the high-quality versions of these images, and then stores them in Google Drive or Dropbox. Integrate with Slack to send notifications to your marketing team so they can easily access and use the latest images in campaigns and collateral.

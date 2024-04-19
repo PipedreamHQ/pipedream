@@ -1,11 +1,31 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "tapform",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _apiUrl() {
+      return "https://apimvp.tapform.io/api";
+    },
+    _getHeaders() {
+      return {
+        "tapform-api-key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._apiUrl()}/${path}`,
+        headers: this._getHeaders(),
+        ...opts,
+      });
+    },
+    listLeads(args = {}) {
+      return this._makeRequest({
+        path: "leads/zapier-leads",
+        ...args,
+      });
     },
   },
 };

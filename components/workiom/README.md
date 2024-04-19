@@ -1,21 +1,11 @@
 # Overview
 
-The Workiom API enables you to build powerful custom applications to customize
-and streamline your business. With the Workiom API, you can design and develop
-customized applications that leverage the powerful Workiom platform to increase
-productivity and collaboration.
+Workiom is a no-code platform that helps teams build custom work management apps. The Workiom API allows for extensive customization and automation, enabling you to streamline business processes by connecting your custom apps with a multitude of other services. With the API, you can create, read, update, and delete records, manage lists, and automate tasks within your Workiom apps. By leveraging Pipedream's capabilities, you can integrate Workiom with hundreds of other apps to automate workflows, sync data across platforms, and trigger actions based on events from any connected service.
 
-For example, with the Workiom API, you can:
+# Example Use Cases
 
-- Create custom applications to automate and streamline workflows
-- Export and transform data into more actionable insights
-- Access the powerful Workiom CRM, querying contacts, creating leads, and
-  tracking customer data.
-- Integrate with third-party services, such as Social Media, Email, and Surveys
-- Securely manage collaboration, sharing, and access permissions
-- Track time and project progress
-- Utilize Artificial Intelligence (AI) to assist in decision making and
-  planning
-- Allow users to collaborate on documents and databases in real-time
-- Integrate with billing and invoicing systems to create a complete financial
-  workflow.
+- **Project Management Automation**: Automate project setup by triggering a workflow on Pipedream when a new project is created in Workiom. The workflow can create corresponding tasks in a project management tool like Trello or Asana, set up a Slack channel for project communication, and add events to a Google Calendar.
+
+- **Customer Onboarding**: Enhance your customer onboarding experience by triggering a Pipedream workflow when a new customer is added to Workiom. This workflow can send a welcome email via SendGrid, grant access to a scheduling app like Calendly, and initiate a series of educational drip emails in Mailchimp to guide the customer through your product or service.
+
+- **Inventory Tracking**: Keep your inventory in sync by using a Pipedream workflow to monitor changes in inventory levels within Workiom. When a product's stock dips below a certain threshold, the workflow can reorder stock by creating a purchase order in an app like QuickBooks, notify the responsible team member via a message in Microsoft Teams, and update a dashboard in Google Sheets with current inventory status.

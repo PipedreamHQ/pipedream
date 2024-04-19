@@ -1,15 +1,11 @@
 # Overview
 
-With Tinybird's powerful API, you can build a suite of analytics applications
-and insights. Here are a few examples of what you can build:
+Tinybird is a real-time analytics API platform that allows developers to ingest, transform, and consume large amounts of data with low latency. By leveraging SQL and data streaming, Tinybird helps in building data-intensive applications or augmenting existing ones with real-time analytics features. On Pipedream, you can automate data ingestion, transformation, and delivery to unlock insights and drive actions in real time, transforming how you respond to user behavior and operational events.
 
-- Real-time dashboards: Use Tinybird's API to quickly generate custom
-  dashboards that visualize data in real-time.
-- Complex analytics pipelines: Generate complex analytics pipelines using
-  Tinybird's API, allowing you to process, analyze and visualize data.
-- Data analytics applications: Create interactive applications for data
-  exploration and analytics using our API and tools.
-- Reporting tools: Create custom reports with our API, making it easy to
-  visualize and monitor data.
-- IoT sentiment analysis and visualization: Build sentiment analysis
-  applications for streaming data from the Internet of Things.
+# Example Use Cases
+
+- **Real-time Dashboard Updates:** Trigger a workflow on Pipedream when new data is ingested into Tinybird, process and aggregate it, then push the results to a real-time dashboard service like GeckoBoard or Klipfolio. This keeps your dashboards updated with the latest insights without manual intervention.
+
+- **Automated Data Enrichment:** Use Tinybird to consume raw data, and when a new event is detected, trigger a Pipedream workflow to enrich that data with additional information from external services (like Clearbit for enriching user profiles) before inserting it back into Tinybird for enhanced analysis.
+
+- **Event-Driven Notifications:** Set up a Pipedream workflow that listens for specific data patterns or thresholds in Tinybird, such as a spike in user sign-ups or error rates, and automatically send out alerts via email, SMS (using Twilio), or messaging apps (like Slack) to prompt immediate action.

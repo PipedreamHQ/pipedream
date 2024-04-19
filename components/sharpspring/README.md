@@ -1,17 +1,11 @@
 # Overview
 
- Using the SharpSpring API, you can access the potential of SharpSpring's
- powerful marketing automation platform. With the SharpSpring API, you can
- build a wide range of capabilities, from email campaigns to more complex
- initiatives. Here's a few examples of what you can build:
+The SharpSpring API offers a gateway to an extensive marketing platform, enabling you to automate your marketing workflows, manage customer relationships, and glean insights from comprehensive analytics. With Pipedream, you can harness this power to create seamless integrations that trigger actions in SharpSpring based on external events or data, sync leads and contacts across platforms, and personalize marketing efforts based on user behavior and preferences.
 
-- Automated email campaigns
-- Automated lead nurturing
-- Lead scoring
-- Landing page creation
-- Dynamic content personalization
-- Custom user dashboards
-- Webhooks and automated triggers
-- Analytics and reporting
-- Web forms to capture leads
-- Systems integrations with other platforms
+# Example Use Cases
+
+- **Lead Scoring Automation**: Automatically adjust lead scores in SharpSpring based on interactions captured from other platforms. For instance, if a lead watches a webinar on Zoom, Pipedream can catch the webinar attendance webhook and update the lead score in SharpSpring, ensuring your sales team prioritizes hot leads.
+
+- **Cross-Platform Contact Sync**: Keep SharpSpring contacts in sync with other CRMs like Salesforce or HubSpot. When a new contact is added to Salesforce, Pipedream can detect the event and create or update that contact in SharpSpring, maintaining consistency across your sales tools.
+
+- **Personalized Email Campaigns Triggered by Behavior**: Trigger personalized email campaigns in SharpSpring based on customer behavior tracked on your website or app. For example, if a user abandons a shopping cart, Pipedream can capture this event, and SharpSpring can send a tailored email to encourage purchase completion.

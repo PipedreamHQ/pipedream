@@ -15,6 +15,10 @@ export {
 } from "./errors";
 
 export {
+  default as sqlProp,
+} from "./sql-prop";
+
+export {
   default as sqlProxy,
 } from "./sql-proxy";
 

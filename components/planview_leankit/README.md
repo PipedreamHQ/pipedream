@@ -1,17 +1,11 @@
 # Overview
 
-What is Planview Leankit?
+Planview LeanKit API empowers users to automate and integrate their Kanban workflow management. With this API, you can programmatically access boards, cards, and related data to sync with other systems, trigger actions based on board updates, and extract analytics for reporting purposes.
 
-Planview Leankit is an agile project management software solution that helps organizations make agile processes simpler. It provides a comprehensive suite of features and tools that allow users to easily visualize and create tasks, track progress, and get insights into project health and performance. The associated API enables developers to integrate Planview Leankit into their own applications.
+# Example Use Cases
 
-The Planview Leankit API allows developers to access and manipulate data stored within the Leankit application. This includes tasks, topics, users, projects, and custom fields. The API also supports searching and sorting, pushing notifications, and batch requests.
+- **Automated Task Syncing with External Project Management Tools:** Create workflows that sync Planview LeanKit tasks with other project management apps like Asana or Trello. Whenever a card is updated in LeanKit, the corresponding task in the other tool is automatically updated to reflect the change.
 
-With the Planview Leankit API, developers can easily create powerful applications that offer great functionality and are tailored to the requirements of the user. Here are some examples of what you can build using the API:
+- **Enhanced Reporting with Data Analysis Tools:** Set up a pipeline to continuously export card data to a data warehouse like Google BigQuery, enabling advanced analytics and custom dashboard creation in BI tools such as Tableau or Google Data Studio.
 
-- Robust project management systems and dashboards.
-- Automated workflows for task assignment and progress tracking.
-- Automated recurring reports sent directly to executives.
-- Real-time task updates and notifications sent to users.
-- Custom tools for categorizing, filtering and analyzing project data.
-- Automated project status and performance tracking.
-- Custom integrations with existing systems and software.
+- **Real-time Notifications of Board Updates:** Implement a system that listens for changes in LeanKit boards and sends real-time notifications to team communication platforms like Slack or Microsoft Teams, keeping everyone informed about the latest project developments.
