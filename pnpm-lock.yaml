@@ -5784,7 +5784,10 @@ importers:
       qs: 6.11.2
 
   components/overledger:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/overloop:
     specifiers:
