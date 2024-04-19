@@ -1,59 +1,35 @@
-import { axios } from "@pipedream/platform";
-import overledger from "../../overledger.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "overledger-new-contract-event-instant",
-  name: "New Contract Event Instant",
-  description: "Emit new event when a smart contract releases a new event. Requires specifying the contract to watch as a prop. [See the documentation](https://developers.quant.network/reference/createsmartcontractwebhook)",
+  name: "New Smart Contract Event (Instant)",
+  description: "Emit new event when a smart contract releases a new event.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    overledger,
-    db: "$.service.db",
-    contractToWatch: {
+    ...common.props,
+    smartContractId: {
       propDefinition: [
-        overledger,
-        "contractToWatch",
-      ],
-    },
-    callbackUrl: {
-      propDefinition: [
-        overledger,
-        "callbackUrl",
+        common.props.overledger,
+        "smartContractId",
       ],
     },
   },
-  hooks: {
-    async deploy() {
-      // Create a webhook to receive updates for the specified smart contract
-      const response = await this.overledger.createSmartContractEventWebhook({
-        contractToWatch: this.contractToWatch,
-        callbackUrl: this.callbackUrl,
-      });
-
-      // Store the webhook ID for later use (e.g., for deletion)
-      this.db.set("webhookId", response.data.webhookId);
+  methods: {
+    getPath() {
+      return "smart-contract-events";
     },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      if (!webhookId) {
-        throw new Error("Webhook ID not found.");
-      }
-
-      await axios(this, {
-        method: "DELETE",
-        url: `https://api.sandbox.overledger.io/api/webhooks/smart-contract-events/${webhookId}`,
-        headers: {
-          "Authorization": `Bearer ${this.overledger.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
-      });
+    additionalData() {
+      return {
+        smartContractId: this.smartContractId,
+      };
+    },
+    getSummary(body) {
+      return `New contract event with transaction Hash: ${body?.smartContractEventUpdateDetails?.nativeData?.transactionHash}`;
     },
   },
-  async run() {
-    // Since this is an instant trigger, we won't poll or fetch data here.
-    // The run method is implemented to comply with Pipedream's source structure.
-    // Logic for handling incoming webhook requests will be managed by Pipedream's infrastructure.
-  },
+  sampleEmit,
 };

@@ -1,54 +1,34 @@
-import { axios } from "@pipedream/platform";
-import overledger from "../../overledger.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "overledger-watch-new-account-event-instant",
-  name: "Watch New Account Event Instant",
-  description: "Emit a new event for transactions to/from a specific account.",
-  version: "0.0.{{ts}}",
+  name: "New Account Event (Instant)",
+  description: "Emit new event for transactions to/from a specific account.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    overledger,
-    db: "$.service.db",
-    accountToWatch: {
-      propDefinition: [
-        overledger,
-        "accountToWatch",
-      ],
-    },
-    callbackUrl: {
-      propDefinition: [
-        overledger,
-        "callbackUrl",
-      ],
+    ...common.props,
+    accountId: {
+      type: "string",
+      label: "Account Id",
+      description: "The blockchain account that will be monitored for transaction updates.",
     },
   },
-  hooks: {
-    async deploy() {
-      const response = await this.overledger.createAccountTransactionWebhook({
-        accountToWatch: this.accountToWatch,
-        callbackUrl: this.callbackUrl,
-      });
-      this.db.set("webhookId", response.data.id);
+  methods: {
+    getPath() {
+      return "accounts";
     },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      if (webhookId) {
-        await axios(this, {
-          method: "DELETE",
-          url: `${this.overledger._baseUrl()}/api/webhooks/accounts/${webhookId}`,
-          headers: {
-            "Authorization": `Bearer ${this.overledger.$auth.oauth_access_token}`,
-            "Content-Type": "application/json",
-          },
-        });
-      }
+    additionalData() {
+      return {
+        accountId: this.accountId,
+      };
+    },
+    getSummary(body) {
+      return `New asccount event with transaction Id: ${body.transactionId}`;
     },
   },
-  async run() {
-    // Logic for processing incoming webhook events would go here.
-    // In this example, since the webhook setup is external and the run method is triggered by Pipedream's scheduler,
-    // you might not have much to do here unless you're processing webhook payloads stored elsewhere.
-  },
+  sampleEmit,
 };
