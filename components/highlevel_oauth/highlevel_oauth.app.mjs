@@ -56,7 +56,8 @@ export default {
         baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Version": "2021-07-28",
         },
         ...otherOpts,
       });
