@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/overledger",
+  "version": "0.0.1",
+  "description": "Pipedream Overledger Components",
+  "main": "overledger.app.mjs",
+  "keywords": [
+    "pipedream",
+    "overledger"
+  ],
+  "homepage": "https://pipedream.com/apps/overledger",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

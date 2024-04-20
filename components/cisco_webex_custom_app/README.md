@@ -1,14 +1,8 @@
 # Overview
 
-With the Cisco Webex Custom App API, you can build a range of applications that
-take advantage of the power of Webex Teams. Here are just a few examples of
-what you can build:
+Cisco Webex (Custom App) API on Pipedream allows users to automate actions within the Webex platform and connect them with other services to streamline communication and collaboration. You can leverage the API to create participants, send messages in spaces, and manage meetings programmatically. Pipedream's serverless platform enables triggering workflows from various events, processing data, and executing complex actions in response.
 
-1. A message bot that responds to certain keywords or phrases
-2. An app that automatically schedules meeting times for team members
-3. A app that allows team members to vote on decisions
-4. An app that provides real-time translations of team conversations
-5. A app that allows team members to share files and documents with each other
+# Getting Started
 
 ## Creating a custom Webex application
 To use your own custom Cisco Webex app, you will need to sign up for a free [Webex developer account](https://developer.webex.com/signup) if you don't already have one, and [create a new app](https://developer.webex.com/my-apps/new).
@@ -46,3 +40,11 @@ you'll need to create a space-separated list of scopes:
 9. Copy and paste your **Client ID**, **Client Secret**, and **Space Separated Scopes** on the Cisco Webex (Custom App) account connection page on Pipedream. 
 
 <img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703183779/Screenshot_2023-12-21_at_10.35.53_AM_qqz0wh.png" />
+
+# Example Use Cases
+
+- **Automated Meeting Scheduling and Notifications**: Schedule Webex meetings automatically based on calendar events from Google Calendar. When a new event is added to a specific Google Calendar, a Pipedream workflow can trigger to create a Webex meeting and send the meeting details to participants via email or a preferred messaging app.
+
+- **Customer Support Ticket Escalation**: Integrate Cisco Webex with a customer support ticketing system like Zendesk. When a high-priority ticket is received, a workflow can automatically create a Webex space and add the support team for real-time collaboration on resolving the issue. This ensures urgent matters are addressed swiftly.
+
+- **Project Management Updates**: Connect Cisco Webex to a project management tool like Trello or Asana. Whenever a task is updated or completed, a Pipedream workflow can post an update in a dedicated Webex team space, keeping everyone aligned and informed of project progress without manual status reports.
