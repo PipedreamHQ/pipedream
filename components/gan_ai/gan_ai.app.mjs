@@ -8,79 +8,47 @@ export default {
       type: "string",
       label: "Project ID",
       description: "The unique identifier for the user's project in the GAN AI systems.",
-      async options({ prevContext }) {
-        const { data } = await this.getProjects({
-          page: prevContext.page || 1,
-        });
-        return {
-          options: data.map((project) => ({
-            label: project.title,
-            value: project.project_id,
-          })),
-          context: {
-            page: prevContext.page
-              ? prevContext.page + 1
-              : 2,
-          },
-        };
+      async options() {
+        const { data } = await this.getProjects();
+        return data.map(({
+          project_id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
       },
-    },
-    tagsAndValues: {
-      type: "string[]",
-      label: "Tags and Values",
-      description: "List of dictionaries with tags and their corresponding values for video generation.",
-    },
-    queryset: {
-      type: "string[]",
-      label: "Query Set",
-      description: "The payload is a list of dictionaries, where all the parameters required for video generation have to be provided along with a `unique_id`.",
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getUrl(path) {
+      return `https://api.gan.ai${path}`;
     },
-    _baseUrl() {
-      return "https://api.gan.ai";
+    getHeaders(headers) {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        ...headers,
+      };
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, path, headers, ...otherOpts
+    } = {}) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
       });
     },
-    async getProjects({ page }) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/projects/v2?page=${page}`,
-      });
-    },
-    async createVideosBulk({
-      projectId, tagsAndValues, queryset,
-    }) {
-      const payload = tagsAndValues
-        ? tagsAndValues.map(JSON.parse)
-        : queryset.map(JSON.parse);
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/create_video/bulk",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {
-          project_id: projectId,
-          create_video_bulk_query_set: payload,
-        },
+        ...args,
+      });
+    },
+    getProjects(args = {}) {
+      return this._makeRequest({
+        path: "/projects/v2",
+        ...args,
       });
     },
   },
-  version: "0.0.{{ts}}",
 };

@@ -1,51 +1,55 @@
-import ganAi from "../../gan_ai.app.mjs";
-import { axios } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
+import app from "../../gan_ai.app.mjs";
 
 export default {
   key: "gan_ai-create-videos",
-  name: "Create Videos in Bulk",
+  name: "Create Videos",
   description: "Creates videos in bulk by passing tags and values. Requires a project ID. [See the documentation](https://docs.gan.ai/create-video/create-videos)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    ganAi,
+    app,
     projectId: {
       propDefinition: [
-        ganAi,
+        app,
         "projectId",
-        (c) => ({
-          prevContext: c.prevContext,
-        }),
       ],
     },
-    tagsAndValues: {
-      propDefinition: [
-        ganAi,
-        "tagsAndValues",
-      ],
+    data: {
+      type: "string[]",
+      label: "Data",
+      description: "The payload is a list of dictionaries, where all the parameters required for video generation have to provide a `unique_id` along with the rest of the values you want to set. Eg. `[{ \"names\": \"Manash\", \"unique_id\": \"abc123\" }, { \"names\": \"Manash2\", \"unique_id\": \"cba321\" } ]`",
     },
-    queryset: {
-      propDefinition: [
-        ganAi,
-        "queryset",
-      ],
+  },
+  methods: {
+    createVideos(args = {}) {
+      return this.app.post({
+        path: "/create_video/bulk",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    let payload;
-    if (this.tagsAndValues && this.tagsAndValues.length > 0) {
-      payload = this.tagsAndValues.map(JSON.parse);
-    } else {
-      payload = this.queryset.map(JSON.parse);
-    }
+    const {
+      createVideos,
+      projectId,
+      data,
+    } = this;
 
-    const response = await this.ganAi.createVideosBulk({
-      projectId: this.projectId,
-      tagsAndValues: this.tagsAndValues,
-      queryset: this.queryset,
+    const response = await createVideos({
+      $,
+      params: {
+        project_id: projectId,
+      },
+      data: utils.parseArray(data),
     });
 
-    $.export("$summary", `Successfully created videos for project ${this.projectId}`);
+    if (!response.length) {
+      $.export("$summary", "No videos were created");
+      return response;
+    }
+
+    $.export("$summary", `Successfully created \`${response.length}\` video(s)`);
     return response;
   },
 };
