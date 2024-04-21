@@ -1,13 +1,12 @@
 import app from "../../gitlab_developer_app.app.mjs";
 import common from "../../../gitlab/actions/list-repo-branches/list-repo-branches.mjs";
 
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
 const {
   name, description, type, ...others
 } = common;
-
-const { // eslint-disable-next-line no-unused-vars
-  gitlab, ...props
-} = others.props;
+const props = adjustPropDefinitions(others.props, app);
 
 export default {
   ...others,
