@@ -1,55 +1,147 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "posthog",
   propDefinitions: {
+    organizationId: {
+      type: "string",
+      label: "Organization ID",
+      description: "Identifier of an organization",
+      async options() {
+        const { organizations } = await this.getUser();
+        return organizations?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "Identifier of a project",
+      async options({
+        organizationId, page,
+      }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { results } = await this.listProjects({
+          organizationId,
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return results?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     event: {
       type: "string",
       label: "Event",
-      description: "The name of the event to capture",
-      required: true,
+      description: "The event type to capture",
+      async options({
+        projectId, page,
+      }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { results } = await this.listEvents({
+          projectId,
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return results?.map(({ name }) => name ) || [];
+      },
     },
     properties: {
-      type: "object",
+      type: "string[]",
       label: "Properties",
-      description: "An object with key-value pairs to further flesh out the event details",
+      description: "The property types to include in the event",
       optional: true,
+      async options({
+        projectId, page,
+      }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { results } = await this.listProperties({
+          projectId,
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return results?.map(({ name }) => name ) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://app.posthog.com";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "POST",
         path,
-        data,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
-        data,
       });
     },
-    async emitEvent({
-      event, properties,
+    getUser(opts = {}) {
+      return this._makeRequest({
+        path: "/api/users/@me",
+        ...opts,
+      });
+    },
+    listProjects({
+      organizationId, ...opts
     }) {
       return this._makeRequest({
-        path: "/e/",
-        data: {
-          event,
-          properties,
-        },
+        path: `/api/organizations/${organizationId}/projects`,
+        ...opts,
+      });
+    },
+    listEvents({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/api/projects/${projectId}/event_definitions`,
+        ...opts,
+      });
+    },
+    listProperties({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/api/projects/${projectId}/property_definitions`,
+        ...opts,
+      });
+    },
+    createQuery({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/api/projects/${projectId}/query`,
+        ...opts,
+      });
+    },
+    captureEvent(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/capture",
+        ...opts,
       });
     },
   },

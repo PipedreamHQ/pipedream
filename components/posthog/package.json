@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/posthog",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream PostHog Components",
-  "main": "dist/app/posthog.app.mjs",
+  "main": "posthog.app.mjs",
   "keywords": [
     "pipedream",
     "posthog"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/posthog",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.4"
   }
 }
