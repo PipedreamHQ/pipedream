@@ -48,16 +48,11 @@ export default {
         },
       });
     },
-    async createCustomer({
-      customerDetails, associatedContactDetails,
-    }) {
+    async createCustomer(args) {
       return this._makeRequest({
         method: "POST",
         url: "/customers",
-        data: {
-          ...customerDetails,
-          contact_details: associatedContactDetails,
-        },
+        ...args,
       });
     },
     async uploadInvoicePdf({

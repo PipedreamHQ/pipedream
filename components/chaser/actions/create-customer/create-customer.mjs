@@ -8,25 +8,84 @@ export default {
   type: "action",
   props: {
     chaser,
-    customerDetails: {
-      propDefinition: [
-        chaser,
-        "customerDetails",
-      ],
+    externalId: {
+      type: "string",
+      label: "External ID",
+      description: "External ID of the customer",
+      optional: true,
     },
-    associatedContactDetails: {
-      propDefinition: [
-        chaser,
-        "associatedContactDetails",
-      ],
+    companyName: {
+      type: "string",
+      label: "Company Name",
+      description: "Company name of the customer",
+      optional: true,
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of the customer",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the customer",
+      optional: true,
+    },
+    emailAddress: {
+      type: "string",
+      label: "Email Address",
+      description: "Email address of the customer",
+      optional: true,
+    },
+    phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "Phone number of the customer",
+      optional: true,
+    },
+    additionalOptions: {
+      type: "object",
+      label: "Additional Options",
+      description:
+        "Additional parameters to send in the request. [See the documentation](https://openapi.chaserhq.com/docs/static/index.html) for available parameters. Values will be parsed as JSON where applicable.",
+      optional: true,
     },
   },
   async run({ $ }) {
+    let additionalOptions = Object.fromEntries(
+      Object.entries(this.additionalOptions ?? {}).map(([
+        key,
+        value,
+      ]) => {
+        // optional JSON parsing
+        try {
+          return [
+            key,
+            JSON.parse(value),
+          ];
+        } catch (e) {
+          return [
+            key,
+            value,
+          ];
+        }
+      }),
+    );
+
     const response = await this.chaser.createCustomer({
-      customerDetails: this.customerDetails,
-      associatedContactDetails: this.associatedContactDetails,
+      $,
+      data: {
+        external_id: this.externalId,
+        company_name: this.companyName,
+        first_name: this.firstName,
+        last_name: this.lastName,
+        email_address: this.emailAddress,
+        phone_number: this.phoneNumber,
+        ...additionalOptions,
+      },
     });
-    $.export("$summary", `Successfully created customer with ID ${response.id}`);
+    $.export("$summary", `Successfully created customer (ID: ${response.id})`);
     return response;
   },
 };
