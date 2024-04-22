@@ -68,7 +68,7 @@ export default {
     additionalData: {
       type: "object",
       label: "Additional Data",
-      description: "An object to manual input other fields.",
+      description: "An object to manual input other fields. Please check the fields from [the API doc > POST /invoice > Request Body](https://api.faktoora.com/api/v1/api-docs/static/index.html)",
       optional: true,
     },
   },
