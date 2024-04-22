@@ -42,6 +42,7 @@ export default {
     }) {
       return axios($, {
         ...otherOpts,
+        baseURL: this._baseUrl(),
         auth: {
           username: `${this.$auth.key}`,
           password: `${this.$auth.secret}`,

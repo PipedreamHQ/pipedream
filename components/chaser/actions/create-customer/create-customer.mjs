@@ -12,13 +12,11 @@ export default {
       type: "string",
       label: "External ID",
       description: "External ID of the customer",
-      optional: true,
     },
     companyName: {
       type: "string",
       label: "Company Name",
       description: "Company name of the customer",
-      optional: true,
     },
     firstName: {
       type: "string",
