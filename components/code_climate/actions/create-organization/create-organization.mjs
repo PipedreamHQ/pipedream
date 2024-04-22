@@ -28,7 +28,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created organization '${response.orgName}'`);
+    $.export("$summary", `Successfully created organization '${this.orgName}'`);
 
     return response;
   },
