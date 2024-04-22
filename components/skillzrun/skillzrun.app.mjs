@@ -4,89 +4,94 @@ export default {
   type: "app",
   app: "skillzrun",
   propDefinitions: {
-    userEmail: {
+    email: {
       type: "string",
       label: "User Email",
       description: "The email of the user. This is required and must be unique.",
-      required: true,
     },
-    userName: {
+    name: {
       type: "string",
       label: "User Name",
-      description: "The name of the user. This is optional.",
+      description: "The name of the user",
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The phone number of the user",
+      optional: true,
+    },
+    isActive: {
+      type: "boolean",
+      label: "Is Active",
+      description: "Whether the user is active",
+      optional: true,
+    },
+    seesAllSubjects: {
+      type: "boolean",
+      label: "Sees All Subjects",
+      description: "Whether the user sees all offers",
+      optional: true,
+    },
+    ignoreNotOpenLevels: {
+      type: "boolean",
+      label: "Ignore Not Open Levels",
+      description: "Whether to ignore not open levels",
+      optional: true,
+    },
+    ignoreStopItems: {
+      type: "boolean",
+      label: "Ignore Stop Items",
+      description: "Whether to ignore stop items",
+      optional: true,
+    },
+    noteAboutUser: {
+      type: "boolean",
+      label: "Note About User",
+      description: "Additional information about the user",
       optional: true,
     },
     offerIds: {
-      type: "string[]",
+      type: "integer[]",
       label: "Offer IDs",
-      description: "The IDs of the associated offers. These must exist within the SkillzRun app.",
-      required: true,
+      description: "The IDs of the associated offers.",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.skillzrun.com/external/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          "x-api-key": `${this.$auth.api_key}`,
         },
       });
     },
-    async createUser({
-      userEmail, userName = "",
-    }) {
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    upsertUser(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/users/",
-        data: {
-          email: userEmail,
-          name: userName,
-        },
+        path: "/users/upsert",
+        ...opts,
       });
     },
-    async updateUser({
-      userEmail, userName = "",
-    }) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/users/${userEmail}`,
-        data: {
-          email: userEmail,
-          name: userName,
-        },
-      });
-    },
-    async createUserWithOffers({
-      userEmail, offerIds, userName = "",
-    }) {
+    createUserWithOffers(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/users/create-with-orders",
-        data: {
-          email: userEmail,
-          offers: offerIds,
-          name: userName,
-        },
-      });
-    },
-    async emitNewUserEvent() {
-      return this.$emit({
-        id: "newUserCreated",
-      }, {
-        summary: "New user created in SkillzRun App",
+        ...opts,
       });
     },
   },

@@ -1,24 +1,23 @@
-import { defineAction } from "@pipedream/platform";
 import skillzrun from "../../skillzrun.app.mjs";
 
-const component = {
+export default {
   key: "skillzrun-create-user-with-offers",
   name: "Create User With Offers",
-  description: "Creates a new user with their associated offers in the SkillzRun app. The user's email and the associated offer IDs are required props. The offer IDs must exist within the SkillzRun app. Optional props like user name can be supplied.",
-  version: "0.0.{{ts}}",
+  description: "Creates a new user with their associated offers in the SkillzRun app. [See the documentation](https://api.skillzrun.com/external/api/swagger/static/index.html#/users/post_external_api_users_create_with_orders)",
+  version: "0.0.1",
   type: "action",
   props: {
     skillzrun,
-    userEmail: {
+    email: {
       propDefinition: [
         skillzrun,
-        "userEmail",
+        "email",
       ],
     },
-    userName: {
+    name: {
       propDefinition: [
         skillzrun,
-        "userName",
+        "name",
       ],
     },
     offerIds: {
@@ -27,16 +26,59 @@ const component = {
         "offerIds",
       ],
     },
+    phone: {
+      propDefinition: [
+        skillzrun,
+        "phone",
+      ],
+    },
+    isActive: {
+      propDefinition: [
+        skillzrun,
+        "isActive",
+      ],
+    },
+    seesAllSubjects: {
+      propDefinition: [
+        skillzrun,
+        "seesAllSubjects",
+      ],
+    },
+    ignoreNotOpenLevels: {
+      propDefinition: [
+        skillzrun,
+        "ignoreNotOpenLevels",
+      ],
+    },
+    ignoreStopItems: {
+      propDefinition: [
+        skillzrun,
+        "ignoreStopItems",
+      ],
+    },
+    noteAboutUser: {
+      propDefinition: [
+        skillzrun,
+        "noteAboutUser",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.skillzrun.createUserWithOffers({
-      userEmail: this.userEmail,
-      offerIds: this.offerIds,
-      userName: this.userName,
+      $,
+      data: {
+        name: this.name,
+        email: this.email,
+        phone: this.phone,
+        isActive: this.isActive,
+        seesAllSubjects: this.seesAllSubjects,
+        ignoreNotOpenLevels: this.ignoreNotOpenLevels,
+        ignoreStopItems: this.ignoreStopItems,
+        noteAboutUser: this.noteAboutUser,
+        offerIds: this.offerIds.map((id) => +id),
+      },
     });
-    $.export("$summary", "Successfully created user with offers");
+    $.export("$summary", `Successfully created user with ID: ${response.id}`);
     return response;
   },
 };
-
-export default defineAction(component);
