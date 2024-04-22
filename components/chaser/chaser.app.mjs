@@ -34,32 +34,18 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://openapi.chaserhq.com";
+      return `https://${this.$auth.host}/v1`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
-
-      const authHeader = `Basic ${Buffer.from(`${this.$auth.api_key}:${this.$auth.api_secret}`).toString("base64")}`;
-
+    async _makeRequest({
+      $ = this,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": authHeader,
-          "Content-Type": "application/json",
+        auth: {
+          username: `${this.$auth.key}`,
+          password: `${this.$auth.secret}`,
         },
-        data,
-        params,
       });
     },
     async createCustomer({
@@ -67,7 +53,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/customers",
+        url: "/customers",
         data: {
           ...customerDetails,
           contact_details: associatedContactDetails,
@@ -79,7 +65,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/invoices/pdf",
+        url: "/invoices/pdf",
         data: {
           invoice_pdf_file: invoicePdfFile,
           ...customerDetails,
@@ -94,7 +80,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/invoices",
+        url: "/invoices",
         data: {
           ...invoiceDetails,
           ...additionalInvoiceDetails,
@@ -102,5 +88,4 @@ export default {
       });
     },
   },
-  version: "0.0.1",
 };
