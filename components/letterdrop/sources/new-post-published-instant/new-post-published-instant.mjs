@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "letterdrop-new-post-published-instant",
   name: "New Post Published (Instant)",
-  description: "Emit new event when a new post gets published on Letterdrop. [See the documentation](https://docs.letterdrop.com/webhooks)",
+  description: "Emit new event when a new post gets published on Letterdrop. After creating the source, access Letterdrop UI, go to `Settings > Integrations > API and Webhooks > Webhook Endpoints > Setup endpoints` and add your source endpoint URL to the respective webhook edpoint. [See the documentation](https://docs.letterdrop.com/webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
