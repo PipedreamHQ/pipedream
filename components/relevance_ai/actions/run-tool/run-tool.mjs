@@ -55,7 +55,7 @@ export default {
         toolOutput = jobStatus.updates[0].output.output;
         cont = false;
       }
-    } while (cont || (timeLimit >= this.timeout));
+    } while (cont && (timeLimit >= this.timeout));
 
     $.export("$summary", `Successfully executed tool with ID ${this.toolId}`);
     return toolOutput;
