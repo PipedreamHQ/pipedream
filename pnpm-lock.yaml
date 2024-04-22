@@ -5943,7 +5943,10 @@ importers:
       pcloud-sdk-js: 2.0.0
 
   components/pdf_charts:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.3
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/pdf_co:
     specifiers:
