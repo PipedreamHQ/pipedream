@@ -12,7 +12,7 @@ export default {
     orgId: {
       type: "string",
       label: "Organization ID",
-      description: "The ID of the Organization",
+      description: "The ID of the organization",
       async options() {
         const { data } = await this.getOrganizations();
 
