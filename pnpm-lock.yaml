@@ -9100,6 +9100,9 @@ importers:
   components/vosfactures:
     specifiers: {}
 
+  components/vryno:
+    specifiers: {}
+
   components/vtiger_crm:
     specifiers:
       '@pipedream/platform': ^1.5.1
