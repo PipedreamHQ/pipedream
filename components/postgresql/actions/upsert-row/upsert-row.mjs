@@ -4,8 +4,8 @@ import format from "pg-format";
 export default {
   name: "Upsert Row",
   key: "postgresql-upsert-row",
-  description: "Adds a new row or updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "2.0.3",
+  description: "Adds a new row or updates an existing row. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.4",
   type: "action",
   props: {
     postgresql,
@@ -102,10 +102,11 @@ export default {
       $.export("$summary", summary);
       return res;
     } catch (error) {
-      throw new Error(`
-        Row not upserted due to an error. ${error}.
-        This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
-      `);
+      let errorMsg = "Row not upserted due to an error. ";
+      errorMsg += `${error}`.includes("SSL verification failed")
+        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
+        : `${error}`;
+      throw new Error(errorMsg);
     }
   },
 };
