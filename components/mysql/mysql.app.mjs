@@ -102,7 +102,7 @@ export default {
   methods: {
     ...sqlProxy.methods,
     ...sqlProp.methods,
-    getSslConfig() {
+    _getSslConfig() {
       const {
         ca,
         key,
@@ -158,7 +158,7 @@ export default {
         user,
         password,
         database,
-        ssl: this.getSslConfig(),
+        ssl: this._getSslConfig(),
       };
     },
     /**
@@ -225,7 +225,7 @@ export default {
 
       } finally {
         if (connection) {
-          await this.closeConnection(connection);
+          await this._closeConnection(connection);
         }
       }
     },
@@ -269,7 +269,7 @@ export default {
         return acc;
       }, {});
     },
-    async closeConnection(connection) {
+    async _closeConnection(connection) {
       await connection.end();
       return new Promise((resolve) => {
         connection.connection.stream.on("close", resolve);
@@ -298,7 +298,8 @@ export default {
       });
     },
     listBaseTables({
-      lastResult, ...args
+      lastResult,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `
@@ -314,7 +315,8 @@ export default {
       });
     },
     listTopTables({
-      maxCount = 10, ...args
+      maxCount = 10,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `
@@ -327,7 +329,8 @@ export default {
       });
     },
     listColumns({
-      table, ...args
+      table,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `SHOW COLUMNS FROM \`${table}\``,
@@ -335,7 +338,9 @@ export default {
       });
     },
     listNewColumns({
-      table, previousColumns, ...args
+      table,
+      previousColumns,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `
@@ -357,7 +362,10 @@ export default {
      * that has been previously returned.
      */
     listRows({
-      table, column, lastResult, ...args
+      table,
+      column,
+      lastResult,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `
@@ -381,7 +389,10 @@ export default {
      * @param {number} maxCount - Maximum number of results to return.
      */
     listMaxRows({
-      table, column, maxCount = 10, ...args
+      table,
+      column,
+      maxCount = 10,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `
@@ -393,7 +404,8 @@ export default {
       });
     },
     getPrimaryKey({
-      table, ...args
+      table,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: "SHOW KEYS FROM ? WHERE Key_name = 'PRIMARY'",
@@ -404,7 +416,8 @@ export default {
       });
     },
     async listColumnNames({
-      table, ...args
+      table,
+      ...args
     } = {}) {
       const columns = await this.listColumns({
         table,
@@ -413,7 +426,10 @@ export default {
       return columns.map((column) => column.Field);
     },
     findRows({
-      table, condition, values = [], ...args
+      table,
+      condition,
+      values = [],
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `SELECT * FROM \`${table}\` WHERE ${condition}`,
@@ -422,7 +438,10 @@ export default {
       });
     },
     deleteRows({
-      table, condition, values = [], ...args
+      table,
+      condition,
+      values = [],
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `DELETE FROM \`${table}\` WHERE ${condition}`,
@@ -431,7 +450,10 @@ export default {
       });
     },
     insertRow({
-      table, columns = [], values = [], ...args
+      table,
+      columns = [],
+      values = [],
+      ...args
     } = {}) {
       const placeholder = values.map(() => "?").join(",");
       return this.executeQuery({
@@ -444,8 +466,11 @@ export default {
       });
     },
     updateRow({
-      table, condition,
-      conditionValues = [], columnsToUpdate = [], valuesToUpdate = [],
+      table,
+      condition,
+      conditionValues = [],
+      columnsToUpdate = [],
+      valuesToUpdate = [],
       ...args
     } = {}) {
       const updates =
@@ -465,7 +490,9 @@ export default {
       });
     },
     executeStoredProcedure({
-      storedProcedure, values = [], ...args
+      storedProcedure,
+      values = [],
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `CALL ${storedProcedure}(${values.map(() => "?")})`,
