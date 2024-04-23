@@ -45,7 +45,7 @@ export default {
 
     do {
       timeLimit += 5;
-      sleep(5000);
+      await sleep(5000);
       const jobStatus = await this.relevanceAI.getJobStatus({
         $,
         jobId,
@@ -55,7 +55,7 @@ export default {
         toolOutput = jobStatus.updates[0].output.output;
         cont = false;
       }
-    } while (cont && (timeLimit >= this.timeout));
+    } while (cont && (timeLimit <= this.timeout));
 
     $.export("$summary", `Successfully executed tool with ID ${this.toolId}`);
     return toolOutput;
