@@ -3,8 +3,8 @@ import postgresql from "../../postgresql.app.mjs";
 export default {
   name: "Insert Row",
   key: "postgresql-insert-row",
-  description: "Adds a new row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "2.0.3",
+  description: "Adds a new row. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.4",
   type: "action",
   props: {
     postgresql,
@@ -48,10 +48,11 @@ export default {
       $.export("$summary", "New row inserted");
       return res;
     } catch (error) {
-      throw new Error(`
-        New row not inserted due to an error. ${error}.
-        This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
-      `);
+      let errorMsg = "New row not inserted due to an error. ";
+      errorMsg += `${error}`.includes("SSL verification failed")
+        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
+        : `${error}`;
+      throw new Error(errorMsg);
     }
   },
 };
