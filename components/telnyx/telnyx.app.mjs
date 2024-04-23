@@ -4,7 +4,7 @@ export default {
   type: "app",
   app: "telnyx",
   propDefinitions: {
-    messaging_profile_id: {
+    messagingProfileId: {
       type: "string",
       label: "Messaging Profile Id",
       description: "The Id of the messaging profile to use for sending the message.",
@@ -58,25 +58,17 @@ export default {
       error = error.response;
       throw new Error(`${error.status} - ${error.statusText} - ${error.data.message}`);
     },
-    async sendMessage({
-      $,
-      data,
-    }) {
+    async sendMessage(args) {
       return this.makeRequest({
-        $,
         method: "POST",
         path: "/messages",
-        data,
+        ...args,
       });
     },
-    async getMessagingProfiles({
-      $,
-      params,
-    }) {
+    async getMessagingProfiles(args) {
       return this.makeRequest({
-        $,
         path: "/messaging_profiles",
-        params,
+        ...args,
       });
     },
   },
