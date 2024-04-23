@@ -1569,13 +1569,19 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/code_climate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/codegpt:
     specifiers: {}
 
   components/codemagic:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/codeq_natural_language_processing_api:
     specifiers: {}
@@ -2194,7 +2200,10 @@ importers:
     specifiers: {}
 
   components/docmosis:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/docraptor:
     specifiers: {}
@@ -4484,7 +4493,10 @@ importers:
     specifiers: {}
 
   components/letterdrop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/lettria:
     specifiers: {}
@@ -5944,7 +5956,10 @@ importers:
       pcloud-sdk-js: 2.0.0
 
   components/pdf_charts:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.3
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/pdf_co:
     specifiers:
@@ -7717,7 +7732,10 @@ importers:
     specifiers: {}
 
   components/smartroutes:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/smartsheet:
     specifiers:
@@ -7836,7 +7854,10 @@ importers:
     specifiers: {}
 
   components/softr:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/solarwinds_service_desk:
     specifiers: {}
