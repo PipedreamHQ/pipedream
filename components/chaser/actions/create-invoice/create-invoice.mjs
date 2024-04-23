@@ -8,53 +8,91 @@ export default {
   type: "action",
   props: {
     chaser,
-    customerDetails: {
+    invoiceId: {
+      type: "string",
+      label: "Invoice ID",
+      description: "Invoice ID",
+    },
+    invoiceNumber: {
+      type: "string",
+      label: "Invoice Number",
+      description: "Invoice Number",
+    },
+    customerExternalId: {
       propDefinition: [
         chaser,
-        "customerDetails",
+        "customerExternalId",
       ],
     },
-    associatedContactDetails: {
-      propDefinition: [
-        chaser,
-        "associatedContactDetails",
-        (c) => ({
-          customerDetails: c.customerDetails,
-        }),
-      ],
-      optional: true,
-    },
-    invoiceDetails: {
-      propDefinition: [
-        chaser,
-        "invoiceDetails",
+    status: {
+      type: "string",
+      label: "Status",
+      description: "Invoice Status",
+      options: [
+        "DRAFT",
+        "SUBMITTED",
+        "AUTHORISED",
+        "PAID",
+        "VOIDED",
+        "DELETED",
       ],
     },
-    additionalInvoiceDetails: {
-      propDefinition: [
-        chaser,
-        "additionalInvoiceDetails",
-        (c) => ({
-          invoiceDetails: c.invoiceDetails,
-        }),
-      ],
+    currencyCode: {
+      type: "string",
+      label: "Currency Code",
+      description: "A 3-letter currency code such as `USD`, `EUR` or `GBP`",
+    },
+    amountDue: {
+      type: "string",
+      label: "Amount Due",
+      description: "Amount Due (number)",
+    },
+    amountPaid: {
+      type: "string",
+      label: "Amount Paid",
+      description: "Amount Paid (number)",
+    },
+    total: {
+      type: "string",
+      label: "Total",
+      description: "Total (number)",
+    },
+    date: {
+      type: "string",
+      label: "Date",
+      description: "Invoice date (date-time string such as `2024-04-23T11:00:00Z`)",
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "Invoice due date (date-time string such as `2024-04-23T11:00:00Z`)",
+    },
+    fullyPaidDate: {
+      type: "string",
+      label: "Fully Paid Date",
+      description: "Invoice fully paid date (date-time string such as `2024-04-23T11:00:00Z`)",
       optional: true,
     },
   },
   async run({ $ }) {
-    // Create customer
-    const customer = await this.chaser.createCustomer({
-      customerDetails: this.customerDetails,
-      associatedContactDetails: this.associatedContactDetails,
+    const response = await this.chaser.createInvoice({
+      $,
+      data: {
+        invoice_id: this.invoiceId,
+        invoice_number: this.invoiceNumber,
+        status: this.status,
+        currency_code: this.currencyCode,
+        amount_due: Number(this.amountDue),
+        amount_paid: Number(this.amountPaid),
+        total: Number(this.total),
+        date: this.date,
+        due_date: this.dueDate,
+        fully_paid_date: this.fullyPaidDate,
+        customer_external_id: this.customerExternalId,
+      },
     });
 
-    // Create invoice with optional additional details
-    const invoice = await this.chaser.createInvoice({
-      invoiceDetails: this.invoiceDetails,
-      additionalInvoiceDetails: this.additionalInvoiceDetails,
-    });
-
-    $.export("$summary", `Successfully created invoice with ID ${invoice.id} for customer ${customer.name}`);
-    return invoice;
+    $.export("$summary", `Successfully created invoice (ID: ${response?.data?.id})`);
+    return response;
   },
 };

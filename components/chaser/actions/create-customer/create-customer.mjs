@@ -4,7 +4,7 @@ export default {
   key: "chaser-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in Chaser. [See the documentation](https://openapi.chaserhq.com/docs/static/index.html)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     chaser,
@@ -76,9 +76,9 @@ export default {
       data: {
         external_id: this.externalId,
         company_name: this.companyName,
-        first_name: this.firstName,
-        last_name: this.lastName,
-        email_address: this.emailAddress,
+        contact_first_name: this.firstName,
+        contact_last_name: this.lastName,
+        contact_email_address: this.emailAddress,
         phone_number: this.phoneNumber,
         ...additionalOptions,
       },
