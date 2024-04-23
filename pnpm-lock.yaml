@@ -2705,7 +2705,12 @@ importers:
     specifiers: {}
 
   components/faktoora:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 1.6.2
+      fs: 0.0.1-security
 
   components/faraday:
     specifiers:
