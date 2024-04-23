@@ -23,7 +23,7 @@ export default {
       label: "Table",
       description: "Database table",
       async options({ schema }) {
-        return this.getTables(this.getNormalizedSchema(schema));
+        return this.getTables(this._getNormalizedSchema(schema));
       },
     },
     column: {
@@ -33,7 +33,7 @@ export default {
       async options({
         table, schema,
       }) {
-        return this.getColumns(table, this.getNormalizedSchema(schema));
+        return this.getColumns(table, this._getNormalizedSchema(schema));
       },
     },
     query: {
@@ -55,7 +55,7 @@ export default {
         table, column, prevContext, schema,
       }) {
         const limit = 20;
-        const normalizedSchema = this.getNormalizedSchema(schema);
+        const normalizedSchema = this._getNormalizedSchema(schema);
         const { offset = 0 } = prevContext;
         return {
           options: await this
@@ -75,7 +75,7 @@ export default {
   methods: {
     ...sqlProp.methods,
     ...sqlProxy.methods,
-    getSslConfig() {
+    _getSslConfig() {
       const {
         ca,
         key,
@@ -122,10 +122,10 @@ export default {
         user,
         password,
         database,
-        ssl: this.getSslConfig(),
+        ssl: this._getSslConfig(),
       };
     },
-    async getClient() {
+    async _getClient() {
       const config = this.getClientConfiguration();
       const client = new pg.Client(config);
       try {
@@ -139,7 +139,7 @@ export default {
       }
       return client;
     },
-    async endClient(client) {
+    async _endClient(client) {
       return client.end();
     },
     /**
@@ -195,13 +195,13 @@ export default {
      * query.
      */
     async executeQuery(query) {
-      const client = await this.getClient();
+      const client = await this._getClient();
 
       try {
         const { rows } = await client.query(query);
         return rows;
       } finally {
-        await this.endClient(client);
+        await this._endClient(client);
       }
     },
     /**
@@ -376,7 +376,7 @@ export default {
      * @returns The newly updated row
      */
     async updateRow(schema, table, lookupColumn, lookupValue, rowValues) {
-      const columnsPlaceholders = this.getColumnsPlaceholders({
+      const columnsPlaceholders = this._getColumnsPlaceholders({
         rowValues,
         fromIndex: 2,
       });
@@ -396,7 +396,7 @@ export default {
       });
       return response[0];
     },
-    getColumnsPlaceholders({
+    _getColumnsPlaceholders({
       rowValues = {},
       fromIndex = 1,
     } = {}) {
@@ -440,7 +440,7 @@ export default {
       return this.executeQuery(query);
     },
     /**Normalize Schema**/
-    getNormalizedSchema(schema) {
+    _getNormalizedSchema(schema) {
       return schema ?? "public";
     },
   },
