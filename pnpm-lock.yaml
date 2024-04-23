@@ -2200,7 +2200,10 @@ importers:
     specifiers: {}
 
   components/docmosis:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/docraptor:
     specifiers: {}
@@ -3048,7 +3051,10 @@ importers:
     specifiers: {}
 
   components/gan_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/gatekeeper:
     specifiers: {}
@@ -4483,7 +4489,10 @@ importers:
     specifiers: {}
 
   components/letterdrop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/lettria:
     specifiers: {}
@@ -7719,7 +7728,10 @@ importers:
     specifiers: {}
 
   components/smartroutes:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/smartsheet:
     specifiers:
@@ -7838,7 +7850,10 @@ importers:
     specifiers: {}
 
   components/softr:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/solarwinds_service_desk:
     specifiers: {}
