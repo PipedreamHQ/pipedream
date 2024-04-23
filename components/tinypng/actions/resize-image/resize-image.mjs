@@ -1,27 +1,78 @@
+import { ConfigurationError } from "@pipedream/platform";
+import fs from "fs";
+import stream from "stream";
+import { promisify } from "util";
 import tinypng from "../../tinypng.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "tinypng-resize-image",
   name: "Resize Image",
-  description: "Create resized versions of your uploaded image. [See the documentation](https://tinypng.com/developers)",
+  description: "Create resized versions of your uploaded image. [See the documentation](https://tinypng.com/developers/reference#resizing-images)",
   version: "0.0.1",
   type: "action",
   props: {
     tinypng,
-    outputUrl: tinypng.propDefinitions.outputUrl,
-    resizeMethod: tinypng.propDefinitions.resizeMethod,
-    width: tinypng.propDefinitions.width,
-    height: tinypng.propDefinitions.height,
+    imageId: {
+      propDefinition: [
+        tinypng,
+        "imageId",
+      ],
+    },
+    method: {
+      propDefinition: [
+        tinypng,
+        "method",
+      ],
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    props.width = {
+      type: "integer",
+      label: "Width",
+      description: "The width to resize the image to (in pixels).",
+      optional: this.method === "scale",
+    };
+    props.height = {
+      type: "integer",
+      label: "Height",
+      description: "The height to resize the image to (in pixels).",
+      optional: this.method === "scale",
+    };
+    return props;
   },
   async run({ $ }) {
-    const response = await this.tinypng.resizeImage({
-      outputUrl: this.outputUrl,
-      resizeMethod: this.resizeMethod,
-      width: this.width,
-      height: this.height,
+    if ((this.method === "scale") && (!this.width && !this.height)) {
+      throw new ConfigurationError("You must provide either **Height** or **Width**");
+    }
+
+    const {
+      headers, data,
+    } = await this.tinypng.manipulateImage({
+      $,
+      imageId: this.imageId,
+      data: {
+        resize: {
+          method: this.method,
+          width: this.width,
+          height: this.height,
+        },
+      },
+      responseType: "stream",
+      returnFullResponse: true,
     });
-    $.export("$summary", `Image resized successfully. New dimensions are ${this.width}x${this.height}.`);
-    return response;
+
+    const ext = headers["content-type"].split("/").pop();
+
+    const filePath = `/tmp/resized-image-${Date.parse(new Date())}.${ext}`;
+
+    const pipeline = promisify(stream.pipeline);
+    await pipeline(data, fs.createWriteStream(filePath));
+
+    $.export("$summary", `Image ${filePath} was successfully resized.`);
+    return {
+      filePath,
+    };
   },
 };

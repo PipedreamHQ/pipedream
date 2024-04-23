@@ -1,43 +1,65 @@
+import fs from "fs";
+import stream from "stream";
+import { promisify } from "util";
+import { TYPE_OPTIONS } from "../../common/constants.mjs";
 import tinypng from "../../tinypng.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "tinypng-convert-image",
   name: "Convert Image",
-  description: "Convert your images to your desired image type using TinyPNG. [See the documentation](https://tinypng.com/developers/reference)",
+  description: "Convert your images to your desired image type using TinyPNG. [See the documentation](https://tinypng.com/developers/reference#converting-images)",
   version: "0.0.1",
   type: "action",
   props: {
     tinypng,
-    url: tinypng.propDefinitions.url,
-    file: tinypng.propDefinitions.file,
-    convert: tinypng.propDefinitions.convert,
-    transformBackground: tinypng.propDefinitions.transformBackground,
+    imageId: {
+      propDefinition: [
+        tinypng,
+        "imageId",
+      ],
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "Convert the image to another format ('jpeg', 'webp', or 'png').",
+      options: TYPE_OPTIONS,
+    },
+    transformBackground: {
+      type: "string",
+      label: "Transform Background",
+      description: "The background color to use when converting images with transparency to a format that does not support transparency (like JPEG). Use a hex value (e.g., '#FFFFFF') or 'white'/'black'.",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    if ((this.url && this.file) || (!this.url && !this.file)) {
-      throw new Error("Please provide either an Image URL or an Image File, not both.");
-    }
-
-    const compressResponse = await this.tinypng.compressImage({
-      url: this.url,
-      file: this.file,
+    const data = await this.tinypng.manipulateImage({
+      $,
+      imageId: this.imageId,
+      data: {
+        convert: {
+          type: this.type,
+        },
+        ...this.transformBackground
+          ? {
+            transform: {
+              background: this.transformBackground,
+            },
+          }
+          : {},
+      },
+      responseType: "stream",
     });
 
-    const { output: { url: outputUrl } = {} } = compressResponse;
+    const ext = this.type.split("/").pop();
 
-    if (!outputUrl) {
-      throw new Error("Failed to obtain the output URL from the compression step.");
-    }
+    const filePath = `/tmp/converted-image-${Date.parse(new Date())}.${ext}`;
 
-    const convertResponse = await this.tinypng.convertImage({
-      outputUrl,
-      convert: this.convert,
-      transformBackground: this.transformBackground,
-    });
+    const pipeline = promisify(stream.pipeline);
+    await pipeline(data, fs.createWriteStream(filePath));
 
-    $.export("$summary", `Successfully converted the image to ${this.convert}`);
-
-    return convertResponse;
+    $.export("$summary", `Successfully converted the image to ${this.type}`);
+    return {
+      filePath,
+    };
   },
 };
