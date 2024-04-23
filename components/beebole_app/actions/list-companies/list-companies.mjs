@@ -4,7 +4,7 @@ export default {
   key: "beebole_app-list-companies",
   name: "List Companies",
   description: "List all companies in your Beebole account. [See the documentation](https://beebole.com/help/api/#list-companies)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
