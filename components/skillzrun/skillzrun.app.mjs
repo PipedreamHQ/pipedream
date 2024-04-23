@@ -45,7 +45,7 @@ export default {
       optional: true,
     },
     noteAboutUser: {
-      type: "boolean",
+      type: "string",
       label: "Note About User",
       description: "Additional information about the user",
       optional: true,

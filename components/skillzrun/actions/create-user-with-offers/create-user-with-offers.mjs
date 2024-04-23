@@ -78,7 +78,7 @@ export default {
         offerIds: this.offerIds.map((id) => +id),
       },
     });
-    $.export("$summary", `Successfully created user with ID: ${response.id}`);
+    $.export("$summary", `Successfully created user ${this.email}`);
     return response;
   },
 };
