@@ -3,7 +3,7 @@ import forcemanager from "../../forcemanager.app.mjs";
 export default {
   key: "forcemanager-create-opportunity",
   name: "Create Opportunity",
-  description: "Creates a new business opportunity in ForceManager. [See the documentation](https://docs.forcemanager.net/api/)",
+  description: "Creates a new business opportunity in ForceManager. [See the documentation](https://developer.forcemanager.com/#836754be-f32d-47d2-a8ab-73a147c62ca9)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -13,44 +13,83 @@ export default {
       label: "Name",
       description: "Name of the business opportunity",
     },
-    account: {
-      type: "string",
-      label: "Account",
-      description: "Account associated with the business opportunity",
+    accountId: {
+      propDefinition: [
+        forcemanager,
+        "accountId",
+      ],
     },
-    estimatedCloseDate: {
-      type: "string",
-      label: "Estimated Close Date",
-      description: "Estimated date for the closure of the business opportunity",
+    branchId: {
+      propDefinition: [
+        forcemanager,
+        "branchId",
+      ],
     },
-    stage: {
+    statusId: {
+      propDefinition: [
+        forcemanager,
+        "statusId",
+      ],
+    },
+    salesProbability: {
+      type: "integer",
+      label: "Sales Probability",
+      description: "Probability of sale, a number between 0 and 10",
+      max: 10,
+    },
+    salesRepId: {
+      propDefinition: [
+        forcemanager,
+        "salesRepId",
+      ],
+    },
+    salesForeCastDate: {
       type: "string",
-      label: "Stage",
-      description: "Stage of the business opportunity",
+      label: "Sales Forecast Date",
+      description: "Forecast sale date in ISO-8601 Format. Example: `2023-12-08T10:00:00+07:00`",
       optional: true,
     },
-    probability: {
+    currencyId: {
+      propDefinition: [
+        forcemanager,
+        "currencyId",
+      ],
+    },
+    total: {
       type: "integer",
-      label: "Probability",
-      description: "Probability of success for the business opportunity",
+      label: "Total",
+      description: "Total amount of the Opportunity",
       optional: true,
     },
-    revenue: {
-      type: "integer",
-      label: "Revenue",
-      description: "Estimated revenue from the business opportunity",
+    permissionLevel: {
+      type: "string",
+      label: "PermissionLevel",
+      description: "Defines the visibility of the Opportunity. Set from 1 - 5 with 5 being the highest level of permission",
+      options: [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+      ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.forcemanager.createBusinessOpportunity(
-      this.name,
-      this.account,
-      this.estimatedCloseDate,
-      this.stage,
-      this.probability,
-      this.revenue,
-    );
+    const response = await this.forcemanager.createOpportunity({
+      $,
+      data: {
+        reference: this.name,
+        accountId1: this.accountId,
+        branchId: this.branchId,
+        statusId: this.statusId,
+        salesProbability: this.salesProbability,
+        salesRepId: this.salesRepId,
+        salesForeCastDate: this.salesForeCastDate,
+        total: this.total,
+        permissionLevel: this.permissionLevel,
+      },
+    });
     $.export("$summary", `Successfully created opportunity: ${this.name}`);
     return response;
   },

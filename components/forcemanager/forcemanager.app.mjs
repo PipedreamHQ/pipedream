@@ -1,129 +1,190 @@
-import { axios } from "@pipedreamhq/platform";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
   app: "forcemanager",
   propDefinitions: {
-    contactId: {
+    accountId: {
       type: "string",
-      label: "Contact ID",
-      description: "Unique identifier for a contact",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "Name of the business opportunity or contact",
-    },
-    account: {
-      type: "string",
-      label: "Account",
+      label: "Account ID",
       description: "Account associated with the business opportunity",
-    },
-    estimatedCloseDate: {
-      type: "string",
-      label: "Estimated Close Date",
-      description: "Estimated date for the closure of the business opportunity",
-    },
-    stage: {
-      type: "string",
-      label: "Stage",
-      description: "Stage of the business opportunity",
       optional: true,
-    },
-    probability: {
-      type: "integer",
-      label: "Probability",
-      description: "Probability of success for the business opportunity",
-      optional: true,
-    },
-    revenue: {
-      type: "integer",
-      label: "Revenue",
-      description: "Estimated revenue from the business opportunity",
-      optional: true,
-    },
-    searchField: {
-      type: "string",
-      label: "Search Field",
-      description: "The field to search for an existing contact",
-      async options() {
-        return [
-          "name",
-          "email",
-          "phone_number",
-        ];
+      async options({ page }) {
+        const accounts = await this.listAccounts({
+          params: {
+            page,
+          },
+        });
+        return accounts?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
-    searchValue: {
+    salesRepId: {
       type: "string",
-      label: "Search Value",
-      description: "The value to search for in the selected field",
+      label: "Sales Rep ID",
+      description: "The User associated with the Opportunity",
+      async options({ page }) {
+        const users = await this.listUsers({
+          params: {
+            page,
+          },
+        });
+        return users?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    branchId: {
+      type: "string",
+      label: "Branch ID",
+      description: "Branch to whom the Opportunity has been assigned",
+      async options() {
+        const branches = await this.listBranches();
+        return branches?.map(({
+          id: value, descriptionES: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    statusId: {
+      type: "string",
+      label: "Status ID",
+      description: "Status of the Opportunity",
+      async options() {
+        const statuses = await this.listOpportunityStatuses();
+        return statuses?.map(({
+          id: value, descriptionUS: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    currencyId: {
+      type: "string",
+      label: "Currency ID",
+      description: "Currency related to the Opportunity amount",
+      optional: true,
+      async options() {
+        const currencies = await this.listCurrencies();
+        return currencies?.map(({
+          id: value, descriptionEN: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.forcemanager.net";
+      return "https://api.forcemanager.com/api/v4";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "Content-Type": "application/json",
+          "Accept": "*/*",
+          "X-Session-Key": `${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async createActivity() {
-      this.$emit({
-        event: "New Activity Created",
+    listAccounts(opts = {}) {
+      return this._makeRequest({
+        path: "/accounts",
+        ...opts,
       });
     },
-    async createContact(contactId) {
-      this.$emit({
-        event: "New Contact Created",
-        contactId,
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
       });
     },
-    async createOpportunity(customerDetails, opportunityAttributes) {
-      this.$emit({
-        event: "New Opportunity Created",
-        customerDetails,
-        opportunityAttributes,
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
       });
     },
-    async createBusinessOpportunity(name, account, estimatedCloseDate, stage, probability, revenue) {
-      const data = {
-        name,
-        account,
-        estimatedCloseDate,
-        stage,
-        probability,
-        revenue,
-      };
+    listBranches(opts = {}) {
+      return this._makeRequest({
+        path: "/branches",
+        ...opts,
+      });
+    },
+    listOpportunities(opts = {}) {
+      return this._makeRequest({
+        path: "/opportunities",
+        ...opts,
+      });
+    },
+    listActivities(opts = {}) {
+      return this._makeRequest({
+        path: "/activities",
+        ...opts,
+      });
+    },
+    listCurrencies(opts = {}) {
+      return this._makeRequest({
+        path: "/currencies",
+        ...opts,
+      });
+    },
+    listOpportunityStatuses(opts = {}) {
+      return this._makeRequest({
+        path: "/opportunityStatuses",
+        ...opts,
+      });
+    },
+    createOpportunity(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/opportunities",
-        data,
+        ...opts,
       });
     },
-    async searchContact(field, value) {
-      return this._makeRequest({
-        path: `/contacts/search?${field}=${value}`,
-      });
-    },
-    async listUsers() {
-      return this._makeRequest({
-        path: "/users",
-      });
+    async *paginate({
+      resourceFn,
+      args,
+      max,
+    }) {
+      let hasMore, count = 0;
+      args = {
+        ...args,
+        params: {
+          ...args.params,
+          page: 0,
+        },
+      };
+      do {
+        const results = await resourceFn(args);
+        for (const item of results) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        hasMore = results?.length;
+        args.params.page++;
+      } while (hasMore);
     },
   },
 };

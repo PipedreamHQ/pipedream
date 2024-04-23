@@ -3,17 +3,53 @@ import forcemanager from "../../forcemanager.app.mjs";
 export default {
   key: "forcemanager-find-contact",
   name: "Find Contact",
-  description: "Search for an existing contact by any field. One of the required props need to be 'name', 'email', or 'phone_number'.",
-  version: "0.0.{{ts}}",
+  description: "Search for an existing contact by email, name, or phone. [See the documentation](https://developer.forcemanager.com/#c1c37cd1-5cb9-473f-8918-7583ee0469e4)",
+  version: "0.0.1",
   type: "action",
   props: {
     forcemanager,
-    searchField: forcemanager.propDefinitions.searchField,
-    searchValue: forcemanager.propDefinitions.searchValue,
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email address to search for",
+      optional: true,
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name to search for",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name to search for",
+      optional: true,
+    },
+    phone1: {
+      type: "string",
+      label: "Phone",
+      description: "Phone number to search for",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const response = await this.forcemanager.searchContact(this.searchField, this.searchValue);
-    $.export("$summary", `Found ${response.length} contact(s)`);
+    const {
+      forcemanager,
+      ...fields
+    } = this;
+    const conditions = Object.keys(fields)?.length
+      ? Object.keys(fields).map((key) => `${key}='${fields[key]}'`)
+      : [];
+    const response = await forcemanager.listContacts({
+      $,
+      params: {
+        where: conditions.join(" AND "),
+      },
+    });
+    $.export("$summary", `Found ${response.length} contact${response.length === 1
+      ? ""
+      : "s"}`);
     return response;
   },
 };
