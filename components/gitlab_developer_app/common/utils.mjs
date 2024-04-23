@@ -2,10 +2,15 @@ export function adjustPropDefinitions(props, app) {
   return Object.fromEntries(
     Object.entries(props).map(([
       key,
-      {
-        propDefinition, ...otherValues
-      },
+      prop,
     ]) => {
+      if (typeof prop === "string") return [
+        key,
+        prop,
+      ];
+      const {
+        propDefinition, ...otherValues
+      } = prop;
       if (propDefinition) {
         const [
           , ...otherDefs
