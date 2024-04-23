@@ -4,8 +4,8 @@ export default {
   ...common,
   name: "New Column",
   key: "postgresql-new-column",
-  description: "Emit new event when a new column is added to a table. [See Docs](https://node-postgres.com/features/queries)",
-  version: "2.0.3",
+  description: "Emit new event when a new column is added to a table. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.4",
   type: "source",
   props: {
     ...common.props,
