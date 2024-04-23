@@ -7,20 +7,8 @@ export default {
     locationId: {
       type: "string",
       label: "Location ID",
-      description: "Select a location or provide a custom location ID",
-      async options({ page }) {
-        const { locations } = await this.searchLocations({
-          params: {
-            limit: page,
-          },
-        });
-        return locations?.map(({
-          id, name,
-        }) => ({
-          label: name,
-          value: id,
-        }));
-      },
+      description: "If not specified, defaults to the authenticated location.",
+      optional: true,
     },
     contactId: {
       type: "string",
@@ -32,6 +20,7 @@ export default {
           params: {
             query,
             limit: 100,
+            locationId: this.getLocationId(),
           },
         });
         return contacts?.map(({
@@ -44,6 +33,9 @@ export default {
     },
   },
   methods: {
+    getLocationId() {
+      return this.$auth.locationId;
+    },
     _baseUrl() {
       return "https://services.leadconnectorhq.com";
     },
@@ -65,7 +57,7 @@ export default {
     async createContact(args) {
       return this._makeRequest({
         method: "POST",
-        url: "/contacts",
+        url: "/contacts/",
         ...args,
       });
     },
@@ -87,13 +79,7 @@ export default {
     },
     async searchContacts(args) {
       return this._makeRequest({
-        url: "/contacts",
-        ...args,
-      });
-    },
-    async searchLocations(args) {
-      return this._makeRequest({
-        url: "/locations/search",
+        url: "/contacts/",
         ...args,
       });
     },

@@ -11,7 +11,7 @@ export default {
   key: "highlevel_oauth-update-contact",
   name: "Update Contact",
   description: "Updates a selected contact on HighLevel. [See the documentation](https://highlevel.stoplight.io/docs/integrations/9ce5a739d4fb9-update-contact)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     app,
@@ -25,10 +25,10 @@ export default {
   },
   async run({ $ }) {
     const {
-      app, data: {
-        contactId, ...data
-      },
-    } = this.getData();
+      app,
+      contactId, ...data
+
+    } = this.getData(false);
     const response = await app.updateContact({
       $,
       contactId,

@@ -6,7 +6,7 @@ export default {
     app,
     name: {
       type: "string",
-      label: "First Name",
+      label: "Name",
       description: "Full name of the contact, e.g. `Rosan Deo`",
       optional: true,
     },
@@ -37,12 +37,15 @@ export default {
     },
   },
   methods: {
-    getData() {
+    getData(useLocation = true) {
       const {
-        app, additionalOptions, ...data
+        app, additionalOptions, locationId, ...data
       } = this;
       return {
         app,
+        ...(useLocation && {
+          locationId: locationId ?? app.getLocationId(),
+        }),
         ...data,
         ...(additionalOptions && parseObjectEntries(additionalOptions)),
       };
