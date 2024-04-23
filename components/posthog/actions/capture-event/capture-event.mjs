@@ -38,44 +38,16 @@ export default {
       ],
     },
     properties: {
-      propDefinition: [
-        posthog,
-        "properties",
-        (c) => ({
-          projectId: c.projectId,
-        }),
-      ],
-      reloadProps: true,
+      type: "object",
+      label: "Properties",
+      description: "The properties to include in the event",
+      optional: true,
     },
   },
-  async additionalProps() {
-    const props = {};
-    if (!this.properties?.length) {
-      return props;
-    }
-    const { results } = await this.posthog.listProperties({
-      projectId: this.projectId,
-      params: {
-        properties: this.properties.join(),
-      },
-    });
-    for (const property of results) {
-      props[property.name] = {
-        type: property.is_numerical
-          ? "integer"
-          : "string",
-        label: `${property.name} Value`,
-      };
-    }
-    return props;
-  },
   async run({ $ }) {
-    const properties = {};
-    if (this.properties?.length) {
-      for (const property of this.properties) {
-        properties[property] = this[property];
-      }
-    }
+    const properties = typeof this.properties === "string"
+      ? JSON.parse(this.properties)
+      : this.properties;
     const { distinct_id: distinctId } = await this.posthog.getUser({
       $,
     });
@@ -84,8 +56,10 @@ export default {
       data: {
         event: this.event,
         api_key: this.projectApiKey,
-        distinct_id: distinctId,
-        properties,
+        properties: {
+          ...properties,
+          distinct_id: distinctId,
+        },
       },
     });
     $.export("$summary", `Successfully captured event ${this.event}`);

@@ -60,25 +60,6 @@ export default {
         return results?.map(({ name }) => name ) || [];
       },
     },
-    properties: {
-      type: "string[]",
-      label: "Properties",
-      description: "The property types to include in the event",
-      optional: true,
-      async options({
-        projectId, page,
-      }) {
-        const limit = constants.DEFAULT_LIMIT;
-        const { results } = await this.listProperties({
-          projectId,
-          params: {
-            limit,
-            offset: page * limit,
-          },
-        });
-        return results?.map(({ name }) => name ) || [];
-      },
-    },
   },
   methods: {
     _baseUrl() {
@@ -117,14 +98,6 @@ export default {
     }) {
       return this._makeRequest({
         path: `/api/projects/${projectId}/event_definitions`,
-        ...opts,
-      });
-    },
-    listProperties({
-      projectId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/api/projects/${projectId}/property_definitions`,
         ...opts,
       });
     },
