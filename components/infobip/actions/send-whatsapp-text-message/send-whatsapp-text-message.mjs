@@ -1,5 +1,4 @@
 import infobip from "../../infobip.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "infobip-send-whatsapp-text-message",
@@ -14,37 +13,46 @@ export default {
         infobip,
         "from",
       ],
+      description: "Registered WhatsApp sender number. Must be in international format and comply with [WhatsApp's requirements](https://www.infobip.com/docs/whatsapp/get-started#phone-number-what-you-need-to-know).",
     },
     to: {
       propDefinition: [
         infobip,
         "phoneNumber",
       ],
+      description: "Message recipient number. Must be in international format.",
     },
-    message: {
+    text: {
       propDefinition: [
         infobip,
-        "message",
+        "text",
       ],
     },
     messageId: {
       propDefinition: [
         infobip,
         "messageId",
-        (c) => ({
-          optional: true,
-        }),
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.infobip.sendWhatsappMessage({
-      from: this.from,
-      to: this.to,
-      message: this.message,
-      messageId: this.messageId,
+    const {
+      infobip,
+      text,
+      ...data
+    } = this;
+
+    const response = await infobip.sendWhatsappMessage({
+      $,
+      data: {
+        content: {
+          text,
+        },
+        ...data,
+      },
     });
-    $.export("$summary", `Successfully sent WhatsApp message to ${this.to}`);
+    $.export("$summary", response.status.description);
     return response;
   },
 };

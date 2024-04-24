@@ -3,9 +3,9 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "infobip-new-sms-message-instant",
-  name: "New SMS Message (Instant)",
-  description: "Emit new event when a new SMS message is received.",
+  key: "infobip-new-whatsapp-message-instant",
+  name: "New Whatsapp Message (Instant)",
+  description: "Emit new event when a new message is received on Whatsapp.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -16,7 +16,7 @@ export default {
         common.props.infobip,
         "resourceKey",
         () => ({
-          channel: "SMS",
+          channel: "WHATSAPP",
         }),
       ],
       label: "Number Key",
@@ -27,10 +27,10 @@ export default {
   methods: {
     ...common.methods,
     getChannel() {
-      return "SMS";
+      return "WHATSAPP";
     },
     getSummary(body) {
-      return `New SMS from ${body.from}: ${body.text}`;
+      return `New Whatsapp message from ${body.from}: ${body.message.text}`;
     },
   },
   sampleEmit,

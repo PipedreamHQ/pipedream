@@ -1,118 +1,163 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "infobip",
   propDefinitions: {
+    applicationId: {
+      type: "string",
+      label: "Application Id",
+      description: "Required for application use in a send request for outbound traffic. Returned in notification events. For more details, [see the Infobip documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).",
+      async options({ page }) {
+        const { results } = await this.listApplications({
+          params: {
+            page: page,
+            size: LIMIT,
+          },
+        });
+
+        return results.map(({
+          applicationId: value, applicationName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    entityId: {
+      type: "string",
+      label: "Entity Id",
+      description: "Required for entity use in a send request for outbound traffic. Returned in notification events. For more details, [see the Infobip documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).",
+      async options({ page }) {
+        const { results } = await this.listEntities({
+          params: {
+            page: page,
+            size: LIMIT,
+          },
+        });
+
+        return results.map(({
+          entityId: value, entityName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    resourceKey: {
+      type: "string",
+      label: "Resource Key",
+      description: "Required if `Resource` not present.",
+      async options({
+        page, channel,
+      }) {
+        const { results } = await this.listResources({
+          params: {
+            page: page,
+            size: LIMIT,
+            channel,
+          },
+        });
+
+        return results.map(({ resourceId }) => resourceId);
+      },
+    },
     phoneNumber: {
       type: "string",
       label: "Phone Number",
-      description: "The phone number to send the SMS message to, in E.164 format.",
+      description: "Message destination address. Addresses must be in international format (Example: 41793026727).",
     },
-    message: {
+    text: {
       type: "string",
-      label: "Message",
-      description: "The text of the SMS or WhatsApp message to send.",
-    },
-    sender: {
-      type: "string",
-      label: "Sender",
-      description: "The sender ID that the message appears to come from for SMS messages.",
-      optional: true,
-    },
-    to: {
-      type: "string[]",
-      label: "Recipients",
-      description: "An array of recipient phone numbers in international format for sending bulk messages.",
-    },
-    contentType: {
-      type: "string",
-      label: "Content Type",
-      description: "The type of content being sent in bulk messages.",
-    },
-    contentText: {
-      type: "string",
-      label: "Content Text",
-      description: "The text content to send in bulk messages.",
+      label: "Text",
+      description: "Content of the message being sent.",
     },
     from: {
       type: "string",
       label: "From",
-      description: "Registered WhatsApp sender number in international format.",
+      description: "The sender ID which can be alphanumeric or numeric (e.g., CompanyName). Make sure you don't exceed [character limit](https://www.infobip.com/docs/sms/get-started#sender-names).",
+    },
+    to: {
+      type: "string",
+      label: "To",
+      description: "The destination address of the message.",
     },
     messageId: {
       type: "string",
       label: "Message ID",
       description: "The ID that uniquely identifies the message sent via WhatsApp.",
-      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.infobip.com";
+      return `https://${this.$auth.base_url}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "POST", path, headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `App ${this.$auth.api_key}`,
+        "Content-type": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          "Authorization": `App ${this.$auth.api_key}`,
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
+        headers: this._headers(),
       });
     },
-    async sendSms({
-      phoneNumber, message, sender,
-    }) {
+    listApplications(opts = {}) {
       return this._makeRequest({
-        path: "/sms/2/text/single",
-        data: {
-          from: sender,
-          to: phoneNumber,
-          text: message,
-        },
+        path: "/provisioning/1/applications",
+        ...opts,
       });
     },
-    async sendBulkSms({
-      sender, to, contentType, contentText,
-    }) {
+    listEntities(opts = {}) {
       return this._makeRequest({
+        path: "/provisioning/1/entities",
+        ...opts,
+      });
+    },
+    listResources(opts = {}) {
+      return this._makeRequest({
+        path: "/provisioning/1/associations",
+        ...opts,
+      });
+    },
+    sendSms(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
         path: "/sms/2/text/advanced",
-        data: {
-          messages: to.map((number) => ({
-            from: sender,
-            destinations: [
-              {
-                to: number,
-              },
-            ],
-            contentType,
-            content: {
-              text: contentText,
-            },
-          })),
-        },
+        ...opts,
       });
     },
-    async sendWhatsappMessage({
-      from, to, message, messageId,
-    }) {
+    sendViberMessage(opts = {}) {
       return this._makeRequest({
+        method: "POST",
+        path: "/viber/2/messages",
+        ...opts,
+      });
+    },
+    sendWhatsappMessage(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
         path: "/whatsapp/1/message/text",
-        data: {
-          from,
-          to,
-          content: {
-            text: message,
-          },
-          messageId,
-        },
+        ...opts,
+      });
+    },
+    createHook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/resource-management/1/inbound-message-configurations",
+        ...opts,
+      });
+    },
+    deleteHook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/resource-management/1/inbound-message-configurations/${webhookId}`,
       });
     },
   },

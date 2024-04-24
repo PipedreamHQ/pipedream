@@ -1,47 +1,44 @@
-import infobip from "../../infobip.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "infobip-new-viber-message-instant",
-  name: "New Viber Message Instant",
-  description: "Emits a new event when a new message is received on Viber.",
-  version: "0.0.{{ts}}",
+  name: "New Viber Message (Instant)",
+  description: "Emit new event when a new message is received on Viber.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    infobip,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: "$.service.db",
-  },
-  hooks: {
-    async activate() {
-      const response = await this.infobip._makeRequest({
-        method: "POST",
-        path: "/resource-management/1/inbound-message-configurations",
-        data: {
+    ...common.props,
+    resourceKey: {
+      propDefinition: [
+        common.props.infobip,
+        "resourceKey",
+        () => ({
           channel: "VIBER",
-          forwarding: {
-            type: "PULL",
-          },
-        },
-      });
-      this.db.set("configurationKey", response.configurationKey);
+        }),
+      ],
+      optional: true,
     },
-    async deactivate() {
-      const configurationKey = this.db.get("configurationKey");
-      await this.infobip._makeRequest({
-        method: "DELETE",
-        path: `/resource-management/1/inbound-message-configurations/${configurationKey}`,
-      });
+    resource: {
+      type: "string",
+      label: "Resource",
+      description: "Required if `Resource Key` not present.",
+      optional: true,
     },
   },
-  async run(event) {
-    this.$emit(event.body, {
-      id: event.body.messageId,
-      summary: `New Viber message from ${event.body.from}`,
-      ts: Date.parse(event.body.receivedAt),
-    });
+  methods: {
+    ...common.methods,
+    getChannel() {
+      return "VIBER_BM";
+    },
+    getSummary(body) {
+      return `New Viber message from ${body.from}: ${body.message.text}`;
+    },
+    getFieldName() {
+      return "resource";
+    },
   },
+  sampleEmit,
 };

@@ -1,5 +1,4 @@
 import infobip from "../../infobip.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "infobip-send-viber-text-message",
@@ -9,10 +8,10 @@ export default {
   type: "action",
   props: {
     infobip,
-    sender: {
+    from: {
       propDefinition: [
         infobip,
-        "sender",
+        "from",
       ],
     },
     to: {
@@ -21,28 +20,34 @@ export default {
         "to",
       ],
     },
-    contentType: {
-      propDefinition: [
-        infobip,
-        "contentType",
-      ],
-    },
     contentText: {
-      propDefinition: [
-        infobip,
-        "contentText",
-      ],
+      type: "string",
+      label: "Content Text",
+      description: "The text content to send in bulk messages.",
     },
   },
   async run({ $ }) {
-    const response = await this.infobip.sendBulkSms({
-      sender: this.sender,
-      to: this.to,
-      contentType: this.contentType,
-      contentText: this.contentText,
+    const response = await this.infobip.sendViberMessage({
+      $,
+      data: {
+        messages: [
+          {
+            sender: this.from,
+            destinations: [
+              {
+                to: this.to,
+              },
+            ],
+            content: {
+              type: "TEXT",
+              text: this.contentText,
+            },
+          },
+        ],
+      },
     });
 
-    $.export("$summary", `Successfully sent a Viber text message to ${this.to.length} recipients`);
+    $.export("$summary", response.messages[0].status.description);
     return response;
   },
 };
