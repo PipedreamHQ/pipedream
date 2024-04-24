@@ -5,7 +5,7 @@ export default {
   key: "gitlab-update-issue",
   name: "Update Issue",
   description: "Updates an existing project issue. [See the documentation](https://docs.gitlab.com/ee/api/issues.html#edit-issue)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     gitlab,

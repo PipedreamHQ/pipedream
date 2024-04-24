@@ -5,7 +5,7 @@ export default {
   key: "gitlab-update-epic",
   name: "Update Epic",
   description: "Updates an epic. [See the documentation](https://docs.gitlab.com/ee/api/epics.html#update-epic)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     gitlab,
