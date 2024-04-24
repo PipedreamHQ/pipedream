@@ -5744,7 +5744,10 @@ importers:
       '@pipedream/platform': 0.9.0
 
   components/opsgenie:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/optimoroute:
     specifiers: {}
