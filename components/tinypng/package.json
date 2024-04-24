@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/tinypng",
+  "version": "0.1.0",
+  "description": "Pipedream TinyPNG AI Components",
+  "main": "tinypng.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tinypng"
+  ],
+  "homepage": "https://pipedream.com/apps/tinypng",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "fs": "^0.0.1-security",
+    "stream": "^0.0.2",
+    "util": "^0.12.5"
+  }
+}
