@@ -117,8 +117,7 @@ export default {
       type: "string[]",
       label: "Types of updates",
       description: `The types of updates you want to watch for on these files.
-        [See Google's docs]
-        (https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
+        [See Google's docs](https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
       default: GOOGLE_DRIVE_UPDATE_TYPES,
       options: GOOGLE_DRIVE_UPDATE_TYPES,
     },
