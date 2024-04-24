@@ -83,7 +83,7 @@ export default {
         ...additionalOptions,
       },
     });
-    $.export("$summary", `Successfully created customer (ID: ${response.id})`);
+    $.export("$summary", `Successfully created customer (ID: ${response.data.id})`);
     return response;
   },
 };
