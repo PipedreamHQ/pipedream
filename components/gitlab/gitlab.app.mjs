@@ -273,7 +273,7 @@ export default {
     },
     listProjects(opts = {}) {
       return this._makeRequest({
-        path: `/users/${this._userId()}/projects`,
+        path: "/projects",
         ...opts,
       });
     },
