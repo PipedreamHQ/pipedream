@@ -6787,6 +6787,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/reishost:
+    specifiers: {}
+
   components/relevance_ai:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7265,6 +7268,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sellix:
+    specifiers: {}
+
+  components/sellsy:
     specifiers: {}
 
   components/semaphore:

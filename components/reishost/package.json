@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/reishost",
+  "version": "0.0.1",
+  "description": "Pipedream ReisHost Components",
+  "main": "reishost.app.mjs",
+  "keywords": [
+    "pipedream",
+    "reishost"
+  ],
+  "homepage": "https://pipedream.com/apps/reishost",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
