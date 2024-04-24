@@ -3,8 +3,8 @@ import bytenite from "../../bytenite.app.mjs";
 export default {
   key: "bytenite-get-job-results",
   name: "Get Job Results",
-  description: "Secures the link of the output from a finished encoding job. The job's ID must be provided. An optional prop might be the desired format of the video file.",
-  version: "0.0.{{ts}}",
+  description: "Secures the link of the output from a finished encoding job. [See the documentation](https://docs.bytenite.com/reference/customer_getjobresults)",
+  version: "0.0.1",
   type: "action",
   props: {
     bytenite,
@@ -12,18 +12,17 @@ export default {
       propDefinition: [
         bytenite,
         "jobId",
+        () => ({
+          completedOnly: true,
+        }),
       ],
-    },
-    outputFormat: {
-      propDefinition: [
-        bytenite,
-        "outputFormat",
-      ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.bytenite.secureOutputLink();
+    const response = await this.bytenite.getResults({
+      $,
+      jobId: this.jobId,
+    });
     $.export("$summary", `Successfully fetched results for job ${this.jobId}`);
     return response;
   },

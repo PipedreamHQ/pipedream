@@ -1,11 +1,10 @@
 import bytenite from "../../bytenite.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "bytenite-start-job",
   name: "Start Job",
-  description: "Initiates a previously created video encoding job. The ID of the job, obtained during the creation step, is a required prop.",
-  version: "0.0.{{ts}}",
+  description: "Initiates a previously created video encoding job. [See the documentation](https://docs.bytenite.com/reference/customer_runjob)",
+  version: "0.0.1",
   type: "action",
   props: {
     bytenite,
@@ -17,7 +16,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.bytenite.initiateVideoEncodingJob({
+    const response = await this.bytenite.startJob({
+      $,
       jobId: this.jobId,
     });
     $.export("$summary", `Successfully initiated job with ID: ${this.jobId}`);

@@ -1,81 +1,107 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "bytenite",
   propDefinitions: {
-    videoLink: {
+    templateId: {
       type: "string",
-      label: "Video Link",
-      description: "Link to the original video file",
-      optional: false,
-    },
-    encodingQuality: {
-      type: "string",
-      label: "Encoding Quality",
-      description: "Optional encoding quality settings",
-      optional: true,
+      label: "Template ID",
+      description: "The ID of the template to use",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { data } = await this.listTemplates({
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     jobId: {
       type: "string",
       label: "Job ID",
       description: "The ID of the video encoding job",
-      optional: false,
-    },
-    outputFormat: {
-      type: "string",
-      label: "Output Format",
-      description: "Desired format of the video file",
-      optional: true,
+      async options({
+        page, completedOnly = false,
+      }) {
+        const limit = constants.DEFAULT_LIMIT;
+        let { data } = await this.listJobs({
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        if (completedOnly) {
+          data = data.filter(({ state }) => state === "JOB_STATE_COMPLETE");
+        }
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.bytenite.com/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async createVideoEncodingTask(opts = {}) {
+    listTemplates(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/jobs",
-        data: {
-          input: this.videoLink,
-          encodingQuality: this.encodingQuality,
-        },
+        path: "/customer/jobs/templates",
         ...opts,
       });
     },
-    async initiateVideoEncodingJob(opts = {}) {
+    listJobs(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: `/jobs/${this.jobId}/run`,
+        path: "/customer/jobs",
         ...opts,
       });
     },
-    async secureOutputLink(opts = {}) {
+    getResults({
+      jobId, ...opts
+    }) {
       return this._makeRequest({
-        method: "GET",
-        path: `/jobs/${this.jobId}/results`,
-        params: {
-          format: this.outputFormat,
-        },
+        path: `/customer/jobs/${jobId}/results`,
+        ...opts,
+      });
+    },
+    createJob(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/customer/jobs",
+        ...opts,
+      });
+    },
+    startJob({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/customer/jobs/run/${jobId}`,
         ...opts,
       });
     },
