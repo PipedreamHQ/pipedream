@@ -26,12 +26,6 @@ export default {
       description: "Phone number of the contact, e.g. `+1 888-888-8888`",
       optional: true,
     },
-    gender: {
-      type: "string",
-      label: "Gender",
-      description: "Gender of the contact, e.g. `male`",
-      optional: true,
-    },
     additionalOptions: {
       type: "object",
       label: "Additional Options",
