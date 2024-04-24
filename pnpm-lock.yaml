@@ -1625,7 +1625,10 @@ importers:
     specifiers: {}
 
   components/coinmarketcal:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/coinmarketcal_demo_app:
     specifiers: {}
@@ -9098,6 +9101,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/vosfactures:
+    specifiers: {}
+
+  components/vryno:
     specifiers: {}
 
   components/vtiger_crm:
