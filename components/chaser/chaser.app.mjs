@@ -54,21 +54,6 @@ export default {
         ...args,
       });
     },
-    async uploadInvoicePdf({
-      invoicePdfFile, customerDetails,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        url: "/invoices/pdf",
-        data: {
-          invoice_pdf_file: invoicePdfFile,
-          ...customerDetails,
-        },
-        headers: {
-          "Content-Type": "application/pdf",
-        },
-      });
-    },
     async createInvoice(args) {
       return this._makeRequest({
         method: "POST",
