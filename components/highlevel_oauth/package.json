@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/highlevel_oauth",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream HighLevel (OAuth) Components",
-  "main": "dist/app/highlevel_oauth.app.mjs",
+  "main": "highlevel_oauth.app.mjs",
   "keywords": [
     "pipedream",
     "highlevel_oauth"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/highlevel_oauth",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
   }
 }
