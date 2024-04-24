@@ -7267,6 +7267,9 @@ importers:
   components/sellix:
     specifiers: {}
 
+  components/sellsy:
+    specifiers: {}
+
   components/semaphore:
     specifiers: {}
 
