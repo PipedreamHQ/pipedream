@@ -15,6 +15,7 @@ import {
   GOOGLE_DRIVE_GRANTEE_ANYONE,
   GOOGLE_DRIVE_ROLE_READER,
   GOOGLE_DRIVE_UPLOAD_TYPES,
+  GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
 } from "./constants.mjs";
 import googleMimeTypes from "./actions/google-mime-types.mjs";
 
@@ -119,7 +120,7 @@ export default {
       description: `The types of updates you want to watch for on these files.
         [See Google's docs](https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
       default: GOOGLE_DRIVE_UPDATE_TYPES,
-      options: GOOGLE_DRIVE_UPDATE_TYPES,
+      options: GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
     },
     watchForPropertiesChanges: {
       type: "boolean",

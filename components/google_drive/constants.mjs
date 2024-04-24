@@ -66,6 +66,36 @@ const GOOGLE_DRIVE_UPDATE_TYPES = [
   GOOGLE_DRIVE_NOTIFICATION_UNTRASH,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
 ];
+const GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS = [
+  {
+    label: `'${GOOGLE_DRIVE_NOTIFICATION_SYNC}' - A channel was successfully created. You can expect to start receiving notifications for it.`,
+    value: GOOGLE_DRIVE_NOTIFICATION_SYNC,
+  },
+  {
+    label: `'${GOOGLE_DRIVE_NOTIFICATION_ADD}' - A resource was created or shared.`,
+    value: GOOGLE_DRIVE_NOTIFICATION_ADD,
+  },
+  {
+    label: `'${GOOGLE_DRIVE_NOTIFICATION_REMOVE}' - An existing resource was deleted or unshared.`,
+    value: GOOGLE_DRIVE_NOTIFICATION_REMOVE,
+  },
+  {
+    label: `'${GOOGLE_DRIVE_NOTIFICATION_UPDATE}' - One or more properties (metadata) of a resource have been updated.`,
+    value: GOOGLE_DRIVE_NOTIFICATION_UPDATE,
+  },
+  {
+    label: `'${GOOGLE_DRIVE_NOTIFICATION_TRASH}' - A resource has been moved to the trash.`,
+    value: GOOGLE_DRIVE_NOTIFICATION_TRASH,
+  },
+  {
+    label: `'${GOOGLE_DRIVE_NOTIFICATION_UNTRASH}' - A resource has been removed from the trash.`,
+    value: GOOGLE_DRIVE_NOTIFICATION_UNTRASH,
+  },
+  {
+    label: `'${GOOGLE_DRIVE_NOTIFICATION_CHANGE}' - One or more changelog items have been added.`,
+    value: GOOGLE_DRIVE_NOTIFICATION_CHANGE,
+  },
+];
 
 /**
  * This is a custom string value to represent the 'My Drive' Google Drive, which
@@ -175,6 +205,7 @@ export {
   GOOGLE_DRIVE_NOTIFICATION_UNTRASH,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_UPDATE_TYPES,
+  GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
   MY_DRIVE_VALUE,
   LEGACY_MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
