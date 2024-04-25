@@ -30,20 +30,6 @@ export default {
         }));
       },
     },
-    // projectId: {
-    //   type: "string",
-    //   label: "Project ID",
-    //   description: "Select a project or provide a custom ID.",
-    //   async options({ teamId }) {
-    //     const data = await this.listProjects(teamId);
-    //     return data?.map(({
-    //       name, id,
-    //     }) => ({
-    //       label: name,
-    //       value: id,
-    //     }));
-    //   },
-    // },
     assetId: {
       type: "string",
       label: "Asset ID",
@@ -103,11 +89,6 @@ export default {
         url: `/accounts/${accountId}/teams`,
       });
     },
-    // async listProjects(teamId) {
-    //   return this._makeRequest({
-    //     url: `/teams/${teamId}/projects`,
-    //   });
-    // },
     async searchAssets(args) {
       return this._makeRequest({
         url: "/search/library",
@@ -166,6 +147,21 @@ export default {
       return this._makeRequest({
         method: "DELETE",
         url: `/hooks/${hookId}`,
+      });
+    },
+    async getAsset(id) {
+      return this._makeRequest({
+        url: `assets/${id}`,
+      });
+    },
+    async getComment(id) {
+      return this._makeRequest({
+        url: `comments/${id}`,
+      });
+    },
+    async getProject(id) {
+      return this._makeRequest({
+        url: `projects/${id}`,
       });
     },
   },
