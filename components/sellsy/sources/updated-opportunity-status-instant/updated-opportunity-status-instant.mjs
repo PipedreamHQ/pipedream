@@ -37,8 +37,6 @@ export default {
       });
     },
     isRelevant(opportunity) {
-      console.log(this.opportunityIds); console.log(opportunity.id);
-      console.log(this.opportunityIds.includes(opportunity.id));
       return ((!this.statuses?.length || (this.statuses.includes(opportunity.status)))
         && (!this.opportunityIds?.length || (this.opportunityIds.includes(opportunity.id))));
     },
