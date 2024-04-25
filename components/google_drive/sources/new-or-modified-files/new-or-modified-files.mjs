@@ -32,7 +32,7 @@ export default {
       type: "string[]",
       label: "Folders",
       description:
-        "(Optional) The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.",
+        "(Optional) The folders you want to watch for changes. Leave blank to watch for any new or modified file in the Drive.",
       optional: true,
       default: [],
       options({ prevContext }) {
