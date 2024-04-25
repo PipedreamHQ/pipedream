@@ -1,166 +1,205 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "sellsy",
   propDefinitions: {
-    contactName: {
+    companyId: {
       type: "string",
-      label: "Contact Name",
-      description: "Name of the contact",
+      label: "Company ID",
+      description: "Identifier of the related company",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { data } = await this.listCompanies({
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    opportunityIds: {
+      type: "integer[]",
+      label: "Opportunity ID",
+      description: "Filter results by opportunity",
       optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { data } = await this.listOpportunities({
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    contactEmail: {
+    pipelineId: {
       type: "string",
-      label: "Contact Email",
-      description: "Email of the contact",
-      optional: true,
+      label: "Pipeline ID",
+      description: "Identifier of the pipeline for the opportunity",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { data } = await this.listPipelines({
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    contactNumber: {
+    stepId: {
       type: "string",
-      label: "Contact Number",
-      description: "Number of the contact",
-      optional: true,
-    },
-    companyName: {
-      type: "string",
-      label: "Company Name",
-      description: "Name of the company",
-      optional: true,
-    },
-    companyType: {
-      type: "string",
-      label: "Company Type",
-      description: "Type of the company (client or prospect)",
-      optional: true,
-    },
-    companyContact: {
-      type: "string",
-      label: "Company Contact",
-      description: "Contact of the company",
-      optional: true,
-    },
-    opportunityName: {
-      type: "string",
-      label: "Opportunity Name",
-      description: "Name of the opportunity",
-      required: true,
-    },
-    opportunityStatus: {
-      type: "string",
-      label: "Opportunity Status",
-      description: "Status of the opportunity",
-      optional: true,
-    },
-    opportunityDetails: {
-      type: "string",
-      label: "Opportunity Details",
-      description: "Details of the opportunity",
-      optional: true,
-    },
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "First name of the contact",
-      required: true,
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Last name of the contact",
-      required: true,
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "Email of the contact",
-      required: true,
-    },
-    value: {
-      type: "string",
-      label: "Value",
-      description: "Value of the opportunity",
-      required: true,
-    },
-    expectedCloseDate: {
-      type: "string",
-      label: "Expected Close Date",
-      description: "Expected close date of the opportunity",
-      required: true,
-    },
-    companyEmail: {
-      type: "string",
-      label: "Company Email",
-      description: "Email of the company",
-      optional: true,
+      label: "Step ID",
+      description: "Identifier of the pipeline step for the opportunity",
+      async options({
+        pipelineId, page,
+      }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { data } = await this.listPipelineSteps({
+          pipelineId,
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.sellsy.com";
+      return "https://api.sellsy.com/v2";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async createContact({
-      firstName, lastName, email, companyName,
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      hookId, ...opts
     }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
+        ...opts,
+      });
+    },
+    getContact({
+      contactId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/contacts/${contactId}`,
+        ...opts,
+      });
+    },
+    getCompany({
+      companyId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/companies/${companyId}`,
+        ...opts,
+      });
+    },
+    getOpportunity({
+      opportunityId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/opportunities/${opportunityId}`,
+        ...opts,
+      });
+    },
+    listCompanies(opts = {}) {
+      return this._makeRequest({
+        path: "/companies",
+        ...opts,
+      });
+    },
+    listOpportunities(opts = {}) {
+      return this._makeRequest({
+        path: "/opportunities",
+        ...opts,
+      });
+    },
+    listPipelines(opts = {}) {
+      return this._makeRequest({
+        path: "/opportunities/pipelines",
+        ...opts,
+      });
+    },
+    listPipelineSteps({
+      pipelineId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/opportunities/pipelines/${pipelineId}/steps`,
+        ...opts,
+      });
+    },
+    searchCompanies(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/companies/search",
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contacts",
-        data: {
-          firstName,
-          lastName,
-          email,
-          companyName,
-        },
+        ...opts,
       });
     },
-    async createOpportunity({
-      opportunityName, value, expectedCloseDate, companyName,
-    }) {
+    createOpportunity(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/opportunities",
-        data: {
-          opportunityName,
-          value,
-          expectedCloseDate,
-          companyName,
-        },
+        ...opts,
       });
     },
-    async findOrCreateCompany({
-      companyName, companyEmail,
-    }) {
-      const company = await this._makeRequest({
-        path: `/companies?name=${companyName}`,
-      });
-      if (company) {
-        return company;
-      }
+    createCompany(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/companies",
-        data: {
-          name: companyName,
-          email: companyEmail,
-        },
+        ...opts,
       });
     },
   },

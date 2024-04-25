@@ -1,84 +1,55 @@
-import sellsy from "../../sellsy.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
+import constants from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "sellsy-updated-opportunity-status-instant",
-  name: "Updated Opportunity Status Instant",
-  description: "Emits an event when the status is changed on an opportunity in Sellsy",
-  version: "0.0.{{ts}}",
+  name: "Updated Opportunity Status (Instant)",
+  description: "Emit new event when the status is changed on an opportunity in Sellsy",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    sellsy,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: "$.service.db",
-    opportunityName: {
+    ...common.props,
+    opportunityIds: {
       propDefinition: [
-        sellsy,
-        "opportunityName",
+        common.props.sellsy,
+        "opportunityIds",
       ],
     },
-    opportunityStatus: {
-      propDefinition: [
-        sellsy,
-        "opportunityStatus",
-      ],
-      optional: true,
-    },
-    opportunityDetails: {
-      propDefinition: [
-        sellsy,
-        "opportunityDetails",
-      ],
+    statuses: {
+      type: "string[]",
+      label: "Statuses",
+      description: "Filter results by the new opportunity status",
+      options: constants.OPPORTUNITY_STATUS,
       optional: true,
     },
   },
-  hooks: {
-    async activate() {
-      const webhook = await this.sellsy.createWebhook({
-        url: this.http.endpoint,
-        events: [
-          "opportunity_status_changed",
-        ],
-      });
-      this.db.set("webhookId", webhook.id);
+  methods: {
+    ...common.methods,
+    getEventType() {
+      return "opportunity.status";
     },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      await this.sellsy.deleteWebhook(webhookId);
+    getResultItem({ relatedid }) {
+      return this.sellsy.getOpportunity({
+        opportunityId: relatedid,
+      });
+    },
+    isRelevant(opportunity) {
+      console.log(this.opportunityIds); console.log(opportunity.id);
+      console.log(this.opportunityIds.includes(opportunity.id));
+      return ((!this.statuses?.length || (this.statuses.includes(opportunity.status)))
+        && (!this.opportunityIds?.length || (this.opportunityIds.includes(opportunity.id))));
+    },
+    generateMeta(opportunity) {
+      const ts = Date.parse(opportunity.updated_status);
+      return {
+        id: `${opportunity.id}-${ts}`,
+        summary: `Opportunity updated with ID: ${opportunity.id}`,
+        ts,
+      };
     },
   },
-  async run(event) {
-    const {
-      body, headers,
-    } = event;
-
-    const isValid = this.sellsy.isValidSignature(
-      body,
-      headers["Sellsy-Signature"],
-      this.sellsy.$auth.oauth_access_token,
-    );
-
-    if (!isValid) {
-      this.http.respond({
-        status: 401,
-        body: "Unauthorized",
-      });
-      return;
-    }
-
-    const { opportunity } = body;
-    if (opportunity.name !== this.opportunityName) {
-      return;
-    }
-
-    this.$emit(opportunity, {
-      id: opportunity.id,
-      summary: `Opportunity ${opportunity.name} status updated`,
-      ts: Date.now(),
-    });
-  },
+  sampleEmit,
 };

@@ -1,37 +1,79 @@
 import sellsy from "../../sellsy.app.mjs";
-import { axios } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "sellsy-create-opportunity",
   name: "Create Opportunity",
-  description: "Forms a new opportunity in Sellsy. [See the documentation](https://api.sellsy.com/doc/v2/)",
-  version: "0.0.{{ts}}",
+  description: "Forms a new opportunity in Sellsy. [See the documentation](https://api.sellsy.com/doc/v2/#operation/create-opportunity)",
+  version: "0.0.1",
   type: "action",
   props: {
     sellsy,
-    opportunityName: sellsy.propDefinitions.opportunityName,
-    value: sellsy.propDefinitions.value,
-    expectedCloseDate: sellsy.propDefinitions.expectedCloseDate,
-    companyName: {
-      ...sellsy.propDefinitions.companyName,
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of the opportunity",
+    },
+    companyId: {
+      propDefinition: [
+        sellsy,
+        "companyId",
+      ],
+    },
+    pipelineId: {
+      propDefinition: [
+        sellsy,
+        "pipelineId",
+      ],
+    },
+    stepId: {
+      propDefinition: [
+        sellsy,
+        "stepId",
+        (c) => ({
+          pipelineId: c.pipelineId,
+        }),
+      ],
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "Status of the opportunity",
+      options: constants.OPPORTUNITY_STATUS,
+      optional: true,
+    },
+    amount: {
+      type: "string",
+      label: "Amount",
+      description: "Potential Opportunity Amount (in the default currency selected for the account)",
+      optional: true,
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "Due date of the opportunity. Example: `1970-01-01`",
       optional: true,
     },
   },
   async run({ $ }) {
-    let companyName = this.companyName;
-    if (companyName) {
-      const company = await this.sellsy.findOrCreateCompany({
-        companyName,
-      });
-      companyName = company.name;
-    }
     const response = await this.sellsy.createOpportunity({
-      opportunityName: this.opportunityName,
-      value: this.value,
-      expectedCloseDate: this.expectedCloseDate,
-      companyName,
+      $,
+      data: {
+        name: this.name,
+        status: this.status,
+        amount: this.amount,
+        due_date: this.dueDate,
+        pipeline: this.pipelineId,
+        step: this.stepId,
+        related: [
+          {
+            id: this.companyId,
+            type: "company",
+          },
+        ],
+      },
     });
-    $.export("$summary", `Successfully created opportunity ${this.opportunityName}`);
+    $.export("$summary", `Successfully created opportunity ${this.name}`);
     return response;
   },
 };
