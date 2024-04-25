@@ -4,7 +4,7 @@ export default {
   key: "frame-create-asset",
   name: "Create Asset",
   description: "Creates a new asset in Frame.io. [See the documentation](https://developer.frame.io/api/reference/operation/createAsset/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     frame,
