@@ -2900,7 +2900,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/forcemanager:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/form_io:
     specifiers: {}
@@ -5811,7 +5814,10 @@ importers:
       qs: 6.11.2
 
   components/overledger:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/overloop:
     specifiers:
