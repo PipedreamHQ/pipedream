@@ -20,6 +20,7 @@ export default {
           projectId: c.projectId,
         }),
       ],
+      optional: false,
       label: "Username",
       description: "The GitLab Username whose mentions will emit events",
       withLabel: true,
