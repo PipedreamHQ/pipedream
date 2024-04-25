@@ -8399,6 +8399,12 @@ importers:
   components/telesign:
     specifiers: {}
 
+  components/telnyx:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.4
+
   components/temi:
     specifiers:
       '@pipedream/platform': ^1.1.1
