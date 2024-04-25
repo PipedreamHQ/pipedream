@@ -48,7 +48,7 @@ export default {
       // You can pass the same channel ID in watch requests for multiple files, so
       // our channel ID is fixed for this component to simplify the state we have to
       // keep track of.
-      const channelID = this._getChannelID() || uuid();
+      const channelID = uuid();
 
       // Subscriptions are keyed on Google's resourceID, "an opaque value that
       // identifies the watched resource". This value is included in request
@@ -116,10 +116,9 @@ export default {
       }
     },
     async renewFileSubscriptions(event) {
-      // Assume subscription & channelID may all be undefined at
-      // this point Handle their absence appropriately.
       const subscriptions = this._getSubscriptions() || {};
-      const channelID = this._getChannelID() || uuid();
+      const channelID = this._getChannelID();
+      const newChannelID = uuid();
 
       const nextRunTimestamp = this._getNextTimerEventTimestamp(event);
 
@@ -140,6 +139,7 @@ export default {
           subscription,
           this.http.endpoint,
           channelID,
+          newChannelID,
           fileID,
           nextRunTimestamp,
         );
@@ -149,7 +149,7 @@ export default {
         };
       }
       this._setSubscriptions(subscriptions);
-      this._setChannelID(channelID);
+      this._setChannelID(newChannelID);
     },
   },
   async run(event) {
