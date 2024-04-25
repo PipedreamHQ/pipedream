@@ -19,7 +19,7 @@ export default {
   ...common,
   key: "google_drive-new-or-modified-folders",
   name: "New or Modified Folders",
-  description: "Emit new event any time any folder in your linked Google Drive is added, modified, or deleted",
+  description: "Emit new event when a folder is created or modified in the selected Drive",
   version: "0.1.3",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
