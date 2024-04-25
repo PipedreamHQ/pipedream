@@ -4,7 +4,7 @@ export default {
   key: "diffbot-enhance-entity",
   name: "Enhance Entity",
   description: "Enrich a person or organization record with partial data input [See the documentation] (https://docs.diffbot.com/reference/enhancepost)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
