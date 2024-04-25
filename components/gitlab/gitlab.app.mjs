@@ -78,7 +78,7 @@ export default {
     epicIid: {
       type: "string",
       label: "Epic Internal ID",
-      description: "The internal ID of a project's epic",
+      description: "The internal ID of a project's epic. [This feature is restricted to Gitlab's Premium and Ultimate tiers.](https://docs.gitlab.com/ee/api/epics.html)",
       async options({
         page, groupId,
       }) {
