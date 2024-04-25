@@ -1,15 +1,11 @@
 # Overview
 
- What can you build with Placekey API?
+The Placekey API is a powerful tool for standardizing and enriching location data. With Placekey, you can translate addresses or points of interest into a unique, universal location identifier, making it easier to integrate and compare data across different databases or platforms. On Pipedream, you can leverage this API to automate tasks that require precise location matching, enrichment, and deduplication, thus enhancing data analysis, business intelligence, marketing campaigns, and logistic operations.
 
-Placekey API is a powerful, open source tool that allows developers to create powerful applications in the location data space. With this API, you can create applications that can do a variety of geospatial tasks, such as building and querying maps, providing real-time data analysis and visualization, mobile application development, and more. Here are some examples of what you can do with the Placekey API:
+# Example Use Cases
 
-- Build maps for any type of application with comprehensive geospatial capabilities such as geolocation, reverse geocoding, and more
-- Query and filter large datasets quickly and easily with Placekey-backed search and filtering capabilities
-- Generate real-time insights and analytics within your application with Placekey-enabled visualization and analytic capabilities
-- Create powerful mobile applications and in-app location features with Placekey’s comprehensive mobile SDK and integrations
-- Create smooth and efficient routing and navigation experiences with Placekey’s easy-to-use routing functionality
-- Aggregate, search, and filter data from multiple data sources with Placekey-powered data aggregation and filtering capabilities
-- Analyze the relationship between places, activity, and transportation
-- Generate accurate and precise distance measures with Placekey-enabled geospatial distance calculation capabilities
-- Leverage Placekey-backed advanced analytics to draw valuable insights from your data
+- **Real Estate Portfolio Management**: Automate the enrichment of property listings by converting addresses to Placekeys and appending these identifiers to your real estate database on Google Sheets using Pipedream's Google Sheets integration. This allows for seamless integration and analysis of properties across various datasets.
+
+- **Retail Chain Expansion Analysis**: Use Placekey with Pipedream to match potential new store locations against existing ones in a database like Airtable, cutting the risk of cannibalization by ensuring new locations are strategically placed. Placekey's unique identifiers make it simple to identify and compare catchment areas or neighborhood characteristics.
+
+- **Event Management Coordination**: Streamline the coordination of multiple event venues by transforming venue addresses into Placekeys and syncing them to a CRM platform like Salesforce. This can help in visualizing event locations on a map for logistics, tracking attendee demographics, and conducting post-event analysis to measure the success of various locations.

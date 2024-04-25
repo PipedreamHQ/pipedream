@@ -1,18 +1,19 @@
 {
   "name": "@pipedream/pretix",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream pretix Components",
-  "main": "dist/app/pretix.app.mjs",
+  "main": "pretix.app.mjs",
   "keywords": [
     "pipedream",
     "pretix"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/pretix",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
   }
 }
+

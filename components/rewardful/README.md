@@ -1,23 +1,11 @@
 # Overview
 
-The Rewardful API offers an easy way to build rewards programs into your web
-and mobile applications. With Rewardful you can create referral programs that
-reward users for spreading the word about your product or service, implement
-referral rewards to help drive more traffic to your website, or offer
-content-based rewards and discounts.
+Rewardful is a potent API for managing affiliate and referral programs directly within your application or platform. By connecting Rewardful with Pipedream, you can automate the tracking, attribution, and compensation of affiliate-driven customer conversions, reducing manual overhead and increasing the efficiency of your marketing efforts. With Rewardful's API, you can create affiliates, track campaigns, and disburse rewards seamlessly.
 
-The Rewardful API makes it easy to create a rich rewards program with functions
-like tracking user referrals, sending out reward coupons and offers, and
-displaying real-time analytics and insights.
+# Example Use Cases
 
-Here are some examples of what you can create with the Rewardful API:
+- **Affiliate Onboarding Automation**: When a new affiliate signs up through a form on your website (managed by an app like Typeform), trigger a Pipedream workflow to automatically add the affiliate to Rewardful, set up their campaign, and send them a welcome email with their unique tracking links using an email platform like SendGrid.
 
-- Create referral bonus systems for customers
-- Award points for purchases or reaching milestones
-- Offer rewards for users who return to your site or complete specific tasks
-- Track referrals and develop rewards for advocates
-- Offer content-based rewards and discount offers
-- Send out coupon codes and in-app notifications to users
-- Display real-time analytics and insights on the Rewardful dashboard
-- Reward customers for sharing or reviewing your products or services on social
-  media
+- **Real-time Reward Notifications**: Monitor Rewardful for successful referral conversions and use Pipedream to trigger a message to the corresponding affiliate via Slack, notifying them of their successful referral and the reward they've earned, enhancing motivation and engagement.
+
+- **Monthly Rewardful Analytics Reports**: Schedule a monthly Pipedream workflow that collates all referral data from Rewardful, generates a performance report, and emails it to your marketing team through a service like Mailgun. This workflow could also include a data visualization tool like Google Sheets or Data Studio to create comprehensive analytics dashboards.

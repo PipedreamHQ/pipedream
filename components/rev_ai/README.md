@@ -1,31 +1,11 @@
 # Overview
 
-Rev.ai API is an automatic speech recognition (ASR) software that enables users
-to extract meaning from audio files. With this highly accurate software, you
-can develop powerful and relevant solutions for businesses and organizations.
-Whether you're looking to create smart virtual assistants, streamline customer
-engagements, or boost digital transcription compliance, Rev.ai API provides you
-with the tools you need to get the job done. Here are some of the things you
-can build with Rev.AI API:
+Rev.ai offers speech recognition and transcription capabilities, making it possible to convert audio into text with high accuracy. This API provides developers access to advanced speech-to-text functions, allowing you to transcribe interviews, meetings, or any audio content quickly. Using Pipedream, these transcriptions can be integrated into workflows that trigger actions in other apps, enriching your data and automating repetitive tasks.
 
-- Chatbots and virtual assistants: Rev.ai API can be used to add speech
-  recognition capability to your existing chatbot/virtual assistant and make it
-  more interactive and efficient.
-- Speech Enabled Interfaces and Controls: Rev.ai API enables you to create
-  speech enabled interfaces and controls for a variety of applications such as
-  TVs, vehicles, home automation systems, etc.
-- Automatic Speech Recognition: With Rev.ai API, you can easily integrate
-  automatic speech recognition capabilities into your application, enabling you
-  to quickly transcribe spoken language into text.
-- Intelligent Digital Transcription: With Rev.ai API you can create accurate,
-  real-time digital transcription from audio files, allowing you to quickly and
-  accurately transcribe recorded conversations and other spoken content.
-- Voice Biometrics: Rev.ai API can be used to add voice biometrics capabilities
-  to your application, allowing users to easily verify their identities using
-  the power of their voices.
-- Natural Language Understanding (NLU): Rev.ai API can be used to create
-  natural language understanding solutions that enable your applications to
-  understand the meaning of spoken language, allowing them to understand and
-  respond to user input.
-- Voice Data Analytics: With Rev.ai API, you can develop voice data analytics
-  solutions that make it easy to analyze voice data and gain valuable insights.
+# Example Use Cases
+
+- **Automated Meeting Transcriptions to Task Manager**: Whenever a new audio file is uploaded to a cloud storage service like Dropbox, Pipedream triggers a workflow that sends the file to Rev.ai for transcription. The resulting text can be parsed to identify action items and then automatically added as tasks to a project management tool such as Asana, ensuring that no to-do item is missed from verbal meetings.
+
+- **Customer Support Call Analysis**: After a support call is recorded, the audio can be sent to Rev.ai via Pipedream. Once transcribed, the text is analyzed for sentiment and keywords using Pipedream's built-in code steps or an AI service like MonkeyLearn. This analysis can then be logged in a CRM like Salesforce or sent as a summary report to a Slack channel, giving insights into customer satisfaction and agent performance.
+
+- **Content Creation from Podcasts**: Using a Pipedream workflow, podcast episodes uploaded to an RSS feed can be automatically transcribed by Rev.ai. The transcriptions can then be formatted and published as blog posts to platforms like WordPress or Medium. Additionally, key phrases and topics from the transcript can be extracted to generate tags and SEO-friendly metadata to enhance discoverability.

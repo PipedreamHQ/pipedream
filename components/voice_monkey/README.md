@@ -1,25 +1,9 @@
 # Overview
 
-Voice Monkey's Custom API allows you to build voice applications to extend your
-business. Here are some examples of what you can create:
+The Voice Monkey API provides a bridge between Alexa and Pipedream, enabling you to send custom announcements, notifications, or commands to your Alexa devices. With this API, you can trigger Alexa to speak a custom message or execute routines, leveraging the power of voice interaction in your automated workflows. It's particularly useful for smart home enthusiasts, productivity hackers, and businesses looking to integrate voice notifications into their services.
 
-- Virtual Assistants: Create a virtual assistant that can answer customer
-  queries, provide relevant information and services, or even be a personal
-  helper.
-- Home Automation: Transform your home with Voice Monkey's Custom API by adding
-  voice control to lights, security systems, and other devices.
-- Interactive Voice Response (IVR): Streamline customer service with an
-  automated system, allowing customers to interact with your business through
-  voice commands.
-- Voice User Interfaces: Build interactive applications with natural language
-  understanding and cognitive capabilities.
-- Smart Home Applications: Develop tools to monitor, control and automate your
-  home.
-- Smart Robotic Applications: Create robots that respond to voice commands and
-  operate autonomously with the help of Voice Monkey's Custom API.
-- Conversational Agents: Create AI-powered chatbots that can interact with
-  customers and provide personalized information or services.
-- Content Aggregators: Pull content from multiple sources and create a unified,
-  natural language interface.
-- Voice-controlled Games: Develop games powered by the Voice Monkey's Custom
-  API, allowing users to interact using voice commands.
+# Example Use Cases
+
+- **Alexa Morning Briefing Automation:** Kickstart your day with an automated morning briefing. When your calendar shows a scheduled event, Pipedream can trigger the Voice Monkey API to have Alexa read out the day's agenda, weather forecast, and important news.
+- **Smart Home Alert System:** Enhance your home security with voice alerts. Connect smart sensors to Pipedream, so when a sensor detects movement or opens a door, it prompts Alexa to announce a security alert through the Voice Monkey API.
+- **Customer Support Notifications:** Integrate the Voice Monkey API with a customer support ticketing system like Zendesk. Whenever a high-priority support ticket is received, use Pipedream to trigger an announcement from Alexa to ensure immediate attention from your support team.

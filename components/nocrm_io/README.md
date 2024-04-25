@@ -1,19 +1,11 @@
 # Overview
 
-NoCRM.io is a CRM platform that offers a powerful API that developers can use
-to power custom applications and integrations. With it, you can build
-applications to help organize customers, products, marketing campaigns, sales
-processes, and much more.
+noCRM.io API offers the ability to streamline and automate the sales process, focusing on lead management. With the noCRM.io API, you can create, update, delete, and retrieve leads, manage lead statuses, and trigger actions based on lead activity. Pipedream's serverless platform enhances these capabilities by allowing you to integrate noCRM.io with a plethora of other apps, setting up complex workflows without writing extensive code.
 
-Here are some examples of what you can create with the NoCRM.io API:
+# Example Use Cases
 
-- Create customer profiles with contact information, notes, and rich media
-  attachments
-- Integrate with existing applications like marketing automation, customer
-  service platforms, and eCommerce stores
-- Automate sales processes with customizable workflows
-- Create powerful dashboards that visualize customer data in real-time
-- Develop custom reports and analytics to monitor sales performance
-- Track customer activity with real-time notifications
-- Set up notifications for when important business milestones are met
-- Create lead qualification rules based on specific criteria
+- **Lead Capture Automation**: Capture leads from various sources like web forms, emails, or chat systems and automatically create new leads in noCRM.io. For instance, set up a workflow where every new subscriber from a Mailchimp campaign is added as a lead in noCRM.io, with appropriate tags and status.
+
+- **Lead Activity Notifications**: Send real-time notifications via Slack or email whenever a lead status changes in noCRM.io. This workflow can keep sales teams informed about hot leads or follow-ups needed, ensuring timely engagement with potential clients.
+
+- **Task and Calendar Sync**: Synchronize noCRM.io tasks with Google Calendar. Whenever a new task is created in noCRM.io, a corresponding event can be added to a Google Calendar, helping sales reps manage their follow-ups and meetings efficiently.

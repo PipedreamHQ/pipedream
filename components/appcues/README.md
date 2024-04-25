@@ -1,17 +1,11 @@
 # Overview
 
-Appcues lets you easily add targeted content, onboarding flows, and in-app
-messages to improve your app's engagement and retention.
+The Appcues API enables developers to enrich and automate the user onboarding and engagement processes. By interfacing with Appcues, you can programmatically manage flows, segments, and events, and integrate user experience data into other systems for analysis or action. This supports creating customized, scalable user journeys and leveraging user interactions for informed decision-making across your business applications.
 
-With Appcues, you can:
+# Example Use Cases
 
-- Build targeted content, such as messages, images, and videos, and target it
-  to specific users based on things like:
-  - User properties, such as signup date, account type, or number of logins
-  - Event properties, such as whether a user has completed a task or viewed a
-    page
-- Create onboarding flows to guide new users through your app
-- Add in-app messages to highlight features, drive conversions, or announce
-  changes
+- **Sync User Events with a CRM**: Automate the synchronization of user engagement data from Appcues to your CRM platform. For instance, when a user completes an onboarding flow in Appcues, trigger a workflow in Pipedream that updates the user's profile in Salesforce with the new engagement data.
 
-All without having to write a single line of code!
+- **Personalized Email Campaigns Based on User Behavior**: Use Appcues events to trigger personalized email campaigns. When a user completes a specific action or flow within your app, use Pipedream to send this data to an email marketing service like Mailchimp to enroll the user in a targeted email sequence.
+
+- **Slack Notifications for User Milestones**: Enhance team collaboration by sending Slack notifications when users hit key milestones. Set up a Pipedream workflow that listens for `flow_completed` events in Appcues and posts a message to a designated Slack channel, keeping your team informed about user progress in real time.

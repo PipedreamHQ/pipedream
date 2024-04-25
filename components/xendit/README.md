@@ -1,25 +1,11 @@
 # Overview
 
-The Xendit API is a powerful suite of APIs and SDKs that enable businesses,
-developers, and individuals to make and receive secure payments across hundreds
-of countries, currencies, and payment methods. From collecting payment for
-ecommerce sites to processing donations for nonprofits and making mass
-payments, the Xendit API can help users easily achieve these goals with its
-robust tools and secure processes.
+Leveraging the Xendit API on Pipedream, you can automate an array of financial tasks related to payments, disbursements, and accounting. Xendit simplifies handling transactions in Southeast Asia, offering services such as direct debit, credit card processing, and real-time payment tracking. By connecting it with Pipedream, you can create powerful workflows that trigger actions based on payment events, sync transaction data with other business systems, and streamline notification processes for financial operations.
 
-Whether you're an experienced developer or just getting started, with the
-Xendit API you can build a variety of payment solutions:
+# Example Use Cases
 
-- Accept debit and credit card payments within your app
-- Collect payments from customers with invoices
-- Create a marketplace with payouts to vendors
-- Have mass disbursements to employees and clients
-- Offer online checkout and shopping carts
-- Setup recurring payments
-- Create and accept virtual cards
-- Send money to hundreds of countries with virtual accounts
-- Securely store customer details for future payments
+- **Automate Invoice Creation on Payment**: When a customer completes a payment through Xendit, automatically generate an invoice using a service like QuickBooks and email it to the customer using SendGrid.
 
-By taking advantage of the Xendit API and its secure payment solutions,
-businesses, developers, and individuals have the potential to reduce costs and
-build efficient, comprehensive payment solutions quickly and securely.
+- **Sync Payments with CRM**: Once a payment is received via Xendit, update the customer's payment history in a CRM like Salesforce or HubSpot, ensuring sales records are always current.
+
+- **Real-time Fraud Detection Alerts**: Monitor transactions processed by Xendit for unusual patterns. Use a tool like Slack or Twilio to send real-time alerts if potential fraud is detected, enabling immediate action.

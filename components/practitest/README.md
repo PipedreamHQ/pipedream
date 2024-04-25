@@ -1,21 +1,11 @@
 # Overview
 
-The PractiTest API is an incredibly powerful tool that allows developers and businesses to quickly and easily create and customize software testing solutions. With the PractiTest API, you can add automation, management, and customization features to your existing development process, creating a more efficient and effective software testing platform.
+PractiTest is a test management tool that facilitates the organization, tracking, and planning of software testing processes by integrating with Pipedream's automation capabilities. With the PractiTest API, you're able to manipulate test cases, sets, runs, and report on results programmatically. This powerful combination opens the door to automated workflows that enhance testing processes, improve bug tracking, and provide real-time feedback to your team.
 
-By using the PractiTest API, the possibilities are endless. Here are a few examples of what you can build using the PractiTest API:
+# Example Use Cases
 
-- Automated test execution: Use the API to programmatically trigger test scripts, then process the outcomes and send results back to the PractiTest for reporting and further analysis.
+- **Automated Test Case Creation**: Upon a new feature being tracked in your project management tool (like Jira), automatically create associated test cases in PractiTest. This ensures that nothing slips through the cracks and all features have corresponding test plans.
 
-- Customizable dashboards: Create interactive dashboards from test results and displays that are customized to your needs.
+- **Real-Time Bug Reporting**: Configure a workflow that listens for failed test instances in PractiTest. When a failure occurs, it automatically creates a detailed bug report in your issue tracker (like GitHub Issues), including test steps, environment details, and failure logs.
 
-- Cross-platform functionality: With the API, you can integrate applications from different software platforms and compile test results into a single report.
-
-- Automated issue tracking: The API enables issue tracking, allowing you to track bug reports and feature requests from various sources.
-
-- Real-time collaboration: Communicate and collaborate in real-time with your team, setting up tasks and sharing data securely.
-
-- Customizable test plans: Design custom tests plans and ensure that they conform to specific requirements.
-
-- Security: Create secure authentication protocols and ensure that only authorized personnel can access the data.
-
-By using the PractiTest API, you can build customized and efficient software testing solutions that will help you increase quality assurance and reduce development time.
+- **Test Results Broadcast**: After a test run is completed in PractiTest, trigger a workflow that sends the results to a Slack channel, keeping the whole team informed. Enhance communication and quickly address any critical issues discovered during testing.

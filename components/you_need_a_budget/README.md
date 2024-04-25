@@ -1,22 +1,11 @@
 # Overview
 
-The You Need a Budget (YNAB) API provides APIs to interact with YNAB users’
-budgets, transactions, and more. With the YNAB API, developers have the ability
-to build applications that are tailored to an individual's budget and financial
-lifestyle.
+The You Need a Budget (YNAB) API offers a direct line into your budgeting data, allowing you to read and write transaction details, access budget categories, update account balances, and more. By leveraging this API on Pipedream, you can automate your financial tracking and synchronize your budget with other aspects of your financial life. This interface is particularly powerful for those looking to streamline their budgeting process, ensure real-time updates across platforms, and generate custom financial reports.
 
-Whether you're looking to create an app to assist with budgeting and tracking
-expenses, generating reports, or getting a real-time view of an individual's
-budget and movements, the YNAB API provides the tools to do it. The YNAB API is
-easy to use, secure, and versatile.
+# Example Use Cases
 
-Here are some examples of how you can use the YNAB API:
+- **Automated Transaction Recording**: When you make a purchase with a credit card that's tracked by another service like Plaid, Pipedream can catch the transaction via a webhook. It then automatically logs this new transaction in the appropriate YNAB budget category, keeping your budget up to date without manual entry.
 
-- Build an application to track expenses and generate reports
-- Monitor the balances of multiple budgets
-- Generate a budget snapshot based on accounts
-- Create custom visualizations and analytics tools
-- Create notifications when specific budget values change
-- Automate budgeting tasks, such as transfers and payments between accounts
-- Create interactive dashboards and track real-time trends
-- Enforce budgeting rules, such as threshold limits or budget goal tracking
+- **Category Balance Alerts**: Set up a daily scheduled workflow on Pipedream to check your YNAB category balances. If any category's balance falls below a predefined threshold, Pipedream sends an alert via SMS using Twilio or an email through SendGrid, helping you to stay on top of your budgeting goals.
+
+- **Expense Report Generation**: At the end of each month, a Pipedream workflow compiles transactions and budget category data from YNAB and formats a custom expense report. The report could then be sent to your email or uploaded to Google Drive for easy access and sharing with family or financial advisors.

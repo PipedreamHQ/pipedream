@@ -1,23 +1,11 @@
 # Overview
 
-With the OneSignal (REST API) API, you can create powerful tools to connect
-with your users and build an engaged audience. The API enables you to create,
-read, update, and delete push notifications, set up segmentation, and deliver
-messages to players.
+OneSignal's REST API enables developers to automate the delivery of push notifications, manage users and segments, and gather analytics to refine communication strategies. By integrating OneSignal with Pipedream, you can orchestrate complex workflows that react to events or schedules, synchronize user data across platforms, and personalize user engagement with cross-channel marketing tools.
 
-The API also enables you to:
+# Example Use Cases
 
-- Monitor and analyze performance with analytics dashboards and reporting tools
-- Receive updates on user engagement with real-time events
-- Automate message sending using scheduled notifications
-- Personalize messages using data gathered on each user
+- **User Activity-Based Notifications**: Trigger personalized push notifications via OneSignal when a user performs a specific action in your app, such as completing a purchase. Use Pipedream to listen for the event, process the user's activity, and call the OneSignal API to send a tailored message.
 
-These are just some of the resources available to you when you use OneSignal
-API:
+- **Scheduled Digest Notifications**: Compile and send daily or weekly digest notifications to users by collecting updates or content from various sources (like RSS feeds, website updates, or database records). Pipedream can automate the aggregation of content and scheduling of notification dispatches with OneSignal at predefined intervals.
 
-- Create targeted notifications for user-specific behaviors
-- Trigger personalized messages via segmentation
-- Maintain continuity with automated, scheduled messages
-- Develop group messages and alert campaigns
-- Analyze user engagement with reporting tools
-- Mark individual push notifications as delivered or failed
+- **Multi-Channel User Engagement**: Enhance user retention by connecting OneSignal with email marketing services (e.g., Mailchimp) using Pipedream. Detect inactive users via OneSignal analytics, then automatically enroll them in re-engagement email campaigns, harmonizing push notifications with email outreach.

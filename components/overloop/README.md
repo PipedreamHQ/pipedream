@@ -1,23 +1,11 @@
 # Overview
 
-With the Overloop API, you can build powerful applications that can simplify
-your workflow. Whether it be content-rich websites, data-driven applications,
-or mobile-ready apps, Overloop allows you to make your project vision a
-reality. Here are some examples of what you can build with the Overloop API:
+The Overloop API is a powerhouse for sales automation, enabling users to streamline their sales pipeline by automating repetitive tasks, syncing data across platforms, and enhancing lead management. With Pipedream, you can leverage Overloop's capabilities to create detailed, event-driven workflows that respond in real-time to changes in your sales environment. This integration can help maintain a healthy sales funnel, ensure timely follow-ups, and personalize communication at scale.
 
-- Custom user interfaces which can be fully tailored to meet the needs of any
-  organization or user.
-- Highly interactive and optimized digital products like e-commerce websites
-  and digital magazines.
-- Mobile applications that can be easily integrated with external systems and
-  services.
-- Real-time dashboard visualizations such as status updates, analytics, and
-  more.
-- High-volume content management platforms to manage and deliver digital
-  content.
-- Automated natural language processing and text-mining tools.
-- Collaboration platforms for teams to easily share files and collaborate.
-- Interactive customer support bots for customer service and help desk
-  assistance.
-- Business intelligence applications to quickly gather and analyze data.
-- Data visualization tools to better understand and make sense of data.
+# Example Use Cases
+
+- **Sales Lead Auto-Tagging**: Create a workflow that listens for new leads in Overloop and automatically tags them based on predefined criteria such as industry, company size, or location. Connect this with Slack to send notifications to corresponding sales reps instantly.
+
+- **Email Sequence Triggering Based on Website Activity**: Design a workflow where Overloop triggers an email sequence when a lead visits certain pages on your website. Combine this with Google Analytics to refine follow-ups based on user engagement and page interactions.
+
+- **Real-time CRM Synchronization**: Set up a real-time sync between Overloop and your CRM, such as Salesforce. Whenever a lead's status updates in Overloop, the workflow could update the corresponding record in Salesforce, ensuring that sales data remains consistent across both platforms.

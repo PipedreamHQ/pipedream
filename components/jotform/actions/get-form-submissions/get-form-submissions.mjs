@@ -5,14 +5,23 @@ export default {
   key: "jotform-get-form-submissions",
   name: "Get Form Submissions",
   description: "Gets a list of form responses [See the docs here](https://api.jotform.com/docs/#form-id-submissions)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     ...common.props,
+    teamId: {
+      propDefinition: [
+        common.props.jotform,
+        "teamId",
+      ],
+    },
     formId: {
       propDefinition: [
         common.props.jotform,
         "formId",
+        (c) => ({
+          teamId: c.teamId,
+        }),
       ],
     },
     max: {
@@ -27,6 +36,7 @@ export default {
       $,
       max: this.max,
       formId: this.formId,
+      teamId: this.teamId,
     };
     const submissions = await this.paginate(this.jotform.getFormSubmissions.bind(this), params);
     const results = [];

@@ -4,8 +4,8 @@ export default {
   ...common,
   name: "New Column",
   key: "postgresql-new-column",
-  description: "Emit new event when a new column is added to a table. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.9",
+  description: "Emit new event when a new column is added to a table. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.5",
   type: "source",
   props: {
     ...common.props,
@@ -13,9 +13,6 @@ export default {
       propDefinition: [
         common.props.postgresql,
         "schema",
-        (c) => ({
-          rejectUnauthorized: c.rejectUnauthorized,
-        }),
       ],
     },
     table: {
@@ -24,7 +21,6 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -32,8 +28,7 @@ export default {
   async run() {
     const previousColumns = this._getPreviousValues() || [];
 
-    const columns = await this.postgresql
-      .getColumns(this.table, this.schema, this.rejectUnauthorized);
+    const columns = await this.postgresql.getColumns(this.table, this.schema);
 
     const newColumns = columns.filter((column) => !previousColumns.includes(column));
     for (const column of newColumns) {

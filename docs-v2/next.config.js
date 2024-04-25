@@ -5,22 +5,14 @@ const withNextra = require("nextra")({
 });
 
 module.exports = withNextra({
-  basePath: "/docs/v3",
+  basePath: "/docs",
   images: {
     remotePatterns: [
-      // {
-      //   protocol: "https",
-      //   hostname: "res.cloudinary.com",
-      // },
       {
         protocol: "https",
-        hostname: "pipedream.com",
-        port: "",
-        pathname: "**",
+        hostname: "res.cloudinary.com",
       },
     ],
-    loader: "custom",
-    loaderFile: "./utils/imageLoader.js",
   },
   env: {
     PIPEDREAM_NODE_VERSION: "20",
@@ -36,7 +28,6 @@ module.exports = withNextra({
     BASE_CREDITS_PRICE_MEMORY: "256",
     BASE_CREDITS_PRICE_SECONDS: "30",
     DATA_STORES_MAX_KEYS: "1,024",
-    DAILY_CREDITS_LIMIT: "25",
     DAILY_TESTING_LIMIT: "30 minutes",
     INSPECTOR_EVENT_EXPIRY_DAYS: "365",
     FUNCTION_PAYLOAD_LIMIT: "6MB",

@@ -15,6 +15,14 @@ export {
 } from "./errors";
 
 export {
+  default as sqlProp,
+} from "./sql-prop";
+
+export {
+  default as sqlProxy,
+} from "./sql-proxy";
+
+export {
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "./constants";
 

@@ -1698,13 +1698,16 @@ If the URL is [https://pipedream.com/@michael-testing/api-p_13CDnxK/inspect](htt
 `active` **boolean**
 The activation status of a workflow. Set to `true` to activate the workflow, or `false` to deactivate it.
 
+`org_id` **string**
+[Find your org's ID](/workspaces/#finding-your-workspace-s-id).
+
 #### Example Request
 
 ```bash
 curl -X PUT 'https://api.pipedream.com/v1/workflows/p_abc123' \
   -H 'Authorization: Bearer <api_key>' \
   -H 'Content-Type: application/json' \
-  -d '{"active": false}'
+  -d '{"active": false, "org_id": "o_BYDI5y"}'
 ```
 
 ### Get a Workflow's details

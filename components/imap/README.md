@@ -1,20 +1,11 @@
 # Overview
 
-The Internet Message Access Protocol (IMAP) is a mail protocol used for
-accessing email on a remote web server.
+Using Pipedream's IMAP API, developers can automate interactions with their email inbox, enabling serverless workflows that perform actions based on incoming emails. This could include parsing email contents, triggering events upon receiving emails from specific senders, attaching labels, and much more. By leveraging IMAP, Pipedream can act as a bridge between your email and other services, streamlining processes that would otherwise require manual intervention.
 
-IMAP provides a way to access email stored on a server, allowing you to read,
-write, and delete emails from your account.
+# Example Use Cases
 
-IMAP is a popular protocol for accessing email, and is supported by most email
-providers.
+- **Email Attachment Extraction and Storage:** Automatically detect when a new email with attachments arrives in your inbox. Download the attachments and save them to a cloud storage service like Google Drive or Dropbox using Pipedream's built-in connectors.
 
-Here are some things you can build using the IMAP API:
+- **Customer Support Ticket Creation:** Upon receiving an email to a support inbox, use Pipedream to parse the email, extract relevant information (like the sender's email, subject, and body), and create a ticket in a customer support platform such as Zendesk or Help Scout.
 
-- A web-based email client
-- A desktop email client
-- A mobile email client
-- A command-line email client
-- A script to automatically delete old emails
-- A script to automatically forward emails to another address
-- A script to automatically save attachments to your computer
+- **Lead Qualification:** When a new lead submits information via email, Pipedream can parse the email content and use it to populate fields in a CRM like Salesforce. Additionally, it can trigger a workflow that scores the lead's quality and assigns it to the appropriate sales team member.

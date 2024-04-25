@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/clickhelp",
+  "version": "0.1.0",
+  "description": "Pipedream ClickHelp Components",
+  "main": "clickhelp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clickhelp"
+  ],
+  "homepage": "https://pipedream.com/apps/clickhelp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.1"
+  }
+}

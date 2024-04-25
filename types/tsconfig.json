@@ -8,7 +8,7 @@
     "forceConsistentCasingInFileNames": true,         /* Ensure that casing is correct in imports. */
     "noImplicitAny": true,                            /* Enable error reporting when a type hasn't been explicity specified. */
     "noImplicitThis": true,                           /* Enable error reporting when `this` is given the type `any`. */
-    "lib": ["es6", "dom"],
+    "lib": ["es6"],
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "baseUrl": ".",

@@ -1,17 +1,11 @@
 # Overview
 
-With the Google Classroom API, you can manage your Google Classroom classes and
-coursework. You can also use the API to create and manage announcements,
-assignments, and student submissions.
+The Google Classroom API lets you tap into the educational space by managing courses, assignments, and student interactions programmatically. With this API, you can automate course creation, roster management, and content distribution, effectively bridging the gap between various educational tools and platforms. Leveraging Pipedream's serverless execution environment, you can build powerful workflows that respond to events in Classroom, sync data across platforms, and streamline the educational process for teachers and students alike.
 
-Here are some example applications you could build with the Google Classroom
-API:
+# Example Use Cases
 
-- A course management system that allows teachers to create and manage their
-  courses online
-- An announcement system that allows teachers to post announcements to their
-  classes
-- An assignment management system that allows teachers to create and manage
-  assignments for their classes
-- A student submission system that allows teachers to view and grade student
-  submissions
+- **Automated Course Management**: Create workflows that automatically set up new courses at the beginning of a term, including setting up course materials in Google Drive and scheduling calendar events for class times. When a new term starts, this automation can save educators hours of setup time.
+
+- **Assignment Distribution and Collection**: As soon as assignments are created in Google Classroom, trigger a workflow on Pipedream that generates a template in Google Docs, shares it with the students, and then collects submitted assignments for review. This can vastly simplify the distribution and collection process for instructors.
+
+- **Grading and Feedback Integration**: When grades are posted in Google Classroom, use Pipedream to trigger notifications to students via email or a messaging app like Slack. Additionally, integrate with a tool like Google Sheets to automatically update a master gradebook with the latest scores.

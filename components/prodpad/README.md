@@ -1,28 +1,18 @@
 # Overview
 
-What can you build with ProdPad's API? The possibilities are endless!
+The ProdPad API taps into the core functionalities of product management, allowing you to automate interactions with your product backlog, roadmaps, and idea pools. With Pipedream's serverless execution environment, you can trigger workflows based on events in ProdPad, sync data across multiple platforms, and create custom automations to streamline your product management processes. ProdPad's API lets you seamlessly integrate with other tools to keep your team aligned, informed, and productive.
 
-ProdPad is an idea and innovation management platform – with our API, you’re able to turn ideas into actionable tasks with minimal effort. ProdPad’s API enables you to manage product planning and roadmapping, such as:
+# Example Use Cases
 
-- Retrieve ideas, including customer feedback and suggestions
-- Automatically creates tasks for your team to feature develop and utilize
-- Track and analyze the progress of product-related tasks across your different products
-- Generate reports on product performance
-- Monitor customer feedback with customizable filters
-- Integrate your product roadmap with third-party systems and tools
+- **Idea Submission Automation**: When a new idea is submitted to ProdPad, use Pipedream to trigger a workflow that automatically categorizes the idea based on predefined rules, assigns it to the appropriate team, and sends notifications via Slack or email to relevant stakeholders. This ensures that new ideas are quickly processed and evaluated.
 
-The ProdPad API allows you to build a range of custom projects that can streamline and automate parts of your product planning process. Here are some of the things you can do:
+- **Feedback Loop Enhancement**: Integrate ProdPad with customer support tools like Zendesk or Intercom. Whenever feedback is received, it can trigger a Pipedream workflow that creates or updates ideas in ProdPad, linking them back to the customer tickets. This ensures valuable user feedback is directly tied to potential feature development in the product roadmap.
 
-- Track customer feedback and manage product roadmaps
-- Keep track of team tasks and milestones
-- Analyze product performance and utilization
-- Visualize your product roadmap
-- Aggregate customer feedback into reports
-- Integrate ProdPad into your existing systems and tools
-- Create custom development projects
-- Synchronize data between Prodpad and third-party applications
+- **Product Roadmap Synchronization**: Keep your product roadmap in sync with project management tools such as Jira or Trello. When changes are made to the roadmap in ProdPad, Pipedream can catch these events and update corresponding tasks, stories, or epics in your project management tool, ensuring all teams are working from the latest plan.
 
-# Webhooks
+# Getting Started
+
+## Webhooks
 
 Some triggers support webhooks for ProdPad. These include:
 

@@ -1,27 +1,11 @@
 # Overview
 
-With the Quipu API you can create powerful, feature-rich and fully-adaptable
-invoicing applications for your business.
+Quipu is an API designed to simplify invoicing and accounting for freelancers and small businesses. By integrating Quipu with Pipedream, you unlock the potential of automating financial tasks, syncing data across platforms, and streamlining invoicing operations. Pipedream's serverless platform provides the flexibility to connect Quipu with a myriad of other apps and services, enabling you to craft custom workflows that fit your exact business needs. Whether it's triggering actions based on invoice statuses, syncing contacts between platforms, or generating financial reports, Quipu's API and Pipedream's orchestration can together build a robust financial automation system.
 
-Examples of you can create with the Quipu API:
+# Example Use Cases
 
-- Invoice generators
-- Invoice tracking systems
-- Document and customer management solutions
-- Customizable invoice layout solutions
-- Automated customer onboarding
-- Document signing solutions
-- Automated payroll solutions
-- Customizable G/L integrations
-- Automated notifications and email reminders
-- Tax management tools
-- Real-time reporting dashboards
-- Automated document conversion solutions
-- Automated payment solutions
+- **Automated Invoice Creation and Delivery**: When a new sale is registered in your e-commerce platform (like Shopify), Pipedream triggers a Quipu workflow that generates an invoice and sends it to the customer. This ensures timely billing without manual intervention.
 
-The Quipu API is used by small and large businesses of all kinds, anywhere in
-the world. Whether you're a freelancer, online merchant, or a large enterprise,
-Quipu API has the tools to get the job done quickly and efficiently.
+- **Expense Tracking and Reporting**: Capture expenses from a company credit card or a platform like Expensify into Quipu. Set up a Pipedream workflow to automatically add these transactions as expenses in Quipu, categorize them, and generate monthly expense reports for easy reconciliation.
 
-So think no more, let Quipu API do the work for you and save you time and
-money!
+- **Sync Contacts Between CRM and Quipu**: Whenever a new contact is added to your CRM (like Salesforce), a Pipedream workflow is triggered to create or update the contact details in Quipu. This keeps your invoicing system in sync with your customer relationship management, saving time and reducing errors.

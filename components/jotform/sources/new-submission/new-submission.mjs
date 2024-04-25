@@ -5,24 +5,35 @@ export default {
   key: "jotform-new-submission",
   name: "New Submission (Instant)",
   description: "Emit new event when a form is submitted",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "source",
   dedupe: "unique",
   props: {
     jotform,
     http: "$.interface.http",
+    teamId: {
+      propDefinition: [
+        jotform,
+        "teamId",
+      ],
+    },
     formId: {
       propDefinition: [
         jotform,
         "formId",
+        (c) => ({
+          teamId: c.teamId,
+          excludeDeleted: true,
+        }),
       ],
     },
   },
   hooks: {
     async deploy() {
-      const { content: form } = await this.jotform.getForm(this.formId);
+      const { content: form } = await this.jotform.getForm(this.formId, this.teamId);
       const { content: submissions } = await this.jotform.getFormSubmissions({
         formId: this.formId,
+        teamId: this.teamId,
         params: {
           limit: 25,
           orderby: "created_at",
@@ -41,12 +52,14 @@ export default {
       return (await this.jotform.createHook({
         endpoint: this.http.endpoint,
         formId: this.formId,
+        teamId: this.teamId,
       }));
     },
     async deactivate() {
       return (await this.jotform.deleteHook({
         endpoint: this.http.endpoint,
         formId: this.formId,
+        teamId: this.teamId,
       }));
     },
   },
@@ -54,6 +67,7 @@ export default {
     const { body } = event;
     let { content: submission } = await this.jotform.getFormSubmission({
       submissionId: body.submissionID,
+      teamId: this.teamId,
     });
 
     // insert answers from the webhook event

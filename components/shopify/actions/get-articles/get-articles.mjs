@@ -6,7 +6,7 @@ export default {
   key: "shopify-get-articles",
   name: "Get Articles",
   description: "Retrieve a list of all articles from a blog. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#get-blogs-blog-id-articles)",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     app,

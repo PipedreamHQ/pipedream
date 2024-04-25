@@ -1,18 +1,11 @@
 # Overview
 
-[Nusii Proposals API](https://nusii.com/) provides an easy and straightforward
-way to automate your proposal creation and sending needs. With this API you can
-build custom applications to create, manage, and send proposals to clients
-right from within your own app or website.
+The Nusii Proposals API enables users to automate and integrate their proposal workflow with other tools and services. With this API, you can create, send, and manage proposals, keep track of their status, and handle clients efficiently. Leveraging Pipedream's capabilities, you can construct workflows that respond to events in Nusii, like a new proposal acceptance, or trigger actions in Nusii based on activities in other apps.
 
-Using the Nusii Proposals API, you can create a variety of proposal-related
-solutions to suit your business needs. Here are some of the potential uses for
-this API:
+# Example Use Cases
 
-- Digital document and proposal creation systems
-- Add proposal requests to existing customer relationship management (CRM)
-  applications
-- Integration with eCommerce solutions to add proposals to online orders
-- Automated proposal generation and email delivery solutions
-- Custom solutions to manage proposal reviews from multiple stakeholders
-- Collaboration tools to easily share and work on proposals with colleagues
+- **Automated Proposal Follow-ups**: When a proposal is sent and remains unopened for a set period, trigger a follow-up email sequence or a reminder task in your CRM to ensure timely engagement.
+
+- **Proposal Acceptance to Project Kick-off**: On proposal acceptance, automatically create a project in your project management tool, like Asana or Trello, and notify team members in Slack or Microsoft Teams to commence work.
+
+- **Client Onboarding Workflow**: After a proposal gets accepted, trigger a client onboarding sequence, which could include adding client details to a CRM like Salesforce, scheduling a kick-off call via Calendly, and creating an invoice in QuickBooks or Xero.
