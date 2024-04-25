@@ -37,8 +37,6 @@ export default {
       type: "string[]",
       label: "Files",
       description: "The files you want to watch for changes.",
-      optional: true,
-      default: [],
       options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this.googleDrive.listFilesOptions(nextPageToken, this.getListFilesOpts());

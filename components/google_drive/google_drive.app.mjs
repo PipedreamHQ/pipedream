@@ -125,8 +125,8 @@ export default {
     watchForPropertiesChanges: {
       type: "boolean",
       label: "Watch for changes to file properties",
-      description: `Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties)
-        in addition to changes to content. **Defaults to \`false\`, watching for only changes to content**.`,
+      description: `Watch for changes to [custom file properties](https://developers.google.com/drive/api/v3/properties)
+        in addition to changes to content. **Defaults to \`false\`, watching only for changes to content**.`,
       optional: true,
       default: false,
     },

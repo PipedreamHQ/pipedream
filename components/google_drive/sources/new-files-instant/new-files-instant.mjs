@@ -9,7 +9,7 @@ export default {
   ...common,
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
-  description: "Emit new event any time a new file is added in your linked Google Drive",
+  description: "Emit new event when a new file is added in your linked Google Drive",
   version: "0.1.5",
   type: "source",
   dedupe: "unique",
@@ -50,7 +50,7 @@ export default {
         q: `mimeType != "application/vnd.google-apps.folder" and createdTime > "${timeString}" and trashed = false`,
         orderBy: "createdTime desc",
         fields: "*",
-        pageSize: 25,
+        pageSize: 5,
       });
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);

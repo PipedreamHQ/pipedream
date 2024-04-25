@@ -16,11 +16,13 @@ import {
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
 } from "../../constants.mjs";
 
+const { googleDrive } = common.props;
+
 export default {
   ...common,
   key: "google_drive-new-or-modified-files",
-  name: "New or Modified Files",
-  description: "Emit new event any time any file in your linked Google Drive is added, modified, or deleted",
+  name: "New or Modified Files (Instant)",
+  description: "Emit new event when a file in the selected Drive is created, modified or trashed.",
   version: "0.2.1",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
@@ -30,9 +32,9 @@ export default {
     ...common.props,
     folders: {
       type: "string[]",
-      label: "Folders",
+      label: "Folder(s)",
       description:
-        "(Optional) The folders you want to watch for changes. Leave blank to watch for any new or modified file in the Drive.",
+        "The folder(s) to watch for changes. Leave blank to watch for any new or modified file in the Drive.",
       optional: true,
       default: [],
       options({ prevContext }) {
@@ -51,6 +53,12 @@ export default {
           };
         return this.googleDrive.listFilesOptions(nextPageToken, opts);
       },
+    },
+    watchForPropertiesChanges: {
+      propDefinition: [
+        googleDrive,
+        "watchForPropertiesChanges",
+      ],
     },
   },
   hooks: {

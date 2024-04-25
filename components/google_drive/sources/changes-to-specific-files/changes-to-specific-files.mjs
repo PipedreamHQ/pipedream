@@ -3,8 +3,6 @@ import sampleEmit from "./test-event.mjs";
 import includes from "lodash/includes.js";
 import { v4 as uuid } from "uuid";
 
-import { MY_DRIVE_VALUE } from "../../constants.mjs";
-
 import changesToSpecificFiles from "../changes-to-specific-files-shared-drive/changes-to-specific-files-shared-drive.mjs";
 
 /**
@@ -24,13 +22,6 @@ export default {
   dedupe: "unique",
   props: {
     ...changesToSpecificFiles.props,
-    drive: {
-      type: "string",
-      label: "Drive",
-      description: "Defaults to `My Drive`. To use a [Shared Drive](https://support.google.com/a/users/answer/9310351), use the **Changes to Specific Files (Shared Drive)** source instead.",
-      optional: true,
-      default: MY_DRIVE_VALUE,
-    },
     updateTypes: {
       propDefinition: [
         changesToSpecificFiles.props.googleDrive,
