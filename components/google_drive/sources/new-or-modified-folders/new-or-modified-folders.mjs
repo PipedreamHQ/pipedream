@@ -18,7 +18,7 @@ import {
 export default {
   ...common,
   key: "google_drive-new-or-modified-folders",
-  name: "New or Modified Folders",
+  name: "New or Modified Folders (Instant)",
   description: "Emit new event when a folder is created or modified in the selected Drive",
   version: "0.1.3",
   type: "source",
