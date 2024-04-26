@@ -112,26 +112,26 @@ export default {
     const phoneNumbers = await this.telnyxApp.getPhoneNumbers({
       $,
       params: {
-        'page[size]': this.pageSize || 20,
-        'page[number]': this.pageNumber || 1,
-        'filter[tag]': this.tag,
-        'filter[phone_number]': this.phoneNumber,
-        'filter[status]': this.status,
-        'filter[connection_id]': this.connectionId,
-        'filter[voice.connection_name][contains]': this.contains,
-        'filter[voice.connection_name][starts_with]': this.startsWith,
-        'filter[voice.connection_name][ends_with]': this.endsWith,
-        'filter[voice.connection_name][eq]': this.equals,
-        'filter[voice.usage_payment_method]': this.paymentMethod,
-        'filter[billing_group_id]': this.billingGroupId,
-        'filter[emergency_address_id]': this.emergencyAddressId,
-        'filter[customer_reference]': this.customerReference,
-        sort: this.sort,
+        "page[size]": this.pageSize || 20,
+        "page[number]": this.pageNumber || 1,
+        "filter[tag]": this.tag,
+        "filter[phone_number]": this.phoneNumber,
+        "filter[status]": this.status,
+        "filter[connection_id]": this.connectionId,
+        "filter[voice.connection_name][contains]": this.contains,
+        "filter[voice.connection_name][starts_with]": this.startsWith,
+        "filter[voice.connection_name][ends_with]": this.endsWith,
+        "filter[voice.connection_name][eq]": this.equals,
+        "filter[voice.usage_payment_method]": this.paymentMethod,
+        "filter[billing_group_id]": this.billingGroupId,
+        "filter[emergency_address_id]": this.emergencyAddressId,
+        "filter[customer_reference]": this.customerReference,
+        "sort": this.sort,
       },
     });
     $.export("$summary", `Successfully retrieved ${phoneNumbers.data.length} phone number${phoneNumbers.data.length === 1
-        ? ""
-        : "s"}.`);
+      ? ""
+      : "s"}.`);
     return phoneNumbers;
   },
 };

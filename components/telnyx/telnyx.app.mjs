@@ -27,7 +27,7 @@ export default {
       description: "The phone number to send the message from.",
       async options({ page }) {
         const params = {
-          'page[number]': page || 1,
+          "page[number]": page || 1,
         };
         const phoneNumbers = await this.getPhoneNumbers({
           params,
@@ -36,7 +36,7 @@ export default {
           label: phoneNumber.phone_number,
           value: phoneNumber.phone_number,
         }));
-      }
+      },
     },
   },
   methods: {
