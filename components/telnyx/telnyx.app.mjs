@@ -21,6 +21,23 @@ export default {
         }));
       },
     },
+    phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "The phone number to send the message from.",
+      async options({ page }) {
+        const params = {
+          'page[number]': page || 1,
+        };
+        const phoneNumbers = await this.getPhoneNumbers({
+          params,
+        });
+        return phoneNumbers.data.map((phoneNumber) => ({
+          label: phoneNumber.phone_number,
+          value: phoneNumber.phone_number,
+        }));
+      }
+    },
   },
   methods: {
     // this.$auth contains connected account data
@@ -68,6 +85,12 @@ export default {
     async getMessagingProfiles(args) {
       return this.makeRequest({
         path: "/messaging_profiles",
+        ...args,
+      });
+    },
+    async getPhoneNumbers(args) {
+      return this.makeRequest({
+        path: "/phone_numbers",
         ...args,
       });
     },
