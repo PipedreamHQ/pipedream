@@ -91,7 +91,9 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://${this.$auth.base_url}`;
+      return (this.$auth.base_url.startsWith("https://"))
+        ? this.$auth.base_url
+        : `https://${this.$auth.base_url}`;
     },
     _headers() {
       return {
