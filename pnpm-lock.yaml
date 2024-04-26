@@ -1109,7 +1109,10 @@ importers:
       crypto-js: 4.2.0
 
   components/bytenite:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/cabinpanda:
     specifiers: {}
@@ -1253,7 +1256,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/chaser:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/chatbot:
     specifiers:
@@ -2517,6 +2523,9 @@ importers:
   components/encharge:
     specifiers: {}
 
+  components/encodian:
+    specifiers: {}
+
   components/endorsal:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2900,7 +2909,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/forcemanager:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/form_io:
     specifiers: {}
@@ -3527,7 +3539,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_vertex_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/google_workspace:
     specifiers:
@@ -5811,7 +5826,10 @@ importers:
       qs: 6.11.2
 
   components/overledger:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/overloop:
     specifiers:
@@ -7144,6 +7162,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/sare:
+    specifiers: {}
 
   components/satismeter:
     specifiers:
