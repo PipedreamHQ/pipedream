@@ -4,21 +4,15 @@ export default {
   key: "beebole_app-create-company",
   name: "Create Company",
   description: "Creates a new company in Beebole. [See the documentation](https://beebole.com/help/api/#create-a-company)",
-  version: `0.0.1`,
+  version: "0.0.2",
   type: "action",
   props: {
     app,
     companyName: {
       propDefinition: [
         app,
-        "companyName"
-      ]
-    },
-    companyName: {
-      propDefinition: [
-        app,
-        "companyName"
-      ]
+        "companyName",
+      ],
     },
   },
   async run({ $ }) {
@@ -28,8 +22,8 @@ export default {
         service: "company.create",
         company: {
           name: this.companyName,
-        }
-      }
+        },
+      },
     });
 
     $.export("$summary", `Successfully created company "${this.companyName}"`);
