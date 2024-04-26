@@ -3539,7 +3539,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_vertex_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/google_workspace:
     specifiers:
