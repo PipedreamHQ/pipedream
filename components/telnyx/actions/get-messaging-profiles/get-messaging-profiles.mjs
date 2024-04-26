@@ -36,14 +36,14 @@ export default {
     const profiles = await this.telnyxApp.getMessagingProfiles({
       $,
       params: {
-        'page[size]': this.pageSize || 20,
-        'page[number]': this.pageNumber || 1,
-        filter: this.filter,
+        "page[size]": this.pageSize || 20,
+        "page[number]": this.pageNumber || 1,
+        "filter": this.filter,
       },
     });
     $.export("$summary", `Successfully retrieved ${profiles.data.length} messaging profile${profiles.data.length === 1
-        ? ""
-        : "s"}.`);
+      ? ""
+      : "s"}.`);
     return profiles;
   },
 };

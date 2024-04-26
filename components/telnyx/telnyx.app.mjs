@@ -10,7 +10,7 @@ export default {
       description: "The Id of the messaging profile to use for sending the message.",
       async options({ page }) {
         const params = {
-          'page[number]': page || 1,
+          "page[number]": page || 1,
         };
         const profiles = await this.getMessagingProfiles({
           params,
@@ -19,7 +19,7 @@ export default {
           label: profile.name,
           value: profile.id,
         }));
-      }
+      },
     },
   },
   methods: {
