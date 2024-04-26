@@ -166,7 +166,7 @@ export default {
       }
 
       this.$emit(event, {
-        id: event.client_msg_id || event.pipedream_msg_id,
+        id: event.client_msg_id || event.pipedream_msg_id || event.channel.id,
         summary: this.getSummary(event),
         ts: event.event_ts || Date.now(),
       });

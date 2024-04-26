@@ -1,11 +1,11 @@
-import slack from "../../slack.app.mjs";
 import crypto from "crypto";
+import slack from "../../slack.app.mjs";
 
 export default {
   key: "slack-verify-slack-signature",
   name: "Verify Slack Signature",
   description: "Verifying requests from Slack, slack signs its requests using a secret that's unique to your app. [See docs here](https://api.slack.com/authentication/verifying-requests-from-slack)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     slack,
