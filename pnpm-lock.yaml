@@ -1468,6 +1468,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/clio:
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+      crypto: ^1.0.1
+    dependencies:
+      '@pipedream/platform': 1.6.4
+      crypto: 1.0.1
+
   components/clockify:
     specifiers:
       '@pipedream/platform': ^1.5.1
