@@ -38,7 +38,7 @@ export default {
       params: {
         "page[size]": this.pageSize || 20,
         "page[number]": this.pageNumber || 1,
-        "filter": this.filter,
+        "filter[name]": this.filter,
       },
     });
     $.export("$summary", `Successfully retrieved ${profiles.data.length} messaging profile${profiles.data.length === 1
