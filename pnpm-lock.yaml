@@ -2520,6 +2520,9 @@ importers:
   components/encharge:
     specifiers: {}
 
+  components/encodian:
+    specifiers: {}
+
   components/endorsal:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7153,6 +7156,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/sare:
+    specifiers: {}
 
   components/satismeter:
     specifiers:
