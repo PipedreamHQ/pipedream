@@ -1,7 +1,9 @@
 import pg from "pg";
 import format from "pg-format";
 import {
-  sqlProxy, ConfigurationError,
+  sqlProp,
+  sqlProxy,
+  ConfigurationError,
 } from "@pipedream/platform";
 
 export default {
@@ -21,7 +23,7 @@ export default {
       label: "Table",
       description: "Database table",
       async options({ schema }) {
-        return this.getTables(this.getNormalizedSchema(schema));
+        return this.getTables(this._getNormalizedSchema(schema));
       },
     },
     column: {
@@ -31,7 +33,7 @@ export default {
       async options({
         table, schema,
       }) {
-        return this.getColumns(table, this.getNormalizedSchema(schema));
+        return this.getColumns(table, this._getNormalizedSchema(schema));
       },
     },
     query: {
@@ -53,7 +55,7 @@ export default {
         table, column, prevContext, schema,
       }) {
         const limit = 20;
-        const normalizedSchema = this.getNormalizedSchema(schema);
+        const normalizedSchema = this._getNormalizedSchema(schema);
         const { offset = 0 } = prevContext;
         return {
           options: await this
@@ -71,8 +73,9 @@ export default {
     },
   },
   methods: {
+    ...sqlProp.methods,
     ...sqlProxy.methods,
-    getSslConfig() {
+    _getSslConfig() {
       const {
         ca,
         key,
@@ -119,10 +122,10 @@ export default {
         user,
         password,
         database,
-        ssl: this.getSslConfig(),
+        ssl: this._getSslConfig(),
       };
     },
-    async getClient() {
+    async _getClient() {
       const config = this.getClientConfiguration();
       const client = new pg.Client(config);
       try {
@@ -136,7 +139,7 @@ export default {
       }
       return client;
     },
-    async endClient(client) {
+    async _endClient(client) {
       return client.end();
     },
     /**
@@ -192,14 +195,45 @@ export default {
      * query.
      */
     async executeQuery(query) {
-      const client = await this.getClient();
+      const client = await this._getClient();
 
       try {
         const { rows } = await client.query(query);
         return rows;
       } finally {
-        await this.endClient(client);
+        await this._endClient(client);
       }
+    },
+    /**
+     * A helper method to get the schema of the database. Used by other features
+     * (like the `sql` prop) to enrich the code editor and provide the user with
+     * auto-complete and fields suggestion.
+     *
+     * @returns {DbSchema} The schema of the database, which is a
+     * JSON-serializable object.
+     */
+    async getSchema() {
+      const text = `
+        SELECT table_name AS "tableName",
+          column_name AS "columnName",
+          is_nullable AS "isNullable",
+          data_type AS "dataType",
+          column_default AS "columnDefault"
+        FROM information_schema.columns
+        WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
+        ORDER BY table_name,
+          ordinal_position
+      `;
+      const rows = await this.executeQuery({
+        text,
+      });
+      return rows.reduce((acc, row) => {
+        acc[row.tableName] ??= {};
+        acc[row.tableName][row.columnName] = {
+          ...row,
+        };
+        return acc;
+      }, {});
     },
     /**
      * Gets an array of table names in a database
@@ -342,7 +376,7 @@ export default {
      * @returns The newly updated row
      */
     async updateRow(schema, table, lookupColumn, lookupValue, rowValues) {
-      const columnsPlaceholders = this.getColumnsPlaceholders({
+      const columnsPlaceholders = this._getColumnsPlaceholders({
         rowValues,
         fromIndex: 2,
       });
@@ -362,7 +396,7 @@ export default {
       });
       return response[0];
     },
-    getColumnsPlaceholders({
+    _getColumnsPlaceholders({
       rowValues = {},
       fromIndex = 1,
     } = {}) {
@@ -406,7 +440,7 @@ export default {
       return this.executeQuery(query);
     },
     /**Normalize Schema**/
-    getNormalizedSchema(schema) {
+    _getNormalizedSchema(schema) {
       return schema ?? "public";
     },
   },

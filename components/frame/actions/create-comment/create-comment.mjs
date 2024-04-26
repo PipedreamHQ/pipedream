@@ -4,7 +4,7 @@ export default {
   key: "frame-create-comment",
   name: "Create Comment",
   description: "Creates a new comment on an asset in Frame.io. [See the documentation](https://developer.frame.io/api/reference/operation/createComment/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     frame,

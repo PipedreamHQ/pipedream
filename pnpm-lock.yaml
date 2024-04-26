@@ -1253,7 +1253,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/chaser:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/chatbot:
     specifiers:
@@ -2517,6 +2520,9 @@ importers:
   components/encharge:
     specifiers: {}
 
+  components/encodian:
+    specifiers: {}
+
   components/endorsal:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2900,7 +2906,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/forcemanager:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/form_io:
     specifiers: {}
@@ -4641,6 +4650,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/llama_ai:
+    specifiers: {}
+
   components/lmnt:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5808,7 +5820,10 @@ importers:
       qs: 6.11.2
 
   components/overledger:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.5.1
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/overloop:
     specifiers:
@@ -6787,6 +6802,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/reishost:
+    specifiers: {}
+
   components/relevance_ai:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7139,6 +7157,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/sare:
+    specifiers: {}
+
   components/satismeter:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7265,6 +7286,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sellix:
+    specifiers: {}
+
+  components/sellsy:
     specifiers: {}
 
   components/semaphore:
