@@ -7,7 +7,7 @@ export default {
   propDefinitions: {
     applicationId: {
       type: "string",
-      label: "Application Id",
+      label: "Application ID",
       description: "Required for application use in a send request for outbound traffic. Returned in notification events. For more details, [see the Infobip documentation](https://www.infobip.com/docs/cpaas-x/application-and-entity-management).",
       async options({ page }) {
         const { results } = await this.listApplications({
