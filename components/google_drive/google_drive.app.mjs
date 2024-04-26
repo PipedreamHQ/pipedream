@@ -816,8 +816,6 @@ export default {
       };
     },
     async activateFileHook(channelID, url, fileId) {
-      channelID = channelID || uuid();
-
       const {
         expiration,
         resourceId,
@@ -830,7 +828,6 @@ export default {
       return {
         expiration,
         resourceId,
-        channelID,
       };
     },
     async deactivateHook(channelID, resourceId) {
@@ -905,12 +902,17 @@ export default {
         newChannelID,
       };
     },
-    async renewFileSubscription(subscription, url, channelID, fileId, nextRunTimestamp) {
+    async renewFileSubscription(
+      subscription,
+      url,
+      channelID,
+      newChannelID,
+      fileId,
+      nextRunTimestamp,
+    ) {
       if (nextRunTimestamp && subscription?.expiration < nextRunTimestamp) {
         return subscription;
       }
-
-      const newChannelID = channelID || uuid();
 
       if (subscription?.resourceId) {
         console.log(
@@ -925,13 +927,12 @@ export default {
         expiration,
         resourceId,
       } = await this.watchFile(
-        channelID,
+        newChannelID,
         url,
         fileId,
       );
 
       return {
-        newChannelID,
         expiration,
         resourceId,
       };

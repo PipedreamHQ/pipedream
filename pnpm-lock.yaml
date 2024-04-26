@@ -1109,7 +1109,10 @@ importers:
       crypto-js: 4.2.0
 
   components/bytenite:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/cabinpanda:
     specifiers: {}
@@ -3536,7 +3539,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_vertex_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/google_workspace:
     specifiers:
@@ -8407,6 +8413,12 @@ importers:
 
   components/telesign:
     specifiers: {}
+
+  components/telnyx:
+    specifiers:
+      '@pipedream/platform': ^1.6.0
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/temi:
     specifiers:
