@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import googleDrive from "../google_drive.app.mjs";
 import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../constants.mjs";
 import { getListFilesOpts } from "../common/utils.mjs";
+import commonDedupeChanges from "./common-dedupe-changes.mjs";
 
 export default {
   props: {
@@ -67,6 +68,7 @@ export default {
     },
   },
   methods: {
+    ...commonDedupeChanges.methods,
     _getSubscription() {
       return this.db.get("subscription");
     },

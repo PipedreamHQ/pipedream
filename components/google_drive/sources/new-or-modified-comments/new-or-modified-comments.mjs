@@ -31,6 +31,7 @@ export default {
       const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files",
+        pageSize: 5,
       });
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);

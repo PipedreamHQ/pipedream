@@ -15,6 +15,7 @@ import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
 } from "../../constants.mjs";
+import commonDedupeChanges from "../common-dedupe-changes.mjs";
 
 /**
  * This source uses the Google Drive API's
@@ -25,7 +26,7 @@ export default {
   ...common,
   key: "google_drive-changes-to-specific-files-shared-drive",
   name: "Changes to Specific Files (Shared Drive)",
-  description: "Watches for changes to specific files in a shared drive, emitting an event any time a change is made to one of those files",
+  description: "Watches for changes to specific files in a shared drive, emitting an event when a change is made to one of those files",
   version: "0.1.5",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
@@ -42,6 +43,7 @@ export default {
         return this.googleDrive.listFilesOptions(nextPageToken, this.getListFilesOpts());
       },
     },
+    ...commonDedupeChanges.props,
   },
   hooks: {
     async deploy() {
@@ -52,6 +54,7 @@ export default {
       const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files",
+        pageSize: 5,
       });
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
@@ -117,7 +120,9 @@ export default {
       console.log(`Processing ${changedFiles.length} changed files`);
       console.log(`Changed files: ${JSON.stringify(changedFiles, null, 2)}!!!`);
       console.log(`Files: ${this.files}!!!`);
-      for (const file of changedFiles) {
+
+      const filteredFiles = this.checkMinimumInterval(changedFiles);
+      for (const file of filteredFiles) {
         if (!this.isFileRelevant(file)) {
           console.log(`Skipping event for irrelevant file ${file.id}`);
           continue;

@@ -15,6 +15,7 @@ import {
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
 } from "../../constants.mjs";
+import commonDedupeChanges from "../common-dedupe-changes.mjs";
 
 const { googleDrive } = common.props;
 
@@ -60,6 +61,7 @@ export default {
         "watchForPropertiesChanges",
       ],
     },
+    ...commonDedupeChanges.props,
   },
   hooks: {
     async deploy() {
@@ -70,6 +72,7 @@ export default {
       const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files",
+        pageSize: 5,
       });
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
@@ -129,7 +132,9 @@ export default {
     async processChanges(changedFiles, headers) {
       const changes = await this.getChanges(headers);
 
-      for (const file of changedFiles) {
+      const filteredFiles = this.checkMinimumInterval(changedFiles);
+
+      for (const file of filteredFiles) {
         file.parents = (await this.googleDrive.getFile(file.id, {
           fields: "parents",
         })).parents;
