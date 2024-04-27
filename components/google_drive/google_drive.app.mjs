@@ -16,7 +16,7 @@ import {
   GOOGLE_DRIVE_ROLE_READER,
   GOOGLE_DRIVE_UPLOAD_TYPES,
   GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
-} from "./constants.mjs";
+} from "./common/constants.mjs";
 import googleMimeTypes from "./actions/google-mime-types.mjs";
 
 import {

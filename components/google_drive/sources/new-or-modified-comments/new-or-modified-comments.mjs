@@ -9,7 +9,7 @@
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
 import common from "../common-webhook.mjs";
-import { GOOGLE_DRIVE_NOTIFICATION_CHANGE } from "../../constants.mjs";
+import { GOOGLE_DRIVE_NOTIFICATION_CHANGE } from "../../common/constants.mjs";
 
 export default {
   ...common,

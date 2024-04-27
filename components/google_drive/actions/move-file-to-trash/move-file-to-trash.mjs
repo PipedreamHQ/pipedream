@@ -1,5 +1,5 @@
 import googleDrive from "../../google_drive.app.mjs";
-import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../constants.mjs";
+import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
 
 export default {
   key: "google_drive-move-file-to-trash",

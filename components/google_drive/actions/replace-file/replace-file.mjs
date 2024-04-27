@@ -9,7 +9,7 @@ import {
 import {
   GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA,
   GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 
 export default {
   key: "google_drive-replace-file",

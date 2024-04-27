@@ -4,7 +4,7 @@ import {
   getFileStream,
   omitEmptyStringValues,
 } from "../../common/utils.mjs";
-import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../constants.mjs";
+import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../common/constants.mjs";
 
 export default {
   key: "google_drive-upload-file",

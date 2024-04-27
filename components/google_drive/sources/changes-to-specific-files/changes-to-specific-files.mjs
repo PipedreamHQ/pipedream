@@ -4,7 +4,7 @@ import includes from "lodash/includes.js";
 import { v4 as uuid } from "uuid";
 
 import changesToSpecificFiles from "../changes-to-specific-files-shared-drive/changes-to-specific-files-shared-drive.mjs";
-import { MY_DRIVE_VALUE } from "../../constants.mjs";
+import { MY_DRIVE_VALUE } from "../../common/constants.mjs";
 
 /**
  * This source uses the Google Drive API's
