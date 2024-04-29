@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.getSubscriprions({
+    const response = await this.app.getSubscriptions({
       $,
       params: {
         product_id: this.productId,
