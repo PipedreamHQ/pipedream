@@ -63,7 +63,7 @@ export default {
      * for starting and stopping watch notifications tied to the desired file.
      */
     async activate() {
-      const channelID = this._getChannelID() || uuid();
+      const channelID = uuid();
 
       const {
         startPageToken,

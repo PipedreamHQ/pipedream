@@ -4,7 +4,7 @@ export default {
   key: "beebole_app-update-company",
   name: "Update a Company",
   description: "Updates a company's details in Beebole. [See the documentation](https://beebole.com/help/api/#update-a-company)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
