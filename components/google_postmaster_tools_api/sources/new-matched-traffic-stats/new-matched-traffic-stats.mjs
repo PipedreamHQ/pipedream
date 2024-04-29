@@ -26,6 +26,11 @@ export default {
         "domain",
       ],
     },
+    filterInfo: {
+      type: "alert",
+      alertType: "info",
+      content: "By default, events will be emitted when matching **any** of the configured filters. If you want **all** configured filters to be required instead, you can use the `Match All Filters` prop below.",
+    },
     matchAllFilters: {
       propDefinition: [
         googlePostmasterToolsApi,

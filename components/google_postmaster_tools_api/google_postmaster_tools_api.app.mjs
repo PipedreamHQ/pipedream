@@ -31,9 +31,9 @@ export default {
     matchAllFilters: {
       type: "boolean",
       label: "Match All Filters",
-      description: "By default, **all** set criteria must be met to emit an event. If this is set to `false`, events will be emitted if they match ***any*** of the filters set.",
+      description: "If `true`, events will only be emitted if they match **all** of the selected criteria. The default behavior is matching any of them.",
       optional: true,
-      default: true,
+      default: false,
     },
     ipReputation: {
       type: "string[]",
