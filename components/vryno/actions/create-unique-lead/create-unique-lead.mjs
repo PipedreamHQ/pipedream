@@ -67,7 +67,6 @@ export default {
       description: "Number of employees at the lead company.",
       optional: true,
     },
-
     billingAddress: {
       type: "string",
       label: "Billing Address",
@@ -159,8 +158,6 @@ export default {
         }`,
       },
     });
-
-    console.log("duplicateCheck: ", duplicateCheck);
 
     if (duplicateCheck.data.fetchLead.data) {
       $.export("$summary", "A lead with the same email and phone number already exists.");
