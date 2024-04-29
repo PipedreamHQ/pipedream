@@ -5,7 +5,7 @@ export default {
   key: "zixflow-update-activity",
   name: "Update Activity",
   description: "Updates an existing activity or task in Zixflow. [See the documentation](https://docs.zixflow.com/api-reference/activity-list/edit)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
