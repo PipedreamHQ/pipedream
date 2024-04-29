@@ -10,11 +10,27 @@ export default {
     app,
   },
   async run({ $ }) {
-    const response = await this.app.getActivities({
-      $,
-    });
+    let results = [];
+    let stop = false;
 
-    $.export("$summary", `Successfully retrieved ${response.data.length} activities`);
-    return response;
+    while (!stop) {
+      const {
+        count, data,
+      } = await this.app.getActivities({
+        $,
+        params: {
+          limit: 100,
+          offset: results.length,
+        },
+      });
+
+      results = results.concat(data);
+
+      stop = count <= results.length;
+    }
+
+    $.export("$summary", `Successfully retrieved ${results.length} activities`);
+
+    return results;
   },
 };

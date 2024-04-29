@@ -44,12 +44,14 @@ export default {
         app,
         "statusId",
       ],
+      optional: true,
     },
     associatedId: {
       propDefinition: [
         app,
         "associatedId",
       ],
+      optional: true,
     },
   },
   async additionalProps() {

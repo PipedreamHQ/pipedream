@@ -5,7 +5,7 @@ export default {
   key: "zixflow-update-activity",
   name: "Update Activity",
   description: "Updates an existing activity or task in Zixflow. [See the documentation](https://docs.zixflow.com/api-reference/activity-list/edit)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     app,
@@ -21,41 +21,53 @@ export default {
         app,
         "iconType",
       ],
+      optional: true,
+      reloadProps: true,
     },
     iconValue: {
-      type: "string",
-      label: "Icon Value",
-      description: "Defines the specific value of the icon based on the iconType",
+      propDefinition: [
+        app,
+        "iconValue",
+        (c) => ({
+          iconType: c.iconType,
+        }),
+      ],
+      optional: true,
     },
     scheduleAt: {
       propDefinition: [
         app,
         "scheduleAt",
       ],
+      optional: true,
     },
     name: {
       propDefinition: [
         app,
         "name",
       ],
+      optional: true,
     },
     description: {
       propDefinition: [
         app,
         "description",
       ],
+      optional: true,
     },
     statusId: {
       propDefinition: [
         app,
         "statusId",
       ],
+      optional: true,
     },
     associatedId: {
       propDefinition: [
         app,
         "associatedId",
       ],
+      optional: true,
     },
   },
   async additionalProps() {

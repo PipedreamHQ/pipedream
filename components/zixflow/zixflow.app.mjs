@@ -48,13 +48,24 @@ export default {
     statusId: {
       type: "string",
       label: "Status ID",
-      description: "The unique identifier for the status attribute",
+      description: "The ID of the status attribute indicating the current status of the activity",
     },
     iconType: {
       type: "string",
       label: "Icon Type",
       description: "Specifies the type of icon associated with the activity",
       options: constants.ICON_TYPES,
+    },
+    iconValue: {
+      type: "string",
+      label: "Icon Value",
+      description: "Defines the specific value of the icon based on the iconType",
+      async options({ iconType }) {
+        if (iconType === "interaction") return constants.INTERACTION_TYPES;
+        if (iconType === "messaging_app") return constants.INTERACTION_TYPES;
+
+        return [];
+      },
     },
     name: {
       type: "string",
