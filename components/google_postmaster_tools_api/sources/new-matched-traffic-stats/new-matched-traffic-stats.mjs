@@ -26,6 +26,12 @@ export default {
         "domain",
       ],
     },
+    matchAllFilters: {
+      propDefinition: [
+        googlePostmasterToolsApi,
+        "matchAllFilters",
+      ],
+    },
     ipReputation: {
       propDefinition: [
         googlePostmasterToolsApi,
@@ -215,6 +221,7 @@ export default {
       for (let filter of filters) {
         const result = filter(item);
         if (result === true) {
+          if (this.matchAllFilters === false) return true;
           hasMatch = true;
         } else if (result === false) {
           return false;

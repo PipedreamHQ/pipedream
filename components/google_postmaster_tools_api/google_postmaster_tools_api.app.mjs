@@ -28,6 +28,13 @@ export default {
         };
       },
     },
+    matchAllFilters: {
+      type: "boolean",
+      label: "Match All Filters",
+      description: "By default, **all** set criteria must be met to emit an event. If this is set to `false`, events will be emitted if they match ***any*** of the filters set.",
+      optional: true,
+      default: true,
+    },
     ipReputation: {
       type: "string[]",
       label: "IP Reputation",
