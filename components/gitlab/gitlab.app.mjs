@@ -125,7 +125,7 @@ export default {
             page: page + 1,
           },
         });
-        return response.data.map((label) => label.name);
+        return response?.map?.((label) => label.name);
       },
     },
     assignee: {

@@ -24,6 +24,7 @@ export default {
         }),
       ],
       label: "Parent ID",
+      optional: true,
     },
     title: {
       propDefinition: [
