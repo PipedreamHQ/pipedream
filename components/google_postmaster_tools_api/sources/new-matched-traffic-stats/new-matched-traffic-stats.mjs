@@ -7,7 +7,7 @@ export default {
   name: "New Matched Traffic Stats",
   description:
     "Emits a new event when traffic stats match certain criteria. [See the documentation](https://developers.google.com/gmail/postmaster/reference/rest)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   sampleEmit,
