@@ -31,16 +31,17 @@ export default {
       // Assume subscription & channelID may all be undefined at
       // this point Handle their absence appropriately.
       const subscription = this._getSubscription();
-      const channelID = this._getChannelID() || uuid();
+      const channelID = this._getChannelID();
+      const newChannelID = uuid();
 
       const {
         expiration,
         resourceId,
-        newChannelID,
       } =  await this.googleSheets.renewFileSubscription(
         subscription,
         this.http.endpoint,
         channelID,
+        newChannelID,
         this.getSheetId(),
       );
 

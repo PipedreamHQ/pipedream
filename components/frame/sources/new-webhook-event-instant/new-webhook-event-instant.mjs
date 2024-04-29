@@ -1,5 +1,6 @@
 import common from "../common/common.mjs";
 import { WEBHOOK_EVENT_OPTIONS } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -7,8 +8,9 @@ export default {
   name: "New Webhook Event (Instant)",
   description:
     "Emit new event when a new project is created. [See the documentation](https://developer.frame.io/api/reference/operation/createWebhookForTeam/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
+  sampleEmit,
   props: {
     ...common.props,
     eventTypes: {

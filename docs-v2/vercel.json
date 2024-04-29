@@ -1,47 +1,15 @@
 {
   "rewrites": [
     {
-      "source": "/docs/v2",
-      "destination": "/"
-    },
-    {
-      "source": "/docs/v2/(.*)",
-      "destination": "/$1"
-    },
-    {
-      "source": "/docs/(.*)",
-      "destination": "/$1"
-    },
-    {
-      "source": "/docs-v2/(.*)",
-      "destination": "/$1"
-    },
-    {
-      "source": "/docs/assets/(.*)",
-      "destination": "/assets/$1"
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/docs/"
-    },
-    {
-      "source": "/docs-v2",
-      "destination": "/docs/"
-    },
-    {
-      "source": "/docs-v2/(.*)",
-      "destination": "/docs/$1"
-    },
-    {
-      "source": "/docs/v2",
+      "source": "/docs/v3",
       "destination": "/docs"
     },
     {
-      "source": "/docs/v2/(.*)",
+      "source": "/docs/v3/(.*)",
       "destination": "/docs/$1"
-    },
+    }
+  ],
+  "redirects": [
     {
       "source": "/docs/notebook/actions/",
       "destination": "/workflows/steps/actions/"

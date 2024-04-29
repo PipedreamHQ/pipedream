@@ -22,6 +22,9 @@ export default {
     },
   },
   methods: {
+    async getResourceData() {
+      return undefined;
+    },
     getSummary() {
       return "New event";
     },
@@ -56,8 +59,15 @@ export default {
   async run({ body }) {
     if (body) {
       const ts = Date.now();
-      this.$emit(body, {
-        id: ts,
+      const id = body.resource.id;
+      const data = await this.getResourceData(id);
+      this.$emit({
+        ...body,
+        ...(data && {
+          data,
+        }),
+      }, {
+        id: `${id}_${ts}`,
         summary: this.getSummary(body),
         ts,
       });
