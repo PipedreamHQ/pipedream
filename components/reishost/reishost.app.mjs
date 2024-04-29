@@ -11,41 +11,30 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://pterodactyl.file.properties/api/client";
+      return `${this.$auth.endpoint_structure}/api`;
     },
-    async sendCommand({ command }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/servers/1a7ce997/command",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
-        data: {
-          command,
-        },
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    async _makeRequest({
+      $ = this, path = "/", ...opts
+    }) {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, data, ...otherOpts
-      } = opts;
-      return axios($, {
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
-        data,
-        ...otherOpts,
+    sendCommand({
+      serverId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/client/servers/${serverId}/command`,
+        ...opts,
       });
     },
   },
