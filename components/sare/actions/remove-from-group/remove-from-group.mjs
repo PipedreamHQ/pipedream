@@ -1,11 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import sare from "../../sare.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "sare-remove-from-group",
-  name: "Remove Email Leads from Groups",
-  description: "Remove email leads from specified groups in SARE. [See the documentation](https://dev.sare.pl/rest-api/other/index.html)",
-  version: "0.0.${ts}",
+  name: "Remove Email from Groups",
+  description: "Remove email from specified groups in SARE. [See the documentation](https://dev.sare.pl/rest-api/other/index.html#post-/group/remove_emails)",
+  version: "0.0.1",
   type: "action",
   props: {
     sare,
@@ -23,11 +23,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.sare.removeEmailLeadsFromGroups({
-      emails: this.emails,
-      groups: this.groups,
+    const response = await this.sare.removeEmailFromGroups({
+      data: {
+        emails: this.emails && parseObject(this.emails),
+        groups: this.groups && parseObject(this.groups),
+      },
     });
-    $.export("$summary", "Successfully removed email leads from groups");
+    $.export("$summary", "Successfully removed emails from groups");
     return response;
   },
 };

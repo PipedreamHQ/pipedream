@@ -7,29 +7,33 @@ export default {
     email: {
       type: "string",
       label: "Email",
-      description: "The email address of the lead.",
+      description: "The email address of the subscriber.",
     },
     gsm: {
       type: "string",
       label: "GSM",
-      description: "The GSM number of the lead.",
+      description: "The GSM number of the subscriber.",
       optional: true,
-    },
-    group: {
-      type: "string",
-      label: "Group",
-      description: "The group to assign the email lead to.",
-      optional: true,
-    },
-    emails: {
-      type: "string[]",
-      label: "Emails",
-      description: "The email addresses of the leads to remove from groups.",
     },
     groups: {
       type: "string[]",
       label: "Groups",
-      description: "The groups to remove the email leads from.",
+      description: "The groups to remove the email subscribers from.",
+      async options() {
+        const { response } = await this.listGroups();
+
+        return response.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    emails: {
+      type: "string[]",
+      label: "Emails",
+      description: "The email addresses of the subscribers to remove from groups.",
     },
     subject: {
       type: "string",
@@ -41,67 +45,78 @@ export default {
       label: "From",
       description: "The sender email address.",
     },
+    newsletter: {
+      type: "integer",
+      label: "Newsletter",
+      description: "Newsletter ID in the system.",
+      async options({
+        page, newsletterType,
+      }) {
+        const { response: { data } } = await this.listNewsletters({
+          newsletterType,
+          page,
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
-      return "https://dev.sare.pl/rest-api";
+      return  `https://s.enewsletter.pl/api/v1/${this.$auth.uid}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Content-Type": "application/json",
+        "ApiKey": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
       });
     },
-    async addEmailLead({
-      email, gsm, group,
-    }) {
+    addEmail(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/addEmailLead",
-        data: {
-          email,
-          gsm,
-          group,
-        },
+        path: "/email/add",
+        ...opts,
       });
     },
-    async removeEmailLeadsFromGroups({
-      emails, groups,
-    }) {
+    listGroups(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/removeEmailLeadsFromGroups",
-        data: {
-          emails,
-          groups,
-        },
+        path: "/group/list",
+        ...opts,
       });
     },
-    async sendTransactionalEmail({
-      email, subject, from, ...otherProps
+    listNewsletters({
+      newsletterType, page,
     }) {
       return this._makeRequest({
+        path: `/newsletter/list/${newsletterType}/${page}`,
+      });
+    },
+    removeEmailFromGroups(opts = {}) {
+      return this._makeRequest({
         method: "POST",
-        path: "/sendTransactionalEmail",
-        data: {
-          email,
-          subject,
-          from,
-          ...otherProps,
-        },
+        path: "/group/remove_emails",
+        ...opts,
+      });
+    },
+    sendTransactionalEmail(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/send/mail/transactional",
+        ...opts,
       });
     },
   },
