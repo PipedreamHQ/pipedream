@@ -71,12 +71,12 @@ For this example, name the workflow and click **Create Workflow** to use the def
 
 Build a simple workflow with an HTTP trigger and Node code step. 
 
-![github](./images/basic_workflow.png)
+![github](./images/github-sync-v3/sample-workflow.png)
 
 
 At this point, your workflow is saved, but changes have not been commited to GitHub. To do that, click on the dropdown menu and select **Commit**. 
 
-![github](./images/commit_changes_1.png)
+![github](./images/github-sync-v3/commit-changes.png)
 
 You may add an option commit message and complete the commit.
 
@@ -84,13 +84,13 @@ You may add an option commit message and complete the commit.
 
 Next, make an edit to the code (e.g., add a comment). Commit your changes again. Notice that the commit diff highlights the specific changes that will be committed.
 
-![github](./images/commit_diff_2.png)
+![github](./images/github-sync-v3/commit-changes-2.png)
 
 ### View your project on GitHub
 
 Open the Git actions menu and select **View branch on GitHub**. 
 
-![github](./images/view_branch_on_github_1.png)
+![github](./images/github-sync-v3/view-branch.png)
 
 You can explore the files created, including the YAML file with the workflow definition and the javascript file with the code for the Node step. 
 
@@ -104,11 +104,11 @@ Optionally navigate to the file with the code step and make an edit to the file 
 
 Merge to production to deploy the workflow to Pipedream. 
 
-![github](./images/merge_to_production_1.png)
+![github](./images/github-sync-v3/merge-to-prod.png)
 
 Pipedream will show you the full diff of all commited changes and the current state of Production. When your changes are merged, Pipedream will route you to the `production` branch for the project where you can view and inspect live, running workflows and events.
 
-![github](./images/merge_to_production_2.png)
+![github](./images/github-sync-v3/commit-diff.png)
 
 NOTE: When you merge, changes for all resources in the project will be merged. That means one or more workflows may be updated, enabled, disabled, etc.
 
@@ -120,11 +120,11 @@ To edit a previously merged branch, you may create a new branch or click **Edit*
 
 Open the workflow in Pipedream's editor and add an HTTP request action to the end of the workflow. Configure the action to `GET` the URL `https://example.com`. 
 
-![github](./images/add_action.png)
+![github](./images/github-sync-v3/merge-to-prod-2.png)
 
 This time, we'll merge directly to production without commiting separately. Click **Merge to Production** to view the diff, commit and merge.  
 
-![github](./images/action_diff.png)
+![github](./images/github-sync-v3/commit-diff-2.png)
 
 You may also view the repo on GitHub to see how the action configuration is represented in the YAML of the workflow definition. Try other actions, including actions that use connected accounts and explore how they're represented in the GitHub code.
 
