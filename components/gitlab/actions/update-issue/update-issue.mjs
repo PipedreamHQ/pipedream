@@ -75,14 +75,17 @@ export default {
     },
   },
   async run({ $ }) {
+    const labels = Array.isArray(this.labels)
+      ? this.labels.join()
+      : this.labels;
     const data = lodash.pickBy({
       title: this.title,
       description: this.description,
       assignee_ids: this.assignee_ids,
       state_event: this.stateEvent,
       discussion_locked: this.discussionLocked,
+      labels,
     });
-    data.labels = data.labels?.join();
     const response = await this.gitlab.editIssue(this.projectId, this.issueIid, {
       data,
     });
