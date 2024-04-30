@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/timetonic",
+  "version": "0.0.1",
+  "description": "Pipedream TimeTonic Components",
+  "main": "timetonic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "timetonic"
+  ],
+  "homepage": "https://pipedream.com/apps/timetonic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
