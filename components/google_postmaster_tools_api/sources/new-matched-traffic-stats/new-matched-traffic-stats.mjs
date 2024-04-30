@@ -226,9 +226,9 @@ export default {
       for (let filter of filters) {
         const result = filter(item);
         if (result === true) {
-          if (this.matchAllFilters === false) return true;
+          if (!this.matchAllFilters) return true;
           hasMatch = true;
-        } else if (result === false) {
+        } else if (result === false && this.matchAllFilters) {
           return false;
         }
       }
