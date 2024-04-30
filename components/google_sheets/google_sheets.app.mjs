@@ -3,7 +3,7 @@ import sheets from "@googleapis/sheets";
 import googleDrive from "../google_drive/google_drive.app.mjs";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
-} from "./constants.mjs";
+} from "./common/constants.mjs";
 import isArray from "lodash/isArray.js";
 import get from "lodash/get.js";
 import isString from "lodash/isString.js";
