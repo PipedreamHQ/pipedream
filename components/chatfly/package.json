@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chatfly",
+  "version": "0.0.1",
+  "description": "Pipedream ChatFly Components",
+  "main": "chatfly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatfly"
+  ],
+  "homepage": "https://pipedream.com/apps/chatfly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
