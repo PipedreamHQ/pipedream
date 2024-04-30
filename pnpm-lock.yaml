@@ -6207,6 +6207,9 @@ importers:
   components/plasmic:
     specifiers: {}
 
+  components/platerecognizer:
+    specifiers: {}
+
   components/platform_ly:
     specifiers: {}
 
@@ -7641,6 +7644,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/sigma:
+    specifiers: {}
+
   components/signable:
     specifiers: {}
 
@@ -8518,6 +8524,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/thoughtly:
+    specifiers: {}
 
   components/threads:
     specifiers:
