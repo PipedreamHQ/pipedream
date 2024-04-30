@@ -6207,6 +6207,9 @@ importers:
   components/plasmic:
     specifiers: {}
 
+  components/platerecognizer:
+    specifiers: {}
+
   components/platform_ly:
     specifiers: {}
 
