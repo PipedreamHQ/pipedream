@@ -95,5 +95,12 @@ export default {
         path: `/messages/${args.params.id}`,
       });
     },
+    async sendGroupMessage(args) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/messages/group_mms",
+        ...args,
+      });
+    },
   },
 };
