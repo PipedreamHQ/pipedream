@@ -8809,6 +8809,9 @@ importers:
   components/twelve_data:
     specifiers: {}
 
+  components/twenty:
+    specifiers: {}
+
   components/twilio:
     specifiers:
       '@pipedream/platform': ^1.2.0
