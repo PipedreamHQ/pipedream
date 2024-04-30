@@ -3,7 +3,7 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-clear-cell",
   name: "Clear Cell",
-  description: "Delete the content of a specific cell in a spreadsheet",
+  description: "Delete the content of a specific cell in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/clear)",
   version: "0.1.4",
   type: "action",
   props: {

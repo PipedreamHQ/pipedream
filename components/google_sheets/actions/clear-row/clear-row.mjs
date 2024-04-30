@@ -3,7 +3,7 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-clear-row",
   name: "Clear Row",
-  description: "Delete the content of a row in a spreadsheet. Deleted rows will appear as blank rows.",
+  description: "Delete the content of a row in a spreadsheet. Deleted rows will appear as blank rows. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/clear)",
   version: "0.1.3",
   type: "action",
   props: {

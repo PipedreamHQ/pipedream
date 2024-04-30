@@ -3,7 +3,7 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
-  description: "Add multiple rows of data to a Google Sheet",
+  description: "Add multiple rows of data to a Google Sheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
   version: "0.2.3",
   type: "action",
   props: {

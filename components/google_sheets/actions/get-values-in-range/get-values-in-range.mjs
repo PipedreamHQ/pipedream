@@ -3,7 +3,7 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-get-values-in-range",
   name: "Get Values in Range",
-  description: "Get values from a range of cells using A1 notation.",
+  description: "Get values from a range of cells using A1 notation. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
   version: "0.1.3",
   type: "action",
   props: {

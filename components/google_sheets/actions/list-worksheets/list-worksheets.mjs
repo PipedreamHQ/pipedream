@@ -3,7 +3,7 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-list-worksheets",
   name: "List Worksheets",
-  description: "Get a list of all worksheets in a spreadsheet",
+  description: "Get a list of all worksheets in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/get)",
   version: "0.1.3",
   type: "action",
   props: {

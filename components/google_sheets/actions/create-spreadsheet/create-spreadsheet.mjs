@@ -3,7 +3,7 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-create-spreadsheet",
   name: "Create Spreadsheet",
-  description: "Create a blank spreadsheet or duplicate an existing spreadsheet",
+  description: "Create a blank spreadsheet or duplicate an existing spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/create)",
   version: "0.1.4",
   type: "action",
   props: {

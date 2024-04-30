@@ -3,7 +3,7 @@ import sheets from "@googleapis/sheets";
 import googleDrive from "../google_drive/google_drive.app.mjs";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
-} from "./constants.mjs";
+} from "./common/constants.mjs";
 import isArray from "lodash/isArray.js";
 import get from "lodash/get.js";
 import isString from "lodash/isString.js";
@@ -22,8 +22,7 @@ export default {
     cells: {
       type: "string[]",
       label: "Cells / Column Values",
-      description:
-        "Enter individual cell values or a custom expression to pass an array with each element representing a cell/column value.",
+      description: "Enter individual cell values or a custom expression to pass an array with each element representing a cell/column value.",
     },
     range: {
       type: "string",
@@ -43,8 +42,7 @@ export default {
     rows: {
       type: "string",
       label: "Row Values",
-      description:
-        "Provide an array of arrays. Each nested array should represent a row, with each element of the nested array representing a cell/column value (e.g., passing `[[\"Foo\",1,2],[\"Bar\",3,4]]` will insert two rows of data with three columns each). The most common pattern is to reference an array of arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of arrays.",
+      description: "Provide an array of arrays. Each nested array should represent a row, with each element of the nested array representing a cell/column value (e.g., passing `[[\"Foo\",1,2],[\"Bar\",3,4]]` will insert two rows of data with three columns each). The most common pattern is to reference an array of arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of arrays.",
     },
     sheetID: {
       type: "string",

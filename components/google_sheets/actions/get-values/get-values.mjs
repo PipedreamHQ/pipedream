@@ -3,7 +3,7 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-get-values",
   name: "Get Values",
-  description: "Get all values from a sheet.",
+  description: "Get all values from a sheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
   version: "0.1.3",
   type: "action",
   props: {
