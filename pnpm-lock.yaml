@@ -7648,6 +7648,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/sigma:
+    specifiers: {}
+
   components/signable:
     specifiers: {}
 
