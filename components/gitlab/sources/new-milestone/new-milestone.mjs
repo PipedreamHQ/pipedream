@@ -24,23 +24,9 @@ export default {
       ],
     },
   },
-  hooks: {
-    async activate() {
-      const milestones = await this.gitlab.listMilestones(this.projectId, {
-        params: {
-          max: 1,
-        },
-      });
-      if (milestones.length > 0) {
-        const lastProcessedMilestoneTime = milestones[0].created_at;
-        this.db.set("lastProcessedMilestoneTime", lastProcessedMilestoneTime);
-        console.log(`Polling GitLab milestones created after ${lastProcessedMilestoneTime}`);
-      }
-    },
-  },
   methods: {
     _getLastProcessedMilestoneTime() {
-      return this.db.get("lastProcessedMilestoneTime") || 0;
+      return this.db.get("lastProcessedMilestoneTime");
     },
     _setLastProcessedMilestoneTime(lastProcessedMilestoneTime) {
       this.db.set("lastProcessedMilestoneTime", lastProcessedMilestoneTime);
@@ -59,7 +45,9 @@ export default {
     },
   },
   async run() {
-    let lastProcessedMilestoneTime = this._getLastProcessedMilestoneTime();
+    const isoDateNow = new Date().toISOString()
+      .slice(0, -5) + "Z";
+    let lastProcessedMilestoneTime = this._getLastProcessedMilestoneTime() ?? isoDateNow;
     const newOrUpdatedMilestones = await this.gitlab.listMilestones(this.projectId, {
       params: {
         updated_after: lastProcessedMilestoneTime,
@@ -72,6 +60,9 @@ export default {
 
     if (milestones.length === 0) {
       console.log("No new GitLab milestones detected");
+      if (!this._getLastProcessedMilestoneTime()) {
+        this._setLastProcessedMilestoneTime(lastProcessedMilestoneTime);
+      }
       return;
     }
 
