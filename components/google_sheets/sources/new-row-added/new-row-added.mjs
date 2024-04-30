@@ -1,5 +1,6 @@
 import httpBase from "../common/http-based/sheet.mjs";
 import newRowAdded from "../common/new-row-added.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...httpBase,
@@ -18,4 +19,5 @@ export default {
     ...httpBase.methods,
     ...newRowAdded.methods,
   },
+  sampleEmit,
 };

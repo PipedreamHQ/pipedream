@@ -1,5 +1,6 @@
 import httpBase from "../common/http-based/drive.mjs";
 import newWorksheet from "../common/new-worksheet.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...httpBase,
@@ -22,4 +23,5 @@ export default {
     ...httpBase.methods,
     ...newWorksheet.methods,
   },
+  sampleEmit,
 };
