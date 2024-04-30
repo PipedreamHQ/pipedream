@@ -90,5 +90,10 @@ export default {
         ...args,
       });
     },
+    async getMessage(args) {
+      return this.makeRequest({
+        path: `/messages/${args.params.id}`,
+      });
+    },
   },
 };
