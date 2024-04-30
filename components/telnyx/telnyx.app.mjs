@@ -10,7 +10,7 @@ export default {
       description: "The Id of the messaging profile to use for sending the message.",
       async options({ page }) {
         const params = {
-          "page[number]": page || 1,
+          "page[number]": page + 1,
         };
         const profiles = await this.getMessagingProfiles({
           params,
@@ -21,12 +21,25 @@ export default {
         }));
       },
     },
+    phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "The phone number to send the message from.",
+      async options({ page }) {
+        const params = {
+          "page[number]": page + 1,
+        };
+        const phoneNumbers = await this.getPhoneNumbers({
+          params,
+        });
+        return phoneNumbers.data.map((phoneNumber) => ({
+          label: phoneNumber.phone_number,
+          value: phoneNumber.phone_number,
+        }));
+      },
+    },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     getHeaders() {
       return {
         "Content-Type": "application/json",
@@ -69,6 +82,17 @@ export default {
       return this.makeRequest({
         path: "/messaging_profiles",
         ...args,
+      });
+    },
+    async getPhoneNumbers(args) {
+      return this.makeRequest({
+        path: "/phone_numbers",
+        ...args,
+      });
+    },
+    async getMessage(args) {
+      return this.makeRequest({
+        path: `/messages/${args.params.id}`,
       });
     },
   },
