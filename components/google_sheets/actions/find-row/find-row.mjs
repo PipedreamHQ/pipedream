@@ -46,6 +46,12 @@ export default {
       label: "Value",
       description: "The value to search for",
     },
+    exportRow: {
+      type: "boolean",
+      label: "Export Row",
+      description: "Set to `true` to return cell values for the entire row",
+      optional: true,
+    },
   },
   async run() {
     const sheets = this.googleSheets.sheets();
@@ -56,7 +62,7 @@ export default {
     })).data.values;
 
     const rows = [];
-    return colValues.reduce((values, value, index) => {
+    const result = colValues.reduce((values, value, index) => {
       if (value == this.value) {
         rows.push({
           value,
@@ -66,5 +72,26 @@ export default {
       }
       return rows;
     });
+
+    if (!this.exportRow) {
+      return result;
+    }
+
+    const indexes = result.map(({ index }) => index);
+    const { data: { values } } =
+      await sheets.spreadsheets.values.get({
+        spreadsheetId: this.sheetId,
+        range: `${this.worksheetId.label}`,
+      });
+    return values.reduce((acc, row, index) => {
+      if (indexes.includes(index)) {
+        return acc.concat({
+          row,
+          index,
+          googleSheetsRowNumber: index + 1,
+        });
+      }
+      return acc;
+    }, []);
   },
 };
