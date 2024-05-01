@@ -7260,6 +7260,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/scrapein_:
+    specifiers: {}
+
   components/scrapeninja:
     specifiers: {}
 
