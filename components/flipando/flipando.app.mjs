@@ -8,56 +8,66 @@ export default {
       type: "string",
       label: "App ID",
       description: "The ID of the app to execute",
-    },
-    taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "The ID of the task to fetch data",
+      async options() {
+        const { results } = await this.listApps();
+        return results?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.flipando.ai/v2";
+      return "https://flipando-backend.herokuapp.com/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
+        ...otherOpts,
       });
     },
-    async executeApp({
+    executeApp({
       appId, ...opts
     }) {
       return this._makeRequest({
-        ...opts,
         method: "POST",
-        path: `/applications/${appId}/tasks`,
+        path: `/v1/integrations/applications/${appId}/completion`,
+        ...opts,
       });
     },
-    async getTask({
+    getTask({
       taskId, ...opts
     }) {
       return this._makeRequest({
+        path: `/v2/integrations/tasks/${taskId}`,
         ...opts,
-        path: `/tasks/${taskId}`,
       });
     },
-    async listApps(opts = {}) {
+    getApp({
+      appId, ...opts
+    }) {
       return this._makeRequest({
+        path: `/v2/integrations/applications/${appId}`,
         ...opts,
-        path: "/applications",
+      });
+    },
+    listApps(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/integrations/applications",
+        ...opts,
       });
     },
   },
