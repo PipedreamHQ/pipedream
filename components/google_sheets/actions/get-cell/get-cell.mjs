@@ -23,14 +23,17 @@ export default {
         }),
       ],
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     cell: {
       propDefinition: [
@@ -42,9 +45,12 @@ export default {
   async run() {
     const sheets = this.googleSheets.sheets();
 
-    return (await sheets.spreadsheets.values.get({
+    const values = (await sheets.spreadsheets.values.get({
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.cell}:${this.cell}`,
+      range: `${this.worksheetId.label}!${this.cell}:${this.cell}`,
     })).data.values;
+    if (values?.length) {
+      return values[0][0];
+    }
   },
 };

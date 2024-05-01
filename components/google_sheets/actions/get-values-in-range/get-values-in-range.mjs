@@ -23,14 +23,17 @@ export default {
         }),
       ],
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     range: {
       propDefinition: [
@@ -44,7 +47,7 @@ export default {
 
     return (await sheets.spreadsheets.values.get({
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.range}`,
+      range: `${this.worksheetId.label}!${this.range}`,
     })).data.values;
   },
 };

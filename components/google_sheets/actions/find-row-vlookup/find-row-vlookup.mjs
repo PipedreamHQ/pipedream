@@ -23,14 +23,17 @@ export default {
         }),
       ],
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         app,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     range: {
       description: "The upper and lower values to consider for the search. Eg `A1:C5`",
@@ -54,7 +57,7 @@ export default {
     const {
       app,
       sheetId,
-      sheetName,
+      worksheetId,
       range,
       searchValue,
     } = this;
@@ -68,7 +71,7 @@ export default {
     const { data: { values } } =
       await sheets.spreadsheets.values.get({
         spreadsheetId: sheetId,
-        range: `${sheetName}!${validRange}`,
+        range: `${worksheetId.label}!${validRange}`,
       });
 
     return values.reduce((acc, row, index) => {

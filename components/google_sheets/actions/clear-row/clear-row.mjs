@@ -24,14 +24,17 @@ export default {
         }),
       ],
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     row: {
       propDefinition: [
@@ -43,7 +46,7 @@ export default {
   async run() {
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.row}:${this.row}`,
+      range: `${this.worksheetId.label}!${this.row}:${this.row}`,
     };
     return await this.googleSheets.clearSheetValues(request);
   },

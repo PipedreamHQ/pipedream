@@ -56,16 +56,6 @@ export default {
         return this.listSheetsOptions(driveId, nextPageToken);
       },
     },
-    sheetName: {
-      type: "string",
-      label: "Sheet Name",
-      description: "Your sheet name",
-      async options({ sheetId }) {
-        const { sheets } = await this.getSpreadsheet(sheetId);
-        return sheets.map((sheet) => sheet.properties.title);
-      },
-    },
-    // TODO: is this a duplicate of the prop above?
     worksheetIDs: {
       type: "string[]",
       label: "Worksheet(s)",
@@ -132,9 +122,13 @@ export default {
         endCoord,
       ] = range.split(":");
       const startCol = startCoord.replace(/\d/g, "");
-      const endCol = endCoord.replace(/\d/g, "");
+      const endCol = endCoord
+        ? endCoord.replace(/\d/g, "")
+        : startCol;
       const startRow = parseInt(startCoord.replace(/\D/g, ""), 10) - 1; // 0-based index
-      const endRow = parseInt(endCoord.replace(/\D/g, ""), 10);
+      const endRow = endCoord
+        ? parseInt(endCoord.replace(/\D/g, ""), 10)
+        : startRow;
 
       return {
         sheetName,

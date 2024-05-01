@@ -40,14 +40,17 @@ export default {
         }),
       ],
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     insert: {
       propDefinition: [
@@ -94,7 +97,7 @@ export default {
   async run({ $ }) {
     const {
       sheetId,
-      sheetName,
+      worksheetId,
       insert,
       column,
       value,
@@ -126,7 +129,7 @@ export default {
             keyValue, // A1
           ],
           [
-            this.googleSheets.buildMatchFormula("A1", sheetName, {
+            this.googleSheets.buildMatchFormula("A1", worksheetId.label, {
               column,
               searchType: 0,
             }), // A2
@@ -146,7 +149,7 @@ export default {
         // INSERT ROW
         const result = await this.googleSheets.addRowsToSheet({
           spreadsheetId: sheetId,
-          range: sheetName,
+          range: worksheetId.label,
           rows: [
             insert,
           ],
@@ -158,7 +161,7 @@ export default {
       // UPDATE ROW
       const updateParams = [
         sheetId,
-        sheetName,
+        worksheetId.label,
         matchedRow,
       ];
       const sanitizedUpdates = omitEmptyKey(updates);

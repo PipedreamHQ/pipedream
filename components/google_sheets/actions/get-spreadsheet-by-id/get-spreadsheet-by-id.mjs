@@ -22,7 +22,6 @@ export default {
           driveId: googleSheets.methods.getDriveId(c.drive),
         }),
       ],
-      optional: false,
     },
   },
   async run({ $ }) {

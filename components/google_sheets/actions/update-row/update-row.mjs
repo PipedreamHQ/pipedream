@@ -1,4 +1,5 @@
 import googleSheets from "../../google_sheets.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "google_sheets-update-row",
@@ -25,14 +26,17 @@ export default {
       ],
       description: "The spreadsheet containing the worksheet to update",
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     row: {
       propDefinition: [
@@ -52,17 +56,17 @@ export default {
 
     // validate input
     if (!cells || !cells.length) {
-      throw new Error("Please enter an array of elements in `Cells / Column Values`.");
+      throw new ConfigurationError("Please enter an array of elements in `Cells / Column Values`.");
     }
     if (!Array.isArray(cells)) {
-      throw new Error("Cell / Column data is not an array. Please enter an array of elements in `Cells / Column Values`.");
+      throw new ConfigurationError("Cell / Column data is not an array. Please enter an array of elements in `Cells / Column Values`.");
     }
     if (Array.isArray(cells[0])) {
-      throw new Error("Cell / Column data is a multi-dimensional array. A one-dimensional is expected.");
+      throw new ConfigurationError("Cell / Column data is a multi-dimensional array. A one-dimensional is expected.");
     }
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.row}:${this.row}`,
+      range: `${this.worksheetId.label}!${this.row}:${this.row}`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [

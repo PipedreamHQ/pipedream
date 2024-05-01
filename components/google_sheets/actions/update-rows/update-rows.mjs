@@ -26,14 +26,17 @@ export default {
       ],
       description: "The spreadsheet containing the worksheet to update",
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     range: {
       propDefinition: [
@@ -78,7 +81,7 @@ export default {
 
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.range}`,
+      range: `${this.worksheetId.label}!${this.range}`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: rows,

@@ -1,4 +1,5 @@
 import googleSheets from "../../google_sheets.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "google_sheets-add-multiple-rows",
@@ -23,14 +24,17 @@ export default {
         }),
       ],
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     rows: {
       propDefinition: [
@@ -64,12 +68,12 @@ export default {
     if (!inputValidated) {
       console.error("Data Submitted:");
       console.error(rows);
-      throw new Error("Rows data is not an array of arrays. Please enter an array of arrays in the `Rows` parameter above. If you're trying to send a single rows to Google Sheets, search for the action to add a single row to Sheets or try modifying the code for this step.");
+      throw new ConfigurationError("Rows data is not an array of arrays. Please enter an array of arrays in the `Rows` parameter above. If you're trying to send a single rows to Google Sheets, search for the action to add a single row to Sheets or try modifying the code for this step.");
     }
 
     const addRowsResponse = await this.googleSheets.addRowsToSheet({
       spreadsheetId: this.sheetId,
-      range: this.sheetName,
+      range: this.worksheetId.label,
       rows,
     });
 

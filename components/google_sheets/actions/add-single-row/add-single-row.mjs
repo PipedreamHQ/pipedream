@@ -23,35 +23,33 @@ export default {
           driveId: googleSheets.methods.getDriveId(c.drive),
         }),
       ],
-      description: "",
       withLabel: true,
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId?.value || c.sheetId,
         }),
       ],
-      description: "",
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     hasHeaders: {
-      type: "string",
+      type: "boolean",
       label: "Does the first row of the sheet have headers?",
-      description: "If the first row of your document has headers we'll retrieve them to make it easy to enter the value for each column.",
-      options: [
-        "Yes",
-        "No",
-      ],
+      description: "If the first row of your document has headers, we'll retrieve them to make it easy to enter the value for each column.",
       reloadProps: true,
     },
   },
   async additionalProps() {
     const sheetId = this.sheetId?.value || this.sheetId;
+    const worksheetName = this.worksheetId?.label;
     const props = {};
-    if (this.hasHeaders === "Yes") {
-      const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${this.sheetName}!1:1`);
+    if (this.hasHeaders) {
+      const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheetName}!1:1`);
       if (!values[0]?.length) {
         throw new ConfigurationError("Could not find a header row. Please either add headers and click \"Refresh fields\" or adjust the action configuration to continue.");
       }
@@ -62,7 +60,12 @@ export default {
           optional: true,
         };
       }
-    } else if (this.hasHeaders === "No") {
+      props.allColumns = {
+        type: "string",
+        hidden: true,
+        default: JSON.stringify(values),
+      };
+    } else {
       props.myColumnData = {
         type: "string[]",
         label: "Values",
@@ -73,11 +76,10 @@ export default {
   },
   async run({ $ }) {
     const sheetId = this.sheetId?.value || this.sheetId;
+    const worksheetName = this.worksheetId.label;
     let cells;
-    if (this.hasHeaders === "Yes") {
-      // TODO: If we could create a variable using this.allColumns in additionalProps, we dont need
-      // to call getSpreadsheetValues here again.
-      const { values: rows } = await this.googleSheets.getSpreadsheetValues(sheetId, `${this.sheetName}!1:1`);
+    if (this.hasHeaders) {
+      const rows = JSON.parse(this.allColumns);
       const [
         headers,
       ] = rows;
@@ -90,11 +92,11 @@ export default {
 
     // validate input
     if (!cells || !cells.length) {
-      throw new Error("Please enter an array of elements in `Cells / Column Values`.");
+      throw new ConfigurationError("Please enter an array of elements in `Cells / Column Values`.");
     } else if (!Array.isArray(cells)) {
-      throw new Error("Cell / Column data is not an array. Please enter an array of elements in `Cells / Column Values`.");
+      throw new ConfigurationError("Cell / Column data is not an array. Please enter an array of elements in `Cells / Column Values`.");
     } else if (Array.isArray(cells[0])) {
-      throw new Error("Cell / Column data is a multi-dimensional array. A one-dimensional is expected. If you're trying to send multiple rows to Google Sheets, search for the action to add multiple rows to Sheets.");
+      throw new ConfigurationError("Cell / Column data is a multi-dimensional array. A one-dimensional is expected. If you're trying to send multiple rows to Google Sheets, search for the action to add multiple rows to Sheets.");
     }
 
     const {
@@ -104,13 +106,13 @@ export default {
 
     const data = await this.googleSheets.addRowsToSheet({
       spreadsheetId: sheetId,
-      range: this.sheetName,
+      range: worksheetName,
       rows: [
         arr,
       ],
     });
 
-    let summary = `Added 1 row to [${this.sheetId?.label || this.sheetId} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${sheetId}).`;
+    let summary = `Added 1 row to [${this.sheetId?.label || sheetId} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${sheetId}).`;
     if (convertedIndexes.length > 0) {
       summary += " We detected something other than a string/number/boolean in at least one of the fields and automatically converted it to a string.";
     }
