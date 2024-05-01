@@ -2999,6 +2999,9 @@ importers:
   components/foxy:
     specifiers: {}
 
+  components/fractel:
+    specifiers: {}
+
   components/frame:
     specifiers:
       '@pipedream/platform': ^1.6.1
@@ -7754,6 +7757,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.4
 
+  components/skyciv:
+    specifiers: {}
+
   components/slack:
     specifiers:
       '@slack/web-api': ^5.15.0
@@ -9588,6 +9594,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/y_gy:
+    specifiers: {}
+
   components/yahoo_fantasy_sports:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -9737,6 +9746,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zip_archive_api:
+    specifiers: {}
 
   components/zixflow:
     specifiers: {}
