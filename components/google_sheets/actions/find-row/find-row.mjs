@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-find-row",
   name: "Find Row",
   description: "Find one or more rows by a column and value. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   props: {
     googleSheets,

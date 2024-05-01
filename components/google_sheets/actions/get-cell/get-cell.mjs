@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-get-cell",
   name: "Get Cell",
   description: "Fetch the contents of a specific cell in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     googleSheets,
