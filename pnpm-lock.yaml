@@ -839,6 +839,9 @@ importers:
   components/bigpicture_io:
     specifiers: {}
 
+  components/bilflo:
+    specifiers: {}
+
   components/bilionis:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1291,6 +1294,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/chatfly:
+    specifiers: {}
 
   components/chatfuel_dashboard_api_:
     specifiers: {}
@@ -1775,6 +1781,9 @@ importers:
     specifiers: {}
 
   components/covalent:
+    specifiers: {}
+
+  components/cradl_ai:
     specifiers: {}
 
   components/craftboxx:
@@ -2857,6 +2866,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       md5: 2.3.0
+
+  components/flipando:
+    specifiers: {}
 
   components/float:
     specifiers: {}
@@ -4036,6 +4048,12 @@ importers:
 
   components/infinity:
     specifiers: {}
+
+  components/infobip:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/infusionsoft:
     specifiers:
@@ -5345,6 +5363,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/navigatr:
+    specifiers: {}
+
   components/ncscale:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6011,6 +6032,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/perplexity:
+    specifiers: {}
+
   components/perry_github_test:
     specifiers: {}
 
@@ -6205,6 +6229,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/plasmic:
+    specifiers: {}
+
+  components/platerecognizer:
     specifiers: {}
 
   components/platform_ly:
@@ -6809,6 +6836,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/reishost:
+    specifiers: {}
+
+  components/relavate:
     specifiers: {}
 
   components/relevance_ai:
@@ -8522,6 +8552,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/thoughtly:
+    specifiers: {}
+
   components/threads:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -8590,6 +8623,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/timely_time_tracking:
+    specifiers: {}
+
+  components/timetonic:
     specifiers: {}
 
   components/timeular:
@@ -8783,6 +8819,9 @@ importers:
     specifiers: {}
 
   components/twelve_data:
+    specifiers: {}
+
+  components/twenty:
     specifiers: {}
 
   components/twilio:

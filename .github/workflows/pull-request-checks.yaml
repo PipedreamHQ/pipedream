@@ -92,6 +92,9 @@ jobs:
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'csv'
+      # ESLint only on changed files (not the same as the above super-linter)
+      - name: Lint changed files
+        run: npx eslint ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
       # NOTE: These steps are kept in this workflow to avoid re-rerunning the rest of the lint job
       # in the Components Checks workflow 
       - name: Check component keys
