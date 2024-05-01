@@ -1,5 +1,4 @@
 import foursquare from "../../foursquare.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "foursquare-create-check-in",
@@ -9,17 +8,28 @@ export default {
   type: "action",
   props: {
     foursquare,
-    venueId: foursquare.propDefinitions.venueId,
+    venueId: {
+      propDefinition: [
+        foursquare,
+        "venueId",
+      ],
+    },
     shout: {
-      ...foursquare.propDefinitions.shout,
+      type: "string",
+      label: "Shout",
+      description: "A message about your check-in.",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.foursquare.createCheckIn({
-      venueId: this.venueId,
-      shout: this.shout,
+      $,
+      params: {
+        venueId: this.venueId,
+        shout: this.shout,
+      },
     });
+
     $.export("$summary", `Successfully created check-in at venue ${this.venueId}`);
     return response;
   },

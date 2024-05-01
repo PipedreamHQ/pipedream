@@ -8,13 +8,25 @@ export default {
   type: "action",
   props: {
     foursquare,
-    venueId: foursquare.propDefinitions.venueId,
-    tipText: foursquare.propDefinitions.tipText,
+    venueId: {
+      propDefinition: [
+        foursquare,
+        "venueId",
+      ],
+    },
+    tipText: {
+      type: "string",
+      label: "Tip Text",
+      description: "The text of the tip.",
+    },
   },
   async run({ $ }) {
     const response = await this.foursquare.addTip({
-      venueId: this.venueId,
-      text: this.tipText,
+      $,
+      params: {
+        venueId: this.venueId,
+        text: this.tipText,
+      },
     });
     $.export("$summary", `Successfully created tip for venue ${this.venueId}`);
     return response;

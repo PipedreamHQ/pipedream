@@ -1,112 +1,94 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "foursquare",
   propDefinitions: {
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The ID of the user.",
-    },
     venueId: {
       type: "string",
       label: "Venue ID",
-      description: "The ID of the venue where the check-in or tip is made.",
-    },
-    geolocationScope: {
-      type: "string",
-      label: "Geolocation Scope",
-      description: "A geolocation scope to track check-ins only in certain areas. (Optional)",
-      optional: true,
-    },
-    keyword: {
-      type: "string",
-      label: "Keyword",
-      description: "A keyword to track tips about specific topics. (Optional)",
-      optional: true,
-    },
-    shout: {
-      type: "string",
-      label: "Shout",
-      description: "A message about your check-in. (Optional)",
-      optional: true,
-    },
-    tipText: {
-      type: "string",
-      label: "Tip Text",
-      description: "The text of the tip.",
+      description: "The ID of the venue where you want to interact.",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.foursquare.com/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, params = {}, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        headers: this._headers(),
+        params: {
+          ...params,
+          v: "20240430",
         },
+        ...opts,
       });
     },
-    async createCheckIn({
-      venueId, shout,
-    }) {
+    createCheckIn(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/checkins/add",
-        data: {
-          venueId,
-          shout,
-        },
+        ...opts,
       });
     },
-    async addTip({
-      venueId, text,
-    }) {
+    addTip(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/tips/add",
-        data: {
-          venueId,
-          text,
-        },
+        ...opts,
       });
     },
-    async getUserTips({
-      userId, limit, offset, categoryId, venueId,
-    }) {
+    getUserTips(opts = {}) {
       return this._makeRequest({
-        path: `/users/${userId || "self"}/tips`,
-        params: {
-          limit,
-          offset,
-          categoryId,
-          venueId,
-        },
+        path: "/users/self/tips",
+        ...opts,
       });
     },
-    async getUserCheckins({
-      userId, limit, offset,
-    }) {
+    getUserCheckins(opts = {}) {
       return this._makeRequest({
-        path: `/users/${userId || "self"}/checkins`,
-        params: {
-          limit,
-          offset,
-        },
+        path: "/users/self/checkins",
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, dataField, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page;
+        page++;
+
+        const { response } = await fn({
+          params,
+          ...opts,
+        });
+
+        const items = response[dataField].items;
+
+        for (const d of items) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = items.length;
+
+      } while (hasMore);
     },
   },
 };
