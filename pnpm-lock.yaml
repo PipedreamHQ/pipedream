@@ -2999,6 +2999,9 @@ importers:
   components/foxy:
     specifiers: {}
 
+  components/fractel:
+    specifiers: {}
+
   components/frame:
     specifiers:
       '@pipedream/platform': ^1.6.1
