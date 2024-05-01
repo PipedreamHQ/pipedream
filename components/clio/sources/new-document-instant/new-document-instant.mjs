@@ -8,7 +8,7 @@ export default {
   key: "clio-new-document-instant",
   name: "New Document (Instant)",
   description: "Emit new event when a new document is created. [See the documentation](https://docs.developers.clio.com/api-reference/#tag/Webhooks/operation/Webhook#index)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

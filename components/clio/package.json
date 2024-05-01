@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clio",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Clio Components",
   "main": "clio.app.mjs",
   "keywords": [

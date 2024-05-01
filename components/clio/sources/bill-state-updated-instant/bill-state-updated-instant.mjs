@@ -9,7 +9,7 @@ export default {
   key: "clio-bill-state-updated-instant",
   name: "Bill State Updated (Instant)",
   description: "Emit new event when the state of a bill has changed in Clio. [See the documentation](https://docs.developers.clio.com/api-reference/#tag/Webhooks/operation/Webhook#index)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
