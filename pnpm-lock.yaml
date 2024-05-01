@@ -4049,6 +4049,12 @@ importers:
   components/infinity:
     specifiers: {}
 
+  components/infobip:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
+
   components/infusionsoft:
     specifiers:
       '@pipedream/platform': ^1.1.0
