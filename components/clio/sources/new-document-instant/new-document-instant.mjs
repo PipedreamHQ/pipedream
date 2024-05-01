@@ -1,14 +1,14 @@
 import common from "../common/webhook.mjs";
 import event from "../common/event.mjs";
 import model from "../common/model.mjs";
-import fields from "../common/fields/document.mjs";
+import fields from "../common/document-fields.mjs";
 
 export default {
   ...common,
   key: "clio-new-document-instant",
   name: "New Document (Instant)",
   description: "Emit new event when a new document is created. [See the documentation](https://docs.developers.clio.com/api-reference/#tag/Webhooks/operation/Webhook#index)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

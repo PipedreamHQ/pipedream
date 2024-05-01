@@ -1,14 +1,14 @@
 import common from "../common/webhook.mjs";
 import event from "../common/event.mjs";
 import model from "../common/model.mjs";
-import fields from "../common/fields/activity.mjs";
+import fields from "../common/activity-fields.mjs";
 
 export default {
   ...common,
   key: "clio-new-activity-instant",
   name: "New Activity (Instant)",
   description: "Emit new event when a new activity is created in Clio. [See the documentation](https://docs.developers.clio.com/api-reference/#tag/Webhooks/operation/Webhook#index)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
