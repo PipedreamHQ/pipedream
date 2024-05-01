@@ -50,6 +50,12 @@ export default {
         "rows",
       ],
     },
+    rowsDescription: {
+      propDefinition: [
+        googleSheets,
+        "rowsDescription",
+      ],
+    },
   },
   async run() {
     let rows = this.rows;

@@ -42,6 +42,12 @@ export default {
         "rows",
       ],
     },
+    rowsDescription: {
+      propDefinition: [
+        googleSheets,
+        "rowsDescription",
+      ],
+    },
     resetRowFormat: {
       type: "boolean",
       label: "Reset Row Format",
