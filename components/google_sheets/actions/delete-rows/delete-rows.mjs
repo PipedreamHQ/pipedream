@@ -44,6 +44,7 @@ export default {
       type: "integer",
       label: "End Index",
       description: "Row number of the end (exclusive) of the range of rows to delete",
+      optional: true,
     },
   },
   async run() {
@@ -57,7 +58,9 @@ export default {
                 "sheetId": this.worksheetId,
                 "dimension": "ROWS",
                 "startIndex": this.startIndex - 1,
-                "endIndex": this.endIndex - 1,
+                "endIndex": this.endIndex
+                  ? this.endIndex - 1
+                  : this.startIndex,
               },
             },
           },
