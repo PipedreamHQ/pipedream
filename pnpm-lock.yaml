@@ -9588,6 +9588,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/y_gy:
+    specifiers: {}
+
   components/yahoo_fantasy_sports:
     specifiers:
       '@pipedream/platform': ^1.2.0
