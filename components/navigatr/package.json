@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/navigatr",
+  "version": "0.0.1",
+  "description": "Pipedream Navigatr Components",
+  "main": "navigatr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "navigatr"
+  ],
+  "homepage": "https://pipedream.com/apps/navigatr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
