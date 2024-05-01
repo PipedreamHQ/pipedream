@@ -6026,6 +6026,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/perplexity:
+    specifiers: {}
+
   components/perry_github_test:
     specifiers: {}
 
