@@ -7754,6 +7754,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.4
 
+  components/skyciv:
+    specifiers: {}
+
   components/slack:
     specifiers:
       '@slack/web-api': ^5.15.0
