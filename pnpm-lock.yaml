@@ -954,6 +954,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/botpress:
+    specifiers: {}
+
   components/bouncer:
     specifiers:
       '@pipedream/platform': ^1.5.1
