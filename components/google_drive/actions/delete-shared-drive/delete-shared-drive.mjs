@@ -11,20 +11,22 @@ export default {
     drive: {
       propDefinition: [
         googleDrive,
-        "watchedDrive",
+        "sharedDrive",
       ],
       description:
         "Select a [shared drive](https://support.google.com/a/users/answer/9310351) to delete.",
-      default: "",
+      optional: false,
     },
   },
   async run({ $ }) {
+    const { drive } = this;
     await this.googleDrive.deleteSharedDrive(
-      this.googleDrive.getDriveId(this.drive),
+      this.googleDrive.getDriveId(drive),
     );
     $.export("$summary", "Successfully deleted the shared drive");
     return {
       success: true,
+      drive,
     };
   },
 };

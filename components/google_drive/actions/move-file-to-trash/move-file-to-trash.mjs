@@ -9,6 +9,11 @@ export default {
   type: "action",
   props: {
     googleDrive,
+    infoAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "If you want to **permanently** delete a file instead, use the **[Move File to Trash](https://pipedream.com/apps/google-drive/actions/delete-file)** action.",
+    },
     drive: {
       propDefinition: [
         googleDrive,
