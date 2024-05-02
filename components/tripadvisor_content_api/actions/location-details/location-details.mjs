@@ -8,6 +8,12 @@ export default {
   type: "action",
   props: {
     app,
+    searchQuery: {
+      propDefinition: [
+        app,
+        "searchQuery",
+      ],
+    },
     locationId: {
       propDefinition: [
         app,
