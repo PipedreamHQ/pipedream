@@ -33,6 +33,7 @@ export default {
         googleDrive,
         "fileNameSearchTerm",
       ],
+      description: "The form name to search for. If blank, returns all forms in the specified drive (and folder, if set).",
       optional: true,
     },
   },
@@ -49,6 +50,9 @@ export default {
     });
     const files = (await this.googleDrive.listFilesInPage(null, opts)).files;
     $.export("$summary", `Successfully found ${files.length} form(s)`);
-    return files;
+    return files.map((file) => ({
+      ...file,
+      url: `https://docs.google.com/forms/d/${file.id}`,
+    }));
   },
 };
