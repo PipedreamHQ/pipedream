@@ -164,7 +164,7 @@ Below are a list of known issues that do not currently have solutions, but are i
 
 If your repository is hosted on an Github Enterprise account, you can allow Pipedream's address range to sync your project changes.
 
-[Follow the directions here](https://docs.github.com/en/enterprise-cloud@latest/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/managing-allowed-ip-addresses-for-your-organization) and add the following IP range: 
+[Follow the directions here](https://docs.github.com/en/enterprise-cloud@latest/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/managing-allowed-ip-addresses-for-your-organization) and add the following IP range:
 
 <pre className="mt-4 nx-bg-primary-700/5 nx-mb-4 nx-overflow-x-auto nx-rounded-xl nx-subpixel-antialiased dark:nx-bg-primary-300/10 nx-text-[.9em] contrast-more:nx-border contrast-more:nx-border-primary-900/20 contrast-more:nx-contrast-150 contrast-more:dark:nx-border-primary-100/40 nx-py-4">
   {process.env.PD_EGRESS_IP_RANGE}
@@ -215,6 +215,72 @@ To resolve this error:
 
 No, at this time it's not possible because of how resources are connected during the bootstrapping process from the workflow YAML specification.
 However, this is on our roadmap, [please subscribe to this issue](https://github.com/PipedreamHQ/pipedream/issues/9255) for the latest details.
+
+### Can I migrate my commit history to another GitHub Repository while retaining my workflows in my Pipedream Project?
+
+Yes, this guide shows how to migrate a GitHub-synced project repository in Pipedream to a new repository, preserving the entire commit history in the `production` branch while ensuring that workflows remain unaffected.
+
+### Assumptions
+- **Current GitHub Repository**: `previous_github_repo`
+- **New GitHub Repository**: `new_github_repo`
+- **Pipedream Project**: `pipedream_project`
+- Basic familiarity with git and GitHub
+- Access to a local terminal (e.g., Bash, Zsh, PowerShell)
+- Necessary permissions to modify both the Pipedream project and associated GitHub repositories
+
+### Steps
+
+1. **Access Project Settings in Pipedream:**
+   - Navigate to your `pipedream_project`.
+   - Use the dropdown menu on the "Edit" button in the top right corner to access `previous_github_repo`.
+
+2. **Clone the Current Repository Locally:**
+   ```bash
+   git clone previous_github_repo_clone_url
+   ```
+3. Reset GitHub Sync in Pipedream:
+   - In Pipedream, go to your project settings.
+   - Click on "Reset GitHub Connection".
+4. Set Up New Repository Connection:
+   - Configure a new GitHub Sync to `new_github_repo`.
+5. Clone the New Repository Locally:
+   ```bash
+   git clone new_github_repo_clone_url
+   cd new_github_repo
+   ```
+6. Link to the Old Repository:
+   ```bash
+   git remote add old_github_repo previous_github_repo_clone_url
+   git fetch --all
+   ```
+7. Prepare for Migration:
+   - Create and switch to a new branch for migration:
+      ```bash
+      git checkout -b migration
+      ```
+   - Merge the main branch of `old_github_repo` into migration, allowing for unrelated histories:
+      ```bash
+      git merge --allow-unrelated-histories old_github_repo/production
+      # Resolve any conflicts, such as in README.md
+      git commit
+      ```
+8. Finalize Migration:
+   - Optionally push the `migration` branch to the remote:
+      ```bash
+      git push --set-upstream origin migration
+      ```
+   - Switch to the `production` branch and merge:
+      ```bash
+      git checkout production
+      git merge --no-ff migration
+      git push
+      ```
+9. Cleanup:
+   - Remove the connection to the old repository:
+      ```bash
+         git remote remove old_github_repo
+      ```
+   - Optionally, you may now safely delete `previous_github_repo` from GitHub.
 
 ### How does the `production` branch work?
 
