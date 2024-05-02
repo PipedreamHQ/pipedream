@@ -1,21 +1,11 @@
 # Overview
 
-The Secure Shell (SSH) API is an powerful tool for securely connecting to
-remote systems over a network, allowing users to easily and securely access
-their systems or services. This API is useful for a variety of tasks including
-data transfer and remote system management.
+The SSH (Secure Shell) key-based authentication API allows you to execute commands on a remote server securely. With Pipedream, leverage this capability to automate server management tasks, execute deployment scripts, or gather data from your server infrastructure. By integrating with other apps on Pipedream, you can create seamless workflows that trigger actions on your servers in response to various events.
 
-Key-based authentication is a way of validating the identity of the client to
-the server. It works by generating and exchanging a digital key that must match
-in order for the user to access the server. This provides an extra layer of
-security, as it is much harder to guess a digital key than a user password.
+# Example Use Cases
 
-With the SSH (key-based auth) API, you can use key-based authentication to
-create an encrypted, authenticated channel between two computers. This can be
-used for securely accessing services, such as:
+- **Automated Deployment**: Trigger a workflow on Pipedream when your code repository (like GitHub) senses a new commit to the master branch. The workflow would initiate an SSH session to your production server and pull the latest code changes, ensuring continuous deployment without manual intervention.
 
-- Securing server access
-- Sharing data with other systems
-- Managing remote systems
-- Transferring large files between computers
-- Encrypting communication between two computers
+- **Scheduled Server Maintenance**: Set up a scheduled workflow in Pipedream that SSHs into your server to perform routine maintenance such as package updates, cleaning temp directories, or backing up databases. This could be paired with a notification service like Slack to inform your team when maintenance tasks have been completed.
+
+- **Real-time Server Monitoring and Alerts**: Create a Pipedream workflow that periodically SSHs into your server to check system health, like disk space or running services. If it detects an issue, it could send an alert through an app like PagerDuty or send a detailed report to an email via SendGrid, enabling prompt response to potential problems.

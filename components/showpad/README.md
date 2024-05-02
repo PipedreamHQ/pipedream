@@ -1,26 +1,11 @@
 # Overview
 
-The Showpad API (<https://showpad.com>) provides API endpoints and tools that
-developers can use to build innovative applications. With Showpad API, you can
-develop powerful applications that integrate with Showpad content, users, and
-activities to enhance the user experience. Here are some examples of what you
-can build with the Showpad API:
+The Showpad API opens up a world of possibilities for enhancing sales enablement and content management. With it, you can streamline content sharing, track engagement, and integrate sales coaching into various platforms. It offers programmatic access to manage users, groups, permissions, and content, enabling automated processes that save time and boost productivity.
 
-- Content management capabilities: Showpad API enables you to create folders,
-  upload files, and create content links. You can also create and manage views,
-  collections, campaigns, and more.
-- User authentication and authorization: Showpad API allows you to authenticate
-  and authorize users in your system.
-- User activities and metrics tracking: Showpad API provides the ability to
-  track user activities such as viewing, downloading, and sharing content. You
-  can also get an overview of user metrics such as views, downloads, and
-  sharing.
-- Content delivery and management: Showpad API enables you to deliver content
-  to a wide range of end-users and devices, as well as to manage the
-  distribution of content.
-- Custom content integration and customization: Showpad API allows developers
-  to integrate with custom content sources, enabling customization and
-  extending the capabilities of Showpad's content library.
-- Advanced search capabilities: With Showpad API, you can enable custom
-  searches, allowing users to easily find the right content. You can also
-  enable filters and sorting capabilities to refine search results.
+# Example Use Cases
+
+- **Automated Content Distribution**: Trigger a workflow on Pipedream to distribute new marketing materials to sales teams in Showpad whenever a new file is uploaded to a Dropbox folder. This ensures that the sales team always has the latest materials at their fingertips.
+
+- **Lead Engagement Tracking**: Connect Showpad to a CRM like Salesforce on Pipedream. Automate the import of engagement data from Showpad into Salesforce, giving sales reps insights into which prospects are interacting with shared content, and tailoring follow-ups based on interest shown.
+
+- **Personalized Sales Training**: Use Pipedream to monitor performance data in Showpad and trigger personalized training content to be sent to sales reps based on their performance. For example, if a rep is struggling with a particular product pitch, automatically provide them with specific training materials to improve their skills.

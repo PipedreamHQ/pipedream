@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/thoughtly",
+  "version": "0.0.1",
+  "description": "Pipedream Thoughtly Components",
+  "main": "thoughtly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "thoughtly"
+  ],
+  "homepage": "https://pipedream.com/apps/thoughtly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

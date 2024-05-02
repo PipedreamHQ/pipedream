@@ -63,13 +63,13 @@
     "title": "Version",
     "type": "menu",
     "items": {
-      "v2": {
-        "title": "Linear",
+      "v3": {
+        "title": "Current",
         "href": "https://pipedream.com/docs"
       },
-      "v3": {
-        "title": "Canvas (new)",
-        "href": "https://pipedream.com/docs/v3"
+      "v2": {
+        "title": "Linear (classic)",
+        "href": "https://pipedream.com/docs/v2"
       }
     }
   },

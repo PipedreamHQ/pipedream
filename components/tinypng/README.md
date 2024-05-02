@@ -1,16 +1,14 @@
 # Overview
 
-The TinyPNG API is a set of REST or JSON APIs that can be used to compress and
-optimize images for websites. This can help speed up webpage loading, reduce
-bandwidth costs, and create a better user experience for visitors. With the
-API, developers can create automated image compression processes, compress
-images in bulk, and integrate image compression directly into applications or
-websites. Here are a few examples of what developers can build using the
-TinyPNG API:
+The TinyPNG API lets you compress and optimize image files efficiently. With this API, you can shrink the size of PNG and JPEG files without a noticeable loss in quality, making it a crucial tool for improving website load times and saving bandwidth. On Pipedream, you can automate image optimization workflows, harnessing the power of TinyPNG to process batches of images, integrate with CMS platforms, trigger optimizations from various events, and more.
 
-- Image compression web tools
-- Bulk image compression tools
-- Image optimizers for websites
-- Image optimization plugins for CMSs
-- Automatic image compression services
-- Image optimization apps for mobile devices
+# Example Use Cases
+
+- **Automated Image Optimization for Web Deployment**  
+  Whenever you push new images to your GitHub repository, set up a Pipedream workflow that listens for the `push` event, grabs the images, and sends them to the TinyPNG API for optimization. The compressed images can then be automatically committed back to the repository or deployed to your web server.
+
+- **Dynamic Compression for User-Uploaded Content**  
+  For platforms that handle user uploads, a Pipedream workflow can trigger when a new image is uploaded to a cloud storage service like Amazon S3. The image is then sent to TinyPNG for compression. Afterward, the optimized image can be stored back in S3 or sent to other services like Dropbox or Google Drive, ready for distribution or archival.
+
+- **Scheduled Image Optimization for CMS Libraries**  
+  If you manage a content-rich site with WordPress, automate the maintenance of your media library. Set up a Pipedream workflow that runs on a schedule, fetches images from your WordPress media library, compresses them with TinyPNG, and replaces the originals. This keeps your site speedy and reduces storage costs over time.

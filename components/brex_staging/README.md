@@ -1,19 +1,11 @@
 # Overview
 
-The Brex (Staging) API allows developers to access Brex data and build
-applications on top of Brex.
+The Brex (Staging) API allows you to automate financial operations and integrate with Brex's suite of financial services. This API can be leveraged to synchronize transactions, manage cards, and automate accounting processes, providing real-time insights into your business finances. Using Pipedream, these capabilities can be harnessed to create custom workflows that trigger actions based on financial events, reconcile expenses, and streamline financial reporting.
 
-With the Brex (Staging) API, you can:
+# Example Use Cases
 
-- Build apps that integrate with Brex data
-- Build custom reports and dashboards
-- Automate Brex data flows
-- And more!
+- **Automated Expense Reporting**: Track expenses by triggering a Pipedream workflow that listens for new transactions on a Brex card. Once a transaction is detected, categorize the expense and automatically send a report to a Google Sheet for accounting reconciliation.
 
-Here are some examples of what you can build with the Brex (Staging) API:
+- **Real-Time Budget Alerts**: Create a workflow on Pipedream that monitors your Brex account balances and transaction activity. When spending approaches a set budget limit, automatically send an alert via email or Slack to the finance team to prevent budget overruns.
 
-- A reporting tool that pulls data from Brex and generates custom reports
-- A dashboard that visualizes Brex data in real-time
-- A tool that helps customers manage their Brex data
-- An app that allows customers to access their Brex data on the go
-- And more!
+- **Streamlined Employee Onboarding**: Automate the process of issuing Brex cards for new employees. When a new employee is added to your HR system (like BambooHR), trigger a Pipedream workflow that sends a request to the Brex API to issue a new card and set spending limits according to their role.

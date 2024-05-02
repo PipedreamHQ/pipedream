@@ -1,23 +1,11 @@
 # Overview
 
-The SignWell API is a powerful tool for creating accessible digital signing
-solutions. With the SignWell API, developers can create a range of solutions
-that address the need for online or electronic signatures. These solutions can
-be used for contract signing, document signing, e-forms, and other signing
-needs.
+Harness the power of SignWell's API on Pipedream to automate the e-signature process and streamline document workflows. Integrate e-signatures into your business processes seamlessly, triggering actions based on document status, auto-filling templates with customer data, and syncing signed documents to your storage solutions. The SignWell API through Pipedream empowers you to create custom, scalable solutions for document management that save time and eliminate manual errors.
 
-The SignWell API provides developers the tools they need to create solutions
-with a modern, scalable, and secure digital signing experience. It features
-features such as rich document image support, optimized mobile experience, and
-audit trails. This API is designed to help developers build easy-to-use
-solutions with features such as personalized branding and customization,
-powerful workflow automation, and advanced cryptography.
+# Example Use Cases
 
-Here are some of the solutions that can be developed using the SignWell API:
+- **Automated Client Onboarding**: Automatically send out personalized SignWell e-signature requests when a new client is added to your CRM. Once the document is signed, trigger an onboarding email series and update the client's status in your CRM system.
 
-- Digital contract signing
-- Electronic signature and e-form solutions
-- Remote signing and e-authorization solutions
-- Multi-factor authentication solutions
-- Electronic document signing solutions
-- Digital ID verification solutions
+- **Contract Renewal Management**: Set up a workflow to detect approaching contract end dates stored in a database. Use SignWell to send renewal agreements for e-signature and, upon completion, update contract records and notify account managers.
+
+- **Document Backup and Organization**: After a document is signed via SignWell, automatically back it up to cloud storage like Google Drive or Dropbox. Then, use Pipedream to parse the document's metadata and organize it into the correct folder structure based on predefined rules.

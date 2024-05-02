@@ -1,14 +1,11 @@
 # Overview
 
- Lucid is a powerful API that enables developers to create beautiful,
- interactive visualizations. With Lucid, developers can create stunning charts,
- graphs, and maps to visualize data and tell stories. Lucid’s easy-to-use API
- makes it simple to get started, and the flexible platform enables developers
- to create customized visualizations to fit their specific needs.
+The Lucid API enables developers to automate visual communication processes by programmatically manipulating Lucidchart and Lucidpress documents. This allows for dynamic creation and updates of diagrams, visual workflows, and marketing materials, ensuring that teams can streamline their design operations with current data. Integrations via Pipedream can enhance this by triggering actions in Lucid based on events in other apps, or vice versa.
 
-Here are some examples of what you can build with Lucid:
+# Example Use Cases
 
-- Charts: Bar charts, line charts,pie charts, etc.
-- Graphs:Node-link diagrams, force-directed graphs, etc.
-- Maps:GeoJSON maps, choropleth maps, etc.
-- Data visualizations:Heatmaps, scatterplots, etc.
+- **Automated Document Updates from CRM Events**: When a sales deal progresses in a CRM like Salesforce, you can automatically update a Lucidchart sales pipeline diagram. This gives real-time visual feedback to the sales team and management.
+
+- **Dynamic Marketing Material Generation**: On launching a new product, details from a product management tool like Trello can trigger the generation of new marketing materials in Lucidpress, ensuring alignment with the latest product features and specifications.
+
+- **Issue Tracking Visualization**: For project management, when an issue is reported in GitHub, a workflow could automatically create or update a Lucidchart diagram to visualize the issue within the context of the entire system’s architecture.

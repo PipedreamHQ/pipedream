@@ -1,23 +1,11 @@
 # Overview
 
-The SmugMug API makes it possible to access and build upon the powerful SmugMug
-platform in creative and custom ways. With the SmugMug API, you can build
-applications that interact with users' photos, galleries and albums on the
-SmugMug platform. Whether you wish to create a custom photo store, custom photo
-workflow, or customize the way people interact with your SmugMug galleries, the
-SmugMug API makes it all possible. Here are some examples of what you can
-create with the SmugMug API:
+The SmugMug API provides programmatic access to a user's SmugMug account, allowing them to manage photos, albums, and account settings. With Pipedream, you can automate tasks such as uploading new images, synchronizing photo galleries with other platforms, or triggering actions based on account activity. The API's capabilities paired with Pipedream's serverless platform enable you to craft custom workflows that react to events in SmugMug or orchestrate tasks across multiple apps.
 
-- Create a custom photo store to display, sell, and deliver photos to
-  customers.
-- Integrate photo albums into blogs and websites.
-- Upload photos to SmugMug from your own apps.
-- Automate photo workflow and editing tasks.
-- Access image meta data and create custom photo searches.
-- Retrieve and impose photo upload restrictions.
-- Connect SmugMug galleries to custom themes.
-- Automatically resize, crop, and watermark photos.
-- Create your own custom photo galleries.
-- Allow customers to download photos with custom watermarks.
-- Build applications to allow mass uploads and downloads.
-- Monitor and track photo download activity.
+# Example Use Cases
+
+- **Automated Photo Backup**: Whenever a new photo is added to a SmugMug album, trigger a Pipedream workflow that backs up the image to a cloud storage service like Google Drive or Dropbox. This ensures that you have redundant copies of your precious memories or professional shots.
+
+- **Social Media Integration**: Create a workflow that posts your latest SmugMug photos to social media platforms automatically. For instance, when you upload a new photo to a designated "Public" album in SmugMug, Pipedream can share that photo to your Facebook Page or Twitter account, helping you maintain an active social media presence without manual effort.
+
+- **Website Gallery Sync**: If you manage a personal or business website, use Pipedream to synchronize SmugMug albums with your site's gallery. Set up a webhook in Pipedream that listens for new SmugMug events and updates your website's photo gallery in real-time, ensuring visitors always see the latest content without manual updating.

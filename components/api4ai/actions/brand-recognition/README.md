@@ -1,6 +1,6 @@
-# ⭐️ Brand Recognition
+# Overview
 
-Ready-to-Use solution for the identification of thousands of brand marks and logos within images.
+⭐️ **Brand Recognition** – is a ready-to-Use solution for the identification of thousands of brand marks and logos within images.
 
 Brand Recognition provides AI-powered image processing designed for analyzing the presence of brands in the pictures.
 
@@ -10,16 +10,15 @@ Brand Recognition provides AI-powered image processing designed for analyzing th
 ✅ This solution provides out-of-the-box support for an extensive range of brands, encompassing a vast array of logos and trademarks. Furthermore, it incorporates advanced, sophisticated logic designed to automatically identify unknown ones.  
 
 
-
-# 🤖 Demo
+## 🤖 Demo
 
 Explore the Brand Recognition Web demo for free before delving into the details (no registration is required): https://api4.ai/apis/brand-recognition#demo-wrapper
 
 
 
-# 🚀 Getting started
+# Getting started
 
-## Subscribe and get API key
+## 🚀 Subscribe and get API key
 
 To use Brand Recognition, start at [RapidAPI](https://rapidapi.com/), a well-known API hub. Register, subscribe to begin, and obtain an API key:
 
@@ -28,7 +27,7 @@ To use Brand Recognition, start at [RapidAPI](https://rapidapi.com/), a well-kno
 3. In the "Header Parameters" section, your API Key will be shown in the `X-RapidAPI-Key` field.
 
 
-## Parameters
+## 🛠 Parameters
 
 ### API Key
 
@@ -62,21 +61,8 @@ Input image. Various types are accepted:
     ```
 
 
-## Returned values
+## ↩️ Returned values
 
 The "Brand Recognition" action returns the following value:
 
 * `brands` (array) – An array of brands (represented as strings) identified in an input image.
-
-
-
-# 📌 Contacts and social links
-
-👉️️ Website: https://api4.ai  
-🤖 Web demo: https://api4.ai/apis/brand-recognition#demo-wrapper  
-📩 Email: hello@api4.ai  
-💬 Chat: https://t.me/a4a_support_bot  
-🔗 Instagram: https://www.instagram.com/api4ai  
-🔗 Facebook: https://www.facebook.com/api4ai.solution  
-🔗 X (twitter): https://twitter.com/api4ai  
-🔗 LinkedIn: https://www.linkedin.com/company/api4ai/

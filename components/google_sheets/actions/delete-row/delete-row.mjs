@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-delete-row",
   name: "Delete Row",
   description: "Deletes a specific row in a spreadsheet",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     googleSheets,

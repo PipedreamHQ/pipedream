@@ -1,29 +1,11 @@
 # Overview
 
-The ScheduleOnce API can be used to build powerful and intuitive scheduling
-experiences for users on both web and mobile devices. It simplifies the
-scheduling process by providing access to robust features that make it easy to
-plan, book, and manage calendar events.
+The ScheduleOnce API enables the automation of scheduling processes, allowing you to integrate your booking flow into custom applications or services. By leveraging this API on Pipedream, you can create dynamic workflows that react to booking events, synchronize with other calendar services, and streamline communications based on the scheduling data. This interaction opens up numerous possibilities for creating efficient, time-saving automations that keep your scheduling in sync with your business operations.
 
-The ScheduleOnce API provides three main capabilities:
+# Example Use Cases
 
-- Book Management - Enable customers to easily manage their bookings, including
-  the ability to reschedule, cancel or check availability with an automated
-  workflow.
-- Calendar Synchronization - Synchronize schedules across multiple calendars,
-  including Google, Outlook, and Apple Calendar.
-- Personalization - Add custom fields and workflows, such as product selection
-  or automated follow up tasks.
+- **Automated Appointment Confirmation Emails**: When a new appointment is scheduled via ScheduleOnce, trigger an automation in Pipedream to send a personalized confirmation email to the client using an email service like SendGrid. This workflow can include details about the appointment, a calendar invite, and pre-meeting instructions.
 
-With the ScheduleOnce API, you can easily build a range of powerful scheduling
-tools and experiences, including:
+- **Synchronization with CRM**: After a booking is made, the client’s details are automatically added or updated in a CRM like Salesforce. This could include the appointment time, the nature of the meeting, and any notes provided during the booking process, ensuring your sales team has up-to-date information.
 
-- Online Appointment Booking Software
-- Client Portal Scheduling Systems
-- Scheduling Software for Retail
-- Employee Scheduling and Attendance Tracking Solutions
-- Event Management, Registration and Payment Solutions
-- Task and Meeting Management Solutions
-- Location-Based Services and Reservations Solutions
-- Automated Payment and Invoicing Solutions
-- Automated Scheduled Follow-up Actions
+- **Post-appointment Follow-up Workflow**: Once an appointment is completed, trigger a sequence of follow-up actions such as sending a thank-you email, soliciting feedback via a survey tool like Typeform, or creating a follow-up task in a project management tool like Trello. This can help maintain engagement and gather valuable insights from clients.

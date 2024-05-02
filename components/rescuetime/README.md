@@ -1,18 +1,11 @@
 # Overview
 
-The RescueTime API can help you obtain actionable insights from your digital
-usage data. With it, you can develop projects that measure and compare daily
-activity, measure time spent on specific tasks, and identify and track
-productivity trends. With this powerful API, you have the ability to optimize
-your productivity and understand how to best manage your digital life.
+The RescueTime API provides access to detailed data about how you spend your time on digital devices, including time spent on apps and websites. With this API on Pipedream, you can create custom workflows that trigger actions based on your productivity data. For instance, you can set up alerts for excessive social media usage or automate weekly productivity reports. Pipedream's platform enables these automations by connecting RescueTime to hundreds of other apps, allowing for intricate workflows that can enhance personal productivity and time management.
 
-Here are some ways you can use the RescueTime API:
+# Example Use Cases
 
-- Monitor how much time you spend on specific tasks, websites and apps.
-- Analyze daily productivity and behavior over time.
-- Set up personal or team productivity goals.
-- Integrate with existing third-party systems to measure productivity.
-- Create customized reports and visualizations.
-- Run automations and get notifications based on specific digital activity.
-- Receive detailed time breakdowns for any timeframe.
-- Measure team productivity across multiple devices.
+- **Daily Productivity Report to Slack**: Send a summary of your daily activity and productivity score from RescueTime to a Slack channel. This workflow could help teams stay accountable and offer insights into work patterns.
+
+- **Focused Work Mode Automation**: Trigger a 'Do Not Disturb' mode on communication apps like Slack or your phone when you enter a focused work session in RescueTime. This ensures you remain undisturbed during periods of high productivity.
+
+- **Time Management Dashboard**: Aggregate your RescueTime data with calendar events from Google Calendar and emails from Gmail to create a comprehensive time management dashboard. This can help you visualize where your time is going and adjust accordingly.

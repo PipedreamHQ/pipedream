@@ -1,3 +1,8 @@
+# Overview
+
+The Twitter API on Pipedream enables you to automate interactions with Twitter, from posting tweets to analyzing social media trends. Pipedream's serverless platform provides the tools to create workflows that trigger on specific Twitter activities, process data, and connect with countless other apps for extensive automation scenarios. With Pipedream's integration, you can listen for events such as new tweets, mentions, or followers, and execute actions like tweeting, retweeting, or even leveraging sentiment analysis to gauge public perception.
+
+
 # Getting Started
 In order to connect your Twitter account to Pipedream, you'll need to create a developer project and app.
 1. First, visit Twitter's [developer dashboard](https://developer.twitter.com/en/portal/dashboard) and sign in
@@ -18,6 +23,14 @@ In order to connect your Twitter account to Pipedream, you'll need to create a d
 7. Enter the API Key and API Key Secret when prompted in Pipedream (if you lose them and need to regenerate new keys, you can do so from the "Keys and tokens" tab in your app's settings in Twitter's developer dashboard, in the "Consumer Keys" section)
 
 ![Consumer API key](https://res.cloudinary.com/dpenc2lit/image/upload/v1684365722/Screenshot_2023-05-17_at_4.19.52_PM_jlvbvw.png)
+
+# Example Use Cases
+
+- **Automated Tweeting of Curated Content:** Create a workflow that monitors RSS feeds or other content sources. When new items are detected, format the content and automatically post it to your Twitter account, keeping your followers engaged with fresh and relevant content.
+
+- **Twitter Sentiment Analysis:** Set up a workflow that triggers on new mentions of your username on Twitter. Pass the tweet text to a sentiment analysis service like Google's Natural Language API to determine the emotion conveyed. Use this data to respond appropriately or to gather insights on public perception.
+
+- **Customer Support Ticketing:** Develop a workflow that starts when your company's Twitter account receives a direct message. Automatically create a ticket in a customer support platform like Zendesk or HubSpot, ensuring that your team promptly addresses customer inquiries and issues mentioned on Twitter.
 
 # Troubleshooting
 Below are some of the most common issues we see.

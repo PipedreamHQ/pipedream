@@ -1,24 +1,11 @@
 # Overview
 
-The Verdict as a Service (VAAS) API allows developers to create AI-driven
-applications with confidence. With VAAS, developers can create a wide range of
-AI-driven applications such as security and fraud detection, personalization
-recommendations, next-best-action, risk assessment, and wayfinding. VAAS
-enables developers to quickly, easily and cost-effectively build applications
-that leverage the power of AI using the flexibility of a cloud-based platform.
+Verdict as a Service (VaaS) API provides a powerful interface for automating the analysis of files and URLs for potential threats. Leveraging the capabilities of Pipedream, users can create sophisticated workflows that trigger actions based on the results of the threat analysis. From email attachments to submitted URLs, VaaS can be integrated into a variety of security and data processing pipelines to ensure safety and compliance.
 
-Here are a few examples of applications you can build using the Verdict as a
-Service API:
+# Example Use Cases
 
-- Fraud and security detection: With VAAS, developers can create applications
-  that can detect various kinds of fraud and security risks using AI-fueled
-  insights.
-- Personalization recommendations: You can create personalized customer
-  experiences with AI-powered product and service recommendations.
-- Next-best-action: AI-driven applications can recommend the next best action
-  for users to take, taking into account a variety of contextual information.
-- Risk assessment: VAAS applications can provide tailored risk assessment based
-  on customer data, providing tailored insights and predictions.
-- Wayfinding: Developers can create wayfinding applications that take into
-  account a variety of contextual information to provide real-time,
-  personalized directions.
+- **Automated Threat Detection for Email Attachments**: Use Pipedream to monitor an email inbox for new messages. Extract attachments and pass them to the VaaS API for analysis. If a threat is detected, trigger an alert to the security team and move the email to a quarantine folder.
+
+- **Secure File Upload Processing**: Implement a workflow that scans files uploaded to a cloud storage service like Dropbox or Google Drive. Upon file upload, Pipedream sends the file to VaaS for security scanning. If the file is deemed safe, it is then made available to the team; otherwise, the uploader is notified of the issue and the file is removed.
+
+- **URL Analysis for User Submissions**: When users submit URLs through a form or helpdesk ticket, use Pipedream to automate the submission of those URLs to VaaS. Integrate with a CRM or ticketing system like Zendesk to update the ticket with the analysis results, ensuring only safe links are processed by support staff.

@@ -1,21 +1,11 @@
 # Overview
 
-The Snov.io API is a powerful tool that can be used to automate marketing and
-recruitment tasks. With the Snov.io API, you can build automated solutions that
-can help you more effectively find leads, build relationships with prospects,
-and recruit the right talent.
+Snov API enables automated lead generation and outreach by allowing users to find emails, verify them, and send email sequences. On Pipedream, you can craft workflows that react to various triggers and connect Snov with other apps to streamline your sales and marketing efforts. Whether updating CRM contacts, enriching leads with additional data, or automating follow-up emails, Snov’s API paired with Pipedream’s capabilities can save time and improve lead management processes.
 
-Here are a few examples of what you can build with the Snov.io API:
+# Example Use Cases
 
-- Automate lead generation: create automated systems that identify and target
-  prospects that match your ideal customer profile
-- Create email drip campaigns: send automated messages to prospects at specific
-  times and track their response
-- Automate recruitment: post job ads, sort and identify potential candidates,
-  and automatically send follow-up messages
-- Advanced search: find contacts and profiles from millions of websites quickly
-  and accurately
-- Enrichment & Verification: verify contact information to boost deliverability
-  and reduce bounces
-- Sales automation: create targeted lists of prospects and set up automated
-  follow-up messages for each contact.
+- **Lead Generation to CRM Integration**: When a new domain is added to your monitoring list, use Snov to find relevant emails and then add them as contacts in your CRM, such as Salesforce or HubSpot, automatically. This keeps your CRM updated with fresh leads without manual data entry.
+
+- **Email Verification and Customer Onboarding**: After a user signs up on your platform, employ Snov to verify the email address. Once verified, trigger a personalized onboarding email sequence through SendGrid. This ensures you're engaging with real users and provides a warm welcome to your service.
+
+- **Event-Driven Outreach Campaigns**: Launch targeted email campaigns with Snov whenever a specific event occurs, like a user completing a purchase on your e-commerce platform. Integrate Snov with Shopify to capture event details, craft personalized follow-ups, and trigger a Snov email sequence to encourage repeat business or request feedback.

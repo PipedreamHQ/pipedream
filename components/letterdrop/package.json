@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/letterdrop",
+  "version": "0.1.0",
+  "description": "Pipedream Letterdrop Components",
+  "main": "letterdrop.app.mjs",
+  "keywords": [
+    "pipedream",
+    "letterdrop"
+  ],
+  "homepage": "https://pipedream.com/apps/letterdrop",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

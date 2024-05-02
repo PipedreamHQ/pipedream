@@ -1,23 +1,11 @@
 # Overview
 
-The VirusTotal API is a powerful online tool that allows developers to access
-malware information, such as the prevalence of a specific file and the location
-of any malicious URLs providers may have identified. With this API, users can
-build a range of applications that can help warn their users of malicious
-activity and protect them from viruses.
+The VirusTotal API offers a powerful interface to automate various aspects of security analysis and threat intelligence. With the API, you can scan files, URLs, domains, and IP addresses for malicious activity. Pipedream's serverless platform allows you to create workflows that can leverage this API to build custom security tools, automate threat detection, and integrate with other services for enhanced monitoring and alerting.
 
-Here are some of the things you can build with the VirusTotal API:
+# Example Use Cases
 
-- Monitor File Integrity: Visualize hashes of files over time, scan malicious
-  files before downloading, and detect possible malicious file behavior.
-- Scan Malicious URLs: Monitor any suspicious URLs registered in the VirusTotal
-  database, and alert users when an URL is tagged as malicious.
-- Uncover Malicious Behavior: Paired with other APIs, investigate events
-  reported as malicious and inform users on any malicious behavior.
-- Create Firewall Rules: Deny access to untrusted IPs and urls, blacklist them
-  and analyze the source of any suspicious activity.
-- Carry Out Instant Analysis: By using VirusTotal Scan, analyze suspicious
-  content and get immediate response on any malicious material.
-- Automate Incident Response: Use the APIs with your own incident response
-  system to alert you when malicious content is identified and take immediate
-  action.
+- **Automated Malware Scanning for Email Attachments**: Use Pipedream to monitor an email inbox for new messages. When a new attachment is detected, automatically send it to VirusTotal for scanning. If the attachment is found to be malicious, trigger an alert and move the email to a quarantine folder.
+
+- **Continuous URL Monitoring for Phishing Detection**: Create a Pipedream workflow that periodically checks URLs from a database or a list against the VirusTotal API. If a URL is flagged as a potential phishing site, automatically notify your team on Slack or through another communication app available on Pipedream.
+
+- **Integrating Threat Intelligence into SIEM Solutions**: Streamline your security information and event management (SIEM) by using Pipedream to send new threat data from VirusTotal directly to your SIEM service, such as Splunk or a similar app on Pipedream. Keep your threat intelligence up-to-date and enhance your security response capabilities.
