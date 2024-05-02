@@ -17,9 +17,7 @@ export default {
   async run({ $ }) {
     const message = await this.telnyxApp.getMessage({
       $,
-      params: {
-        id: this.id,
-      },
+      id: this.id,
     });
     $.export("$summary", `Successfully retrieved message ${message.data.id}.`);
     return message;
