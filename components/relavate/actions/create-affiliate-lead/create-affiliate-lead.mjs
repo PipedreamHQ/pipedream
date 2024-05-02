@@ -1,4 +1,4 @@
-import relavate from "../../relavante.app.mjs";
+import relavate from "../../relavate.app.mjs";
 
 export default {
   key: "relavate-create-affiliate-lead",
