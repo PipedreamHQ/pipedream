@@ -44,7 +44,7 @@ export default {
       type: "string",
       label: "Destination File Path",
       description: toSingleLineString(`
-        The destination path for the file in the [\`/tmp\`
+        The destination file name or path [in the \`/tmp\`
         directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
         (e.g., \`/tmp/myFile.csv\`)
       `),
@@ -113,8 +113,14 @@ export default {
 
     // Stream file to `filePath`
     const pipeline = promisify(stream.pipeline);
-    await pipeline(file, fs.createWriteStream(this.filePath));
+    const filePath = this.filePath.includes("tmp/")
+      ? this.filePath
+      : `/tmp/${this.filePath}`;
+    await pipeline(file, fs.createWriteStream(filePath));
     $.export("$summary", `Successfully downloaded the file, "${fileMetadata.name}"`);
-    return fileMetadata;
+    return  {
+      fileMetadata,
+      filePath,
+    };
   },
 };
