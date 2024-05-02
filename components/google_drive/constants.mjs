@@ -165,6 +165,20 @@ const GOOGLE_DRIVE_UPLOAD_TYPES = [
   GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,
   GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART,
 ];
+const GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS = [
+  {
+    label: "Simple upload. Upload the media only, without any metadata.",
+    value: GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA,
+  },
+  {
+    label: "Resumable upload. Upload the file in a resumable fashion, using a series of at least two requests where the first request includes the metadata.",
+    value: GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,
+  },
+  {
+    label: "Multipart upload. Upload both the media and its metadata, in a single request.",
+    value: GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART,
+  },
+];
 
 export {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
@@ -183,6 +197,7 @@ export {
   GOOGLE_DRIVE_MIME_TYPE_PREFIX,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
   GOOGLE_DRIVE_UPLOAD_TYPES,
+  GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS,
   // Google Drive Roles
   GOOGLE_DRIVE_ROLE_OWNER,
   GOOGLE_DRIVE_ROLE_ORGANIZER,

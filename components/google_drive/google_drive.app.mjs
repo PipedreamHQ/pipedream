@@ -14,7 +14,7 @@ import {
   GOOGLE_DRIVE_GRANTEE_TYPES,
   GOOGLE_DRIVE_GRANTEE_ANYONE,
   GOOGLE_DRIVE_ROLE_READER,
-  GOOGLE_DRIVE_UPLOAD_TYPES,
+  GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS,
 } from "./constants.mjs";
 import googleMimeTypes from "./actions/google-mime-types.mjs";
 
@@ -182,14 +182,8 @@ export default {
     uploadType: {
       type: "string",
       label: "Upload Type",
-      description: `The type of upload request to the /upload URI. If you are uploading data
-        (using an /upload URI), this field is required. If you are creating a metadata-only file,
-        this field is not required.
-        media - Simple upload. Upload the media only, without any metadata.
-        multipart - Multipart upload. Upload both the media and its metadata, in a single request.
-        resumable - Resumable upload. Upload the file in a resumable fashion, using a series of
-        at least two requests where the first request includes the metadata.`,
-      options: GOOGLE_DRIVE_UPLOAD_TYPES,
+      description: "The type of upload request to the /upload URI. Required if you are uploading data, but not if are creating a metadata-only file. [See the documentation](https://developers.google.com/drive/api/reference/rest/v2/files/update#path-parameters) for more information.",
+      options: GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS,
     },
     useDomainAdminAccess: {
       type: "boolean",
