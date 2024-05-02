@@ -90,9 +90,9 @@ export default {
         ...args,
       });
     },
-    async getMessage(args) {
+    async getMessage(id) {
       return this.makeRequest({
-        path: `/messages/${args.params.id}`,
+        path: `/messages/${id}`,
       });
     },
     async sendGroupMessage(args) {
