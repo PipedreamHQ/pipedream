@@ -4,7 +4,7 @@ import { getListFilesOpts } from "../../common/utils.mjs";
 export default {
   key: "google_drive-find-forms",
   name: "Find Forms",
-  description: "List Google Form documents or search for a Form by name. [See the docs](https://developers.google.com/drive/api/v3/search-files) for more information",
+  description: "List Google Form documents or search for a Form by name. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
   version: "0.0.4",
   type: "action",
   props: {

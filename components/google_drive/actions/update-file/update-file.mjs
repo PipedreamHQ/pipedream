@@ -7,7 +7,7 @@ import {
 export default {
   key: "google_drive-update-file",
   name: "Update File",
-  description: "Update a file's metadata and/or content. [See the docs](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
+  description: "Update a file's metadata and/or content. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
   version: "0.1.3",
   type: "action",
   props: {

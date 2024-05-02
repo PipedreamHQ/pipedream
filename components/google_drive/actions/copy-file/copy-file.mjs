@@ -3,7 +3,7 @@ import googleDrive from "../../google_drive.app.mjs";
 export default {
   key: "google_drive-copy-file",
   name: "Copy File",
-  description: "Create a copy of the specified file. [See the docs](https://developers.google.com/drive/api/v3/reference/files/copy) for more information",
+  description: "Create a copy of the specified file. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/copy) for more information",
   version: "0.1.3",
   type: "action",
   props: {

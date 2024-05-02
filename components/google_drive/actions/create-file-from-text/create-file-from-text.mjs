@@ -4,7 +4,7 @@ import { Readable } from "stream";
 export default {
   key: "google_drive-create-file-from-text",
   name: "Create New File From Text",
-  description: "Create a new file from plain text. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
+  description: "Create a new file from plain text. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
   version: "0.1.3",
   type: "action",
   props: {
