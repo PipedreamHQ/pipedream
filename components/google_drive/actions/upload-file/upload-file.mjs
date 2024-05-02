@@ -15,7 +15,7 @@ export default {
   type: "action",
   props: {
     googleDrive,
-    requiredPropsAlert: {
+    infoAlert: {
       type: "alert",
       alertType: "info",
       content: "Either `File URL` and `File Path` should be specified.",
