@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import sare from "../../sare.app.mjs";
 
@@ -43,7 +44,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.sare.addEmail({
+    const { response } = await this.sare.addEmail({
       $,
       data: {
         emails: [
@@ -57,6 +58,10 @@ export default {
         ],
       },
     });
+
+    if (response.error?.length) {
+      throw new ConfigurationError(response.error[0].why);
+    }
 
     $.export("$summary", `Successfully added email: ${this.email}`);
     return response;
