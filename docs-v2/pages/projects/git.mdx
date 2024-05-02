@@ -220,7 +220,7 @@ However, this is on our roadmap, [please subscribe to this issue](https://github
 
 Yes, this guide shows how to migrate a GitHub-synced project repository in Pipedream to a new repository, preserving the entire commit history in the `production` branch while ensuring that workflows remain unaffected.
 
-### Assumptions
+#### Assumptions
 - **Current GitHub Repository**: `previous_github_repo`
 - **New GitHub Repository**: `new_github_repo`
 - **Pipedream Project**: `pipedream_project`
@@ -228,14 +228,13 @@ Yes, this guide shows how to migrate a GitHub-synced project repository in Piped
 - Access to a local terminal (e.g., Bash, Zsh, PowerShell)
 - Necessary permissions to modify both the Pipedream project and associated GitHub repositories
 
-### Steps
+#### Steps
 
 1. **Access Project Settings in Pipedream:**
    - Navigate to your `pipedream_project`.
-   - Use the dropdown menu on the "Edit" button in the top right corner to access `previous_github_repo`.
-
+   - Use the dropdown menu on the "Edit" button in the top right corner to access `previous_github_repo` in GitHub.
 2. **Clone the Current Repository Locally:**
-   ```bash
+   ```
    git clone previous_github_repo_clone_url
    ```
 3. Reset GitHub Sync in Pipedream:
@@ -244,40 +243,40 @@ Yes, this guide shows how to migrate a GitHub-synced project repository in Piped
 4. Set Up New Repository Connection:
    - Configure a new GitHub Sync to `new_github_repo`.
 5. Clone the New Repository Locally:
-   ```bash
+   ```
    git clone new_github_repo_clone_url
    cd new_github_repo
    ```
 6. Link to the Old Repository:
-   ```bash
+   ```
    git remote add old_github_repo previous_github_repo_clone_url
    git fetch --all
    ```
 7. Prepare for Migration:
    - Create and switch to a new branch for migration:
-      ```bash
+      ```
       git checkout -b migration
       ```
    - Merge the main branch of `old_github_repo` into migration, allowing for unrelated histories:
-      ```bash
+      ```
       git merge --allow-unrelated-histories old_github_repo/production
       # Resolve any conflicts, such as in README.md
       git commit
       ```
 8. Finalize Migration:
    - Optionally push the `migration` branch to the remote:
-      ```bash
+      ```
       git push --set-upstream origin migration
       ```
    - Switch to the `production` branch and merge:
-      ```bash
+      ```
       git checkout production
       git merge --no-ff migration
       git push
       ```
 9. Cleanup:
    - Remove the connection to the old repository:
-      ```bash
+      ```
          git remote remove old_github_repo
       ```
    - Optionally, you may now safely delete `previous_github_repo` from GitHub.
