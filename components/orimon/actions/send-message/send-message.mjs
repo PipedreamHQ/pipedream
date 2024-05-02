@@ -1,5 +1,4 @@
 import orimon from "../../orimon.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "orimon-send-message",
@@ -9,22 +8,36 @@ export default {
   type: "action",
   props: {
     orimon,
-    text: orimon.propDefinitions.text,
-    apiKey: orimon.propDefinitions.apiKey,
-    tenantId: orimon.propDefinitions.tenantId,
-    platformSessionId: orimon.propDefinitions.platformSessionId,
-    messageId: orimon.propDefinitions.messageId,
+    text: {
+      type: "string",
+      label: "Message Text",
+      description: "The text message you want Orimon to receive.",
+    },
   },
   async run({ $ }) {
+    const tenantId = this.orimon.$auth.tenant_id;
+
     const response = await this.orimon.sendMessage({
-      apiKey: this.apiKey,
-      tenantId: this.tenantId,
-      platformSessionId: this.platformSessionId,
-      messageId: this.messageId,
-      text: this.text,
+      $,
+      data: {
+        type: "message",
+        info: {
+          psid: `${Date.parse(new Date())}_${tenantId}`,
+          sender: "user",
+          tenantId: tenantId,
+          platformName: "web",
+        },
+        message: {
+          id: tenantId,
+          type: "text",
+          payload: {
+            text: this.text,
+          },
+        },
+      },
     });
 
-    $.export("$summary", "Message sent successfully to Orimon");
+    $.export("$summary", "Message sent successfully to Orimon!");
     return response;
   },
 };
