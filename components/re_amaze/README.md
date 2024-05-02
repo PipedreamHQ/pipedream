@@ -1,24 +1,11 @@
 # Overview
 
-Re:amaze is an API that allows developers to build customer service solutions.
-Its simple and intuitive interface makes it easy to build custom applications
-related to customer service. With Re:amaze, you can create automated customer
-support applications, live chat and ticketing services, customer feedback
-surveys, and more.
+Re:amaze is a customer service and engagement platform that combines email, social media, mobile, and live chat communication with customers into a single, integrated dashboard. Leveraging the Re:amaze API on Pipedream allows automating routine support tasks, syncing customer data across platforms, triggering event-based communications, and more. This API's functionality can streamline customer interactions, ensure timely responses, and enhance overall customer experience management.
 
-Re:amaze offers developers a wide range of tools and features that enable
-faster development and more comprehensive customer service solutions. Its
-flexible SDK and extensive libraries allow for rapid deployment, custom
-workflows, and integrations.
+# Example Use Cases
 
-Below are just a few examples of what you can build using the Re:amaze API:
+- **Auto-responder for Off-Hours**: Use the Re:amaze API to detect when a new support message is received outside business hours. Automatically send a customized message to let the customer know their query has been received and will be addressed first thing in the morning.
 
-- Automated customer support applications
-- Live chat and ticketing services
-- Customer feedback surveys
-- Automatically filled forms
-- Integration with third-party applications
-- Reports and analytics
-- Predefined customer service flows
-- AI-powered chatbots
-- Self-service customer support portals
+- **Synchronize Support Tickets with a CRM**: Whenever a new ticket is created in Re:amaze, trigger a workflow that creates or updates the customer's record in a CRM like Salesforce. This ensures that the sales and support teams have up-to-date customer interactions data.
+
+- **Automated Feedback Collection Post-Resolution**: After a ticket is marked as resolved in Re:amaze, trigger an automated email or survey request for feedback on the support experience. Integrate with a platform like Typeform for collecting responses and analyze customer satisfaction over time.

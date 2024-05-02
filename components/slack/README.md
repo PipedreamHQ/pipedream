@@ -36,6 +36,15 @@ The Slack Bot requires a bot token to allow your Pipedream workflows to authenti
 5. Click the **Connect Account** button near the top of the step. This will prompt you to select any existing Slack accounts you've previously authenticated with Pipedream, or you can select a **New** account. Clicking **New** opens a new window asking you to allow Pipedream access to your Slack workspace. Choose the right workspace where you'd like to install the app, then click **Allow**.
 6. That's it! You can now connect to the Slack API using any of the Slack actions within a Pipedream workflow.
 
+# Example Use Cases
+
+- **Automated Standup Reports**: Trigger a workflow on Pipedream to collect standup updates from team members within a Slack channel at a scheduled time. The workflow can compile the updates into a formatted report and post it to a designated channel or send it via email using an app like SendGrid.
+
+- **Customer Support Ticketing**: Use Pipedream to monitor a Slack support channel for new messages. On detecting a message, the workflow can create a ticket in a customer support platform like Zendesk or Jira. It can also format and forward critical information back to the Slack channel to keep the team updated.
+
+- **Real-time CRM Updates**: Configure a Pipedream workflow to listen for specific trigger words in sales-related Slack channels. When mentioned, the workflow fetches corresponding data from a CRM tool like Salesforce and posts the latest deal status or customer information in the Slack conversation for quick reference.
+
+
 # Troubleshooting
 
 Please [reach out](https://pipedream.com/support/) to the Pipedream team with any technical issues or questions about the Slack integration. We're happy to help!

@@ -1,14 +1,11 @@
 # Overview
 
-Using the Teamwork API, you can build powerful tools and applications that help
-you or your team stay connected and get more done. Here are a few examples of
-things you can build with it:
+The Teamwork API taps into the power of project management, letting you streamline workflows by automating tasks like creating projects, assigning tasks, tracking time, or updating statuses. With Pipedream, you can effortlessly integrate these capabilities with hundreds of other apps to create custom automations that fit your team's needs, enhancing productivity and ensuring that your projects are always moving forward with the latest information.
 
-- Automate routine tasks such as adding projects and tasks, moving them through
-  progress stages, and assigning users to tasks
-- Create custom reports and analytics on project data
-- Schedule messaging to be sent out automatically about the progress of
-  projects or tasks
-- Develop applications that sync with other services such as Gmail and Slack
-- Create workflows and custom processes to automate how tasks are handled
-- Set up notifications for when deadlines are due or tasks are completed
+# Example Use Cases
+
+- **Automated Project Creation from CRMs**: Whenever a new deal is marked as won in your CRM, such as Salesforce or HubSpot, a workflow can trigger the creation of a corresponding project in Teamwork, complete with pre-configured task lists and milestones, ensuring that your team can immediately get started on new client work without manual data entry.
+
+- **Task Management with Real-Time Communication Tools**: Link Teamwork tasks to a Slack channel to notify your team when tasks are created, updated, or completed. This keeps everyone in the loop without having to constantly check for updates in Teamwork and improves collaboration as team members can discuss tasks right in Slack.
+
+- **Time Tracking Analytics and Reporting**: Synchronize time tracking data from Teamwork to a Google Sheets spreadsheet or a business intelligence tool like Tableau. This can empower management with insights into project hours, helping to evaluate performance, estimate better for future projects, and ensure timely completion within budget.

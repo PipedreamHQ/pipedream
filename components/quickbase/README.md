@@ -1,21 +1,11 @@
 # Overview
 
-The Quickbase API enables developers to build business solutions quickly and
-efficiently. With it, you can quickly create custom databases and applications
-that support your organization. The API supports all the core features
-Quickbase has to offer, like records and fields, table-level authentication,
-and views and reports. All of these add up to the ability to build powerful
-solutions that solve real-world problems.
+Quickbase is a low-code platform for building operational applications and automations that can manage data, workflows, and reporting. Using Pipedream's serverless platform, you can tap into the robust Quickbase API to weave complex workflows that respond to events, synchronize data across multiple systems, and streamline business processes. With Pipedream, you can trigger on events in Quickbase, or from hundreds of other apps, and write Node.js code to integrate with the Quickbase API directly, enabling a broad range of automation possibilities.
 
-Below are some examples of what developers can build using the Quickbase API:
+# Example Use Cases
 
-- Automated reports and dashboards that present data from different sources in
-  different ways.
-- Customized applications that store and display data from Quickbase and other
-  external sources.
-- Workflows and business processes that leverage internal and external data to
-  streamline operations.
-- Integrations with external systems and websites that pull in data from
-  Quickbase and keep it up-to-date.
-- A platform for developing mobile applications that access and display data
-  stored in Quickbase.
+- **Project Management Automation**: Trigger a workflow when a new project is added to Quickbase, then send a customized email to all stakeholders using the SendGrid app on Pipedream. This workflow ensures that each stakeholder is aware of the new project and can take relevant actions promptly.
+
+- **Customer Support Ticket Routing**: Detect when a new support ticket is created in Quickbase. Use Pipedream to analyze the ticket's content, perhaps with a natural language processing service like Algorithmia, and then based on the analysis, assign the ticket to the correct department or individual in your customer support tool, such as Zendesk.
+
+- **Real-time Reporting and Alerts**: Set up a Pipedream workflow to monitor changes in critical Quickbase reports, like sales data or inventory levels. When a predefined condition is met, such as low stock on a popular item, trigger an alert and post a message to a Slack channel, so your team can act immediately to restock and avoid missed sales opportunities.

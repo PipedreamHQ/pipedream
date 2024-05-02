@@ -5,7 +5,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets",
-  version: "2.1.2",
+  version: "2.1.4",
   type: "action",
   props: {
     googleSheets,
@@ -53,7 +53,7 @@ export default {
     if (this.hasHeaders === "Yes") {
       const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${this.sheetName}!1:1`);
       if (!values[0]?.length) {
-        throw new ConfigurationError("Cound not find a header row. Please either add headers and click \"Refresh fields\" or adjust the action configuration to continue.");
+        throw new ConfigurationError("Could not find a header row. Please either add headers and click \"Refresh fields\" or adjust the action configuration to continue.");
       }
       for (let i = 0; i < values[0]?.length; i++) {
         props[`col_${i.toString().padStart(4, "0")}`] = {

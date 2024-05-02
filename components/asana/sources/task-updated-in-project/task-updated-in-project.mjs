@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "Task Updated In Project (Instant)",
   description: "Emit new event for each update to a task.",
-  version: "1.1.3",
+  version: "1.1.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -43,9 +43,33 @@ export default {
         "users",
       ],
     },
+    delay: {
+      type: "integer",
+      label: "Delay In Seconds",
+      description: "How long to wait before emitting events.",
+      default: 15,
+      optional: true,
+    },
   },
   methods: {
     ...common.methods,
+    getLastEventDate() {
+      return this.db.get("lastEventDate");
+    },
+    setLastEventDate(value) {
+      this.db.set("lastEventDate", value);
+    },
+    debounce(fn, delay = 15000) {
+      const lastEventDate = this.getLastEventDate();
+      if (lastEventDate) {
+        const diff = Date.now() - new Date(lastEventDate).getTime();
+        if (diff < delay) {
+          return;
+        }
+      }
+      fn();
+      this.setLastEventDate(new Date());
+    },
     getWebhookFilter() {
       return {
         filters: [
@@ -59,7 +83,7 @@ export default {
     },
     async emitEvent(event) {
       const {
-        tasks, user,
+        tasks, user, delay,
       } = this;
       const { events = [] } = event.body || {};
 
@@ -84,11 +108,11 @@ export default {
           event, task,
         }) => {
           const ts = Date.parse(event.created_at);
-          this.$emit(task, {
+          this.debounce(() => this.$emit(task, {
             id: `${task.gid}-${ts}`,
             summary: task.name,
             ts,
-          });
+          }), delay * 1000);
         });
     },
   },

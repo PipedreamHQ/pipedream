@@ -1,25 +1,11 @@
 # Overview
 
-The Verifalia API is a powerful and secure suite of tools designed to validate
-& clean data and email addresses. It can be used to help reduce fraud, improve
-data quality, and boost marketing campaigns.
+Verifalia's API provides robust email validation and verification services, ensuring that email addresses in your lists are accurate and deliverable. Leveraging Verifalia within Pipedream workflows can automate the process of cleaning up email lists, improve email marketing efficiency, and maintain communication channel integrity. By integrating Verifalia's capabilities, you can cut down on bounces, identify disposable email addresses, and segment lists based on quality scores.
 
-Verifalia's API can be used to build the following:
+# Example Use Cases
 
-- Email Validation: Validate a list of email addresses and check for accuracy,
-  validity, and deliverability.
-- Email Address Hygiene & Cleaning: Automatically clean a list of email
-  addresses to remove duplicates, typos, and invalid addresses.
-- Email Address List Verification: Check a list of email addresses and verify
-  them against a specific domain.
-- Email Spam Score & Analysis: Analyze a list of emails and determine the
-  associated spam level.
-- Phone Number Validation: Automatically validate a list of phone numbers and
-  check for accuracy and improper formatting.
-- Bulk Email Sending: Execute a bulk email campaign and track email delivery
-  rate in real-time.
-- Private DNS Check & Domain Name Verification: Check a domain's reliability
-  and identity, as well as DNS records and MX records.
-- Domain Catch-all Check & Delivery Confirmation: Determine if a domain is
-  flagged as a catch-all and confirm if emails sent to that domain will be
-  received by the intended recipient.
+- **Automated Email List Cleaning**: Set up a workflow where new subscribers' email addresses, collected through a sign-up form, are automatically sent to Verifalia for validation. Once verified, the clean email addresses are saved to your CRM or email marketing platform, such as Mailchimp or HubSpot.
+
+- **Periodic Email Verification Scheduler**: Use Pipedream's cron job feature to schedule regular email verification checks. Email addresses from your database are periodically verified through Verifalia to ensure ongoing list hygiene, and invalid ones are tagged or removed to improve campaign performance.
+
+- **Instant Verification for New Leads**: When a lead is captured via a lead generation tool like Typeform or a landing page, trigger an immediate email verification process. Only add the leads with valid email addresses to your sales pipeline in a tool like Salesforce, ensuring your sales team works only with high-quality prospects.

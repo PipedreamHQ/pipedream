@@ -1,22 +1,21 @@
-# ⭐️ NSFW Image Recognition
+# Overview
 
-Content moderation solution for NSFW (Not Safe For Work) sexual images identification.
+⭐️ **NSFW Image Recognition** – is a content moderation solution for NSFW (Not Safe For Work) sexual images identification.
 
 Leveraging AI-powered technology this solution recognizes potentially offensive content in the image that may be inappropriate for public places or workspace viewing. It provides a confidence level to indicate how certain it is that the content is NSFW.
 
 ![sfw](https://storage.googleapis.com/api4ai-static/rapidapi/nsfw/sfw.png)
 
 
-
-# 🤖 Demo
+## 🤖 Demo
 
 Explore the NSFW Image Recognition Web demo for free before delving into the details (no registration is required): https://api4.ai/apis/nsfw#demo-wrapper
 
 
 
-# 🚀 Getting started
+# Getting started
 
-## Subscribe and get API key
+## 🚀 Subscribe and get API key
 
 To use NSFW Image Recognition, start at [RapidAPI](https://rapidapi.com/), a well-known API hub. Register, subscribe to begin, and obtain an API key:
 
@@ -25,7 +24,7 @@ To use NSFW Image Recognition, start at [RapidAPI](https://rapidapi.com/), a wel
 3. In the "Header Parameters" section, your API Key will be shown in the `X-RapidAPI-Key` field.
 
 
-## Parameters
+## 🛠 Parameters
 
 ### API Key
 
@@ -67,21 +66,8 @@ By default algorithms is as strict as possible (strictness `1.0`) and even photo
 ![strictness](https://storage.googleapis.com/api4ai-static/rapidapi/nsfw/strictness.png)
 
 
-## Returned values
+## ↩️ Returned values
 
 The "NSFW Image Recognition" action returns the following value:
 
 * `nsfw` (number) – Represents the NSFW probability. Is a number, typically ranging from `0.0` (safe) to `1.0` (not safe). A special negative value `-1.0` used to indicate processing error.
-
-
-
-# 📌 Contacts and social links
-
-👉️️ Website: https://api4.ai  
-🤖 Web demo: https://api4.ai/apis/nsfw#demo-wrapper  
-📩 Email: hello@api4.ai  
-💬 Chat: https://t.me/a4a_support_bot  
-🔗 Instagram: https://www.instagram.com/api4ai  
-🔗 Facebook: https://www.facebook.com/api4ai.solution  
-🔗 X (twitter): https://twitter.com/api4ai  
-🔗 LinkedIn: https://www.linkedin.com/company/api4ai/

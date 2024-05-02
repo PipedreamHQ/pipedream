@@ -4,8 +4,8 @@ export default {
   ...common,
   name: "New or Updated Row",
   key: "postgresql-new-or-updated-row",
-  description: "Emit new event when a row is added or modified. [See Docs](https://node-postgres.com/features/queries)",
-  version: "2.0.2",
+  description: "Emit new event when a row is added or modified. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.5",
   type: "source",
   dedupe: "unique",
   props: {

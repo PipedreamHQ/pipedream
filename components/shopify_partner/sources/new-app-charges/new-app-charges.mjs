@@ -5,7 +5,7 @@ export default {
   key: "shopify_partner-new-app-charges",
   name: "New App Charges",
   type: "source",
-  version: "0.0.16",
+  version: "0.0.17",
   description:
     "Emit new events when new app charges made to your partner account.",
   ...common,
@@ -30,15 +30,16 @@ export default {
     const {
       createdAtMin,
       createdAtMax,
-      after,
       db,
     } = this;
 
-    const variables = {
-      ...(createdAtMin || {}),
-      ...(createdAtMax || {}),
-      ...(after || {}),
-    };
+    const variables = {};
+    if (createdAtMin) {
+      variables.createdAtMin = createdAtMin.trim();
+    }
+    if (createdAtMax) {
+      variables.createdAtMax = createdAtMax.trim();
+    }
 
     await this.shopify.query({
       db,

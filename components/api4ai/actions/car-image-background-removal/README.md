@@ -1,20 +1,19 @@
-# ⭐️ Cars Image Background Removal
+# Overview
 
-Car image editing solution designed to enhance automotive imagery, featuring high-accuracy segmentation, background removal, shadow effects, license plate blurring, and custom background replacement.
+⭐️ **Cars Image Background Removal** designed to enhance automotive imagery, featuring high-accuracy segmentation, background removal, shadow effects, license plate blurring, and custom background replacement.
 
 ![car-bg-removal](https://storage.googleapis.com/api4ai-static/rapidapi/cars-image-background-removal/car-bg-removal.png)
 
 
-
-# 🤖 Demo
+## 🤖 Demo
 
 Discover the Cars Image Background Removal Web demo for free and get a feel for its capabilities before diving deeper. No registration is required: https://api4.ai/apis/car-bg-removal#demo-wrapper
 
 
 
-# 🚀 Getting started
+# Getting started
 
-## Subscribe and get API key
+## 🚀 Subscribe and get API key
 
 To use Cars Image Background Removal, start at [RapidAPI](https://rapidapi.com/), a well-known API hub. Register, subscribe to begin, and obtain an API key:
 
@@ -23,7 +22,7 @@ To use Cars Image Background Removal, start at [RapidAPI](https://rapidapi.com/)
 3. In the "Header Parameters" section, your API Key will be shown in the `X-RapidAPI-Key` field.
 
 
-## Parameters
+## 🛠 Parameters
 
 ### API Key
 
@@ -99,7 +98,7 @@ The Car Image Background Removal offer an advanced blurring feature for license 
 ℹ️ **Note**: Enabling this feature may slightly degrade performance.
 
 
-## Returned values
+## ↩️ Returned values
 
 The "Car Image Background Removal" action returns a set of values which can be used to obtain processing results:
 
@@ -133,16 +132,3 @@ Bounding box coordinates are normalized, meaning they range from `0.0` to `1.0`.
 Possible classes:
 * `opaque-content`. The "Cars Image Background Removal" always returns this object, corresponding to the area of opaque content in the result image. The content outside this area in the result image is fully transparent.
 * `license plate`. Returned when "Hide car license plates" is enabled and car license plate(s) are detected.
-
-
-
-# 📌 Contacts and social links
-
-👉️️ Website: https://api4.ai  
-🤖 Web demo: https://api4.ai/apis/car-bg-removal#demo-wrapper  
-📩 Email: hello@api4.ai  
-💬 Chat: https://t.me/a4a_support_bot  
-🔗 Instagram: https://www.instagram.com/api4ai  
-🔗 Facebook: https://www.facebook.com/api4ai.solution  
-🔗 X (twitter): https://twitter.com/api4ai  
-🔗 LinkedIn: https://www.linkedin.com/company/api4ai/

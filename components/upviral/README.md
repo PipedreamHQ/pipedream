@@ -1,23 +1,11 @@
 # Overview
 
-UpViral provides amazing opportunities for businesses to quickly and easily
-build viral marketing campaigns, referral programs, giveaways and more. It
-helps marketers to acquire new leads, increase website traffic, build an
-engaged customer base, and most importantly, earn more sales. The power of the
-UpViral API allows you to create powerful, automated, comprehensive and
-cost-effective marketing campaigns.
+UpViral is a platform designed to create and run referral campaigns with ease. With the UpViral API, you can automate the collection of lead data, manage contests, and track the performance of your campaigns directly within Pipedream. This allows for a seamless integration of viral marketing efforts into your existing business processes. By leveraging the API, you can trigger actions in other apps based on campaign results, synchronize lead data with CRM systems, and even automate the distribution of rewards to contest winners.
 
-Here is a list of some ideas of what you can do with UpViral API:
+# Example Use Cases
 
-- Create automated and comprehensive referral campaigns or as UpViral calls
-  them 'Viral Quests'
-- Build a customer loyalty program
-- Create interactive games and giveaways
-- Design reward or contest campaigns
-- Build a referral credit system
-- Design customer onboarding programs
-- Generate survey campaigns
-- Develop sweepstakes
-- Automatically award bonuses
-- Create emails capture forms
-- And many more!
+- **Automated Lead Sync with CRM**: Sync new leads from UpViral campaigns directly to a CRM like Salesforce or Moskit. Each time a lead is captured in UpViral, a Pipedream workflow can automatically create or update a contact in the CRM, ensuring your sales team always has the latest information at their fingertips.
+
+- **Dynamic Email Follow-Ups**: Integrate UpViral with an email marketing service like SendGrid to send personalized follow-up emails. When someone enters your campaign, use Pipedream to trigger a series of targeted emails that encourage participants to share your campaign, keeping them engaged and amplifying your campaign's reach.
+
+- **Real-Time Analytics Dashboard**: Pipe campaign performance data from UpViral into a real-time analytics dashboard like Google Sheets or Data Studio. Use Pipedream to periodically fetch data such as referrals, leads, and conversion rates, then visualize this data to make informed decisions on the fly and adjust your marketing strategies accordingly.

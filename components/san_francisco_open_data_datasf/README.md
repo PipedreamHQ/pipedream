@@ -1,18 +1,11 @@
 # Overview
 
-Have you ever been curious about the data available in San Francisco? The
-DataSF API provides you with access to dozens of datasets, giving you powerful
-insights into the heart of the city. With this data, you can build and create a
-variety of projects, from visualizations to exploration tools.
+The San Francisco Open Data - DataSF API unlocks a wealth of government data spanning multiple domains such as transportation, housing, and public health. It provides developers with access to rich datasets, which can be integrated into applications to derive insights, inform decision-making, and power data-driven solutions. Pipedream's serverless platform amplifies this potential by enabling users to create automated workflows that leverage this data in concert with other apps and services.
 
-The DataSF API provides a wealth of data about San Francisco, from crime
-statistics to building permits. Here are some example projects you can create
-with this data:
+# Example Use Cases
 
-- A map that visualizes live crime data
-- A tool to search for available housing
-- A comprehensive transportation app
-- An interactive dashboard for budget data
-- A tool that compares various industry trends in different areas of the city
-- A tool to explore San Francisco's population and demographics
-- A tool to compare different public services in the area
+- **Automated Alert System for Street Cleaning Schedules**: Extract street cleaning schedules from DataSF and use Twilio SMS integration on Pipedream to notify residents the day before their street is scheduled for cleaning, minimizing parking fines and improving urban cleanliness.
+
+- **Real-Time Public Health Dashboard**: Use DataSF's public health datasets to trigger a workflow on Pipedream that aggregates the latest health metrics, processes them, and then sends the data to a Google Sheets dashboard, providing real-time insights for public health officials and the public.
+
+- **Housing Market Analysis Bot**: Combine housing data available through DataSF with Pipedream's Slack integration to create a bot that delivers weekly updates on housing market trends to realtors, investors, or interested buyers in a dedicated Slack channel.

@@ -1,28 +1,16 @@
 # Overview
 
-The Zoho Mail API enables developers to integrate their applications with the
-Zoho Mail platform, allowing them access to a wide range of email and
-collaboration features. With the API, developers can build sophisticated email
-applications that manage mailing lists, send and receive automated emails,
-analyze customer data, manage customer accounts, and more.
+The Zoho Mail API equips you with the ability to automate actions on emails, manage mailboxes, and interact with your Zoho Mail account programmatically. With Pipedream, you can trigger workflows on new emails, send emails automatically, and connect Zoho Mail to thousands of other services, streamlining communication processes, enhancing productivity, and enabling efficient data management.
 
-The following are a few examples of what you can build using the Zoho Mail API:
+# Example Use Cases
 
-- Create mailing lists and manage contacts
-- Set up automated mailing sequences
-- Analyze customer engagement data
-- Access customer accounts and manage subscriptions
-- Automate the sending of outgoing emails
-- Receive and manage incoming emails
-- Track email delivery rates and performance
-- Connect with 3rd party applications and integrate with other services
-- Create and manage custom customer fields and profiles
-- Streamline customer interactions with automated follow up emails
-- Automatically respond to incoming messages
-- Create and manage user groups
-- Create and manage custom address books and contact lists
+- **Email to Task Conversion**: Create tasks in project management tools like Trello or Asana when receiving emails with specific keywords or from certain senders. This can automate the process of tracking important requests or action items coming through your email.
 
-## Getting Started
+- **Support Ticket Generation**: On receiving an email with a support query or issue report, instantly generate a ticket in a customer support platform like Zendesk or Freshdesk. This helps in ensuring that customer issues are addressed promptly and not lost in the shuffle of an inbox.
+
+- **Email Campaign Analytics**: After sending out a marketing campaign, you might want to track responses and engagement. Use the API to tag and categorize responses, then send this data to analytics tools like Google Sheets or a BI platform to measure campaign effectiveness.
+
+# Getting Started
 
 1. First, sign up for Pipedream at [https://pipedream.com](https://pipedream.com).
 2. [Create a new workflow](https://pipedream.com/new).
@@ -31,3 +19,15 @@ The following are a few examples of what you can build using the Zoho Mail API:
 5. Once you've added a step, press the **Connect Zoho Mail** button near the top. If this is your first time authorizing Pipedream's access to your Zoho Mail account, you'll be prompted to accept that access, and Pipedream will store the authorization grant to enable the workflow to access the API. If you've already linked a Zoho Mail account via Pipedream, pressing **Connect Zoho Mail** will list any existing accounts you've linked. 
 
 Once you've connected your account, you can run your workflow and fetch data from the API. You can change any of the code associated with this step, changing the API endpoint you'd like to retrieve data from, or modifying the results in any way.
+
+# Troubleshooting
+
+**Issues Connecting My Account: IP Allowlist**
+
+If your Zoho security policy includes an IP Allowlist, update it to connect your account:
+
+1. Add this IP Range: `44.223.89.56` - `44.223.89.63`.
+2. Include your current IP Address because the initial OAuth authorization request originates from your browser.
+3. Set up a [Virtual Private Cloud (VPC) on Pipedream](https://pipedream.com/docs/workflows/vpc#create-a-new-vpc). Add the [static IP address](https://pipedream.com/docs/workflows/vpc#find-the-static-outbound-ip-address-for-a-vpc) to Zoho's IP Allowlist. Note: VPCs are available with Pipedream's **Business Plan** or higher. See [pricing](https://pipedream.com/pricing) for details.
+
+After connecting your account, make sure to [run the workflow within a VPC](https://pipedream.com/docs/workflows/vpc#run-workflows-within-a-vpc).

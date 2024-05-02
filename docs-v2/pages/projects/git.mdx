@@ -1,4 +1,5 @@
 import Callout from '@/components/Callout'
+import PipedreamCode from "@/components/PipedreamCode";
 
 # Github Sync
 
@@ -161,11 +162,13 @@ Below are a list of known issues that do not currently have solutions, but are i
 
 ## Github Enterprise Cloud
 
-If your repository hosted on an Github Enterprise account, you can allow the static Pipedream IP address to sync your project changes.
+If your repository is hosted on an Github Enterprise account, you can allow Pipedream's address range to sync your project changes.
 
-[Follow the directions here](https://docs.github.com/en/enterprise-cloud@latest/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/managing-allowed-ip-addresses-for-your-organization) to add an IP address.
+[Follow the directions here](https://docs.github.com/en/enterprise-cloud@latest/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/managing-allowed-ip-addresses-for-your-organization) and add the following IP range: 
 
-Then add this static IP address `3.214.142.179` to allow Pipedream to sync changes.
+<pre className="mt-4 nx-bg-primary-700/5 nx-mb-4 nx-overflow-x-auto nx-rounded-xl nx-subpixel-antialiased dark:nx-bg-primary-300/10 nx-text-[.9em] contrast-more:nx-border contrast-more:nx-border-primary-900/20 contrast-more:nx-contrast-150 contrast-more:dark:nx-border-primary-100/40 nx-py-4">
+  {process.env.PD_EGRESS_IP_RANGE}
+</pre>
 
 <Callout type="warning" emoji="⚠">
 Github Sync is available on Business and above plans

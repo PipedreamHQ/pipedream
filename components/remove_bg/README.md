@@ -1,16 +1,11 @@
 # Overview
 
-Remove.bg is an automated background removal tool, allowing you to quickly and
-easily remove backgrounds from any image. With a few API requests, you can
-easily transform any image into a background-free photo.
+Remove.bg is a powerful API for automatic image background removal, allowing developers to seamlessly strip backgrounds from images and photos. Integrating Remove.bg in Pipedream workflows enables the creation of automated processes for graphic design, e-commerce product listings, profile picture moderation, and more. The API uses sophisticated AI algorithms to detect and separate foreground elements from their backgrounds, offering a clean and precise cutout that can be used across various applications.
 
-The [Remove.bg API](https://remove.bg) will allow you to quickly and
-efficiently edit your images, adding a little bit of extra finesse to any image
-editing. Here are just a few examples what you can do with the Remove.bg API:
+# Example Use Cases
 
-- Easily remove objects and people from any images
-- Generate stock photos by removing backgrounds
-- Outline objects by eliminating their backgrounds
-- Quickly and easily prepare images for printing
-- Create playful montages by putting objects on different backgrounds
-- Transform any photo into a sharp, vibrant visual
+- **Automated Product Image Processing**: Process product photos uploaded to a cloud storage like Dropbox. Whenever a new image is added, Pipedream triggers a workflow that sends the image to Remove.bg to strip the background, then saves the processed image back to Dropbox or another storage service, ready for e-commerce listing.
+
+- **Streamline Profile Photo Moderation**: Improve user experience by automatically formatting profile pictures for a community platform or social network. When users upload their profile photo, Pipedream can use Remove.bg to remove the background and standardize the profile image look across the platform.
+
+- **Dynamic Marketing Material Creation**: Generate marketing materials by combining user-uploaded images with branded backgrounds. When a user uploads an image to a service like Google Drive, Pipedream can trigger a workflow that removes the image background via Remove.bg and overlays it onto a selection of brand-specific backgrounds, ready for campaign usage.

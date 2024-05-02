@@ -1,20 +1,11 @@
 # Overview
 
-The Vectera API offers a wide range of features to enable powerful and
-versatile video collaboration solutions. With the Vectera API, you can build
-collaborative solutions that connect multiple users in real-time and make video
-meetings more efficient. You can create applications that enable teams to share
-screens, make documents and media securely, and collaborate in real-time.
+The Vectera API enables users to streamline scheduling and video meeting management directly within their own platforms or through integration with other services. With the Vectera API, you can automate the creation of meeting rooms, manage contacts, and handle meeting recordings. Leverage Pipedream's capabilities to trigger workflows from various events, process data, and connect Vectera with other apps to create powerful automations.
 
-Here are some examples of what you can build with the Vectera API:
+# Example Use Cases
 
-- Create online meeting tools that are secure, fast, and tailored to your
-  needs.
-- Develop customized applications for live meetings and training sessions.
-- Enable users to easily share private documents and other media.
-- Create a whiteboard feature that allows users to collaborate in real-time.
-- Develop visual collaboration tools to make online meetings more interactive.
-- Create AI-powered chat bots that can help facilitate conversations during
-  meetings.
-- Integrate with enterprise grade solutions to make them more secure and
-  efficient.
+- **Automated Meeting Room Creation**: Trigger a workflow on Pipedream whenever a new event is scheduled in your calendar app (e.g., Google Calendar). The workflow creates a new Vectera meeting room and sends the details to participants via email or a messaging app like Slack.
+
+- **Contact Synchronization**: Sync contacts between Vectera and a CRM platform like Salesforce. Whenever a new contact is added to Salesforce, a corresponding contact can be automatically created in Vectera, ensuring that meeting invites are always sent to up-to-date email addresses.
+
+- **Meeting Recording Processing**: After a meeting ends, trigger a Pipedream workflow to download the recording from Vectera. The workflow can then upload the recording to a cloud storage service like Google Drive and send a notification with the link to participants or stakeholders.

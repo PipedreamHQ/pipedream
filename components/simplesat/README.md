@@ -1,25 +1,11 @@
 # Overview
 
-Using the Simplesat API, you can access a range of insightful data and build
-products to address customer feedback quickly and easily. Here are some key
-features the Simplesat API can provide to help you build an effective feedback
-system:
+The Simplesat API allows you to automate and integrate customer feedback workflows directly with your other business processes. With this API, you can seamlessly gather customer satisfaction ratings, Net Promoter Scores, and firsthand testimonials. You can trigger actions based on feedback, sync data to CRM or support tools, and analyze customer sentiment in real-time.
 
-- Automated Data Collection: Access responses to feedback surveys without
-  requiring manual export of data at any stage.
-- Text Analysis: Quickly gain insights from customer feedback using sentiment
-  analysis or categorizing comments by topics.
-- Flexible Integration: Integrate feedback data into your existing systems
-  quickly and painlessly.
+# Example Use Cases
 
-Here are some example applications that can be built with the Simplesat API:
+- **Customer Satisfaction-Driven Support Tickets**: Automate the creation of support tickets in a tool like Zendesk when a customer submits a negative satisfaction survey, flagging the customer service team to follow up and address the concerns quickly.
 
-- Employee Engagement Survey: Create customized surveys to measure employee
-  satisfaction levels, get valuable insight on areas for improvement and take
-  the necessary steps for improvement.
-- Customer Satisfaction Score: Construct metrics from customer survey responses
-  to measure and track customer satisfaction in real-time.
-- Monitor Social Media: Collect responses from social media posts to track
-  customer sentiment and feelings about your brand.
-- Trend Analysis: Analyze customer feedback for trends over time to make
-  informed decisions about product improvement.
+- **NPS Score Aggregation and Alerting**: Use Pipedream to aggregate Net Promoter Score responses into a Google Sheet for easy tracking. Set up alerts to notify the team via Slack or email when scores below a certain threshold are submitted, indicating a potential customer churn risk.
+
+- **Testimonial Collection and Marketing Automation**: Collect positive testimonials through the Simplesat API and automatically push them to your marketing platforms, like Mailchimp, to be featured in newsletters or on your website, enhancing social proof and brand reputation.

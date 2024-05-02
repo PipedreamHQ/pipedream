@@ -3,8 +3,8 @@ import postgresql from "../../postgresql.app.mjs";
 export default {
   name: "Find Row",
   key: "postgresql-find-row",
-  description: "Finds a row in a table via a lookup column. [See Docs](https://node-postgres.com/features/queries)",
-  version: "2.0.2",
+  description: "Finds a row in a table via a lookup column. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.5",
   type: "action",
   props: {
     postgresql,
@@ -67,10 +67,11 @@ export default {
       $.export("$summary", summary);
       return res;
     } catch (error) {
-      throw new Error(`
-      Row not retrieved due to an error. ${error}.
-      This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
-    `);
+      let errorMsg = "Row not retrieved due to an error. ";
+      errorMsg += `${error}`.includes("SSL verification failed")
+        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
+        : `${error}`;
+      throw new Error(errorMsg);
     }
   },
 };

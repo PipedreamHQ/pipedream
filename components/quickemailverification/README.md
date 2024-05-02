@@ -1,27 +1,11 @@
 # Overview
 
-QuickEmailVerification (QEV) is a powerful API that enables businesses to
-quickly and easily verify the accuracy of email addresses. The API reduces the
-risk of bouncebacks caused by mistyped or incorrect email addresses, and
-ensures that only correct emails are sent out. With QEV, you can build tools
-that authenticate email addresses with confidence and accuracy.
+The QuickEmailVerification API offers a robust solution for validating email addresses in real-time, ensuring they're formatted correctly, deliverable, and free from common issues like typos or disposable domains. By integrating this API with Pipedream, you can automate the process of cleaning your email lists, enhancing email deliverability, and maintaining the integrity of your communication channels. This seamless verification process can be a critical component to any customer outreach, marketing campaign, or user sign-up flow.
 
-QEV is great for any organization that needs to send emails to customers and
-prospects. Here are just a few of the ways that you can use the QEV API to
-build powerful and useful applications:
+# Example Use Cases
 
-- Email Address Validation: Quickly and accurately validate email addresses
-  entered by users, or stored in your customer database, to eliminate bad
-  addresses and reduce bouncebacks.
-- Email Domain Verification: Verify the domain names or extensions of email
-  addresses, such as .com, .net, .org, etc., to ensure that they are genuine.
-- Email Authentication: Perform SMTP checks to authenticate incoming emails and
-  ensure that they actually come from who they say they do.
-- Real-Time Validation: Validate email addresses in real-time, to ensure that
-  no bad addresses sneak through.
-- Bulk Email Verification: Verify a list of email addresses all at once to save
-  time and increase accuracy.
-- Email List Cleaning: Detect and remove incorrect email addresses from your
-  customer database, drastically cutting down on bouncebacks.
-- Risk Analysis: Analyze the risk of online fraud associated with certain email
-  addresses, helping you to protect your business and customers.
+- **User Sign-Up Validation**: Immediately validate email addresses during the user registration process. Connect QuickEmailVerification to your app's sign-up form via Pipedream. This prevents fake or typo-ridden emails from entering your system, thereby improving the quality of your user base and reducing bounce rates.
+
+- **Email Campaign Cleaning**: Prior to launching an email marketing campaign, run your mailing list through QuickEmailVerification using a Pipedream workflow. Link it with email marketing platforms like Mailchimp or SendGrid to ensure that only verified emails receive your campaigns, which can boost open rates and sender reputation.
+
+- **Automated CRM Hygiene**: Keep your CRM data clean by setting up a Pipedream workflow that periodically checks and updates the email addresses of your contacts. Integrate with popular CRM systems like Salesforce or HubSpot to verify email data, reducing the risk of emailing invalid addresses and increasing the efficacy of sales and marketing efforts.

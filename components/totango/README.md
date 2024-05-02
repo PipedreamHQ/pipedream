@@ -1,29 +1,11 @@
 # Overview
 
-Totango is a powerful Customer Success platform that enables businesses to
-create amazing customer experiences. The Totango API is a powerful way to
-manage customers, automate processes, and gain insights about customer
-behavior. With the Totango API, you can build applications and integrations
-that do the following:
+The Totango API taps into the realm of customer success, offering intricate data on customer interactions and health scores. This API is a gateway for syncing customer data, tracking events, and constructing a responsive and personalized customer journey. Utilize Pipedream's capabilities to connect Totango to a myriad of other apps, creating automated workflows that enhance customer insights, trigger actions based on customer status, and streamline communication across platforms.
 
-- Retrieve customer data such as activity, usage, and attributes
-- Create segments of customers based on activity, usage, and attributes
-- Automate processes such as notifications, actions, and CRM sync
-- Pull customer insights such as customer health scores and customer analytics
-- Integrate with other systems such as Salesforce, Zendesk, and Slack
+# Example Use Cases
 
-Using the Totango API, you can build applications and services that enable
-businesses to gain a deeper understanding of their customers and provide them
-with better customer experiences. Here are some examples of what you can build
-using the Totango API:
+- **Customer Health Score Alerts**: Send real-time notifications to Slack when a customer's health score drops below a certain threshold in Totango. This immediate alert enables swift action, such as a customer success manager reaching out to address potential issues.
 
-- Usage and billing analytics applications that track customer usage and
-  provide insights into customer payment history
-- Automated notifications and follow up services that keep customers informed
-  about their orders and support inquiries
-- Internal applications that connect customer data across different systems for
-  better analysis
-- Customer health companions that track customer health metrics and recommend
-  personalized plans for boosting customer engagement
-- Third-party integrations that connect to customer-facing components such as
-  mobile apps and websites
+- **Automated Onboarding Emails**: When a new customer is added to Totango, trigger an automated email sequence in SendGrid. This sequence can include welcome emails, onboarding resources, and check-in messages, ensuring consistent engagement from the start.
+
+- **Support Ticket Integration**: Integrate Totango with Zendesk to automatically create support tickets when specific customer milestones are achieved or issues are detected. This ensures that support teams are proactively involved in the customer's journey, leading to better service and retention.

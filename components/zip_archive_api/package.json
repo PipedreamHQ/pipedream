@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zip_archive_api",
+  "version": "0.0.1",
+  "description": "Pipedream Zip Archive API Components",
+  "main": "zip_archive_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zip_archive_api"
+  ],
+  "homepage": "https://pipedream.com/apps/zip_archive_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

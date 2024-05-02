@@ -1,33 +1,11 @@
 # Overview
 
-The [OneDesk API](https://www.onedesk.com/) allows developers to easily access
-and integrate several of OneDesk's core services into their own applications.
-With the OneDesk API, developers are able to customize and combine multiple
-services to create completely unique and versatile applications that their
-users can enjoy.
+The OneDesk API allows for the automation and integration of project management and customer support tasks. Through Pipedream, users can leverage this API to create custom workflows that streamline processes, sync data across platforms, and react to events in real-time. By using OneDesk's capabilities in task and ticket management within Pipedream's serverless platform, users can create powerful automations that enhance productivity and coordination between teams.
 
-The OneDesk API provides developers access to:
+# Example Use Cases
 
-- Project Management: Create, edit and delete projects and tasks, and
-  collaborate with team members
-- Knowledge Management: Create, edit and share documents and FAQs
-- Ideas and Feedback Management: Manage customer feedback and ideas
-- Resource Scheduling: Define resource profiles and calendars for project
-  scheduling
-- Time Tracking: Track time and cost allocations to tasks
+- **Automated Task Creation from Emails**: When an email labeled "Support" arrives in Gmail, a Pipedream workflow triggers the creation of a new support ticket in OneDesk. This ensures no customer query is missed and support tickets are organized and actionable within OneDesk.
 
-Using these and other core services from OneDesk, developers can create
-powerful and engaging applications that cover a variety of use cases. Here are
-some examples of applications you can build with the OneDesk API:
+- **Real-time Project Updates to Slack**: Whenever a task is updated or completed in OneDesk, Pipedream sends a notification to a designated Slack channel. This keeps the team instantly informed about project progress, fostering a culture of transparency and up-to-date communication.
 
-- Corporate Project Planning App - A mobile and web-based application that
-  allows teams to collaborate on planning and organizing projects
-- Knowledge Base App - A web-based application that lets teams store, share and
-  update knowledge resources across multiple devices
-- Time Tracking App - A mobile and web-based application that provides detailed
-  time tracking, resource scheduling and cost allocation capabilities
-- Customer Support App - A web-based application that uses knowledge management
-  and feedback management capabilities to manage customer interactions and
-  inquiries quickly and easily
-- Collaboration App - A mobile and web-based application that allows teams to
-  easily collaborate with each other on multiple projects and tasks
+- **Syncing OneDesk Tickets with Trello for Visual Project Management**: Use Pipedream to sync OneDesk tickets to a Trello board automatically. When a new ticket is created in OneDesk, a corresponding card is created in Trello. This allows for visual management of tasks and can help teams that utilize both platforms for different aspects of project tracking.

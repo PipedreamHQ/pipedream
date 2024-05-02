@@ -1,12 +1,11 @@
 # Overview
 
-The Streamlabs API allows developers to create powerful applications and
-integrations with Streamlabs. With the Streamlabs API, you can create custom
-tools and experiences tailored specifically to your users. Streamlabs offers
-the tools and resources you need to easily build the following:
+The Streamlabs API opens doors to automating and enhancing live streaming experiences. By tapping into Streamlabs' functionalities, you can automate alerts, manage donations, and interact with your audience in real time. Augment your streaming workflow by integrating with other services to cut down on manual processes, respond to events as they happen, and personalize the interaction with your viewers.
 
-- Engagement tools such as interactive overlays, polls, and stream alerts
-- Chat bots allowing users to interact with each other in fun ways
-- Integrations with other services, such as Discord and Twitch
-- Custom analytics and reporting
-- Custom donation pages, payments, and more
+# Example Use Cases
+
+- **Automated Donation Thank-Yous**: Instantly acknowledge donations by triggering personalized thank-you messages or on-screen alerts using Streamlabs with Pipedream. Integrate with a messaging app like Discord or Slack to send a special shout-out to your community's channel whenever a donation is made.
+
+- **Real-Time Alerts for New Followers**: Keep the hype going by setting up real-time follower notifications. When someone follows, use Streamlabs with Pipedream to broadcast a custom alert on your stream, and at the same time, capture the follower's info for your records or further engagement strategies.
+
+- **Stream Performance Analytics Digest**: After each stream, automatically gather performance analytics from Streamlabs and send a summary to your email or store it in a Google Sheet. Use Pipedream's cron scheduling to trigger this workflow at a regular interval, ensuring you have consistent post-stream reviews.

@@ -3,8 +3,8 @@ import postgresql from "../../postgresql.app.mjs";
 export default {
   name: "Find Row With Custom Query",
   key: "postgresql-find-row-custom-query",
-  description: "Finds a row in a table via a custom query. [See Docs](https://node-postgres.com/features/queries)",
-  version: "2.0.2",
+  description: "Finds a row in a table via a custom query. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.5",
   type: "action",
   props: {
     postgresql,
@@ -50,10 +50,11 @@ export default {
       $.export("$summary", "Successfully executed query");
       return res;
     } catch (error) {
-      throw new Error(`
-        Query not executed due to an error. ${error}.
-        This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
-      `);
+      let errorMsg = "Query not executed due to an error. ";
+      errorMsg += `${error}`.includes("SSL verification failed")
+        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
+        : `${error}`;
+      throw new Error(errorMsg);
     }
   },
 };

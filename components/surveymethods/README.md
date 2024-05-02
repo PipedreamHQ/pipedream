@@ -1,31 +1,11 @@
 # Overview
 
-The SurveyMethods API provides an easy way to build surveys and poll
-applications. With the SurveyMethods API, you can build a wide variety of
-applications that help customers understand their market and customers better.
-By utilizing the SurveyMethods API, businesses and organizations can
-communicate with their customers and stakeholders quickly and efficiently.
+The SurveyMethods API allows users to automate the management and analysis of surveys and the corresponding data. With the Pipedream integration, you can trigger workflows based on survey events, sync survey results with other databases or apps, and manage survey distribution programmatically. This serves to streamline the survey process from distribution to data actioning, all in real-time and without the need for manual intervention.
 
-These are just some of the applications that can be built with the
-SurveyMethods API:
+# Example Use Cases
 
-- Online Polls: With the SurveyMethods API, businesses can quickly collect
-  customer opinions by creating online polls. This allows them to understand
-  their customers better and make informed decisions.
-- Customer Surveys: The SurveyMethods API can be used to quickly create
-  customer surveys that help organizations better understand their customers’
-  needs.
-- Market Research: By using the SurveyMethods API, businesses can quickly get
-  market insights from their customers. This helps them keep track of their
-  competitors and make more informed decisions.
-- Event Feedback: Businesses can create event feedback surveys with the
-  SurveyMethods API that make it easier for them to get feedback from
-  attendees.
-- Employee Satisfaction: Companies can use the SurveyMethods API to survey
-  their employees about their satisfaction with the work environment, benefits,
-  etc.
-- Recruitment: Companies can create recruitment polls with the SurveyMethods
-  API to gather important information about potential job applicants.
-- Training Evaluation: Companies can use the SurveyMethods API to create
-  training evaluation surveys that help them assess the effectiveness of their
-  employee training programs.
+- **Automated Survey Responses Aggregation**: Capture SurveyMethods responses and aggregate them in a Google Sheet for real-time analysis. Each time a new response is received, a Pipedream workflow is triggered, appending the response data to a designated Google Sheet. This is perfect for teams needing to analyze feedback instantly without manual exports.
+
+- **Immediate Follow-up on Survey Feedback**: Instantly reach out to respondents who provided specific feedback. Say a respondent indicates dissatisfaction; Pipedream can trigger an email through an app like SendGrid, offering support or a discount code, thus acting swiftly on user sentiment.
+
+- **Survey Completion Tracking in CRM**: Log completed surveys as events in a CRM like Salesforce. When a respondent completes a survey, Pipedream adds a record of this completion to the respondent's contact entry on Salesforce. This helps sales and customer success teams personalize follow-up communications.

@@ -1,19 +1,11 @@
 # Overview
 
-The SMS Magic API allows you to quickly and securely send and receive text
-messages from your system. With it, you can build powerful custom messaging
-solutions for a variety of use cases. Here are just some of the ways you can
-use the SMS Magic API to enhance your business's communications abilities:
+The SMS Magic API on Pipedream opens a world of possiblities for automating communication workflows. With it, you can send personalized text messages, schedule campaigns, and track message delivery within your applications. It's especially powerful for sales and support teams who need to engage customers on a massive scale without sacrificing the personal touch.
 
-- Increase communication efficiency with automated SMS reminders for customer
-  appointments, orders and returns.
-- Streamline your customer support by providing 24/7 support availability via
-  SMS.
-- Update customers with helpful product info or customer service follow-ups
-  with automated or customer directed SMS messaging.
-- Send emergency notifications quickly and securely.
-- Build automated two-way contact forms.
-- Receive text messages and trigger automated actions to respond.
+# Example Use Cases
 
-By using the SMS Magic API, you can take your communication capabilities to the
-next level, ensuring the customer experience remains seamless and efficient.
+- **Automated Customer Follow-Ups**: Create a workflow that triggers after a customer completes a purchase on your e-commerce platform. Utilize SMS Magic to send a personalized thank you message, and schedule a follow-up message a few days later to ask for a review or offer further assistance.
+
+- **Event-Driven Promotions**: Connect SMS Magic to a calendar app like Google Calendar on Pipedream. When a specific event (e.g., Black Friday) is approaching, automatically send out discount offers or special announcements to your segmented customer list to drive sales.
+
+- **Support Ticket Alerts**: Integrate SMS Magic with a support ticketing system such as Zendesk. Set up a workflow that alerts customers via SMS when their support ticket status changes. This keeps customers informed and improves satisfaction with real-time updates.

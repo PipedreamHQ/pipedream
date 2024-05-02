@@ -1,15 +1,14 @@
 # Overview
 
-With AdRoll, you can build a variety of targeted ads and retargeting campaigns
-to reach your ideal customers. You can reach new audiences with our powerful
-targeting options, and then retarget them with personalized ads to close the
-sale.
+The AdRoll API offers a suite of tools to enhance advertising efforts with targeted ad campaigns and advanced analytics. Harnessing this API within Pipedream allows you to automate interactions with AdRoll, such as synchronizing audiences, updating campaigns, and managing advertisements based on triggers from other services. By integrating AdRoll API with Pipedream, you create dynamic workflows that respond in real-time to your business data, ensuring your marketing efforts are both efficient and scalable.
 
-Here are some examples of what you can build with AdRoll:
+# Example Use Cases
 
-- Targeted ads: reach new audiences with our powerful targeting options
-- Retargeting campaigns: reach your ideal customers with personalized ads
-- Conversion tracking: track the effectiveness of your campaigns and optimize
-  accordingly
-- Dynamic creatives: create personalized ads for each user for maximum impact
-- A/B testing: test different versions of your ads to see what works best
+**Ad Audience Sync Workflow**
+Automatically sync email lists from CRMs like HubSpot to AdRoll to keep your ad targeting sharp and current. When a new contact is added to a specific list in HubSpot, a Pipedream workflow gets triggered, which then updates your AdRoll audience segment, ensuring your ads reach the right users.
+
+**E-commerce Retargeting Trigger**
+Create a workflow that triggers retargeting campaigns based on customer behavior from e-commerce platforms like Shopify. For example, when a customer abandons their cart, Pipedream detects this event from Shopify and sends the data to AdRoll, initiating a retargeting ad sequence designed to bring the customer back to complete the purchase.
+
+**Ad Performance Slack Alerts**
+Set up a Pipedream workflow that monitors your AdRoll campaign performance metrics and sends periodic reports or alerts to a Slack channel. This workflow can be configured to send daily summaries or immediate alerts if the performance dips below certain thresholds, keeping the marketing team informed and agile in their response.

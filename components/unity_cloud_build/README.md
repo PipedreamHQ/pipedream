@@ -1,29 +1,11 @@
 # Overview
 
-The Unity Cloud Build API provides a powerful way to automate your builds and
-take advantage of incremental cloud builds on multiple platforms. With this
-API, developers can create a cloud-based build pipeline, enabling them to
-create builds on the fly and maintain a consistently high-quality product.
+The Unity Cloud Build API lets you automate the process of setting up and distributing game builds. It's a powerful suite of tools allowing developers to personalize and streamline build tasks. With Pipedream, you can harness this API to integrate build processes with your existing tools, notify teams, deploy builds to platforms, and react to events in Unity Cloud Build in real-time.
 
-The Unity Cloud Build API is an ideal tool for streamlining the build process
-and taking full advantage of the cloud. With the API, developers can:
+# Example Use Cases
 
-- Automate build processes and speed up time to deploy
-- Generate multiple builds for different platforms, including Linux, Android,
-  iOS, WebGL, and UWP
-- Track build progress and performance in real-time
-- Create customized scripts for automated build tasks
-- Access and manage build artifacts
-- Create custom rules for automated builds
+- **Automated Build Notifications via Slack**: Create a workflow on Pipedream that triggers when a new build is available in Unity Cloud Build. It can then send a message to a Slack channel to inform the team. This aids in keeping everyone up-to-date on the latest build status without manual checks.
 
-Examples of products that can be built using the Unity Cloud Build API include:
+- **GitHub Integration for Build Triggers**: Set up a Pipedream workflow that listens for GitHub push or pull request events. Upon detection, it can trigger a new build in Unity Cloud Build, effectively creating a continuous integration pipeline that ensures your game is always ready for the latest changes in your codebase.
 
-- 3D games for mobile, console, web, and desktop
-- Educational simulations
-- Multi-player battle games
-- Virtual reality applications
-- Augmented reality experiences
-- Visual visualizations and interactive data visualizations
-- Interactive presentations and training materials
-- Online marketplaces
-- Location-based experiences
+- **Discord Notifications for Build Failures**: Configure Pipedream to monitor Unity Cloud Build for failed build events. When a build fails, automatically send a detailed report to a specified Discord server to prompt immediate action from the development team. This workflow helps in quickly addressing and resolving build issues.

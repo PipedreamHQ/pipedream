@@ -1,22 +1,11 @@
 # Overview
 
-Greenhouse is a recruitment software platform that helps companies source,
-hire, and onboard employees. With the Greenhouse API, you can access data
-about:
+The Greenhouse API offers a powerful suite of tools for automating and enhancing the recruitment process. It allows you to programmatically access candidate information, job listings, scorecards, and scheduling details, which opens a myriad of possibilities for streamlining recruiting workflows. By leveraging the Greenhouse API on Pipedream, you can automate repetitive tasks, integrate with other HR systems, analyze recruitment data, and build custom event-driven workflows to improve the efficiency and effectiveness of your hiring process.
 
-- Job postings
-- Applicants
-- Interviews
-- Offers
-- Hires
+# Example Use Cases
 
-This data can be used to create custom applications or integrations that help
-streamline your recruiting process. Some examples of what you can build with
-the Greenhouse API include:
+- **Automated Candidate Screening**: Trigger a workflow in Pipedream when new candidates apply, automatically screening their resumes with AI-based tools, and then creating tasks in project management apps like Asana for recruiters to follow up with top candidates.
 
-- A tool that allows candidates to apply for multiple positions with a single
-  click
-- A dashboard that displays real-time data about your hiring pipeline
-- An integration with your HRIS system that automatically creates profiles for
-  new hires
-- A chatbot that answers questions about open positions or the hiring process
+- **Interview Scheduling Coordination**: Connect Greenhouse with calendar apps like Google Calendar using Pipedream. When an interview is scheduled in Greenhouse, automatically find and book an available time slot, send calendar invites to all participants, and post a message with details in a Slack channel dedicated to the hiring team.
+
+- **Recruitment Analytics Reporting**: Compile recruitment metrics by setting up a Pipedream workflow that periodically fetches data from Greenhouse, processes the analytics (like time-to-hire or diversity stats), and then generates a report in Google Sheets or visualizes the data on a BI tool like Tableau for the HR team's review.
