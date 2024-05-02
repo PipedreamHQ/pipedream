@@ -33,6 +33,7 @@ export default {
         googleDrive,
         "fileName",
       ],
+      label: "File Name",
       description:
         "The name of the file you want to create (e.g., `myFile.txt`)",
     },

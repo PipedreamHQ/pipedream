@@ -27,7 +27,6 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
-
       optional: true,
     },
     fileId: {
