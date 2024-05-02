@@ -2547,7 +2547,10 @@ importers:
     specifiers: {}
 
   components/encodian:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/endorsal:
     specifiers:
@@ -3001,6 +3004,12 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/foursquare:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/foxy:
     specifiers: {}
@@ -4692,7 +4701,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/llama_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/lmnt:
     specifiers:
@@ -6856,7 +6868,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/reishost:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/relavate:
     specifiers: {}
@@ -7214,7 +7229,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sare:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/satismeter:
     specifiers:
