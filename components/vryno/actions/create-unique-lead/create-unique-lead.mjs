@@ -47,7 +47,7 @@ export default {
     ownerId: {
       type: "string",
       label: "Owner Id",
-      description: "The user Id related to the lead.",
+      description: "The user Id related to the lead.You can find the user IDs in your account -> settings -> users & controls -> users, click on some user and the ID will be in URL.",
     },
     score: {
       type: "integer",
@@ -145,7 +145,8 @@ export default {
     ? `{name: "email", operator:"eq",value:["${this.email}"]},`
     : ""}${this.phoneNumber
   ? `{name: "phoneNumber", operator:"eq",value:["${this.phoneNumber}"]}`
-  : ""}]){
+  : ""}],
+  expression:"( ( a ) and b)"){
                 code
                 status
                 message
@@ -159,7 +160,7 @@ export default {
       },
     });
 
-    if (duplicateCheck.data.fetchLead.data) {
+    if (duplicateCheck.data?.fetchLead?.data?.length) {
       $.export("$summary", "A lead with the same email and phone number already exists.");
       return duplicateCheck.data;
     }
