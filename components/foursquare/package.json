@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/sare",
+  "name": "@pipedream/foursquare",
   "version": "0.1.0",
-  "description": "Pipedream SARE Components",
-  "main": "sare.app.mjs",
+  "description": "Pipedream Foursquare Components",
+  "main": "foursquare.app.mjs",
   "keywords": [
     "pipedream",
-    "sare"
+    "foursquare"
   ],
-  "homepage": "https://pipedream.com/apps/sare",
+  "homepage": "https://pipedream.com/apps/foursquare",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
@@ -16,4 +16,3 @@
     "@pipedream/platform": "^1.6.2"
   }
 }
-
