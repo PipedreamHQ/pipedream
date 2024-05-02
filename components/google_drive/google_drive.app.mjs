@@ -42,6 +42,21 @@ export default {
         return this._listDriveOptions(nextPageToken);
       },
     },
+    themeId: {
+      type: "string",
+      label: "Theme ID",
+      description: "The theme from which the background image and color will be set. Cannot be set if `Color` or `Background Image Link` are used.",
+      optional: true,
+      async options() {
+        const { driveThemes } = await this.getAbout("driveThemes");
+        return driveThemes?.map(({
+          id, colorRgb,
+        }) => ({
+          label: `${id} (${colorRgb})`,
+          value: id,
+        }));
+      },
+    },
     folderId: {
       type: "string",
       label: "Folder",
