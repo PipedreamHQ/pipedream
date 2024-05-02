@@ -12,7 +12,6 @@ export default {
       type: "string",
       label: "Name",
       description: "The name of the new shared drive",
-      optional: true,
     },
   },
   async run({ $ }) {
