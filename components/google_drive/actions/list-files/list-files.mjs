@@ -44,7 +44,7 @@ export default {
     trashed: {
       label: "Trashed",
       type: "boolean",
-      description: "List trashed files or non-trashed files. Keep it empty to include both.",
+      description: "If `true`, list **only** trashed files. If `false`, list **only** non-trashed files. Keep it empty to include both.",
       optional: true,
     },
   },
