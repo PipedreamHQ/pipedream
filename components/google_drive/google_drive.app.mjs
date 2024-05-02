@@ -42,6 +42,16 @@ export default {
         return this._listDriveOptions(nextPageToken);
       },
     },
+    sharedDrive: {
+      type: "string",
+      label: "Shared Drive",
+      description: "Select a [Shared Drive](https://support.google.com/a/users/answer/9310351) or leave blank to retrieve all available shared drives.",
+      optional: true,
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        return this._listDriveOptions(nextPageToken, false);
+      },
+    },
     themeId: {
       type: "string",
       label: "Theme ID",
@@ -465,7 +475,7 @@ export default {
         pageToken = nextPageToken;
       }
     },
-    async _listDriveOptions(pageToken) {
+    async _listDriveOptions(pageToken, myDrive = true) {
       const {
         drives,
         nextPageToken,
@@ -476,14 +486,14 @@ export default {
       // only do this during the first page of options (i.e. when `pageToken` is
       // undefined).
       const options =
-        pageToken !== undefined
-          ? []
-          : [
+        myDrive && pageToken === undefined
+          ? [
             {
               label: "My Drive",
               value: MY_DRIVE_VALUE,
             },
-          ];
+          ]
+          : [];
       for (const d of drives) {
         options.push({
           label: d.name,
