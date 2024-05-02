@@ -4,122 +4,95 @@ export default {
   type: "app",
   app: "relavate",
   propDefinitions: {
-    referralName: {
+    campaignId: {
       type: "string",
-      label: "Referral Name",
-      description: "The name of the referral",
-      optional: true,
-    },
-    clientId: {
-      type: "string",
-      label: "Client ID",
-      description: "The ID of the client",
-      required: true,
-    },
-    vendorId: {
-      type: "string",
-      label: "Vendor ID",
-      description: "The ID of the vendor",
-      required: true,
-    },
-    details: {
-      type: "string",
-      label: "Details",
-      description: "The details of the lead",
-      required: true,
-    },
-    followUp: {
-      type: "boolean",
-      label: "Follow Up",
-      description: "Indicates if a follow up interaction is necessary",
-      optional: true,
-    },
-    dealDetails: {
-      type: "string",
-      label: "Deal Details",
-      description: "The details of the deal",
-      required: true,
-    },
-    priority: {
-      type: "string",
-      label: "Priority",
-      description: "The priority of the deal",
-      optional: true,
+      label: "Campaign ID",
+      description: "The ID of the campaign",
+      async options() {
+        const campaigns = await this.listCampaigns();
+        return campaigns?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.relavate.co/";
+      return "https://app.relavate.co/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "X-key": this.$auth.key,
-          "X-secret": this.$auth.secret,
-          "X-partnerType": this.$auth.partnerType,
+          "X-key": this.$auth.api_key,
+          "X-secret": this.$auth.api_secret,
+          "X-partnerType": this.$auth.partner_type,
         },
       });
     },
-    async createAffiliateCampaign() {
+    getPartnerType() {
+      return this.$auth.partner_type;
+    },
+    getVendor({
+      vendorId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/affiliate/campaign",
+        path: `/vendors/${vendorId}`,
+        ...opts,
       });
     },
-    async createClient() {
+    getPartner({
+      partnerId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/client",
+        path: `/partners/${partnerId}`,
+        ...opts,
       });
     },
-    async createReferral(referralName) {
+    listVendors(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/referral",
-        data: {
-          name: referralName,
-        },
+        path: "/partners/vendors/all",
+        ...opts,
       });
     },
-    async associateClientVendor(clientId, vendorId) {
+    listPartners(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/client/vendor",
-        data: {
-          clientId: clientId,
-          vendorId: vendorId,
-        },
+        path: "/vendors/partners/all",
+        ...opts,
       });
     },
-    async createAffiliateLead(details, followUp) {
+    listCampaigns(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/affiliate/lead",
-        data: {
-          details: details,
-          followUp: followUp,
-        },
+        path: "/affiliate-campaigns",
+        ...opts,
       });
     },
-    async createDeal(dealDetails, priority) {
+    listAffiliateLeads(opts = {}) {
+      return this._makeRequest({
+        path: "/affiliate-leads",
+        ...opts,
+      });
+    },
+    listReferrals(opts = {}) {
+      return this._makeRequest({
+        path: "/referrals",
+        ...opts,
+      });
+    },
+    createAffiliateLead(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/deal",
-        data: {
-          dealDetails: dealDetails,
-          priority: priority,
-        },
+        path: "/affiliate-leads",
+        ...opts,
       });
     },
   },
