@@ -2885,7 +2885,12 @@ importers:
       md5: 2.3.0
 
   components/flipando:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.5
+      form-data: 4.0.0
 
   components/float:
     specifiers: {}
@@ -14896,7 +14901,7 @@ packages:
     resolution: {integrity: sha512-r0H0A1HsSEDVTPVSvK4XXcExEeUnkpIqLMNVM2aLh1bwdOblTS1sxLZ9mz/7DwAr8wRNCoW6zlXZBEhexIyyAg==}
     dependencies:
       '@googleapis/drive': 2.4.0
-      '@pipedream/platform': 1.6.4
+      '@pipedream/platform': 1.6.5
       cron-parser: 4.9.0
       lodash: 4.17.21
       mime-db: 1.52.0
