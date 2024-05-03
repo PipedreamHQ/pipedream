@@ -4,7 +4,7 @@ export default {
   key: "telnyx-get-message",
   name: "Retrieve a Message",
   description: "Retrieve a message. See documentation [here](https://developers.telnyx.com/api/messaging/get-message)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     telnyxApp,
