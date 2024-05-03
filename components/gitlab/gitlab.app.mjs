@@ -23,10 +23,28 @@ export default {
         }));
       },
     },
-    groupPath: {
+    groupId: {
       type: "string",
       label: "Group ID",
-      description: "The group path, as displayed in the main group page. You must be an Owner of this group",
+      description: "Select a Group or use a custom Group ID. You must be an Owner of this group",
+      async options({ page }) {
+        const response = await this.listGroups({
+          params: {
+            min_access_level: 50, // owner role
+            top_level_only: true, // only can use on root groups
+            page: page + 1,
+          },
+        });
+        return response.map((group) => ({
+          label: group.full_path,
+          value: group.id,
+        }));
+      },
+    },
+    groupPath: {
+      type: "string",
+      label: "Group Path",
+      description: "Select a Group or use a custom Group Path, as displayed in the main group page. You must be an Owner of this group",
       async options({ page }) {
         const response = await this.listGroups({
           params: {

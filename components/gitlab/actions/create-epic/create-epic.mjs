@@ -9,18 +9,18 @@ export default {
   type: "action",
   props: {
     gitlab,
-    groupPath: {
+    groupId: {
       propDefinition: [
         gitlab,
-        "groupPath",
+        "groupId",
       ],
     },
     parent_id: {
       propDefinition: [
         gitlab,
         "epicIid",
-        (c) => ({
-          groupId: c.groupPath,
+        ({ groupId }) => ({
+          groupId,
         }),
       ],
       label: "Parent ID",
@@ -37,8 +37,8 @@ export default {
       propDefinition: [
         gitlab,
         "groupLabels",
-        (c) => ({
-          groupId: c.groupPath,
+        ({ groupId }) => ({
+          groupId,
         }),
       ],
     },
@@ -116,7 +116,7 @@ export default {
     ]));
     data.labels = data.labels?.join();
 
-    const response = await this.gitlab.createEpic(this.groupPath, {
+    const response = await this.gitlab.createEpic(this.groupId, {
       data,
     });
     $.export("$summary", `Created epic ${this.title}`);
