@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/cincopa",
+  "version": "0.0.1",
+  "description": "Pipedream Cincopa Components",
+  "main": "cincopa.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cincopa"
+  ],
+  "homepage": "https://pipedream.com/apps/cincopa",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5",
+    "uuid": "^8.3.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
