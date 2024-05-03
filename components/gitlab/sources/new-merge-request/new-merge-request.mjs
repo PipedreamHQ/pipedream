@@ -18,7 +18,7 @@ export default {
   methods: {
     ...base.methods,
     isNewMergeRequest(event) {
-      const { action } = event.object_attributes;
+      const action = event?.object_attributes?.action;
       const expectedAction = "open";
       return action === expectedAction;
     },
