@@ -7,7 +7,7 @@ export default {
   name: "New Labeled Email",
   description: "Emit new event when a new email is labeled.",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     gmail,
@@ -61,7 +61,10 @@ export default {
         history, historyId,
       } = await this.gmail.listHistory({
         startHistoryId,
-        historyTypes: "labelAdded",
+        historyTypes: [
+          "labelAdded",
+          "messageAdded",
+        ],
         labelId: this.label,
       });
 
@@ -69,7 +72,9 @@ export default {
         return;
       }
       this._setLastHistoryId(historyId);
-      const responseArray = history.filter((item) => item.labelsAdded);
+      const responseArray = history.filter((item) =>
+        (item.labelsAdded && item.labelsAdded[0].labelIds.includes(this.label))
+        || (item.messagesAdded && item.messagesAdded[0].message.labelIds.includes(this.label)));
       responseArray.forEach((item) => {
         const meta = this.generateMeta(item);
         this.$emit(item, meta);

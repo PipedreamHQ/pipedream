@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/orimon",
+  "version": "0.0.1",
+  "description": "Pipedream Orimon Components",
+  "main": "orimon.app.mjs",
+  "keywords": [
+    "pipedream",
+    "orimon"
+  ],
+  "homepage": "https://pipedream.com/apps/orimon",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

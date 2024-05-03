@@ -7,7 +7,7 @@ export default {
   name: "New Matched Traffic Stats",
   description:
     "Emits a new event when traffic stats match certain criteria. [See the documentation](https://developers.google.com/gmail/postmaster/reference/rest)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   sampleEmit,
@@ -24,6 +24,17 @@ export default {
       propDefinition: [
         googlePostmasterToolsApi,
         "domain",
+      ],
+    },
+    filterInfo: {
+      type: "alert",
+      alertType: "info",
+      content: "By default, events will be emitted when matching **any** of the configured filters. If you want **all** configured filters to be required instead, you can use the `Match All Filters` prop below.",
+    },
+    matchAllFilters: {
+      propDefinition: [
+        googlePostmasterToolsApi,
+        "matchAllFilters",
       ],
     },
     ipReputation: {
@@ -215,8 +226,9 @@ export default {
       for (let filter of filters) {
         const result = filter(item);
         if (result === true) {
+          if (!this.matchAllFilters) return true;
           hasMatch = true;
-        } else if (result === false) {
+        } else if (result === false && this.matchAllFilters) {
           return false;
         }
       }

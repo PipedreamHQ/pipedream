@@ -4,7 +4,7 @@ export default {
   key: "telnyx-send-message",
   name: "Send Message",
   description: "Send an SMS or MMS message. See documentation [here](https://developers.telnyx.com/docs/messaging/messages/send-message)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     telnyxApp,
@@ -15,16 +15,17 @@ export default {
         "messagingProfileId",
       ],
     },
+    phoneNumber: {
+      optional: true,
+      propDefinition: [
+        telnyxApp,
+        "phoneNumber",
+      ],
+    },
     to: {
       type: "string",
       label: "To",
       description: "Receiving address (+E.164 formatted phone number or short code).",
-    },
-    from: {
-      type: "string",
-      label: "From",
-      description: "Sending address (+E.164 formatted phone number or short code). Required if sending with a phone number, short code, or alphanumeric sender ID. See [Sending a message on the Telnyx platform](https://developers.telnyx.com/docs/messaging/messages/send-message) for more details.",
-      optional: true,
     },
     text: {
       type: "string",
@@ -84,9 +85,9 @@ export default {
       $,
       data: {
         to: this.to,
-        from: this.from,
+        from: this.phoneNumber,
         text: this.text,
-        messaging_profile_id: this.messaging_profile_id,
+        messaging_profile_id: this.messagingProfileId,
         subject: this.subject,
         media_urls: this.mediaUrls,
         webhook_url: this.webhookUrl,

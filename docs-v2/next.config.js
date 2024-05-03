@@ -56,5 +56,6 @@ module.exports = withNextra({
     ALGOLIA_APP_ID: "XY28M447C5",
     ALGOLIA_SEARCH_API_KEY: "9d9169458128b3d60c22bb04da4431c7",
     ALGOLIA_INDEX_NAME: "pipedream",
+    PD_EGRESS_IP_RANGE: "44.223.89.56/29",
   },
 });
