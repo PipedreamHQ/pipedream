@@ -11,7 +11,7 @@ export default {
   key: "github-new-label",
   name: "New Label",
   description: `Emit new event when a new label is created [See the documentation](${DOCS_LINK})`,
-  version: "1.0.1",
+  version: "1.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
