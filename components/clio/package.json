@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/clio",
+  "version": "0.1.1",
+  "description": "Pipedream Clio Components",
+  "main": "clio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clio"
+  ],
+  "homepage": "https://pipedream.com/apps/clio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.6.4",
+    "crypto": "^1.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

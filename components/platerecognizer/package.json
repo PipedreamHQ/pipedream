@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/platerecognizer",
+  "version": "0.0.1",
+  "description": "Pipedream Plate Recognizer Components",
+  "main": "platerecognizer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "platerecognizer"
+  ],
+  "homepage": "https://pipedream.com/apps/platerecognizer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/perplexity",
+  "version": "0.0.1",
+  "description": "Pipedream Perplexity Components",
+  "main": "perplexity.app.mjs",
+  "keywords": [
+    "pipedream",
+    "perplexity"
+  ],
+  "homepage": "https://pipedream.com/apps/perplexity",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
