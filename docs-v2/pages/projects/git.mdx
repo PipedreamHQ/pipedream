@@ -216,9 +216,9 @@ To resolve this error:
 No, at this time it's not possible because of how resources are connected during the bootstrapping process from the workflow YAML specification.
 However, this is on our roadmap, [please subscribe to this issue](https://github.com/PipedreamHQ/pipedream/issues/9255) for the latest details.
 
-### Can I migrate my commit history to another GitHub Repository while retaining my workflows in my Pipedream Project?
+### Migrating Github Repositories
 
-Yes, this guide shows how to migrate a GitHub-synced project repository in Pipedream to a new repository, preserving the entire commit history in the `production` branch while ensuring that workflows remain unaffected.
+You can migrate Pipedream project's Github repository to a new repository, while preserving history. You may want to do this when migrating a repository from a personal Github account to an organization account, without affecting the workflows within the Pipedream project.
 
 #### Assumptions
 - **Current GitHub Repository**: `previous_github_repo`
@@ -242,12 +242,12 @@ Yes, this guide shows how to migrate a GitHub-synced project repository in Piped
    - Click on "Reset GitHub Connection".
 4. Set Up New Repository Connection:
    - Configure a new GitHub Sync to `new_github_repo`.
-5. Clone the New Repository Locally:
+5. Clone the new repository locally:
    ```
    git clone new_github_repo_clone_url
    cd new_github_repo
    ```
-6. Link to the Old Repository:
+6. Link to the old Repository:
    ```
    git remote add old_github_repo previous_github_repo_clone_url
    git fetch --all
