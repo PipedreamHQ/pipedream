@@ -245,19 +245,19 @@ You can migrate Pipedream project's Github repository to a new repository, while
 
    ![Resetting GitHub connection](https://res.cloudinary.com/pipedreamin/image/upload/v1714749323/Screenshot_2024-05-03_at_12.15.03_PM_icdppb.png)
 
-4. Set Up New Repository Connection:
+4. Set Up New repository connection:
    - Configure the project's GitHub repository to use `new_github_repo`.
 5. Clone the new repository locally:
    ```
    git clone new_github_repo_clone_url
    cd new_github_repo
    ```
-6. Link to the old Repository:
+6. Link to the old repository:
    ```
    git remote add old_github_repo previous_github_repo_clone_url
    git fetch --all
    ```
-7. Prepare for Migration:
+7. Prepare for migration:
    - Create and switch to a new branch for migration:
       ```
       git checkout -b migration
@@ -268,7 +268,7 @@ You can migrate Pipedream project's Github repository to a new repository, while
       # Resolve any conflicts, such as in README.md
       git commit
       ```
-8. Finalize Migration:
+8. Finalize the migration:
    - Optionally push the `migration` branch to the remote:
       ```
       git push --set-upstream origin migration
