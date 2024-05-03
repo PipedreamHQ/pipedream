@@ -16,9 +16,9 @@ export default {
         key,
         value,
       ]) => {
-        data[key] = value === "0" || value === "false"
+        data[key] = value === "false"
           ? false
-          : value === "1" || value === "true"
+          : value === "true"
             ? true
             : value;
       });
