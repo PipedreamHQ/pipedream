@@ -6080,7 +6080,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/perplexity:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/perry_github_test:
     specifiers: {}
