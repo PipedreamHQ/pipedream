@@ -1,11 +1,10 @@
 import fractel from "../../fractel.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "fractel-call-phone",
   name: "Call Phone",
   description: "Initiates a new phone call to the provided number.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     fractel,
@@ -30,12 +29,16 @@ export default {
   },
   async run({ $ }) {
     const response = await this.fractel.initiateCall({
-      phoneNumber: this.phoneNumber,
-      to: this.to,
-      message: this.message,
+      $,
+      data: {
+        phoneNumber: this.phoneNumber,
+        to: this.to,
+        service_type: "TTS",
+        service_id: this.message,
+      },
     });
 
-    $.export("$summary", `Successfully initiated a call to ${this.to}`);
+    $.export("$summary", `Successfully initiated a call with Id: ${response.call.id}`);
     return response;
   },
 };

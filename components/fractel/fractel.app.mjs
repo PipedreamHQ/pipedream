@@ -7,7 +7,11 @@ export default {
     phoneNumber: {
       type: "string",
       label: "Phone Number",
-      description: "The phone number to call or send the message to, including country code.",
+      description: "The phone number to call to, including country code.",
+      async options() {
+        const { fonenumbers } = await this.listPhoneNumbers();
+        return fonenumbers.map(({ phonenumber }) => phonenumber);
+      },
     },
     to: {
       type: "string",
@@ -17,30 +21,12 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      description: "The message content for SMS or MMS.",
+      description: "The message content for TTS.",
     },
     media: {
-      type: "string",
+      type: "string[]",
       label: "Media URL",
-      description: "The URL of the media file for MMS.",
-      optional: true,
-    },
-    confirmationUrl: {
-      type: "string",
-      label: "Confirmation URL",
-      description: "The URL to receive message delivery confirmations.",
-      optional: true,
-    },
-    confirmationUrlUsername: {
-      type: "string",
-      label: "Confirmation URL Username",
-      description: "The username for HTTP Basic authentication for the confirmation URL.",
-      optional: true,
-    },
-    confirmationUrlPassword: {
-      type: "string",
-      label: "Confirmation URL Password",
-      description: "The password for HTTP Basic authentication for the confirmation URL.",
+      description: "List of URL of the media file for MMS.",
       optional: true,
     },
   },
@@ -48,50 +34,38 @@ export default {
     _baseUrl() {
       return "https://api.fonestorm.com/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        token: `${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async initiateCall({
-      phoneNumber, to, message,
-    }) {
+    initiateCall(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/calls",
-        data: {
-          from: phoneNumber,
-          to,
-          message,
-        },
+        ...opts,
       });
     },
-    async sendMessage({
-      to, message, media, confirmationUrl, confirmationUrlUsername, confirmationUrlPassword,
-    }) {
-      const data = {
-        to,
-        message,
-      };
-      if (media) data.media = media;
-      if (confirmationUrl) {
-        data.confirmation_url = confirmationUrl;
-        if (confirmationUrlUsername) data.confirmation_url_username = confirmationUrlUsername;
-        if (confirmationUrlPassword) data.confirmation_url_password = confirmationUrlPassword;
-      }
+    listPhoneNumbers(opts = {}) {
+      return this._makeRequest({
+        path: "/phonenumbers",
+        ...opts,
+      });
+    },
+    sendMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/messages/send",
-        data,
+        ...opts,
       });
     },
   },
