@@ -1,5 +1,6 @@
 import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
+import commonSearchQuery from "../../common/commonSearchQuery.mjs";
 
 export default {
   key: "google_drive-find-file",
@@ -16,21 +17,11 @@ export default {
       ],
       optional: true,
     },
-    nameSearchTerm: {
-      propDefinition: [
-        googleDrive,
-        "fileNameSearchTerm",
-      ],
-    },
-    searchQuery: {
-      propDefinition: [
-        googleDrive,
-        "searchQuery",
-      ],
-    },
+    ...commonSearchQuery.props,
   },
+  methods: commonSearchQuery.methods,
   async run({ $ }) {
-    const q = this.searchQuery ?? `name contains '${this.nameSearchTerm}'`;
+    const q = this.getQuery();
     const opts = getListFilesOpts(this.drive, {
       q,
     });
