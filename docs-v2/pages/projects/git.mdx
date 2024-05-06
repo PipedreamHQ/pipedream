@@ -1,8 +1,9 @@
 import Callout from '@/components/Callout'
+import PipedreamCode from "@/components/PipedreamCode";
 
-# Github Sync
+# GitHub Sync
 
-When Github Syncing is enabled on your project, Pipedream will serialize your workflows and synchronize changes to a GitHub repo.
+When GitHub Syncing is enabled on your project, Pipedream will serialize your workflows and synchronize changes to a GitHub repo.
 
 Capabilities include:
 
@@ -30,12 +31,12 @@ A project may contain one or more workflows and may be further organized using n
   - To use **OAuth**
     - Select a connected account, GitHub scope and repo name
     - Pipedream will automatically create a new, empty repo in GitHub
-    - ![Enabling Github on a Pipedream project](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6b546c6b-2f90-4ec4-9188-320c01576259%2FUntitled.png?id=5db64a5f-e762-431e-bfb7-cdd495ad458c&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=860&userId=&cache=v2)
+    - ![Enabling GitHub on a Pipedream project](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6b546c6b-2f90-4ec4-9188-320c01576259%2FUntitled.png?id=5db64a5f-e762-431e-bfb7-cdd495ad458c&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=860&userId=&cache=v2)
   - To use **Deploy Keys**
     - Create a new repo in GitHub
     - Follow the instructions to configure the deploy key
     - Test your setup and create a new project
-    - ![Enabling Github sync with a Deploy Key](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6be64329-bb8b-43eb-a278-a11ad93113c0%2FUntitled.png?id=37f9afd8-ba14-431b-bd40-1846421440b6&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=860&userId=&cache=v2)
+    - ![Enabling GitHub sync with a Deploy Key](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6be64329-bb8b-43eb-a278-a11ad93113c0%2FUntitled.png?id=37f9afd8-ba14-431b-bd40-1846421440b6&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=860&userId=&cache=v2)
 
 ### Create a branch to edit a project
 
@@ -77,7 +78,7 @@ Pipedream will present a diff between the development branch and the `production
 
 ![In the confirmation modal, click Merge to production to confirm the changes](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fac27c067-f948-424c-9d6e-6360a759730c%2FUntitled.png?id=19f8d51c-82fb-47d6-a183-b84e2173b72d&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2)
 
-#### Create a Pull Request in Github
+#### Create a Pull Request in GitHub
 
 To create a pull request in GitHub, either choose Open GitHub pull request from the git-actions menu in Pipedream or in GitHub:
 
@@ -159,39 +160,41 @@ Below are a list of known issues that do not currently have solutions, but are i
 - Self-hosted GitHub Server instances are not yet supported. [Please contact us for help](https://pipedream.com/support).
 - Workflow attachments are not supported
 
-## Github Enterprise Cloud
+## GitHub Enterprise Cloud
 
-If your repository hosted on an Github Enterprise account, you can allow the static Pipedream IP address to sync your project changes.
+If your repository is hosted on an GitHub Enterprise account, you can allow Pipedream's address range to sync your project changes.
 
-[Follow the directions here](https://docs.github.com/en/enterprise-cloud@latest/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/managing-allowed-ip-addresses-for-your-organization) to add an IP address.
+[Follow the directions here](https://docs.github.com/en/enterprise-cloud@latest/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/managing-allowed-ip-addresses-for-your-organization) and add the following IP range:
 
-Then add this static IP address `3.214.142.179` to allow Pipedream to sync changes.
+<pre className="mt-4 nx-bg-primary-700/5 nx-mb-4 nx-overflow-x-auto nx-rounded-xl nx-subpixel-antialiased dark:nx-bg-primary-300/10 nx-text-[.9em] contrast-more:nx-border contrast-more:nx-border-primary-900/20 contrast-more:nx-contrast-150 contrast-more:dark:nx-border-primary-100/40 nx-py-4">
+  {process.env.PD_EGRESS_IP_RANGE}
+</pre>
 
 <Callout type="warning" emoji="⚠">
-Github Sync is available on Business and above plans
+GitHub Sync is available on Business and above plans
 
-To use this public IP address and connect to Github Enterprise Cloud hosted repositories, you'll need to have a Pipedream Business plan. [View our plans](https://pipedream.com/pricing).
+To use this public IP address and connect to GitHub Enterprise Cloud hosted repositories, you'll need to have a Pipedream Business plan. [View our plans](https://pipedream.com/pricing).
 </Callout>
 
 ## Frequently Asked Questions
 
-### How are Pipedream workflows synchronized to Github?
+### How are Pipedream workflows synchronized to GitHub?
 
-Pipedream will serialize your project's workflows and their configuration into a standard YAML format for storage in Github.
+Pipedream will serialize your project's workflows and their configuration into a standard YAML format for storage in GitHub.
 
-Then Pipedream will commit your changes to your connected Github account.
+Then Pipedream will commit your changes to your connected GitHub account.
 
 ### Do you have a definition of this YAML?
 
 Not yet, please stay tuned!
 
-### Can I sync multiple workflows to a single Github Repository?
+### Can I sync multiple workflows to a single GitHub Repository?
 
-Yes, _projects_ are synced to a single Github Repository which allows you to store multiple workflows into a single Github Repository for easier organization and management.
+Yes, _projects_ are synced to a single GitHub Repository which allows you to store multiple workflows into a single GitHub Repository for easier organization and management.
 
 ### Can I use this feature to develop workflows locally?
 
-Yes, you can use the Github Syncing feature to develop your workflows from YAML files checked into your Pipedream connected Github Repository.
+Yes, you can use the GitHub Syncing feature to develop your workflows from YAML files checked into your Pipedream connected GitHub Repository.
 
 Then pushing changes to the `production` branch will trigger a deploy for your Pipedream workflows.
 
@@ -212,6 +215,76 @@ To resolve this error:
 
 No, at this time it's not possible because of how resources are connected during the bootstrapping process from the workflow YAML specification.
 However, this is on our roadmap, [please subscribe to this issue](https://github.com/PipedreamHQ/pipedream/issues/9255) for the latest details.
+
+### Migrating Github Repositories
+
+You can migrate Pipedream project's Github repository to a new repository, while preserving history. You may want to do this when migrating a repository from a personal Github account to an organization account, without affecting the workflows within the Pipedream project.
+
+#### Assumptions
+- **Current GitHub Repository**: `previous_github_repo`
+- **New GitHub Repository**: `new_github_repo`
+- Basic familiarity with git and GitHub
+- Access to a local terminal (e.g., Bash, Zsh, PowerShell)
+- Necessary permissions to modify both the Pipedream project and associated GitHub repositories
+
+#### Steps
+
+1. **Access Project Settings in Pipedream:**
+   - Navigate to your Pipedream project.
+   - Use the dropdown menu on the "Edit" button in the top right corner to access `previous_github_repo` in GitHub.
+
+   ![Accessing GitHub repository](https://res.cloudinary.com/pipedreamin/image/upload/v1714749205/Screenshot_2024-05-03_at_12.12.36_PM_sxkrng.png)
+
+2. **Clone the Current Repository Locally:**
+   ```
+   git clone previous_github_repo_clone_url
+   ```
+3. Reset GitHub Sync in Pipedream:
+   - In Pipedream, go to your project settings.
+   - Click on "Reset GitHub Connection".
+
+   ![Resetting GitHub connection](https://res.cloudinary.com/pipedreamin/image/upload/v1714749323/Screenshot_2024-05-03_at_12.15.03_PM_icdppb.png)
+
+4. Set Up New repository connection:
+   - Configure the project's GitHub repository to use `new_github_repo`.
+5. Clone the new repository locally:
+   ```
+   git clone new_github_repo_clone_url
+   cd new_github_repo
+   ```
+6. Link to the old repository:
+   ```
+   git remote add old_github_repo previous_github_repo_clone_url
+   git fetch --all
+   ```
+7. Prepare for migration:
+   - Create and switch to a new branch for migration:
+      ```
+      git checkout -b migration
+      ```
+   - Merge the main branch of `old_github_repo` into migration, allowing for unrelated histories:
+      ```
+      git merge --allow-unrelated-histories old_github_repo/production
+      # Resolve any conflicts, such as in README.md
+      git commit
+      ```
+8. Finalize the migration:
+   - Optionally push the `migration` branch to the remote:
+      ```
+      git push --set-upstream origin migration
+      ```
+   - Switch to the `production` branch and merge:
+      ```
+      git checkout production
+      git merge --no-ff migration
+      git push
+      ```
+9. Cleanup:
+   - Remove the connection to the old repository:
+      ```
+         git remote remove old_github_repo
+      ```
+   - Optionally, you may now safely delete `previous_github_repo` from GitHub.
 
 ### How does the `production` branch work?
 

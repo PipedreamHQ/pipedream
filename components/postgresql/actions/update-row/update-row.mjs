@@ -3,24 +3,15 @@ import postgresql from "../../postgresql.app.mjs";
 export default {
   name: "Update Row",
   key: "postgresql-update-row",
-  description: "Updates an existing row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.10",
+  description: "Updates an existing row. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.5",
   type: "action",
   props: {
     postgresql,
-    rejectUnauthorized: {
-      propDefinition: [
-        postgresql,
-        "rejectUnauthorized",
-      ],
-    },
     schema: {
       propDefinition: [
         postgresql,
         "schema",
-        (c) => ({
-          rejectUnauthorized: c.rejectUnauthorized,
-        }),
       ],
     },
     table: {
@@ -29,7 +20,6 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -40,7 +30,6 @@ export default {
         (c) => ({
           table: c.table,
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
       label: "Lookup Column",
@@ -54,7 +43,6 @@ export default {
           table: c.table,
           column: c.column,
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -72,7 +60,6 @@ export default {
       column,
       value,
       rowValues,
-      rejectUnauthorized,
     } = this;
     try {
       const res = await this.postgresql.updateRow(
@@ -81,7 +68,6 @@ export default {
         column,
         value,
         rowValues,
-        rejectUnauthorized,
       );
       const summary = res
         ? "Row updated"
@@ -89,10 +75,11 @@ export default {
       $.export("$summary", summary);
       return res;
     } catch (error) {
-      throw new Error(`
-      Row not updated due to an error. ${error}.
-      This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
-    `);
+      let errorMsg = "Row not updated due to an error. ";
+      errorMsg += `${error}`.includes("SSL verification failed")
+        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
+        : `${error}`;
+      throw new Error(errorMsg);
     }
   },
 };

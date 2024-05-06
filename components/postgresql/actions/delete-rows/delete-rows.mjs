@@ -3,24 +3,15 @@ import postgresql from "../../postgresql.app.mjs";
 export default {
   name: "Delete Row(s)",
   key: "postgresql-delete-rows",
-  description: "Deletes a row or rows from a table. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.10",
+  description: "Deletes a row or rows from a table. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.5",
   type: "action",
   props: {
     postgresql,
-    rejectUnauthorized: {
-      propDefinition: [
-        postgresql,
-        "rejectUnauthorized",
-      ],
-    },
     schema: {
       propDefinition: [
         postgresql,
         "schema",
-        (c) => ({
-          rejectUnauthorized: c.rejectUnauthorized,
-        }),
       ],
     },
     table: {
@@ -29,7 +20,6 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -40,7 +30,6 @@ export default {
         (c) => ({
           table: c.table,
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
       label: "Lookup Column",
@@ -54,7 +43,6 @@ export default {
           table: c.table,
           column: c.column,
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -65,7 +53,6 @@ export default {
       schema,
       column,
       value,
-      rejectUnauthorized,
     } = this;
 
     try {
@@ -74,15 +61,15 @@ export default {
         table,
         column,
         value,
-        rejectUnauthorized,
       );
       $.export("$summary", `Deleted ${rows.length} rows from ${table}`);
       return rows;
     } catch (error) {
-      throw new Error(`
-      Row not deleted due to an error. ${error}.
-      This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
-    `);
+      let errorMsg = "Row not deleted due to an error. ";
+      errorMsg += `${error}`.includes("SSL verification failed")
+        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
+        : `${error}`;
+      throw new Error(errorMsg);
     }
   },
 };

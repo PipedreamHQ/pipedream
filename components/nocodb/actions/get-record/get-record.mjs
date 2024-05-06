@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "nocodb-get-record",
   name: "Get Record (from row number)",
-  description: "This action gets a row by row Id. [See the docs here](https://all-apis.nocodb.com/#tag/DB-table-row/operation/db-table-row-read)",
-  version: "0.0.2",
+  description: "This action gets a row by row Id. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-read)",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -13,24 +13,22 @@ export default {
       propDefinition: [
         common.props.nocodb,
         "rowId",
+        (c) => ({
+          tableId: c.tableId.value,
+        }),
       ],
     },
   },
   methods: {
-    async processEvent() {
-      const {
-        projectId,
-        tableName,
-        rowId,
-      } = this;
+    async processEvent($) {
       return this.nocodb.getTableRow({
-        projectId,
-        tableName: tableName.value,
-        rowId,
+        tableId: this.tableId.value,
+        rowId: this.rowId,
+        $,
       });
     },
     getSummary() {
-      return `Record Successfully fetched from ${this.tableName.label} table!`;
+      return `Record Successfully fetched from ${this.tableId.label} table!`;
     },
   },
 };

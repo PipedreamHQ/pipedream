@@ -1,23 +1,11 @@
 # Overview
 
-thanks.io provides an API that will help you recognize and reward your
-employees, customers, and partners. With thanks.io, you can quickly and easily
-create personalized tokens of appreciation with messages and funds.
+The Thanks.io API lets you automate the sending of personalized postcards and letters. This API can be harnessed to craft tailored outreach campaigns, customer appreciation notes, or event-based mailings. By integrating with Pipedream, you can create intelligent, event-driven workflows that trigger mailings based on user activity, data changes, or milestones achieved in other apps, streamlining the way businesses and developers connect with their audiences physically.
 
-Thanks.io offers powerful API features that let you create custom recognition
-experiences for your clients and employees. With API calls, you can:
+# Example Use Cases
 
-- Create customizable message tokens that your team can send to recognize
-  individual accomplishments
-- Reward your users with token-based payments for a job well done
-- Track the performance of each user and reward them in real-time
-- Easily create promo codes to give thanks to your team
-- Issue holiday tokens as a way of saying thanks
+- **Customer Appreciation Workflow**: Automate the sending of thank you postcards to customers after they make a purchase. Trigger a Thanks.io postcard dispatch by connecting Pipedream to an e-commerce platform, like Shopify, capturing new order events.
 
-Examples of what you can build using the thanks.io API:
+- **Birthday Club Mailing**: Build a workflow that sends out personalized birthday cards. Use a CRM platform, such as HubSpot, integrated with Pipedream to trigger a Thanks.io mailing each time a contact's birthday is approaching, fostering customer loyalty.
 
-- Employee recognition programs
-- Client loyalty programs
-- Incentive programs
-- Referral programs
-- Gift giving programs
+- **Real Estate Follow-Up**: For real estate agents, automate follow-ups with prospects or clients post-viewing. Connect a scheduling app like Calendly to Pipedream, triggering a Thanks.io mailer when a viewing is completed, adding a personal touch to the home buying process.

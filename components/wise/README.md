@@ -1,24 +1,11 @@
 # Overview
 
-Using Wise's API, you can build a variety of applications that leverage the
-company's international payments infrastructure. The API provides a unified,
-hardware-agnostic interface to bank networks around the world and allows
-merchants, marketplaces, and financial services to quickly and easily accept
-payments with multi-currency support.
+The Wise API enables seamless integration of international bank transfers into applications, offering real-time currency exchange rates, multi-currency account management, and compliance checks. With Pipedream, you can leverage Wise to automate financial workflows, sync transaction data with accounting software, and trigger actions based on payment events, all while maintaining security and reducing the manual overhead often involved in international finances.
 
-Wise also provides powerful tools and features to monitor, analyze, and
-optimize payments. With the API, developers can easily access currency
-conversion, health checks, transaction reports, and more. With the help of the
-API, developers can easily integrate into the platform to create a custom
-payments experience.
+# Example Use Cases
 
-The following are some examples of applications that can be built with Wise's
-API:
+- **Automated Invoice Payments**: Set up a workflow where invoices from your accounting platform (like QuickBooks) trigger international payments through Wise. When an invoice is marked as due, Pipedream can automatically initiate a payment in the required currency, streamlining your accounts payable process.
 
-- Payment platforms
-- E-commerce applications
-- International money transfers
-- Merchant payment processing
-- Currency exchange applications
-- Multi-currency wallets
-- Payment analysis and optimization tools
+- **Real-time Currency Exchange Alerts**: Create a Pipedream workflow that monitors currency exchange rates between your preferred currency pairs on Wise. When the exchange rate hits a specified threshold, the workflow could notify you via email or a messaging app like Slack, enabling timely financial decisions.
+
+- **Synchronized Financial Reporting**: Integrate Wise with a data visualization tool like Google Data Studio. Each time a new transaction occurs, Pipedream can extract the transaction details and feed them into a live report, giving you up-to-date insight into your financial status across different currencies and countries.

@@ -1,19 +1,11 @@
 # Overview
 
-The Vosfactures API is a powerful tool for businesses to take care of their
-accounting operations. With this API, businesses can perform a wide range of
-accounting operations such as creating, editing and sending invoices, managing
-bills, producing reports and other financial data, and more.
+The Vosfactures API offers robust features for managing invoices, quotes, and orders within your business. With Pipedream, you can automate workflows that leverage these capabilities, streamlining your accounting processes and integrating them with other apps. From auto-generating invoices based on specific triggers to syncing your financials with accounting software or CRM systems, the opportunities for automation are vast.
 
-Using the Vosfactures API, businesses can easily build robust accounting
-solutions tailored to their organization's specific needs. Here are some
-examples of what businesses can build using the Vosfactures API:
+# Example Use Cases
 
-- Invoice Processing – Easily create, manage, and send invoices to customers.
-- Expense Reports – Automatically generate and track expense reports.
-- Reporting – Generate financial reports for reporting purposes.
-- Billing Management – Automatically create and manage billing entries.
-- Accounting System Integration – Integrate with other accounting systems for
-  streamlined accounting operation.
-- Payment Processing – Process payment from customers and manage accounts
-  receivable.
+- **Automated Invoice Generation from E-commerce Sales**: When a new sale is processed on an e-commerce platform like Shopify, Pipedream can trigger a workflow that creates an invoice in Vosfactures. This ensures that every sale is instantly reflected in your accounting.
+
+- **Scheduled Financial Reporting**: Set up a Pipedream workflow to retrieve financial data from Vosfactures at regular intervals. This data can be compiled into reports and sent to stakeholders via email, Slack, or other communication platforms, keeping everyone informed without manual effort.
+
+- **CRM Integration for Client Onboarding**: On the creation of a new contact in a CRM like HubSpot, a Pipedream workflow can automatically create a client profile within Vosfactures. This keeps client data in sync and streamlines the onboarding process for new business.

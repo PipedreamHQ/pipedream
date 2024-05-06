@@ -4,7 +4,7 @@ export default {
   key: "raindrop-create-collection",
   name: "Create New Collection",
   description: "Creates an additional collection. [See the docs here](https://developer.raindrop.io/v1/collections/methods#create-collection)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     raindrop,

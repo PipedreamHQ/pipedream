@@ -2,9 +2,9 @@ import expofp from "../../expofp.app.mjs";
 
 export default {
   name: "Get Booth",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "expofp-get-booth",
-  description: "Get details of a booth. [See docs here](https://expofp.docs.apiary.io/#reference/0/get-booth-details/get-booth-details)",
+  description: "Get details of a booth. [See the documentation](https://expofp.docs.apiary.io/#reference/0/get-booth-details/get-booth-details)",
   type: "action",
   methods: {
     async getBooth(args) {
@@ -23,10 +23,14 @@ export default {
         "eventId",
       ],
     },
-    boothId: {
-      label: "Booth ID/Name",
-      type: "string",
-      description: "The booth ID or name. E.g. `101` or `A21`",
+    boothName: {
+      propDefinition: [
+        expofp,
+        "boothName",
+        ({ eventId }) => ({
+          eventId,
+        }),
+      ],
     },
   },
   async run({ $ }) {

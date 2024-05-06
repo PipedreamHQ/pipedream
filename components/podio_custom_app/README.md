@@ -1,20 +1,11 @@
 # Overview
 
-Podio's Custom App API allows you to build custom tools and applications to meet your specific needs. It provides a comprehensive suite of features and functions to help you customize and automate your workflows across teams, departments, locations, and ecosystems. With the API, you can do the following and more:
+Podio's Custom App API unleashes the power to mold the Podio platform to fit your project and workflow needs. It grants the ability to create, modify, and orchestrate data across various Podio apps. By leveraging Pipedream's serverless platform, you can connect Podio with hundreds of other services for automation. This means you can trigger actions in Podio or react to events in Podio with custom logic, transform data, and pass it between your apps in real-time, without the need to manage infrastructure.
 
-- Automate data processes and enforce permission policies
-- Create custom forms, reports, and dashboards
-- Create custom complex workflows
-- Embed Podio data in external websites
-- Automate notifications and alerts
-- Create workflows across multiple teams and departments
+# Example Use Cases
 
-Here are a few examples of what you can build using Podio's Custom App API:
+- **Sync Contacts Between Podio and a CRM**: Automatically sync contact details created or updated in a Podio Custom App with a CRM system like Salesforce. Each new contact in Podio could be added to Salesforce, and updates in Podio could trigger updates in Salesforce, keeping all contact information consistent across platforms.
 
-- A custom CRM that you can use to manage customer inquiries, orders, follow-ups, and records.
-- A custom order management system to allow your customers to place and track orders.
-- An automated task tracker that sends notifications and reminders to keep your team and processes organized.
-- A custom budget tracking and reporting system to help manage and monitor spending against budgeted amounts.
-- A knowledgebase to store, retrieve, and share documents, knowledge, and resources.
-- A ticketing system to view, respond to, and manage customer inquiries.
-- A messaging system to communicate with colleagues or to broadcast notices.
+- **Project Management Automation**: When a new project is added to a Podio Custom App, trigger the creation of a corresponding Trello board or Asana project. Integrate time-tracking tools like Toggl to automatically log time as tasks progress, or connect with Slack to notify team members of new tasks and updates within Podio.
+
+- **Lead Qualification and Distribution**: On receiving a new lead in a Podio Custom App, use Pipedream to qualify the lead based on custom logic (e.g., source, industry, size). Then, distribute qualified leads to specific sales team members in tools like HubSpot or via direct email. Additionally, log all interactions in a Podio app for centralized lead management.

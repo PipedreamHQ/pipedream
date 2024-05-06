@@ -1,17 +1,11 @@
 # Overview
 
-With Launch Darkly, you can easily and quickly add feature flags to your
-applications. This is particularly useful when you want to test out a new
-feature with a small group of users first, or when you want to slowly rollout a
-new feature to all of your users.
+Launch Darkly's API provides the means to automate feature flagging and manage experiments in your software delivery. This power, harnessed within Pipedream's serverless environment, can transform how you handle software deployment strategies, perform A/B testing, and control access to new features. The API's capabilities extend to updating flags, fetching flag statuses, and managing user segments, all of which can be integrated into sophisticated, automated workflows that react to external triggers or scheduled events.
 
-Launch Darkly also has an Oauth API, which allows you to easily add feature
-flags to your applications using Oauth. This is particularly useful when you
-want to test out a new feature with a small group of users first, or when you
-want to slowly rollout a new feature to all of your users.
+# Example Use Cases
 
-Some examples of what you can build with the Launch Darkly Oauth API include:
+- **Automated Feature Rollout Based on Performance Metrics**: Use Launch Darkly's API to monitor feature performance via an analytics platform like New Relic. If a new feature's performance meets predefined criteria, automatically update the feature flag to roll out the feature to all users.
 
-- A feature flag management system
-- A system for easily rolling out new features to a small group of users
-- A system for slowly rolling out new features to all users
+- **Dynamic User Segment Management**: Sync Launch Darkly user segments with a CRM like Salesforce. When a user's status changes in Salesforce, use a Pipedream workflow to automatically update user segment membership in Launch Darkly, ensuring targeted feature flagging and personalization.
+
+- **Scheduled Feature Flag Clean-up**: Set up a Pipedream scheduled workflow to regularly call the Launch Darkly API to review feature flags. Flags that are no longer in use, based on a set of conditions like 'last updated' or 'active status', can be programmatically removed or archived to maintain a lean and efficient feature flag ecosystem.

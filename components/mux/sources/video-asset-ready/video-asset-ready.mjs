@@ -6,7 +6,7 @@ export default {
   key: "mux-video-asset-ready",
   name: "New Video Asset Ready",
   description: "Emit new event when a video asset is set to ready status.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     mux,

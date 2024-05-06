@@ -1,18 +1,18 @@
 {
   "name": "@pipedream/grist",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Grist Components",
-  "main": "dist/app/grist.app.mjs",
+  "main": "grist.app.mjs",
   "keywords": [
     "pipedream",
     "grist"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/grist",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
   }
 }

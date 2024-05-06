@@ -5,7 +5,7 @@ export default {
   key: "stripe-abandoned-cart",
   name: "New Abandoned Cart",
   type: "source",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Emit new event when a customer abandons their cart.",
   methods: {
     ...common.methods,

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sumup",
+  "version": "0.1.0",
+  "description": "Pipedream SumUp Components",
+  "main": "sumup.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sumup"
+  ],
+  "homepage": "https://pipedream.com/apps/sumup",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

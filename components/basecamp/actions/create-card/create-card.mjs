@@ -5,7 +5,7 @@ export default {
   name: "Create a Card",
   description: "Creates a card in the select column. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/card_table_cards.md#create-a-card)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.5",
   props: {
     app,
     accountId: {

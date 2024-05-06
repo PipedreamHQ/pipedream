@@ -3,24 +3,15 @@ import postgresql from "../../postgresql.app.mjs";
 export default {
   name: "Insert Row",
   key: "postgresql-insert-row",
-  description: "Adds a new row. [See Docs](https://node-postgres.com/features/queries)",
-  version: "0.0.7",
+  description: "Adds a new row. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "2.0.5",
   type: "action",
   props: {
     postgresql,
-    rejectUnauthorized: {
-      propDefinition: [
-        postgresql,
-        "rejectUnauthorized",
-      ],
-    },
     schema: {
       propDefinition: [
         postgresql,
         "schema",
-        (c) => ({
-          rejectUnauthorized: c.rejectUnauthorized,
-        }),
       ],
     },
     table: {
@@ -29,7 +20,6 @@ export default {
         "table",
         (c) => ({
           schema: c.schema,
-          rejectUnauthorized: c.rejectUnauthorized,
         }),
       ],
     },
@@ -45,7 +35,6 @@ export default {
       schema,
       table,
       rowValues,
-      rejectUnauthorized,
     } = this;
     const columns = Object.keys(rowValues);
     const values = Object.values(rowValues);
@@ -55,15 +44,15 @@ export default {
         table,
         columns,
         values,
-        rejectUnauthorized,
       );
       $.export("$summary", "New row inserted");
       return res;
     } catch (error) {
-      throw new Error(`
-        New row not inserted due to an error. ${error}.
-        This could be because SSL verification failed, consider changing the Reject Unauthorized prop and try again.
-      `);
+      let errorMsg = "New row not inserted due to an error. ";
+      errorMsg += `${error}`.includes("SSL verification failed")
+        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
+        : `${error}`;
+      throw new Error(errorMsg);
     }
   },
 };

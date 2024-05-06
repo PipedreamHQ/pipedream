@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/autobound",
+  "version": "0.0.1",
+  "description": "Pipedream Autobound Components",
+  "main": "autobound.app.mjs",
+  "keywords": [
+    "pipedream",
+    "autobound"
+  ],
+  "homepage": "https://pipedream.com/apps/autobound",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

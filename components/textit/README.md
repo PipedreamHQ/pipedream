@@ -1,25 +1,11 @@
 # Overview
 
-With the TextIt API, you can build a world of automated messaging applications
-to support your own projects, business, or development needs. Here are just a
-few of the many features that you can build using TextIt API:
+TextIt is an API that specializes in automating SMS, voice, and social messaging workflows. By leveraging Pipedream's integration capabilities, the TextIt API can be used to create powerful communication automations that respond in real-time to incoming messages, dispatch notifications, and interact with users. With Pipedream, these automations can be connected to a plethora of services to enhance CRM systems, facilitate survey collection, or streamline event-driven notifications.
 
-- Automated customer support applications
-- Two-way messaging bots
-- Lead generation systems
-- Surveys and polls
-- Cross-platform messaging services
-- Group messaging
-- Appointment reminders
-- Bulk messaging services
-- Automated information and broadcast services
-- Multilingual messaging services
-- And much more!
+# Example Use Cases
 
-With all of these great features, the possibilities with TextIt API are
-endless. Whether you are building something for your business, personal
-project, or just want to explore the possibilities of TextIt API, you can use
-it to build practically anything you can dream of.
+- **Customer Support Automation**: Automatically receive customer queries from TextIt and create tickets in a service like Zendesk. Use conditions to categorize and prioritize messages based on keywords, and respond with automated messages for common questions.
 
-So what are you waiting for? Get started with TextIt API today, and start
-building your application!
+- **Survey Data Collection**: Send surveys via TextIt and collect responses in a Google Sheet. Analyze responses with Google Scripts to generate insights or trigger follow-up actions when specific answers are provided.
+
+- **Event-Triggered Notifications**: Integrate TextIt with an e-commerce platform like Shopify. Automatically notify customers about order confirmations, shipping updates, and delivery statuses via SMS, improving the overall customer experience.

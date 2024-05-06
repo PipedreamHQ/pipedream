@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/blazemeter",
+  "version": "0.1.0",
+  "description": "Pipedream Blazemeter Components",
+  "main": "blazemeter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "blazemeter"
+  ],
+  "homepage": "https://pipedream.com/apps/blazemeter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

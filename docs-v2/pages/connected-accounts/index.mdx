@@ -133,10 +133,8 @@ If you encounter errors in a step that appear to be related to credentials or au
 
 **New connected accounts are private by default** and can only be used by the person who added it.
 
-<Callout type="info" emoji="ℹ️">
-Accounts connected before August 2023
-
-Prior to this change, all connected accounts were accessible to all workspace members. Accounts connected before 2023 will be accessible to all workspace members by default. You can [make them private](#managing-access) at any time.
+<Callout type="info">
+Connected accounts created prior to August 2023 were accessible to all workspace members by default. You can [restrict access](#managing-access) at any time.
 </Callout>
 
 ### Managing access
@@ -144,7 +142,7 @@ Prior to this change, all connected accounts were accessible to all workspace me
 - Find the account on the Accounts page and click the 3 dots on the far right of the row
 - Select **Manage Access**
 
-![Selecting Manage Access](https://res.cloudinary.com/pipedreamin/image/upload/v1691617725/manage-access-button_bgnebz.png)
+![Selecting Manage Access](https://res.cloudinary.com/pipedreamin/image/upload/v1710869643/connected-account-manage-access_wsn98i.png)
 
 - You may be prompted to reconnect your account first to verify ownership of the account
 - You can enable access to the entire workspace or individual members
@@ -172,7 +170,7 @@ To make changes to steps that are locked in read-only mode, you can:
 - Ask the account owner to [grant access](#managing-access)
 - Click **More Actions** and change the connected account to one that you have access to (note that this may remove some prop configurations)
 
-### Explanation of access
+### Access
 
 Access to connected accounts is enforced at the step-level within workflows and is designed with security and control in mind.
 
@@ -183,27 +181,19 @@ When you connect an account in Pipedream, you are the owner of that connected ac
 - Reconnect
 - Add to any step or trigger
 
-How workspace members can use connected accounts that are **private**:
+For connected accounts that are **not** shared with other workspace members:
 
-<br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/private-auth_ecm7jx.png" width="100px" />
-<br />
-
-| Operations                                         | Workspace Owner & Admin |   Other Members    |
+| Operation                                         | Workspace Owner & Admin |   Other Members    |
 | -------------------------------------------------- | :---------------------: | :----------------: |
 | View on [Accounts](https://pipedream.com/accounts) |   ✅    |        ❌         |
 | Add to a new trigger or step                       |           ❌           |        ❌         |
 | Modify existing steps                              |           ❌           |        ❌         |
 | Test exising steps                                 |   ✅    | ✅ |
-| Manage access                                      |           ❌           |        ❌         |
-| Reconnect                                          |           ❌           |        ❌         |
+| Manage access                                      |           ✅           |        ❌         |
+| Reconnect                                          |           ✅           |        ❌         |
 | Delete                                             |   ✅    |        ❌         |
 
-How workspace members can use connected accounts that are **shared**:
-
-<br />
-<img src="https://res.cloudinary.com/pipedreamin/image/upload/v1691644328/shared-auth-workspace_usdwod.png" width="240px" />
-<br />
+For connected accounts that **are** shared with other workspace members:
 
 | Operations                                         | Workspace Owner & Admin |   Other Members    |
 | -------------------------------------------------- | :---------------------: | :----------------: |
@@ -211,17 +201,15 @@ How workspace members can use connected accounts that are **shared**:
 | Add to a new trigger or step                       |   ✅    | ✅ |
 | Modify existing steps                              |   ✅    | ✅ |
 | Test exising steps                                 |   ✅    | ✅ |
-| Manage access                                      |           ❌           |        ❌         |
-| Reconnect                                          |           ❌           |        ❌         |
+| Manage access                                      |           ✅           |        ❌         |
+| Reconnect                                          |           ✅           |        ❌         |
 | Delete                                             |   ✅    |        ❌         |
 
 ### Frequently Asked Questions
 
-<Callout type="warning" emoji="⚠">
-Why isn't my connected account showing up in the legacy workflow builder?
+#### Why isn't my connected account showing up in the legacy workflow builder?
 
 In order to use a connected account in the legacy (v1) workflow builder, the account must be shared with the entire workspace. Private accounts are accessible in the latest version of the workflow builder.
-</Callout>
 
 #### What is the "Owner" column?
 
@@ -246,6 +234,14 @@ You can access credentials for any connected account via API, letting you build 
 ## Passing external credentials at runtime
 
 If you use a secrets store like [HashiCorp Vault](https://www.vaultproject.io/) or [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), store credentials in a database, or use a service like [Nango](https://www.nango.dev/) to manage auth, you can retrieve these secrets at runtime and pass them to any step. [See the full guide here](/connected-accounts/external-auth/).
+
+## Connecting to apps with IP restrictions
+
+If you're connecting to an app that enforces IP restrictions, you may need to whitelist Pipedream's IP addresses:
+
+<pre className="mt-4 nx-bg-primary-700/5 nx-mb-4 nx-overflow-x-auto nx-rounded-xl nx-subpixel-antialiased dark:nx-bg-primary-300/10 nx-text-[.9em] contrast-more:nx-border contrast-more:nx-border-primary-900/20 contrast-more:nx-contrast-150 contrast-more:dark:nx-border-primary-100/40 nx-py-4">
+  {process.env.PD_EGRESS_IP_RANGE}
+</pre>
 
 ## Account security
 

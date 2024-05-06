@@ -15,10 +15,10 @@ export default {
       optional: true,
     },
     customDatasetId: {
-      type: "string",
-      label: "Custom Dataset ID",
-      description: "You may enter a Dataset ID directly. Either Dataset ID or Custom Dataset ID must be entered.",
-      optional: true,
+      propDefinition: [
+        powerBiApp,
+        "customDatasetId",
+      ],
     },
     timer: {
       type: "$.interface.timer",

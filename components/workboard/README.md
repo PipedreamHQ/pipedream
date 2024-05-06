@@ -1,24 +1,11 @@
 # Overview
 
-With the Workboard API, you can easily build solutions that can help you
-automate parts of your organization's workflow. Here are a few examples of
-solutions you can create with the Workboard API:
+The Workboard API enables you to interact with Workboard's platform programmatically, allowing for the automation of tasks related to goal setting, action item tracking, and performance metrics. By deploying workflows on Pipedream, you can connect Workboard to a multitude of other apps, triggering actions and exchanging data to streamline your organization's operations and decision-making processes. A well-integrated system can save time, reduce errors, and provide real-time insights into team performance and project progress.
 
-- Automatically create a Stream of tasks based on a client’s data.
-- Create Streams that capture different types of progress notifications.
-- Create Streams that integrate data from other applications into Workboard.
-- Consolidate Teams and their tasks into a single timeline view.
-- Automatically update task status and assign tasks to Teams.
-- Automatically generate reports with data from multiple Streams.
-- Create reports to track the performance of different Teams in realtime.
-- Generate graphs and charts to help visualize trends in your organization.
-- Automatically create alert notifications for tasks and Streams.
-- Provide personalized notifications for different users and for specific
-  tasks.
-- Automatically provision and de-provision user accounts.
-- Connect different systems (like ticketing, customer support, etc.) to
-  Workboard.
-- Automate the creation and management of Streams.
-- Automatically create project plans and milestones.
-- Automatically transfer data between Streams.
-- Create custom widgets and views to help visualize complex data.
+# Example Use Cases
+
+- **Automated Meeting Summaries**: After a meeting concludes in your calendar app, a Pipedream workflow can trigger to pull key results and action items from Workboard, format them into a concise summary, and then send the summary via Slack or email to all participants.
+
+- **Project Progress Tracking**: Integrate Workboard with a project management tool like Jira. When updates are made in Jira, a workflow on Pipedream can automatically update the corresponding goals and action items in Workboard, ensuring that all team members have the latest project status.
+
+- **Performance Dashboard Updates**: Use Pipedream to connect Workboard with a data visualization tool like Google Sheets or Tableau. As team members update their goals and metrics in Workboard, the workflow triggers to populate these changes into a dashboard, providing real-time performance updates to stakeholders.

@@ -1,24 +1,11 @@
 # Overview
 
-The Visitor Queue API is an application programming interface that simplifies
-website visitor data capture, lead collection, and automation. With this API,
-website owners can design, develop, and deploy more successful online
-applications and experiences.
+The Visitor Queue API lets you track and identify businesses that visit your website, providing valuable data for lead generation and marketing analytics. By leveraging this API on Pipedream, you can automate tasks such as scoring leads, syncing data with CRM systems, and engaging with potential customers through targeted outreach. The ability to connect with hundreds of apps on Pipedream allows for powerful, automated workflows that can enrich your sales pipeline and optimize your marketing strategies.
 
-Using the Visitor Queue API, website owners can take full advantage of their
-website visitor data to improve customer acquisition, sales, and more.
+# Example Use Cases
 
-Examples of things you can achieve with the Visitor Queue API:
+- **Lead Prioritization Workflow**: Identify high-value leads using Visitor Queue's data and automatically score them based on custom criteria such as company size or industry. Use Pipedream to add these leads to a Google Sheets spreadsheet and flag them for immediate follow-up by your sales team.
 
-- Something as simple as captures form information and send a tailored message
-  to the customer.
-- Generate leads with an interactive web form.
-- Track visitor behavior on a website and send user-specific alerts.
-- Create and populate visitor profiles to measure user engagement.
-- Automatically invite visitors to join a mailing list, schedule personalized
-  messages, or integrate with APIs and databases.
-- Trigger custom, automated sales campaigns from visitor behavior.
-- Detect, identify, and flag malicious website activity.
-- Gather usage data in order to optimize the website experience for visitors.
-- Create bespoke data visualizations and analytics to analyze the performance
-  and effectiveness of campaigns.
+- **CRM Integration Workflow**: Sync Visitor Queue data with your CRM, like Salesforce or Hubspot, to keep your sales pipeline up-to-date. Set up a Pipedream workflow that creates or updates CRM records in real time as new visitors are identified, ensuring your sales team has the most current information at their fingertips.
+
+- **Real-Time Alerts Workflow**: Configure a workflow in Pipedream to send real-time notifications to Slack or Microsoft Teams when a targeted or repeat company visits your site. This allows your marketing and sales teams to react promptly, tailoring their outreach strategies to engage with these prospects effectively.

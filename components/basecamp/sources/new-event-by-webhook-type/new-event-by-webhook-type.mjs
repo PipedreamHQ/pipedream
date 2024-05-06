@@ -1,12 +1,12 @@
-import common from "../common/webhook.mjs";
 import constants from "../common/constants.mjs";
+import common from "../common/webhook.mjs";
 
 export default {
   ...common,
   key: "basecamp-new-event-by-webhook-type",
   name: "New Event By Webhook Type (Instant)",
   description: "Emit new event based on the selected webhook type. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/webhooks.md#create-a-webhook)",
-  version: "0.0.4",
+  version: "0.0.6",
   dedupe: "unique",
   type: "source",
   props: {

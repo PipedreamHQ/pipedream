@@ -1,18 +1,11 @@
 # Overview
 
-Using the Qualaroo API, you can build comprehensive customer feedback systems
-for your business or website. Qualaroo helps you discover the information you
-need from your customers, capture every detail and make changes to improve the
-customer experience. With Qualaroo, you can easily build surveys, polls, and
-other forms of customer feedback.
+Qualaroo is an advanced tool for collecting user feedback through surveys and analyzing those insights. With the Qualaroo API, you can programmatically manage your surveys, retrieve survey responses, and integrate user feedback into your data pipeline to enhance decision-making. On Pipedream, you can harness this API to automate the aggregation of survey data, trigger actions based on feedback, and sync insights across various platforms.
 
-Examples of Things You Can Build Using the Qualaroo API:
+# Example Use Cases
 
-- Surveys to measure customer satisfaction
-- Polls to quickly collect opinions
-- Gather in-depth customer insights
-- Create targeted questions for different customers
-- Capture customer feedback and analyze it in real-time
-- Customize text and coding to create surveys and polls
-- Deliver survey results to your development team
-- Integrate surveys into your website or mobile app
+- **Automated Feedback Analysis Workflow**: Retrieve Qualaroo survey responses in real-time via Pipedream, analyze them using natural language processing (NLP) with a service like Google Cloud Natural Language, and store the sentiment analysis results in a Google Sheets spreadsheet for easy visualization and team collaboration.
+
+- **Customer Support Enhancement Workflow**: When a user submits negative feedback through a Qualaroo survey, trigger a customer support ticket in a CRM like Zendesk or HubSpot. This immediate response can help address user concerns quickly, potentially improving user satisfaction and loyalty.
+
+- **Product Feature Request Aggregator Workflow**: Collect and categorize feature requests from Qualaroo surveys, push them into a prioritization tool like Trello or JIRA, and automatically notify the product team via Slack or email. This streamlines the process of gathering user input and turning it into actionable development tasks.

@@ -1,26 +1,11 @@
 # Overview
 
-The Toggl Track API allows developers to build apps that help measure and
-visualize employee productivity. Using the API, it is possible to build tools
-such as timesheet managers, project-based dashboards, expense analysis, team
-management applications, and more.
+Toggl Track is a time tracking API that lets you start, stop, and manage timers and time entries, as well as manage projects, clients, and tasks associated with time records. With the Toggl Track API on Pipedream, you can automate time tracking activities, synchronize data across platforms, and generate insights from time tracking data to improve productivity and project management.
 
-The Toggl Track API also offers data overviews and integrated reporting, as
-well as access to Toggl Track’s easy-to-use user interface. This facilitates
-the creation of customized application features that can help businesses save
-time and maximize productivity.
+# Example Use Cases
 
-Here are a few examples of what you can build using the Toggl Track API:
+- **Project Time Tracking Automation:** Automatically start a Toggl timer when you begin working on a GitHub issue. When the issue is closed, stop the timer. This creates a seamless link between your coding activity and time tracking.
 
-- Timesheet manager: Create an application that gives users an overview of
-  their time tracking data.
-- Project-based dashboard: Visualize employee’s performance data on a
-  project-by-project basis.
-- Expense analysis: Analyze employees' expense data so that businesses can make
-  more informed decisions.
-- Team management applications: Manage employee workloads more efficiently with
-  customized tools.
-- Customized reports: Build customized reports based on specific criteria
-  related to time tracking data.
-- User interface: Access and integrate Toggl Track's intuitive user interface
-  into applications.
+- **Client Reporting Workflow:** Generate weekly time reports for clients by aggregating Toggl data and sending it via Gmail. Use the Pipedream workflow to filter time entries by client and project, compile the data, and format it into a nicely structured email.
+
+- **Slack Productivity Bot:** Create a Slack bot that prompts team members to log their time if they haven't started a timer by midday. Use Toggl's API to check for active timers and send reminders through Slack, encouraging timely time entry submissions.

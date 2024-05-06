@@ -4,21 +4,15 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "pinecone-query-ids",
   name: "Query IDs",
-  description: "Searches a namespace, using a query vector. It retrieves the ids of the most similar items in a namespace, along with their similarity scores. [See the docs](https://docs.pinecone.io/reference/query).",
+  description: "Searches a namespace, using a query vector. It retrieves the ids of the most similar items in a namespace, along with their similarity scores. [See the documentation](https://docs.pinecone.io/reference/api/data-plane/query).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     indexName: {
       propDefinition: [
         app,
         "indexName",
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        app,
-        "projectId",
       ],
     },
     topK: {
@@ -32,7 +26,7 @@ export default {
     filter: {
       type: "object",
       label: "Filter",
-      description: "The filter to apply. You can use vector metadata to limit your search. [See the docs](https://www.pinecone.io/docs/metadata-filtering/).",
+      description: "The filter to apply. You can use vector metadata to limit your search. For guidance and examples, see [filtering-with-metadata](https://docs.pinecone.io/guides/data/filtering-with-metadata).",
       optional: true,
     },
     includeValues: {
@@ -59,16 +53,9 @@ export default {
       propDefinition: [
         app,
         "vectorId",
-        ({
-          indexName, projectId,
-        }) => ({
-          indexName,
-          projectId,
-        }),
       ],
     },
     vector: {
-      optional: true,
       description: `${app.propDefinitions.vectorValues.description} Each request can contain only one of the parameters either **Vector Values** or **Vector ID**.`,
       propDefinition: [
         app,
@@ -76,10 +63,18 @@ export default {
       ],
     },
   },
+  methods: {
+    query(args = {}) {
+      return this.app.post({
+        path: "/query",
+        ...args,
+      });
+    },
+  },
   async run({ $: step }) {
     const {
+      query,
       indexName,
-      projectId,
       id,
       vector,
       topK,
@@ -89,12 +84,16 @@ export default {
       namespace,
     } = this;
 
-    const response = await this.app.query({
-      projectId,
+    const vectorParsed = utils.parseArray(vector);
+
+    const response = await query({
+      step,
       indexName,
       data: {
         id,
-        vector: utils.parseArray(vector),
+        ...(vectorParsed.length && {
+          vector: vectorParsed,
+        }),
         topK,
         filter: utils.parse(filter),
         includeValues,

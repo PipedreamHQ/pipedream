@@ -1,13 +1,11 @@
 # Overview
 
-Using the Jotform API, you can easily add forms to your website or application.
-You can also use the Jotform API to manage your form submissions, gather
-insights from your form data, and more.
+Jotform’s API is a powerhouse for automating form and survey data management. With Pipedream, harness this API to trigger workflows from new form submissions, manipulate and analyze your form data, and sync it across various platforms. Think streamlined data entry to CRMs, instant notifications for new leads or feedback, and timely data backups to cloud storage.
 
-Here are some examples of what you can build using the Jotform API:
+# Example Use Cases
 
-- A contact form for your website
-- A survey form to collect data from your users
-- A registration form for your events or courses
-- A payment form for your products or services
-- A lead capture form to collect leads from your website visitors
+- **Automated Lead Capture to CRM**: When a new form submission comes through Jotform, Pipedream can kick off a workflow that parses the submission, extracting key information like names, emails, and preferences. This data can then be sent directly to a CRM like Salesforce, keeping your lead database fresh and up-to-date without manual input.
+
+- **Survey Response Analysis and Reporting**: Jotform collects survey data, but what next? Pipedream can take each submission and run it through analytical processes, perhaps using sentiment analysis or adding the data to a Google Sheet for further review. Then, compile a report with tools like Tableau or Google Data Studio and even email the report to stakeholders directly from the workflow.
+
+- **Real-Time Notifications for High-Priority Submissions**: Set criteria for flagging high-priority form submissions, such as support requests marked ‘urgent’. Pipedream can monitor your Jotform submissions and when it spots a high-priority one, it can immediately send a message via Slack, SMS, or even create a task in a project management tool like Asana to prompt swift action.

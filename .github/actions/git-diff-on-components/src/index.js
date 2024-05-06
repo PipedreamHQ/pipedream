@@ -348,15 +348,17 @@ async function run() {
   }
 
   if (componentsDiffContents.length) {
-    let command = ''
+    let linuxCommand = ''
+    let macCommand = ''
 
-    for ({ dependencyFilePath, componentFilePath } of componentsDiffContents) {
+    for ({ componentFilePath } of componentsDiffContents) {
       try {
         const content = await readFile(componentFilePath, "utf-8")
         const currentVersion = getVersion(content)
         const increasedVersion = increaseVersion(currentVersion)
 
-        command += `${command.length ? " && " : ""}sed -i 0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/} ${getComponentFilePath(componentFilePath)}`
+        linuxCommand += `${linuxCommand.length ? " && " : ""}sed -i 0,/${currentVersion}/{s/${currentVersion}/${increasedVersion}/} ${getComponentFilePath(componentFilePath)}`
+        macCommand += `${macCommand.length ? " && " : ""}sed -i '' 's/${currentVersion}/${increasedVersion}/' ${getComponentFilePath(componentFilePath)}`
       } catch (error) {
         console.error(`❌ Error checking component diff of ${getComponentFilePath(componentFilePath)}: ${error}`);
       }
@@ -365,7 +367,12 @@ async function run() {
     core.setFailed(`❌ Version of ${componentsDiffContents.length} dependencies needs to be increased.`)
     core.setFailed(`🚀 To fix the versions, in your terminal go to project root path and run the command below:`)
 
-    console.log(`\n${command}\n`)
+    console.log(`\n# Linux
+${linuxCommand}
+\n
+# MacOS
+${macCommand}\n`
+    )
   }
 
 

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/frame",
+  "version": "0.2.0",
+  "description": "Pipedream Frame.io Components",
+  "main": "frame.app.mjs",
+  "keywords": [
+    "pipedream",
+    "frame"
+  ],
+  "homepage": "https://pipedream.com/apps/frame",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.1"
+  }
+}

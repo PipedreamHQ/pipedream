@@ -28,7 +28,6 @@ module.exports = withNextra({
     BASE_CREDITS_PRICE_MEMORY: "256",
     BASE_CREDITS_PRICE_SECONDS: "30",
     DATA_STORES_MAX_KEYS: "1,024",
-    DAILY_CREDITS_LIMIT: "25",
     DAILY_TESTING_LIMIT: "30 minutes",
     INSPECTOR_EVENT_EXPIRY_DAYS: "365",
     FUNCTION_PAYLOAD_LIMIT: "6MB",
@@ -50,12 +49,13 @@ module.exports = withNextra({
     TMP_SIZE_LIMIT: "2GB",
     DELAY_MIN_MAX_TIME:
     "You can pause your workflow for as little as one millisecond, or as long as one year",
-    PUBLIC_APPS: "1,900",
+    PUBLIC_APPS: "2,000",
     FREE_INSPECTOR_EVENT_LIMIT: "7 days of events",
     WARM_WORKERS_INTERVAL: "10 minutes",
     WARM_WORKERS_CREDITS_PER_INTERVAL: "5",
     ALGOLIA_APP_ID: "XY28M447C5",
     ALGOLIA_SEARCH_API_KEY: "9d9169458128b3d60c22bb04da4431c7",
     ALGOLIA_INDEX_NAME: "pipedream",
+    PD_EGRESS_IP_RANGE: "44.223.89.56/29",
   },
 });

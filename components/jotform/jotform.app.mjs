@@ -1,7 +1,5 @@
 import { axios } from "@pipedream/platform";
 import querystring from "query-string";
-import crypto from "crypto";
-import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -11,16 +9,41 @@ export default {
       type: "string",
       label: "Form",
       description: "The form to watch for new submissions",
+      async options({
+        page = 0, teamId, excludeDeleted = false,
+      }) {
+        const limit = 20;
+        const offset = page * limit;
+        let { content: forms } = await this.getForms({
+          offset,
+          limit,
+        }, teamId);
+        if (excludeDeleted) {
+          forms = forms.filter(({ status }) => status !== "DELETED");
+        }
+        return forms.map((form) => ({
+          label: form.title,
+          value: form.id,
+        }));
+      },
+    },
+    teamId: {
+      type: "string",
+      label: "Team",
+      description: "The identifier of a team. Note: Teams is a Jotform Enterprise feature.",
+      optional: true,
       async options({ page = 0 }) {
         const limit = 20;
         const offset = page * limit;
-        const forms = await this.getForms({
+        const { content } = await this.listTeams({
           offset,
           limit,
         });
-        return forms.content.map((form) => ({
-          label: form.title,
-          value: form.id,
+        return content.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -74,36 +97,40 @@ export default {
       description: "Maximum number of items to return",
       default: 20,
     },
-    encrypted: {
-      type: "boolean",
-      label: "Encrypted",
-      description: "Are the form responses encrypted? Set to `true` to decrypt responses.",
-      optional: true,
-    },
-    privateKey: {
-      type: "string",
-      label: "Private Key",
-      description: "The private key provided/created when setting the form as encrypted. Starts with `-----BEGIN RSA PRIVATE KEY-----` and ends with `-----END RSA PRIVATE KEY-----`",
-      secret: true,
-    },
   },
   methods: {
     _getBaseUrl() {
-      return `https://${this.$auth.region}.jotform.com/`;
+      let baseUrl = `https://${this.$auth.region}.jotform.com/`;
+      const standardSubdomains = [
+        "api",
+        "eu-api",
+        "hipaa-api",
+      ];
+      if (!standardSubdomains.includes(this.$auth.region)) {
+        baseUrl += "API/";
+      }
+      return baseUrl;
     },
     _ensureTrailingSlash(str) {
       return (str.endsWith("/"))
         ? str
         : `${str}/`;
     },
+    _headers(teamId) {
+      const headers = {
+        "APIKEY": this.$auth.api_key,
+      };
+      if (teamId) {
+        headers["jf-team-id"] = teamId;
+      }
+      return headers;
+    },
     async _makeRequest({
-      $, endpoint, method = "GET", params = null,
+      $, endpoint, method = "GET", params = null, teamId,
     }) {
       const config = {
         url: `${this._getBaseUrl()}${endpoint}`,
-        headers: {
-          "APIKEY": this.$auth.api_key,
-        },
+        headers: this._headers(teamId),
         method,
       };
       if (params) {
@@ -120,6 +147,7 @@ export default {
       const {
         formId,
         endpoint,
+        teamId,
       } = opts;
       return this._makeRequest({
         endpoint: `form/${encodeURIComponent(formId)}/webhooks`,
@@ -127,15 +155,18 @@ export default {
         params: {
           webhookURL: this._ensureTrailingSlash(endpoint),
         },
+        teamId,
       });
     },
     async deleteHook(opts = {}) {
       const {
         formId,
         endpoint,
+        teamId,
       } = opts;
       const result = await this.getWebhooks({
         formId,
+        teamId,
       });
       let webhooks = Object.values(result && result.content || {});
       let webhookIdx = -1;
@@ -152,34 +183,39 @@ export default {
       return this._makeRequest({
         endpoint: `form/${encodeURIComponent(formId)}/webhooks/${encodeURIComponent(webhookIdx)}`,
         method: "DELETE",
+        teamId,
       });
     },
-    async getForm(formId) {
+    async getForm(formId, teamId) {
       return this._makeRequest({
         endpoint: `form/${formId}`,
+        teamId,
       });
     },
-    async getForms(params) {
+    async getForms(params, teamId) {
       return this._makeRequest({
         endpoint: "user/forms",
         params,
+        teamId,
       });
     },
     getFormSubmission({
-      $, submissionId,
+      $, submissionId, teamId,
     }) {
       return this._makeRequest({
         $,
         endpoint: `submission/${submissionId}`,
+        teamId,
       });
     },
     async getFormSubmissions({
-      $, formId, params = null,
+      $, formId, teamId, params = null,
     }) {
       return this._makeRequest({
         $,
         endpoint: `form/${formId}/submissions`,
         params,
+        teamId,
       });
     },
     async getUserSubmissions({ $ }) {
@@ -195,44 +231,19 @@ export default {
       });
     },
     async getWebhooks(opts = {}) {
-      const { formId } = opts;
+      const {
+        formId, teamId,
+      } = opts;
       return this._makeRequest({
         endpoint: `form/${encodeURIComponent(formId)}/webhooks`,
+        teamId,
       });
     },
-    decryptSubmission(submission, privateKey) {
-      const { answers } = submission;
-      if (!answers) {
-        return submission;
-      }
-
-      if (!privateKey.includes(`${constants.KEY_HEADER}\n`)) {
-        privateKey = privateKey.replace(constants.KEY_HEADER, `${constants.KEY_HEADER}\n`);
-      }
-      if (!privateKey.includes(`\n${constants.KEY_FOOTER}`)) {
-        privateKey = privateKey.replace(constants.KEY_FOOTER, `\n${constants.KEY_FOOTER}`);
-      }
-
-      for (const answer of Object.keys(answers)) {
-        if (!answers[answer]["answer"]) {
-          continue;
-        }
-        for (const question of Object.keys(answers[answer]["answer"])) {
-          const q = answers[answer]["answer"][question];
-          try {
-            const decrypted = crypto.privateDecrypt({
-              key: privateKey,
-              passphrase: "",
-              padding: crypto.constants.RSA_PKCS1_PADDING,
-            }, Buffer.from(q, "base64"));
-            answers[answer]["answer"][question] = decrypted.toString("utf8");
-          } catch (e) {
-            // not a base64 string
-            continue;
-          }
-        }
-      }
-      return submission;
+    listTeams(opts = {}) {
+      return this._makeRequest({
+        endpoint: "/team/user/me",
+        ...opts,
+      });
     },
   },
 };

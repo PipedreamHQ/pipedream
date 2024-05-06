@@ -1,5 +1,5 @@
-import common from "../common/polling.mjs";
 import constants from "../../common/constants.mjs";
+import common from "../common/polling.mjs";
 
 export default {
   ...common,
@@ -7,7 +7,7 @@ export default {
   name: "New Shop Receipt",
   description: "Emit new event when a new shop receipt is created. [See the Documentation](https://developers.etsy.com/documentation/reference#operation/getShopReceipts)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,
