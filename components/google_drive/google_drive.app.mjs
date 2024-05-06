@@ -189,7 +189,7 @@ export default {
     searchQuery: {
       type: "string",
       label: "Search Query",
-      description: "Search for a file with a query. [See the documentation](https://developers.google.com/drive/api/guides/ref-search-terms) for more information. If specified. `Search Name` will be ignored.",
+      description: "Search for a file with a query. [See the documentation](https://developers.google.com/drive/api/guides/ref-search-terms) for more information. If specified, `Search Name` will be ignored.",
       optional: true,
     },
     mimeType: {

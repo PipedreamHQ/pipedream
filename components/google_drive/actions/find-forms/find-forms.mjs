@@ -1,6 +1,6 @@
 import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
-import searchQuery from "../../common/searchQuery.mjs";
+import commonSearchQuery from "../../common/commonSearchQuery.mjs";
 
 export default {
   key: "google_drive-find-forms",
@@ -34,9 +34,14 @@ export default {
       alertType: "info",
       content: "If no query or search name is specified, all forms in the selected drive/folder will be returned.",
     },
-    ...searchQuery.props,
+    ...commonSearchQuery.props,
+    searchQuery: {
+      ...commonSearchQuery.props.searchQuery,
+      description:
+        "Search for a file with a query. [See the documentation](https://developers.google.com/drive/api/guides/ref-search-terms) for more information. If specified, `Search Name` and `Parent Folder` will be ignored.",
+    },
   },
-  methods: searchQuery.methods,
+  methods: commonSearchQuery.methods,
   async run({ $ }) {
     const q = this.getQuery("form", this.folderId);
     const opts = getListFilesOpts(this.drive, {
