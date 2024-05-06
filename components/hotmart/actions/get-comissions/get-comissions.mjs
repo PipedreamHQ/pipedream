@@ -28,17 +28,28 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.getComissions({
-      $,
-      params: {
-        product_id: this.productId,
-        start_date: this.startDate,
-        end_date: this.endDate,
-      },
-    });
+    let results = [];
+    let stop = false;
 
-    $.export("$summary", `Successfully retrieved ${response.items.length} comission(s)`);
+    while (!stop) {
+      const {
+        items, page_info: { total_results },
+      } = await this.app.getComissions({
+        $,
+        params: {
+          product_id: this.productId,
+          start_date: this.startDate,
+          end_date: this.endDate,
+        },
+      });
 
-    return response;
+      results = results.concat(items);
+
+      stop = total_results <= results.length;
+    }
+
+    $.export("$summary", `Successfully retrieved ${results.length} comission(s)`);
+
+    return results;
   },
 };

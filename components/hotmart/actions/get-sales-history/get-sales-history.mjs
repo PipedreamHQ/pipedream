@@ -28,18 +28,29 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.getSalesHistory({
-      $,
-      params: {
-        product_id: this.productId,
-        buyer_email: this.buyerEmail,
-        offer_code: this.offerCode,
-      },
-      subscriber_code: this.subscriberCode,
-    });
+    let results = [];
+    let stop = false;
 
-    $.export("$summary", `Successfully retrieved ${response.items.length} sale(s)`);
+    while (!stop) {
+      const {
+        items, page_info: { total_results },
+      } = await this.app.getSalesHistory({
+        $,
+        params: {
+          product_id: this.productId,
+          buyer_email: this.buyerEmail,
+          offer_code: this.offerCode,
+        },
+        subscriber_code: this.subscriberCode,
+      });
 
-    return response;
+      results = results.concat(items);
+
+      stop = total_results <= results.length;
+    }
+
+    $.export("$summary", `Successfully retrieved ${results.length} sale(s)`);
+
+    return results;
   },
 };
