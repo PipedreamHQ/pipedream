@@ -8691,7 +8691,12 @@ importers:
     specifiers: {}
 
   components/timetonic:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+      md5: ^2.3.0
+    dependencies:
+      '@pipedream/platform': 1.6.5
+      md5: 2.3.0
 
   components/timeular:
     specifiers:
