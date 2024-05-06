@@ -49,6 +49,23 @@ export default {
       type: "string",
       label: "Status ID",
       description: "The ID of the status attribute indicating the current status of the activity",
+      async options({ page }) {
+        const { data: resources } = await this.getActivities({
+          data: {
+            offset: page * 100,
+            limit: 100,
+          },
+        });
+
+        return resources.filter((r) => !!r.status).map(({
+          status: {
+            _id, name,
+          },
+        }) => ({
+          value: _id,
+          label: name,
+        }));
+      },
     },
     iconType: {
       type: "string",
@@ -119,7 +136,6 @@ export default {
     },
     async getCollections(args = {}) {
       return this._makeRequest({
-        method: "POST",
         path: "/collections",
         ...args,
       });

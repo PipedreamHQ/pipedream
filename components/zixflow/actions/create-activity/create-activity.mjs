@@ -5,7 +5,7 @@ export default {
   key: "zixflow-create-activity",
   name: "Create Activity",
   description: "Creates a new activity or task within Zixflow. [See the documentation](https://docs.zixflow.com/api-reference/activity-list/create)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
