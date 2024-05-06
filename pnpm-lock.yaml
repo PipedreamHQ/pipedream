@@ -6882,7 +6882,10 @@ importers:
       '@pipedream/platform': 1.6.4
 
   components/relavate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/relevance_ai:
     specifiers:
