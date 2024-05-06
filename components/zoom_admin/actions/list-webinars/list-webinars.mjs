@@ -5,7 +5,7 @@ export default {
   name: "List Webinars",
   description: "List all webinars for a user. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinars)",
   key: "zoom_admin-list-webinars",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     zoomAdmin,
