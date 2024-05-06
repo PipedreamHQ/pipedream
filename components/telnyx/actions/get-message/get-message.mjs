@@ -4,7 +4,7 @@ export default {
   key: "telnyx-get-message",
   name: "Retrieve a Message",
   description: "Retrieve a message. See documentation [here](https://developers.telnyx.com/api/messaging/get-message)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     telnyxApp,
@@ -17,7 +17,9 @@ export default {
   async run({ $ }) {
     const message = await this.telnyxApp.getMessage({
       $,
-      id: this.id,
+      params: {
+        id: this.id,
+      },
     });
     $.export("$summary", `Successfully retrieved message ${message.data.id}.`);
     return message;

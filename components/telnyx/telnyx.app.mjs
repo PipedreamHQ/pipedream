@@ -69,7 +69,7 @@ export default {
     },
     throwFormattedError(error) {
       error = error.response;
-      throw new Error(`${error.status} - ${error.statusText} - ${error.data.message}`);
+      throw new Error(`${error.status} - ${error.statusText} - ${error.data.errors[0].detail}`);
     },
     async sendMessage(args) {
       return this.makeRequest({

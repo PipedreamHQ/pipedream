@@ -4,7 +4,7 @@ export default {
   key: "telnyx-send-group-message",
   name: "Send Group Message",
   description: "Send a group MMS message. See documentation [here](https://developers.telnyx.com/api/messaging/create-group-mms-message)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     telnyxApp,

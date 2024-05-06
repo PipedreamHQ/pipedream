@@ -2924,6 +2924,9 @@ importers:
   components/fluxguard:
     specifiers: {}
 
+  components/fly_io:
+    specifiers: {}
+
   components/focuster:
     specifiers: {}
 
@@ -3244,7 +3247,14 @@ importers:
       uuid: 8.3.2
 
   components/gitlab_developer_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+      lodash: ^4.17.21
+      uuid: ^8.3.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
+      lodash: 4.17.21
+      uuid: 8.3.2
 
   components/givebutter:
     specifiers: {}
@@ -5852,7 +5862,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/orimon:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/ortto:
     specifiers: {}
@@ -6070,7 +6083,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/perplexity:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/perry_github_test:
     specifiers: {}
@@ -6879,7 +6895,10 @@ importers:
       '@pipedream/platform': 1.6.4
 
   components/relavate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/relevance_ai:
     specifiers:
@@ -8847,7 +8866,10 @@ importers:
     specifiers: {}
 
   components/tripadvisor_content_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/truss:
     specifiers: {}
@@ -9253,7 +9275,10 @@ importers:
     specifiers: {}
 
   components/vryno:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/vtiger_crm:
     specifiers:
