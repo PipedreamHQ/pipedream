@@ -6,7 +6,7 @@ export default {
   key: "gitlab-new-merge-request",
   name: "New Merge Request (Instant)",
   description: "Emit new event when a merge request is created",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   type: "source",
   hooks: {
@@ -18,7 +18,7 @@ export default {
   methods: {
     ...base.methods,
     isNewMergeRequest(event) {
-      const { action } = event.object_attributes;
+      const action = event?.object_attributes?.action;
       const expectedAction = "open";
       return action === expectedAction;
     },
