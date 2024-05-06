@@ -22,14 +22,21 @@ export default {
         "fileNameSearchTerm",
       ],
     },
+    searchQuery: {
+      propDefinition: [
+        googleDrive,
+        "searchQuery",
+      ],
+    },
   },
   async run({ $ }) {
+    const q = this.searchQuery ?? `name contains '${this.nameSearchTerm}'`;
     const opts = getListFilesOpts(this.drive, {
-      q: `name contains '${this.nameSearchTerm}'`,
+      q,
     });
     const files = (await this.googleDrive.listFilesInPage(null, opts)).files;
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully found ${files.length} file${files.length === 1 ? "" : "s"} containing the term, "${this.nameSearchTerm}"`);
+    $.export("$summary", `Successfully found ${files.length} file${files.length === 1 ? "" : "s"} with the query "${q}"`);
     return files;
   },
 };

@@ -183,7 +183,13 @@ export default {
     fileNameSearchTerm: {
       type: "string",
       label: "Search Name",
-      description: "Enter the name of a file to search for.",
+      description: "Search for a file by name (equivalent to the query `name contains [value]`).",
+      optional: true,
+    },
+    searchQuery: {
+      type: "string",
+      label: "Search Query",
+      description: "Search for a file with a query. [See the documentation](https://developers.google.com/drive/api/guides/ref-search-terms) for more information. If specified. `Search Name` will be ignored.",
       optional: true,
     },
     mimeType: {

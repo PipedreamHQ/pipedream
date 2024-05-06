@@ -33,17 +33,28 @@ export default {
         googleDrive,
         "fileNameSearchTerm",
       ],
-      description: "The spreadsheet name to search for. If blank, returns all spreadsheets in the specified drive (and folder, if set).",
-      optional: true,
+    },
+    searchQuery: {
+      propDefinition: [
+        googleDrive,
+        "searchQuery",
+      ],
+      description: "Search for a file with a query. [See the documentation](https://developers.google.com/drive/api/guides/ref-search-terms) for more information. If specified, `Search Name` and `Parent Folder` will be ignored.",
     },
   },
   async run({ $ }) {
     let q = "mimeType = 'application/vnd.google-apps.spreadsheet'";
-    if (this.nameSearchTerm) {
-      q = `${q} and name contains '${this.nameSearchTerm}'`;
-    }
-    if (this.folderId) {
-      q = `${q} and "${this.folderId}" in parents`;
+    if (this.searchQuery) {
+      q = this.searchQuery.includes(q)
+        ? this.searchQuery
+        : `${q} and ${this.searchQuery}`;
+    } else {
+      if (this.nameSearchTerm) {
+        q = `${q} and name contains '${this.nameSearchTerm}'`;
+      }
+      if (this.folderId) {
+        q = `${q} and "${this.folderId}" in parents`;
+      }
     }
     const opts = getListFilesOpts(this.drive, {
       q: q.trim(),
