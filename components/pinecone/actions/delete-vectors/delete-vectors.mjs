@@ -4,9 +4,9 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "pinecone-delete-vectors",
   name: "Delete Vectors",
-  description: "Deletes one or more vectors by ID, from a single namespace. [See the docs](https://docs.pinecone.io/reference/delete_post).",
+  description: "Deletes one or more vectors by ID, from a single namespace. [See the documentation](https://docs.pinecone.io/reference/api/data-plane/delete).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     indexName: {
@@ -15,10 +15,16 @@ export default {
         "indexName",
       ],
     },
-    projectId: {
+    prefix: {
       propDefinition: [
         app,
-        "projectId",
+        "prefix",
+      ],
+    },
+    namespace: {
+      propDefinition: [
+        app,
+        "namespace",
       ],
     },
     ids: {
@@ -28,24 +34,12 @@ export default {
       propDefinition: [
         app,
         "vectorId",
-        ({
-          indexName, projectId,
-        }) => ({
-          indexName,
-          projectId,
-        }),
-      ],
-    },
-    namespace: {
-      propDefinition: [
-        app,
-        "namespace",
       ],
     },
   },
   methods: {
     deleteVector(args = {}) {
-      return this.app.create({
+      return this.app.post({
         path: "/vectors/delete",
         ...args,
       });
@@ -53,14 +47,14 @@ export default {
   },
   async run({ $: step }) {
     const {
+      deleteVector,
       indexName,
-      projectId,
       ids,
       namespace,
     } = this;
 
-    await this.deleteVector({
-      projectId,
+    await deleteVector({
+      step,
       indexName,
       data: {
         ids: utils.parseArray(ids),
@@ -69,5 +63,8 @@ export default {
     });
 
     step.export("$summary", "Successfully deleted vectors");
+    return {
+      success: true,
+    };
   },
 };
