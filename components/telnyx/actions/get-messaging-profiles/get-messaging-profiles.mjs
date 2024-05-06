@@ -4,7 +4,7 @@ export default {
   key: "telnyx-get-messaging-profiles",
   name: "Get Messaging Profiles",
   description: "Get a list of messaging profiles. See documentation [here](https://developers.telnyx.com/api/messaging/list-messaging-profiles)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     telnyxApp,
