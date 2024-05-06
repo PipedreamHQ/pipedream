@@ -47,7 +47,7 @@ export default {
       q,
     });
     const files = (await this.googleDrive.listFilesInPage(null, opts)).files;
-    $.export("$summary", `Successfully found ${files.length} spreadsheet(s)`);
+    $.export("$summary", `Successfully found ${files.length} spreadsheet(s) with the query "${q}"`);
     return files.map((file) => ({
       ...file,
       url: `https://docs.google.com/spreadsheets/d/${file.id}`,

@@ -1,20 +1,28 @@
-import googleDrive from "../../google_drive.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import googleDrive from "../google_drive.app.mjs";
 
 export default {
   methods: {
     getQuery(type, folderId) {
+      const {
+        searchQuery, nameSearchTerm,
+      } = this;
+      if (!searchQuery && !nameSearchTerm && !type) {
+        throw new ConfigurationError("You must specify a search query or name.");
+      }
       let q = type
         ? `mimeType = 'application/vnd.google-apps.${type}'`
         : "";
-      if (this.searchQuery) {
-        q = (!q || this.searchQuery.includes(q))
-          ? this.searchQuery
-          : `${q} and ${this.searchQuery}`;
+      if (searchQuery) {
+        q = (!q || searchQuery.includes(q))
+          ? searchQuery
+          : `${q} and ${searchQuery}`;
       } else {
-        if (this.nameSearchTerm) {
+        if (nameSearchTerm) {
+          const nameQuery = `name contains '${nameSearchTerm}'`;
           q = q
-            ? `${q} and name contains '${this.nameSearchTerm}'`
-            : this.nameSearchTerm;
+            ? `${q} and ${nameQuery}`
+            : nameQuery;
         }
         if (folderId) {
           q = `${q} and "${folderId}" in parents`;

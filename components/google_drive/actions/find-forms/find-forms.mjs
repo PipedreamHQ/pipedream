@@ -48,10 +48,11 @@ export default {
       q,
     });
     const files = (await this.googleDrive.listFilesInPage(null, opts)).files;
-    $.export("$summary", `Successfully found ${files.length} form(s)`);
+    $.export("$summary", `Successfully found ${files.length} form(s) with the query "${q}"`);
     return files.map((file) => ({
       ...file,
       url: `https://docs.google.com/forms/d/${file.id}`,
-    }));
+    }))
+    ;
   },
 };
