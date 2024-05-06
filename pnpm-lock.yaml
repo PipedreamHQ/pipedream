@@ -8863,7 +8863,10 @@ importers:
     specifiers: {}
 
   components/tripadvisor_content_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/truss:
     specifiers: {}
