@@ -1,5 +1,6 @@
 import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
+import searchQuery from "../../common/searchQuery.mjs";
 
 export default {
   key: "google_drive-find-forms",
@@ -33,35 +34,13 @@ export default {
       alertType: "info",
       content: "If no query or search name is specified, all forms in the selected drive/folder will be returned.",
     },
-    nameSearchTerm: {
-      propDefinition: [
-        googleDrive,
-        "fileNameSearchTerm",
-      ],
-    },
-    searchQuery: {
-      propDefinition: [
-        googleDrive,
-        "searchQuery",
-      ],
-    },
+    ...searchQuery.props,
   },
+  methods: searchQuery.methods,
   async run({ $ }) {
-    let q = "mimeType = 'application/vnd.google-apps.form'";
-    if (this.searchQuery) {
-      q = this.searchQuery.includes(q)
-        ? this.searchQuery
-        : `${q} and ${this.searchQuery}`;
-    } else {
-      if (this.nameSearchTerm) {
-        q = `${q} and name contains '${this.nameSearchTerm}'`;
-      }
-      if (this.folderId) {
-        q = `${q} and "${this.folderId}" in parents`;
-      }
-    }
+    const q = this.getQuery("form", this.folderId);
     const opts = getListFilesOpts(this.drive, {
-      q: q.trim(),
+      q,
     });
     const files = (await this.googleDrive.listFilesInPage(null, opts)).files;
     $.export("$summary", `Successfully found ${files.length} form(s)`);

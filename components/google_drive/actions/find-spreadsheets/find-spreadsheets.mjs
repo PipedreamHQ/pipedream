@@ -1,5 +1,6 @@
 import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
+import searchQuery from "../../common/searchQuery.mjs";
 
 export default {
   key: "google_drive-find-spreadsheets",
@@ -33,36 +34,12 @@ export default {
       alertType: "info",
       content: "If no query or search name is specified, all spreadsheets in the selected drive/folder will be returned.",
     },
-    nameSearchTerm: {
-      propDefinition: [
-        googleDrive,
-        "fileNameSearchTerm",
-      ],
-    },
-    searchQuery: {
-      propDefinition: [
-        googleDrive,
-        "searchQuery",
-      ],
-      description: "Search for a file with a query. [See the documentation](https://developers.google.com/drive/api/guides/ref-search-terms) for more information. If specified, `Search Name` and `Parent Folder` will be ignored.",
-    },
+    ...searchQuery.props,
   },
   async run({ $ }) {
-    let q = "mimeType = 'application/vnd.google-apps.spreadsheet'";
-    if (this.searchQuery) {
-      q = this.searchQuery.includes(q)
-        ? this.searchQuery
-        : `${q} and ${this.searchQuery}`;
-    } else {
-      if (this.nameSearchTerm) {
-        q = `${q} and name contains '${this.nameSearchTerm}'`;
-      }
-      if (this.folderId) {
-        q = `${q} and "${this.folderId}" in parents`;
-      }
-    }
+    const q = this.getQuery("spreadsheet", this.folderId);
     const opts = getListFilesOpts(this.drive, {
-      q: q.trim(),
+      q,
     });
     const files = (await this.googleDrive.listFilesInPage(null, opts)).files;
     $.export("$summary", `Successfully found ${files.length} spreadsheet(s)`);
