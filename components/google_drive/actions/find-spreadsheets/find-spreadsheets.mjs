@@ -28,6 +28,11 @@ export default {
       description: "The ID of the parent folder which contains the file. If not specified, it will list files from the drive's top-level folder.",
       optional: true,
     },
+    queryAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "If no query or search name is specified, all spreadsheets in the selected drive/folder will be returned.",
+    },
     nameSearchTerm: {
       propDefinition: [
         googleDrive,
