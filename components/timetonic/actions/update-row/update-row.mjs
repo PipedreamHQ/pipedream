@@ -1,36 +1,28 @@
-import timetonic from "../../timetonic.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/create-update-row.mjs";
 
 export default {
+  ...common,
   key: "timetonic-update-row",
   name: "Update Row",
-  description: "Updates the values within a specified row in a table.",
+  description: "Updates the values within a specified row in a table. [See the documentation](https://timetonic.com/live/apidoc/#api-Smart_table_operations-createOrUpdateTableRow)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
-    timetonic,
-    tableId: {
-      propDefinition: [
-        timetonic,
-        "tableId",
-      ],
-    },
+    ...common.props,
     rowId: {
       propDefinition: [
-        timetonic,
+        common.props.timetonic,
         "rowId",
-      ],
-    },
-    fields: {
-      propDefinition: [
-        timetonic,
-        "fields",
+        (c) => ({
+          tableId: c.tableId,
+        }),
       ],
     },
   },
-  async run({ $ }) {
-    const response = await this.timetonic.editTableRow(this.tableId, this.rowId, this.fields);
-    $.export("$summary", `Successfully updated row ${this.rowId} in table ${this.tableId}`);
-    return response;
+  methods: {
+    ...common.methods,
+    isUpdate() {
+      return true;
+    },
   },
 };

@@ -1,29 +1,10 @@
-import timetonic from "../../timetonic.app.mjs";
+import common from "../common/create-update-row.mjs";
 
 export default {
+  ...common,
   key: "timetonic-create-row",
   name: "Create Row",
-  description: "Create a new row within an existing table in TimeTonic",
+  description: "Create a new row within an existing table in TimeTonic. [See the documentation](https://timetonic.com/live/apidoc/#api-Smart_table_operations-createOrUpdateTableRow)",
   version: "0.0.{{ts}}",
   type: "action",
-  props: {
-    timetonic,
-    tableId: {
-      propDefinition: [
-        timetonic,
-        "tableId",
-      ],
-    },
-    fields: {
-      propDefinition: [
-        timetonic,
-        "fields",
-      ],
-    },
-  },
-  async run({ $ }) {
-    const response = await this.timetonic.createNewRow(this.tableId, this.fields);
-    $.export("$summary", `Successfully created new row in table ${this.tableId}`);
-    return response;
-  },
 };

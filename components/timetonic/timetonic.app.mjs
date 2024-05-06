@@ -1,151 +1,185 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "timetonic",
   propDefinitions: {
+    bookCode: {
+      type: "string",
+      label: "Book Code",
+      description: "The book code of the book",
+      async options() {
+        const { allBooks: { books } } = await this.listBooks();
+        return books?.map(({
+          b_c: value, ownerPrefs,
+        }) => ({
+          value,
+          label: ownerPrefs?.title,
+        })) || [];
+      },
+    },
     tableId: {
       type: "string",
       label: "Table ID",
       description: "The ID of the table",
-      required: true,
-    },
-    viewId: {
-      type: "string",
-      label: "View ID",
-      description: "The ID of the view",
-      optional: true,
+      async options({ bookCode }) {
+        const { bookTables: { categories } } = await this.listTables({
+          params: {
+            b_c: bookCode,
+          },
+        });
+        return categories?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     rowId: {
       type: "string",
       label: "Row ID",
       description: "The ID of the row",
-      optional: true,
+      async options({ tableId }) {
+        const { tableRows } = await this.listRows({
+          params: {
+            catId: tableId,
+          },
+        });
+        return tableRows?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    fields: {
-      type: "object",
-      label: "Fields",
-      description: "The fields for the row",
-      optional: true,
-    },
-    query: {
-      type: "string",
-      label: "Query",
-      description: "The search criteria",
-      optional: true,
-    },
-    limit: {
+    fieldId: {
       type: "integer",
-      label: "Limit",
-      description: "The number of rows to return",
-      optional: true,
+      label: "Field ID",
+      description: "The ID of the field to search",
+      async options({
+        bookCode, tableId,
+      }) {
+        const { bookTables: { categories } } = await this.listTables({
+          params: {
+            b_c: bookCode,
+            includeFields: true,
+          },
+        });
+        const { fields } = categories.find(({ id }) => id === tableId);
+        return fields?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    viewId: {
+      type: "string",
+      label: "View ID",
+      description: "The ID of the view",
+      async options({
+        bookCode, tableId,
+      }) {
+        const { tableValues: { views } } = await this.getTableValues({
+          params: {
+            catId: tableId,
+            b_c: bookCode,
+          },
+        });
+        return views?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://timetonic.com/live/api.php";
     },
-    async _makeRequest(opts = {}) {
+    _userId() {
+      return this.$auth.user_id;
+    },
+    _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this, req, params, ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        method: "POST",
+        url: this._baseUrl(),
+        params: {
+          ...params,
+          req,
+          o_u: this._userId(),
+          u_c: this._userId(),
+          sesskey: this.$auth.api_key,
+          b_o: this._userId(),
         },
       });
     },
-    async emitNewTableRowEvent(tableId, fields) {
+    listBooks(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/createOrUpdateTableRow",
-        data: {
-          req: "createOrUpdateTableRow",
-          version: "0.0.{{ts}}",
-          rowId: `tmp${Math.random().toString(36)
-            .substr(2, 9)}`,
-          fieldValues: JSON.stringify(fields),
-          tabId: tableId,
-        },
+        req: "getAllBooks",
+        ...opts,
       });
     },
-    async emitNewTableRowInViewEvent(tableId, viewId, fields) {
+    listTables(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/createOrUpdateTableRow",
-        data: {
-          req: "createOrUpdateTableRow",
-          version: "0.0.{{ts}}",
-          rowId: `tmp${Math.random().toString(36)
-            .substr(2, 9)}`,
-          fieldValues: JSON.stringify(fields),
-          tabId: tableId,
-          viewId: viewId,
-        },
+        req: "getBookTables",
+        ...opts,
       });
     },
-    async createNewRow(tableId, fields) {
+    listRows(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/createOrUpdateTableRow",
-        data: {
-          req: "createOrUpdateTableRow",
-          version: "0.0.{{ts}}",
-          rowId: `tmp${Math.random().toString(36)
-            .substr(2, 9)}`,
-          fieldValues: JSON.stringify(fields),
-          tabId: tableId,
-        },
+        req: "listTableRowsById",
+        ...opts,
       });
     },
-    async searchTableRows(tableId, query, limit) {
+    getTableValues(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/getTableValues",
-        data: {
-          req: "getTableValues",
-          version: "0.0.{{ts}}",
-          catId: tableId,
-          filterRowIds: JSON.stringify({
-            applyViewFilters: {
-              filterGroup: {
-                operator: "and",
-                filters: [
-                  {
-                    id: "tmpId",
-                    json: {
-                      predicate: "is",
-                      operand: query,
-                    },
-                    field_id: "1735324",
-                    filter_type: "text",
-                  },
-                ],
-              },
-            },
-          }),
-          format: "rows",
-          maxRows: limit,
-        },
+        req: "getTableValues",
+        ...opts,
       });
     },
-    async editTableRow(tableId, rowId, fields) {
+    createOrUpdateRow(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/createOrUpdateTableRow",
-        data: {
-          req: "createOrUpdateTableRow",
-          version: "0.0.{{ts}}",
-          rowId: rowId,
-          fieldValues: JSON.stringify(fields),
-          tabId: tableId,
-        },
+        req: "createOrUpdateTableRow",
+        ...opts,
       });
+    },
+    deleteRow(opts = {}) {
+      return this._makeRequest({
+        req: "deleteTableRow",
+        ...opts,
+      });
+    },
+    async *paginate({
+      resourceFn,
+      params,
+    }) {
+      params = {
+        ...params,
+        maxRows: constants.DEFAULT_LIMIT,
+        offset: 0,
+      };
+      let total;
+      do {
+        const { tableValues: { rows } } = await resourceFn({
+          params,
+        });
+        for (const row of rows) {
+          yield row;
+        }
+        total = rows?.length;
+        params.offset += params.maxRows;
+      } while (total === params.maxRows);
     },
   },
 };
