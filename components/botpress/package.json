@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/botpress",
+  "version": "0.0.1",
+  "description": "Pipedream Botpress Components",
+  "main": "botpress.app.mjs",
+  "keywords": [
+    "pipedream",
+    "botpress"
+  ],
+  "homepage": "https://pipedream.com/apps/botpress",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -70,9 +70,6 @@
       }
     }
   },
-  "workspaces-and-credits-faq": {
-    "display": "children"
-  },
   "abuse": {
     "display": "children"
   },

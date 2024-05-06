@@ -954,6 +954,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/botpress:
+    specifiers: {}
+
   components/bouncer:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1715,6 +1718,9 @@ importers:
     specifiers: {}
 
   components/congress_gov:
+    specifiers: {}
+
+  components/connectwise_psa:
     specifiers: {}
 
   components/constant_contact:
@@ -2541,7 +2547,10 @@ importers:
     specifiers: {}
 
   components/encodian:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/endorsal:
     specifiers:
@@ -2876,7 +2885,12 @@ importers:
       md5: 2.3.0
 
   components/flipando:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.5
+      form-data: 4.0.0
 
   components/float:
     specifiers: {}
@@ -2996,7 +3010,16 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/foursquare:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
+
   components/foxy:
+    specifiers: {}
+
+  components/fractel:
     specifiers: {}
 
   components/frame:
@@ -4683,7 +4706,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/llama_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/lmnt:
     specifiers:
@@ -5825,6 +5851,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/orimon:
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
+
   components/ortto:
     specifiers: {}
 
@@ -6844,7 +6876,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/reishost:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/relavate:
     specifiers: {}
@@ -7202,7 +7237,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sare:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/satismeter:
     specifiers:
@@ -7256,6 +7294,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/scrapein_:
+    specifiers: {}
 
   components/scrapeninja:
     specifiers: {}
@@ -7680,7 +7721,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/sigma:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/signable:
     specifiers: {}
@@ -7753,6 +7797,9 @@ importers:
       '@pipedream/platform': ^1.6.4
     dependencies:
       '@pipedream/platform': 1.6.4
+
+  components/skyciv:
+    specifiers: {}
 
   components/slack:
     specifiers:
@@ -9209,7 +9256,10 @@ importers:
     specifiers: {}
 
   components/vryno:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/vtiger_crm:
     specifiers:
@@ -9588,6 +9638,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/y_gy:
+    specifiers: {}
+
   components/yahoo_fantasy_sports:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -9737,6 +9790,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/zip_archive_api:
+    specifiers: {}
 
   components/zixflow:
     specifiers: {}
@@ -14851,7 +14907,7 @@ packages:
     resolution: {integrity: sha512-r0H0A1HsSEDVTPVSvK4XXcExEeUnkpIqLMNVM2aLh1bwdOblTS1sxLZ9mz/7DwAr8wRNCoW6zlXZBEhexIyyAg==}
     dependencies:
       '@googleapis/drive': 2.4.0
-      '@pipedream/platform': 1.6.4
+      '@pipedream/platform': 1.6.5
       cron-parser: 4.9.0
       lodash: 4.17.21
       mime-db: 1.52.0
@@ -14945,6 +15001,17 @@ packages:
 
   /@pipedream/platform/1.6.4:
     resolution: {integrity: sha512-KHt+7ByB3SPsl5h+YINO3M5sX4zwhaH0MsoWVblpNDNOfB3WKqA9ZgGcuGk6rzyx5rfZuaE6P9v9yAaGak+Vqg==}
+    dependencies:
+      axios: 1.6.5
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.6.5:
+    resolution: {integrity: sha512-h7afdBjRtptMKvejOhAYbhV3b+Kmy1jq7vETMBFLLnOfeXUbtbRX0sm1cdR96lbU1xw5EA5R0uaCB9l7+AUwPA==}
     dependencies:
       axios: 1.6.5
       fp-ts: 2.16.1

@@ -1,7 +1,7 @@
 import common from "../common/webhook.mjs";
 import event from "../common/event.mjs";
 import model from "../common/model.mjs";
-import fields from "../common/fields/bill.mjs";
+import fields from "../common/bill-fields.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
@@ -9,7 +9,7 @@ export default {
   key: "clio-bill-state-updated-instant",
   name: "Bill State Updated (Instant)",
   description: "Emit new event when the state of a bill has changed in Clio. [See the documentation](https://docs.developers.clio.com/api-reference/#tag/Webhooks/operation/Webhook#index)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
