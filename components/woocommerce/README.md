@@ -14,7 +14,7 @@ WooCommerce is a customizable, open-source eCommerce platform built on WordPress
 
 To connect your WooCommerce store to Pipedream, create a REST API key.
 
-### Creating a WooCommerce REST API Key
+## Creating a WooCommerce REST API Key
 
 Open the **WooCommerce** plugin in your WordPress admin dashboard and select the Advanced tab. Navigate to the **REST API** section and click **Create an API key**.
 
