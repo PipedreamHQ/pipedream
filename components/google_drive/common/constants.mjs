@@ -172,6 +172,21 @@ const GOOGLE_DRIVE_ROLES = [
   GOOGLE_DRIVE_ROLE_READER,
 ];
 
+const GOOGLE_DRIVE_ROLE_OPTIONS = [
+  {
+    label: "Can make changes, accept or reject suggestions, and share the file with others.",
+    value: GOOGLE_DRIVE_ROLE_WRITER,
+  },
+  {
+    label: "Can make comments and suggestions, but can't change or share the file with others.",
+    value: GOOGLE_DRIVE_ROLE_WRITER,
+  },
+  {
+    label: "Can access, but can't change or share the file with others.",
+    value: GOOGLE_DRIVE_ROLE_WRITER,
+  },
+];
+
 const GOOGLE_DRIVE_GRANTEE_USER = "user";
 const GOOGLE_DRIVE_GRANTEE_GROUP = "group";
 const GOOGLE_DRIVE_GRANTEE_DOMAIN = "domain";
@@ -222,6 +237,7 @@ export {
   GOOGLE_DRIVE_ROLE_COMMENTER,
   GOOGLE_DRIVE_ROLE_READER,
   GOOGLE_DRIVE_ROLES,
+  GOOGLE_DRIVE_ROLE_OPTIONS,
   // Google Drive Grantee Types
   GOOGLE_DRIVE_GRANTEE_USER,
   GOOGLE_DRIVE_GRANTEE_GROUP,

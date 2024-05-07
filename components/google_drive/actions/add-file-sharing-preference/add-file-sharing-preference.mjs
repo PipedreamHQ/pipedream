@@ -1,3 +1,8 @@
+import {
+  GOOGLE_DRIVE_GRANTEE_DOMAIN,
+  GOOGLE_DRIVE_GRANTEE_GROUP,
+  GOOGLE_DRIVE_GRANTEE_USER,
+} from "../../common/constants.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 
 /**
@@ -8,9 +13,9 @@ import googleDrive from "../../google_drive.app.mjs";
  */
 export default {
   key: "google_drive-add-file-sharing-preference",
-  name: "Add File Sharing Preference",
+  name: "Share File",
   description:
-    "Add a [sharing](https://support.google.com/drive/answer/7166529) permission to the sharing preferences of a file or folder and provide a sharing URL. [See the docs](https://developers.google.com/drive/api/v3/reference/permissions/create) for more information",
+    "Add a [sharing permission](https://support.google.com/drive/answer/7166529) to the sharing preferences of a file or folder and provide a sharing URL. [See the documentation](https://developers.google.com/drive/api/v3/reference/permissions/create)",
   version: "0.1.5",
   type: "action",
   props: {
@@ -33,38 +38,58 @@ export default {
       optional: false,
       description: "The file or folder to share",
     },
+    type: {
+      propDefinition: [
+        googleDrive,
+        "type",
+      ],
+      reloadProps: true,
+    },
     role: {
       propDefinition: [
         googleDrive,
         "role",
       ],
     },
-    type: {
-      propDefinition: [
-        googleDrive,
-        "type",
-      ],
-    },
-    domain: {
-      propDefinition: [
-        googleDrive,
-        "domain",
-      ],
-    },
-    emailAddress: {
-      propDefinition: [
-        googleDrive,
-        "emailAddress",
-      ],
-    },
+  },
+  additionalProps() {
+    switch (this.type) {
+    case GOOGLE_DRIVE_GRANTEE_DOMAIN:
+      return {
+        domain: {
+          propDefinition: [
+            googleDrive,
+            "domain",
+          ],
+        },
+      };
+    case GOOGLE_DRIVE_GRANTEE_GROUP:
+      return {
+        emailAddress: {
+          propDefinition: [
+            googleDrive,
+            "emailAddress",
+          ],
+          description:
+              "Enter the email address of the group that you'd like to share the file or folder with (e.g. `hiking-club@altostrat.com`)",
+        },
+      };
+    case GOOGLE_DRIVE_GRANTEE_USER:
+      return {
+        emailAddress: {
+          propDefinition: [
+            googleDrive,
+            "emailAddress",
+          ],
+        },
+      };
+    default:
+      return {};
+    }
   },
   async run({ $ }) {
     const {
-      fileOrFolderId,
-      role,
-      type,
-      domain,
-      emailAddress,
+      fileOrFolderId, role, type, domain, emailAddress,
     } = this;
     // Create the permission for the file
     await this.googleDrive.createPermission(fileOrFolderId, {
@@ -77,7 +102,10 @@ export default {
     // Get the file to get the `webViewLink` sharing URL
     const resp = await this.googleDrive.getFile(this.fileOrFolderId);
     const webViewLink = resp.webViewLink;
-    $.export("$summary", `Successfully added a sharing permission to the file, "${resp.name}"`);
+    $.export(
+      "$summary",
+      `Successfully shared file "${resp.name}" with ${this.type} "${this.emailAddress ?? this.domain ?? ""}"`,
+    );
     return webViewLink;
   },
 };

@@ -10,12 +10,10 @@ import {
   MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
-  GOOGLE_DRIVE_ROLES,
   GOOGLE_DRIVE_GRANTEE_TYPES,
-  GOOGLE_DRIVE_GRANTEE_ANYONE,
-  GOOGLE_DRIVE_ROLE_READER,
   GOOGLE_DRIVE_UPLOAD_TYPES,
   GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
+  GOOGLE_DRIVE_ROLE_OPTIONS,
 } from "./common/constants.mjs";
 import googleMimeTypes from "./actions/google-mime-types.mjs";
 
@@ -202,32 +200,26 @@ export default {
       type: "string",
       label: "Role",
       description: "The role granted by this permission",
-      optional: true,
-      default: GOOGLE_DRIVE_ROLE_READER,
-      options: GOOGLE_DRIVE_ROLES,
+      options: GOOGLE_DRIVE_ROLE_OPTIONS,
     },
     type: {
       type: "string",
       label: "Type",
       description:
-        "The type of the grantee. If **Type** is `user` or `group`, you must provide an **Email Address** for the user or group. When **Type** is `domain`, you must provide a `Domain`. Sharing with a domain is only valid for G Suite users.",
-      optional: true,
-      default: GOOGLE_DRIVE_GRANTEE_ANYONE,
+        "The type of the grantee. Sharing with a domain is only valid for G Suite users.",
       options: GOOGLE_DRIVE_GRANTEE_TYPES,
     },
     domain: {
       type: "string",
       label: "Domain",
       description:
-        "The domain of the G Suite organization to which this permission refers if **Type** is `domain` (e.g., `yourcomapany.com`)",
-      optional: true,
+        "Enter the domain of the G Suite organization that you'd like to share the file or folder with (e.g. `altostrat.com`). All G Suite organization users under this domain will have access to the file you share.",
     },
     emailAddress: {
       type: "string",
       label: "Email Address",
       description:
-        "The email address of the user or group to which this permission refers if **Type** is `user` or `group`",
-      optional: true,
+        "Enter the email address of the user that you'd like to share the file or folder with (e.g. `alex@altostrat.com`).",
     },
     ocrLanguage: {
       type: "string",
