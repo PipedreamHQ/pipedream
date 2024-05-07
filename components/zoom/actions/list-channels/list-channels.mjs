@@ -5,7 +5,7 @@ export default {
   key: "zoom-list-channels",
   name: "List Channels",
   description: "List a user's chat channels.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zoom: {
