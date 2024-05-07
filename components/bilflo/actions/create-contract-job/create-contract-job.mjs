@@ -52,17 +52,17 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "The start date of the contract job.",
+      description: "The start date of the contract job. **Format YYYY-MM-DDTHH:MM:SSZ**",
     },
     endDate: {
       type: "string",
       label: "End Date",
-      description: "The end date of the contract job.",
+      description: "The end date of the contract job. **Format YYYY-MM-DDTHH:MM:SSZ**",
     },
     firstWeekEndingDate: {
       type: "string",
       label: "First Week Ending Date",
-      description: "The first week ending date of the contract job.",
+      description: "The first week ending date of the contract job. **Format YYYY-MM-DDTHH:MM:SSZ**",
     },
     burdenTypeId: {
       type: "integer",
