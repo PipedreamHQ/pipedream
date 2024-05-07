@@ -5,21 +5,25 @@ export default {
   key: "google_drive-new-spreadsheet",
   type: "source",
   name: "New Spreadsheet (Instant)",
-  description: "Emit new event each time a new spreadsheet is created in a drive.",
-  version: "0.1.4",
+  description: "Emit new event when a new spreadsheet is created in a drive.",
+  version: "0.1.5",
   props: {
     googleDrive: newFilesInstant.props.googleDrive,
     db: newFilesInstant.props.db,
     http: newFilesInstant.props.http,
     drive: newFilesInstant.props.drive,
     timer: newFilesInstant.props.timer,
-    folders: newFilesInstant.props.folders,
+    folders: {
+      ...newFilesInstant.props.folders,
+      description:
+        "(Optional) The folders you want to watch. Leave blank to watch for any new spreadsheet in the Drive.",
+    },
   },
   hooks: {
     ...newFilesInstant.hooks,
     async deploy() {
       // Emit sample records on the first run
-      const spreadsheets = await this.getSpreadsheets(10);
+      const spreadsheets = await this.getSpreadsheets(5);
       for (const fileInfo of spreadsheets) {
         const createdTime = Date.parse(fileInfo.createdTime);
         this.$emit(fileInfo, {

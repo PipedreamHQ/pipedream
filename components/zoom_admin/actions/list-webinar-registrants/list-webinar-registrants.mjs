@@ -1,12 +1,12 @@
-import zoomAdmin from "../../zoom_admin.app.mjs";
-import consts from "../../consts.mjs";
 import { paginate } from "../../common/pagination.mjs";
+import consts from "../../consts.mjs";
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "List webinar registrants",
   description: "List all users that have registered for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrants)",
   key: "zoom_admin-list-webinar-registrants",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     zoomAdmin,
