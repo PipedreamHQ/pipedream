@@ -1,11 +1,11 @@
 import cradlAi from "../../cradl_ai.app.mjs";
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "cradl_ai-new-document-parsing-completed-instant",
   name: "New Document Parsing Completed (Instant)",
-  description: "Emits an event when a document processing flow has completed.",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a document processing flow has completed.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -14,54 +14,73 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    documentId: {
+    workflowId: {
       propDefinition: [
         cradlAi,
-        "documentId",
+        "workflowId",
       ],
     },
-    userId: {
-      propDefinition: [
-        cradlAi,
-        "userId",
-      ],
-      optional: true,
-    },
-    processingFlowId: {
-      propDefinition: [
-        cradlAi,
-        "processingFlowId",
-      ],
-      optional: true,
+  },
+  hooks: {
+    async deploy() {
+      await this.processEvent(25);
     },
   },
   methods: {
-    _getEvent() {
-      return this.db.get("event") ?? {};
+    _getLastTs() {
+      return this.db.get("lastTs") || 0;
     },
-    _setEvent(event) {
-      this.db.set("event", event);
+    _setLastTs(lastTs) {
+      this.db.set("lastTs", lastTs);
+    },
+    emitEvent(item) {
+      const meta = this.generateMeta(item);
+      this.$emit(item, meta);
+    },
+    generateMeta(item) {
+      return {
+        id: item.executionId,
+        summary: `Execution completed with ID ${item.executionId}`,
+        ts: Date.parse(item.endTime),
+      };
+    },
+    async processEvent(max) {
+      const lastTs = this._getLastTs();
+      const results = this.cradlAi.paginate({
+        resourceFn: this.cradlAi.listExecutions,
+        args: {
+          workflowId: this.workflowId,
+          params: {
+            order: "descending",
+            sortBy: "endTime",
+            status: [
+              "completed",
+            ],
+          },
+        },
+        resourceType: "executions",
+        max,
+      });
+      const executions = [];
+      for await (const item of results) {
+        const ts = Date.parse(item.endTime);
+        if (ts >= lastTs) {
+          executions.push(item);
+        } else {
+          break;
+        }
+      }
+      if (!executions.length) {
+        return;
+      }
+      this._setLastTs(Date.parse(executions[0].endTime));
+      executions.reverse().forEach((item) => this.emitEvent(item));
     },
   },
   async run() {
-    const event = await this.cradlAi.emitDocumentProcessingEvent({
-      data: {
-        documentId: this.documentId,
-        userId: this.userId,
-        processingFlowId: this.processingFlowId,
-      },
-    });
-
-    if (event.id !== this._getEvent().id) {
-      this._setEvent(event);
-      this.$emit(event, {
-        id: event.id,
-        summary: `New Document Processing Event: ${event.id}`,
-        ts: Date.now(),
-      });
-    }
+    await this.processEvent();
   },
 };

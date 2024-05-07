@@ -1,36 +1,41 @@
-import cradlAi from "../../cradl_ai.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "cradl_ai-parse-document-human-in-loop",
   name: "Parse Document with Human in the Loop",
-  description: "Sends a document to an existing flow for human-in-the-loop processing. This action requires a human element for reviewing the model's output. [See the documentation](https://docs.cradl.ai/rest-api-reference)",
-  version: "0.0.{{ts}}",
+  description: "Sends a document to an existing flow for human-in-the-loop processing. [See the documentation](https://docs.cradl.ai/integrations/rest-api)",
+  version: "0.0.1",
   type: "action",
   props: {
-    cradlAi,
-    document: {
-      propDefinition: [
-        cradlAi,
-        "document",
-      ],
-    },
+    ...common.props,
     workflowId: {
       propDefinition: [
-        cradlAi,
+        common.props.cradlAi,
         "workflowId",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.cradlAi.sendDocumentToFlow({
+    const {
+      documentId, fileUrl,
+    } = await this.createDocumentHandle($);
+    await this.uploadFile($, fileUrl);
+    const { executionId } = await this.cradlAi.runWorkflow({
+      $,
+      workflowId: this.workflowId,
       data: {
-        document: this.document,
-        workflowId: this.workflowId,
+        input: {
+          documentId,
+        },
       },
     });
-
-    $.export("$summary", `Sent document to workflow ${this.workflowId} for processing`);
-    return response;
+    const result = await this.cradlAi.getRunResult({
+      $,
+      workflowId: this.workflowId,
+      executionId,
+    });
+    $.export("$summary", `Successfully parsed document with ID: ${documentId}`);
+    return result;
   },
 };

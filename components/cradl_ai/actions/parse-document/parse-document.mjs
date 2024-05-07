@@ -1,33 +1,34 @@
-import cradlAi from "../../cradl_ai.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "cradl_ai-parse-document",
-  name: "Parse Document using Custom Model",
-  description: "Parses data from a document using a custom selected model. [See the documentation](https://docs.cradl.ai/rest-api-reference)",
-  version: "0.0.{{ts}}",
+  name: "Parse Document",
+  description: "Parses data from a document using a custom selected model. [See the documentation](https://docs.cradl.ai/integrations/rest-api)",
+  version: "0.0.1",
   type: "action",
   props: {
-    cradlAi,
-    document: {
-      type: "string",
-      label: "Document",
-      description: "The document to be parsed",
-    },
+    ...common.props,
     modelId: {
-      type: "string",
-      label: "Model ID",
-      description: "The ID of the model to be used for parsing",
+      propDefinition: [
+        common.props.cradlAi,
+        "modelId",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.cradlAi.parseDocument({
+    const {
+      documentId, fileUrl,
+    } = await this.createDocumentHandle($);
+    await this.uploadFile($, fileUrl);
+    const result = await this.cradlAi.createPrediction({
+      $,
       data: {
-        document: this.document,
+        documentId,
         modelId: this.modelId,
       },
     });
-    $.export("$summary", `Successfully parsed document with model ID: ${this.modelId}`);
-    return response;
+    $.export("$summary", `Successfully parsed document with ID: ${documentId}`);
+    return result;
   },
 };
