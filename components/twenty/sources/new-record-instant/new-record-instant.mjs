@@ -1,63 +1,45 @@
 import twenty from "../../twenty.app.mjs";
-import { axios } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "twenty-new-record-instant",
-  name: "New Record Instant",
+  name: "New Record (Instant)",
   description: "Emit new event when a record is created, updated, or deleted.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    twenty: {
-      type: "app",
-      app: "twenty",
-    },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
+    twenty,
+    http: "$.interface.http",
     db: "$.service.db",
   },
   hooks: {
-    async deploy() {
-      // This source does not fetch historical data
-    },
     async activate() {
-      // Logic to create a webhook subscription if supported by the app
+      const { data } = await this.twenty.createHook({
+        data: {
+          targetUrl: this.http.endpoint,
+          operation: "*.*",
+        },
+      });
+
+      this.db.set("webhookId", data.createWebhook.id);
     },
     async deactivate() {
-      // Logic to delete the webhook subscription if supported by the app
+      const webhookId = this.db.get("webhookId");
+      await this.twenty.deleteHook(webhookId);
     },
   },
   async run(event) {
-    const {
-      actionType, recordId, recordData,
-    } = event.body;
+    const { body } = event;
 
-    try {
-      const result = await this.twenty.performAction({
-        actionType,
-        recordId,
-        recordData,
-      });
+    const eventType = body.eventType;
+    const eventName = eventType.split(".")[0];
 
-      this.$emit(result, {
-        id: result.id || `${actionType}-${Date.now()}`,
-        summary: `${actionType.toUpperCase()} action performed`,
-        ts: Date.parse(result.createdAt || new Date()),
-      });
-
-      this.http.respond({
-        status: 200,
-        body: "Success",
-      });
-    } catch (error) {
-      this.http.respond({
-        status: 500,
-        body: "Internal Server Error",
-      });
-      console.error(`Error processing ${actionType} action:`, error);
-    }
+    this.$emit(body, {
+      id: `${body.objectMetadata.id}-${body.eventDate}`,
+      summary: `New ${body.objectMetadata.nameSingular} ${eventName}d with Id: ${body.objectMetadata.id}.`,
+      ts: Date.parse(body.eventDate) || Date.now(),
+    });
   },
+  sampleEmit,
 };
