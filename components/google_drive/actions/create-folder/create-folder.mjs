@@ -7,7 +7,7 @@ import {
 import {
   MY_DRIVE_VALUE,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 
 export default {
   key: "google_drive-create-folder",

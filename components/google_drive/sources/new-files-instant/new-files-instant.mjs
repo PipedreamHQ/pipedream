@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 
 export default {
   ...common,

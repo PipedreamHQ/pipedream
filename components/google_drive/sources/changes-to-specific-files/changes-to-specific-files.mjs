@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 import includes from "lodash/includes.js";
 import { v4 as uuid } from "uuid";
 
-import { MY_DRIVE_VALUE } from "../../constants.mjs";
+import { MY_DRIVE_VALUE } from "../../common/constants.mjs";
 
 import changesToSpecificFiles from "../changes-to-specific-files-shared-drive/changes-to-specific-files-shared-drive.mjs";
 
