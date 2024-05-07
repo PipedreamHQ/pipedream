@@ -160,6 +160,12 @@ export default {
         ...opts,
       });
     },
+    uploadFile(opts = {}) {
+      return this._makeRequest({
+        req: "fileUpload",
+        ...opts,
+      });
+    },
     async *paginate({
       resourceFn,
       params,

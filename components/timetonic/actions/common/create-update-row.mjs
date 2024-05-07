@@ -1,5 +1,7 @@
 import timetonic from "../../timetonic.app.mjs";
 import constants from "../../common/constants.mjs";
+import fs from "fs";
+import FormData from "form-data";
 
 export default {
   props: {
@@ -21,11 +23,6 @@ export default {
       reloadProps: true,
     },
   },
-  methods: {
-    isUpdate() {
-      return false;
-    },
-  },
   async additionalProps() {
     const props = {};
     if (!this.tableId || !this.bookCode) {
@@ -39,7 +36,7 @@ export default {
     });
     const { fields } = categories.find(({ id }) => id === this.tableId);
     for (const field of fields) {
-      if (!this.field?.readOnly) {
+      if (!field?.readOnly) {
         const id = `${field.id}`;
         props[id] = {
           type: constants.FIELD_TYPES[field.type] || "string",
@@ -73,9 +70,39 @@ export default {
             };
           });
         }
+        if (field.type === "file" || field.type === "files") {
+          props[id].description = "The path to the file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).";
+          props[`${id}_is_file`] = {
+            type: "boolean",
+            default: true,
+            hidden: true,
+          };
+        }
       }
     }
     return props;
+  },
+  methods: {
+    isUpdate() {
+      return false;
+    },
+    uploadFile($, fieldId, filePath, rowId) {
+      const fileStream = fs.createReadStream(filePath.includes("/tmp")
+        ? filePath
+        : `/tmp/${filePath}`);
+      const formData = new FormData();
+      formData.append("qqfile", fileStream);
+      return this.timetonic.uploadFile({
+        $,
+        params: {
+          b_c: this.bookCode,
+          fieldId,
+          rowId,
+        },
+        data: formData,
+        headers: formData.getHeaders(),
+      });
+    },
   },
   async run({ $ }) {
     const {
@@ -95,7 +122,11 @@ export default {
       key,
       value,
     ] of Object.entries(fields)) {
-      if (key.includes("link_text")) {
+      if (key.includes("link_text") || key.includes("is_file")) {
+        continue;
+      }
+      if (fields[`${key}_is_file`]) {
+        await this.uploadFile($, key, value, rowId);
         continue;
       }
       fieldValues[+key] = fields[`${key}_${value}_link_text`]
