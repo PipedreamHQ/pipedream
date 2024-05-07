@@ -5,7 +5,7 @@ export default {
   key: "zoom-create-user",
   name: "Create User",
   description: "Creates a new user in your account.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     zoom: {

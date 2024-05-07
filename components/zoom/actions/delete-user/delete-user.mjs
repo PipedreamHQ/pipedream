@@ -5,7 +5,7 @@ export default {
   key: "zoom-delete-user",
   name: "Delete User",
   description: "Disassociates (unlinks) a user from the associated account or permanently deletes a user.",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     zoom: {
