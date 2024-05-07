@@ -2939,7 +2939,10 @@ importers:
     specifiers: {}
 
   components/fly_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/focuster:
     specifiers: {}
