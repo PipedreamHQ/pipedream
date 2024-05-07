@@ -71,7 +71,9 @@ export default {
     },
     async getChanges(headers) {
       if (!headers) {
-        return;
+        return {
+          change: { },
+        };
       }
       const resourceUri = headers["x-goog-resource-uri"];
       const metadata = await this.googleDrive.getFileMetadata(`${resourceUri}&fields=*`);

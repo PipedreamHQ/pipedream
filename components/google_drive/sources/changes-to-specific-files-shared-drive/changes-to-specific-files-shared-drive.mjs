@@ -97,7 +97,9 @@ export default {
     },
     getChanges(headers) {
       if (!headers) {
-        return;
+        return {
+          change: { },
+        };
       }
       return {
         change: {
