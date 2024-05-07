@@ -261,6 +261,10 @@
     {
       "source": "/docs/workflows/built-in-functions",
       "destination": "/docs/workflows/flow-control"
+    },
+    {
+      "source": "/docs/workspaces-and-credits-faq",
+      "destination": "https://pipedream.com/pricing"
     }
   ]
 }

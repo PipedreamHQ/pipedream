@@ -5,7 +5,7 @@ export default {
   key: "github-new-organization",
   name: "New Organization",
   description: "Emit new events when the authenticated user is added to a new organization",
-  version: "0.1.15",
+  version: "0.1.16",
   type: "source",
   dedupe: "unique",
   async run() {

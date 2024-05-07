@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4.1.3
+    - uses: actions/checkout@v4.1.4
       name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
@@ -48,7 +48,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4.1.3
+        uses: actions/checkout@v4.1.4
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
@@ -78,7 +78,7 @@ jobs:
       - name: Compile TypeScript
         run: npm run build
       - name: Lint Code Base
-        uses: github/super-linter@v5
+        uses: github/super-linter@v6
         env:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -87,7 +87,15 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVASCRIPT_ES: true
           VALIDATE_JSON: true
-      - name: Get Changed Files
+      # ESLint only on changed files (not the same as the above super-linter)
+      - name: Get Changed Files (space-separated)
+        id: changed_files_space
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'space-delimited'
+      - name: Lint changed files
+        run: npx eslint ${{ steps.changed_files_space.outputs.added_modified }} ${{ steps.changed_files_space.outputs.renamed }}
+      - name: Get Changed Files (comma-separated)
         id: changed_files
         uses: jitterbit/get-changed-files@v1
         with:
