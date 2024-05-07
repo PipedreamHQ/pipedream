@@ -13,7 +13,6 @@ import {
   GOOGLE_DRIVE_GRANTEE_TYPES,
   GOOGLE_DRIVE_UPLOAD_TYPES,
   GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
-  GOOGLE_DRIVE_ROLE_OPTIONS,
 } from "./common/constants.mjs";
 import googleMimeTypes from "./actions/google-mime-types.mjs";
 
@@ -196,30 +195,12 @@ export default {
       optional: true,
       default: false,
     },
-    role: {
-      type: "string",
-      label: "Role",
-      description: "The role granted by this permission",
-      options: GOOGLE_DRIVE_ROLE_OPTIONS,
-    },
     type: {
       type: "string",
       label: "Type",
       description:
         "The type of the grantee. Sharing with a domain is only valid for G Suite users.",
       options: GOOGLE_DRIVE_GRANTEE_TYPES,
-    },
-    domain: {
-      type: "string",
-      label: "Domain",
-      description:
-        "Enter the domain of the G Suite organization that you'd like to share the file or folder with (e.g. `altostrat.com`). All G Suite organization users under this domain will have access to the file you share.",
-    },
-    emailAddress: {
-      type: "string",
-      label: "Email Address",
-      description:
-        "Enter the email address of the user that you'd like to share the file or folder with (e.g. `alex@altostrat.com`).",
     },
     ocrLanguage: {
       type: "string",

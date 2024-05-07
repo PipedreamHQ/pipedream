@@ -179,11 +179,11 @@ const GOOGLE_DRIVE_ROLE_OPTIONS = [
   },
   {
     label: "Can make comments and suggestions, but can't change or share the file with others.",
-    value: GOOGLE_DRIVE_ROLE_WRITER,
+    value: GOOGLE_DRIVE_ROLE_COMMENTER,
   },
   {
     label: "Can access, but can't change or share the file with others.",
-    value: GOOGLE_DRIVE_ROLE_WRITER,
+    value: GOOGLE_DRIVE_ROLE_READER,
   },
 ];
 
