@@ -174,16 +174,28 @@ const GOOGLE_DRIVE_ROLES = [
 
 const GOOGLE_DRIVE_ROLE_OPTIONS = [
   {
-    label: "Can make changes, accept or reject suggestions, and share the file with others.",
+    label: "Writer - Can make changes, accept or reject suggestions, and share the file with others.",
     value: GOOGLE_DRIVE_ROLE_WRITER,
   },
   {
-    label: "Can make comments and suggestions, but can't change or share the file with others.",
+    label: "Commenter - Can make comments and suggestions, but can't change or share the file with others.",
     value: GOOGLE_DRIVE_ROLE_COMMENTER,
   },
   {
-    label: "Can access, but can't change or share the file with others.",
+    label: "Reader - Can access, but can't change or share the file with others.",
     value: GOOGLE_DRIVE_ROLE_READER,
+  },
+  {
+    label: "(Advanced) File Owner - this will transfer ownership of the file.",
+    value: GOOGLE_DRIVE_ROLE_OWNER,
+  },
+  {
+    label: "(Advanced) File Organizar",
+    value: GOOGLE_DRIVE_ROLE_FILEORGANIZER,
+  },
+  {
+    label: "(Advanced) Organizar",
+    value: GOOGLE_DRIVE_ROLE_ORGANIZER,
   },
 ];
 
