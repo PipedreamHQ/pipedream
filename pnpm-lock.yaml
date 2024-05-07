@@ -1798,7 +1798,10 @@ importers:
     specifiers: {}
 
   components/cradl_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/craftboxx:
     specifiers:
