@@ -4,7 +4,7 @@ import {
   MY_DRIVE_VALUE,
   LEGACY_MY_DRIVE_VALUE,
   MAX_FILE_OPTION_PATH_SEGMENTS,
-} from "../constants.mjs";
+} from "../common/constants.mjs";
 
 /**
  * Returns whether the specified drive ID corresponds to the authenticated
