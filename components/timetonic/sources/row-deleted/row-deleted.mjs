@@ -5,7 +5,7 @@ export default {
   key: "timetonic-row-deleted",
   name: "Row Deleted",
   description: "Emit new event when a row is deleted in a table.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -6,7 +6,7 @@ export default {
   key: "timetonic-row-updated",
   name: "Row Updated",
   description: "Emit new event when a row is updated in a table.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {

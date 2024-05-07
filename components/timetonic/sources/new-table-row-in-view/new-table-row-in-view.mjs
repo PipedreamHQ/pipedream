@@ -5,7 +5,7 @@ export default {
   key: "timetonic-new-table-row-in-view",
   name: "New Table Row in View",
   description: "Emit new event when a new table row appears in a specific view.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {

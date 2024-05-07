@@ -5,7 +5,7 @@ export default {
   key: "timetonic-new-table-row",
   name: "New Table Row",
   description: "Emit new event when a new table row is added in TimeTonic",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -4,7 +4,7 @@ export default {
   key: "timetonic-search-rows",
   name: "Search Rows",
   description: "Perform a search across table rows based on given criteria. [See the documentation](https://timetonic.com/live/apidoc/#api-Smart_table_operations-listTableRowsById)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     timetonic,

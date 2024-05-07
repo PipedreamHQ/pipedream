@@ -4,7 +4,7 @@ export default {
   key: "timetonic-delete-row",
   name: "Delete Row",
   description: "Deletes a row within an existing table in TimeTonic. [See the documentation](https://timetonic.com/live/apidoc/#api-Smart_table_operations-deleteTableRow)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     timetonic,
