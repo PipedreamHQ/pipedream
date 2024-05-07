@@ -41,8 +41,13 @@ export default {
   },
   methods: {
     findMatches(fields) {
+      const searchValue = this.searchValue === "true"
+        ? true
+        : this.searchValue === "false"
+          ? false
+          : this.searchValue;
       const field = fields.find(({ id }) => id === this.searchField);
-      return field.values.filter(({ value }) => value == this.searchValue).map(({ id }) => id);
+      return field.values.filter(({ value }) => value == searchValue).map(({ id }) => id);
     },
     buildRow(fields, matches) {
       const rows = [];
