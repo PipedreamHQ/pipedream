@@ -1340,6 +1340,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/cincopa:
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+      uuid: ^8.3.2
+    dependencies:
+      '@pipedream/platform': 1.6.5
+      uuid: 8.3.2
+
   components/circl_hash_lookup:
     specifiers: {}
 
@@ -2922,6 +2930,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/fluxguard:
+    specifiers: {}
+
+  components/fly_io:
     specifiers: {}
 
   components/focuster:
@@ -6080,7 +6091,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/perplexity:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/perry_github_test:
     specifiers: {}
@@ -8865,7 +8879,10 @@ importers:
     specifiers: {}
 
   components/tripadvisor_content_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/truss:
     specifiers: {}

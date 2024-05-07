@@ -3,14 +3,14 @@ import sampleEmit from "./test-event.mjs";
 import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
-  description: "Emit new event any time a new file is added in your linked Google Drive",
-  version: "0.1.6",
+  description: "Emit new event when a new file is added in your linked Google Drive",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,7 +19,7 @@ export default {
       type: "string[]",
       label: "Folders",
       description:
-        "(Optional) The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.",
+        "(Optional) The folders you want to watch. Leave blank to watch for any new file in the Drive.",
       optional: true,
       default: [],
       options({ prevContext }) {
@@ -50,7 +50,7 @@ export default {
         q: `mimeType != "application/vnd.google-apps.folder" and createdTime > "${timeString}" and trashed = false`,
         orderBy: "createdTime desc",
         fields: "*",
-        pageSize: 25,
+        pageSize: 5,
       });
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
