@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "firebase_admin_sdk-create-document",
   name: "Create Document",
-  description: "Creates a New Document. [See the docs here](https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html#add)",
-  version: "0.0.7",
+  description: "Creates a New Document. [See the documentation](https://googleapis.dev/nodejs/firestore/latest/CollectionReference.html#add)",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -34,7 +34,8 @@ export default {
   methods: {
     ...common.methods,
     async getResponse() {
-      return this.firebase.createDocument(this.collection, this.data, this.customId);
+      const data = this.parseBooleanValues(this.data);
+      return this.firebase.createDocument(this.collection, data, this.customId);
     },
     emitSummary($, response) {
       $.export("$summary", `Successfully added document ${response?._path?.segments[1] ?? ""}`);
