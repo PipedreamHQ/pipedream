@@ -6,7 +6,7 @@ export default {
   key: "gitlab-new-review-request",
   name: "New Review Request (Instant)",
   description: "Emit new event when a reviewer is added to a merge request",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   type: "source",
   hooks: {
@@ -37,16 +37,16 @@ export default {
       // as part of their response. We can check the presence of
       // the `assignees` attribute within those changes to verify
       // if there are new review requests.
-      const { assignees } = event.changes;
-      if (!assignees) {
+      const { reviewers } = event.changes;
+      if (!reviewers) {
         console.log(`No new assignees in merge request "${title}"`);
         return [];
       }
 
       // If the assignees of the merge request changed, we need to compute
       // the difference in order to extract the new reviewers.
-      const previousAssignees = new Set(assignees.previous.map((a) => a.username));
-      const newAssignees = assignees.current.filter((a) => !previousAssignees.has(a.username));
+      const previousAssignees = new Set(reviewers.previous.map((a) => a.username));
+      const newAssignees = reviewers.current.filter((a) => !previousAssignees.has(a.username));
       if (newAssignees.length > 0) {
         console.log(`Assignees added to merge request "${title}": ${newAssignees.map((a) => a.username).join(", ")}`);
       }

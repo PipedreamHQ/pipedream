@@ -9,13 +9,13 @@ import {
 import {
   GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA,
   GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 
 export default {
   key: "google_drive-replace-file",
   name: "Replace File",
   description: "Upload a file that replaces an existing file. [See the docs](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     googleDrive,

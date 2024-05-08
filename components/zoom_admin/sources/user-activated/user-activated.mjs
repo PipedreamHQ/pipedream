@@ -3,9 +3,9 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 export default {
   key: "zoom_admin-user-activated",
   type: "source",
-  name: "User Activated",
-  description: "Emits an event each time a user is activated in your Zoom account",
-  version: "0.1.3",
+  name: "New User Activated",
+  description: "Emit new event each time a user is activated in your Zoom account",
+  version: "0.1.5",
   dedupe: "unique", // Dedupe based on user ID
   props: {
     zoomAdmin,

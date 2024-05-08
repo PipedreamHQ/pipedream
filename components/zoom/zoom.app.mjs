@@ -54,6 +54,31 @@ export default {
       },
       optional: true,
     },
+    userId: {
+      type: "string",
+      label: "User Id",
+      description: "The user ID or email address of the user.",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const response = await this.listUsers({
+          params: {
+            next_page_token: nextPageToken,
+          },
+        });
+
+        return {
+          options: response.users.map(({
+            name, email, id: value,
+          }) => ({
+            label: `${name} - ${email}`,
+            value,
+          })),
+          context: {
+            nextPageToken: response.next_page_token,
+          },
+        };
+      },
+    },
     includeAudioRecordings: {
       type: "boolean",
       label: "Include Audio Recordings",
@@ -248,6 +273,20 @@ export default {
     listRecordings(args = {}) {
       return this._makeRequest({
         path: "/users/me/recordings",
+        ...args,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/phone/users",
+        ...opts,
+      });
+    },
+    listCallLogs({
+      userId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/phone/users/${userId}/call_logs`,
         ...args,
       });
     },

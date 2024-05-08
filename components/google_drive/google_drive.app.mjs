@@ -10,12 +10,10 @@ import {
   MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
-  GOOGLE_DRIVE_ROLES,
   GOOGLE_DRIVE_GRANTEE_TYPES,
-  GOOGLE_DRIVE_GRANTEE_ANYONE,
-  GOOGLE_DRIVE_ROLE_READER,
   GOOGLE_DRIVE_UPLOAD_TYPES,
-} from "./constants.mjs";
+  GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
+} from "./common/constants.mjs";
 import googleMimeTypes from "./actions/google-mime-types.mjs";
 
 import {
@@ -117,16 +115,15 @@ export default {
       type: "string[]",
       label: "Types of updates",
       description: `The types of updates you want to watch for on these files.
-        [See Google's docs]
-        (https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
+        [See Google's docs](https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
       default: GOOGLE_DRIVE_UPDATE_TYPES,
-      options: GOOGLE_DRIVE_UPDATE_TYPES,
+      options: GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
     },
     watchForPropertiesChanges: {
       type: "boolean",
       label: "Watch for changes to file properties",
-      description: `Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties)
-        in addition to changes to content. **Defaults to \`false\`, watching for only changes to content**.`,
+      description: `Watch for changes to [custom file properties](https://developers.google.com/drive/api/v3/properties)
+        in addition to changes to content. **Defaults to \`false\`, watching only for changes to content**.`,
       optional: true,
       default: false,
     },
@@ -198,36 +195,12 @@ export default {
       optional: true,
       default: false,
     },
-    role: {
-      type: "string",
-      label: "Role",
-      description: "The role granted by this permission",
-      optional: true,
-      default: GOOGLE_DRIVE_ROLE_READER,
-      options: GOOGLE_DRIVE_ROLES,
-    },
     type: {
       type: "string",
       label: "Type",
       description:
-        "The type of the grantee. If **Type** is `user` or `group`, you must provide an **Email Address** for the user or group. When **Type** is `domain`, you must provide a `Domain`. Sharing with a domain is only valid for G Suite users.",
-      optional: true,
-      default: GOOGLE_DRIVE_GRANTEE_ANYONE,
+        "The type of the grantee. Sharing with a domain is only valid for G Suite users.",
       options: GOOGLE_DRIVE_GRANTEE_TYPES,
-    },
-    domain: {
-      type: "string",
-      label: "Domain",
-      description:
-        "The domain of the G Suite organization to which this permission refers if **Type** is `domain` (e.g., `yourcomapany.com`)",
-      optional: true,
-    },
-    emailAddress: {
-      type: "string",
-      label: "Email Address",
-      description:
-        "The email address of the user or group to which this permission refers if **Type** is `user` or `group`",
-      optional: true,
     },
     ocrLanguage: {
       type: "string",
