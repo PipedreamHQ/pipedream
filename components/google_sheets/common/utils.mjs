@@ -41,7 +41,26 @@ function toSingleLineString(multiLineString) {
     .replace(/\s{2,}/g, " ");
 }
 
+function parseArray(value) {
+  if (!value) {
+    return [];
+  }
+  if (Array.isArray(value)) {
+    return value;
+  }
+  try {
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed)) {
+      return false;
+    }
+    return parsed;
+  } catch {
+    return false;
+  }
+}
+
 export {
   omitEmptyKey,
   toSingleLineString,
+  parseArray,
 };

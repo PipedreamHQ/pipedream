@@ -1,4 +1,5 @@
 import googleSheets from "../../google_sheets.app.mjs";
+import { parseArray } from "../../common/utils.mjs";
 
 export default {
   key: "google_sheets-update-rows",
@@ -58,15 +59,11 @@ export default {
     },
   },
   async run() {
-    let rows = this.rows;
-
     let inputValidated = true;
 
-    if (!Array.isArray(rows)) {
-      rows = JSON.parse(this.rows);
-    }
+    const rows = parseArray(this.rows); console.log(rows);
 
-    if (!rows || !rows.length || !Array.isArray(rows)) {
+    if (!rows) {
       inputValidated = false;
     } else {
       rows.forEach((row) => {

@@ -1,5 +1,6 @@
 import googleSheets from "../../google_sheets.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { parseArray } from "../../common/utils.mjs";
 
 export default {
   key: "google_sheets-update-row",
@@ -52,13 +53,12 @@ export default {
     },
   },
   async run() {
-    const cells = this.cells;
-
     // validate input
-    if (!cells || !cells.length) {
+    if (!this.cells || !this.cells.length) {
       throw new ConfigurationError("Please enter an array of elements in `Cells / Column Values`.");
-    }
-    if (!Array.isArray(cells)) {
+    } console.log(this.cells);
+    const cells = parseArray(this.cells); console.log(cells);
+    if (!cells) {
       throw new ConfigurationError("Cell / Column data is not an array. Please enter an array of elements in `Cells / Column Values`.");
     }
     if (Array.isArray(cells[0])) {

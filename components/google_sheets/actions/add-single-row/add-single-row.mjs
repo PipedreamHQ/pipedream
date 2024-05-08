@@ -1,5 +1,6 @@
 import googleSheets from "../../google_sheets.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { parseArray } from "../../common/utils.mjs";
 
 export default {
   key: "google_sheets-add-single-row",
@@ -93,7 +94,9 @@ export default {
     // validate input
     if (!cells || !cells.length) {
       throw new ConfigurationError("Please enter an array of elements in `Cells / Column Values`.");
-    } else if (!Array.isArray(cells)) {
+    }
+    cells = parseArray(cells);
+    if (!cells) {
       throw new ConfigurationError("Cell / Column data is not an array. Please enter an array of elements in `Cells / Column Values`.");
     } else if (Array.isArray(cells[0])) {
       throw new ConfigurationError("Cell / Column data is a multi-dimensional array. A one-dimensional is expected. If you're trying to send multiple rows to Google Sheets, search for the action to add multiple rows to Sheets.");

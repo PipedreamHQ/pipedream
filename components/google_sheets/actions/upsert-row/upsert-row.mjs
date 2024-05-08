@@ -3,7 +3,7 @@ import { VALUE_RENDER_OPTION } from "../../common/constants.mjs";
 import googleSheets from "../../google_sheets.app.mjs";
 import {
   omitEmptyKey, toSingleLineString,
-} from "../../utils.mjs";
+} from "../../common/utils.mjs";
 
 /**
  * This action performs an upsert operation, similar to the MySQL `INSERT INTO ... ON DUPLICATE KEY
