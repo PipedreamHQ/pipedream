@@ -7,7 +7,7 @@ export default {
   ...newRowAdded,
   key: "google_sheets-new-row-added",
   name: "New Row Added (Instant)",
-  description: "Emit new events each time a row or rows are added to the bottom of a spreadsheet.",
+  description: "Emit new event each time a row or rows are added to the bottom of a spreadsheet.",
   version: "0.1.4",
   dedupe: "unique",
   type: "source",

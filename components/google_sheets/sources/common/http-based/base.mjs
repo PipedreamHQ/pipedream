@@ -12,7 +12,7 @@ import { v4 as uuid } from "uuid";
 
 import {
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS, MY_DRIVE_VALUE,
-} from "../../../../google_drive/constants.mjs";
+} from "../../../../google_drive/common/constants.mjs";
 import googleSheets from "../../../google_sheets.app.mjs";
 
 /**
@@ -138,7 +138,7 @@ export default {
       throw new Error("activateHook is not implemented");
     },
     processSpreadsheet() {
-      throw new Error("processEvent is not implemented");
+      throw new Error("processSpreadsheet is not implemented");
     },
     async renewSubscription() {
       throw new Error("renewSubscription is not implemented");
