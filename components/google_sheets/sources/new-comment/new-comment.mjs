@@ -1,4 +1,5 @@
 import httpBase from "../common/http-based/sheet.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...httpBase,
@@ -57,4 +58,5 @@ export default {
 
     await this.processSpreadsheet();
   },
+  sampleEmit,
 };
