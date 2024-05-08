@@ -4,7 +4,7 @@ export default {
   key: "telnyx-send-message",
   name: "Send Message",
   description: "Send an SMS or MMS message. See documentation [here](https://developers.telnyx.com/docs/messaging/messages/send-message)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     telnyxApp,

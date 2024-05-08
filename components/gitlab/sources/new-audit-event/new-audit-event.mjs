@@ -1,6 +1,5 @@
 import gitlab from "../../gitlab.app.mjs";
 import base from "../common/base.mjs";
-import fetch from "node-fetch";
 import {
   create_destination,
   list_destinations,
@@ -12,7 +11,7 @@ export default {
   key: "gitlab-new-audit-event",
   name: "New Audit Event (Instant)",
   description: "Emit new event when a new audit event is created",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   type: "source",
   props: {
@@ -40,18 +39,16 @@ export default {
       const query = create_destination(this.http.endpoint, this.groupPath);
 
       try {
-        await fetch(`https://${this._getBaseApiUrl()}/api/graphql`, {
+        await this.gitlab._makeRequest({
+          url: `https://${this._getBaseApiUrl()}/api/graphql`,
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
             "Authorization": `Bearer ${this.gitlab.$auth.oauth_access_token}`,
           },
-          body: JSON.stringify({
-            query,
-          }),
-        })
-          .then((r) => r.json());
+          data: query,
+        });
 
       } catch (err) {
         console.log(`Error thrown during activation: ${JSON.stringify(err)}`);

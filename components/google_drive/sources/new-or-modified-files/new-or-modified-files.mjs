@@ -14,14 +14,17 @@ import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
+import commonDedupeChanges from "../common-dedupe-changes.mjs";
+
+const { googleDrive } = common.props;
 
 export default {
   ...common,
   key: "google_drive-new-or-modified-files",
-  name: "New or Modified Files",
-  description: "Emit new event any time any file in your linked Google Drive is added, modified, or deleted",
-  version: "0.2.2",
+  name: "New or Modified Files (Instant)",
+  description: "Emit new event when a file in the selected Drive is created, modified or trashed.",
+  version: "0.3.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -30,9 +33,9 @@ export default {
     ...common.props,
     folders: {
       type: "string[]",
-      label: "Folders",
+      label: "Folder(s)",
       description:
-        "(Optional) The folders you want to watch for changes. Leave blank to watch for any new file in the Drive.",
+        "The folder(s) to watch for changes. Leave blank to watch for any new or modified file in the Drive.",
       optional: true,
       default: [],
       options({ prevContext }) {
@@ -52,6 +55,13 @@ export default {
         return this.googleDrive.listFilesOptions(nextPageToken, opts);
       },
     },
+    watchForPropertiesChanges: {
+      propDefinition: [
+        googleDrive,
+        "watchForPropertiesChanges",
+      ],
+    },
+    ...commonDedupeChanges.props,
   },
   hooks: {
     async deploy() {
@@ -62,6 +72,7 @@ export default {
       const args = this.getListFilesOpts({
         q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files",
+        pageSize: 5,
       });
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
@@ -105,7 +116,9 @@ export default {
     },
     async getChanges(headers) {
       if (!headers) {
-        return;
+        return {
+          change: { },
+        };
       }
       const resourceUri = headers["x-goog-resource-uri"];
       const metadata = await this.googleDrive.getFileMetadata(`${resourceUri}&fields=*`);
@@ -121,7 +134,9 @@ export default {
     async processChanges(changedFiles, headers) {
       const changes = await this.getChanges(headers);
 
-      for (const file of changedFiles) {
+      const filteredFiles = this.checkMinimumInterval(changedFiles);
+
+      for (const file of filteredFiles) {
         file.parents = (await this.googleDrive.getFile(file.id, {
           fields: "parents",
         })).parents;

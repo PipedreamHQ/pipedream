@@ -69,7 +69,7 @@ export default {
     },
     throwFormattedError(error) {
       error = error.response;
-      throw new Error(`${error.status} - ${error.statusText} - ${error.data.message}`);
+      throw new Error(`${error.status} - ${error.statusText} - ${error.data.errors[0].detail}`);
     },
     async sendMessage(args) {
       return this.makeRequest({
@@ -87,6 +87,21 @@ export default {
     async getPhoneNumbers(args) {
       return this.makeRequest({
         path: "/phone_numbers",
+        ...args,
+      });
+    },
+    async getMessage({
+      id, ...args
+    }) {
+      return this.makeRequest({
+        path: `/messages/${id}`,
+        ...args,
+      });
+    },
+    async sendGroupMessage(args) {
+      return this.makeRequest({
+        method: "POST",
+        path: "/messages/group_mms",
         ...args,
       });
     },

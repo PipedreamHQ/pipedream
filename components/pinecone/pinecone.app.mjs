@@ -9,44 +9,22 @@ export default {
     indexName: {
       type: "string",
       label: "Index Name",
-      description: "The name of the index. E.g. `my-index`",
-      options() {
-        return this.listIndexes();
+      description: "The name of the index. E.g. `my-index.pinecone.io`",
+      async options() {
+        const { indexes } = await this.listIndexes();
+        return indexes.map(({
+          name: label, host: value,
+        }) => ({
+          label,
+          value,
+        }));
       },
     },
-    projectId: {
+    prefix: {
       type: "string",
-      label: "Project ID",
-      description: "The ID of the project. You can get the project from the Pinecone URL, for example https://app.pinecone.io/organizations/abcde/projects/us-east-1-aws:611e7f9/indexes, then the Project ID is `611e7f9`",
-    },
-    vectorId: {
-      type: "string",
-      label: "Vector ID",
-      description: "The ID of the vector.",
-      async options({
-        indexName, projectId,
-      }) {
-        if (!indexName || !projectId) {
-          return [];
-        }
-
-        const { database: { dimension } } = await this.describeIndex({
-          indexName,
-        });
-
-        const { matches } = await this.query({
-          projectId,
-          indexName,
-          data: {
-            topK: dimension,
-            vector: Array.from({
-              length: dimension,
-            }).map(() => 0),
-          },
-        });
-
-        return matches?.map(({ id }) => id);
-      },
+      label: "Prefix",
+      description: "The vector IDs to fetch. Does not accept values containing spaces. E.g. `my-prefix`",
+      optional: true,
     },
     namespace: {
       type: "string",
@@ -54,10 +32,16 @@ export default {
       description: "The namespace to use.",
       optional: true,
     },
+    vectorId: {
+      type: "string",
+      label: "Vector ID",
+      description: "The ID of the vector.",
+    },
     vectorValues: {
       type: "string[]",
       label: "Vector Values",
       description: "The values of the vector.",
+      optional: true,
     },
     vectorMetadata: {
       type: "object",
@@ -68,25 +52,17 @@ export default {
   },
   methods: {
     getBaseUrl({
-      api, projectId, indexName,
+      api, indexName,
     } = {}) {
-      const { environment } = this.$auth;
       return api === constants.API.CONTROLLER
         ? constants.CONTROLLER_URL
-          .replace(constants.ENV_PLACEHOLDER, environment)
         : constants.BASE_URL
-          .replace(constants.INDEX_NAME_PLACEHOLDER, indexName)
-          .replace(constants.PROJECT_ID_PLACEHOLDER, projectId)
-          .replace(constants.ENV_PLACEHOLDER, environment);
+          .replace(constants.INDEX_NAME_PLACEHOLDER, indexName);
     },
     getUrl({
-      api, path, projectId, indexName,
+      path, ...args
     } = {}) {
-      const baseUrl = this.getBaseUrl({
-        api,
-        projectId,
-        indexName,
-      });
+      const baseUrl = this.getBaseUrl(args);
       return `${baseUrl}${path}`;
     },
     getHeaders(headers) {
@@ -102,118 +78,32 @@ export default {
       });
     },
     makeRequest({
-      step = this, api, headers, projectId, indexName, path, ...args
+      step = this, api, headers, indexName, path, ...args
     } = {}) {
-
       const config = {
+        ...args,
         paramsSerializer: this.paramsSerializer,
         headers: this.getHeaders(headers),
         url: this.getUrl({
           api,
           indexName,
-          projectId,
           path,
         }),
-        ...args,
       };
-
       return axios(step, config);
     },
-    create(args = {}) {
+    post(args = {}) {
       return this.makeRequest({
         method: "post",
         ...args,
       });
     },
-    update(args = {}) {
-      return this.makeRequest({
-        method: "put",
-        ...args,
-      });
-    },
-    delete(args = {}) {
-      return this.makeRequest({
-        method: "delete",
-        ...args,
-      });
-    },
-    patch(args = {}) {
-      return this.makeRequest({
-        method: "patch",
-        ...args,
-      });
-    },
-    query(args = {}) {
-      return this.create({
-        path: "/query",
-        ...args,
-      });
-    },
-    describeIndex({
-      indexName, ...args
-    } = {}) {
+    listIndexes(args = {}) {
       return this.makeRequest({
         api: constants.API.CONTROLLER,
-        path: `/databases/${indexName}`,
+        path: "/indexes",
         ...args,
       });
-    },
-    listIndexes() {
-      return this.makeRequest({
-        api: constants.API.CONTROLLER,
-        path: "/databases",
-      });
-    },
-    fetchVectors(args = {}) {
-      return this.makeRequest({
-        path: "/vectors/fetch",
-        ...args,
-      });
-    },
-    async *getResourcesStream({
-      resourceFn,
-      resourceFnArgs,
-      resourceName,
-      lastCreatedAt,
-      max = constants.DEFAULT_MAX,
-    }) {
-      let page = 1;
-      let resourcesCount = 0;
-
-      while (true) {
-        const response =
-          await resourceFn({
-            ...resourceFnArgs,
-            params: {
-              ...resourceFnArgs.params,
-              page,
-            },
-          });
-
-        const nextResources = resourceName && response[resourceName] || response;
-
-        if (!nextResources?.length) {
-          console.log("No more resources found");
-          return;
-        }
-
-        for (const resource of nextResources) {
-          const dateFilter =
-            lastCreatedAt
-            && Date.parse(resource.created_at) > Date.parse(lastCreatedAt);
-
-          if (!lastCreatedAt || dateFilter) {
-            yield resource;
-            resourcesCount += 1;
-          }
-
-          if (resourcesCount >= max) {
-            return;
-          }
-        }
-
-        page += 1;
-      }
     },
   },
 };
