@@ -3,7 +3,7 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-get-values-in-range",
   name: "Get Values in Range",
-  description: "Get values from a range of cells using A1 notation. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
+  description: "Get all values or values from a range of cells using A1 notation. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
   version: "0.1.4",
   type: "action",
   props: {
@@ -40,6 +40,7 @@ export default {
         googleSheets,
         "range",
       ],
+      optional: true,
     },
   },
   async run() {
@@ -47,7 +48,9 @@ export default {
 
     return (await sheets.spreadsheets.values.get({
       spreadsheetId: this.sheetId,
-      range: `${this.worksheetId.label}!${this.range}`,
+      range: this.range
+        ? `${this.worksheetId.label}!${this.range}`
+        : `${this.worksheetId.label}`,
     })).data.values;
   },
 };
