@@ -840,7 +840,10 @@ importers:
     specifiers: {}
 
   components/bilflo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/bilionis:
     specifiers:
@@ -1340,6 +1343,14 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/cincopa:
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+      uuid: ^8.3.2
+    dependencies:
+      '@pipedream/platform': 1.6.5
+      uuid: 8.3.2
+
   components/circl_hash_lookup:
     specifiers: {}
 
@@ -1798,7 +1809,10 @@ importers:
     specifiers: {}
 
   components/cradl_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/craftboxx:
     specifiers:
@@ -2924,6 +2938,9 @@ importers:
   components/fluxguard:
     specifiers: {}
 
+  components/fly_io:
+    specifiers: {}
+
   components/focuster:
     specifiers: {}
 
@@ -3244,7 +3261,14 @@ importers:
       uuid: 8.3.2
 
   components/gitlab_developer_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+      lodash: ^4.17.21
+      uuid: ^8.3.2
+    dependencies:
+      '@pipedream/platform': 1.6.4
+      lodash: 4.17.21
+      uuid: 8.3.2
 
   components/givebutter:
     specifiers: {}
@@ -6073,7 +6097,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/perplexity:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/perry_github_test:
     specifiers: {}
@@ -6882,7 +6909,10 @@ importers:
       '@pipedream/platform': 1.6.4
 
   components/relavate:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/relevance_ai:
     specifiers:
@@ -8850,7 +8880,10 @@ importers:
     specifiers: {}
 
   components/tripadvisor_content_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.2
+    dependencies:
+      '@pipedream/platform': 1.6.2
 
   components/truss:
     specifiers: {}
