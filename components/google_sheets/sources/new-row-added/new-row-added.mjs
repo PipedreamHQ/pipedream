@@ -7,7 +7,7 @@ export default {
   ...newRowAdded,
   key: "google_sheets-new-row-added",
   name: "New Row Added (Instant)",
-  description: "Emit new events each time a row or rows are added to the bottom of a spreadsheet. To use this source with a spreadsheet in a [Shared Drive](https://support.google.com/a/users/answer/9310351), use the **New Row Added (Shared Drive, Instant)** source instead.",
+  description: "Emit new events each time a row or rows are added to the bottom of a spreadsheet.",
   version: "0.1.4",
   dedupe: "unique",
   type: "source",

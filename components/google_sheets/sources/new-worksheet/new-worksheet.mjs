@@ -8,7 +8,7 @@ export default {
   key: "google_sheets-new-worksheet",
   type: "source",
   name: "New Worksheet (Instant)",
-  description: "Emit new event each time a new worksheet is created in a spreadsheet. To use this source with a spreadsheet in a [Shared Drive](https://support.google.com/a/users/answer/9310351), use the **New Worksheet (Shared Drive, Instant)** source instead.",
+  description: "Emit new event each time a new worksheet is created in a spreadsheet.",
   version: "0.1.4",
   dedupe: "unique",
   hooks: {
