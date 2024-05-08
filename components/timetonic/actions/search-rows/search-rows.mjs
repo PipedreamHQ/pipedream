@@ -1,4 +1,5 @@
 import timetonic from "../../timetonic.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "timetonic-search-rows",
@@ -32,22 +33,42 @@ export default {
           tableId: c.tableId,
         }),
       ],
+      reloadProps: true,
     },
-    searchValue: {
-      type: "string",
-      label: "Search value",
+  },
+  async additionalProps() {
+    const props = {};
+    if (!this.searchField || !this.bookCode || !this.tableId) {
+      return props;
+    }
+    const { tableValues: { fields } } = await this.timetonic.getTableValues({
+      params: {
+        catId: this.tableId,
+        b_c: this.bookCode,
+      },
+    });
+    const field = fields.find(({ id }) => id === this.searchField);
+    props.searchValue = {
+      type: constants.FIELD_TYPES[field.type] || "string",
+      label: "Search Value",
       description: "The value to search for",
-    },
+    };
+    if (field.type === "link") {
+      props.searchValue.description = `Please enter the Row ID from ${field.link.category.name} to link to`;
+    }
+    return props;
   },
   methods: {
     findMatches(fields) {
-      const searchValue = this.searchValue === "true"
-        ? true
-        : this.searchValue === "false"
-          ? false
-          : this.searchValue;
       const field = fields.find(({ id }) => id === this.searchField);
-      return field.values.filter(({ value }) => value == searchValue).map(({ id }) => id);
+      let matches;
+      if (field.type === "link") {
+        matches = field.values.filter(({ value }) =>
+          value?.length && value.find((link) => link.row_id == this.searchValue));
+      } else {
+        matches = field.values.filter(({ value }) => value == this.searchValue);
+      }
+      return matches.map(({ id }) => id);
     },
     buildRow(fields, matches) {
       const rows = [];

@@ -109,6 +109,7 @@ export default {
       timetonic,
       // eslint-disable-next-line no-unused-vars
       isUpdate,
+      uploadFile,
       // eslint-disable-next-line no-unused-vars
       bookCode,
       tableId,
@@ -118,6 +119,7 @@ export default {
     } = this;
 
     const fieldValues = {};
+    const files = [];
     for (const [
       key,
       value,
@@ -126,7 +128,10 @@ export default {
         continue;
       }
       if (fields[`${key}_is_file`]) {
-        await this.uploadFile($, key, value, rowId);
+        files.push({
+          fieldId: key,
+          filePath: value,
+        });
         continue;
       }
       fieldValues[+key] = fields[`${key}_${value}_link_text`]
@@ -138,15 +143,34 @@ export default {
         ]
         : value;
     }
-    const response = await timetonic.createOrUpdateRow({
-      $,
-      params: {
-        rowId,
-        catId: tableId,
-        fieldValues,
-      },
-    });
-    $.export("$summary", `Successfully ${this.isUpdate()
+    // if fieldValues is empty, createOrUpdateRow will create a new row
+    // if updating, get and return the row instead
+    const response = isUpdate() && !Object.entries(fieldValues).length
+      ? await timetonic.getTableValues({
+        $,
+        params: {
+          b_c: bookCode,
+          catId: tableId,
+          filterRowIds: {
+            row_ids: [
+              rowId,
+            ],
+          },
+        },
+      })
+      : await timetonic.createOrUpdateRow({
+        $,
+        params: {
+          rowId,
+          catId: tableId,
+          fieldValues,
+        },
+      });
+    const newRowId = this.rowId || response.rows[0].id;
+    for (const file of files) {
+      await uploadFile($, file.fieldId, file.filePath, newRowId);
+    }
+    $.export("$summary", `Successfully ${isUpdate()
       ? "updated"
       : "created"} row in table ${tableId}`);
     return response;
