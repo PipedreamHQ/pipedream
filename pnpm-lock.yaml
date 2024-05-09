@@ -9672,7 +9672,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/y_gy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/yahoo_fantasy_sports:
     specifiers:
