@@ -4,17 +4,49 @@ The ServiceNow API enables developers to tap into the robust capabilities of Ser
 
 # Getting Started
 
-Before you can use the ServiceNow REST API from a workflow, you need to configure an OAuth app in your ServiceNow instance that will grant access tokens to your users and authenticate requests to its REST API. 
+Before you can use the ServiceNow REST API from a workflow, you need to configure **two** OAuth apps in your ServiceNow instance that will grant access tokens to your users and authenticate requests to its REST API.
 
-1. In your ServiceNow instance, visit the **Application Registry** and create a new app, choosing the **Create an OAuth API endpoint for external clients** option.
-2. Name it something memorable, then leave every other field blank or keep the defaults, except for the **Redirect URL**, which should be: `https://api.pipedream.com/connect/oauth/oa_g2oiqA/callback`. Your app should look something like this:
+## Create an External Client OAuth App
+
+First, sign into the [ServiceNow Developer Portal](https://developer.servicenow.com/dev.do#!/home) to create an instance. If you already have a ServiceNow instance, open it and login into it.
+
+1. In your ServiceNow instance, visit the **Application Registry** under the **System OAuth** results.
+
+![Find the OAuth Client option under the ServiceNow application registry](https://res.cloudinary.com/pipedreamin/image/upload/v1715264549/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.18.36_ntausg.png)
+
+1. Create a new app by clicking **New** in the top right corner.
+
+![Create a new ServiceNow application under the OAuth Clients section in the Application Registry](https://res.cloudinary.com/pipedreamin/image/upload/v1715265062/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.30.51_jpi4ct.png)
+
+1. Then choose the **Create an OAuth API endpoint for external clients** option for this new app:
+
+![Create a new app, and make sure to choose the OAuth API endpoint for external clients option](https://res.cloudinary.com/pipedreamin/image/upload/v1715264615/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.19.09_pgezqf.png)
+
+1. In this form, name the app something memorable like `Pipedream`, then leave every other field blank or keep the defaults, except for the **Redirect URL**, which should be: `https://api.pipedream.com/connect/oauth/oa_g2oiqA/callback`. 
+
+Your app should look something like this:
 
 <div>
 <img alt="ServiceNow OAuth app config" src="https://res.cloudinary.com/pipedreamin/image/upload/v1681312149/docs/components/ServiceNow/oauth-app-config_kmnpav.png">
 </div>
 
-1. Next, you'll need to copy the client ID and secret generated in **Step 2**, and add another app. This time, select the option to **Connect to a third party OAuth Provider**.
-2. Name this app something like **Pipedream OAuth Validator**, and add the client ID / secret from **Step 2**. Change the grant type to **Authorization Code**, and set the **Token URL** to `oauth_token.do` (without any hostname, this refers to the current instance). Finally, add the same **Redirect URL** as you did above: `https://api.pipedream.com/connect/oauth/oa_g2oiqA/callback`. This app's configuration should look something like this when complete:
+1. Click **Create** to create this `Pipedream` app. You should see it listed in the Application Registry after it's created.
+
+![You should see the Pipedream app listed in the ServiceNow Registry after making those changes](https://res.cloudinary.com/pipedreamin/image/upload/v1715264960/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.21.12_iwlxgq.png)
+
+### Create the OAuth Validator app
+
+1. Next, you'll need to copy the client ID and secret generated from the `Pipedream` ServiceNow app you created in **Step 2**, and add another app. This time, select the option to **Connect to a third party OAuth Provider**.
+
+![Again click New in the top right hand corner of the Application Registry](https://res.cloudinary.com/pipedreamin/image/upload/v1715265062/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.30.51_jpi4ct.png)
+
+![Select connect a third party provider for this new app](https://res.cloudinary.com/pipedreamin/image/upload/v1715265385/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.36.08_s5c8xu.png)
+
+1. Name this app something like `Pipedream OAuth Validator`, and add the client ID  and secret from the `Pipedream` app you created from **Step 2**. 
+
+Change the grant type to **Authorization Code**, and set the **Token URL** to `oauth_token.do` (without any hostname, this refers to the current instance). 
+
+Finally, add the same **Redirect URL** as you did above: `https://api.pipedream.com/connect/oauth/oa_g2oiqA/callback`. This app's configuration should look something like this:
 
 <div>
 <img alt="ServiceNow OAuth validator app config" src="https://res.cloudinary.com/pipedreamin/image/upload/v1681312149/docs/components/ServiceNow/oauth-validator-config_ij6ef0.png">
@@ -65,4 +97,5 @@ Finally, while not required, you should also check that the role has associated 
 
 
 # Troubleshooting
+
 If you're getting a **504 Gateway Time-out** error when attempting to connect your ServiceNow account, review the section above on "Additional Guidance For Hardened or Mature Instances".
