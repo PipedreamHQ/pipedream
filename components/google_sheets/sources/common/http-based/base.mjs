@@ -11,7 +11,7 @@
 import { v4 as uuid } from "uuid";
 
 import {
-  WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS, MY_DRIVE_VALUE,
+  MY_DRIVE_VALUE, WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
 } from "../../../../google_drive/common/constants.mjs";
 import googleSheets from "../../../google_sheets.app.mjs";
 
