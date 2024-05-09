@@ -3,3 +3,11 @@ node_modules
 package-lock.json
 pnpm-lock.yaml
 platform/dist
+*.md
+*.txt
+*.yml
+*.yaml
+*.lock
+*.py
+*.png
+
