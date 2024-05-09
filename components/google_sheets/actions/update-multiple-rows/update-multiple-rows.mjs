@@ -2,8 +2,8 @@ import googleSheets from "../../google_sheets.app.mjs";
 import { parseArray } from "../../common/utils.mjs";
 
 export default {
-  key: "google_sheets-update-rows",
-  name: "Update Rows",
+  key: "google_sheets-update-multiple-rows",
+  name: "Update Multiple Rows",
   description: "Update multiple rows in a spreadsheet defined by a range. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
   version: "0.1.4",
   type: "action",

@@ -45,7 +45,7 @@ export default {
           driveId: googleSheets.methods.getDriveId(c.drive),
         }),
       ],
-      description: "The spreadsheet to copy the worksheetsheet to",
+      description: "The spreadsheet to copy the worksheet to",
     },
   },
   async run() {

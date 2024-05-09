@@ -56,8 +56,8 @@ export default {
     // validate input
     if (!this.cells || !this.cells.length) {
       throw new ConfigurationError("Please enter an array of elements in `Cells / Column Values`.");
-    } console.log(this.cells);
-    const cells = parseArray(this.cells); console.log(cells);
+    }
+    const cells = parseArray(this.cells);
     if (!cells) {
       throw new ConfigurationError("Cell / Column data is not an array. Please enter an array of elements in `Cells / Column Values`.");
     }

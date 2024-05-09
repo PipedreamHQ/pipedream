@@ -12,7 +12,7 @@ import { v4 as uuid } from "uuid";
 
 import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../../../google_drive/constants.mjs";
 import googleSheets from "../../../google_sheets.app.mjs";
-import { MY_DRIVE_VALUE } from "../../../../google_drive/constants.mjs";
+import { MY_DRIVE_VALUE } from "../../../../google_drive/common/constants.mjs";
 
 /**
  * The number of events that will be automatically sent whenever the event
