@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -26,7 +27,19 @@ export default {
       ],
     },
   },
-  hooks: {},
+  hooks: {
+    async deploy() {
+      try {
+        await this.hubspot.getEvents({
+          objectType: this.objectType,
+          objectId: this.objectIds[0],
+        });
+      }
+      catch {
+        throw new ConfigurationError("Error occurred. Please verify that your Hubspot account is one of: Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise");
+      }
+    },
+  },
   methods: {
     ...common.methods,
     getTs() {
