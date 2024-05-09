@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/wiza",
+  "version": "0.0.1",
+  "description": "Pipedream Wiza Components",
+  "main": "wiza.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wiza"
+  ],
+  "homepage": "https://pipedream.com/apps/wiza",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

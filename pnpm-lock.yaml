@@ -9534,6 +9534,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/wiza:
+    specifiers: {}
+
   components/wonderchat:
     specifiers: {}
 
