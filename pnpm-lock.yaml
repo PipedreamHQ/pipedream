@@ -6481,6 +6481,9 @@ importers:
   components/prismic:
     specifiers: {}
 
+  components/pro_ledger:
+    specifiers: {}
+
   components/proabono:
     specifiers:
       '@pipedream/platform': ^1.6.0
