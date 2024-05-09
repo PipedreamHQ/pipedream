@@ -48,21 +48,22 @@ export default {
     cells: {
       propDefinition: [
         googleSheets,
-        "cells",
+        "rows",
       ],
+      description: "Enter an array, with each element of the array representing a cell/column value (e.g. `[\"Foo\",1,2]`). You may reference an arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will JSON.parse() to an array.",
     },
   },
   async run() {
     // validate input
     if (!this.cells || !this.cells.length) {
-      throw new ConfigurationError("Please enter an array of elements in `Cells / Column Values`.");
+      throw new ConfigurationError("Please enter an array of elements in `Row Values`.");
     }
     const cells = parseArray(this.cells);
     if (!cells) {
-      throw new ConfigurationError("Cell / Column data is not an array. Please enter an array of elements in `Cells / Column Values`.");
+      throw new ConfigurationError("Row Values is not an array. Please enter an array of elements in `Row Values`.");
     }
     if (Array.isArray(cells[0])) {
-      throw new ConfigurationError("Cell / Column data is a multi-dimensional array. A one-dimensional is expected.");
+      throw new ConfigurationError("Row Values is a multi-dimensional array. A one-dimensional is expected.");
     }
     const request = {
       spreadsheetId: this.sheetId,
