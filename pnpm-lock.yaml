@@ -6831,7 +6831,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/recruitis:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/recurly:
     specifiers:
