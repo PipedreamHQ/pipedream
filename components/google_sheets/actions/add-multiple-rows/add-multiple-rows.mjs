@@ -1,6 +1,8 @@
 import googleSheets from "../../google_sheets.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
-import { parseArray } from "../../common/utils.mjs";
+import {
+  parseArray, getWorksheetHeaders,
+} from "../../common/utils.mjs";
 
 export default {
   key: "google_sheets-add-multiple-rows",
@@ -36,6 +38,13 @@ export default {
       type: "string",
       label: "Worksheet Id",
       withLabel: true,
+      reloadProps: true,
+    },
+    headersDisplay: {
+      propDefinition: [
+        googleSheets,
+        "headersDisplay",
+      ],
     },
     rows: {
       propDefinition: [
@@ -55,6 +64,23 @@ export default {
       description: "Reset the formatting of the rows that were added (line style to none, background to white, foreground color to black, font size to 10, no bold, no italic, no strikethrough, horizontalAlignment to left). This is useful if you want to add rows to a formatted table in Google Sheets.",
       optional: true,
     },
+  },
+  async additionalProps() {
+    const props = {};
+    if (!this.sheetId || !this.worksheetId) {
+      return props;
+    }
+    const rowHeaders = await getWorksheetHeaders(this, this.sheetId, this.worksheetId.label);
+    if (rowHeaders.length) {
+      return {
+        headersDisplay: {
+          type: "alert",
+          alertType: "info",
+          content: `Possible Row Headers: **\`${rowHeaders.join(", ")}\`**`,
+          hidden: false,
+        },
+      };
+    }
   },
   async run() {
     let inputValidated = true;

@@ -1,5 +1,7 @@
 import googleSheets from "../../google_sheets.app.mjs";
-import { parseArray } from "../../common/utils.mjs";
+import {
+  parseArray, getWorksheetHeaders,
+} from "../../common/utils.mjs";
 
 export default {
   key: "google_sheets-update-multiple-rows",
@@ -38,6 +40,13 @@ export default {
       type: "string",
       label: "Worksheet Id",
       withLabel: true,
+      reloadProps: true,
+    },
+    headersDisplay: {
+      propDefinition: [
+        googleSheets,
+        "headersDisplay",
+      ],
     },
     range: {
       propDefinition: [
@@ -58,10 +67,27 @@ export default {
       ],
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (!this.sheetId || !this.worksheetId) {
+      return props;
+    }
+    const rowHeaders = await getWorksheetHeaders(this, this.sheetId, this.worksheetId.label);
+    if (rowHeaders.length) {
+      return {
+        headersDisplay: {
+          type: "alert",
+          alertType: "info",
+          content: `Possible Row Headers: **\`${rowHeaders.join(", ")}\`**`,
+          hidden: false,
+        },
+      };
+    }
+  },
   async run() {
     let inputValidated = true;
 
-    const rows = parseArray(this.rows); console.log(rows);
+    const rows = parseArray(this.rows);
 
     if (!rows) {
       inputValidated = false;
