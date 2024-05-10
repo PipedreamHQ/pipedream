@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/leadiq",
+  "version": "0.0.1",
+  "description": "Pipedream LeadIQ Components",
+  "main": "leadiq.app.mjs",
+  "keywords": [
+    "pipedream",
+    "leadiq"
+  ],
+  "homepage": "https://pipedream.com/apps/leadiq",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

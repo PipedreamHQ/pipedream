@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/summit",
+  "version": "0.0.1",
+  "description": "Pipedream Summit Components",
+  "main": "summit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "summit"
+  ],
+  "homepage": "https://pipedream.com/apps/summit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

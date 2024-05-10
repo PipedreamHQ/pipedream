@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import base from "./http-based/base.mjs";
 import zlib from "zlib";
 
@@ -20,23 +19,15 @@ export default {
     },
   },
   methods: {
-    getMeta(spreadsheet, worksheet, changes) {
+    getMeta(spreadsheet, worksheet) {
       const {
         sheetId: worksheetId,
         title: worksheetTitle,
       } = worksheet.properties;
-      const {
-        spreadsheetId: sheetId,
-        properties: { title: sheetTitle },
-      } = spreadsheet;
-
-      const changesHash = crypto
-        .createHash("md5")
-        .update(JSON.stringify(changes))
-        .digest("base64");
+      const { properties: { title: sheetTitle } } = spreadsheet;
 
       const ts = Date.now();
-      const id = `${sheetId}${worksheetId}${changesHash}${ts}`;
+      const id = `${worksheetId}${ts}`;
       const summary = `${sheetTitle} - ${worksheetTitle}`;
       return {
         id,
@@ -217,7 +208,7 @@ export default {
               worksheet,
               changes,
             },
-            this.getMeta(spreadsheet, worksheet, changes),
+            this.getMeta(spreadsheet, worksheet),
           );
         }
         this._setSheetValues(
