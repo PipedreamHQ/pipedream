@@ -528,6 +528,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/appwrite:
+    specifiers: {}
+
   components/arcgis_online:
     specifiers: {}
 
