@@ -5,7 +5,7 @@ export default {
   key: "openai-modify-assistant",
   name: "Modify an Assistant",
   description: "Modifies an existing OpenAI assistant. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/modifyAssistant)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     openai,

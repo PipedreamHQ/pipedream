@@ -5,7 +5,7 @@ export default {
   key: "openai-new-run-state-changed",
   name: "New Run State Changed",
   description: "Emit new event every time a run changes its status. [See the documentation](https://platform.openai.com/docs/api-reference/runs/listRuns)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
