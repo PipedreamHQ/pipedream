@@ -1,10 +1,10 @@
 import googleSheets from "../../google_sheets.app.mjs";
 
 export default {
-  key: "google_sheets-create-column",
+  key: "google_sheets-add-column",
   name: "Create Column",
-  description: "Create a new column in a spreadsheet",
-  version: "0.1.4",
+  description: "Create a new column in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate)",
+  version: "0.1.5",
   type: "action",
   props: {
     googleSheets,

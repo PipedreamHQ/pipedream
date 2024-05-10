@@ -1,10 +1,10 @@
 import googleSheets from "../../google_sheets.app.mjs";
 
 export default {
-  key: "google_sheets-clear-row",
-  name: "Clear Row",
-  description: "Delete the content of a row in a spreadsheet. Deleted rows will appear as blank rows.",
-  version: "0.1.4",
+  key: "google_sheets-clear-rows",
+  name: "Clear Rows",
+  description: "Delete the content of a row or rows in a spreadsheet. Deleted rows will appear as blank rows. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/clear)",
+  version: "0.1.5",
   type: "action",
   props: {
     googleSheets,
@@ -24,26 +24,34 @@ export default {
         }),
       ],
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
-    row: {
-      propDefinition: [
-        googleSheets,
-        "row",
-      ],
+    startIndex: {
+      type: "integer",
+      label: "Start Index",
+      description: "Row number of the start (inclusive) of the range of rows to clear",
+    },
+    endIndex: {
+      type: "integer",
+      label: "End Index",
+      description: "Row number of the end (exclusive) of the range of rows to clear",
+      optional: true,
     },
   },
   async run() {
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.row}:${this.row}`,
+      range: `${this.worksheetId.label}!${this.startIndex}:${this.endIndex || this.startIndex}`,
     };
     return await this.googleSheets.clearSheetValues(request);
   },

@@ -1,10 +1,13 @@
 import googleSheets from "../../google_sheets.app.mjs";
+import {
+  parseArray, getWorksheetHeaders,
+} from "../../common/utils.mjs";
 
 export default {
-  key: "google_sheets-update-rows",
-  name: "Update Rows",
-  description: "Update multiple rows in a spreadsheet defined by a range",
-  version: "0.1.4",
+  key: "google_sheets-update-multiple-rows",
+  name: "Update Multiple Rows",
+  description: "Update multiple rows in a spreadsheet defined by a range. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
+  version: "0.1.5",
   type: "action",
   props: {
     googleSheets,
@@ -26,13 +29,23 @@ export default {
       ],
       description: "The spreadsheet containing the worksheet to update",
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
+      ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
+      reloadProps: true,
+    },
+    headersDisplay: {
+      propDefinition: [
+        googleSheets,
+        "headersDisplay",
       ],
     },
     range: {
@@ -47,17 +60,36 @@ export default {
         "rows",
       ],
     },
+    rowsDescription: {
+      propDefinition: [
+        googleSheets,
+        "rowsDescription",
+      ],
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (!this.sheetId || !this.worksheetId) {
+      return props;
+    }
+    const rowHeaders = await getWorksheetHeaders(this, this.sheetId, this.worksheetId.label);
+    if (rowHeaders.length) {
+      return {
+        headersDisplay: {
+          type: "alert",
+          alertType: "info",
+          content: `Possible Row Headers: **\`${rowHeaders.join(", ")}\`**`,
+          hidden: false,
+        },
+      };
+    }
   },
   async run() {
-    let rows = this.rows;
-
     let inputValidated = true;
 
-    if (!Array.isArray(rows)) {
-      rows = JSON.parse(this.rows);
-    }
+    const rows = parseArray(this.rows);
 
-    if (!rows || !rows.length || !Array.isArray(rows)) {
+    if (!rows) {
       inputValidated = false;
     } else {
       rows.forEach((row) => {
@@ -78,7 +110,7 @@ export default {
 
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.range}`,
+      range: `${this.worksheetId.label}!${this.range}`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: rows,

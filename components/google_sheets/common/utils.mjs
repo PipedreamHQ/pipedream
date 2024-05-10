@@ -41,7 +41,39 @@ function toSingleLineString(multiLineString) {
     .replace(/\s{2,}/g, " ");
 }
 
+function parseArray(value) {
+  if (!value) {
+    return [];
+  }
+  if (Array.isArray(value)) {
+    return value;
+  }
+  try {
+    const parsed = JSON.parse(value);
+    if (!Array.isArray(parsed)) {
+      return false;
+    }
+    return parsed;
+  } catch {
+    return false;
+  }
+}
+
+async function getWorksheetHeaders(ctx, sheetId, worksheetName) {
+  const headers = [];
+  const { values } = await ctx.googleSheets.getSpreadsheetValues(sheetId, `${worksheetName}!1:1`);
+  if (!values[0]?.length) {
+    return headers;
+  }
+  for (let i = 0; i < values[0]?.length; i++) {
+    headers.push(values[0][i]);
+  }
+  return headers;
+}
+
 export {
   omitEmptyKey,
   toSingleLineString,
+  parseArray,
+  getWorksheetHeaders,
 };

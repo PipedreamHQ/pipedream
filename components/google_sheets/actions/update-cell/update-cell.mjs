@@ -3,8 +3,8 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-update-cell",
   name: "Update Cell",
-  description: "Update a cell in a spreadsheet",
-  version: "0.1.4",
+  description: "Update a cell in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
+  version: "0.1.5",
   type: "action",
   props: {
     googleSheets,
@@ -25,14 +25,17 @@ export default {
       ],
       description: "The spreadsheet containing the worksheet to update",
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     cell: {
       propDefinition: [
@@ -53,7 +56,7 @@ export default {
   async run() {
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.cell}:${this.cell}`,
+      range: `${this.worksheetId.label}!${this.cell}:${this.cell}`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [
