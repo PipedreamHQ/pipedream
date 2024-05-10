@@ -1,4 +1,5 @@
 import common from "../common/common-helper.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -19,12 +20,7 @@ export default {
       description: "The length of the summary",
       type: "string",
       optional: true,
-      options: [
-        "word",
-        "sentence",
-        "paragraph",
-        "page",
-      ],
+      options: constants.SUMMARIZE_LENGTH,
     },
   },
   methods: {

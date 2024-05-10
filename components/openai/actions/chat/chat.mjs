@@ -1,5 +1,6 @@
 import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -43,10 +44,7 @@ export default {
       type: "string",
       label: "Response Format",
       description: "Specify the format that the model must output. [Setting to `json_object` guarantees the message the model generates is valid JSON](https://platform.openai.com/docs/api-reference/chat/create#chat-create-response_format). Defaults to `text`",
-      options: [
-        "text",
-        "json_object",
-      ],
+      options: constants.CHAT_RESPONSE_FORMATS,
       optional: true,
       default: "text",
     },

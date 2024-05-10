@@ -1,4 +1,5 @@
 import openai from "../../openai.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   name: "Create Image (Dall-E)",
@@ -12,16 +13,7 @@ export default {
       label: "Model",
       description: "Choose the DALL·E models to generate image(s) with.",
       type: "string",
-      options: [
-        {
-          label: "dall-e-2",
-          value: "dall-e-2",
-        },
-        {
-          label: "dall-e-3",
-          value: "dall-e-3",
-        },
-      ],
+      options: constants.IMAGE_MODELS,
       default: "dall-e-3",
     },
     prompt: {
@@ -41,16 +33,7 @@ export default {
       description: "The quality of the image",
       type: "string",
       optional: true,
-      options: [
-        {
-          label: "Standard",
-          value: "standard",
-        },
-        {
-          label: "HD",
-          value: "hd",
-        },
-      ],
+      options: constants.IMAGE_QUALITIES,
       default: "standard",
     },
     style: {
@@ -58,16 +41,7 @@ export default {
       description: "The style of the image",
       type: "string",
       optional: true,
-      options: [
-        {
-          label: "Natural",
-          value: "natural",
-        },
-        {
-          label: "Vivid",
-          value: "vivid",
-        },
-      ],
+      options: constants.IMAGE_STYLES,
       default: "natural",
     },
     responseFormat: {
@@ -75,16 +49,7 @@ export default {
       description: "The format in which the generated images are returned.",
       type: "string",
       optional: true,
-      options: [
-        {
-          label: "URL",
-          value: "url",
-        },
-        {
-          label: "Base64 JSON",
-          value: "b64_json",
-        },
-      ],
+      options: constants.IMAGE_RESPONSE_FORMATS,
       default: "url",
     },
     size: {
@@ -92,28 +57,7 @@ export default {
       description: "The size of the generated images.",
       type: "string",
       optional: true,
-      options: [
-        {
-          label: "256x256",
-          value: "256x256",
-        },
-        {
-          label: "512x512",
-          value: "512x512",
-        },
-        {
-          label: "1024x1024",
-          value: "1024x1024",
-        },
-        {
-          label: "1792x1024",
-          value: "1792x1024",
-        },
-        {
-          label: "1024x1792",
-          value: "1024x1792",
-        },
-      ],
+      options: constants.IMAGE_SIZES,
       default: "1024x1024",
     },
   },

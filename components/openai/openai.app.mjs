@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import { FINE_TUNING_MODEL_OPTIONS } from "./common/constants.mjs";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -145,12 +145,7 @@ export default {
       type: "string",
       label: "Role",
       description: "The role of the entity creating the message",
-      options: [
-        {
-          label: "User",
-          value: "user",
-        },
-      ],
+      options: constants.USER_OPTIONS,
       default: "user",
     },
     fileIds: {
@@ -174,16 +169,7 @@ export default {
       type: "string",
       label: "Order",
       description: "Sort order by the created_at timestamp of the objects.",
-      options: [
-        {
-          label: "Ascending",
-          value: "asc",
-        },
-        {
-          label: "Descending",
-          value: "desc",
-        },
-      ],
+      options: constants.ORDER_OPTIONS,
       optional: true,
     },
     after: {
@@ -223,25 +209,19 @@ export default {
       type: "string",
       label: "Purpose",
       description: "The intended purpose of the uploaded file. Use 'fine-tune' for fine-tuning and 'assistants' for assistants and messages.",
-      options: [
-        "fine-tune",
-        "assistants",
-      ],
+      options: constants.PURPOSES,
     },
     ttsModel: {
       type: "string",
       label: "Model",
       description: "One of the available [TTS models](https://platform.openai.com/docs/models/tts). `tts-1` is optimized for speed, while `tts-1-hd` is optimized for quality.",
-      options: [
-        "tts-1",
-        "tts-1-hd",
-      ],
+      options: constants.TTS_MODELS,
     },
     fineTuningModel: {
       type: "string",
       label: "Fine Tuning Model",
       description: "The name of the model to fine-tune. [See the supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).",
-      options: FINE_TUNING_MODEL_OPTIONS,
+      options: constants.FINE_TUNING_MODEL_OPTIONS,
     },
     input: {
       type: "string",
@@ -252,25 +232,13 @@ export default {
       type: "string",
       label: "Voice",
       description: "The voice to use when generating the audio.",
-      options: [
-        "alloy",
-        "echo",
-        "fable",
-        "onyx",
-        "nova",
-        "shimmer",
-      ],
+      options: constants.VOICES,
     },
     responseFormat: {
       type: "string",
       label: "Response Format",
       description: "The format to audio in.",
-      options: [
-        "mp3",
-        "opus",
-        "aac",
-        "flac",
-      ],
+      options: constants.AUDIO_RESPONSE_FORMATS,
       optional: true,
     },
     speed: {

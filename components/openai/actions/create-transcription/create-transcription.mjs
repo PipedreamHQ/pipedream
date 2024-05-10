@@ -13,7 +13,7 @@ import stream from "stream";
 import { promisify } from "util";
 import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
-import constants from "../common/constants.mjs";
+import constants from "../../common/constants.mjs";
 import lang from "../common/lang.mjs";
 
 const COMMON_AUDIO_FORMATS_TEXT = "Your audio file must be in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.";
