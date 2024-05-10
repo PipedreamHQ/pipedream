@@ -528,6 +528,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/appwrite:
+    specifiers: {}
+
   components/arcgis_online:
     specifiers: {}
 
@@ -3900,7 +3903,10 @@ importers:
     specifiers: {}
 
   components/hotmart:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/hotspotsystem:
     specifiers:
@@ -4551,6 +4557,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/leadiq:
+    specifiers: {}
 
   components/leap:
     specifiers:
@@ -6251,6 +6260,9 @@ importers:
   components/pirate_weather:
     specifiers: {}
 
+  components/pitchlane:
+    specifiers: {}
+
   components/pivotal_tracker:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -6479,6 +6491,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/prismic:
+    specifiers: {}
+
+  components/pro_ledger:
     specifiers: {}
 
   components/proabono:
@@ -8260,6 +8275,9 @@ importers:
   components/suitedash:
     specifiers: {}
 
+  components/summit:
+    specifiers: {}
+
   components/sumup:
     specifiers:
       '@pipedream/platform': ^1.6.2
@@ -8711,7 +8729,14 @@ importers:
     specifiers: {}
 
   components/timetonic:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+      form-data: ^4.0.0
+      md5: ^2.3.0
+    dependencies:
+      '@pipedream/platform': 1.6.5
+      form-data: 4.0.0
+      md5: 2.3.0
 
   components/timeular:
     specifiers:
@@ -9523,6 +9548,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/wiza:
+    specifiers: {}
 
   components/wonderchat:
     specifiers: {}
