@@ -1,38 +1,36 @@
-import greenhouse from "../../greenhouse.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
+import common from "../common/base-create.mjs";
 
 export default {
+  ...common,
   key: "greenhouse-create-prospect",
   name: "Create Prospect",
-  description: "Creates a new prospect entry. Required props are prospect's name, email, and contact. Optional props are prospect's address, qualifications, skills, etc. [See the documentation](https://developers.greenhouse.io/harvest.html#post-add-prospect)",
+  description: "Creates a new prospect entry in Greenhouse. [See the documentation](https://developers.greenhouse.io/harvest.html#post-add-prospect)",
   version: "0.0.1",
   type: "action",
   props: {
-    greenhouse,
-    candidateName: greenhouse.propDefinitions.candidateName,
-    email: greenhouse.propDefinitions.email,
-    contact: greenhouse.propDefinitions.contact,
-    candidateAddress: greenhouse.propDefinitions.candidateAddress,
-    qualifications: greenhouse.propDefinitions.qualifications,
-    skills: {
-      ...greenhouse.propDefinitions.skills,
-      type: "string", // Adjusting to accept a comma-separated list and converting it to an array in the run method
+    ...common.props,
+    jobIds: {
+      propDefinition: [
+        common.props.greenhouse,
+        "jobIds",
+      ],
+      optional: true,
     },
   },
-  async run({ $ }) {
-    const skillsArray = this.skills
-      ? this.skills.split(",").map((skill) => skill.trim())
-      : [];
-    const response = await this.greenhouse.createProspect({
-      candidateName: this.candidateName,
-      email: this.email,
-      contact: this.contact,
-      candidateAddress: this.candidateAddress,
-      qualifications: this.qualifications,
-      skills: skillsArray,
-    });
-
-    $.export("$summary", `Successfully created prospect ${response.first_name} ${response.last_name}`);
-    return response;
+  methods: {
+    getData() {
+      return {
+        application: this.jobIds && parseObject(this.jobIds).map((item) => ({
+          job_id: item,
+        })),
+      };
+    },
+    getFunc() {
+      return this.greenhouse.createProspect;
+    },
+    getSummary(response) {
+      return `Successfully created prospect with Id: ${response.id}!`;
+    },
   },
 };

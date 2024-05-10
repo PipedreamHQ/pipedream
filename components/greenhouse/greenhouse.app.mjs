@@ -4,199 +4,251 @@ export default {
   type: "app",
   app: "greenhouse",
   propDefinitions: {
-    candidateId: {
+    userId: {
       type: "string",
-      label: "Candidate ID",
-      description: "The ID of the candidate whose application or status changes.",
+      label: "User Id",
+      description: "The identification of the user who is registering.",
+      async options({ page }) {
+        const data = await this.listUsers({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    applicationDetails: {
-      type: "object",
-      label: "Application Details",
-      description: "The details of the new application submitted by a candidate.",
-    },
-    scheduleDetail: {
-      type: "object",
-      label: "Schedule Detail",
-      description: "Details of the new interview schedule.",
-    },
-    timePeriod: {
+    firstName: {
       type: "string",
-      label: "Time Period",
-      description: "The specific time period within which a new interview is scheduled.",
+      label: "First Name",
+      description: "The person's first name.",
     },
-    candidateName: {
+    lastName: {
       type: "string",
-      label: "Candidate's Name",
-      description: "The name of the candidate.",
+      label: "Last Name",
+      description: "The person's last name.",
     },
-    email: {
+    company: {
       type: "string",
-      label: "Email",
-      description: "The email address of the candidate or prospect.",
+      label: "Company",
+      description: "The person's company.",
     },
-    contact: {
+    title: {
       type: "string",
-      label: "Contact",
-      description: "The contact information of the candidate or prospect.",
+      label: "Title",
+      description: "The person's title.",
     },
-    candidateAddress: {
-      type: "string",
-      label: "Candidate Address",
-      description: "The address of the candidate.",
-      optional: true,
-    },
-    summary: {
-      type: "string",
-      label: "Summary",
-      description: "A brief summary about the candidate.",
-      optional: true,
-    },
-    skills: {
+    phoneNumbers: {
       type: "string[]",
-      label: "Skills",
-      description: "A list of skills of the candidate or prospect.",
-      optional: true,
+      label: "Phone Numbers",
+      description: "A list of phone numbers.",
     },
-    qualifications: {
-      type: "string",
-      label: "Qualifications",
-      description: "The qualifications of the prospect.",
-      optional: true,
+    addressses: {
+      type: "string[]",
+      label: "Addressses",
+      description: "A list of addresses.",
     },
-    attachmentFile: {
-      type: "string",
-      label: "Attachment File",
-      description: "The file to be attached to a candidate or prospect.",
+    emailAddresses: {
+      type: "string[]",
+      label: "Email Addresses",
+      description: "A list of email addresses.",
     },
-    attachmentDescription: {
-      type: "string",
-      label: "Attachment Description",
-      description: "A description of the attachment.",
-      optional: true,
+    websiteAddresses: {
+      type: "string[]",
+      label: "Website Addresses",
+      description: "A list of website addresses .",
+    },
+    socialMediaAddresses: {
+      type: "string[]",
+      label: "Social Media Addresses",
+      description: "A list of social media addresses.",
     },
     tags: {
       type: "string[]",
       label: "Tags",
-      description: "Tags associated with the attachment.",
-      optional: true,
+      description: "A list of tags as strings.",
+    },
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "An object containing new custom field values. The fields are the custom field Id.",
+    },
+    recruiterEmail: {
+      type: "string",
+      label: "Recruiter Email",
+      description: "The email of the recruiter - either id or email must be present.",
+    },
+    coordinatorEmail: {
+      type: "string",
+      label: "Coordinator Email",
+      description: "The email of the coordinator - either id or email must be present.",
+    },
+    jobIds: {
+      type: "string[]",
+      label: "Job Ids",
+      description: "An array of job ids to which the person will be assigned.",
+      async options({ page }) {
+        const data = await this.listJobs({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    educations: {
+      type: "string[]",
+      label: "Educations",
+      description: "A list of education records.",
+      async options() {
+        const data = await this.listDegrees();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    candidateId: {
+      type: "string",
+      label: "Candidate ID",
+      description: "The ID of the candidate whose application or status changes.",
+      async options({ page }) {
+        const data = await this.listCandidates({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, first_name: firstName, last_name: lastName,
+        }) => ({
+          label: `${firstName} ${lastName}`,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://harvest.greenhouse.io/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        "username": `${this.$auth.api_key}`,
+        "password": "",
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers = {}, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "On-Behalf-Of": `${this.$auth.user_id}`,
-          "Authorization": `Basic ${this.$auth.api_key}`,
-        },
-        data,
-        params,
+        auth: this._auth(),
+        headers,
+        ...opts,
       });
     },
-    async createCandidate({
-      candidateName, email, contact, candidateAddress, summary, skills,
-    }) {
+    createCandidate(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/candidates",
-        data: {
-          first_name: candidateName,
-          email_addresses: [
-            {
-              value: email,
-              type: "work",
-            },
-          ],
-          phone_numbers: [
-            {
-              value: contact,
-              type: "mobile",
-            },
-          ],
-          addresses: candidateAddress
-            ? [
-              {
-                value: candidateAddress,
-                type: "home",
-              },
-            ]
-            : [],
-          summary,
-          skills,
-        },
+        ...opts,
       });
     },
-    async createProspect({
-      candidateName, email, contact, candidateAddress, qualifications, skills,
-    }) {
+    createProspect(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/prospects",
-        data: {
-          first_name: candidateName,
-          email_addresses: [
-            {
-              value: email,
-              type: "work",
-            },
-          ],
-          phone_numbers: [
-            {
-              value: contact,
-              type: "mobile",
-            },
-          ],
-          addresses: candidateAddress
-            ? [
-              {
-                value: candidateAddress,
-                type: "home",
-              },
-            ]
-            : [],
-          qualifications,
-          skills,
-        },
+        ...opts,
       });
     },
-    async addAttachmentToCandidate({
-      candidateId, attachmentFile, attachmentDescription, tags,
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    listInterviews(opts = {}) {
+      return this._makeRequest({
+        path: "/scheduled_interviews",
+        ...opts,
+      });
+    },
+    listJobs(opts = {}) {
+      return this._makeRequest({
+        path: "/jobs",
+        ...opts,
+      });
+    },
+    listDegrees(opts = {}) {
+      return this._makeRequest({
+        path: "/degrees",
+        ...opts,
+      });
+    },
+    listCandidates(opts = {}) {
+      return this._makeRequest({
+        path: "/candidates",
+        ...opts,
+      });
+    },
+    getActivity(candidateId) {
+      return this._makeRequest({
+        path: `/candidates/${candidateId}/activity_feed`,
+      });
+    },
+    getCandidate(candidateId) {
+      return this._makeRequest({
+        path: `/candidates/${candidateId}`,
+      });
+    },
+    addAttachmentToCandidate({
+      candidateId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/candidates/${candidateId}/attachments`,
-        data: {
-          filename: attachmentFile,
-          content: attachmentFile, // Assuming content is the file content encoded in base64
-          description: attachmentDescription,
-          tags,
-        },
+        ...opts,
       });
     },
-    async addApplicationToCandidate({
-      candidateId, applicationDetails,
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
     }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/candidates/${candidateId}/applications`,
-        data: applicationDetails,
-      });
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const data = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

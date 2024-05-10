@@ -1,10 +1,11 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import greenhouse from "../../greenhouse.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "greenhouse-watch-candidates",
-  name: "Watch Candidates",
-  description: "Emits an event when a candidate's application or status changes. [See the documentation](https://developers.greenhouse.io/harvest.html)",
+  name: "New Candidate Watching",
+  description: "Emit new event when a candidate's application or status changes.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -14,7 +15,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 3600, // runs every 1 hour
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     candidateId: {
@@ -25,31 +26,39 @@ export default {
     },
   },
   methods: {
-    ...greenhouse.methods,
-  },
-  hooks: {
-    async deploy() {
-      // This is a placeholder for any deployment logic, like fetching historical data
+    _getLastId() {
+      return this.db.get("lastId") || 0;
+    },
+    _setLastId(id) {
+      this.db.set("lastId", id);
+    },
+    generateMeta(interview) {
+      return {
+        id: interview.id,
+        summary: `New activity for candidate ID ${this.candidateId}`,
+        ts: Date.parse(interview.updated_at),
+      };
     },
   },
   async run() {
-    const lastChecked = this.db.get("lastChecked") || new Date().toISOString();
-    const applications = await this.greenhouse._makeRequest({
-      path: `/candidates/${this.candidateId}/applications`,
-      params: {
-        created_after: lastChecked,
-      },
-    });
+    const lastId = this._getLastId();
+    const {
+      notes, emails, activities,
+    } = await this.greenhouse.getActivity(this.candidateId);
+    const feed = [
+      ...notes,
+      ...emails,
+      ...activities,
+    ];
 
-    applications.forEach((application) => {
-      this.$emit(application, {
-        id: application.id,
-        summary: `New application status for candidate ID ${this.candidateId}: ${application.status}`,
-        ts: Date.parse(application.applied_at),
-      });
-    });
+    feed.sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at))
+      .filter((item) => item.id > lastId);
 
-    // Update lastChecked time
-    this.db.set("lastChecked", new Date().toISOString());
+    if (feed.length) this._setLastId(feed[0].id);
+
+    for (const item of feed.reverse()) {
+      this.$emit(item, this.generateMeta(item));
+    }
   },
+  sampleEmit,
 };

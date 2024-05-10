@@ -1,5 +1,6 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import greenhouse from "../../greenhouse.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "greenhouse-new-scheduled-interview",
@@ -11,61 +12,70 @@ export default {
   props: {
     greenhouse,
     db: "$.service.db",
-    scheduleDetail: {
-      propDefinition: [
-        greenhouse,
-        "scheduleDetail",
-      ],
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
-    timePeriod: {
-      propDefinition: [
-        greenhouse,
-        "timePeriod",
-      ],
+    startsAfter: {
+      type: "string",
+      label: "Starts After",
+      description: "Only return scheduled interviews scheduled to start at or after this timestamp. Timestamps must be in in [ISO-8601](https://developers.greenhouse.io/harvest.html#general-considerations) format.",
+    },
+    endsBefore: {
+      type: "string",
+      label: "Ends Before",
+      description: "Only return scheduled interviews scheduled to end before this timestamp. Timestamps must be in in [ISO-8601](https://developers.greenhouse.io/harvest.html#general-considerations) format.",
     },
   },
   methods: {
-    ...greenhouse.methods,
+    _getLastId() {
+      return this.db.get("lastId") || 0;
+    },
+    _setLastId(id) {
+      this.db.set("lastId", id);
+    },
+    generateMeta(interview) {
+      return {
+        id: interview.id,
+        summary: `New Interview Scheduled: ${interview.id}`,
+        ts: Date.parse(interview.updated_at),
+      };
+    },
+    async startEvent(maxResults) {
+      const lastId = this._getLastId();
+      const response = this.greenhouse.paginate({
+        fn: this.greenhouse.listInterviews,
+        params: {
+          starts_after: this.startsAfter,
+          ends_before: this.endsBefore,
+        },
+        maxResults,
+      });
+
+      let responseArray = [];
+      for await (const item of response) {
+        responseArray.push(item);
+      }
+
+      responseArray.sort((a, b) => b.id - a.id);
+      responseArray.filter((item) => item.id > lastId);
+
+      if (responseArray.length) this._setLastId(responseArray[0].id);
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, this.generateMeta(item));
+      }
+    },
   },
   hooks: {
     async deploy() {
-      // Fetch historical data and emit events for them
-      const lastCheckedTime = this.db.get("lastCheckedTime") || new Date().toISOString();
-      const currentTime = new Date().toISOString();
-
-      const interviews = await this.greenhouse.getScheduledInterviews({
-        startTime: lastCheckedTime,
-        endTime: currentTime,
-      });
-
-      interviews.forEach((interview) => {
-        this.$emit(interview, {
-          id: interview.id,
-          summary: `New Interview Scheduled: ${interview.candidateName}`,
-          ts: Date.parse(interview.scheduledTime),
-        });
-      });
-
-      this.db.set("lastCheckedTime", currentTime);
+      await this.startEvent(25);
     },
   },
   async run() {
-    const lastCheckedTime = this.db.get("lastCheckedTime") || new Date().toISOString();
-    const currentTime = new Date().toISOString();
-
-    const interviews = await this.greenhouse.getScheduledInterviews({
-      startTime: lastCheckedTime,
-      endTime: currentTime,
-    });
-
-    interviews.forEach((interview) => {
-      this.$emit(interview, {
-        id: interview.id,
-        summary: `New Interview Scheduled: ${interview.candidateName}`,
-        ts: Date.parse(interview.scheduledTime),
-      });
-    });
-
-    this.db.set("lastCheckedTime", currentTime);
+    await this.startEvent();
   },
+  sampleEmit,
 };

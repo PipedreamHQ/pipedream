@@ -1,33 +1,59 @@
-import greenhouse from "../../greenhouse.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
+import common from "../common/base-create.mjs";
 
 export default {
+  ...common,
   key: "greenhouse-create-candidate",
   name: "Create Candidate",
   description: "Creates a new candidate entry in Greenhouse. [See the documentation](https://developers.greenhouse.io/harvest.html#post-add-candidate)",
   version: "0.0.1",
   type: "action",
   props: {
-    greenhouse,
-    candidateName: greenhouse.propDefinitions.candidateName,
-    email: greenhouse.propDefinitions.email,
-    contact: greenhouse.propDefinitions.contact,
-    candidateAddress: greenhouse.propDefinitions.candidateAddress,
-    summary: greenhouse.propDefinitions.summary,
-    skills: greenhouse.propDefinitions.skills,
+    ...common.props,
+    educations: {
+      propDefinition: [
+        common.props.greenhouse,
+        "educations",
+      ],
+      optional: true,
+    },
+    employments: {
+      type: "string[]",
+      label: "Employments",
+      description: "A list of employment record objects. **Format: {\"company_name\": \"Greenhouse\",\"title\": \"Engineer\",\"start_date\": \"2001-09-15T00:00:00.000Z\",\"end_date\": \"2004-05-15T00:00:00.000Z\"}**",
+      optional: true,
+    },
+    activityFeedNotes: {
+      type: "string[]",
+      label: "Activity Feed Notes",
+      description: "A list of activity feed objects. **Format: {\"body\": \"John Locke was moved into Recruiter Phone Screen for Accounting Manager on 03/27/2014 by Boone Carlyle\",\"visibility\": \"admin_only\"}. Visibility can be one of: admin_only, private or public**",
+      optional: true,
+    },
+    jobIds: {
+      propDefinition: [
+        common.props.greenhouse,
+        "jobIds",
+      ],
+    },
   },
-  async run({ $ }) {
-    const response = await this.greenhouse.createCandidate({
-      candidateName: this.candidateName,
-      email: this.email,
-      contact: this.contact,
-      candidateAddress: this.candidateAddress,
-      summary: this.summary,
-      skills: this.skills
-        ? this.skills.map((skill) => skill.trim())
-        : [],
-    });
-    $.export("$summary", `Successfully created candidate with ID ${response.id}`);
-    return response;
+  methods: {
+    getData() {
+      return {
+        educations: this.educations && parseObject(this.educations).map((item) => ({
+          degree_id: item,
+        })),
+        employments: this.employments && parseObject(this.employments),
+        activity_feed_notes: this.activityFeedNotes && parseObject(this.activityFeedNotes),
+        applications: this.jobIds && parseObject(this.jobIds).map((item) => ({
+          job_id: item,
+        })),
+      };
+    },
+    getFunc() {
+      return this.greenhouse.createCandidate;
+    },
+    getSummary(response) {
+      return `Successfully created candidate with Id: ${response.id}!`;
+    },
   },
 };
