@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { VALUE_RENDER_OPTION } from "../../constants.mjs";
+import { VALUE_RENDER_OPTION } from "../../common/constants.mjs";
 import googleSheets from "../../google_sheets.app.mjs";
 import {
   omitEmptyKey, toSingleLineString,
@@ -21,7 +21,7 @@ export default {
   key: "google_sheets-upsert-row",
   name: "Upsert Row",
   description: "Upsert a row of data in a Google Sheet",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     googleSheets,

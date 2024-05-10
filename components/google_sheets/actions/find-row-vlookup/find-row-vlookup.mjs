@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-find-row-vlookup",
   name: "Find Row Vlookup",
   description: "Find one or more rows by the first column value and a search text using [VLOOKUP](https://support.google.com/docs/answer/3093318) formula",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
