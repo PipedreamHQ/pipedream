@@ -32,6 +32,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.retrieveRunStep({
+      $,
       threadId: this.threadId,
       runId: this.runId,
       stepId: this.stepId,

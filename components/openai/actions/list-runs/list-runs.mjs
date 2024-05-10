@@ -58,8 +58,9 @@ export default {
     };
 
     const response = await this.openai.listRuns({
+      $,
       threadId: this.threadId,
-      ...params,
+      params,
     });
 
     $.export("$summary", `Successfully retrieved runs for thread ${this.threadId}`);

@@ -17,6 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.retrieveFileContent({
+      $,
       file_id: this.file_id,
     });
     $.export("$summary", `Successfully retrieved file content with ID ${this.file_id}`);

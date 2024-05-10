@@ -33,6 +33,7 @@ export default {
   async run({ $ }) {
     const parsedToolOutputs = this.toolOutputs.map(JSON.parse);
     const response = await this.openai.submitToolOutputs({
+      $,
       threadId: this.threadId,
       runId: this.runId,
       toolOutputs: parsedToolOutputs,

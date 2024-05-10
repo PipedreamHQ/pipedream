@@ -17,6 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.retrieveFile({
+      $,
       file_id: this.file_id,
     });
 

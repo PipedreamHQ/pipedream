@@ -26,6 +26,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.retrieveRun({
+      $,
       threadId: this.threadId,
       runId: this.runId,
     });

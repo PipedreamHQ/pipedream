@@ -48,12 +48,15 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.createThreadAndRun({
+      $,
       assistant_id: this.assistantId,
-      thread: this.thread,
-      model: this.model,
-      instructions: this.instructions,
-      tools: parseToolsArray(this.tools),
-      metadata: this.metadata,
+      data: {
+        thread: this.thread,
+        model: this.model,
+        instructions: this.instructions,
+        tools: parseToolsArray(this.tools),
+        metadata: this.metadata,
+      },
     });
 
     $.export("$summary", `Successfully created thread and initiated run with ID: ${response.id}`);

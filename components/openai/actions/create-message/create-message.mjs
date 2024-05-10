@@ -51,6 +51,7 @@ export default {
       : undefined;
 
     const response = await this.openai.createMessage({
+      $,
       threadId: this.threadId,
       content: this.content,
       role: this.role,

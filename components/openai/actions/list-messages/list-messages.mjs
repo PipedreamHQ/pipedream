@@ -41,6 +41,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.listMessages({
+      $,
       threadId: this.threadId,
       limit: this.limit,
       order: this.order,

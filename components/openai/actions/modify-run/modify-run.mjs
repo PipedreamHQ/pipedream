@@ -32,11 +32,14 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.modifyRun({
+      $,
       threadId: this.threadId,
       runId: this.runId,
-      ...(this.metadata && {
-        metadata: this.metadata,
-      }),
+      data: {
+        ...(this.metadata && {
+          metadata: this.metadata,
+        }),
+      },
     });
 
     $.export("$summary", `Successfully modified run with ID: ${this.runId}`);

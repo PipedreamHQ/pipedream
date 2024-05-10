@@ -38,10 +38,7 @@ export default {
       description: "The ID of the model to use for the assistant",
       async options() {
         const models = await this.models({});
-        return models.map((model) => ({
-          label: model.id,
-          value: model.id,
-        }));
+        return models.map(({ id }) => id);
       },
     },
     assistant: {
@@ -274,16 +271,17 @@ export default {
         "OpenAI-Beta": "assistants=v1",
       };
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this,
       path,
+      headers,
       ...args
     } = {}) {
       return axios($, {
         ...args,
         url: `${this._baseApiUrl()}${path}`,
         headers: {
-          ...args.headers,
+          ...headers,
           ...this._commonHeaders(),
         },
         maxBodyLength: Infinity,
@@ -353,7 +351,7 @@ export default {
         ...data,
       };
     },
-    async createCompletion({
+    createCompletion({
       $, args,
     }) {
       return this._makeCompletion({
@@ -362,7 +360,7 @@ export default {
         args,
       });
     },
-    async createChatCompletion({
+    createChatCompletion({
       $, args,
     }) {
       return this._makeCompletion({
@@ -371,7 +369,7 @@ export default {
         args,
       });
     },
-    async createImage({
+    createImage({
       $, args,
     }) {
       return this._makeRequest({
@@ -381,7 +379,7 @@ export default {
         method: "POST",
       });
     },
-    async createEmbeddings({
+    createEmbeddings({
       $, args,
     }) {
       return this._makeRequest({
@@ -391,7 +389,7 @@ export default {
         method: "POST",
       });
     },
-    async createTranscription({
+    createTranscription({
       $, form,
     }) {
       return this._makeRequest({
@@ -413,7 +411,7 @@ export default {
       });
       return assistants;
     },
-    async createAssistant({
+    createAssistant({
       $,
       model,
       name,
@@ -439,7 +437,7 @@ export default {
         },
       });
     },
-    async modifyAssistant({
+    modifyAssistant({
       $,
       assistant,
       model,
@@ -466,7 +464,7 @@ export default {
         },
       });
     },
-    async createThread({
+    createThread({
       $,
       messages,
       metadata,
@@ -482,8 +480,8 @@ export default {
         },
       });
     },
-    async createMessage({
-      threadId, content, role, fileIds, metadata,
+    createMessage({
+      threadId, content, role, fileIds, metadata, ...args
     }) {
       const parsedMetadata = metadata
         ? JSON.parse(metadata)
@@ -498,10 +496,11 @@ export default {
           file_ids: fileIds,
           metadata: parsedMetadata,
         },
+        ...args,
       });
     },
-    async listMessages({
-      threadId, limit, order, after, before,
+    listMessages({
+      threadId, limit, order, after, before, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/messages`,
@@ -512,10 +511,11 @@ export default {
           after,
           before,
         },
+        ...args,
       });
     },
-    async modifyMessage({
-      threadId, messageId, metadata,
+    modifyMessage({
+      threadId, messageId, metadata, ...args
     }) {
       const parsedMetadata = metadata
         ? JSON.parse(metadata)
@@ -527,10 +527,11 @@ export default {
         data: {
           metadata: parsedMetadata,
         },
+        ...args,
       });
     },
-    async createRun({
-      threadId, assistantId, ...opts
+    createRun({
+      threadId, assistantId, data, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs`,
@@ -538,39 +539,43 @@ export default {
         headers: this._betaHeaders(),
         data: {
           assistant_id: assistantId,
-          ...opts,
+          ...data,
         },
+        ...args,
       });
     },
-    async retrieveRun({
-      threadId, runId,
+    retrieveRun({
+      threadId, runId, ...args
     }) {
       return this._makeRequest({
         headers: this._betaHeaders(),
         path: `/threads/${threadId}/runs/${runId}`,
+        ...args,
       });
     },
-    async modifyRun({
-      threadId, runId, ...opts
+    modifyRun({
+      threadId, runId, data, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}`,
         headers: this._betaHeaders(),
         method: "POST",
-        data: opts,
+        data,
+        ...args,
       });
     },
-    async listRuns({
-      threadId, ...opts
+    listRuns({
+      threadId, params, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs`,
         headers: this._betaHeaders(),
-        params: opts,
+        params,
+        ...args,
       });
     },
-    async submitToolOutputs({
-      threadId, runId, toolOutputs,
+    submitToolOutputs({
+      threadId, runId, toolOutputs, ...args
     }) {
       // Assuming toolOutputs should be parsed as JSON objects
       const parsedToolOutputs = toolOutputs.map(JSON.parse);
@@ -581,19 +586,21 @@ export default {
         data: {
           tool_outputs: parsedToolOutputs,
         },
+        ...args,
       });
     },
-    async cancelRun({
-      threadId, runId,
+    cancelRun({
+      threadId, runId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}/cancel`,
         headers: this._betaHeaders(),
         method: "POST",
+        ...args,
       });
     },
-    async createThreadAndRun({
-      assistantId, ...opts
+    createThreadAndRun({
+      assistantId, data, ...args
     }) {
       return this._makeRequest({
         path: "/threads/runs",
@@ -601,37 +608,43 @@ export default {
         method: "POST",
         data: {
           assistant_id: assistantId,
-          ...opts,
+          ...data,
         },
+        ...args,
       });
     },
-    async retrieveRunStep({
-      threadId, runId, stepId,
+    retrieveRunStep({
+      threadId, runId, stepId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}/steps/${stepId}`,
         headers: this._betaHeaders(),
+        ...args,
       });
     },
-    async listRunSteps({
-      threadId, runId, ...opts
+    listRunSteps({
+      threadId, runId, params, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}/steps`,
         headers: this._betaHeaders(),
-        params: opts,
+        params,
+        ...args,
       });
     },
-    async listFiles({ purpose } = {}) {
+    listFiles({
+      purpose, ...args
+    } = {}) {
       return this._makeRequest({
         path: "/files",
         headers: this._betaHeaders(),
         params: {
           purpose,
         },
+        ...args,
       });
     },
-    async uploadFile(args) {
+    uploadFile(args) {
       return this._makeRequest({
         method: "POST",
         path: "/files",
@@ -642,39 +655,48 @@ export default {
         },
       });
     },
-    async deleteFile({ file_id }) {
+    deleteFile({
+      file_id, ...args
+    }) {
       return this._makeRequest({
         method: "DELETE",
         headers: this._betaHeaders(),
         path: `/files/${file_id}`,
+        ...args,
       });
     },
-    async retrieveFile({ file_id }) {
+    retrieveFile({
+      file_id, ...args
+    }) {
       return this._makeRequest({
         headers: this._betaHeaders(),
         path: `/files/${file_id}`,
+        ...args,
       });
     },
-    async retrieveFileContent({ file_id }) {
+    retrieveFileContent({
+      file_id, ...args
+    }) {
       return this._makeRequest({
         headers: this._betaHeaders(),
         path: `/files/${file_id}/content`,
+        ...args,
       });
     },
-    async listFineTuningJobs(args) {
+    listFineTuningJobs(args) {
       return this._makeRequest({
         path: "/fine_tuning/jobs",
         ...args,
       });
     },
-    async createSpeech(args) {
+    createSpeech(args) {
       return this._makeRequest({
         path: "/audio/speech",
         method: "POST",
         ...args,
       });
     },
-    async createFineTuningJob(args) {
+    createFineTuningJob(args) {
       return this._makeRequest({
         path: "/fine_tuning/jobs",
         method: "POST",

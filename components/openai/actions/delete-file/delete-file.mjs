@@ -17,6 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.deleteFile({
+      $,
       file_id: this.file_id,
     });
 

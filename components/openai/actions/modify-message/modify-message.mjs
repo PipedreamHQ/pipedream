@@ -29,6 +29,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.modifyMessage({
+      $,
       threadId: this.threadId,
       messageId: this.messageId,
       metadata: this.metadata

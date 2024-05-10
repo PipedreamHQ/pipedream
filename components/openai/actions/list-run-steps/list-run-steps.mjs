@@ -54,12 +54,15 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.listRunSteps({
+      $,
       threadId: this.threadId,
       runId: this.runId,
-      limit: this.limit,
-      order: this.order,
-      after: this.after,
-      before: this.before,
+      params: {
+        limit: this.limit,
+        order: this.order,
+        after: this.after,
+        before: this.before,
+      },
     });
 
     $.export("$summary", `Successfully listed run steps for run ${this.runId}`);

@@ -48,12 +48,15 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.createRun({
+      $,
       threadId: this.threadId,
       assistantId: this.assistantId,
-      model: this.model,
-      instructions: this.instructions,
-      tools: parseToolsArray(this.tools),
-      metadata: this.metadata,
+      data: {
+        model: this.model,
+        instructions: this.instructions,
+        tools: parseToolsArray(this.tools),
+        metadata: this.metadata,
+      },
     });
 
     const summary = response.id

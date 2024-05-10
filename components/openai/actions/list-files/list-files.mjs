@@ -18,6 +18,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.listFiles({
+      $,
       purpose: this.purpose,
     });
     const summary = `Successfully listed ${response.length} files`;
