@@ -3900,7 +3900,10 @@ importers:
     specifiers: {}
 
   components/hotmart:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/hotspotsystem:
     specifiers:
