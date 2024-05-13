@@ -1,4 +1,6 @@
 export const parseObject = (obj) => {
+  if (!obj) return undefined;
+
   if (Array.isArray(obj)) {
     return obj.map((item) => {
       if (typeof item === "string") {

@@ -144,28 +144,26 @@ export default {
         last_name: this.lastName,
         company: this.company,
         title: this.title,
-        phone_numbers: this.phoneNumbers && parseObject(this.phoneNumbers).map((item) => ({
+        phone_numbers: parseObject(this.phoneNumbers)?.map((item) => ({
           value: item,
           type: "other",
         })),
-        addressses: this.addressses && parseObject(this.addressses).map((item) => ({
+        addressses: parseObject(this.addressses)?.map((item) => ({
           value: item,
           type: "other",
         })),
-        email_addresses: this.emailAddresses && parseObject(this.emailAddresses).map((item) => ({
+        email_addresses: parseObject(this.emailAddresses)?.map((item) => ({
           value: item,
           type: "other",
         })),
-        website_addresses: this.websiteAddresses &&
-          parseObject(this.websiteAddresses).map((item) => ({
-            value: item,
-            type: "other",
-          })),
-        social_media_addresses: this.socialMediaAddresses &&
-          parseObject(this.socialMediaAddresses).map((item) => ({
-            value: item,
-          })),
-        tags: this.tags && parseObject(this.tags),
+        website_addresses: parseObject(this.websiteAddresses)?.map((item) => ({
+          value: item,
+          type: "other",
+        })),
+        social_media_addresses: parseObject(this.socialMediaAddresses)?.map((item) => ({
+          value: item,
+        })),
+        tags: parseObject(this.tags),
         custom_fields: this.customFields && Object.keys(this.customFields).map((key) => ({
           id: key,
           value: this.customFields[key],
