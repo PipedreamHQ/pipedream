@@ -44,8 +44,14 @@ export default {
         ...opts,
       };
       return axios($, {
+        method: "post",
         url: this._baseUrl(),
         data: googleAdsRequest,
+      });
+    },
+    testRequest() {
+      return this._makeRequest({
+        path: "/v16/customers:listAccessibleCustomers",
       });
     },
     addContactToCustomerList({
