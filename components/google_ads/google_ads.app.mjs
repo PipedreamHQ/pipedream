@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { QUERIES } from "./common/queries.mjs";
 
 export default {
   type: "app",
@@ -26,6 +27,30 @@ export default {
         }));
       },
     },
+    accountId: {
+      type: "string",
+      label: "Use Google Ads As",
+      description: "Select an account from the list of [customers directly accessible by the authenticated user](https://developers.google.com/google-ads/api/rest/reference/rest/v16/customers/listAccessibleCustomers). This is usually a manager account, used as `login-customer-id`",
+      async options() {
+        return this.listAccessibleCustomers();
+      },
+    },
+    customerClientId: {
+      type: "string",
+      label: "Customer Client ID",
+      description: "Select a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v16/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy).",
+      async options({ accountId }) {
+        const response = await this.listCustomerClients(accountId);
+        return response?.map(({
+          descriptiveName, id, manager,
+        }) => ({
+          label: `${manager
+            ? "[Manager] "
+            : ""}${descriptiveName}`,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -49,10 +74,21 @@ export default {
         data: googleAdsRequest,
       });
     },
-    testRequest() {
-      return this._makeRequest({
+    async listAccessibleCustomers() {
+      const response = await this._makeRequest({
         path: "/v16/customers:listAccessibleCustomers",
       });
+      return response.resourceNames;
+    },
+    async listCustomerClients(customerId) {
+      const response = await this._makeRequest({
+        path: `/v16/customers/${customerId}/googleAds:search`,
+        method: "post",
+        data: {
+          query: QUERIES.LIST_CUSTOMER_CLIENTS,
+        },
+      });
+      return response.results;
     },
     addContactToCustomerList({
       path, ...opts
