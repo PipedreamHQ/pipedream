@@ -4146,6 +4146,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/insighto_ai:
+    specifiers: {}
+
   components/insites:
     specifiers:
       '@pipedream/platform': ^1.5.1
