@@ -9,6 +9,16 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: `Provide a list of **items** and a list of **categories**. The output will contain an array of objects, each with properties \`item\` and \`category\`
+        \nExample:
+        \nIf **Categories** is \`["people", "pets"]\`, and **Items** is \`["dog", "George Washington"]\`
+        \n The output will contain the following categorizations:
+        \n \`[{"item":"dog","category":"pets"},{"item":"George Washington","category":"people"}]\`
+      `,
+    },
     items: {
       label: "Items",
       description: "Items to categorize",
