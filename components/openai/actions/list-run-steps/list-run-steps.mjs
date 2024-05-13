@@ -28,44 +28,34 @@ export default {
         openai,
         "limit",
       ],
-      optional: true,
     },
     order: {
       propDefinition: [
         openai,
         "order",
       ],
-      optional: true,
-    },
-    after: {
-      propDefinition: [
-        openai,
-        "after",
-      ],
-      optional: true,
-    },
-    before: {
-      propDefinition: [
-        openai,
-        "before",
-      ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.openai.listRunSteps({
-      $,
-      threadId: this.threadId,
-      runId: this.runId,
-      params: {
-        limit: this.limit,
-        order: this.order,
-        after: this.after,
-        before: this.before,
+    const response = this.openai.paginate({
+      resourceFn: this.openai.listRunSteps,
+      args: {
+        $,
+        threadId: this.threadId,
+        runId: this.runId,
+        params: {
+          order: this.order,
+        },
       },
+      max: this.limit,
     });
 
+    const runSteps = [];
+    for await (const runStep of response) {
+      runSteps.push(runStep);
+    }
+
     $.export("$summary", `Successfully listed run steps for run ${this.runId}`);
-    return response;
+    return runSteps;
   },
 };

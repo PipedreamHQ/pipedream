@@ -45,12 +45,26 @@ export default {
       type: "string",
       label: "Assistant",
       description: "Select an assistant to modify",
-      async options() {
-        const assistants = await this.listAssistants({});
-        return assistants.map((assistant) => ({
-          label: assistant.name || assistant.id,
-          value: assistant.id,
-        }));
+      async options({ prevContext }) {
+        const params = prevContext?.after
+          ? {
+            after: prevContext.after,
+          }
+          : {};
+        const {
+          data: assistants, last_id: after,
+        } = await this.listAssistants({
+          params,
+        });
+        return {
+          options: assistants.map((assistant) => ({
+            label: assistant.name || assistant.id,
+            value: assistant.id,
+          })),
+          context: {
+            after,
+          },
+        };
       },
     },
     name: {
@@ -73,14 +87,29 @@ export default {
       type: "string",
       label: "Run ID",
       description: "The unique identifier for the run.",
-      async options({ threadId }) {
+      async options({
+        threadId, prevContext,
+      }) {
         if (!threadId) {
           return [];
         }
-        const { data: runs } = await this.listRuns({
+        const params = prevContext?.after
+          ? {
+            after: prevContext.after,
+          }
+          : {};
+        const {
+          data: runs, last_id: after,
+        } = await this.listRuns({
           threadId,
+          params,
         });
-        return runs.map(({ id }) => id);
+        return {
+          options: runs.map(({ id }) => id),
+          context: {
+            after,
+          },
+        };
       },
     },
     stepId: {
@@ -92,7 +121,7 @@ export default {
       }) {
         const params = prevContext?.after
           ? {
-            after,
+            after: prevContext.after,
           }
           : {};
         const {
@@ -183,18 +212,6 @@ export default {
       label: "Order",
       description: "Sort order by the created_at timestamp of the objects.",
       options: constants.ORDER_OPTIONS,
-      optional: true,
-    },
-    after: {
-      type: "string",
-      label: "After",
-      description: "A cursor for use in pagination to fetch the next set of items.",
-      optional: true,
-    },
-    before: {
-      type: "string",
-      label: "Before",
-      description: "A cursor for use in pagination, identifying the message ID to end the list before",
       optional: true,
     },
     fileId: {
@@ -412,13 +429,12 @@ export default {
         data: form,
       });
     },
-    async listAssistants({ $ }) {
-      const { data: assistants } = await this._makeRequest({
-        $,
+    listAssistants(args = {}) {
+      return this._makeRequest({
         path: "/assistants",
         headers: this._betaHeaders(),
+        ...args,
       });
-      return assistants;
     },
     createAssistant({
       $,
@@ -509,17 +525,11 @@ export default {
       });
     },
     listMessages({
-      threadId, limit, order, after, before, ...args
+      threadId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/messages`,
         headers: this._betaHeaders(),
-        params: {
-          limit,
-          order,
-          after,
-          before,
-        },
         ...args,
       });
     },
@@ -574,12 +584,11 @@ export default {
       });
     },
     listRuns({
-      threadId, params, ...args
+      threadId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs`,
         headers: this._betaHeaders(),
-        params,
         ...args,
       });
     },
@@ -632,12 +641,11 @@ export default {
       });
     },
     listRunSteps({
-      threadId, runId, params, ...args
+      threadId, runId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}/steps`,
         headers: this._betaHeaders(),
-        params,
         ...args,
       });
     },
@@ -711,6 +719,33 @@ export default {
         method: "POST",
         ...args,
       });
+    },
+    async *paginate({
+      resourceFn,
+      args = {},
+      max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args.params,
+        },
+      };
+      let hasMore, count = 0;
+      do {
+        const {
+          data, last_id: after,
+        } = await resourceFn(args);
+        for (const item of data) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        hasMore = data?.length;
+        args.params.after = after;
+      } while (hasMore);
     },
   },
 };
