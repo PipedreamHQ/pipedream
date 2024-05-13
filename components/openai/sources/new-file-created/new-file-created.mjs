@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     ...common.methods,
-    async getData() {
+    getData() {
       return this.openai.listFiles({
         purpose: this.purpose,
       });

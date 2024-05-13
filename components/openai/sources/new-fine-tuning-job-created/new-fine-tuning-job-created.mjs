@@ -11,7 +11,7 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    async getData() {
+    getData() {
       return this.openai.listFineTuningJobs();
     },
     getMeta(item) {
