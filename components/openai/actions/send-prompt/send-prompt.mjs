@@ -38,7 +38,7 @@ export default {
   async run({ $ }) {
     const response = await this.openai.createCompletion({
       $,
-      args: this._getCommonArgs(),
+      data: this._getCommonArgs(),
     });
 
     if (response) {

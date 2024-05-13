@@ -36,7 +36,7 @@ export default {
 
     const response = await this.openai.createEmbeddings({
       $,
-      args: {
+      data: {
         model: this.modelId,
         input: this.input,
       },

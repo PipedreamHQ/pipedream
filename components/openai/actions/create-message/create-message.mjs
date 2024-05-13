@@ -53,10 +53,12 @@ export default {
     const response = await this.openai.createMessage({
       $,
       threadId: this.threadId,
-      content: this.content,
-      role: this.role,
-      fileIds: fileIdsArray,
       metadata: metadataObject,
+      data: {
+        content: this.content,
+        role: this.role,
+        fileIds: fileIdsArray,
+      },
     });
 
     $.export("$summary", `Successfully created a message in thread ${this.threadId}`);

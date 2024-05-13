@@ -59,13 +59,15 @@ export default {
   async run({ $ }) {
     const response = await this.openai.createAssistant({
       $,
-      model: this.model,
-      name: this.name,
-      description: this.description,
-      instructions: this.instructions,
-      tools: parseToolsArray(this.tools),
-      file_ids: this.fileIds,
-      metadata: this.metadata,
+      data: {
+        model: this.model,
+        name: this.name,
+        description: this.description,
+        instructions: this.instructions,
+        tools: parseToolsArray(this.tools),
+        file_ids: this.fileIds,
+        metadata: this.metadata,
+      },
     });
 
     $.export("$summary", `Successfully created an assistant with ID: ${response.id}`);

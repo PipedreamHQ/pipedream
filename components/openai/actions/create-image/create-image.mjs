@@ -64,7 +64,7 @@ export default {
   async run({ $ }) {
     const response = await this.openai.createImage({
       $,
-      args: {
+      data: {
         prompt: this.prompt,
         n: this.n,
         size: this.size,

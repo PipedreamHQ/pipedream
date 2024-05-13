@@ -72,13 +72,15 @@ export default {
     const response = await this.openai.modifyAssistant({
       $,
       assistant: this.assistant,
-      model: this.model,
-      name: this.name,
-      description: this.description,
-      instructions: this.instructions,
-      tools: parseToolsArray(this.tools),
-      file_ids: this.fileIds,
-      metadata: this.metadata,
+      data: {
+        model: this.model,
+        name: this.name,
+        description: this.description,
+        instructions: this.instructions,
+        tools: parseToolsArray(this.tools),
+        file_ids: this.fileIds,
+        metadata: this.metadata,
+      },
     });
     $.export("$summary", `Successfully modified assistant ${this.assistant}`);
     return response;

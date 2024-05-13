@@ -349,13 +349,12 @@ export default {
       });
     },
     async _makeCompletion({
-      $, path, args,
+      path, ...args
     }) {
       const data = await this._makeRequest({
-        $,
         path,
         method: "POST",
-        data: args,
+        ...args,
       });
 
       // For completions, return the text of the first choice at the top-level
@@ -377,42 +376,30 @@ export default {
         ...data,
       };
     },
-    createCompletion({
-      $, args,
-    }) {
+    createCompletion(args = {}) {
       return this._makeCompletion({
-        $,
         path: "/completions",
-        args,
+        ...args,
       });
     },
-    createChatCompletion({
-      $, args,
-    }) {
+    createChatCompletion(args = {}) {
       return this._makeCompletion({
-        $,
         path: "/chat/completions",
-        args,
+        ...args,
       });
     },
-    createImage({
-      $, args,
-    }) {
+    createImage(args = {}) {
       return this._makeRequest({
-        $,
         path: "/images/generations",
-        data: args,
         method: "POST",
+        ...args,
       });
     },
-    createEmbeddings({
-      $, args,
-    }) {
+    createEmbeddings(args = {}) {
       return this._makeRequest({
-        $,
         path: "/embeddings",
-        data: args,
         method: "POST",
+        ...args,
       });
     },
     createTranscription({
@@ -436,77 +423,34 @@ export default {
         ...args,
       });
     },
-    createAssistant({
-      $,
-      model,
-      name,
-      description,
-      instructions,
-      tools,
-      file_ids,
-      metadata,
-    }) {
+    createAssistant(args = {}) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: "/assistants",
         headers: this._betaHeaders(),
-        data: {
-          model,
-          name,
-          description,
-          instructions,
-          tools,
-          file_ids,
-          metadata,
-        },
+        ...args,
       });
     },
     modifyAssistant({
-      $,
-      assistant,
-      model,
-      name,
-      description,
-      instructions,
-      tools,
-      file_ids,
-      metadata,
+      assistant, ...args
     }) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: `/assistants/${assistant}`,
         headers: this._betaHeaders(),
-        data: {
-          model,
-          name,
-          description,
-          instructions,
-          tools,
-          file_ids,
-          metadata,
-        },
+        ...args,
       });
     },
-    createThread({
-      $,
-      messages,
-      metadata,
-    }) {
+    createThread(args = {}) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: "/threads",
         headers: this._betaHeaders(),
-        data: {
-          messages,
-          metadata,
-        },
+        ...args,
       });
     },
     createMessage({
-      threadId, content, role, fileIds, metadata, ...args
+      threadId, metadata, ...args
     }) {
       const parsedMetadata = metadata
         ? JSON.parse(metadata)
@@ -516,9 +460,7 @@ export default {
         path: `/threads/${threadId}/messages`,
         headers: this._betaHeaders(),
         data: {
-          role,
-          content,
-          file_ids: fileIds,
+          ...args.data,
           metadata: parsedMetadata,
         },
         ...args,
