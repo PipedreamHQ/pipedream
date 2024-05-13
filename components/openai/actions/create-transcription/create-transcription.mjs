@@ -26,7 +26,7 @@ export default {
   name: "Create Transcription (Whisper)",
   version: "0.1.9",
   key: "openai-create-transcription",
-  description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
+  description: "Transcribes audio into the input language. [See the documentation](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
   props: {
     openai,

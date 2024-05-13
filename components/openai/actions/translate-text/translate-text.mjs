@@ -11,7 +11,7 @@ export default {
   name: "Translate Text (Whisper)",
   version: "0.0.13",
   key: "openai-translate-text",
-  description: "Translate text from one language to another using the Chat API",
+  description: "Translate text from one language to another using the Chat API. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
   props: {
     ...common.props,

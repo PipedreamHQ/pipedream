@@ -6,7 +6,7 @@ export default {
   name: "Create Completion (Send Prompt)",
   version: "0.1.8",
   key: "openai-send-prompt",
-  description: "OpenAI recommends using the **Chat** action for the latest `gpt-3.5-turbo` API, since it's faster and 10x cheaper. This action creates a completion for the provided prompt and parameters using the older `/completions` API. [See docs here](https://beta.openai.com/docs/api-reference/completions/create)",
+  description: "OpenAI recommends using the **Chat** action for the latest `gpt-3.5-turbo` API, since it's faster and 10x cheaper. This action creates a completion for the provided prompt and parameters using the older `/completions` API. [See the documentation](https://beta.openai.com/docs/api-reference/completions/create)",
   type: "action",
   props: {
     openai,

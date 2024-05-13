@@ -6,7 +6,7 @@ export default {
   name: "Summarize Text",
   version: "0.0.11",
   key: "openai-summarize",
-  description: "Summarizes text using the Chat API",
+  description: "Summarizes text using the Chat API. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
   props: {
     ...common.props,

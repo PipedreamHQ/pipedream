@@ -5,7 +5,7 @@ export default {
   name: "Classify Items into Categories",
   version: "0.0.11",
   key: "openai-classify-items-into-categories",
-  description: "Classify items into specific categories using the Chat API",
+  description: "Classify items into specific categories using the Chat API. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
   props: {
     ...common.props,
