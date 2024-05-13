@@ -3682,12 +3682,8 @@ importers:
   components/greenhouse:
     specifiers:
       '@pipedream/platform': ^1.6.5
-      Buffer: ^0.0.0
-      fs: ^0.0.1-security
     dependencies:
       '@pipedream/platform': 1.6.5
-      Buffer: 0.0.0
-      fs: 0.0.1-security
 
   components/grist:
     specifiers:
@@ -18344,11 +18340,6 @@ packages:
       url-parse: 1.5.10
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /Buffer/0.0.0:
-    resolution: {integrity: sha512-+zdncl8lI5TCkARStn9F1BwcuJYofYmD0oEHe5FNfCvGfeDJwf6+dSikCdQN6BMXXmHMhNNUagBN367WST1AIQ==}
-    engines: {node: '>= 0.2.0'}
     dev: false
 
   /abort-controller/3.0.0:
