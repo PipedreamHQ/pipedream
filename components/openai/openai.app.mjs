@@ -67,7 +67,7 @@ export default {
     threadId: {
       type: "string",
       label: "Thread ID",
-      description: "The unique identifier for the thread.",
+      description: "The unique identifier for the thread. Example: `thread_abc123`. To locate the thread ID, make sure your OpenAI Threads setting (Settings -> Organization/Personal -> General -> Features and capabilities -> Threads) is set to \"Visible to organization owners\" or \"Visible to everyone\". You can then access the list of threads and click on individual threads to reveal their IDs",
     },
     runId: {
       type: "string",
