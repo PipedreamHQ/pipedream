@@ -31,7 +31,7 @@ export default {
     const response = await this.fractel.initiateCall({
       $,
       data: {
-        phoneNumber: this.phoneNumber,
+        fonenumber: this.phoneNumber,
         to: this.to,
         service_type: "TTS",
         service_id: this.message,

@@ -46,7 +46,7 @@ export default {
       $,
       data: {
         to: this.to,
-        phonenumber: this.phoneNumber,
+        fonenumber: this.phoneNumber,
         message: this.message,
         media: this.media && parseObject(this.media),
       },

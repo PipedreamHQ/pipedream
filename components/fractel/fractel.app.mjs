@@ -9,8 +9,8 @@ export default {
       label: "Phone Number",
       description: "The phone number to call to, including country code.",
       async options() {
-        const { fonenumbers } = await this.listPhoneNumbers();
-        return fonenumbers.map(({ phonenumber }) => phonenumber);
+        const { fonenumbers } = await this.listFoneNumbers();
+        return fonenumbers;
       },
     },
     to: {
@@ -24,9 +24,9 @@ export default {
       description: "The message content for TTS.",
     },
     media: {
-      type: "string[]",
+      type: "string",
       label: "Media URL",
-      description: "List of URL of the media file for MMS.",
+      description: "Media URL of the media file for MMS.",
       optional: true,
     },
   },
@@ -55,9 +55,9 @@ export default {
         ...opts,
       });
     },
-    listPhoneNumbers(opts = {}) {
+    listFoneNumbers(opts = {}) {
       return this._makeRequest({
-        path: "/phonenumbers",
+        path: "/fonenumbers",
         ...opts,
       });
     },
