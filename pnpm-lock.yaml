@@ -4495,6 +4495,9 @@ importers:
   components/koala_ai:
     specifiers: {}
 
+  components/kodagpt:
+    specifiers: {}
+
   components/kontent_ai:
     specifiers:
       '@kontent-ai/delivery-sdk': ^14.4.0
