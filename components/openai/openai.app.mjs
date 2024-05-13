@@ -30,7 +30,7 @@ export default {
       async options() {
         return (await this.getEmbeddingsModels({})).map((model) => model.id);
       },
-      default: "text-embedding-ada-002",
+      default: "text-embedding-3-small",
     },
     assistantModel: {
       type: "string",
@@ -344,7 +344,7 @@ export default {
       return models.filter((model) => {
         const { id } = model;
         return (
-          id.match(/^(text-embedding-ada-002|.*-(davinci|curie|babbage|ada)-.*-001)$/gm)
+          id.match(/^(text-embedding-ada-002|text-embedding-3.*|.*-(davinci|curie|babbage|ada)-.*-001)$/gm)
         );
       });
     },
