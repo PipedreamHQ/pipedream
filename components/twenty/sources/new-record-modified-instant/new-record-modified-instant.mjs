@@ -2,8 +2,8 @@ import twenty from "../../twenty.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
-  key: "twenty-new-record-instant",
-  name: "New Record (Instant)",
+  key: "twenty-new-record-modified-instant",
+  name: "New Record Modified (Instant)",
   description: "Emit new event when a record is created, updated, or deleted.",
   version: "0.0.1",
   type: "source",

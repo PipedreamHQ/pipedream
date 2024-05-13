@@ -1,4 +1,6 @@
-import { camelCaseToWords } from "../../common/utils.mjs";
+import {
+  camelCaseToWords, parseObject,
+} from "../../common/utils.mjs";
 import twenty from "../../twenty.app.mjs";
 
 export default {
@@ -22,6 +24,12 @@ export default {
         "actionType",
       ],
       reloadProps: true,
+    },
+    additionalProp: {
+      type: "object",
+      label: "Additional Prop",
+      description: "Any additional prop you want to fill.",
+      optional: true,
     },
   },
   async additionalProps() {
@@ -94,6 +102,7 @@ export default {
       id,
       recordId,
       actionType,
+      additionalProp,
       ...data
     } = this;
 
@@ -110,7 +119,12 @@ export default {
         id,
         actionType: this.actionType,
         recordName: tags[index + 1].name,
-        data,
+        data: {
+          ...data,
+          ...(additionalProp
+            ? parseObject(additionalProp)
+            : {}),
+        },
       });
 
       $.export("$summary", `Successfully performed ${actionType} ${recordId} on record with ID: ${id || response.data[`${actionType}${recordId}`].id}`);
