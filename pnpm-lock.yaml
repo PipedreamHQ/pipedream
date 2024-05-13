@@ -528,6 +528,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/appwrite:
+    specifiers: {}
+
   components/arcgis_online:
     specifiers: {}
 
@@ -6255,6 +6258,9 @@ importers:
       query-string: 8.1.0
 
   components/pirate_weather:
+    specifiers: {}
+
+  components/pitchlane:
     specifiers: {}
 
   components/pivotal_tracker:
