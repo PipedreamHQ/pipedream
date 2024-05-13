@@ -87,6 +87,28 @@ export default {
       type: "string",
       label: "Step ID",
       description: "The unique identifier for the step.",
+      async options({
+        threadId, runId, prevContext,
+      }) {
+        const params = prevContext?.after
+          ? {
+            after,
+          }
+          : {};
+        const {
+          data, last_id: after,
+        } = await this.listRunSteps({
+          threadId,
+          runId,
+          params,
+        });
+        return {
+          options: data?.map(({ id }) => id) || [],
+          context: {
+            after,
+          },
+        };
+      },
     },
     assistantId: {
       type: "string",
@@ -109,12 +131,6 @@ export default {
       type: "string[]",
       label: "Tools",
       description: "Each tool should be a valid JSON object. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/createAssistant#assistants-createassistant-tools) for more information. Examples of function tools [can be found here](https://cookbook.openai.com/examples/how_to_call_functions_with_chat_models#basic-concepts).",
-      optional: true,
-    },
-    file_ids: {
-      type: "string[]",
-      label: "File IDs",
-      description: "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant.",
       optional: true,
     },
     metadata: {
@@ -181,20 +197,18 @@ export default {
       description: "A cursor for use in pagination, identifying the message ID to end the list before",
       optional: true,
     },
-    file_id: {
+    fileId: {
       type: "string",
       label: "File ID",
       description: "The ID of the file to use for this request.",
-      async options({ prevContext }) {
-        const files = await this.listFiles({
-          purpose: prevContext
-            ? prevContext.purpose
-            : undefined,
+      async options({ purpose }) {
+        const { data: files } = await this.listFiles({
+          purpose: purpose || undefined,
         });
-        return files.map((file) => ({
+        return files?.map((file) => ({
           label: file.filename,
           value: file.id,
-        }));
+        })) || [];
       },
     },
     file: {
@@ -244,11 +258,6 @@ export default {
       description: "The speed of the generated audio. Provide a value from 0.25 to 4.0.",
       default: "1.0",
       optional: true,
-    },
-    trainingFile: {
-      type: "string",
-      label: "Training File",
-      description: "The ID of an uploaded file that contains training data. You can use the **Upload File** action and reference the returned ID here.",
     },
   },
   methods: {

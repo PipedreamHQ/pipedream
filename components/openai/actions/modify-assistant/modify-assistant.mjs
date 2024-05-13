@@ -50,11 +50,14 @@ export default {
       ],
       optional: true,
     },
-    file_ids: {
+    fileIds: {
       propDefinition: [
         openai,
-        "file_ids",
+        "fileId",
       ],
+      type: "string[]",
+      label: "File IDs",
+      description: "List of file IDs to attach to the message",
       optional: true,
     },
     metadata: {
@@ -74,7 +77,7 @@ export default {
       description: this.description,
       instructions: this.instructions,
       tools: parseToolsArray(this.tools),
-      file_ids: this.file_ids,
+      file_ids: this.fileIds,
       metadata: this.metadata,
     });
     $.export("$summary", `Successfully modified assistant ${this.assistant}`);

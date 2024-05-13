@@ -8,20 +8,20 @@ export default {
   type: "action",
   props: {
     openai,
-    file_id: {
+    fileId: {
       propDefinition: [
         openai,
-        "file_id",
+        "fileId",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.openai.deleteFile({
       $,
-      file_id: this.file_id,
+      file_id: this.fileId,
     });
 
-    $.export("$summary", `Successfully deleted file with ID: ${this.file_id}`);
+    $.export("$summary", `Successfully deleted file with ID: ${this.fileId}`);
     return response;
   },
 };

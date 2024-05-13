@@ -27,6 +27,12 @@ export default {
       propDefinition: [
         openai,
         "stepId",
+        ({
+          threadId, runId,
+        }) => ({
+          threadId,
+          runId,
+        }),
       ],
     },
   },

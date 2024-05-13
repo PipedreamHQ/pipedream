@@ -12,8 +12,10 @@ export default {
     assistantId: {
       propDefinition: [
         openai,
-        "assistantId",
+        "assistant",
       ],
+      label: "Assistant ID",
+      description: "The unique identifier for the assistant.",
     },
     thread: {
       type: "object",
