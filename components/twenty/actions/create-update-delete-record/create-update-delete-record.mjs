@@ -71,14 +71,13 @@ export default {
           (key != "createdAt") &&
           (key != "updatedAt") &&
           (value.type) &&
-          (value.type != "object")
+          (value.type != "object") &&
+          (value.type != "array")
           ) {
             props[key] = {
-              type: value["type"] === "array"
-                ? "string[]"
-                : value["type"] === "number"
-                  ? "integer"
-                  : value["type"],
+              type: value["type"] === "number"
+                ? "integer"
+                : value["type"],
               label: camelCaseToWords(key),
               description: value["description"],
               optional: !(required.includes === key),

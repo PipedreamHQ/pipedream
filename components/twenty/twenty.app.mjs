@@ -14,17 +14,15 @@ export default {
       async options() {
         const { components: { schemas } } = await this.listRecords();
 
-        console.log("schemas: ", schemas);
-        const options = [];
-        for (const [
+        return Object.entries(schemas).filter(([
           key,
-        ] of Object.entries(schemas)) {
-          options.push({
+        ]) => key != "Attachment")
+          .map(([
+            key,
+          ]) => ({
             label: camelCaseToWords(key),
             value: key,
-          });
-        }
-        return options;
+          }));
       },
     },
     actionType: {
