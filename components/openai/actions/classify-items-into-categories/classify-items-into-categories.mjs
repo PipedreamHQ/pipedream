@@ -40,17 +40,24 @@ export default {
       if (!messages || !response) {
         throw new Error("Invalid API output, please reach out to https://pipedream.com/support");
       }
-      const assistantResponse = response.choices?.[0]?.message?.content;
-      let categorizations = assistantResponse;
-      try {
-        categorizations = JSON.parse(assistantResponse);
-      } catch (err) {
-        console.log("Failed to parse output, assistant returned malformed JSON");
+      const responses = response.choices?.map(({ message }) => message.content);
+      const categorizations = [];
+      for (const response of responses) {
+        try {
+          categorizations.push(JSON.parse(response));
+        } catch (err) {
+          console.log("Failed to parse output, assistant returned malformed JSON");
+        }
       }
-      return {
-        categorizations,
+      const output = {
         messages,
       };
+      if (this.n > 1) {
+        output.categorizations = categorizations;
+      } else {
+        output.categorizations = categorizations[0];
+      }
+      return output;
     },
   },
 };

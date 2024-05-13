@@ -50,13 +50,17 @@ export default {
       if (!messages || !response) {
         throw new Error("Invalid API output, please reach out to https://pipedream.com/support");
       }
-
-      return {
-        translation: response.choices?.[0]?.message?.content,
+      const output = {
         source_lang: this.sourceLang,
         target_lang: this.targetLang,
         messages,
       };
+      if (this.n > 1) {
+        output.translations = response.choices?.map(({ message }) => message.content);
+      } else {
+        output.translation = response.choices?.[0]?.message?.content;
+      }
+      return output;
     },
   },
 };

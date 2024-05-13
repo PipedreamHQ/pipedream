@@ -42,10 +42,15 @@ export default {
       if (!messages || !response) {
         throw new Error("Invalid API output, please reach out to https://pipedream.com/support");
       }
-      return {
-        summary: response.choices?.[0]?.message?.content,
+      const output = {
         messages,
       };
+      if (this.n > 1) {
+        output.summaries = response.choices?.map(({ message }) => message.content);
+      } else {
+        output.summary = response.choices?.[0]?.message?.content;
+      }
+      return output;
     },
   },
 };
