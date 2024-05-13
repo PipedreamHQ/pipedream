@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { prepareSessionLabel } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -8,6 +9,16 @@ export default {
       type: "string",
       label: "Bot ID",
       description: "The ID of the bot to send the message to.",
+      async options() {
+        const data = await this.listBots();
+
+        return data.map(({
+          id: value, bot_name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     message: {
       type: "string",
@@ -18,30 +29,57 @@ export default {
       type: "string",
       label: "Session ID",
       description: "The session ID for the message.",
+      async options({ botId }) {
+        const data = await this.listSessions({
+          params: {
+            bot_id: botId,
+          },
+        });
+
+        return data.map(({
+          session_id: value, chat_history_response,
+        }) => ({
+          label: prepareSessionLabel(chat_history_response),
+          value,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://backend.chatfly.co/api";
     },
-    async dispatchMessage({
-      botId, message, sessionId,
+    _headers() {
+      return {
+        "CHATFLY-API-KEY": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path = "/", ...opts
     }) {
-      return axios(this, {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
+        ...opts,
+      });
+    },
+    dispatchMessage(opts = {}) {
+      return this._makeRequest({
         method: "POST",
-        url: `${this._baseUrl()}/chat/get-streaming-response`,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data: {
-          bot_id: botId,
-          message: message,
-          session_id: sessionId,
-        },
+        path: "/chat/get-streaming-response",
+        ...opts,
+      });
+    },
+    listBots(opts = {}) {
+      return this._makeRequest({
+        path: "/bot",
+        ...opts,
+      });
+    },
+    listSessions(opts = {}) {
+      return this._makeRequest({
+        path: "/chat/history",
+        ...opts,
       });
     },
   },
