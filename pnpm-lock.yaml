@@ -4397,6 +4397,9 @@ importers:
   components/key_app_demo_1:
     specifiers: {}
 
+  components/keycloak:
+    specifiers: {}
+
   components/keysender:
     specifiers:
       '@pipedream/platform': ^1.6.0
