@@ -1,10 +1,12 @@
 import googleSheets from "../../google_sheets.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import { parseArray } from "../../common/utils.mjs";
 
 export default {
   key: "google_sheets-update-row",
   name: "Update Row",
-  description: "Update a row in a spreadsheet",
-  version: "0.1.3",
+  description: "Update a row in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
+  version: "0.1.5",
   type: "action",
   props: {
     googleSheets,
@@ -25,14 +27,17 @@ export default {
       ],
       description: "The spreadsheet containing the worksheet to update",
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
     },
     row: {
       propDefinition: [
@@ -43,26 +48,26 @@ export default {
     cells: {
       propDefinition: [
         googleSheets,
-        "cells",
+        "rows",
       ],
+      description: "Enter an array, with each element of the array representing a cell/column value (e.g. `[\"Foo\",1,2]`). You may reference an arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will JSON.parse() to an array.",
     },
   },
   async run() {
-    const cells = this.cells;
-
     // validate input
-    if (!cells || !cells.length) {
-      throw new Error("Please enter an array of elements in `Cells / Column Values`.");
+    if (!this.cells || !this.cells.length) {
+      throw new ConfigurationError("Please enter an array of elements in `Row Values`.");
     }
-    if (!Array.isArray(cells)) {
-      throw new Error("Cell / Column data is not an array. Please enter an array of elements in `Cells / Column Values`.");
+    const cells = parseArray(this.cells);
+    if (!cells) {
+      throw new ConfigurationError("Row Values is not an array. Please enter an array of elements in `Row Values`.");
     }
     if (Array.isArray(cells[0])) {
-      throw new Error("Cell / Column data is a multi-dimensional array. A one-dimensional is expected.");
+      throw new ConfigurationError("Row Values is a multi-dimensional array. A one-dimensional is expected.");
     }
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.row}:${this.row}`,
+      range: `${this.worksheetId.label}!${this.row}:${this.row}`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [

@@ -4,9 +4,9 @@ import app from "../../pinecone.app.mjs";
 export default {
   key: "pinecone-fetch-vectors",
   name: "Fetch Vectors",
-  description: "Looks up and returns vectors by ID, from a single namespace.. [See the docs](https://docs.pinecone.io/reference/fetch).",
+  description: "Looks up and returns vectors by ID, from a single namespace.. [See the documentation](https://docs.pinecone.io/reference/api/data-plane/fetch).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     indexName: {
@@ -15,10 +15,10 @@ export default {
         "indexName",
       ],
     },
-    projectId: {
+    namespace: {
       propDefinition: [
         app,
-        "projectId",
+        "namespace",
       ],
     },
     ids: {
@@ -28,31 +28,27 @@ export default {
       propDefinition: [
         app,
         "vectorId",
-        ({
-          indexName, projectId,
-        }) => ({
-          indexName,
-          projectId,
-        }),
       ],
     },
-    namespace: {
-      propDefinition: [
-        app,
-        "namespace",
-      ],
+  },
+  methods: {
+    fetchVectors(args = {}) {
+      return this.app.makeRequest({
+        path: "/vectors/fetch",
+        ...args,
+      });
     },
   },
   async run({ $: step }) {
     const {
+      fetchVectors,
       indexName,
-      projectId,
       ids,
       namespace,
     } = this;
 
-    const response = await this.app.fetchVectors({
-      projectId,
+    const response = await fetchVectors({
+      step,
       indexName,
       params: {
         ids: utils.parseArray(ids),
@@ -60,7 +56,7 @@ export default {
       },
     });
 
-    step.export("$summary", `Successfully fetched ${Object.keys(response?.vectors).length} vectors.`);
+    step.export("$summary", `Successfully fetched \`${Object.keys(response.vectors).length}\` vector(s).`);
 
     return response;
   },

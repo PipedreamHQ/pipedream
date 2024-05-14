@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4.1.4
+    - uses: actions/checkout@v4.1.5
       name: Checkout
     - uses: jitterbit/get-changed-files@v1
       id: changed_files
@@ -48,12 +48,12 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4.1.4
+        uses: actions/checkout@v4.1.5
         with:
           # Full git history is needed to get a proper list of changed files
           # within `super-linter`
           fetch-depth: 0
-      - uses: pnpm/action-setup@v3.0.0
+      - uses: pnpm/action-setup@v4.0.0
         with:
           version: 7.33.6
       - name: Get pnpm store directory
@@ -94,7 +94,7 @@ jobs:
         with:
           format: 'space-delimited'
       - name: Lint changed files
-        run: npx eslint ${{ steps.changed_files_space.outputs.added_modified }} ${{ steps.changed_files_space.outputs.renamed }}
+        run: npx eslint --quiet ${{ steps.changed_files_space.outputs.added_modified }} ${{ steps.changed_files_space.outputs.renamed }}
       - name: Get Changed Files (comma-separated)
         id: changed_files
         uses: jitterbit/get-changed-files@v1

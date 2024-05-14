@@ -29,21 +29,23 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://googleads.googleapis.com";
+      return "https://eolid4dq1k0t9hi.m.pipedream.net";
     },
     _headers() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        "developer-token": `${this.$auth.developer_token}`,
       };
     },
     _makeRequest({
-      $ = this, path, ...opts
+      $ = this, ...opts
     }) {
-      return axios($, {
-        url: this._baseUrl() + path,
+      const googleAdsRequest = {
         headers: this._headers(),
         ...opts,
+      };
+      return axios($, {
+        url: this._baseUrl(),
+        data: googleAdsRequest,
       });
     },
     addContactToCustomerList({

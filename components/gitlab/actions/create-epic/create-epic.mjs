@@ -5,25 +5,26 @@ export default {
   key: "gitlab-create-epic",
   name: "Create Epic",
   description: "Creates a new epic. [See the documentation](https://docs.gitlab.com/ee/api/epics.html#new-epic)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     gitlab,
-    groupPath: {
+    groupId: {
       propDefinition: [
         gitlab,
-        "groupPath",
+        "groupId",
       ],
     },
     parent_id: {
       propDefinition: [
         gitlab,
         "epicIid",
-        (c) => ({
-          groupId: c.groupPath,
+        ({ groupId }) => ({
+          groupId,
         }),
       ],
       label: "Parent ID",
+      optional: true,
     },
     title: {
       propDefinition: [
@@ -36,8 +37,8 @@ export default {
       propDefinition: [
         gitlab,
         "groupLabels",
-        (c) => ({
-          groupId: c.groupPath,
+        ({ groupId }) => ({
+          groupId,
         }),
       ],
     },
@@ -115,7 +116,7 @@ export default {
     ]));
     data.labels = data.labels?.join();
 
-    const response = await this.gitlab.createEpic(this.groupPath, {
+    const response = await this.gitlab.createEpic(this.groupId, {
       data,
     });
     $.export("$summary", `Created epic ${this.title}`);

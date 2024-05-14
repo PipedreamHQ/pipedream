@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pitchlane",
+  "version": "0.0.1",
+  "description": "Pipedream Pitchlane Components",
+  "main": "pitchlane.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pitchlane"
+  ],
+  "homepage": "https://pipedream.com/apps/pitchlane",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
