@@ -37,7 +37,7 @@ export default {
       label: "Model",
       description: "The ID of the model to use for the assistant",
       async options() {
-        const models = await this.models({});
+        const models = (await this.models({})).filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo")) && (id !== "gpt-3.5-turbo-0301"));
         return models.map(({ id }) => id);
       },
     },
