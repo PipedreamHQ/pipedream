@@ -14,35 +14,12 @@ export default {
       description: "Choose the DALL·E models to generate image(s) with.",
       type: "string",
       options: constants.IMAGE_MODELS,
-      default: "dall-e-3",
+      reloadProps: true,
     },
     prompt: {
       label: "Prompt",
-      description: "A text description of the desired image(s). The maximum length is 1000 characters.",
+      description: "A text description of the desired image(s). The maximum length is 1000 characters for dall-e-2 and 4000 characters for dall-e-3.",
       type: "string",
-    },
-    n: {
-      label: "N",
-      description: "The number of images to generate. Must be between 1 and 10.",
-      type: "integer",
-      optional: true,
-      default: 1,
-    },
-    quality: {
-      label: "Quality",
-      description: "The quality of the image",
-      type: "string",
-      optional: true,
-      options: constants.IMAGE_QUALITIES,
-      default: "standard",
-    },
-    style: {
-      label: "Style",
-      description: "The style of the image",
-      type: "string",
-      optional: true,
-      options: constants.IMAGE_STYLES,
-      default: "natural",
     },
     responseFormat: {
       label: "Response Format",
@@ -60,6 +37,39 @@ export default {
       options: constants.IMAGE_SIZES,
       default: "1024x1024",
     },
+  },
+  async additionalProps() {
+    const props = {};
+    if (!this.model) {
+      return props;
+    }
+    if (this.model !== "dall-e-3") {
+      props.n = {
+        type: "integer",
+        label: "N",
+        description: "The number of images to generate. Must be between 1 and 10.",
+        optional: true,
+        default: 1,
+      };
+    } else {
+      props.quality = {
+        type: "string",
+        label: "Quality",
+        description: "The quality of the image",
+        options: constants.IMAGE_QUALITIES,
+        optional: true,
+        default: "standard",
+      };
+      props.style = {
+        type: "string",
+        label: "Style",
+        description: "The style of the image",
+        options: constants.IMAGE_STYLES,
+        optional: true,
+        default: "natural",
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     const response = await this.openai.createImage({
