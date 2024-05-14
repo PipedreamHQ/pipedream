@@ -39,12 +39,15 @@ export default {
   methods: {
     getData() {
       return {
-        educations: this.educations && parseObject(this.educations).map((item) => ({
+        educations: parseObject(this.educations)?.map((item) => ({
           degree_id: item,
         })),
-        employments: this.employments && parseObject(this.employments),
-        activity_feed_notes: this.activityFeedNotes && parseObject(this.activityFeedNotes),
-        applications: this.jobIds && parseObject(this.jobIds).map((item) => ({
+        employments: parseObject(this.employments),
+        activity_feed_notes: parseObject(this.activityFeedNotes)?.map((item) => ({
+          ...item,
+          user_id: this.userId,
+        })),
+        applications: parseObject(this.jobIds)?.map((item) => ({
           job_id: item,
         })),
       };

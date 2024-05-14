@@ -18,19 +18,13 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    candidateId: {
-      propDefinition: [
-        greenhouse,
-        "candidateId",
-      ],
-    },
   },
   methods: {
-    _getLastApplications() {
-      return this.db.get("lastApplications") || [];
+    _getLastDate() {
+      return this.db.get("lastDate") || "1970-01-01";
     },
-    _setLastApplications(created) {
-      this.db.set("lastApplications", created);
+    _setLastDate(created) {
+      this.db.set("lastDate", created);
     },
     generateMeta(item) {
       return {
@@ -39,18 +33,41 @@ export default {
         ts: new Date(),
       };
     },
+    async startEvent(maxResults) {
+      const lastDate = this._getLastDate();
+      const response = this.greenhouse.paginate({
+        fn: this.greenhouse.listApplications,
+        params: {
+          created_after: lastDate,
+        },
+      });
+
+      let responseArray = [];
+      for await (const item of response) {
+        responseArray.push(item);
+      }
+
+      responseArray = responseArray.reverse();
+
+      if (responseArray.length) {
+        if (responseArray.length > maxResults) {
+          responseArray.length = maxResults;
+        }
+        this._setLastDate(responseArray[0].applied_at);
+      }
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, this.generateMeta(item));
+      }
+    },
+  },
+  hooks: {
+    async deploy() {
+      await this.startEvent(25);
+    },
   },
   async run() {
-    const lastApplications = this._getLastApplications();
-    const { applications } = await this.greenhouse.getCandidate(this.candidateId);
-
-    const newApplications = applications.filter((item) => !lastApplications.includes(item.id));
-
-    for (const application of newApplications) {
-      this.$emit(application, this.generateMeta(application));
-    }
-
-    this._setLastApplications(applications.map((item) => item.id));
+    await this.startEvent();
   },
   sampleEmit,
 };

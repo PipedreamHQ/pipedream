@@ -176,6 +176,12 @@ export default {
         ...opts,
       });
     },
+    listApplications(opts = {}) {
+      return this._makeRequest({
+        path: "/applications",
+        ...opts,
+      });
+    },
     listUsers(opts = {}) {
       return this._makeRequest({
         path: "/users",
@@ -209,11 +215,6 @@ export default {
     getActivity(candidateId) {
       return this._makeRequest({
         path: `/candidates/${candidateId}/activity_feed`,
-      });
-    },
-    getCandidate(candidateId) {
-      return this._makeRequest({
-        path: `/candidates/${candidateId}`,
       });
     },
     addAttachmentToCandidate({
