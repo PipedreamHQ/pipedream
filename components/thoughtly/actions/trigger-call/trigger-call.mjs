@@ -1,11 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import thoughtly from "../../thoughtly.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "thoughtly-trigger-call",
   name: "Trigger a Call",
-  description: "Triggers a call to a designated phone number.",
-  version: "0.0.${ts}",
+  description: "Triggers a call to a designated contact.",
+  version: "0.0.1",
   type: "action",
   props: {
     thoughtly,
@@ -21,16 +21,21 @@ export default {
         "interviewId",
       ],
     },
-    idMetadata: {
-      ...thoughtly.propDefinitions.idMetadata,
+    metadata: {
+      type: "object",
+      label: "Metadata",
+      description: "An object of metadata.",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.thoughtly.callContact({
-      contactId: this.contactId,
-      interviewId: this.interviewId,
-      idMetadata: this.idMetadata,
+      $,
+      data: {
+        contact_id: this.contactId,
+        interview_id: this.interviewId,
+        metadata: parseObject(this.metadata),
+      },
     });
     $.export("$summary", `Successfully triggered a call to contact ID ${this.contactId}`);
     return response;

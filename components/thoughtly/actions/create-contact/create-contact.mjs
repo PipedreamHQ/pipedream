@@ -1,5 +1,4 @@
 import thoughtly from "../../thoughtly.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "thoughtly-create-contact",
@@ -9,63 +8,55 @@ export default {
   type: "action",
   props: {
     thoughtly,
-    phoneNumber: thoughtly.propDefinitions.phoneNumber,
+    phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "The phone number of the new contact.",
+    },
     name: {
-      propDefinition: [
-        thoughtly,
-        "name",
-        (c) => ({
-          optional: true,
-        }),
-      ],
+      type: "string",
+      label: "Name",
+      description: "The name of the new contact.",
+      optional: true,
     },
     email: {
-      propDefinition: [
-        thoughtly,
-        "email",
-        (c) => ({
-          optional: true,
-        }),
-      ],
+      type: "string",
+      label: "Email",
+      description: "The email of the new contact.",
+      optional: true,
     },
     countryCode: {
-      propDefinition: [
-        thoughtly,
-        "countryCode",
-        (c) => ({
-          optional: true,
-        }),
-      ],
+      type: "string",
+      label: "Country Code",
+      description: "The country code of the new contact's phone number.",
+      optional: true,
     },
     tags: {
-      propDefinition: [
-        thoughtly,
-        "tags",
-        (c) => ({
-          optional: true,
-        }),
-      ],
+      type: "string[]",
+      label: "Tags",
+      description: "Tags associated with the new contact.",
+      optional: true,
     },
     attributes: {
-      propDefinition: [
-        thoughtly,
-        "attributes",
-        (c) => ({
-          optional: true,
-        }),
-      ],
+      type: "object",
+      label: "Attributes",
+      description: "Additional attributes for the new contact.",
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.thoughtly.createContact({
-      phoneNumber: this.phoneNumber,
-      name: this.name,
-      email: this.email,
-      countryCode: this.countryCode,
-      tags: this.tags,
-      attributes: this.attributes,
+      $,
+      data: {
+        phone_number: this.phoneNumber,
+        name: this.name,
+        email: this.email,
+        country_code: this.countryCode,
+        tags: this.tags,
+        attributes: this.attributes,
+      },
     });
-    $.export("$summary", `Successfully created contact with phone number ${this.phoneNumber}`);
+    $.export("$summary", `Successfully created contact with ID: ${response.data.id}`);
     return response;
   },
 };

@@ -1,46 +1,50 @@
 import thoughtly from "../../thoughtly.app.mjs";
-import { axios } from "@pipedream/platform";
+import { sampleEmit } from "./test-event.mjs";
 
 export default {
   key: "thoughtly-new-response-instant",
-  name: "New Response Instant",
+  name: "New Response (Instant)",
   description: "Emit new event when a thoughtly gets a new response.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    thoughtly: {
-      type: "app",
-      app: "thoughtly",
-    },
-    http: {
-      type: "$.interface.http",
-      customResponse: false,
-    },
-    type: thoughtly.propDefinitions.type,
-    url: thoughtly.propDefinitions.url,
+    thoughtly,
+    http: "$.interface.http",
     db: "$.service.db",
+    interviewId: {
+      propDefinition: [
+        thoughtly,
+        "interviewId",
+      ],
+    },
   },
   hooks: {
     async activate() {
-      const response = await this.thoughtly.subscribeToWebhook({
-        type: this.type,
-        url: this.url,
+      await this.thoughtly.createHook({
+        data: {
+          type: "NEW_RESPONSE",
+          url: this.http.endpoint,
+          data: this.interviewId,
+        },
       });
-      this.db.set("subscriptionId", response.data.id);
     },
     async deactivate() {
-      const subscriptionId = this.db.get("subscriptionId");
-      await this.thoughtly.unsubscribeFromWebhook({
-        idMetadata: subscriptionId,
+      await this.thoughtly.deleteHook({
+        data: {
+          type: "NEW_RESPONSE",
+          url: this.http.endpoint,
+          data: this.interviewId,
+        },
       });
     },
   },
-  async run(event) {
-    this.$emit(event.body, {
-      id: event.body.id || `${Date.now()}`,
-      summary: "New response received",
-      ts: Date.now(),
+  async run({ body }) {
+    this.$emit(body, {
+      id: body.id,
+      summary: `New response received with Id: ${body.id}`,
+      ts: Date.parse(body.created),
     });
   },
+  sampleEmit,
 };
