@@ -1,5 +1,6 @@
+import fs from "fs";
+import { checkTmp } from "../../common/utils.mjs";
 import platerecognizer from "../../platerecognizer.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "platerecognizer-run-recognition",
@@ -9,35 +10,55 @@ export default {
   type: "action",
   props: {
     platerecognizer,
-    imageFileOrUrl: platerecognizer.propDefinitions.imageFileOrUrl,
-    regions: platerecognizer.propDefinitions.regions,
-    cameraId: platerecognizer.propDefinitions.cameraId,
-    mmc: platerecognizer.propDefinitions.mmc,
-    config: platerecognizer.propDefinitions.config,
+    imageFileOrUrl: {
+      type: "string",
+      label: "Image File or URL",
+      description: "The image file or URL to be recognized.",
+    },
+    regions: {
+      type: "string[]",
+      label: "Regions",
+      description: "Regions to select specific license plate patterns. [See further details here](https://guides.platerecognizer.com/docs/other/country-codes/#country-codes)",
+      optional: true,
+    },
+    cameraId: {
+      type: "string",
+      label: "Camera ID",
+      description: "The ID of the camera that took the image.",
+      optional: true,
+    },
+    mmc: {
+      type: "boolean",
+      label: "MMC",
+      description: "Whether to detect vehicle make, model, and color.",
+      optional: true,
+    },
+    config: {
+      type: "object",
+      label: "Config",
+      description: "Additional configuration. [See further details here](https://guides.platerecognizer.com/docs/snapshot/api-reference/#engine-configuration)",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const formData = new FormData();
-    if (this.imageFileOrUrl.startsWith("http")) {
-      formData.append("upload", this.imageFileOrUrl);
-    } else {
-      const fs = require("fs");
-      formData.append("upload", fs.createReadStream(this.imageFileOrUrl));
-    }
-    if (this.regions) formData.append("regions", this.regions.join(","));
-    if (this.cameraId) formData.append("camera_id", this.cameraId);
-    if (this.mmc !== undefined) formData.append("mmc", this.mmc);
-    if (this.config) formData.append("config", this.config);
+    const fileObj = {};
 
-    const response = await axios(this, {
-      method: "POST",
-      url: `${this.platerecognizer._baseUrl()}/plate-reader/`,
-      headers: {
-        "Authorization": `Token ${this.platerecognizer.$auth.api_key}`,
-        "Content-Type": "multipart/form-data",
+    if (this.imageFileOrUrl.startsWith("http")) {
+      fileObj.upload_url = this.imageFileOrUrl;
+    } else {
+      const file = fs.readFileSync(checkTmp(this.imageFileOrUrl));
+      fileObj.upload = Buffer(file).toString("base64");
+    }
+
+    const response = await this.platerecognizer.runRecognition({
+      $,
+      data: {
+        ...fileObj,
+        regions: this.regions,
+        camera_id: this.cameraId,
+        mmc: this.mmc,
+        config: this.config,
       },
-      data: formData,
-      maxContentLength: Infinity,
-      maxBodyLength: Infinity,
     });
 
     $.export("$summary", "Recognition process triggered successfully");
