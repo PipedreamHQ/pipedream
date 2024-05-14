@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pidj",
+  "version": "0.0.1",
+  "description": "Pipedream Pidj Components",
+  "main": "pidj.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pidj"
+  ],
+  "homepage": "https://pipedream.com/apps/pidj",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
