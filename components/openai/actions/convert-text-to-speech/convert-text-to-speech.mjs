@@ -2,8 +2,8 @@ import fs from "fs";
 import openai from "../../openai.app.mjs";
 
 export default {
-  key: "openai-create-speech",
-  name: "Create Speech (TTS)",
+  key: "openai-convert-text-to-speech",
+  name: "Convert Text to Speech (TTS)",
   description: "Generates audio from the input text. [See the documentation](https://platform.openai.com/docs/api-reference/audio/createSpeech)",
   version: "0.0.6",
   type: "action",
