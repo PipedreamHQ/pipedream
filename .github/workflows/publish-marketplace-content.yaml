@@ -36,7 +36,7 @@ jobs:
           cache: 'pnpm'
       - name: Get Changed Files
         id: files
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'csv'
       - name: Publish changes to marketplace content
