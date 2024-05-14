@@ -1,20 +1,13 @@
 import telnyxApp from "../../telnyx.app.mjs";
 
 export default {
-  key: "telnyx-send-message",
-  name: "Send Message",
-  description: "Send an SMS or MMS message. See documentation [here](https://developers.telnyx.com/docs/messaging/messages/send-message)",
-  version: "0.0.3",
+  key: "telnyx-send-group-message",
+  name: "Send Group Message",
+  description: "Send a group MMS message. See documentation [here](https://developers.telnyx.com/api/messaging/create-group-mms-message)",
+  version: "0.0.1",
   type: "action",
   props: {
     telnyxApp,
-    messagingProfileId: {
-      optional: true,
-      propDefinition: [
-        telnyxApp,
-        "messagingProfileId",
-      ],
-    },
     phoneNumber: {
       optional: true,
       propDefinition: [
@@ -23,14 +16,14 @@ export default {
       ],
     },
     to: {
-      type: "string",
+      type: "string[]",
       label: "To",
-      description: "Receiving address (+E.164 formatted phone number or short code).",
+      description: "Receiving list of destinations. No more than 8 destinations are allowed.",
     },
     text: {
       type: "string",
       label: "Text",
-      description: "Message content. Must be a valid UTF-8 string, and no longer than 1600 characters for SMS or 5MB for MMS. Required if sending an SMS message.",
+      description: "Message content. Must be a valid UTF-8 string, and no longer then 5MB for MMS.",
       optional: true,
     },
     subject: {
@@ -63,41 +56,22 @@ export default {
       description: "Whether to use the messaging profile's webhook URL for delivery receipts.",
       optional: true,
     },
-    type: {
-      type: "string",
-      label: "Type",
-      description: "Type of message to sent.",
-      optional: true,
-      options: [
-        "SMS",
-        "MMS",
-      ],
-    },
-    autoDetect: {
-      type: "boolean",
-      label: "Auto Detect",
-      description: "Automatically detect if an SMS message is unusually long and exceeds a recommended limit of message parts.",
-      optional: true,
-    },
   },
   async run({ $ }) {
-    const response = await this.telnyxApp.sendMessage({
+    const response = await this.telnyxApp.sendGroupMessage({
       $,
       data: {
         to: this.to,
         from: this.phoneNumber,
         text: this.text,
-        messaging_profile_id: this.messagingProfileId,
         subject: this.subject,
         media_urls: this.mediaUrls,
         webhook_url: this.webhookUrl,
         webhook_failover_url: this.webhookFailoverUrl,
         use_profile_webhooks: this.useProfileWebhooks,
-        type: this.type,
-        auto_detect: this.autoDetect,
       },
     });
-    $.export("$summary", `Successfully sent SMS/MMS message with Id: ${response.data.id}`);
+    $.export("$summary", `Successfully sent MMS message with Id: ${response.data.id}`);
     return response;
   },
 };
