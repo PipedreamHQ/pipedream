@@ -1,6 +1,20 @@
-const LIST_CUSTOMER_CLIENTS =
-  "SELECT customer_client.level, customer_client.manager, customer_client.descriptive_name, customer_client.status, customer_client.id FROM customer_client WHERE customer_client.level <= 1";
+export function listCustomerClients(query) {
+  const fields = [
+    "client_customer",
+    "descriptive_name",
+    "id",
+    "level",
+    "manager",
+  ]
+    .map((s) => `customer_client.${s}`)
+    .join(", ");
+
+  const condition = query
+    ? `customer_client.descriptive_name LIKE '%${query}%'`
+    : "customer_client.level <= 3";
+  return `SELECT ${fields} FROM customer_client WHERE ${condition}`;
+}
 
 export const QUERIES = {
-  LIST_CUSTOMER_CLIENTS,
+  listCustomerClients,
 };

@@ -30,7 +30,7 @@ export default {
     accountId: {
       type: "string",
       label: "Use Google Ads As",
-      description: "Select an account from the list of [customers directly accessible by the authenticated user](https://developers.google.com/google-ads/api/rest/reference/rest/v16/customers/listAccessibleCustomers). This is usually a manager account, used as `login-customer-id`",
+      description: "Select an account from the list of [customers directly accessible by the authenticated user](https://developers.google.com/google-ads/api/rest/reference/rest/v16/customers/listAccessibleCustomers). This is usually a **manager account**, used as `login-customer-id`",
       async options() {
         return this.listAccessibleCustomers();
       },
@@ -39,8 +39,14 @@ export default {
       type: "string",
       label: "Customer Client ID",
       description: "Select a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v16/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy).",
-      async options({ accountId }) {
-        const response = await this.listCustomerClients(accountId);
+      useQuery: true,
+      async options({
+        accountId, query,
+      }) {
+        const response = await this.listCustomerClients({
+          accountId,
+          query,
+        });
         return response?.map(({
           descriptiveName, id, manager,
         }) => ({
@@ -80,12 +86,14 @@ export default {
       });
       return response.resourceNames;
     },
-    async listCustomerClients(customerId) {
+    async listCustomerClients({
+      accountId, query,
+    }) {
       const response = await this._makeRequest({
-        path: `/v16/customers/${customerId}/googleAds:search`,
+        path: `/v16/customers/${accountId}/googleAds:search`,
         method: "post",
         data: {
-          query: QUERIES.LIST_CUSTOMER_CLIENTS,
+          query: QUERIES.listCustomerClients(query),
         },
       });
       return response.results;
