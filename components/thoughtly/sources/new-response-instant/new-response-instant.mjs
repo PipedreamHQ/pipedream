@@ -1,5 +1,5 @@
 import thoughtly from "../../thoughtly.app.mjs";
-import { sampleEmit } from "./test-event.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "thoughtly-new-response-instant",
