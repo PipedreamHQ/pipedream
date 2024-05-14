@@ -12,7 +12,7 @@ export default {
       async options() {
         return (await this.getCompletionModels({})).map((model) => model.id);
       },
-      default: "text-davinci-003",
+      default: "davinci-002",
     },
     chatCompletionModelId: {
       label: "Model",

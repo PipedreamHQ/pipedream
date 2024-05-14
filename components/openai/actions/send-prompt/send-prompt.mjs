@@ -10,6 +10,11 @@ export default {
   type: "action",
   props: {
     openai,
+    alert: {
+      type: "alert",
+      alertType: "warning",
+      content: "OpenAI recommends using the **Chat** action for the latest `gpt-3.5-turbo` API, since it's faster and 10x cheaper. This action creates a completion for the provided prompt and parameters using the older `/completions` API.",
+    },
     modelId: {
       propDefinition: [
         openai,
