@@ -364,5 +364,5 @@ Pipedream.defineSource({
       // @ts-expect-error $ExpectError - Missing id property in metadata object
       {},
     );
-  }
+  },
 });
