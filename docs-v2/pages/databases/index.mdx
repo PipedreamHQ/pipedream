@@ -2,38 +2,36 @@ import Callout from '@/components/Callout'
 import { Steps } from 'nextra/components'
 
 # Connecting to Databases
-Communicating with a database is a fundamental component of creating powerful workflows for any application. Whether you're storing application data, querying user information, or analyzing event logs, most workflows require querying data at some step.
+Connecting to a database is essential for developing production workflows. Whether you're storing application data, querying user information, or analyzing event logs, most workflows and serverless functions require querying data at some step.
 
-Every Pipedream workflow is deployed to its own virtual machine in AWS. This means your workflow runs in its own execution environment with dedicated RAM and disk space, isolated from other users' workflows.
-
-However, outbound traffic from your workflows uses the same network as other AWS services in the us-east-1 region.
+When your workflow runs, it sends outbound traffic (requests to other APIs, databases and services) through the same network as other AWS services in the `us-east-1` region.
 
 <Callout type="info">
- This means your workflows share the`us-east-1` network in AWS, sending requests from standard AWS IP ranges.
+    Pipedream workflows run in the AWS `us-east-1` network, sending requests from standard AWS IP ranges
 </Callout>
 
-## Securing Database Connections
-- The most secure way to connect to a database that restricts access to a specific set of IP addresses is to create a [Virtual Private Cloud (VPC)](/workflows/vpc).
-- When you need to connect to a database that restricts access to a specific set of IP addresses, you have a couple options:
+## Connecting to Restricted Databases
+**Unless your database is publicly accessible, you'll need to add specific IPs to your database's allow-list.** To do this, you can configure your database connection to run through a shared or dedicated static IP address from Pipedream.
 
-### Create a dedicated static IP for outbound traffic
-- The most secure, recommended approach, since it gives you a dedicated egress IP only for workflows within your workspace
-- Learn more about VPCs in Pipedream [here](/workflows/vpc)
+### Create a Dedicated Static IP for Outbound Traffic
+- This is the most secure, recommended approach, and gives you a dedicated egress IP that is unique to your workspace
+- When deployed to a VPC in Pipedream, all outbound traffic from your workflow runs through the VPC's static IP
+- [Learn more here](/workflows/vpc)
 
-### Use a shared static IP
-- The Pipedream SQL Proxy routes network requests through a static IP block
+### Send Requests from a Shared Static IP
+- When enabled on your connected account, Pipedream will route network requests through a static IP block
 - When you create a connected account with any of [the apps](#supported-databases) that are currently supported by the SQL Proxy, requests to that database from within your Pipedream workflows will come from the IP block below.
 
 #### Supported Databases
-The SQL Proxy currently supports [MySQL](https://pipedream.com/apps/mysql), [PostgreSQL](https://pipedream.com/apps/postgresql), and [Snowflake](https://pipedream.com/apps/snowflake). Please let us know if you'd like to see support for other database types.
+The SQL Proxy currently supports [MySQL](https://pipedream.com/apps/mysql) and [PostgreSQL](https://pipedream.com/apps/postgresql), and [Snowflake](https://pipedream.com/apps/snowflake) is coming soon. Please let us know if you'd like to see support for other database types.
 
-#### Static IPs
+#### Static Shared IPs
 For database allow-listing, add the following IP block:
 ```
 44.223.89.56/29
 ```
 
-## Connect to your database
+## Connect to your Database
 
 <Steps>
 ### Select the "Query a Database" action
