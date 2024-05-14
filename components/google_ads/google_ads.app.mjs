@@ -62,22 +62,23 @@ export default {
     _baseUrl() {
       return "https://eolid4dq1k0t9hi.m.pipedream.net";
     },
-    _headers() {
+    _headers(accountId) {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "login-customer-id": accountId,
       };
     },
     _makeRequest({
-      $ = this, ...opts
+      $ = this, accountId, ...opts
     }) {
-      const googleAdsRequest = {
-        headers: this._headers(),
+      const data = {
+        headers: this._headers(accountId),
         ...opts,
       };
       return axios($, {
         method: "post",
         url: this._baseUrl(),
-        data: googleAdsRequest,
+        data,
       });
     },
     async listAccessibleCustomers() {
@@ -98,8 +99,15 @@ export default {
       });
       return response.results;
     },
-    async createUserList(args) {
-      args;
+    async createUserList({
+      customerId, ...args
+    }) {
+      const response = await this._makeRequest({
+        path: `v16/customers/${customerId}/userLists:mutate`,
+        method: "post",
+        ...args,
+      });
+      return response;
     },
     addContactToCustomerList({
       path, ...opts

@@ -1,3 +1,4 @@
+import { parseObject } from "../../common/utils.mjs";
 import googleAds from "../../google_ads.app.mjs";
 
 export default {
@@ -18,6 +19,9 @@ export default {
       propDefinition: [
         googleAds,
         "customerClientId",
+        ({ accountId }) => ({
+          accountId,
+        }),
       ],
     },
     name: {
@@ -40,8 +44,27 @@ export default {
     },
   },
   async run({ $ }) {
+    // const updateMask = [
+    //   "name",
+    //   "description",
+    //   ...Object.keys(this.additionalFields ?? {}),
+    // ].filter((key) => this[key] !== undefined);
     const response = await this.googleAds.createUserList({
       $,
+      accountId: this.accountId,
+      customerId: this.customerClientId,
+      data: {
+        operations: [
+          {
+            // updateMask,
+            create: {
+              name: this.name,
+              description: this.description,
+              ...parseObject(this.additionalFields),
+            },
+          },
+        ],
+      },
     });
 
     $.export("$summary", `Created customer list with ID ${response.id}`);
