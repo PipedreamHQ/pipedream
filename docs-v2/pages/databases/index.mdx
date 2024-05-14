@@ -1,5 +1,4 @@
 import Callout from '@/components/Callout'
-import { Steps } from 'nextra/components'
 
 # Connecting to Databases
 Connecting to a database is essential for developing production workflows. Whether you're storing application data, querying user information, or analyzing event logs, most workflows and serverless functions require querying data at some step.
@@ -23,27 +22,21 @@ Pipedream workflows run in the AWS `us-east-1` network, sending requests from st
 - When you create a connected account with any of [the apps](#supported-databases) that are currently supported by the SQL Proxy, requests to that database from within your Pipedream workflows will come from the IP block below.
 
 #### Supported Databases
-The SQL Proxy currently supports [MySQL](https://pipedream.com/apps/mysql) and [PostgreSQL](https://pipedream.com/apps/postgresql), and [Snowflake](https://pipedream.com/apps/snowflake) is coming soon. Please let us know if you'd like to see support for other database types.
+Pipedream's SQL Proxy, which enables the shared static IP, currently supports [MySQL](https://pipedream.com/apps/mysql) and [PostgreSQL](https://pipedream.com/apps/postgresql), and [Snowflake](https://pipedream.com/apps/snowflake) is coming soon. Please let us know if you'd like to see support for other database types.
 
 #### Static Shared IPs
-For database allow-listing, add the following IP block:
+Add the following IP block to your database allow-list:
 ```
 44.223.89.56/29
 ```
 
-## Connect to your Database
-
-<Steps>
-### Select the "Query a Database" action
-
-### Select the database type
-
-### Configure your account
-
-
-</Steps>
 
 ## Frequently Asked Questions
 
-### What's the difference between the SQL Proxy and a VPC?
+### What's the difference between using a shared static IP with the SQL Proxy vs a dedicated IP using a VPC?
 Both the SQL Proxy and a VPC provide secure database connections. A VPC offers enhanced isolation and security by providing a single dedicated static IP for workflows within your workspace, and the SQL proxy routes your database connections through a dedicated set of static IP addresses.
+
+| Operation | Shared Static IP (SQL Proxy) | Dedicated Static IP (VPC) |
+| :----- | :----: | ----: |
+| All requests to the connected database will originate from the static IP    |  bar   |   baz |
+| banana | apple  |  kiwi |
