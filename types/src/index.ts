@@ -366,7 +366,7 @@ export type DedupedSource<
 >, {
   dedupe: "greatest" | "unique";
   run: (this: PropThis<SourcePropDefinitions> & Methods & IdEmitFunction, options?: SourceRunOptions) => void | Promise<void>;
-}>
+}>;
 
 export type Source<
   Methods,

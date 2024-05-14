@@ -359,8 +359,10 @@ Pipedream.defineSource({
   type: "source",
   dedupe: "unique",
   run() {
-    this.$emit({},
-    // @ts-expect-error $ExpectError - Missing id property in metadata object
-    {});
+    this.$emit(
+      {},
+      // @ts-expect-error $ExpectError - Missing id property in metadata object
+      {},
+    );
   }
 });
