@@ -4146,6 +4146,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/insighto_ai:
+    specifiers: {}
+
   components/insites:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -4397,6 +4400,9 @@ importers:
   components/key_app_demo_1:
     specifiers: {}
 
+  components/keycloak:
+    specifiers: {}
+
   components/keysender:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -4487,6 +4493,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/koala_ai:
+    specifiers: {}
+
+  components/kodagpt:
     specifiers: {}
 
   components/kontent_ai:
@@ -6169,6 +6178,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/pidj:
+    specifiers: {}
 
   components/piggy:
     specifiers:
