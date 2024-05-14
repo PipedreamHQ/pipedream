@@ -98,6 +98,9 @@ export default {
       });
       return response.results;
     },
+    async createUserList(args) {
+      args;
+    },
     addContactToCustomerList({
       path, ...opts
     }) {
