@@ -77,6 +77,7 @@ export default {
       type: "string",
       label: "Description",
       description: "The description of the assistant.",
+      optional: true,
     },
     threadId: {
       type: "string",
@@ -189,12 +190,6 @@ export default {
       description: "The role of the entity creating the message",
       options: constants.USER_OPTIONS,
       default: "user",
-    },
-    fileIds: {
-      type: "string[]",
-      label: "File IDs",
-      description: "List of file IDs to attach to the message",
-      optional: true,
     },
     toolOutputs: {
       type: "string[]",
@@ -642,23 +637,30 @@ export default {
         ...args,
       });
     },
-    listFineTuningJobs(args) {
+    listFineTuningJobs(args = {}) {
       return this._makeRequest({
         path: "/fine_tuning/jobs",
         ...args,
       });
     },
-    createSpeech(args) {
+    createSpeech(args = {}) {
       return this._makeRequest({
         path: "/audio/speech",
         method: "POST",
         ...args,
       });
     },
-    createFineTuningJob(args) {
+    createFineTuningJob(args = {}) {
       return this._makeRequest({
         path: "/fine_tuning/jobs",
         method: "POST",
+        ...args,
+      });
+    },
+    listVectorStores(args = {}) {
+      return this._makeRequest({
+        headers: this._betaHeaders(),
+        path: "/vector_stores",
         ...args,
       });
     },

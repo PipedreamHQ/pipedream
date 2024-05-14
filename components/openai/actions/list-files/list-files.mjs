@@ -21,7 +21,7 @@ export default {
       $,
       purpose: this.purpose,
     });
-    const summary = `Successfully listed ${response.length} files`;
+    const summary = `Successfully listed ${response.data.length} files`;
     $.export("$summary", summary);
     return response;
   },

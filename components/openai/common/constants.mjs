@@ -131,6 +131,12 @@ const SUMMARIZE_LENGTH = [
   "page",
 ];
 
+const TOOL_TYPES = [
+  "code_interpreter",
+  "file_search",
+  "function",
+];
+
 export default {
   FINE_TUNING_MODEL_OPTIONS,
   TTS_MODELS,
@@ -147,4 +153,5 @@ export default {
   IMAGE_STYLES,
   IMAGE_SIZES,
   SUMMARIZE_LENGTH,
+  TOOL_TYPES,
 };
