@@ -28,7 +28,7 @@ export default {
     sessionId: {
       type: "string",
       label: "Session ID",
-      description: "The session ID for the message. To initiate a new session, use a unique string in a Custom Expression, for example: `{{ "8g12h" }}`",
+      description: "The session ID for the message. To initiate a new session, use a unique string in a Custom Expression, for example: `8g12h`",
       async options({ botId }) {
         const data = await this.listSessions({
           params: {
