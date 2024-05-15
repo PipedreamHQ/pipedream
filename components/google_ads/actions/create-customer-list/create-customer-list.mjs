@@ -1,29 +1,15 @@
 import { parseObject } from "../../common/utils.mjs";
-import googleAds from "../../google_ads.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "google_ads-create-customer-list",
   name: "Create Customer List",
   description: "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList)",
   version: "0.0.1",
   type: "action",
   props: {
-    googleAds,
-    accountId: {
-      propDefinition: [
-        googleAds,
-        "accountId",
-      ],
-    },
-    customerClientId: {
-      propDefinition: [
-        googleAds,
-        "customerClientId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
-    },
+    ...common.props,
     name: {
       type: "string",
       label: "Name",
