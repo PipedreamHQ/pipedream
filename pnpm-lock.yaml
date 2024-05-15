@@ -9119,6 +9119,9 @@ importers:
   components/upollo:
     specifiers: {}
 
+  components/upstash_redis:
+    specifiers: {}
+
   components/uptimerobot:
     specifiers: {}
 
