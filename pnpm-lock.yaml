@@ -1308,7 +1308,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/chatfly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/chatfuel_dashboard_api_:
     specifiers: {}
