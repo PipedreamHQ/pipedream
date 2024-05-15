@@ -31,6 +31,11 @@ const IMAGE_MODELS = [
   "dall-e-3",
 ];
 
+const MODERATION_MODELS = [
+  "text-moderation-stable",
+  "text-moderation-latest",
+];
+
 const AUDIO_RESPONSE_FORMATS = [
   "mp3",
   "opus",
@@ -141,6 +146,7 @@ export default {
   FINE_TUNING_MODEL_OPTIONS,
   TTS_MODELS,
   IMAGE_MODELS,
+  MODERATION_MODELS,
   AUDIO_RESPONSE_FORMATS,
   CHAT_RESPONSE_FORMATS,
   IMAGE_RESPONSE_FORMATS,

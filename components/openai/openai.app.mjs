@@ -654,6 +654,13 @@ export default {
         ...args,
       });
     },
+    createModeration(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/moderations",
+        ...args,
+      });
+    },
     async *paginate({
       resourceFn,
       args = {},
