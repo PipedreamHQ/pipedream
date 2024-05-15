@@ -88,6 +88,8 @@ const TRANSCRIPTION_FORMATS = [
 const PURPOSES = [
   "fine-tune",
   "assistants",
+  "vision",
+  "batch",
 ];
 
 const VOICES = [
@@ -142,6 +144,12 @@ const TOOL_TYPES = [
   "function",
 ];
 
+const BATCH_ENDPOINTS = [
+  "/v1/chat/completions",
+  "/v1/embeddings",
+  "/v1/completions",
+];
+
 export default {
   FINE_TUNING_MODEL_OPTIONS,
   TTS_MODELS,
@@ -160,4 +168,5 @@ export default {
   IMAGE_SIZES,
   SUMMARIZE_LENGTH,
   TOOL_TYPES,
+  BATCH_ENDPOINTS,
 };

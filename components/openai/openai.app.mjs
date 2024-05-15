@@ -670,6 +670,13 @@ export default {
         ...args,
       });
     },
+    createBatch(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/batches",
+        ...args,
+      });
+    },
     async *paginate({
       resourceFn,
       args = {},
