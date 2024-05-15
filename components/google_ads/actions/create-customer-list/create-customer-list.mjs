@@ -1,5 +1,8 @@
-import { parseObject } from "../../common/utils.mjs";
+import {
+  getAdditionalFieldsDescription, parseObject,
+} from "../../common/utils.mjs";
 import common from "../common/common.mjs";
+const app = common.props.googleAds;
 
 export default {
   ...common,
@@ -22,11 +25,12 @@ export default {
       optional: true,
     },
     additionalFields: {
-      type: "object",
-      label: "Additional Fields",
+      propDefinition: [
+        app,
+        "additionalFields",
+      ],
       description:
-        "Additional fields and values for the customer list. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList) for available fields. Values will be parsed as JSON where applicable.",
-      optional: true,
+      getAdditionalFieldsDescription("https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList"),
     },
   },
   async run({ $ }) {
