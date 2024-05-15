@@ -1,7 +1,8 @@
-import { parseToolsArray } from "../../common/helpers.mjs";
 import openai from "../../openai.app.mjs";
+import common from "../common/common-assistants.mjs";
 
 export default {
+  ...common,
   key: "openai-modify-assistant",
   name: "Modify an Assistant",
   description: "Modifies an existing OpenAI assistant. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/modifyAssistant)",
@@ -43,23 +44,6 @@ export default {
       ],
       optional: true,
     },
-    tools: {
-      propDefinition: [
-        openai,
-        "tools",
-      ],
-      optional: true,
-    },
-    fileIds: {
-      propDefinition: [
-        openai,
-        "fileId",
-      ],
-      type: "string[]",
-      label: "File IDs",
-      description: "List of file IDs to attach to the message",
-      optional: true,
-    },
     metadata: {
       propDefinition: [
         openai,
@@ -67,8 +51,9 @@ export default {
       ],
       optional: true,
     },
+    ...common.props,
   },
-  async run({ $ }) {
+  async run({ $ }) { console.log(this.vectorStoreIds);
     const response = await this.openai.modifyAssistant({
       $,
       assistant: this.assistant,
@@ -77,8 +62,8 @@ export default {
         name: this.name,
         description: this.description,
         instructions: this.instructions,
-        tools: parseToolsArray(this.tools),
-        file_ids: this.fileIds,
+        tools: this.buildTools(),
+        tool_resources: this.buildToolResources(),
         metadata: this.metadata,
       },
     });

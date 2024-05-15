@@ -286,10 +286,10 @@ export default {
         "User-Agent": "@PipedreamHQ/pipedream v1.0",
       };
     },
-    _betaHeaders() {
+    _betaHeaders(version = "v1") {
       return {
         ...this._commonHeaders(),
-        "OpenAI-Beta": "assistants=v1",
+        "OpenAI-Beta": `assistants=${version}`,
       };
     },
     _makeRequest({
@@ -422,7 +422,7 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/assistants",
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         ...args,
       });
     },
@@ -432,7 +432,7 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/assistants/${assistant}`,
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         ...args,
       });
     },
@@ -659,8 +659,8 @@ export default {
     },
     listVectorStores(args = {}) {
       return this._makeRequest({
-        headers: this._betaHeaders(),
         path: "/vector_stores",
+        headers: this._betaHeaders("v2"),
         ...args,
       });
     },
