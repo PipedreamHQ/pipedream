@@ -440,7 +440,7 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/threads",
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         ...args,
       });
     },
@@ -554,17 +554,11 @@ export default {
         ...args,
       });
     },
-    createThreadAndRun({
-      assistantId, data, ...args
-    }) {
+    createThreadAndRun(args = {}) {
       return this._makeRequest({
         path: "/threads/runs",
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         method: "POST",
-        data: {
-          assistant_id: assistantId,
-          ...data,
-        },
         ...args,
       });
     },

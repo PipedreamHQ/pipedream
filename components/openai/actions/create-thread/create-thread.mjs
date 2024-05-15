@@ -1,5 +1,6 @@
 import openai from "../../openai.app.mjs";
-import { parseToolsArray } from "../../common/helpers.mjs";
+import common from "../common/common-assistants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "openai-create-thread",
@@ -30,39 +31,47 @@ export default {
       optional: true,
       reloadProps: true,
     },
+    toolTypes: {
+      type: "string[]",
+      label: "Tool Types",
+      description: "The types of tools to enable on the assistant",
+      options: constants.TOOL_TYPES.filter((type) => type !== "function"),
+      optional: true,
+      reloadProps: true,
+    },
   },
   async additionalProps() {
     const props = {};
-    if (!this.runThread) {
-      return props;
+    if (this.runThread) {
+      props.assistantId = {
+        type: "string",
+        label: "Assistant ID",
+        description: "The unique identifier for the assistant.",
+        options: async () => { return this.getAssistantPropOptions(); },
+      };
+      props.model = {
+        type: "string",
+        label: "Model",
+        description: "The ID of the model to use for the assistant",
+        options: async () => { return this.getAssistantModelPropOptions(); },
+      };
+      props.instructions = {
+        type: "string",
+        label: "Instructions",
+        description: "The system instructions that the assistant uses.",
+        optional: true,
+      };
     }
-    props.assistantId = {
-      type: "string",
-      label: "Assistant ID",
-      description: "The unique identifier for the assistant.",
-      options: async () => { return this.getAssistantPropOptions(); },
+    const toolProps = this.toolTypes?.length
+      ? await this.getToolProps()
+      : {};
+    return {
+      ...props,
+      ...toolProps,
     };
-    props.model = {
-      type: "string",
-      label: "Model",
-      description: "The ID of the model to use for the assistant",
-      options: async () => { return this.getAssistantModelPropOptions(); },
-    };
-    props.instructions = {
-      type: "string",
-      label: "Instructions",
-      description: "The system instructions that the assistant uses.",
-      optional: true,
-    };
-    props.tools = {
-      type: "string[]",
-      label: "Tools",
-      description: "Each tool should be a valid JSON object. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/createAssistant#assistants-createassistant-tools) for more information. Examples of function tools [can be found here](https://cookbook.openai.com/examples/how_to_call_functions_with_chat_models#basic-concepts).",
-      optional: true,
-    };
-    return props;
   },
   methods: {
+    ...common.methods,
     async getAssistantPropOptions() {
       const { data } = await this.openai.listAssistants();
       return data.map(({
@@ -84,19 +93,21 @@ export default {
         data: {
           messages: this.messages,
           metadata: this.metadata,
+          tool_resources: this.buildToolResources(),
         },
       })
       : await this.openai.createThreadAndRun({
         $,
-        assistantId: this.assistantId,
         data: {
+          assistant_id: this.assistantId,
           thread: {
             messages: this.messages,
             metadata: this.metadata,
           },
           model: this.model,
           instructions: this.instructions,
-          tools: parseToolsArray(this.tools),
+          tools: this.buildTools(),
+          tool_resources: this.buildToolResources(),
           metadata: this.metadata,
         },
       });
