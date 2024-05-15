@@ -936,6 +936,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/boloforms:
+    specifiers: {}
+
   components/bolt_iot:
     specifiers: {}
 
@@ -1305,7 +1308,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/chatfly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/chatfuel_dashboard_api_:
     specifiers: {}
@@ -2942,7 +2948,10 @@ importers:
     specifiers: {}
 
   components/fly_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/focuster:
     specifiers: {}
@@ -5320,10 +5329,10 @@ importers:
 
   components/mongodb:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.5
       mongodb: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.5
       mongodb: 4.17.1
 
   components/monkeylearn:
@@ -8668,7 +8677,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/thoughtly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/threads:
     specifiers:
@@ -9065,6 +9077,12 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/unsplash:
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/updown_io:
     specifiers:

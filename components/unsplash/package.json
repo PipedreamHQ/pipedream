@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/chatfly",
-  "version": "0.1.0",
-  "description": "Pipedream ChatFly Components",
-  "main": "chatfly.app.mjs",
+  "name": "@pipedream/unsplash",
+  "version": "0.0.1",
+  "description": "Pipedream Unsplash Components",
+  "main": "unsplash.app.mjs",
   "keywords": [
     "pipedream",
-    "chatfly"
+    "unsplash"
   ],
-  "homepage": "https://pipedream.com/apps/chatfly",
+  "homepage": "https://pipedream.com/apps/unsplash",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
