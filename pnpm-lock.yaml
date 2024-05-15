@@ -5323,10 +5323,10 @@ importers:
 
   components/mongodb:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^1.6.5
       mongodb: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.5
       mongodb: 4.17.1
 
   components/monkeylearn:
