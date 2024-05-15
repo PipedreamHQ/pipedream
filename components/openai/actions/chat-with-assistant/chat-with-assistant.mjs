@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "openai-chat-with-assistant",
   name: "Chat with Assistant",
-  description: "Sends a message and generates a response, storing the message history for a continuous conversation. [See the documentation](https://platform.openai.com/docs/api-reference/messages/createMessage)",
+  description: "Sends a message and generates a response, storing the message history for a continuous conversation. [See the documentation](https://platform.openai.com/docs/api-reference/runs/createThreadAndRun)",
   version: "0.0.1",
   type: "action",
   props: {
