@@ -1,7 +1,8 @@
-import { parseToolsArray } from "../../common/helpers.mjs";
 import openai from "../../openai.app.mjs";
+import common from "../common/common-assistants.mjs";
 
 export default {
+  ...common,
   key: "openai-create-run",
   name: "Create Run (Assistants)",
   description: "Creates a run given a thread ID and assistant ID. [See the documentation](https://platform.openai.com/docs/api-reference/runs/create)",
@@ -35,28 +36,24 @@ export default {
         "instructions",
       ],
     },
-    tools: {
-      propDefinition: [
-        openai,
-        "tools",
-      ],
-    },
     metadata: {
       propDefinition: [
         openai,
         "metadata",
       ],
     },
+    ...common.props,
   },
   async run({ $ }) {
     const response = await this.openai.createRun({
       $,
       threadId: this.threadId,
-      assistantId: this.assistantId,
       data: {
+        assistant_id: this.assistantId,
         model: this.model,
         instructions: this.instructions,
-        tools: parseToolsArray(this.tools),
+        tools: this.buildTools(),
+        tool_resources: this.buildToolResources(),
         metadata: this.metadata,
       },
     });

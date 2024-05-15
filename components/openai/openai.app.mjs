@@ -466,7 +466,7 @@ export default {
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/messages`,
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         ...args,
       });
     },
@@ -487,16 +487,12 @@ export default {
       });
     },
     createRun({
-      threadId, assistantId, data, ...args
+      threadId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs`,
         method: "POST",
-        headers: this._betaHeaders(),
-        data: {
-          assistant_id: assistantId,
-          ...data,
-        },
+        headers: this._betaHeaders("v2"),
         ...args,
       });
     },
@@ -504,7 +500,7 @@ export default {
       threadId, runId, ...args
     }) {
       return this._makeRequest({
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         path: `/threads/${threadId}/runs/${runId}`,
         ...args,
       });

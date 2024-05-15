@@ -87,11 +87,17 @@ export default {
     },
   },
   async run({ $ }) {
+    const messages = this.messages?.length
+      ? this.messages.map((message) => ({
+        role: "user",
+        content: message,
+      }))
+      : undefined;
     const response = !this.runThread
       ? await this.openai.createThread({
         $,
         data: {
-          messages: this.messages,
+          messages,
           metadata: this.metadata,
           tool_resources: this.buildToolResources(),
         },
@@ -101,7 +107,7 @@ export default {
         data: {
           assistant_id: this.assistantId,
           thread: {
-            messages: this.messages,
+            messages,
             metadata: this.metadata,
           },
           model: this.model,
