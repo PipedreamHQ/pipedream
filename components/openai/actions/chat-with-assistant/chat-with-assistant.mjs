@@ -15,7 +15,7 @@ export default {
       label: "Message",
       description: "The message to send",
     },
-    assistant: {
+    assistantId: {
       propDefinition: [
         openai,
         "assistant",

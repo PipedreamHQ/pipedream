@@ -41,6 +41,15 @@ export default {
         return models.map(({ id }) => id);
       },
     },
+    visionModel: {
+      type: "string",
+      label: "Model",
+      description: "The id of the vision model to use",
+      async options() {
+        const models = (await this.models({})).filter(({ id }) => id.includes("vision"));
+        return models.map(({ id }) => id);
+      },
+    },
     assistant: {
       type: "string",
       label: "Assistant",
