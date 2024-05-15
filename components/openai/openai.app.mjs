@@ -677,6 +677,12 @@ export default {
         ...args,
       });
     },
+    listBatches(args = {}) {
+      return this._makeRequest({
+        path: "/batches",
+        ...args,
+      });
+    },
     async *paginate({
       resourceFn,
       args = {},
