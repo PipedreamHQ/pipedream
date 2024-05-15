@@ -1,4 +1,7 @@
-import { parseObject } from "../../common/utils.mjs";
+import {
+  checkPhoneNumbers,
+  parseObject,
+} from "../../common/utils.mjs";
 import greenhouse from "../../greenhouse.app.mjs";
 
 export default {
@@ -144,7 +147,7 @@ export default {
         last_name: this.lastName,
         company: this.company,
         title: this.title,
-        phone_numbers: parseObject(this.phoneNumbers)?.map((item) => ({
+        phone_numbers: parseObject(checkPhoneNumbers(this.phoneNumbers))?.map((item) => ({
           value: item,
           type: "other",
         })),

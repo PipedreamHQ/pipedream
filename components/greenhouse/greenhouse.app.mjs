@@ -46,7 +46,7 @@ export default {
     phoneNumbers: {
       type: "string[]",
       label: "Phone Numbers",
-      description: "A list of phone numbers.",
+      description: "A list of phone numbers. The phone number includes a plus sign (+), then country code, city code, and local phone number.",
     },
     addressses: {
       type: "string[]",

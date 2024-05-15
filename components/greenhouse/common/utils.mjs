@@ -1,3 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
+
 export const parseObject = (obj) => {
   if (!obj) return undefined;
 
@@ -28,4 +30,11 @@ export const checkTmp = (filename) => {
     return `/tmp/${filename}`;
   }
   return filename;
+};
+
+export const checkPhoneNumbers = (phoneNumbers) => {
+  phoneNumbers.map((phoneNumber) => {
+    if (!phoneNumber.startsWith("+"))
+      throw new ConfigurationError("The phone numbers must start with '+'");
+  });
 };
