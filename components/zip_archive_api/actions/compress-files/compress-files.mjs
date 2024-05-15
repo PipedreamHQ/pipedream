@@ -1,4 +1,5 @@
 import app from "../../zip_archive_api.app.mjs";
+import fs from "fs";
 
 export default {
   key: "zip_archive_api-compress-files",
@@ -34,18 +35,22 @@ export default {
     },
   },
   async run({ $ }) {
+    const { ...data } = this;
+
     const response = await this.app.compressFiles({
       $,
-      data: {
-        archiveName: this.archiveName,
-        compressionLevel: this.compressionLevel,
-        password: this.password,
-        files: this.files,
-      },
+      data,
     });
 
     $.export("$summary", `Successfully compressed the files into '${this.archiveName}.zip'`);
 
-    return response;
+    const tmpPath = `/tmp/${this.archiveName}`;
+
+    fs.writeFileSync(tmpPath, response);
+
+    return {
+      tmpPath,
+      data: response,
+    };
   },
 };
