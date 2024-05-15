@@ -32,7 +32,11 @@ export default {
       label: "Use Google Ads As",
       description: "Select an account from the list of [customers directly accessible by the authenticated user](https://developers.google.com/google-ads/api/rest/reference/rest/v16/customers/listAccessibleCustomers). This is usually a **manager account**, used as `login-customer-id`",
       async options() {
-        return this.listAccessibleCustomers();
+        const response = await this.listAccessibleCustomers();
+        return response?.map(((resourceName) => ({
+          label: resourceName,
+          value: resourceName.split("/").pop(),
+        })));
       },
     },
     customerClientId: {
@@ -48,8 +52,10 @@ export default {
           query,
         });
         return response?.map(({
-          descriptiveName, id, manager,
-        }) => ({
+          customerClient: {
+            descriptiveName, id, manager,
+          },
+        } ) => ({
           label: `${manager
             ? "[Manager] "
             : ""}${descriptiveName}`,
@@ -75,6 +81,7 @@ export default {
         headers: this._headers(accountId),
         ...opts,
       };
+      $.export("config", data);
       return axios($, {
         method: "post",
         url: this._baseUrl(),
