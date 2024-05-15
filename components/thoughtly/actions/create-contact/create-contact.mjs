@@ -3,7 +3,7 @@ import thoughtly from "../../thoughtly.app.mjs";
 export default {
   key: "thoughtly-create-contact",
   name: "Create Contact",
-  description: "Generates a new contact within your Thoughtly team.",
+  description: "Generates a new contact within your Thoughtly team. [See the documentation](https://api.thought.ly/docs/#/contact/post_contact_create)",
   version: "0.0.1",
   type: "action",
   props: {
