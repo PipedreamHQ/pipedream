@@ -44,7 +44,6 @@ export default {
           subject: this.subject,
           message: this.message,
         },
-        ownerName: "Sergio Wong",
       },
     });
 

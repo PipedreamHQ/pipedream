@@ -54,7 +54,7 @@ export default {
           message: this.message,
         },
         receiversList: parseObject(this.receiversList),
-        customVariables: this.customVariables,
+        customVariables: parseObject(this.customVariables),
       },
     });
 
