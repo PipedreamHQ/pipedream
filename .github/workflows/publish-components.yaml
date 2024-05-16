@@ -48,7 +48,7 @@ jobs:
           echo "org_id = $PD_ORG_ID" >> $HOME/.config/pipedream/config
       - name: Get Changed Files
         id: files
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'csv'
       - name: Publish and add to registry components/*.*js (that aren't .app.js files)
@@ -155,7 +155,7 @@ jobs:
         run: npm run build > files.txt
       - name: Get Changed Files
         id: files
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'csv'
       - name: Publish TypeScript components (dry run)
