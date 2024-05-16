@@ -4577,7 +4577,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/leadiq:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/leap:
     specifiers:
