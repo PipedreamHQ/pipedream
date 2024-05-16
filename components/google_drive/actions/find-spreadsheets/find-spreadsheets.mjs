@@ -41,6 +41,7 @@ export default {
         "Search for a file with a query. [See the documentation](https://developers.google.com/drive/api/guides/ref-search-terms) for more information. If specified, `Search Name` and `Parent Folder` will be ignored.",
     },
   },
+  methods: commonSearchQuery.methods,
   async run({ $ }) {
     const q = this.getQuery("spreadsheet", this.folderId);
     const opts = getListFilesOpts(this.drive, {
