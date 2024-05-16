@@ -3049,7 +3049,10 @@ importers:
     specifiers: {}
 
   components/fractel:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/frame:
     specifiers:
@@ -4577,7 +4580,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/leadiq:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/leap:
     specifiers:
@@ -6332,7 +6338,10 @@ importers:
     specifiers: {}
 
   components/platerecognizer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/platform_ly:
     specifiers: {}
@@ -9119,6 +9128,9 @@ importers:
   components/upollo:
     specifiers: {}
 
+  components/upstash_redis:
+    specifiers: {}
+
   components/uptimerobot:
     specifiers: {}
 
@@ -9583,7 +9595,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/wiza:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/wonderchat:
     specifiers: {}

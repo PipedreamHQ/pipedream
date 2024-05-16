@@ -18,9 +18,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4.1.5
       name: Checkout
-    - uses: jitterbit/get-changed-files@v1
+    - uses: Ana06/get-changed-files@v2.3.0
       id: changed_files
       name: Get changed files
+      continue-on-error: true
     - id: md_changed_files
       name: Spellcheck Markdown files
       run: |-
@@ -90,16 +91,18 @@ jobs:
       # ESLint only on changed files (not the same as the above super-linter)
       - name: Get Changed Files (space-separated)
         id: changed_files_space
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'space-delimited'
+        continue-on-error: true
       - name: Lint changed files
         run: npx eslint --quiet ${{ steps.changed_files_space.outputs.added_modified }} ${{ steps.changed_files_space.outputs.renamed }}
       - name: Get Changed Files (comma-separated)
         id: changed_files
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'csv'
+        continue-on-error: true
       # NOTE: These steps are kept in this workflow to avoid re-rerunning the rest of the lint job
       # in the Components Checks workflow 
       - name: Check component keys

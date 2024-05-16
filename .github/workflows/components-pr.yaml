@@ -30,7 +30,7 @@ jobs:
           # we have to fetch the entire history. See
           # https://github.com/actions/checkout/issues/266#issuecomment-638346893
           fetch-depth: 0
-      - uses: jitterbit/get-changed-files@v1
+      - uses: Ana06/get-changed-files@v2.3.0
         id: changed_files
         name: Get changed files
         with:
@@ -76,7 +76,7 @@ jobs:
         run: npm run build > files.txt
       - name: Get Changed Files
         id: files
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'csv'
       - name: Check For Compiled TypeScript Files
@@ -165,7 +165,7 @@ jobs:
         run: npm run build > files.txt
       - name: Get Changed Files
         id: files
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'csv'
       - name: Publish TypeScript components (dry run)
