@@ -9,7 +9,7 @@ export default {
   name: "Create Webinar",
   description: "Create a webinar for an user. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarcreate)",
   key: "zoom_admin-create-webinar",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     zoomAdmin,
