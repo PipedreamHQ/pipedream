@@ -3049,7 +3049,10 @@ importers:
     specifiers: {}
 
   components/fractel:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/frame:
     specifiers:
