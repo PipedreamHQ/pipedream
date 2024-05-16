@@ -937,7 +937,12 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/boloforms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+      uuid: ^9.0.1
+    dependencies:
+      '@pipedream/platform': 1.6.5
+      uuid: 9.0.1
 
   components/bolt_iot:
     specifiers: {}
