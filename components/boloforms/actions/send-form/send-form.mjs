@@ -1,28 +1,58 @@
+import { ConfigurationError } from "@pipedream/platform";
 import boloforms from "../../boloforms.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "boloforms-send-form",
   name: "Send Form",
-  description: "Enables form dispatching to a specified recipient.",
-  version: "0.0.${ts}",
+  description: "Enables form dispatching to a specific recipient. [See the documentation](https://help.boloforms.com/en/articles/8557660-sending-for-signing)",
+  version: "0.0.1",
   type: "action",
   props: {
     boloforms,
-    recipientEmail: boloforms.propDefinitions.recipientEmail,
-    customMessage: {
-      ...boloforms.propDefinitions.customMessage,
-      optional: true,
+    formId: {
+      propDefinition: [
+        boloforms,
+        "formId",
+      ],
+      type: "string",
     },
-    formId: boloforms.propDefinitions.formId,
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email of the receiver.",
+    },
+    subject: {
+      propDefinition: [
+        boloforms,
+        "subject",
+      ],
+    },
+    message: {
+      propDefinition: [
+        boloforms,
+        "message",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.boloforms.dispatchForm({
-      formId: this.formId,
-      recipientEmail: this.recipientEmail,
-      customMessage: this.customMessage,
+      $,
+      data: {
+        formId: this.formId,
+        email: {
+          to: this.email,
+          subject: this.subject,
+          message: this.message,
+        },
+        ownerName: "Sergio Wong",
+      },
     });
-    $.export("$summary", `Form dispatched successfully to ${this.recipientEmail}`);
+
+    if (response.error) {
+      throw new ConfigurationError(response.error);
+    }
+
+    $.export("$summary", `Form dispatched successfully to ${this.email}`);
     return response;
   },
 };

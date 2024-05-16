@@ -5,128 +5,115 @@ export default {
   app: "boloforms",
   propDefinitions: {
     formId: {
-      type: "string",
+      type: "string[]",
       label: "Form ID",
       description: "The ID of the form.",
-      async options() {
-        // Example implementation - replace with actual API call to fetch forms
-        const forms = await this.getForms();
-        return forms.map((form) => ({
-          label: form.name,
-          value: form.id,
-        }));
-      },
-    },
-    templateId: {
-      type: "string",
-      label: "Template ID",
-      description: "The ID of the template.",
-      async options() {
-        // Example implementation - replace with actual API call to fetch templates
-        const templates = await this.getTemplates();
-        return templates.map((template) => ({
-          label: template.name,
-          value: template.id,
+      async options({ page }) {
+        const { forms } = await this.getForms({
+          params: {
+            page: page + 1,
+            filter: "ALL",
+          },
+        });
+        return forms.map(({
+          formId: value, formJson: { title: label },
+        }) => ({
+          label,
+          value,
         }));
       },
     },
     documentId: {
-      type: "string",
+      type: "string[]",
       label: "Document ID",
       description: "The ID of the document.",
-      async options() {
-        // Example implementation - replace with actual API call to fetch documents
-        const documents = await this.getDocuments();
-        return documents.map((document) => ({
-          label: document.name,
-          value: document.id,
+      async options({
+        page, isStandAloneTemplate = false,
+      }) {
+        const { documents } = await this.getDocuments({
+          params: {
+            page: page + 1,
+            filter: "ALL",
+            isStandAloneTemplate,
+          },
+        });
+        return documents.map(({
+          documentId: value, documentName: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    recipientEmail: {
+    subject: {
       type: "string",
-      label: "Recipient's Email",
-      description: "The email of the recipient.",
+      label: "Subject",
+      description: "The subject will be sent.",
     },
-    customMessage: {
+    message: {
       type: "string",
-      label: "Custom Message",
-      description: "A custom message to include in the dispatch.",
-      optional: true,
-    },
-    signerEmail: {
-      type: "string",
-      label: "Signer's Email",
-      description: "The email of the signer.",
-    },
-    variables: {
-      type: "string[]",
-      label: "Variables",
-      description: "Variables to insert into the template.",
-      optional: true,
+      label: "Message",
+      description: "The message will be sent.",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://sapi.boloforms.com";
+      return "https://signature-backend.boloforms.com/api/v1/signature";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "x-api-key": this.$auth.api_key,
+        "Workspaceid": this.$auth.workspace_id,
+        "Content-Type": "application/json",
+      };
+    },
+    _data(data) {
+      return {
+        email: this.$auth.email,
+        ...data,
+      };
+    },
+    _makeRequest({
+      $ = this, data, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          "x-api-key": this.$auth.api_key,
-          "Content-Type": "application/json",
-        },
+        headers: this._headers(),
+        data: this._data(data),
+        ...opts,
       });
     },
-    async getForms() {
-      // Placeholder for actual API call to fetch forms
-      return this._makeRequest({
-        path: "/forms",
-      });
-    },
-    async getTemplates() {
-      // Placeholder for actual API call to fetch templates
-      return this._makeRequest({
-        path: "/templates",
-      });
-    },
-    async getDocuments() {
-      // Placeholder for actual API call to fetch documents
-      return this._makeRequest({
-        path: "/documents",
-      });
-    },
-    async dispatchForm({
-      formId, recipientEmail, customMessage,
-    }) {
+    dispatchPDFTemplate(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/signature/form-template",
-        data: {
-          formId,
-          recipientEmail,
-          customMessage,
-        },
+        path: "/add-respondent-pdfTemplate",
+        ...opts,
       });
     },
-    async dispatchTemplate({
-      templateId, signerEmail, variables,
-    }) {
+    dispatchForm(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/signature/pdf-template",
-        data: {
-          templateId,
-          signerEmail,
-          variables,
-        },
+        path: "/forms/send-form-email",
+        ...opts,
+      });
+    },
+    getDocuments(opts = {}) {
+      return this._makeRequest({
+        path: "/get-all-documents/v1",
+        ...opts,
+      });
+    },
+    getForms(opts = {}) {
+      return this._makeRequest({
+        path: "/get-all-forms/v1",
+        ...opts,
+      });
+    },
+    updateHooks(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/workspace/webhooks",
+        ...opts,
       });
     },
   },
