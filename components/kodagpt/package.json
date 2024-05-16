@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kodagpt",
+  "version": "0.0.1",
+  "description": "Pipedream KodaGPT Components",
+  "main": "kodagpt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kodagpt"
+  ],
+  "homepage": "https://pipedream.com/apps/kodagpt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

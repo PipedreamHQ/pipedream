@@ -3,8 +3,8 @@ import app from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-insert-comment",
   name: "Insert Comment",
-  description: "Insert a comment into a spreadsheet. [See the docs here](https://developers.google.com/drive/api/v3/reference/comments/create)",
-  version: "0.1.4",
+  description: "Insert a comment into a spreadsheet. [See the documentation](https://developers.google.com/drive/api/v3/reference/comments/create)",
+  version: "0.1.6",
   type: "action",
   props: {
     app,

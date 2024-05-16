@@ -1,5 +1,6 @@
 import httpBase from "../common/http-based/sheet.mjs";
 import newWorksheet from "../common/new-worksheet.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...httpBase,
@@ -7,8 +8,8 @@ export default {
   key: "google_sheets-new-worksheet",
   type: "source",
   name: "New Worksheet (Instant)",
-  description: "Emit new event each time a new worksheet is created in a spreadsheet. To use this source with a spreadsheet in a [Shared Drive](https://support.google.com/a/users/answer/9310351), use the **New Worksheet (Shared Drive, Instant)** source instead.",
-  version: "0.1.4",
+  description: "Emit new event each time a new worksheet is created in a spreadsheet.",
+  version: "0.1.7",
   dedupe: "unique",
   hooks: {
     ...httpBase.hooks,
@@ -22,4 +23,5 @@ export default {
     ...httpBase.methods,
     ...newWorksheet.methods,
   },
+  sampleEmit,
 };

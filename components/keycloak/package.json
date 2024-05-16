@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/keycloak",
+  "version": "0.0.1",
+  "description": "Pipedream Keycloak Components",
+  "main": "keycloak.app.mjs",
+  "keywords": [
+    "pipedream",
+    "keycloak"
+  ],
+  "homepage": "https://pipedream.com/apps/keycloak",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

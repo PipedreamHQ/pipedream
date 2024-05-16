@@ -138,7 +138,7 @@ export default {
       throw new Error("activateHook is not implemented");
     },
     processSpreadsheet() {
-      throw new Error("processEvent is not implemented");
+      throw new Error("processSpreadsheet is not implemented");
     },
     async renewSubscription() {
       throw new Error("renewSubscription is not implemented");

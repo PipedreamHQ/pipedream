@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/insighto_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Insighto.ai Components",
+  "main": "insighto_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "insighto_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/insighto_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

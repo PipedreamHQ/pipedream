@@ -1,10 +1,14 @@
 import googleSheets from "../../google_sheets.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import {
+  parseArray, getWorksheetHeaders,
+} from "../../common/utils.mjs";
 
 export default {
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
-  description: "Add multiple rows of data to a Google Sheet",
-  version: "0.2.4",
+  description: "Add multiple rows of data to a Google Sheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
+  version: "0.2.6",
   type: "action",
   props: {
     googleSheets,
@@ -23,19 +27,35 @@ export default {
         }),
       ],
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
+      ],
+      type: "string",
+      label: "Worksheet Id",
+      withLabel: true,
+      reloadProps: true,
+    },
+    headersDisplay: {
+      propDefinition: [
+        googleSheets,
+        "headersDisplay",
       ],
     },
     rows: {
       propDefinition: [
         googleSheets,
         "rows",
+      ],
+    },
+    rowsDescription: {
+      propDefinition: [
+        googleSheets,
+        "rowsDescription",
       ],
     },
     resetRowFormat: {
@@ -45,16 +65,29 @@ export default {
       optional: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (!this.sheetId || !this.worksheetId) {
+      return props;
+    }
+    const rowHeaders = await getWorksheetHeaders(this, this.sheetId, this.worksheetId.label);
+    if (rowHeaders.length) {
+      return {
+        headersDisplay: {
+          type: "alert",
+          alertType: "info",
+          content: `Possible Row Headers: **\`${rowHeaders.join(", ")}\`**`,
+          hidden: false,
+        },
+      };
+    }
+  },
   async run() {
-    let rows = this.rows;
-
     let inputValidated = true;
 
-    if (!Array.isArray(rows)) {
-      rows = JSON.parse(this.rows);
-    }
+    const rows = parseArray(this.rows);
 
-    if (!rows || !rows.length || !Array.isArray(rows)) {
+    if (!rows) {
       inputValidated = false;
     } else {
       rows.forEach((row) => { if (!Array.isArray(row)) { inputValidated = false; } });
@@ -64,12 +97,12 @@ export default {
     if (!inputValidated) {
       console.error("Data Submitted:");
       console.error(rows);
-      throw new Error("Rows data is not an array of arrays. Please enter an array of arrays in the `Rows` parameter above. If you're trying to send a single rows to Google Sheets, search for the action to add a single row to Sheets or try modifying the code for this step.");
+      throw new ConfigurationError("Rows data is not an array of arrays. Please enter an array of arrays in the `Rows` parameter above. If you're trying to send a single rows to Google Sheets, search for the action to add a single row to Sheets or try modifying the code for this step.");
     }
 
     const addRowsResponse = await this.googleSheets.addRowsToSheet({
       spreadsheetId: this.sheetId,
-      range: this.sheetName,
+      range: this.worksheetId.label,
       rows,
     });
 
