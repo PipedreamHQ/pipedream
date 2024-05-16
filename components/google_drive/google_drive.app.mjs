@@ -1264,7 +1264,7 @@ export default {
      */
     async createPermission(fileId, opts = {}) {
       const {
-        role = "reader",
+        role,
         type,
         domain,
         emailAddress,

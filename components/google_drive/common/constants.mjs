@@ -163,14 +163,6 @@ const GOOGLE_DRIVE_ROLE_READER = "reader";
  * All of the available Google Drive roles granted by a permission as defined by the [Google
  * Drive API docs](https://developers.google.com/drive/api/v3/reference/permissions)
  */
-const GOOGLE_DRIVE_ROLES = [
-  GOOGLE_DRIVE_ROLE_OWNER,
-  GOOGLE_DRIVE_ROLE_ORGANIZER,
-  GOOGLE_DRIVE_ROLE_FILEORGANIZER,
-  GOOGLE_DRIVE_ROLE_WRITER,
-  GOOGLE_DRIVE_ROLE_COMMENTER,
-  GOOGLE_DRIVE_ROLE_READER,
-];
 
 const GOOGLE_DRIVE_ROLE_OPTIONS = [
   {
@@ -182,22 +174,19 @@ const GOOGLE_DRIVE_ROLE_OPTIONS = [
     value: GOOGLE_DRIVE_ROLE_COMMENTER,
   },
   {
-    label: "Reader - Can access, but can't change or share the file with others.",
+    label: "Viewer - Can access, but can't change or share the file with others.",
     value: GOOGLE_DRIVE_ROLE_READER,
   },
-  {
-    label: "(Advanced) File Owner - this will transfer ownership of the file.",
-    value: GOOGLE_DRIVE_ROLE_OWNER,
-  },
-  {
-    label: "(Advanced) File Organizar",
-    value: GOOGLE_DRIVE_ROLE_FILEORGANIZER,
-  },
-  {
-    label: "(Advanced) Organizar",
-    value: GOOGLE_DRIVE_ROLE_ORGANIZER,
-  },
 ];
+
+const GOOGLE_DRIVE_ROLE_OPTION_FILEORGANIZER = {
+  label: "(Advanced) Content Manager - add, edit, move, delete and share content",
+  value: GOOGLE_DRIVE_ROLE_FILEORGANIZER,
+};
+const GOOGLE_DRIVE_ROLE_OPTION_OWNER = {
+  label: "(Advanced) File Owner - this will transfer ownership of the file.",
+  value: GOOGLE_DRIVE_ROLE_OWNER,
+};
 
 const GOOGLE_DRIVE_GRANTEE_USER = "user";
 const GOOGLE_DRIVE_GRANTEE_GROUP = "group";
@@ -263,8 +252,9 @@ export {
   GOOGLE_DRIVE_ROLE_WRITER,
   GOOGLE_DRIVE_ROLE_COMMENTER,
   GOOGLE_DRIVE_ROLE_READER,
-  GOOGLE_DRIVE_ROLES,
   GOOGLE_DRIVE_ROLE_OPTIONS,
+  GOOGLE_DRIVE_ROLE_OPTION_FILEORGANIZER,
+  GOOGLE_DRIVE_ROLE_OPTION_OWNER,
   // Google Drive Grantee Types
   GOOGLE_DRIVE_GRANTEE_USER,
   GOOGLE_DRIVE_GRANTEE_GROUP,
