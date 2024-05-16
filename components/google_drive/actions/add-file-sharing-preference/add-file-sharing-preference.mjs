@@ -17,7 +17,7 @@ import googleDrive from "../../google_drive.app.mjs";
  */
 export default {
   key: "google_drive-add-file-sharing-preference",
-  name: "Share File",
+  name: "Share File or Folder",
   description:
     "Add a [sharing permission](https://support.google.com/drive/answer/7166529) to the sharing preferences of a file or folder and provide a sharing URL. [See the documentation](https://developers.google.com/drive/api/v3/reference/permissions/create)",
   version: "0.1.6",
