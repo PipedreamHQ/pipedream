@@ -8,29 +8,51 @@ export default {
   type: "action",
   props: {
     app,
+    filter: {
+      propDefinition: [
+        app,
+        "filter",
+      ],
+    },
+    sort: {
+      propDefinition: [
+        app,
+        "sort",
+      ],
+    },
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+    },
+    offset: {
+      propDefinition: [
+        app,
+        "offset",
+      ],
+    },
   },
   async run({ $ }) {
-    let results = [];
-    let stop = false;
+    const filter = typeof this.filter === "string"
+      ? JSON.parse(this.filter)
+      : this.filter;
 
-    while (!stop) {
-      const {
-        count, data,
-      } = await this.app.getActivities({
-        $,
-        params: {
-          limit: 100,
-          offset: results.length,
-        },
-      });
+    const sort = typeof this.sort === "string"
+      ? JSON.parse(this.sort)
+      : this.sort;
 
-      results = results.concat(data);
+    const response = await this.app.getActivities({
+      $,
+      data: {
+        sort,
+        filter,
+        limit: this.limit,
+        offset: this.offset,
+      },
+    });
+    $.export("$summary", `Successfully retrieved ${response.data.length} activities`);
 
-      stop = count <= results.length;
-    }
-
-    $.export("$summary", `Successfully retrieved ${results.length} activities`);
-
-    return results;
+    return response;
   },
 };

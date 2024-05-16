@@ -25,12 +25,35 @@ export default {
         }));
       },
     },
+    associationType: {
+      type: "string",
+      label: "Association Type",
+      description: "The association type.",
+      async options({ page }) {
+        const { data: resources } = await this.getCollections({
+          data: {
+            offset: page * 100,
+            limit: 100,
+          },
+        });
+
+        return resources.map(({
+          _id, name,
+        }) => ({
+          value: _id,
+          label: name,
+        }));
+      },
+    },
     associatedId: {
       type: "string",
       label: "Associated ID",
       description: "The ID of the collection record associated with the activity.",
-      async options({ page }) {
-        const { data: resources } = await this.getCollections({
+      async options({
+        page, associationType,
+      }) {
+        const { data: resources } = await this.getCollectionsRecords({
+          associationType,
           data: {
             offset: page * 100,
             limit: 100,
@@ -48,7 +71,7 @@ export default {
     statusId: {
       type: "string",
       label: "Status ID",
-      description: "The ID of the status attribute indicating the current status of the activity",
+      description: "The unique identifier for the status attribute. To get the Status ID, please use Get Activities action to get all activities, then investigate the `status` field in each record",
       async options({ page }) {
         const { data: resources } = await this.getActivities({
           data: {
@@ -106,6 +129,30 @@ export default {
       description: "A description providing additional details about the activity",
       optional: true,
     },
+    filter: {
+      type: "string",
+      label: "Filter",
+      description: "An array that will eventually allow users to define specific criteria for filtering data. Currently, it is an empty array, indicating that no filtering is applied at this time.",
+      optional: true,
+    },
+    sort: {
+      type: "string",
+      label: "Sort",
+      description: "An array that will eventually enable users to specify sorting criteria for the data. Like the filter array, it is currently empty, implying that no sorting is applied in the current context.",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The number of records to be returned, set to 10 in this instance. This parameter restricts the response to a specific quantity of records.",
+      optional: true,
+    },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The starting point from which the records are to be fetched within the entire dataset. In this case, it is set to 0, indicating that retrieval should commence from the beginning of the dataset.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -137,6 +184,15 @@ export default {
     async getCollections(args = {}) {
       return this._makeRequest({
         path: "/collections",
+        ...args,
+      });
+    },
+    async getCollectionsRecords({
+      associationType, ...args
+    }) {
+      return this._makeRequest({
+        path: `/collection-records/${associationType}/query`,
+        method: "post",
         ...args,
       });
     },
