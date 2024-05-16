@@ -129,9 +129,9 @@ export default {
     const webViewLink = resp.webViewLink;
     $.export(
       "$summary",
-      `Successfully shared file "${resp.name}" with ${this.type} "${
-        this.emailAddress ?? this.domain ?? ""
-      }"`,
+      `Successfully shared file "${resp.name}" with ${type} "${
+        emailAddress ?? domain ?? ""
+      }" with role '${role}'`,
     );
     return webViewLink;
   },
