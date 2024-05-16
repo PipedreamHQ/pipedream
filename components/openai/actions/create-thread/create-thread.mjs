@@ -61,6 +61,12 @@ export default {
         description: "The system instructions that the assistant uses.",
         optional: true,
       };
+      props.waitForCompletion = {
+        type: "boolean",
+        label: "Wait For Completion",
+        description: "Set to `true` to poll the API in 3-second intervals until the run is completed",
+        optional: true,
+      };
     }
     const toolProps = this.toolTypes?.length
       ? await this.getToolProps()
@@ -93,7 +99,7 @@ export default {
         content: message,
       }))
       : undefined;
-    const response = !this.runThread
+    let response = !this.runThread
       ? await this.openai.createThread({
         $,
         data: {
@@ -118,8 +124,22 @@ export default {
         },
       });
 
+    if (this.waitForCompletion) {
+      const runId = response.id;
+      const threadId = response.thread_id;
+      const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+      while (response.status !== "completed") {
+        response = await this.openai.retrieveRun({
+          $,
+          threadId,
+          runId,
+        });
+        await timer(3000);
+      }
+    }
+
     $.export("$summary", `Successfully created a thread ${this.runThread
-      ? "and initiated run"
+      ? "and run"
       : ""} with ID: ${response.id}`);
     return response;
   },

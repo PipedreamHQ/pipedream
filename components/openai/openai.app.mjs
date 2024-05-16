@@ -41,15 +41,6 @@ export default {
         return models.map(({ id }) => id);
       },
     },
-    visionModel: {
-      type: "string",
-      label: "Model",
-      description: "The id of the vision model to use",
-      async options() {
-        const models = (await this.models({})).filter(({ id }) => id.includes("vision"));
-        return models.map(({ id }) => id);
-      },
-    },
     assistant: {
       type: "string",
       label: "Assistant",
@@ -149,27 +140,10 @@ export default {
         };
       },
     },
-    assistantId: {
-      type: "string",
-      label: "Assistant ID",
-      description: "The unique identifier for the assistant.",
-    },
-    model: {
-      type: "string",
-      label: "Model",
-      description: "The ID of the model to use.",
-      optional: true,
-    },
     instructions: {
       type: "string",
       label: "Instructions",
       description: "The system instructions that the assistant uses.",
-      optional: true,
-    },
-    tools: {
-      type: "string[]",
-      label: "Tools",
-      description: "Each tool should be a valid JSON object. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/createAssistant#assistants-createassistant-tools) for more information. Examples of function tools [can be found here](https://cookbook.openai.com/examples/how_to_call_functions_with_chat_models#basic-concepts).",
       optional: true,
     },
     metadata: {
@@ -182,11 +156,6 @@ export default {
       type: "string[]",
       label: "Messages",
       description: "An array of messages to start the thread with.",
-    },
-    messageId: {
-      type: "string",
-      label: "Message ID",
-      description: "The ID of the message to modify",
     },
     content: {
       type: "string",
@@ -269,7 +238,7 @@ export default {
     responseFormat: {
       type: "string",
       label: "Response Format",
-      description: "The format to audio in.",
+      description: "The format to generate audio in. Supported formats are mp3, opus, aac, flac, wav, and pcm.",
       options: constants.AUDIO_RESPONSE_FORMATS,
       optional: true,
     },
@@ -554,7 +523,7 @@ export default {
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}/cancel`,
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         method: "POST",
         ...args,
       });
@@ -631,7 +600,7 @@ export default {
       file_id, ...args
     }) {
       return this._makeRequest({
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         path: `/files/${file_id}/content`,
         ...args,
       });

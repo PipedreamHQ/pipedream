@@ -41,6 +41,8 @@ const AUDIO_RESPONSE_FORMATS = [
   "opus",
   "aac",
   "flac",
+  "wav",
+  "pcm",
 ];
 
 const CHAT_RESPONSE_FORMATS = [
