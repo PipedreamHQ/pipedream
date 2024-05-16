@@ -1,5 +1,5 @@
 export function parseObject(value = {}) {
-  return Object.entries(value).map(([
+  return Object.fromEntries(Object.entries(value).map(([
     key,
     value,
   ]) => {
@@ -14,7 +14,7 @@ export function parseObject(value = {}) {
         value,
       ];
     }
-  });
+  }));
 }
 
 export function getAdditionalFieldsDescription(link) {

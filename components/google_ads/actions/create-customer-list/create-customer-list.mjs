@@ -9,7 +9,7 @@ export default {
   key: "google_ads-create-customer-list",
   name: "Create Customer List",
   description: "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     ...common.props,
@@ -34,22 +34,20 @@ export default {
     },
   },
   async run({ $ }) {
-    // const updateMask = [
-    //   "name",
-    //   "description",
-    //   ...Object.keys(this.additionalFields ?? {}),
-    // ].filter((key) => this[key] !== undefined);
-    const response = await this.googleAds.createUserList({
+    const { results: { [0]: response } } = await this.googleAds.createUserList({
       $,
       accountId: this.accountId,
       customerId: this.customerClientId,
       data: {
         operations: [
           {
-            // updateMask,
             create: {
               name: this.name,
               description: this.description,
+              // crmBasedUserList: {
+              //   uploadKeyType: "CONTACT_INFO",
+              //   dataSourceType: "FIRST_PARTY",
+              // },
               ...parseObject(this.additionalFields),
             },
           },
@@ -57,7 +55,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Created customer list with ID ${response.id}`);
+    $.export("$summary", `Created customer list with ID ${response.resourceName.split("/").pop()}`);
     return response;
   },
 };
