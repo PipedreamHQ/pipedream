@@ -4,67 +4,69 @@ export default {
   type: "app",
   app: "detectify",
   propDefinitions: {
-    domain: {
+    domainToken: {
       type: "string",
-      label: "Domain",
-      description: "The target domain for the events",
-    },
-    userKeys: {
-      type: "string",
-      label: "User Keys",
-      description: "The user keys for authentication",
+      label: "Domain Token",
+      description: "The asset token for the target domain",
+      async options({ prevContext }) {
+        const {
+          assets, next_marker: marker,
+        } = await this.listAssets({
+          include_subdomains: true,
+          marker: prevContext?.marker
+            ? prevContext.marker
+            : undefined,
+        });
+        return {
+          options: assets?.map(({
+            name, token,
+          }) => ({
+            label: name,
+            value: token,
+          })),
+          context: {
+            marker,
+          },
+        };
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.detectify.com/rest/v1";
+      return "https://api.detectify.com/rest/v2";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "X-Detectify-Key": `${this.$auth.api_key}`,
         },
       });
     },
-    async getSevereSecurityFindings({
-      domain, userKeys,
-    }) {
+    listAssets(opts = {}) {
       return this._makeRequest({
-        path: `/findings/severe/${domain}`,
-        headers: {
-          "User-Keys": userKeys,
-        },
+        path: "/assets/",
+        ...opts,
       });
     },
-    async getModerateSecurityFindings({
-      domain, userKeys,
+    listScanProfilesForAsset({
+      token, ...opts
     }) {
       return this._makeRequest({
-        path: `/findings/moderate/${domain}`,
-        headers: {
-          "User-Keys": userKeys,
-        },
+        path: `/profiles/${token}/`,
+        ...opts,
       });
     },
-    async getScanStatus({
-      domain, userKeys,
-    }) {
+    listVulnerabilities(opts = {}) {
       return this._makeRequest({
-        path: `/scan/${domain}`,
-        headers: {
-          "User-Keys": userKeys,
-        },
+        path: "/vulnerabilities/",
+        ...opts,
       });
     },
   },
