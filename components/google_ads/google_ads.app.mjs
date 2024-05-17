@@ -88,7 +88,6 @@ export default {
         headers: this._headers(accountId),
         ...opts,
       };
-      $?.export?.("config", data);
       return axios($, {
         method: "post",
         url: this._baseUrl(),

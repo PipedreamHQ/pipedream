@@ -62,40 +62,33 @@ export default {
     return newProps;
   },
   async run({ $ }) {
-    const { // eslint-disable-next-line no-unused-vars
+    const {
       googleAds, accountId, customerClientId, name, description, listType, additionalFields, ...data
     } = this;
-    $;
+    const { results: { [0]: response } } = await googleAds.createUserList({
+      $,
+      accountId,
+      customerClientId,
+      data: {
+        operations: [
+          {
+            create: {
+              name,
+              description,
+              [listType]: data,
+              ...parseObject(additionalFields),
+            },
+          },
+        ],
+      },
+    });
+
+    const id = response.resourceName.split("/").pop();
+
+    $.export("$summary", `Created customer list of type \`${listType}\` with ID \`${id}\``);
     return {
-      name: this.name,
-      description: this.description,
-      [this.listType]: data,
-      ...parseObject(this.additionalFields),
+      id,
+      ...response,
     };
-    // const { results: { [0]: response } } = await this.googleAds.createUserList({
-    //   $,
-    //   accountId,
-    //   customerClientId,
-    //   data: {
-    //     operations: [
-    //       {
-    //         create: {
-    //           name: this.name,
-    //           description: this.description,
-    //           [this.listType]: data,
-    //           ...parseObject(this.additionalFields),
-    //         },
-    //       },
-    //     ],
-    //   },
-    // });
-
-    // const id = response.resourceName.split("/").pop();
-
-    // $.export("$summary", `Created customer list with ID ${id}`);
-    // return {
-    //   id,
-    //   ...response,
-    // };
   },
 };
