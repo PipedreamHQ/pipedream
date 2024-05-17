@@ -62,10 +62,20 @@ export default {
       ],
       optional: true,
     },
+    associationType: {
+      propDefinition: [
+        app,
+        "associationType",
+      ],
+      optional: true,
+    },
     associatedId: {
       propDefinition: [
         app,
         "associatedId",
+        (c) => ({
+          associationType: c.associationType,
+        }),
       ],
       optional: true,
     },
