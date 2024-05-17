@@ -31,7 +31,7 @@ export default {
     const response = await this.googleAds.createConversionAction({
       $,
       accountId: this.accountId,
-      customerId: this.customerClientId,
+      customerClientId: this.customerClientId,
       data: {
         operations: [
           {

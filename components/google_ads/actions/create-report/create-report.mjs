@@ -19,7 +19,7 @@ export default {
     const response = await this.googleAds.createReport({
       $,
       accountId: this.accountId,
-      customerId: this.customerClientId,
+      customerClientId: this.customerClientId,
     });
 
     $.export("$summary", `Created report with ID ${response.id}`);

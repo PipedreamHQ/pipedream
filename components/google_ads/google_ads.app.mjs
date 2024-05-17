@@ -114,20 +114,20 @@ export default {
       return response.results;
     },
     async createUserList({
-      customerId, ...args
+      customerClientId, ...args
     }) {
       const response = await this._makeRequest({
-        path: `v16/customers/${customerId}/userLists:mutate`,
+        path: `v16/customers/${customerClientId}/userLists:mutate`,
         method: "post",
         ...args,
       });
       return response;
     },
     async createConversionAction({
-      customerId, ...args
+      customerClientId, ...args
     }) {
       const response = await this._makeRequest({
-        path: `v16/customers/${customerId}/conversionActions:mutate`,
+        path: `v16/customers/${customerClientId}/conversionActions:mutate`,
         method: "post",
         ...args,
       });
