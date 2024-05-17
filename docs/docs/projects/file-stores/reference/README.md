@@ -41,7 +41,7 @@ export default defineComponent({
     // Convert the the descriptor of the file back into a File instance
     const file = $.files.openDescriptor(steps.create_file.$return_value)
     // Download the file to the local /tmp directory
-    await $.file.download('/tmp/example.png')
+    await $.file.toFile('/tmp/example.png')
     console.log("File downloaded to /tmp")
   },
 })
@@ -154,7 +154,9 @@ export default defineComponent({
     // Upload a file to the File Store from the local /tmp/ directory
     const file = await $.files.open('recording.mp3').fromFile('/tmp/recording.mp3')
 
-    console.log(file.url)
+    // retrieve the short lived public URL to the file
+    const publicUrl = await file.toUrl();
+    console.log(publicUrl)
   },
 })
 ```

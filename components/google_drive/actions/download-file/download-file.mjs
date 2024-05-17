@@ -2,7 +2,7 @@ import googleDrive from "../../google_drive.app.mjs";
 import fs from "fs";
 import stream from "stream";
 import { promisify } from "util";
-import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../constants.mjs";
+import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
 import googleWorkspaceExportFormats from "../google-workspace-export-formats.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
@@ -18,7 +18,7 @@ export default {
   key: "google_drive-download-file",
   name: "Download File",
   description: "Download a file. [See the docs](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
-  version: "0.1.1",
+  version: "0.1.4",
   type: "action",
   props: {
     googleDrive,

@@ -5,15 +5,19 @@ import Callout from "@/components/Callout";
 You can control workflow-specific settings in your workflow's **Settings**:
 
 1. Visit your workflow
-2. Select the _..._ menu at the top-right and click **Settings**:
+2. Click on Workflow Settings on the top left:
 
 <br />
 <img
-  src="https://res.cloudinary.com/pipedreamin/image/upload/v1656632132/docs/2022-06-30_16.35.17_g13fag.gif"
-  alt="Click on the ... menu at the top-right and select Settings"
+  src="https://res.cloudinary.com/pipedreamin/image/upload/v1710510858/docs/docs/workflows/settings/CleanShot_2024-03-15_at_09.53.34_sqkcse.gif"
+  alt="Click on Workflow Settings on the top left"
   width="300px"
 />
 <br />
+
+<Callout type="info" emoji="ℹ️">
+You can also open the workflow settings using `CMD` + `,` on Mac, or `Ctrl` + `,` on Windows.
+</Callout>
 
 ## Enable Workflow
 
@@ -114,7 +118,7 @@ By default, workflows run with {process.env.MEMORY_LIMIT} of memory. If you're p
 
 ## Eliminate cold starts
 
-A **cold start** refers to the delay between the invocation of workflow and the execution of the workflow code. Cold starts happen when Pipedream spins up a new [execution environment](/privacy-and-security/#execution-environment) to handle incoming requests.
+A **cold start** refers to the delay between the invocation of workflow and the execution of the workflow code. Cold starts happen when Pipedream spins up a new [execution environment](/privacy-and-security/#execution-environment) to handle incoming events.
 
 Specifically, cold starts occur on the first request to your workflow after a period of inactivity (roughly 5 minutes), or if your initial worker is already busy and a new worker needs to be initialized. In these cases, Pipedream creates a new execution environment to process your event. **Initializing this environment takes a few seconds, which delays the execution of this first event**.
 

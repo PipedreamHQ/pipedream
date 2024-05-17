@@ -21,12 +21,19 @@ export default {
     _setLastMaxTimestamp(lastMaxTimestamp) {
       this.db.set("lastMaxTimestamp", lastMaxTimestamp);
     },
+    async streamToArray(stream) {
+      const result = [];
+      for await (const item of stream) {
+        result.push(item);
+      }
+      return result;
+    },
     async processCollection(statement, timestamp) {
       const rowStream = await this.snowflake.getRows(statement);
-      this.$emit({
-        rows: rowStream,
+      const rows = await this.streamToArray(rowStream);
+      this.$emit(rows, this.generateMetaForCollection({
         timestamp,
-      });
+      }));
     },
     async processSingle(statement, timestamp) {
       let lastResultId;

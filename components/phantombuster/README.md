@@ -1,28 +1,11 @@
 # Overview
 
-Phantombuster is a powerful API that enables users to build efficient web
-automation solutions. It provides a pool of services and tools to help users
-quickly, easily and securely interact with multiple websites at once.
+Phantombuster is a tool that lets you automate interactions with web platforms to extract data, manage social media campaigns, and automate web actions. Using its API on Pipedream, you can seamlessly integrate these automation capabilities into complex workflows. Imagine orchestrating a symphony where Phantombuster plays the strings—pulling data from LinkedIn, sending tailored tweets, or automating lead generation—while Pipedream conducts, integrating these actions with other apps and services for a harmonious data-driven performance.
 
-With Phantombuster, users can create custom automated solutions to perform
-various tasks such as data extraction, lead generation, marketing automation,
-and web scraping. Here are a few of the things users can build using
-Phantombuster:
+# Example Use Cases
 
-- Data extraction - Phantombuster's API allows users to quickly and securely
-  extract data from multiple sites and APIs, allowing users to access large
-  amounts of data at once and extract only what they need.
-- Lead generation - Phantombuster's API connects to multiple social networks
-  and websites, allowing users to quickly and accurately gather leads or
-  potential contacts and store them into a database.
-- Automated marketing campaigns - Phantombuster's API enables users to create
-  and launch automated marketing campaigns, automating the entire process and
-  saving time and money.
-- Web scraping - Phantombuster's API allows users to scrape entire webpages or
-  just parts of it, enabling streamlined data years.
-- Robot monitoring - Phantombuster's API enables users to monitor robots,
-  allowing them to keep an eye on their tasks and ensuring their bots are
-  running as efficiently as possible.
-- Data analytics - Phantombuster's API allows users to easily analyze and
-  visualize their gathered data, allowing them to quickly make decisions based
-  on their collected data.
+- **LinkedIn Lead Generation and Outreach**: Trigger a Phantombuster automation to scrape LinkedIn profiles based on specified criteria. Use Pipedream to process this data, filter leads, and send personalized messages through LinkedIn or sync with a CRM like Salesforce to follow up.
+
+- **Twitter Engagement Booster**: Set up a workflow where Phantombuster automatically likes, retweets, or follows users based on specific hashtags or keywords. Pipedream can then store these interactions in a Google Sheet for analysis and further engage with these users by scheduling follow-up tweets or direct messages.
+
+- **Instagram Content Planner**: Use Phantombuster to pull popular posts and hashtags for given topics on Instagram. With Pipedream, analyze the popularity trends and automatically schedule your posts through Buffer or Hootsuite to maximize engagement, ensuring your content hits the mark every time.

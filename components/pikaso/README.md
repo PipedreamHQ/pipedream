@@ -1,21 +1,11 @@
 # Overview
 
-Build powerful and user-friendly applications with the Pikaso API. Pikaso API
-is a REST API that allows developers to integrate data from multiple sources
-into their applications and deliver them in one centralized platform.
+The Pikaso API lets you capture and customize screenshots of tweets with defined styles, sizes, and themes. Harness this power within Pipedream to automate the process of capturing tweet images for reporting, archiving, or sharing across various platforms. Think of it as a bridge between Twitter's textual content and visually-oriented platforms or documents.
 
-Pikaso API helps to access data from a wide range of sources such as Github,
-Twitter, Google Calendar and many more. It also provides all the necessary
-tools needed to build, test and maintain APIs and applications. With the Pikaso
-API, developers can save time and reduce effort in managing data from multiple
-sources.
+# Example Use Cases
 
-Here are some of the things developers can build with the Pikaso API:
+- **Automated Tweet Reporting**: Set up a Pipedream workflow that listens for tweets from specific accounts or containing certain hashtags using Twitter's API. Whenever a relevant tweet appears, the workflow triggers the Pikaso API to capture a screenshot and then sends that image to a Google Drive folder for organized reporting.
 
-- Custom Mobile Applications
-- Web Applications
-- Data Aggregators
-- Access Controls
-- Workflows and Automation
-- IoT Solutions
-- Cloud and Server Solutions
+- **Social Media Management**: Incorporate Pikaso into a Pipedream workflow that helps manage your social media. After crafting and posting a tweet, use Pikaso to capture the tweet's image. Then, programmatically post the screenshot to other social media platforms like Instagram or Facebook, repurposing content across channels.
+
+- **Tweet Archive Building**: Create an automated archival system on Pipedream where every tweet from your company's Twitter account is captured by Pikaso and then stored in Airtable or a similar database. This can serve as a visual archive for reference, marketing materials, or compliance purposes.

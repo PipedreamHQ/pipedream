@@ -1,5 +1,9 @@
 import mysqlClient from "mysql2/promise";
-import { sqlProxy } from "@pipedream/platform";
+import {
+  sqlProxy,
+  sqlProp,
+} from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -97,6 +101,41 @@ export default {
   },
   methods: {
     ...sqlProxy.methods,
+    ...sqlProp.methods,
+    _getSslConfig() {
+      const {
+        ca,
+        key,
+        cert,
+        ssl_verification_mode: mode,
+      } = this.$auth;
+
+      const defaultConfig = {
+        ...(ca && {
+          rejectUnauthorized: true,
+          verifyIdentity: true,
+        }),
+      };
+
+      const sslConfg = constants.SSL_CONFIG[mode] || defaultConfig;
+
+      const ssl = {
+        ...(ca && {
+          ca,
+        }),
+        ...(key && {
+          key,
+        }),
+        ...(cert && {
+          cert,
+        }),
+        ...sslConfg,
+      };
+
+      return Object.keys(ssl).length > 0
+        ? ssl
+        : undefined;
+    },
     /**
      * A helper method to get the configuration object that's directly fed to
      * the MySQL client constructor. Used by other features (like the SQL proxy)
@@ -108,27 +147,18 @@ export default {
       const {
         host,
         port,
-        username,
+        username: user,
         password,
         database,
-        ca,
-        key,
-        cert,
-        reject_unauthorized: rejectUnauthorized = true,
       } = this.$auth;
 
       return {
         host,
         port,
-        user: username,
+        user,
         password,
         database,
-        ssl: {
-          rejectUnauthorized,
-          ca,
-          cert,
-          key,
-        },
+        ssl: this._getSslConfig(),
       };
     },
     /**
@@ -148,6 +178,26 @@ export default {
       return {
         query,
         params,
+      };
+    },
+    /**
+     * A method that performs the inverse transformation of `proxyAdapter`.
+     *
+     * @param {object} proxyArgs - The output of `proxyAdapter`.
+     * @param {string} proxyArgs.query - The SQL query to be executed.
+     * @param {string[]} proxyArgs.params - The values to replace in the SQL
+     * query.
+     * @returns {object} - The adapted query and parameters, compatible with
+     * `executeQuery`.
+     */
+    executeQueryAdapter(proxyArgs = {}) {
+      const {
+        query: sql = "",
+        params: values = [],
+      } = proxyArgs;
+      return {
+        sql,
+        values,
       };
     },
     /**
@@ -175,11 +225,51 @@ export default {
 
       } finally {
         if (connection) {
-          await this.closeConnection(connection);
+          await this._closeConnection(connection);
         }
       }
     },
-    async closeConnection(connection) {
+    /**
+     * A helper method to get the schema of the database. Used by other features
+     * (like the `sql` prop) to enrich the code editor and provide the user with
+     * auto-complete and fields suggestion.
+     *
+     * @returns {DbSchema} The schema of the database, which is a
+     * JSON-serializable object.
+     */
+    async getSchema() {
+      const sql = `
+        SELECT t.table_schema AS tableSchema,
+            t.table_name AS tableName,
+            t.table_rows AS rowCount,
+            c.column_name AS columnName,
+            c.data_type AS dataType,
+            c.is_nullable AS isNullable,
+            c.column_default AS columnDefault
+        FROM information_schema.tables AS t
+            JOIN information_schema.columns AS c ON t.table_name = c.table_name
+            AND t.table_schema = c.table_schema
+        WHERE t.table_schema = ?
+        ORDER BY t.table_name,
+            c.ordinal_position
+      `;
+      const rows = await this.executeQuery({
+        sql,
+        values: [
+          this.$auth.database,
+        ],
+      });
+      return rows.reduce((acc, row) => {
+        acc[row.tableName] ??= {
+          _rowCount: row.rowCount,
+        };
+        acc[row.tableName][row.columnName] = {
+          ...row,
+        };
+        return acc;
+      }, {});
+    },
+    async _closeConnection(connection) {
       await connection.end();
       return new Promise((resolve) => {
         connection.connection.stream.on("close", resolve);
@@ -208,7 +298,8 @@ export default {
       });
     },
     listBaseTables({
-      lastResult, ...args
+      lastResult,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `
@@ -224,7 +315,8 @@ export default {
       });
     },
     listTopTables({
-      maxCount = 10, ...args
+      maxCount = 10,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `
@@ -237,7 +329,8 @@ export default {
       });
     },
     listColumns({
-      table, ...args
+      table,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `SHOW COLUMNS FROM \`${table}\``,
@@ -245,7 +338,9 @@ export default {
       });
     },
     listNewColumns({
-      table, previousColumns, ...args
+      table,
+      previousColumns,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `
@@ -267,7 +362,10 @@ export default {
      * that has been previously returned.
      */
     listRows({
-      table, column, lastResult, ...args
+      table,
+      column,
+      lastResult,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `
@@ -291,7 +389,10 @@ export default {
      * @param {number} maxCount - Maximum number of results to return.
      */
     listMaxRows({
-      table, column, maxCount = 10, ...args
+      table,
+      column,
+      maxCount = 10,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `
@@ -303,7 +404,8 @@ export default {
       });
     },
     getPrimaryKey({
-      table, ...args
+      table,
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: "SHOW KEYS FROM ? WHERE Key_name = 'PRIMARY'",
@@ -314,7 +416,8 @@ export default {
       });
     },
     async listColumnNames({
-      table, ...args
+      table,
+      ...args
     } = {}) {
       const columns = await this.listColumns({
         table,
@@ -323,7 +426,10 @@ export default {
       return columns.map((column) => column.Field);
     },
     findRows({
-      table, condition, values = [], ...args
+      table,
+      condition,
+      values = [],
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `SELECT * FROM \`${table}\` WHERE ${condition}`,
@@ -332,7 +438,10 @@ export default {
       });
     },
     deleteRows({
-      table, condition, values = [], ...args
+      table,
+      condition,
+      values = [],
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `DELETE FROM \`${table}\` WHERE ${condition}`,
@@ -341,7 +450,10 @@ export default {
       });
     },
     insertRow({
-      table, columns = [], values = [], ...args
+      table,
+      columns = [],
+      values = [],
+      ...args
     } = {}) {
       const placeholder = values.map(() => "?").join(",");
       return this.executeQuery({
@@ -354,8 +466,11 @@ export default {
       });
     },
     updateRow({
-      table, condition,
-      conditionValues = [], columnsToUpdate = [], valuesToUpdate = [],
+      table,
+      condition,
+      conditionValues = [],
+      columnsToUpdate = [],
+      valuesToUpdate = [],
       ...args
     } = {}) {
       const updates =
@@ -375,7 +490,9 @@ export default {
       });
     },
     executeStoredProcedure({
-      storedProcedure, values = [], ...args
+      storedProcedure,
+      values = [],
+      ...args
     } = {}) {
       return this.executeQuery({
         sql: `CALL ${storedProcedure}(${values.map(() => "?")})`,

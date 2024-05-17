@@ -1,20 +1,11 @@
 # Overview
 
-The Snapchat Marketing API provides developers the opportunity to build
-applications that engage the vast Snapchat audience. Whether you’re
-Game-developer, Advertising Agency, Brand, or Influencer, the Snapchat API
-enables you to create a wide range of experiences within the Snapchat
-ecosystem.
+The Snapchat Marketing API provides a programmable interface to interact with Snapchat's advertising tools. This API enables automated creation and management of ad campaigns, audience targeting, and performance analytics, which can be a boon for marketers seeking to streamline their Snapchat advertising workflows. Leveraging this API on Pipedream, users can create serverless workflows that automate repetitive tasks, integrate with other marketing tools, and dynamically respond to campaign performance data.
 
-Below is a list of examples of what can be built using the Snapchat API:
+# Example Use Cases
 
-- Developed creative campaigns that reach the Snapchat audience
-- Built AR (augmented reality) experiences and lenses
-- Created branded Snapchat content
-- Created Snap Ads and other ad formats
-- Developed tools for content management within Snapchat
-- Developed tools to help manage influencer and brand partnerships
-- Developed real-time analytics to help improve engagement with the Snapchat
-  audience
-- Accessed Snapchat data to help inform decisions around ad placement
-- Created experiences to reward and engage Snapchat users
+- **Automate Ad Campaign Creation**: Utilize Pipedream to listen for new product listings on an eCommerce platform like Shopify. When a new product is listed, automatically create a corresponding ad campaign in Snapchat, including setting budgets, target demographics, and creative assets.
+
+- **Dynamic Campaign Adjustment**: Set up a workflow that monitors campaign performance metrics through the Snapchat Marketing API. If the cost per acquisition (CPA) rises above a certain threshold, the workflow could adjust the bid amount or pause the campaign and send an alert to the marketing team via Slack or email.
+
+- **Synchronize Audiences**: Implement a workflow that syncs email lists from a Customer Relationship Management (CRM) app like HubSpot with Snapchat's Custom Audiences. Periodically update the audience in Snapchat to ensure the most recent contacts are being targeted for upcoming ad campaigns.

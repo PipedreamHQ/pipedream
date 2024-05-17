@@ -115,13 +115,13 @@ export interface IApi {
 
 export interface IFile {
   delete(): Promise<void>;
-  createReadStream(): Promise<ReadableStream<any>>;
-  createWriteStream(contentType?: string, contentLength?: number): Promise<WritableStream<any>>;
+  createReadStream(): Promise<NodeJS.ReadableStream>;
+  createWriteStream(contentType?: string, contentLength?: number): Promise<NodeJS.WritableStream>;
   toEncodedString(encoding?: string, start?: number, end?: number): Promise<string>;
   toUrl(): Promise<string>;
   toFile(localFilePath: string): Promise<void>;
   toBuffer(): Promise<Buffer>;
-  fromReadableStream(readableStream: ReadableStream<any>, contentType?: string, contentSize?: number): Promise<IFile>;
+  fromReadableStream(readableStream: NodeJS.ReadableStream, contentType?: string, contentSize?: number): Promise<IFile>;
   fromFile(localFilePath: string, contentType?: string): Promise<IFile>;
   fromUrl(url: string, options?: any): Promise<IFile>;
   toJSON(): any;
@@ -310,15 +310,25 @@ export interface EmitMetadata {
   ts?: number;
 }
 
+export interface IdEmitMetadata extends EmitMetadata {
+  id: string | number;
+}
+
 type EmitFunction = {
   $emit: (event: JSONValue, metadata?: EmitMetadata) => Promise<void>;
+};
+
+type IdEmitFunction = {
+  $emit: (event: JSONValue, metadata: IdEmitMetadata) => Promise<void>;
 };
 
 type PropThis<Props> = {
   [Prop in keyof Props]: Props[Prop] extends App<Methods, AppPropDefinitions> ? any : any
 };
 
-export interface Source<
+type Modify<T, R> = Omit<T, keyof R> & R;
+
+interface BaseSource<
   Methods,
   SourcePropDefinitions
 > {
@@ -336,6 +346,38 @@ export interface Source<
   ) => Promise<SourcePropDefinitions>;
   run: (this: PropThis<SourcePropDefinitions> & Methods & EmitFunction, options?: SourceRunOptions) => void | Promise<void>;
 }
+
+export interface LastSource<
+  Methods,
+  SourcePropDefinitions
+> extends BaseSource<
+  Methods,
+  SourcePropDefinitions
+> {
+  dedupe?: "last";
+}
+
+export type DedupedSource<
+  Methods,
+  SourcePropDefinitions
+> = Modify<BaseSource<
+  Methods,
+  SourcePropDefinitions
+>, {
+  dedupe: "greatest" | "unique";
+  run: (this: PropThis<SourcePropDefinitions> & Methods & IdEmitFunction, options?: SourceRunOptions) => void | Promise<void>;
+}>;
+
+export type Source<
+  Methods,
+  SourcePropDefinitions
+> = LastSource<
+  Methods,
+  SourcePropDefinitions
+> | DedupedSource<
+  Methods,
+  SourcePropDefinitions
+>;
 
 export function defineSource<
   Methods,

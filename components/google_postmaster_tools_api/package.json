@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/google_postmaster_tools_api",
+  "version": "0.2.0",
+  "description": "Pipedream Google Postmaster Tools Components",
+  "main": "google_postmaster_tools_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_postmaster_tools_api"
+  ],
+  "homepage": "https://pipedream.com/apps/google_postmaster_tools_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

@@ -3,8 +3,8 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-copy-worksheet",
   name: "Copy Worksheet",
-  description: "Copy an existing worksheet to another Google Sheets file",
-  version: "0.1.2",
+  description: "Copy an existing worksheet to another Google Sheets file. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.sheets/copyTo)",
+  version: "0.1.5",
   type: "action",
   props: {
     googleSheets,
@@ -45,7 +45,7 @@ export default {
           driveId: googleSheets.methods.getDriveId(c.drive),
         }),
       ],
-      description: "The spreadsheet to copy the worksheetsheet to",
+      description: "The spreadsheet to copy the worksheet to",
     },
   },
   async run() {

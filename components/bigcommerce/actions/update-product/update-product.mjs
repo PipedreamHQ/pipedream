@@ -1,33 +1,47 @@
-import bigcommerce from "../../bigcommerce.app.mjs";
-import productProps from "../../common/product-props.mjs";
+import common from "../common/product.mjs";
+
+const { app } = common.props;
 
 export default {
+  ...common,
   key: "bigcommerce-update-product",
   name: "Update Product",
   description:
     "Update a product by Id. [See the docs here](https://developer.bigcommerce.com/api-reference/6f05c1244d972-update-a-product)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
-    bigcommerce,
+    app,
     productId: {
       propDefinition: [
-        bigcommerce,
+        app,
         "productId",
       ],
     },
-    ...productProps,
+    ...common.props,
   },
-  async run({ $ }) {
-    const {
-      bigcommerce, ...props
-    } = this;
-    const response = await bigcommerce.updateProduct({
-      $,
-      props,
-    });
-
-    $.export("$summary", `Successfully updated product ${this.productId}`);
-    return response.data;
+  methods: {
+    ...common.methods,
+    updateProduct({
+      productId, ...args
+    }) {
+      return this.app._makeRequest({
+        method: "PUT",
+        path: `/catalog/products/${productId}`,
+        ...args,
+      });
+    },
+    getRequestFn() {
+      return this.updateProduct;
+    },
+    getRequestFnArgs(args = {}) {
+      return {
+        ...args,
+        productId: this.productId,
+      };
+    },
+    getSummary(response) {
+      return `Successfully updated product with ID \`${response.data.id}\``;
+    },
   },
 };

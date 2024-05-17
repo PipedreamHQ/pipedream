@@ -10,9 +10,10 @@
 
 import { v4 as uuid } from "uuid";
 
-import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../../../../google_drive/constants.mjs";
+import {
+  MY_DRIVE_VALUE, WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+} from "../../../../google_drive/common/constants.mjs";
 import googleSheets from "../../../google_sheets.app.mjs";
-import { MY_DRIVE_VALUE } from "../../../../google_drive/constants.mjs";
 
 /**
  * The number of events that will be automatically sent whenever the event
@@ -63,7 +64,7 @@ export default {
      * for starting and stopping watch notifications tied to the desired file.
      */
     async activate() {
-      const channelID = this._getChannelID() || uuid();
+      const channelID = uuid();
 
       const {
         startPageToken,
@@ -137,7 +138,7 @@ export default {
       throw new Error("activateHook is not implemented");
     },
     processSpreadsheet() {
-      throw new Error("processEvent is not implemented");
+      throw new Error("processSpreadsheet is not implemented");
     },
     async renewSubscription() {
       throw new Error("renewSubscription is not implemented");

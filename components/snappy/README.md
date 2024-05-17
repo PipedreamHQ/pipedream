@@ -1,34 +1,14 @@
 # Overview
 
-The [Snappy API](https://besnappy.com is a comprehensive set of tools that
-provides developers the capability to build powerful customer service
-applications. From automating support workflows and building customer-facing
-chatbots, to integrating with enterprise systems, the Snappy API can do it all.
+Snappy API enables interaction with Snappy, a customer support tool designed to streamline communication and enhance support team efficiency. By leveraging the Snappy API on Pipedream, you can automate ticket management, organize customer inquiries, and orchestrate seamless communication between support staff and customers. With Pipedream's ability to connect to countless services, you can create workflows that react to events in real-time, sync data across platforms, and personalize customer interactions, all in a serverless environment.
 
-The main features of the Snappy API are focused on helping developers design
-and deploy custom customer service applications. These features enable
-development teams to build tools such as:
+# Example Use Cases
 
-- Automation: Automate interactions with customers by routing inquiries to the
-  right people, popping in AI-enabled chatbot conversations and delivering
-  personalized content to customers with ease.
-- Agency: Integrate with websites, mobile applications and our comprehensive
-  agency platform to create custom customer support experiences that fit a
-  user’s specific needs.
-- Conversations: Engage customers through real-time conversations and intuitive
-  support flows with all communications managed through a single dashboard.
-- Insights: Analyze customer conversations and turn them into actionable
-  insights using AI-driven analytics to improve customer experience.
-- Integration: Connect Snappy to different enterprise systems to get the most
-  out of your customer service processes.
+- **Automatic Ticket Creation from Emails**  
+When a customer sends an email to your support address, use Pipedream to listen for these emails and automatically create a ticket in Snappy. This ensures that no customer query goes unnoticed and that your team can start working on issues as soon as they come in.
 
-Examples of Applications that Can be Built with the Snappy API:
+- **Slack Alerts for High-Priority Tickets**  
+Configure a workflow that watches for new high-priority tickets in Snappy and sends a Slack message to a designated channel or user. This way, your team can swiftly respond to critical issues and provide timely support, keeping customer satisfaction high.
 
-- Automated customer ticketing systems
-- Self-service portals
-- Chatbot applications
-- Help desk applications
-- Customer relationship management (CRM) systems
-- Virtual assistant applications
-- Customer feedback systems
-- Knowledge bases
+- **Sync Tickets to CRM**  
+Create a Pipedream workflow that, upon closing a ticket in Snappy, updates the respective customer's record in a CRM like Salesforce or HubSpot. This workflow ensures the customer's history reflects their latest interactions with support, enabling better follow-ups and service continuity.

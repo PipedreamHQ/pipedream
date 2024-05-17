@@ -1,0 +1,33 @@
+export default {
+  "id": "921840",
+  "item": "More customers",
+  "description": null,
+  "number": "1.4",
+  "level": "1",
+  "when_updated": "0000-00-00 00:00:00",
+  "can_edit": true,
+  "can_add": true,
+  "start_date": "2024-01-01",
+  "end_date": "2024-12-31",
+  "measure": "Percent Complete",
+  "start_value": "0.00",
+  "target": {
+    "fiscal_year": "2024",
+    "target": "100.00"
+  },
+  "is_key": "0",
+  "tracking_frequency": "Monthly",
+  "target_direction": "Up",
+  "target_type": "Percent",
+  "function": "Current",
+  "priority": "",
+  "status_icon": "not_started",
+  "parent_id": "921820",
+  "comments": "",
+  "owner": [],
+  "latest_comment": [],
+  "all_comments": [],
+  "rollup_type": "0",
+  "auto_status": "1",
+  "ytd": null
+}

@@ -1,22 +1,11 @@
 # Overview
 
-The 15Five API enables you to build custom integrations and applications on top
-of the 15Five platform. With the API, you can access data stored in 15Five,
-including:
+The 15Five API grants access to a performance management platform designed to help employees grow and achieve their goals. With Pipedream, you can leverage this API to automate feedback collection, synchronize performance data across various systems, and trigger actions based on employee responses. By interconnecting 15Five with other apps, you can streamline HR processes, enhance employee engagement strategies, and maintain a pulse on organizational health.
 
-- Users
-- Companies
-- Goals
-- Check-ins
-- Feedback
-- Recognition
+# Example Use Cases
 
-You can use the API to build applications that help 15Five users manage their
-work and achieve their goals. For example, you could build a custom integration
-that links 15Five with another tool that your team uses, such as a project
-management tool or a CRM. Or, you could build a custom application that helps
-users track their progress on their goals, or provides them with recognition
-for a job well done.
+- **Automated Feedback Aggregation**: Collect weekly check-in data from 15Five and compile it into a centralized reporting tool like Google Sheets. This could help managers track progress over time and prepare for one-on-one meetings with direct reports.
 
- Whatever you build, the 15Five API gives you the power to customize the 15Five
- experience for your users in a way that best meets their needs.
+- **Employee Recognition System**: Trigger a recognition workflow whenever an employee receives a high score on their 15Five review. This could be tied to a rewards platform like Bonusly, automatically granting points or accolades to the employee.
+
+- **Performance Alert System**: Set up a monitoring system that notifies team leads or HR when an employee's 15Five responses indicate potential burnout or disengagement. This would allow quick intervention and support, linked to communication platforms like Slack or email.

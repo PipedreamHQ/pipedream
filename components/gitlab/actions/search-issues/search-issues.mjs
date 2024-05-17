@@ -6,7 +6,7 @@ export default {
   key: "gitlab-search-issues",
   name: "Search Issues",
   description: "Search for issues in a repository with a query. [See the documentation](https://docs.gitlab.com/ee/api/issues.html#list-issues)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     gitlab,

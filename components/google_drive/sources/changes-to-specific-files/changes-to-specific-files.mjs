@@ -3,9 +3,8 @@ import sampleEmit from "./test-event.mjs";
 import includes from "lodash/includes.js";
 import { v4 as uuid } from "uuid";
 
-import { MY_DRIVE_VALUE } from "../../constants.mjs";
-
 import changesToSpecificFiles from "../changes-to-specific-files-shared-drive/changes-to-specific-files-shared-drive.mjs";
+import { MY_DRIVE_VALUE } from "../../common/constants.mjs";
 
 /**
  * This source uses the Google Drive API's
@@ -16,8 +15,8 @@ export default {
   ...changesToSpecificFiles,
   key: "google_drive-changes-to-specific-files",
   name: "Changes to Specific Files",
-  description: "Watches for changes to specific files, emitting an event any time a change is made to one of those files. To watch for changes to [shared drive](https://support.google.com/a/users/answer/9310351) files, use the **Changes to Specific Files (Shared Drive)** source instead.",
-  version: "0.1.3",
+  description: "Watches for changes to specific files, emitting an event when a change is made to one of those files. To watch for changes to [shared drive](https://support.google.com/a/users/answer/9310351) files, use the **Changes to Specific Files (Shared Drive)** source instead.",
+  version: "0.2.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -48,7 +47,7 @@ export default {
       // You can pass the same channel ID in watch requests for multiple files, so
       // our channel ID is fixed for this component to simplify the state we have to
       // keep track of.
-      const channelID = this._getChannelID() || uuid();
+      const channelID = uuid();
 
       // Subscriptions are keyed on Google's resourceID, "an opaque value that
       // identifies the watched resource". This value is included in request
@@ -116,10 +115,9 @@ export default {
       }
     },
     async renewFileSubscriptions(event) {
-      // Assume subscription & channelID may all be undefined at
-      // this point Handle their absence appropriately.
       const subscriptions = this._getSubscriptions() || {};
-      const channelID = this._getChannelID() || uuid();
+      const channelID = this._getChannelID();
+      const newChannelID = uuid();
 
       const nextRunTimestamp = this._getNextTimerEventTimestamp(event);
 
@@ -140,6 +138,7 @@ export default {
           subscription,
           this.http.endpoint,
           channelID,
+          newChannelID,
           fileID,
           nextRunTimestamp,
         );
@@ -149,7 +148,7 @@ export default {
         };
       }
       this._setSubscriptions(subscriptions);
-      this._setChannelID(channelID);
+      this._setChannelID(newChannelID);
     },
   },
   async run(event) {
@@ -222,7 +221,14 @@ export default {
       return;
     }
 
-    this.processChange(file, headers);
+    const [
+      checkedFile,
+    ] = this.checkMinimumInterval([
+      file,
+    ]);
+    if (checkedFile) {
+      this.processChange(file, headers);
+    }
   },
   sampleEmit,
 };

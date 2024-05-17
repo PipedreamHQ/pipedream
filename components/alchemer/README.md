@@ -1,14 +1,11 @@
 # Overview
 
-With the Alchemer API, you can build a wide variety of applications and
-integrations. Below are just a few examples of what you can do with the
-Alchemer API:
+The Alchemer API facilitates the creation and management of surveys, collection and analysis of responses, and automation of survey-related workflows. With Pipedream, you can harness this API to trigger actions in other applications based on survey events, sync survey data with databases or CRM systems, and even automate follow-up communications based on participant responses. Think of it as a bridge between Alchemer's rich survey feature set and a universe of other apps to streamline your data collection and analysis processes.
 
-- Build a custom report or dashboard to display your survey data in the way
-  that you want
-- Create a survey-taking application that allows your users to take your
-  surveys on the go
-- Embed your surveys into your website or blog to collect data from your
-  visitors
-- Create an integration with your CRM or marketing automation platform to push
-  survey data into those systems
+# Example Use Cases
+
+- **Sync Survey Responses with Google Sheets**: After a survey completion, you can automatically push each new response to a Google Sheet. This allows for real-time data analysis and sharing with team members who prefer working within the Google ecosystem.
+
+- **Trigger Email Campaigns Based on Survey Results**: Integrate Alchemer with an email marketing service like Mailchimp. Use survey response data to segment your audience and trigger targeted email campaigns, sending personalized content to respondents based on their answers.
+
+- **Automate Customer Support Tickets from Survey Feedback**: Connect Alchemer to a customer support platform like Zendesk. Automatically create support tickets when a survey response indicates a customer issue, ensuring that no feedback is missed and all issues are addressed promptly.

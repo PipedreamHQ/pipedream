@@ -1,28 +1,11 @@
 # Overview
 
-Path of Exile (PoE) is a popular online action role-playing game developed and
-published by Grinding Gear Games. The game provides an extensive and robust API
-which can be used to build and optimize a variety of tools and applications.
+The Path of Exile API offers a trove of in-game information, from player stats to item data. Using Pipedream, you can automate interactions with the API to monitor game updates, track item prices, automate notifications for trades, and integrate with other services for analytics or enhanced gameplay experiences.
 
-The PoE API offers a comprehensive set of features, including the ability to
-access character information, league information, item information, and more.
-It also provides game components such as crafting, trading, and searching, as
-well as the ability to build a custom character build planner. The API also
-provides the ability to create automated bots and tools for managing crafted
-items.
+# Example Use Cases
 
-Below are just a few of the many tools and applications that can be built using
-the PoE API:
+- **Automated Trade Offers Notifications**: Set up a Pipedream workflow that polls the Path of Exile trade API for items you're interested in. When a new listing meets your criteria, automatically send a notification via Discord or Slack, ensuring you never miss out on a critical trade.
 
-- Automatic build planner: A tool that allows players to easily plan out their
-  builds and optimize their characters.
-- Recipe search tool: A tool that allows players to find recipes quickly and
-  easily.
-- Item search tool: A tool that lets players search for items they’re looking
-  for without having to go through the in-game menus or search manually.
-- Automated currency converter: A tool that automatically converts currency
-  between different leagues.
-- Trading tool: A tool that can help players find the best deals as they trade
-  with other PoE players.
-- Character stats tracker: A tool that tracks characters’ stats over time,
-  helping players optimize and improve their builds.
+- **League Stat Tracking**: Create a Pipedream workflow that retrieves your character's league stats at regular intervals. Log this data into Google Sheets or Airtable to analyze your gameplay over time or share your progress with friends or your gaming community.
+
+- **Price Watcher for Rare Items**: Monitor the market for rare items with a Pipedream workflow. When the price drops below a threshold you set, trigger an alert through SMS or email. Connect this workflow with a database like MongoDB to track historical price data for deeper market insights.

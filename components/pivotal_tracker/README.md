@@ -1,12 +1,11 @@
 # Overview
 
- Using the Pivotal Tracker API, you can create powerful applications and integrations that bring the features of Pivotal Tracker to your own applications. Here are a few examples:
+Pipedream's integration with the Pivotal Tracker API turns your project management into a powerhouse of automation and connectivity. It allows you to orchestrate workflows that can respond to changes in your projects, stories, and tasks in real-time. For instance, you can sync project updates with other tools, extract metrics for reporting, or even streamline notification systems to keep your entire team in the loop effortlessly.
 
-1. Create your own tracking and reporting tools for team performance on projects.
-2. Automate updates to Pivotal Tracker from your own applications.
-3. Create applications that display interactive and real-time project timelines.
-4. Generate accurate reports from project data.
-5. Automate the project creation process.
-6. Create notifications and alerts for project updates.
-7. Monitor multiple projects from a single application.
-8. Utilize the API to integrate with third-party applications like Office 365, Slack, and Salesforce.
+# Example Use Cases
+
+- **Automated Task Distribution**: When a new story is created in Pivotal Tracker, Pipedream triggers a workflow that automatically assigns tasks to developers based on their current workload or expertise, which is tracked in a separate database or app like Airtable.
+
+- **Slack Project Updates**: Keep your team informed with real-time alerts. Set up a workflow where any status changes in Pivotal Tracker stories push notifications to a dedicated Slack channel, ensuring that everyone is aware of project progress without needing to leave their communication platform.
+
+- **Sprint Report Generation**: At the end of each sprint, Pipedream can collate completed stories and tasks from Pivotal Tracker, format them into a comprehensive report, and then send this report via email or store it in a shared Google Drive folder for stakeholders' review.

@@ -1,31 +1,11 @@
 # Overview
 
-With the Cliengo API, you can easily build a chatbot for your business. Cliengo
-is a powerful chatbot platform that makes it easy to create and manage bots for
-your business.
+Cliengo is a chatbot platform that lets you automate conversations with visitors on your website, aiding in lead capture and customer service. The Cliengo API offers capabilities to programmatically manage these conversations, extract chat data, and integrate with CRM systems. By leveraging Pipedream, you can connect Cliengo to a variety of different apps and services to streamline workflows, such as syncing chat data to your CRM, triggering emails based on chat events, or analyzing customer interaction patterns.
 
-Here are some examples of what you can build with the Cliengo API:
+# Example Use Cases
 
-- A chatbot to help customers with their orders
-- A chatbot to answer customer questions
-- A chatbot to provide customer support
-- A chatbot to schedule appointments
-- A chatbot to take surveys
-- A chatbot to collect leads
-- A chatbot to provide recommendations
-- A chatbot to give directions
-- A chatbot to play games
-- A chatbot to provide weather updates
-- A chatbot to news stories
-- A chatbot to find local businesses
-- A chatbot to book hotels
-- A chatbot to book flights
-- A chatbot to find restaurants
-- A chatbot to find movie times
-- A chatbot to find out the score of a game
-- A chatbot to track a package
-- A chatbot to give traffic updates
-- A chatbot to show the latest trending topics
-- A chatbot to tell a joke
+- **Lead Capture to CRM**: When a visitor engages with the Cliengo chatbot and provides contact information, use Pipedream to automatically add or update this lead in your CRM software, such as Salesforce or HubSpot. This ensures that potential customers are quickly and efficiently integrated into your sales pipeline.
 
-The possibilities are endless!
+- **Support Ticket Creation**: If a visitor reports an issue via the Cliengo chatbot, set up a workflow using Pipedream to create a support ticket in your helpdesk system like Zendesk. The workflow can include relevant chat data to provide context for the support team, streamlining the resolution process.
+
+- **Chat Analysis and Reporting**: Implement a workflow that regularly collects chat logs through the Cliengo API and sends them to a data analysis tool like Google BigQuery. Here, you can run queries to gain insights into common inquiries or issues, which can then be used to inform business decisions or to optimize the chatbot's responses.

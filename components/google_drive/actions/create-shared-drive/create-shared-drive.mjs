@@ -3,8 +3,8 @@ import googleDrive from "../../google_drive.app.mjs";
 export default {
   key: "google_drive-create-shared-drive",
   name: "Create Shared Drive",
-  description: "Create a new shared drive. [See the docs](https://developers.google.com/drive/api/v3/reference/drives/create) for more information",
-  version: "0.1.1",
+  description: "Create a new shared drive. [See the documentation](https://developers.google.com/drive/api/v3/reference/drives/create) for more information",
+  version: "0.1.5",
   type: "action",
   props: {
     googleDrive,

@@ -23,13 +23,17 @@ If there's a specific trigger you'd like supported, please [let us know](https:/
 
 You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/sources/). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
 
-When you create a workflow, you'll see your available triggers:
+When you create a workflow, click **Add Trigger** to view the available triggers:
 
-![App triggers](/images/triggers/app-triggers.png)
+![Add Trigger button on a new workflow](pages/workflows/images/triggers/add-trigger-button.png)
+
+This will open a new menu to search and choose a trigger for your workflow:
+
+![App triggers](pages/workflows/images/triggers/select-a-trigger.png)
 
 Search by **app name** to find triggers associated with your app. For Google Calendar, for example, you can run your workflow every time a new event is **added** to your calendar, each time an event **starts**, **ends**, and more:
 
-![Google Calendar sources](/images/triggers/google-calendar-triggers.png)
+![Google Calendar sources](pages/workflows/images/triggers/gcal-triggers.png)
 
 Once you select your trigger, you'll be asked to connect any necessary accounts (for example, Google Calendar sources require you authorize Pipedream access to your Google account), and enter the values for any configuration settings.
 
@@ -55,7 +59,7 @@ Moreover, you can access events emitted by sources using Pipedream's [SSE](/api/
 
 Yes, you can add any number of triggers to a workflow. Click the top right menu in the trigger step and select **Add trigger**.
 
-![Add multiple triggers to a workflow](/images/triggers/add-multi-trigger.gif)
+![Add multiple triggers to a workflow](pages/workflows/images/triggers/add-multiple-triggers.png)
 
 ### Shape of the `steps.trigger.event` object
 
@@ -67,11 +71,11 @@ The shape of the event is specific to the source. For example, RSS sources produ
 
 When you select the **HTTP** trigger:
 
-![HTTP API Trigger](https://res.cloudinary.com/pipedreamin/image/upload/v1647894504/docs/components/CleanShot_2022-03-21_at_16.27.45_2x_klxmpz.png)
+![HTTP API Trigger](pages/workflows/images/triggers/select-http-trigger.png)
 
 Pipedream creates a URL endpoint specific to your workflow:
 
-![HTTP API trigger URL](https://res.cloudinary.com/pipedreamin/image/upload/v1647894654/docs/components/CleanShot_2022-03-21_at_16.30.48_2x_nh7shg.png)
+![HTTP API trigger URL](pages/workflows/images/triggers/http-trigger-url.png)
 
 You can send any HTTP requests to this endpoint, from anywhere on the web. You can configure the endpoint as the destination URL for a webhook or send HTTP traffic from your application - we'll accept any [valid HTTP request](#valid-requests).
 
@@ -172,15 +176,15 @@ Within your workflow, you can download the contents of this data using the **Sen
 
 _Note: you can only download payloads at most {process.env.FUNCTION_PAYLOAD_LIMIT} in size using this method. Otherwise, you may encounter a [Function Payload Limit Exceeded](/troubleshooting/#function-payload-limit-exceeded) error._
 
-You can download the HTTP payload using the **Send HTTP Request** action. [Copy this workflow to see how this works](https://pipedream.com/@dylburger/example-download-http-payload-p_6lC1ynx/edit).
+You can download the large HTTP payload using the **Send HTTP Request** action. [Copy this workflow to see how this works](https://pipedream.com/new?h=tch_egfAby).
 
-This will return the data in the variable `steps.send_http_request.$return_value`:
+The payload from the trigger of the workflow is exported to the variable `steps.retrieve_large_payload.$return_value`:
 
 ![HTTP response data](/images/triggers/send_http_request_action.png)
 
 #### Example: Download the HTTP payload to the `/tmp` directory
 
-[This workflow](https://pipedream.com/@dylburger/example-download-raw-body-to-tmp-p_YyCoqPb/edit) downloads the HTTP payload, saving it as a file to the [`/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory).
+[This workflow](https://pipedream.com/new?h=tch_5ofXkX) downloads the HTTP payload, saving it as a file to the [`/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory).
 
 ```javascript
 import stream from "stream";
@@ -188,11 +192,16 @@ import { promisify } from "util";
 import fs from "fs";
 import got from "got";
 
-const pipeline = promisify(stream.pipeline);
-await pipeline(
-  got.stream(steps.trigger.event.body.raw_body_url),
-  fs.createWriteStream(`/tmp/raw_body`)
-);
+export default defineComponent({
+  async run({ steps, $ }) {
+    const pipeline = promisify(stream.pipeline);
+    
+    await pipeline(
+      got.stream(steps.trigger.event.body.raw_body_url),
+      fs.createWriteStream(`/tmp/raw_body`)
+    );
+  },
+})
 ```
 
 You can [read this file](/code/nodejs/working-with-files/#reading-a-file-from-tmp) in subsequent steps of your workflow.
@@ -450,7 +459,7 @@ You can write scheduled job to send an HTTP request, send a scheduled email, run
 
 To create a new scheduled job, create a new workflow and search for the **Schedule** trigger:
 
-![Cron Scheduler source](/images/triggers/schedule.png)
+![Cron Scheduler source](pages/workflows/images/triggers/select-schedule-trigger.png)
 
 By default, your trigger will be turned **Off**. **To enable it, select either of the scheduling options**:
 
@@ -489,11 +498,11 @@ Code steps show [logs](/code/nodejs/#logs) below the step itself. Any time you r
 
 When you select the **Email** trigger:
 
-<PipedreamImg alt="Email source" src="https://res.cloudinary.com/pipedreamin/image/upload/v1708323548/docs/email_clrdbg.png" width={500} height={600} />
+![Selecting the new email trigger](pages/workflows/images/triggers/select-email-trigger.png)
 
 Pipedream creates an email address specific to your workflow. Any email sent to this address triggers your workflow:
 
-![Custom workflow email address](/images/triggers/email-addr.png)
+![Custom workflow email address](pages/workflows/images/triggers/email-trigger.png)
 
 As soon as you send an email to the workflow-specific address, Pipedream parses its body, headers, and attachments into a JavaScript object it exposes in the `steps.trigger.event` variable that you can access within your workflow. This transformation can take a few seconds to perform. Once done, Pipedream will immediately trigger your workflow with the transformed payload.
 
@@ -588,7 +597,7 @@ This allows you implement conditional logic in your workflow based on the data i
 
 Choose the RSS trigger to watch an RSS feed for new items:
 
-<PipedreamImg alt="RSS source" src="https://res.cloudinary.com/pipedreamin/image/upload/v1708323587/docs/c1264873-969c-4f3a-9d4d-210b69ea9fa3.png" width={400} height={500} />
+![Selecting the RSS feed trigger](pages/workflows/images/triggers/select-rss-trigger.png)
 
 This will create an RSS [event source](/sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
 

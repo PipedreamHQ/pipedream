@@ -1,24 +1,11 @@
 # Overview
 
-Using the Phaxio API, you can quickly and easily build integrations that allow
-your users to send payments, verify user information, securely sign documents,
-and much more.
+The Phaxio API turns the cumbersome fax communication into a streamlined digital process. By leveraging Phaxio with Pipedream, you can automate sending and receiving faxes, manage fax statuses, and integrate fax capabilities into your existing digital workflows without dealing with traditional fax machines. This can be particularly useful for industries like healthcare, legal, or finance where faxing documents is still prevalent.
 
-For example, you can:
+# Example Use Cases
 
-- Request payments: Allow your users to make payments via secure phone-based
-  two-factor authentication.
-- Verify user information: Confirm identity with automated two-tier voice call
-  verification.
-- Sign documents: Allow users to sign documents securely and remotely with your
-  own custom web-based or app-based workflow.
-- Send multimedia messages: Push updates, reminders, and documents to your
-  customers with multimedia messages that can be sent as email, SMS, and/or
-  voice.
-- Build custom business intelligence applications: Gather data from phone
-  conversations to gain insights into customer conversations, call trends, and
-  other interesting correlations.
-- Create confirmation-based notifications: Allow your users to receive updates,
-  reminders, and confirmations via voice, email, or SMS.
-- Integrate into existing systems: Leverage existing databases, applications,
-  and platforms such as CRMs, billing systems, notification services, and more.
+- **Automated Invoice Submission**: Use Phaxio to fax invoices to clients automatically whenever a new sale is recorded in your e-commerce platform. Trigger a Pipedream workflow with a new order event, then send the invoice as a fax via Phaxio.
+
+- **Fax to Email Bridge**: Set up a Phaxio-Pipedream workflow to receive faxes and forward them as email attachments. This can streamline document intake for businesses that receive orders or documents via fax.
+
+- **Multi-step Approval Process**: Integrate Phaxio into an approval workflow where a document is faxed out, and then, upon receiving a confirmation, triggers follow-up tasks such as updating a CRM or notifying team members via apps like Slack.

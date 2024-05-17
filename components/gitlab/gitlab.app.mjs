@@ -23,10 +23,28 @@ export default {
         }));
       },
     },
-    groupPath: {
+    groupId: {
       type: "string",
       label: "Group ID",
-      description: "The group path, as displayed in the main group page. You must be an Owner of this group",
+      description: "Select a Group or use a custom Group ID. You must be an Owner of this group",
+      async options({ page }) {
+        const response = await this.listGroups({
+          params: {
+            min_access_level: 50, // owner role
+            top_level_only: true, // only can use on root groups
+            page: page + 1,
+          },
+        });
+        return response.map((group) => ({
+          label: group.full_path,
+          value: group.id,
+        }));
+      },
+    },
+    groupPath: {
+      type: "string",
+      label: "Group Path",
+      description: "Select a Group or use a custom Group Path, as displayed in the main group page. You must be an Owner of this group",
       async options({ page }) {
         const response = await this.listGroups({
           params: {
@@ -78,7 +96,7 @@ export default {
     epicIid: {
       type: "string",
       label: "Epic Internal ID",
-      description: "The internal ID of a project's epic",
+      description: "The internal ID of a project's epic. [This feature is restricted to Gitlab's Premium and Ultimate tiers.](https://docs.gitlab.com/ee/api/epics.html)",
       async options({
         page, groupId,
       }) {
@@ -125,7 +143,7 @@ export default {
             page: page + 1,
           },
         });
-        return response.data.map((label) => label.name);
+        return response?.map?.((label) => label.name);
       },
     },
     assignee: {
@@ -273,7 +291,7 @@ export default {
     },
     listProjects(opts = {}) {
       return this._makeRequest({
-        path: `/users/${this._userId()}/projects`,
+        path: "/projects",
         ...opts,
       });
     },

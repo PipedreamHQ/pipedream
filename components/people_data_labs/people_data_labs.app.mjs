@@ -39,10 +39,12 @@ export default {
       delete res.path;
       return res;
     },
-    async _makeRequest(opts = {}) {
+    async _makeRequest({
+      $ = this, ...opts
+    }) {
       try {
         const axiosParams = this._getAxiosParams(opts);
-        return await axios(this, axiosParams);
+        return await axios($, axiosParams);
       } catch (err) {
         if (err?.response?.data?.error) {
           if (err.response.data.error.status == 404) {
@@ -54,16 +56,22 @@ export default {
       }
 
     },
-    async enrichPerson(params) {
+    async enrichPerson(args) {
       return this._makeRequest({
         path: "/person/enrich",
-        params,
+        ...args,
       });
     },
-    async enrichCompany(params) {
+    async enrichCompany(args) {
       return this._makeRequest({
         path: "/company/enrich",
-        params,
+        ...args,
+      });
+    },
+    async searchPeople(args) {
+      return this._makeRequest({
+        path: "/person/search",
+        ...args,
       });
     },
   },
