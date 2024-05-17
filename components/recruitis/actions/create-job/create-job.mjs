@@ -30,7 +30,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created job ad: '${response.payload.edit_url}'`);
+    $.export("$summary", `Successfully created job at: '${response.payload.edit_url}'`);
 
     return response;
   },
