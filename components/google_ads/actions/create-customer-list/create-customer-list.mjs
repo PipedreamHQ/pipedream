@@ -1,12 +1,10 @@
-import {
-  USER_LIST_CRM_BASED_PROPS,
-  USER_LIST_TYPES, USER_LIST_TYPE_OPTIONS,
-} from "./constants.mjs";
+import { USER_LIST_TYPE_OPTIONS } from "./constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import common from "../common/common.mjs";
 import {
   getAdditionalFields, getListTypeInfo,
 } from "./props.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -30,7 +28,7 @@ export default {
     },
     listType: {
       type: "string",
-      label: "Type",
+      label: "List Type",
       description: "The [type of customer list](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#CrmBasedUserListInfo) to create.",
       options: USER_LIST_TYPE_OPTIONS.map(({
         label, value,
@@ -44,31 +42,24 @@ export default {
   additionalProps() {
     const { listType } = this;
 
-    const docsLink = USER_LIST_TYPE_OPTIONS.find(({ value }) => value === listType)?.docsLink;
+    const option = USER_LIST_TYPE_OPTIONS.find(({ value }) => value === listType);
+    if (!option) {
+      throw new ConfigurationError("Select a valid List Type to proceed.");
+    }
 
-    const props = {
+    const {
+      docsLink, props,
+    } = option;
+
+    const newProps = {
       listTypeInfo: getListTypeInfo(docsLink),
     };
 
-    let newProps;
-    switch (listType) {
-    case USER_LIST_TYPES.CRM_BASED:
-      newProps = USER_LIST_CRM_BASED_PROPS;
-      break;
-    case USER_LIST_TYPES.RULE_BASED:
-      break;
-    case USER_LIST_TYPES.LOGICAL:
-      break;
-    case USER_LIST_TYPES.BASIC:
-      break;
-    case USER_LIST_TYPES.LOOKALIKE:
-      break;
-    }
+    Object.assign(newProps, props);
 
-    Object.assign(props, newProps);
-    props.additionalFields = getAdditionalFields(docsLink);
+    newProps.additionalFields = getAdditionalFields(docsLink);
 
-    return props;
+    return newProps;
   },
   async run({ $ }) {
     const { // eslint-disable-next-line no-unused-vars

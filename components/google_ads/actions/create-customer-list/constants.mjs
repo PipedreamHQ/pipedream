@@ -1,10 +1,11 @@
-export const USER_LIST_TYPES = {
+const USER_LIST_TYPES = {
   CRM_BASED: "crmBasedUserList",
   RULE_BASED: "ruleBasedUserList",
   LOGICAL: "logicalUserList",
   BASIC: "basicUserList",
   LOOKALIKE: "lookalikeUserList",
 };
+
 export const USER_LIST_TYPE_OPTIONS = [
   {
     label: "CRM-based - a list of provided customers",
@@ -41,7 +42,7 @@ export const USER_LIST_TYPE_OPTIONS = [
   },
 ];
 
-export const USER_LIST_CRM_BASED_PROPS = {
+const USER_LIST_CRM_BASED_PROPS = {
   uploadKeyType: {
     type: "string",
     label: "Upload Key Type",
