@@ -156,25 +156,57 @@ export default {
         };
       },
     },
+    userTaskId: {
+      type: "string",
+      label: "User Task ID",
+      description: "Identifier of a user task",
+      async options() {
+        const response = await this.listUserTasks();
+        return response.value?.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
+    conversationThreadId: {
+      type: "string",
+      label: "Conversation Thread ID",
+      description: "Identifier of the conversation thread associated with the task.",
+      optional: true,
+      async options({ groupId }) {
+        if (!groupId) {
+          return [];
+        }
+        const response = await this.listThreads({
+          groupId,
+        });
+        return response.value?.map(({
+          id: value, topic: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
       return "https://graph.microsoft.com/v1.0";
     },
-    _headers() {
+    _headers(headers) {
       return {
+        ...headers,
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
     _makeRequest({
-      $ = this,
-      path,
-      url,
-      ...args
+      $ = this, path, url, headers, ...args
     }) {
       return axios($, {
         url: url || `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: this._headers(headers),
         ...args,
       });
     },
@@ -234,6 +266,28 @@ export default {
       return this._makeRequest({
         path: "/planner/buckets",
         method: "POST",
+        ...args,
+      });
+    },
+    getTask({
+      taskId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/planner/tasks/${taskId}`,
+        ...args,
+      });
+    },
+    listUserTasks(args = {}) {
+      return this._makeRequest({
+        path: "/me/planner/tasks",
+        ...args,
+      });
+    },
+    listThreads({
+      groupId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/groups/${groupId}/threads`,
         ...args,
       });
     },

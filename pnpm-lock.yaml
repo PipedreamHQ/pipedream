@@ -5170,9 +5170,9 @@ importers:
 
   components/microsoft_365_planner:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.5
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 1.6.5
 
   components/microsoft_advertising:
     specifiers: {}
