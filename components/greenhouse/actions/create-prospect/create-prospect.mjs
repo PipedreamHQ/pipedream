@@ -21,7 +21,7 @@ export default {
   methods: {
     getData() {
       return {
-        application: parseObject(this.jobIds)?.map((item) => ({
+        applications: parseObject(this.jobIds)?.map((item) => ({
           job_id: item,
         })),
       };
