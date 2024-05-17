@@ -5,7 +5,7 @@ export default {
   key: "postmark-new-sender-signature",
   name: "New Sender Signature",
   description: "Emit new event when a new sender signature is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,
