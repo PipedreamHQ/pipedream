@@ -11,7 +11,7 @@ export default {
     sql: {
       type: "sql",
       auth: {
-        app: "mysql"
+        app: "mysql",
       },
       label: "Query",
       description: "The SQL query to execute",
