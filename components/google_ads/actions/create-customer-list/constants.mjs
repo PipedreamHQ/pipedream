@@ -102,7 +102,7 @@ const USER_LIST_LOOKALIKE_PROPS = {
     type: "string[]",
     label: "Seed User List(s)",
     description: "One or more customer lists from which this list is derived.",
-    async options() {
+    options: async() => {
       const response = await this.googleAds.listUserLists(this.accountId);
       return response?.map(({
         userList: {
@@ -128,12 +128,12 @@ const USER_LIST_LOOKALIKE_PROPS = {
       },
       {
         label:
-          "Expansion to a medium set of users that are similar to the seed lists. Includes all users of EXPANSION_LEVEL_NARROW, and more.",
+          "Expansion to a medium set of users that are similar to the seed lists. Includes all users of NARROW, and more.",
         value: "BALANCED",
       },
       {
         label:
-          "Expansion to a large set of users that are similar to the seed lists. Includes all users of EXPANSION_LEVEL_BALANCED, and more.",
+          "Expansion to a large set of users that are similar to the seed lists. Includes all users of BALANCED, and more.",
         value: "BROAD",
       },
     ],
