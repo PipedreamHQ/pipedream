@@ -1,4 +1,4 @@
-import { USER_LIST_TYPE_OPTIONS } from "../../common/constants.mjs";
+import { USER_LIST_TYPE_OPTIONS } from "../../common/constants-user-lists.mjs";
 import {
   getAdditionalFieldsDescription, parseObject,
 } from "../../common/utils.mjs";
