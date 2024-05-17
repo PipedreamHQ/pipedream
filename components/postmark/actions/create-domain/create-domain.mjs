@@ -4,7 +4,7 @@ export default {
   key: "postmark-create-domain",
   name: "Create Domain",
   description: "Create a new domain. [See the documentation](https://postmarkapp.com/developer/api/domains-api#create-domain)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     postmark,

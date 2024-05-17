@@ -4,7 +4,7 @@ export default {
   key: "postmark-get-email-open-counts",
   name: "Get Email Open Counts",
   description: "Gets total counts of recipients who opened your emails. This is only recorded when open tracking is enabled for that email. [See the documentation](https://postmarkapp.com/developer/api/stats-api#email-open-counts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     postmark,
