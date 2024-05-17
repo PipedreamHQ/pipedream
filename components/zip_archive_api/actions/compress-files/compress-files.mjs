@@ -1,5 +1,6 @@
 import app from "../../zip_archive_api.app.mjs";
 import fs from "fs";
+import FormData from "form-data";
 
 export default {
   key: "zip_archive_api-compress-files",
@@ -9,6 +10,12 @@ export default {
   type: "action",
   props: {
     app,
+    uploadType: {
+      propDefinition: [
+        app,
+        "uploadType",
+      ],
+    },
     archiveName: {
       propDefinition: [
         app,
@@ -35,17 +42,38 @@ export default {
     },
   },
   async run({ $ }) {
-    const { ...data } = this;
+    let data = {
+      files: this.files,
+      archiveName: this.archiveName,
+      compressionLevel: this.compressionLevel,
+      password: this.password,
+    };
+
+    if (this.uploadType === "File") {
+      data = new FormData();
+
+      if (this.password) data.append("Password", this.password);
+      if (this.compressionLevel) data.append("CompressionLevel", this.compressionLevel);
+      data.append("ArchiveName", this.archiveName);
+
+      for (const file of this.files) {
+        data.append("Files", fs.createReadStream(file));
+      }
+    }
+
+    const headers = this.uploadType === "File"
+      ? data.getHeaders()
+      : {};
 
     const response = await this.app.compressFiles({
       $,
       data,
+      headers,
     });
 
     $.export("$summary", `Successfully compressed the files into '${this.archiveName}.zip'`);
 
     const tmpPath = `/tmp/${this.archiveName}`;
-
     fs.writeFileSync(tmpPath, response);
 
     return {

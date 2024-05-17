@@ -5,7 +5,7 @@ export default {
   key: "zip_archive_api-extract-files",
   name: "Extract Files",
   description: "Extract the files from an archive. [See the documentation](https://archiveapi.com/rest-api/archive-extraction/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -34,7 +34,6 @@ export default {
     $.export("$summary", "Successfully extracted the files from the specified archive");
 
     const tmpPath = "/tmp/extracted_files";
-
     fs.writeFileSync(tmpPath, response);
 
     return {

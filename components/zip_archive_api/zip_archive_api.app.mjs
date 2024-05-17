@@ -1,9 +1,16 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "zip_archive_api",
   propDefinitions: {
+    uploadType: {
+      type: "string",
+      label: "Upload Type",
+      description: "The upload type of the file",
+      options: constants.UPLOAD_TYPES,
+    },
     archiveName: {
       type: "string",
       label: "Archive Name",
@@ -24,12 +31,12 @@ export default {
     files: {
       type: "string[]",
       label: "Files URLs",
-      description: "The URLs of the files to be compressed",
+      description: "The URLs or path of the files to be compressed",
     },
     file: {
       type: "string",
       label: "File URL",
-      description: "The URL of the archive to extract the files from",
+      description: "The URL or path of the archive to extract the files from",
     },
   },
   methods: {
@@ -43,6 +50,7 @@ export default {
         params,
         ...otherOpts
       } = opts;
+
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
