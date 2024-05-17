@@ -4,115 +4,121 @@ export default {
   type: "app",
   app: "pidj",
   propDefinitions: {
-    contactInformation: {
-      type: "object",
-      label: "Contact's Information",
-      description: "The contact's information including name, email, and phone number.",
-    },
-    additionalNotes: {
+    contactId: {
       type: "string",
-      label: "Additional Notes",
-      description: "Any additional notes related to the contact.",
-      optional: true,
+      label: "Contact ID",
+      description: "The ID of the contact.",
+      async options() {
+        const { contacts } = await this.listContacts();
+
+        return contacts.map(({
+          id: value, first_name, last_name, display_name, phone_number,
+        }) => ({
+          label: (first_name && last_name)
+            ? `${first_name} ${last_name}`
+            : `${display_name || phone_number}`,
+          value,
+        }));
+      },
     },
-    tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "Tags related to the contact.",
-      optional: true,
-    },
-    recipientPhoneNumber: {
+    groupId: {
       type: "string",
-      label: "Recipient's Phone Number",
-      description: "The phone number of the message recipient.",
-    },
-    messageText: {
-      type: "string",
-      label: "Message Text",
-      description: "The text of the message to be sent.",
-    },
-    scheduledSendTime: {
-      type: "string",
-      label: "Scheduled Send Time",
-      description: "The scheduled time to send the message, in ISO 8601 format.",
+      label: "Group Id",
+      description: "The Id of the group.",
+      async options() {
+        const { groups } = await this.listGroups();
+
+        return groups.map(({
+          group_id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
       optional: true,
     },
     surveyId: {
       type: "string",
       label: "Survey ID",
       description: "The ID of the survey to be triggered.",
+      async options() {
+        const { surveys } = await this.listSurveys();
+
+        return surveys.map(({
+          survey_id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    scheduleTimeForSurvey: {
+    fromNumber: {
       type: "string",
-      label: "Schedule Time for Survey",
-      description: "The scheduled time to initiate the survey, in ISO 8601 format.",
-      optional: true,
+      label: "From Number",
+      description: "Phone number to send from; this will determine which group the message sends from, and must be an active number from one of your groups. This must be in E.164 format, e.g., +18885552222",
+    },
+    toNumber: {
+      type: "string",
+      label: "To Number",
+      description: "Phone number to send to. This must be in E.164 format, e.g., +18885553333.",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.gopidj.com";
+      return "https://api.gopidj.com/api/2020";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        username: `${this.$auth.account_key}`,
+        password: `${this.$auth.token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        method,
         url: this._baseUrl() + path,
+        auth: this._auth(),
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          ...headers,
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        data,
-        params,
-        ...otherOpts,
+        ...opts,
       });
     },
-    async addContact({
-      contactInformation, additionalNotes, tags,
-    }) {
+    addContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
+        path: "/contact",
+        ...opts,
+      });
+    },
+    listGroups() {
+      return this._makeRequest({
+        path: "/groups",
+      });
+    },
+    listSurveys() {
+      return this._makeRequest({
+        path: "/surveys",
+      });
+    },
+    listContacts() {
+      return this._makeRequest({
         path: "/contacts",
-        data: {
-          contactInformation,
-          additionalNotes,
-          tags,
-        },
       });
     },
-    async sendMessage({
-      recipientPhoneNumber, messageText, scheduledSendTime,
-    }) {
+    triggerSurvey(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/messages/send",
-        data: {
-          recipientPhoneNumber,
-          messageText,
-          scheduledSendTime,
-        },
+        path: "/survey/initiate",
+        ...opts,
       });
     },
-    async triggerSurvey({
-      contactInformation, surveyId, scheduleTimeForSurvey,
-    }) {
+    sendMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/surveys/trigger",
-        data: {
-          contactInformation,
-          surveyId,
-          scheduleTimeForSurvey,
-        },
+        path: "/send",
+        ...opts,
       });
     },
   },
