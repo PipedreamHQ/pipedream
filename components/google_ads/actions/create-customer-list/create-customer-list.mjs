@@ -1,3 +1,4 @@
+import { USER_LIST_TYPE_OPTIONS } from "../../common/constants.mjs";
 import {
   getAdditionalFieldsDescription, parseObject,
 } from "../../common/utils.mjs";
@@ -23,6 +24,13 @@ export default {
       label: "Description",
       description: "Description of the customer list.",
       optional: true,
+    },
+    listType: {
+      type: "string",
+      label: "Type",
+      description: "The [type of customer list](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#CrmBasedUserListInfo) to create.",
+      options: USER_LIST_TYPE_OPTIONS,
+      reloadProps: true,
     },
     additionalFields: {
       propDefinition: [
@@ -55,7 +63,12 @@ export default {
       },
     });
 
-    $.export("$summary", `Created customer list with ID ${response.resourceName.split("/").pop()}`);
-    return response;
+    const id = response.resourceName.split("/").pop();
+
+    $.export("$summary", `Created customer list with ID ${id}`);
+    return {
+      id,
+      ...response,
+    };
   },
 };
