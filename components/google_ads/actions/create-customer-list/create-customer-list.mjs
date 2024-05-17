@@ -1,4 +1,6 @@
-import { USER_LIST_TYPE_OPTIONS } from "./constants.mjs";
+import {
+  USER_LIST_TYPES, USER_LIST_TYPE_OPTIONS,
+} from "./constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import common from "../common/common.mjs";
 import {
@@ -10,7 +12,8 @@ export default {
   ...common,
   key: "google_ads-create-customer-list",
   name: "Create Customer List",
-  description: "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList)",
+  description:
+    "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
@@ -29,7 +32,8 @@ export default {
     listType: {
       type: "string",
       label: "List Type",
-      description: "The [type of customer list](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#CrmBasedUserListInfo) to create.",
+      description:
+        "The [type of customer list](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#CrmBasedUserListInfo) to create.",
       options: USER_LIST_TYPE_OPTIONS.map(({
         label, value,
       }) => ({
@@ -39,10 +43,42 @@ export default {
       reloadProps: true,
     },
   },
+  methods: {
+    parseFields(obj) {
+      switch (this.listType) {
+      case USER_LIST_TYPES.CRM_BASED:
+        break;
+
+      case USER_LIST_TYPES.RULE_BASED:
+        if (obj.prepopulationStatus) {
+          obj.prepopulationStatus = "REQUESTED";
+        }
+        if (obj.flexibleRuleUserList) {
+          obj.flexibleRuleUserList = parseObject(obj.flexibleRuleUserList);
+        }
+        break;
+
+      case USER_LIST_TYPES.LOGICAL:
+        if (obj.rules) {
+          obj.rules = obj.rules.map((rule) => parseObject(rule));
+        }
+        break;
+
+      case USER_LIST_TYPES.BASIC:
+        break;
+      case USER_LIST_TYPES.LOOKALIKE:
+        break;
+      }
+
+      return obj;
+    },
+  },
   additionalProps() {
     const { listType } = this;
 
-    const option = USER_LIST_TYPE_OPTIONS.find(({ value }) => value === listType);
+    const option = USER_LIST_TYPE_OPTIONS.find(
+      ({ value }) => value === listType,
+    );
     if (!option) {
       throw new ConfigurationError("Select a valid List Type to proceed.");
     }
@@ -63,7 +99,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      googleAds, accountId, customerClientId, name, description, listType, additionalFields, ...data
+      googleAds,
+      accountId,
+      customerClientId,
+      name,
+      description,
+      listType,
+      additionalFields,
+      ...data
     } = this;
     const { results: { [0]: response } } = await googleAds.createUserList({
       $,
@@ -75,7 +118,7 @@ export default {
             create: {
               name,
               description,
-              [listType]: data,
+              [listType]: this.parseFields(data),
               ...parseObject(additionalFields),
             },
           },
@@ -85,7 +128,10 @@ export default {
 
     const id = response.resourceName.split("/").pop();
 
-    $.export("$summary", `Created customer list of type \`${listType}\` with ID \`${id}\``);
+    $.export(
+      "$summary",
+      `Created customer list of type \`${listType}\` with ID \`${id}\``,
+    );
     return {
       id,
       ...response,

@@ -1,4 +1,4 @@
-const USER_LIST_TYPES = {
+export const USER_LIST_TYPES = {
   CRM_BASED: "crmBasedUserList",
   RULE_BASED: "ruleBasedUserList",
   LOGICAL: "logicalUserList",
@@ -60,6 +60,29 @@ const USER_LIST_CRM_BASED_PROPS = {
   },
 };
 
+const USER_LIST_RULE_BASED_PROPS = {
+  prepopulationStatus: {
+    type: "boolean",
+    label: "Request Prepopulation",
+    description: "If true, past site visitors or app users who match the list definition will be included in the list. This will only add past users from within the last 30 days, depending on the list's membership duration and the date when the remarketing tag is added.",
+    optional: true,
+  },
+  flexibleRuleUserList: {
+    type: "object",
+    label: "Flexible Rule User List",
+    description: "Flexible rule representation of visitors with one or multiple actions. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#FlexibleRuleUserListInfo) on how to build this object. Values will be parsed as JSON where applicable.",
+    optional: true,
+  },
+};
+
+const USER_LIST_LOGICAL_PROPS = {
+  rules: {
+    type: "string[]",
+    label: "Rules",
+    description: "Logical list rules that define this user list. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#UserListLogicalRuleInfo) on how to build each object. Values will be parsed as JSON where applicable.",
+  },
+};
+
 export const USER_LIST_TYPE_OPTIONS = [
   {
     label: "CRM-based - a list of provided customers",
@@ -73,12 +96,14 @@ export const USER_LIST_TYPE_OPTIONS = [
     value: USER_LIST_TYPES.RULE_BASED,
     docsLink:
       "https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#RuleBasedUserListInfo",
+    props: USER_LIST_RULE_BASED_PROPS,
   },
   {
     label: "Logical - a custom combination of customer lists",
     value: USER_LIST_TYPES.LOGICAL,
     docsLink:
       "https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#LogicalUserListInfo",
+    props: USER_LIST_LOGICAL_PROPS,
   },
   {
     label:
