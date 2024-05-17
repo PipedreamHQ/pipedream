@@ -1,4 +1,4 @@
-export function listCustomerClients(query) {
+function listCustomerClients(query) {
   const fields = [
     "client_customer",
     "descriptive_name",
@@ -15,6 +15,15 @@ export function listCustomerClients(query) {
   return `SELECT ${fields} FROM customer_client WHERE ${condition}`;
 }
 
+function listUserLists() {
+  const fields = [
+    "id",
+    "name",
+  ].map((s) => `user_list.${s}`).join(", ");
+  return `SELECT ${fields} FROM user_list`;
+}
+
 export const QUERIES = {
   listCustomerClients,
+  listUserLists,
 };

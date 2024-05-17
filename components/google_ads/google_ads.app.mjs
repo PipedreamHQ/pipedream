@@ -55,7 +55,7 @@ export default {
           customerClient: {
             descriptiveName, id, manager,
           },
-        } ) => ({
+        }) => ({
           label: `${manager
             ? "[Manager] "
             : ""}${descriptiveName}`,
@@ -121,6 +121,16 @@ export default {
         ...args,
       });
       return response;
+    },
+    async listUserLists(accountId) {
+      const response = await this._makeRequest({
+        path: `/v16/customers/${accountId}/googleAds:search`,
+        method: "post",
+        data: {
+          query: QUERIES.listUserLists(),
+        },
+      });
+      return response.results;
     },
     async createConversionAction({
       customerClientId, ...args

@@ -1,3 +1,5 @@
+import countryCodeOptions from "./country-code-options.mjs";
+
 export const USER_LIST_TYPES = {
   CRM_BASED: "crmBasedUserList",
   RULE_BASED: "ruleBasedUserList",
@@ -64,13 +66,15 @@ const USER_LIST_RULE_BASED_PROPS = {
   prepopulationStatus: {
     type: "boolean",
     label: "Request Prepopulation",
-    description: "If true, past site visitors or app users who match the list definition will be included in the list. This will only add past users from within the last 30 days, depending on the list's membership duration and the date when the remarketing tag is added.",
+    description:
+      "If true, past site visitors or app users who match the list definition will be included in the list. This will only add past users from within the last 30 days, depending on the list's membership duration and the date when the remarketing tag is added.",
     optional: true,
   },
   flexibleRuleUserList: {
     type: "object",
-    label: "Flexible Rule User List",
-    description: "Flexible rule representation of visitors with one or multiple actions. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#FlexibleRuleUserListInfo) on how to build this object. Values will be parsed as JSON where applicable.",
+    label: "Flexible Rule Customer List",
+    description:
+      "Flexible rule representation of visitors with one or multiple actions. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#FlexibleRuleUserListInfo) on how to build this object. Values will be parsed as JSON where applicable.",
     optional: true,
   },
 };
@@ -79,7 +83,67 @@ const USER_LIST_LOGICAL_PROPS = {
   rules: {
     type: "string[]",
     label: "Rules",
-    description: "Logical list rules that define this user list. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#UserListLogicalRuleInfo) on how to build each object. Values will be parsed as JSON where applicable.",
+    description:
+      "Logical list rules that define this customer list. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#UserListLogicalRuleInfo) on how to build each object. Values will be parsed as JSON where applicable.",
+  },
+};
+
+const USER_LIST_BASIC_PROPS = {
+  actions: {
+    type: "string[]",
+    label: "Actions",
+    description:
+      "Actions associated with this customer list. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#UserListActionInfo) on how to build each object. Values will be parsed as JSON where applicable.",
+  },
+};
+
+const USER_LIST_LOOKALIKE_PROPS = {
+  seedUserListIds: {
+    type: "string[]",
+    label: "Seed User List(s)",
+    description: "One or more customer lists from which this list is derived.",
+    async options() {
+      const response = await this.googleAds.listUserLists(this.accountId);
+      return response?.map(({
+        userList: {
+          id, name,
+        },
+      }) => ({
+        label: name,
+        value: id,
+      }));
+    },
+  },
+  expansionLevel: {
+    type: "string",
+    label: "Expansion Level",
+    description:
+      "Expansion level, reflecting the size of the lookalike audience",
+    optional: true,
+    options: [
+      {
+        label:
+          "Expansion to a small set of users that are similar to the seed lists",
+        value: "NARROW",
+      },
+      {
+        label:
+          "Expansion to a medium set of users that are similar to the seed lists. Includes all users of EXPANSION_LEVEL_NARROW, and more.",
+        value: "BALANCED",
+      },
+      {
+        label:
+          "Expansion to a large set of users that are similar to the seed lists. Includes all users of EXPANSION_LEVEL_BALANCED, and more.",
+        value: "BROAD",
+      },
+    ],
+  },
+  countryCodes: {
+    type: "string[]",
+    label: "Country Codes",
+    description: "Countries targeted by the Lookalike.",
+    optional: true,
+    options: countryCodeOptions,
   },
 };
 
@@ -111,6 +175,7 @@ export const USER_LIST_TYPE_OPTIONS = [
     value: USER_LIST_TYPES.BASIC,
     docsLink:
       "https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#BasicUserListInfo",
+    props: USER_LIST_BASIC_PROPS,
   },
   {
     label:
@@ -118,5 +183,6 @@ export const USER_LIST_TYPE_OPTIONS = [
     value: USER_LIST_TYPES.LOOKALIKE,
     docsLink:
       "https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#LookalikeUserListInfo",
+    props: USER_LIST_LOOKALIKE_PROPS,
   },
 ];
