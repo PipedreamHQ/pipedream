@@ -1,9 +1,11 @@
-import { USER_LIST_TYPE_OPTIONS } from "../../common/constants-user-lists.mjs";
 import {
-  getAdditionalFieldsDescription, parseObject,
-} from "../../common/utils.mjs";
+  USER_LIST_TYPES, USER_LIST_TYPE_OPTIONS,
+} from "./constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import common from "../common/common.mjs";
-const app = common.props.googleAds;
+import {
+  getAdditionalFields, getListTypeInfo,
+} from "./props.mjs";
 
 export default {
   ...common,
@@ -32,14 +34,32 @@ export default {
       options: USER_LIST_TYPE_OPTIONS,
       reloadProps: true,
     },
-    additionalFields: {
-      propDefinition: [
-        app,
-        "additionalFields",
-      ],
-      description:
-      getAdditionalFieldsDescription("https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList"),
-    },
+  },
+  additionalProps() {
+    const { listType } = this;
+
+    const docsLink = USER_LIST_TYPE_OPTIONS.find(({ value }) => value === listType)?.docsLink;
+
+    const props = {
+      listTypeInfo: getListTypeInfo(docsLink),
+    };
+
+    switch (listType) {
+    case USER_LIST_TYPES.CRM_BASED:
+      break;
+    case USER_LIST_TYPES.RULE_BASED:
+      break;
+    case USER_LIST_TYPES.LOGICAL:
+      break;
+    case USER_LIST_TYPES.BASIC:
+      break;
+    case USER_LIST_TYPES.LOOKALIKE:
+      break;
+    }
+
+    props.additionalFields = getAdditionalFields(docsLink);
+
+    return props;
   },
   async run({ $ }) {
     const { results: { [0]: response } } = await this.googleAds.createUserList({
