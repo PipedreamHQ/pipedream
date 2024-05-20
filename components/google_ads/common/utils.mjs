@@ -16,7 +16,3 @@ export function parseObject(value = {}) {
     }
   }));
 }
-
-export function getAdditionalFieldsDescription(link) {
-  return `Additional fields to be created. [See the documentation](${link}) for available fields. Values will be parsed as JSON where applicable.`;
-}

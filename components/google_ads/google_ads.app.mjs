@@ -63,13 +63,6 @@ export default {
         }));
       },
     },
-    additionalFields: {
-      type: "object",
-      label: "Additional Fields",
-      description:
-        "Additional fields and values for the customer list. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList) for available fields. Values will be parsed as JSON where applicable.",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {

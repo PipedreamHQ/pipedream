@@ -4,7 +4,7 @@ const DEFAULT_DOCS =
 export const getAdditionalFields = (docsLink = DEFAULT_DOCS) => ({
   type: "object",
   label: "Additional Fields",
-  description: `Additional fields and values for the customer list. [See the documentation](${docsLink}) for available fields. Values will be parsed as JSON where applicable.`,
+  description: `Additional fields and values to be created. [See the documentation](${docsLink}) for available fields. Values will be parsed as JSON where applicable.`,
   optional: true,
 });
 
