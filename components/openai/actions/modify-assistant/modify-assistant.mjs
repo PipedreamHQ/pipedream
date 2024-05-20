@@ -53,7 +53,7 @@ export default {
     },
     ...common.props,
   },
-  async run({ $ }) { console.log(this.vectorStoreIds);
+  async run({ $ }) {
     const response = await this.openai.modifyAssistant({
       $,
       assistant: this.assistant,
