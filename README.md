@@ -43,7 +43,7 @@ Click the image below to watch a brief demo on YouTube.
 
 <p align="center">
   <br />
-  <a href="https://bit.ly/36fwHWs">
+  <a href="https://bit.ly/3ytGgyR">
     <img src="./images/demo.png" width="800px" alt="Pipedream demo static image" />
   </a>
 </p>
