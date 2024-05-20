@@ -4,7 +4,7 @@ export default {
   key: "postmark-get-domain",
   name: "Get Domain",
   description: "Gets all the details for a specific domain. [See the documentation](https://postmarkapp.com/developer/api/domains-api#domain)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     postmark,

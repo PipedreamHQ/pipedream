@@ -1,0 +1,39 @@
+import { ConfigurationError } from "@pipedream/platform";
+
+function emptyStrToUndefined(value) {
+  const trimmed = typeof(value) === "string" && value.trim();
+  return trimmed === ""
+    ? undefined
+    : value;
+}
+
+function parse(value) {
+  const valueToParse = emptyStrToUndefined(value);
+  if (typeof(valueToParse) === "object" || valueToParse === undefined) {
+    return valueToParse;
+  }
+  try {
+    return JSON.parse(valueToParse);
+  } catch (e) {
+    throw new ConfigurationError("Make sure the custom expression contains a valid object");
+  }
+}
+
+async function iterate(iterations) {
+  const items = [];
+  for await (const item of iterations) {
+    items.push(item);
+  }
+  return items;
+}
+
+function getNestedProperty(obj, propertyString) {
+  const properties = propertyString.split(".");
+  return properties.reduce((prev, curr) => prev && prev[curr], obj);
+}
+
+export default {
+  parse,
+  iterate,
+  getNestedProperty,
+};
