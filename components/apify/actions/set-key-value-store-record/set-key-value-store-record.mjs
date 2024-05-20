@@ -1,5 +1,5 @@
 import apify from "../../apify.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "apify-set-key-value-store-record",
@@ -9,23 +9,29 @@ export default {
   type: "action",
   props: {
     apify,
-    key: {
+    keyValueStoreId: {
       propDefinition: [
         apify,
-        "key",
+        "keyValueStoreId",
       ],
     },
+    key: {
+      type: "string",
+      label: "Key",
+      description: "The key of the record to create or update in the key-value store.",
+    },
     value: {
-      propDefinition: [
-        apify,
-        "value",
-      ],
+      type: "object",
+      label: "Value",
+      description: "The value of the record to create or update in the key-value store.",
     },
   },
   async run({ $ }) {
     const response = await this.apify.setKeyValueStoreRecord({
-      key: this.key,
-      value: this.value,
+      $,
+      storeId: this.keyValueStoreId,
+      recordKey: this.key,
+      data: parseObject(this.value),
     });
     $.export("$summary", `Successfully set the record with key '${this.key}'`);
     return response;
