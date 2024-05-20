@@ -4,86 +4,57 @@ export default {
   type: "app",
   app: "linguapop",
   propDefinitions: {
-    language: {
+    languageCode: {
       type: "string",
-      label: "Language",
-      description: "The language for the test",
-      required: true,
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The user ID",
-      optional: true,
-    },
-    testLevel: {
-      type: "string",
-      label: "Test Level",
-      description: "The level of the test",
-      optional: true,
-    },
-    recipientEmail: {
-      type: "string",
-      label: "Recipient's Email",
-      description: "The email of the recipient for the test invitation",
-      required: true,
-    },
-    invitationContent: {
-      type: "string",
-      label: "Invitation Content",
-      description: "The content of the invitation email",
-      optional: true,
+      label: "Language Code",
+      description: "The code of the language you want to test",
+      async options() {
+        const languages = await this.listLanguages();
+        return languages.map(({
+          code: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://app.linguapop.eu/api";
+      return "https://app.linguapop.eu/api/actions";
     },
-    async _makeRequest(opts = {}) {
+    _authParams(params) {
+      return {
+        ...params,
+        apiKey: `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this, path, params, data, ...otherOpts
       } = opts;
-      return axios($, {
+      const config = {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        url: `${this._baseUrl()}${path}`,
+      };
+      if (params) {
+        config.params = this._authParams(params);
+      } else if (data) {
+        config.data = this._authParams(data);
+      }
+      return axios($, config);
+    },
+    listLanguages(opts = {}) {
+      return this._makeRequest({
+        path: "/getLanguages",
+        ...opts,
       });
     },
-    async createTestInvitation({
-      language, recipientEmail, invitationContent,
-    }) {
+    createTestInvitation(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/actions/sendInvitation",
-        data: {
-          apiKey: this.$auth.api_key,
-          email: recipientEmail,
-          languageCode: language,
-          sendEmail: true,
-          testReading: false,
-          testListening: false,
-          callbackUrl: "https://YOUR_CALLBACK_URL",
-          content: invitationContent,
-        },
-      });
-    },
-    async emitTestCompletionEvent({
-      language, userId, testLevel,
-    }) {
-      this.$emit({
-        language,
-        userId,
-        testLevel,
-      }, {
-        summary: `Placement test completed in ${language} by ${userId || "unknown user"} at level ${testLevel || "unknown level"}`,
+        path: "/sendInvitation",
+        ...opts,
       });
     },
   },

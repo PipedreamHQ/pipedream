@@ -1,88 +1,30 @@
 import linguapop from "../../linguapop.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "linguapop-new-placement-test-result-instant",
-  name: "New Placement Test Result Instant",
-  description: "Emit new event when a placement test is completed. [See the documentation](https://docs.linguapop.eu/api/)",
-  version: "0.0.{{ts}}",
+  name: "New Placement Test Result (Instant)",
+  description: "Emit new event when a placement test is completed. Must setup the source's URL as the `callbackUrl` when sending the test invitation. [See the documentation](https://docs.linguapop.eu/api/#sendcreate-an-invitation-to-a-placement-test)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    linguapop: {
-      type: "app",
-      app: "linguapop",
-    },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: "$.service.db",
-    language: {
-      propDefinition: [
-        linguapop,
-        "language",
-      ],
-    },
-    userId: {
-      propDefinition: [
-        linguapop,
-        "userId",
-      ],
-    },
-    testLevel: {
-      propDefinition: [
-        linguapop,
-        "testLevel",
-      ],
-    },
+    linguapop,
+    http: "$.interface.http",
   },
-  hooks: {
-    async activate() {
-      const opts = {
-        language: this.language,
-        recipientEmail: this.http.endpoint,
-        invitationContent: "Please complete the placement test",
+  methods: {
+    generateMeta(result) {
+      return {
+        id: result.invitationId,
+        summary: `Test completed by ${result.email}`,
+        ts: Date.parse(result.completedOn),
       };
-      const invitation = await this.linguapop.createTestInvitation(opts);
-      this.db.set("invitationId", invitation.invitationId);
-    },
-    async deactivate() {
-      this.db.set("invitationId", null);
     },
   },
   async run(event) {
-    const {
-      body, headers,
-    } = event;
-
-    if (headers["Content-Type"] !== "application/json") {
-      this.http.respond({
-        status: 400,
-        body: "Invalid content type",
-      });
-      return;
-    }
-
-    if (!body || body.invitationId !== this.db.get("invitationId")) {
-      this.http.respond({
-        status: 404,
-        body: "Not found",
-      });
-      return;
-    }
-
-    this.http.respond({
-      status: 200,
-    });
-
-    const {
-      externalIdentifier: userId, finalLevelCode: testLevel,
-    } = body;
-    const language = this.language;
-    await this.linguapop.emitTestCompletionEvent({
-      language,
-      userId,
-      testLevel,
-    });
+    const { body } = event;
+    const meta = this.generateMeta(body);
+    this.$emit(body, meta);
   },
+  sampleEmit,
 };
