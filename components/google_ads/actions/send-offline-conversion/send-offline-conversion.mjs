@@ -29,7 +29,7 @@ export default {
     const {
       googleAds, accountId, customerClientId, additionalFields, ...data
     } = this;
-    const response = await googleAds.createConversionAction({
+    const { results: { [0]: response } } = await googleAds.createConversionAction({
       $,
       accountId,
       customerClientId,
@@ -45,7 +45,12 @@ export default {
       },
     });
 
-    $.export("$summary", `Created conversion action with ID ${response.id}`);
-    return response;
+    const id = response.resourceName.split("/").pop();
+
+    $.export("$summary", `Created conversion action with ID ${id}`);
+    return {
+      id,
+      ...response,
+    };
   },
 };
