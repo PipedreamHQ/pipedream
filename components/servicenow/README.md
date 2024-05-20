@@ -1,68 +1,61 @@
 # Overview
 
-The ServiceNow API enables developers to tap into the robust capabilities of ServiceNow's IT service management platform. With the API, you can create, read, update, and delete records, manage workflows, and integrate with other services. By leveraging these capabilities, you can automate routine tasks, sync data across multiple platforms, and enhance operational efficiencies.
+The ServiceNow API lets developers access and manipulate records, manage workflows, and integrate with other services on its IT service management platform. These capabilities support automating tasks, syncing data across platforms, and boosting operational efficiencies.
 
 # Getting Started
 
-Before you can use the ServiceNow REST API from a workflow, you need to configure an OAuth app in your ServiceNow instance that will grant access tokens to your users and authenticate requests to its REST API. 
+Before using the ServiceNow REST API from a workflow, configure **two** OAuth apps in your ServiceNow instance. These apps will grant access tokens to your users and authenticate requests to its REST API.
 
-1. In your ServiceNow instance, visit the **Application Registry** and create a new app, choosing the **Create an OAuth API endpoint for external clients** option.
-2. Name it something memorable, then leave every other field blank or keep the defaults, except for the **Redirect URL**, which should be: `https://api.pipedream.com/connect/oauth/oa_g2oiqA/callback`. Your app should look something like this:
+## Create an External Client OAuth App
 
-<div>
-<img alt="ServiceNow OAuth app config" src="https://res.cloudinary.com/pipedreamin/image/upload/v1681312149/docs/components/ServiceNow/oauth-app-config_kmnpav.png">
-</div>
+First, sign into your [ServiceNow Developer Portal](https://developer.servicenow.com/dev.do#!/home) account to create or access an instance.
 
-1. Next, you'll need to copy the client ID and secret generated in **Step 2**, and add another app. This time, select the option to **Connect to a third party OAuth Provider**.
-2. Name this app something like **Pipedream OAuth Validator**, and add the client ID / secret from **Step 2**. Change the grant type to **Authorization Code**, and set the **Token URL** to `oauth_token.do` (without any hostname, this refers to the current instance). Finally, add the same **Redirect URL** as you did above: `https://api.pipedream.com/connect/oauth/oa_g2oiqA/callback`. This app's configuration should look something like this when complete:
+1. Go to **System OAuth > Application Registry**.
 
-<div>
-<img alt="ServiceNow OAuth validator app config" src="https://res.cloudinary.com/pipedreamin/image/upload/v1681312149/docs/components/ServiceNow/oauth-validator-config_ij6ef0.png">
-</div>
+   ![Find the OAuth Client option under the ServiceNow application registry](https://res.cloudinary.com/pipedreamin/image/upload/v1715264549/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.18.36_ntausg.png)
 
-1. Visit [https://pipedream.com/accounts](https://pipedream.com/accounts), and click the button labeled **Click Here to Connect An App** in the top-right. In the modal that appears, search for **ServiceNow** and select it. You'll be prompted to enter the client ID and client secret from **Step 2** above, as well as the name of your instance. The instance name is the _host_ portion of your instance's URL: that is, the `dev98042` in `https://dev98042.service-now.com/`.
+2. Create a new app by selecting **New** in the top right corner.
 
-<div>
-<img alt="Pipedream app config" width="600" src="https://res.cloudinary.com/pipedreamin/image/upload/v1681312149/docs/components/ServiceNow/oauth-app-config_kmnpav.png">
-</div>
+   ![Create a new ServiceNow application under the OAuth Clients section in the Application Registry](https://res.cloudinary.com/pipedreamin/image/upload/v1715265062/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.30.51_jpi4ct.png)
 
-6. Press **Connect** in the bottom-right of the modal. This should open up a new window asking you to login to your ServiceNow instance. This authorizes Pipedream's access to your ServiceNow account, and you should be ready to connect to your instance's REST API!
+3. Choose **Create an OAuth API endpoint for external clients**:
 
-Collectively, the two apps you configured in your ServiceNow instance allow your instance to issue new OAuth access tokens for the user who authenticated in **Step 6**. This allows Pipedream to retrieve a fresh access token before it makes requests to the ServiceNow REST API.
+   ![Create a new app, and make sure to choose the OAuth API endpoint for external clients option](https://res.cloudinary.com/pipedreamin/image/upload/v1715264615/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.19.09_pgezqf.png)
+
+4. Name your app, such as `Pipedream`. Use the default settings but specify the **Redirect URL**: `https://api.pipedream.com/connect/oauth/oa_g2oiqA/callback`.
+
+5. Click **Create**. It will appear in the Application Registry once created.
+
+   ![You should see the Pipedream app listed in the ServiceNow Registry after making those changes](https://res.cloudinary.com/pipedreamin/image/upload/v1715264960/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.21.12_iwlxgq.png)
+
+### Create the OAuth Validator app
+
+1. Copy the client ID and secret from the `Pipedream` app you created above.
+2. Name this app `Pipedream OAuth Validator` and add the previously copied client ID and secret. 
+3. Set the grant type to **Authorization Code** and the **Token URL** to `oauth_token.do`.
+4. Use the same **Redirect URL** as before.
+
+5. Visit [Pipedream's account page](https://pipedream.com/accounts), and click **Click Here to Connect An App**. Search for **ServiceNow** and select it. Enter the client ID, client secret, and your instance name (e.g., `dev98042` from `https://dev98042.service-now.com/`).
+
+6. Press **Connect**. A new window will prompt you to login to your ServiceNow instance, authorizing Pipedream's access to the ServiceNow REST API.
 
 ## ServiceNow Authorization Reference
 
-[This ServiceNow doc](https://docs.servicenow.com/bundle/orlando-platform-administration/page/administer/security/concept/c_OAuthAuthorizationCodeFlow.html) describes the general flow we ask you to implement above. In that doc, the app you create in **Step 2** is referred to as the **client application**, and the app in **Step 4** is referred to as the **OAuth provider application registry record**.
+[This ServiceNow doc](https://docs.servicenow.com/bundle/orlando-platform-administration/page/administer/security/concept/c_OAuthAuthorizationCodeFlow.html) outlines the flow you should implement.
 
-## Additional Guidance For Hardened or Mature Instances ###
+## Additional Guidance For Hardened or Mature Instances
 
-The instructions above are likely to work on a fresh, out-of-the-box instance but may work imperfectly on ServiceNow instances that have been customized or have applied various security hardening recommendations such as the [explicit roles plugin](https://docs.servicenow.com/en-US/bundle/vancouver-platform-security/page/administer/security/reference/explicit-role-plugin.html).
+The standard instructions may not apply perfectly to customized or hardened ServiceNow instances. If you face a **504 Gateway Time-out** error or similar, consider these tips:
 
-Symptoms of problems here may include getting a **504 Gateway Time-out** error when completing step 6 above. If you manually test the connection deatails in a tool like Postman, you may get an error like this:
-
-```
-{
-  "error_description":"access_denied",
-  "error":"server_error"
-}
-```
-
-In these instances, the following tips may be helpful:
-
-* Create a dedicated role for this purpose, and assign it to a service account that  is only used for this purpose.  You should not set it for web service access only, since interactive access is required to complete Pipedream setup.
-* Ensure that the dedicated role has ACLs configured to allow read for the oauth_credential table - both the table and table.\* for all fields. 
-* Assign snc_internal to this service account. This is important if you are using the explicit roles plugin as part of instance security hardening.
-
-Finally, while not required, you should also check that the role has associated ACLs for any tables you want to work with; by default they may if you use snc_internal, but some fields extended from task or other tables may require additional ACLs based on your instance's configuration.
+* Assign a dedicated role and service account for this integration.
+* Ensure the role has ACLs configured for the `oauth_credential` table and other necessary tables.
 
 # Example Use Cases
 
-- **Incident Management Automation**: Automatically create incidents in ServiceNow when critical alerts are triggered in monitoring tools like Datadog or New Relic. This ensures timely attention to potential issues and streamlines the incident response process.
-
-- **HR Onboarding Workflow**: When a new employee is added to an HR system like Workday, trigger a workflow in Pipedream that creates a new user account in ServiceNow, assigns the necessary roles, and initiates onboarding tasks. This can significantly cut the time needed to get a new team member up and running.
-
-- **Customer Support Ticket Sync**: Synchronize customer support tickets between ServiceNow and a CRM platform like Salesforce. When a ticket is updated in ServiceNow, automatically reflect those changes in Salesforce to keep all teams aligned and informed about customer issues, ensuring a unified approach to customer service.
-
+- **Incident Management Automation**: Automatically create incidents in ServiceNow from alerts in Datadog or New Relic.
+- **HR Onboarding Workflow**: Trigger a Pipedream workflow to set up new employee accounts in ServiceNow from HR systems like Workday.
+- **Customer Support Ticket Sync**: Keep customer support tickets synced between ServiceNow and CRM platforms like Salesforce.
 
 # Troubleshooting
-If you're getting a **504 Gateway Time-out** error when attempting to connect your ServiceNow account, review the section above on "Additional Guidance For Hardened or Mature Instances".
+
+If you encounter a **504 Gateway Time-out** error, refer to the 'Additional Guidance For Hardened or Mature Instances' section for solutions.
