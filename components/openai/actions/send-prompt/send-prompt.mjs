@@ -13,7 +13,7 @@ export default {
     alert: {
       type: "alert",
       alertType: "warning",
-      content: "OpenAI recommends using the **Chat** action for the latest `gpt-3.5-turbo` API, since it's faster and 10x cheaper. This action creates a completion for the provided prompt and parameters using the older `/completions` API.",
+      content: "We recommend using the Pipedream **Chat** action instead of this one. It supports the latest `gpt-3.5-turbo` API, which is faster and 10x cheaper. This action, **Create Completion (Send Prompt)**, creates a completion for the provided prompt and parameters using the older `/completions` API.",
     },
     modelId: {
       propDefinition: [

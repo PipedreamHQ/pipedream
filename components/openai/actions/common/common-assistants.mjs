@@ -112,5 +112,17 @@ export default {
         ? toolResources
         : undefined;
     },
+    async pollRunUntilCompleted(run, threadId, runId, $ = this) {
+      const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+      while (run.status === "queued" || run.status === "in_progress") {
+        run = await this.openai.retrieveRun({
+          $,
+          threadId,
+          runId,
+        });
+        await timer(3000);
+      }
+      return run;
+    },
   },
 };

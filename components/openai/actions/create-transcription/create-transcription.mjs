@@ -227,7 +227,7 @@ export default {
 
       file = path;
     } else if (url) {
-      const ext = extname(url);
+      const ext = extname(url).split("?")[0];
 
       const response = await axios({
         method: "GET",

@@ -1,8 +1,10 @@
 import openai from "../../openai.app.mjs";
+import common from "../common/common-assistants.mjs";
 import FormData from "form-data";
 import fs from "fs";
 
 export default {
+  ...common,
   key: "openai-analyze-image-content",
   name: "Analyze Image Content",
   description: "Send a message or question about an image and receive a response. [See the documentation](https://platform.openai.com/docs/api-reference/runs/createThreadAndRun)",
@@ -109,16 +111,7 @@ export default {
     const runId = run.id;
     const threadId = run.thread_id;
 
-    // poll until run is completed
-    const timer = (ms) => new Promise((res) => setTimeout(res, ms));
-    while (run.status !== "completed") {
-      run = await this.openai.retrieveRun({
-        $,
-        threadId,
-        runId,
-      });
-      await timer(3000);
-    }
+    run = await this.pollRunUntilCompleted(run, threadId, runId, $);
 
     // get response;
     const { data: messages } = await this.openai.listMessages({

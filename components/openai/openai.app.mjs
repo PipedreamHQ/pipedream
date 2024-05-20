@@ -37,7 +37,7 @@ export default {
       label: "Model",
       description: "The ID of the model to use for the assistant",
       async options() {
-        const models = (await this.models({})).filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo")) && (id !== "gpt-3.5-turbo-0301"));
+        const models = (await this.models({})).filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo") || id.includes("gpt-4o")) && (id !== "gpt-3.5-turbo-0301"));
         return models.map(({ id }) => id);
       },
     },
@@ -172,7 +172,7 @@ export default {
     toolOutputs: {
       type: "string[]",
       label: "Tool Outputs",
-      description: "The outputs from the tool calls.",
+      description: "The outputs from the tool calls. Each object in the array should contain properties `tool_call_id` and `output`.",
     },
     limit: {
       type: "integer",
@@ -504,17 +504,12 @@ export default {
       });
     },
     submitToolOutputs({
-      threadId, runId, toolOutputs, ...args
+      threadId, runId, ...args
     }) {
-      // Assuming toolOutputs should be parsed as JSON objects
-      const parsedToolOutputs = toolOutputs.map(JSON.parse);
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}/submit_tool_outputs`,
         headers: this._betaHeaders(),
         method: "POST",
-        data: {
-          tool_outputs: parsedToolOutputs,
-        },
         ...args,
       });
     },

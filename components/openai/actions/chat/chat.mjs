@@ -55,7 +55,7 @@ export default {
 
     const response = await this.openai.createChatCompletion({
       $,
-      args,
+      data: args,
     });
 
     if (response) {

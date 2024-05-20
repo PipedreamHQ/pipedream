@@ -127,15 +127,7 @@ export default {
     if (this.waitForCompletion) {
       const runId = response.id;
       const threadId = response.thread_id;
-      const timer = (ms) => new Promise((res) => setTimeout(res, ms));
-      while (response.status !== "completed") {
-        response = await this.openai.retrieveRun({
-          $,
-          threadId,
-          runId,
-        });
-        await timer(3000);
-      }
+      response = await this.pollRunUntilCompleted(response, threadId, runId, $);
     }
 
     $.export("$summary", `Successfully created a thread ${this.runThread

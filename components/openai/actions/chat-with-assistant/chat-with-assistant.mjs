@@ -109,16 +109,7 @@ export default {
     }
     const runId = run.id;
 
-    // poll until run is completed
-    const timer = (ms) => new Promise((res) => setTimeout(res, ms));
-    while (run.status !== "completed") {
-      run = await this.openai.retrieveRun({
-        $,
-        threadId,
-        runId,
-      });
-      await timer(3000);
-    }
+    run = await this.pollRunUntilCompleted(run, threadId, runId, $);
 
     // get response;
     const { data: messages } = await this.openai.listMessages({
