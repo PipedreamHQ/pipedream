@@ -65,7 +65,11 @@ export default {
         break;
 
       case USER_LIST_TYPES.BASIC:
+        if (obj.actions) {
+          obj.actions = obj.actions.map((action) => parseObject(action));
+        }
         break;
+
       case USER_LIST_TYPES.LOOKALIKE:
         break;
       }
