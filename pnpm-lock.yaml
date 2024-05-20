@@ -489,6 +489,12 @@ importers:
   components/api_void:
     specifiers: {}
 
+  components/apify:
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
+
   components/apilio:
     specifiers: {}
 
@@ -15038,7 +15044,7 @@ packages:
   /@pipedream/helper_functions/0.3.12:
     resolution: {integrity: sha512-0n0kKCdrQQWOW275gDHBu0EUAdNssEzT3LLHcOTlzoTXP/V9Ue0VVTmtLDiDdaF9W3a4e2++tICFoVSGSyoMew==}
     dependencies:
-      '@pipedream/platform': 1.6.4
+      '@pipedream/platform': 1.6.5
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
