@@ -2469,6 +2469,9 @@ importers:
   components/e_conomic:
     specifiers: {}
 
+  components/eagle_doc:
+    specifiers: {}
+
   components/easy_project:
     specifiers: {}
 
