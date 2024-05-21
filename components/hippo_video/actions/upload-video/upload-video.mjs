@@ -1,26 +1,37 @@
+import { ConfigurationError } from "@pipedream/platform";
 import hippoVideo from "../../hippo_video.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "hippo_video-upload-video",
   name: "Upload Video",
-  description: "Uploads a video from a given URL. [See the documentation](https://api.hippovideo.io/v1/videos/upload)",
+  description: "Uploads a video from a given URL. [See the documentation](https://help.hippovideo.io/support/solutions/articles/19000100703-import-api)",
   version: "0.0.1",
   type: "action",
   props: {
     hippoVideo,
-    videoUrl: {
-      propDefinition: [
-        hippoVideo,
-        "videoUrl",
-      ],
+    title: {
+      type: "string",
+      label: "Title",
+      description: "Title of the video.",
+    },
+    url: {
+      type: "string",
+      label: "Video URL",
+      description: "Public URL of the videos to be downloaded and uploaded to HippoVideo.",
     },
   },
   async run({ $ }) {
     const response = await this.hippoVideo.uploadVideo({
-      videoUrl: this.videoUrl,
+      $,
+      data: {
+        title: this.title,
+        url: this.url,
+      },
     });
-    $.export("$summary", `Video uploaded successfully with URL: ${this.videoUrl}`);
+
+    if (!response.status) throw new ConfigurationError(response.message);
+
+    $.export("$summary", `Video uploaded successfully with Id: ${response.video_id}`);
     return response;
   },
 };
