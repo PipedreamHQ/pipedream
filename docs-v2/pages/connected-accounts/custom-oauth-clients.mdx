@@ -1,0 +1,32 @@
+import Callout from '@/components/Callout'
+import { Steps } from 'nextra/components'
+
+# OAuth Clients
+By default, most integrated OAuth apps use Pipedream's official OAuth client. That means when you connect an account, you'll see Pipedream's logo and name in the OAuth authorization screen.
+- Because Pipedream apps solve for a broad range of use cases, the scopes requested by the official OAuth client may be more than what you need
+- In order to define exactly the scopes you need, you can configure a custom OAuth client for most OAuth apps in Pipedream
+
+## Configuring Custom OAuth Clients
+
+<Steps>
+### Navigate to the OAuth Clients Page
+Open the [OAuth Clients page in your Pipedream account](https://pipedream.com/@/accounts/oauth-clients) and click "New OAuth Client".
+
+### Select the app
+Find the app you need. If you can't find what you're looking for, feel free to [submit an integration request](https://pipedream.com/support).
+
+### Enter the required fields
+- **Name:** Give your OAuth client so you and other workspace members can identify it
+- **Description:** Optionally enter a brief description to provide additional context for you and other workspace members
+- **Client ID and Secret**: Paste these values from the app's settings that you're configuring (the client secret is a sensitive field – we'll encrypt it hide it from the UI)
+- **Redirect URI:** Copy the Redirect URI and paste it into the app's settings for your OAuth client
+- **Scopes:** We'll list the scopes from the official Pipedream OAuth client by default. You can add or remove scopes as needed, based on your use case.
+
+Click save when you're done.
+
+<Callout type="warning">
+Make sure to include all the scopes you need based on your use case. You can always modify the scopes later (you'll need to reconnect your account in order for any changes to take effect).
+</Callout>
+
+### Connect your account
+</Steps>
