@@ -39,6 +39,11 @@ export default {
       label: "Name",
       description: "User name",
     },
+    roles: {
+      type: "string[]",
+      label: "Roles",
+      description: "Use this prop to set the roles in the team for the user who created it.",
+    },
   },
   methods: {
     _baseUrl() {

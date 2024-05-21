@@ -9,16 +9,16 @@ export default {
   props: {
     app,
     teamId: {
-      propDefinition: [
-        app,
-        "teamId",
-      ],
+      type: "string",
+      label: "Team ID",
+      description: "Choose a custom ID or generate a random ID with ID.unique(). Valid chars are a-z, A-Z, 0-9, period, hyphen, and underscore.",
     },
     name: {
       propDefinition: [
         app,
         "name",
       ],
+      description: "Name of the team",
     },
   },
   async run({ $ }) {
