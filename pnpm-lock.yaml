@@ -1198,6 +1198,9 @@ importers:
   components/carbone:
     specifiers: {}
 
+  components/cardinal:
+    specifiers: {}
+
   components/cardly:
     specifiers:
       '@pipedream/platform': ^1.5.1
