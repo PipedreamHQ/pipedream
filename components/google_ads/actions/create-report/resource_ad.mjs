@@ -326,7 +326,7 @@ const resourceOption = {
   value: "ad_group_ad",
 };
 
-export const adGroup = {
+export const ad = {
   fields,
   segments,
   metrics,

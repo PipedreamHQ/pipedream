@@ -105,6 +105,16 @@ export default {
       });
       return response.results;
     },
+    async createReport({
+      accountId, ...args
+    }) {
+      const response = await this._makeRequest({
+        path: `/v16/customers/${accountId}/googleAds:search`,
+        method: "post",
+        ...args,
+      });
+      return response.results;
+    },
     async createUserList({
       customerClientId, ...args
     }) {
