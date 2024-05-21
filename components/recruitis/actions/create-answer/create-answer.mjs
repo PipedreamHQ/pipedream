@@ -1,10 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../recruitis.app.mjs";
 
 export default {
   key: "recruitis-create-answer",
   name: "Create Answer",
   description: "Create a new answer for a job. [See the documentation](https://docs.recruitis.io/api/#tag/Candidates/paths/~1answers/post)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     app,
@@ -58,6 +59,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.linkedin && !this.linkedin.includes("/in")) {
+      throw new ConfigurationError("Linkedin URL is wrong, it should contain \"/in\". E.g https://linkedin.com/in/pipedream");
+    }
+
     const response = await this.app.createAnswer({
       $,
       data: {

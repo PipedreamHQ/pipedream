@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../recruitis.app.mjs";
 
 export default {
@@ -58,6 +59,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.linkedin && !this.linkedin.includes("/in")) {
+      throw new ConfigurationError("Linkedin URL is wrong, it should contain \"/in\". E.g https://linkedin.com/in/pipedream");
+    }
+
     const response = await this.app.createCandidate({
       $,
       data: {
