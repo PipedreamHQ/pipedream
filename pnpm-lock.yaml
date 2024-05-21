@@ -4614,6 +4614,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.5
 
+  components/leadzen_ai:
+    specifiers: {}
+
   components/leap:
     specifiers:
       '@pipedream/platform': ^1.5.1
