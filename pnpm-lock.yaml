@@ -3878,7 +3878,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/hippo_video:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/hive:
     specifiers:
