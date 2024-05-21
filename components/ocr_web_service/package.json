@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ocr_web_service",
+  "version": "0.0.1",
+  "description": "Pipedream OCR Web Service Components",
+  "main": "ocr_web_service.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ocr_web_service"
+  ],
+  "homepage": "https://pipedream.com/apps/ocr_web_service",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
