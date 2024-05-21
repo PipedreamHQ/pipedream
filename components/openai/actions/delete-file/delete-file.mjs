@@ -4,23 +4,24 @@ export default {
   key: "openai-delete-file",
   name: "Delete File",
   description: "Deletes a specified file from OpenAI. [See the documentation](https://platform.openai.com/docs/api-reference/files/delete)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     openai,
-    file_id: {
+    fileId: {
       propDefinition: [
         openai,
-        "file_id",
+        "fileId",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.openai.deleteFile({
-      file_id: this.file_id,
+      $,
+      file_id: this.fileId,
     });
 
-    $.export("$summary", `Successfully deleted file with ID: ${this.file_id}`);
+    $.export("$summary", `Successfully deleted file with ID: ${this.fileId}`);
     return response;
   },
 };

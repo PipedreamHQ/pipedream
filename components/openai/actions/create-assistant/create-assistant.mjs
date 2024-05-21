@@ -1,11 +1,12 @@
-import { parseToolsArray } from "../../common/helpers.mjs";
 import openai from "../../openai.app.mjs";
+import common from "../common/common-assistants.mjs";
 
 export default {
+  ...common,
   key: "openai-create-assistant",
   name: "Create Assistant",
-  description: "Creates an assistant with a model and instructions. [See the docs here](https://platform.openai.com/docs/api-reference/assistants/createAssistant)",
-  version: "0.1.3",
+  description: "Creates an assistant with a model and instructions. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/createAssistant)",
+  version: "0.1.4",
   type: "action",
   props: {
     openai,
@@ -33,35 +34,26 @@ export default {
         "instructions",
       ],
     },
-    tools: {
-      propDefinition: [
-        openai,
-        "tools",
-      ],
-    },
-    file_ids: {
-      propDefinition: [
-        openai,
-        "file_ids",
-      ],
-    },
     metadata: {
       propDefinition: [
         openai,
         "metadata",
       ],
     },
+    ...common.props,
   },
   async run({ $ }) {
     const response = await this.openai.createAssistant({
       $,
-      model: this.model,
-      name: this.name,
-      description: this.description,
-      instructions: this.instructions,
-      tools: parseToolsArray(this.tools),
-      file_ids: this.file_ids,
-      metadata: this.metadata,
+      data: {
+        model: this.model,
+        name: this.name,
+        description: this.description,
+        instructions: this.instructions,
+        tools: this.buildTools(),
+        tool_resources: this.buildToolResources(),
+        metadata: this.metadata,
+      },
     });
 
     $.export("$summary", `Successfully created an assistant with ID: ${response.id}`);

@@ -9,9 +9,9 @@ const langOptions = lang.LANGUAGES.map((l) => ({
 export default {
   ...common,
   name: "Translate Text (Whisper)",
-  version: "0.0.12",
+  version: "0.0.13",
   key: "openai-translate-text",
-  description: "Translate text from one language to another using the Chat API",
+  description: "Translate text from one language to another using the Chat API. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
   props: {
     ...common.props,
@@ -50,13 +50,17 @@ export default {
       if (!messages || !response) {
         throw new Error("Invalid API output, please reach out to https://pipedream.com/support");
       }
-
-      return {
-        translation: response.choices?.[0]?.message?.content,
+      const output = {
         source_lang: this.sourceLang,
         target_lang: this.targetLang,
         messages,
       };
+      if (this.n > 1) {
+        output.translations = response.choices?.map(({ message }) => message.content);
+      } else {
+        output.translation = response.choices?.[0]?.message?.content;
+      }
+      return output;
     },
   },
 };
