@@ -3880,8 +3880,10 @@ importers:
   components/hippo_video:
     specifiers:
       '@pipedream/platform': ^1.6.5
+      form-data: ^4.0.0
     dependencies:
       '@pipedream/platform': 1.6.5
+      form-data: 4.0.0
 
   components/hive:
     specifiers:
