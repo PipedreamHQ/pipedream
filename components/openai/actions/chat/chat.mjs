@@ -1,12 +1,13 @@
 import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
   name: "Chat",
-  version: "0.1.9",
+  version: "0.1.10",
   key: "openai-chat",
-  description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See docs here](https://platform.openai.com/docs/api-reference/chat)",
+  description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
   props: {
     openai,
@@ -43,10 +44,7 @@ export default {
       type: "string",
       label: "Response Format",
       description: "Specify the format that the model must output. [Setting to `json_object` guarantees the message the model generates is valid JSON](https://platform.openai.com/docs/api-reference/chat/create#chat-create-response_format). Defaults to `text`",
-      options: [
-        "text",
-        "json_object",
-      ],
+      options: constants.CHAT_RESPONSE_FORMATS,
       optional: true,
       default: "text",
     },
@@ -57,7 +55,7 @@ export default {
 
     const response = await this.openai.createChatCompletion({
       $,
-      args,
+      data: args,
     });
 
     if (response) {
