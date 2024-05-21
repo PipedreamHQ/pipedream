@@ -7134,6 +7134,9 @@ importers:
   components/reviews_io:
     specifiers: {}
 
+  components/revolt:
+    specifiers: {}
+
   components/reward_sciences:
     specifiers: {}
 
