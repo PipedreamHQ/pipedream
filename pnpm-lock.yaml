@@ -947,6 +947,9 @@ importers:
   components/bolt_iot:
     specifiers: {}
 
+  components/bookingmood:
+    specifiers: {}
+
   components/booqable:
     specifiers:
       '@pipedream/platform': ^1.5.1
