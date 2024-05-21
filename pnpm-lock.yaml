@@ -969,7 +969,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/botpress:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/bouncer:
     specifiers:
