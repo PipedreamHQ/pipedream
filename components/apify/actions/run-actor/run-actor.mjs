@@ -54,11 +54,11 @@ export default {
       if (value.enum && value.enumTitles) {
         for (const [
           index,
-          value,
+          val,
         ] of value.enum.entries()) {
-          if (value) {
+          if (val) {
             options.push({
-              value: value,
+              value: val,
               label: value.enumTitles[index],
             });
           }
