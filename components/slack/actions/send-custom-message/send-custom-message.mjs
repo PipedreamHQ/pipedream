@@ -5,7 +5,7 @@ export default {
   key: "slack-send-custom-message",
   name: "Send a Custom Message",
   description: "Customize advanced setttings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.18",
+  version: "0.2.19",
   type: "action",
   props: {
     slack: common.props.slack,
@@ -31,18 +31,6 @@ export default {
       propDefinition: [
         common.props.slack,
         "attachments",
-      ],
-    },
-    unfurl_links: {
-      propDefinition: [
-        common.props.slack,
-        "unfurl_links",
-      ],
-    },
-    unfurl_media: {
-      propDefinition: [
-        common.props.slack,
-        "unfurl_media",
       ],
     },
     parse: {
