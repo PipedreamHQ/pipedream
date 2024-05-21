@@ -20,6 +20,12 @@ export default {
       ],
       description: "Name of the team",
     },
+    roles: {
+      propDefinition: [
+        app,
+        "roles",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.app.createTeam({
