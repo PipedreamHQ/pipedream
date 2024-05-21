@@ -17,7 +17,7 @@ export default {
   key: "google_ads-create-report",
   name: "Create Report",
   description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/fields/v16/overview)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     ...common.props,
@@ -48,18 +48,58 @@ export default {
         label: "Fields",
         description: `${label} data fields to obtain`,
         options: resource.fields,
+        optional: true,
+        reloadProps: true,
       },
       segments: {
         type: "string[]",
         label: "Segments",
         description: `${label} segments to obtain [more info on the documentation](https://developers.google.com/google-ads/api/fields/v16/segments)`,
         options: resource.segments,
+        optional: true,
+        reloadProps: true,
       },
       metrics: {
         type: "string[]",
         label: "Metrics",
         description: `${label} metrics to obtain [more info on the documentation](https://developers.google.com/google-ads/api/fields/v16/metrics)`,
         options: resource.metrics,
+        optional: true,
+        reloadProps: true,
+      },
+      orderBy: {
+        type: "string",
+        label: "Order By",
+        description: "The field to order the results by",
+        optional: true,
+        options: [
+          ...(this.fields ?? []),
+          ...(this.segments ?? []),
+          ...(this.metrics ?? []),
+        ],
+      },
+      direction: {
+        type: "string",
+        label: "Direction",
+        description: "The direction to order the results by, if an `Order By` field is specified",
+        optional: true,
+        options: [
+          {
+            label: "Ascending",
+            value: "ASC",
+          },
+          {
+            label: "Descending",
+            value: "DESC",
+          },
+        ],
+        default: "ASC",
+      },
+      limit: {
+        type: "integer",
+        label: "Limit",
+        description: "The maximum number of results to return.",
+        optional: true,
       },
     };
   },
@@ -68,18 +108,22 @@ export default {
       const {
         resource, limit, orderBy, direction,
       } = this;
-      const fields = this.fields.map((i) => `${resource}.${i}`);
-      const segments = this.segments.map((i) => `segments.${i}`);
-      const metrics = this.metrics.map((i) => `metrics.${i}`);
+      const fields = this.fields?.map((i) => `${resource}.${i}`) ?? [];
+      const segments = this.segments?.map((i) => `segments.${i}`) ?? [];
+      const metrics = this.metrics?.map((i) => `metrics.${i}`) ?? [];
       const selection = [
         ...fields,
         ...segments,
         ...metrics,
-      ].join(", ");
+      ];
 
-      let query = `SELECT ${selection} FROM ${resource}`;
+      if (!selection.length) {
+        throw new ConfigurationError("Select at least one field, segment or metric.");
+      }
+
+      let query = `SELECT ${selection.join(", ")} FROM ${resource}`;
       if (orderBy && direction) {
-        query += ` ORDER BY ${orderBy} ${direction}`;
+        query += ` ORDER BY ${`${resource}.${orderBy}`} ${direction}`;
       }
       if (limit) {
         query += ` LIMIT ${limit}`;
@@ -90,16 +134,23 @@ export default {
   },
   async run({ $ }) {
     const query = this.buildQuery();
-    const response = await this.googleAds.createReport({
+    const results = (await this.googleAds.createReport({
       $,
       accountId: this.accountId,
       customerClientId: this.customerClientId,
       data: {
         query,
       },
-    });
+    })) ?? [];
 
-    $.export("$summary", "Created report");
-    return response;
+    const { length } = results;
+
+    $.export("$summary", `Sucessfully obtained ${length} result${length === 1
+      ? ""
+      : "s"}`);
+    return {
+      query,
+      results,
+    };
   },
 };
