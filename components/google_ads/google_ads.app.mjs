@@ -60,6 +60,29 @@ export default {
             ? "[Manager] "
             : ""}${descriptiveName}`,
           value: id,
+        })).filter(({ value }) => value !== accountId);
+      },
+    },
+    leadFormId: {
+      type: "string",
+      label: "Lead Form ID",
+      description: "Select a [Lead Form](https://developers.google.com/google-ads/api/rest/reference/rest/v16/Asset#LeadFormAsset) to watch for new entries.",
+      async options({
+        accountId, customerClientId,
+      }) {
+        const response = await this.listLeadForms({
+          accountId,
+          customerClientId,
+        });
+        return response?.map(({
+          asset: {
+            id, leadFormAsset: {
+              businessName, headline,
+            },
+          },
+        }) => ({
+          label: `${businessName} - ${headline}`,
+          value: id,
         }));
       },
     },
@@ -125,13 +148,29 @@ export default {
       });
       return response;
     },
-    async listUserLists(accountId) {
+    async listUserLists({
+      accountId, ...args
+    }) {
       const response = await this._makeRequest({
         path: `/v16/customers/${accountId}/googleAds:search`,
         method: "post",
         data: {
           query: QUERIES.listUserLists(),
         },
+        ...args,
+      });
+      return response.results;
+    },
+    async listLeadForms({
+      accountId, ...args
+    }) {
+      const response = await this._makeRequest({
+        path: `/v16/customers/${accountId}/googleAds:search`,
+        method: "post",
+        data: {
+          query: QUERIES.listLeadForms(),
+        },
+        ...args,
       });
       return response.results;
     },

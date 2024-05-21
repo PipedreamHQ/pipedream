@@ -103,7 +103,13 @@ const USER_LIST_LOOKALIKE_PROPS = {
     label: "Seed User List(s)",
     description: "One or more customer lists from which this list is derived.",
     options: async() => {
-      const response = await this.googleAds.listUserLists(this.accountId);
+      const {
+        accountId, customerClientId,
+      } = this;
+      const response = await this.googleAds.listUserLists({
+        accountId,
+        customerClientId,
+      });
       return response?.map(({
         userList: {
           id, name,
