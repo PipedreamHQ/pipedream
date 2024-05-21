@@ -53,7 +53,7 @@ export default {
     transactionType: {
       propDefinition: [
         app,
-        "transactionTypes",
+        "transactionType",
       ],
       optional: true,
     },

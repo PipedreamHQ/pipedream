@@ -4,14 +4,14 @@ export default {
   key: "pro_ledger-get-classes",
   name: "Get Classes",
   description: "Get classes setup information. [See the documentation](https://api.pro-ledger.com/redoc#tag/record/operation/get_classes_api_v1_record_get_classes_get)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     app,
     transactionType: {
       propDefinition: [
         app,
-        "transactionTypes",
+        "transactionType",
       ],
       optional: true,
     },
