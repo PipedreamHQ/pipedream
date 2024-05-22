@@ -24,8 +24,8 @@ export default {
     _setSavedIds(value) {
       this.db.set("savedIds", value);
     },
-    getItemId(item) {
-      return item.id;
+    getItemId({ id }) {
+      return id;
     },
     async getAndProcessData(max = 0) {
       const savedIds = this._getSavedIds();

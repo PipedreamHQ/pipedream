@@ -32,7 +32,7 @@ function listLeadForms() {
   const leadFormFields = [
     "business_name",
     "headline",
-  ].join((s) => `lead_form_asset.${s}`);
+  ].map((s) => `asset.lead_form_asset.${s}`);
 
   return `SELECT ${[
     ...assetFields,
@@ -48,7 +48,7 @@ function listLeadFormSubmissionData(id) {
     "lead_form_submission_fields",
     "submission_date_time",
   ].map((s) => `lead_form_submission_data.${s}`).join(", ");
-  `SELECT ${fields} FROM lead_form_submission_data WHERE asset.id = '${id}'`;
+  return `SELECT ${fields} FROM lead_form_submission_data WHERE asset.id = '${id}'`;
 }
 
 export const QUERIES = {

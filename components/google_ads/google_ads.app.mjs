@@ -129,10 +129,10 @@ export default {
       return response.results;
     },
     async createReport({
-      accountId, ...args
+      customerClientId, ...args
     }) {
       const response = await this._makeRequest({
-        path: `/v16/customers/${accountId}/googleAds:search`,
+        path: `/v16/customers/${customerClientId}/googleAds:search`,
         method: "post",
         ...args,
       });
@@ -149,10 +149,10 @@ export default {
       return response;
     },
     async listUserLists({
-      accountId, ...args
+      customerClientId, ...args
     }) {
       const response = await this._makeRequest({
-        path: `/v16/customers/${accountId}/googleAds:search`,
+        path: `/v16/customers/${customerClientId}/googleAds:search`,
         method: "post",
         data: {
           query: QUERIES.listUserLists(),
@@ -162,10 +162,10 @@ export default {
       return response.results;
     },
     async listLeadForms({
-      accountId, ...args
+      customerClientId, ...args
     }) {
       const response = await this._makeRequest({
-        path: `/v16/customers/${accountId}/googleAds:search`,
+        path: `/v16/customers/${customerClientId}/googleAds:search`,
         method: "post",
         data: {
           query: QUERIES.listLeadForms(),
@@ -175,10 +175,10 @@ export default {
       return response.results;
     },
     async getLeadFormData({
-      accountId, leadFormId, ...args
+      customerClientId, leadFormId, ...args
     }) {
       const response = await this._makeRequest({
-        path: `/v16/customers/${accountId}/googleAds:search`,
+        path: `/v16/customers/${customerClientId}/googleAds:search`,
         method: "post",
         data: {
           query: QUERIES.listLeadFormSubmissionData(leadFormId),
