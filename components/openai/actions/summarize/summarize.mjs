@@ -1,11 +1,12 @@
 import common from "../common/common-helper.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
   name: "Summarize Text",
-  version: "0.0.10",
+  version: "0.0.11",
   key: "openai-summarize",
-  description: "Summarizes text using the Chat API",
+  description: "Summarizes text using the Chat API. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
   props: {
     ...common.props,
@@ -19,12 +20,7 @@ export default {
       description: "The length of the summary",
       type: "string",
       optional: true,
-      options: [
-        "word",
-        "sentence",
-        "paragraph",
-        "page",
-      ],
+      options: constants.SUMMARIZE_LENGTH,
     },
   },
   methods: {
@@ -46,10 +42,15 @@ export default {
       if (!messages || !response) {
         throw new Error("Invalid API output, please reach out to https://pipedream.com/support");
       }
-      return {
-        summary: response.choices?.[0]?.message?.content,
+      const output = {
         messages,
       };
+      if (this.n > 1) {
+        output.summaries = response.choices?.map(({ message }) => message.content);
+      } else {
+        output.summary = response.choices?.[0]?.message?.content;
+      }
+      return output;
     },
   },
 };

@@ -13,7 +13,7 @@ import stream from "stream";
 import { promisify } from "util";
 import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
-import constants from "../common/constants.mjs";
+import constants from "../../common/constants.mjs";
 import lang from "../common/lang.mjs";
 
 const COMMON_AUDIO_FORMATS_TEXT = "Your audio file must be in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.";
@@ -24,9 +24,9 @@ const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription (Whisper)",
-  version: "0.1.8",
+  version: "0.1.9",
   key: "openai-create-transcription",
-  description: "Transcribes audio into the input language. [See docs here](https://platform.openai.com/docs/api-reference/audio/create).",
+  description: "Transcribes audio into the input language. [See the documentation](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
   props: {
     openai,
@@ -227,7 +227,7 @@ export default {
 
       file = path;
     } else if (url) {
-      const ext = extname(url);
+      const ext = extname(url).split("?")[0];
 
       const response = await axios({
         method: "GET",

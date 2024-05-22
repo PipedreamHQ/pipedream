@@ -3,12 +3,22 @@ import common from "../common/common-helper.mjs";
 export default {
   ...common,
   name: "Classify Items into Categories",
-  version: "0.0.10",
+  version: "0.0.11",
   key: "openai-classify-items-into-categories",
-  description: "Classify items into specific categories using the Chat API",
+  description: "Classify items into specific categories using the Chat API. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
   props: {
     ...common.props,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: `Provide a list of **items** and a list of **categories**. The output will contain an array of objects, each with properties \`item\` and \`category\`
+        \nExample:
+        \nIf **Categories** is \`["people", "pets"]\`, and **Items** is \`["dog", "George Washington"]\`
+        \n The output will contain the following categorizations:
+        \n \`[{"item":"dog","category":"pets"},{"item":"George Washington","category":"people"}]\`
+      `,
+    },
     items: {
       label: "Items",
       description: "Items to categorize",
@@ -40,17 +50,24 @@ export default {
       if (!messages || !response) {
         throw new Error("Invalid API output, please reach out to https://pipedream.com/support");
       }
-      const assistantResponse = response.choices?.[0]?.message?.content;
-      let categorizations = assistantResponse;
-      try {
-        categorizations = JSON.parse(assistantResponse);
-      } catch (err) {
-        console.log("Failed to parse output, assistant returned malformed JSON");
+      const responses = response.choices?.map(({ message }) => message.content);
+      const categorizations = [];
+      for (const response of responses) {
+        try {
+          categorizations.push(JSON.parse(response));
+        } catch (err) {
+          console.log("Failed to parse output, assistant returned malformed JSON");
+        }
       }
-      return {
-        categorizations,
+      const output = {
         messages,
       };
+      if (this.n > 1) {
+        output.categorizations = categorizations;
+      } else {
+        output.categorizations = categorizations[0];
+      }
+      return output;
     },
   },
 };
