@@ -40,8 +40,20 @@ function listLeadForms() {
   ].join(", ")} FROM asset WHERE asset.type = 'LEAD_FORM'`;
 }
 
+function listLeadFormSubmissionData(id) {
+  const fields = [
+    "custom_lead_form_submission_fields",
+    "gclid",
+    "id",
+    "lead_form_submission_fields",
+    "submission_date_time",
+  ].map((s) => `lead_form_submission_data.${s}`).join(", ");
+  `SELECT ${fields} FROM lead_form_submission_data WHERE asset.id = '${id}'`;
+}
+
 export const QUERIES = {
   listCustomerClients,
   listLeadForms,
+  listLeadFormSubmissionData,
   listUserLists,
 };
