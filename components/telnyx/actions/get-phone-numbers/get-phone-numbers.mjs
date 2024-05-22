@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "telnyx-get-phone-numbers",
   name: "Get Phone Numbers",
-  description: "Get a list of phone numbers. See documentation [here](https://developers.telnyx.com/api/numbers/list-phone-numbers)",
+  description: "Get a list of phone numbers. [See the documentation](https://developers.telnyx.com/api/numbers/list-phone-numbers)",
   version: "0.0.3",
   type: "action",
   props: {

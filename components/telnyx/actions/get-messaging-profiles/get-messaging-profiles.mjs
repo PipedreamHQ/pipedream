@@ -3,8 +3,8 @@ import telnyxApp from "../../telnyx.app.mjs";
 export default {
   key: "telnyx-get-messaging-profiles",
   name: "Get Messaging Profiles",
-  description: "Get a list of messaging profiles. See documentation [here](https://developers.telnyx.com/api/messaging/list-messaging-profiles)",
-  version: "0.0.4",
+  description: "Get a list of messaging profiles. [See the documentation](https://developers.telnyx.com/api/messaging/list-messaging-profiles)",
+  version: "0.0.5",
   type: "action",
   props: {
     telnyxApp,
