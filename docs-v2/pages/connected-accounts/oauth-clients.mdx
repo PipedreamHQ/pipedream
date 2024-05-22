@@ -3,9 +3,9 @@ import ArcadeEmbed from '@/components/ArcadeEmbed'
 import { Steps } from 'nextra/components'
 
 # OAuth Clients
-By default, most integrated OAuth apps in Pipedream use Pipedream's official OAuth client. That means when you connect an account, you'll see Pipedream's logo and name in the OAuth authorization screen, along with a set of requested permissions (scopes).
+By default, most OAuth apps on Pipedream use Pipedream's official OAuth client. That means when you connect an account, you'll see Pipedream's logo and name in the OAuth authorization screen, along with a set of requested permissions (scopes).
 - Pipedream apps solve for a broad range of use cases, which means the scopes requested by Pipedream's official OAuth client may be more than what you need
-- In order to define exactly the scope of access you'd like to grant, you can configure a custom OAuth client for most OAuth apps in Pipedream
+- To define the exact scope of access you'd like to grant, you can configure a custom OAuth client for most OAuth apps in Pipedream
 
 ## Configuring Custom OAuth Clients
 <ArcadeEmbed
@@ -21,19 +21,19 @@ Open the [OAuth Clients page in your Pipedream account](https://pipedream.com/@/
 Find the app you need. If you can't find what you're looking for, feel free to [submit an integration request](https://pipedream.com/support).
 
 ### Enter the required fields
-- **Name:** Give your OAuth client so you and other workspace members can identify it
-- **Description:** Optionally enter a brief description to provide additional context for you and other workspace members
-- **Client ID and Secret**: Paste these values from the app's settings that you're configuring (the client secret is a sensitive field – we'll encrypt it hide it from the UI)
-- **Redirect URI:** Copy the Redirect URI and paste it into the app's settings for your OAuth client
-- **Scopes:** We'll list the scopes from the official Pipedream OAuth client by default. You can add or remove scopes as needed, based on your use case.
+- **Name:** Give the OAuth client a name so it's easy to identify
+- **Description:** Optionally add a brief description for additional context
+- **Client ID and Secret**: Paste these values from the app's settings that you're configuring (the client secret is sensitive – we'll encrypt and hide it from the UI)
+- **Redirect URI:** Copy this Redirect URI and paste it into the app's settings
+- **Scopes:** We'll list the scopes from the official Pipedream OAuth client by default. Add or remove scopes as needed, based on your use case.
 
-Click "Save" when you're done.
+Click "Save".
 
 <Callout type="warning">
-Make sure to include all the scopes you need based on your use case. You can modify the scopes later (you'll need to reconnect your account in order for any changes to take effect). Refer to the app's API documentation for information on what scopes you'll need.
+Make sure to include all the scopes you need based on your use case. You can modify the scopes later (you'll need to reconnect your account for changes to take effect). Refer to the app's API documentation for information on what scopes you'll need.
 </Callout>
 
 ### Connect your account
-- Once you've created the OAuth client, you can select "Connect account" from the overflow menu on the right side.
+- Once you've created the OAuth client, you can select "Connect account" from the menu on the right.
 - Now you're ready to use the connected account in any workflow, just like any other account in Pipedream.
 </Steps>
