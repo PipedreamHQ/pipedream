@@ -1,11 +1,11 @@
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
-  name: "New Interaction Events",
+  name: "New Interaction Events (Instant)",
   version: "0.0.11",
   key: "slack-new-interaction-event-received",
-  description:
-    "Emit new events on new Slack [interactivity events](https://api.slack.com/interactivity) sourced from [Block Kit interactive elements](https://api.slack.com/interactivity/components), [Slash commands](https://api.slack.com/interactivity/slash-commands), or [Shortcuts](https://api.slack.com/interactivity/shortcuts).",
+  description: "Emit new events on new Slack [interactivity events](https://api.slack.com/interactivity) sourced from [Block Kit interactive elements](https://api.slack.com/interactivity/components), [Slash commands](https://api.slack.com/interactivity/slash-commands), or [Shortcuts](https://api.slack.com/interactivity/shortcuts).",
   type: "source",
   props: {
     ...common.props,
@@ -17,8 +17,7 @@ export default {
     action_ids: {
       type: "string[]",
       label: "Action IDs",
-      description:
-        "Filter interaction events by specific `action_id`'s to subscribe for new interaction events. If none are specified, all `action_ids` created via Pipedream will emit new events.",
+      description: "Filter interaction events by specific `action_id`'s to subscribe for new interaction events. If none are specified, all `action_ids` created via Pipedream will emit new events.",
       optional: true,
       default: [],
     },
@@ -29,8 +28,7 @@ export default {
       ],
       type: "string[]",
       label: "Channels",
-      description:
-        "Filter interaction events by one or more channels. If none selected, any interaction event in any channel will emit new events.",
+      description: "Filter interaction events by one or more channels. If none selected, any interaction event in any channel will emit new events.",
       optional: true,
       default: [],
     },
@@ -103,4 +101,5 @@ export default {
       },
     );
   },
+  sampleEmit,
 };
