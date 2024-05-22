@@ -174,6 +174,19 @@ export default {
       });
       return response.results;
     },
+    async getLeadFormData({
+      accountId, leadFormId, ...args
+    }) {
+      const response = await this._makeRequest({
+        path: `/v16/customers/${accountId}/googleAds:search`,
+        method: "post",
+        data: {
+          query: QUERIES.listLeadFormSubmissionData(leadFormId),
+        },
+        ...args,
+      });
+      return response.results;
+    },
     async createConversionAction({
       customerClientId, ...args
     }) {
