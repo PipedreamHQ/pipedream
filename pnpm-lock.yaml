@@ -9952,7 +9952,10 @@ importers:
     specifiers: {}
 
   components/zixflow:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/zoho_analytics:
     specifiers: {}
