@@ -9150,6 +9150,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.5
 
+  components/upbooks:
+    specifiers: {}
+
   components/updown_io:
     specifiers:
       '@pipedream/platform': ^1.6.0
