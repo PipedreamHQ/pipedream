@@ -69,16 +69,14 @@ export default {
       $,
       data,
       headers,
+      responseType: "arraybuffer",
     });
-
-    $.export("$summary", `Successfully compressed the files into '${this.archiveName}.zip'`);
 
     const tmpPath = `/tmp/${this.archiveName}`;
     fs.writeFileSync(tmpPath, response);
 
-    return {
-      tmpPath,
-      data: response,
-    };
+    $.export("$summary", `Successfully compressed the files into '${tmpPath}'`);
+
+    return tmpPath;
   },
 };
