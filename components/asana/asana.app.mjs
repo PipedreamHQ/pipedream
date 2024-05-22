@@ -232,6 +232,38 @@ export default {
         return Object.keys(task);
       },
     },
+    taskTemplate: {
+      type: "string",
+      label: "Task Template",
+      description: "The identifier of a task template",
+      async options({
+        project, prevContext,
+      }) {
+        const params = {
+          project,
+          limit: DEFAULT_LIMIT,
+        };
+        if (prevContext?.offset) {
+          params.offset = prevContext.offset;
+        }
+        const {
+          data, next_page: next,
+        } = await this.listTaskTemplates({
+          params,
+        });
+        return {
+          options: data?.map(({
+            gid: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            offset: next?.offset,
+          },
+        };
+      },
+    },
   },
   methods: {
     /**
@@ -559,6 +591,21 @@ export default {
       return this._makeRequest({
         path: `user_task_lists/${taskList.gid}/tasks`,
         $,
+      });
+    },
+    listTaskTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "task_templates",
+        ...opts,
+      });
+    },
+    createTaskFromTemplate({
+      taskTemplateId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `task_templates/${taskTemplateId}/instantiateTask`,
+        ...opts,
       });
     },
   },
