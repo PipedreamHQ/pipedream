@@ -7842,6 +7842,9 @@ importers:
   components/showpad:
     specifiers: {}
 
+  components/sidetracker:
+    specifiers: {}
+
   components/sierra_interactive:
     specifiers: {}
 
