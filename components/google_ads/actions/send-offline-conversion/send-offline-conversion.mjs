@@ -20,7 +20,7 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "The type of the conversion action.",
+      description: "[The type](https://developers.google.com/google-ads/api/rest/reference/rest/v16/ConversionAction#ConversionActionType) of the conversion action.",
       options: CONVERSION_TYPE_OPTIONS,
     },
     additionalFields: getAdditionalFields("https://developers.google.com/google-ads/api/rest/reference/rest/v16/ConversionAction"),

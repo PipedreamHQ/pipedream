@@ -5,7 +5,7 @@ import { parseObject } from "../../common/utils.mjs";
 import common from "../common/common.mjs";
 import {
   getAdditionalFields, getListTypeInfo,
-} from "./props.mjs";
+} from "../common/props.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
