@@ -14,7 +14,7 @@ export default {
   name: "Create Customer List",
   description:
     "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,

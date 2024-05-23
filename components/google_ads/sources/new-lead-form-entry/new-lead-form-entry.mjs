@@ -7,7 +7,7 @@ export default {
   key: "google_ads-new-lead-form-entry",
   name: "New Lead Form Entry",
   description: "Emit new event for new leads on a Lead Form. [See the documentation](https://developers.google.com/google-ads/api/fields/v16/lead_form_submission_data)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
