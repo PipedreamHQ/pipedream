@@ -14,6 +14,7 @@ export default {
           params: {
             offset: LIMIT * page,
             limit: LIMIT,
+            unnamed: true,
           },
         });
 
