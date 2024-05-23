@@ -1,7 +1,7 @@
 import sonarcloud from "../../sonarcloud.app.mjs";
 
 export default {
-  key: "sonarcloud-new-analysis-completed",
+  key: "sonarcloud-new-analysis-completed-instant",
   name: "New Analysis Completed (Instant)",
   description: "Emit new event when a new analisys is completed.",
   version: "0.0.1",
