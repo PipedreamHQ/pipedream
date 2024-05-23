@@ -4644,6 +4644,9 @@ importers:
   components/learndash:
     specifiers: {}
 
+  components/leexi:
+    specifiers: {}
+
   components/leiga:
     specifiers:
       '@pipedream/platform': ^1.5.1
