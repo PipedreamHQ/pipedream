@@ -98,10 +98,11 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, accountId, ...opts
+      $ = this, accountId, customerClientId, path, ...opts
     }) {
       const data = {
         headers: this._headers(accountId),
+        path: path.replace("{customerClientId}", customerClientId ?? accountId),
         ...opts,
       };
       return axios($, {
@@ -110,6 +111,19 @@ export default {
         data,
       });
     },
+    async search({
+      query, ...args
+    }) {
+      const response = await this._makeRequest({
+        path: "/v16/customers/{customerClientId}/googleAds:search",
+        method: "post",
+        data: {
+          query,
+        },
+        ...args,
+      });
+      return response.results;
+    },
     async listAccessibleCustomers() {
       const response = await this._makeRequest({
         path: "/v16/customers:listAccessibleCustomers",
@@ -117,81 +131,47 @@ export default {
       return response.resourceNames;
     },
     async listCustomerClients({
-      accountId, query,
+      query, ...args
     }) {
-      const response = await this._makeRequest({
-        path: `/v16/customers/${accountId}/googleAds:search`,
-        method: "post",
-        data: {
-          query: QUERIES.listCustomerClients(query),
-        },
-      });
-      return response.results;
-    },
-    async createReport({
-      customerClientId, ...args
-    }) {
-      const response = await this._makeRequest({
-        path: `/v16/customers/${customerClientId}/googleAds:search`,
-        method: "post",
+      return this.search({
+        query: QUERIES.listCustomerClients(query),
         ...args,
       });
-      return response.results;
     },
-    async createUserList({
-      customerClientId, ...args
-    }) {
+    async createReport(args) {
+      return this.search(args);
+    },
+    async createUserList(args) {
       const response = await this._makeRequest({
-        path: `v16/customers/${customerClientId}/userLists:mutate`,
+        path: "v16/customers/{customerClientId}/userLists:mutate",
         method: "post",
         ...args,
       });
       return response;
     },
-    async listUserLists({
-      customerClientId, ...args
-    }) {
-      const response = await this._makeRequest({
-        path: `/v16/customers/${customerClientId}/googleAds:search`,
-        method: "post",
-        data: {
-          query: QUERIES.listUserLists(),
-        },
+    async listUserLists(args) {
+      return this.search({
+        query: QUERIES.listUserLists(),
         ...args,
       });
-      return response.results;
     },
-    async listLeadForms({
-      customerClientId, ...args
-    }) {
-      const response = await this._makeRequest({
-        path: `/v16/customers/${customerClientId}/googleAds:search`,
-        method: "post",
-        data: {
-          query: QUERIES.listLeadForms(),
-        },
+    async listLeadForms(args) {
+      return this.search({
+        query: QUERIES.listLeadForms(),
         ...args,
       });
-      return response.results;
     },
     async getLeadFormData({
-      customerClientId, leadFormId, ...args
+      leadFormId, ...args
     }) {
-      const response = await this._makeRequest({
-        path: `/v16/customers/${customerClientId}/googleAds:search`,
-        method: "post",
-        data: {
-          query: QUERIES.listLeadFormSubmissionData(leadFormId),
-        },
+      return this.search({
+        query: QUERIES.listLeadFormSubmissionData(leadFormId),
         ...args,
       });
-      return response.results;
     },
-    async createConversionAction({
-      customerClientId, ...args
-    }) {
+    async createConversionAction(args) {
       const response = await this._makeRequest({
-        path: `v16/customers/${customerClientId}/conversionActions:mutate`,
+        path: "v16/customers/{customerClientId}/conversionActions:mutate",
         method: "post",
         ...args,
       });
