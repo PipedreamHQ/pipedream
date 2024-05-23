@@ -34,9 +34,6 @@ Add the following IP block to your database allow-list:
 ## Frequently Asked Questions
 
 ### What's the difference between using a shared static IP with the SQL Proxy vs a dedicated IP using a VPC?
-Both the SQL Proxy and a VPC provide secure database connections. A VPC offers enhanced isolation and security by providing a single dedicated static IP for workflows within your workspace, and the SQL proxy routes your database connections through a dedicated set of static IP addresses.
-
-| Operation | Shared Static IP (SQL Proxy) | Dedicated Static IP (VPC) |
-| :----- | :----: | ----: |
-| All requests to the connected database will originate from the static IP    |  bar   |   baz |
-| banana | apple  |  kiwi |
+Both the SQL Proxy and VPCs enable secure database connections from a static IP.
+- VPCs offer enhanced isolation and security by providing a **dedicated** static IP for workflows within your workspace
+- The SQL proxy routes requests to your database connections through a set of **shared** static IPs
