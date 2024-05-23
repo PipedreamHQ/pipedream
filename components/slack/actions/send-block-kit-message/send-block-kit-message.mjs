@@ -6,7 +6,7 @@ export default {
   ...buildBlocks,
   name: "Build and Send a Block Kit Message (Beta)",
   description: "Configure custom blocks and send to a channel, group, or user. [See Slack's docs for more info](https://api.slack.com/tools/block-kit-builder).",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "action",
   key: "slack-send-block-kit-message",
   props: {
@@ -21,6 +21,18 @@ export default {
       propDefinition: [
         common.props.slack,
         "notificationText",
+      ],
+    },
+    unfurl_links: {
+      propDefinition: [
+        common.props.slack,
+        "unfurl_links",
+      ],
+    },
+    unfurl_media: {
+      propDefinition: [
+        common.props.slack,
+        "unfurl_media",
       ],
     },
     ...common.props,

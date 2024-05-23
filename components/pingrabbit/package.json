@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pingrabbit",
+  "version": "0.0.1",
+  "description": "Pipedream PingRabbit Components",
+  "main": "pingrabbit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pingrabbit"
+  ],
+  "homepage": "https://pipedream.com/apps/pingrabbit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

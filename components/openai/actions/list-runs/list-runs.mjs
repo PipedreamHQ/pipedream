@@ -4,7 +4,7 @@ export default {
   key: "openai-list-runs",
   name: "List Runs (Assistants)",
   description: "Returns a list of runs belonging to a thread. [See the documentation](https://platform.openai.com/docs/api-reference/runs/list)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     openai,
@@ -19,50 +19,33 @@ export default {
         openai,
         "limit",
       ],
-      optional: true,
     },
     order: {
       propDefinition: [
         openai,
         "order",
       ],
-      optional: true,
-    },
-    after: {
-      propDefinition: [
-        openai,
-        "after",
-      ],
-    },
-    before: {
-      propDefinition: [
-        openai,
-        "before",
-      ],
     },
   },
   async run({ $ }) {
-    const params = {
-      ...(this.limit && {
-        limit: this.limit,
-      }),
-      ...(this.order && {
-        order: this.order,
-      }),
-      ...(this.after && {
-        after: this.after,
-      }),
-      ...(this.before && {
-        before: this.before,
-      }),
-    };
-
-    const response = await this.openai.listRuns({
-      threadId: this.threadId,
-      ...params,
+    const response = this.openai.paginate({
+      resourceFn: this.openai.listRuns,
+      args: {
+        $,
+        threadId: this.threadId,
+        params: {
+          order: this.order,
+        },
+      },
+      max: this.limit,
     });
 
+    const runs = [];
+    for await (const run of response) {
+      runs.push(run);
+    }
+
     $.export("$summary", `Successfully retrieved runs for thread ${this.threadId}`);
-    return response;
+    return runs;
   },
 };

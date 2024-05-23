@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sidetracker",
+  "version": "0.0.1",
+  "description": "Pipedream Sidetracker Components",
+  "main": "sidetracker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sidetracker"
+  ],
+  "homepage": "https://pipedream.com/apps/sidetracker",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

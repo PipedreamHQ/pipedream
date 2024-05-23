@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/revolt",
+  "version": "0.0.1",
+  "description": "Pipedream Revolt Components",
+  "main": "revolt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "revolt"
+  ],
+  "homepage": "https://pipedream.com/apps/revolt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,7 @@ export default {
   key: "postmark-delete-domain",
   name: "Delete Domain",
   description: "Delete a specific domain. [See the documentation](https://postmarkapp.com/developer/api/domains-api#delete-domain)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     postmark,
