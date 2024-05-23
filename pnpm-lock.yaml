@@ -314,6 +314,9 @@ importers:
   components/akismet:
     specifiers: {}
 
+  components/albus:
+    specifiers: {}
+
   components/alchemy:
     specifiers: {}
 
