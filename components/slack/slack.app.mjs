@@ -273,12 +273,14 @@ export default {
       type: "boolean",
       label: "Unfurl Links",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of links.",
+      default: true,
       optional: true,
     },
     unfurl_media: {
       type: "boolean",
       label: "Unfurl Media",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of media content.",
+      default: true,
       optional: true,
     },
     parse: {
