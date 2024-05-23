@@ -12,25 +12,29 @@ export default {
     },
     userListId: {
       type: "string",
-      label: "User List ID",
-      description: "The ID of the user list to add the contact to.",
-      async options() {
-        const { results = [] } = await this.listLists();
-
-        return results.map(({
+      label: "Customer List ID",
+      description: "Select a Customer List to add the contact to, or provide a custom Customer List ID.",
+      async options({
+        accountId, customerClientId,
+      }) {
+        const response = await this.listUserLists({
+          accountId,
+          customerClientId,
+        });
+        return response?.map(({
           userList: {
-            id: value, name: label,
+            id, name,
           },
         }) => ({
-          label,
-          value,
+          label: name,
+          value: id,
         }));
       },
     },
     accountId: {
       type: "string",
       label: "Use Google Ads As",
-      description: "Select an account from the list of [customers directly accessible by the authenticated user](https://developers.google.com/google-ads/api/rest/reference/rest/v16/customers/listAccessibleCustomers). This is usually a **manager account**, used as `login-customer-id`",
+      description: "Select an account from the list of [customers directly accessible by the authenticated user](https://developers.google.com/google-ads/api/rest/reference/rest/v16/customers/listAccessibleCustomers). This is usually a **Manager Account**, used as `login-customer-id`",
       async options() {
         const response = await this.listAccessibleCustomers();
         return response?.map(((resourceName) => ({
@@ -41,9 +45,10 @@ export default {
     },
     customerClientId: {
       type: "string",
-      label: "Customer Client ID",
+      label: "Managed Account",
       description: "Select a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v16/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy).",
       useQuery: true,
+      optional: true,
       async options({
         accountId, query,
       }) {
@@ -186,38 +191,29 @@ export default {
       });
       return response;
     },
-    addContactToCustomerList({
+    async addContactToCustomerList({
       path, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/v15/${path}:addOperations`,
+        path: `/v16/${path}:addOperations`,
         ...opts,
       });
     },
-    createOfflineUserDataJob(opts = {}) {
+    async createOfflineUserDataJob(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/v15/customers/${this.$auth.login_customer_id}/offlineUserDataJobs:create`,
+        path: "/v16/customers/{customerClientId}/offlineUserDataJobs:create",
         ...opts,
       });
     },
-    runOfflineUserDataJob({ path }) {
+    async runOfflineUserDataJob({
+      path, ...args
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/v15/${path}:run`,
-      });
-    },
-    listLists() {
-      return this._makeRequest({
-        method: "POST",
-        path: `/v15/customers/${this.$auth.login_customer_id}/googleAds:search`,
-        data: {
-          query: `SELECT
-            user_list.id,
-            user_list.name
-            FROM user_list`,
-        },
+        path: `/v16/${path}:run`,
+        ...args,
       });
     },
   },
