@@ -25,15 +25,14 @@ export default {
   },
   methods: {
     ...common.methods,
-    getSummary() {
-      return "New Campaign";
+    getSummary({ name }) {
+      return `New Campaign: "${name}"`;
     },
-    getItems() {
+    async getItems(savedIds) {
       const {
         accountId, customerClientId, fields,
       } = this;
-      const savedIds = this._getSavedIds();
-      return this.googleAds.listCampaigns({
+      const items = await this.googleAds.listCampaigns({
         accountId,
         customerClientId,
         query: {
@@ -41,6 +40,7 @@ export default {
           savedIds,
         },
       });
+      return items?.map(({ campaign }) => campaign);
     },
   },
 };

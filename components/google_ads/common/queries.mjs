@@ -54,20 +54,28 @@ function listLeadFormSubmissionData(id) {
 function listCampaigns({
   fields, savedIds,
 }) {
-  fields = [
-    fields?.length
-      ? fields
-      : [
-        "id",
-        "name",
-      ],
-  ].map((s) => `campaign.${s}`).join(", ");
+  const defaultFields = [
+    "id",
+    "name",
+  ];
+  if (typeof fields === "string") {
+    fields = fields.split(",").map((s) => s.trim());
+  }
+  if (!fields?.length) {
+    fields = defaultFields;
+  } else {
+    defaultFields.forEach((f) => {
+      if (!fields.includes(f)) {
+        fields.push(f);
+      }
+    });
+  }
 
   const filter = savedIds?.length
-    ? `WHERE ${savedIds.map((id) => `campaign.id != ${id}`).join(" AND ")}`
+    ? ` WHERE ${savedIds.map((id) => `campaign.id != ${id}`).join(" AND ")}`
     : "";
 
-  return `SELECT ${fields} FROM campaign${filter}`;
+  return `SELECT ${fields.map((s) => `campaign.${s}`).join(", ")} FROM campaign${filter}`;
 }
 
 export const QUERIES = {

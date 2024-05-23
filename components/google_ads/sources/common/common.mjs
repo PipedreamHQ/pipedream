@@ -24,12 +24,15 @@ export default {
     _setSavedIds(value) {
       this.db.set("savedIds", value);
     },
+    getTimestamp() {
+      return Date.now();
+    },
     getItemId({ id }) {
       return id;
     },
     async getAndProcessData(max = 0) {
       const savedIds = this._getSavedIds();
-      const items = await this.getItems();
+      const items = await this.getItems(savedIds);
       items?.filter((item) => !savedIds.includes(this.getItemId(item)))
         .forEach((item, index) => {
           const id = this.getItemId(item);
