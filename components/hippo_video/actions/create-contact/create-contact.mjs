@@ -59,7 +59,7 @@ export default {
         company_name: this.companyName,
         notes: this.notes,
         context: this.context,
-        list_ids: parseObject(this.listIds).join(),
+        list_ids: parseObject(this.listIds)?.join(),
       },
     });
 
