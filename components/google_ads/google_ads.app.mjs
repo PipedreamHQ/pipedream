@@ -114,6 +114,7 @@ export default {
     async search({
       query, ...args
     }) {
+      console.log("Executing query: ", query);
       const response = await this._makeRequest({
         path: "/v16/customers/{customerClientId}/googleAds:search",
         method: "post",
@@ -158,6 +159,14 @@ export default {
     async listLeadForms(args) {
       return this.search({
         query: QUERIES.listLeadForms(),
+        ...args,
+      });
+    },
+    async listCampaigns({
+      query, ...args
+    }) {
+      return this.search({
+        query: QUERIES.listCampaigns(query),
         ...args,
       });
     },

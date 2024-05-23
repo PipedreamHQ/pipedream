@@ -51,7 +51,27 @@ function listLeadFormSubmissionData(id) {
   return `SELECT ${fields} FROM lead_form_submission_data WHERE asset.id = '${id}'`;
 }
 
+function listCampaigns({
+  fields, savedIds,
+}) {
+  fields = [
+    fields?.length
+      ? fields
+      : [
+        "id",
+        "name",
+      ],
+  ].map((s) => `campaign.${s}`).join(", ");
+
+  const filter = savedIds?.length
+    ? `WHERE ${savedIds.map((id) => `campaign.id != ${id}`).join(" AND ")}`
+    : "";
+
+  return `SELECT ${fields} FROM campaign${filter}`;
+}
+
 export const QUERIES = {
+  listCampaigns,
   listCustomerClients,
   listLeadForms,
   listLeadFormSubmissionData,

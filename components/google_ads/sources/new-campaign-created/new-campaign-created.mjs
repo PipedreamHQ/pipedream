@@ -29,14 +29,18 @@ export default {
       return "New Campaign";
     },
     getItems() {
-      // const {
-      //   accountId, customerClientId, fields,
-      // } = this;
-      // return this.googleAds.getLeadFormData({
-      //   accountId,
-      //   customerClientId,
-      //   leadFormId,
-      // });
+      const {
+        accountId, customerClientId, fields,
+      } = this;
+      const savedIds = this._getSavedIds();
+      return this.googleAds.listCampaigns({
+        accountId,
+        customerClientId,
+        query: {
+          fields,
+          savedIds,
+        },
+      });
     },
   },
 };
