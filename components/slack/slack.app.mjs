@@ -409,8 +409,8 @@ export default {
     },
     keyword: {
       type: "string",
-      label: "Keyword",
-      description: "Keyword to monitor",
+      label: "Keyword or Username",
+      description: "Keyword or Username to monitor",
     },
     isUsername: {
       type: "boolean",
