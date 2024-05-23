@@ -19,7 +19,10 @@ export default {
     timestamp: {
       propDefinition: [
         slack,
-        "timestamp",
+        "messageTs",
+        (c) => ({
+          channel: c.conversation,
+        }),
       ],
       optional: true,
       description: "Timestamp of the message to add star to.",

@@ -15,10 +15,8 @@ export default {
       ],
     },
     timestamp: {
-      propDefinition: [
-        slack,
-        "timestamp",
-      ],
+      type: "string",
+      label: "Timestamp",
       description: "When this reminder should happen: the Unix timestamp (up to five years from now), the number of seconds until the reminder (if within 24 hours), or a natural language description (Ex. in 15 minutes, or every Thursday)",
     },
     team_id: {

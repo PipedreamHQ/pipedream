@@ -17,7 +17,10 @@ export default {
     timestamp: {
       propDefinition: [
         slack,
-        "timestamp",
+        "messageTs",
+        (c) => ({
+          channel: c.conversation,
+        }),
       ],
     },
     as_user: {

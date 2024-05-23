@@ -14,17 +14,10 @@ export default {
         "file",
       ],
     },
-    count: {
-      propDefinition: [
-        slack,
-        "count",
-      ],
-    },
   },
   async run() {
     return await this.slack.sdk().files.info({
       file: this.file,
-      count: this.count,
     });
   },
 };

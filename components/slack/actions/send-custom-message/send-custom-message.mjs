@@ -60,8 +60,12 @@ export default {
     thread_ts: {
       propDefinition: [
         common.props.slack,
-        "thread_ts",
+        "messageTs",
+        (c) => ({
+          channel: c.conversation,
+        }),
       ],
+      description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead.",
     },
     ...common.props,
   },

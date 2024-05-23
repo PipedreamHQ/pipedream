@@ -17,8 +17,10 @@ export default {
     users: {
       propDefinition: [
         slack,
-        "users",
+        "user",
       ],
+      type: "string[]",
+      label: "Users",
       description: "A list of encoded user IDs that represent the entire list of users for the User Group.",
     },
     team: {

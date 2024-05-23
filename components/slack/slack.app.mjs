@@ -1,5 +1,6 @@
 import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -53,22 +54,6 @@ export default {
             cursor: resp.cursor,
           },
         };
-      },
-    },
-    users: {
-      type: "string[]",
-      label: "Users",
-      description: "Select users",
-      async options() {
-        const userNames = await this.userNames();
-        const users = [];
-        for (const key of Object.keys(userNames)) {
-          users.push({
-            label: userNames[key],
-            value: key,
-          });
-        }
-        return users;
       },
     },
     userGroup: {
@@ -217,6 +202,35 @@ export default {
         };
       },
     },
+    messageTs: {
+      type: "string",
+      label: "Message Timestamp",
+      description: "Timestamp of a message",
+      async options({
+        channel, prevContext,
+      }) {
+        if (!channel) {
+          throw new ConfigurationError("Provide a Channel ID in order to retrieve Messages.");
+        }
+        const {
+          messages, response_metadata: { next_cursor: cursor },
+        } = await this.conversationsHistory({
+          channel,
+          cursor: prevContext?.cursor,
+        });
+        return {
+          options: messages.map(({
+            ts: value, text: label,
+          }) => ({
+            value,
+            label,
+          })),
+          context: {
+            cursor,
+          },
+        };
+      },
+    },
     notificationText: {
       type: "string",
       label: "Notification Text",
@@ -253,15 +267,24 @@ export default {
       label: "Query",
       description: "Search query.",
     },
-    team_id: {
-      type: "string",
-      label: "Team ID",
-      description: "The ID of the team.",
-    },
     file: {
       type: "string",
       label: "File ID",
       description: "Specify a file by providing its ID.",
+      async options({
+        channel, page,
+      }) {
+        const { files } = await this.sdk().files.list({
+          channel,
+          page: page + 1,
+        });
+        return files?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     attachments: {
       type: "string",
@@ -352,18 +375,6 @@ export default {
       label: "Reply Channel or Conversation ID",
       type: "string",
       description: "Provide the channel or conversation ID for the thread to reply to (e.g., if triggering on new Slack messages, enter `{{event.channel}}`). If the channel does not match the thread timestamp, a new message will be posted to this channel.",
-      optional: true,
-    },
-    thread_ts: {
-      label: "Thread Timestamp",
-      type: "string",
-      description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead.",
-      optional: true,
-    },
-    timestamp: {
-      label: "Timestamp",
-      type: "string",
-      description: "Timestamp of the relevant data.",
       optional: true,
     },
     icon_url: {
