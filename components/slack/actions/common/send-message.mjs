@@ -55,6 +55,18 @@ export default {
         "metadata_event_payload",
       ],
     },
+    unfurl_links: {
+      propDefinition: [
+        slack,
+        "unfurl_links",
+      ],
+    },
+    unfurl_media: {
+      propDefinition: [
+        slack,
+        "unfurl_media",
+      ],
+    },
   },
   methods: {
     _makeSentViaPipedreamBlock() {

@@ -5,7 +5,7 @@ export default {
   key: "slack-send-large-message",
   name: "Send a Large Message (3000+ characters)",
   description: "Send a large message (more than 3000 characters) to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.14",
+  version: "0.0.15",
   type: "action",
   props: {
     slack: common.props.slack,
@@ -26,27 +26,6 @@ export default {
         common.props.slack,
         "mrkdwn",
       ],
-    },
-    username: {
-      propDefinition: [
-        common.props.slack,
-        "username",
-      ],
-      description: "Optionally customize your bot's username (default is `Pipedream`).",
-    },
-    icon_emoji: {
-      propDefinition: [
-        common.props.slack,
-        "icon_emoji",
-      ],
-      description: "Optionally use an emoji as the bot icon for this message (e.g., `:fire:`). This value overrides `icon_url` if both are provided.",
-    },
-    icon_url: {
-      propDefinition: [
-        common.props.slack,
-        "icon_url",
-      ],
-      description: "Optionally provide an image URL to use as the bot icon for this message.",
     },
     ...common.props,
   },

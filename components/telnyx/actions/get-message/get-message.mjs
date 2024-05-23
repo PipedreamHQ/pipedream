@@ -3,8 +3,8 @@ import telnyxApp from "../../telnyx.app.mjs";
 export default {
   key: "telnyx-get-message",
   name: "Retrieve a Message",
-  description: "Retrieve a message. See documentation [here](https://developers.telnyx.com/api/messaging/get-message)",
-  version: "0.0.2",
+  description: "Retrieve a message. [See the documentation](https://developers.telnyx.com/api/messaging/get-message)",
+  version: "0.0.3",
   type: "action",
   props: {
     telnyxApp,
