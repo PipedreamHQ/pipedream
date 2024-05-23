@@ -1,8 +1,8 @@
 import common from "../common/common.mjs";
-import { adGroup } from "./resource_adGroup.mjs";
-import { ad } from "./resource_ad.mjs";
-import { campaign } from "./resource_campaign.mjs";
-import { customer } from "./resource_customer.mjs";
+import { adGroup } from "../../common/resources/adGroup.mjs";
+import { ad } from "../../common/resources/ad.mjs";
+import { campaign } from "../../common/resources/campaign.mjs";
+import { customer } from "../../common/resources/customer.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 const RESOURCES = [
