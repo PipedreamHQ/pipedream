@@ -529,7 +529,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/appwrite:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/arcgis_online:
     specifiers: {}
@@ -947,6 +950,9 @@ importers:
   components/bolt_iot:
     specifiers: {}
 
+  components/bookingmood:
+    specifiers: {}
+
   components/booqable:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -969,7 +975,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/botpress:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/bouncer:
     specifiers:
@@ -1103,6 +1112,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/bunnydoc:
+    specifiers: {}
+
   components/burst_sms:
     specifiers: {}
 
@@ -1196,6 +1208,9 @@ importers:
     specifiers: {}
 
   components/carbone:
+    specifiers: {}
+
+  components/cardinal:
     specifiers: {}
 
   components/cardly:
@@ -2272,6 +2287,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/docsgenflow:
+    specifiers: {}
+
   components/docsumo:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2286,6 +2304,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/documenterra:
+    specifiers: {}
 
   components/documint:
     specifiers:
@@ -2464,6 +2485,9 @@ importers:
     specifiers: {}
 
   components/e_conomic:
+    specifiers: {}
+
+  components/eagle_doc:
     specifiers: {}
 
   components/easy_project:
@@ -3169,6 +3193,9 @@ importers:
     specifiers: {}
 
   components/gender_api:
+    specifiers: {}
+
+  components/genderize:
     specifiers: {}
 
   components/generated_photos:
@@ -4599,6 +4626,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.5
 
+  components/leadzen_ai:
+    specifiers: {}
+
   components/leap:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -4707,7 +4737,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/linguapop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/linkedin:
     specifiers:
@@ -5519,6 +5552,9 @@ importers:
       netlify: 6.1.29
       parse-link-header: 2.0.0
 
+  components/neuronwriter:
+    specifiers: {}
+
   components/neutrino:
     specifiers: {}
 
@@ -5719,6 +5755,9 @@ importers:
     specifiers: {}
 
   components/oauth_app_demo_1:
+    specifiers: {}
+
+  components/ocr_web_service:
     specifiers: {}
 
   components/octoparse:
@@ -6252,6 +6291,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/pingrabbit:
+    specifiers: {}
+
   components/pinterest:
     specifiers:
       '@pipedream/platform': ^1.4.0
@@ -6538,7 +6580,10 @@ importers:
     specifiers: {}
 
   components/pro_ledger:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/proabono:
     specifiers:
@@ -6991,6 +7036,9 @@ importers:
   components/renderform:
     specifiers: {}
 
+  components/rentcast:
+    specifiers: {}
+
   components/repairshopr:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -7108,6 +7156,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/reviews_io:
+    specifiers: {}
+
+  components/revolt:
     specifiers: {}
 
   components/reward_sciences:
@@ -7800,6 +7851,9 @@ importers:
   components/showpad:
     specifiers: {}
 
+  components/sidetracker:
+    specifiers: {}
+
   components/sierra_interactive:
     specifiers: {}
 
@@ -8320,7 +8374,10 @@ importers:
     specifiers: {}
 
   components/summit:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/sumup:
     specifiers:
@@ -9104,6 +9161,9 @@ importers:
       '@pipedream/platform': ^1.6.5
     dependencies:
       '@pipedream/platform': 1.6.5
+
+  components/upbooks:
+    specifiers: {}
 
   components/updown_io:
     specifiers:
@@ -9916,7 +9976,10 @@ importers:
     specifiers: {}
 
   components/zixflow:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.4
+    dependencies:
+      '@pipedream/platform': 1.6.4
 
   components/zoho_analytics:
     specifiers: {}
@@ -15042,7 +15105,7 @@ packages:
   /@pipedream/helper_functions/0.3.12:
     resolution: {integrity: sha512-0n0kKCdrQQWOW275gDHBu0EUAdNssEzT3LLHcOTlzoTXP/V9Ue0VVTmtLDiDdaF9W3a4e2++tICFoVSGSyoMew==}
     dependencies:
-      '@pipedream/platform': 1.6.4
+      '@pipedream/platform': 1.6.5
       streamifier: 0.1.1
       xml-js: 1.6.11
     transitivePeerDependencies:
