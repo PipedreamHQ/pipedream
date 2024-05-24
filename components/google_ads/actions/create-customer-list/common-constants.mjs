@@ -1,4 +1,4 @@
-import countryCodeOptions from "./country-code-options.mjs";
+import countryCodeOptions from "./common-country-code-options.mjs";
 
 export const USER_LIST_TYPES = {
   CRM_BASED: "crmBasedUserList",

@@ -1,7 +1,7 @@
 import { parseObject } from "../../common/utils.mjs";
 import common from "../common/common.mjs";
 import { getAdditionalFields } from "../common/props.mjs";
-import { CONVERSION_TYPE_OPTIONS } from "./constants.mjs";
+import { CONVERSION_TYPE_OPTIONS } from "./common-constants.mjs";
 
 export default {
   ...common,

@@ -1,6 +1,6 @@
 import {
   USER_LIST_TYPES, USER_LIST_TYPE_OPTIONS,
-} from "./constants.mjs";
+} from "./common-constants.mjs";
 import {
   parseObject, parseStringObject,
 } from "../../common/utils.mjs";
