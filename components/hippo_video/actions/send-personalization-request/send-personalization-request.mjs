@@ -38,7 +38,7 @@ export default {
       maxBodyLength: Infinity,
     });
 
-    if (!response.code != 200) throw new ConfigurationError(response.message || response.type);
+    if (response.code != 200) throw new ConfigurationError(response.message || response.type);
 
     $.export("$summary", `Successfully sent personalization request for video Id: ${this.videoId}`);
     return response;

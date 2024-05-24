@@ -85,6 +85,13 @@ export default {
         ...opts,
       });
     },
+    personalizeVideo(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/v1/me/video/bulk_personalize",
+        ...opts,
+      });
+    },
     uploadVideo(opts = {}) {
       return this._makeRequest({
         method: "POST",

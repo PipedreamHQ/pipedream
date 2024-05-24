@@ -29,7 +29,7 @@ export default {
       },
     });
 
-    if (!response.status) throw new ConfigurationError(response.message);
+    if (response.code != "200") throw new ConfigurationError(response.message);
 
     $.export("$summary", `Video uploaded successfully with Id: ${response.video_id}`);
     return response;
