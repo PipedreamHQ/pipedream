@@ -5,9 +5,7 @@ export { axios, transformConfigForOauth, };
 export { cloneSafe, jsonStringifySafe, } from "./utils";
 export { ConfigurationError, } from "./errors";
 export { default as sqlProp, } from "./sql-prop";
-export type { ColumnSchema, DbInfo, TableInfo, TableMetadata, TableSchema, } from "./sql-prop";
 export { default as sqlProxy, } from "./sql-proxy";
-export type * as SqlProxy from "./sql-proxy";
 export { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL, } from "./constants";
 export declare const SendConfigEmail: t.PartialC<{
     html: t.StringC;

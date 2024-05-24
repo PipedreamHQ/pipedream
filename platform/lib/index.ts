@@ -17,13 +17,6 @@ export {
 export {
   default as sqlProp,
 } from "./sql-prop";
-export type {
-  ColumnSchema,
-  DbInfo,
-  TableInfo,
-  TableMetadata,
-  TableSchema,
-} from "./sql-prop";
 
 export {
   default as sqlProxy,
