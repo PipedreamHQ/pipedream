@@ -1,3 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
+
 export function parseObject(value = {}) {
   return Object.fromEntries(Object.entries(value).map(([
     key,
@@ -15,4 +17,16 @@ export function parseObject(value = {}) {
       ];
     }
   }));
+}
+
+export function parseStringObject(value = "{}") {
+  try {
+    return typeof value === "string"
+      ? JSON.parse(value)
+      : value;
+  } catch (err) {
+    throw new ConfigurationError(`Error parsing JSON value \`${value}\`
+\\
+**${err.toString()}**`);
+  }
 }

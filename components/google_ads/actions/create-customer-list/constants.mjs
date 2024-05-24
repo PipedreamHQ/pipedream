@@ -89,11 +89,51 @@ const USER_LIST_LOGICAL_PROPS = {
 };
 
 const USER_LIST_BASIC_PROPS = {
-  actions: {
+  conversionActions: {
     type: "string[]",
-    label: "Actions",
-    description:
-      "Actions associated with this customer list. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#UserListActionInfo) on how to build each object. Values will be parsed as JSON where applicable.",
+    label: "Conversion action(s)",
+    description: "One or more [conversion actions](https://developers.google.com/google-ads/api/rest/reference/rest/v16/ConversionAction) to build the list with.",
+    optional: true,
+    options: async() => {
+      const {
+        accountId, customerClientId,
+      } = this;
+      const response = await this.googleAds.listConversionActions({
+        accountId,
+        customerClientId,
+      });
+      return response?.map(({
+        conversionAction: {
+          resourceName, name,
+        },
+      }) => ({
+        label: name,
+        value: resourceName,
+      }));
+    },
+  },
+  remarketingActions: {
+    type: "string[]",
+    label: "Remarketing action(s)",
+    description: "One or more [remarketing actions](https://developers.google.com/google-ads/api/rest/reference/rest/v16/RemarketingAction).",
+    optional: true,
+    options: async() => {
+      const {
+        accountId, customerClientId,
+      } = this;
+      const response = await this.googleAds.listRemarketingActions({
+        accountId,
+        customerClientId,
+      });
+      return response?.map(({
+        remarketingAction: {
+          resourceName, name,
+        },
+      }) => ({
+        label: name,
+        value: resourceName,
+      }));
+    },
   },
 };
 

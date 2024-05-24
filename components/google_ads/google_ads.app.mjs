@@ -161,6 +161,18 @@ export default {
         ...args,
       });
     },
+    async listConversionActions(args) {
+      return this.search({
+        query: QUERIES.listConversionActions(),
+        ...args,
+      });
+    },
+    async listRemarketingActions(args) {
+      return this.search({
+        query: QUERIES.listRemarketingActions(),
+        ...args,
+      });
+    },
     async listLeadForms(args) {
       return this.search({
         query: QUERIES.listLeadForms(),

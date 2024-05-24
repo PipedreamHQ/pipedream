@@ -25,6 +25,22 @@ function listUserLists() {
   return `SELECT ${fields} FROM user_list`;
 }
 
+function listConversionActions() {
+  const fields = [
+    "name",
+  ].map((s) => `conversion_action.${s}`).join(", ");
+
+  return `SELECT ${fields} FROM conversion_action`;
+}
+
+function listRemarketingActions() {
+  const fields = [
+    "name",
+  ].map((s) => `remarketing_action.${s}`).join(", ");
+
+  return `SELECT ${fields} FROM remarketing_action`;
+}
+
 function listLeadForms() {
   const assetFields = [
     "id",
@@ -80,8 +96,10 @@ function listCampaigns({
 
 export const QUERIES = {
   listCampaigns,
+  listConversionActions,
   listCustomerClients,
   listLeadForms,
   listLeadFormSubmissionData,
+  listRemarketingActions,
   listUserLists,
 };

@@ -1,7 +1,9 @@
 import {
   USER_LIST_TYPES, USER_LIST_TYPE_OPTIONS,
 } from "./constants.mjs";
-import { parseObject } from "../../common/utils.mjs";
+import {
+  parseObject, parseStringObject,
+} from "../../common/utils.mjs";
 import common from "../common/common.mjs";
 import {
   getAdditionalFields, getListTypeInfo,
@@ -58,15 +60,28 @@ export default {
         }
         break;
 
-      case USER_LIST_TYPES.LOGICAL:
-        if (obj.rules) {
-          obj.rules = obj.rules.map((rule) => parseObject(rule));
+      case USER_LIST_TYPES.LOGICAL: {
+        let { rules } = obj;
+        if (rules) {
+          rules = rules.map?.((rule) => parseStringObject(rule)) ?? parseStringObject(rules);
         }
         break;
+      }
 
       case USER_LIST_TYPES.BASIC:
-        if (obj.actions) {
-          obj.actions = obj.actions.map((action) => parseObject(action));
+        if (obj?.conversionActions?.length || obj?.remarketingActions?.length) {
+          obj.actions = [
+            ...(obj.conversionActions ?? []).map((conversionAction) => ({
+              conversionAction,
+            })),
+            ...(obj.remarketingActions ?? []).map((remarketingAction) => ({
+              remarketingAction,
+            })),
+          ];
+          delete obj.conversionActions;
+          delete obj.remarketingActions;
+        } else {
+          throw new ConfigurationError("Select at least one Conversion or Remarketing action to build the list with");
         }
         break;
 
