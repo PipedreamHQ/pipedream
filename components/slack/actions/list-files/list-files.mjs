@@ -14,13 +14,6 @@ export default {
         "conversation",
       ],
     },
-    count: {
-      propDefinition: [
-        slack,
-        "count",
-      ],
-      optional: true,
-    },
     team_id: {
       propDefinition: [
         slack,
@@ -36,12 +29,27 @@ export default {
       optional: true,
     },
   },
-  async run() {
-    return await this.slack.sdk().files.list({
+  async run({ $ }) {
+    const allFiles = [];
+    const params = {
       channel: this.conversation,
-      count: this.count,
       user: this.user,
       team_id: this.team_id,
-    });
+      page: 1,
+    };
+    let hasMore;
+
+    do {
+      const { files } = await this.slack.sdk().files.list(params);
+      allFiles.push(...files);
+      hasMore = files.length;
+      params.page++;
+    } while (hasMore);
+
+    $.export("$summary", `Successfully retrieved ${allFiles.length} file${allFiles.length === 1
+      ? ""
+      : "s"}`);
+
+    return allFiles;
   },
 };

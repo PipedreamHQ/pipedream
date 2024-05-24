@@ -14,13 +14,6 @@ export default {
         "query",
       ],
     },
-    count: {
-      propDefinition: [
-        slack,
-        "count",
-      ],
-      optional: true,
-    },
     teamId: {
       propDefinition: [
         slack,
@@ -29,11 +22,26 @@ export default {
       optional: true,
     },
   },
-  async run() {
-    return this.slack.searchMessages({
+  async run({ $ }) {
+    const matches = [];
+    const params = {
       query: this.query,
-      count: this.count,
       team_id: this.teamId,
-    });
+      page: 1,
+    };
+    let hasMore;
+
+    do {
+      const { messages } = await this.slack.searchMessages(params);
+      matches.push(...messages.matches);
+      hasMore = messages?.length;
+      params.page++;
+    } while (hasMore);
+
+    $.export("$summary", `Found ${matches.length} matching message${matches.length === 1
+      ? ""
+      : "s"}`);
+
+    return matches;
   },
 };
