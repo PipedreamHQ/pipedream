@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/apify",
+  "version": "0.1.0",
+  "description": "Pipedream Apify Components",
+  "main": "apify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "apify"
+  ],
+  "homepage": "https://pipedream.com/apps/apify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5"
+  }
+}
+
