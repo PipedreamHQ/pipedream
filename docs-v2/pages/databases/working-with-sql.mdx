@@ -1,4 +1,5 @@
 import { Steps } from 'nextra/components'
+import ArcadeEmbed from '@/components/ArcadeEmbed'
 
 # Working with SQL
 
@@ -7,15 +8,22 @@ Pipedream makes it easy to interact with SQL databases within your workflows. Yo
 ## Schema Explorer
 When querying a database, you need to understand the schema of the tables you're working with. The schema explorer provides a visual interface to explore the tables in your database, view their columns, and understand the relationships between them. 
 
-- Once you connect your account with one of the [supported database apps](/databases#supported-databases), we automatically fetch and display the details of your database's schema below
-[insert schema explorer here]
+- Once you connect your account with one of the [supported database apps](/databases#supported-databases), we automatically fetch and display the details of the database schema below
 - You can view the columns of a table, their data types, and relationships between tables
+
+![SQL Schema Explorer](https://res.cloudinary.com/pipedreamin/image/upload/v1716524699/sql-demo-schema-explorer_xcmorc.png)
 
 ## SQL Editor
 With the built-in SQL editor, you access linting and auto-complete features typical of modern SQL editors.
 
+![SQL Editor](https://res.cloudinary.com/pipedreamin/image/upload/v1716525371/sql-demo-editor_uqat7x.png)
+
 ## Prepared Statements
 Prepared statements let you safely execute the same SQL query using dynamic inputs as parameters to help prevent SQL injection attacks.
+
+To compare the prepared vs computed statement, click the toggle in the **Statements** tab:
+
+_[insert screenshot here]_
 
 ## Getting Started
 
@@ -40,3 +48,8 @@ _[add a screenshot here]_
 _[add a screenshot here]_
 
 </Steps>
+
+<ArcadeEmbed
+    src="https://demo.arcade.software/qc8BhmRSrcb8FDvbYmgr?embed"
+    title="Execute Snowflake SQL Query">
+</ArcadeEmbed>
