@@ -14,7 +14,7 @@ This action takes care of all components with dependencies that were modified bu
 
 ### `all_files`
 
-**Required** List of all files comming from `changed_files` step in `check_version` job github action workflow. It is necessary to set the action `jitterbit/get-changed-files@v1` output in json format like
+**Required** List of all files comming from `changed_files` step in `check_version` job github action workflow. It is necessary to set the action `Ana06/get-changed-files@v2.3.0` output in json format like
 ```
 ...
 with:

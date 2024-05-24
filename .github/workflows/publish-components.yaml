@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.4
-      - uses: pnpm/action-setup@v3.0.0
+        uses: actions/checkout@v4.1.6
+      - uses: pnpm/action-setup@v4.0.0
         with:
           version: 7.33.6
       - name: Get pnpm store directory
@@ -48,7 +48,7 @@ jobs:
           echo "org_id = $PD_ORG_ID" >> $HOME/.config/pipedream/config
       - name: Get Changed Files
         id: files
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'csv'
       - name: Publish and add to registry components/*.*js (that aren't .app.js files)
@@ -117,8 +117,8 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.4
-      - uses: pnpm/action-setup@v3.0.0
+        uses: actions/checkout@v4.1.6
+      - uses: pnpm/action-setup@v4.0.0
         with:
           version: 7.33.6
       - name: Get pnpm store directory
@@ -155,7 +155,7 @@ jobs:
         run: npm run build > files.txt
       - name: Get Changed Files
         id: files
-        uses: jitterbit/get-changed-files@v1
+        uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'csv'
       - name: Publish TypeScript components (dry run)

@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-delete-rows",
   name: "Delete Rows",
   description: "Deletes the specified rows from a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#deletedimensionrequest)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     googleSheets,
@@ -44,6 +44,7 @@ export default {
       type: "integer",
       label: "End Index",
       description: "Row number of the end (exclusive) of the range of rows to delete",
+      optional: true,
     },
   },
   async run() {
@@ -57,7 +58,9 @@ export default {
                 "sheetId": this.worksheetId,
                 "dimension": "ROWS",
                 "startIndex": this.startIndex - 1,
-                "endIndex": this.endIndex - 1,
+                "endIndex": this.endIndex
+                  ? this.endIndex - 1
+                  : this.startIndex,
               },
             },
           },

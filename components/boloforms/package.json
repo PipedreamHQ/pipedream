@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/boloforms",
+  "version": "0.1.0",
+  "description": "Pipedream Boloforms Components",
+  "main": "boloforms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "boloforms"
+  ],
+  "homepage": "https://pipedream.com/apps/boloforms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5",
+    "uuid": "^9.0.1"
+  }
+}

@@ -7,7 +7,7 @@ export default {
   key: "gitlab-new-commit",
   name: "New Commit (Instant)",
   description: "Emit new event when a new commit is pushed to a branch",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   type: "source",
   props: {
