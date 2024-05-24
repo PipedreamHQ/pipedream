@@ -4306,6 +4306,9 @@ importers:
   components/isn:
     specifiers: {}
 
+  components/ispring_learn:
+    specifiers: {}
+
   components/iterate:
     specifiers:
       '@pipedream/platform': ^1.2.0
