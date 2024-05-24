@@ -9196,7 +9196,10 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/upbooks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/updown_io:
     specifiers:
