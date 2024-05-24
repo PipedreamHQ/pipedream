@@ -21,7 +21,7 @@ export default {
     file: {
       type: "string",
       label: "File",
-      description: "csv, xls, and xlsx file saved to the `/tmp` directory (e.g. `/tmp/example.jpg`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory) which has data for video personalization.",
+      description: "csv, xls, and xlsx file saved to the [`/tmp` directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory). To get file schema, [see documentation](https://help.hippovideo.io/support/solutions/articles/19000099793-bulk-video-personalization-and-tracking-api)",
     },
   },
   async run({ $ }) {
