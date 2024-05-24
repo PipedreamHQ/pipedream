@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pumble",
+  "version": "0.0.1",
+  "description": "Pipedream Pumble Components",
+  "main": "pumble.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pumble"
+  ],
+  "homepage": "https://pipedream.com/apps/pumble",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

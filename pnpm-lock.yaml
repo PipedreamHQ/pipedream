@@ -6716,6 +6716,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/pumble:
+    specifiers: {}
+
   components/puppeteer:
     specifiers:
       '@pipedream/platform': ^1.5.1
