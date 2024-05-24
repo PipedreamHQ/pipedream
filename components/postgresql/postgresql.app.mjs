@@ -209,7 +209,7 @@ export default {
      * (like the `sql` prop) to enrich the code editor and provide the user with
      * auto-complete and fields suggestion.
      *
-     * @returns {DbSchema} The schema of the database, which is a
+     * @returns {DbInfo} The schema of the database, which is a
      * JSON-serializable object.
      */
     async getSchema() {
@@ -228,8 +228,11 @@ export default {
         text,
       });
       return rows.reduce((acc, row) => {
-        acc[row.tableName] ??= {};
-        acc[row.tableName][row.columnName] = {
+        acc[row.tableName] ??= {
+          metadata: {},
+          schema: {},
+        };
+        acc[row.tableName].schema[row.columnName] = {
           ...row,
         };
         return acc;
