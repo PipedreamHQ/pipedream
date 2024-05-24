@@ -5471,12 +5471,12 @@ importers:
 
   components/mysql:
     specifiers:
-      '@pipedream/platform': ^1.6.4
+      '@pipedream/platform': ^2.0.0
       mysql2: ^3.9.2
       mysql2-promise: ^0.1.4
       uuid: ^8.3.2
     dependencies:
-      '@pipedream/platform': 1.6.4
+      '@pipedream/platform': 2.0.0
       mysql2: 3.9.2
       mysql2-promise: 0.1.4
       uuid: 8.3.2
@@ -6499,12 +6499,12 @@ importers:
 
   components/postgresql:
     specifiers:
-      '@pipedream/platform': ^1.6.4
+      '@pipedream/platform': ^2.0.0
       dtslint: ^4.2.1
       pg: ^8.7.1
       pg-format: ^1.0.4
     dependencies:
-      '@pipedream/platform': 1.6.4
+      '@pipedream/platform': 2.0.0
       pg: 8.11.3
       pg-format: 1.0.4
     devDependencies:
@@ -8125,13 +8125,13 @@ importers:
 
   components/snowflake:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^2.0.0
       asn1.js: ^5.0.0
       lodash-es: ^4.17.21
       snowflake-sdk: ^1.6.10
       uuid: ^8.3.2
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 2.0.0
       asn1.js: 5.4.1
       lodash-es: 4.17.21
       snowflake-sdk: 1.9.0_asn1.js@5.4.1
@@ -15226,6 +15226,17 @@ packages:
 
   /@pipedream/platform/1.6.5:
     resolution: {integrity: sha512-h7afdBjRtptMKvejOhAYbhV3b+Kmy1jq7vETMBFLLnOfeXUbtbRX0sm1cdR96lbU1xw5EA5R0uaCB9l7+AUwPA==}
+    dependencies:
+      axios: 1.6.5
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/2.0.0:
+    resolution: {integrity: sha512-D7Y02VvqLg1K1yMFZlvu6rQC1RBJXaZqq9RBTM/2JGN/CNHzHbZVlW1hcT7G5iFdw8Z3Gtzhknsi+2QwlmeL7w==}
     dependencies:
       axios: 1.6.5
       fp-ts: 2.16.1
