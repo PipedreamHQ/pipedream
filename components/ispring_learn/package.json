@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ispring_learn",
+  "version": "0.0.1",
+  "description": "Pipedream iSpring Learn Components",
+  "main": "ispring_learn.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ispring_learn"
+  ],
+  "homepage": "https://pipedream.com/apps/ispring_learn",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

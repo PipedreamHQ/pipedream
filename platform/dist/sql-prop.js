@@ -8,7 +8,7 @@ exports.default = {
          * (like the `sql` prop) to enrich the code editor and provide the user with
          * auto-complete and fields suggestion.
          *
-         * @returns {DbSchema} The schema of the database, which is a
+         * @returns {DbInfo} The schema of the database, which is a
          * JSON-serializable object.
          * @throws {ConfigurationError} If the method is not implemented.
          */

@@ -314,6 +314,9 @@ importers:
   components/akismet:
     specifiers: {}
 
+  components/albus:
+    specifiers: {}
+
   components/alchemy:
     specifiers: {}
 
@@ -488,6 +491,12 @@ importers:
 
   components/api_void:
     specifiers: {}
+
+  components/apify:
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/apilio:
     specifiers: {}
@@ -4303,6 +4312,9 @@ importers:
   components/isn:
     specifiers: {}
 
+  components/ispring_learn:
+    specifiers: {}
+
   components/iterate:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4639,6 +4651,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/learndash:
+    specifiers: {}
+
+  components/leexi:
     specifiers: {}
 
   components/leiga:
@@ -6707,6 +6722,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/pumble:
+    specifiers: {}
+
   components/puppeteer:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7002,6 +7020,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
       form-data: 4.0.0
+
+  components/regal:
+    specifiers: {}
 
   components/regfox:
     specifiers:
@@ -8150,7 +8171,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sonarcloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/sonix:
     specifiers:
@@ -9204,7 +9228,10 @@ importers:
     specifiers: {}
 
   components/upstash_redis:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/uptimerobot:
     specifiers: {}

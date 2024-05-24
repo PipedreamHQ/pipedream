@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/upstash_redis",
+  "name": "@pipedream/apify",
   "version": "0.1.0",
-  "description": "Pipedream Upstash Redis Components",
-  "main": "upstash_redis.app.mjs",
+  "description": "Pipedream Apify Components",
+  "main": "apify.app.mjs",
   "keywords": [
     "pipedream",
-    "upstash_redis"
+    "apify"
   ],
-  "homepage": "https://pipedream.com/apps/upstash_redis",
+  "homepage": "https://pipedream.com/apps/apify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
@@ -16,3 +16,4 @@
     "@pipedream/platform": "^1.6.5"
   }
 }
+
