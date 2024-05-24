@@ -4,127 +4,158 @@ export default {
   type: "app",
   app: "upbooks",
   propDefinitions: {
-    collectionName: {
+    salaryComponentId: {
       type: "string",
-      label: "Collection Name",
-      description: "The name of the collection to monitor for new data.",
+      label: "Salary Component Id",
+      description: "The identification of the salary component.",
+      async options({ page }) {
+        const { data } = await this.listSalaryComponents({
+          params: {
+            page,
+          },
+        });
+
+        return data.map(({
+          _id: value, groupName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    timeInterval: {
-      type: "integer",
-      label: "Time Interval",
-      description: "Time interval to look back for new data (in minutes).",
-      optional: true,
+    expenseIds: {
+      type: "string[]",
+      label: "Expense Ids",
+      description: "The identification of the expense.",
+      async options({ page }) {
+        const { data } = await this.listExpenses({
+          params: {
+            page,
+          },
+        });
+
+        return data.map(({
+          _id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    amount: {
-      type: "integer",
-      label: "Amount",
-      description: "The amount of the outward payment.",
-    },
-    recipient: {
+    accountId: {
       type: "string",
-      label: "Recipient",
-      description: "The recipient of the payment.",
-    },
-    date: {
-      type: "string",
-      label: "Date",
-      description: "The date of the payment.",
-    },
-    referenceNumber: {
-      type: "string",
-      label: "Reference Number",
-      description: "An optional reference number for the payment.",
-      optional: true,
-    },
-    categoryName: {
-      type: "string",
-      label: "Category Name",
-      description: "The name of the new expense category.",
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "A description for the new expense category.",
-      optional: true,
-    },
-    employeeDetails: {
-      type: "string",
-      label: "Employee Details",
-      description: "Details of the new employee in JSON format including full name, job position, and contact details.",
+      label: "Account Id",
+      description: "The identification of the account.",
+      async options({ page }) {
+        const { data } = await this.listAccounts({
+          params: {
+            page,
+          },
+        });
+
+        return data.map(({
+          _id: value, title, category,
+        }) => ({
+          label: `${title} (${category.charAt(0).toUpperCase() + category.slice(1)})`,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.upbooks.io/v1";
+      return "https://api.upbooks.io/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "API-KEY": `${this.$auth.api_key}`,
+        "Organization-ID": `${this.$auth.organization_id}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-          ...headers,
-        },
-        data,
-        params,
-        ...otherOpts,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async emitNewDataEvent({
-      collectionName, timeInterval,
+    listAccounts(opts = {}) {
+      return this._makeRequest({
+        path: "/account",
+        ...opts,
+      });
+    },
+    listActivities(opts = {}) {
+      return this._makeRequest({
+        path: "/activity-log/all",
+        ...opts,
+      });
+    },
+    listExpenses(opts = {}) {
+      return this._makeRequest({
+        path: "/expense",
+        ...opts,
+      });
+    },
+    listSalaryComponents(opts = {}) {
+      return this._makeRequest({
+        path: "/salary-component",
+        ...opts,
+      });
+    },
+    addNewEmployee(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/employee",
+        ...opts,
+      });
+    },
+    createExpenseCategory(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/expense-category",
+        ...opts,
+      });
+    },
+    recordOutwardPayment(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/outward-payment",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
     }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/events/new-data",
-        data: {
-          collectionName,
-          timeInterval,
-        },
-      });
-    },
-    async recordOutwardPayment({
-      amount, recipient, date, referenceNumber,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/payments/outward",
-        data: {
-          amount,
-          recipient,
-          date,
-          referenceNumber,
-        },
-      });
-    },
-    async createExpenseCategory({
-      categoryName, description,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/expense-categories",
-        data: {
-          categoryName,
-          description,
-        },
-      });
-    },
-    async addNewEmployee({ employeeDetails }) {
-      const details = JSON.parse(employeeDetails);
-      return this._makeRequest({
-        method: "POST",
-        path: "/employees",
-        data: details,
-      });
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          data,
+          meta: {
+            current_page, last_page,
+          },
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = !(current_page == last_page);
+
+      } while (hasMore);
     },
   },
-  version: "0.0.1",
 };

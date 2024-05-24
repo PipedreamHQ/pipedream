@@ -1,5 +1,6 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import upbooks from "../../upbooks.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "upbooks-new-data",
@@ -14,58 +15,47 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    collectionName: {
-      propDefinition: [
-        upbooks,
-        "collectionName",
-      ],
+  },
+  methods: {
+    _getLastDate() {
+      return this.db.get("lastDate") || "1970-01-01T00:00:00Z";
     },
-    timeInterval: {
-      propDefinition: [
-        upbooks,
-        "timeInterval",
-        (c) => ({
-          optional: true,
-          default: 60,
-        }), // Default to 60 minutes if not specified
-      ],
+    _setLastDate(created) {
+      this.db.set("lastDate", created);
+    },
+    generateMeta(item) {
+      return {
+        id: item._id,
+        summary: `New ${item.title}`,
+        ts: item.occurredAt,
+      };
+    },
+    async startEvent(maxResults = 0) {
+      const lastDate = this._getLastDate();
+      const { data } = await this.upbooks.listActivities({
+        params: {
+          fromDate: lastDate,
+        },
+      });
+
+      if (maxResults && maxResults.length > maxResults) maxResults.length = maxResults;
+      if (data.length) this._setLastDate(data[0].occurredAt);
+
+      for (const item of data.reverse()) {
+        this.$emit(item, this.generateMeta(item));
+      }
     },
   },
   hooks: {
     async deploy() {
-      // Fetch historical data on deploy
-      await this.fetchAndEmitData(true);
-    },
-  },
-  methods: {
-    async fetchAndEmitData(isDeploy = false) {
-      const lastEmittedTimestamp = isDeploy
-        ? 0
-        : this.db.get("lastEmittedTimestamp") || Date.now() - (this.timeInterval * 60 * 1000);
-      const currentTime = Date.now();
-      const newEvents = await this.upbooks.emitNewDataEvent({
-        collectionName: this.collectionName,
-        timeInterval: this.timeInterval,
-      });
-
-      newEvents.forEach((event) => {
-        const eventTimestamp = Date.parse(event.timestamp);
-        if (eventTimestamp > lastEmittedTimestamp) {
-          this.$emit(event, {
-            id: event.id || `${eventTimestamp}-${Math.random()}`,
-            summary: `New data in ${this.collectionName}`,
-            ts: eventTimestamp,
-          });
-        }
-      });
-
-      this.db.set("lastEmittedTimestamp", currentTime);
+      await this.startEvent(25);
     },
   },
   async run() {
-    await this.fetchAndEmitData();
+    await this.startEvent();
   },
+  sampleEmit,
 };

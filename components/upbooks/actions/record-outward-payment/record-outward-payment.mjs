@@ -1,48 +1,108 @@
+import { parseObject } from "../../common/utils.mjs";
 import upbooks from "../../upbooks.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "upbooks-record-outward-payment",
   name: "Record Outward Payment",
-  description: "Records an outward payment in UpBooks. [See the documentation](https://upbooks.io/docs/api-usage/authentication)",
-  version: "0.0.${ts}",
+  description: "Records an outward payment in UpBooks. [See the documentation](https://www.postman.com/scrrum/workspace/upbooks-io/request/13284127-3fc82d7a-2173-4b3a-a8ec-4c812c928810)",
+  version: "0.0.1",
   type: "action",
   props: {
     upbooks,
-    amount: {
-      propDefinition: [
-        upbooks,
-        "amount",
+    mode: {
+      type: "string",
+      label: "Mode",
+      description: "The outward payment mode.",
+      options: [
+        {
+          label: "Cash",
+          value: "cash",
+        },
+        {
+          label: "Cheque",
+          value: "cheque",
+        },
+        {
+          label: "Neft",
+          value: "neft",
+        },
+        {
+          label: "Imps",
+          value: "imps",
+        },
+        {
+          label: "Wire Transfer",
+          value: "wire transfer",
+        },
       ],
     },
-    recipient: {
-      propDefinition: [
-        upbooks,
-        "recipient",
-      ],
+    amount: {
+      type: "string",
+      label: "Amount",
+      description: "The outwart payment amount in cents.",
     },
     date: {
+      type: "string",
+      label: "Date",
+      description: "The date of the outward payment. Format: YYYY-MM-DD",
+    },
+    expenseIds: {
       propDefinition: [
         upbooks,
-        "date",
+        "expenseIds",
       ],
     },
-    referenceNumber: {
+    account: {
       propDefinition: [
         upbooks,
-        "referenceNumber",
+        "accountId",
       ],
-      optional: true,
+    },
+    currency: {
+      type: "string",
+      label: "Currency",
+      description: "The currency of the outward payment.",
+      withLabel: true,
+      options: [
+        {
+          label: "Indian Rupees",
+          value: "INR",
+        },
+        {
+          label: "US Dollar",
+          value: "USD",
+        },
+        {
+          label: "Euro",
+          value: "EUR",
+        },
+        {
+          label: "Australian Dollar",
+          value: "AUD",
+        },
+        {
+          label: "Emirati Dirham",
+          value: "AED",
+        },
+      ],
     },
   },
   async run({ $ }) {
     const response = await this.upbooks.recordOutwardPayment({
-      amount: this.amount,
-      recipient: this.recipient,
-      date: this.date,
-      referenceNumber: this.referenceNumber,
+      $,
+      data: {
+        mode: this.mode,
+        amount: (this.amount / 100).toFixed(2),
+        date: this.date,
+        expenseIds: parseObject(this.expenseIds),
+        accountId: this.account,
+        currency: {
+          name: this.currency.label,
+          symbol: this.currency.value,
+        },
+      },
     });
-    $.export("$summary", `Successfully recorded outward payment to ${this.recipient}`);
+    $.export("$summary", `Successfully recorded outward payment with Id: ${response.data._id}`);
     return response;
   },
 };
