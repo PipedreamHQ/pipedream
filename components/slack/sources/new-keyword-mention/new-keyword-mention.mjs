@@ -4,10 +4,10 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "slack-new-mention",
-  name: "New Mention (Instant)",
-  version: "1.0.17",
-  description: "Emit new event when a username or specific keyword is mentioned in a channel",
+  key: "slack-new-keyword-mention",
+  name: "New Keyword Mention (Instant)",
+  version: "0.0.1",
+  description: "Emit new event when a specific keyword is mentioned in a channel",
   type: "source",
   dedupe: "unique",
   props: {
@@ -36,12 +36,6 @@ export default {
       propDefinition: [
         common.props.slack,
         "keyword",
-      ],
-    },
-    isUsername: {
-      propDefinition: [
-        common.props.slack,
-        "isUsername",
       ],
     },
     ignoreBot: {
@@ -91,7 +85,7 @@ export default {
       }
     },
     getSummary() {
-      return "New mention received";
+      return "New keyword mention received";
     },
     async processEvent(event) {
       const {
@@ -99,15 +93,7 @@ export default {
         subtype,
         bot_id: botId,
         text,
-        blocks = [],
       } = event;
-      const [
-        {
-          elements: [
-            { elements = [] } = {},
-          ] = [],
-        } = {},
-      ] = blocks;
 
       if (msgType !== "message") {
         console.log(`Ignoring event with unexpected type "${msgType}"`);
@@ -128,19 +114,7 @@ export default {
       }
 
       let emitEvent = false;
-      if (elements) {
-        for (const item of elements) {
-          if (item.user_id) {
-            const username = await this.getUserName(item.user_id);
-            const realName = await this.getRealName(item.user_id);
-            if (username === this.keyword || realName === this.keyword) {
-              emitEvent = true;
-              break;
-            }
-          }
-        }
-      }
-      if (text.indexOf(this.keyword) !== -1 && !this.isUsername) {
+      if (text.indexOf(this.keyword) !== -1) {
         emitEvent = true;
       } else if (subtype === constants.SUBTYPE.PD_HISTORY_MESSAGE) {
         emitEvent = true;

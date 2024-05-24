@@ -389,12 +389,6 @@ export default {
       description: "The message text introducing the file",
       optional: true,
     },
-    count: {
-      type: "integer",
-      label: "Count",
-      description: "Number of items to return per page.",
-      optional: true,
-    },
     email: {
       type: "string",
       label: "Email",
@@ -420,15 +414,8 @@ export default {
     },
     keyword: {
       type: "string",
-      label: "Keyword or Username",
-      description: "Keyword or Username to monitor",
-    },
-    isUsername: {
-      type: "boolean",
-      label: "Is Username",
-      description: "Filters out mentions of the keyword that are not a username",
-      default: false,
-      optional: true,
+      label: "Keyword",
+      description: "Keyword to monitor",
     },
     ignoreBot: {
       type: "boolean",
