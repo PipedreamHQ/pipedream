@@ -6,7 +6,7 @@ export default {
   key: "slack-send-message-private-channel",
   name: "Send Message to a Private Channel",
   description: "Send a message to a private channel and customize the name and avatar of the bot that posts the message. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.19",
+  version: "0.2.20",
   type: "action",
   props: {
     slack: common.props.slack,
@@ -32,27 +32,6 @@ export default {
         common.props.slack,
         "mrkdwn",
       ],
-    },
-    username: {
-      propDefinition: [
-        common.props.slack,
-        "username",
-      ],
-      description: "Optionally customize your bot's username (default is `Pipedream`).",
-    },
-    icon_emoji: {
-      propDefinition: [
-        common.props.slack,
-        "icon_emoji",
-      ],
-      description: "Optionally use an emoji as the bot icon for this message (e.g., `:fire:`). This value overrides `icon_url` if both are provided.",
-    },
-    icon_url: {
-      propDefinition: [
-        common.props.slack,
-        "icon_url",
-      ],
-      description: "Optionally provide an image URL to use as the bot icon for this message.",
     },
     ...common.props,
   },
