@@ -128,17 +128,19 @@ export default {
       }
 
       let emitEvent = false;
-      if (this.isUsername && elements) {
+      if (elements) {
         for (const item of elements) {
           if (item.user_id) {
             const username = await this.getUserName(item.user_id);
-            if (username === this.keyword) {
+            const realName = await this.getRealName(item.user_id);
+            if (username === this.keyword || realName === this.keyword) {
               emitEvent = true;
               break;
             }
           }
         }
-      } else if (text.indexOf(this.keyword) !== -1) {
+      }
+      if (text.indexOf(this.keyword) !== -1 && !this.isUsername) {
         emitEvent = true;
       } else if (subtype === constants.SUBTYPE.PD_HISTORY_MESSAGE) {
         emitEvent = true;
