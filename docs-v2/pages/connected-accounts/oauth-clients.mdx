@@ -3,9 +3,9 @@ import ArcadeEmbed from '@/components/ArcadeEmbed'
 import { Steps } from 'nextra/components'
 
 # OAuth Clients
-By default, most OAuth apps on Pipedream use Pipedream's official OAuth client. That means when you connect an account, you'll see Pipedream's logo and name in the OAuth authorization screen, along with a set of requested permissions (scopes).
-- Pipedream apps solve for a broad range of use cases, which means the scopes requested by Pipedream's official OAuth client may be more than what you need
-- To define the exact scope of access you'd like to grant, you can configure a custom OAuth client for most OAuth apps in Pipedream
+By default, most OAuth apps on Pipedream use the Pipedream official OAuth client. That means when you connect an account, you'll see Pipedream's logo and name in the OAuth authorization screen along with a set of requested permissions (scopes).
+- Pipedream apps solve for a broad range of use cases, which means the scopes requested by Pipedream's official OAuth client may request a different set of scopes than your specific use case.
+- To define the exact scope of access you'd like to grant, you can configure a custom OAuth client for most OAuth apps in Pipedream.
 
 ## Configuring Custom OAuth Clients
 <ArcadeEmbed
@@ -14,20 +14,23 @@ By default, most OAuth apps on Pipedream use Pipedream's official OAuth client. 
 </ArcadeEmbed>
 
 <Steps>
-### Navigate to the OAuth Clients Page
+### Create an OAuth client in the relevant app
+For example, if you want to use a custom OAuth client for GitHub, you'll need to locate their documentation and create an OAuth app in your developer settings.
+
+### Navigate to the OAuth Clients page in Pipedream
 Open the [OAuth Clients page in your Pipedream account](https://pipedream.com/@/accounts/oauth-clients) and click "New OAuth Client".
 
 ### Select the app
-Find the app you need. If you can't find what you're looking for, feel free to [submit an integration request](https://pipedream.com/support).
+Choose the app you need. If you can't find what you're looking for, feel free to [submit an integration request](https://pipedream.com/support).
 
 ### Enter the required fields
 - **Name:** Give the OAuth client a name so it's easy to identify
 - **Description:** Optionally add a brief description for additional context
 - **Client ID and Secret**: Paste these values from the app's settings that you're configuring (the client secret is sensitive – we'll encrypt and hide it from the UI)
 - **Redirect URI:** Copy this Redirect URI and paste it into the app's settings
-- **Scopes:** We'll list the scopes from the official Pipedream OAuth client by default. Add or remove scopes as needed, based on your use case.
+- **Scopes:** We'll list the scopes from the official Pipedream OAuth client by default. Add or remove scopes as needed based on your use case.
 
-Click "Save"
+And finally, click "Save".
 
 <Callout type="warning">
 Make sure to include all the scopes you need based on your use case. You can modify the scopes later (you'll need to reconnect your account for changes to take effect). Refer to the app's API documentation for information on what scopes you'll need.
@@ -36,7 +39,12 @@ Make sure to include all the scopes you need based on your use case. You can mod
 </Steps>
 
 ## Connecting your account with OAuth clients
-Once you've created the OAuth client, you can select "Connect account" from the menu on the right:
+Once you've created the OAuth client, anyone in your workspace can connect their account:
+- From within the workflow builder, add step with the app, then select the custom OAuth client from the dropdown:
+
+_[screenshot of connect account split button dropdown]_
+
+- Or you can also select "Connect account" from the menu on the right after creating the OAuth client:
 
 <ArcadeEmbed 
     src="https://demo.arcade.software/DalxBfIgzsTVfQFCfqs3?embed"
@@ -49,3 +57,6 @@ Now you're ready to use the connected account in any workflow, just like any oth
     src="https://demo.arcade.software/AcAYom0HHQtMJYQaVdyz?embed"
     title="Select connected account with custom OAuth client">
 </ArcadeEmbed>
+
+### Limitations
+- The vast majority of OAuth apps in Pipedream with with custom OAuth clients. However, due to the unique integration requirements for **Discord**, **Dropbox**, **Slack**, and **Zoom**, you can only use the Pipedream official OAuth client in **triggers** for those apps.

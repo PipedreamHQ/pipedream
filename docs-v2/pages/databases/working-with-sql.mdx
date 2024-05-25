@@ -1,29 +1,44 @@
+import Callout from '@/components/Callout'
 import { Steps } from 'nextra/components'
 import ArcadeEmbed from '@/components/ArcadeEmbed'
 
 # Working with SQL
-
 Pipedream makes it easy to interact with SQL databases within your workflows. You can securely connect to your database and use either pre-built no-code triggers and actions to interact with your database, or execute custom SQL queries.
-
-## Schema Explorer
-When querying a database, you need to understand the schema of the tables you're working with. The schema explorer provides a visual interface to explore the tables in your database, view their columns, and understand the relationships between them. 
-
-- Once you connect your account with one of the [supported database apps](/databases#supported-databases), we automatically fetch and display the details of the database schema below
-- You can view the columns of a table, their data types, and relationships between tables
-
-![SQL Schema Explorer](https://res.cloudinary.com/pipedreamin/image/upload/v1716524699/sql-demo-schema-explorer_xcmorc.png)
 
 ## SQL Editor
 With the built-in SQL editor, you access linting and auto-complete features typical of modern SQL editors.
 
 ![SQL Editor](https://res.cloudinary.com/pipedreamin/image/upload/v1716525371/sql-demo-editor_uqat7x.png)
 
+## Schema Explorer
+When querying a database, you need to understand the schema of the tables you're working with. The schema explorer provides a visual interface to explore the tables in your database, view their columns, and understand the relationships between them. 
+
+- Once you connect your account with one of the [supported database apps](#supported-databases), we automatically fetch and display the details of the database schema below
+- You can **view the columns of a table**, their data types, and relationships between tables
+- You can also **search and filter** the set of tables that are listed in your schema based on table or column name
+
+![SQL Schema Explorer](https://res.cloudinary.com/pipedreamin/image/upload/v1716524699/sql-demo-schema-explorer_xcmorc.png)
+
 ## Prepared Statements
-Prepared statements let you safely execute the same SQL query using dynamic inputs as parameters to help prevent SQL injection attacks.
+Prepared statements let you safely execute SQL queries with dynamic inputs that are automatically defined as parameters, in order to help prevent SQL injection attacks.
 
-To compare the prepared vs computed statement, click the toggle in the **Statements** tab:
+To reference dynamic data in a SQL query, simply use the standard `{{ }}` notation just like any other code step in Pipedream. For example,
 
-_[insert screenshot here]_
+```mysql
+SELECT *
+  FROM products
+  WHERE type = {{steps.get_product_info.$return_value}}
+```
+
+Below your query input, you can toggle between the computed and prepared statements:
+
+**Prepared statement:**
+
+
+**Computed statement:**
+
+
+_[insert screenshot or gif here]_
 
 ## Getting Started
 
@@ -53,3 +68,11 @@ _[add a screenshot here]_
     src="https://demo.arcade.software/qc8BhmRSrcb8FDvbYmgr?embed"
     title="Execute Snowflake SQL Query">
 </ArcadeEmbed>
+
+### Supported Databases
+The first-class database support described above is currently supported for these apps:
+- [MySQL](https://pipedream.com/apps/mysql)
+- [PostgreSQL](https://pipedream.com/apps/postgresql)
+- [Snowflake](https://pipedream.com/apps/snowflake)
+
+Need to query a different database type? Let us know!
