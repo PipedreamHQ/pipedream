@@ -4,7 +4,7 @@ export default {
   key: "openai-list-files",
   name: "List Files",
   description: "Returns a list of files that belong to the user's organization. [See the documentation](https://platform.openai.com/docs/api-reference/files/list)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     openai,
@@ -18,9 +18,10 @@ export default {
   },
   async run({ $ }) {
     const response = await this.openai.listFiles({
+      $,
       purpose: this.purpose,
     });
-    const summary = `Successfully listed ${response.length} files`;
+    const summary = `Successfully listed ${response.data.length} files`;
     $.export("$summary", summary);
     return response;
   },

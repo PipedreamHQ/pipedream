@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "Task Field Updated In Project (Instant)",
   description: "Emit new event whenever given task fields are updated.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,

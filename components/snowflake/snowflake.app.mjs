@@ -1,5 +1,6 @@
 import snowflake from "snowflake-sdk";
 import { promisify } from "util";
+import { sqlProp } from "@pipedream/platform";
 
 export default {
   app: "snowflake",
@@ -82,6 +83,7 @@ export default {
     },
   },
   methods: {
+    ...sqlProp.methods,
     async _getConnection() {
       if (this.connection) {
         return this.connection;
@@ -93,6 +95,50 @@ export default {
       });
       await promisify(this.connection.connect).bind(this.connection)();
       return this.connection;
+    },
+    /**
+     * A helper method to get the schema of the database. Used by other features
+     * (like the `sql` prop) to enrich the code editor and provide the user with
+     * auto-complete and fields suggestion.
+     *
+     * @returns {DbInfo} The schema of the database, which is a
+     * JSON-serializable object.
+     */
+    async getSchema() {
+      const sqlText = `
+        SELECT LOWER(t.table_schema) AS "tableSchema",
+            LOWER(t.table_name) AS "tableName",
+            LOWER(t.row_count) AS "rowCount",
+            LOWER(c.column_name) AS "columnName",
+            LOWER(c.data_type) AS "dataType",
+            LOWER(c.is_nullable) AS "isNullable",
+            LOWER(c.column_default) AS "columnDefault"
+        FROM information_schema.tables AS t
+            JOIN information_schema.columns AS c ON t.table_name = c.table_name
+            AND t.table_schema = c.table_schema
+        WHERE t.table_schema = ?
+        ORDER BY t.table_name,
+            c.ordinal_position;
+      `;
+      const binds = [
+        this.$auth.schema,
+      ];
+      const rows = await this.collectRows({
+        sqlText,
+        binds,
+      });
+      return rows.reduce((acc, row) => {
+        acc[row.tableName] ??= {
+          metadata: {
+            rowCount: row.rowCount,
+          },
+          schema: {},
+        };
+        acc[row.tableName].schema[row.columnName] = {
+          ...row,
+        };
+        return acc;
+      }, {});
     },
     async getRows(statement) {
       const connection = await this._getConnection();

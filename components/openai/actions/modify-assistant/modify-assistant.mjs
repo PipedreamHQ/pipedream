@@ -1,11 +1,12 @@
-import { parseToolsArray } from "../../common/helpers.mjs";
 import openai from "../../openai.app.mjs";
+import common from "../common/common-assistants.mjs";
 
 export default {
+  ...common,
   key: "openai-modify-assistant",
   name: "Modify an Assistant",
   description: "Modifies an existing OpenAI assistant. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/modifyAssistant)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     openai,
@@ -43,20 +44,6 @@ export default {
       ],
       optional: true,
     },
-    tools: {
-      propDefinition: [
-        openai,
-        "tools",
-      ],
-      optional: true,
-    },
-    file_ids: {
-      propDefinition: [
-        openai,
-        "file_ids",
-      ],
-      optional: true,
-    },
     metadata: {
       propDefinition: [
         openai,
@@ -64,18 +51,21 @@ export default {
       ],
       optional: true,
     },
+    ...common.props,
   },
   async run({ $ }) {
     const response = await this.openai.modifyAssistant({
       $,
       assistant: this.assistant,
-      model: this.model,
-      name: this.name,
-      description: this.description,
-      instructions: this.instructions,
-      tools: parseToolsArray(this.tools),
-      file_ids: this.file_ids,
-      metadata: this.metadata,
+      data: {
+        model: this.model,
+        name: this.name,
+        description: this.description,
+        instructions: this.instructions,
+        tools: this.buildTools(),
+        tool_resources: this.buildToolResources(),
+        metadata: this.metadata,
+      },
     });
     $.export("$summary", `Successfully modified assistant ${this.assistant}`);
     return response;

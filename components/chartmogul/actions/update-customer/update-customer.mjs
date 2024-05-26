@@ -3,7 +3,7 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-update-customer",
   name: "Update Customer",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Updates certain modifiable attributes of a `customer` object in your ChartMogul account. [See the docs here](https://dev.chartmogul.com/reference/update-a-customer)",
   type: "action",
   props: {
@@ -25,6 +25,21 @@ export default {
       propDefinition: [
         chartmogul,
         "email",
+      ],
+      optional: true,
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "The new status of the customer.",
+      options: [
+        "New Lead",
+        "Working Lead",
+        "Qualified Lead",
+        "Unqualified Lead",
+        "Active",
+        "Past Due",
+        "Cancelled",
       ],
       optional: true,
     },
@@ -97,6 +112,7 @@ export default {
       customerId,
       name,
       email,
+      status,
       company,
       country,
       state,
@@ -113,6 +129,7 @@ export default {
       customerId,
       name,
       email,
+      status,
       company,
       country,
       state,
