@@ -1,0 +1,51 @@
+import app from "../../revolt.app.mjs";
+
+export default {
+  key: "revolt-create-group",
+  name: "Create Group",
+  description: "Create a new group channel. [See the documentation](https://developers.revolt.chat/api/#tag/Groups/operation/members_fetch_req)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    app,
+    name: {
+      propDefinition: [
+        app,
+        "name",
+      ],
+    },
+    description: {
+      propDefinition: [
+        app,
+        "description",
+      ],
+    },
+    users: {
+      propDefinition: [
+        app,
+        "users",
+      ],
+    },
+    nsfw: {
+      propDefinition: [
+        app,
+        "nsfw",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.app.createGroup({
+      $,
+      data: {
+        name: this.name,
+        description: this.description,
+        users: this.users,
+        nsfw: this.nsfw,
+      },
+    });
+
+    $.export("$summary", `Successfully created group with ID: '${response._id}'`);
+
+    return response;
+  },
+};
