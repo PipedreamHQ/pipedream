@@ -55,10 +55,13 @@ export default {
     const listIds = Object.keys(this.listIds).map((key) => parseInt(this.listIds[key], 10));
     let contact = null;
     if (identifier) {
-      contact = await this.brevo.existingContactByIdentifier(
-        $,
-        encodeURIComponent(identifier),
-      );
+      try {
+        contact = await this.brevo.existingContactByIdentifier(
+          encodeURIComponent(identifier),
+        );
+      } catch (e) {
+        contact = null;
+      }
     }
 
     const attributes = {
