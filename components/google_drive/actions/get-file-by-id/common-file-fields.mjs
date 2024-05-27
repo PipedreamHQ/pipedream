@@ -2,32 +2,32 @@
 export const FILE_FIELD_OPTIONS = [
   {
     label:
-      "Identifies what kind of resource this is. Value: the fixed string \"drive#file\".",
+      "\"kind\" - Identifies what kind of resource this is. Value: the fixed string \"drive#file\".",
     value: "kind",
   },
   {
     label:
-      "ID of the shared drive the file resides in. Only populated for items in shared drives.",
+      "\"driveId\" - ID of the shared drive the file resides in. Only populated for items in shared drives.",
     value: "driveId",
   },
   {
     label:
-      "The final component of fullFileExtension. This is only available for files with binary content in Google Drive.",
+      "\"fileExtension\" - The final component of fullFileExtension. This is only available for files with binary content in Google Drive.",
     value: "fileExtension",
   },
   {
     label:
-      "Whether the options to copy, print, or download this file, should be disabled for readers and commenters.",
+      "\"copyRequiresWriterPermission\" - Whether the options to copy, print, or download this file, should be disabled for readers and commenters.",
     value: "copyRequiresWriterPermission",
   },
   {
     label:
-      "The MD5 checksum for the content of the file. This is only applicable to files with binary content in Google Drive.",
+      "\"md5Checksum\" - The MD5 checksum for the content of the file. This is only applicable to files with binary content in Google Drive.",
     value: "md5Checksum",
   },
   {
     label:
-      "Additional information about the content of the file. These fields are never populated in responses.",
+      "\"contentHints\" - Additional information about the content of the file. These fields are never populated in responses.",
     value: "contentHints",
   },
   // {
@@ -51,189 +51,190 @@ export const FILE_FIELD_OPTIONS = [
   // },
   {
     label:
-      "Whether users with only writer permission can modify the file's permissions. Not populated for items in shared drives.",
+      "\"writersCanShare\" - Whether users with only writer permission can modify the file's permissions. Not populated for items in shared drives.",
     value: "writersCanShare",
   },
   {
-    label: "Whether the file has been viewed by this user.",
+    label: "\"viewedByMe\" - Whether the file has been viewed by this user.",
     value: "viewedByMe",
   },
   {
     label:
-      "The MIME type of the file. Google Drive attempts to automatically detect an appropriate value from uploaded content, if no value is provided.",
+      "\"mimeType\" - The MIME type of the file. Google Drive attempts to automatically detect an appropriate value from uploaded content, if no value is provided.",
     value: "mimeType",
   },
   {
     label:
-      "Links for exporting Docs Editors files to specific formats.",
+      "\"exportLinks\" - Links for exporting Docs Editors files to specific formats.",
     value: "exportLinks",
   },
   {
     label:
-      "The IDs of the parent folders which contain the file.",
+      "\"parents[]\" - The IDs of the parent folders which contain the file.",
     value: "parents[]",
   },
   {
     label:
-      "A short-lived link to the file's thumbnail, if available.",
+      "\"thumbnailLink\" - A short-lived link to the file's thumbnail, if available.",
     value: "thumbnailLink",
   },
   {
-    label: "A static, unauthenticated link to the file's icon.",
+    label: "\"iconLink\" - A static, unauthenticated link to the file's icon.",
     value: "iconLink",
   },
   {
     label:
-      "Whether the file has been shared. Not populated for items in shared drives.",
+      "\"shared\" - Whether the file has been shared. Not populated for items in shared drives.",
     value: "shared",
   },
   {
-    label: "The last user to modify the file.",
+    label: "\"lastModifyingUser\" - The last user to modify the file.",
     value: "lastModifyingUser",
   },
   {
     label:
-      "The owner of this file. Only certain legacy files may have more than one owner. This field isn't populated for items in shared drives.",
+      "\"owners[]\" - The owner of this file. Only certain legacy files may have more than one owner. This field isn't populated for items in shared drives.",
     value: "owners[]",
   },
   {
     label:
-      "The ID of the file's head revision. This is currently only available for files with binary content in Google Drive.",
+      "\"headRevisionId\" - The ID of the file's head revision. This is currently only available for files with binary content in Google Drive.",
     value: "headRevisionId",
   },
   {
     label:
-      "The user who shared the file with the requesting user, if applicable.",
+      "\"sharingUser\" - The user who shared the file with the requesting user, if applicable.",
     value: "sharingUser",
   },
   {
     label:
-      "A link for opening the file in a relevant Google editor or viewer in a browser.",
+      "\"webViewLink\" - A link for opening the file in a relevant Google editor or viewer in a browser.",
     value: "webViewLink",
   },
   {
     label:
-      "A link for downloading the content of the file in a browser. This is only available for files with binary content in Google Drive.",
+      "\"webContentLink\" - A link for downloading the content of the file in a browser. This is only available for files with binary content in Google Drive.",
     value: "webContentLink",
   },
   {
     label:
-      "Size in bytes of blobs and first party editor files. Won't be populated for files that have no size, like shortcuts and folders.",
+      "\"size\" - Size in bytes of blobs and first party editor files. Won't be populated for files that have no size, like shortcuts and folders.",
     value: "size",
   },
   {
     label:
-      "The full list of permissions for the file. This is only available if the requesting user can share the file.",
+      "\"permissions[]\" - The full list of permissions for the file. This is only available if the requesting user can share the file.",
     value: "permissions[]",
   },
   {
     label:
-      "Whether this file has a thumbnail. This does not indicate whether the requesting app has access to the thumbnail.",
+      "\"hasThumbnail\" - Whether this file has a thumbnail. This does not indicate whether the requesting app has access to the thumbnail.",
     value: "hasThumbnail",
   },
   {
-    label:
-      "The list of spaces which contain the file.",
+    label: "\"spaces[]\" - The list of spaces which contain the file.",
     value: "spaces[]",
   },
   {
     label:
-      "The color for a folder or a shortcut to a folder as an RGB hex string.",
+      "\"folderColorRgb\" - The color for a folder or a shortcut to a folder as an RGB hex string.",
     value: "folderColorRgb",
   },
   {
-    label: "The ID of the file.",
+    label: "\"id\" - The ID of the file.",
     value: "id",
   },
   {
     label:
-      "The name of the file. This is not necessarily unique within a folder.",
+      "\"name\" - The name of the file. This is not necessarily unique within a folder.",
     value: "name",
   },
   {
-    label: "A short description of the file.",
+    label: "\"description\" - A short description of the file.",
     value: "description",
   },
   {
-    label: "Whether the user has starred the file.",
+    label: "\"starred\" - Whether the user has starred the file.",
     value: "starred",
   },
   {
     label:
-      "Whether the file has been trashed, either explicitly or from a trashed parent folder.",
+      "\"trashed\" - Whether the file has been trashed, either explicitly or from a trashed parent folder.",
     value: "trashed",
   },
   {
     label:
-      "Whether the file has been explicitly trashed, as opposed to recursively trashed from a parent folder.",
+      "\"explicitlyTrashed\" - Whether the file has been explicitly trashed, as opposed to recursively trashed from a parent folder.",
     value: "explicitlyTrashed",
   },
   {
-    label: "The time at which the file was created (RFC 3339 date-time).",
+    label:
+      "\"createdTime\" - The time at which the file was created (RFC 3339 date-time).",
     value: "createdTime",
   },
   {
     label:
-      "The last time the file was modified by anyone (RFC 3339 date-time).",
+      "\"modifiedTime\" - The last time the file was modified by anyone (RFC 3339 date-time).",
     value: "modifiedTime",
   },
   {
     label:
-      "The last time the file was modified by the user (RFC 3339 date-time).",
+      "\"modifiedByMeTime\" - The last time the file was modified by the user (RFC 3339 date-time).",
     value: "modifiedByMeTime",
   },
   {
     label:
-      "The last time the file was viewed by the user (RFC 3339 date-time).",
+      "\"viewedByMeTime\" - The last time the file was viewed by the user (RFC 3339 date-time).",
     value: "viewedByMeTime",
   },
   {
     label:
-      "The time at which the file was shared with the user, if applicable (RFC 3339 date-time).",
+      "\"sharedWithMeTime\" - The time at which the file was shared with the user, if applicable (RFC 3339 date-time).",
     value: "sharedWithMeTime",
   },
   {
     label:
-      "The number of storage quota bytes used by the file. This includes the head revision as well as previous revisions with keepForever enabled.",
+      "\"quotaBytesUsed\" - The number of storage quota bytes used by the file. This includes the head revision as well as previous revisions with keepForever enabled.",
     value: "quotaBytesUsed",
   },
   {
     label:
-      "A monotonically increasing version number for the file. This reflects every change made to the file on the server, even those not visible to the user.",
+      "\"version\" - A monotonically increasing version number for the file. This reflects every change made to the file on the server, even those not visible to the user.",
     value: "version",
   },
   {
     label:
-      "The original filename of the uploaded content if available, or else the original value of the name field. This is only available for files with binary content in Google Drive.",
+      "\"originalFilename\" - The original filename of the uploaded content if available, or else the original value of the name field. This is only available for files with binary content in Google Drive.",
     value: "originalFilename",
   },
   {
     label:
-      "Whether the user owns the file. Not populated for items in shared drives.",
+      "\"ownedByMe\" - Whether the user owns the file. Not populated for items in shared drives.",
     value: "ownedByMe",
   },
   {
     label:
-      "The full file extension extracted from the name field. May contain multiple concatenated extensions, such as \"tar.gz\". This is only available for files with binary content in Google Drive.",
+      "\"fullFileExtension\" - The full file extension extracted from the name field. May contain multiple concatenated extensions, such as \"tar.gz\". This is only available for files with binary content in Google Drive.",
     value: "fullFileExtension",
   },
   {
     label:
-      "A collection of arbitrary key-value pairs which are visible to all apps.Entries with null values are cleared in update and copy requests.",
+      "\"properties\" - A collection of arbitrary key-value pairs which are visible to all apps.Entries with null values are cleared in update and copy requests.",
     value: "properties",
   },
   {
     label:
-      "A collection of arbitrary key-value pairs which are private to the requesting app.",
+      "\"appProperties\" - A collection of arbitrary key-value pairs which are private to the requesting app.",
     value: "appProperties",
   },
   {
-    label: "Whether the file was created or opened by the requesting app.",
+    label:
+      "\"isAppAuthorized\" - Whether the file was created or opened by the requesting app.",
     value: "isAppAuthorized",
   },
   {
     label:
-      "Capabilities the current user has on this file. Each capability corresponds to a fine-grained action that a user may take.",
+      "\"capabilities\" - Capabilities the current user has on this file. Each capability corresponds to a fine-grained action that a user may take.",
     value: "capabilities",
   },
   // {
@@ -389,33 +390,36 @@ export const FILE_FIELD_OPTIONS = [
   // },
   {
     label:
-      "Whether there are permissions directly on this file. This field is only populated for items in shared drives.",
+      "\"hasAugmentedPermissions\" - Whether there are permissions directly on this file. This field is only populated for items in shared drives.",
     value: "hasAugmentedPermissions",
   },
   {
     label:
-      "If the file has been explicitly trashed, the user who trashed it. Only populated for items in shared drives.",
+      "\"trashingUser\" - If the file has been explicitly trashed, the user who trashed it. Only populated for items in shared drives.",
     value: "trashingUser",
   },
   {
-    label: "The thumbnail version for use in thumbnail cache invalidation.",
+    label:
+      "\"thumbnailVersion\" - The thumbnail version for use in thumbnail cache invalidation.",
     value: "thumbnailVersion",
   },
   {
     label:
-      "The time that the item was trashed (RFC 3339 date-time). Only populated for items in shared drives.",
+      "\"trashedTime\" - The time that the item was trashed (RFC 3339 date-time). Only populated for items in shared drives.",
     value: "trashedTime",
   },
   {
-    label: "Whether the file has been modified by this user.",
+    label: "\"modifiedByMe\" - Whether the file has been modified by this user.",
     value: "modifiedByMe",
   },
   {
-    label: "files.list of permission IDs for users with access to this file.",
+    label:
+      "\"permissionIds[]\" - files.list of permission IDs for users with access to this file.",
     value: "permissionIds[]",
   },
   {
-    label: "Additional metadata about image media, if available.",
+    label:
+      "\"imageMediaMetadata\" - Additional metadata about image media, if available.",
     value: "imageMediaMetadata",
   },
   // {
@@ -519,7 +523,7 @@ export const FILE_FIELD_OPTIONS = [
   // },
   {
     label:
-      "Additional metadata about video media. This may not be available immediately upon upload.",
+      "\"videoMediaMetadata\" - Additional metadata about video media. This may not be available immediately upon upload.",
     value: "videoMediaMetadata",
   },
   // {
@@ -536,7 +540,7 @@ export const FILE_FIELD_OPTIONS = [
   // },
   {
     label:
-      "Shortcut file details. Only populated for shortcut files.",
+      "\"shortcutDetails\" - Shortcut file details. Only populated for shortcut files.",
     value: "shortcutDetails",
   },
   // {
@@ -554,16 +558,16 @@ export const FILE_FIELD_OPTIONS = [
   // },
   {
     label:
-      "Restrictions for accessing the content of the file. Only populated if such a restriction exists.",
+      "\"contentRestrictions[]\" - Restrictions for accessing the content of the file. Only populated if such a restriction exists.",
     value: "contentRestrictions[]",
   },
   {
-    label: "A key needed to access the item via a shared link.",
+    label: "\"resourceKey\" - A key needed to access the item via a shared link.",
     value: "resourceKey",
   },
   {
     label:
-      "LinkShare related details. Contains details about the link URLs that clients are using to refer to this item.",
+      "\"linkShareMetadata\" - LinkShare related details. Contains details about the link URLs that clients are using to refer to this item.",
     value: "linkShareMetadata",
   },
   // {
@@ -575,7 +579,7 @@ export const FILE_FIELD_OPTIONS = [
   //   value: "linkShareMetadata.securityUpdateEnabled",
   // },
   {
-    label: "An overview of the labels on the file.",
+    label: "\"labelInfo\" - An overview of the labels on the file.",
     value: "labelInfo",
   },
   // {
@@ -585,12 +589,12 @@ export const FILE_FIELD_OPTIONS = [
   // },
   {
     label:
-      "The SHA1 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive.",
+      "\"sha1Checksum\" - The SHA1 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive.",
     value: "sha1Checksum",
   },
   {
     label:
-      "The SHA256 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive.",
+      "\"sha256Checksum\" - The SHA256 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive.",
     value: "sha256Checksum",
   },
 ];
