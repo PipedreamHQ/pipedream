@@ -3920,7 +3920,12 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/hippo_video:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.5
+      form-data: 4.0.0
 
   components/hive:
     specifiers:
@@ -4472,7 +4477,10 @@ importers:
     specifiers: {}
 
   components/keycloak:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/keysender:
     specifiers:
@@ -6962,7 +6970,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/recruitis:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/recurly:
     specifiers:
