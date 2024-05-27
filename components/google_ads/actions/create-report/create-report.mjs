@@ -81,7 +81,7 @@ export default {
       direction: {
         type: "string",
         label: "Direction",
-        description: "The direction to order the results by, if an `Order By` field is specified",
+        description: "The direction to order the results by, if `Order By` is specified",
         optional: true,
         options: [
           {
@@ -98,7 +98,7 @@ export default {
       limit: {
         type: "integer",
         label: "Limit",
-        description: "The maximum number of results to return.",
+        description: "The maximum number of results to return",
         optional: true,
       },
     };
