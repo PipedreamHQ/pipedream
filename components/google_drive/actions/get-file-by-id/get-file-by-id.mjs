@@ -45,7 +45,7 @@ export default {
     } = this;
     const strFields = typeof fields === "string"
       ? fields
-      : fields.join();
+      : fields?.join();
     const response = await googleDrive.getFile(fileId, {
       fields: strFields,
     });
