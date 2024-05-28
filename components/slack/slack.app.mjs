@@ -247,12 +247,6 @@ export default {
         };
       },
     },
-    notificationText: {
-      type: "string",
-      label: "Notification Text",
-      description: "Optionally provide a string for Slack to display as the new message notification (if you do not provide this, notification will be blank).",
-      optional: true,
-    },
     text: {
       type: "string",
       label: "Text",
