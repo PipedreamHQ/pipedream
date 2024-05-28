@@ -12,23 +12,23 @@ Pipedream workflows run in the AWS `us-east-1` network, sending requests from st
 ## Connecting to Restricted Databases
 **Unless your database is publicly accessible, you'll need to add specific IPs to your database allow-list.** To do this, you can configure your database connection to run through a shared or dedicated static IP address from Pipedream.
 
-### Create a Dedicated Static IP for Outbound Traffic
+### Create a dedicated static IP for outbound traffic
 - Pipedream supports creating Virtual Private Clouds (VPCs) for any workflow in your workspace.
 - This is the most secure and recommended approach, and gives you a dedicated egress IP that is unique to your workspace.
 - When deployed to a VPC in Pipedream, all outbound traffic from your workflow runs through the VPC's static IP.
-- [Learn more here](/workflows/vpc)
+- [Get started](https://pipedream.com/settings/networks) or [learn more here](/workflows/vpc).
 
-### Send Requests from a Shared Static IP
+### Send requests from a shared static IP
 - Configured when adding your database connection ([connected account](/connected-accounts)) to Pipedream, you can choose to route network requests through a static IP block.
 - When you create a connected account with any of [the apps that are currently supported by the SQL Proxy](#supported-databases), requests to that database from within your Pipedream workflows will come from the IP block below.
 
-#### Supported Databases
+#### Supported databases
 Pipedream's SQL Proxy, which enables the shared static IP, currently supports [MySQL](https://pipedream.com/apps/mysql) and [PostgreSQL](https://pipedream.com/apps/postgresql), and [Snowflake](https://pipedream.com/apps/snowflake) is coming soon. Please let us know if you'd like to see support for other database types.
 
-#### Enabling the Shared Static IP
+#### Enabling the shared static IP
 To configure your database connection to use the shared static IP, refer to [these steps](/databases/working-with-sql#getting-started).
 
-#### Static Shared IPs
+#### Static shared IPs
 Add the following IP block to your database allow-list:
 ```
 44.223.89.56/29
