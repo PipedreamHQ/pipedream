@@ -14,14 +14,25 @@ export default {
         "userGroup",
       ],
     },
-    users: {
+    usersToAdd: {
       propDefinition: [
         slack,
         "user",
       ],
       type: "string[]",
-      label: "Users",
-      description: "A list of encoded user IDs that represent the entire list of users for the User Group.",
+      label: "Users to Add",
+      description: "A list of encoded user IDs that represent the users to add to the group.",
+      optional: true,
+    },
+    usersToRemove: {
+      propDefinition: [
+        slack,
+        "user",
+      ],
+      type: "string[]",
+      label: "Users to Remove",
+      description: "A list of encoded user IDs that represent the users to remove from the group.",
+      optional: true,
     },
     team: {
       propDefinition: [
@@ -35,12 +46,19 @@ export default {
   async run() {
     const {
       userGroup,
-      users,
+      usersToAdd,
+      usersToRemove,
       team,
     } = this;
+    let { users } = await this.slack.sdk().usergroups.users.list({
+      usergroup: userGroup,
+      team_id: team,
+    });
+    users = users.filter((user) => !usersToRemove.includes(user));
+    users.push(...usersToAdd);
     return await this.slack.sdk().usergroups.users.update({
       usergroup: userGroup,
-      users: users,
+      users,
       team_id: team,
     });
   },

@@ -22,8 +22,11 @@ export default {
     },
   },
   async run() {
+    // parse name
+    const name = this.channelName.replace(/\s+/g, "-").toLowerCase();
+
     return await this.slack.sdk().conversations.create({
-      name: this.channelName,
+      name,
       is_private: this.isPrivate,
     });
   },

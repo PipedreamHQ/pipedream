@@ -13,7 +13,7 @@ export default {
     channelType: {
       type: "string",
       label: "Channel Type",
-      description: "The type of channel to send to. User (direct message), Group, Private Channel or Public Channel",
+      description: "The type of channel to send to. User/Direct Message (im), Group (mpim), Private Channel or Public Channel",
       options: Object.values(constants.CHANNEL_TYPE),
     },
     conversation: {

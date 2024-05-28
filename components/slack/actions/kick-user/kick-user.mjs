@@ -1,4 +1,5 @@
 import slack from "../../slack.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "slack-kick-user",
@@ -12,12 +13,22 @@ export default {
       propDefinition: [
         slack,
         "conversation",
+        () => ({
+          types: [
+            constants.CHANNEL_TYPE.PUBLIC,
+            constants.CHANNEL_TYPE.PRIVATE,
+            constants.CHANNEL_TYPE.MPIM,
+          ],
+        }),
       ],
     },
     user: {
       propDefinition: [
         slack,
         "user",
+        (c) => ({
+          channelId: c.conversation,
+        }),
       ],
     },
   },

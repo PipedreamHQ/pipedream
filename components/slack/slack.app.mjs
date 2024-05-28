@@ -10,17 +10,26 @@ export default {
       type: "string",
       label: "User",
       description: "Select a user",
-      async options({ prevContext }) {
+      async options({
+        prevContext, channelId,
+      }) {
         const types = [
           "im",
         ];
-        const [
+        let [
           userNames,
           conversationsResp,
         ] = await Promise.all([
           prevContext.userNames ?? this.userNames(),
           this.availableConversations(types.join(), prevContext.cursor),
         ]);
+        if (channelId) {
+          const { members } = await this.sdk().conversations.members({
+            channel: channelId,
+          });
+          conversationsResp.conversations = conversationsResp.conversations
+            .filter((c) => members.includes(c.user || c.id));
+        }
         return {
           options: conversationsResp.conversations.map((c) => ({
             label: `@${userNames[c.user]}`,
@@ -84,12 +93,16 @@ export default {
       type: "string",
       label: "Channel",
       description: "Select a public or private channel, or a user or group",
-      async options({ prevContext }) {
+      async options({
+        prevContext, types,
+      }) {
         let {
-          types,
           cursor,
           userNames: userNamesOrPromise,
         } = prevContext;
+        if (prevContext?.types) {
+          types = prevContext.types;
+        }
         if (types == null) {
           const { response_metadata: { scopes } } = await this.authTest();
           types = [
@@ -147,7 +160,10 @@ export default {
       label: "Channel ID",
       description: "Select the channel's id.",
       async options({
-        prevContext, types = [], channelsFilter = (channel) => channel, excludeArchived = true,
+        prevContext,
+        types = Object.values(constants.CHANNEL_TYPE),
+        channelsFilter = (channel) => channel,
+        excludeArchived = true,
       }) {
         const userNames = prevContext.userNames || await this.userNames();
         const {
@@ -241,16 +257,6 @@ export default {
       type: "string",
       label: "Text",
       description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead.",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "Name of a single key to set.",
-    },
-    value: {
-      type: "string",
-      label: "Value",
-      description: "Value to set a single key to.",
     },
     topic: {
       type: "string",

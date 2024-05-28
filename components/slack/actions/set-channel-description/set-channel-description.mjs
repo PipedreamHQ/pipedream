@@ -1,10 +1,10 @@
 import slack from "../../slack.app.mjs";
 
 export default {
-  key: "slack-set-channel-purpose",
-  name: "Set Channel Purpose",
-  description: "Change the purpose of a channel. [See docs here](https://api.slack.com/methods/conversations.setPurpose)",
-  version: "0.0.17",
+  key: "slack-set-channel-description",
+  name: "Set Channel Description",
+  description: "Change the description or purpose of a channel. [See docs here](https://api.slack.com/methods/conversations.setPurpose)",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,
