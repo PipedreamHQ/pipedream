@@ -1,74 +1,24 @@
-import { axios } from "@pipedream/platform";
-import ispringLearn from "../../ispring_learn.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "ispring_learn-new-registration-instant",
   name: "New User Registration (Instant)",
-  description: "Emits an event when a new user is registered. [See the documentation]()",
+  description: "Emit new event when a new user is registered.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    ispringLearn,
-    db: "$.service.db",
-    userRegistrationData: {
-      propDefinition: [
-        ispringLearn,
-        "userRegistrationData",
-      ],
-    },
-    userProfileData: {
-      propDefinition: [
-        ispringLearn,
-        "userProfileData",
-      ],
-      optional: true,
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-  },
-  hooks: {
-    async deploy() {
-      // Placeholder for the deploy hook.
-    },
-    async activate() {
-      // Placeholder for the activate hook.
-    },
-    async deactivate() {
-      // Placeholder for the deactivate hook.
-    },
-  },
   methods: {
-    generateMeta(data) {
-      const {
-        id, createdAt,
-      } = data;
-      return {
-        id,
-        summary: `New User Registered: ${id}`,
-        ts: Date.parse(createdAt),
-      };
+    ...common.methods,
+    getSubscriptionType() {
+      return "USER_REGISTERED";
+    },
+    getSummary({ payloads }) {
+      return `${payloads.length} new user${payloads.length > 1
+        ? "s"
+        : ""} successfully registered.`;
     },
   },
-  async run() {
-    const userData = {
-      userRegistrationData: this.userRegistrationData,
-      userProfileData: this.userProfileData,
-    };
-
-    try {
-      const response = await this.ispringLearn.registerUser(userData);
-      const { data } = response;
-      if (data) {
-        const meta = this.generateMeta(data);
-        this.$emit(data, meta);
-      }
-    } catch (error) {
-      throw new Error(`Error registering user: ${error.message}`);
-    }
-  },
+  sampleEmit,
 };

@@ -1,138 +1,219 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "ispring_learn",
   propDefinitions: {
-    courseId: {
+    courseIds: {
       type: "string",
       label: "Course ID",
       description: "The ID of the course.",
-    },
-    materialId: {
-      type: "string",
-      label: "Material ID",
-      description: "The ID of the material in a course.",
+      async options({ prevContext }) {
+        const {
+          contentItems, nextPageToken,
+        } = await this.listCourses({
+          params: {
+            pageSize: LIMIT,
+            pageToken: prevContext.nextPage,
+          },
+        });
+
+        return {
+          options: contentItems.map(({
+            contentItemId: value, title: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextPage: nextPageToken,
+          },
+        };
+      },
     },
     userId: {
       type: "string",
       label: "User ID",
       description: "The ID of the user.",
+      async options({ prevContext }) {
+        const {
+          userProfiles, nextPageToken,
+        } = await this.listUsers({
+          params: {
+            pageSize: LIMIT,
+            pageToken: prevContext.nextPage,
+          },
+        });
+
+        return {
+          options: userProfiles.map(({
+            userId: value, fields,
+          }) => ({
+            label: fields.filter(({ name }) => name === "EMAIL")[0].value,
+            value,
+          })),
+          context: {
+            nextPage: nextPageToken,
+          },
+        };
+      },
     },
-    userRegistrationData: {
-      type: "object",
-      label: "User Registration Data",
-      description: "The data required for registering a new user.",
-    },
-    userProfileData: {
-      type: "object",
-      label: "User Profile Data",
-      description: "Additional profile data for the user.",
-      optional: true,
-    },
-    fieldsToUpdate: {
-      type: "object",
-      label: "Fields to be Updated",
-      description: "The fields to be updated for a specific user.",
-    },
-    filters: {
-      type: "object",
-      label: "Filters",
-      description: "Filters to narrow down the results.",
-    },
-    userIds: {
-      type: "string[]",
-      label: "User IDs",
-      description: "The IDs of the users.",
-    },
-    courseIds: {
-      type: "string[]",
-      label: "Course IDs",
-      description: "The IDs of the courses.",
-    },
-    enrollmentDate: {
+    departmentId: {
       type: "string",
-      label: "Enrollment Date",
-      description: "The date when the enrollment occurred.",
-      optional: true,
+      label: "Department Id",
+      description: "The ID of the department the user belongs to.",
+      async options({ prevContext }) {
+        const {
+          departments, nextPageToken,
+        } = await this.listDepartments({
+          params: {
+            pageSize: LIMIT,
+            pageToken: prevContext.nextPage,
+          },
+        });
+
+        return {
+          options: departments.map(({
+            departmentId: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextPage: nextPageToken,
+          },
+        };
+      },
+    },
+    groupId: {
+      type: "string[]",
+      label: "Group Id",
+      description: "An array with the IDs of the groups the user will be added to.",
+      async options({ prevContext }) {
+        const {
+          groups, nextPageToken,
+        } = await this.listGroups({
+          params: {
+            pageSize: LIMIT,
+            pageToken: prevContext.nextPage,
+          },
+        });
+
+        return {
+          options: groups.map(({
+            groupId: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextPage: nextPageToken,
+          },
+        };
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api-learn.ispringlearn.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "X-Target-Locale": "en-US",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
+        ...opts,
         url: this._baseUrl() + path,
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "X-Auth-Account-Url": `https://${this.$auth.account_url}`,
-          "X-Auth-Email": this.$auth.email,
-          "X-Auth-Password": this.$auth.password,
-          ...headers,
-        },
+        headers: this._headers(),
       });
     },
-    async registerUser({
-      userRegistrationData, userProfileData = {},
-    }) {
+    listCourses(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/webhook/register",
-        data: {
-          ...userRegistrationData,
-          userProfileData,
-        },
+        path: "/contents",
+        ...opts,
       });
     },
-    async enrollUser({
-      userIds, courseIds, enrollmentDate,
-    }) {
+    listDepartments(opts = {}) {
       return this._makeRequest({
-        method: "POST",
+        path: "/departments",
+        ...opts,
+      });
+    },
+    listUserEnrollments(opts = {}) {
+      return this._makeRequest({
         path: "/enrollment",
-        data: {
-          learnerIds: userIds,
-          courseIds: courseIds,
-          accessDate: enrollmentDate || new Date().toISOString(),
-        },
+        ...opts,
       });
     },
-    async updateUser({
-      userId, fieldsToUpdate,
+    listGroups(opts = {}) {
+      return this._makeRequest({
+        path: "/groups",
+        ...opts,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    updateUser({
+      userId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/user/${userId}`,
-        data: fieldsToUpdate,
+        ...opts,
       });
     },
-    async listUserEnrollments({ filters }) {
+    enrollUser(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/enrollment",
-        params: filters,
+        ...opts,
       });
     },
-    async listCourses({ filters }) {
+    registerSubscriber(opts = {}) {
       return this._makeRequest({
-        path: "/contents",
-        params: filters,
+        method: "POST",
+        path: "/webhook/register",
+        ...opts,
       });
     },
-    async listUsers({ filters }) {
+    sendConfimationCode(opts = {}) {
       return this._makeRequest({
-        path: "/users",
-        params: filters,
+        method: "POST",
+        path: "/webhook/code/send",
+        ...opts,
+      });
+    },
+    confirmCode(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhook/confirm",
+        ...opts,
+      });
+    },
+    subscribe(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhook/subscribe",
+        ...opts,
+      });
+    },
+    deleteSubscriber(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhook/remove",
+        ...opts,
       });
     },
   },

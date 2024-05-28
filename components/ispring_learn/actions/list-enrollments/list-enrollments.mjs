@@ -1,5 +1,5 @@
+import { parseObject } from "../../common/utils.mjs";
 import ispringLearn from "../../ispring_learn.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ispring_learn-list-enrollments",
@@ -9,18 +9,31 @@ export default {
   type: "action",
   props: {
     ispringLearn,
-    filters: {
+    learnerIds: {
       propDefinition: [
         ispringLearn,
-        "filters",
+        "userId",
       ],
+      type: "string[]",
+      optional: true,
+    },
+    courseIds: {
+      propDefinition: [
+        ispringLearn,
+        "courseIds",
+      ],
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.ispringLearn.listUserEnrollments({
-      filters: this.filters,
+      $,
+      params: {
+        learnerIds: parseObject(this.learnerIds),
+        courseIds: parseObject(this.courseIds),
+      },
     });
-    $.export("$summary", "Successfully fetched user enrollments");
+    $.export("$summary", `Successfully fetched user ${response.length} enrollments!`);
     return response;
   },
 };
