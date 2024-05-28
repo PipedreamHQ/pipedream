@@ -309,7 +309,7 @@ export default {
     parse: {
       type: "string",
       label: "Parse",
-      description: "Change how messages are treated. Defaults to none. See below.",
+      description: "Change how messages are treated. Defaults to none. By default, URLs will be hyperlinked. Set `parse` to `none` to remove the hyperlinks. The behavior of `parse` is different for text formatted with `mrkdwn`. By default, or when `parse` is set to `none`, `mrkdwn` formatting is implemented. To ignore `mrkdwn` formatting, set `parse` to full.",
       optional: true,
     },
     as_user: {
@@ -328,8 +328,8 @@ export default {
     },
     post_at: {
       label: "Schedule message",
-      description: "Messages can only be scheduled up to 120 days in advance, and cannot be scheduled for the past. The datetime format should be a unix timestamp (e.g., `1650507616`, [see here](https://www.epochconverter.com/) for help with this format).",
-      type: "integer",
+      description: "Messages can only be scheduled up to 120 days in advance, and cannot be scheduled for the past. The datetime should be in ISO 8601 format. (Example: `2014-01-01T00:00:00Z`)",
+      type: "string",
       optional: true,
     },
     username: {
@@ -359,7 +359,7 @@ export default {
       type: "string",
     },
     link_names: {
-      type: "string",
+      type: "boolean",
       label: "Link Names",
       description: "Find and link channel names and usernames.",
       optional: true,

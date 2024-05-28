@@ -1,10 +1,10 @@
 import slack from "../../slack.app.mjs";
 
 export default {
-  key: "slack-update-user-groups-users",
-  name: "Update User Groups Users",
+  key: "slack-update-group-members",
+  name: "Update Groups Members",
   description: "Update the list of users for a User Group. [See docs here](https://api.slack.com/methods/usergroups.users.update)",
-  version: "0.0.9",
+  version: "0.0.1",
   type: "action",
   props: {
     slack,

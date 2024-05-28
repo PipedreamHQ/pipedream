@@ -23,7 +23,6 @@ export default {
         "text",
       ],
       description: "If you're using `blocks`, this is used as a fallback string to display in notifications. If you aren't, this is the main body text of the message. It can be formatted as plain text, or with mrkdwn.",
-      optional: true,
     },
     mrkdwn: {
       propDefinition: [

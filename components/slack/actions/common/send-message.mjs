@@ -154,7 +154,7 @@ export default {
     };
 
     if (this.post_at) {
-      obj.post_at = this.post_at;
+      obj.post_at = Math.floor(new Date(this.post_at).getTime() / 1000);
       return await this.slack.sdk().chat.scheduleMessage(obj);
     }
     const resp = await this.slack.sdk().chat.postMessage(obj);

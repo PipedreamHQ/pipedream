@@ -14,10 +14,25 @@ export default {
         "conversation",
       ],
     },
+    returnUsernames: {
+      type: "boolean",
+      label: "Return Usernames",
+      description: "Optionally, return usernames in addition to IDs",
+      optional: true,
+    },
   },
   async run() {
-    return await this.slack.sdk().conversations.members({
+    const { members } = await this.slack.sdk().conversations.members({
       channel: this.conversation,
     });
+    let channelMembers = members;
+    if (this.returnUsernames) {
+      const usernames = await this.slack.userNames();
+      channelMembers = channelMembers?.map((id) => ({
+        id,
+        username: usernames[id],
+      })) || [];
+    }
+    return channelMembers;
   },
 };
