@@ -40,7 +40,7 @@ export default {
     },
   },
   hooks: {
-    async deploy() {
+    async activate() {
       await this.ispringLearn.registerSubscriber({
         data: {
           "subscriberName": this.webhookName,
@@ -48,8 +48,6 @@ export default {
           "Secret": this.secret,
         },
       });
-    },
-    async activate() {
       await this.ispringLearn.sendConfimationCode({
         data: {
           "subscriberName": this.webhookName,
