@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "slack-update-profile",
   name: "Update Profile",
-  description: "Update basic profile field such as name or title. [See docs here](https://api.slack.com/methods/users.profile.set)",
+  description: "Update basic profile field such as name or title. [See the documentation](https://api.slack.com/methods/users.profile.set)",
   version: "0.0.16",
   type: "action",
   props: {
@@ -60,7 +60,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     if (!this.displayName
       && !this.firstName
       && !this.lastName
@@ -70,7 +70,7 @@ export default {
     ) {
       throw new ConfigurationError("Please provide at least one value to update");
     }
-    return await this.slack.sdk().users.profile.set({
+    const response = await this.slack.sdk().users.profile.set({
       profile: {
         display_name: this.displayName,
         first_name: this.firstName,
@@ -81,5 +81,7 @@ export default {
       },
       user: this.user,
     });
+    $.export("$summary", "Successfully updated profile");
+    return response;
   },
 };

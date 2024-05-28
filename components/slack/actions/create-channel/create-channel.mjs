@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-create-channel",
   name: "Create a Channel",
-  description: "Create a new channel. [See docs here](https://api.slack.com/methods/conversations.create)",
+  description: "Create a new channel. [See the documentation](https://api.slack.com/methods/conversations.create)",
   version: "0.0.17",
   type: "action",
   props: {
@@ -21,13 +21,15 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     // parse name
     const name = this.channelName.replace(/\s+/g, "-").toLowerCase();
 
-    return await this.slack.sdk().conversations.create({
+    const response = await this.slack.sdk().conversations.create({
       name,
       is_private: this.isPrivate,
     });
+    $.export("$summary", `Successfully created channel ${this.channelName}`);
+    return response;
   },
 };

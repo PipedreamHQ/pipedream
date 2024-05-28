@@ -34,11 +34,13 @@ export default {
       optional: false,
     },
   },
-  async run() {
-    return await this.slack.sdk().reactions.add({
+  async run({ $ }) {
+    const response = await this.slack.sdk().reactions.add({
       channel: this.conversation,
       timestamp: this.timestamp,
       name: this.icon_emoji,
     });
+    $.export("$summary", `Successfully added ${this.icon_emoji} emoji reaction.`);
+    return response;
   },
 };

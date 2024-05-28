@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-update-group-members",
   name: "Update Groups Members",
-  description: "Update the list of users for a User Group. [See docs here](https://api.slack.com/methods/usergroups.users.update)",
+  description: "Update the list of users for a User Group. [See the documentation](https://api.slack.com/methods/usergroups.users.update)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -43,7 +43,7 @@ export default {
       description: "Encoded team id where the user group exists, required if org token is used.",
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       userGroup,
       usersToAdd,
@@ -56,10 +56,12 @@ export default {
     });
     users = users.filter((user) => !usersToRemove.includes(user));
     users.push(...usersToAdd);
-    return await this.slack.sdk().usergroups.users.update({
+    const response = await this.slack.sdk().usergroups.users.update({
       usergroup: userGroup,
       users,
       team_id: team,
     });
+    $.export("$summary", `Successfully updated members of group with ID ${this.userGroup}`);
+    return response;
   },
 };

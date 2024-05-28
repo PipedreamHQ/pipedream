@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-list-members-in-channel",
   name: "List Members in Channel",
-  description: "Retrieve members of a channel. [See docs here](https://api.slack.com/methods/conversations.members)",
+  description: "Retrieve members of a channel. [See the documentation](https://api.slack.com/methods/conversations.members)",
   version: "0.0.16",
   type: "action",
   props: {
@@ -21,7 +21,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const { members } = await this.slack.sdk().conversations.members({
       channel: this.conversation,
     });
@@ -33,6 +33,9 @@ export default {
         username: usernames[id],
       })) || [];
     }
+    $.export("$summary", `Successfully retrieved ${channelMembers.length} member${channelMembers.length === 1
+      ? ""
+      : "s"}`);
     return channelMembers;
   },
 };

@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-find-message",
   name: "Find Message",
-  description: "Find a Slack message. [See docs here](https://api.slack.com/methods/search.messages)",
+  description: "Find a Slack message. [See the documentation](https://api.slack.com/methods/search.messages)",
   version: "0.0.16",
   type: "action",
   props: {

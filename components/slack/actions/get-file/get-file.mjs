@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-get-file",
   name: "Get File",
-  description: "Return information about a file. [See docs here](https://api.slack.com/methods/files.info)",
+  description: "Return information about a file. [See the documentation](https://api.slack.com/methods/files.info)",
   version: "0.0.16",
   type: "action",
   props: {
@@ -15,9 +15,11 @@ export default {
       ],
     },
   },
-  async run() {
-    return await this.slack.sdk().files.info({
+  async run({ $ }) {
+    const response = await this.slack.sdk().files.info({
       file: this.file,
     });
+    $.export("$summary", `Successfully retrieved file with ID ${this.file}`);
+    return response;
   },
 };

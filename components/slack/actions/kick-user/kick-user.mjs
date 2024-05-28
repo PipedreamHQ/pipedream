@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "slack-kick-user",
   name: "Kick User",
-  description: "Remove a user from a conversation. [See docs here](https://api.slack.com/methods/conversations.kick)",
+  description: "Remove a user from a conversation. [See the documentation](https://api.slack.com/methods/conversations.kick)",
   version: "0.0.16",
   type: "action",
   props: {
@@ -32,10 +32,12 @@ export default {
       ],
     },
   },
-  async run() {
-    return await this.slack.sdk().conversations.kick({
+  async run({ $ }) {
+    const response = await this.slack.sdk().conversations.kick({
       channel: this.conversation,
       user: this.user,
     });
+    $.export("$summary", `Successfully kicked user ${this.user} from channel with ID ${this.conversation}`);
+    return response;
   },
 };

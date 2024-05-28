@@ -29,7 +29,7 @@ export default {
     },
     ...common.props,
   },
-  async run() {
+  async run({ $ }) {
     if (this.include_sent_via_pipedream_flag) {
       const sentViaPipedreamText = this._makeSentViaPipedreamBlock();
       this.text += `\n\n\n${sentViaPipedreamText.elements[0].text}`;
@@ -61,11 +61,15 @@ export default {
       metadata: this.metadata || null,
     };
 
+    let response;
     if (this.post_at) {
       obj.post_at = this.post_at;
-      return this.slack.sdk().chat.scheduleMessage(obj);
+      response = await this.slack.sdk().chat.scheduleMessage(obj);
     }
 
-    return this.slack.sdk().chat.postMessage(obj);
+    response = await this.slack.sdk().chat.postMessage(obj);
+
+    $.export("$summary", "Successfully sent a message to channel ID " + this.conversation);
+    return response;
   },
 };

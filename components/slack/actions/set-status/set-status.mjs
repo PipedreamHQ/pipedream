@@ -3,7 +3,7 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-set-status",
   name: "Set Status",
-  description: "Set the current status for a user. [See docs here](https://api.slack.com/methods/users.profile.set)",
+  description: "Set the current status for a user. [See the documentation](https://api.slack.com/methods/users.profile.set)",
   version: "0.0.1",
   type: "action",
   props: {
