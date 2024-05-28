@@ -11,7 +11,7 @@ export default {
     },
     longPolling: {
       type: "boolean",
-      label: "Long Pooling",
+      label: "Long Polling",
       description: "If your pipeline includes several models and you're facing timeout issues, enabling this option will generate a 'request_id' for you",
     },
     requestId: {
