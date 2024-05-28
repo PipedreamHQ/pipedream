@@ -11,6 +11,10 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
+    customerClientId: {
+      ...common.props.customerClientId,
+      optional: false,
+    },
     fields: {
       type: "string[]",
       label: "Extra Fields",

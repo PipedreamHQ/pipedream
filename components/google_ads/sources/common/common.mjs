@@ -36,7 +36,7 @@ export default {
       items?.filter((item) => !savedIds.includes(this.getItemId(item)))
         .forEach((item, index) => {
           const id = this.getItemId(item);
-          if (max && index < max) {
+          if (!max || index < max) {
             this.$emit(item, {
               id,
               summary: this.getSummary(item),
