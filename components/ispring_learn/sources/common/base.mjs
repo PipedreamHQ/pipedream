@@ -13,7 +13,7 @@ export default {
       label: "Webhook Name",
       description: "The name of the webhook to identify on the iSpring Learn platform.",
     },
-    sercet: {
+    secret: {
       type: "string",
       label: "Secret",
       description: "HMAC request signature. It can have up to 255 characters.",
