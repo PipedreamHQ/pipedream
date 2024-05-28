@@ -37,7 +37,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Query with ID '${response.text.request_id}' successfully sent`);
+    $.export("$summary", `Query with ID '${response.request_id || response.text.request_id}' successfully sent`);
 
     return response;
   },
