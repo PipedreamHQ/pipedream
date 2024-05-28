@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 const { googleAds } = common.props;
 
@@ -10,6 +11,7 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  sampleEmit,
   props: {
     ...common.props,
     leadFormId: {
@@ -23,6 +25,11 @@ export default {
           customerClientId,
         })),
       ],
+    },
+    docsAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "If needed, see Google's documentation on [submission fields](https://developers.google.com/google-ads/api/reference/rpc/v16/LeadFormSubmissionField) and [custom submission fields](https://developers.google.com/google-ads/api/reference/rpc/v16/CustomLeadFormSubmissionField).",
     },
   },
   methods: {
