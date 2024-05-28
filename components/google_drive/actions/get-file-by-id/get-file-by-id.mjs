@@ -1,10 +1,11 @@
 import googleDrive from "../../google_drive.app.mjs";
+import { FILE_FIELD_OPTIONS } from "./common-file-fields.mjs";
 
 export default {
   key: "google_drive-get-file-by-id",
   name: "Get File By ID",
   description: "Get info on a specific file. [See the documentation](https://developers.google.com/drive/api/reference/rest/v3/files/get) for more information",
-  version: "0.1.8",
+  version: "0.0.1",
   type: "action",
   props: {
     googleDrive,
@@ -33,11 +34,23 @@ export default {
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "Select which fields to obtain for the file. [See the documentation](https://developers.google.com/drive/api/reference/rest/v3/files) for more information",
+      description: "Customize the fields to obtain for the file. [See the documentation](https://developers.google.com/drive/api/reference/rest/v3/files) for more information.",
       optional: true,
+      options: FILE_FIELD_OPTIONS,
     },
   },
   async run({ $ }) {
-    $;
+    const {
+      googleDrive, fileId, fields,
+    } = this;
+    const strFields = typeof fields === "string"
+      ? fields
+      : fields.join();
+    const response = await googleDrive.getFile(fileId, {
+      fields: strFields,
+    });
+
+    $.export("$summary", "Successfully fetched file info");
+    return response;
   },
 };

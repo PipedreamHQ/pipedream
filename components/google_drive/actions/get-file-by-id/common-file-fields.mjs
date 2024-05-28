@@ -70,8 +70,8 @@ export const FILE_FIELD_OPTIONS = [
   },
   {
     label:
-      "\"parents[]\" - The IDs of the parent folders which contain the file.",
-    value: "parents[]",
+      "\"parents\" - The IDs of the parent folders which contain the file.",
+    value: "parents",
   },
   {
     label:
@@ -93,8 +93,8 @@ export const FILE_FIELD_OPTIONS = [
   },
   {
     label:
-      "\"owners[]\" - The owner of this file. Only certain legacy files may have more than one owner. This field isn't populated for items in shared drives.",
-    value: "owners[]",
+      "\"owners\" - The owner of this file. Only certain legacy files may have more than one owner. This field isn't populated for items in shared drives.",
+    value: "owners",
   },
   {
     label:
@@ -123,8 +123,8 @@ export const FILE_FIELD_OPTIONS = [
   },
   {
     label:
-      "\"permissions[]\" - The full list of permissions for the file. This is only available if the requesting user can share the file.",
-    value: "permissions[]",
+      "\"permissions\" - The full list of permissions for the file. This is only available if the requesting user can share the file.",
+    value: "permissions",
   },
   {
     label:
@@ -132,8 +132,8 @@ export const FILE_FIELD_OPTIONS = [
     value: "hasThumbnail",
   },
   {
-    label: "\"spaces[]\" - The list of spaces which contain the file.",
-    value: "spaces[]",
+    label: "\"spaces\" - The list of spaces which contain the file.",
+    value: "spaces",
   },
   {
     label:
@@ -414,8 +414,8 @@ export const FILE_FIELD_OPTIONS = [
   },
   {
     label:
-      "\"permissionIds[]\" - files.list of permission IDs for users with access to this file.",
-    value: "permissionIds[]",
+      "\"permissionIds\" - files.list of permission IDs for users with access to this file.",
+    value: "permissionIds",
   },
   {
     label:
@@ -558,8 +558,8 @@ export const FILE_FIELD_OPTIONS = [
   // },
   {
     label:
-      "\"contentRestrictions[]\" - Restrictions for accessing the content of the file. Only populated if such a restriction exists.",
-    value: "contentRestrictions[]",
+      "\"contentRestrictions\" - Restrictions for accessing the content of the file. Only populated if such a restriction exists.",
+    value: "contentRestrictions",
   },
   {
     label: "\"resourceKey\" - A key needed to access the item via a shared link.",
@@ -585,7 +585,7 @@ export const FILE_FIELD_OPTIONS = [
   // {
   //   label:
   //     "The set of labels on the file as requested by the label IDs in the includeLabels parameter. By default, no labels are returned.",
-  //   value: "labelInfo.labels[]",
+  //   value: "labelInfo.labels",
   // },
   {
     label:
