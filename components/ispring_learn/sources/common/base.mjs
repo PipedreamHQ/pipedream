@@ -13,12 +13,6 @@ export default {
       label: "Webhook Name",
       description: "The name of the webhook to identify on the iSpring Learn platform.",
     },
-    secret: {
-      type: "string",
-      label: "Secret",
-      description: "HMAC request signature. It can have up to 255 characters.",
-      optional: true,
-    },
   },
   methods: {
     _setHookId(hookId) {
@@ -45,7 +39,6 @@ export default {
         data: {
           "subscriberName": this.webhookName,
           "callbackUrl": this.http.endpoint,
-          "Secret": this.secret,
         },
       });
       await this.ispringLearn.sendConfimationCode({
