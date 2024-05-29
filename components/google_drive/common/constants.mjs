@@ -163,14 +163,6 @@ const GOOGLE_DRIVE_ROLE_READER = "reader";
  * All of the available Google Drive roles granted by a permission as defined by the [Google
  * Drive API docs](https://developers.google.com/drive/api/v3/reference/permissions)
  */
-const GOOGLE_DRIVE_ROLES = [
-  GOOGLE_DRIVE_ROLE_OWNER,
-  GOOGLE_DRIVE_ROLE_ORGANIZER,
-  GOOGLE_DRIVE_ROLE_FILEORGANIZER,
-  GOOGLE_DRIVE_ROLE_WRITER,
-  GOOGLE_DRIVE_ROLE_COMMENTER,
-  GOOGLE_DRIVE_ROLE_READER,
-];
 
 const GOOGLE_DRIVE_ROLE_OPTIONS = [
   {
@@ -182,22 +174,19 @@ const GOOGLE_DRIVE_ROLE_OPTIONS = [
     value: GOOGLE_DRIVE_ROLE_COMMENTER,
   },
   {
-    label: "Reader - Can access, but can't change or share the file with others.",
+    label: "Viewer - Can access, but can't change or share the file with others.",
     value: GOOGLE_DRIVE_ROLE_READER,
   },
-  {
-    label: "(Advanced) File Owner - this will transfer ownership of the file.",
-    value: GOOGLE_DRIVE_ROLE_OWNER,
-  },
-  {
-    label: "(Advanced) File Organizar",
-    value: GOOGLE_DRIVE_ROLE_FILEORGANIZER,
-  },
-  {
-    label: "(Advanced) Organizar",
-    value: GOOGLE_DRIVE_ROLE_ORGANIZER,
-  },
 ];
+
+const GOOGLE_DRIVE_ROLE_OPTION_FILEORGANIZER = {
+  label: "(Advanced) Content Manager - add, edit, move, delete and share content",
+  value: GOOGLE_DRIVE_ROLE_FILEORGANIZER,
+};
+const GOOGLE_DRIVE_ROLE_OPTION_OWNER = {
+  label: "(Advanced) File Owner - this will transfer ownership of the file.",
+  value: GOOGLE_DRIVE_ROLE_OWNER,
+};
 
 const GOOGLE_DRIVE_GRANTEE_USER = "user";
 const GOOGLE_DRIVE_GRANTEE_GROUP = "group";
@@ -222,6 +211,20 @@ const GOOGLE_DRIVE_UPLOAD_TYPES = [
   GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,
   GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART,
 ];
+const GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS = [
+  {
+    label: "Simple upload. Upload the media only, without any metadata.",
+    value: GOOGLE_DRIVE_UPLOAD_TYPE_MEDIA,
+  },
+  {
+    label: "Resumable upload. Upload the file in a resumable fashion, using a series of at least two requests where the first request includes the metadata.",
+    value: GOOGLE_DRIVE_UPLOAD_TYPE_RESUMABLE,
+  },
+  {
+    label: "Multipart upload. Upload both the media and its metadata, in a single request.",
+    value: GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART,
+  },
+];
 
 export {
   GOOGLE_DRIVE_NOTIFICATION_SYNC,
@@ -241,6 +244,7 @@ export {
   GOOGLE_DRIVE_MIME_TYPE_PREFIX,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
   GOOGLE_DRIVE_UPLOAD_TYPES,
+  GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS,
   // Google Drive Roles
   GOOGLE_DRIVE_ROLE_OWNER,
   GOOGLE_DRIVE_ROLE_ORGANIZER,
@@ -248,8 +252,9 @@ export {
   GOOGLE_DRIVE_ROLE_WRITER,
   GOOGLE_DRIVE_ROLE_COMMENTER,
   GOOGLE_DRIVE_ROLE_READER,
-  GOOGLE_DRIVE_ROLES,
   GOOGLE_DRIVE_ROLE_OPTIONS,
+  GOOGLE_DRIVE_ROLE_OPTION_FILEORGANIZER,
+  GOOGLE_DRIVE_ROLE_OPTION_OWNER,
   // Google Drive Grantee Types
   GOOGLE_DRIVE_GRANTEE_USER,
   GOOGLE_DRIVE_GRANTEE_GROUP,
