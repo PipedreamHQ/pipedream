@@ -3,8 +3,8 @@ import googleDrive from "../../google_drive.app.mjs";
 export default {
   key: "google_drive-move-file",
   name: "Move File",
-  description: "Move a file from one folder to another. [See the docs](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.1.4",
+  description: "Move a file from one folder to another. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
+  version: "0.1.5",
   type: "action",
   props: {
     googleDrive,
