@@ -1,65 +1,63 @@
 import bunnydoc from "../../bunnydoc.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "bunnydoc-send-signature-request-from-template",
   name: "Send Signature Request from Template",
-  description: "Sends a signature request using a pre-designed bunnydoc template. [See the documentation](https://support.bunnydoc.com/doc/api/)",
-  version: "0.0.{{ts}}",
+  description: "Sends a signature request using a pre-designed bunnydoc template. [See the documentation](https://support.bunnydoc.com/doc/api/#create-signature-request)",
+  version: "0.0.1",
   type: "action",
   props: {
     bunnydoc,
     templateId: {
-      propDefinition: [
-        bunnydoc,
-        "templateId",
-      ],
+      type: "string",
+      label: "Template ID",
+      description: "The ID of the bunnydoc template to be used for the signature request.",
     },
-    recipientEmail: {
-      propDefinition: [
-        bunnydoc,
-        "recipientEmail",
-      ],
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the signature resquest.",
       optional: true,
     },
-    hookUrl: {
-      propDefinition: [
-        bunnydoc,
-        "hookUrl",
-      ],
+    emailMessage: {
+      type: "string",
+      label: "Email Message",
+      description: "The message of the signature resquest.",
+      optional: true,
     },
-    webhookEvents: {
-      propDefinition: [
-        bunnydoc,
-        "webhookEvents",
-      ],
+    signingOrder: {
+      type: "boolean",
+      label: "Signing Order",
+      description: "Set the signing order.",
+      default: false,
+    },
+    recipients: {
+      type: "string",
+      label: "Recipients",
+      description: "A stringified array of objects of recipients. E.g. [{\"role\" : \"role1\", \"name\" : \"Signer1\", \"email\" : \"signer1@example.com\", \"accessCode\" : \"\"}].",
+    },
+    fields: {
+      type: "string",
+      label: "Fields",
+      description: "A stringified array of objects of fields. E.g. [{ \"apiLabel\": \"textFieldPatientHistory\", \"value\": \"My test value\", \"readOnly\" : 1 }]",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const recipients = this.recipientEmail
-      ? [
-        {
-          role: "signer",
-          email: this.recipientEmail,
-        },
-      ]
-      : [];
-
     const response = await this.bunnydoc.createSignatureRequestFromTemplate({
-      templateId: this.templateId,
-      title: "Signature Request",
-      emailMessage: "Please sign this document",
-      signingOrder: false,
-      recipients,
-      fields: [],
+      $,
+      data: {
+        templateId: this.templateId,
+        title: this.title,
+        emailMessage: this.emailMessage,
+        signingOrder: this.signingOrder,
+        recipients: parseObject(this.recipients),
+        fields: parseObject(this.fields),
+      },
     });
 
-    await this.bunnydoc.subscribeWebhook({
-      hookUrl: this.hookUrl,
-      webhookEvents: this.webhookEvents,
-    });
-
-    $.export("$summary", "Successfully sent signature request and subscribed to webhook events");
+    $.export("$summary", "Successfully sent signature request.");
     return response;
   },
 };

@@ -3,9 +3,9 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "bunnydoc-new-viewed-request-instant",
-  name: "New Viewed Signature Request (Instant)",
-  description: "Emit new event when a signature request is viewed.",
+  key: "bunnydoc-new-completed-request-instant",
+  name: "New Completed Signature Request (Instant)",
+  description: "Emit new event each time a signature request is completed.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -13,7 +13,7 @@ export default {
     ...common.methods,
     getEvents() {
       return [
-        "signatureRequestViewed",
+        "signatureRequestCompleted",
       ];
     },
   },
