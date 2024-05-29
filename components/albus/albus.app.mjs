@@ -4,59 +4,41 @@ export default {
   type: "app",
   app: "albus",
   propDefinitions: {
-    file: {
+    prompt: {
       type: "string",
-      label: "File",
-      description: "The file to be trained",
+      label: "Prompt",
+      description: "The question to ask",
     },
-    settings: {
-      type: "object",
-      label: "Training Settings",
-      description: "Specify the training settings",
-      optional: true,
-    },
-    authKeys: {
-      type: "string",
-      label: "Auth Keys",
-      description: "The authorization keys",
+    waitForCompletion: {
+      type: "boolean",
+      label: "Wait for Completion",
+      description: "Set to `true` to poll the API in 3-second intervals until the answer is ready",
       optional: true,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.albus.com";
+      return "https://api-albus.springworks.in";
     },
-    async _makeRequest(opts = {}) {
+    makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "Authorization": `${this.$auth.api_key}`,
         },
+        ...otherOpts,
       });
     },
-    async trainFile({
-      file, settings,
-    }) {
-      return this._makeRequest({
+    chatCompletion(opts = {}) {
+      return this.makeRequest({
         method: "POST",
-        path: "/train",
-        data: {
-          file,
-          settings,
-        },
+        path: "/chat/completions/custom",
+        ...opts,
       });
     },
   },
