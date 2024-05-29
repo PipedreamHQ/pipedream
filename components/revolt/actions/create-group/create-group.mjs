@@ -19,18 +19,21 @@ export default {
         app,
         "description",
       ],
+      optional: true,
     },
     users: {
       propDefinition: [
         app,
         "users",
       ],
+      optional: true,
     },
     nsfw: {
       propDefinition: [
         app,
         "nsfw",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
