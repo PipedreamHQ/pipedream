@@ -3420,10 +3420,10 @@ importers:
 
   components/google_ads:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.5
       crypto: ^1.0.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.5
       crypto: 1.0.1
 
   components/google_analytics:

@@ -1,8 +1,11 @@
 import {
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
   GOOGLE_DRIVE_GRANTEE_DOMAIN,
   GOOGLE_DRIVE_GRANTEE_GROUP,
   GOOGLE_DRIVE_GRANTEE_USER,
   GOOGLE_DRIVE_ROLE_OPTIONS,
+  GOOGLE_DRIVE_ROLE_OPTION_FILEORGANIZER,
+  GOOGLE_DRIVE_ROLE_WRITER,
 } from "../../common/constants.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 
@@ -14,10 +17,10 @@ import googleDrive from "../../google_drive.app.mjs";
  */
 export default {
   key: "google_drive-add-file-sharing-preference",
-  name: "Share File",
+  name: "Share File or Folder",
   description:
     "Add a [sharing permission](https://support.google.com/drive/answer/7166529) to the sharing preferences of a file or folder and provide a sharing URL. [See the documentation](https://developers.google.com/drive/api/v3/reference/permissions/create)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     googleDrive,
@@ -38,6 +41,7 @@ export default {
       ],
       optional: false,
       description: "The file or folder to share",
+      reloadProps: true,
     },
     type: {
       propDefinition: [
@@ -47,8 +51,17 @@ export default {
       reloadProps: true,
     },
   },
-  additionalProps() {
+  async additionalProps() {
     const obj = {};
+    const {
+      fileOrFolderId, type,
+    } = this;
+    if (!fileOrFolderId || !type) return obj;
+
+    const { mimeType } = await this.googleDrive.getFile(this.fileOrFolderId, {
+      fields: "mimeType",
+    });
+
     const emailAddress = {
       type: "string",
       label: "Email Address",
@@ -56,7 +69,7 @@ export default {
         "Enter the email address of the user that you'd like to share the file or folder with (e.g. `alex@altostrat.com`).",
     };
 
-    switch (this.type) {
+    switch (type) {
     case GOOGLE_DRIVE_GRANTEE_DOMAIN:
       obj.domain = {
         type: "string",
@@ -80,13 +93,22 @@ export default {
       break;
     }
 
+    const isFolder = mimeType === GOOGLE_DRIVE_FOLDER_MIME_TYPE;
+    const options = GOOGLE_DRIVE_ROLE_OPTIONS;
+
+    if (isFolder) {
+      const writerOpt = options.find(({ value }) => value === GOOGLE_DRIVE_ROLE_WRITER);
+      writerOpt.label = writerOpt.label.replace(/Writer/, "Contributor");
+      options.push(GOOGLE_DRIVE_ROLE_OPTION_FILEORGANIZER);
+    }
+
     return {
       ...obj,
       role: {
         type: "string",
         label: "Role",
         description: "The role granted by this permission",
-        options: GOOGLE_DRIVE_ROLE_OPTIONS,
+        options,
       },
     };
   },
@@ -107,9 +129,9 @@ export default {
     const webViewLink = resp.webViewLink;
     $.export(
       "$summary",
-      `Successfully shared file "${resp.name}" with ${this.type} "${
-        this.emailAddress ?? this.domain ?? ""
-      }"`,
+      `Successfully shared file "${resp.name}" with ${type} "${
+        emailAddress ?? domain ?? ""
+      }" with role '${role}'`,
     );
     return webViewLink;
   },
