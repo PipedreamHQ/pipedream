@@ -2,6 +2,10 @@ import snowflake from "snowflake-sdk";
 import { promisify } from "util";
 import { sqlProp } from "@pipedream/platform";
 
+snowflake.configure({
+  logLevel: "WARN",
+});
+
 export default {
   app: "snowflake",
   type: "app",
@@ -108,7 +112,7 @@ export default {
       const sqlText = `
         SELECT LOWER(t.table_schema) AS "tableSchema",
             LOWER(t.table_name) AS "tableName",
-            LOWER(t.row_count) AS "rowCount",
+            TO_NUMERIC(t.row_count) AS "rowCount",
             LOWER(c.column_name) AS "columnName",
             LOWER(c.data_type) AS "dataType",
             LOWER(c.is_nullable) AS "isNullable",
