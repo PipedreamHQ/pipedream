@@ -3,7 +3,7 @@ import app from "../../revolt.app.mjs";
 export default {
   key: "revolt-send-friend-request",
   name: "Send Friend Request",
-  description: "Send a friend request to another user. [See the documentation](https://developers.revolt.chat/api/#tag/Relationships/operation/send_friend_request_req)",
+  description: "Send a friend request to another user. [See the documentation](https://developers.revolt.chat/developers/api/reference.html#tag/relationships/post/users/friend)",
   version: "0.0.1",
   type: "action",
   props: {

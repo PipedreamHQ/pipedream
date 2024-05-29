@@ -17,7 +17,7 @@ export default {
     users: {
       type: "string[]",
       label: "Members",
-      description: "IDs of the users to add to the group",
+      description: "IDs of the users",
     },
     nsfw: {
       type: "boolean",
@@ -32,7 +32,7 @@ export default {
     member: {
       type: "string",
       label: "Member",
-      description: "ID of the member to be removed",
+      description: "ID of the member",
     },
     username: {
       type: "string",

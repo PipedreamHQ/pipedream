@@ -3,7 +3,7 @@ import app from "../../revolt.app.mjs";
 export default {
   key: "revolt-create-group",
   name: "Create Group",
-  description: "Create a new group channel. [See the documentation](https://developers.revolt.chat/api/#tag/Groups/operation/members_fetch_req)",
+  description: "Create a new group channel. [See the documentation](https://developers.revolt.chat/developers/api/reference.html#tag/groups/post/channels/create)",
   version: "0.0.1",
   type: "action",
   props: {
