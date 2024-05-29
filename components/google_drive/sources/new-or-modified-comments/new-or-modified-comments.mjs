@@ -26,7 +26,7 @@ export default {
     ...common.props,
     fileId: {
       propDefinition: [
-        ...common.props.googleDrive,
+        common.props.googleDrive,
         "fileId",
         (c) => ({
           drive: c.drive,
