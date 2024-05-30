@@ -3420,10 +3420,10 @@ importers:
 
   components/google_ads:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^1.6.5
       crypto: ^1.0.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 1.6.5
       crypto: 1.0.1
 
   components/google_analytics:
@@ -3751,7 +3751,10 @@ importers:
     specifiers: {}
 
   components/groqcloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/groundhogg:
     specifiers: {}
@@ -3920,7 +3923,12 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/hippo_video:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.5
+      form-data: 4.0.0
 
   components/hive:
     specifiers:
@@ -4472,7 +4480,10 @@ importers:
     specifiers: {}
 
   components/keycloak:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/keysender:
     specifiers:
@@ -4657,7 +4668,10 @@ importers:
     specifiers: {}
 
   components/leexi:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/leiga:
     specifiers:
@@ -5071,6 +5085,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/marketing_master_io:
+    specifiers: {}
+
+  components/marketo:
     specifiers: {}
 
   components/marketstack:
@@ -6965,7 +6982,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/recruitis:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/recurly:
     specifiers:
@@ -9379,7 +9399,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/vext:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/videoask:
     specifiers: {}
@@ -9859,7 +9882,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/y_gy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/yahoo_fantasy_sports:
     specifiers:

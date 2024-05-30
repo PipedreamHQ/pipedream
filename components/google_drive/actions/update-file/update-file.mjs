@@ -7,17 +7,21 @@ import {
 export default {
   key: "google_drive-update-file",
   name: "Update File",
-  description: "Update a file's metadata and/or content. [See the docs](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.1.4",
+  description: "Update a file's metadata and/or content. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
+  version: "0.1.5",
   type: "action",
   props: {
     googleDrive,
+    requiredPropsAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "Either `File URL` and `File Path` should be specified.",
+    },
     drive: {
       propDefinition: [
         googleDrive,
         "watchedDrive",
       ],
-
       optional: true,
     },
     fileId: {
@@ -104,12 +108,10 @@ export default {
     },
     advanced: {
       type: "object",
-      label: "Advanced Options",
+      label: "Additional Options",
       optional: true,
       description: toSingleLineString(`
-        Specify less-common properties that you want to use. See [Files: update]
-        (https://developers.google.com/drive/api/v3/reference/files/update#request-body) for a list
-        of supported properties.
+        Any additional parameters to pass in the request. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update#request-body) for all available parameters.
       `),
     },
   },
