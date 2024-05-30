@@ -315,7 +315,10 @@ importers:
     specifiers: {}
 
   components/albus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/alchemy:
     specifiers: {}
@@ -2380,7 +2383,10 @@ importers:
     specifiers: {}
 
   components/dpd2:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/drata:
     specifiers:
@@ -3751,7 +3757,10 @@ importers:
     specifiers: {}
 
   components/groqcloud:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/groundhogg:
     specifiers: {}
@@ -5082,6 +5091,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/marketing_master_io:
+    specifiers: {}
+
+  components/marketo:
     specifiers: {}
 
   components/marketstack:
