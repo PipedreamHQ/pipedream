@@ -3062,6 +3062,9 @@ importers:
   components/formdesk:
     specifiers: {}
 
+  components/formidable_forms:
+    specifiers: {}
+
   components/formpress:
     specifiers:
       '@pipedream/platform': ^1.6.0
