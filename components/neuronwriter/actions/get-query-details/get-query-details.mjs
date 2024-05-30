@@ -1,27 +1,33 @@
 import neuronwriter from "../../neuronwriter.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "neuronwriter-get-query-details",
   name: "Get Query Details",
-  description: "Fetches the data related to a pre-defined query. `status='ready'` infers that the results of the query are prepared and available.",
-  version: "0.0.{{ts}}",
+  description: "Fetches the data related to a pre-defined query. [See the documentation](https://contadu.crisp.help/en/article/neuronwriter-api-how-to-use-2ds6hx/#3-get-query)",
+  version: "0.0.1",
   type: "action",
   props: {
     neuronwriter,
-    queryId: neuronwriter.propDefinitions.queryId,
+    queryId: {
+      propDefinition: [
+        neuronwriter,
+        "queryId",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.neuronwriter.getQueryResults({
-      queryId: this.queryId,
+      data: {
+        query: this.queryId,
+      },
     });
 
-    // Check if the query status is 'ready' and return the results
-    if (response.status === "ready") {
-      $.export("$summary", `Successfully fetched query details for Query ID: ${this.queryId}`);
-      return response.data;
-    } else {
-      throw new Error(`Query is not ready. Current status: ${response.status}`);
+    let summary = `Successfully fetched query details for Query ID: ${this.queryId}`;
+    if (response.status != "ready") {
+      summary = `Query is not ready. Current status: ${response.status}`;
     }
+
+    $.export("$summary", summary);
+    return response;
   },
 };
