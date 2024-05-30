@@ -5597,7 +5597,10 @@ importers:
       parse-link-header: 2.0.0
 
   components/neuronwriter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/neutrino:
     specifiers: {}
