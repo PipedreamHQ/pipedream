@@ -9646,8 +9646,10 @@ importers:
   components/whatsapp_business:
     specifiers:
       '@pipedream/platform': ^1.2.0
+      form-data: ^4.0.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/white_swan:
     specifiers:
@@ -19121,7 +19123,7 @@ packages:
   /axios/1.6.5_debug@3.2.7:
     resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
     dependencies:
-      follow-redirects: 1.15.5_debug@3.2.7
+      follow-redirects: 1.15.4_debug@3.2.7
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -22183,18 +22185,8 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.15.5:
-    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dev: false
-
-  /follow-redirects/1.15.5_debug@3.2.7:
-    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
+  /follow-redirects/1.15.4_debug@3.2.7:
+    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -22203,6 +22195,16 @@ packages:
         optional: true
     dependencies:
       debug: 3.2.7
+    dev: false
+
+  /follow-redirects/1.15.5:
+    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /follow-redirects/1.5.10:
