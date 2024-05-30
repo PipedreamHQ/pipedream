@@ -76,7 +76,9 @@ export default {
     },
   },
   async run({ $ }) {
-    this.blocks = await this.getGeneratedBlocks();  // set the blocks prop for common.run to use
+    if (this.passArrayOrConfigure) {
+      this.blocks = await this.getGeneratedBlocks();  // set the blocks prop for common.run to use
+    }
     const resp = await common.run.call(this, {
       $,
     });  // call common.run with the current context

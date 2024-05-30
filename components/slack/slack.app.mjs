@@ -315,7 +315,7 @@ export default {
     as_user: {
       type: "boolean",
       label: "Send as User",
-      description: "Optionally pass `TRUE` to post the message as the authed user, instead of as a bot. Defaults to `FALSE`.",
+      description: "Optionally pass `TRUE` to post the message as the authenticated user, instead of as a bot. Defaults to `FALSE`.",
       default: false,
       optional: true,
     },
