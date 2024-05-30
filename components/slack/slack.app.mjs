@@ -126,8 +126,11 @@ export default {
           userNamesOrPromise,
           this.availableConversations(types.join(), cursor),
         ]);
+        const conversations = userNames
+          ? conversationsResp.conversations
+          : conversationsResp.conversations.filter((c) => !c.is_im);
         return {
-          options: conversationsResp.conversations.map((c) => {
+          options: conversations.map((c) => {
             if (c.is_im) {
               return {
                 label: `Direct messaging with: @${userNames[c.user]}`,
