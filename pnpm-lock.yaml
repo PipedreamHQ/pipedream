@@ -6199,6 +6199,9 @@ importers:
       lodash: 4.17.21
       pcloud-sdk-js: 2.0.0
 
+  components/pdf_api_io:
+    specifiers: {}
+
   components/pdf_charts:
     specifiers:
       '@pipedream/platform': ^1.6.3
