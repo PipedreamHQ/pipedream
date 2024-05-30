@@ -5,15 +5,21 @@ import {
   omitEmptyStringValues,
 } from "../../common/utils.mjs";
 import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "google_drive-upload-file",
   name: "Upload File",
-  description: "Copy an existing file to Google Drive. [See the docs](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "0.1.6",
+  description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
+  version: "0.1.7",
   type: "action",
   props: {
     googleDrive,
+    infoAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "Either `File URL` and `File Path` should be specified.",
+    },
     drive: {
       propDefinition: [
         googleDrive,
@@ -89,7 +95,7 @@ export default {
     } = this;
     let { uploadType } = this;
     if (!fileUrl && !filePath) {
-      throw new Error("One of File URL and File Path is required.");
+      throw new ConfigurationError("Either `File URL` and `File Path` should be specified.");
     }
     const driveId = this.googleDrive.getDriveId(this.drive);
 
@@ -98,7 +104,9 @@ export default {
     const file = await getFileStream({
       $,
       fileUrl,
-      filePath,
+      filePath: filePath.includes("tmp/")
+        ? filePath
+        : `/tmp/${filePath}`,
     });
     console.log(`Upload type: ${uploadType}.`);
 
