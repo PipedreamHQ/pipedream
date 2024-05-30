@@ -4882,6 +4882,9 @@ importers:
   components/lodgify:
     specifiers: {}
 
+  components/logistia_route_planner:
+    specifiers: {}
+
   components/logoraisr:
     specifiers: {}
 
