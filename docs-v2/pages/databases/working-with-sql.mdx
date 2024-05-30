@@ -24,7 +24,7 @@ Prepared statements let you safely execute SQL queries with dynamic inputs that 
 
 To reference dynamic data in a SQL query, simply use the standard `{{ }}` notation just like any other code step in Pipedream. For example,
 
-```mysql
+```sql
 SELECT *
   FROM products
   WHERE type = {{steps.get_product_info.$return_value}}
