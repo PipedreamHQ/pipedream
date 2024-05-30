@@ -44,19 +44,19 @@ export default {
     dob: {
       type: "string",
       label: "DOB",
-      description: "The employee's date of birth. Format: YYY-MM-DD",
+      description: "The employee's date of birth. Format: YYYY-MM-DD",
       optional: true,
     },
     dateOfJoining: {
       type: "string",
       label: "Date Of Joining",
-      description: "The employee's start date. Format: YYY-MM-DDTHH:MM:SSZ",
+      description: "The employee's start date. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     dateOfLeaving: {
       type: "string",
       label: "Date Of Leaving",
-      description: "The employee's end date. Format: YYY-MM-DDTHH:MM:SSZ",
+      description: "The employee's end date. Format: YYYY-MM-DDTHH:MM:SSZ",
       optional: true,
     },
     ctc: {
