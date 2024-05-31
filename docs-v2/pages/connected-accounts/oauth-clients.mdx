@@ -3,7 +3,7 @@ import ArcadeEmbed from '@/components/ArcadeEmbed'
 import { Steps } from 'nextra/components'
 
 # OAuth Clients
-By default, most OAuth apps on Pipedream use the Pipedream official OAuth client. That means when you connect an account, you'll see Pipedream's logo and name in the OAuth authorization screen along with a set of requested permissions (scopes).
+By default, most OAuth apps on Pipedream use Pipedream's official OAuth client. That means when you connect an account, you'll see Pipedream's logo and name in the OAuth authorization screen along with a set of requested permissions (scopes).
 - Pipedream apps solve for a broad range of use cases, which means the scopes requested by Pipedream's official OAuth client may request a different set of scopes than your specific use case.
 - To define the exact scope of access you'd like to grant, you can configure a custom OAuth client for most OAuth apps in Pipedream.
 
@@ -28,7 +28,7 @@ Choose the app you need. If you can't find what you're looking for, feel free to
 - **Description:** Optionally add a brief description for additional context
 - **Client ID and Secret**: Paste these values from the app's settings that you're configuring (the client secret is sensitive – we'll encrypt and hide it from the UI)
 - **Redirect URI:** Copy this Redirect URI and paste it into the app's settings
-- **Scopes:** We'll list the scopes from the official Pipedream OAuth client by default. Add or remove scopes as needed based on your use case.
+- **Scopes:** We'll list the scopes from Pipedream's official OAuth client by default. Add or remove scopes as needed based on your use case.
 
 And finally, click "Save".
 
@@ -53,4 +53,4 @@ Now you're ready to use the connected account in any workflow, just like any oth
 ![Connected accounts with OAuth client labels](https://res.cloudinary.com/pipedreamin/image/upload/v1717104725/oauth-clients-dropdown-labels_zzmycx.png)
 
 ### Limitations
-- The vast majority of OAuth apps in Pipedream with with custom OAuth clients. However, due to the unique integration requirements for **Discord**, **Dropbox**, **Slack**, and **Zoom**, you can only use the Pipedream official OAuth client in **triggers** for those apps.
+- The vast majority of OAuth apps in Pipedream with with custom OAuth clients. However, due to the unique integration requirements for **Discord**, **Dropbox**, **Slack**, and **Zoom**, you can only use Pipedream's official OAuth client in **triggers** for those apps.
