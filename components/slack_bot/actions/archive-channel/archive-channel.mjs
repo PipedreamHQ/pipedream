@@ -13,20 +13,19 @@ export default {
       conversation: {
         propDefinition: [
           undefined,
-          "channelId",
+          "conversation",
           () => ({
             types: [
               constants.CHANNEL_TYPE.PUBLIC,
               constants.CHANNEL_TYPE.PRIVATE,
               constants.CHANNEL_TYPE.MPIM,
             ],
-            channelsFilter: (channel) => channel.is_member,
           }),
         ],
       },
     },
   }),
   key: "slack_bot-archive-channel",
-  description: "Archive a channel (Bot). [See docs here](https://api.slack.com/methods/conversations.archive)",
-  version: "0.0.2",
+  description: "Archive a channel (Bot). [See the documentation](https://api.slack.com/methods/conversations.archive)",
+  version: "0.0.3",
 };
