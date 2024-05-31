@@ -1,0 +1,20 @@
+import common from "../common/base.mjs";
+
+export default {
+  ...common,
+  key: "connectwise_psa-new-contact-created",
+  name: "New Contact Created",
+  description: "Emit new event when a new contact is created in Connectwise.",
+  version: "0.0.1",
+  type: "source",
+  dedupe: "unique",
+  methods: {
+    ...common.methods,
+    getResourceFn() {
+      return this.connectwise.listContacts;
+    },
+    getSummary(item) {
+      return `New Contact Created: ${item.firstName} ${item.lastName}`;
+    },
+  },
+};
