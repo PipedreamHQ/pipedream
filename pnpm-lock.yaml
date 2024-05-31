@@ -1125,7 +1125,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/bunnydoc:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/burst_sms:
     specifiers: {}
