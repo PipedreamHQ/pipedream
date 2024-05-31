@@ -1,4 +1,6 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "@pipedream/platform";
 import neuronwriter from "../../neuronwriter.app.mjs";
 
 export default {
@@ -25,6 +27,9 @@ export default {
         summary: this.getSummary(item),
         ts: item.updated,
       };
+    },
+    getFilter() {
+      throw new ConfigurationError("getFilter not implemented yet");
     },
     async startEvent(maxResults = 0) {
       const lastDate = this._getLastDate();
