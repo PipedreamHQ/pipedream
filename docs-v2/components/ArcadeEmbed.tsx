@@ -1,10 +1,13 @@
 import React from "react";
 
-const ArcadeEmbed = ({
+interface ArcadeEmbedProps {
+  src: string;
+  title?: string;
+}
+
+const ArcadeEmbed: React.FC<ArcadeEmbedProps> = ({
   src, title,
 }) => {
-  const embedUrl = `${src}`;
-
   return (
     <div style={{
       position: "relative",
@@ -13,7 +16,7 @@ const ArcadeEmbed = ({
       width: "100%",
     }}>
       <iframe
-        src={embedUrl}
+        src={src}
         title={title}
         loading="lazy"
         allowFullScreen
