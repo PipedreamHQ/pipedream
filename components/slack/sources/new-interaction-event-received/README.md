@@ -31,21 +31,21 @@ Then select a **************Channel************** you’d like to send the messa
 ```jsx
 [
   {
-    type: "actions",
-    elements: [
+    "type": "actions",
+    "elements": [
       {
-        type: "button",
-        text: {
-          type: "plain_text",
-          text: "Click Me",
-          emoji: true,
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "text": "Click Me",
+          "emoji": true
         },
-        value: "click_me_123",
-        action_id: "button_click",
-      },
-    ],
-  },
-];
+        "value": "click_me_123",
+        "action_id": "button_click"
+      }
+    ]
+  }
+]
 ```
 
 Your ******************Slack - Send Message Using Block Kit****************** should look like this:
