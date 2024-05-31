@@ -1,3 +1,4 @@
+import { CURRENCY_OPTIONS } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import upbooks from "../../upbooks.app.mjs";
 
@@ -62,32 +63,11 @@ export default {
       type: "string",
       label: "Currency",
       description: "The currency of the outward payment.",
-      withLabel: true,
-      options: [
-        {
-          label: "Indian Rupees",
-          value: "INR",
-        },
-        {
-          label: "US Dollar",
-          value: "USD",
-        },
-        {
-          label: "Euro",
-          value: "EUR",
-        },
-        {
-          label: "Australian Dollar",
-          value: "AUD",
-        },
-        {
-          label: "Emirati Dirham",
-          value: "AED",
-        },
-      ],
+      options: CURRENCY_OPTIONS,
     },
   },
   async run({ $ }) {
+    const currency = CURRENCY_OPTIONS.filter((item) => item.value === this.currency)[0];
     const response = await this.upbooks.recordOutwardPayment({
       $,
       data: {
@@ -97,8 +77,8 @@ export default {
         expenseIds: parseObject(this.expenseIds),
         accountId: this.account,
         currency: {
-          name: this.currency.label,
-          symbol: this.currency.value,
+          name: currency.label,
+          symbol: currency.value,
         },
       },
     });
