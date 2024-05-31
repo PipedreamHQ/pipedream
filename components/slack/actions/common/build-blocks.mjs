@@ -1,13 +1,10 @@
 import common from "./send-message.mjs";
 
-/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
-  pipedream/required-properties-version, pipedream/required-properties-description */
 export default {
-  type: "action",
   props: {
     passArrayOrConfigure: {
       type: "string",
-      label: "Reference Existing Blocks Array or Configure Manually?",
+      label: "Add Blocks - Reference Existing Blocks Array or Configure Manually?",
       description: "Would you like to reference an array of blocks from a previous step (for example, `{{steps.blocks.$return_value}}`), or configure them in this action?",
       options: [
         {
@@ -19,6 +16,7 @@ export default {
           value: "configure",
         },
       ],
+      optional: true,
       reloadProps: true,
     },
   },
@@ -92,6 +90,9 @@ export default {
     const propsContext = this.createBlockProp("string[]", "Context Block Text", contextDescription);
     const propsLinkButton = this.createBlockProp("object", "Link Button", linkButtonDescription);
 
+    if (!this.passArrayOrConfigure) {
+      return props;
+    }
     if (this.passArrayOrConfigure == "array") {
       props.blocks = {
         type: common.props.slack.propDefinitions.blocks.type,
