@@ -6,7 +6,7 @@ export default {
   app: "ispring_learn",
   propDefinitions: {
     courseIds: {
-      type: "string",
+      type: "string[]",
       label: "Course ID",
       description: "The ID of the course.",
       async options({ prevContext }) {

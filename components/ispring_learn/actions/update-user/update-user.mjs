@@ -55,7 +55,7 @@ export default {
     groupIds: {
       propDefinition: [
         ispringLearn,
-        "groupIds",
+        "groupId",
       ],
       optional: true,
     },
