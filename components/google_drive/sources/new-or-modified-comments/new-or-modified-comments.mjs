@@ -16,27 +16,32 @@ export default {
   key: "google_drive-new-or-modified-comments",
   name: "New or Modified Comments (Instant)",
   description:
-    "Emit new event when a file comment is created or modified in the selected Drive",
-  version: "0.1.8",
+    "Emit new event when a comment is created or modified in the selected file",
+  version: "1.0.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
+  props: {
+    ...common.props,
+    fileId: {
+      propDefinition: [
+        common.props.googleDrive,
+        "fileId",
+        (c) => ({
+          drive: c.drive,
+        }),
+      ],
+      description: "The file to watch for comments",
+    },
+  },
   hooks: {
     async deploy() {
-      const daysAgo = new Date();
-      daysAgo.setDate(daysAgo.getDate() - 30);
-      const timeString = daysAgo.toISOString();
-
-      const args = this.getListFilesOpts({
-        q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
-        fields: "files",
-        pageSize: 5,
-      });
-
-      const { files } = await this.googleDrive.listFilesInPage(null, args);
-
-      await this.processChanges(files);
+      await this.processChanges([
+        {
+          id: this.fileId,
+        },
+      ]);
     },
     async activate() {
       await common.hooks.activate.bind(this)();
@@ -99,6 +104,9 @@ export default {
     },
     async processChanges(changedFiles, headers) {
       const changes = this.getChanges(headers);
+      if (changedFiles?.length) {
+        changedFiles = changedFiles.filter(({ id }) => id === this.fileId);
+      }
 
       for (const file of changedFiles) {
         const lastCommentTimeForFile = this._getLastCommentTimeForFile(file.id);
@@ -116,7 +124,6 @@ export default {
 
           const eventToEmit = {
             comment,
-            file,
             ...changes,
           };
           const meta = this.generateMeta(comment, headers);
