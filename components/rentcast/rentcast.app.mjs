@@ -6,8 +6,8 @@ export default {
   propDefinitions: {
     zipCode: {
       type: "string",
-      label: "US Zip Code",
-      description: "The US zip code to fetch rental statistics and market trends for.",
+      label: "Zip Code",
+      description: "A valid 5-digit US zip code",
     },
     propertyType: {
       type: "string",
@@ -102,15 +102,10 @@ export default {
         data,
       });
     },
-    async fetchRentalStatistics({
-      zipCode, propertyType,
-    }) {
+    async fetchRentalStatistics(args) {
       return this._makeRequest({
-        path: "/market-statistics",
-        params: {
-          zipCode,
-          propertyType,
-        },
+        path: "/markets",
+        ...args,
       });
     },
     async fetchRentEstimate({

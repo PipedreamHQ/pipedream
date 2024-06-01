@@ -3,7 +3,7 @@ import rentcast from "../../rentcast.app.mjs";
 export default {
   key: "rentcast-get-market-statistics",
   name: "Get Market Statistics",
-  description: "Fetches rental statistics and market trends based on a provided US zip code. [See the documentation](https://api.rentcast.io/v1/market-statistics)",
+  description: "Get aggregate rental statistics and listing trends for a single US zip code. [See the documentation](https://developers.rentcast.io/reference/market-statistics)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,21 +14,20 @@ export default {
         "zipCode",
       ],
     },
-    propertyType: {
-      propDefinition: [
-        rentcast,
-        "propertyType",
-        (c) => ({
-          zipCode: c.zipCode,
-        }),
-      ],
+    historyRange: {
+      type: "integer",
+      label: "History Range",
+      description: "The time range for historical record entries, in months (defaults to 12)",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.rentcast.fetchRentalStatistics({
-      zipCode: this.zipCode,
-      propertyType: this.propertyType,
+    const {
+      rentcast, ...params
+    } = this;
+    const response = await rentcast.fetchRentalStatistics({
+      $,
+      params,
     });
     $.export("$summary", `Fetched market statistics for zip code ${this.zipCode}`);
     return response;
