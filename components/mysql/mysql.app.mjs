@@ -241,7 +241,7 @@ export default {
       const sql = `
         SELECT t.table_schema AS tableSchema,
             t.table_name AS tableName,
-            t.table_rows AS rowCount,
+            CAST(t.table_rows AS UNSIGNED) AS rowCount,
             c.column_name AS columnName,
             c.data_type AS dataType,
             c.is_nullable AS isNullable,
