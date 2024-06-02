@@ -51,7 +51,6 @@ export default {
       label: "Bathrooms",
       description: "The number of bathrooms in the property. Supports fractions to indicate partial bathrooms",
       optional: true,
-      min: 0,
     },
     squareFootage: {
       type: "string",
