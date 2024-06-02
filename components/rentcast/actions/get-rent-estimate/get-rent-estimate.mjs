@@ -1,5 +1,4 @@
 import rentcast from "../../rentcast.app.mjs";
-import { PROPERTY_TYPE_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "rentcast-get-rent-estimate",
@@ -10,47 +9,46 @@ export default {
   props: {
     rentcast,
     infoAlert: {
-      type: "alert",
-      alertType: "info",
-      content: "You must specify either `Address`, or `Latitude` and `Longitude`.",
+      propDefinition: [
+        rentcast,
+        "infoAlert",
+      ],
     },
     address: {
-      type: "string",
-      label: "Address",
-      description: "The **full address** of the property, in the format of `Street, City, State, Zip`, e.g. `5500 Grand Lake Drive, San Antonio, TX, 78244`",
-      optional: true,
+      propDefinition: [
+        rentcast,
+        "address",
+      ],
     },
     latitude: {
-      type: "string",
-      label: "Latitude",
-      description: "The latitude of the property, e.g. `29.475962`",
-      optional: true,
+      propDefinition: [
+        rentcast,
+        "latitude",
+      ],
     },
     longitude: {
-      type: "string",
-      label: "Longitude",
-      description: "The longitude of the property, e.g. `-98.351442`",
-      optional: true,
+      propDefinition: [
+        rentcast,
+        "longitude",
+      ],
     },
     propertyType: {
-      type: "string",
-      label: "Property Type",
-      description: "The type of the property. [See the documentation](https://developers.rentcast.io/reference/property-types) for more information",
-      optional: true,
-      options: PROPERTY_TYPE_OPTIONS,
+      propDefinition: [
+        rentcast,
+        "propertyType",
+      ],
     },
     bedrooms: {
-      type: "integer",
-      label: "Bedrooms",
-      description: "The number of bedrooms in the property. Use `0` to indicate a studio layout",
-      optional: true,
-      min: 0,
+      propDefinition: [
+        rentcast,
+        "bedrooms",
+      ],
     },
     bathrooms: {
-      type: "string",
-      label: "Bathrooms",
-      description: "The number of bathrooms in the property. Supports fractions to indicate partial bathrooms",
-      optional: true,
+      propDefinition: [
+        rentcast,
+        "bathrooms",
+      ],
     },
     squareFootage: {
       type: "string",
@@ -65,11 +63,10 @@ export default {
       optional: true,
     },
     daysOld: {
-      type: "integer",
-      label: "Days Old",
-      description: "The maximum number of days since comparable listings were last seen on the market, with a minimum of 1",
-      optional: true,
-      min: 1,
+      propDefinition: [
+        rentcast,
+        "daysOld",
+      ],
     },
     compCount: {
       type: "integer",
