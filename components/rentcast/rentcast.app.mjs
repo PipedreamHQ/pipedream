@@ -88,15 +88,16 @@ export default {
       return "https://api.rentcast.io/v1";
     },
     async _makeRequest({
-      $ = this, headers,
+      $ = this, headers, ...args
     }) {
       return axios($, {
         baseURL: this._baseUrl(),
         headers: {
-          "Content-Type": "application/json",
           ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "accept": "application/json",
+          "X-Api-Key": `${this.$auth.api_key}`,
         },
+        ...args,
       });
     },
     async fetchRentalStatistics(args) {
