@@ -88,34 +88,27 @@ export default {
       return "https://api.rentcast.io/v1";
     },
     async _makeRequest({
-      $ = this, method = "GET", path, headers, params, data,
+      $ = this, headers,
     }) {
       return axios($, {
-        method,
-        url: `${this._baseUrl()}${path}`,
+        baseURL: this._baseUrl(),
         headers: {
           "Content-Type": "application/json",
           ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
-        params,
-        data,
       });
     },
     async fetchRentalStatistics(args) {
       return this._makeRequest({
-        path: "/markets",
+        url: "/markets",
         ...args,
       });
     },
-    async fetchRentEstimate({
-      propertyId, date,
-    }) {
+    async fetchRentEstimate(args) {
       return this._makeRequest({
-        path: `/rent-estimate-long-term/${propertyId}`,
-        params: {
-          date,
-        },
+        url: "/avm/rent/long-term",
+        ...args,
       });
     },
     async findRentalListings({
