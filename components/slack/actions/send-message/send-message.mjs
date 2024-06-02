@@ -15,24 +15,7 @@ export default {
       label: "Channel Type",
       description: "The type of channel to send to. User/Direct Message (im), Group (mpim), Private Channel or Public Channel",
       async options() {
-        return [
-          {
-            label: "Public Channel",
-            value: constants.CHANNEL_TYPE.PUBLIC,
-          },
-          {
-            label: "Private Channel",
-            value: constants.CHANNEL_TYPE.PRIVATE,
-          },
-          {
-            label: "Group",
-            value: constants.CHANNEL_TYPE.MPIM,
-          },
-          {
-            label: "User / Direct Message",
-            value: constants.CHANNEL_TYPE.IM,
-          },
-        ];
+        return constants.CHANNEL_TYPE_OPTIONS;
       },
     },
     conversation: {
