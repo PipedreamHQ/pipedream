@@ -7084,7 +7084,10 @@ importers:
       form-data: 4.0.0
 
   components/regal:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/regfox:
     specifiers:
