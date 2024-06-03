@@ -1,4 +1,7 @@
 {
   "index": "Connected Accounts",
-  "oauth-clients": "OAuth Clients"
+  "oauth-clients": {
+    "index": "OAuth Clients",
+    "display": "hidden"
+  }
 }
