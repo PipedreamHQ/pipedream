@@ -8,7 +8,7 @@ export default {
   key: "google_drive-create-file-from-template",
   name: "Create New File From Template",
   description: "Create a new Google Docs file from a template. Optionally include placeholders in the template document that will get replaced from this action. [See documentation](https://www.npmjs.com/package/google-docs-mustaches)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     googleDrive,
@@ -18,7 +18,7 @@ export default {
         "fileId",
       ],
       description:
-        "Select the template document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step. Template documents should contain placeholders in the format {{xyz}}.",
+        "Select the template document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step. Template documents should contain placeholders in the format `{{xyz}}`.",
     },
     folderId: {
       propDefinition: [
@@ -49,7 +49,7 @@ export default {
     replaceValues: {
       type: "object",
       label: "Replace text placeholders",
-      description: "Replace text placeholders in the document. Use the format {{xyz}} in the document but exclude the curly braces in the key. (eg. `{{myPlaceholder}}` in the document will be replaced by the value of the key `myPlaceholder` in the action.",
+      description: "Replace text placeholders in the document. Use the format `{{xyz}}` in the document but exclude the curly braces in the key. (eg. `{{myPlaceholder}}` in the document will be replaced by the value of the key `myPlaceholder` in the action.",
     },
   },
   async run({ $ }) {

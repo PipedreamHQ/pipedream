@@ -4,7 +4,7 @@ export default {
   key: "brevo-add-or-update-contact",
   name: "Add or Update a contact",
   description: "Add or Update a contact",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     brevo,
@@ -55,10 +55,13 @@ export default {
     const listIds = Object.keys(this.listIds).map((key) => parseInt(this.listIds[key], 10));
     let contact = null;
     if (identifier) {
-      contact = await this.brevo.existingContactByIdentifier(
-        $,
-        encodeURIComponent(identifier),
-      );
+      try {
+        contact = await this.brevo.existingContactByIdentifier(
+          encodeURIComponent(identifier),
+        );
+      } catch (e) {
+        contact = null;
+      }
     }
 
     const attributes = {
