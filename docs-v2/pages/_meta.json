@@ -13,8 +13,7 @@
     "title": "Workflows"
   },
   "connected-accounts": {
-    "title": "Connected Accounts",
-    "display": "children"
+    "title": "Connected Accounts"
   },
   "code": {
     "title": "Code"
