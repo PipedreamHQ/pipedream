@@ -6,7 +6,7 @@ export default {
   name: "Search files and folders",
   description: "Searches for files and folders by name. [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesSearchV2__anchor)",
   key: "dropbox-search-files-folders",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     dropbox,
@@ -19,10 +19,12 @@ export default {
     path: {
       propDefinition: [
         dropbox,
-        "pathFolder",
+        "path",
+        () => ({
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => type === "folder",
+        }),
       ],
-      optional: true,
-      description: "Scopes the search to a path in the user's Dropbox. Searches the entire Dropbox if not specified.",
+      description: "Type the folder name to search for it in the user's Dropbox.",
     },
     orderBy: {
       type: "string",
