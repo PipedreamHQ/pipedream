@@ -95,12 +95,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.rentcast.findRentalListings({
-      geoLocation: this.geoLocation,
-      searchCriteria: this.searchCriteria,
-      sortBy: this.sortBy,
+    const {
+      rentcast, ...params
+    } = this;
+    const response = await rentcast.fetchRentEstimate({
+      $,
+      params,
     });
-    $.export("$summary", "Successfully found rental listings");
+    $.export("$summary", "Successfully fetched rental listings");
     return response;
   },
 };

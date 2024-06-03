@@ -90,7 +90,7 @@ export default {
         ...args,
       });
     },
-    async fetchRentalStatistics(args) {
+    async getMarketStatistics(args) {
       return this._makeRequest({
         url: "/markets",
         ...args,
@@ -102,16 +102,10 @@ export default {
         ...args,
       });
     },
-    async findRentalListings({
-      geoLocation, searchCriteria, sortBy,
-    }) {
+    async findRentalListings(args) {
       return this._makeRequest({
         path: "/listings/rental/long-term",
-        params: {
-          ...geoLocation,
-          ...searchCriteria,
-          sortBy,
-        },
+        ...args,
       });
     },
   },

@@ -25,7 +25,7 @@ export default {
     const {
       rentcast, ...params
     } = this;
-    const response = await rentcast.fetchRentalStatistics({
+    const response = await rentcast.getMarketStatistics({
       $,
       params,
     });
