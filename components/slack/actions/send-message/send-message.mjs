@@ -6,7 +6,7 @@ export default {
   key: "slack-send-message",
   name: "Send Message",
   description: "Send a message to a user, group, private channel or public channel. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     slack: common.props.slack,
@@ -14,7 +14,9 @@ export default {
       type: "string",
       label: "Channel Type",
       description: "The type of channel to send to. User/Direct Message (im), Group (mpim), Private Channel or Public Channel",
-      options: Object.values(constants.CHANNEL_TYPE),
+      async options() {
+        return constants.CHANNEL_TYPE_OPTIONS;
+      },
     },
     conversation: {
       propDefinition: [
