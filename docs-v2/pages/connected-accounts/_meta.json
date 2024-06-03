@@ -1,4 +1,6 @@
 {
   "index": "Connected Accounts",
-  "oauth-clients": "OAuth Clients"
+  "oauth-clients": "OAuth Clients",
+  "api": "API",
+  "external-auth": "External Auth"
 }
