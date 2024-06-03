@@ -84,7 +84,7 @@ export default {
       data: {
         learnerIds: parseObject(this.userIds),
         courseIds: parseObject(this.courseIds),
-        accessDate: this.accessDate && Date.parse(this.accessDate),
+        accessDate: this.accessDate,
         lockAfterDueDate: this.lockAfterDueDate,
         dueDateType: this.dueDateType,
         dueDate: this.dueDate,
