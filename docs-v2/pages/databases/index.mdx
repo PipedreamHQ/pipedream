@@ -8,16 +8,15 @@ Pipedream workflows run in the AWS `us-east-1` network, sending requests from st
 </Callout>
 
 ## Connecting to Restricted Databases
-**Unless your database is publicly accessible, you'll likely need to add specific IPs to its allow-list.** To do this, you can configure your database connection to use either a shared or dedicated static IP address from Pipedream.
+**Unless your database is publicly accessible, you'll likely need to add specific IPs to its allow-list.** To do this, you can configure your database connection to use either a shared or dedicated static IP address from Pipedream:
 
 ### Create a Dedicated Static IP for Outbound Traffic
-- This is the most secure and recommended approach, and gives you a dedicated egress IP that's unique to your workspace.
-- [Virtual Private Clouds (VPCs)](/workflows/vpc) in Pipedream let you deploy any workflow to a private network.
-- When deployed to a VPC in Pipedream, all outbound traffic from your workflow runs through the VPC's static IP.
+- [Virtual Private Clouds (VPCs)](/workflows/vpc) in Pipedream let you deploy any workflow to a private network and is the most secure and recommended approach to using a static IP.
+- Once configured, the VPC will give you a dedicated egress IP that's unique to your workspace, and is available to any workflow within your workspace.
 
 ### Send Requests from a Shared Static IP
-- Configured when adding your database connection ([connected account](/connected-accounts)) to Pipedream, you can choose to route network requests through a static IP block.
-- When you create a connected account with any of [the apps that are currently supported by the SQL Proxy](#supported-databases), requests to that database from within your Pipedream workflows will come from the IP block below.
+- When configuring your database connection as a [connected account](/connected-accounts) to Pipedream, you can choose to route network requests through a static IP block for [any app that's supported by Pipedream's SQL Proxy](#supported-databases)
+- Pipedream's SQL Proxy routes requests to your database from the IP block below.
 
 #### Supported Databases
 Pipedream's SQL Proxy, which enables the shared static IP, currently supports [MySQL](https://pipedream.com/apps/mysql) and [PostgreSQL](https://pipedream.com/apps/postgresql), and [Snowflake](https://pipedream.com/apps/snowflake) is coming soon. Please let us know if you'd like to see support for other database types.

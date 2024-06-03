@@ -8,8 +8,6 @@ Pipedream makes it easy to interact with SQL databases within your workflows. Yo
 ## SQL Editor
 With the built-in SQL editor, you access linting and auto-complete features typical of modern SQL editors.
 
-![SQL Editor](https://res.cloudinary.com/pipedreamin/image/upload/v1716525371/sql-demo-editor_uqat7x.png)
-
 ## Schema Explorer
 When querying a database, you need to understand the schema of the tables you're working with. The schema explorer provides a visual interface to explore the tables in your database, view their columns, and understand the relationships between them. 
 
@@ -17,7 +15,7 @@ When querying a database, you need to understand the schema of the tables you're
 - You can **view the columns of a table**, their data types, and relationships between tables
 - You can also **search and filter** the set of tables that are listed in your schema based on table or column name
 
-![SQL Schema Explorer](https://res.cloudinary.com/pipedreamin/image/upload/v1716524699/sql-demo-schema-explorer_xcmorc.png)
+![SQL Schema Explorer](https://res.cloudinary.com/pipedreamin/image/upload/v1717388737/Screenshot_2024-06-02_at_9.23.46_PM_q5lbxo.png)
 
 ## Prepared Statements
 Prepared statements let you safely execute SQL queries with dynamic inputs that are automatically defined as parameters, in order to help prevent SQL injection attacks.
@@ -40,31 +38,24 @@ Below your query input, you can toggle between the computed and prepared stateme
 ## Getting Started
 
 <Steps>
-### Select the "Execute SQL Query" action 
-- From the step selector, select either "Execute MySQL Query" or "Execute PostgreSQL Query"
+### Select the Execute SQL Query action 
+- From the step selector, select either **Execute MySQL Query** or **Execute PostgreSQL Query**
 
 ![Select SQL action](https://res.cloudinary.com/pipedreamin/image/upload/v1717126382/sql-actions-step-selector_b51u45.png)
 
 ### Connect your account
-- If you already have a connected account for the selected database, select it from the dropdown
-- If you don't have a connected account yet, click "Connect Account" to configure the database connection
-- Follow the prompts to connect your account, then click "Test connection" to ensure Pipedream can connect to your database
+- If you already have a connected account, select it from the dropdown. Otherwise, click **Connect Account** to configure the database connection
+- Follow the prompts to connect your account, then click **Test connection** to ensure Pipedream can successfully connect to your database
 
-_[add a screenshot here]_
+![Connect and test your account](https://res.cloudinary.com/pipedreamin/image/upload/v1717387003/test-connection-mysql_bizpqk.png)
 
 ### Explore the schema
-
-_[add a screenshot here]_
+- Connect your account and explore the database schema
 
 ### Write and execute your query
-_[add a screenshot here]_
+- Write your SQL query in the editor — read more about [prepared statements](#prepared-statements) above to leverage dynamic data in your query
 
 </Steps>
-
-<ArcadeEmbed
-    src="https://demo.arcade.software/qc8BhmRSrcb8FDvbYmgr?embed"
-    title="Execute Snowflake SQL Query">
-</ArcadeEmbed>
 
 ### Supported Databases
 The first-class database support described above is currently supported for these apps:
