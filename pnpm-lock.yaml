@@ -755,6 +755,12 @@ importers:
   components/barcode_lookup:
     specifiers: {}
 
+  components/baremetrics:
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
+
   components/bart:
     specifiers: {}
 
