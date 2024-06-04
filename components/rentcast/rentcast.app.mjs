@@ -104,7 +104,7 @@ export default {
     },
     async findRentalListings(args) {
       return this._makeRequest({
-        path: "/listings/rental/long-term",
+        url: "/listings/rental/long-term",
         ...args,
       });
     },
