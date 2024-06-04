@@ -1,9 +1,6 @@
 import slack from "../../slack.app.mjs";
 
-/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
-  pipedream/required-properties-version, pipedream/required-properties-description */
 export default {
-  type: "action",
   props: {
     slack,
     as_user: {
@@ -156,27 +153,8 @@ export default {
       metadata: this.metadata || null,
     };
 
-    console.log({
-      text: this.text,
-      channel: this.conversation ?? this.reply_channel,
-      attachments: this.attachments,
-      unfurl_links: this.unfurl_links,
-      unfurl_media: this.unfurl_media,
-      parse: this.parse,
-      as_user: this.as_user,
-      username: this.username,
-      icon_emoji: this.icon_emoji,
-      icon_url: this.icon_url,
-      mrkdwn: this.mrkdwn,
-      blocks,
-      link_names: this.link_names,
-      reply_broadcast: this.reply_broadcast,
-      thread_ts: this.thread_ts,
-      metadata: this.metadata || null,
-    });
-
     if (this.post_at) {
-      obj.post_at = this.post_at;
+      obj.post_at = Math.floor(new Date(this.post_at).getTime() / 1000);
       return await this.slack.sdk().chat.scheduleMessage(obj);
     }
     const resp = await this.slack.sdk().chat.postMessage(obj);

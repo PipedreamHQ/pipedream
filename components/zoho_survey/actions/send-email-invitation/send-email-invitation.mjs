@@ -4,7 +4,7 @@ export default {
   key: "zoho_survey-send-email-invitation",
   name: "Send Email Invitation",
   description: "Sends an email invitation with Zoho Survey.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     zohoSurvey,

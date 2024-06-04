@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-list-replies",
   name: "List Replies",
-  description: "Retrieve a thread of messages posted to a conversation. [See docs here](https://api.slack.com/methods/conversations.replies)",
-  version: "0.0.15",
+  description: "Retrieve a thread of messages posted to a conversation. [See the documentation](https://api.slack.com/methods/conversations.replies)",
+  version: "0.0.17",
   type: "action",
   props: {
     slack,
@@ -17,14 +17,21 @@ export default {
     timestamp: {
       propDefinition: [
         slack,
-        "timestamp",
+        "messageTs",
+        (c) => ({
+          channel: c.conversation,
+        }),
       ],
     },
   },
-  async run() {
-    return await this.slack.sdk().conversations.replies({
+  async run({ $ }) {
+    const response = await this.slack.sdk().conversations.replies({
       channel: this.conversation,
       ts: this.timestamp,
     });
+    $.export("$summary", `Successfully retrieved ${response.messages.length} reply message${response.messages.length === 1
+      ? ""
+      : "s"}`);
+    return response;
   },
 };

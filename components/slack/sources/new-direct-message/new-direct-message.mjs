@@ -1,10 +1,11 @@
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "slack-new-direct-message",
   name: "New Direct Message (Instant)",
-  version: "1.0.14",
+  version: "1.0.16",
   description: "Emit new event when a message was posted in a direct message channel",
   type: "source",
   dedupe: "unique",
@@ -42,4 +43,5 @@ export default {
       return event;
     },
   },
+  sampleEmit,
 };

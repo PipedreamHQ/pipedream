@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/botpenguin",
+  "version": "0.0.1",
+  "description": "Pipedream BotPenguin Components",
+  "main": "botpenguin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "botpenguin"
+  ],
+  "homepage": "https://pipedream.com/apps/botpenguin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
