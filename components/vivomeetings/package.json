@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/vivomeetings",
+  "version": "0.0.1",
+  "description": "Pipedream Vivomeetings Components",
+  "main": "vivomeetings.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vivomeetings"
+  ],
+  "homepage": "https://pipedream.com/apps/vivomeetings",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
