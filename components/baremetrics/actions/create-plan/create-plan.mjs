@@ -26,6 +26,7 @@ export default {
         "name",
       ],
       optional: false,
+      description: "Name of the Plan"
     },
     currency: {
       propDefinition: [
