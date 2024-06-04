@@ -26,7 +26,7 @@ export default {
     startedAt: {
       type: "string",
       label: "Started At",
-      description: "A unix timestamp of when this subscription started",
+      description: "A unix timestamp in seconds of when this subscription started",
     },
     oid: {
       type: "string",
