@@ -78,29 +78,27 @@ export default {
         "daysOld",
       ],
     },
-    limit: {
+    maxListings: {
       type: "integer",
-      label: "Limit",
-      description: "The maximum number of listings to return",
+      label: "Max Listings",
+      description: "The maximum number of listings to return. Each API call can retrieve up to `500` listings, so a higher amount will require multiple requests.",
       optional: true,
       min: 1,
       default: 50,
-      max: 500,
-    },
-    offset: {
-      type: "integer",
-      label: "Offset",
-      description: "The index of the first listing to return, used to paginate through large lists of results.",
-      optional: true,
+      max: 2000,
     },
   },
   async run({ $ }) {
     const {
-      rentcast, ...params
+      rentcast, maxListings,  ...params
     } = this;
+    const limit = Math.min(maxListings, 500);
     const response = await rentcast.fetchRentEstimate({
       $,
-      params,
+      params: {
+        ...params,
+        limit,
+      },
     });
     $.export("$summary", "Successfully fetched rental listings");
     return response;
