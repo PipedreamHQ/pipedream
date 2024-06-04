@@ -1,32 +1,78 @@
 import flippingbook from "../../flippingbook.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import fs from "fs";
 
 export default {
   key: "flippingbook-create-flipbook",
   name: "Create Flipbook",
-  description: "Generates a new flipbook from an input PDF file. [See the documentation](https://apidocs.flippingbook.com/)",
-  version: "0.0.{{ts}}",
+  description: "Generates a new flipbook from an input PDF file. [See the documentation](https://apidocs.flippingbook.com/#create-a-new-publication-possibly-attaching-a-new-source-file)",
+  version: "0.0.1",
   type: "action",
   props: {
     flippingbook,
-    pdfFile: {
-      type: "string",
-      label: "PDF File",
-      description: "The input PDF file to generate a new flipbook. The maximum size is 100MB.",
-      required: true,
+    name: {
+      propDefinition: [
+        flippingbook,
+        "name",
+      ],
     },
-    flipbookTitle: {
-      type: "string",
-      label: "Flipbook Title",
-      description: "The title of the new flipbook.",
-      required: true,
+    info: {
+      propDefinition: [
+        flippingbook,
+        "info",
+      ],
+    },
+    fileUrl: {
+      propDefinition: [
+        flippingbook,
+        "fileUrl",
+      ],
+    },
+    filePath: {
+      propDefinition: [
+        flippingbook,
+        "filePath",
+      ],
+    },
+    filename: {
+      propDefinition: [
+        flippingbook,
+        "filename",
+      ],
+    },
+    description: {
+      propDefinition: [
+        flippingbook,
+        "description",
+      ],
     },
   },
   async run({ $ }) {
+    if ((!this.fileUrl && !this.filePath) || (this.fileUrl && this.filePath)) {
+      throw new ConfigurationError("Please provide exactly one of File URL or File Path");
+    }
+    const data = {
+      filename: this.filename,
+      name: this.name,
+      description: this.description,
+    };
+    if (this.fileUrl) {
+      data.url = this.fileUrl;
+    } else {
+      const content = fs.readFileSync(this.filePath.includes("tmp/")
+        ? this.filePath
+        : `/tmp/${this.filePath}`);
+      data.data = content.toString("base64");
+    }
+
     const response = await this.flippingbook.createFlipbook({
-      pdfFile: this.pdfFile,
-      title: this.flipbookTitle,
+      $,
+      data,
     });
-    $.export("$summary", `Successfully created flipbook ${this.flipbookTitle}`);
+
+    if (!response.error) {
+      $.export("$summary", `Successfully created flipbook with ID: ${response.id}`);
+    }
     return response;
   },
 };

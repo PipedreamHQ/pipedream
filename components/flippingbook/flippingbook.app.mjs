@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+const DEFAULT_LIMIT = 20;
 
 export default {
   type: "app",
@@ -8,92 +9,120 @@ export default {
       type: "string",
       label: "Flipbook ID",
       description: "The unique identifier of the flipbook.",
-      required: true,
+      async options({ page }) {
+        const { publications } = await this.listFlipbooks({
+          params: {
+            count: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
+        return publications?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    trackableLink: {
+    name: {
       type: "string",
-      label: "Trackable Link",
-      description: "The unique link that the user wants to track.",
-      required: true,
+      label: "Name",
+      description: "Name of the publication",
     },
-    formId: {
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: "Please provide exactly one of File URL or File Path.",
+    },
+    fileUrl: {
       type: "string",
-      label: "Form ID",
-      description: "The unique identifier of the form where the lead was captured from.",
-      required: true,
-    },
-    leadDetails: {
-      type: "object",
-      label: "Lead Details",
-      description: "The details of the lead captured from the form.",
+      label: "File URL",
+      description: "The URL of the .pdf file that will be used to create the source for the publication. The URL must be publicly accessible for at least for several minutes.",
       optional: true,
     },
-    pdfFile: {
+    filePath: {
       type: "string",
-      label: "PDF File",
-      description: "The input PDF file to generate a new flipbook or replace an existing one. The maximum size is 100MB.",
-      required: true,
+      label: "File Path",
+      description: "The path to a .pdf file in the `/tmp` directory be used to create the source for the publication. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      optional: true,
     },
-    flipbookTitle: {
+    filename: {
       type: "string",
-      label: "Flipbook Title",
-      description: "The title of the flipbook to locate.",
-      required: true,
+      label: "Filename",
+      description: "The name of your PDF file",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "Publication description",
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.flippingbook.com";
+      return "https://api-tc.is.flippingbook.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
         headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
-          Authorization: this.$auth.api_token,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async createFlipbook(opts) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: "/api/v1/fbonline/publications",
+        path: "/fbonline/triggers",
       });
     },
-    async updateFlipbook(opts) {
+    deleteWebhook({
+      hookId, ...opts
+    }) {
       return this._makeRequest({
         ...opts,
-        method: "PUT",
-        path: `/api/v1/fbonline/publications/${opts.flipbookId}`,
+        method: "DELETE",
+        path: `/fbonline/triggers/${hookId}`,
       });
     },
-    async getFlipbook(opts) {
+    getFlipbook({
+      flipbookId, ...opts
+    }) {
       return this._makeRequest({
         ...opts,
-        path: `/api/v1/fbonline/publications/${opts.flipbookId}`,
+        path: `/fbonline/publication/${flipbookId}`,
       });
     },
-    async createTrackedLink(opts) {
+    listFlipbooks(opts = {}) {
+      return this._makeRequest({
+        ...opts,
+        path: "/fbonline/publication",
+      });
+    },
+    createFlipbook(opts = {}) {
       return this._makeRequest({
         ...opts,
         method: "POST",
-        path: "/api/v1/fbonline/tracked_links",
+        path: "/fbonline/publication",
       });
     },
-    async getTrackedLink(opts) {
+    updateFlipbook({
+      flipbookId, ...opts
+    }) {
       return this._makeRequest({
         ...opts,
-        path: `/api/v1/fbonline/tracked_links/${opts.linkId}`,
+        method: "POST",
+        path: `/fbonline/publication/${flipbookId}`,
       });
     },
   },
