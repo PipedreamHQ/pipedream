@@ -18,10 +18,8 @@ export default {
     },
   },
   async run() {
-    const data = await this.mysql.executeQuery({
-      sql: this.sql.query,
-      values: this.sql.values,
-    });
+    const args = this.mysql.executeQueryAdapter(this.sql);
+    const data = await this.mysql.executeQuery(args);
     console.table(data);
     return data;
   },

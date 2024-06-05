@@ -18,10 +18,8 @@ export default {
     },
   },
   async run() {
-    const data = await this.postgresql.executeQuery({
-      text: this.sql.query,
-      values: this.sql.values,
-    });
+    const args = this.postgresql.executeQueryAdapter(this.sql);
+    const data = await this.postgresql.executeQuery(args);
     console.table(data);
     return data;
   },
