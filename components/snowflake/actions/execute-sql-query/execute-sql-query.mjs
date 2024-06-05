@@ -1,7 +1,7 @@
 import snowflake from "../../snowflake.app.mjs";
 
 export default {
-  name: "Execute SQL Query",
+  name: "Execute Query",
   version: "0.0.1",
   key: "snowflake-execute-sql-query",
   description: "Execute a custom Snowflake SQL query. See [our docs](https://pipedream.com/docs/databases/working-with-sql) to learn more about working with SQL in Pipedream.",
