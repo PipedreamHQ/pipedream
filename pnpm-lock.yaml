@@ -2578,6 +2578,9 @@ importers:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
 
+  components/educateme:
+    specifiers: {}
+
   components/edusign:
     specifiers: {}
 
