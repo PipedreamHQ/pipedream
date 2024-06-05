@@ -23,9 +23,14 @@ export default {
         common.props.slack,
         "channelId",
         (c) => ({
-          types: [
-            c.channelType,
-          ],
+          types: c.channelType === "Channels"
+            ? [
+              constants.CHANNEL_TYPE.PUBLIC,
+              constants.CHANNEL_TYPE.PRIVATE,
+            ]
+            : [
+              c.channelType,
+            ],
         }),
       ],
     },

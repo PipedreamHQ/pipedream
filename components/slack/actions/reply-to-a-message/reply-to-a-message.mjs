@@ -25,10 +25,10 @@ export default {
         }),
       ],
     },
-    reply_broadcast: {
+    thread_broadcast: {
       propDefinition: [
         slack,
-        "reply_broadcast",
+        "thread_broadcast",
       ],
     },
     text: {

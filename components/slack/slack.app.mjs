@@ -381,9 +381,9 @@ export default {
       description: "Find and link channel names and usernames.",
       optional: true,
     },
-    reply_broadcast: {
+    thread_broadcast: {
       type: "boolean",
-      label: "Reply Broadcasts",
+      label: "Thread Broadcasts",
       description: "Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to false.",
       default: false,
       optional: true,
@@ -414,13 +414,13 @@ export default {
     metadata_event_type: {
       type: "string",
       label: "Metadata Event Type",
-      description: "The name of the metadata event",
+      description: "The name of the metadata event. Example: `task_created`",
       optional: true,
     },
     metadata_event_payload: {
       type: "string",
       label: "Metadata Event Payload",
-      description: "The payload of the metadata event. Must be a JSON string e.g. `{\"key\": \"value\"}`",
+      description: "The payload of the metadata event. Must be a JSON string. Example: `{ \"id\": \"11223\", \"title\": \"Redesign Homepage\"}`",
       optional: true,
     },
     ignoreMyself: {

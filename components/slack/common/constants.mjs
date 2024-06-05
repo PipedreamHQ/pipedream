@@ -10,12 +10,8 @@ const CHANNEL_TYPE = {
 
 const CHANNEL_TYPE_OPTIONS = [
   {
-    label: "Public Channel",
-    value: CHANNEL_TYPE.PUBLIC,
-  },
-  {
-    label: "Private Channel",
-    value: CHANNEL_TYPE.PRIVATE,
+    label: "Channels",
+    value: "Channels",
   },
   {
     label: "Group",
