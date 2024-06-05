@@ -2,7 +2,7 @@ import mysql from "../../mysql.app.mjs";
 
 export default {
   key: "mysql-execute-raw-query",
-  name: "Execute MySQL Query",
+  name: "Execute SQL Query",
   description: "Execute a custom MySQL query. See [our docs](https://pipedream.com/docs/databases/working-with-sql) to learn more about working with SQL in Pipedream.",
   type: "action",
   version: "2.0.5",

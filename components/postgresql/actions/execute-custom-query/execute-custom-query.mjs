@@ -1,7 +1,7 @@
 import postgresql from "../../postgresql.app.mjs";
 
 export default {
-  name: "Execute PostgreSQL Query",
+  name: "Execute SQL Query",
   key: "postgresql-execute-custom-query",
   description: "Execute a custom PostgreSQL query. See [our docs](https://pipedream.com/docs/databases/working-with-sql) to learn more about working with SQL in Pipedream.",
   version: "3.0.6",
