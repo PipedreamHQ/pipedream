@@ -27,8 +27,7 @@
     "title": "Environment Variables"
   },
   "databases": {
-    "title": "Databases",
-    "display": "children"
+    "title": "Databases"
   },
   "apps": "Integrations",
   "rest-api": "API Reference",

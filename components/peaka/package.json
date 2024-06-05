@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/peaka",
+  "version": "0.0.1",
+  "description": "Pipedream Peaka Components",
+  "main": "peaka.app.mjs",
+  "keywords": [
+    "pipedream",
+    "peaka"
+  ],
+  "homepage": "https://pipedream.com/apps/peaka",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
