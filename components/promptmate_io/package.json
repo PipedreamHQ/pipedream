@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/promptmate_io",
+  "version": "0.0.1",
+  "description": "Pipedream promptmate.io Components",
+  "main": "promptmate_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "promptmate_io"
+  ],
+  "homepage": "https://pipedream.com/apps/promptmate_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

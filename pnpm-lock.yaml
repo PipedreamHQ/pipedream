@@ -6766,6 +6766,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/promptmate_io:
+    specifiers: {}
+
   components/proofly:
     specifiers:
       '@pipedream/platform': ^1.6.0
