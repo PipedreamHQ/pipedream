@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/height",
+  "version": "0.0.1",
+  "description": "Pipedream Height Components",
+  "main": "height.app.mjs",
+  "keywords": [
+    "pipedream",
+    "height"
+  ],
+  "homepage": "https://pipedream.com/apps/height",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
