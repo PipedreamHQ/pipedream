@@ -2,7 +2,7 @@ import { ConfigurationError } from "@pipedream/platform";
 
 function parsePointIds(values) {
   if (!values) {
-    return [];
+    return undefined;
   }
 
   return values.map(parsePointId);
