@@ -122,7 +122,7 @@ export default {
             id: this.country,
           }
           : undefined,
-        phone: this.phone,
+        phoneNumber: this.phone,
         website: this.website,
         market: this.market
           ? {

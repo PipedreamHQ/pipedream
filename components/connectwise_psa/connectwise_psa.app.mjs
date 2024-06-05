@@ -308,6 +308,12 @@ export default {
         ...opts,
       });
     },
+    listCountries(opts = {}) {
+      return this._makeRequest({
+        path: "/company/countries",
+        ...opts,
+      });
+    },
     createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
