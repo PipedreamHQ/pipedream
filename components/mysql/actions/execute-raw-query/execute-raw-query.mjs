@@ -2,21 +2,23 @@ import mysql from "../../mysql.app.mjs";
 
 export default {
   key: "mysql-execute-raw-query",
-  name: "Execute Raw Query",
-  description: "Find row(s) via a custom raw query. [See the documentation](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
+  name: "Execute SQL Query",
+  description: "Execute a custom MySQL query. See [our docs](https://pipedream.com/docs/databases/working-with-sql) to learn more about working with SQL in Pipedream.",
   type: "action",
-  version: "1.0.5",
+  version: "2.0.0",
   props: {
     mysql,
+    // eslint-disable-next-line pipedream/props-description
     sql: {
-      type: "string",
-      label: "Query",
-      description: "The SQL query to execute",
+      type: "sql",
+      auth: {
+        app: "mysql",
+      },
+      label: "SQL Query",
     },
   },
   run() {
-    return this.mysql.executeQuery({
-      sql: this.sql,
-    });
+    const args = this.mysql.executeQueryAdapter(this.sql);
+    return this.mysql.executeQuery(args);
   },
 };
