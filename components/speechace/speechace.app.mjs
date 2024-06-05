@@ -4,57 +4,69 @@ export default {
   type: "app",
   app: "speechace",
   propDefinitions: {
-    audioFile: {
+    dialect: {
       type: "string",
-      label: "Audio File",
-      description: "The audio file to be transcribed and scored. It should be a URL to the file",
+      label: "Dialect",
+      description: "The dialect to use for scoring",
+      options: [
+        {
+          label: "US English",
+          value: "en-us",
+        },
+        {
+          label: "UK English",
+          value: "en-gb",
+        },
+      ],
+      optional: true,
+      default: "en-us",
     },
-    textScript: {
+    filePath: {
       type: "string",
-      label: "Text Script",
-      description: "The text script for scoring the audio file based on fluency and pronunciation",
+      label: "File Path",
+      description: "The path to an audio file (wav, mp3, m4a, webm, ogg, aiff) in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+    },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "A unique anonymized identifier for the end-user who spoke the audio",
+      optional: true,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.speechace.com";
+      return "https://api.speechace.co/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
         method = "POST",
         path,
         headers,
+        params,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
         method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        url: `${this._baseUrl()}${path}`,
+        headers,
+        params: {
+          ...params,
+          key: `${this.$auth.product_key}`,
         },
       });
     },
-    async transcribeAndScore(audioFile) {
+    transcribeAndScore(opts = {}) {
       return this._makeRequest({
-        path: "/v1/speech/grade/file",
-        data: {
-          audio: audioFile,
-        },
+        path: "/scoring/speech/v9/json",
+        ...opts,
       });
     },
-    async scoreScript(audioFile, textScript) {
+    scoreScript(opts = {}) {
       return this._makeRequest({
-        path: "/v1/speech/grade/text",
-        data: {
-          audio: audioFile,
-          text: textScript,
-        },
+        path: "/scoring/text/v9/json",
+        ...opts,
       });
     },
   },
