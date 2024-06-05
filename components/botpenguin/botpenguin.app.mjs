@@ -4,107 +4,164 @@ export default {
   type: "app",
   app: "botpenguin",
   propDefinitions: {
-    sessionId: {
+    contactId: {
       type: "string",
-      label: "Session ID",
-      description: "The identifier of the chat session.",
-    },
-    content: {
-      type: "string",
-      label: "Content",
-      description: "The text of the message you wish to send.",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The full name of the contact.",
+      label: "Contact ID",
+      description: "The identifier for the contact.",
+      async options({ page }) {
+        const { data } = await this.listContacts({
+          data: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          _id: value, profile: {
+            userDetails: {
+              name, contact: {
+                email, phone,
+              },
+            },
+          },
+        }) => ({
+          label: `${name || email || `${phone.prefix} ${phone.number}`}`,
+          value,
+        }));
+      },
     },
     email: {
       type: "string",
       label: "Email",
       description: "The email address of the contact.",
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The full name of the contact.",
+    },
     phone: {
       type: "string",
       label: "Phone",
       description: "The phone number of the contact.",
-      optional: true,
     },
-    contactId: {
+    prefix: {
       type: "string",
-      label: "Contact ID",
-      description: "The identifier for the contact.",
-    },
-    attributes: {
-      type: "object",
-      label: "Attributes",
-      description: "A dictionary of attribute names and values.",
+      label: "Prefix",
+      description: "The prefix of the phone number.",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.v7.botpenguin.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
+    _headers(headers) {
+      return {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${this.$auth.access_token}`,
+        "authtype": "Key",
+        ...headers,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers = {}, ...opts
+    }) {
+      const config = {
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
+        headers: this._headers(headers),
+        ...opts,
+      };
+
+      return axios($, config);
     },
-    async sendMessage({
-      sessionId, content,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/inbox/messages/send",
-        data: {
-          session_id: sessionId,
-          content,
-        },
-      });
-    },
-    async addContact({
-      name, email, phone,
-    }) {
+    addContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/inbox/users/import",
-        data: {
-          profile: {
-            userDetails: {
-              userProvidedName: name,
-              contact: {
-                email,
-                phone: phone
-                  ? {
-                    number: phone,
-                  }
-                  : undefined,
-              },
-            },
-          },
-        },
+        ...opts,
       });
     },
-    async updateContactAttributes({
-      contactId, attributes,
+    async getContact({ contactId }) {
+      const responseArray = this.paginate({
+        fn: this.listContacts,
+
+      });
+      for await (const item of responseArray) {
+        if (item._id === contactId) return item;
+      }
+    },
+    listContacts({
+      opts, data,
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/contacts/${contactId}/attributes`,
+        path: "/inbox/users",
         data: {
-          attributes,
+          searchText: "",
+          applicableFilters: [],
+          createdAt: {
+            startAt: "",
+            endsAt: "",
+          },
+          lastSeenAt: {
+            startAt: "",
+            endsAt: "",
+          },
+          _botWebsite: [],
+          _botWhatsapp: [],
+          _botTelegram: [],
+          _botFacebook: [],
+          status: [],
+          lastMessageBy: [],
+          tags: [],
+          _agentAssigned: [],
+          isExport: "none",
+          ...data,
         },
+        ...opts,
+
       });
+    },
+    updateContact({
+      contactId, ...data
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/inbox/users/${contactId}`,
+        ...data,
+      });
+    },
+    sendMessage(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/whatsapp-automation/wa/send-message",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, data = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        data.page = ++page;
+        const { data: response } = await fn({
+          data,
+          ...opts,
+        });
+
+        for (const d of response) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = response.length;
+
+      } while (hasMore);
     },
   },
 };
