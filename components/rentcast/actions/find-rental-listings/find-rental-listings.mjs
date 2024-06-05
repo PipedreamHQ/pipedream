@@ -89,18 +89,32 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
+    let {
       rentcast, maxListings,  ...params
     } = this;
-    const limit = Math.min(maxListings, 500);
-    const response = await rentcast.fetchRentEstimate({
-      $,
-      params: {
-        ...params,
-        limit,
-      },
-    });
-    $.export("$summary", "Successfully fetched rental listings");
-    return response;
+
+    const totalItems = [];
+    let offset = 0;
+    do {
+      const limit = Math.min(maxListings, 500);
+      const response = await rentcast.findRentalListings({
+        $,
+        params: {
+          ...params,
+          limit,
+          offset,
+        },
+      });
+      const length = response?.length;
+      if (!length) {
+        break;
+      }
+      totalItems.push(...response.slice(0, maxListings));
+      offset += length;
+      maxListings -= length;
+    } while (maxListings > 0);
+
+    $.export("$summary", `Successfully fetched ${totalItems.length} rental listings`);
+    return totalItems;
   },
 };
