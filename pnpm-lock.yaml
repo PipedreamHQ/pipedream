@@ -6262,6 +6262,9 @@ importers:
   components/pdfmonkey:
     specifiers: {}
 
+  components/peaka:
+    specifiers: {}
+
   components/pendo:
     specifiers: {}
 
