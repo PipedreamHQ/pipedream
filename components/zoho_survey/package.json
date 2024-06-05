@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_survey",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Zoho Survey Components",
   "main": "zoho_survey.app.mjs",
   "keywords": [

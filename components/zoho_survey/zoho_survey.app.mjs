@@ -21,8 +21,8 @@ export default {
     },
     groupId: {
       type: "string",
-      label: "Group",
-      description: "Unique identifier of a group/department",
+      label: "Department",
+      description: "Unique identifier of a department",
       async options({ portalId }) {
         const portals = await this.listPortals();
         const portal = portals.find((portal) => portal.portalId === portalId);
@@ -43,6 +43,7 @@ export default {
       }) {
         const limit = DEFAULT_LIMIT;
         const params = {
+          filterby: "published",
           offset: limit,
           range: (limit * page) + 1,
         };
@@ -81,7 +82,7 @@ export default {
     },
     distributionId: {
       type: "string",
-      label: "Distribution",
+      label: "Trigger Invitation",
       description: "Identifier of a distribution",
       async options({
         portalId, groupId, surveyId, collectorId,
@@ -194,6 +195,14 @@ export default {
       return this._makeRequest({
         path: `/portals/${portalId}/departments/${groupId}/surveys/${surveyId}/collectors/${collectorId}/distributions/${distributionId}/email/sendinvitation`,
         method: "POST",
+        ...args,
+      });
+    },
+    listSurveyFields({
+      portalId, groupId, surveyId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/portals/${portalId}/departments/${groupId}/surveys/${surveyId}/integration/trigger/variables`,
         ...args,
       });
     },

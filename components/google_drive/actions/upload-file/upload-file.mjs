@@ -11,7 +11,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     googleDrive,
@@ -104,7 +104,7 @@ export default {
     const file = await getFileStream({
       $,
       fileUrl,
-      filePath: filePath.includes("tmp/")
+      filePath: filePath?.startsWith("/tmp/")
         ? filePath
         : `/tmp/${filePath}`,
     });
