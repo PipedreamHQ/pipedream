@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/samsara",
+  "version": "0.0.1",
+  "description": "Pipedream Samsara Components",
+  "main": "samsara.app.mjs",
+  "keywords": [
+    "pipedream",
+    "samsara"
+  ],
+  "homepage": "https://pipedream.com/apps/samsara",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
