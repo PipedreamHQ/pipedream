@@ -755,6 +755,12 @@ importers:
   components/barcode_lookup:
     specifiers: {}
 
+  components/baremetrics:
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
+
   components/bart:
     specifiers: {}
 
@@ -2436,6 +2442,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/dripcel:
+    specifiers: {}
+
   components/dromo:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2568,6 +2577,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
+
+  components/educateme:
+    specifiers: {}
 
   components/edusign:
     specifiers: {}
@@ -2969,7 +2981,10 @@ importers:
       form-data: 4.0.0
 
   components/flippingbook:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/float:
     specifiers: {}
@@ -2990,6 +3005,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/flowla:
+    specifiers: {}
 
   components/fluent_support:
     specifiers: {}
@@ -3735,6 +3753,9 @@ importers:
   components/grab_your_reviews:
     specifiers: {}
 
+  components/graceblocks:
+    specifiers: {}
+
   components/grade_us:
     specifiers: {}
 
@@ -3867,6 +3888,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/height:
+    specifiers: {}
 
   components/helcim:
     specifiers: {}
@@ -4302,6 +4326,9 @@ importers:
   components/intuiface:
     specifiers: {}
 
+  components/invoicing_plus:
+    specifiers: {}
+
   components/ip2location:
     specifiers:
       '@pipedream/platform': ^0.9.0
@@ -4345,7 +4372,10 @@ importers:
     specifiers: {}
 
   components/ispring_learn:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/iterate:
     specifiers:
@@ -6247,6 +6277,9 @@ importers:
   components/pdfmonkey:
     specifiers: {}
 
+  components/peaka:
+    specifiers: {}
+
   components/pendo:
     specifiers: {}
 
@@ -6736,6 +6769,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/promptmate_io:
+    specifiers: {}
+
   components/proofly:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -6847,6 +6883,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/qualiobee:
+    specifiers: {}
 
   components/quentn:
     specifiers:
@@ -7087,7 +7126,10 @@ importers:
       form-data: 4.0.0
 
   components/regal:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/regfox:
     specifiers:
@@ -7248,7 +7290,10 @@ importers:
     specifiers: {}
 
   components/revolt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/reward_sciences:
     specifiers: {}
@@ -7454,6 +7499,9 @@ importers:
     specifiers: {}
 
   components/samcart:
+    specifiers: {}
+
+  components/samsara:
     specifiers: {}
 
   components/sapling:
@@ -8137,7 +8185,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sms_everyone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/sms_it:
     specifiers: {}
@@ -8897,6 +8948,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/tiledesk:
+    specifiers: {}
+
   components/time_doctor:
     specifiers: {}
 
@@ -9260,7 +9314,10 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/upbooks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/updown_io:
     specifiers:
@@ -9514,6 +9571,9 @@ importers:
       '@pipedream/platform': ^1.6.2
     dependencies:
       '@pipedream/platform': 1.6.2
+
+  components/vivomeetings:
+    specifiers: {}
 
   components/vk:
     specifiers: {}
@@ -19193,7 +19253,7 @@ packages:
   /axios/1.6.5_debug@3.2.7:
     resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
     dependencies:
-      follow-redirects: 1.15.4_debug@3.2.7
+      follow-redirects: 1.15.5_debug@3.2.7
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -22259,18 +22319,6 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.15.4_debug@3.2.7:
-    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 3.2.7
-    dev: false
-
   /follow-redirects/1.15.5:
     resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
     engines: {node: '>=4.0'}
@@ -22279,6 +22327,18 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
+
+  /follow-redirects/1.15.5_debug@3.2.7:
+    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 3.2.7
     dev: false
 
   /follow-redirects/1.5.10:

@@ -1,10 +1,4 @@
 {
-    "index": {
-        "title": "Connecting to Databases",
-        "display": "hidden"
-    },
-    "working-with-sql": {
-        "title": "Working with SQL",
-        "display": "hidden"
-    }
+  "index": "Connecting to Databases",
+  "working-with-sql": "Working with SQL"
 }

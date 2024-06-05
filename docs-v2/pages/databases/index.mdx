@@ -22,9 +22,11 @@ Pipedream workflows run in the AWS `us-east-1` network, sending requests from st
 Pipedream's SQL Proxy, which enables the shared static IP, currently supports [MySQL](https://pipedream.com/apps/mysql) and [PostgreSQL](https://pipedream.com/apps/postgresql), and [Snowflake](https://pipedream.com/apps/snowflake) is coming soon. Please let us know if you'd like to see support for other database types.
 
 #### Enabling the Shared Static IP
-To configure your database connection to use the shared static IP, refer to [these steps](/databases/working-with-sql#connect-your-account).
+Connect your account for one of the [supported database apps](#supported-databases) and set **Use Shared Static IP** to **TRUE**, then click **Test connection** to ensure Pipedream can successfully connect to your database.
 
-#### Static Shared IPs
+![Connect and test your account](https://res.cloudinary.com/pipedreamin/image/upload/v1717387003/test-connection-mysql_bizpqk.png)
+
+#### Shared Static IP Block
 Add the following IP block to your database allow-list:
 ```
 44.223.89.56/29

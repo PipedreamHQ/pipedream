@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dripcel",
+  "version": "0.0.1",
+  "description": "Pipedream Dripcel Components",
+  "main": "dripcel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dripcel"
+  ],
+  "homepage": "https://pipedream.com/apps/dripcel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
