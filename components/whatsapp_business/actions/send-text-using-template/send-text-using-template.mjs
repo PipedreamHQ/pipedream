@@ -7,7 +7,7 @@ export default {
   key: "whatsapp_business-send-text-using-template",
   name: "Send Text Using Template",
   description: `Send a text message using a pre-defined template. Variables can be sent only as text. [See the docs.](${docLink})`,
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     whatsapp,

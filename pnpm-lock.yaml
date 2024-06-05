@@ -755,6 +755,12 @@ importers:
   components/barcode_lookup:
     specifiers: {}
 
+  components/baremetrics:
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
+
   components/bart:
     specifiers: {}
 
@@ -985,6 +991,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/botpenguin:
+    specifiers: {}
 
   components/botpress:
     specifiers:
@@ -2968,6 +2977,12 @@ importers:
       '@pipedream/platform': 1.6.5
       form-data: 4.0.0
 
+  components/flippingbook:
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
+
   components/float:
     specifiers: {}
 
@@ -4342,7 +4357,10 @@ importers:
     specifiers: {}
 
   components/ispring_learn:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/iterate:
     specifiers:
@@ -5420,6 +5438,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/mojotxt:
+    specifiers: {}
+
   components/monday:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -5615,7 +5636,10 @@ importers:
       parse-link-header: 2.0.0
 
   components/neuronwriter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/neutrino:
     specifiers: {}
@@ -7078,7 +7102,10 @@ importers:
       form-data: 4.0.0
 
   components/regal:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/regfox:
     specifiers:
@@ -7239,7 +7266,10 @@ importers:
     specifiers: {}
 
   components/revolt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/reward_sciences:
     specifiers: {}
@@ -8128,7 +8158,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/sms_everyone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/sms_it:
     specifiers: {}
@@ -9251,7 +9284,10 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/upbooks:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+    dependencies:
+      '@pipedream/platform': 1.6.5
 
   components/updown_io:
     specifiers:
@@ -9506,6 +9542,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/vivomeetings:
+    specifiers: {}
+
   components/vk:
     specifiers: {}
 
@@ -9675,8 +9714,10 @@ importers:
   components/whatsapp_business:
     specifiers:
       '@pipedream/platform': ^1.2.0
+      form-data: ^4.0.0
     dependencies:
       '@pipedream/platform': 1.5.1
+      form-data: 4.0.0
 
   components/white_swan:
     specifiers:
@@ -22726,6 +22767,7 @@ packages:
   /glob/8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6

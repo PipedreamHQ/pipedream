@@ -181,12 +181,26 @@ export default {
 
         const options = channels
           .filter(channelsFilter)
-          .map((c) => ({
-            value: c.id,
-            label: c.is_im
-              ? `@${userNames[c.user]}`
-              : c.name,
-          }));
+          .map((c) => {
+            if (c.is_im) {
+              return {
+                label: `Direct messaging with: @${userNames[c.user]}`,
+                value: c.id,
+              };
+            } else if (c.is_mpim) {
+              return {
+                label: c.purpose.value,
+                value: c.id,
+              };
+            } else {
+              return {
+                label: `${c.is_private
+                  ? "Private"
+                  : "Public"} channel: ${c.name}`,
+                value: c.id,
+              };
+            }
+          });
 
         return {
           options,
