@@ -17,10 +17,8 @@ export default {
       label: "PostreSQL Query",
     },
   },
-  async run() {
+  run() {
     const args = this.postgresql.executeQueryAdapter(this.sql);
-    const data = await this.postgresql.executeQuery(args);
-    console.table(data);
-    return data;
+    return this.postgresql.executeQuery(args);
   },
 };

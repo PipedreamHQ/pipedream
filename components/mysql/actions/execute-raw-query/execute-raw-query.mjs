@@ -17,10 +17,8 @@ export default {
       label: "SQL Query",
     },
   },
-  async run() {
+  run() {
     const args = this.mysql.executeQueryAdapter(this.sql);
-    const data = await this.mysql.executeQuery(args);
-    console.table(data);
-    return data;
+    return this.mysql.executeQuery(args);
   },
 };

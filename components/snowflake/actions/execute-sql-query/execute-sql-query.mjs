@@ -17,12 +17,10 @@ export default {
       label: "SQL Query",
     },
   },
-  async run() {
-    const data = await this.snowflake.collectRows({
+  run() {
+    return this.snowflake.collectRows({
       sqlText: this.sql.query,
       binds: this.sql.params,
     });
-    console.table(data);
-    return data;
   },
 };
