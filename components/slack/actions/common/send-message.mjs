@@ -69,6 +69,13 @@ export default {
       optional: true,
       hidden: true,
     },
+    thread_broadcast: {
+      propDefinition: [
+        slack,
+        "thread_broadcast",
+      ],
+      hidden: true,
+    },
     addMessageMetadata: {
       type: "boolean",
       label: "Add Message Metadata",
@@ -115,6 +122,7 @@ export default {
   async additionalProps(props) {
     if (this.conversation && this.replyToThread) {
       props.thread_ts.hidden = false;
+      props.thread_broadcast.hidden = false;
     }
     if (this.customizeBotSettings) {
       props.username.hidden = false;
@@ -214,7 +222,7 @@ export default {
       mrkdwn: this.mrkdwn,
       blocks,
       link_names: this.link_names,
-      thread_broadcast: this.thread_broadcast,
+      reply_broadcast: this.thread_broadcast,
       thread_ts: this.thread_ts,
       metadata: this.metadata || null,
     };
@@ -227,12 +235,13 @@ export default {
     const { channel } = await this.slack.conversationsInfo({
       channel: resp.channel,
     });
-    const usernames = await this.slack.userNames();
-    const channelName = channel.is_im
-      ? `@${usernames[channel.user]}`
-      : channel.is_mpim
-        ? channel.purpose.value
-        : channel.name;
+    let channelName = `#${channel?.name}`;
+    if (channel.is_im) {
+      const usernames = await this.slack.userNames();
+      channelName = `@${usernames[channel.user]}`;
+    } else if (channel.is_mpim) {
+      channelName = `@${channel.purpose.value}`;
+    }
     $.export("$summary", `Successfully sent a message to ${channelName}`);
     return resp;
   },

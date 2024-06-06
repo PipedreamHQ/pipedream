@@ -16,6 +16,23 @@ export default {
         "conversation",
       ],
     },
+    text: {
+      propDefinition: [
+        slack,
+        "text",
+      ],
+    },
+    mrkdwn: {
+      propDefinition: [
+        slack,
+        "mrkdwn",
+      ],
+    },
+    ...common.props,
+    replyToThread: {
+      ...common.props.replyToThread,
+      hidden: true,
+    },
     thread_ts: {
       propDefinition: [
         slack,
@@ -31,18 +48,5 @@ export default {
         "thread_broadcast",
       ],
     },
-    text: {
-      propDefinition: [
-        slack,
-        "text",
-      ],
-    },
-    mrkdwn: {
-      propDefinition: [
-        slack,
-        "mrkdwn",
-      ],
-    },
-    ...common.props,
   },
 };

@@ -352,7 +352,7 @@ export default {
     username: {
       type: "string",
       label: "Bot Username",
-      description: "Optionally customize your bot's user name (default is `Pipedream`). Must be used in conjunction with `as_user` set to false, otherwise ignored.",
+      description: "Optionally customize your bot's user name (default is `Pipedream`). Must be used in conjunction with `Send as User` set to false, otherwise ignored.",
       optional: true,
     },
     blocks: {
@@ -364,7 +364,7 @@ export default {
     icon_emoji: {
       type: "string",
       label: "Icon (emoji)",
-      description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
+      description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `Send as User` set to `false`, otherwise ignored.",
       optional: true,
       async options() {
         return await this.getCustomEmojis();
@@ -383,8 +383,8 @@ export default {
     },
     thread_broadcast: {
       type: "boolean",
-      label: "Thread Broadcasts",
-      description: "Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to false.",
+      label: "Send Channel Message",
+      description: "If `true`, posts in the thread and channel. Used in conjunction with `Message Timestamp` and indicates whether reply should be made visible to everyone in the channel. Defaults to `false`.",
       default: false,
       optional: true,
     },
@@ -397,7 +397,7 @@ export default {
     icon_url: {
       type: "string",
       label: "Icon (image URL)",
-      description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
+      description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `Send as User` set to `false`, otherwise ignored.",
       optional: true,
     },
     initial_comment: {

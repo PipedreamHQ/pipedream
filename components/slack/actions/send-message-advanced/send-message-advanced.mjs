@@ -48,12 +48,6 @@ export default {
         "link_names",
       ],
     },
-    thread_broadcast: {
-      propDefinition: [
-        common.props.slack,
-        "thread_broadcast",
-      ],
-    },
     ...common.props,
     ...buildBlocks.props,
   },
