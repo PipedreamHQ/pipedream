@@ -4,7 +4,7 @@ export default {
   name: "Create or Append to a Text File",
   description: "Adds a new line to an existing text file, or creates a file if it doesn't exist. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-create-or-append-to-a-text-file",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     dropbox,
@@ -16,10 +16,13 @@ export default {
     path: {
       propDefinition: [
         dropbox,
-        "pathFolder",
+        "path",
+        () => ({
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => type === "folder",
+        }),
       ],
       optional: true,
-      description: "The file path in the user's Dropbox to create the file. If not filled, it will be created in the root folder.",
+      description: "Type the folder name to search for it in the user's Dropbox. If not filled, it will be created in the root folder.",
     },
     content: {
       type: "string",

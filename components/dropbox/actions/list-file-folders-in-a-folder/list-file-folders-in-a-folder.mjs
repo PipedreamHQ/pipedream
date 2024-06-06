@@ -4,16 +4,19 @@ export default {
   name: "List All Files/Subfolders in a Folder",
   description: "Retrieves a list of files or subfolders in a specified folder [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesListFolder__anchor)",
   key: "dropbox-list-file-folders-in-a-folder",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     dropbox,
     path: {
       propDefinition: [
         dropbox,
-        "pathFolder",
+        "path",
+        () => ({
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => type === "folder",
+        }),
       ],
-      description: "Scopes the search to a path in the user's Dropbox.",
+      description: "Type the folder name to search for it in the user's Dropbox.",
     },
     recursive: {
       type: "boolean",

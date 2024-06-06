@@ -4,7 +4,7 @@ export default {
   name: "Create folder",
   description: "Create a folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesCreateFolderV2__anchor)",
   key: "dropbox-create-folder",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     dropbox,
@@ -16,10 +16,13 @@ export default {
     path: {
       propDefinition: [
         dropbox,
-        "pathFolder",
+        "path",
+        () => ({
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => type === "folder",
+        }),
       ],
       optional: true,
-      description: "The file path in the user's Dropbox to create the folder. If not filled, it will be created in the root folder.",
+      description: "Type the folder name to search for it in the user's Dropbox. If not filled, it will be created in the root folder.",
     },
     autorename: {
       type: "boolean",

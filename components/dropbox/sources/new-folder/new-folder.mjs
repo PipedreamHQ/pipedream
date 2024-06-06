@@ -6,7 +6,7 @@ export default {
   type: "source",
   key: "dropbox-new-folder",
   name: "New Folder",
-  version: "0.0.15",
+  version: "0.0.16",
   description: "Emit new event when a new folder is created. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   hooks: {
     async activate() {

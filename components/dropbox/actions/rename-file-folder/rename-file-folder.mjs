@@ -4,20 +4,24 @@ export default {
   name: "Rename a File/Folder",
   description: "Renames a file or folder in the user's Dropbox [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesMoveV2__anchor)",
   key: "dropbox-rename-file-folder",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     dropbox,
     pathFrom: {
       propDefinition: [
         dropbox,
-        "pathFileFolder",
+        "path",
         () => ({
-          omitRootFolder: true,
+          initialOptions: [],
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => [
+            "file",
+            "folder",
+          ].includes(type),
         }),
       ],
       label: "Path From",
-      description: "The file that you want to rename.",
+      description: "Type the file or folder name to search for it in the user's Dropbox.",
     },
     newName: {
       type: "string",
