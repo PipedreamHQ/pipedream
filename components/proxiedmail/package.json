@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/proxiedmail",
+  "version": "0.0.1",
+  "description": "Pipedream ProxiedMail Components",
+  "main": "proxiedmail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "proxiedmail"
+  ],
+  "homepage": "https://pipedream.com/apps/proxiedmail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
