@@ -17,7 +17,7 @@ export default {
       return {};
     },
     _getLastDate() {
-      return this.db.get("lastDate") || "1970-01-01T00:00:01q";
+      return this.db.get("lastDate") || "1970-01-01T00:00:01Z";
     },
     _setLastDate(lastDate) {
       this.db.set("lastDate", lastDate);
