@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/documenterra",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Pipedream Documenterra Components",
   "main": "documenterra.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "2.0.0"
   }
 }
