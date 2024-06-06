@@ -18,7 +18,7 @@ export default {
       return item._id;
     },
     getSummary(item) {
-      return `New contact whit Id: ${item._id} was successfully created!`;
+      return `New contact with Id: ${item._id} was successfully created!`;
     },
   },
   sampleEmit,
