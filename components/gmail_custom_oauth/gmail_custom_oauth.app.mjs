@@ -91,5 +91,24 @@ export default {
       });
       return data;
     },
+    async getMessagesWithRetry(ids = [], retryCount = 0) {
+      const promises = ids.map((id) =>
+        this.getMessage({
+          id,
+        })
+          .catch((err) => {
+            console.error(`Failed to get message with id ${id}:`, err);
+            if (retryCount < 3) {
+              console.log("Retrying...");
+              return this.getMessagesWithRetry([
+                id,
+              ], retryCount + 1);
+            }
+
+            console.error("Failed after 3 attempts.");
+            return null;
+          }));
+      return Promise.all(promises);
+    },
   },
 };
