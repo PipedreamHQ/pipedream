@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/qdrant",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Qdrant Components",
   "main": "qdrant.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@qdrant/js-client-rest": "^1.9.0"
   }
 }

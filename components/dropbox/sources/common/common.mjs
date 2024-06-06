@@ -7,8 +7,12 @@ export default {
     path: {
       propDefinition: [
         dropbox,
-        "pathFolder",
+        "path",
+        () => ({
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => type === "folder",
+        }),
       ],
+      description: "Type the folder name to search for it in the user's Dropbox.",
     },
     recursive: {
       propDefinition: [

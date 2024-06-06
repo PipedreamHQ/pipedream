@@ -17,7 +17,7 @@ export default {
   key: "google_ads-create-report",
   name: "Create Report",
   description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/fields/v16/overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -73,10 +73,20 @@ export default {
         description: "The field to order the results by",
         optional: true,
         options: [
-          ...(this.fields ?? []),
-          ...(this.segments ?? []),
-          ...(this.metrics ?? []),
-        ],
+          this.fields,
+          this.segments,
+          this.metrics,
+        ].filter((v) => v).flatMap((value) => {
+          let returnValue = value;
+          if (typeof value === "string") {
+            try {
+              returnValue = JSON.parse(value);
+            } catch (err) {
+              returnValue = value.split(",");
+            }
+          }
+          return returnValue?.map?.((str) => str.trim());
+        }),
       },
       direction: {
         type: "string",
