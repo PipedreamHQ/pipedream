@@ -12,7 +12,6 @@ export default {
       type: "string",
       label: "Api Key",
       description: "The bot's api key [Click here for further information](https://help.botpenguin.com/api-references/whatsapp-cloud-api#id-2.-api-key).",
-      optional: true,
       secret: true,
     },
     userName: {
