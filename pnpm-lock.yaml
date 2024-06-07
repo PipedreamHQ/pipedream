@@ -993,7 +993,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/botpenguin:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/botpress:
     specifiers:
