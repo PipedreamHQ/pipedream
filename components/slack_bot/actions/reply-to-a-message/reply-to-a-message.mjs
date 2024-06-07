@@ -14,5 +14,5 @@ export default {
   }),
   key: "slack_bot-reply-to-a-message",
   description: "Send a message as a threaded reply (Bot). See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.3",
+  version: "0.0.4",
 };

@@ -4,10 +4,10 @@ import buildBlocks from "../common/build-blocks.mjs";
 export default {
   ...common,
   ...buildBlocks,
-  key: "slack-send-custom-message",
-  name: "Send a Custom Message",
+  key: "slack-send-message-advanced",
+  name: "Send Message (Advanced)",
   description: "Customize advanced setttings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.2.21",
+  version: "0.0.1",
   type: "action",
   props: {
     slack: common.props.slack,
@@ -47,23 +47,6 @@ export default {
         common.props.slack,
         "link_names",
       ],
-    },
-    reply_broadcast: {
-      propDefinition: [
-        common.props.slack,
-        "reply_broadcast",
-      ],
-    },
-    thread_ts: {
-      propDefinition: [
-        common.props.slack,
-        "messageTs",
-        (c) => ({
-          channel: c.conversation,
-        }),
-      ],
-      description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead.",
-      optional: true,
     },
     ...common.props,
     ...buildBlocks.props,

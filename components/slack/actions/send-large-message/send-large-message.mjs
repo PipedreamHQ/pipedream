@@ -5,7 +5,7 @@ export default {
   key: "slack-send-large-message",
   name: "Send a Large Message (3000+ characters)",
   description: "Send a large message (more than 3000 characters) to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.17",
+  version: "0.0.18",
   type: "action",
   props: {
     slack: common.props.slack,
@@ -38,10 +38,12 @@ export default {
     let metadataEventPayload;
 
     if (this.metadata_event_type) {
-      try {
-        metadataEventPayload = JSON.parse(this.metadata_event_payload);
-      } catch (error) {
-        throw new Error(`Invalid JSON in metadata_event_payload: ${error.message}`);
+      if (typeof this.metadata_event_payload === "string") {
+        try {
+          metadataEventPayload = JSON.parse(this.metadata_event_payload);
+        } catch (error) {
+          throw new Error(`Invalid JSON in metadata_event_payload: ${error.message}`);
+        }
       }
 
       this.metadata = {
@@ -59,6 +61,10 @@ export default {
       icon_url: this.icon_url,
       mrkdwn: this.mrkdwn,
       metadata: this.metadata || null,
+      reply_broadcast: this.thread_broadcast,
+      thread_ts: this.thread_ts,
+      unfurl_links: this.unfurl_links,
+      unfurl_media: this.unfurl_media,
     };
 
     let response;
@@ -68,8 +74,17 @@ export default {
     }
 
     response = await this.slack.sdk().chat.postMessage(obj);
-
-    $.export("$summary", "Successfully sent a message to channel ID " + this.conversation);
+    const { channel } = await this.slack.conversationsInfo({
+      channel: response.channel,
+    });
+    let channelName = `#${channel?.name}`;
+    if (channel.is_im) {
+      const usernames = await this.slack.userNames();
+      channelName = `@${usernames[channel.user]}`;
+    } else if (channel.is_mpim) {
+      channelName = `@${channel.purpose.value}`;
+    }
+    $.export("$summary", `Successfully sent a message to ${channelName}`);
     return response;
   },
 };
