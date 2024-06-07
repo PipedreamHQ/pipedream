@@ -1,4 +1,5 @@
 import { JsonPrimitive } from "type-fest";
+import { ExecuteQueryArgs } from "./sql";
 export declare type ColumnSchema = {
     columnDefault: JsonPrimitive;
     dataType: string;
@@ -18,8 +19,20 @@ export declare type TableInfo = {
 export declare type DbInfo = {
     [tableName: string]: TableInfo;
 };
+export declare type SqlProp = {
+    query: string;
+    params?: string[];
+};
 declare const _default: {
     methods: {
+        /**
+         * A method that transforms the value of a prop of type `sql` so that it can
+         * be fed to the `executeQuery` method.
+         *
+         * @param sqlProp - The prop of type `sql`
+         * @returns The arguments to be passed to `executeQuery`
+         */
+        executeQueryAdapter(sqlProp: SqlProp): ExecuteQueryArgs;
         /**
          * A helper method to get the schema of the database. Used by other features
          * (like the `sql` prop) to enrich the code editor and provide the user with
