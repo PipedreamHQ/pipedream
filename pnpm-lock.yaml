@@ -1785,7 +1785,10 @@ importers:
     specifiers: {}
 
   components/connectwise_psa:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/constant_contact:
     specifiers:
@@ -2624,6 +2627,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/emaillistverify:
+    specifiers: {}
 
   components/emailoctopus:
     specifiers:
@@ -4153,7 +4159,10 @@ importers:
     specifiers: {}
 
   components/identitycheck:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/idx_broker:
     specifiers: {}
@@ -5552,6 +5561,9 @@ importers:
   components/mx_toolbox:
     specifiers: {}
 
+  components/myotp_app:
+    specifiers: {}
+
   components/mysql:
     specifiers:
       '@pipedream/platform': ^2.0.0
@@ -6795,6 +6807,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/proxiedmail:
+    specifiers: {}
 
   components/proxy_spider:
     specifiers: {}
@@ -8623,6 +8638,9 @@ importers:
       lodash.pickby: 4.6.0
 
   components/survicate:
+    specifiers: {}
+
+  components/survser:
     specifiers: {}
 
   components/svix:

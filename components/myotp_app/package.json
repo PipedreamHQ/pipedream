@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/myotp_app",
+  "version": "0.0.1",
+  "description": "Pipedream MyOTP.App Components",
+  "main": "myotp_app.app.mjs",
+  "keywords": [
+    "pipedream",
+    "myotp_app"
+  ],
+  "homepage": "https://pipedream.com/apps/myotp_app",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
