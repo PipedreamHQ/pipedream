@@ -7206,6 +7206,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/repliq:
+    specifiers: {}
+
   components/reply_io:
     specifiers:
       '@pipedream/platform': ^1.2.1
