@@ -76,7 +76,7 @@ export default {
         setLatestDateCovered,
         getObjectTypeColumns,
         getNameField,
-        generateMeta,
+        generateTimerMeta,
         $emit: emit,
       } = this;
 
@@ -108,7 +108,7 @@ export default {
       Array.from(events)
         .reverse()
         .forEach((item) => {
-          const meta = generateMeta(item, fieldName);
+          const meta = generateTimerMeta(item, fieldName);
           emit(item, meta);
         });
     },
@@ -118,8 +118,6 @@ export default {
         getObjectTypeDescription,
         setObjectTypeColumns,
       } = this;
-
-      await common.hooks.activate.call(this);
 
       const { fields } = await getObjectTypeDescription(objectType);
       const columns = fields.map(({ name }) => name);

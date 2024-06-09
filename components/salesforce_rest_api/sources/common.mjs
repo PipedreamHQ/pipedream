@@ -51,15 +51,6 @@ export default {
   },
   hooks: {
     async activate() {
-      const latestDateCovered = this.getLatestDateCovered();
-      if (!latestDateCovered) {
-        const now = new Date().toISOString();
-        this.setLatestDateCovered(now);
-      }
-
-      const nameField = await this.salesforce.getNameFieldForObjectType(this.objectType);
-      this.setNameField(nameField);
-
       // Attempt to create the webhook
       const secretToken = uuidv4();
       let webhookData;
@@ -73,11 +64,21 @@ export default {
           fieldsToCheckMode: this.getFieldsToCheckMode(),
           skipValidation: true, // neccessary for custom objects
         });
+        console.log("Webhook created successfully");
       } catch (err) {
         console.log("Error creating webhook:", err);
         console.log("The source will operate on the polling schedule instead.");
-        this.timerActivateHook();
-        throw err;
+
+        const latestDateCovered = this.getLatestDateCovered();
+        if (!latestDateCovered) {
+          const now = new Date().toISOString();
+          this.setLatestDateCovered(now);
+        }
+
+        const nameField = await this.salesforce.getNameFieldForObjectType(this.objectType);
+        this.setNameField(nameField);
+
+        await this.timerActivateHook();
       }
       this._setSecretToken(secretToken);
       this._setWebhookData(webhookData);
@@ -115,9 +116,6 @@ export default {
     },
     processTimerEvent() {
       throw new Error("processTimerEvent is not implemented");
-    },
-    processWebhookEvent() {
-      throw new Error("processWebhookEvent is not implemented");
     },
     getObjectTypeDescription(objectType) {
       const { salesforce } = this;
@@ -194,7 +192,7 @@ export default {
       );
       if (timeDiffSec < 60) {
         console.log(`
-          Skipping execution since the last one happened approximately ${timeDiffSec} seconds ago
+          Skipping execution (already executed less than 60 seconds ago)
         `);
         return;
       }
