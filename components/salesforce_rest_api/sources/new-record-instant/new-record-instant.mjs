@@ -1,13 +1,14 @@
 import startCase from "lodash/startCase.js";
-import common from "../common-instant.mjs";
+import common from "../common.mjs";
 
 export default {
   ...common,
   type: "source",
   name: "New Record (Instant, of Selectable Type)",
   key: "salesforce_rest_api-new-record-instant",
-  description: "Emit new event immediately after a record of arbitrary object type (selected as an input parameter by the user) is created",
-  version: "0.0.4",
+  description: "Emit new event when a record of the selected object type is created",
+  // https://sforce.co/3yPSJZy
+  version: "0.0.{{ts}}",
   hooks: {
     ...common.hooks,
     async deploy() {
@@ -26,13 +27,29 @@ export default {
             "UserId": id,
           },
         };
-        this.processEvent(event);
+        this.processWebhookEvent(event);
       }
     },
   },
   methods: {
     ...common.methods,
-    generateMeta(data) {
+    generateTimerMeta(item, fieldName) {
+      const { objectType } = this;
+      const {
+        CreatedDate: createdDate,
+        [fieldName]: name,
+        Id: id,
+      } = item;
+      const entityType = startCase(objectType);
+      const summary = `New ${entityType} created: ${name}`;
+      const ts = Date.parse(createdDate);
+      return {
+        id,
+        summary,
+        ts,
+      };
+    },
+    generateWebhookMeta(data) {
       const nameField = this.getNameField();
       const { New: newObject } = data.body;
       const {
@@ -51,6 +68,63 @@ export default {
     },
     getEventType() {
       return "new";
+    },
+    async processTimerEvent(eventData) {
+      const {
+        paginate,
+        objectType,
+        setLatestDateCovered,
+        getObjectTypeColumns,
+        getNameField,
+        generateMeta,
+        $emit: emit,
+      } = this;
+
+      const {
+        startTimestamp,
+        endTimestamp,
+      } = eventData;
+
+      const fieldName = getNameField();
+      const columns = getObjectTypeColumns();
+
+      const events = await paginate({
+        objectType,
+        startTimestamp,
+        endTimestamp,
+        columns,
+      });
+
+      const [
+        latestEvent,
+      ] = events;
+
+      if (latestEvent?.CreatedDate) {
+        const latestDateCovered = new Date(latestEvent.CreatedDate);
+        latestDateCovered.setSeconds(0);
+        setLatestDateCovered(latestDateCovered.toISOString());
+      }
+
+      Array.from(events)
+        .reverse()
+        .forEach((item) => {
+          const meta = generateMeta(item, fieldName);
+          emit(item, meta);
+        });
+    },
+    async timerActivateHook() {
+      const {
+        objectType,
+        getObjectTypeDescription,
+        setObjectTypeColumns,
+      } = this;
+
+      await common.hooks.activate.call(this);
+
+      const { fields } = await getObjectTypeDescription(objectType);
+      const columns = fields.map(({ name }) => name);
+
+      setObjectTypeColumns(columns);
     },
   },
 };

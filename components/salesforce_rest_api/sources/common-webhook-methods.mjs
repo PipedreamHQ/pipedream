@@ -36,13 +36,13 @@ export default {
     const secretToken = this._getSecretToken();
     return webhookToken === secretToken;
   },
-  processEvent(event) {
+  processWebhookEvent(event) {
     const { body } = event;
-    const meta = this.generateMeta(event);
+    const meta = this.generateWebhookMeta(event);
     this.$emit(body, meta);
   },
-  generateMeta() {
-    throw new Error("generateMeta is not implemented");
+  generateWebhookMeta() {
+    throw new Error("generateWebhookMeta is not implemented");
   },
   getEventType() {
     throw new Error("getEventType is not implemented");

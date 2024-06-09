@@ -76,6 +76,7 @@ export default {
       } catch (err) {
         console.log("Error creating webhook:", err);
         console.log("The source will operate on the polling schedule instead.");
+        this.timerActivateHook();
         throw err;
       }
       this._setSecretToken(secretToken);
@@ -91,6 +92,9 @@ export default {
   },
   methods: {
     ...commonWebhookMethods,
+    timerActivateHook() {
+      return null;
+    },
     getObjectTypeColumns() {
       return this.db.get("columns") ?? [];
     },
@@ -109,8 +113,11 @@ export default {
     setNameField(nameField) {
       this.db.set("nameField", nameField);
     },
-    processEvent() {
-      throw new Error("processEvent is not implemented");
+    processTimerEvent() {
+      throw new Error("processTimerEvent is not implemented");
+    },
+    processWebhookEvent() {
+      throw new Error("processWebhookEvent is not implemented");
     },
     getObjectTypeDescription(objectType) {
       const { salesforce } = this;
@@ -192,7 +199,7 @@ export default {
         return;
       }
 
-      await this.processEvent({
+      await this.processTimerEvent({
         startTimestamp,
         endTimestamp,
       });
@@ -212,7 +219,7 @@ export default {
         statusCode: 200,
       });
 
-      await this.processEvent(event);
+      await this.processWebhookEvent(event);
     }
   },
 };
