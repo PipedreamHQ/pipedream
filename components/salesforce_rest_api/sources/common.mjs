@@ -8,32 +8,17 @@ export default {
   dedupe: "unique",
   props: {
     salesforce,
-    alertTest1: {
-      type: "alert",
-      alertType: "info",
-      content: "Test Alert 1",
-    },
     db: "$.service.db",
     http: {
       type: "$.interface.http",
       customResponse: true,
     },
-    alertTest2: {
-      type: "alert",
-      alertType: "info",
-      content: "Test Alert 2",
-    },
     timer: {
       type: "$.interface.timer",
-      description: "test description",
+      description: "The timer is only used as a fallback if instant event delivery (webhook) is not available.",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
-    },
-    alertTest3: {
-      type: "alert",
-      alertType: "info",
-      content: "Test Alert 3",
     },
     objectType: {
       label: "Object Type",
@@ -42,11 +27,6 @@ export default {
         salesforce,
         "objectType",
       ],
-    },
-    alertTest4: {
-      type: "alert",
-      alertType: "info",
-      content: "Test Alert 4",
     },
   },
   hooks: {
