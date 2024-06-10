@@ -137,19 +137,28 @@ export default {
         parentTaskId: this.parentTaskId,
       });
     }
-    const response = await this.height.updateTask({
-      $,
-      data: {
-        patches: [
-          {
-            taskIds: [
-              this.taskId,
-            ],
-            effects,
-          },
-        ],
-      },
-    });
+    let response;
+    try {
+      response = await this.height.updateTask({
+        $,
+        data: {
+          patches: [
+            {
+              taskIds: [
+                this.taskId,
+              ],
+              effects,
+            },
+          ],
+        },
+      });
+    } catch (e) {
+      const messageText = JSON.parse(e.message).error.message;
+      if (messageText === "listIds can't be empty.") {
+        throw new Error("Task must belong to at least one list");
+      }
+      throw new Error(messageText);
+    }
     $.export("$summary", `Task ${this.taskId} updated successfully`);
     return response;
   },
