@@ -20,6 +20,7 @@ export default {
             ? list.filter(({ id }) => !listIds.includes(id))
             : list.filter(({ id }) => listIds.includes(id));
         }
+        list = list.filter(({ type }) => type == "list" || type === "projects");
         return list?.map(({
           id: value, name: label,
         }) => ({
