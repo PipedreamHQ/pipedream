@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/botmaker",
+  "version": "0.0.1",
+  "description": "Pipedream Botmaker Components",
+  "main": "botmaker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "botmaker"
+  ],
+  "homepage": "https://pipedream.com/apps/botmaker",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -81,7 +81,8 @@ export default {
       }
     },
   },
-  async additionalProps() {
+  async additionalProps(existingProps) {
+    await common.additionalProps.call(this, existingProps);
     const props = {};
     const sectionDescription = "Add a **section** block to your message and configure with plain text or mrkdwn. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#section) for more info.";
     const contextDescription = "Add a **context** block to your message and configure with plain text or mrkdwn. Define multiple items if you'd like multiple elements in the context block. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#context) for more info.";

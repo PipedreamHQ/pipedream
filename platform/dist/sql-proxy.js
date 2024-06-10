@@ -37,15 +37,5 @@ exports.default = {
         proxyAdapter(args) {
             throw new errors_1.ConfigurationError("proxyAdapter not implemented");
         },
-        /**
-         * A method that performs the inverse transformation of `proxyAdapter`.
-         *
-         * @param args - The output of `proxyAdapter`.
-         * @returns The query string or object to be sent to the DB.
-         */
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        executeQueryAdapter(args) {
-            throw new errors_1.ConfigurationError("executeQueryAdapter not implemented");
-        },
     },
 };

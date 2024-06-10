@@ -14,5 +14,5 @@ export default {
   }),
   key: "slack_bot-send-message",
   description: "Send a message to a user, group, private channel or public channel (Bot). See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.2",
+  version: "0.0.3",
 };
