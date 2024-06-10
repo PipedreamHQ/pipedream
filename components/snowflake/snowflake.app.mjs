@@ -93,12 +93,28 @@ export default {
         return this.connection;
       }
 
-      this.connection = snowflake.createConnection({
-        ...this.$auth,
-        application: "PIPEDREAM_PIPEDREAM",
-      });
+      const options = this.getClientConfiguration();
+      this.connection = snowflake.createConnection(options);
       await promisify(this.connection.connect).bind(this.connection)();
       return this.connection;
+    },
+    /**
+     * A helper method to get the configuration object that's directly fed to
+     * the Snowflake client constructor. Used by other features (like SQL proxy)
+     * to initialize their client in an identical way.
+     *
+     * @returns The configuration object for the Snowflake client
+     */
+    getClientConfiguration() {
+      const {
+        private_key: privateKey,
+        ...auth
+      } = this.$auth;
+      return {
+        privateKey,
+        ...auth,
+        application: "PIPEDREAM_PIPEDREAM",
+      };
     },
     /**
      * A helper method to get the schema of the database. Used by other features
