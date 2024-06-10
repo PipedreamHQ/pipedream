@@ -40,7 +40,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created the database '${this.name}'`);
+    $.export("$summary", `Successfully created the database '${this.databaseName}'`);
 
     return response;
   },
