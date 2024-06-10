@@ -8347,7 +8347,12 @@ importers:
     specifiers: {}
 
   components/speechace:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
+      form-data: 4.0.0
 
   components/splitwise:
     specifiers:
