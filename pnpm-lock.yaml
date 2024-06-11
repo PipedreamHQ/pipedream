@@ -2094,6 +2094,9 @@ importers:
   components/deepl:
     specifiers: {}
 
+  components/deepseek:
+    specifiers: {}
+
   components/defastra:
     specifiers:
       '@pipedream/platform': ^1.5.1
