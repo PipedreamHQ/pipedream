@@ -24,7 +24,7 @@ export const parseObject = (obj) => {
 };
 
 export const cleanObject = (o) => {
-  for (var k in o || {}) {
+  for (let k in o || {}) {
     if (typeof o[k] === "undefined") {
       delete o[k];
     }
