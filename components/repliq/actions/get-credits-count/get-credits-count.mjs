@@ -1,5 +1,4 @@
 import repliq from "../../repliq.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "repliq-get-credits-count",
@@ -11,7 +10,9 @@ export default {
     repliq,
   },
   async run({ $ }) {
-    const response = await this.repliq.getCreditsCount();
+    const response = await this.repliq.getCreditsCount({
+      $,
+    });
     $.export("$summary", `Successfully retrieved credits count: ${response.creditsCount}`);
     return response;
   },

@@ -10,9 +10,13 @@ export default {
       description: "The ID of the template you want to deploy.",
       async options() {
         const templates = await this.listTemplates();
-        return templates.map((template) => ({
-          label: template.name,
-          value: template.id,
+        if (templates.error) return [];
+
+        return templates.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -21,45 +25,37 @@ export default {
     _baseUrl() {
       return "https://api.repliq.co/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        data,
-        params,
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this,
+      path,
+      ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.token || this.$auth.oauth_access_token}`,
-        },
-        data,
-        params,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async getCreditsCount() {
+    getCreditsCount() {
       return this._makeRequest({
         path: "/getCreditsCount",
       });
     },
-    async listTemplates() {
+    listTemplates() {
       return this._makeRequest({
-        path: "/templateList",
+        path: "/getTemplateList",
       });
     },
-    async launchRepliqProcess({ templateId }) {
+    launchTemplate(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/deployTemplate",
-        data: {
-          templateId,
-        },
+        path: "/launchTemplate",
+        ...opts,
       });
     },
   },

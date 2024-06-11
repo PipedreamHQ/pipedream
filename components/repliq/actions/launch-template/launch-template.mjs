@@ -1,11 +1,11 @@
+import { predefinedProps } from "../../common/props.mjs";
 import repliq from "../../repliq.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "repliq-launch-template",
   name: "Launch Repliq Template",
   description: "Launch a Repliq process by deploying the selected template. [See the documentation](https://developer.repliq.co/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     repliq,
@@ -14,11 +14,51 @@ export default {
         repliq,
         "templateId",
       ],
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    let props = {};
+    if (this.templateId) {
+      let words;
+      try {
+        await this.repliq.launchTemplate({
+          data: {
+            templateId: this.templateId,
+          },
+        });
+      } catch (e) {
+        words = JSON.parse(e.message).error.split(" ").slice(-2)
+          .join("");
+      }
+
+      props = {
+        ...predefinedProps[words],
+        email: {
+          type: "string",
+          label: "Email",
+          description: "The account email you want to send this result to.",
+          optional: true,
+        },
+        webhook: {
+          type: "string",
+          label: "Webhook",
+          description: "Attach a webhook url that will trigger when the process is ready for you to use. You cannot use multiple url.",
+          optional: true,
+        },
+      };
+    }
+    return props;
+  },
   async run({ $ }) {
-    const response = await this.repliq.launchRepliqProcess({
-      templateId: this.templateId,
+    const {
+      repliq,
+      ...data
+    } = this;
+
+    const response = await repliq.launchTemplate({
+      $,
+      data,
     });
     $.export("$summary", `Successfully launched template with ID ${this.templateId}`);
     return response;
