@@ -106,14 +106,22 @@ export default {
      * @returns The configuration object for the Snowflake client
      */
     getClientConfiguration() {
+      // Snowflake docs:
+      // https://docs.snowflake.com/en/developer-guide/node-js/nodejs-driver-options#authentication-options
       const {
         private_key: privateKey,
+        private_key_pass: privateKeyPass,
         ...auth
       } = this.$auth;
+      const authenticator = privateKey
+        ? "SNOWFLAKE_JWT"
+        : "SNOWFLAKE";
       return {
-        privateKey,
         ...auth,
         application: "PIPEDREAM_PIPEDREAM",
+        authenticator,
+        privateKey,
+        privateKeyPass,
       };
     },
     /**
