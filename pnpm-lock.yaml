@@ -2426,6 +2426,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
 
+  components/drchrono:
+    specifiers: {}
+
   components/dreamhost:
     specifiers: {}
 
