@@ -4,7 +4,7 @@ export default {
   key: "kodagpt-semantic-search",
   name: "Semantic Search",
   description: "Perform a semantic search within chatbot data [See the documentation](https://kodagpt.readme.io/reference/buscas-semanticas)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -13,6 +13,18 @@ export default {
         app,
         "question",
       ],
+    },
+    chatbotId: {
+      propDefinition: [
+        app,
+        "chatbotId",
+      ],
+      optional: true,
+    },
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Bot ID is required if you don't specify Bot ID on the connection popup",
     },
   },
   async run({ $ }) {

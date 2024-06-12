@@ -9,6 +9,11 @@ export default {
       label: "Question",
       description: "The question to ask the chatbot",
     },
+    chatbotId: {
+      type: "string",
+      label: "Chatbot ID",
+      description: "To get your Chatbot ID, sign in, go to \"Integrations\". Copy your Chatbot ID from \"My Chatbots\".",
+    },
   },
   methods: {
     _baseUrl() {
