@@ -4076,6 +4076,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/html_to_image:
+    specifiers: {}
+
   components/http:
     specifiers:
       '@pipedream/platform': ^1.2.0
