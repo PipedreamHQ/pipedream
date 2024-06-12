@@ -100,8 +100,8 @@ export default {
       return this.connection;
     },
     _extractPrivateKey(key, passphrase) {
-      if (!key.startsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----")) {
-        // Key is not encrypted, no need to extract anything
+      if (!key?.startsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----")) {
+        // Key undefined or is not encrypted, no need to extract anything
         return key;
       }
 
