@@ -6304,6 +6304,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/pdffiller:
+    specifiers: {}
+
   components/pdfless:
     specifiers:
       '@pdfless/pdfless-js': ^1.0.510
