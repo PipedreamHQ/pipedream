@@ -6769,6 +6769,9 @@ importers:
   components/processplan:
     specifiers: {}
 
+  components/procfu:
+    specifiers: {}
+
   components/procore:
     specifiers:
       '@pipedream/platform': ^1.1.1
