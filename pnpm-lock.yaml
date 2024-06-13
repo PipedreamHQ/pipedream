@@ -1288,6 +1288,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/certifier:
+    specifiers: {}
+
   components/cflow:
     specifiers: {}
 
