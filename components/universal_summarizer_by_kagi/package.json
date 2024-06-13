@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/universal_summarizer_by_kagi",
+  "version": "0.0.1",
+  "description": "Pipedream Universal Summarizer by Kagi Components",
+  "main": "universal_summarizer_by_kagi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "universal_summarizer_by_kagi"
+  ],
+  "homepage": "https://pipedream.com/apps/universal_summarizer_by_kagi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
