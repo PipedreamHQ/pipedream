@@ -5915,6 +5915,9 @@ importers:
   components/oksign:
     specifiers: {}
 
+  components/okta:
+    specifiers: {}
+
   components/omise:
     specifiers:
       '@pipedream/platform': ^1.5.1
