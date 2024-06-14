@@ -34,7 +34,7 @@ export default {
         webhook: {
           type: "string",
           label: "Webhook",
-          description: "Attach a webhook url that will trigger when the process is ready for you to use. You cannot use multiple url.",
+          description: "Attach a webhook URL that will trigger when the process is ready for you to use. You cannot use multiple URLs.",
           optional: true,
         },
       };
