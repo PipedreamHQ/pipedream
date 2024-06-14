@@ -3617,7 +3617,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_gemini:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/google_maps_platform:
     specifiers: {}
@@ -15484,6 +15487,17 @@ packages:
 
   /@pipedream/platform/2.0.0:
     resolution: {integrity: sha512-D7Y02VvqLg1K1yMFZlvu6rQC1RBJXaZqq9RBTM/2JGN/CNHzHbZVlW1hcT7G5iFdw8Z3Gtzhknsi+2QwlmeL7w==}
+    dependencies:
+      axios: 1.6.5
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/3.0.0:
+    resolution: {integrity: sha512-qlSJBF0Gn5RloFEPr072hSf6pRSU++Zjs0j6X9ZE2SMmfg777qYR4RQ5HkTHEELEyA948xEOqkBt3bFplpfEbw==}
     dependencies:
       axios: 1.6.5
       fp-ts: 2.16.1
