@@ -28,7 +28,7 @@ const jobTitle = {
 const icebreaker = {
   type: "string",
   label: "Icebreaker",
-  description: "Use an icebreaker as introduction for your process specific to the person your create the process for.",
+  description: "Use an icebreaker as introduction for your process specific to the person you create the process for.",
   optional: true,
 };
 const yourCustomVariable = {
