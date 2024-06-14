@@ -44,7 +44,7 @@ export default {
     getCreditsCount(opts = {}) {
       return this._makeRequest({
         path: "/getCreditsCount",
-        ...opts
+        ...opts,
       });
     },
     listTemplates() {
