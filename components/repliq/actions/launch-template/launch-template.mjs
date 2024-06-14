@@ -20,20 +20,11 @@ export default {
   async additionalProps() {
     let props = {};
     if (this.templateId) {
-      let words;
-      try {
-        await this.repliq.launchTemplate({
-          data: {
-            templateId: this.templateId,
-          },
-        });
-      } catch (e) {
-        words = JSON.parse(e.message).error.split(" ").slice(-2)
-          .join("");
-      }
+      const templates = await this.repliq.listTemplates();
+      const template = templates.find((item) => item.id === this.templateId);
 
       props = {
-        ...predefinedProps[words],
+        ...predefinedProps[template.type],
         email: {
           type: "string",
           label: "Email",

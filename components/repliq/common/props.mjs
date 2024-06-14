@@ -39,7 +39,7 @@ const yourCustomVariable = {
 };
 
 export const predefinedProps = {
-  aiimages: {
+  ai_image: {
     firstName,
     lastName,
     jobTitle,
@@ -49,7 +49,7 @@ export const predefinedProps = {
     },
     yourCustomVariable,
   },
-  aivideo: {
+  ai_avatar: {
     url,
     companyName: {
       ...companyName,
@@ -62,7 +62,7 @@ export const predefinedProps = {
     jobTitle,
     icebreaker,
   },
-  gptscreenshot: {
+  gpt_image: {
     companyName,
     firstName: {
       ...firstName,
@@ -78,11 +78,11 @@ export const predefinedProps = {
     },
     yourCustomVariable,
   },
-  foricebreaker: {
+  icebreaker: {
     url,
     firstName,
   },
-  linkedinvideo: {
+  text_to_video: {
     firstName,
     prospectImgUrl: {
       type: "string",
@@ -98,7 +98,7 @@ export const predefinedProps = {
     jobTitle,
     icebreaker,
   },
-  ofvideo: {
+  video_scale: {
     url,
     firstName: {
       ...firstName,
