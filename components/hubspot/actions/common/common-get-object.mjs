@@ -1,4 +1,4 @@
-import hubspot from "../hubspot.app.mjs";
+import hubspot from "../../hubspot.app.mjs";
 
 export default {
   props: {

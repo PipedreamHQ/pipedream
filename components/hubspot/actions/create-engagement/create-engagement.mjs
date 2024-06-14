@@ -1,4 +1,4 @@
-import common from "../common-create.mjs";
+import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   API_PATH, ASSOCIATION_CATEGORY,

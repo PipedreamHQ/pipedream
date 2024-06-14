@@ -1,5 +1,5 @@
 import { OBJECT_TYPE } from "../../common/constants.mjs";
-import common from "../common-get-object.mjs";
+import common from "../common/common-get-object.mjs";
 
 export default {
   ...common,

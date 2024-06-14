@@ -1,7 +1,7 @@
-import hubspot from "../hubspot.app.mjs";
+import hubspot from "../..hubspot.app.mjs";
 import {
   OBJECT_TYPE, HUBSPOT_OWNER,
-} from "../common/constants.mjs";
+} from "../../common/constants.mjs";
 
 /**
  * Returns an options method for a CRM object type, intended to be used in

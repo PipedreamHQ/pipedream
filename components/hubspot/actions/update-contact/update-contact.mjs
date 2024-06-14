@@ -1,5 +1,5 @@
 import { OBJECT_TYPE } from "../../common/constants.mjs";
-import common from "../common-update-object.mjs";
+import common from "../common/common-update-object.mjs";
 import hubspot from "../../hubspot.app.mjs";
 
 export default {
