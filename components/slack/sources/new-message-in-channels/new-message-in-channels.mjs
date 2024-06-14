@@ -72,7 +72,6 @@ export default {
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
         return;
       }
-      console.log(event.s);
       // There is no thread message type only the thread_ts field
       // indicates if the message is part of a thread in the event.
       if (this.ignoreThreads && event.thread_ts) {
