@@ -1,55 +1,41 @@
-import { axios } from "@pipedream/platform";
-import acymailing from "../../acymailing.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "acymailing-new-subscribed-user",
   name: "New Subscribed User",
-  description: "Emits an event when a user subscribes to one or more specified list(s).",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a user subscribes to a specified list.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    acymailing,
-    db: "$.service.db",
-    lists: {
+    ...common.props,
+    listId: {
       propDefinition: [
-        acymailing,
-        "lists",
+        common.props.acymailing,
+        "listIds",
       ],
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
+      type: "integer",
+      label: "List Id",
     },
   },
   methods: {
-    async fetchSubscriptions(listIds, lastExecutionTime) {
-      const subscriptions = await this.acymailing.subscribeUserToLists(null, listIds);
-      return subscriptions.filter((subscription) => new Date(subscription.subscription_date) > new Date(lastExecutionTime));
+    ...common.methods,
+    getSummary({
+      email, name,
+    }) {
+      return `New Subscriber: ${name} (${email})`;
     },
-  },
-  hooks: {
-    async activate() {
-      this.db.set("lastExecutionTime", Date.now() - 1000 * 60 * 15); // Set initial state 15 minutes ago
+    getParams() {
+      return {
+        "listIds[]": this.listId,
+      };
     },
-  },
-  async run() {
-    const lastExecutionTime = this.db.get("lastExecutionTime");
-    const currentTime = Date.now();
-    const listIds = this.lists.join(",");
-
-    const subscriptions = await this.fetchSubscriptions(listIds, lastExecutionTime);
-
-    subscriptions.forEach((subscription) => {
-      this.$emit(subscription, {
-        id: subscription.id,
-        summary: `New Subscriber: ${subscription.name} (${subscription.email})`,
-        ts: Date.parse(subscription.subscription_date),
-      });
-    });
-
-    this.db.set("lastExecutionTime", currentTime);
+    getFn() {
+      return this.acymailing.listSubscribersFromLists;
+    },
+    getDateField() {
+      return "subscription_date";
+    },
   },
 };

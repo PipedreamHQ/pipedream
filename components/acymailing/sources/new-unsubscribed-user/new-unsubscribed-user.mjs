@@ -1,64 +1,39 @@
-import acymailing from "../../acymailing.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "acymailing-new-unsubscribed-user",
   name: "New Unsubscribed User",
-  description: "Emits an event when a user unsubscribes from the specified mailing list(s). [See the documentation](https://www.acymailing.com/documentation/)",
+  description: "Emit new event when a user unsubscribes from the specified mailing list.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    acymailing,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    lists: {
+    ...common.props,
+    listId: {
       propDefinition: [
-        acymailing,
-        "lists",
+        common.props.acymailing,
+        "listIds",
       ],
+      type: "integer",
+      label: "List Id",
     },
   },
   methods: {
-    ...acymailing.methods,
-    generateMeta(data) {
-      const {
-        email, id, unsubscribe_date,
-      } = data;
+    ...common.methods,
+    getSummary({ email }) {
+      return `User ${email} unsubscribed`;
+    },
+    getParams() {
       return {
-        id,
-        summary: `User ${email} unsubscribed`,
-        ts: Date.parse(unsubscribe_date),
+        "listIds[]": this.listId,
       };
     },
-  },
-  async run() {
-    const listIds = this.lists.map((list) => list.value);
-    const lastUnsubscribedDate = this.db.get("lastUnsubscribedDate") || null;
-
-    const unsubscribedUsers = await this.acymailing.getUnsubscribedUsersFromLists({
-      listIds,
-      lastUnsubscribedDate,
-    });
-
-    unsubscribedUsers.forEach((user) => {
-      this.$emit(user, this.generateMeta(user));
-    });
-
-    if (unsubscribedUsers.length > 0) {
-      const mostRecentUnsubscriptionDate = unsubscribedUsers.reduce((max, user) => {
-        const currentDate = new Date(user.unsubscribe_date);
-        return currentDate > max
-          ? currentDate
-          : max;
-      }, new Date(0));
-
-      this.db.set("lastUnsubscribedDate", mostRecentUnsubscriptionDate.toISOString());
-    }
+    getFn() {
+      return this.acymailing.listUnsubscribedUsersFromLists;
+    },
+    getDateField() {
+      return "unsubscribe_date";
+    },
   },
 };

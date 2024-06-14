@@ -1,100 +1,146 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "acymailing",
   propDefinitions: {
-    lists: {
-      type: "string[]",
-      label: "Lists",
-      description: "Array of list names.",
-      async options() {
-        const { items } = await this.getLists();
-        return items.map(({
-          id, name,
+    listIds: {
+      type: "integer[]",
+      label: "List Ids",
+      description: "Array of list IDs.",
+      async options({ page }) {
+        const lists = await this.listLists({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return lists.map(({
+          id: value, name: label,
         }) => ({
-          label: name,
-          value: id,
+          label,
+          value,
         }));
       },
     },
-    userData: {
-      type: "object",
-      label: "User Data",
-      description: "User data including at least a unique identifier (e.g., email).",
-    },
-    userEmail: {
-      type: "string",
-      label: "User Email",
-      description: "The user's unique identifier (e.g., email).",
-    },
-    emailContent: {
-      type: "string",
-      label: "Email Content",
-      description: "The content of the email to send.",
-    },
-    listIds: {
+    emails: {
       type: "string[]",
-      label: "List IDs",
-      description: "Array of list IDs.",
+      label: "Emails",
+      description: "The email addresses of users to subscribe to the lists. These must match already existing AcyMailing users.",
+      async options({ page }) {
+        const data = await this.listUsers({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({ email }) => email);
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://www.example.com/index.php";
+      return `${this.$auth.url}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Api-Key": `${this.$auth.api_key}`,
+        "Content-Type": "application/json",
+      };
+    },
+    _params(params) {
+      return {
+        page: "acymailing_front",
+        option: "com_acym",
+        ctrl: "api",
+        ...params,
+      };
+    },
+    _makeRequest({
+      $ = this, params, task, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: `${this._baseUrl()}?page=acymailing_front&option=com_acym&ctrl=api&task=${path}`,
-        headers: {
-          ...headers,
-          "Api-Key": `${this.$auth.api_key}`,
-          "Content-Type": "application/json",
-        },
+        url: `${this._baseUrl()}`,
+        params: this._params({
+          ...params,
+          task,
+        }),
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async getLists() {
+    listUsers(opts = {}) {
       return this._makeRequest({
-        path: "getLists",
+        task: "getUsers",
+        ...opts,
       });
     },
-    async createUserOrUpdate(userData) {
+    listLists(opts = {}) {
+      return this._makeRequest({
+        task: "getLists",
+        ...opts,
+      });
+    },
+    listSubscribersFromLists(opts = {}) {
+      return this._makeRequest({
+        task: "getSubscribersFromLists",
+        ...opts,
+      });
+    },
+    listUnsubscribedUsersFromLists(opts = {}) {
+      return this._makeRequest({
+        task: "getUnsubscribedUsersFromLists",
+        ...opts,
+      });
+    },
+    createUserOrUpdate(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "createOrUpdateUser",
-        data: userData,
+        task: "createOrUpdateUser",
+        ...opts,
       });
     },
-    async sendEmailToUser(userEmail, emailContent) {
+    sendEmailToUser(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "sendEmailToSingleUser",
-        data: {
-          email: userEmail,
-          content: emailContent,
-        },
+        task: "sendEmailToSingleUser",
+        ...opts,
       });
     },
-    async subscribeUserToLists(userEmail, listIds) {
+    subscribeUserToLists(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "subscribeUsers",
-        data: {
-          emails: [
-            userEmail,
-          ],
-          listIds,
-        },
+        task: "subscribeUsers",
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, ...opts
+    }) {
+      let hasMore = false;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page;
+        page++;
+
+        const data = await fn({
+          params,
+          ...opts,
+        });
+
+        for (const d of data) {
+          yield d;
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
+
 };
