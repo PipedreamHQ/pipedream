@@ -12,19 +12,18 @@ export default {
     messageOnContinue: {
       type: "string",
       label: "Reason for continuing",
-      description: "The message that will be displayed when the workflow **continues**",
+      description: "Export a message if the workflow **continues**",
       optional: true,
     },
     messageOnEnd: {
       type: "string",
       label: "Reason for ending",
-      description: "The message that will be displayed when the workflow **ends**",
+      description: "Export a message if the workflow **ends**",
       optional: true,
     },
     initialValue: {
       type: "any",
-      label: "Initial value",
-      description: "The 1st of 2 values to compare",
+      description: "The 1st input to evaluate",
     },
     condition: {
       propDefinition: [
@@ -38,8 +37,8 @@ export default {
     if (binaryConditions.includes(this.condition)) {
       props.secondValue = {
         type: "any",
-        label: "Second value",
-        description: "The 2nd of 2 values to compare",
+        description: "The 2nd of 2 inputs to compare",
+        label: "...This value",
       };
     }
     if (arrayConditions.includes(this.condition)) {
