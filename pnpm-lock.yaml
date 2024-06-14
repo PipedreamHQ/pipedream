@@ -1288,6 +1288,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/certifier:
+    specifiers: {}
+
   components/cflow:
     specifiers: {}
 
@@ -2425,6 +2428,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
+
+  components/drchrono:
+    specifiers: {}
 
   components/dreamhost:
     specifiers: {}
@@ -3911,7 +3917,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/height:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/helcim:
     specifiers: {}
@@ -4073,6 +4082,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/html_to_image:
+    specifiers: {}
+
   components/http:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4105,6 +4117,9 @@ importers:
       package: 1.0.1
 
   components/hubspot_developer_app:
+    specifiers: {}
+
+  components/hubstaff:
     specifiers: {}
 
   components/hugging_face:
@@ -4184,6 +4199,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/ikas:
+    specifiers: {}
 
   components/ikigai:
     specifiers: {}
@@ -4729,6 +4747,9 @@ importers:
       '@pipedream/platform': 1.6.5
     dependencies:
       '@pipedream/platform': 1.6.5
+
+  components/leadoku:
+    specifiers: {}
 
   components/leadzen_ai:
     specifiers:
@@ -5552,6 +5573,9 @@ importers:
   components/mozilla_observatory:
     specifiers: {}
 
+  components/mslm_cloud:
+    specifiers: {}
+
   components/mumara:
     specifiers: {}
 
@@ -5903,6 +5927,9 @@ importers:
   components/oksign:
     specifiers: {}
 
+  components/okta:
+    specifiers: {}
+
   components/omise:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6188,6 +6215,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/parma:
+    specifiers: {}
+
   components/parsehub:
     specifiers:
       '@pipedream/platform': ^1.6.2
@@ -6297,6 +6327,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/pdffiller:
+    specifiers: {}
 
   components/pdfless:
     specifiers:
@@ -6740,6 +6773,9 @@ importers:
       lodash: 4.17.21
 
   components/processplan:
+    specifiers: {}
+
+  components/procfu:
     specifiers: {}
 
   components/procore:
@@ -8291,7 +8327,7 @@ importers:
       '@pipedream/platform': ^2.0.0
       asn1.js: ^5.0.0
       lodash-es: ^4.17.21
-      snowflake-sdk: ^1.6.10
+      snowflake-sdk: ^1.7.0
       uuid: ^8.3.2
     dependencies:
       '@pipedream/platform': 2.0.0
@@ -8785,6 +8821,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/teamcamp:
+    specifiers: {}
+
   components/teamdeck:
     specifiers: {}
 
@@ -8880,6 +8919,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/test_app_for_oauth_bug:
+    specifiers: {}
+
+  components/test_apps_for_checking_something_001:
     specifiers: {}
 
   components/testmo:
@@ -9232,7 +9274,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/turso:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/tutor_lms:
     specifiers: {}
@@ -9351,6 +9396,9 @@ importers:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
 
+  components/undetectable_ai:
+    specifiers: {}
+
   components/unione:
     specifiers: {}
 
@@ -9359,6 +9407,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/universal_summarizer_by_kagi:
+    specifiers: {}
 
   components/unsplash:
     specifiers:
@@ -22865,6 +22916,7 @@ packages:
 
   /glob/7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
