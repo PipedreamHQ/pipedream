@@ -1,3 +1,4 @@
+import { createPrivateKey } from "crypto";
 import snowflake from "snowflake-sdk";
 import { promisify } from "util";
 import { sqlProp } from "@pipedream/platform";
@@ -93,12 +94,53 @@ export default {
         return this.connection;
       }
 
-      this.connection = snowflake.createConnection({
-        ...this.$auth,
-        application: "PIPEDREAM_PIPEDREAM",
-      });
+      const options = this.getClientConfiguration();
+      this.connection = snowflake.createConnection(options);
       await promisify(this.connection.connect).bind(this.connection)();
       return this.connection;
+    },
+    _extractPrivateKey(key, passphrase) {
+      if (!key?.startsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----")) {
+        // Key undefined or is not encrypted, no need to extract anything
+        return key;
+      }
+
+      const privateKeyObject = createPrivateKey({
+        key,
+        format: "pem",
+        passphrase,
+      });
+      return privateKeyObject.export({
+        format: "pem",
+        type: "pkcs8",
+      });
+    },
+    /**
+     * A helper method to get the configuration object that's directly fed to
+     * the Snowflake client constructor. Used by other features (like SQL proxy)
+     * to initialize their client in an identical way.
+     *
+     * @returns The configuration object for the Snowflake client
+     */
+    getClientConfiguration() {
+      // Snowflake docs:
+      // https://docs.snowflake.com/en/developer-guide/node-js/nodejs-driver-options#authentication-options
+      const {
+        private_key: originalPrivateKey,
+        private_key_pass: privateKeyPass,
+        ...auth
+      } = this.$auth;
+      const privateKey = this._extractPrivateKey(originalPrivateKey, privateKeyPass);
+      const authenticator = privateKey
+        ? "SNOWFLAKE_JWT"
+        : "SNOWFLAKE";
+      return {
+        ...auth,
+        application: "PIPEDREAM_PIPEDREAM",
+        authenticator,
+        privateKey,
+        privateKeyPass,
+      };
     },
     /**
      * A helper method to get the schema of the database. Used by other features

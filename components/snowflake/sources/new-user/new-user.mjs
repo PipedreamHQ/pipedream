@@ -6,7 +6,7 @@ export default {
   key: "snowflake-new-user",
   name: "New User",
   description: "Emit new event when a user is created",
-  version: "0.0.11",
+  version: "0.1.0",
   methods: {
     ...common.methods,
     alwaysRunInSingleProcessMode() {
