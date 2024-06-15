@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/teamcamp",
+  "version": "0.0.1",
+  "description": "Pipedream Teamcamp Components",
+  "main": "teamcamp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "teamcamp"
+  ],
+  "homepage": "https://pipedream.com/apps/teamcamp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,4 +1,4 @@
-import component from "../../../slack/actions/send-custom-message/send-custom-message.mjs";
+import component from "../../../slack/actions/send-message-advanced/send-message-advanced.mjs";
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */
@@ -12,7 +12,7 @@ export default {
       "as_user",
     ],
   }),
-  key: "slack_bot-send-custom-message",
+  key: "slack_bot-send-message-advanced",
   description: "Customize advanced setttings and send a message to a channel, group or user (Bot). See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.3",
+  version: "0.0.4",
 };

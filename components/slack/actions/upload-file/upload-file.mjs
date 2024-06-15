@@ -6,7 +6,7 @@ export default {
   key: "slack-upload-file",
   name: "Upload File",
   description: "Upload a file. [See the documentation](https://api.slack.com/methods/files.upload)",
-  version: "0.0.20",
+  version: "0.0.21",
   type: "action",
   props: {
     slack,

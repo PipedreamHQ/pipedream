@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/survser",
+  "version": "0.0.1",
+  "description": "Pipedream Survser Components",
+  "main": "survser.app.mjs",
+  "keywords": [
+    "pipedream",
+    "survser"
+  ],
+  "homepage": "https://pipedream.com/apps/survser",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

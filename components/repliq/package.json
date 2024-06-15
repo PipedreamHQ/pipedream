@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/repliq",
+  "version": "0.0.1",
+  "description": "Pipedream RepliQ Components",
+  "main": "repliq.app.mjs",
+  "keywords": [
+    "pipedream",
+    "repliq"
+  ],
+  "homepage": "https://pipedream.com/apps/repliq",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

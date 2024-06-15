@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/acymailing",
+  "version": "0.0.1",
+  "description": "Pipedream AcyMailing Components",
+  "main": "acymailing.app.mjs",
+  "keywords": [
+    "pipedream",
+    "acymailing"
+  ],
+  "homepage": "https://pipedream.com/apps/acymailing",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

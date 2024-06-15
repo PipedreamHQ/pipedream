@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/test_apps_for_checking_something_001",
+  "version": "0.0.1",
+  "description": "Pipedream test_apps_for_checking_something_001 Components",
+  "main": "test_apps_for_checking_something_001.app.mjs",
+  "keywords": [
+    "pipedream",
+    "test_apps_for_checking_something_001"
+  ],
+  "homepage": "https://pipedream.com/apps/test_apps_for_checking_something_001",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

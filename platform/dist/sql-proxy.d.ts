@@ -1,9 +1,9 @@
+import { ExecuteQueryArgs } from "./sql";
 export declare type ClientConfiguration = object;
 export declare type ProxyArgs = {
     query: string;
     params?: unknown[];
 };
-export declare type ExecuteQueryArgs = object | string;
 export declare type Row = object;
 declare const _default: {
     methods: {
@@ -33,13 +33,6 @@ declare const _default: {
          * @returns The adapted query and parameters.
          */
         proxyAdapter(args: ExecuteQueryArgs): ProxyArgs;
-        /**
-         * A method that performs the inverse transformation of `proxyAdapter`.
-         *
-         * @param args - The output of `proxyAdapter`.
-         * @returns The query string or object to be sent to the DB.
-         */
-        executeQueryAdapter(args: ProxyArgs): ExecuteQueryArgs;
     };
 };
 export default _default;

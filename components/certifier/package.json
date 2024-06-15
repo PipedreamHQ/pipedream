@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/certifier",
+  "version": "0.0.1",
+  "description": "Pipedream Certifier Components",
+  "main": "certifier.app.mjs",
+  "keywords": [
+    "pipedream",
+    "certifier"
+  ],
+  "homepage": "https://pipedream.com/apps/certifier",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
