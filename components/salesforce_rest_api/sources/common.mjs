@@ -58,7 +58,7 @@ export default {
         const nameField = await this.salesforce.getNameFieldForObjectType(this.objectType);
         this.setNameField(nameField);
 
-        await this.timerActivateHook();
+        await this.timerActivateHook?.();
       }
       this._setSecretToken(secretToken);
       this._setWebhookData(webhookData);
