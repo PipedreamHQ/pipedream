@@ -1,6 +1,5 @@
 import startCase from "lodash/startCase.js";
-
-import common from "../common-instant.mjs";
+import common from "../common.mjs";
 
 export default {
   ...common,
@@ -11,7 +10,7 @@ export default {
   version: "0.0.4",
   methods: {
     ...common.methods,
-    generateMeta(data) {
+    generateWebhookMeta(data) {
       const nameField = this.getNameField();
       const { Old: oldObject } = data.body;
       const {
@@ -29,8 +28,44 @@ export default {
         ts,
       };
     },
+    generateTimerMeta(item) {
+      const {
+        id,
+        deletedDate,
+      } = item;
+      const entityType = startCase(this.objectType);
+      const summary = `${entityType} deleted: ${id}`;
+      const ts = Date.parse(deletedDate);
+      return {
+        id,
+        summary,
+        ts,
+      };
+    },
     getEventType() {
       return "deleted";
+    },
+    async processTimerEvent(eventData) {
+      const {
+        startTimestamp,
+        endTimestamp,
+      } = eventData;
+      const {
+        deletedRecords,
+        latestDateCovered,
+      } = await this.salesforce.getDeletedForObjectType(
+        this.objectType,
+        startTimestamp,
+        endTimestamp,
+      );
+      this.setLatestDateCovered(latestDateCovered);
+
+      // When a record is deleted, the `getDeleted` API only shows the ID of the
+      // deleted item and the date in which it was deleted.
+      deletedRecords.forEach((item) => {
+        const meta = this.generateMeta(item);
+        this.$emit(item, meta);
+      });
     },
   },
 };

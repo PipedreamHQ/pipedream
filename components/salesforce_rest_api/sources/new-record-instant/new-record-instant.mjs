@@ -6,8 +6,7 @@ export default {
   type: "source",
   name: "New Record (Instant, of Selectable Type)",
   key: "salesforce_rest_api-new-record-instant",
-  description: "Emit new event when a record of the selected object type is created",
-  // https://sforce.co/3yPSJZy
+  description: "Emit new event when a record of the selected object type is created. [See the documentation](https://sforce.co/3yPSJZy)",
   version: "0.0.{{ts}}",
   hooks: {
     ...common.hooks,
