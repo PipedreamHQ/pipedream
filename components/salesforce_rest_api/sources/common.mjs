@@ -55,13 +55,13 @@ export default {
           this.setLatestDateCovered(now);
         }
 
-        const nameField = await this.salesforce.getNameFieldForObjectType(this.objectType);
-        this.setNameField(nameField);
-
         await this.timerActivateHook?.();
       }
       this._setSecretToken(secretToken);
       this._setWebhookData(webhookData);
+
+      const nameField = await this.salesforce.getNameFieldForObjectType(this.objectType);
+      this.setNameField(nameField);
     },
     async deactivate() {
       // Delete the webhook, if it exists
