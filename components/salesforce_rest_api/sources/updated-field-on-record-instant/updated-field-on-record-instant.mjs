@@ -104,7 +104,7 @@ export default {
       if (!this.isEventRelevant(event)) {
         return;
       }
-      const meta = this.generateMeta(event);
+      const meta = this.generateWebhookMeta(event);
       this.$emit(body, meta);
     },
     getEventType() {
@@ -124,7 +124,7 @@ export default {
         setLatestDateCovered,
         isRelevant,
         paginate,
-        generateMeta,
+        generateTimerMeta,
         $emit: emit,
       } = this;
 
@@ -152,7 +152,7 @@ export default {
         .reverse()
         .filter(isRelevant)
         .forEach((event) => {
-          const meta = generateMeta(event);
+          const meta = generateTimerMeta(event);
           emit(event, meta);
         });
     },

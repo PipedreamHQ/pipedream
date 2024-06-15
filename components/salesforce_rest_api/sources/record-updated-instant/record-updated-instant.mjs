@@ -57,7 +57,7 @@ export default {
         paginate,
         objectType,
         setLatestDateCovered,
-        generateMeta,
+        generateTimerMeta,
         $emit: emit,
       } = this;
 
@@ -90,7 +90,7 @@ export default {
       Array.from(events)
         .reverse()
         .forEach((item) => {
-          const meta = generateMeta(item, fieldName);
+          const meta = generateTimerMeta(item, fieldName);
           emit(item, meta);
         });
     },

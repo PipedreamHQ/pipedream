@@ -63,7 +63,7 @@ export default {
       // When a record is deleted, the `getDeleted` API only shows the ID of the
       // deleted item and the date in which it was deleted.
       deletedRecords.forEach((item) => {
-        const meta = this.generateMeta(item);
+        const meta = this.generateTimerMeta(item);
         this.$emit(item, meta);
       });
     },
