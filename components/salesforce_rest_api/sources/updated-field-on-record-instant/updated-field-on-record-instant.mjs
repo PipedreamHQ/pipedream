@@ -20,9 +20,7 @@ export default {
   props: {
     ...common.props,
     objectType: {
-      type: common.props.objectType.type,
-      label: common.props.objectType.label,
-      description: common.props.objectType.description,
+      ...common.props.objectType,
       propDefinition: [
         salesforce,
         "objectType",
