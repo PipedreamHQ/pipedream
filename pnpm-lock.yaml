@@ -9203,6 +9203,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/transifex:
+    specifiers: {}
+
   components/transistor_fm:
     specifiers:
       '@pipedream/platform': ^1.1.1
