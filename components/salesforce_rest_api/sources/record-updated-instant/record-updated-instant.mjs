@@ -101,8 +101,6 @@ export default {
         setObjectTypeColumns,
       } = this;
 
-      await common.hooks.activate.call(this);
-
       const { fields } = await getObjectTypeDescription(objectType);
       const columns = fields.map(({ name }) => name);
 

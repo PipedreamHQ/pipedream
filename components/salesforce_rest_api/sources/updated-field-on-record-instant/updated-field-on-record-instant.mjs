@@ -184,8 +184,6 @@ export default {
         setObjectTypeColumns,
       } = this;
 
-      await common.hooks.activate.call(this);
-
       const historyObjectType = `${objectType}History`;
 
       const { fields } = await getObjectTypeDescription(historyObjectType);
