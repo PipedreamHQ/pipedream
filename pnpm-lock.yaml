@@ -8102,6 +8102,9 @@ importers:
   components/signaturit:
     specifiers: {}
 
+  components/signpath:
+    specifiers: {}
+
   components/signrequest:
     specifiers: {}
 
