@@ -18,7 +18,6 @@ export default {
       withLabel: false,
     },
   },
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(result) {
@@ -40,7 +39,9 @@ export default {
     },
     getParams() {
       return {
-        limit: 50,
+        params: {
+          limit: 50,
+        },
       };
     },
     async processResults(after, baseParams) {

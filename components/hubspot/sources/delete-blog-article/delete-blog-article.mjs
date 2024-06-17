@@ -8,7 +8,6 @@ export default {
   version: "0.0.13",
   dedupe: "unique",
   type: "source",
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(blogpost) {
@@ -28,9 +27,11 @@ export default {
     },
     getParams(after) {
       return {
-        limit: 100,
-        deletedAt__gte: after,
-        sort: "-updatedAt",
+        params: {
+          limit: 100,
+          deletedAt__gte: after,
+          sort: "-updatedAt",
+        },
       };
     },
     async processResults(after, params) {

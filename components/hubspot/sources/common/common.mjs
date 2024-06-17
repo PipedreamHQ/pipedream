@@ -29,7 +29,9 @@ export default {
       this.db.set("after", after);
     },
     async getWriteOnlyProperties(resourceName) {
-      const { results: properties } = await this.hubspot.getProperties(resourceName);
+      const { results: properties } = await this.hubspot.getProperties({
+        objectType: resourceName,
+      });
       return properties.filter(({ modificationMetadata }) => !modificationMetadata.readOnlyValue);
     },
     getChunks(items) {

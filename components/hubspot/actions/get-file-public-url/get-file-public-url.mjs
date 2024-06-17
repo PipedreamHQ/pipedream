@@ -35,8 +35,11 @@ export default {
       throw new Error(`File not found at ${fileUrl}`);
     }
     // result: { url: string }
-    const result = await this.hubspot.getSignedUrl(fileId, {
-      expirationSeconds,
+    const result = await this.hubspot.getSignedUrl({
+      fileId,
+      params: {
+        expirationSeconds,
+      },
     });
     $.export("$summary", "Successfully retrieved a publicly available URL");
     return result;

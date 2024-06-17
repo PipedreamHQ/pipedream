@@ -9,8 +9,12 @@ export default {
   version: "0.0.9",
   type: "action",
   async additionalProps() {
-    const schema = await this.hubspot.getSchema(this.getObjectType());
-    const { results: properties } = await this.hubspot.getProperties(this.getObjectType());
+    const schema = await this.hubspot.getSchema({
+      objectType: this.getObjectType(),
+    });
+    const { results: properties } = await this.hubspot.getProperties({
+      objectType: this.getObjectType(),
+    });
     const props = properties
       .filter(this.isRelevantProperty)
       .map((property) => this.makePropDefinition(property, schema.requiredProperties))
@@ -40,7 +44,6 @@ export default {
         return;
       }
       const data = {
-        object: "contacts",
         filters: [
           {
             propertyName: "email",
@@ -49,7 +52,11 @@ export default {
           },
         ],
       };
-      return this.hubspot.searchCRM(data, $);
+      return this.hubspot.searchCRM({
+        object: "contacts",
+        data,
+        $,
+      });
     },
   },
   async run({ $ }) {
@@ -78,8 +85,21 @@ export default {
 
     // if contact is found, update it. if not, create new contact.
     const response = total > 0
-      ? await hubspot.updateObject(objectType, properties, results[0].id, $)
-      : await hubspot.createObject(objectType, properties, $);
+      ? await hubspot.updateObject({
+        $,
+        objectType,
+        objectId: results[0].id,
+        data: {
+          properties,
+        },
+      })
+      : await hubspot.createObject({
+        $,
+        objectType,
+        data: {
+          properties,
+        },
+      });
 
     const objectName = hubspot.getObjectTypeName(objectType);
     $.export("$summary", `Successfully ${total > 0

@@ -8,7 +8,6 @@ export default {
   version: "0.0.18",
   dedupe: "unique",
   type: "source",
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(engagement) {
@@ -33,7 +32,9 @@ export default {
   async run() {
     const createdAfter = this._getAfter();
     const params = {
-      limit: 250,
+      params: {
+        limit: 250,
+      },
     };
 
     await this.paginateUsingHasMore(

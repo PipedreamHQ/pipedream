@@ -32,7 +32,6 @@ export default {
       optional: true,
     },
   },
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(deal) {
@@ -55,17 +54,19 @@ export default {
     },
     getParams() {
       const params = {
-        limit: 100,
-        sorts: [
-          {
-            propertyName: "hs_lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
+        data: {
+          limit: 100,
+          sorts: [
+            {
+              propertyName: "hs_lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+        },
         object: "deals",
       };
       if (this.pipeline) {
-        params.filters = [
+        params.data.filters = [
           {
             propertyName: "pipeline",
             operator: "EQ",
@@ -73,7 +74,7 @@ export default {
           },
         ];
         if (this.stage) {
-          params.filters.push({
+          params.data.filters.push({
             propertyName: "dealstage",
             operator: "EQ",
             value: this.stage,

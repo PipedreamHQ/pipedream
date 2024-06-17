@@ -20,7 +20,9 @@ export default {
         if (page !== 0) {
           return [];
         }
-        const { results: properties } = await this.hubspot.getProperties(this.getObjectType());
+        const { results: properties } = await this.hubspot.getProperties({
+          objectType: this.getObjectType(),
+        });
         return properties.map((property) => ({
           label: property.label,
           value: property.name,

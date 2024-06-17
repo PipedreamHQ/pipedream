@@ -45,31 +45,33 @@ export default {
     getParams(after) {
       return {
         object: "deals",
-        limit: 50,
-        properties: [
-          this.property,
-        ],
-        sorts: [
-          {
-            propertyName: "hs_lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
-        filterGroups: [
-          {
-            filters: [
-              {
-                propertyName: this.property,
-                operator: "HAS_PROPERTY",
-              },
-              {
-                propertyName: "hs_lastmodifieddate",
-                operator: "GTE",
-                value: after,
-              },
-            ],
-          },
-        ],
+        data: {
+          limit: 50,
+          properties: [
+            this.property,
+          ],
+          sorts: [
+            {
+              propertyName: "hs_lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+          filterGroups: [
+            {
+              filters: [
+                {
+                  propertyName: this.property,
+                  operator: "HAS_PROPERTY",
+                },
+                {
+                  propertyName: "hs_lastmodifieddate",
+                  operator: "GTE",
+                  value: after,
+                },
+              ],
+            },
+          ],
+        },
       };
     },
     async batchGetDeals(inputs) {

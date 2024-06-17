@@ -41,7 +41,9 @@ export default {
         if (page !== 0) {
           return [];
         }
-        const { results: properties } = await this.hubspot.getProperties(this.objectType);
+        const { results: properties } = await this.hubspot.getProperties({
+          objectType: this.objectType,
+        });
         return properties.map((property) => ({
           label: property.label,
           value: property.name,
@@ -63,7 +65,6 @@ export default {
       searchValue,
     } = this;
     const data = {
-      object: objectType,
       properties: additionalProperties,
       filters: [
         {
@@ -73,7 +74,11 @@ export default {
         },
       ],
     };
-    const { results } = await this.hubspot.searchCRM(data, $);
+    const { results } = await this.hubspot.searchCRM({
+      object: objectType,
+      data,
+      $,
+    });
     $.export("$summary", `Successfully retrieved ${results?.length} object(s).`);
     return results;
   },

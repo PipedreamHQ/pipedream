@@ -1,4 +1,5 @@
 import hubspot from "../../hubspot.app.mjs";
+import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
 
 export default {
   key: "hubspot-create-associations",
@@ -66,13 +67,27 @@ export default {
       associationType,
       toObjectIds,
     } = this;
-    const response = await this.hubspot.createAssociations(
+    const response = await this.hubspot.createAssociations({
+      $,
       fromObjectType,
       toObjectType,
-      fromObjectId,
-      toObjectIds,
-      associationType,
-    );
+      data: {
+        inputs: toObjectIds.map((toId) => ({
+          from: {
+            id: fromObjectId,
+          },
+          to: {
+            id: toId,
+          },
+          types: [
+            {
+              associationCategory: ASSOCIATION_CATEGORY.HUBSPOT_DEFINED,
+              associationTypeId: associationType,
+            },
+          ],
+        })),
+      },
+    });
     const l = response.results.length;
     $.export("$summary", `Successfully created ${l} association${l === 1
       ? ""

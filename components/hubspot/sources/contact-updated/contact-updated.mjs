@@ -39,14 +39,16 @@ export default {
     },
     getParams() {
       return {
-        limit: 100,
-        sorts: [
-          {
-            propertyName: "lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
-        properties: this.properties,
+        data: {
+          limit: 100,
+          sorts: [
+            {
+              propertyName: "lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+          properties: this.properties,
+        },
         object: "contacts",
       };
     },

@@ -8,7 +8,6 @@ export default {
   version: "0.0.17",
   dedupe: "unique",
   type: "source",
-  hooks: {},
   props: {
     ...common.props,
     pipeline: {
@@ -67,16 +66,18 @@ export default {
         ],
       };
       return {
-        limit: 100,
-        filterGroups: [
-          filterGroup,
-        ],
-        sorts: [
-          {
-            propertyName: "hs_lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
+        data: {
+          limit: 100,
+          filterGroups: [
+            filterGroup,
+          ],
+          sorts: [
+            {
+              propertyName: "hs_lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+        },
         object: "deals",
       };
     },

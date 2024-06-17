@@ -41,10 +41,12 @@ export default {
       };
     },
     async emitEvent(contact, properties, list) {
-      const contactInfo = await this.hubspot.getContact(
-        contact.vid,
-        properties,
-      );
+      const contactInfo = await this.hubspot.getContact({
+        contactId: contact.vid,
+        params: {
+          properties,
+        },
+      });
       const meta = this.generateMeta(contact, list);
       this.$emit({
         contact,
@@ -53,7 +55,9 @@ export default {
     },
     getParams() {
       return {
-        count: 100,
+        params: {
+          count: 100,
+        },
       };
     },
     async processResults() {

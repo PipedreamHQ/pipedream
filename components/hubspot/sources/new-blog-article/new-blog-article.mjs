@@ -8,7 +8,6 @@ export default {
   version: "0.0.16",
   dedupe: "unique",
   type: "source",
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(blogpost) {
@@ -28,8 +27,10 @@ export default {
     },
     getParams(after) {
       return {
-        limit: 100,
-        createdAfter: after, // return entries created since event last ran
+        params: {
+          limit: 100,
+          createdAfter: after, // return entries created since event last ran
+        },
       };
     },
     async processResults(after, params) {

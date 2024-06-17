@@ -8,7 +8,6 @@ export default {
   version: "0.0.13",
   dedupe: "unique",
   type: "source",
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(timeline) {
@@ -29,7 +28,9 @@ export default {
     getParams() {
       const startTimestamp = new Date();
       return {
-        startTimestamp,
+        params: {
+          startTimestamp,
+        },
       };
     },
     async processResults(after, params) {

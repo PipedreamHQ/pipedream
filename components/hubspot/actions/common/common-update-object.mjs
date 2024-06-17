@@ -10,7 +10,9 @@ export default {
       label: "Property Groups",
       reloadProps: true,
       async options() {
-        const { results: groups } = await this.hubspot.getPropertyGroups(this.getObjectType());
+        const { results: groups } = await this.hubspot.getPropertyGroups({
+          objectType: this.getObjectType(),
+        });
         return groups.map((group) => ({
           label: group.label,
           value: group.name,
@@ -45,7 +47,13 @@ export default {
         }
       });
 
-    const response = await hubspot.updateObject(objectType, properties, objectId, $);
+    const response = await hubspot.updateObject({
+      objectType,
+      objectId,
+      data: {
+        properties,
+      },
+    });
     const objectName = hubspot.getObjectTypeName(objectType);
 
     $.export("$summary", `Successfully updated ${objectName}`);

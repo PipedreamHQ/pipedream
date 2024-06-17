@@ -31,8 +31,10 @@ export default {
     async deploy() {
       try {
         await this.hubspot.getEvents({
-          objectType: this.objectType,
-          objectId: this.objectIds[0],
+          params: {
+            objectType: this.objectType,
+            objectId: this.objectIds[0],
+          },
         });
       }
       catch {
@@ -61,10 +63,12 @@ export default {
     },
     getEventParams(objectId, occurredAfter) {
       return {
-        limit: 100,
-        objectType: this.objectType,
-        objectId,
-        occurredAfter,
+        params: {
+          limit: 100,
+          objectType: this.objectType,
+          objectId,
+          occurredAfter,
+        },
       };
     },
     async processResults(after) {

@@ -94,8 +94,12 @@ export default {
     },
   },
   async additionalProps() {
-    const schema = await this.hubspot.getSchema(this.getObjectType());
-    const { results: properties } = await this.hubspot.getProperties(this.getObjectType());
+    const schema = await this.hubspot.getSchema({
+      objectType: this.getObjectType(),
+    });
+    const { results: properties } = await this.hubspot.getProperties({
+      objectType: this.getObjectType(),
+    });
     return properties
       .filter(this.isRelevantProperty)
       .map((property) => this.makePropDefinition(property, schema.requiredProperties))

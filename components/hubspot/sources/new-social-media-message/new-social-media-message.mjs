@@ -17,7 +17,6 @@ export default {
       ],
     },
   },
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(message) {
@@ -40,8 +39,10 @@ export default {
     },
     getParams(after) {
       return {
-        withChannelKeys: this.channel,
-        since: after,
+        params: {
+          withChannelKeys: this.channel,
+          since: after,
+        },
       };
     },
     async processResults(after, params) {

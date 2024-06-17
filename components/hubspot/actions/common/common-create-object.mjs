@@ -11,7 +11,9 @@ export default {
       label: "Property Groups",
       reloadProps: true,
       async options() {
-        const { results: groups } = await this.hubspot.getPropertyGroups(this.getObjectType());
+        const { results: groups } = await this.hubspot.getPropertyGroups({
+          objectType: this.getObjectType(),
+        });
         return groups.map((group) => ({
           label: group.label,
           value: group.name,
@@ -46,7 +48,13 @@ export default {
         }
       });
     try {
-      const response = await hubspot.createObject(objectType, properties, $);
+      const response = await hubspot.createObject({
+        $,
+        objectType,
+        data: {
+          properties,
+        },
+      });
       const objectName = hubspot.getObjectTypeName(objectType);
       $.export("$summary", `Successfully created ${objectName}`);
 
@@ -56,7 +64,14 @@ export default {
         const errorObj = JSON.parse(err?.message);
         if (errorObj?.category === "CONFLICT" || errorObj?.category === "OBJECT_ALREADY_EXISTS") {
           const objectId = parseInt(errorObj.message.replace(/[^\d]/g, ""));
-          const response = await hubspot.updateObject(objectType, properties, objectId, $);
+          const response = await hubspot.updateObject({
+            $,
+            objectType,
+            objectId,
+            data: {
+              properties,
+            },
+          });
           const objectName = hubspot.getObjectTypeName(objectType);
           $.export("$summary", `Successfully updated ${objectName}`);
           return response;

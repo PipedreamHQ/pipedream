@@ -17,7 +17,6 @@ export default {
       ],
     },
   },
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(object) {
@@ -40,13 +39,15 @@ export default {
     },
     getObjectParams(object) {
       return {
-        limit: 100,
-        sorts: [
-          {
-            propertyName: "hs_lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
+        data: {
+          limit: 100,
+          sorts: [
+            {
+              propertyName: "hs_lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+        },
         object,
       };
     },

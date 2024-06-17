@@ -1,11 +1,11 @@
 import { axios } from "@pipedream/platform";
 import {
   API_PATH,
-  ASSOCIATION_CATEGORY,
   BASE_URL,
   HUBSPOT_OWNER,
   OBJECT_TYPE,
   OBJECT_TYPES,
+  DEFAULT_LIMIT,
 } from "./common/constants.mjs";
 
 export default {
@@ -18,33 +18,21 @@ export default {
       description: "Select the lists to watch for new contacts.",
       withLabel: true,
       async options({
-        prevContext, listType,
+        page, listType,
       }) {
-        const { offset = 0 } = prevContext;
-        const params = {
-          count: 250,
-          offset,
-        };
         const { lists } = await this.getLists({
           listType,
-          ...params,
-        });
-        const options = lists.map((result) => {
-          const {
-            name: label,
-            listId,
-          } = result;
-          return {
-            label,
-            value: listId,
-          };
-        });
-        return {
-          options,
-          context: {
-            offset: params.offset + params.count,
+          params: {
+            count: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
           },
-        };
+        });
+        return lists?.map(({
+          listId: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
     dealPipeline: {
@@ -52,17 +40,15 @@ export default {
       label: "Pipeline",
       description: "Select the pipeline to watch for new deals in",
       async options() {
-        const { results } = await this.getPipelines("deal");
-        return results.map((result) => {
-          const {
-            label,
-            id: value,
-          } = result;
-          return {
-            label,
-            value,
-          };
+        const { results } = await this.getPipelines({
+          objectType: "deal",
         });
+        return results?.map(({
+          id: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
     stages: {
@@ -70,17 +56,15 @@ export default {
       label: "Stages",
       description: "Select the stages to watch for new deals in.",
       async options({ pipeline }) {
-        const { results } = await this.getDealStages(pipeline);
-        return results.map((result) => {
-          const {
-            label,
-            id,
-          } = result;
-          return {
-            label,
-            value: id,
-          };
+        const { results } = await this.getDealStages({
+          pipelineId: pipeline,
         });
+        return results?.map(({
+          id: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
     objectType: {
@@ -94,13 +78,13 @@ export default {
       label: "Object Schema",
       description: "Watch for new events of objects with the specified custom schema.",
       async options() {
-        const response = await this.listSchemas();
-        return response?.results?.map(({
-          objectTypeId, name,
+        const { results } = await this.listSchemas();
+        return results?.map(({
+          objectTypeId: value, name: label,
         }) => ({
-          label: name,
-          value: objectTypeId,
-        }));
+          value,
+          label,
+        })) || [];
       },
     },
     objectId: {
@@ -128,29 +112,19 @@ export default {
       label: "Form",
       description: "Watch for new submissions of the specified forms.",
       withLabel: true,
-      async options(prevContext) {
-        const { offset } = prevContext;
-        const params = {
-          count: 50,
-          offset: offset || 0,
-        };
-        const results = await this.getForms();
-        const options = results.map((result) => {
-          const {
-            name: label,
-            guid,
-          } = result;
-          return {
-            label,
-            value: guid,
-          };
-        });
-        return {
-          options,
-          context: {
-            offset: params.offset + params.count,
+      async options({ page }) {
+        const results = await this.getForms({
+          params: {
+            count: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
           },
-        };
+        });
+        return results?.map(({
+          guid: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
     channel: {
@@ -179,7 +153,9 @@ export default {
       label: "Property Groups",
       reloadProps: true,
       async options({ objectType }) {
-        const { results: groups } = await this.getPropertyGroups(objectType);
+        const { results: groups } = await this.getPropertyGroups({
+          objectType,
+        });
         return groups.map((group) => ({
           label: group.label,
           value: group.name,
@@ -254,10 +230,10 @@ export default {
       async options({
         fromObjectType, toObjectType,
       }) {
-        const { results: associationTypes } = await this.getAssociationTypes(
+        const { results: associationTypes } = await this.getAssociationTypes({
           fromObjectType,
           toObjectType,
-        );
+        });
         return associationTypes.map((associationType) => ({
           label: associationType.label ?? `${fromObjectType}_to_${toObjectType}`,
           value: associationType.typeId,
@@ -274,19 +250,15 @@ export default {
     },
     async makeRequest(api, endpoint, opts = {}) {
       const {
-        method = "GET",
-        params,
-        data,
-        $,
+        $ = this,
+        ...otherOpts
       } = opts;
       const config = {
-        method,
         url: `${BASE_URL}${api}${endpoint}`,
         headers: this._getHeaders(),
-        params,
-        data,
+        ...otherOpts,
       };
-      return axios($ ?? this, config);
+      return axios($, config);
     },
     getObjectTypeName(objectType) {
       if (!objectType.endsWith("s")) {
@@ -340,111 +312,69 @@ export default {
         return id;
       }
     },
-    async searchCRM({
-      object, ...data
-    }, $) {
+    searchCRM({
+      object, ...opts
+    }) {
       return this.makeRequest(API_PATH.CRMV3, `/objects/${object}/search`, {
         method: "POST",
-        data,
-        $,
+        ...opts,
       });
     },
-    async getBlogPosts(params, $) {
-      return this.makeRequest(API_PATH.CMS, "/blogs/posts", {
-        params,
-        $,
-      });
+    getBlogPosts(opts = {}) {
+      return this.makeRequest(API_PATH.CMS, "/blogs/posts", opts);
     },
-    async getContactProperties($) {
-      return this.makeRequest(API_PATH.PROPERTIES, "/contacts/properties", {
-        $,
-      });
+    getContactProperties(opts = {}) {
+      return this.makeRequest(API_PATH.PROPERTIES, "/contacts/properties", opts);
     },
     async createPropertiesArray($) {
-      const allProperties = await this.getContactProperties($);
+      const allProperties = await this.getContactProperties({
+        $,
+      });
       return allProperties.map((property) => property.name);
     },
-    async getDealProperties($) {
-      return this.makeRequest(API_PATH.PROPERTIES, "/deals/properties", {
-        $,
-      });
+    getDealProperties(opts = {}) {
+      return this.makeRequest(API_PATH.PROPERTIES, "/deals/properties", opts);
     },
-    async getDealStages(pipelineId, $) {
-      return this.makeRequest(API_PATH.CRMV3, `/pipelines/deal/${pipelineId}/stages`, {
-        $,
-      });
+    getDealStages({
+      pipelineId, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CRMV3, `/pipelines/deal/${pipelineId}/stages`, opts);
     },
-    async getEmailEvents(params, $) {
-      return this.makeRequest(API_PATH.EMAIL, "/events", {
-        params,
-        $,
-      });
+    getEmailEvents(opts = {}) {
+      return this.makeRequest(API_PATH.EMAIL, "/events", opts);
     },
-    async getEngagements(params, $) {
-      return this.makeRequest(
-        API_PATH.ENGAGEMENTS,
-        "/engagements/paged",
-        {
-          params,
-          $,
-        },
-      );
+    getEngagements(opts = {}) {
+      return this.makeRequest(API_PATH.ENGAGEMENTS, "/engagements/paged", opts);
     },
-    async getEvents(params, $) {
-      return this.makeRequest(API_PATH.EVENTS, "/events", {
-        params,
-        $,
-      });
+    getEvents(opts = {}) {
+      return this.makeRequest(API_PATH.EVENTS, "/events", opts);
     },
-    async getForms(params, $) {
-      return this.makeRequest(API_PATH.FORMS, "/forms", {
-        params,
-        $,
-      });
+    getForms(opts = {}) {
+      return this.makeRequest(API_PATH.FORMS, "/forms", opts);
     },
-    async getFormSubmissions({
-      formId, ...params
-    }, $) {
-      return this.makeRequest(
-        API_PATH.FORM_INTEGRATIONS,
-        `/submissions/forms/${formId}`,
-        {
-          params,
-          $,
-        },
-      );
+    getFormSubmissions({
+      formId, ...opts
+    }) {
+      return this.makeRequest(API_PATH.FORM_INTEGRATIONS, `/submissions/forms/${formId}`, opts);
     },
-    async getLists(params, $) {
-      const {
-        listType,
-        ...otherParams
-      } = params;
+    getLists({
+      listType, ...opts
+    }) {
       const basePath = "/lists";
       const path = listType
         ? `${basePath}/${listType}`
         : basePath;
-      return this.makeRequest(API_PATH.CONTACTS, path, {
-        params: otherParams,
-        $,
-      });
+      return this.makeRequest(API_PATH.CONTACTS, path, opts);
     },
-    async getListContacts(params, listId, $) {
-      return this.makeRequest(
-        API_PATH.CONTACTS,
-        `/lists/${listId}/contacts/all`,
-        {
-          params,
-          $,
-        },
-      );
+    getListContacts({
+      listId, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CONTACTS, `/lists/${listId}/contacts/all`, opts);
     },
-    async getOwners(params, $) {
-      return this.makeRequest(API_PATH.CRMV3, "/owners", {
-        params,
-        $,
-      });
+    getOwners(opts = {}) {
+      return this.makeRequest(API_PATH.CRMV3, "/owners", opts);
     },
-    async listObjectsInPage(objectType, after, params, $) {
+    listObjectsInPage(objectType, after, params, $) {
       return this.makeRequest(API_PATH.CRMV3, `/objects/${objectType}`, {
         params: {
           after,
@@ -455,7 +385,7 @@ export default {
     },
     async getObjects(objectType, $) {
       const params = {
-        limit: 100,
+        limit: DEFAULT_LIMIT,
       };
       let results = null;
       const objects = [];
@@ -475,24 +405,15 @@ export default {
       }
       return objects;
     },
-    async getContact(contactId, properties, $) {
-      const params = {
-        properties,
-      };
-      return this.makeRequest(
-        API_PATH.CRMV3,
-        `/objects/contacts/${contactId}`,
-        {
-          params,
-          $,
-        },
-      );
+    getContact({
+      contactId, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CRMV3, `/objects/contacts/${contactId}`, opts);
     },
-    async getObject(objectType, objectId, properties, $) {
+    getObject(objectType, objectId, properties, $) {
       const params = {
         properties: properties?.join(","),
       };
-
       return this.makeRequest(
         API_PATH.CRMV3,
         `/objects/${objectType}/${objectId}`,
@@ -502,94 +423,66 @@ export default {
         },
       );
     },
-    async getLineItem(lineItemId, $) {
-      return this.makeRequest(
-        API_PATH.CRMV3,
-        `/objects/line_items/${lineItemId}`,
-        {
-          $,
-        },
-      );
+    getLineItem({
+      lineItemId, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CRMV3, `/objects/line_items/${lineItemId}`, opts );
     },
-    async getPublishingChannels($) {
-      return this.makeRequest(
-        API_PATH.BROADCAST,
-        "/channels/setting/publish/current",
-        {
-          $,
-        },
-      );
+    getPublishingChannels(opts = {}) {
+      return this.makeRequest(API_PATH.BROADCAST, "/channels/setting/publish/current", opts );
     },
-    async getBroadcastMessages(params, $) {
-      return this.makeRequest(
-        API_PATH.BROADCAST,
-        "/broadcasts",
-        {
-          params,
-          $,
-        },
-      );
+    getBroadcastMessages(opts = {}) {
+      return this.makeRequest(API_PATH.BROADCAST, "/broadcasts", opts);
     },
-    async getEmailSubscriptionsTimeline(params, $) {
-      return this.makeRequest(
-        API_PATH.EMAIL,
-        "/subscriptions/timeline",
-        {
-          params,
-          $,
-        },
-      );
+    getEmailSubscriptionsTimeline(opts = {}) {
+      return this.makeRequest(API_PATH.EMAIL, "/subscriptions/timeline", opts);
     },
-    async getPipelines(objectType, $) {
-      return this.makeRequest(API_PATH.CRMV3, `/pipelines/${objectType}`, {
-        $,
-      });
+    getPipelines({
+      objectType, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CRMV3, `/pipelines/${objectType}`, opts);
     },
-    async createObject(objectType, properties, $) {
+    createObject({
+      objectType, ...opts
+    }) {
       return this.makeRequest(
         API_PATH.CRMV3,
         `/objects/${objectType}`,
         {
           method: "POST",
-          data: {
-            properties,
-          },
-          $,
+          ...opts,
         },
       );
     },
-    async updateObject(objectType, properties, objectId, $) {
+    updateObject({
+      objectType, objectId, ...opts
+    }) {
       return this.makeRequest(
         API_PATH.CRMV3,
         `/objects/${objectType}/${objectId}`,
         {
           method: "PATCH",
-          data: {
-            properties,
-          },
-          $,
+          ...opts,
         },
       );
     },
-    async getPropertyGroups(objectType, $) {
-      return this.makeRequest(API_PATH.CRMV3, `/properties/${objectType}/groups`, {
-        $,
-      });
+    getPropertyGroups({
+      objectType, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CRMV3, `/properties/${objectType}/groups`, opts);
     },
-    async getProperties(objectType, $) {
-      return this.makeRequest(API_PATH.CRMV3, `/properties/${objectType}`, {
-        $,
-      });
+    getProperties({
+      objectType, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CRMV3, `/properties/${objectType}`, opts);
     },
-    async listSchemas($) {
-      return this.makeRequest(API_PATH.CRMV3, "/schemas", {
-        $,
-      });
+    listSchemas(opts = {}) {
+      return this.makeRequest(API_PATH.CRMV3, "/schemas", opts);
     },
-    async getSchema(objectType, $) {
-      return this.makeRequest(API_PATH.CRMV3, `/schemas/${objectType}`, {
-        $,
-      });
+    getSchema({
+      objectType, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CRMV3, `/schemas/${objectType}`, opts);
     },
     /**
      * Returns a list of prop options for a CRM object type
@@ -623,165 +516,126 @@ export default {
         },
       };
     },
-    async getCompaniesOptions(opts) {
+    getCompaniesOptions(opts) {
       return this.createOptions(OBJECT_TYPE.COMPANY, opts);
     },
-    async getContactsOptions(opts) {
+    getContactsOptions(opts) {
       return this.createOptions(OBJECT_TYPE.CONTACT, opts);
     },
-    async getLineItemsOptions(opts) {
+    getLineItemsOptions(opts) {
       return this.createOptions(OBJECT_TYPE.LINE_ITEM, opts);
     },
-    async getTicketsOptions(opts) {
+    getTicketsOptions(opts) {
       return this.createOptions(OBJECT_TYPE.TICKET, opts);
     },
-    async getQuotesOptions(opts) {
+    getQuotesOptions(opts) {
       return this.createOptions(OBJECT_TYPE.QUOTE, opts);
     },
-    async getCallsOptions(opts) {
+    getCallsOptions(opts) {
       return this.createOptions(OBJECT_TYPE.CALL, opts);
     },
-    async getTasksOptions(opts) {
+    getTasksOptions(opts) {
       return this.createOptions(OBJECT_TYPE.TASK, opts);
     },
-    async getNotesOptions(opts) {
+    getNotesOptions(opts) {
       return this.createOptions(OBJECT_TYPE.NOTE, opts);
     },
-    async getMeetingsOptions(opts) {
+    getMeetingsOptions(opts) {
       return this.createOptions(OBJECT_TYPE.MEETING, opts);
     },
-    async getEmailsOptions(opts) {
+    getEmailsOptions(opts) {
       return this.createOptions(OBJECT_TYPE.EMAIL, opts);
     },
     async getOwnersOptions(params) {
-      const { results } = await this.getOwners(params);
+      const { results } = await this.getOwners({
+        params,
+      });
       return results.map((object) => ({
         label: object.email,
         value: object.id,
       }));
     },
-    async searchFiles(params, $) {
-      return this.makeRequest(API_PATH.FILES, "/files/search", {
-        params,
-        $,
-      });
+    searchFiles(opts = {}) {
+      return this.makeRequest(API_PATH.FILES, "/files/search", opts);
     },
-    async getSignedUrl(fileId, params, $) {
-      return this.makeRequest(API_PATH.FILES, `/files/${fileId}/signed-url`, {
-        params,
-        $,
-      });
+    getSignedUrl({
+      fileId, ...opts
+    }) {
+      return this.makeRequest(API_PATH.FILES, `/files/${fileId}/signed-url`, opts);
     },
-    async addContactsToList(listId, emails, $) {
+    addContactsToList({
+      listId, ...opts
+    }) {
       return this.makeRequest(
         API_PATH.CONTACTS,
         `/lists/${listId}/add`,
         {
           method: "POST",
-          data: {
-            emails,
-          },
-          $,
+          ...opts,
         },
       );
     },
-    async getAssociationTypes(fromObjectType, toObjectType, $) {
-      return this.makeRequest(API_PATH.CRMV4, `/associations/${fromObjectType}/${toObjectType}/labels`, {
-        $,
-      });
+    getAssociationTypes({
+      fromObjectType, toObjectType, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CRMV4, `/associations/${fromObjectType}/${toObjectType}/labels`, opts);
     },
-    async createAssociation(fromObjectType, toObjectType, fromId, toId, $) {
-      return this.makeRequest(
-        API_PATH.CRMV4,
-        `/objects/${fromObjectType}/${fromId}/associations/${toObjectType}/${toId}`,
-        {
-          $,
-        },
-      );
+    createAssociation({
+      fromObjectType, toObjectType, fromId, toId, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CRMV4, `/objects/${fromObjectType}/${fromId}/associations/${toObjectType}/${toId}`, opts);
     },
-    async createAssociations(fromObjectType, toObjectType, fromId, toIds, associationTypeId, $) {
+    createAssociations({
+      fromObjectType, toObjectType, ...opts
+    }) {
       return this.makeRequest(
         API_PATH.CRMV4,
         `/associations/${fromObjectType}/${toObjectType}/batch/create`,
         {
           method: "POST",
-          data: {
-            inputs: toIds.map((toId) => ({
-              from: {
-                id: fromId,
-              },
-              to: {
-                id: toId,
-              },
-              types: [
-                {
-                  associationCategory: ASSOCIATION_CATEGORY.HUBSPOT_DEFINED,
-                  associationTypeId: associationTypeId,
-                },
-              ],
-            })),
-          },
-          $,
+          ...opts,
         },
       );
     },
-    async listWorkflows() {
-      return this.makeRequest(
-        API_PATH.AUTOMATION,
-        "/workflows",
-      );
+    listWorkflows(opts = {}) {
+      return this.makeRequest(API_PATH.AUTOMATION, "/workflows", opts);
     },
-    async addContactsIntoWorkflow(workflowId, contactEmail, $) {
+    addContactsIntoWorkflow({
+      workflowId, contactEmail, ...opts
+    }) {
       return this.makeRequest(
         API_PATH.AUTOMATION,
         `/workflows/${workflowId}/enrollments/contacts/${contactEmail}`,
         {
-          $,
           method: "POST",
+          ...opts,
         },
       );
     },
-    async batchCreateContacts({
-      $,
-      data,
-    }) {
+    batchCreateContacts(opts = {}) {
       return this.makeRequest(
         API_PATH.CRMV3,
         "/objects/contacts/batch/create",
         {
           method: "POST",
-          data,
-          $,
+          ...opts,
         },
       );
     },
-    async batchUpdateContacts({
-      $,
-      data,
-    }) {
+    batchUpdateContacts(opts = {}) {
       return this.makeRequest(
         API_PATH.CRMV3,
         "/objects/contacts/batch/update",
         {
           method: "POST",
-          data,
-          $,
+          ...opts,
         },
       );
     },
-    async getDeal({
-      $,
-      dealId,
-      params,
+    getDeal({
+      dealId, ...opts
     }) {
-      return this.makeRequest(
-        API_PATH.DEAL,
-        `/deal/${dealId}`,
-        {
-          params,
-          $,
-        },
-      );
+      return this.makeRequest(API_PATH.DEAL, `/deal/${dealId}`, opts);
     },
   },
 };

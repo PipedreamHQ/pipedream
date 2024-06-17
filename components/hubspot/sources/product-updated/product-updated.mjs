@@ -8,7 +8,6 @@ export default {
   version: "0.0.13",
   dedupe: "unique",
   type: "source",
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(product) {
@@ -31,13 +30,15 @@ export default {
     },
     getParams() {
       return {
-        limit: 100,
-        sorts: [
-          {
-            propertyName: "hs_lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
+        data: {
+          limit: 100,
+          sorts: [
+            {
+              propertyName: "hs_lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+        },
         object: "products",
       };
     },

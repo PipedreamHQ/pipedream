@@ -8,7 +8,6 @@ export default {
   version: "0.0.16",
   dedupe: "unique",
   type: "source",
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(company) {
@@ -31,13 +30,15 @@ export default {
     },
     getParams() {
       return {
-        limit: 100,
-        sorts: [
-          {
-            propertyName: "createdate",
-            direction: "DESCENDING",
-          },
-        ],
+        data: {
+          limit: 100,
+          sorts: [
+            {
+              propertyName: "createdate",
+              direction: "DESCENDING",
+            },
+          ],
+        },
         object: "companies",
       };
     },
