@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import decode from "html-entities-decoder";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -6,7 +7,7 @@ export default {
   key: "zoho_survey-new-survey-response",
   name: "New Survey Response (Instant)",
   description: "Emit new event when a new survey response is received in Zoho Surveys.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -17,8 +18,8 @@ export default {
     generateMeta(response) {
       const ts = Date.now();
       return {
-        id: `${response["Response ID"]}${ts}`,
-        summary: `New Response ${response["Response ID"]}`,
+        id: `${response["RESPONSE_ID"]}${ts}`,
+        summary: `New Response ${response["RESPONSE_ID"]}`,
         ts,
       };
     },
@@ -28,7 +29,7 @@ export default {
         if (Array.isArray(obj)) {
           obj.forEach((item) => recursiveSearch(item));
         } else if (obj && typeof obj === "object") {
-          if ("label" in obj) {
+          if ("label" in obj && "key" in obj) {
             labels[obj.key] = obj.label;
           }
           Object.values(obj).forEach((value) => recursiveSearch(value));
@@ -43,17 +44,32 @@ export default {
         groupId: this.groupId,
         surveyId: this.surveyId,
       });
-      const labels = this.collectFieldLabels(variables);
+      const questions = variables.find(({ label }) => label === "Questions");
+      const respondentVariables = variables.find(({ label }) => label == "Respondent Variables");
+      const labels = this.collectFieldLabels([
+        ...questions.variables,
+        ...respondentVariables.variables,
+      ]);
       const response = {};
       for (const [
         key,
         value,
       ] of Object.entries(body)) {
-        response[labels[key]] = value;
+        response[key] = labels[key]
+          ? {
+            label: decode(labels[key]),
+            value: decode(value),
+          }
+          : decode(value);
       }
-      for (const label of Object.values(labels)) {
-        if (!response[label]) {
-          response[label] = "";
+      for (const [
+        key,
+        value,
+      ] of Object.entries(labels)) {
+        if (!response[key]) {
+          response[key] = {
+            label: decode(value),
+          };
         }
       }
       return response;
