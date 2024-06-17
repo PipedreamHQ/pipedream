@@ -1,5 +1,6 @@
 import hubspot from "../../hubspot.app.mjs";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "hubspot-create-associations",
@@ -65,8 +66,17 @@ export default {
       fromObjectId,
       toObjectType,
       associationType,
-      toObjectIds,
     } = this;
+    let toObjectIds;
+    if (Array.isArray(this.toObjectIds)) {
+      toObjectIds = this.toObjectIds;
+    } else {
+      try {
+        toObjectIds = JSON.parse(this.toObjectIds);
+      } catch {
+        throw new ConfigurationError("Could not parse \"To Objects\" array.");
+      }
+    }
     const response = await this.hubspot.createAssociations({
       $,
       fromObjectType,
