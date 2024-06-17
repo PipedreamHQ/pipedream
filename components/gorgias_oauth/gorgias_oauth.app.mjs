@@ -134,68 +134,169 @@ export default {
       description: "Maximum number to return",
       optional: true,
     },
+    assigneeTeamId: {
+      type: "integer",
+      label: "Assignee Team ID",
+      description: "The ID of the team assigned to the ticket",
+      optional: true,
+    },
+    assigneeUserId: {
+      type: "integer",
+      label: "Assignee User ID",
+      description: "The ID of the user assigned to the ticket",
+      optional: true,
+    },
+    closedDatetime: {
+      type: "string",
+      label: "Closed Datetime",
+      description: "When the ticket was closed (ISO 8601 format)",
+      optional: true,
+    },
+    customerEmail: {
+      type: "string",
+      label: "Customer Email",
+      description: "The email of the customer linked to the ticket",
+      optional: true,
+    },
+    fromAgent: {
+      type: "boolean",
+      label: "From Agent",
+      description: "Whether the first message of the ticket was sent by your company to a customer, or the opposite",
+      optional: true,
+    },
+    isUnread: {
+      type: "boolean",
+      label: "Is Unread",
+      description: "Whether the ticket is unread for you",
+      optional: true,
+    },
+    spam: {
+      type: "boolean",
+      label: "Spam",
+      description: "Whether the ticket is considered as spam or not",
+      optional: true,
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "The status of the ticket. Default: `open`",
+      options: [
+        "open",
+        "closed",
+      ],
+      optional: true,
+    },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "The subject of the ticket",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Tags linked to the ticket",
+      optional: true,
+    },
   },
   methods: {
-    _defaultConfig({
-      path, method = "get", params = {}, data,
-    }) {
-      const config = {
-        url: `https://${this.$auth.domain}.gorgias.com/api/${path}`,
+    _baseUrl() {
+      return `https://${this.$auth.domain}.gorgias.com/api`;
+    },
+    async _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        method = "GET",
+        path = "/",
+        headers,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        method,
+        url: this._baseUrl() + path,
         headers: {
+          ...headers,
           "Content-type": "application/json",
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
-        method,
-        params,
-        data,
-      };
-      return config;
+      });
     },
-    async _makeRequest({
-      $, path, method, params, data,
-    }) {
-      try {
-        const config = this._defaultConfig({
-          path,
-          method,
-          params,
-          data,
-        });
-        const response = await axios($ ?? this, config);
-        return response;
-      } catch (e) {
-        const errorMsg = JSON.stringify(e.response.data);
-        throw new Error(errorMsg);
-      }
+    async listCustomers(opts = {}) {
+      return this._makeRequest({
+        path: "/customers",
+        ...opts,
+      });
     },
-    async *paginate({
-      $, fn, params = {}, cursor,
+    async listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    async listTickets(opts = {}) {
+      return this._makeRequest({
+        path: "/tickets",
+        ...opts,
+      });
+    },
+    async updateTicket({
+      ticketId,
+      assigneeTeamId,
+      assigneeUserId,
+      channel,
+      closedDatetime,
+      customerId,
+      customerEmail,
+      externalId,
+      fromAgent,
+      isUnread,
+      language,
+      spam,
+      status,
+      subject,
+      tags,
+      ...opts
     }) {
-      const { limit } = params;
-      let count = 0;
-
-      do {
-        const {
-          data,
-          meta,
-        } = await fn({
-          $,
-          params: {
-            ...params,
-            cursor,
-          },
-        });
-
-        for (const d of data) {
-          yield d;
-
-          if (limit && ++count === limit) {
-            return count;
+      const data = {
+        assignee_team: assigneeTeamId
+          ? {
+            id: assigneeTeamId,
           }
-        }
+          : undefined,
+        assignee_user: assigneeUserId
+          ? {
+            id: assigneeUserId,
+          }
+          : undefined,
+        channel,
+        closed_datetime: closedDatetime,
+        customer: customerId
+          ? {
+            id: customerId,
+            email: customerEmail,
+          }
+          : undefined,
+        external_id: externalId,
+        from_agent: fromAgent,
+        is_unread: isUnread,
+        language,
+        spam,
+        status,
+        subject,
+        tags: tags
+          ? tags.map((tag) => ({
+            name: tag,
+          }))
+          : undefined,
+      };
 
-        cursor = meta.next_cursor;
-      } while (cursor);
+      return this._makeRequest({
+        method: "PUT",
+        path: `/tickets/${ticketId}`,
+        data,
+        ...opts,
+      });
     },
     async createWebhook({
       url,
@@ -263,15 +364,6 @@ export default {
         path: `customers/${id}`,
       });
     },
-    async listCustomers({
-      $, params,
-    }) {
-      return this._makeRequest({
-        $,
-        path: "customers",
-        params,
-      });
-    },
     async createTicket({
       $, data,
     }) {
@@ -282,15 +374,6 @@ export default {
         data,
       });
     },
-    async listTickets({
-      $, params,
-    }) {
-      return this._makeRequest({
-        $,
-        path: "tickets",
-        params,
-      });
-    },
     async retrieveTicket({
       $, id,
     }) {
@@ -299,11 +382,35 @@ export default {
         path: `tickets/${id}`,
       });
     },
-    listUsers(opts = {}) {
-      return this._makeRequest({
-        path: "/users",
-        ...opts,
-      });
+    async *paginate({
+      $, fn, params = {}, cursor,
+    }) {
+      const { limit } = params;
+      let count = 0;
+
+      do {
+        const {
+          data,
+          meta,
+        } = await fn({
+          $,
+          params: {
+            ...params,
+            cursor,
+          },
+        });
+
+        for (const d of data) {
+          yield d;
+
+          if (limit && ++count === limit) {
+            return count;
+          }
+        }
+
+        cursor = meta.next_cursor;
+      } while (cursor);
     },
   },
+  version: "0.0.{{ts}}",
 };
