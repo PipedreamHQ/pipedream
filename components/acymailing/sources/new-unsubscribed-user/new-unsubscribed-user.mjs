@@ -10,13 +10,11 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
-    listId: {
+    listIds: {
       propDefinition: [
         common.props.acymailing,
         "listIds",
       ],
-      type: "integer",
-      label: "List Id",
     },
   },
   methods: {
@@ -26,7 +24,7 @@ export default {
     },
     getParams() {
       return {
-        "listIds[]": this.listId,
+        "listIds[]": this.listIds,
       };
     },
     getFn() {
