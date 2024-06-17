@@ -1,5 +1,4 @@
 import { ConfigurationError } from "@pipedream/platform";
-// import { parseObject } from "../../common/utils.mjs";
 import okta from "../../okta.app.mjs";
 
 export default {
