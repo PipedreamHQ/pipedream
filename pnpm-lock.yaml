@@ -155,7 +155,10 @@ importers:
     specifiers: {}
 
   components/acymailing:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/adafruit_io:
     specifiers: {}
@@ -7261,7 +7264,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/repliq:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/reply_io:
     specifiers:
@@ -7583,7 +7589,10 @@ importers:
     specifiers: {}
 
   components/samsara:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/sapling:
     specifiers: {}
@@ -8100,6 +8109,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/signaturit:
+    specifiers: {}
+
+  components/signpath:
     specifiers: {}
 
   components/signrequest:
@@ -9199,6 +9211,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/transifex:
+    specifiers: {}
 
   components/transistor_fm:
     specifiers:
