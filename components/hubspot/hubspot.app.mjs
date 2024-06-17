@@ -94,7 +94,9 @@ export default {
       async options({
         objectType, ...opts
       }) {
-        return this.createOptions(objectType, opts);
+        return objectType
+          ? await this.createOptions(objectType, opts)
+          : [];
       },
     },
     objectIds: {
@@ -104,7 +106,9 @@ export default {
       async options({
         objectType, ...opts
       }) {
-        return this.createOptions(objectType, opts);
+        return objectType
+          ? await this.createOptions(objectType, opts)
+          : [];
       },
     },
     forms: {
@@ -230,6 +234,9 @@ export default {
       async options({
         fromObjectType, toObjectType,
       }) {
+        if (!fromObjectType || !toObjectType) {
+          return [];
+        }
         const { results: associationTypes } = await this.getAssociationTypes({
           fromObjectType,
           toObjectType,

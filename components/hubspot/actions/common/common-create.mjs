@@ -1,4 +1,4 @@
-import hubspot from "../..hubspot.app.mjs";
+import hubspot from "../../hubspot.app.mjs";
 import {
   OBJECT_TYPE, HUBSPOT_OWNER,
 } from "../../common/constants.mjs";
@@ -88,17 +88,18 @@ export default {
         name: property.name,
         label: property.label,
         description: property.description,
-        optional: !requiredProperties.includes(property),
+        optional: !requiredProperties.includes(property.name),
         options,
       };
     },
   },
   async additionalProps() {
+    const objectType = this.getObjectType();
     const schema = await this.hubspot.getSchema({
-      objectType: this.getObjectType(),
+      objectType,
     });
     const { results: properties } = await this.hubspot.getProperties({
-      objectType: this.getObjectType(),
+      objectType,
     });
     return properties
       .filter(this.isRelevantProperty)
