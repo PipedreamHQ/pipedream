@@ -1,20 +1,93 @@
 import okta from "../../okta.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "okta-update-user",
   name: "Update User",
-  description: "Updates the profile and/or credentials of a specific user in the Okta system. The mandatory props are 'user ID' and the details that need to be updated.",
-  version: "0.0.${ts}",
+  description: "Updates the profile of a specific user in the Okta system. [See the documentation](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/User/#tag/User/operation/updateUser)",
+  version: "0.0.1",
   type: "action",
   props: {
     okta,
-    userId: okta.propDefinitions.userId,
-    updateDetails: okta.propDefinitions.updateDetails,
+    userId: {
+      propDefinition: [
+        okta,
+        "userId",
+      ],
+    },
+    firstName: {
+      propDefinition: [
+        okta,
+        "firstName",
+      ],
+      optional: true,
+    },
+    lastName: {
+      propDefinition: [
+        okta,
+        "lastName",
+      ],
+      optional: true,
+    },
+    email: {
+      propDefinition: [
+        okta,
+        "email",
+      ],
+      optional: true,
+    },
+    login: {
+      propDefinition: [
+        okta,
+        "login",
+      ],
+      optional: true,
+    },
+    mobilePhone: {
+      propDefinition: [
+        okta,
+        "mobilePhone",
+      ],
+      optional: true,
+    },
+    typeId: {
+      propDefinition: [
+        okta,
+        "typeId",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const response = await this.okta.updateUser(this.userId, this.updateDetails);
-    $.export("$summary", `Successfully updated user with ID ${this.userId}`);
+    const {
+      okta,
+      userId,
+      typeId,
+      ...profile
+    } = this;
+
+    const { profile: userProfile } = await okta.getUser({
+      userId,
+    });
+
+    const response = await okta.updateUser({
+      $,
+      userId,
+      data: {
+        profile: {
+          ...userProfile,
+          ...profile,
+        },
+        ...(typeId
+          ? {
+            type: {
+              id: this.typeId,
+            },
+          } :
+          {}),
+      },
+    });
+
+    $.export("$summary", `Successfully updated user with ID ${userId}`);
     return response;
   },
 };

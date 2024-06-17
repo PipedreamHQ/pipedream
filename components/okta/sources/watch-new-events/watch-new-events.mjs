@@ -1,10 +1,11 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import okta from "../../okta.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "okta-watch-new-events",
-  name: "Watch New Events",
-  description: "Emit new event when the system observes a new event. [See the documentation](https://developer.okta.com/docs/api/)",
+  name: "New Okta Event",
+  description: "Emit new event when the system observes a new event.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -14,49 +15,55 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 300, // every 5 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+  },
+  methods: {
+    _getLastDate() {
+      return this.db.get("lastDate") || "1970-01-01T00:00:00Z";
+    },
+    _setLastDate(created) {
+      this.db.set("lastDate", created);
+    },
+    generateMeta(event) {
+      return {
+        id: event.uuid,
+        summary: `New Okta Event: ${event.eventType}`,
+        ts: event.published,
+      };
+    },
+    async startEvent(maxResults = 0) {
+      const lastDate = this._getLastDate();
+      const response = this.okta.paginate({
+        fn: this.okta.listLogs,
+        maxResults,
+        params: {
+          since: lastDate,
+          sortOrder: "DESCENDING",
+        },
+      });
+
+      let responseArray = [];
+
+      for await (const item of response) {
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) this._setLastDate(responseArray[0].published);
+
+      for (const event of responseArray.reverse()) {
+        this.$emit(event, this.generateMeta(event));
+      }
     },
   },
   hooks: {
     async deploy() {
-      // Fetch the last 50 events to avoid duplicates on initial run
-      const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(); // 1 day ago
-      const events = await this.okta._makeRequest({
-        path: `/logs?since=${since}&limit=50`,
-      });
-      events.forEach((event) => {
-        this.$emit(event, {
-          id: event.uuid,
-          summary: `New event: ${event.eventType}`,
-          ts: Date.parse(event.published),
-        });
-      });
-      // Update the last event time to the most recent event's published time
-      if (events.length > 0) {
-        const latestEventTime = events[0].published;
-        this.db.set("lastEventTime", latestEventTime);
-      }
+      await this.startEvent(25);
     },
   },
   async run() {
-    const lastEventTime = this.db.get("lastEventTime") || new Date().toISOString();
-    const events = await this.okta._makeRequest({
-      path: `/logs?since=${lastEventTime}&limit=100`,
-    });
-
-    events.forEach((event) => {
-      this.$emit(event, {
-        id: event.uuid,
-        summary: `New event: ${event.eventType}`,
-        ts: Date.parse(event.published),
-      });
-    });
-
-    // Update the last event time to the most recent event's published time
-    if (events.length > 0) {
-      const mostRecentEvent = events[0].published;
-      this.db.set("lastEventTime", mostRecentEvent);
-    }
+    await this.startEvent();
   },
+  sampleEmit,
 };
