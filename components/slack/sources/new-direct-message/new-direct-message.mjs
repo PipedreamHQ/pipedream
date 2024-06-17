@@ -41,10 +41,9 @@ export default {
       return "New direct message received";
     },
     processEvent(event) {
-      if (this.ignoreSelf && event.user == this.slack.mySlackId()) {
-        return;
-      }
-      if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
+      if ((this.ignoreSelf && event.user == this.slack.mySlackId())
+        || ((this.ignoreBot) && (event.subtype === "bot_message" || event.bot_id))
+        || (event.subtype === "message_changed")) {
         return;
       }
       return event;
