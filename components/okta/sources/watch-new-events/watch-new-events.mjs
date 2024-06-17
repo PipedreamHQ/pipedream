@@ -30,7 +30,7 @@ export default {
       return {
         id: event.uuid,
         summary: `New Okta Event: ${event.eventType}`,
-        ts: event.published,
+        ts: Date.parse(event.published),
       };
     },
     async startEvent(maxResults = 0) {
