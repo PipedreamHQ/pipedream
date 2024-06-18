@@ -7,7 +7,7 @@ export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
   description: "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, or quotes. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     hubspot,

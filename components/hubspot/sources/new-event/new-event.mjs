@@ -6,7 +6,7 @@ export default {
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emit new event for each new Hubspot event. Note: Only available for Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise accounts",
-  version: "0.0.17",
+  version: "0.0.18",
   dedupe: "unique",
   type: "source",
   props: {

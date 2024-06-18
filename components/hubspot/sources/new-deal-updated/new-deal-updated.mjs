@@ -5,7 +5,7 @@ export default {
   key: "hubspot-new-deal-updated",
   name: "New Deal Updated",
   description: "Emit new event each time a deal is updated. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.18",
+  version: "0.0.19",
   type: "source",
   dedupe: "unique",
   props: {
