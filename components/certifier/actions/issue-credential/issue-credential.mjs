@@ -126,9 +126,8 @@ export default defineAction({
       }
     }
 
-    $.summary(
-      `Successfully created credential for ${response.recipient?.name}.`,
-    );
+    $.export("$summary",
+      `Successfully created credential for ${response.recipient.name}`);
 
     return response;
   },
