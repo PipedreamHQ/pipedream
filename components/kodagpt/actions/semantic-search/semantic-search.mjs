@@ -31,6 +31,7 @@ export default {
     const response = await this.app.semanticSearch({
       $,
       question: this.question,
+      chatbotId: this.chatbotId,
     });
 
     $.export("$summary", `Successfully generated '${response.length}' answers`);

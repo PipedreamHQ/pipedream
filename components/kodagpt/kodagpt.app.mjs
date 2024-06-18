@@ -37,10 +37,10 @@ export default {
       });
     },
     async semanticSearch({
-      question, ...args
+      question, chatbotId, ...args
     }) {
       return this._makeRequest({
-        path: `/embed/${this.$auth.chatbot_id}/${question}`,
+        path: `/embed/${this.$auth.chatbot_id || chatbotId}/${question}`,
         ...args,
       });
     },
