@@ -26,7 +26,7 @@ export default {
       $,
       data: {
         phone_number: this.phoneNumber,
-        otp_validity: this.otp_validity,
+        otp_validity: this.otpValidity,
       },
     });
 
