@@ -3096,18 +3096,18 @@ importers:
       '@pipedream/types': ^0.1.4
       html-to-text: ^8.2.1
       linkedom: ^0.14.26
-      moment: ^2.29.4
       pluralize: ^8.0.0
       showdown: ^2.1.0
+      sugar: ^2.0.6
       title-case: ^3.0.3
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
       html-to-text: 8.2.1
       linkedom: 0.14.26
-      moment: 2.29.4
       pluralize: 8.0.0
       showdown: 2.1.0
+      sugar: 2.0.6
       title-case: 3.0.3
 
   components/formbricks:
@@ -30693,6 +30693,18 @@ packages:
       - supports-color
       - typescript
     dev: true
+
+  /sugar-core/2.0.6:
+    resolution: {integrity: sha512-YmLFysR3Si6RImqL1+aB6JH81EXxvXn5iXhPf2PsjfoUYEwCxFDYCQY+zC3WqviuGWzxFaSkkJvkUE05Y03L5Q==}
+    engines: {node: '>= 0.8.23'}
+    dev: false
+
+  /sugar/2.0.6:
+    resolution: {integrity: sha512-s0P2/pjJtAD9VA44+2Gqm3NdC4v+08melA6YubOxzshu628krTbn95/M2GWMrI9rYspZMpYBIrChR46fjQ7xsQ==}
+    engines: {node: '>= 0.8.23'}
+    dependencies:
+      sugar-core: 2.0.6
+    dev: false
 
   /superagent-proxy/3.0.0_superagent@7.1.5:
     resolution: {integrity: sha512-wAlRInOeDFyd9pyonrkJspdRAxdLrcsZ6aSnS+8+nu4x1aXbz6FWSTT9M6Ibze+eG60szlL7JA8wEIV7bPWuyQ==}
