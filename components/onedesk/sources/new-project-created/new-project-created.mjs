@@ -1,35 +1,33 @@
-import common from "../common/common.mjs";
+import common from "../common/polling.mjs";
+import activityTypes from "../common/activity-types.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "onedesk-new-project-created",
   name: "New Project Created",
-  description: "Emit new event when a new project is created. [See the docs](https://www.onedesk.com/developers/#_get_item_updates)",
-  version: "0.0.1",
+  description: "Emit new event when a new project is created. [See the documentation](https://www.onedesk.com/dev/).",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    async getUpdates(applicationId) {
-      const { data } = await this.onedesk.getItemUpdates({
-        data: {
-          applicationId,
-          itemTypes: [
-            "ProjectVariables",
-          ],
-          operations: [
-            "CREATE",
-          ],
+    getActivityTypeProperties() {
+      return [
+        {
+          property: "types",
+          operation: "EQ",
+          value: activityTypes.CREATED_PROJECT,
         },
-      });
-      return data;
+      ];
     },
-    generateMeta(project) {
+    generateMeta(resource) {
       return {
-        id: project.itemId,
-        summary: project.itemName,
-        ts: Date.parse(project.collectedTimestamp),
+        id: resource.itemExternalId,
+        summary: `New Project Created: ${resource.itemName}`,
+        ts: Date.parse(resource.timestamp),
       };
     },
   },
+  sampleEmit,
 };
