@@ -91,23 +91,24 @@ export default {
       });
       return data;
     },
-    async getMessagesWithRetry(ids = [], retryCount = 0) {
-      const promises = ids.map((id) =>
-        this.getMessage({
-          id,
-        })
-          .catch((err) => {
-            console.error(`Failed to get message with id ${id}:`, err);
-            if (retryCount < 3) {
-              console.log("Retrying...");
-              return this.getMessagesWithRetry([
-                id,
-              ], retryCount + 1);
-            }
+    getMessagesWithRetry(ids = [], maxRetries = 3) {
+      const getMessageWithRetry = async (id, retryCount = 0) => {
+        try {
+          return await this.getMessage({
+            id,
+          });
+        } catch (err) {
+          console.error(`Failed to get message with id ${id}:`, err);
+          if (retryCount < maxRetries) {
+            console.log("Retrying...");
+            return await getMessageWithRetry(id, retryCount + 1);
+          }
+          console.error("Failed after 3 attempts.");
+          return null;
+        }
+      };
 
-            console.error("Failed after 3 attempts.");
-            return null;
-          }));
+      const promises = ids.map((id) => getMessageWithRetry(id));
       return Promise.all(promises);
     },
   },

@@ -1,35 +1,34 @@
-import common from "../common/common.mjs";
+import common from "../common/polling.mjs";
+import activityTypes from "../common/activity-types.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "onedesk-new-timesheet-created",
   name: "New Timesheet Created",
-  description: "Emit new event when a new timesheet is created. [See the docs](https://www.onedesk.com/developers/#_get_item_updates)",
-  version: "0.0.1",
+  description: "Emit new event when a new timesheet is created. [See the documentation](https://www.onedesk.com/dev/).",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    async getUpdates(applicationId) {
-      const { data } = await this.onedesk.getItemUpdates({
-        data: {
-          applicationId,
-          itemTypes: [
-            "ProjectTaskTimesheet",
-          ],
-          operations: [
-            "CREATE",
-          ],
+    getActivityTypeProperties() {
+      return [
+        {
+          property: "types",
+          operation: "EQ",
+          value: activityTypes.ACTUAL_WORK_UPDATED,
         },
-      });
-      return data;
+      ];
     },
-    generateMeta(item) {
+    generateMeta(resource) {
+      const ts = Date.parse(resource.timestamp);
       return {
-        id: item.itemId,
-        summary: `New Timesheet ID ${item.itemId}`,
-        ts: Date.parse(item.collectedTimestamp),
+        id: `${resource.itemExternalId}-${ts}`,
+        summary: `New Timesheet: ${resource.itemName || resource.itemExternalId}`,
+        ts,
       };
     },
   },
+  sampleEmit,
 };
