@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "slack-new-direct-message",
   name: "New Direct Message (Instant)",
-  version: "1.0.17",
+  version: "1.0.18",
   description: "Emit new event when a message was posted in a direct message channel",
   type: "source",
   dedupe: "unique",
@@ -27,6 +27,13 @@ export default {
         "ignoreBot",
       ],
     },
+    ignoreSelf: {
+      type: "boolean",
+      label: "Ignore Messages from Yourself",
+      description: "Ignores messages sent to yourself",
+      default: false,
+      optional: true,
+    },
   },
   methods: {
     ...common.methods,
@@ -34,10 +41,9 @@ export default {
       return "New direct message received";
     },
     processEvent(event) {
-      if (event.user == this.slack.mySlackId()) {
-        return;
-      }
-      if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
+      if ((this.ignoreSelf && event.user == this.slack.mySlackId())
+        || ((this.ignoreBot) && (event.subtype === "bot_message" || event.bot_id))
+        || (event.subtype === "message_changed")) {
         return;
       }
       return event;

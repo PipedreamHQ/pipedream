@@ -28,53 +28,45 @@ export default {
       optional: true,
     },
   },
-  hooks: {
-    async deploy() {
-      console.log(`Fetching last ${constants.HISTORICAL_EVENTS} historical events...`);
-      const response = await this.gmail.listMessages({
-        q: this.q,
-        labelIds: this.labels,
-        maxResults: constants.HISTORICAL_EVENTS,
-      });
-
-      const messageIds = response?.messages?.map((message) => message.id);
-
-      if (messageIds?.length) {
-        this.setLastMessageId(messageIds[0]);
-        await this.processMessageIds(messageIds.reverse());
-      }
-    },
-  },
   methods: {
     getLastMessageId() {
       return this.db.get("lastMessageId");
     },
     setLastMessageId(lastMessageId) {
-      if (lastMessageId) {
-        this.db.set("lastMessageId", lastMessageId);
-      }
+      this.db.set("lastMessageId", lastMessageId);
     },
     processMessageIds() {
       throw new Error("processMessageIds not implemented");
     },
+    constructQuery() {
+      return this.q;
+    },
   },
   async run() {
-    const lastMessageId = this.getLastMessageId();
+    const {
+      gmail,
+      constructQuery,
+      labels,
+    } = this;
 
-    const response = await this.gmail.listMessages({
-      q: this.q,
-      labelIds: this.labels,
-      maxResults: 100,
+    console.log("Polling for new messages...");
+    const { messages } = await gmail.listMessages({
+      q: constructQuery(),
+      labelIds: labels,
+      maxResults: constants.HISTORICAL_EVENTS,
     });
 
-    let messageIds = response?.messages?.map((message) => message.id);
+    let messageIds = messages?.map((message) => message.id);
 
     if (!messageIds?.length) {
-      console.log("No new message. Exiting...");
+      console.log("There are no new messages. Exiting...");
       return;
     }
 
-    this.setLastMessageId(messageIds[0]);
+    const lastMessageId = this.getLastMessageId();
+    if (lastMessageId !== messageIds[0]) {
+      this.setLastMessageId(messageIds[0]);
+    }
 
     const index = messageIds.indexOf(lastMessageId);
     if (index !== -1) {
@@ -83,7 +75,7 @@ export default {
 
     const numMessages = messageIds.length;
     if (!numMessages) {
-      console.log("No new message. Exiting...");
+      console.log("Messages already processed. Exiting...");
       return;
     }
 

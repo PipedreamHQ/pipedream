@@ -154,6 +154,12 @@ importers:
   components/acumbamail:
     specifiers: {}
 
+  components/acymailing:
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
+
   components/adafruit_io:
     specifiers: {}
 
@@ -1285,6 +1291,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/certifier:
+    specifiers: {}
+
   components/cflow:
     specifiers: {}
 
@@ -2094,6 +2103,9 @@ importers:
   components/deepl:
     specifiers: {}
 
+  components/deepseek:
+    specifiers: {}
+
   components/defastra:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2419,6 +2431,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
+
+  components/drchrono:
+    specifiers: {}
 
   components/dreamhost:
     specifiers: {}
@@ -3405,6 +3420,9 @@ importers:
   components/glide:
     specifiers: {}
 
+  components/gloww:
+    specifiers: {}
+
   components/gmail:
     specifiers:
       '@google-cloud/local-auth': ^2.1.0
@@ -3605,7 +3623,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_gemini:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/google_maps_platform:
     specifiers: {}
@@ -3905,7 +3926,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/height:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/helcim:
     specifiers: {}
@@ -4067,6 +4091,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/html_to_image:
+    specifiers: {}
+
   components/http:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4099,6 +4126,9 @@ importers:
       package: 1.0.1
 
   components/hubspot_developer_app:
+    specifiers: {}
+
+  components/hubstaff:
     specifiers: {}
 
   components/hugging_face:
@@ -4178,6 +4208,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/ikas:
+    specifiers: {}
 
   components/ikigai:
     specifiers: {}
@@ -4723,6 +4756,9 @@ importers:
       '@pipedream/platform': 1.6.5
     dependencies:
       '@pipedream/platform': 1.6.5
+
+  components/leadoku:
+    specifiers: {}
 
   components/leadzen_ai:
     specifiers:
@@ -5546,6 +5582,9 @@ importers:
   components/mozilla_observatory:
     specifiers: {}
 
+  components/mslm_cloud:
+    specifiers: {}
+
   components/mumara:
     specifiers: {}
 
@@ -5897,6 +5936,9 @@ importers:
   components/oksign:
     specifiers: {}
 
+  components/okta:
+    specifiers: {}
+
   components/omise:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5928,13 +5970,9 @@ importers:
 
   components/onedesk:
     specifiers:
-      '@pipedream/platform': ^1.3.0
-      lodash.pickby: ^4.6.0
-      uuid: ^9.0.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-      lodash.pickby: 4.6.0
-      uuid: 9.0.1
+      '@pipedream/platform': 3.0.0
 
   components/onenote:
     specifiers:
@@ -6092,6 +6130,9 @@ importers:
   components/ortto:
     specifiers: {}
 
+  components/ottertext:
+    specifiers: {}
+
   components/outgrow:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -6178,6 +6219,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/parma:
+    specifiers: {}
 
   components/parsehub:
     specifiers:
@@ -6289,6 +6333,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/pdffiller:
+    specifiers: {}
+
   components/pdfless:
     specifiers:
       '@pdfless/pdfless-js': ^1.0.510
@@ -6299,7 +6346,10 @@ importers:
     specifiers: {}
 
   components/peaka:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/pendo:
     specifiers: {}
@@ -6728,6 +6778,9 @@ importers:
       lodash: 4.17.21
 
   components/processplan:
+    specifiers: {}
+
+  components/procfu:
     specifiers: {}
 
   components/procore:
@@ -7213,7 +7266,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/repliq:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/reply_io:
     specifiers:
@@ -7535,7 +7591,10 @@ importers:
     specifiers: {}
 
   components/samsara:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/sapling:
     specifiers: {}
@@ -8054,6 +8113,9 @@ importers:
   components/signaturit:
     specifiers: {}
 
+  components/signpath:
+    specifiers: {}
+
   components/signrequest:
     specifiers: {}
 
@@ -8279,7 +8341,7 @@ importers:
       '@pipedream/platform': ^2.0.0
       asn1.js: ^5.0.0
       lodash-es: ^4.17.21
-      snowflake-sdk: ^1.6.10
+      snowflake-sdk: ^1.7.0
       uuid: ^8.3.2
     dependencies:
       '@pipedream/platform': 2.0.0
@@ -8773,6 +8835,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
 
+  components/teamcamp:
+    specifiers: {}
+
   components/teamdeck:
     specifiers: {}
 
@@ -8868,6 +8933,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/test_app_for_oauth_bug:
+    specifiers: {}
+
+  components/test_apps_for_checking_something_001:
     specifiers: {}
 
   components/testmo:
@@ -9146,6 +9214,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/transifex:
+    specifiers: {}
+
   components/transistor_fm:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -9220,7 +9291,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/turso:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/tutor_lms:
     specifiers: {}
@@ -9339,6 +9413,9 @@ importers:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
 
+  components/undetectable_ai:
+    specifiers: {}
+
   components/unione:
     specifiers: {}
 
@@ -9347,6 +9424,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/universal_summarizer_by_kagi:
+    specifiers: {}
 
   components/unsplash:
     specifiers:
@@ -15430,6 +15510,17 @@ packages:
       - debug
     dev: false
 
+  /@pipedream/platform/3.0.0:
+    resolution: {integrity: sha512-qlSJBF0Gn5RloFEPr072hSf6pRSU++Zjs0j6X9ZE2SMmfg777qYR4RQ5HkTHEELEyA948xEOqkBt3bFplpfEbw==}
+    dependencies:
+      axios: 1.6.5
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@pipedream/types/0.0.5:
     resolution: {integrity: sha512-VVQB9j+94XG/EB7fzKA1t0McQcQIPhaireePeLRTlJIN4y5W59SJjERjW4h5l7zWIfTnwpLizk3qGholyiw1Vw==}
     dependencies:
@@ -19320,7 +19411,7 @@ packages:
   /axios/1.6.5_debug@3.2.7:
     resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
     dependencies:
-      follow-redirects: 1.15.4_debug@3.2.7
+      follow-redirects: 1.15.5_debug@3.2.7
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -22386,18 +22477,6 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.15.4_debug@3.2.7:
-    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 3.2.7
-    dev: false
-
   /follow-redirects/1.15.5:
     resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
     engines: {node: '>=4.0'}
@@ -22406,6 +22485,18 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+    dev: false
+
+  /follow-redirects/1.15.5_debug@3.2.7:
+    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 3.2.7
     dev: false
 
   /follow-redirects/1.5.10:
@@ -22853,6 +22944,7 @@ packages:
 
   /glob/7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
