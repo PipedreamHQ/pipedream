@@ -19,6 +19,7 @@ export default {
         app,
         "otpValidity",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
