@@ -5,7 +5,7 @@ export default {
   name: "Create Campfire Message",
   description: "Creates a line in the Campfire for the selected project. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/campfires.md#create-a-campfire-line)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   props: {
     app,
     accountId: {

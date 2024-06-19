@@ -1,57 +1,75 @@
-import onedesk from "../../onedesk.app.mjs";
+import app from "../../onedesk.app.mjs";
 
 export default {
   key: "onedesk-create-item",
   name: "Create Item",
-  description: "Creates a new item. [See the docs](https://www.onedesk.com/developers/#_create_work_item)",
-  version: "0.0.1",
+  description: "Creates a new item. [See the documentation](https://www.onedesk.com/dev/).",
+  version: "0.0.2",
   type: "action",
   props: {
-    onedesk,
+    app,
+    name: {
+      propDefinition: [
+        app,
+        "itemName",
+      ],
+    },
     type: {
       propDefinition: [
-        onedesk,
+        app,
         "itemType",
       ],
     },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "Name of the item",
-    },
     description: {
-      type: "string",
-      label: "Description",
-      description: "Description of the item",
-      optional: true,
-    },
-    spaceId: {
       propDefinition: [
-        onedesk,
-        "spaceId",
+        app,
+        "itemDescription",
+      ],
+    },
+    projectExternalId: {
+      propDefinition: [
+        app,
+        "projectId",
       ],
     },
     priority: {
       propDefinition: [
-        onedesk,
+        app,
         "priority",
       ],
     },
   },
+  methods: {
+    createItem(args = {}) {
+      return this.app.post({
+        path: "/items/",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const { data } = await this.onedesk.createItem({
-      data: {
-        type: this.type,
-        name: this.name,
-        description: this.description,
-        spaceId: this.spaceId,
-        priority: this.priority,
-      },
+    const {
+      createItem,
+      name,
+      type,
+      description,
+      projectExternalId,
+      priority,
+    } = this;
+
+    const response = await createItem({
       $,
+      data: {
+        name,
+        type,
+        description,
+        projectExternalId,
+        priority,
+      },
     });
 
-    $.export("$summary", `Successfully created item with ID ${data.id}.`);
+    $.export("$summary", `Successfully created item with ID \`${response.data}\`.`);
 
-    return data;
+    return response;
   },
 };

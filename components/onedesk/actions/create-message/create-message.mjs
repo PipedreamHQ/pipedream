@@ -1,44 +1,50 @@
-import onedesk from "../../onedesk.app.mjs";
+import app from "../../onedesk.app.mjs";
 
 export default {
   key: "onedesk-create-message",
   name: "Create Message",
-  description: "Creates a message or comment. [See the docs](https://www.onedesk.com/developers/#_create_comment)",
-  version: "0.0.1",
+  description: "Creates a message or comment. [See the documentation](https://www.onedesk.com/dev/).",
+  version: "0.0.2",
   type: "action",
   props: {
-    onedesk,
-    itemId: {
+    app,
+    conversationExternalId: {
       propDefinition: [
-        onedesk,
-        "itemId",
+        app,
+        "conversationExternalId",
       ],
     },
-    description: {
+    content: {
       type: "string",
-      label: "Description",
-      description: "Content of the message",
+      label: "Content",
+      description: "Content of the conversation message",
     },
-    postType: {
-      propDefinition: [
-        onedesk,
-        "postType",
-      ],
+  },
+  methods: {
+    createMessage(args = {}) {
+      return this.app.post({
+        path: "/conversation-messages/",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const { data } = await this.onedesk.createComment({
-      data: {
-        itemId: this.itemId,
-        description: this.description,
-        postType: this.postType,
-        token: this.onedesk._authToken(),
-      },
+    const {
+      createMessage,
+      conversationExternalId,
+      content,
+    } = this;
+
+    const response = await createMessage({
       $,
+      data: {
+        conversationExternalId,
+        content,
+      },
     });
 
-    $.export("$summary", `Successfully created comment with ID ${data}.`);
+    $.export("$summary", `Successfully created message with ID \`${response.data}\`.`);
 
-    return data;
+    return response;
   },
 };

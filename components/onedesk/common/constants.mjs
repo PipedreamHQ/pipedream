@@ -25,13 +25,34 @@ const PRIORITY_OPTIONS = [
   },
 ];
 
-const POST_TYPES = [
-  "OLD_REQUESTER_ONLY_POST",
-  "PUBLIC_DISCUSSION_POST",
-  "PRIVATE_DISCUSSION_POST",
-];
+const DEFAULT_LIMIT = 20;
+const DEFAULT_MAX = 100;
+
+const DATE_OPERATOR = {
+  LE: {
+    label: "Less Than or Equal",
+    value: "LE",
+  },
+  LT: {
+    label: "Less Than",
+    value: "LT",
+  },
+  GT: {
+    label: "Greater Than",
+    value: "GT",
+  },
+  GE: {
+    label: "Greater Than or Equal",
+    value: "GE",
+  },
+};
+
+const LAST_CREATION_DATE = "lastCreationDate";
 
 export default {
   PRIORITY_OPTIONS,
-  POST_TYPES,
+  DEFAULT_LIMIT,
+  DEFAULT_MAX,
+  DATE_OPERATOR,
+  LAST_CREATION_DATE,
 };
