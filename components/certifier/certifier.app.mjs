@@ -1,7 +1,6 @@
 import { axios } from "@pipedream/platform";
-import { defineApp } from "@pipedream/types";
 
-export default defineApp({
+export default {
   type: "app",
   app: "certifier",
   methods: {
@@ -123,4 +122,4 @@ export default defineApp({
       optional: true,
     },
   },
-});
+};

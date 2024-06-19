@@ -1,11 +1,11 @@
-import { defineAction } from "@pipedream/types";
 import certifier from "../../certifier.app.mjs";
 
-export default defineAction({
+export default {
   name: "Issue Credential",
   version: "0.0.1",
   key: "certifier-issue-credential",
-  description: "Create, issue and send a credential to a recipient.",
+  description:
+    "Create, issue and send a credential to a recipient. [See the documentation](https://developers.certifier.io/reference/create-issue-send-a-credential)",
   props: {
     certifier,
     groupId: {
@@ -92,6 +92,7 @@ export default defineAction({
     );
 
     let response = await certifier.createCredential({
+      $,
       data: {
         groupId: groupId,
         recipient: {
@@ -111,12 +112,15 @@ export default defineAction({
     console.log(`Successfully created credential with ID \`${response.id}\`.`);
 
     if (issueCredential) {
-      response = await certifier.issueCredential(response.id);
+      response = await certifier.issueCredential(response.id, {
+        $,
+      });
 
       console.log(`Successfully issued credential with ID \`${response.id}\`.`);
 
       if (sendCredential) {
         response = await certifier.sendCredential(response.id, {
+          $,
           data: {
             deliveryMethod: "email",
           },
@@ -126,9 +130,11 @@ export default defineAction({
       }
     }
 
-    $.export("$summary",
-      `Successfully created credential for ${response.recipient.name}`);
+    $.export(
+      "$summary",
+      `Successfully created credential for ${response.recipient.name}`,
+    );
 
     return response;
   },
-});
+};
