@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/snowflake",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "Pipedream Snowflake Components",
   "main": "snowflake.app.mjs",
   "keywords": [
