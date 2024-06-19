@@ -44,11 +44,11 @@ export default {
         groupId: this.groupId,
         surveyId: this.surveyId,
       });
-      const questions = variables.find(({ label }) => label === "Questions");
-      const respondentVariables = variables.find(({ label }) => label == "Respondent Variables");
+      const questions = (variables.find(({ label }) => label === "Questions"))?.variables;
+      const respondentVariables = (variables.find(({ label }) => label == "Respondent Variables"))?.variables;
       const labels = this.collectFieldLabels([
-        ...questions.variables,
-        ...respondentVariables.variables,
+        ...questions,
+        ...respondentVariables,
       ]);
       const response = {};
       for (const [
