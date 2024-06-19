@@ -1,62 +1,89 @@
-import onedesk from "../../onedesk.app.mjs";
-import pickBy from "lodash.pickby";
+import app from "../../onedesk.app.mjs";
 
 export default {
   key: "onedesk-update-item",
   name: "Update Item",
-  description: "Updates an existing item. [See the docs](https://www.onedesk.com/developers/#_update_work_item)",
-  version: "0.0.1",
+  description: "Updates an existing item. [See the documentation](https://www.onedesk.com/dev/).",
+  version: "0.0.2",
   type: "action",
   props: {
-    onedesk,
+    app,
+    itemType: {
+      optional: false,
+      propDefinition: [
+        app,
+        "itemType",
+      ],
+    },
     itemId: {
       propDefinition: [
-        onedesk,
+        app,
         "itemId",
+        ({ itemType }) => ({
+          itemType,
+        }),
       ],
-      description: "",
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "Name of the item",
       optional: true,
+      propDefinition: [
+        app,
+        "itemName",
+      ],
     },
     description: {
-      type: "string",
-      label: "Description",
-      description: "Description of the item",
-      optional: true,
+      propDefinition: [
+        app,
+        "itemDescription",
+      ],
     },
     priority: {
       propDefinition: [
-        onedesk,
+        app,
         "priority",
       ],
-      optional: true,
     },
-    progress: {
+    percentComplete: {
       type: "integer",
       label: "Progress",
-      description: "Progress of the item between 1 and 100",
+      description: "Progress of the item between `1` and `100`",
       max: 100,
       optional: true,
     },
   },
+  methods: {
+    updateItem({
+      itemId, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/items/id/${itemId}`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const { data } = await this.onedesk.updateItem({
-      data: pickBy({
-        itemId: this.itemId,
-        name: this.name,
-        spaceId: this.spaceId,
-        priority: this.priority,
-        progress: this.progress,
-      }),
+    const {
+      updateItem,
+      itemId,
+      name,
+      description,
+      priority,
+      percentComplete,
+    } = this;
+
+    const response = await updateItem({
       $,
+      itemId,
+      data: {
+        name,
+        description,
+        priority,
+        percentComplete,
+      },
     });
 
-    $.export("$summary", `Successfully updated item with ID ${data.id}.`);
+    $.export("$summary", `Successfully updated item with code \`${response}\`.`);
 
-    return data;
+    return response;
   },
 };

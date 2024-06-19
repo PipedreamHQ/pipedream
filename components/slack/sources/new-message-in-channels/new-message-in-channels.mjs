@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "slack-new-message-in-channels",
   name: "New Message In Channels (Instant)",
-  version: "1.0.19",
+  version: "1.0.20",
   description: "Emit new event when a new message is posted to one or more channels",
   type: "source",
   dedupe: "unique",
@@ -72,7 +72,6 @@ export default {
       if ((this.ignoreBot) && (event.subtype == "bot_message" || event.bot_id)) {
         return;
       }
-      console.log(event.s);
       // There is no thread message type only the thread_ts field
       // indicates if the message is part of a thread in the event.
       if (this.ignoreThreads && event.thread_ts) {
