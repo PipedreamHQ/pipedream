@@ -1,13 +1,11 @@
-import transifex from "../../transifex.app.mjs";
-import { axios } from "@pipedream/platform";
 import fs from "fs";
-import path from "path";
+import transifex from "../../transifex.app.mjs";
 
 export default {
   key: "transifex-download-file",
   name: "Download File",
   description: "Downloads a user-specified file from the Transifex platform. [See the documentation](https://developers.transifex.com/reference/get_resource-strings-async-downloads-resource-strings-async-download-id)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     transifex,
@@ -20,11 +18,15 @@ export default {
   },
   async run({ $ }) {
     const response = await this.transifex.downloadFile({
+      $,
       asyncDownloadId: this.asyncDownloadId,
     });
 
-    const filePath = path.join("/tmp", `downloaded_file_${this.asyncDownloadId}.zip`);
-    fs.writeFileSync(filePath, response);
+    const file = response.toString("base64");
+    const buffer = Buffer.from(file, "base64");
+    const tmpDir = "/tmp";
+    const filePath = `${tmpDir}/downloaded_file_${this.asyncDownloadId}.json`;
+    fs.writeFileSync(filePath, buffer);
 
     $.export("$summary", `Successfully downloaded file with asyncDownloadId: ${this.asyncDownloadId}`);
     return {

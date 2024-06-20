@@ -7,41 +7,88 @@ export default {
     file: {
       type: "string",
       label: "File",
-      description: "The actual file to be uploaded to the Transifex platform.",
+      description: "The path to the json file saved to the `/tmp` directory (e.g. `/tmp/example.json`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
-    fileName: {
+    organizationId: {
       type: "string",
-      label: "File Name",
-      description: "The name this file will be given once uploaded to the platform.",
+      label: "Organization ID",
+      description: "The ID of the organization.",
+      async options({ prevContext: { next } }) {
+        const {
+          data, links,
+        } = await this.listOrganizations({
+          params: {
+            "page[cursor]": next,
+          },
+        });
+        return {
+          options: data.map(({
+            attributes: { name: label }, id: value,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            next: this.getNextToken(links),
+          },
+        };
+      },
+    },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "The ID of the project.",
+      async options({
+        organizationId, prevContext: { next },
+      }) {
+        const {
+          data, links,
+        } = await this.listProjects({
+          params: {
+            "filter[organization]": organizationId,
+            "page[cursor]": next,
+          },
+        });
+        return {
+          options: data.map(({
+            attributes: { name: label }, id: value,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            next: this.getNextToken(links),
+          },
+        };
+      },
     },
     resourceId: {
       type: "string",
       label: "Resource ID",
       description: "The ID of the resource.",
-      async options() {
-        const resources = await this.listResources();
-        return resources.map((resource) => ({
-          label: resource.name,
-          value: resource.id,
-        }));
+      async options({
+        projectId, prevContext: { next },
+      }) {
+        const {
+          data, links,
+        } = await this.listResources({
+          params: {
+            "filter[project]": projectId,
+            "page[cursor]": next,
+          },
+        });
+        return {
+          options: data.map(({
+            id: value, attributes: { name: label },
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            next: this.getNextToken(links),
+          },
+        };
       },
-    },
-    languageCode: {
-      type: "string",
-      label: "Language Code",
-      description: "The language code of the resource language.",
-      async options() {
-        const languages = await this.listLanguages();
-        return languages.map((language) => ({
-          label: language.name,
-          value: language.code,
-        }));
-      },
-    },
-    taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "The ID of the task.",
     },
     asyncDownloadId: {
       type: "string",
@@ -53,95 +100,75 @@ export default {
     _baseUrl() {
       return "https://rest.api.transifex.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers(headers) {
+      return {
+        Authorization: `Bearer ${this.$auth.api_token}`,
+        ...headers,
+      };
+    },
+    _makeRequest({
+      $ = this, headers, path = "/", ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
+        ...opts,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(headers),
       });
     },
-    async listResources(opts = {}) {
+    getNextToken({ next }) {
+      if (!next) return false;
+      return next.split("[cursor]=")[1];
+    },
+    listOrganizations(opts = {}) {
+      return this._makeRequest({
+        path: "/organizations",
+        ...opts,
+      });
+    },
+    listProjects(opts = {}) {
+      return this._makeRequest({
+        path: "/projects",
+        ...opts,
+      });
+    },
+    listResources(opts = {}) {
       return this._makeRequest({
         path: "/resources",
         ...opts,
       });
     },
-    async listLanguages(opts = {}) {
+    listLanguages(opts = {}) {
       return this._makeRequest({
         path: "/languages",
         ...opts,
       });
     },
-    async uploadFile({
-      file, fileName,
-    }) {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("file_name", fileName);
-
+    uploadFile(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/resource-strings-async-uploads",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        data: formData,
+        path: "/resource_strings_async_uploads",
+        ...opts,
       });
     },
-    async downloadFile({ asyncDownloadId }) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/resource-strings-async-downloads/${asyncDownloadId}`,
-        responseType: "arraybuffer",
-      });
-    },
-    async getResourceLanguageStatus({
-      resourceId, languageCode,
+    downloadFile({
+      asyncDownloadId, ...opts
     }) {
       return this._makeRequest({
-        path: `/resource_languages/${resourceId}/${languageCode}/status`,
+        path: `/resource_strings_async_downloads/${asyncDownloadId}`,
+        ...opts,
       });
     },
-    async emitResourceLanguageEvent({
-      resourceId, languageCode,
-    }) {
-      const status = await this.getResourceLanguageStatus({
-        resourceId,
-        languageCode,
-      });
-      // Logic to emit an event based on the status
-      if (status === "completed" || status === "reviewed" || status === "filled") {
-        this.$emit(status, {
-          summary: `Resource ${resourceId} in language ${languageCode} has status ${status}`,
-        });
-      }
-    },
-    async emitTaskStringEvent({ taskId }) {
-      // Logic to emit an event when the strings of a task are selected or fully translated
-      // Assuming a method getTaskStatus that fetches the task status
-      const status = await this.getTaskStatus({
-        taskId,
-      });
-      if (status === "selected" || status === "fully_translated") {
-        this.$emit(status, {
-          summary: `Task ${taskId} has status ${status}`,
-        });
-      }
-    },
-    async getTaskStatus({ taskId }) {
+    createTaskWebhook(opts = {}) {
       return this._makeRequest({
-        path: `/tasks/${taskId}/status`,
+        method: "POST",
+        path: "/project_webhooks",
+        ...opts,
+      });
+    },
+    deleteTaskWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/project_webhooks/${webhookId}`,
       });
     },
   },
