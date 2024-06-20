@@ -6,7 +6,7 @@ export default {
   key: "snowflake-updated-user",
   name: "New Update User",
   description: "Emit new event when a user is updated",
-  version: "0.1.0",
+  version: "0.1.1",
   methods: {
     ...common.methods,
     getLookUpKey() {
