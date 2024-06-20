@@ -20,7 +20,7 @@ export default {
   async run({ $ }) {
     const args = this.snowflake.executeQueryAdapter(this.sql);
 
-    const data = await this.snowflake.collectRows(args);
+    const data = await this.snowflake.executeQuery(args);
 
     $.export("$summary", `Returned ${data.length} ${data.length === 1
       ? "row"
