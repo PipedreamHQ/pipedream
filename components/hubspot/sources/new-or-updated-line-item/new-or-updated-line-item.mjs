@@ -1,14 +1,14 @@
 import common from "../common/common.mjs";
 import {
-  DEFAULT_LIMIT, DEFAULT_COMPANY_PROPERTIES,
+  DEFAULT_LIMIT, DEFAULT_LINE_ITEM_PROPERTIES,
 } from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "hubspot-new-or-updated-company",
-  name: "New or Updated Company",
-  description: "Emit new event for each new or updated company in Hubspot.",
+  key: "hubspot-new-or-updated-line-item",
+  name: "New or Updated Line Item",
+  description: "Emit new event for each new line item added or updated in Hubspot.",
   version: "0.0.1",
   dedupe: "unique",
   type: "source",
@@ -17,12 +17,12 @@ export default {
     info: {
       type: "alert",
       alertType: "info",
-      content: `Properties:\n\`${DEFAULT_COMPANY_PROPERTIES.join(", ")}\``,
+      content: `Properties:\n\`${DEFAULT_LINE_ITEM_PROPERTIES.join(", ")}\``,
     },
     properties: {
       propDefinition: [
         common.props.hubspot,
-        "companyProperties",
+        "lineItemProperties",
         () => ({
           excludeDefaultProperties: true,
         }),
@@ -32,34 +32,31 @@ export default {
     newOnly: {
       type: "boolean",
       label: "New Only",
-      description: "Emit events only for new companies",
+      description: "Emit events only for new line items",
       default: false,
       optional: true,
     },
   },
   methods: {
     ...common.methods,
-    getTs(company) {
-      return this.isNew
-        ? Date.parse(company.createdAt)
-        : Date.parse(company.updatedAt);
+    getTs(lineItem) {
+      return this.newOnly
+        ? Date.parse(lineItem.createdAt)
+        : Date.parse(lineItem.updatedAt);
     },
-    generateMeta(company) {
-      const {
-        id,
-        properties,
-      } = company;
-      const ts = this.getTs(company);
+    generateMeta(lineItem) {
+      const { id } = lineItem;
+      const ts = this.getTs(lineItem);
       return {
         id: this.newOnly
           ? id
           : `${id}-${ts}`,
-        summary: properties.name,
+        summary: `Line Item ID: ${id}`,
         ts,
       };
     },
-    isRelevant(company, updatedAfter) {
-      return this.getTs(company) > updatedAfter;
+    isRelevant(lineItem, updatedAfter) {
+      return this.getTs(lineItem) > updatedAfter;
     },
     getParams() {
       const { properties = [] } = this;
@@ -73,11 +70,11 @@ export default {
             },
           ],
           properties: [
-            ...DEFAULT_COMPANY_PROPERTIES,
+            ...DEFAULT_LINE_ITEM_PROPERTIES,
             ...properties,
           ],
         },
-        object: "companies",
+        object: "line_items",
       };
     },
     async processResults(after, params) {

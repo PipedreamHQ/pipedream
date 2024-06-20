@@ -40,7 +40,9 @@ export default {
   methods: {
     ...common.methods,
     getTs(contact) {
-      return Date.parse(contact.updatedAt);
+      return this.newOnly
+        ? Date.parse(contact.createdAt)
+        : Date.parse(contact.updatedAt);
     },
     generateMeta(contact) {
       const {

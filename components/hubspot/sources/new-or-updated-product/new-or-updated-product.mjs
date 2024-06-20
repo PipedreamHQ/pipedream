@@ -40,7 +40,9 @@ export default {
   methods: {
     ...common.methods,
     getTs(product) {
-      return Date.parse(product.updatedAt);
+      return this.newOnly
+        ? Date.parse(product.createdAt)
+        : Date.parse(product.updatedAt);
     },
     generateMeta(product) {
       const {

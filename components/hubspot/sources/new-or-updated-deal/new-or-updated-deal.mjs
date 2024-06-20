@@ -61,7 +61,9 @@ export default {
   methods: {
     ...common.methods,
     getTs(deal) {
-      return Date.parse(deal.updatedAt);
+      return this.newOnly
+        ? Date.parse(deal.createdAt)
+        : Date.parse(deal.updatedAt);
     },
     generateMeta(deal) {
       const {

@@ -11,6 +11,7 @@ import {
   DEFAULT_DEAL_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
+  DEFAULT_LINE_ITEM_PROPERTIES,
 } from "./common/constants.mjs";
 
 export default {
@@ -288,6 +289,27 @@ export default {
         });
         const relevantProperties = excludeDefaultProperties
           ? properties.filter(({ name }) => !DEFAULT_PRODUCT_PROPERTIES.includes(name))
+          : properties;
+        return relevantProperties?.map(({
+          name: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    lineItemProperties: {
+      type: "string[]",
+      label: "Line Item Properties",
+      description: "Select the properties to include in the line item object",
+      optional: true,
+      default: [],
+      async options({ excludeDefaultProperties }) {
+        const { results: properties } = await this.getProperties({
+          objectType: "line_items",
+        });
+        const relevantProperties = excludeDefaultProperties
+          ? properties.filter(({ name }) => !DEFAULT_LINE_ITEM_PROPERTIES.includes(name))
           : properties;
         return relevantProperties?.map(({
           name: value, label,

@@ -139,6 +139,27 @@ const DEFAULT_PRODUCT_PROPERTIES = [
   "hs_lastmodifieddate",
 ];
 
+const DEFAULT_LINE_ITEM_PROPERTIES = [
+  "name",
+  "description",
+  "price",
+  "quantity",
+  "amount",
+  "discount",
+  "tax",
+  "createdate",
+  "hs_object_id",
+  "hs_product_id",
+  "hs_images",
+  "hs_lastmodifieddate",
+  "hs_line_item_currency_code",
+  "hs_sku",
+  "hs_url",
+  "hs_cost_of_goods_sold",
+  "hs_discount_percentage",
+  "hs_term_in_months",
+];
+
 export {
   OBJECT_TYPE,
   OBJECT_TYPES,
@@ -154,4 +175,5 @@ export {
   DEFAULT_DEAL_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
+  DEFAULT_LINE_ITEM_PROPERTIES,
 };
