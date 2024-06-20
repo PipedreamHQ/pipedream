@@ -9230,7 +9230,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/transifex:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 2.0.0
+      fs: 0.0.1-security
 
   components/transistor_fm:
     specifiers:
@@ -13976,17 +13981,17 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.2.9:
-    resolution: {integrity: sha512-1Un7VpVtBgI4yL9ik9MJmfoDSbSSy81k3BA52KNUiY7ZIQrEB3Lz6SYdcAttyj5BwOn9vIHUmlFoqI0AcuDWnw==}
+  /@definitelytyped/header-parser/0.2.10:
+    resolution: {integrity: sha512-CZHLS8F9ejIfP0+7oC0kz3WXeDDskBz2DSqA6u8dN9MpOzd/p8XXhioRSTI2T1na9GRPOq8UolvwLO+DnuY9Mg==}
     engines: {node: '>=18.18.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.1
+      '@definitelytyped/typescript-versions': 0.1.2
       '@definitelytyped/utils': 0.1.6
       semver: 7.5.4
     dev: true
 
-  /@definitelytyped/typescript-versions/0.1.1:
-    resolution: {integrity: sha512-ku6f6K/bYW39K1UyAXcg9wYPcU3ojg8NbygnGrJK78Pyu+4aflaO34gk5f92aUrqJHr8fFG6gg4IjJZCPd5wxg==}
+  /@definitelytyped/typescript-versions/0.1.2:
+    resolution: {integrity: sha512-uK8qw7yikv4p28eeDxkoaOcBxv/kKVutbsc3UTacpj+iM4zz3+Mn571i0GjYVW0fWQBre4ixB82gQxxzV9pb9g==}
     engines: {node: '>=18.18.0'}
     dev: true
 
@@ -21348,7 +21353,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.9
+      '@definitelytyped/header-parser': 0.2.10
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -21363,7 +21368,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.9
+      '@definitelytyped/header-parser': 0.2.10
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -21379,8 +21384,8 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.9
-      '@definitelytyped/typescript-versions': 0.1.1
+      '@definitelytyped/header-parser': 0.2.10
+      '@definitelytyped/typescript-versions': 0.1.2
       '@definitelytyped/utils': 0.1.6
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
@@ -21399,8 +21404,8 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.9
-      '@definitelytyped/typescript-versions': 0.1.1
+      '@definitelytyped/header-parser': 0.2.10
+      '@definitelytyped/typescript-versions': 0.1.2
       '@definitelytyped/utils': 0.1.6
       dts-critic: 3.3.11_typescript@5.3.3
       fs-extra: 6.0.1
