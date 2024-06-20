@@ -2362,6 +2362,9 @@ importers:
     dependencies:
       '@pipedream/platform': 2.0.0
 
+  components/documentpro:
+    specifiers: {}
+
   components/documint:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3884,6 +3887,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/hackerone:
+    specifiers: {}
 
   components/handwrytten:
     specifiers: {}
@@ -5940,7 +5946,10 @@ importers:
     specifiers: {}
 
   components/okta:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/omise:
     specifiers:
@@ -9034,6 +9043,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/ticket_source:
+    specifiers: {}
+
   components/ticket_tailor:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -9436,6 +9448,9 @@ importers:
       '@pipedream/platform': ^1.6.5
     dependencies:
       '@pipedream/platform': 1.6.5
+
+  components/unstructured:
+    specifiers: {}
 
   components/upbooks:
     specifiers:
