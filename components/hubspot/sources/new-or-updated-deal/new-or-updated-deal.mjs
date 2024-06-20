@@ -1,15 +1,34 @@
 import common from "../common/common.mjs";
+import {
+  DEFAULT_LIMIT, DEFAULT_DEAL_PROPERTIES,
+} from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "hubspot-new-deal-updated",
-  name: "New Deal Updated",
-  description: "Emit new event each time a deal is updated. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.19",
-  type: "source",
+  key: "hubspot-new-or-updated-deal",
+  name: "New or Updated Deal",
+  description: "Emit new event for each new or updated deal in Hubspot",
+  version: "0.0.{{ts}}",
   dedupe: "unique",
+  type: "source",
   props: {
     ...common.props,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: `Properties:\n\`${DEFAULT_DEAL_PROPERTIES.join(", ")}\``,
+    },
+    properties: {
+      propDefinition: [
+        common.props.hubspot,
+        "dealProperties",
+        () => ({
+          excludeDefaultProperties: true,
+        }),
+      ],
+      label: "Additional properties to retrieve",
+    },
     pipeline: {
       propDefinition: [
         common.props.hubspot,
@@ -31,6 +50,13 @@ export default {
       description: "Filter deals by stage",
       optional: true,
     },
+    newOnly: {
+      type: "boolean",
+      label: "New Only",
+      description: "Emit events only for new deals",
+      default: false,
+      optional: true,
+    },
   },
   methods: {
     ...common.methods,
@@ -44,7 +70,9 @@ export default {
       } = deal;
       const ts = this.getTs(deal);
       return {
-        id: `${id}${ts}`,
+        id: this.newOnly
+          ? id
+          : `${id}-${ts}`,
         summary: properties.dealname,
         ts,
       };
@@ -53,14 +81,19 @@ export default {
       return this.getTs(deal) > updatedAfter;
     },
     getParams() {
+      const { properties = [] } = this;
       const params = {
         data: {
-          limit: 100,
+          limit: DEFAULT_LIMIT,
           sorts: [
             {
               propertyName: "hs_lastmodifieddate",
               direction: "DESCENDING",
             },
+          ],
+          properties: [
+            ...DEFAULT_DEAL_PROPERTIES,
+            ...properties,
           ],
         },
         object: "deals",
@@ -87,4 +120,5 @@ export default {
       await this.searchCRM(params, after);
     },
   },
+  sampleEmit,
 };

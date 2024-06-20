@@ -8,6 +8,7 @@ import {
   DEFAULT_LIMIT,
   DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_COMPANY_PROPERTIES,
+  DEFAULT_DEAL_PROPERTIES,
 } from "./common/constants.mjs";
 
 export default {
@@ -222,6 +223,27 @@ export default {
         });
         const relevantProperties = excludeDefaultProperties
           ? properties.filter(({ name }) => !DEFAULT_COMPANY_PROPERTIES.includes(name))
+          : properties;
+        return relevantProperties?.map(({
+          name: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    dealProperties: {
+      type: "string[]",
+      label: "Deal Properties",
+      description: "Select the properties to include in the deal object",
+      optional: true,
+      default: [],
+      async options({ excludeDefaultProperties }) {
+        const { results: properties } = await this.getProperties({
+          objectType: "deals",
+        });
+        const relevantProperties = excludeDefaultProperties
+          ? properties.filter(({ name }) => !DEFAULT_DEAL_PROPERTIES.includes(name))
           : properties;
         return relevantProperties?.map(({
           name: value, label,

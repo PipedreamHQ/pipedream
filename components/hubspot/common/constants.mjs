@@ -96,6 +96,24 @@ const DEFAULT_COMPANY_PROPERTIES = [
   "web_technologies",
 ];
 
+const DEFAULT_DEAL_PROPERTIES = [
+  "dealtype",
+  "dealname",
+  "amount",
+  "description",
+  "closedate",
+  "createdate",
+  "num_associated_contacts",
+  "hs_forecast_amount",
+  "hs_forecast_probability",
+  "hs_manual_forecast_category",
+  "hs_next_step",
+  "hs_object_id",
+  "hs_lastmodifieddate",
+  "hubspot_owner_id",
+  "hubspot_team_id",
+];
+
 export {
   OBJECT_TYPE,
   OBJECT_TYPES,
@@ -108,4 +126,5 @@ export {
   DEFAULT_LIMIT,
   DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_COMPANY_PROPERTIES,
+  DEFAULT_DEAL_PROPERTIES,
 };
