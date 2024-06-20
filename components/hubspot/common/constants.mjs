@@ -114,6 +114,22 @@ const DEFAULT_DEAL_PROPERTIES = [
   "hubspot_team_id",
 ];
 
+const DEFAULT_TICKET_PROPERTIES = [
+  "subject",
+  "content",
+  "source_type",
+  "createdate",
+  "hs_pipeline",
+  "hs_pipeline_stage",
+  "hs_resolution",
+  "hs_ticket_category",
+  "hs_ticket_id",
+  "hs_ticket_priority",
+  "hs_lastmodifieddate",
+  "hubspot_owner_id",
+  "hubspot_team_id",
+];
+
 export {
   OBJECT_TYPE,
   OBJECT_TYPES,
@@ -127,4 +143,5 @@ export {
   DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_COMPANY_PROPERTIES,
   DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_TICKET_PROPERTIES,
 };

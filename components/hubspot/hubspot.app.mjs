@@ -9,6 +9,7 @@ import {
   DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_COMPANY_PROPERTIES,
   DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_TICKET_PROPERTIES,
 } from "./common/constants.mjs";
 
 export default {
@@ -244,6 +245,27 @@ export default {
         });
         const relevantProperties = excludeDefaultProperties
           ? properties.filter(({ name }) => !DEFAULT_DEAL_PROPERTIES.includes(name))
+          : properties;
+        return relevantProperties?.map(({
+          name: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    ticketProperties: {
+      type: "string[]",
+      label: "Ticket Properties",
+      description: "Select the properties to include in the ticket object",
+      optional: true,
+      default: [],
+      async options({ excludeDefaultProperties }) {
+        const { results: properties } = await this.getProperties({
+          objectType: "tickets",
+        });
+        const relevantProperties = excludeDefaultProperties
+          ? properties.filter(({ name }) => !DEFAULT_TICKET_PROPERTIES.includes(name))
           : properties;
         return relevantProperties?.map(({
           name: value, label,
