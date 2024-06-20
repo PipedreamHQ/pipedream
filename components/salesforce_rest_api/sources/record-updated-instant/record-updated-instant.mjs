@@ -1,6 +1,7 @@
 import startCase from "lodash/startCase.js";
 import common from "../common.mjs";
 import constants from "../../common/constants.mjs";
+const { salesforce } = common.props;
 
 export default {
   ...common,
@@ -9,6 +10,23 @@ export default {
   key: "salesforce_rest_api-record-updated-instant",
   description: "Emit new event when a record of the selected type is updated. [See the documentation](https://sforce.co/3yPSJZy)",
   version: "0.1.{{ts}}",
+  props: {
+    ...common.props,
+    fields: {
+      propDefinition: [
+        salesforce,
+        "field",
+        ({ objectType }) => ({
+          objectType,
+          filter: ({ updateable }) => updateable,
+        }),
+      ],
+      label: "Fields To Watch",
+      type: "string[]",
+      optional: true,
+      description: "If specified, events will only be emitted if at least one of the selected fields is updated",
+    },
+  },
   methods: {
     ...common.methods,
     generateWebhookMeta(data) {
@@ -49,6 +67,46 @@ export default {
     },
     getEventType() {
       return "updated";
+    },
+    isEventRelevant(changedFields) {
+      const { fields } = this;
+      return fields?.length
+        ? Object.keys(changedFields).some((key) => fields.includes(key))
+        : true;
+    },
+    getChangedFields(body) {
+      return Object.entries(body.New).filter(([
+        key,
+        value,
+      ]) => {
+        const oldValue = body.Old[key];
+        return (
+          value !== undefined
+          && oldValue !== undefined
+          && JSON.stringify(value) !== JSON.stringify(oldValue)
+        );
+      })
+        .reduce((obj, [
+          key,
+          value,
+        ]) => {
+          obj[key] = {
+            old: body.Old[key],
+            new: value,
+          };
+          return obj;
+        }, {});
+    },
+    processWebhookEvent(event) {
+      const { body } = event;
+      const changedFields = this.getChangedFields(body);
+      if (this.isEventRelevant(changedFields)) {
+        const meta = this.generateWebhookMeta(event);
+        this.$emit({
+          ...body,
+          changedFields,
+        }, meta);
+      }
     },
     async processTimerEvent(eventData) {
       const {
