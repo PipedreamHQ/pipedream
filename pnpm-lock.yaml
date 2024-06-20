@@ -5613,7 +5613,10 @@ importers:
     specifiers: {}
 
   components/myotp_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/mysql:
     specifiers:
