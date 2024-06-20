@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/u301",
+  "version": "0.0.1",
+  "description": "Pipedream U301 Components",
+  "main": "u301.app.mjs",
+  "keywords": [
+    "pipedream",
+    "u301"
+  ],
+  "homepage": "https://pipedream.com/apps/u301",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
