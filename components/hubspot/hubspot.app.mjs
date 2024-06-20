@@ -7,6 +7,7 @@ import {
   OBJECT_TYPES,
   DEFAULT_LIMIT,
   DEFAULT_CONTACT_PROPERTIES,
+  DEFAULT_COMPANY_PROPERTIES,
 } from "./common/constants.mjs";
 
 export default {
@@ -197,10 +198,37 @@ export default {
       optional: true,
       default: [],
       async options({ excludeDefaultProperties }) {
-        const properties = await this.createPropertiesArray();
-        return excludeDefaultProperties
-          ? properties.filter((property) => !DEFAULT_CONTACT_PROPERTIES.includes(property))
+        const properties = await this.getContactProperties(); console.log(properties);
+        const relevantProperties = excludeDefaultProperties
+          ? properties.filter(({ name }) => !DEFAULT_CONTACT_PROPERTIES.includes(name))
           : properties;
+        return relevantProperties?.map(({
+          name: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    companyProperties: {
+      type: "string[]",
+      label: "Company Properties",
+      description: "Select the properties to include in the company object",
+      optional: true,
+      default: [],
+      async options({ excludeDefaultProperties }) {
+        const { results: properties } = await this.getProperties({
+          objectType: "companies",
+        });
+        const relevantProperties = excludeDefaultProperties
+          ? properties.filter(({ name }) => !DEFAULT_COMPANY_PROPERTIES.includes(name))
+          : properties;
+        return relevantProperties?.map(({
+          name: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
     workflow: {

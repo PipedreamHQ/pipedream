@@ -1,14 +1,14 @@
 import common from "../common/common.mjs";
 import {
-  DEFAULT_LIMIT, DEFAULT_CONTACT_PROPERTIES,
+  DEFAULT_LIMIT, DEFAULT_COMPANY_PROPERTIES,
 } from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "hubspot-new-or-updated-contact",
-  name: "New or Updated Contact",
-  description: "Emit new event for each new or updated contact in Hubspot.",
+  key: "hubspot-new-or-updated-company",
+  name: "New or Updated Company",
+  description: "Emit new event for each new or updated company in Hubspot.",
   version: "0.0.1",
   dedupe: "unique",
   type: "source",
@@ -17,12 +17,12 @@ export default {
     info: {
       type: "alert",
       alertType: "info",
-      content: `Properties:\n\`${DEFAULT_CONTACT_PROPERTIES.join(", ")}\``,
+      content: `Properties:\n\`${DEFAULT_COMPANY_PROPERTIES.join(", ")}\``,
     },
     properties: {
       propDefinition: [
         common.props.hubspot,
-        "contactProperties",
+        "companyProperties",
         () => ({
           excludeDefaultProperties: true,
         }),
@@ -32,32 +32,32 @@ export default {
     newOnly: {
       type: "boolean",
       label: "New Only",
-      description: "Emit events only for new contacts",
+      description: "Emit events only for new companies",
       default: false,
       optional: true,
     },
   },
   methods: {
     ...common.methods,
-    getTs(contact) {
-      return Date.parse(contact.updatedAt);
+    getTs(company) {
+      return Date.parse(company.updatedAt);
     },
-    generateMeta(contact) {
+    generateMeta(company) {
       const {
         id,
         properties,
-      } = contact;
-      const ts = this.getTs(contact);
+      } = company;
+      const ts = this.getTs(company);
       return {
         id: this.newOnly
           ? id
           : `${id}-${ts}`,
-        summary: `${properties.firstname} ${properties.lastname}`,
+        summary: properties.name,
         ts,
       };
     },
-    isRelevant(contact, updatedAfter) {
-      return this.getTs(contact) > updatedAfter;
+    isRelevant(company, updatedAfter) {
+      return this.getTs(company) > updatedAfter;
     },
     getParams() {
       const { properties = [] } = this;
@@ -66,16 +66,16 @@ export default {
           limit: DEFAULT_LIMIT,
           sorts: [
             {
-              propertyName: "lastmodifieddate",
+              propertyName: "hs_lastmodifieddate",
               direction: "DESCENDING",
             },
           ],
           properties: [
-            ...DEFAULT_CONTACT_PROPERTIES,
+            ...DEFAULT_COMPANY_PROPERTIES,
             ...properties,
           ],
         },
-        object: "contacts",
+        object: "companies",
       };
     },
     async processResults(after, params) {

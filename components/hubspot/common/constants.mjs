@@ -64,6 +64,38 @@ const DEFAULT_CONTACT_PROPERTIES = [
   "industry",
 ];
 
+const DEFAULT_COMPANY_PROPERTIES = [
+  "name",
+  "domain",
+  "industry",
+  "about_us",
+  "phone",
+  "address",
+  "address2",
+  "city",
+  "state",
+  "zip",
+  "country",
+  "website",
+  "type",
+  "description",
+  "founded_year",
+  "hs_createdate",
+  "hs_lastmodifieddate",
+  "hs_object_id",
+  "is_public",
+  "timezone",
+  "total_money_raised",
+  "total_revenue",
+  "owneremail",
+  "ownername",
+  "numberofemployees",
+  "annualrevenue",
+  "lifecyclestage",
+  "createdate",
+  "web_technologies",
+];
+
 export {
   OBJECT_TYPE,
   OBJECT_TYPES,
@@ -75,4 +107,5 @@ export {
   ASSOCIATION_CATEGORY,
   DEFAULT_LIMIT,
   DEFAULT_CONTACT_PROPERTIES,
+  DEFAULT_COMPANY_PROPERTIES,
 };
