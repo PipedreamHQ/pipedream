@@ -130,6 +130,15 @@ const DEFAULT_TICKET_PROPERTIES = [
   "hubspot_team_id",
 ];
 
+const DEFAULT_PRODUCT_PROPERTIES = [
+  "createdate",
+  "description",
+  "name",
+  "price",
+  "tax",
+  "hs_lastmodifieddate",
+];
+
 export {
   OBJECT_TYPE,
   OBJECT_TYPES,
@@ -144,4 +153,5 @@ export {
   DEFAULT_COMPANY_PROPERTIES,
   DEFAULT_DEAL_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
+  DEFAULT_PRODUCT_PROPERTIES,
 };

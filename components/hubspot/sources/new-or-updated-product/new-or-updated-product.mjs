@@ -1,15 +1,15 @@
 import common from "../common/common.mjs";
 import {
-  DEFAULT_LIMIT, DEFAULT_TICKET_PROPERTIES,
+  DEFAULT_LIMIT, DEFAULT_PRODUCT_PROPERTIES,
 } from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "hubspot-new-ticket",
-  name: "New Ticket",
-  description: "Emit new event for each new ticket created.",
-  version: "0.0.14",
+  key: "hubspot-new-or-updated-product",
+  name: "New or Updated Product",
+  description: "Emit new event for each new or updated product in Hubspot.",
+  version: "0.0.1",
   dedupe: "unique",
   type: "source",
   props: {
@@ -17,38 +17,47 @@ export default {
     info: {
       type: "alert",
       alertType: "info",
-      content: `Properties:\n\`${DEFAULT_TICKET_PROPERTIES.join(", ")}\``,
+      content: `Properties:\n\`${DEFAULT_PRODUCT_PROPERTIES.join(", ")}\``,
     },
     properties: {
       propDefinition: [
         common.props.hubspot,
-        "ticketProperties",
+        "productProperties",
         () => ({
           excludeDefaultProperties: true,
         }),
       ],
       label: "Additional properties to retrieve",
     },
+    newOnly: {
+      type: "boolean",
+      label: "New Only",
+      description: "Emit events only for new products",
+      default: false,
+      optional: true,
+    },
   },
   methods: {
     ...common.methods,
-    getTs(ticket) {
-      return Date.parse(ticket.createdAt);
+    getTs(product) {
+      return Date.parse(product.updatedAt);
     },
-    generateMeta(ticket) {
+    generateMeta(product) {
       const {
         id,
         properties,
-      } = ticket;
-      const ts = this.getTs(ticket);
+      } = product;
+      const ts = this.getTs(product);
       return {
-        id,
-        summary: properties.subject,
+        id: this.newOnly
+          ? id
+          : `${id}-${ts}`,
+        summary: properties.name,
         ts,
       };
     },
-    isRelevant(ticket, createdAfter) {
-      return this.getTs(ticket) > createdAfter;
+    isRelevant(product, updatedAfter) {
+      return this.getTs(product) > updatedAfter;
     },
     getParams() {
       const { properties = [] } = this;
@@ -57,16 +66,16 @@ export default {
           limit: DEFAULT_LIMIT,
           sorts: [
             {
-              propertyName: "createdate",
+              propertyName: "hs_lastmodifieddate",
               direction: "DESCENDING",
             },
           ],
           properties: [
-            ...DEFAULT_TICKET_PROPERTIES,
+            ...DEFAULT_PRODUCT_PROPERTIES,
             ...properties,
           ],
         },
-        object: "tickets",
+        object: "products",
       };
     },
     async processResults(after, params) {
