@@ -2359,6 +2359,9 @@ importers:
     dependencies:
       '@pipedream/platform': 2.0.0
 
+  components/documentpro:
+    specifiers: {}
+
   components/documint:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3759,10 +3762,10 @@ importers:
 
   components/gorgias_oauth:
     specifiers:
-      '@pipedream/platform': ^1.4.1
+      '@pipedream/platform': ^2.0.0
       lodash-es: ^4.17.21
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 2.0.0
       lodash-es: 4.17.21
 
   components/gorillastack:
@@ -3881,6 +3884,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/hackerone:
+    specifiers: {}
 
   components/handwrytten:
     specifiers: {}
@@ -5607,7 +5613,10 @@ importers:
     specifiers: {}
 
   components/myotp_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/mysql:
     specifiers:
@@ -5885,9 +5894,9 @@ importers:
 
   components/npm:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
 
   components/nudgify:
     specifiers:
@@ -9034,6 +9043,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/ticket_source:
+    specifiers: {}
+
   components/ticket_tailor:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -9436,6 +9448,9 @@ importers:
       '@pipedream/platform': ^1.6.5
     dependencies:
       '@pipedream/platform': 1.6.5
+
+  components/unstructured:
+    specifiers: {}
 
   components/upbooks:
     specifiers:
