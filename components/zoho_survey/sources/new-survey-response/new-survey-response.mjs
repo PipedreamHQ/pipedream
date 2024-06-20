@@ -46,10 +46,10 @@ export default {
       });
       const questions = (variables.find(({ label }) => label === "Questions"))?.variables;
       const respondentVariables = (variables.find(({ label }) => label == "Respondent Variables"))?.variables;
-      const labels = this.collectFieldLabels([
-        ...questions,
-        ...respondentVariables,
-      ]);
+      if (respondentVariables?.length) {
+        questions.push(...respondentVariables);
+      }
+      const labels = this.collectFieldLabels(questions);
       const response = {};
       for (const [
         key,
