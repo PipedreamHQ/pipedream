@@ -10,7 +10,7 @@ overrideApp(base);
 export default {
   ...base,
   key: "gmail_custom_oauth-send-email",
-  version: "0.1.2",
+  version: "0.1.4",
   props: {
     ...base.props,
     inReplyTo: {

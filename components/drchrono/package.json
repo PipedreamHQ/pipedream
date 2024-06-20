@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/drchrono",
+  "version": "0.0.1",
+  "description": "Pipedream DrChrono Components",
+  "main": "drchrono.app.mjs",
+  "keywords": [
+    "pipedream",
+    "drchrono"
+  ],
+  "homepage": "https://pipedream.com/apps/drchrono",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

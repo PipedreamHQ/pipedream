@@ -1,62 +1,84 @@
-import onedesk from "../../onedesk.app.mjs";
+import app from "../../onedesk.app.mjs";
 
 export default {
   key: "onedesk-create-user",
   name: "Create User",
-  description: "Creates a user or a customer. [See the docs](https://www.onedesk.com/developers/#_create_user)",
-  version: "0.0.1",
+  description: "Creates a user or a customer. [See the documentation](https://www.onedesk.com/dev/).",
+  version: "0.0.2",
   type: "action",
   props: {
-    onedesk,
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The first name of the new user",
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The last name of the new user",
-    },
+    app,
     email: {
       type: "string",
       label: "Email",
       description: "The new user email",
     },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the new user",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the new user",
+      optional: true,
+    },
     type: {
       propDefinition: [
-        onedesk,
+        app,
         "userType",
       ],
     },
-    teamId: {
+    teams: {
+      type: "string[]",
+      label: "Team IDs",
       propDefinition: [
-        onedesk,
+        app,
         "teamId",
       ],
     },
-    isAdministrator: {
+    isAdmin: {
       type: "boolean",
       label: "Is Administrator",
       description: "Set to `true` if the new user should be an administrator",
       optional: true,
     },
   },
+  methods: {
+    createUser(args = {}) {
+      return this.app.post({
+        path: "/users/",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const { data } = await this.onedesk.createUser({
-      data: {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        type: this.type,
-        teamId: this.teamId,
-        isAdministrator: this.isAdministrator,
-      },
+    const {
+      createUser,
+      email,
+      firstName,
+      lastName,
+      type,
+      teams,
+      isAdmin,
+    } = this;
+
+    const response = await createUser({
       $,
+      data: {
+        email,
+        firstName,
+        lastName,
+        type,
+        teams,
+        isAdmin,
+      },
     });
 
-    $.export("$summary", `Successfully created user with ID ${data.id}.`);
+    $.export("$summary", `Successfully created user with ID \`${response.data}\`.`);
 
-    return data;
+    return response;
   },
 };

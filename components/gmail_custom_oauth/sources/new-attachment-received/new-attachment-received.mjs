@@ -5,7 +5,7 @@ export default {
   key: "gmail_custom_oauth-new-attachment-received",
   name: "New Attachment Received",
   description: "Emit new event for each attachment in a message received. This source is capped at 100 max new messages per run.",
-  version: "0.0.8",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -43,6 +43,7 @@ export default {
     },
     async processMessageIds(messageIds) {
       const messages = await this.gmail.getMessagesWithRetry(messageIds);
+      console.log("Fetched messages", JSON.stringify(messages, null, 2));
       this.emitEvents(messages);
     },
   },

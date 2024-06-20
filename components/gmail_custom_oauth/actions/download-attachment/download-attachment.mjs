@@ -6,7 +6,7 @@ export default {
   key: "gmail_custom_oauth-download-attachment",
   name: "Download Attachement",
   description: "Download an attachment by attachmentId to the /tmp directory. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     gmail,

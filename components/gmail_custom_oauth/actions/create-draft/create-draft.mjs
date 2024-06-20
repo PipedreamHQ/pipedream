@@ -5,7 +5,7 @@ export default {
   key: "gmail_custom_oauth-create-draft",
   name: "Create Draft",
   description: "Create a draft from your Google Workspace email account",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "action",
   props: {
     gmail,

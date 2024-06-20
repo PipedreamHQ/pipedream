@@ -5,7 +5,7 @@ export default {
   key: "gmail_custom_oauth-new-email-received",
   name: "New Email Received",
   description: "Emit new event when an email is received. This source is capped at 100 max new messages per run.",
-  version: "0.0.9",
+  version: "0.0.11",
   type: "source",
   dedupe: "unique",
   methods: {
