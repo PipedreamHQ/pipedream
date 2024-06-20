@@ -35,6 +35,35 @@ const ASSOCIATION_CATEGORY = {
 
 const DEFAULT_LIMIT = 100;
 
+const DEFAULT_CONTACT_PROPERTIES = [
+  "firstname",
+  "lastname",
+  "email",
+  "company",
+  "website",
+  "mobilephone",
+  "phone",
+  "fax",
+  "address",
+  "city",
+  "state",
+  "zip",
+  "salutation",
+  "country",
+  "jobtitle",
+  "hs_createdate",
+  "hs_email_domain",
+  "hs_object_id",
+  "lastmodifieddate",
+  "hs_persona",
+  "hs_language",
+  "lifecyclestage",
+  "createdate",
+  "numemployees",
+  "annualrevenue",
+  "industry",
+];
+
 export {
   OBJECT_TYPE,
   OBJECT_TYPES,
@@ -45,4 +74,5 @@ export {
   API_PATH,
   ASSOCIATION_CATEGORY,
   DEFAULT_LIMIT,
+  DEFAULT_CONTACT_PROPERTIES,
 };

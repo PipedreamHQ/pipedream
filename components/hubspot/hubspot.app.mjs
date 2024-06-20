@@ -6,6 +6,7 @@ import {
   OBJECT_TYPE,
   OBJECT_TYPES,
   DEFAULT_LIMIT,
+  DEFAULT_CONTACT_PROPERTIES,
 } from "./common/constants.mjs";
 
 export default {
@@ -195,8 +196,11 @@ export default {
       description: "Select the properties to include in the contact object",
       optional: true,
       default: [],
-      async options() {
-        return this.createPropertiesArray();
+      async options({ excludeDefaultProperties }) {
+        const properties = await this.createPropertiesArray();
+        return excludeDefaultProperties
+          ? properties.filter((property) => !DEFAULT_CONTACT_PROPERTIES.includes(property))
+          : properties;
       },
     },
     workflow: {
