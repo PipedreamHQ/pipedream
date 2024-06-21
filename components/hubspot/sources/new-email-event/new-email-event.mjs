@@ -1,6 +1,7 @@
 import common from "../common/common.mjs";
 import { DEFAULT_LIMIT } from "../../common/constants.mjs";
 import { EMAIL_EVENT_TYPES } from "../../common/object-types.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -58,4 +59,5 @@ export default {
       );
     },
   },
+  sampleEmit,
 };
