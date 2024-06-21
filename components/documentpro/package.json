@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/documentpro",
+  "version": "0.0.1",
+  "description": "Pipedream DocumentPro Components",
+  "main": "documentpro.app.mjs",
+  "keywords": [
+    "pipedream",
+    "documentpro"
+  ],
+  "homepage": "https://pipedream.com/apps/documentpro",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

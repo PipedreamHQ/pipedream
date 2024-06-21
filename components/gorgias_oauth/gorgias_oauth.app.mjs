@@ -60,7 +60,6 @@ export default {
       type: "integer",
       label: "Ticket ID",
       description: "The ID of a ticket to watch for new messages",
-      optional: true,
       async options({ prevContext }) {
         const {
           data: tickets,
@@ -133,6 +132,42 @@ export default {
       label: "Limit",
       description: "Maximum number to return",
       optional: true,
+    },
+    assigneeTeamId: {
+      type: "integer",
+      label: "Assignee Team ID",
+      description: "The ID of the team assigned to the ticket",
+      async options({ prevContext }) {
+        const {
+          data: teams,
+          meta,
+        } = await this.listTeams({
+          params: {
+            cursor: prevContext.nextCursor,
+          },
+        });
+        return {
+          options: teams.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextCursor: meta.next_cursor,
+          },
+        };
+      },
+    },
+    assigneeUserId: {
+      type: "integer",
+      label: "Assignee User ID",
+      description: "The ID of the user assigned to the ticket",
+    },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "The subject of the ticket",
     },
   },
   methods: {
@@ -299,9 +334,25 @@ export default {
         path: `tickets/${id}`,
       });
     },
+    async updateTicket({
+      ticketId,
+      ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/tickets/${ticketId}`,
+        ...opts,
+      });
+    },
     listUsers(opts = {}) {
       return this._makeRequest({
         path: "/users",
+        ...opts,
+      });
+    },
+    listTeams(opts = {}) {
+      return this._makeRequest({
+        path: "/teams",
         ...opts,
       });
     },
