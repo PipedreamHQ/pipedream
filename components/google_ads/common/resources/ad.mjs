@@ -225,20 +225,13 @@ const segments = [
   "conversion_adjustment",
   "conversion_lag_bucket",
   "conversion_or_adjustment_lag_bucket",
-  "date",
-  "day_of_week",
   "device",
   "external_conversion_source",
   "keyword.ad_group_criterion",
   "keyword.info.match_type",
   "keyword.info.text",
-  "month",
-  "month_of_year",
   "new_versus_returning_customers",
-  "quarter",
   "slot",
-  "week",
-  "year",
 ];
 
 const metrics = [

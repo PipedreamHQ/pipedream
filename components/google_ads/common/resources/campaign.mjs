@@ -110,15 +110,10 @@ const segments = [
   "conversion_lag_bucket",
   "conversion_or_adjustment_lag_bucket",
   "conversion_value_rule_primary_dimension",
-  "date",
-  "day_of_week",
   "device",
   "external_conversion_source",
   "hour",
-  "month",
-  "month_of_year",
   "new_versus_returning_customers",
-  "quarter",
   "recommendation_type",
   "sk_ad_network_ad_event_type",
   "sk_ad_network_attribution_credit",
@@ -130,8 +125,6 @@ const segments = [
   "sk_ad_network_source_type",
   "sk_ad_network_user_type",
   "slot",
-  "week",
-  "year",
 ];
 
 const metrics = [
