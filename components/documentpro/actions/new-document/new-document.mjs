@@ -1,4 +1,3 @@
-import FormData from "form-data";
 import fs from "fs";
 import { checkTmp } from "../../common/utils.mjs";
 import documentpro from "../../documentpro.app.mjs";
