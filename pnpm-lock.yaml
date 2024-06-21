@@ -1292,7 +1292,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/certifier:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/cflow:
     specifiers: {}
@@ -4963,6 +4966,9 @@ importers:
       '@pipedream/platform': ^1.6.4
     dependencies:
       '@pipedream/platform': 1.6.4
+
+  components/llamaindex:
+    specifiers: {}
 
   components/lmnt:
     specifiers:
