@@ -709,6 +709,9 @@ importers:
   components/aylien_news_api:
     specifiers: {}
 
+  components/ayrshare:
+    specifiers: {}
+
   components/azure_ai_vision:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1292,7 +1295,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/certifier:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/cflow:
     specifiers: {}
@@ -5509,6 +5515,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/modelry:
+    specifiers: {}
 
   components/mojo_helpdesk:
     specifiers:
@@ -10485,8 +10494,10 @@ importers:
   components/zoho_survey:
     specifiers:
       '@pipedream/platform': ^1.5.1
+      html-entities-decoder: ^1.0.5
     dependencies:
       '@pipedream/platform': 1.5.1
+      html-entities-decoder: 1.0.5
 
   components/zoho_workdrive:
     specifiers:
@@ -19452,7 +19463,7 @@ packages:
   /axios/1.6.5_debug@3.2.7:
     resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
     dependencies:
-      follow-redirects: 1.15.5_debug@3.2.7
+      follow-redirects: 1.15.4_debug@3.2.7
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -22518,18 +22529,8 @@ packages:
       debug:
         optional: true
 
-  /follow-redirects/1.15.5:
-    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dev: false
-
-  /follow-redirects/1.15.5_debug@3.2.7:
-    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
+  /follow-redirects/1.15.4_debug@3.2.7:
+    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -22538,6 +22539,16 @@ packages:
         optional: true
     dependencies:
       debug: 3.2.7
+    dev: false
+
+  /follow-redirects/1.15.5:
+    resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /follow-redirects/1.5.10:
@@ -23674,6 +23685,10 @@ packages:
     dependencies:
       lru-cache: 6.0.0
     dev: true
+
+  /html-entities-decoder/1.0.5:
+    resolution: {integrity: sha512-Cc/RSOGlojr7NDw1oXamUQenYBB0f/SISO8QWtRdZkDOmlO/hvbGZMjgyl+6+mh2PKPRrGXUKH4JhCU18LNS2g==}
+    dev: false
 
   /html-escaper/2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
