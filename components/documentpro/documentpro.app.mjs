@@ -4,93 +4,67 @@ export default {
   type: "app",
   app: "documentpro",
   propDefinitions: {
-    account: {
-      type: "string",
-      label: "Account",
-      description: "The account used for authentication",
-    },
-    documentType: {
-      type: "string",
-      label: "Document Type",
-      description: "Filter specific types of documents",
-      optional: true,
-      async options() {
-        const templates = await this.getParsers();
-        return templates.map((template) => ({
-          label: template.template_title,
-          value: template.template_type,
-        }));
-      },
-    },
     document: {
       type: "string",
       label: "Document",
-      description: "The file that should be uploaded",
-    },
-    mimeType: {
-      type: "string",
-      label: "MIME Type",
-      description: "Specify the type of the uploaded document",
-      optional: true,
+      description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
     parserId: {
       type: "string",
       label: "Parser ID",
       description: "The ID of the parser to use for uploading the document",
+      async options() {
+        const { items } = await this.getParsers();
+        return items.map(({
+          template_title: label, template_id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.documentpro.ai/v1";
+      return "https://api.documentpro.ai";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers(headers = {}) {
+      return {
+        ...headers,
+        "x-api-key": this.$auth.api_key,
+      };
+    },
+    _makeRequest({
+      $ = this, path = "", headers, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "x-api-key": this.$auth.api_key,
-        },
-      });
-    },
-    async getParsers(opts = {}) {
-      return this._makeRequest({
-        path: "/templates",
+        headers: this._headers(headers),
         ...opts,
       });
     },
-    async emitNewDocumentEvent({
-      account, documentType,
-    }) {
-      const path = "/webhooks";
-      const data = {
-        event: "document.uploaded",
-        account,
-        documentType,
-      };
+    getParsers(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path,
-        data,
+        path: "/v1/templates",
+        ...opts,
       });
     },
-    async uploadDocument({
-      parserId, document, mimeType,
+    updateParser({
+      parserId, ...opts
     }) {
-      const formData = new FormData();
-      formData.append("file", document);
-
+      return this._makeRequest({
+        method: "PUT",
+        path: `/v1/templates/${parserId}`,
+        ...opts,
+      });
+    },
+    uploadDocument({
+      parserId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/files/upload/${parserId}`,
-        headers: {
-          "Content-Type": mimeType || "application/octet-stream",
-        },
-        data: formData,
+        ...opts,
       });
     },
   },
