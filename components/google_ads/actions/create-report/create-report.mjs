@@ -43,6 +43,30 @@ export default {
         alertType: "info",
         content: `[See the documentation](https://developers.google.com/google-ads/api/fields/v16/${value}) for more information on available fields, segments and metrics.`,
       },
+      objectsToQuery: {
+        type: "string[]",
+        label: `Filter ${label}s`,
+        description: `Select the ${label}s to generate a report for (or leave blank for all ${label}s)`,
+        optional: true,
+        options: async () => {
+          const {
+            accountId, customerClientId, resource,
+          } = this;
+          const items = await this.googleAds.listResources({
+            accountId,
+            customerClientId,
+            resource,
+          });
+          return items?.map?.(({
+            [resource ]: {
+              descriptive_name, id, name,
+            },
+          }) => ({
+            label: name ?? descriptive_name,
+            value: id,
+          }));
+        },
+      },
       fields: {
         type: "string[]",
         label: "Fields",

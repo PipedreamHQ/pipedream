@@ -187,6 +187,14 @@ export default {
         ...args,
       });
     },
+    async listResources({
+      resource, ...args
+    }) {
+      return this.search({
+        query: QUERIES.listResources(resource),
+        ...args,
+      });
+    },
     async getLeadFormData({
       leadFormId, ...args
     }) {

@@ -94,6 +94,13 @@ function listCampaigns({
   return `SELECT ${fields.map((s) => `campaign.${s}`).join(", ")} FROM campaign${filter}`;
 }
 
+function listResources(resource) {
+  const name = resource === "customer"
+    ? "descriptive_name"
+    : "name";
+  return `SELECT ${resource}.id, ${resource}.${name} FROM ${resource}`;
+}
+
 export const QUERIES = {
   listCampaigns,
   listConversionActions,
@@ -101,5 +108,6 @@ export const QUERIES = {
   listLeadForms,
   listLeadFormSubmissionData,
   listRemarketingActions,
+  listResources,
   listUserLists,
 };
