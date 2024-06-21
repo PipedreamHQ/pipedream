@@ -29,6 +29,14 @@ export default {
       ],
       label: "Additional properties to retrieve",
     },
+    lists: {
+      propDefinition: [
+        common.props.hubspot,
+        "lists",
+      ],
+      withLabel: false,
+      optional: true,
+    },
     newOnly: {
       type: "boolean",
       label: "New Only",
@@ -58,8 +66,37 @@ export default {
         ts,
       };
     },
-    isRelevant(contact, updatedAfter) {
-      return this.getTs(contact) > updatedAfter;
+    async translateListIds(lists) {
+      const listIds = [];
+      for (const list of lists) {
+        const { listId } = await this.hubspot.translateLegacyListId({
+          params: {
+            legacyListId: list,
+          },
+        });
+        listIds.push(listId);
+      }
+      return listIds;
+    },
+    async isRelevant(contact, updatedAfter) {
+      if (this.getTs(contact) < updatedAfter) {
+        return false;
+      }
+      if (this.lists?.length) {
+        const { results } = await this.hubspot.getMemberships({
+          objectType: "contacts",
+          objectId: contact.id,
+        });
+        const contactListIds = results?.map(({ listId }) => listId) || [];
+        const listIds = await this.translateListIds(this.lists);
+        for (const list of listIds) {
+          if (contactListIds.includes(list)) {
+            return true;
+          }
+        }
+        return false;
+      }
+      return true;
     },
     getParams() {
       const { properties = [] } = this;

@@ -764,5 +764,13 @@ export default {
     }) {
       return this.makeRequest(API_PATH.DEAL, `/deal/${dealId}`, opts);
     },
+    getMemberships({
+      objectType, objectId, ...opts
+    }) {
+      return this.makeRequest(API_PATH.CRMV3, `/lists/records/${objectType}/${objectId}/memberships`, opts);
+    },
+    translateLegacyListId(opts = {}) {
+      return this.makeRequest(API_PATH.CRMV3, "/lists/idmapping", opts);
+    },
   },
 };

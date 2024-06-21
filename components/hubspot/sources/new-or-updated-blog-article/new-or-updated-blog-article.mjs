@@ -4,8 +4,8 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "hubspot-new-blog-article",
-  name: "New Blog Posts",
+  key: "hubspot-new-or-updated-blog-article",
+  name: "New or Updated Blog Post",
   description: "Emit new event for each new or updated blog post in Hubspot.",
   version: "0.0.1",
   dedupe: "unique",
