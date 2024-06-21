@@ -98,7 +98,10 @@ function listResources(resource) {
   const name = resource === "customer"
     ? "descriptive_name"
     : "name";
-  return `SELECT ${resource}.id, ${resource}.${name} FROM ${resource}`;
+  const fieldResource = resource === "ad_group_ad"
+    ? "ad_group_ad.ad"
+    : resource;
+  return `SELECT ${fieldResource}.id, ${fieldResource}.${name} FROM ${resource}`;
 }
 
 export const QUERIES = {
