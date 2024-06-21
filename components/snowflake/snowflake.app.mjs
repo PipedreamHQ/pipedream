@@ -177,7 +177,7 @@ export default {
         binds,
       });
       return rows.reduce((acc, row) => {
-        acc[row.tableName] = {
+        acc[row.tableName] ??= {
           metadata: {
             rowCount: row.rowCount,
           },
