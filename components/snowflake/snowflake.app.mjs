@@ -1,5 +1,5 @@
 import { createPrivateKey } from "crypto";
-import snowflake from "snowflake-sdk";
+import { snowflake } from "@pipedream/snowflake-sdk";
 import { promisify } from "util";
 import {
   sqlProxy, sqlProp,

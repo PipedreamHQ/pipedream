@@ -7,7 +7,7 @@ export default {
   key: "snowflake-new-table",
   name: "New Table",
   description: "Emit new event when a table is created",
-  version: "0.1.0",
+  version: "0.1.1",
   methods: {
     ...common.methods,
     alwaysRunInSingleProcessMode() {
