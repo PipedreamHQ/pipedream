@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import decode from "html-entities-decoder";
 const DEFAULT_LIMIT = 50;
 
 export default {
@@ -15,7 +16,7 @@ export default {
           portalId: value, portalName: label,
         }) => ({
           value,
-          label,
+          label: decode(label),
         })) || [];
       },
     },
@@ -30,7 +31,7 @@ export default {
           groupUniqueId: value, name: label,
         }) => ({
           value,
-          label,
+          label: decode(label),
         }));
       },
     },
@@ -56,7 +57,7 @@ export default {
           id: value, name: label,
         }) => ({
           value,
-          label,
+          label: decode(label),
         })) || [];
       },
     },
@@ -76,7 +77,7 @@ export default {
           id: value, name: label,
         }) => ({
           value,
-          label,
+          label: decode(label),
         })) || [];
       },
     },
@@ -100,7 +101,7 @@ export default {
           id: value, name: label,
         }) => ({
           value,
-          label,
+          label: decode(label),
         })) || [];
       },
     },
