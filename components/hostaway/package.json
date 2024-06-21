@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hostaway",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Hostaway Components",
   "main": "hostaway.app.mjs",
   "keywords": [
