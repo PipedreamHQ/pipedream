@@ -17,7 +17,7 @@ export default {
   key: "google_ads-create-report",
   name: "Create Report",
   description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/fields/v16/overview)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
