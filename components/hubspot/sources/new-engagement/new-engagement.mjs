@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import { ENGAGEMENT_TYPES } from "../../common/object-types.mjs";
 
 export default {
   ...common,
@@ -8,6 +9,16 @@ export default {
   version: "0.0.19",
   dedupe: "unique",
   type: "source",
+  props: {
+    ...common.props,
+    types: {
+      type: "string[]",
+      label: "Engagement Types",
+      description: "Filter results by the type of engagment",
+      options: ENGAGEMENT_TYPES,
+      optional: true,
+    },
+  },
   methods: {
     ...common.methods,
     getTs(engagement) {
@@ -26,7 +37,13 @@ export default {
       };
     },
     isRelevant(engagement, createdAfter) {
-      return this.getTs(engagement) > createdAfter;
+      if (this.getTs(engagement) < createdAfter) {
+        return false;
+      }
+      if (this.types?.length) {
+        return this.types.includes(engagement.engagement.type);
+      }
+      return true;
     },
   },
   async run() {

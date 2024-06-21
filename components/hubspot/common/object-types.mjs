@@ -152,10 +152,34 @@ const SEARCHABLE_OBJECT_PROPERTIES = {
   ],
 };
 
+const ENGAGEMENT_TYPES = [
+  {
+    label: "Note",
+    value: "NOTE",
+  },
+  {
+    label: "Task",
+    value: "TASK",
+  },
+  {
+    label: "Meeting",
+    value: "MEETING",
+  },
+  {
+    label: "Email",
+    value: "EMAIL",
+  },
+  {
+    label: "Call",
+    value: "CALL",
+  },
+];
+
 export {
   OBJECT_TYPE,
   OBJECT_TYPES,
   HUBSPOT_OWNER,
   SEARCHABLE_OBJECT_TYPES,
   SEARCHABLE_OBJECT_PROPERTIES,
+  ENGAGEMENT_TYPES,
 };
