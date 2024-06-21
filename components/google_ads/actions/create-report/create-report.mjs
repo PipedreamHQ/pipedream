@@ -58,7 +58,7 @@ export default {
             resource,
           });
           return items?.map?.(({
-            [resource ]: {
+            [resource]: {
               descriptive_name, id, name,
             },
           }) => ({
