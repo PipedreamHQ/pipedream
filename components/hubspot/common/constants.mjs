@@ -11,7 +11,7 @@ const API_PATH = {
   PROPERTIES: "/properties/v1",
   CONTACTS: "/contacts/v1",
   ENGAGEMENTS: "/engagements/v1",
-  EMAIL: "/email/public/v1/",
+  EMAIL: "/email/public/v1",
   EVENTS: "/events/v3",
   FORMS: "/forms/v2",
   FORM_INTEGRATIONS: "/form-integrations/v1",
