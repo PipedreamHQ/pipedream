@@ -91,7 +91,7 @@ export default {
       fields: {
         type: "string[]",
         label: "Fields",
-        description: `${label} data fields to obtain`,
+        description: "Select any fields you want to include in your report.",
         options: resource.fields,
         optional: true,
         reloadProps: true,
@@ -99,7 +99,7 @@ export default {
       segments: {
         type: "string[]",
         label: "Segments",
-        description: `${label} segments to obtain [more info on the documentation](https://developers.google.com/google-ads/api/fields/v16/segments)`,
+        description: "Select any segments you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/fields/v16/segments)",
         options: resource.segments,
         optional: true,
         reloadProps: true,
@@ -107,7 +107,7 @@ export default {
       metrics: {
         type: "string[]",
         label: "Metrics",
-        description: `${label} metrics to obtain [more info on the documentation](https://developers.google.com/google-ads/api/fields/v16/metrics)`,
+        description: "Select any metrics you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/fields/v16/metrics)",
         options: resource.metrics,
         optional: true,
         reloadProps: true,
