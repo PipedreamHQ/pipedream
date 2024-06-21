@@ -5516,6 +5516,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/modelry:
+    specifiers: {}
+
   components/mojo_helpdesk:
     specifiers:
       '@pipedream/platform': ^1.3.0
