@@ -4,6 +4,7 @@ import { ad } from "../../common/resources/ad.mjs";
 import { campaign } from "../../common/resources/campaign.mjs";
 import { customer } from "../../common/resources/customer.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { DATE_RANGE_OPTIONS } from "./common-constants.mjs";
 
 const RESOURCES = [
   adGroup,
@@ -45,7 +46,7 @@ export default {
       },
       objectFilter: {
         type: "string[]",
-        label: `Filter ${label}s`,
+        label: `Filter by ${label}s`,
         description: `Select the ${label}s to generate a report for (or leave blank for all ${label}s)`,
         optional: true,
         options: async () => {
@@ -67,6 +68,26 @@ export default {
           }));
         },
       },
+      dateRange: {
+        type: "string",
+        label: "Date Range",
+        description: "Select a date range for the report",
+        options: DATE_RANGE_OPTIONS,
+        optional: true,
+        reloadProps: true,
+      },
+      ...(this.dateRange === "CUSTOM" && {
+        startDate: {
+          type: "string",
+          label: "Start Date",
+          description: "The start date, in `YYYY-MM-DD` format",
+        },
+        endDate: {
+          type: "string",
+          label: "End Date",
+          description: "The end date, in `YYYY-MM-DD` format",
+        },
+      }),
       fields: {
         type: "string[]",
         label: "Fields",
@@ -140,11 +161,12 @@ export default {
   methods: {
     buildQuery() {
       const {
-        resource, limit, orderBy, direction, objectFilter,
+        resource, limit, orderBy, direction, objectFilter, dateRange,
       } = this;
       const fields = this.fields?.map((i) => `${resource}.${i}`) ?? [];
       const segments = this.segments?.map((i) => `segments.${i}`) ?? [];
       const metrics = this.metrics?.map((i) => `metrics.${i}`) ?? [];
+      if (dateRange) segments.push("segments.date");
       const selection = [
         ...fields,
         ...segments,
@@ -164,6 +186,14 @@ export default {
       }
       if (objectFilter) {
         query += ` WHERE ${resource}.id IN (${objectFilter.join?.(", ") ?? objectFilter})`;
+      }
+      if (dateRange) {
+        const dateClause = dateRange === "CUSTOM"
+          ? `BETWEEN '${this.startDate}' AND '${this.endDate}'`
+          : `DURING ${dateRange}`;
+        query += ` ${objectFilter
+          ? "AND"
+          : "WHERE"} segments.date ${dateClause}`;
       }
 
       return query;
