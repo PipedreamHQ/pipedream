@@ -5,6 +5,10 @@ import ArcadeEmbed from '@/components/ArcadeEmbed'
 # Working with SQL
 Pipedream makes it easy to interact with SQL databases within your workflows. You can securely connect to your database and use either pre-built no-code triggers and actions to interact with your database, or execute custom SQL queries.
 
+<Callout type="info">
+The below features are currently in beta. If you have feedback or feature requests, please [let us know](https://pipedream.com/support).
+</Callout>
+
 ## SQL Editor
 With the built-in SQL editor, you access linting and auto-complete features typical of modern SQL editors.
 
@@ -43,7 +47,7 @@ Below your query input, you can toggle between the computed and prepared stateme
 ### Select the Execute SQL Query action
 - From the step selector in the builder, select the **Query a Database** action for the [relevant database app](#supported-databases)
 
-![Select the Execute SQL Query action](https://res.cloudinary.com/pipedreamin/image/upload/v1718836751/query-database-actions_jsnbzc.png)
+![Select the Execute SQL Query action](https://res.cloudinary.com/pipedreamin/image/upload/v1718918862/database-actions-step-selector_sbrnzi.png)
 
 ### Connect your account
 - If you already have a connected account, select it from the dropdown. Otherwise, click **Connect Account** to configure the database connection.
@@ -60,7 +64,7 @@ Below your query input, you can toggle between the computed and prepared stateme
 </Steps>
 
 ### Supported Databases
-The first-class database support described above is currently supported for these apps:
+The [SQL editor](#sql-editor), [schema explorer](#schema-explorer), and support for [prepared statements](#prepared-statements) are currently supported for these datbase apps:
 - [MySQL](https://pipedream.com/apps/mysql)
 - [PostgreSQL](https://pipedream.com/apps/postgresql)
 - [Snowflake](https://pipedream.com/apps/snowflake)

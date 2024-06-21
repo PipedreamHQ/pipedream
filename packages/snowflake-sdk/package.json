@@ -1,0 +1,10 @@
+{
+  "name": "@pipedream/snowflake-sdk",
+  "version": "1.0.8",
+  "description": "Facade of snowflake-sdk v1.9.0",
+  "main": "index.mjs",
+  "type": "module",
+  "dependencies": {
+    "snowflake-sdk": "1.9.0"
+  }
+}
