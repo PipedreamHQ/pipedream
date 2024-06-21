@@ -58,14 +58,8 @@ export default {
             customerClientId,
             resource,
           });
-          return items?.map?.(({
-            [resource]: {
-              descriptive_name, id, name,
-            },
-          }) => ({
-            label: name ?? descriptive_name,
-            value: id,
-          }));
+          console.log(items);
+          return items?.map?.((item) => this.getResourceOption(item, resource));
         },
       },
       dateRange: {
@@ -159,6 +153,35 @@ export default {
     };
   },
   methods: {
+    getResourceOption(item, resource) {
+      let label, value;
+      switch (resource) {
+      case "campaign":
+        label = item.campaign.name;
+        value = item.campaign.id;
+        break;
+
+      case "customer":
+        label = item.customer.descriptiveName;
+        value = item.customer.id;
+        break;
+
+      case "ad_group":
+        label = item.adGroup.name;
+        value = item.adGroup.id;
+        break;
+
+      case "ad_group_ad":
+        label = item.adGroupAd.ad.name;
+        value = item.adGroupAd.ad.id;
+        break;
+      }
+
+      return {
+        label,
+        value,
+      };
+    },
     buildQuery() {
       const {
         resource, limit, orderBy, direction, objectFilter, dateRange,
@@ -166,7 +189,11 @@ export default {
       const fields = this.fields?.map((i) => `${resource}.${i}`) ?? [];
       const segments = this.segments?.map((i) => `segments.${i}`) ?? [];
       const metrics = this.metrics?.map((i) => `metrics.${i}`) ?? [];
-      if (dateRange) segments.push("segments.date");
+
+      if (dateRange && !segments.includes("segments.date")) {
+        segments.push("segments.date");
+      }
+
       const selection = [
         ...fields,
         ...segments,
@@ -185,7 +212,9 @@ export default {
         query += ` LIMIT ${limit}`;
       }
       if (objectFilter) {
-        query += ` WHERE ${resource}.id IN (${objectFilter.join?.(", ") ?? objectFilter})`;
+        query += ` WHERE ${resource === "ad_group_ad"
+          ? "ad_group_ad.ad"
+          : resource}.id IN (${objectFilter.join?.(", ") ?? objectFilter})`;
       }
       if (dateRange) {
         const dateClause = dateRange === "CUSTOM"
