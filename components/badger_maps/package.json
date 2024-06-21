@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/badger_maps",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Badger Maps Components",
   "main": "badger_maps.app.mjs",
   "keywords": [
