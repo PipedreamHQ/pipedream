@@ -709,6 +709,9 @@ importers:
   components/aylien_news_api:
     specifiers: {}
 
+  components/ayrshare:
+    specifiers: {}
+
   components/azure_ai_vision:
     specifiers:
       '@pipedream/platform': ^1.5.1
