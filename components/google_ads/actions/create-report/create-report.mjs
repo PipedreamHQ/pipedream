@@ -43,7 +43,7 @@ export default {
         alertType: "info",
         content: `[See the documentation](https://developers.google.com/google-ads/api/fields/v16/${value}) for more information on available fields, segments and metrics.`,
       },
-      objectsToQuery: {
+      objectFilter: {
         type: "string[]",
         label: `Filter ${label}s`,
         description: `Select the ${label}s to generate a report for (or leave blank for all ${label}s)`,
@@ -140,7 +140,7 @@ export default {
   methods: {
     buildQuery() {
       const {
-        resource, limit, orderBy, direction,
+        resource, limit, orderBy, direction, objectFilter,
       } = this;
       const fields = this.fields?.map((i) => `${resource}.${i}`) ?? [];
       const segments = this.segments?.map((i) => `segments.${i}`) ?? [];
@@ -161,6 +161,9 @@ export default {
       }
       if (limit) {
         query += ` LIMIT ${limit}`;
+      }
+      if (objectFilter) {
+        query += ` WHERE ${resource}.id IN (${objectFilter.join?.(", ") ?? objectFilter})`;
       }
 
       return query;
