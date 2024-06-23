@@ -43,7 +43,7 @@ export default {
       return array;
     },
     async fetchData() {
-      return this.snowflake.getRows({
+      return this.snowflake.executeQuery({
         sqlText: this.getSqlText(),
       });
     },
