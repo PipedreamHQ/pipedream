@@ -709,6 +709,9 @@ importers:
   components/aylien_news_api:
     specifiers: {}
 
+  components/ayrshare:
+    specifiers: {}
+
   components/azure_ai_vision:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1987,6 +1990,9 @@ importers:
   components/cyfe:
     specifiers: {}
 
+  components/d2l_brightspace:
+    specifiers: {}
+
   components/d7_networks:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -2814,6 +2820,9 @@ importers:
   components/extensiv_integration_manager:
     specifiers: {}
 
+  components/eyepop_ai:
+    specifiers: {}
+
   components/ez_texting:
     specifiers: {}
 
@@ -3099,18 +3108,18 @@ importers:
       '@pipedream/types': ^0.1.4
       html-to-text: ^8.2.1
       linkedom: ^0.14.26
-      moment: ^2.29.4
       pluralize: ^8.0.0
       showdown: ^2.1.0
+      sugar: ^2.0.6
       title-case: ^3.0.3
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
       html-to-text: 8.2.1
       linkedom: 0.14.26
-      moment: 2.29.4
       pluralize: 8.0.0
       showdown: 2.1.0
+      sugar: 2.0.6
       title-case: 3.0.3
 
   components/formbricks:
@@ -3299,6 +3308,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/geokeo:
+    specifiers: {}
+
   components/getaccept:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3427,7 +3439,10 @@ importers:
     specifiers: {}
 
   components/gloww:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/gmail:
     specifiers:
@@ -4691,6 +4706,9 @@ importers:
   components/kodagpt:
     specifiers: {}
 
+  components/kommo:
+    specifiers: {}
+
   components/kontent_ai:
     specifiers:
       '@kontent-ai/delivery-sdk': ^14.4.0
@@ -5357,6 +5375,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/meteomatics_weather_api:
+    specifiers: {}
+
   components/mezmo:
     specifiers: {}
 
@@ -5462,6 +5483,9 @@ importers:
   components/mindmeister:
     specifiers: {}
 
+  components/minio:
+    specifiers: {}
+
   components/miro_custom_app:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5512,6 +5536,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/modelry:
+    specifiers: {}
 
   components/mojo_helpdesk:
     specifiers:
@@ -6146,6 +6173,9 @@ importers:
       '@pipedream/platform': 1.6.4
 
   components/ortto:
+    specifiers: {}
+
+  components/otter_waiver:
     specifiers: {}
 
   components/ottertext:
@@ -8356,13 +8386,13 @@ importers:
 
   components/snowflake:
     specifiers:
-      '@pipedream/platform': ^2.0.0
+      '@pipedream/platform': ^3.0.0
       '@pipedream/snowflake-sdk': ^1.0.8
       asn1.js: ^5.0.0
       lodash-es: ^4.17.21
       uuid: ^8.3.2
     dependencies:
-      '@pipedream/platform': 2.0.0
+      '@pipedream/platform': 3.0.0
       '@pipedream/snowflake-sdk': 1.0.8_asn1.js@5.4.1
       asn1.js: 5.4.1
       lodash-es: 4.17.21
@@ -8823,6 +8853,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.6.2
+
+  components/taskade:
+    specifiers: {}
 
   components/tave:
     specifiers: {}
@@ -20471,7 +20504,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   /concat-stream/2.0.0:
     resolution: {integrity: sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==}
@@ -30703,6 +30736,18 @@ packages:
       - typescript
     dev: true
 
+  /sugar-core/2.0.6:
+    resolution: {integrity: sha512-YmLFysR3Si6RImqL1+aB6JH81EXxvXn5iXhPf2PsjfoUYEwCxFDYCQY+zC3WqviuGWzxFaSkkJvkUE05Y03L5Q==}
+    engines: {node: '>= 0.8.23'}
+    dev: false
+
+  /sugar/2.0.6:
+    resolution: {integrity: sha512-s0P2/pjJtAD9VA44+2Gqm3NdC4v+08melA6YubOxzshu628krTbn95/M2GWMrI9rYspZMpYBIrChR46fjQ7xsQ==}
+    engines: {node: '>= 0.8.23'}
+    dependencies:
+      sugar-core: 2.0.6
+    dev: false
+
   /superagent-proxy/3.0.0_superagent@7.1.5:
     resolution: {integrity: sha512-wAlRInOeDFyd9pyonrkJspdRAxdLrcsZ6aSnS+8+nu4x1aXbz6FWSTT9M6Ibze+eG60szlL7JA8wEIV7bPWuyQ==}
     engines: {node: '>=6'}
@@ -32107,7 +32152,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
