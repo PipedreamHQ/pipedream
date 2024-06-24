@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/d2l_brightspace",
+  "version": "0.0.1",
+  "description": "Pipedream D2L Brightspace Components",
+  "main": "d2l_brightspace.app.mjs",
+  "keywords": [
+    "pipedream",
+    "d2l_brightspace"
+  ],
+  "homepage": "https://pipedream.com/apps/d2l_brightspace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1990,6 +1990,9 @@ importers:
   components/cyfe:
     specifiers: {}
 
+  components/d2l_brightspace:
+    specifiers: {}
+
   components/d7_networks:
     specifiers:
       '@pipedream/platform': ^1.2.1
