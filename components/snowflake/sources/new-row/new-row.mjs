@@ -6,7 +6,7 @@ export default {
   key: "snowflake-new-row",
   name: "New Row",
   description: "Emit new event when a row is added to a table",
-  version: "0.1.13",
+  version: "0.2.2",
   methods: {
     ...common.methods,
     async getStatement(lastResultId) {

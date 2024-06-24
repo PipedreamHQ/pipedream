@@ -6,7 +6,7 @@ export default {
   key: "snowflake-usage-monitor",
   name: "New Usage Monitor",
   description: "Emit new event when a query is executed in the specified params",
-  version: "0.0.9",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     snowflake,
@@ -204,7 +204,7 @@ export default {
       };
     },
     async fetchData() {
-      return this.snowflake.getRows(this.getSqlStatement());
+      return this.snowflake.executeQuery(this.getSqlStatement());
     },
     emit(event) {
       this.$emit(event, {

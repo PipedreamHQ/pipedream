@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/snowflake",
-  "version": "0.11.0",
+  "version": "0.13.0",
   "description": "Pipedream Snowflake Components",
   "main": "snowflake.app.mjs",
   "keywords": [
@@ -14,10 +14,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^2.0.0",
+    "@pipedream/platform": "^3.0.0",
     "asn1.js": "^5.0.0",
     "lodash-es": "^4.17.21",
-    "snowflake-sdk": "^1.6.10",
+    "@pipedream/snowflake-sdk": "^1.0.8",
     "uuid": "^8.3.2"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pdffiller",
+  "version": "0.0.1",
+  "description": "Pipedream pdfFiller Components",
+  "main": "pdffiller.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pdffiller"
+  ],
+  "homepage": "https://pipedream.com/apps/pdffiller",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

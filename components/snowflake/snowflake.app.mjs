@@ -1,6 +1,9 @@
-import snowflake from "snowflake-sdk";
+import { createPrivateKey } from "crypto";
+import { snowflake } from "@pipedream/snowflake-sdk";
 import { promisify } from "util";
-import { sqlProp } from "@pipedream/platform";
+import {
+  sqlProxy, sqlProp,
+} from "@pipedream/platform";
 
 snowflake.configure({
   logLevel: "WARN",
@@ -87,18 +90,60 @@ export default {
     },
   },
   methods: {
+    ...sqlProxy.methods,
     ...sqlProp.methods,
     async _getConnection() {
       if (this.connection) {
         return this.connection;
       }
 
-      this.connection = snowflake.createConnection({
-        ...this.$auth,
-        application: "PIPEDREAM_PIPEDREAM",
-      });
+      const options = this.getClientConfiguration();
+      this.connection = snowflake.createConnection(options);
       await promisify(this.connection.connect).bind(this.connection)();
       return this.connection;
+    },
+    _extractPrivateKey(key, passphrase) {
+      if (!key?.startsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----")) {
+        // Key undefined or is not encrypted, no need to extract anything
+        return key;
+      }
+
+      const privateKeyObject = createPrivateKey({
+        key,
+        format: "pem",
+        passphrase,
+      });
+      return privateKeyObject.export({
+        format: "pem",
+        type: "pkcs8",
+      });
+    },
+    /**
+     * A helper method to get the configuration object that's directly fed to
+     * the Snowflake client constructor. Used by other features (like SQL proxy)
+     * to initialize their client in an identical way.
+     *
+     * @returns The configuration object for the Snowflake client
+     */
+    getClientConfiguration() {
+      // Snowflake docs:
+      // https://docs.snowflake.com/en/developer-guide/node-js/nodejs-driver-options#authentication-options
+      const {
+        private_key: originalPrivateKey,
+        private_key_pass: privateKeyPass,
+        ...auth
+      } = this.$auth;
+      const privateKey = this._extractPrivateKey(originalPrivateKey, privateKeyPass);
+      const authenticator = privateKey
+        ? "SNOWFLAKE_JWT"
+        : "SNOWFLAKE";
+      return {
+        ...auth,
+        application: "PIPEDREAM_PIPEDREAM",
+        authenticator,
+        privateKey,
+        privateKeyPass,
+      };
     },
     /**
      * A helper method to get the schema of the database. Used by other features
@@ -127,7 +172,7 @@ export default {
       const binds = [
         this.$auth.schema,
       ];
-      const rows = await this.collectRows({
+      const rows = await this.executeQuery({
         sqlText,
         binds,
       });
@@ -144,13 +189,31 @@ export default {
         return acc;
       }, {});
     },
-    async getRows(statement) {
+    proxyAdapter(preparedStatement = {}) {
+      const {
+        sqlText: query = "",
+        binds: params = [],
+      } = preparedStatement;
+      return {
+        query,
+        params,
+      };
+    },
+    executeQueryAdapter(proxyArgs = {}) {
+      const {
+        query: sqlText = "",
+        params: binds = [],
+      } = proxyArgs;
+      return {
+        sqlText,
+        binds,
+      };
+    },
+    async executeQuery(statement) {
       const connection = await this._getConnection();
       const executedStatement = connection.execute(statement);
-      return executedStatement.streamRows();
-    },
-    async collectRows(statement) {
-      const rowStream = await this.getRows(statement);
+
+      const rowStream = await executedStatement.streamRows();
       const rows = [];
       for await (const row of rowStream) {
         rows.push(row);
@@ -161,19 +224,19 @@ export default {
       database, schema,
     }) {
       let sqlText = `SHOW TABLES IN SCHEMA ${database}.${schema}`;
-      return this.collectRows({
+      return this.executeQuery({
         sqlText,
       });
     },
     async listDatabases() {
       const sqlText = "SHOW DATABASES";
-      return this.collectRows({
+      return this.executeQuery({
         sqlText,
       });
     },
     async listSchemas(database) {
       const sqlText = "SHOW SCHEMAS IN DATABASE IDENTIFIER(:1)";
-      return this.collectRows({
+      return this.executeQuery({
         sqlText,
         binds: [
           database,
@@ -182,26 +245,26 @@ export default {
     },
     async listWarehouses() {
       const sqlText = "SHOW WAREHOUSES";
-      return this.collectRows({
+      return this.executeQuery({
         sqlText,
       });
     },
     async listUsers() {
       const sqlText = "SHOW USERS";
-      return this.collectRows({
+      return this.executeQuery({
         sqlText,
       });
     },
     async maxQueryHistoryTimestamp() {
       const sqlText = "SELECT MAX(START_TIME) AS max_ts FROM SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY";
-      const maxTs = await this.collectRows({
+      const maxTs = await this.executeQuery({
         sqlText,
       });
       return +new Date(maxTs[0]?.MAX_TS);
     },
     async maxTaskHistoryTimestamp() {
       const sqlText = "SELECT MAX(QUERY_START_TIME) AS max_ts FROM TABLE(INFORMATION_SCHEMA.TASK_HISTORY())";
-      const maxTs = await this.collectRows({
+      const maxTs = await this.executeQuery({
         sqlText,
       });
       return +new Date(maxTs[0]?.MAX_TS);
@@ -215,7 +278,7 @@ export default {
         sqlText,
         binds,
       };
-      return this.collectRows(statement);
+      return this.executeQuery(statement);
     },
     // Query Snowflake query history.
     // start and endTime bound the query. Both expect epoch ms timestamps.
@@ -231,7 +294,7 @@ export default {
         sqlText,
       };
       console.log(`Running query: ${sqlText}`);
-      return this.collectRows(statement);
+      return this.executeQuery(statement);
     },
     async getFailedTasksInDatabase({
       startTime, database, schemas, taskName,
@@ -269,7 +332,7 @@ export default {
         sqlText,
         binds,
       };
-      return this.collectRows(statement);
+      return this.executeQuery(statement);
     },
     async getFailedTasksInWarehouse({
       startTime, endTime, warehouse,
@@ -289,7 +352,7 @@ export default {
           warehouse,
         ],
       };
-      return this.collectRows(statement);
+      return this.executeQuery(statement);
     },
     async getChangesForSpecificObject(startTime, endTime, objectType) {
       const filters = `QUERY_TYPE != 'SELECT' AND (QUERY_TEXT ILIKE '%CREATE ${objectType}%' OR QUERY_TEXT ILIKE '%ALTER ${objectType}%' OR QUERY_TEXT ILIKE '%DROP ${objectType}%')`;
@@ -303,7 +366,7 @@ export default {
         sqlText,
         binds,
       };
-      return this.collectRows(statement);
+      return this.executeQuery(statement);
     },
     async insertRows(tableName, columns, binds) {
       const sqlText = `INSERT INTO ${tableName} (${columns.join(",")}) VALUES (${columns.map(() => "?").join(", ")});`;
@@ -311,7 +374,7 @@ export default {
         sqlText,
         binds,
       };
-      return this.collectRows(statement);
+      return this.executeQuery(statement);
     },
   },
 };

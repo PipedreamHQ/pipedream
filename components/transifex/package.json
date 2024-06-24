@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/transifex",
+  "version": "0.0.1",
+  "description": "Pipedream Transifex Components",
+  "main": "transifex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "transifex"
+  ],
+  "homepage": "https://pipedream.com/apps/transifex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

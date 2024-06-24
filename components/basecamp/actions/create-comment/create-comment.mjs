@@ -5,7 +5,7 @@ export default {
   name: "Create a Comment",
   description: "Publishes a comment to the select recording. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/comments.md#create-a-comment)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   props: {
     app,
     accountId: {

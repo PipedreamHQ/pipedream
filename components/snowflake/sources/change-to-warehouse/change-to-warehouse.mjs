@@ -17,7 +17,7 @@ export default {
   // eslint-disable-next-line
   name: "New, Updated, or Deleted Warehouse",
   description: "Emit new events when a warehouse is created, altered, or dropped",
-  version: "0.0.13",
+  version: "0.1.2",
   async run() {
     await this.watchObjectsAndEmitChanges("WAREHOUSE", this.warehouses, this.queryTypes);
   },

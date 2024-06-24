@@ -154,6 +154,12 @@ importers:
   components/acumbamail:
     specifiers: {}
 
+  components/acymailing:
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
+
   components/adafruit_io:
     specifiers: {}
 
@@ -701,6 +707,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/aylien_news_api:
+    specifiers: {}
+
+  components/ayrshare:
     specifiers: {}
 
   components/azure_ai_vision:
@@ -1284,6 +1293,12 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/certifier:
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/cflow:
     specifiers: {}
@@ -1975,6 +1990,9 @@ importers:
   components/cyfe:
     specifiers: {}
 
+  components/d2l_brightspace:
+    specifiers: {}
+
   components/d7_networks:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -2092,6 +2110,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/deepl:
+    specifiers: {}
+
+  components/deepseek:
     specifiers: {}
 
   components/defastra:
@@ -2347,6 +2368,9 @@ importers:
     dependencies:
       '@pipedream/platform': 2.0.0
 
+  components/documentpro:
+    specifiers: {}
+
   components/documint:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2419,6 +2443,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash: 4.17.21
+
+  components/drchrono:
+    specifiers: {}
 
   components/dreamhost:
     specifiers: {}
@@ -2793,6 +2820,9 @@ importers:
   components/extensiv_integration_manager:
     specifiers: {}
 
+  components/eyepop_ai:
+    specifiers: {}
+
   components/ez_texting:
     specifiers: {}
 
@@ -3078,18 +3108,18 @@ importers:
       '@pipedream/types': ^0.1.4
       html-to-text: ^8.2.1
       linkedom: ^0.14.26
-      moment: ^2.29.4
       pluralize: ^8.0.0
       showdown: ^2.1.0
+      sugar: ^2.0.6
       title-case: ^3.0.3
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
       html-to-text: 8.2.1
       linkedom: 0.14.26
-      moment: 2.29.4
       pluralize: 8.0.0
       showdown: 2.1.0
+      sugar: 2.0.6
       title-case: 3.0.3
 
   components/formbricks:
@@ -3278,6 +3308,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/geokeo:
+    specifiers: {}
+
   components/getaccept:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3404,6 +3437,12 @@ importers:
 
   components/glide:
     specifiers: {}
+
+  components/gloww:
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/gmail:
     specifiers:
@@ -3605,7 +3644,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_gemini:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/google_maps_platform:
     specifiers: {}
@@ -3738,10 +3780,10 @@ importers:
 
   components/gorgias_oauth:
     specifiers:
-      '@pipedream/platform': ^1.4.1
+      '@pipedream/platform': ^2.0.0
       lodash-es: ^4.17.21
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 2.0.0
       lodash-es: 4.17.21
 
   components/gorillastack:
@@ -3861,6 +3903,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/hackerone:
+    specifiers: {}
+
   components/handwrytten:
     specifiers: {}
 
@@ -3905,7 +3950,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/height:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/helcim:
     specifiers: {}
@@ -4067,6 +4115,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/html_to_image:
+    specifiers: {}
+
   components/http:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -4099,6 +4150,9 @@ importers:
       package: 1.0.1
 
   components/hubspot_developer_app:
+    specifiers: {}
+
+  components/hubstaff:
     specifiers: {}
 
   components/hugging_face:
@@ -4178,6 +4232,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/ikas:
+    specifiers: {}
 
   components/ikigai:
     specifiers: {}
@@ -4727,6 +4784,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.5
 
+  components/leadoku:
+    specifiers: {}
+
   components/leadzen_ai:
     specifiers:
       '@pipedream/platform': ^2.0.0
@@ -4924,6 +4984,9 @@ importers:
       '@pipedream/platform': ^1.6.4
     dependencies:
       '@pipedream/platform': 1.6.4
+
+  components/llamaindex:
+    specifiers: {}
 
   components/lmnt:
     specifiers:
@@ -5312,6 +5375,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/meteomatics_weather_api:
+    specifiers: {}
+
   components/mezmo:
     specifiers: {}
 
@@ -5417,6 +5483,9 @@ importers:
   components/mindmeister:
     specifiers: {}
 
+  components/minio:
+    specifiers: {}
+
   components/miro_custom_app:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5467,6 +5536,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/modelry:
+    specifiers: {}
 
   components/mojo_helpdesk:
     specifiers:
@@ -5549,6 +5621,9 @@ importers:
   components/mozilla_observatory:
     specifiers: {}
 
+  components/mslm_cloud:
+    specifiers: {}
+
   components/mumara:
     specifiers: {}
 
@@ -5571,7 +5646,10 @@ importers:
     specifiers: {}
 
   components/myotp_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/mysql:
     specifiers:
@@ -5849,9 +5927,9 @@ importers:
 
   components/npm:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
 
   components/nudgify:
     specifiers:
@@ -5900,6 +5978,12 @@ importers:
   components/oksign:
     specifiers: {}
 
+  components/okta:
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
+
   components/omise:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5931,13 +6015,9 @@ importers:
 
   components/onedesk:
     specifiers:
-      '@pipedream/platform': ^1.3.0
-      lodash.pickby: ^4.6.0
-      uuid: ^9.0.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
-      lodash.pickby: 4.6.0
-      uuid: 9.0.1
+      '@pipedream/platform': 3.0.0
 
   components/onenote:
     specifiers:
@@ -6095,6 +6175,9 @@ importers:
   components/ortto:
     specifiers: {}
 
+  components/otter_waiver:
+    specifiers: {}
+
   components/ottertext:
     specifiers: {}
 
@@ -6184,6 +6267,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/parma:
+    specifiers: {}
 
   components/parsehub:
     specifiers:
@@ -6295,6 +6381,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/pdffiller:
+    specifiers: {}
+
   components/pdfless:
     specifiers:
       '@pdfless/pdfless-js': ^1.0.510
@@ -6305,7 +6394,10 @@ importers:
     specifiers: {}
 
   components/peaka:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/pendo:
     specifiers: {}
@@ -6734,6 +6826,9 @@ importers:
       lodash: 4.17.21
 
   components/processplan:
+    specifiers: {}
+
+  components/procfu:
     specifiers: {}
 
   components/procore:
@@ -7219,7 +7314,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/repliq:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/reply_io:
     specifiers:
@@ -7541,7 +7639,10 @@ importers:
     specifiers: {}
 
   components/samsara:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/sapling:
     specifiers: {}
@@ -8060,6 +8161,9 @@ importers:
   components/signaturit:
     specifiers: {}
 
+  components/signpath:
+    specifiers: {}
+
   components/signrequest:
     specifiers: {}
 
@@ -8282,16 +8386,16 @@ importers:
 
   components/snowflake:
     specifiers:
-      '@pipedream/platform': ^2.0.0
+      '@pipedream/platform': ^3.0.0
+      '@pipedream/snowflake-sdk': ^1.0.8
       asn1.js: ^5.0.0
       lodash-es: ^4.17.21
-      snowflake-sdk: ^1.6.10
       uuid: ^8.3.2
     dependencies:
-      '@pipedream/platform': 2.0.0
+      '@pipedream/platform': 3.0.0
+      '@pipedream/snowflake-sdk': 1.0.8_asn1.js@5.4.1
       asn1.js: 5.4.1
       lodash-es: 4.17.21
-      snowflake-sdk: 1.9.0_asn1.js@5.4.1
       uuid: 8.3.2
 
   components/snowflake_test:
@@ -8750,6 +8854,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/taskade:
+    specifiers: {}
+
   components/tave:
     specifiers: {}
 
@@ -8778,6 +8885,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@pipedream/types': 0.1.6
+
+  components/teamcamp:
+    specifiers: {}
 
   components/teamdeck:
     specifiers: {}
@@ -8876,6 +8986,9 @@ importers:
   components/test_app_for_oauth_bug:
     specifiers: {}
 
+  components/test_apps_for_checking_something_001:
+    specifiers: {}
+
   components/testmo:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -8968,6 +9081,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/ticket_source:
+    specifiers: {}
 
   components/ticket_tailor:
     specifiers:
@@ -9152,6 +9268,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/transifex:
+    specifiers: {}
+
   components/transistor_fm:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -9226,7 +9345,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/turso:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+    dependencies:
+      '@pipedream/platform': 2.0.0
 
   components/tutor_lms:
     specifiers: {}
@@ -9316,6 +9438,9 @@ importers:
   components/typless:
     specifiers: {}
 
+  components/u301:
+    specifiers: {}
+
   components/uberduck:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -9345,6 +9470,9 @@ importers:
       '@pipedream/platform': 1.5.1
       moment: 2.29.4
 
+  components/undetectable_ai:
+    specifiers: {}
+
   components/unione:
     specifiers: {}
 
@@ -9354,11 +9482,17 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/universal_summarizer_by_kagi:
+    specifiers: {}
+
   components/unsplash:
     specifiers:
       '@pipedream/platform': ^1.6.5
     dependencies:
       '@pipedream/platform': 1.6.5
+
+  components/unstructured:
+    specifiers: {}
 
   components/upbooks:
     specifiers:
@@ -10387,8 +10521,10 @@ importers:
   components/zoho_survey:
     specifiers:
       '@pipedream/platform': ^1.5.1
+      html-entities-decoder: ^1.0.5
     dependencies:
       '@pipedream/platform': 1.5.1
+      html-entities-decoder: 1.0.5
 
   components/zoho_workdrive:
     specifiers:
@@ -10457,6 +10593,12 @@ importers:
       typescript: ^5.0.4
     dependencies:
       typescript: 5.3.3
+
+  packages/snowflake-sdk:
+    specifiers:
+      snowflake-sdk: 1.9.0
+    dependencies:
+      snowflake-sdk: 1.9.0_asn1.js@5.4.1
 
   platform:
     specifiers:
@@ -10650,7 +10792,7 @@ packages:
     resolution: {integrity: sha512-IzSgsrxUcsrejQbPVilIKy16kAT52EwB6zSaI+M3xxIhKh5+aldEyvI+z6erM7TCLB2BJsFrtHjp6/4/sr+3dA==}
     dependencies:
       '@aws-crypto/util': 3.0.0
-      '@aws-sdk/types': 3.418.0
+      '@aws-sdk/types': 3.535.0
       tslib: 1.14.1
     dev: false
 
@@ -10658,7 +10800,7 @@ packages:
     resolution: {integrity: sha512-ENNPPManmnVJ4BTXlOjAgD7URidbAznURqD0KvfREyc4o20DPYdEldU1f5cQ7Jbj0CJJSPaMIk/9ZshdB3210w==}
     dependencies:
       '@aws-crypto/util': 3.0.0
-      '@aws-sdk/types': 3.418.0
+      '@aws-sdk/types': 3.535.0
       tslib: 1.14.1
     dev: false
 
@@ -10779,28 +10921,28 @@ packages:
       '@aws-sdk/util-endpoints': 3.418.0
       '@aws-sdk/util-user-agent-browser': 3.418.0
       '@aws-sdk/util-user-agent-node': 3.418.0
-      '@smithy/config-resolver': 2.0.11
-      '@smithy/fetch-http-handler': 2.2.1
-      '@smithy/hash-node': 2.0.10
-      '@smithy/invalid-dependency': 2.0.10
-      '@smithy/middleware-content-length': 2.0.12
-      '@smithy/middleware-endpoint': 2.0.10
-      '@smithy/middleware-retry': 2.0.13
-      '@smithy/middleware-serde': 2.0.10
-      '@smithy/middleware-stack': 2.0.4
-      '@smithy/node-config-provider': 2.0.13
-      '@smithy/node-http-handler': 2.1.6
-      '@smithy/protocol-http': 3.0.6
-      '@smithy/smithy-client': 2.1.9
-      '@smithy/types': 2.3.4
-      '@smithy/url-parser': 2.0.10
-      '@smithy/util-base64': 2.0.0
-      '@smithy/util-body-length-browser': 2.0.0
-      '@smithy/util-body-length-node': 2.1.0
-      '@smithy/util-defaults-mode-browser': 2.0.13
-      '@smithy/util-defaults-mode-node': 2.0.15
-      '@smithy/util-retry': 2.0.3
-      '@smithy/util-utf8': 2.0.0
+      '@smithy/config-resolver': 2.2.0
+      '@smithy/fetch-http-handler': 2.5.0
+      '@smithy/hash-node': 2.2.0
+      '@smithy/invalid-dependency': 2.2.0
+      '@smithy/middleware-content-length': 2.2.0
+      '@smithy/middleware-endpoint': 2.5.1
+      '@smithy/middleware-retry': 2.3.1
+      '@smithy/middleware-serde': 2.3.0
+      '@smithy/middleware-stack': 2.2.0
+      '@smithy/node-config-provider': 2.3.0
+      '@smithy/node-http-handler': 2.5.0
+      '@smithy/protocol-http': 3.3.0
+      '@smithy/smithy-client': 2.5.1
+      '@smithy/types': 2.12.0
+      '@smithy/url-parser': 2.2.0
+      '@smithy/util-base64': 2.3.0
+      '@smithy/util-body-length-browser': 2.2.0
+      '@smithy/util-body-length-node': 2.3.0
+      '@smithy/util-defaults-mode-browser': 2.2.1
+      '@smithy/util-defaults-mode-node': 2.3.1
+      '@smithy/util-retry': 2.2.0
+      '@smithy/util-utf8': 2.3.0
       tslib: 2.6.2
     transitivePeerDependencies:
       - aws-crt
@@ -11548,28 +11690,28 @@ packages:
       '@aws-sdk/util-endpoints': 3.418.0
       '@aws-sdk/util-user-agent-browser': 3.418.0
       '@aws-sdk/util-user-agent-node': 3.418.0
-      '@smithy/config-resolver': 2.0.11
-      '@smithy/fetch-http-handler': 2.2.1
-      '@smithy/hash-node': 2.0.10
-      '@smithy/invalid-dependency': 2.0.10
-      '@smithy/middleware-content-length': 2.0.12
-      '@smithy/middleware-endpoint': 2.0.10
-      '@smithy/middleware-retry': 2.0.13
-      '@smithy/middleware-serde': 2.0.10
-      '@smithy/middleware-stack': 2.0.4
-      '@smithy/node-config-provider': 2.0.13
-      '@smithy/node-http-handler': 2.1.6
-      '@smithy/protocol-http': 3.0.6
-      '@smithy/smithy-client': 2.1.9
-      '@smithy/types': 2.3.4
-      '@smithy/url-parser': 2.0.10
-      '@smithy/util-base64': 2.0.0
-      '@smithy/util-body-length-browser': 2.0.0
-      '@smithy/util-body-length-node': 2.1.0
-      '@smithy/util-defaults-mode-browser': 2.0.13
-      '@smithy/util-defaults-mode-node': 2.0.15
-      '@smithy/util-retry': 2.0.3
-      '@smithy/util-utf8': 2.0.0
+      '@smithy/config-resolver': 2.2.0
+      '@smithy/fetch-http-handler': 2.5.0
+      '@smithy/hash-node': 2.2.0
+      '@smithy/invalid-dependency': 2.2.0
+      '@smithy/middleware-content-length': 2.2.0
+      '@smithy/middleware-endpoint': 2.5.1
+      '@smithy/middleware-retry': 2.3.1
+      '@smithy/middleware-serde': 2.3.0
+      '@smithy/middleware-stack': 2.2.0
+      '@smithy/node-config-provider': 2.3.0
+      '@smithy/node-http-handler': 2.5.0
+      '@smithy/protocol-http': 3.3.0
+      '@smithy/smithy-client': 2.5.1
+      '@smithy/types': 2.12.0
+      '@smithy/url-parser': 2.2.0
+      '@smithy/util-base64': 2.3.0
+      '@smithy/util-body-length-browser': 2.2.0
+      '@smithy/util-body-length-node': 2.3.0
+      '@smithy/util-defaults-mode-browser': 2.2.1
+      '@smithy/util-defaults-mode-node': 2.3.1
+      '@smithy/util-retry': 2.2.0
+      '@smithy/util-utf8': 2.3.0
       tslib: 2.6.2
     transitivePeerDependencies:
       - aws-crt
@@ -11735,8 +11877,8 @@ packages:
     dependencies:
       '@aws-sdk/client-cognito-identity': 3.423.0
       '@aws-sdk/types': 3.418.0
-      '@smithy/property-provider': 2.0.11
-      '@smithy/types': 2.3.4
+      '@smithy/property-provider': 2.2.0
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     transitivePeerDependencies:
       - aws-crt
@@ -11748,8 +11890,8 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/types': 3.418.0
-      '@smithy/property-provider': 2.0.11
-      '@smithy/types': 2.3.4
+      '@smithy/property-provider': 2.2.0
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
 
@@ -11768,11 +11910,11 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/types': 3.418.0
-      '@smithy/fetch-http-handler': 2.2.1
-      '@smithy/node-http-handler': 2.1.6
-      '@smithy/property-provider': 2.0.11
-      '@smithy/protocol-http': 3.0.6
-      '@smithy/types': 2.3.4
+      '@smithy/fetch-http-handler': 2.5.0
+      '@smithy/node-http-handler': 2.5.0
+      '@smithy/property-provider': 2.2.0
+      '@smithy/protocol-http': 3.3.0
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
     optional: true
@@ -11801,10 +11943,10 @@ packages:
       '@aws-sdk/credential-provider-sso': 3.423.0
       '@aws-sdk/credential-provider-web-identity': 3.418.0
       '@aws-sdk/types': 3.418.0
-      '@smithy/credential-provider-imds': 2.0.13
-      '@smithy/property-provider': 2.0.11
-      '@smithy/shared-ini-file-loader': 2.0.12
-      '@smithy/types': 2.3.4
+      '@smithy/credential-provider-imds': 2.3.0
+      '@smithy/property-provider': 2.2.0
+      '@smithy/shared-ini-file-loader': 2.4.0
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     transitivePeerDependencies:
       - aws-crt
@@ -11874,9 +12016,9 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/types': 3.418.0
-      '@smithy/property-provider': 2.0.11
-      '@smithy/shared-ini-file-loader': 2.0.12
-      '@smithy/types': 2.3.4
+      '@smithy/property-provider': 2.2.0
+      '@smithy/shared-ini-file-loader': 2.4.0
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
 
@@ -11898,9 +12040,9 @@ packages:
       '@aws-sdk/client-sso': 3.423.0
       '@aws-sdk/token-providers': 3.418.0
       '@aws-sdk/types': 3.418.0
-      '@smithy/property-provider': 2.0.11
-      '@smithy/shared-ini-file-loader': 2.0.12
-      '@smithy/types': 2.3.4
+      '@smithy/property-provider': 2.2.0
+      '@smithy/shared-ini-file-loader': 2.4.0
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     transitivePeerDependencies:
       - aws-crt
@@ -11927,8 +12069,8 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/types': 3.418.0
-      '@smithy/property-provider': 2.0.11
-      '@smithy/types': 2.3.4
+      '@smithy/property-provider': 2.2.0
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
 
@@ -12248,30 +12390,30 @@ packages:
       '@aws-sdk/util-endpoints': 3.418.0
       '@aws-sdk/util-user-agent-browser': 3.418.0
       '@aws-sdk/util-user-agent-node': 3.418.0
-      '@smithy/config-resolver': 2.0.11
-      '@smithy/fetch-http-handler': 2.2.1
-      '@smithy/hash-node': 2.0.10
-      '@smithy/invalid-dependency': 2.0.10
-      '@smithy/middleware-content-length': 2.0.12
-      '@smithy/middleware-endpoint': 2.0.10
-      '@smithy/middleware-retry': 2.0.13
-      '@smithy/middleware-serde': 2.0.10
-      '@smithy/middleware-stack': 2.0.4
-      '@smithy/node-config-provider': 2.0.13
-      '@smithy/node-http-handler': 2.1.6
-      '@smithy/property-provider': 2.0.11
-      '@smithy/protocol-http': 3.0.6
-      '@smithy/shared-ini-file-loader': 2.0.12
-      '@smithy/smithy-client': 2.1.9
-      '@smithy/types': 2.3.4
-      '@smithy/url-parser': 2.0.10
-      '@smithy/util-base64': 2.0.0
-      '@smithy/util-body-length-browser': 2.0.0
-      '@smithy/util-body-length-node': 2.1.0
-      '@smithy/util-defaults-mode-browser': 2.0.13
-      '@smithy/util-defaults-mode-node': 2.0.15
-      '@smithy/util-retry': 2.0.3
-      '@smithy/util-utf8': 2.0.0
+      '@smithy/config-resolver': 2.2.0
+      '@smithy/fetch-http-handler': 2.5.0
+      '@smithy/hash-node': 2.2.0
+      '@smithy/invalid-dependency': 2.2.0
+      '@smithy/middleware-content-length': 2.2.0
+      '@smithy/middleware-endpoint': 2.5.1
+      '@smithy/middleware-retry': 2.3.1
+      '@smithy/middleware-serde': 2.3.0
+      '@smithy/middleware-stack': 2.2.0
+      '@smithy/node-config-provider': 2.3.0
+      '@smithy/node-http-handler': 2.5.0
+      '@smithy/property-provider': 2.2.0
+      '@smithy/protocol-http': 3.3.0
+      '@smithy/shared-ini-file-loader': 2.4.0
+      '@smithy/smithy-client': 2.5.1
+      '@smithy/types': 2.12.0
+      '@smithy/url-parser': 2.2.0
+      '@smithy/util-base64': 2.3.0
+      '@smithy/util-body-length-browser': 2.2.0
+      '@smithy/util-body-length-node': 2.3.0
+      '@smithy/util-defaults-mode-browser': 2.2.1
+      '@smithy/util-defaults-mode-node': 2.3.1
+      '@smithy/util-retry': 2.2.0
+      '@smithy/util-utf8': 2.3.0
       tslib: 2.6.2
     transitivePeerDependencies:
       - aws-crt
@@ -12338,8 +12480,8 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@aws-sdk/types': 3.418.0
-      '@smithy/querystring-builder': 2.0.10
-      '@smithy/types': 2.3.4
+      '@smithy/querystring-builder': 2.2.0
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
 
@@ -13884,17 +14026,17 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.2.9:
-    resolution: {integrity: sha512-1Un7VpVtBgI4yL9ik9MJmfoDSbSSy81k3BA52KNUiY7ZIQrEB3Lz6SYdcAttyj5BwOn9vIHUmlFoqI0AcuDWnw==}
+  /@definitelytyped/header-parser/0.2.10:
+    resolution: {integrity: sha512-CZHLS8F9ejIfP0+7oC0kz3WXeDDskBz2DSqA6u8dN9MpOzd/p8XXhioRSTI2T1na9GRPOq8UolvwLO+DnuY9Mg==}
     engines: {node: '>=18.18.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.1
+      '@definitelytyped/typescript-versions': 0.1.2
       '@definitelytyped/utils': 0.1.6
       semver: 7.5.4
     dev: true
 
-  /@definitelytyped/typescript-versions/0.1.1:
-    resolution: {integrity: sha512-ku6f6K/bYW39K1UyAXcg9wYPcU3ojg8NbygnGrJK78Pyu+4aflaO34gk5f92aUrqJHr8fFG6gg4IjJZCPd5wxg==}
+  /@definitelytyped/typescript-versions/0.1.2:
+    resolution: {integrity: sha512-uK8qw7yikv4p28eeDxkoaOcBxv/kKVutbsc3UTacpj+iM4zz3+Mn571i0GjYVW0fWQBre4ixB82gQxxzV9pb9g==}
     engines: {node: '>=18.18.0'}
     dev: true
 
@@ -15447,6 +15589,20 @@ packages:
       - debug
     dev: false
 
+<<<<<<< HEAD
+=======
+  /@pipedream/snowflake-sdk/1.0.8_asn1.js@5.4.1:
+    resolution: {integrity: sha512-/nLCQNjlSCz71MUnOUZqWmnjZTbEX7mie91mstPspb8uDG/GvaDk/RynLGhhYfgEP5d1KWj+OPaI71hmPSxReg==}
+    dependencies:
+      snowflake-sdk: 1.9.0_asn1.js@5.4.1
+    transitivePeerDependencies:
+      - asn1.js
+      - aws-crt
+      - encoding
+      - supports-color
+    dev: false
+
+>>>>>>> origin/master
   /@pipedream/types/0.0.5:
     resolution: {integrity: sha512-VVQB9j+94XG/EB7fzKA1t0McQcQIPhaireePeLRTlJIN4y5W59SJjERjW4h5l7zWIfTnwpLizk3qGholyiw1Vw==}
     dependencies:
@@ -17118,7 +17274,7 @@ packages:
     resolution: {integrity: sha512-xn7PnFD3m4rQIG00h1lPuDVnC2QMtTFhzRLX3y56KkgFaCysS7vpNevNBgmNUtmJ4eVFc+66Zucwo2KDLdicOg==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@smithy/types': 2.3.4
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
 
@@ -17133,7 +17289,7 @@ packages:
   /@smithy/chunked-blob-reader-native/2.0.0:
     resolution: {integrity: sha512-HM8V2Rp1y8+1343tkZUKZllFhEQPNmpNdgFAncbTsxkZ18/gqjk23XXv3qGyXWp412f3o43ZZ1UZHVcHrpRnCQ==}
     dependencies:
-      '@smithy/util-base64': 2.0.0
+      '@smithy/util-base64': 2.3.0
       tslib: 2.6.2
     dev: false
 
@@ -17183,10 +17339,10 @@ packages:
     resolution: {integrity: sha512-/xe3wNoC4j+BeTemH9t2gSKLBfyZmk8LXB2pQm/TOEYi+QhBgT+PSolNDfNAhrR68eggNE17uOimsrnwSkCt4w==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@smithy/node-config-provider': 2.0.13
-      '@smithy/property-provider': 2.0.11
-      '@smithy/types': 2.3.4
-      '@smithy/url-parser': 2.0.10
+      '@smithy/node-config-provider': 2.3.0
+      '@smithy/property-provider': 2.2.0
+      '@smithy/types': 2.12.0
+      '@smithy/url-parser': 2.2.0
       tslib: 2.6.2
     dev: false
 
@@ -17205,8 +17361,8 @@ packages:
     resolution: {integrity: sha512-3SSDgX2nIsFwif6m+I4+ar4KDcZX463Noes8ekBgQHitULiWvaDZX8XqPaRQSQ4bl1vbeVXHklJfv66MnVO+lw==}
     dependencies:
       '@aws-crypto/crc32': 3.0.0
-      '@smithy/types': 2.3.4
-      '@smithy/util-hex-encoding': 2.0.0
+      '@smithy/types': 2.12.0
+      '@smithy/util-hex-encoding': 2.2.0
       tslib: 2.6.2
     dev: false
 
@@ -17241,7 +17397,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@smithy/eventstream-codec': 2.0.10
-      '@smithy/types': 2.3.4
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
 
@@ -17488,7 +17644,7 @@ packages:
     resolution: {integrity: sha512-kzuOadu6XvrnlF1iXofpKXYmo4oe19st9/DE8f5gHNaFepb4eTkR8gD8BSdTnNnv7lxfv6uOwZPg4VS6hemX1w==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@smithy/types': 2.3.4
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
 
@@ -17520,7 +17676,7 @@ packages:
     resolution: {integrity: sha512-uujJGp8jzrrU1UHme8sUKEbawQTcTmUWsh8rbGXYD/lMwNLQ+9jQ9dMDWbbH9Hpoa9RER1BeL/38WzGrbpob2w==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@smithy/types': 2.3.4
+      '@smithy/types': 2.12.0
       '@smithy/util-uri-escape': 2.0.0
       tslib: 2.6.2
     dev: false
@@ -17538,7 +17694,7 @@ packages:
     resolution: {integrity: sha512-WSD4EU60Q8scacT5PIpx4Bahn6nWpt+MiYLcBkFt6fOj7AssrNeaNIU2Z0g40ftVmrwLcEOIKGX92ynbVDb3ZA==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@smithy/types': 2.3.4
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
 
@@ -17554,7 +17710,7 @@ packages:
     resolution: {integrity: sha512-b+m4QCHXb7oKAkM/jHwHrl5gpqhFoMTHF643L0/vAEkegrcUWyh1UjyoHttuHcP5FnHVVy4EtpPtLkEYD+xMFw==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@smithy/types': 2.3.4
+      '@smithy/types': 2.12.0
     dev: false
 
   /@smithy/service-error-classification/2.1.5:
@@ -17568,7 +17724,7 @@ packages:
     resolution: {integrity: sha512-umi0wc4UBGYullAgYNUVfGLgVpxQyES47cnomTqzCKeKO5oudO4hyDNj+wzrOjqDFwK2nWYGVgS8Y0JgGietrw==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@smithy/types': 2.3.4
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
 
@@ -17585,12 +17741,12 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@smithy/eventstream-codec': 2.0.10
-      '@smithy/is-array-buffer': 2.0.0
-      '@smithy/types': 2.3.4
-      '@smithy/util-hex-encoding': 2.0.0
-      '@smithy/util-middleware': 2.0.3
+      '@smithy/is-array-buffer': 2.2.0
+      '@smithy/types': 2.12.0
+      '@smithy/util-hex-encoding': 2.2.0
+      '@smithy/util-middleware': 2.2.0
       '@smithy/util-uri-escape': 2.0.0
-      '@smithy/util-utf8': 2.0.0
+      '@smithy/util-utf8': 2.3.0
       tslib: 2.6.2
     dev: false
 
@@ -17706,7 +17862,7 @@ packages:
     resolution: {integrity: sha512-/YNnLoHsR+4W4Vf2wL5lGv0ksg8Bmk3GEGxn2vEQt52AQaPSCuaO5PM5VM7lP1K9qHRKHwrPGktqVoAHKWHxzw==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@smithy/is-array-buffer': 2.0.0
+      '@smithy/is-array-buffer': 2.2.0
       tslib: 2.6.2
     dev: false
 
@@ -17807,7 +17963,7 @@ packages:
     resolution: {integrity: sha512-+FOCFYOxd2HO7v/0hkFSETKf7FYQWa08wh/x/4KUeoVBnLR4juw8Qi+TTqZI6E2h5LkzD9uOaxC9lAjrpVzaaA==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@smithy/types': 2.3.4
+      '@smithy/types': 2.12.0
       tslib: 2.6.2
     dev: false
 
@@ -19693,7 +19849,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
+    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
     dev: false
 
   /buffer-from/1.1.2:
@@ -21256,7 +21412,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.9
+      '@definitelytyped/header-parser': 0.2.10
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -21271,7 +21427,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.9
+      '@definitelytyped/header-parser': 0.2.10
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -21287,8 +21443,8 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.9
-      '@definitelytyped/typescript-versions': 0.1.1
+      '@definitelytyped/header-parser': 0.2.10
+      '@definitelytyped/typescript-versions': 0.1.2
       '@definitelytyped/utils': 0.1.6
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
@@ -21307,8 +21463,8 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.9
-      '@definitelytyped/typescript-versions': 0.1.1
+      '@definitelytyped/header-parser': 0.2.10
+      '@definitelytyped/typescript-versions': 0.1.2
       '@definitelytyped/utils': 0.1.6
       dts-critic: 3.3.11_typescript@5.3.3
       fs-extra: 6.0.1
@@ -22870,6 +23026,7 @@ packages:
 
   /glob/7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
@@ -23559,6 +23716,10 @@ packages:
       lru-cache: 6.0.0
     dev: true
 
+  /html-entities-decoder/1.0.5:
+    resolution: {integrity: sha512-Cc/RSOGlojr7NDw1oXamUQenYBB0f/SISO8QWtRdZkDOmlO/hvbGZMjgyl+6+mh2PKPRrGXUKH4JhCU18LNS2g==}
+    dev: false
+
   /html-escaper/2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
     dev: true
@@ -23847,6 +24008,7 @@ packages:
 
   /inflight/1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
     dependencies:
       once: 1.4.0
       wrappy: 1.0.2
@@ -30576,6 +30738,18 @@ packages:
       - supports-color
       - typescript
     dev: true
+
+  /sugar-core/2.0.6:
+    resolution: {integrity: sha512-YmLFysR3Si6RImqL1+aB6JH81EXxvXn5iXhPf2PsjfoUYEwCxFDYCQY+zC3WqviuGWzxFaSkkJvkUE05Y03L5Q==}
+    engines: {node: '>= 0.8.23'}
+    dev: false
+
+  /sugar/2.0.6:
+    resolution: {integrity: sha512-s0P2/pjJtAD9VA44+2Gqm3NdC4v+08melA6YubOxzshu628krTbn95/M2GWMrI9rYspZMpYBIrChR46fjQ7xsQ==}
+    engines: {node: '>= 0.8.23'}
+    dependencies:
+      sugar-core: 2.0.6
+    dev: false
 
   /superagent-proxy/3.0.0_superagent@7.1.5:
     resolution: {integrity: sha512-wAlRInOeDFyd9pyonrkJspdRAxdLrcsZ6aSnS+8+nu4x1aXbz6FWSTT9M6Ibze+eG60szlL7JA8wEIV7bPWuyQ==}

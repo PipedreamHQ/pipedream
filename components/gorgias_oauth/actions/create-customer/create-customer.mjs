@@ -1,11 +1,11 @@
-import gorgias_oauth from "../../gorgias_oauth.app.mjs";
 import channels from "../../common/customer-channels.mjs";
+import gorgias_oauth from "../../gorgias_oauth.app.mjs";
 
 export default {
   key: "gorgias_oauth-create-customer",
   name: "Create Customer",
   description: "Create a new customer. [See the docs](https://developers.gorgias.com/reference/post_api-customers)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     gorgias_oauth,

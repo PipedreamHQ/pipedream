@@ -26,7 +26,7 @@ export default {
       return this.db.set("dbValues", values);
     },
     async fetchData() {
-      return this.snowflake.getRows({
+      return this.snowflake.executeQuery({
         sqlText: this.getSqlText(),
       });
     },
