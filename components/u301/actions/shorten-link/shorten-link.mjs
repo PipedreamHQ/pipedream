@@ -1,7 +1,7 @@
 import app from "../../u301.app.mjs";
 
 export default {
-  key: "u301-shorten-url",
+  key: "u301-shorten-link",
   name: "Shorten URL",
   description: "Shorten a long link. [See the documentation](https://docs.u301.com/api-reference/endpoint/create)",
   version: "0.0.1",
