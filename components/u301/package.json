@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/u301",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream U301 Components",
   "main": "u301.app.mjs",
   "keywords": [
