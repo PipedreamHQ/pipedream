@@ -1,5 +1,7 @@
 import common from "../common/common.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -64,7 +66,7 @@ export default {
     getEventParams(objectId, occurredAfter) {
       return {
         params: {
-          limit: 100,
+          limit: DEFAULT_LIMIT,
           objectType: this.objectType,
           objectId,
           occurredAfter,
@@ -83,4 +85,5 @@ export default {
       }
     },
   },
+  sampleEmit,
 };

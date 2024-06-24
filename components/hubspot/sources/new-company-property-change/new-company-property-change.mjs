@@ -1,5 +1,8 @@
 import common from "../common/common.mjs";
-import { API_PATH } from "../../common/constants.mjs";
+import {
+  API_PATH, DEFAULT_LIMIT,
+} from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -48,31 +51,33 @@ export default {
     getParams(after) {
       return {
         object: "companies",
-        limit: 50,
-        properties: [
-          this.property,
-        ],
-        sorts: [
-          {
-            propertyName: "hs_lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
-        filterGroups: [
-          {
-            filters: [
-              {
-                propertyName: this.property,
-                operator: "HAS_PROPERTY",
-              },
-              {
-                propertyName: "hs_lastmodifieddate",
-                operator: "GTE",
-                value: after,
-              },
-            ],
-          },
-        ],
+        data: {
+          limit: DEFAULT_LIMIT,
+          properties: [
+            this.property,
+          ],
+          sorts: [
+            {
+              propertyName: "hs_lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+          filterGroups: [
+            {
+              filters: [
+                {
+                  propertyName: this.property,
+                  operator: "HAS_PROPERTY",
+                },
+                {
+                  propertyName: "hs_lastmodifieddate",
+                  operator: "GTE",
+                  value: after,
+                },
+              ],
+            },
+          ],
+        },
       };
     },
     async batchGetCompanies(inputs) {
@@ -115,4 +120,5 @@ export default {
       this.processEvents(results, after);
     },
   },
+  sampleEmit,
 };

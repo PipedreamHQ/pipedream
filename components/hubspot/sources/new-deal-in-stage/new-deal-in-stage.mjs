@@ -1,4 +1,6 @@
 import common from "../common/common.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -67,7 +69,7 @@ export default {
       };
       return {
         data: {
-          limit: 100,
+          limit: DEFAULT_LIMIT,
           filterGroups: [
             filterGroup,
           ],
@@ -116,4 +118,5 @@ export default {
       }
     },
   },
+  sampleEmit,
 };

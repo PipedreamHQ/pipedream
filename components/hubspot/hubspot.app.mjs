@@ -77,7 +77,9 @@ export default {
       type: "string",
       label: "Object Type",
       description: "Watch for new events concerning the object type specified.",
-      options: OBJECT_TYPES,
+      async options() {
+        return OBJECT_TYPES;
+      },
     },
     objectSchema: {
       type: "string",
@@ -111,7 +113,7 @@ export default {
       description: "Watch for new events concerning the objects selected.",
       async options({
         objectType, ...opts
-      }) {
+      }) { console.log(opts);
         return objectType
           ? await this.createOptions(objectType, opts)
           : [];

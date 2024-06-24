@@ -1,5 +1,7 @@
 import common from "../common/common.mjs";
 import { ENGAGEMENT_TYPES } from "../../common/object-types.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -50,7 +52,7 @@ export default {
     const createdAfter = this._getAfter();
     const params = {
       params: {
-        limit: 250,
+        limit: DEFAULT_LIMIT,
       },
     };
 
@@ -62,4 +64,5 @@ export default {
       20,
     );
   },
+  sampleEmit,
 };

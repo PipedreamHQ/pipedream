@@ -1,5 +1,8 @@
 import common from "../common/common.mjs";
-import { API_PATH } from "../../common/constants.mjs";
+import {
+  API_PATH, DEFAULT_LIMIT,
+} from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -46,7 +49,7 @@ export default {
       return {
         object: "deals",
         data: {
-          limit: 50,
+          limit: DEFAULT_LIMIT,
           properties: [
             this.property,
           ],
@@ -113,4 +116,5 @@ export default {
       this.processEvents(results, after);
     },
   },
+  sampleEmit,
 };

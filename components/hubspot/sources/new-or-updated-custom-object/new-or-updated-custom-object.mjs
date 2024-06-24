@@ -1,4 +1,6 @@
 import common from "../common/common.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -40,7 +42,7 @@ export default {
     getObjectParams(object) {
       return {
         data: {
-          limit: 100,
+          limit: DEFAULT_LIMIT,
           sorts: [
             {
               propertyName: "hs_lastmodifieddate",
@@ -56,4 +58,5 @@ export default {
       await this.searchCRM(params, after);
     },
   },
+  sampleEmit,
 };
