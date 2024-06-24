@@ -1,11 +1,12 @@
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../zoho_calendar.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "zoho_calendar-list-events",
   name: "List Events",
   description: "Returns a list of all the events in a particular calendar of the user. [See the documentation](https://www.zoho.com/calendar/help/api/get-events-list.html)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -15,39 +16,44 @@ export default {
         "calendarId",
       ],
     },
-    startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "When the `Start Date` parameter is passed, the events which occur between the given start and end dates are retrieved. It should contain the start and end parameters in UNIX date time format e.g. `yyyyMMddTHHmmssZ` or `yyyyMMdd` The range period cannot exceed 31 days.",
+    start: {
+      label: "Start Time",
       optional: true,
+      propDefinition: [
+        app,
+        "dateTime",
+      ],
     },
-    endDate: {
-      type: "string",
-      label: "End Date",
-      description: "When the `End Date` parameter is passed, the events which occur between the given start and end dates are retrieved. It should contain the start and end parameters in UNIX date time format e.g. `yyyyMMddTHHmmssZ` or `yyyyMMdd` The range period cannot exceed 31 days.",
+    end: {
+      label: "End Time",
       optional: true,
+      propDefinition: [
+        app,
+        "dateTime",
+      ],
     },
   },
   async run({ $ }) {
     const {
+      app,
       calendarId,
-      startDate,
-      endDate,
+      start,
+      end,
     } = this;
     const params = {};
 
-    if (startDate && !endDate || !startDate && endDate) {
+    if (start && !end || !start && end) {
       throw new ConfigurationError("You should provide the start and end date parameters.");
     }
 
-    if (startDate && endDate) {
+    if (start && end) {
       params.range = JSON.stringify({
-        start: startDate,
-        end: endDate,
+        start: utils.formatDateTime(start),
+        end: utils.formatDateTime(end),
       });
     }
 
-    const { events } = await this.app.listEvents({
+    const { events } = await app.listEvents({
       $,
       calendarId,
       params,
