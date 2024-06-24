@@ -8848,6 +8848,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/taskade:
+    specifiers: {}
+
   components/tave:
     specifiers: {}
 
