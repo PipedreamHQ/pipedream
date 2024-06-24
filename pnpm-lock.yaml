@@ -3508,6 +3508,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/google_address_validation:
+    specifiers: {}
+
   components/google_ads:
     specifiers:
       '@pipedream/platform': ^1.6.5
