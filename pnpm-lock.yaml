@@ -5480,6 +5480,9 @@ importers:
   components/mindmeister:
     specifiers: {}
 
+  components/minio:
+    specifiers: {}
+
   components/miro_custom_app:
     specifiers:
       '@pipedream/platform': ^1.5.1
