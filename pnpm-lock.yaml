@@ -4706,6 +4706,9 @@ importers:
   components/kodagpt:
     specifiers: {}
 
+  components/kommo:
+    specifiers: {}
+
   components/kontent_ai:
     specifiers:
       '@kontent-ai/delivery-sdk': ^14.4.0
