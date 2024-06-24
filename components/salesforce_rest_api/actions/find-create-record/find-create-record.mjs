@@ -72,10 +72,11 @@ export default {
     }
 
     if (createIfNotFound && !data) {
-      const response = await this.salesForceRestApi.createObject(
-        sobjectType,
-        sobject,
-      );
+      const response = await this.salesForceRestApi.createObject({
+        $,
+        objectType: sobjectType,
+        data: sobject,
+      });
       response && $.export(
         "$summary", "Record successfully created",
       );

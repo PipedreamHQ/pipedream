@@ -232,12 +232,13 @@ export default {
       );
       return historyObject;
     },
-    async createObject(objectType, data) {
-      const url = `${this._sObjectsApiUrl()}/${objectType}`;
+    async createObject({
+      objectType, ...args
+    }) {
       return this._makeRequest({
-        url,
-        data,
+        url: `${this._sObjectsApiUrl()}/${objectType}`,
         method: "POST",
+        ...args,
       });
     },
     async deleteObject(objectType, sobjectId) {

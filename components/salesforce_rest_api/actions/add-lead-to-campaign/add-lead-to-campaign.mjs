@@ -1,7 +1,5 @@
 import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
-import {
-  removeNullEntries, toSingleLineString,
-} from "../../common/utils.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
@@ -40,12 +38,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = removeNullEntries({
+    const data = {
       CampaignId: this.campaignId,
       LeadId: this.leadId,
+    };
+    const response = await this.salesForceRestApi.createObject({
+      $,
+      objectType: constants.OBJECT_TYPE.CAMPAIGN_MEMBER,
+      data,
     });
-    const response = await this.salesForceRestApi.createObject("CampaignMember", data);
-    response && $.export("$summary", "Successfully added lead to campaign");
+    $.export("$summary", "Successfully added lead to campaign");
     return response;
   },
 };
