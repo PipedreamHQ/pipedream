@@ -46,13 +46,11 @@ export default {
         $ = this,
         path,
         headers,
-        params,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
-        params,
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.api_key}`,
