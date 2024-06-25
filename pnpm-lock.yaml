@@ -4047,6 +4047,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/heyzine:
+    specifiers: {}
+
   components/highlevel_oauth:
     specifiers:
       '@pipedream/platform': ^1.6.2
