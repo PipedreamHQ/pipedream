@@ -2495,6 +2495,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/dropboard:
+    specifiers: {}
+
   components/dropbox:
     specifiers:
       '@types/node-fetch': ^2.5.7
