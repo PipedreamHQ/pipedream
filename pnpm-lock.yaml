@@ -3706,6 +3706,9 @@ importers:
       '@pipedream/platform': 1.5.1
       mime: 3.0.0
 
+  components/google_play:
+    specifiers: {}
+
   components/google_postmaster_tools_api:
     specifiers:
       '@pipedream/platform': ^1.6.2
