@@ -9,6 +9,7 @@ import {
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_LINE_ITEM_PROPERTIES,
 } from "../../common/constants.mjs";
+import common from "../common/common-create.mjs";
 
 export default {
   key: "hubspot-search-crm",
@@ -23,6 +24,14 @@ export default {
       label: "Object Type",
       description: "Type of CRM object to search for",
       options: SEARCHABLE_OBJECT_TYPES,
+      reloadProps: true,
+    },
+    createIfNotFound: {
+      type: "boolean",
+      label: "Create if not found?",
+      description: "Set to `true` to create the Hubspot object if it doesn't exist",
+      default: false,
+      optional: true,
       reloadProps: true,
     },
   },
@@ -67,9 +76,31 @@ export default {
           }));
       },
     };
-    return props;
+    let creationProps = {};
+    if (this.createIfNotFound && this.objectType) {
+      const schema = await this.hubspot.getSchema({
+        objectType: this.objectType,
+      });
+      const { results: properties } = await this.hubspot.getProperties({
+        objectType: this.objectType,
+      });
+      creationProps = properties
+        .filter(this.isRelevantProperty)
+        .map((property) => this.makePropDefinition(property, schema.requiredProperties))
+        .reduce((props, {
+          name, ...definition
+        }) => {
+          props[name] = definition;
+          return props;
+        }, {});
+    }
+    return {
+      ...props,
+      ...creationProps,
+    };
   },
   methods: {
+    ...common.methods,
     getSearchProperties() {
       return SEARCHABLE_OBJECT_PROPERTIES[this.objectType];
     },
@@ -93,13 +124,23 @@ export default {
   },
   async run({ $ }) {
     const {
+      hubspot,
       objectType,
       additionalProperties = [],
       searchProperty,
       searchValue,
+      /* eslint-disable no-unused-vars */
+      info,
+      createIfNotFound,
+      ...properties
     } = this;
+
+    const defaultProperties = this.getDefaultProperties();
     const data = {
-      properties: additionalProperties,
+      properties: [
+        ...defaultProperties,
+        ...additionalProperties,
+      ],
       filters: [
         {
           propertyName: searchProperty,
@@ -108,11 +149,25 @@ export default {
         },
       ],
     };
-    const { results } = await this.hubspot.searchCRM({
+    const { results } = await hubspot.searchCRM({
       object: objectType,
       data,
       $,
     });
+
+    if (!results?.length && createIfNotFound) {
+      const response = await hubspot.createObject({
+        $,
+        objectType,
+        data: {
+          properties,
+        },
+      });
+      const objectName = hubspot.getObjectTypeName(objectType);
+      $.export("$summary", `Successfully created ${objectName}`);
+      return response;
+    }
+
     $.export("$summary", `Successfully retrieved ${results?.length} object(s).`);
     return results;
   },
