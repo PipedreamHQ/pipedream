@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/signerx",
+  "version": "0.0.1",
+  "description": "Pipedream SignerX Components",
+  "main": "signerx.app.mjs",
+  "keywords": [
+    "pipedream",
+    "signerx"
+  ],
+  "homepage": "https://pipedream.com/apps/signerx",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
