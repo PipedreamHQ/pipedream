@@ -277,6 +277,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/airship:
+    specifiers: {}
+
   components/airslate:
     specifiers:
       '@pipedream/platform': ^1.6.0
