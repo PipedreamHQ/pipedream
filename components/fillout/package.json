@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fillout",
+  "version": "0.0.1",
+  "description": "Pipedream Fillout Components",
+  "main": "fillout.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fillout"
+  ],
+  "homepage": "https://pipedream.com/apps/fillout",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

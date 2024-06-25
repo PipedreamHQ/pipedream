@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/power_automate",
+  "version": "0.0.1",
+  "description": "Pipedream Power Automate Components",
+  "main": "power_automate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "power_automate"
+  ],
+  "homepage": "https://pipedream.com/apps/power_automate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
