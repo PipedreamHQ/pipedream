@@ -369,6 +369,38 @@ export default {
         }));
       },
     },
+    ticketPipeline: {
+      type: "string",
+      label: "Pipeline",
+      description: "The pipeline of the ticket",
+      async options() {
+        const { results } = await this.getPipelines({
+          objectType: "ticket",
+        });
+        return results?.map(({
+          id: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    ticketStage: {
+      type: "string",
+      label: "Ticket Stage",
+      description: "The stage of the ticket",
+      async options({ pipelineId }) {
+        const stages = await this.getTicketStages({
+          pipelineId,
+        });
+        return stages.map(({
+          id: value, label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
   },
   methods: {
     _getHeaders() {
@@ -468,6 +500,13 @@ export default {
       pipelineId, ...opts
     }) {
       return this.makeRequest(API_PATH.CRMV3, `/pipelines/deal/${pipelineId}/stages`, opts);
+    },
+    async getTicketStages({ pipelineId }) {
+      const { results: pipelines } = await this.getPipelines({
+        objectType: "ticket",
+      });
+      const { stages } = pipelines.find(({ id }) => id == pipelineId);
+      return stages;
     },
     getEmailEvents(opts = {}) {
       return this.makeRequest(API_PATH.EMAIL, "/events", opts);
