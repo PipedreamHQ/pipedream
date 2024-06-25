@@ -25,7 +25,13 @@ export default {
     ...common.methods,
     isRelevantProperty(property) {
       const isInPropertyGroups = this.propertyGroups?.includes(property.groupName);
-      return common.methods.isRelevantProperty(property) && isInPropertyGroups;
+      const isDefaultProperty = this.isDefaultProperty(property);
+      return common.methods.isRelevantProperty(property)
+        && isInPropertyGroups
+        && !isDefaultProperty;
+    },
+    isDefaultProperty() {
+      return false;
     },
   },
   async run({ $ }) {
