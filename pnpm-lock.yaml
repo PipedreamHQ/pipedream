@@ -2901,6 +2901,9 @@ importers:
   components/fastfield_mobile_forms:
     specifiers: {}
 
+  components/fatture_in_cloud:
+    specifiers: {}
+
   components/faunadb:
     specifiers:
       '@pipedream/platform': ^1.2.0
