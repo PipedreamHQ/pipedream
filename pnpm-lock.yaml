@@ -2369,7 +2369,12 @@ importers:
       '@pipedream/platform': 2.0.0
 
   components/documentpro:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      form-data: 4.0.0
 
   components/documint:
     specifiers:
