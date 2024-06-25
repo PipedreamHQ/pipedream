@@ -204,7 +204,7 @@ export default {
       optional: true,
       default: [],
       async options({ excludeDefaultProperties }) {
-        const properties = await this.getContactProperties(); console.log(properties);
+        const properties = await this.getContactProperties();
         const relevantProperties = excludeDefaultProperties
           ? properties.filter(({ name }) => !DEFAULT_CONTACT_PROPERTIES.includes(name))
           : properties;

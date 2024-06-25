@@ -1,6 +1,13 @@
 import hubspot from "../../hubspot.app.mjs";
 import {
-  SEARCHABLE_OBJECT_TYPES, SEARCHABLE_OBJECT_PROPERTIES,
+  SEARCHABLE_OBJECT_TYPES,
+  SEARCHABLE_OBJECT_PROPERTIES,
+  DEFAULT_CONTACT_PROPERTIES,
+  DEFAULT_COMPANY_PROPERTIES,
+  DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_TICKET_PROPERTIES,
+  DEFAULT_PRODUCT_PROPERTIES,
+  DEFAULT_LINE_ITEM_PROPERTIES,
 } from "../../common/constants.mjs";
 
 export default {
@@ -32,10 +39,18 @@ export default {
       label: "Search Value",
       description: "Search for objects where the specified search field/property matches the search value",
     };
+    const defaultProperties = this.getDefaultProperties();
+    if (defaultProperties?.length) {
+      props.info = {
+        type: "alert",
+        alertType: "info",
+        content: `Properties:\n\`${defaultProperties.join(", ")}\``,
+      };
+    }
     // eslint-disable-next-line pipedream/props-description
     props.additionalProperties = {
       type: "string[]",
-      label: "Properties to return with the results",
+      label: "Additional properties to retrieve",
       optional: true,
       options: async ({ page }) => {
         if (page !== 0) {
@@ -44,10 +59,12 @@ export default {
         const { results: properties } = await this.hubspot.getProperties({
           objectType: this.objectType,
         });
-        return properties.map((property) => ({
-          label: property.label,
-          value: property.name,
-        }));
+        const defaultProperties = this.getDefaultProperties();
+        return properties.filter(({ name }) => !defaultProperties.includes(name))
+          .map((property) => ({
+            label: property.label,
+            value: property.name,
+          }));
       },
     };
     return props;
@@ -56,11 +73,28 @@ export default {
     getSearchProperties() {
       return SEARCHABLE_OBJECT_PROPERTIES[this.objectType];
     },
+    getDefaultProperties() {
+      if (this.objectType === "contact") {
+        return DEFAULT_CONTACT_PROPERTIES;
+      } else if (this.objectType === "company") {
+        return DEFAULT_COMPANY_PROPERTIES;
+      } else if (this.objectType === "deal") {
+        return DEFAULT_DEAL_PROPERTIES;
+      } else if (this.objectType === "ticket") {
+        return DEFAULT_TICKET_PROPERTIES;
+      } else if (this.objectType === "product") {
+        return DEFAULT_PRODUCT_PROPERTIES;
+      } else if (this.objectType === "line_item") {
+        return DEFAULT_LINE_ITEM_PROPERTIES;
+      } else {
+        return [];
+      }
+    },
   },
   async run({ $ }) {
     const {
       objectType,
-      additionalProperties,
+      additionalProperties = [],
       searchProperty,
       searchValue,
     } = this;
