@@ -6,9 +6,7 @@ export default {
   key: "salesforce_rest_api-add-contact-to-campaign",
   name: "Add Contact to Campaign",
   description: toSingleLineString(`
-    Adds an existing contact to an existing campaign.
-    See [Event SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)
-    and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
+    Adds an existing contact to an existing campaign. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)
   `),
   version: "0.0.6",
   type: "action",
@@ -23,7 +21,7 @@ export default {
         }),
       ],
       label: "Campaign ID",
-      description: "ID of the Campaign to which this Lead is associated.",
+      description: "The Campaign to add a Contact to.",
     },
     contactId: {
       propDefinition: [
@@ -34,7 +32,7 @@ export default {
         }),
       ],
       label: "Contact ID",
-      description: "ID of the Contact who is associated with a Campaign.",
+      description: "The Contact to add to the selected Campaign.",
     },
   },
   async run({ $ }) {
