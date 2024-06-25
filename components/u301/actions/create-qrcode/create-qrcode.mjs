@@ -28,13 +28,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.createQrCode({
+    const { app, ...params } = this;
+    const response = await app.createQrCode({
       $,
-      params: {
-        url: this.url,
-        width: this.width,
-        margin: this.margin,
-      },
+      params,
     });
 
     $.export("$summary", `Successfully created the QR Code for the url: ${this.url}`);
