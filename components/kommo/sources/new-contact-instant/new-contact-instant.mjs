@@ -1,61 +1,24 @@
-import { axios } from "@pipedream/platform";
-import kommo from "../../kommo.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "kommo-new-contact-instant",
-  name: "New Contact Instant",
-  description: "Emit new event when a contact is created. [See the documentation](https://www.kommo.com/developers/content/platform/abilities/)",
-  version: "0.0.{{ts}}",
+  name: "New Contact (Instant)",
+  description: "Emit new event when a contact is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    kommo,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-  },
-  hooks: {
-    async deploy() {
-      const contacts = await this.kommo._makeRequest({
-        method: "GET",
-        path: "/contacts",
-        params: {
-          limit: 50,
-          order: "desc",
-        },
-      });
-
-      for (const contact of contacts) {
-        this.$emit(contact, {
-          id: contact.id,
-          summary: `New Contact: ${contact.name}`,
-          ts: Date.parse(contact.created_at),
-        });
-      }
-    },
-    async activate() {
-      await this.kommo.addWebhook("https://example.com/webhook/contact", [
+  methods: {
+    ...common.methods,
+    getEvents() {
+      return [
         "add_contact",
-      ]);
+      ];
     },
-    async deactivate() {
-      await this.kommo.deleteWebhook("https://example.com/webhook/contact");
+    getSummary(body) {
+      return `New Contact: ${body["contacts[add][0][name]"]}`;
     },
   },
-  async run() {
-    const events = await this.kommo.getWebhookEvents();
-    for (const event of events) {
-      if (event.settings.includes("add_contact")) {
-        this.$emit(event, {
-          id: event.id,
-          summary: `New Contact: ${event.contact.name}`,
-          ts: event.created_at * 1000, // Assuming created_at is in seconds
-        });
-      }
-    }
-  },
+  sampleEmit,
 };

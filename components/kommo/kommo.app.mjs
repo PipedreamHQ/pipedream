@@ -4,147 +4,205 @@ export default {
   type: "app",
   app: "kommo",
   propDefinitions: {
-    leadDetails: {
-      type: "object",
-      label: "Lead Details",
-      description: "Details of the lead to be created",
-    },
-    contactDetails: {
-      type: "object",
-      label: "Contact Details",
-      description: "Details of the contact related to the lead",
-    },
-    relatedCompanyDetails: {
-      type: "object",
-      label: "Related Company Details",
-      description: "Details of the company related to the lead",
-      optional: true,
-    },
-    relatedIndividualDetails: {
-      type: "object",
-      label: "Related Individual Details",
-      description: "Details of the individual related to the lead",
-      optional: true,
-    },
-    contactIdentifier: {
+    companyId: {
       type: "string",
-      label: "Contact Identifier",
-      description: "Identifier of the contact to be updated",
+      label: "Company Id",
+      description: "Identifier of the contact to be updated.",
+      async options({ page }) {
+        const response = await this.listCompanies({
+          params: {
+            page: page + 1,
+          },
+        });
+        if (!response) return [];
+
+        const { _embedded: { companies } } = response;
+
+        return companies.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    newContactDetails: {
-      type: "object",
-      label: "New Contact Details",
-      description: "New details of the contact to be updated",
-      optional: true,
-    },
-    searchKeyword: {
+    contactId: {
       type: "string",
-      label: "Search Keyword",
-      description: "Keyword to search for companies",
+      label: "Contact Id",
+      description: "Identifier of the contact to be updated.",
+      async options({ page }) {
+        const response = await this.listContacts({
+          params: {
+            page: page + 1,
+          },
+        });
+        if (!response) return [];
+
+        const { _embedded: { contacts } } = response;
+
+        return contacts.map(({
+          id: value, name, first_name: fname, last_name: lname,
+        }) => ({
+          label: `${name || `${fname} ${lname}`}`,
+          value,
+        }));
+      },
     },
-    filterCriteria: {
-      type: "object",
-      label: "Filter Criteria",
-      description: "Criteria to filter the search results",
+    pipelineId: {
+      type: "string",
+      label: "Pipeline Id",
+      description: "Pipeline ID the lead is added to.",
+      async options({ page }) {
+        const response = await this.listPipelines({
+          params: {
+            page: page + 1,
+          },
+        });
+        if (!response) return [];
+
+        const { _embedded: { pipelines } } = response;
+
+        return pipelines.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    userId: {
+      type: "string",
+      label: "Responsible User Id",
+      description: "Contact responsible user Id.",
+      async options({ pipelineId }) {
+        const response = await this.listUsers({
+          pipelineId,
+        });
+        if (!response) return [];
+
+        const { _embedded: { users } } = response;
+
+        return users.map(({
+          id: value, name, email,
+        }) => ({
+          label: `${name || email}`,
+          value,
+        }));
+      },
+    },
+    statusId: {
+      type: "string",
+      label: "Status Id",
+      description: "Stage ID the lead is added to. The first stage of the main pipeline by default.",
+      async options({ pipelineId }) {
+        const response = await this.listStatuses({
+          pipelineId,
+        });
+        if (!response) return [];
+
+        const { _embedded: { statuses } } = response;
+
+        return statuses.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    customFieldsValues: {
+      type: "string[]",
+      label: "Custom Fields Values",
+      description: "An array of objects of custom fields' values. [Examples of custom fields structure](https://www.kommo.com/developers/content/api_v4/custom-fields/#cf-fill-examples)",
       optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://www.kommo.com/api/v4";
+      return `https://${this.$auth.subdomain}.kommo.com/api/v4`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path = "", ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async createLead(opts = {}) {
-      const {
-        leadDetails, contactDetails, relatedCompanyDetails, relatedIndividualDetails, ...otherOpts
-      } = opts;
+    createLead(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/leads/complex",
-        data: [
-          {
-            ...leadDetails,
-            _embedded: {
-              contacts: [
-                contactDetails,
-              ],
-              companies: relatedCompanyDetails
-                ? [
-                  relatedCompanyDetails,
-                ]
-                : [],
-              individuals: relatedIndividualDetails
-                ? [
-                  relatedIndividualDetails,
-                ]
-                : [],
-            },
-          },
-        ],
-        ...otherOpts,
+        path: "/leads",
+        ...opts,
       });
     },
-    async updateContact(opts = {}) {
-      const {
-        contactIdentifier, newContactDetails, ...otherOpts
-      } = opts;
+    listCompanies(opts = {}) {
+      return this._makeRequest({
+        path: "/companies",
+        ...opts,
+      });
+    },
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    listPipelines(opts = {}) {
+      return this._makeRequest({
+        path: "/leads/pipelines",
+        ...opts,
+      });
+    },
+    listStatuses({
+      pipelineId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/leads/pipelines/${pipelineId}/statuses`,
+        ...opts,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    updateContact({
+      contactId, ...opts
+    }) {
       return this._makeRequest({
         method: "PATCH",
-        path: `/contacts/${contactIdentifier}`,
-        data: newContactDetails,
-        ...otherOpts,
+        path: `/contacts/${contactId}`,
+        ...opts,
       });
     },
-    async searchCompanies(opts = {}) {
-      const {
-        searchKeyword, filterCriteria, ...otherOpts
-      } = opts;
+    searchCompanies(opts = {}) {
       return this._makeRequest({
         method: "GET",
         path: "/companies",
-        params: {
-          query: searchKeyword,
-          ...filterCriteria,
-        },
-        ...otherOpts,
+        ...opts,
       });
     },
-    async addWebhook(destination, events) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/webhooks",
-        data: {
-          destination,
-          settings: events,
-        },
+        ...opts,
       });
     },
-  },
-  async run({ $ }) {
-    // Emit new event when a company is created
-    await this.addWebhook("https://example.com/webhook/company", [
-      "add_company",
-    ]);
-    // Emit new event when a lead is created
-    await this.addWebhook("https://example.com/webhook/lead", [
-      "add_lead",
-    ]);
-    // Emit new event when a contact is created
-    await this.addWebhook("https://example.com/webhook/contact", [
-      "add_contact",
-    ]);
+    deleteWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
   },
 };
