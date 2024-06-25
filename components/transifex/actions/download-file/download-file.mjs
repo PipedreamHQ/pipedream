@@ -16,11 +16,41 @@ export default {
       ],
     },
   },
+  methods: {
+    sleep(ms) {
+      return new Promise((r) => setTimeout(r, ms));
+    },
+  },
   async run({ $ }) {
-    const response = await this.transifex.downloadFile({
-      $,
-      asyncDownloadId: this.asyncDownloadId,
+    const { data: { id: preparedDownloadId } } = await this.transifex.prepareDownload({
+      headers: {
+        "Accept": "application/vnd.api+json",
+        "Content-Type": "application/vnd.api+json",
+      },
+      data: {
+        data: {
+          "relationships": {
+            "resource": {
+              "data": {
+                "type": "resources",
+                "id": this.asyncDownloadId,
+              },
+            },
+          },
+          "type": "resource_strings_async_downloads",
+        },
+      },
     });
+
+    let response = "";
+    do {
+      await this.sleep(5000);
+      response = await this.transifex.downloadFile({
+        $,
+        asyncDownloadId: preparedDownloadId,
+      });
+
+    } while (response.id && response.id === preparedDownloadId);
 
     const file = response.toString("base64");
     const buffer = Buffer.from(file, "base64");

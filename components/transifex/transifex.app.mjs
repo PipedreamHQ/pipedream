@@ -150,6 +150,13 @@ export default {
         ...opts,
       });
     },
+    prepareDownload(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/resource_strings_async_downloads",
+        ...opts,
+      });
+    },
     downloadFile({
       asyncDownloadId, ...opts
     }) {
