@@ -3,7 +3,7 @@ import {
 } from "lodash-es";
 import { JSONValue } from "@pipedream/types";
 
-export const sanitizedArray = (value: JSONValue) => {
+export function sanitize(value: JSONValue) {
   if (Array.isArray(value)) {
     return value.map((item: any) => get(item, "value", item));
   }
@@ -26,4 +26,5 @@ export const sanitizedArray = (value: JSONValue) => {
   }
 
   throw new Error(`${value} is not an array or an array-like`);
-};
+}
+
