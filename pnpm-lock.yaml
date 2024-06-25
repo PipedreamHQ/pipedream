@@ -8223,6 +8223,9 @@ importers:
   components/simpletexting:
     specifiers: {}
 
+  components/simplybook_me:
+    specifiers: {}
+
   components/sitecreator_io:
     specifiers:
       '@pipedream/platform': ^1.4.0
