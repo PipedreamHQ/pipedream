@@ -46,6 +46,7 @@ const segments = [
   "conversion_adjustment",
   "conversion_lag_bucket",
   "conversion_or_adjustment_lag_bucket",
+  "date",
   "device",
   "external_conversion_source",
   "hour",

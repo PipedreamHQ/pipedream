@@ -95,6 +95,9 @@ export default {
         label: "Segments",
         description: "Select any segments you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/fields/v16/segments)",
         options: resource.segments,
+        default: [
+          "date",
+        ],
         optional: true,
         reloadProps: true,
       },
@@ -190,9 +193,9 @@ export default {
       const segments = this.segments?.map((i) => `segments.${i}`) ?? [];
       const metrics = this.metrics?.map((i) => `metrics.${i}`) ?? [];
 
-      if (dateRange && !segments.includes("segments.date")) {
-        segments.push("segments.date");
-      }
+      // if (dateRange && !segments.includes("segments.date")) {
+      //   segments.push("segments.date");
+      // }
 
       const selection = [
         ...fields,
