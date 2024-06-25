@@ -83,6 +83,10 @@ export default {
         type = "string[]";
       }
 
+      if (property.name === "hs_timestamp") {
+        property.description += ". Enter date in ISO-8601 format. Example: `2024-06-25T15:43:49.214Z`";
+      }
+
       return {
         type,
         name: property.name,
