@@ -9,6 +9,7 @@ export default {
   props: {
     app,
     inputDate: {
+      description: "A valid date string, in the format selected in **Input Format**. If the format is not set, Pipedream will attempt to infer it using the parser from [Sugar Date library](https://sugarjs.com/dates/#/Parsing).",
       propDefinition: [
         app,
         "inputDate",
