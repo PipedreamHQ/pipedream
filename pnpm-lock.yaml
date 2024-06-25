@@ -4418,6 +4418,9 @@ importers:
   components/intuiface:
     specifiers: {}
 
+  components/invision_community:
+    specifiers: {}
+
   components/invoicing_plus:
     specifiers: {}
 
