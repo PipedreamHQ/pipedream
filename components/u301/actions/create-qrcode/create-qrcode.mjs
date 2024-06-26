@@ -28,7 +28,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const { app, ...params } = this;
+    const {
+      app, ...params
+    } = this;
     const response = await app.createQrCode({
       $,
       params,
