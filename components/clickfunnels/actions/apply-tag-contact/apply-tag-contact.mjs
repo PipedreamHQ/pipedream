@@ -1,36 +1,58 @@
 import clickfunnels from "../../clickfunnels.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "clickfunnels-apply-tag-contact",
   name: "Apply Tag to Contact",
-  description: "Applies a tag to a contact. If the contact doesn't currently have the specified tag, this action will add it. [See the documentation](https://developers.myclickfunnels.com/reference/createcontactsappliedtags)",
-  version: "0.0.{{ts}}",
+  description: "Applies a tag to a contact. [See the documentation](https://developers.myclickfunnels.com/reference/createcontactsappliedtags)",
+  version: "0.0.1",
   type: "action",
   props: {
     clickfunnels,
+    teamId: {
+      propDefinition: [
+        clickfunnels,
+        "teamId",
+      ],
+    },
+    workspaceId: {
+      propDefinition: [
+        clickfunnels,
+        "workspaceId",
+        ({ teamId }) => ({
+          teamId,
+        }),
+      ],
+    },
     contactId: {
       propDefinition: [
         clickfunnels,
         "contactId",
+        ({ workspaceId }) => ({
+          workspaceId,
+        }),
       ],
     },
     tagId: {
       propDefinition: [
         clickfunnels,
         "tagId",
+        ({ workspaceId }) => ({
+          workspaceId,
+        }),
       ],
     },
   },
   async run({ $ }) {
-    const {
-      contactId, tagId,
-    } = this;
     const response = await this.clickfunnels.applyTagToContact({
-      contactId,
-      tagId,
+      $,
+      contactId: this.contactId,
+      data: {
+        contacts_applied_tag: {
+          tag_id: this.tagId,
+        },
+      },
     });
-    $.export("$summary", `Successfully applied tag ${tagId} to contact ${contactId}`);
+    $.export("$summary", `Successfully applied tag with Id: ${this.tagId} to contact with Id: ${this.contactId}`);
     return response;
   },
 };
