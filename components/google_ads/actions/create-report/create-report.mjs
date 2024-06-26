@@ -49,17 +49,29 @@ export default {
         label: `Filter by ${label}s`,
         description: `Select the ${label}s to generate a report for (or leave blank for all ${label}s)`,
         optional: true,
-        options: async () => {
+        useQuery: true,
+        options: async ({
+          query, prevContext: { nextPageToken: pageToken },
+        }) => {
           const {
             accountId, customerClientId, resource,
           } = this;
-          const items = await this.googleAds.listResources({
+          const {
+            results, nextPageToken,
+          } = await this.googleAds.listResources({
             accountId,
             customerClientId,
             resource,
+            query,
+            pageToken,
           });
-          console.log(items);
-          return items?.map?.((item) => this.getResourceOption(item, resource));
+          const options = results?.map?.((item) => this.getResourceOption(item, resource));
+          return {
+            options,
+            context: {
+              nextPageToken,
+            },
+          };
         },
       },
       dateRange: {
