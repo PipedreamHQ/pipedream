@@ -589,7 +589,7 @@ export default {
     async resourceAction(objectType, action, params = {}, id = null) {
       const shopify = this.getShopifyInstance();
       this._makeRequestOpts(params);
-      try {
+      try { console.log(params);
         const result = id
           ? await shopify[objectType][action](id, params)
           : await shopify[objectType][action](params);
