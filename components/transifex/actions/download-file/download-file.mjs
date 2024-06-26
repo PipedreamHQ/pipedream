@@ -52,11 +52,8 @@ export default {
 
     } while (response.id && response.id === preparedDownloadId);
 
-    const file = response.toString("base64");
-    const buffer = Buffer.from(file, "base64");
-    const tmpDir = "/tmp";
-    const filePath = `${tmpDir}/downloaded_file_${this.asyncDownloadId}.json`;
-    fs.writeFileSync(filePath, buffer);
+    const filePath = `/tmp/downloaded_file_${this.asyncDownloadId}.json`;
+    fs.writeFileSync(filePath, JSON.stringify(response));
 
     $.export("$summary", `Successfully downloaded file with asyncDownloadId: ${this.asyncDownloadId}`);
     return {
