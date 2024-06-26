@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fatture_in_cloud",
+  "version": "0.0.1",
+  "description": "Pipedream Fatture in Cloud Components",
+  "main": "fatture_in_cloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fatture_in_cloud"
+  ],
+  "homepage": "https://pipedream.com/apps/fatture_in_cloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
