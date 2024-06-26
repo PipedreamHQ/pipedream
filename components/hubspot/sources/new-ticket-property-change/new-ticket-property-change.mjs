@@ -1,7 +1,5 @@
 import common from "../common/common.mjs";
-import {
-  API_PATH, DEFAULT_LIMIT,
-} from "../../common/constants.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -81,23 +79,19 @@ export default {
         },
       };
     },
-    async batchGetTickets(inputs) {
-      return this.hubspot.makeRequest(
-        API_PATH.CRMV3,
-        "/objects/tickets/batch/read",
-        {
-          method: "POST",
-          data: {
-            properties: [
-              this.property,
-            ],
-            propertiesWithHistory: [
-              this.property,
-            ],
-            inputs,
-          },
+    batchGetTickets(inputs) {
+      return this.hubspot.batchGetObjects({
+        objectType: "tickets",
+        data: {
+          properties: [
+            this.property,
+          ],
+          propertiesWithHistory: [
+            this.property,
+          ],
+          inputs,
         },
-      );
+      });
     },
     async processResults(after, params) {
       const properties = await this.getWriteOnlyProperties("tickets");

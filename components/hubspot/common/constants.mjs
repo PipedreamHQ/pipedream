@@ -160,6 +160,29 @@ const DEFAULT_LINE_ITEM_PROPERTIES = [
   "hs_term_in_months",
 ];
 
+const ENGAGEMENT_TYPE_OPTIONS = [
+  {
+    label: "Note",
+    value: "notes",
+  },
+  {
+    label: "Task",
+    value: "tasks",
+  },
+  {
+    label: "Meeting",
+    value: "meetings",
+  },
+  {
+    label: "Email",
+    value: "emails",
+  },
+  {
+    label: "Call",
+    value: "calls",
+  },
+];
+
 export {
   OBJECT_TYPE,
   OBJECT_TYPES,
@@ -176,4 +199,5 @@ export {
   DEFAULT_TICKET_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_LINE_ITEM_PROPERTIES,
+  ENGAGEMENT_TYPE_OPTIONS,
 };

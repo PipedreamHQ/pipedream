@@ -409,17 +409,17 @@ export default {
         "Content-Type": "application/json",
       };
     },
-    async makeRequest(api, endpoint, opts = {}) {
-      const {
-        $ = this,
-        ...otherOpts
-      } = opts;
-      const config = {
+    makeRequest({
+      $ = this,
+      api,
+      endpoint,
+      ...otherOpts
+    }) {
+      return axios($, {
         url: `${BASE_URL}${api}${endpoint}`,
         headers: this._getHeaders(),
         ...otherOpts,
-      };
-      return axios($, config);
+      });
     },
     getObjectTypeName(objectType) {
       if (!objectType.endsWith("s")) {
@@ -472,185 +472,6 @@ export default {
       default:
         return id;
       }
-    },
-    searchCRM({
-      object, ...opts
-    }) {
-      return this.makeRequest(API_PATH.CRMV3, `/objects/${object}/search`, {
-        method: "POST",
-        ...opts,
-      });
-    },
-    getBlogPosts(opts = {}) {
-      return this.makeRequest(API_PATH.CMS, "/blogs/posts", opts);
-    },
-    getContactProperties(opts = {}) {
-      return this.makeRequest(API_PATH.PROPERTIES, "/contacts/properties", opts);
-    },
-    async createPropertiesArray($) {
-      const allProperties = await this.getContactProperties({
-        $,
-      });
-      return allProperties.map((property) => property.name);
-    },
-    getDealProperties(opts = {}) {
-      return this.makeRequest(API_PATH.PROPERTIES, "/deals/properties", opts);
-    },
-    getDealStages({
-      pipelineId, ...opts
-    }) {
-      return this.makeRequest(API_PATH.CRMV3, `/pipelines/deal/${pipelineId}/stages`, opts);
-    },
-    async getTicketStages({ pipelineId }) {
-      const { results: pipelines } = await this.getPipelines({
-        objectType: "ticket",
-      });
-      const { stages } = pipelines.find(({ id }) => id == pipelineId);
-      return stages;
-    },
-    getEmailEvents(opts = {}) {
-      return this.makeRequest(API_PATH.EMAIL, "/events", opts);
-    },
-    getEngagements(opts = {}) {
-      return this.makeRequest(API_PATH.ENGAGEMENTS, "/engagements/paged", opts);
-    },
-    getEvents(opts = {}) {
-      return this.makeRequest(API_PATH.EVENTS, "/events", opts);
-    },
-    getForms(opts = {}) {
-      return this.makeRequest(API_PATH.FORMS, "/forms", opts);
-    },
-    getFormSubmissions({
-      formId, ...opts
-    }) {
-      return this.makeRequest(API_PATH.FORM_INTEGRATIONS, `/submissions/forms/${formId}`, opts);
-    },
-    getLists({
-      listType, ...opts
-    }) {
-      const basePath = "/lists";
-      const path = listType
-        ? `${basePath}/${listType}`
-        : basePath;
-      return this.makeRequest(API_PATH.CONTACTS, path, opts);
-    },
-    getListContacts({
-      listId, ...opts
-    }) {
-      return this.makeRequest(API_PATH.CONTACTS, `/lists/${listId}/contacts/all`, opts);
-    },
-    getOwners(opts = {}) {
-      return this.makeRequest(API_PATH.CRMV3, "/owners", opts);
-    },
-    listObjectsInPage(objectType, after, params, $) {
-      return this.makeRequest(API_PATH.CRMV3, `/objects/${objectType}`, {
-        params: {
-          after,
-          ...params,
-        },
-        $,
-      });
-    },
-    async getObjects(objectType, $) {
-      const params = {
-        limit: DEFAULT_LIMIT,
-      };
-      let results = null;
-      const objects = [];
-      while (!results || params.next) {
-        results = await this.makeRequest(
-          API_PATH.CRMV3,
-          `/objects/${objectType}`,
-          {
-            params,
-            $,
-          },
-        );
-        params.next = results.paging?.next?.after;
-        for (const result of results.results) {
-          objects.push(result);
-        }
-      }
-      return objects;
-    },
-    getContact({
-      contactId, ...opts
-    }) {
-      return this.makeRequest(API_PATH.CRMV3, `/objects/contacts/${contactId}`, opts);
-    },
-    getObject(objectType, objectId, properties, $) {
-      const params = {
-        properties: properties?.join(","),
-      };
-      return this.makeRequest(
-        API_PATH.CRMV3,
-        `/objects/${objectType}/${objectId}`,
-        {
-          params,
-          $,
-        },
-      );
-    },
-    getLineItem({
-      lineItemId, ...opts
-    }) {
-      return this.makeRequest(API_PATH.CRMV3, `/objects/line_items/${lineItemId}`, opts );
-    },
-    getPublishingChannels(opts = {}) {
-      return this.makeRequest(API_PATH.BROADCAST, "/channels/setting/publish/current", opts );
-    },
-    getBroadcastMessages(opts = {}) {
-      return this.makeRequest(API_PATH.BROADCAST, "/broadcasts", opts);
-    },
-    getEmailSubscriptionsTimeline(opts = {}) {
-      return this.makeRequest(API_PATH.EMAIL, "/subscriptions/timeline", opts);
-    },
-    getPipelines({
-      objectType, ...opts
-    }) {
-      return this.makeRequest(API_PATH.CRMV3, `/pipelines/${objectType}`, opts);
-    },
-    createObject({
-      objectType, ...opts
-    }) {
-      return this.makeRequest(
-        API_PATH.CRMV3,
-        `/objects/${objectType}`,
-        {
-          method: "POST",
-          ...opts,
-        },
-      );
-    },
-    updateObject({
-      objectType, objectId, ...opts
-    }) {
-      return this.makeRequest(
-        API_PATH.CRMV3,
-        `/objects/${objectType}/${objectId}`,
-        {
-          method: "PATCH",
-          ...opts,
-        },
-      );
-    },
-    getPropertyGroups({
-      objectType, ...opts
-    }) {
-      return this.makeRequest(API_PATH.CRMV3, `/properties/${objectType}/groups`, opts);
-    },
-    getProperties({
-      objectType, ...opts
-    }) {
-      return this.makeRequest(API_PATH.CRMV3, `/properties/${objectType}`, opts);
-    },
-    listSchemas(opts = {}) {
-      return this.makeRequest(API_PATH.CRMV3, "/schemas", opts);
-    },
-    getSchema({
-      objectType, ...opts
-    }) {
-      return this.makeRequest(API_PATH.CRMV3, `/schemas/${objectType}`, opts);
     },
     /**
      * Returns a list of prop options for a CRM object type
@@ -723,95 +544,363 @@ export default {
         value: object.id,
       }));
     },
+    searchCRM({
+      object, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/${object}/search`,
+        ...opts,
+      });
+    },
+    getBlogPosts(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/blog/posts",
+        ...opts,
+      });
+    },
+    getContactProperties(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.PROPERTIES,
+        endpoint: "/contacts/properties",
+        ...opts,
+      });
+    },
+    getDealProperties(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.PROPERTIES,
+        endpoint: "/deals/properties",
+        ...opts,
+      });
+    },
+    getDealStages({
+      pipelineId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/pipelines/deal/${pipelineId}/stages`,
+        ...opts,
+      });
+    },
+    async getTicketStages({ pipelineId }) {
+      const { results: pipelines } = await this.getPipelines({
+        objectType: "ticket",
+      });
+      const { stages } = pipelines.find(({ id }) => id == pipelineId);
+      return stages;
+    },
+    getEmailEvents(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.EMAIL,
+        endpoint: "/events",
+        ...opts,
+      });
+    },
+    getEngagements(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.ENGAGEMENTS,
+        endpoint: "/engagements/paged",
+        ...opts,
+      });
+    },
+    getEvents(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.EVENTS,
+        endpoint: "/events",
+        ...opts,
+      });
+    },
+    getForms(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.FORMS,
+        endpoint: "/forms",
+        ...opts,
+      });
+    },
+    getFormSubmissions({
+      formId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.FORM_INTEGRATIONS,
+        endpoint: `/submissions/forms/${formId}`,
+        ...opts,
+      });
+    },
+    getLists({
+      listType, ...opts
+    }) {
+      const basePath = "/lists";
+      const path = listType
+        ? `${basePath}/${listType}`
+        : basePath;
+      return this.makeRequest({
+        api: API_PATH.CONTACTS,
+        endpoint: path,
+        ...opts,
+      });
+    },
+    getListContacts({
+      listId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONTACTS,
+        endpoint: `/lists/${listId}/contacts/all`,
+        ...opts,
+      });
+    },
+    getOwners(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/owners",
+        ...opts,
+      });
+    },
+    listObjectsInPage(objectType, after, params, $) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/${objectType}`,
+        params: {
+          after,
+          ...params,
+        },
+        $,
+      });
+    },
+    getContact({
+      contactId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/contacts/${contactId}`,
+        ...opts,
+      });
+    },
+    getObject(objectType, objectId, properties, $) {
+      const params = {
+        properties: properties?.join(","),
+      };
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/${objectType}/${objectId}`,
+        params,
+        $,
+      });
+    },
+    getLineItem({
+      lineItemId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/line_items/${lineItemId}`,
+        ...opts,
+      });
+    },
+    getPublishingChannels(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.BROADCAST,
+        endpoint: "/channels/setting/publish/current",
+        ...opts,
+      });
+    },
+    getBroadcastMessages(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.BROADCAST,
+        endpoint: "/broadcasts",
+        ...opts,
+      });
+    },
+    getEmailSubscriptionsTimeline(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.EMAIL,
+        endpoint: "/subscriptions/timeline",
+        ...opts,
+      });
+    },
+    getPipelines({
+      objectType, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/pipelines/${objectType}`,
+        ...opts,
+      });
+    },
+    createObject({
+      objectType, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/${objectType}`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    updateObject({
+      objectType, objectId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/${objectType}/${objectId}`,
+        method: "PATCH",
+        ...opts,
+      });
+    },
+    getPropertyGroups({
+      objectType, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/properties/${objectType}/groups`,
+        ...opts,
+      });
+    },
+    getProperties({
+      objectType, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/properties/${objectType}`,
+        ...opts,
+      });
+    },
+    listSchemas(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/schemas",
+        ...opts,
+      });
+    },
+    getSchema({
+      objectType, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/schemas/${objectType}`,
+        ...opts,
+      });
+    },
     searchFiles(opts = {}) {
-      return this.makeRequest(API_PATH.FILES, "/files/search", opts);
+      return this.makeRequest({
+        api: API_PATH.FILES,
+        endpoint: "/files/search",
+        ...opts,
+      });
     },
     getSignedUrl({
       fileId, ...opts
     }) {
-      return this.makeRequest(API_PATH.FILES, `/files/${fileId}/signed-url`, opts);
+      return this.makeRequest({
+        api: API_PATH.FILES,
+        endpoint: `/files/${fileId}/signed-url`,
+        ...opts,
+      });
     },
     addContactsToList({
       listId, ...opts
     }) {
-      return this.makeRequest(
-        API_PATH.CONTACTS,
-        `/lists/${listId}/add`,
-        {
-          method: "POST",
-          ...opts,
-        },
-      );
+      return this.makeRequest({
+        api: API_PATH.CONTACTS,
+        endpoint: `/lists/${listId}/add`,
+        method: "POST",
+        ...opts,
+      });
     },
     getAssociationTypes({
       fromObjectType, toObjectType, ...opts
     }) {
-      return this.makeRequest(API_PATH.CRMV4, `/associations/${fromObjectType}/${toObjectType}/labels`, opts);
+      return this.makeRequest({
+        api: API_PATH.CRMV4,
+        endpoint: `/associations/${fromObjectType}/${toObjectType}/labels`,
+        ...opts,
+      });
     },
     createAssociation({
       fromObjectType, toObjectType, fromId, toId, ...opts
     }) {
-      return this.makeRequest(API_PATH.CRMV4, `/objects/${fromObjectType}/${fromId}/associations/${toObjectType}/${toId}`, opts);
+      return this.makeRequest({
+        api: API_PATH.CRMV4,
+        endpoint: `/objects/${fromObjectType}/${fromId}/associations/${toObjectType}/${toId}`,
+        ...opts,
+      });
     },
     createAssociations({
       fromObjectType, toObjectType, ...opts
     }) {
-      return this.makeRequest(
-        API_PATH.CRMV4,
-        `/associations/${fromObjectType}/${toObjectType}/batch/create`,
-        {
-          method: "POST",
-          ...opts,
-        },
-      );
+      return this.makeRequest({
+        api: API_PATH.CRMV4,
+        endpoint: `/associations/${fromObjectType}/${toObjectType}/batch/create`,
+        method: "POST",
+        ...opts,
+      });
     },
     listWorkflows(opts = {}) {
-      return this.makeRequest(API_PATH.AUTOMATION, "/workflows", opts);
+      return this.makeRequest({
+        api: API_PATH.AUTOMATION,
+        endpoint: "/workflows",
+        ...opts,
+      });
     },
     addContactsIntoWorkflow({
       workflowId, contactEmail, ...opts
     }) {
-      return this.makeRequest(
-        API_PATH.AUTOMATION,
-        `/workflows/${workflowId}/enrollments/contacts/${contactEmail}`,
-        {
-          method: "POST",
-          ...opts,
-        },
-      );
+      return this.makeRequest({
+        api: API_PATH.AUTOMATION,
+        endpoint: `/workflows/${workflowId}/enrollments/contacts/${contactEmail}`,
+        method: "POST",
+        ...opts,
+      });
     },
     batchCreateContacts(opts = {}) {
-      return this.makeRequest(
-        API_PATH.CRMV3,
-        "/objects/contacts/batch/create",
-        {
-          method: "POST",
-          ...opts,
-        },
-      );
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/contacts/batch/create",
+        method: "POST",
+        ...opts,
+      });
     },
     batchUpdateContacts(opts = {}) {
-      return this.makeRequest(
-        API_PATH.CRMV3,
-        "/objects/contacts/batch/update",
-        {
-          method: "POST",
-          ...opts,
-        },
-      );
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/contacts/batch/update",
+        method: "POST",
+        ...opts,
+      });
     },
     getDeal({
       dealId, ...opts
     }) {
-      return this.makeRequest(API_PATH.DEAL, `/deal/${dealId}`, opts);
+      return this.makeRequest({
+        api: API_PATH.DEAL,
+        endpoint: `/deal/${dealId}`,
+        ...opts,
+      });
     },
     getMemberships({
       objectType, objectId, ...opts
     }) {
-      return this.makeRequest(API_PATH.CRMV3, `/lists/records/${objectType}/${objectId}/memberships`, opts);
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/lists/records/${objectType}/${objectId}/memberships`,
+        ...opts,
+      });
     },
     translateLegacyListId(opts = {}) {
-      return this.makeRequest(API_PATH.CRMV3, "/lists/idmapping", opts);
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/lists/idmapping",
+        ...opts,
+      });
+    },
+    batchGetObjects({
+      objectType, ...opts
+    }) {
+      return this.hubspot.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/${objectType}/batch/read`,
+        method: "POST",
+        ...opts,
+      });
     },
   },
 };
