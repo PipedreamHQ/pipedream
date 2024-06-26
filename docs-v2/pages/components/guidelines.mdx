@@ -780,3 +780,120 @@ Browsers can crash when users load large exports (many MBs of data). When you
 know the content being returned is likely to be large – e.g. files — don't
 export the full content. Consider writing the data to the `/tmp` directory and
 exporting a reference to the file.
+
+## Database Components
+
+Pipedream supports a special category of apps called ["databases"](/databases),
+such as
+[MySQL](https://github.com/PipedreamHQ/pipedream/tree/master/components/mysql),
+[PostgreSQL](https://github.com/PipedreamHQ/pipedream/tree/master/components/postgresql),
+[Snowflake](https://github.com/PipedreamHQ/pipedream/tree/master/components/snowflake),
+etc. Components tied to these apps offer unique features _as long as_ they
+comply with some requirements. The most important features are:
+
+1. A built-in SQL editor that allows users to input a SQL query to be run
+   against their DB
+2. Proxied execution of commands against a DB, which guarantees that such
+   requests are always being made from the same range of static IPs (see the
+   [shared static IPs docs](databases#send-requests-from-a-shared-static-ip))
+
+When dealing with database components, the Pipedream runtime performs certain
+actions internally to make these features work. For this reason, these
+components must implement specific interfaces that allows the runtime to
+properly interact with their code. These interfaces are usually defined in the
+[`@pipedream/platform`](https://github.com/PipedreamHQ/pipedream/tree/master/platform)
+package.
+
+### SQL Editor
+
+This code editor is rendered specifically for props of type `sql`, and it uses
+(whenever possible) the underlying's database schema information to provide
+auto-complete suggestions. Each database engine not only has its own SQL
+dialect, but also its own way of inspecting the schemas and table information it
+stores. For this reason, each app file must implement the logic that's
+applicable to the target engine.
+
+To support the schema retrieval, the app file must implement a method called
+`getSchema` that takes no parameters, and returns a data structure with a format
+like this:
+
+```javascript
+{
+  users: {  // The entries at the root correspond to table names
+    metadata: {
+      rowCount: 100,
+    },
+    schema: {
+      id: { // The entries under `schema` correspond to column names
+        columnDefault: null,
+        dataType: "number",
+        isNullable: false,
+        tableSchema: "public",
+      },
+      email: {
+        columnDefault: null,
+        dataType: "varchar",
+        isNullable: false,
+        tableSchema: "public",
+      },
+      dateOfBirth: {
+        columnDefault: null,
+        dataType: "varchar",
+        isNullable: true,
+        tableSchema: "public",
+      },
+    },
+  },
+}
+```
+
+The
+[`lib/sql-prop.ts`](https://github.com/PipedreamHQ/pipedream/blob/master/platform/lib/sql-prop.ts)
+file in the `@pipedream/platform` package define the schema format and the
+signature of the `getSchema` method. You can also check out existing examples in
+the
+[MySQL](https://github.com/PipedreamHQ/pipedream/blob/master/components/mysql/mysql.app.mjs),
+[PostgreSQL](https://github.com/PipedreamHQ/pipedream/blob/master/components/postgresql/postgresql.app.mjs)
+and
+[Snowflake](https://github.com/PipedreamHQ/pipedream/blob/master/components/snowflake/snowflake.app.mjs)
+components.
+
+### Shared Static IPs
+
+When a user runs a SQL query against a database, the request is proxied through
+a separate internal service that's guaranteed to always use the same range of
+static IPs when making outbound requests. This is important for users that have
+their databases protected behind a firewall, as they can whitelist these IPs to
+allow Pipedream components to access their databases.
+
+To make this work, the app file must implement the interface defined in the
+[`lib/sql-proxy.ts`](https://github.com/PipedreamHQ/pipedream/blob/master/platform/lib/sql-proxy.ts)
+file in the `@pipedream/platform` package. This interface defines the following
+methods:
+
+1. **`getClientConfiguration`**: This method takes no parameters and returns an
+   object that can be fed directly to the database's client library to
+   initialize/establish a connection to the database. This guarantees that both
+   the component and the proxy service use the same connection settings, **so
+   make sure the component uses this method when initializing the client**.
+2. **`executeQuery`**: This method takes a query object and returns the result
+   of executing the query against the database. The Pipedream runtime will
+   replace this method with a call to the proxy service, so **every component
+   must make use of this method in order to support this feature**.
+3. **`proxyAdapter`**: This method allows the proxy service to take the
+   arguments passed to the `executeQuery` method and transform them into a
+   "generic" query object that the service can then use. The expected format
+   looks something like this:
+   ```javascript
+   {
+     query: "SELECT * FROM users WHERE id = ?",
+     params: [42],
+   }
+   ```
+
+You can check out these example pull requests that allowed components to support
+this proxy feature:
+
+- [#11201 (MySQL)](https://github.com/PipedreamHQ/pipedream/pull/11201)
+- [#11202 (PostgreSQL)](https://github.com/PipedreamHQ/pipedream/pull/11202)
+- [#12511 (Snowflake)](https://github.com/PipedreamHQ/pipedream/pull/12511)
