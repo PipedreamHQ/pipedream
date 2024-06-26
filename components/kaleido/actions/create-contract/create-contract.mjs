@@ -45,7 +45,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.createContract({
       $,
-      consortia_id: this.consortiaId,
+      consortiaId: this.consortiaId,
       data: {
         name: this.name,
         description: this.description,

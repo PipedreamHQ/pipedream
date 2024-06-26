@@ -111,29 +111,29 @@ export default {
       });
     },
     async createContract({
-      consortia_id, ...args
+      consortiaId, ...args
     }) {
       return this._makeRequest({
         method: "post",
-        path: `/consortia/${consortia_id}/contracts`,
+        path: `/consortia/${consortiaId}/contracts`,
         ...args,
       });
     },
     async createMembership({
-      consortia_id, ...args
+      consortiaId, ...args
     }) {
       return this._makeRequest({
         method: "post",
-        path: `/consortia/${consortia_id}/memberships`,
+        path: `/consortia/${consortiaId}/memberships`,
         ...args,
       });
     },
     async deleteContract({
-      consortia_id, contract_id, ...args
+      consortiaId, contractId, ...args
     }) {
       return this._makeRequest({
         method: "delete",
-        path: `/consortia/${consortia_id}/contracts/${contract_id}`,
+        path: `/consortia/${consortiaId}/contracts/${contractId}`,
         ...args,
       });
     },
@@ -144,18 +144,18 @@ export default {
       });
     },
     async getContracts({
-      consortiaId: consortia_id, ...args
+      consortiaId: consortiaId, ...args
     }) {
       return this._makeRequest({
-        path: `/consortia/${consortia_id}/contracts`,
+        path: `/consortia/${consortiaId}/contracts`,
         ...args,
       });
     },
     async getMemberships({
-      consortiaId: consortia_id, ...args
+      consortiaId: consortiaId, ...args
     }) {
       return this._makeRequest({
-        path: `/consortia/${consortia_id}/memberships`,
+        path: `/consortia/${consortiaId}/memberships`,
         ...args,
       });
     },

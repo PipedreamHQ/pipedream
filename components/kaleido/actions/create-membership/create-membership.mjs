@@ -42,7 +42,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.createMembership({
       $,
-      consortia_id: this.consortiaId,
+      consortiaId: this.consortiaId,
       data: {
         permissions: {
           manage_envs: this.manageEnvs,

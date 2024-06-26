@@ -27,8 +27,8 @@ export default {
   async run({ $ }) {
     const response = await this.app.deleteContract({
       $,
-      consortia_id: this.consortiaId,
-      contract_id: this.contractId,
+      consortiaId: this.consortiaId,
+      contractId: this.contractId,
     });
 
     $.export("$summary", `Successfully deleted contract with ID '${this.this.contract_id}'`);
