@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/airship",
+  "version": "0.0.1",
+  "description": "Pipedream Airship Components",
+  "main": "airship.app.mjs",
+  "keywords": [
+    "pipedream",
+    "airship"
+  ],
+  "homepage": "https://pipedream.com/apps/airship",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

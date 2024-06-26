@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/simplybook_me",
+  "version": "0.0.1",
+  "description": "Pipedream SimplyBook.me Components",
+  "main": "simplybook_me.app.mjs",
+  "keywords": [
+    "pipedream",
+    "simplybook_me"
+  ],
+  "homepage": "https://pipedream.com/apps/simplybook_me",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

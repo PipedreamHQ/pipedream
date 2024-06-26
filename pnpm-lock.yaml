@@ -181,6 +181,9 @@ importers:
     dependencies:
       '@adobe/pdfservices-node-sdk': 3.4.2
 
+  components/adobe_photoshop:
+    specifiers: {}
+
   components/adobe_sign:
     specifiers: {}
 
@@ -276,6 +279,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/airship:
+    specifiers: {}
 
   components/airslate:
     specifiers:
@@ -2369,7 +2375,12 @@ importers:
       '@pipedream/platform': 2.0.0
 
   components/documentpro:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      form-data: 4.0.0
 
   components/documint:
     specifiers:
@@ -2489,6 +2500,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/dropboard:
+    specifiers: {}
 
   components/dropbox:
     specifiers:
@@ -2888,6 +2902,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/fastfield_mobile_forms:
+    specifiers: {}
+
+  components/fatture_in_cloud:
     specifiers: {}
 
   components/faunadb:
@@ -3698,6 +3715,9 @@ importers:
       '@pipedream/platform': 1.5.1
       mime: 3.0.0
 
+  components/google_play:
+    specifiers: {}
+
   components/google_postmaster_tools_api:
     specifiers:
       '@pipedream/platform': ^1.6.2
@@ -4026,6 +4046,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/heyzine:
+    specifiers: {}
 
   components/highlevel_oauth:
     specifiers:
@@ -4405,6 +4428,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/intuiface:
+    specifiers: {}
+
+  components/invision_community:
     specifiers: {}
 
   components/invoicing_plus:
@@ -7084,6 +7110,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/railsr:
+    specifiers: {}
+
   components/raindrop:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -8173,6 +8202,9 @@ importers:
   components/signaturit:
     specifiers: {}
 
+  components/signerx:
+    specifiers: {}
+
   components/signpath:
     specifiers: {}
 
@@ -8207,6 +8239,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/simpletexting:
+    specifiers: {}
+
+  components/simplybook_me:
     specifiers: {}
 
   components/sitecreator_io:
@@ -9431,6 +9466,9 @@ importers:
   components/twitter_ads:
     specifiers: {}
 
+  components/txt_werk:
+    specifiers: {}
+
   components/typebot:
     specifiers: {}
 
@@ -9769,7 +9807,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/vivomeetings:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/vk:
     specifiers: {}
