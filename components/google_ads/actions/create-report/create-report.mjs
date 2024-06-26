@@ -205,10 +205,6 @@ export default {
       const segments = this.segments?.map((i) => `segments.${i}`) ?? [];
       const metrics = this.metrics?.map((i) => `metrics.${i}`) ?? [];
 
-      // if (dateRange && !segments.includes("segments.date")) {
-      //   segments.push("segments.date");
-      // }
-
       const selection = [
         ...fields,
         ...segments,
