@@ -3,53 +3,53 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "survser",
-  propDefinitions: {},
+  propDefinitions: {
+    surveyId: {
+      type: "string",
+      label: "Survey ID",
+      description: "Identifier of the survey to watch for responses",
+      async options() {
+        const surveys = await this.getSurveys();
+        return surveys?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+  },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.survser.com";
+      return "https://www.survser.com/api/public";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
+        params,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
+        url: `${this._baseUrl()}${path}`,
+        params: {
+          ...params,
+          key: `${this.$auth.api_key}`,
         },
       });
     },
-    async getSurveys() {
+    getSurveys(opts = {}) {
       return this._makeRequest({
-        path: "/surveys",
+        path: "/survey/list",
+        ...opts,
       });
     },
-    async getSurveyResponses(surveyId) {
+    getSurveyResponses(opts = {}) {
       return this._makeRequest({
-        path: `/surveys/${surveyId}/responses`,
+        path: "/response/list",
+        ...opts,
       });
-    },
-    async emitNewSurveyResponse(surveyId) {
-      const prevResponses = await this.getSurveyResponses(surveyId);
-      setInterval(async () => {
-        const currentResponses = await this.getSurveyResponses(surveyId);
-        if (currentResponses.length > prevResponses.length) {
-          this.$emit(currentResponses, {
-            summary: `New response in survey ${surveyId}`,
-            id: currentResponses[currentResponses.length - 1].id,
-          });
-        }
-      }, 5000);
     },
   },
 };
