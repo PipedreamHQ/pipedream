@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/heyzine",
+  "version": "0.0.1",
+  "description": "Pipedream Heyzine Components",
+  "main": "heyzine.app.mjs",
+  "keywords": [
+    "pipedream",
+    "heyzine"
+  ],
+  "homepage": "https://pipedream.com/apps/heyzine",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
