@@ -39,7 +39,7 @@ export default {
   // eslint-disable-next-line
   name: "Failed Task in Schema",
   description: "Emit new events when a task fails in a database schema",
-  version: "0.0.14",
+  version: "0.1.2",
   async run() {
     await this.emitFailedTasks({
       database: this.database,

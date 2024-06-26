@@ -5,7 +5,7 @@ export default {
   propDefinitions: {},
   methods: {
     _accessToken() {
-      return this.$auth.oauth_access_token;
+      return this.$auth.client_secret;
     },
     _apiUrl() {
       return `https://app.ecwid.com/api/v3/${this.$auth.storeId}`;

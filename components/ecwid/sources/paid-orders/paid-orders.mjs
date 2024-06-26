@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Ecwid Paid Orders",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "ecwid-paid-orders",
   description: "Search for new orders which are PAID and AWAITING_PROCESSING. Emits events for each order and" +
     " sets order fulfilment status to PROCESSING",

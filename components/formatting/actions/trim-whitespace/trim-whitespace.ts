@@ -5,7 +5,7 @@ export default defineAction({
   name: "[Text] Trim Whitespace",
   description: "Removes leading and trailing whitespace",
   key: "formatting-trim-whitespace",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     app,

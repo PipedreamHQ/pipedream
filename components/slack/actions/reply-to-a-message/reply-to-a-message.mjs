@@ -6,7 +6,7 @@ export default {
   key: "slack-reply-to-a-message",
   name: "Reply to a Message Thread",
   description: "Send a message as a threaded reply. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.1.22",
+  version: "0.1.23",
   type: "action",
   props: {
     slack: common.props.slack,
@@ -14,21 +14,6 @@ export default {
       propDefinition: [
         slack,
         "conversation",
-      ],
-    },
-    thread_ts: {
-      propDefinition: [
-        slack,
-        "messageTs",
-        (c) => ({
-          channel: c.conversation,
-        }),
-      ],
-    },
-    reply_broadcast: {
-      propDefinition: [
-        slack,
-        "reply_broadcast",
       ],
     },
     text: {
@@ -44,5 +29,24 @@ export default {
       ],
     },
     ...common.props,
+    replyToThread: {
+      ...common.props.replyToThread,
+      hidden: true,
+    },
+    thread_ts: {
+      propDefinition: [
+        slack,
+        "messageTs",
+        (c) => ({
+          channel: c.conversation,
+        }),
+      ],
+    },
+    thread_broadcast: {
+      propDefinition: [
+        slack,
+        "thread_broadcast",
+      ],
+    },
   },
 };
