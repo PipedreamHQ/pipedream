@@ -20,7 +20,9 @@ export default {
   async run({ $ }) {
     const args = this.postgresql.executeQueryAdapter(this.sql);
     const data = await this.postgresql.executeQuery(args);
-    const rowLabel = data.length === 1 ? "row" : "rows";
+    const rowLabel = data.length === 1
+      ? "row"
+      : "rows";
     $.export("$summary", `Returned ${data.length} ${rowLabel}`);
     return data;
   },
