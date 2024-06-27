@@ -8824,7 +8824,10 @@ importers:
     specifiers: {}
 
   components/survser:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/svix:
     specifiers:
