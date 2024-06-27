@@ -59,6 +59,9 @@ export default {
     getObjectType() {
       return this.engagementType;
     },
+    isRelevantProperty(property) {
+      return common.methods.isRelevantProperty(property) && !property.name.includes("hs_pipeline");
+    },
     createEngagement(objectType, properties, associations, $) {
       return this.hubspot.createObject({
         objectType,
@@ -103,6 +106,10 @@ export default {
         },
       ]
       : undefined;
+
+    if (properties.hs_task_reminders) {
+      properties.hs_task_reminders = Date.parse(properties.hs_task_reminders);
+    }
 
     const engagement = await this.createEngagement(objectType, properties, associations, $);
 

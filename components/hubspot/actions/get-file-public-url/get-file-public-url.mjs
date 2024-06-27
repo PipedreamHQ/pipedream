@@ -27,10 +27,9 @@ export default {
       fileUrl,
       expirationSeconds,
     } = this;
-    const { results: files } = await this.hubspot.searchFiles({
-      url: fileUrl,
-    });
-    const fileId = files?.[0]?.id;
+    const { results: files } = await this.hubspot.searchFiles();
+    const file = files.find(({ url }) => url === fileUrl );
+    const fileId = file.id;
     if (!fileId) {
       throw new Error(`File not found at ${fileUrl}`);
     }

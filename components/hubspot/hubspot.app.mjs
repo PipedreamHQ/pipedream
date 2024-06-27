@@ -549,6 +549,7 @@ export default {
     }) {
       return this.makeRequest({
         api: API_PATH.CRMV3,
+        method: "POST",
         endpoint: `/objects/${object}/search`,
         ...opts,
       });
@@ -556,7 +557,7 @@ export default {
     getBlogPosts(opts = {}) {
       return this.makeRequest({
         api: API_PATH.CMS,
-        endpoint: "/blog/posts",
+        endpoint: "/blogs/posts",
         ...opts,
       });
     },
@@ -895,7 +896,7 @@ export default {
     batchGetObjects({
       objectType, ...opts
     }) {
-      return this.hubspot.makeRequest({
+      return this.makeRequest({
         api: API_PATH.CRMV3,
         endpoint: `/objects/${objectType}/batch/read`,
         method: "POST",

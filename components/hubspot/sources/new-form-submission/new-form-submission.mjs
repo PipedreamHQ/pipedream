@@ -1,5 +1,4 @@
 import common from "../common/common.mjs";
-import { DEFAULT_LIMIT } from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -42,7 +41,7 @@ export default {
     getParams() {
       return {
         params: {
-          limit: DEFAULT_LIMIT,
+          limit: 50,
         },
       };
     },
