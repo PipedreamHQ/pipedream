@@ -4,7 +4,7 @@ export default {
   key: "jira-create-version",
   name: "Create Jira Version in project",
   description: "Creates a project version., [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-project-versions/#api-rest-api-3-version-post)",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "action",
   props: {
     jira,

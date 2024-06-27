@@ -1,6 +1,7 @@
 import {
   ConfigurationError, axios,
 } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -213,8 +214,102 @@ export default {
       description: "List of issue screen fields to update, specifying the sub-field to update and its value for each field. This field provides a straightforward option when setting a sub-field. When multiple sub-fields or other operations are required, use `update`. Fields included in here cannot be included in `update`. (.i.e for Fields \"fields\": {\"summary\":\"Completed orders still displaying in pending\",\"customfield_10010\":1,}) [see doc](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-put)",
       optional: true,
     },
-  },
+    fieldId: {
+      type: "string",
+      label: "Field ID",
+      description: "The ID of the field.",
+      useQuery: true,
+      async options({
+        query,
+        prevContext: {
+          hasMore,
+          startAt = 0,
+        },
+        cloudId,
+        params = {
+          type: [
+            "custom",
+            "system",
+          ],
+        },
+      }) {
+        if (hasMore === false) {
+          return [];
+        }
 
+        const {
+          isLast,
+          values,
+        } = await this.getFieldsPaginated({
+          cloudId,
+          params: {
+            ...params,
+            query,
+            maxResults: constants.DEFAULT_LIMIT,
+            startAt,
+          },
+        });
+
+        return {
+          options: values.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            hasMore: !isLast,
+            startAt: startAt + constants.DEFAULT_LIMIT,
+          },
+        };
+      },
+    },
+    contextId: {
+      type: "string",
+      label: "Context ID",
+      description: "The ID of the context.",
+      async options({
+        prevContext: {
+          hasMore,
+          startAt = 0,
+        },
+        cloudId,
+        fieldId,
+        params = {
+          isAnyIssueType: true,
+        },
+      }) {
+        if (hasMore === false) {
+          return [];
+        }
+
+        const {
+          isLast,
+          values,
+        } = await this.getCustomFieldContexts({
+          cloudId,
+          fieldId,
+          params: {
+            ...params,
+            startAt,
+            maxResults: constants.DEFAULT_LIMIT,
+          },
+        });
+        return {
+          options: values.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            hasMore: !isLast,
+            startAt: startAt + constants.DEFAULT_LIMIT,
+          },
+        };
+      },
+    },
+  },
   methods: {
     _getHeaders(headers = {}) {
       return {
@@ -471,6 +566,20 @@ export default {
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
+        ...args,
+      });
+    },
+    getFieldsPaginated(args = {}) {
+      return this._makeRequest({
+        path: "/field/search",
+        ...args,
+      });
+    },
+    getCustomFieldContexts({
+      fieldId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/field/${fieldId}/context`,
         ...args,
       });
     },
