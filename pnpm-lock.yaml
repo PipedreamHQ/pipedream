@@ -9328,7 +9328,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/transifex:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^2.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 2.0.0
+      fs: 0.0.1-security
 
   components/transistor_fm:
     specifiers:
