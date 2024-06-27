@@ -13,7 +13,7 @@ export default {
     ...common.methods,
     getEventTypes() {
       return [
-        "subscription/invoice.paid",
+        "subscription.invoice.paid",
       ];
     },
     getSummary(body) {
