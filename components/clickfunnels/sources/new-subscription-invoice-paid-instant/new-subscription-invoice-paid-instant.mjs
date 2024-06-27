@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "clickfunnels-new-subscription-invoice-paid-instant",
-  name: "New Subscription Invoice Paid",
+  name: "New Subscription Invoice Paid (Instant)",
   description: "Emit new event when a subscription fee is paid by a customer.",
   version: "0.0.1",
   type: "source",
