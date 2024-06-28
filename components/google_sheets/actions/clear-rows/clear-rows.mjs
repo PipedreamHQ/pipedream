@@ -1,10 +1,13 @@
-import googleSheets from "../../google_sheets.app.mjs";
+import common from "../common/worksheet.mjs";
+
+const { googleSheets } = common.props;
 
 export default {
+  ...common,
   key: "google_sheets-clear-rows",
   name: "Clear Rows",
   description: "Delete the content of a row or rows in a spreadsheet. Deleted rows will appear as blank rows. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/clear)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     googleSheets,
@@ -34,7 +37,6 @@ export default {
       ],
       type: "string",
       label: "Worksheet Id",
-      withLabel: true,
     },
     startIndex: {
       type: "integer",
@@ -49,9 +51,10 @@ export default {
     },
   },
   async run() {
+    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.worksheetId.label}!${this.startIndex}:${this.endIndex || this.startIndex}`,
+      range: `${worksheet?.properties?.title}!${this.startIndex}:${this.endIndex || this.startIndex}`,
     };
     return await this.googleSheets.clearSheetValues(request);
   },
