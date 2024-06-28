@@ -53,16 +53,13 @@ export default {
         : Date.parse(contact.updatedAt);
     },
     generateMeta(contact) {
-      const {
-        id,
-        properties,
-      } = contact;
+      const { id } = contact;
       const ts = this.getTs(contact);
       return {
         id: this.newOnly
           ? id
           : `${id}-${ts}`,
-        summary: `${properties.firstname} ${properties.lastname}`,
+        summary: `Record ID: ${id}`,
         ts,
       };
     },
