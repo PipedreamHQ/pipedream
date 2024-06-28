@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/taskade",
+  "version": "0.0.1",
+  "description": "Pipedream Taskade Components",
+  "main": "taskade.app.mjs",
+  "keywords": [
+    "pipedream",
+    "taskade"
+  ],
+  "homepage": "https://pipedream.com/apps/taskade",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

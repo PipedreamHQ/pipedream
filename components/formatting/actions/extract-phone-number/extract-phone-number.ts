@@ -7,7 +7,7 @@ export default defineAction({
   description:
     "Find a complete phone number out of a text field. Finds the first number only.",
   key: "formatting-extract-phone-number",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...commonExtractText.props,
