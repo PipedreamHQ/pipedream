@@ -1,4 +1,4 @@
-export const INDUSTRY_CATEGORY_OPTIONS = [
+const INDUSTRY_CATEGORY_OPTIONS = [
   {
     value: "INDUSTRY_CATEGORY_UNSPECIFIED",
     label: "Industry category unspecified",
@@ -109,7 +109,7 @@ export const INDUSTRY_CATEGORY_OPTIONS = [
   },
 ];
 
-export const TIMEZONE_OPTIONS = [
+const TIMEZONE_OPTIONS = [
   "Africa/Abidjan",
   "Africa/Algiers",
   "Africa/Bissau",
@@ -380,3 +380,20 @@ export const TIMEZONE_OPTIONS = [
   "Pacific/Tarawa",
   "Pacific/Tongatapu",
 ];
+
+const API = {
+  DATA: {
+    BASE_URL: "https://analyticsdata.googleapis.com",
+    VERSION_PATH: "/v1beta",
+  },
+  ADMIN: {
+    BASE_URL: "https://analyticsadmin.googleapis.com",
+    VERSION_PATH: "/v1beta",
+  },
+};
+
+export default {
+  INDUSTRY_CATEGORY_OPTIONS,
+  TIMEZONE_OPTIONS,
+  API,
+};
