@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/gloria_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Gloria AI Components",
+  "main": "gloria_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gloria_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/gloria_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

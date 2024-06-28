@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/spiritme",
+  "version": "0.0.1",
+  "description": "Pipedream SpiritMe Components",
+  "main": "spiritme.app.mjs",
+  "keywords": [
+    "pipedream",
+    "spiritme"
+  ],
+  "homepage": "https://pipedream.com/apps/spiritme",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -11,7 +11,7 @@ export default defineAction({
   description:
     "Format a number to a new style. Does not perform any rounding or padding of the number.",
   key: "formatting-format-number",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     app,
