@@ -3560,10 +3560,10 @@ importers:
   components/google_analytics:
     specifiers:
       '@googleapis/analyticsreporting': ^1.0.0
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
       '@googleapis/analyticsreporting': 1.0.4
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
 
   components/google_appsheet:
     specifiers: {}
