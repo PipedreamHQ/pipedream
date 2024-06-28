@@ -5,57 +5,39 @@ export default {
   app: "leadoku",
   propDefinitions: {},
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.leadoku.io";
+      return "https://api.growth-x.com/growth/apis";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
+        params,
         ...otherOpts
       } = opts;
       return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        params: {
+          ...params,
+          analytics_code: `${this.$auth.analytics_code}`,
+        },
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      });
+    },
+    getNewConnections(opts = {}) {
+      return this._makeRequest({
+        params: {
+          method: "new_connections",
         },
+        ...opts,
       });
     },
-    async emitNewConnectionEvent() {
-      const event = {
-        name: "New Connection",
-        data: {},
-      };
-      this.$emit(event, {
-        summary: event.name,
-      });
-    },
-    async emitNewResponderEvent() {
-      const event = {
-        name: "New Responder",
-        data: {},
-      };
-      this.$emit(event, {
-        summary: event.name,
-      });
-    },
-    async emitNewMessageEvent(message) {
-      const event = {
-        name: "New Message",
-        data: {
-          message,
+    getNewResponders(opts = {}) {
+      return this._makeRequest({
+        params: {
+          method: "new_responders",
         },
-      };
-      this.$emit(event, {
-        summary: event.name,
+        ...opts,
       });
     },
   },
