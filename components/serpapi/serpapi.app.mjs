@@ -11,11 +11,18 @@ export default {
       type: "string",
       label: "api_key",
       description: "Your SerpApi API key",
+      example: "YOUR_API_KEY_HERE",
+      required: true,
     },
     parameters: {
       type: "object",
       label: "Parameters",
       description: "Query parameters for SerpApi, specific to search engines.",
+      example: {
+        "engine": "google",
+        "q": "coffee",
+      },
+      required: true,
     },
   },
   async run({ $ }) {
@@ -30,6 +37,9 @@ export default {
         "Accept": "application/json",
         "Content-Type": "application/json",
       },
+      timeout: 10000,
+    }).catch((err) => {
+      throw new Error(`Failed to fetch data from SerpApi: ${err.response.status} - ${err.response.data}`);
     });
 
     if (!response) {
