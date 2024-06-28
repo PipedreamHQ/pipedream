@@ -1,13 +1,15 @@
-import googleSheets from "../../google_sheets.app.mjs";
+import common from "../common/worksheet.mjs";
 import {
   parseArray, getWorksheetHeaders,
 } from "../../common/utils.mjs";
+const { googleSheets } = common.props;
 
 export default {
+  ...common,
   key: "google_sheets-update-multiple-rows",
   name: "Update Multiple Rows",
   description: "Update multiple rows in a spreadsheet defined by a range. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     googleSheets,
@@ -39,7 +41,6 @@ export default {
       ],
       type: "string",
       label: "Worksheet Id",
-      withLabel: true,
       reloadProps: true,
     },
     headersDisplay: {
@@ -72,7 +73,8 @@ export default {
     if (!this.sheetId || !this.worksheetId) {
       return props;
     }
-    const rowHeaders = await getWorksheetHeaders(this, this.sheetId, this.worksheetId.label);
+    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
+    const rowHeaders = await getWorksheetHeaders(this, this.sheetId, worksheet?.properties?.title);
     if (rowHeaders.length) {
       return {
         headersDisplay: {
@@ -108,9 +110,10 @@ export default {
       );
     }
 
+    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.worksheetId.label}!${this.range}`,
+      range: `${worksheet?.properties?.title}!${this.range}`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: rows,

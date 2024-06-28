@@ -1,12 +1,15 @@
-import googleSheets from "../../google_sheets.app.mjs";
+import common from "../common/worksheet.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { parseArray } from "../../common/utils.mjs";
 
+const { googleSheets } = common.props;
+
 export default {
+  ...common,
   key: "google_sheets-update-row",
   name: "Update Row",
   description: "Update a row in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     googleSheets,
@@ -37,7 +40,6 @@ export default {
       ],
       type: "string",
       label: "Worksheet Id",
-      withLabel: true,
     },
     row: {
       propDefinition: [
@@ -65,9 +67,10 @@ export default {
     if (Array.isArray(cells[0])) {
       throw new ConfigurationError("Row Values is a multi-dimensional array. A one-dimensional is expected.");
     }
+    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.worksheetId.label}!${this.row}:${this.row}`,
+      range: `${worksheet?.properties?.title}!${this.row}:${this.row}`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [
