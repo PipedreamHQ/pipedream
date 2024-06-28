@@ -1,9 +1,11 @@
 import { v4 as uuid } from "uuid";
+import common from "../common/worksheet.mjs";
 import { VALUE_RENDER_OPTION } from "../../common/constants.mjs";
-import googleSheets from "../../google_sheets.app.mjs";
 import {
   omitEmptyKey, toSingleLineString,
 } from "../../common/utils.mjs";
+
+const { googleSheets } = common.props;
 
 /**
  * This action performs an upsert operation, similar to the MySQL `INSERT INTO ... ON DUPLICATE KEY
@@ -18,10 +20,11 @@ import {
  * comment](https://github.com/PipedreamHQ/pipedream/issues/1824#issuecomment-949940177).
  */
 export default {
+  ...common,
   key: "google_sheets-upsert-row",
   name: "Upsert Row",
   description: "Upsert a row of data in a Google Sheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     googleSheets,
@@ -50,7 +53,6 @@ export default {
       ],
       type: "string",
       label: "Worksheet Id",
-      withLabel: true,
     },
     insert: {
       propDefinition: [
@@ -103,6 +105,7 @@ export default {
       value,
       updates,
     } = this;
+    const worksheet = await this.getWorksheetById(sheetId, worksheetId);
     const colIndex = this.googleSheets._getColumnIndex(column) - 1;
     const keyValue = value
       ? value
@@ -129,7 +132,7 @@ export default {
             keyValue, // A1
           ],
           [
-            this.googleSheets.buildMatchFormula("A1", worksheetId.label, {
+            this.googleSheets.buildMatchFormula("A1", worksheet?.properties?.title, {
               column,
               searchType: 0,
             }), // A2
@@ -149,7 +152,7 @@ export default {
         // INSERT ROW
         const result = await this.googleSheets.addRowsToSheet({
           spreadsheetId: sheetId,
-          range: worksheetId.label,
+          range: worksheet?.properties?.title,
           rows: [
             insert,
           ],
@@ -161,7 +164,7 @@ export default {
       // UPDATE ROW
       const updateParams = [
         sheetId,
-        worksheetId.label,
+        worksheet?.properties?.title,
         matchedRow,
       ];
       const sanitizedUpdates = omitEmptyKey(updates);
