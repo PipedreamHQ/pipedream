@@ -1,11 +1,12 @@
 import app from "../../zoho_calendar.app.mjs";
 import { TIME_ZONES } from "../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "zoho_calendar-create-or-update-event",
   name: "Create or Update Event",
   description: "Create or update a event in a particular calendar of the user. [See the documentation](https://www.zoho.com/calendar/help/api/post-create-event.html)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
@@ -24,15 +25,19 @@ export default {
         }),
       ],
     },
-    startTime: {
-      type: "string",
+    start: {
       label: "Start Time",
-      description: "The start time of the event, The format should be`yyyyMMddTHHmmssZ` in GMT format or `yyyyMMdd`. e.g. `20230715T112200Z`",
+      propDefinition: [
+        app,
+        "dateTime",
+      ],
     },
-    endTime: {
-      type: "string",
+    end: {
       label: "End Time",
-      description: "The end time of the event, The format should be`yyyyMMddTHHmmssZ` in GMT format or `yyyyMMdd`. e.g. `20230715T132200Z`",
+      propDefinition: [
+        app,
+        "dateTime",
+      ],
     },
     title: {
       type: "string",
@@ -124,30 +129,47 @@ export default {
   },
   async run({ $ }) {
     const {
+      app,
+      getEtag,
+      formatAttendees,
       eventId,
       calendarId,
+      guestAttendees,
+      viewAttendees,
+      inviteAttendees,
+      editAttendees,
+      title,
+      description,
+      location,
+      url,
+      isPrivate,
+      isAllDay,
+      start,
+      end,
+      timezone,
     } = this;
 
-    const etag = await this.getEtag($, calendarId, eventId);
+    const etag = await getEtag($, calendarId, eventId);
 
-    const attendees = [];
-    attendees.push(...this.formatAttendees(this.guestAttendees, 0));
-    attendees.push(...this.formatAttendees(this.viewAttendees, 1));
-    attendees.push(...this.formatAttendees(this.inviteAttendees, 2));
-    attendees.push(...this.formatAttendees(this.editAttendees, 3));
+    const attendees = [
+      ...formatAttendees(guestAttendees, 0),
+      ...formatAttendees(viewAttendees, 1),
+      ...formatAttendees(inviteAttendees, 2),
+      ...formatAttendees(editAttendees, 3),
+    ];
 
     const data = {
       dateandtime: {
-        start: this.startTime,
-        end: this.endTime,
-        timezone: this.timezone,
+        start: utils.formatDateTime(start),
+        end: utils.formatDateTime(end),
+        timezone,
       },
-      title: this.title,
-      description: this.description,
-      isprivate: this.isPrivate,
-      isallday: this.isAllDay,
-      location: this.location,
-      url: this.url,
+      title,
+      description,
+      isprivate: isPrivate,
+      isallday: isAllDay,
+      location,
+      url,
       etag,
       attendees: attendees.length
         ? attendees
@@ -158,7 +180,7 @@ export default {
       ? "updateEvent"
       : "createEvent";
 
-    const result = await this.app[method]({
+    const result = await app[method]({
       $,
       calendarId,
       eventId,

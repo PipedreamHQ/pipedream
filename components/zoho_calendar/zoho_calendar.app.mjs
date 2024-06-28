@@ -34,6 +34,11 @@ export default {
         }));
       },
     },
+    dateTime: {
+      type: "string",
+      label: "Date Time",
+      description: "You can type date times in natural language, e.g. `1 hour ago` or `in 30 minutes`. To see more examples, check the [SugarJS parsing documentation here](https://sugarjs.com/dates/#/Parsing).",
+    },
   },
   methods: {
     _getBaseUrl() {

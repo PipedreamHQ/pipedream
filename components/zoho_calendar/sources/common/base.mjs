@@ -33,4 +33,27 @@ export default {
       return +new Date(date.replace(pattern, "$1-$2-$3T$4:$5:$6Z"));
     },
   },
+  async run({ $ }) {
+    const { calendarId } = this;
+
+    const params = {
+      lastmodified: this.getLastModified(),
+    };
+
+    const { events } = await this.app.listEvents({
+      $,
+      calendarId,
+      params,
+    });
+    const sortedEvents = events
+      .filter(({ estatus }) => estatus === "added")
+      .sort((a, b) => a.createdtime_millis - b.createdtime_millis);
+
+    for (const event of sortedEvents) {
+      this.$emit(event, this.generateMeta(event));
+      this.setLastModified(
+        this.convertToMs(event.lastmodifiedtime),
+      );
+    }
+  },
 };
