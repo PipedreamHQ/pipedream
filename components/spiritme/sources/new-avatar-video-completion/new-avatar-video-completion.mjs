@@ -66,6 +66,7 @@ export default {
             break;
           }
         }
+        params.offset += params.limit;
         total = results?.length;
       } while (total === params.limit && (!max || videos.length < max));
 
