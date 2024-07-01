@@ -2145,6 +2145,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/deftship:
+    specifiers: {}
+
   components/degreed:
     specifiers: {}
 
