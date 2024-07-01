@@ -1,14 +1,26 @@
 import common from "../common/common.mjs";
+import { ENGAGEMENT_TYPES } from "../../common/object-types.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-engagement",
   name: "New Engagement",
   description: "Emit new event for each new engagement created. This action returns a maximum of 5000 records at a time, make sure you set a correct time range so you don't miss any events",
-  version: "0.0.18",
+  version: "0.0.19",
   dedupe: "unique",
   type: "source",
-  hooks: {},
+  props: {
+    ...common.props,
+    types: {
+      type: "string[]",
+      label: "Engagement Types",
+      description: "Filter results by the type of engagment",
+      options: ENGAGEMENT_TYPES,
+      optional: true,
+    },
+  },
   methods: {
     ...common.methods,
     getTs(engagement) {
@@ -27,13 +39,21 @@ export default {
       };
     },
     isRelevant(engagement, createdAfter) {
-      return this.getTs(engagement) > createdAfter;
+      if (this.getTs(engagement) < createdAfter) {
+        return false;
+      }
+      if (this.types?.length) {
+        return this.types.includes(engagement.engagement.type);
+      }
+      return true;
     },
   },
   async run() {
     const createdAfter = this._getAfter();
     const params = {
-      limit: 250,
+      params: {
+        limit: DEFAULT_LIMIT,
+      },
     };
 
     await this.paginateUsingHasMore(
@@ -44,4 +64,5 @@ export default {
       20,
     );
   },
+  sampleEmit,
 };

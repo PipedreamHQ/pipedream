@@ -755,6 +755,9 @@ importers:
       mssql: 10.0.1
       uuid: 9.0.1
 
+  components/backblaze:
+    specifiers: {}
+
   components/badger_maps:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1852,6 +1855,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/control_d:
+    specifiers: {}
+
   components/convenia:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2138,6 +2144,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.6.2
+
+  components/deftship:
+    specifiers: {}
 
   components/degreed:
     specifiers: {}
@@ -2892,6 +2901,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/faceup:
+    specifiers: {}
 
   components/facturadirecta:
     specifiers: {}
@@ -4227,6 +4239,9 @@ importers:
   components/hygraph:
     specifiers: {}
 
+  components/hypeauditor:
+    specifiers: {}
+
   components/hyperise:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -4449,7 +4464,10 @@ importers:
     specifiers: {}
 
   components/invision_community:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/invoicing_plus:
     specifiers: {}
@@ -8371,6 +8389,9 @@ importers:
   components/smarty:
     specifiers: {}
 
+  components/smartymeet:
+    specifiers: {}
+
   components/smiirl:
     specifiers:
       '@smiirl/smiirl-library-js': ^1.0.5
@@ -8530,7 +8551,10 @@ importers:
       form-data: 4.0.0
 
   components/spiritme:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/splitwise:
     specifiers:
@@ -9931,6 +9955,9 @@ importers:
     specifiers: {}
 
   components/wati:
+    specifiers: {}
+
+  components/watsonx_ai:
     specifiers: {}
 
   components/wave:
@@ -14704,7 +14731,7 @@ packages:
       '@types/node': 18.19.8
       cachedir: 2.4.0
       charm: 1.0.2
-      minimatch: 9.0.3
+      minimatch: 9.0.5
       tar: 6.2.1
       tar-stream: 3.1.6
       which: 4.0.0
@@ -19478,7 +19505,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.2
       '@types/keyv': 3.1.4
-      '@types/node': 20.14.8
+      '@types/node': 20.14.9
       '@types/responselike': 1.0.1
     dev: false
 
@@ -19709,6 +19736,7 @@ packages:
     resolution: {integrity: sha512-DO+2/jZinXfROG7j7WKFn/3C6nFwxy2lLpgLjEXJz+0XKphZlTLJ14mo8Vfg8X5BWN6XjyESXq+LcYdT7tR3bA==}
     dependencies:
       undici-types: 5.26.5
+    dev: true
 
   /@types/node/20.14.9:
     resolution: {integrity: sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==}
@@ -21161,7 +21189,7 @@ packages:
     dependencies:
       buffer: 6.0.3
       inherits: 2.0.4
-      readable-stream: 4.4.2
+      readable-stream: 4.5.2
     dev: false
 
   /bluebird/3.7.2:
@@ -23330,7 +23358,7 @@ packages:
     dependencies:
       get-intrinsic: 1.2.4
       has-tostringtag: 1.0.2
-      hasown: 2.0.1
+      hasown: 2.0.2
 
   /es-shim-unscopables/1.0.0:
     resolution: {integrity: sha512-Jm6GPcCdC30eMLbZ2x8z2WuRwAws3zTBBKuusffYVUrNj/GVSUAZ+xKMaUpfNDR5IbyNA5LJbaecoUVbmUcB1w==}
@@ -23340,7 +23368,7 @@ packages:
   /es-shim-unscopables/1.0.2:
     resolution: {integrity: sha512-J3yBRXCzDu4ULnQwxyToo/OjdMx6akgVC7K6few0a7F/0wLtmKKN7I73AH5T2836UuXRqN7Qg+IIUw/+YJksRw==}
     dependencies:
-      hasown: 2.0.1
+      hasown: 2.0.2
     dev: true
 
   /es-to-primitive/1.2.1:
@@ -24808,7 +24836,7 @@ packages:
       function-bind: 1.1.2
       has-proto: 1.0.1
       has-symbols: 1.0.3
-      hasown: 2.0.1
+      hasown: 2.0.2
 
   /get-package-type/0.1.0:
     resolution: {integrity: sha512-pjzuKtY64GYfWizNAJ0fr9VqttZkNiK2iS430LtIHzjBEr6bX8Am2zm4sW4Ro5wjWW5cAlRL1qAMTcXbjNAO2Q==}
@@ -24920,8 +24948,8 @@ packages:
     dependencies:
       foreground-child: 3.2.1
       jackspeak: 2.3.6
-      minimatch: 9.0.3
-      minipass: 5.0.0
+      minimatch: 9.0.5
+      minipass: 7.1.2
       path-scurry: 1.11.1
     dev: true
 
@@ -25599,6 +25627,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       function-bind: 1.1.2
+    dev: true
 
   /hasown/2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
@@ -25991,7 +26020,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       es-errors: 1.3.0
-      hasown: 2.0.1
+      hasown: 2.0.2
       side-channel: 1.0.6
 
   /invariant/2.2.4:
@@ -26103,7 +26132,6 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       hasown: 2.0.2
-    dev: true
 
   /is-data-view/1.0.1:
     resolution: {integrity: sha512-AHkaJrsUVW6wq6JS8y3JnM/GJF/9cf+k20+iDzlSaJrinEo5+7vRiteOSwBhHRiAyQATN1AmY4hwzxJKPmYf+w==}
@@ -29053,13 +29081,6 @@ packages:
       brace-expansion: 2.0.1
     dev: false
 
-  /minimatch/9.0.3:
-    resolution: {integrity: sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==}
-    engines: {node: '>=16 || 14 >=14.17'}
-    dependencies:
-      brace-expansion: 2.0.1
-    dev: true
-
   /minimatch/9.0.5:
     resolution: {integrity: sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -29635,7 +29656,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       hosted-git-info: 4.1.0
-      is-core-module: 2.13.0
+      is-core-module: 2.14.0
       semver: 7.5.4
       validate-npm-package-license: 3.0.4
     dev: true
@@ -31456,17 +31477,6 @@ packages:
       string_decoder: 1.3.0
       util-deprecate: 1.0.2
 
-  /readable-stream/4.4.2:
-    resolution: {integrity: sha512-Lk/fICSyIhodxy1IDK2HazkeGjSmezAWX2egdtJnYhtzKEsBPJowlI6F6LPb5tqIQILrMbx22S5o3GuJavPusA==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    dependencies:
-      abort-controller: 3.0.0
-      buffer: 6.0.3
-      events: 3.3.0
-      process: 0.11.10
-      string_decoder: 1.3.0
-    dev: false
-
   /readable-stream/4.5.2:
     resolution: {integrity: sha512-yjavECdqeZ3GLXNgRXgeQEdz9fvDDkNKyHnbHRFtOr7/LcfgBcmct7t/ET+HaCTqfh06OzoAxrkN/IfjJBVe+g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -32007,7 +32017,7 @@ packages:
     resolution: {integrity: sha512-iMDbmAWtfU+MHpxt/I5iWI7cY6YVEZUQ3MBgPQ++XD1PELuJHIl82xBmObyP2KyQmkNB2dsqF7seoQQiAn5yDQ==}
     hasBin: true
     dependencies:
-      is-core-module: 2.13.0
+      is-core-module: 2.14.0
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
     dev: false
@@ -32016,7 +32026,7 @@ packages:
     resolution: {integrity: sha512-U7WjGVG9sH8tvjW5SmGbQuui75FiyjAX72HX15DwBBwF9dNiQZRQAg9nnPhYy+TUnE0+VcrttuvNI8oSxZcocA==}
     hasBin: true
     dependencies:
-      is-core-module: 2.13.0
+      is-core-module: 2.14.0
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
