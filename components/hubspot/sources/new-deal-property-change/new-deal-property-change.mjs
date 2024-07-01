@@ -1,12 +1,13 @@
 import common from "../common/common.mjs";
-import { API_PATH } from "../../common/constants.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-deal-property-change",
   name: "New Deal Property Change",
   description: "Emit new event when a specified property is provided or updated on a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals)",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   props: {
@@ -45,50 +46,48 @@ export default {
     getParams(after) {
       return {
         object: "deals",
-        limit: 50,
-        properties: [
-          this.property,
-        ],
-        sorts: [
-          {
-            propertyName: "hs_lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
-        filterGroups: [
-          {
-            filters: [
-              {
-                propertyName: this.property,
-                operator: "HAS_PROPERTY",
-              },
-              {
-                propertyName: "hs_lastmodifieddate",
-                operator: "GTE",
-                value: after,
-              },
-            ],
-          },
-        ],
+        data: {
+          limit: DEFAULT_LIMIT,
+          properties: [
+            this.property,
+          ],
+          sorts: [
+            {
+              propertyName: "hs_lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+          filterGroups: [
+            {
+              filters: [
+                {
+                  propertyName: this.property,
+                  operator: "HAS_PROPERTY",
+                },
+                {
+                  propertyName: "hs_lastmodifieddate",
+                  operator: "GTE",
+                  value: after,
+                },
+              ],
+            },
+          ],
+        },
       };
     },
-    async batchGetDeals(inputs) {
-      return this.hubspot.makeRequest(
-        API_PATH.CRMV3,
-        "/objects/deals/batch/read",
-        {
-          method: "POST",
-          data: {
-            properties: [
-              this.property,
-            ],
-            propertiesWithHistory: [
-              this.property,
-            ],
-            inputs,
-          },
+    batchGetDeals(inputs) {
+      return this.hubspot.batchGetObjects({
+        objectType: "deals",
+        data: {
+          properties: [
+            this.property,
+          ],
+          propertiesWithHistory: [
+            this.property,
+          ],
+          inputs,
         },
-      );
+      });
     },
     async processResults(after, params) {
       const properties = await this.hubspot.getDealProperties();
@@ -111,4 +110,5 @@ export default {
       this.processEvents(results, after);
     },
   },
+  sampleEmit,
 };
