@@ -204,7 +204,7 @@ export default {
 
       const filteredSegments = dateRange
         ? segments
-        : segments.filter((i) => i !== "segments.date");
+        : segments?.filter((i) => i !== "segments.date");
 
       const selection = [
         ...(fields ?? []),
