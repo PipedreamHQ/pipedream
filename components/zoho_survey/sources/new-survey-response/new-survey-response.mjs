@@ -43,6 +43,15 @@ export default {
       recursiveSearch(obj);
       return labels;
     },
+    formatValue(value) {
+      return typeof value === "string"
+        ? decode(value)
+        : Array.isArray(value)
+          ? value.map((v) => v
+            ? decode(v)
+            : "")
+          : "";
+    },
     async formatResponse(body) {
       const { variables } = await this.zohoSurvey.listSurveyFields({
         portalId: this.portalId,
@@ -63,15 +72,9 @@ export default {
         response[key] = labels[key]
           ? {
             label: decode(labels[key]),
-            value: typeof value === "string"
-              ? decode(value)
-              : Array.isArray(value)
-                ? value.map((v) => v
-                  ? decode(v)
-                  : "")
-                : "",
+            value: this.formatValue(value),
           }
-          : decode(value);
+          : this.formatValue(value);
       }
       for (const [
         key,
