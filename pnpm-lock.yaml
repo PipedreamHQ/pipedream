@@ -9948,6 +9948,9 @@ importers:
   components/wati:
     specifiers: {}
 
+  components/watsonx_ai:
+    specifiers: {}
+
   components/wave:
     specifiers: {}
 
