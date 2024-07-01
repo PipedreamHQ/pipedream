@@ -73,7 +73,7 @@ function listCampaigns({
   const defaultFields = [
     "id",
     "name",
-  ];
+  ].map((s) => `campaign.${s}`);
   if (typeof fields === "string") {
     fields = fields.split(",").map((s) => s.trim());
   }
@@ -91,7 +91,22 @@ function listCampaigns({
     ? ` WHERE ${savedIds.map((id) => `campaign.id != ${id}`).join(" AND ")}`
     : "";
 
-  return `SELECT ${fields.map((s) => `campaign.${s}`).join(", ")} FROM campaign${filter}`;
+  return `SELECT ${fields.join(", ")} FROM campaign${filter}`;
+}
+
+function listResources(resource, query) {
+  const name = resource === "customer"
+    ? "descriptive_name"
+    : "name";
+  const fieldResource = resource === "ad_group_ad"
+    ? "ad_group_ad.ad"
+    : resource;
+
+  let result = `SELECT ${fieldResource}.id, ${fieldResource}.${name} FROM ${resource}`;
+  if (query) {
+    result += ` WHERE ${fieldResource}.${name} LIKE '%${query}%'`;
+  }
+  return result;
 }
 
 export const QUERIES = {
@@ -101,5 +116,6 @@ export const QUERIES = {
   listLeadForms,
   listLeadFormSubmissionData,
   listRemarketingActions,
+  listResources,
   listUserLists,
 };
