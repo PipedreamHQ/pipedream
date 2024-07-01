@@ -1,3 +1,5 @@
+import { getOption } from "../utils.mjs";
+
 const fields = [
   "auto_tagging_enabled",
   "call_reporting_setting.call_conversion_action",
@@ -32,7 +34,7 @@ const fields = [
   "time_zone",
   "tracking_url_template",
   "video_brand_safety_suitability",
-];
+].map((f) => getOption(f, "customer"));
 
 const segments = [
   "ad_network_type",
@@ -61,7 +63,7 @@ const segments = [
   "sk_ad_network_source_type",
   "sk_ad_network_user_type",
   "slot",
-];
+].map((f) => getOption(f, "segments"));
 
 const metrics = [
   "absolute_top_impression_percentage",
@@ -160,7 +162,7 @@ const metrics = [
   "view_through_conversions_from_location_asset_other_engagement",
   "view_through_conversions_from_location_asset_store_visits",
   "view_through_conversions_from_location_asset_website",
-];
+].map((f) => getOption(f, "metrics"));
 
 const resourceOption = {
   label: "Customer",

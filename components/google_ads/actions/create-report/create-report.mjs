@@ -108,7 +108,7 @@ export default {
         description: "Select any segments you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/fields/v16/segments)",
         options: resource.segments,
         default: [
-          "date",
+          "segments.date",
         ],
         optional: true,
         reloadProps: true,
@@ -199,16 +199,17 @@ export default {
     },
     buildQuery() {
       const {
-        resource, limit, orderBy, direction, objectFilter, dateRange,
+        resource, fields, segments, metrics, limit, orderBy, direction, objectFilter, dateRange,
       } = this;
-      const fields = this.fields?.map((i) => `${resource}.${i}`) ?? [];
-      const segments = this.segments?.map((i) => `segments.${i}`) ?? [];
-      const metrics = this.metrics?.map((i) => `metrics.${i}`) ?? [];
+
+      const filteredSegments = dateRange
+        ? segments
+        : segments.filter((i) => i !== "segments.date");
 
       const selection = [
-        ...fields,
-        ...segments,
-        ...metrics,
+        ...(fields ?? []),
+        ...(filteredSegments ?? []),
+        ...(metrics ?? []),
       ];
 
       if (!selection.length) {
@@ -216,12 +217,6 @@ export default {
       }
 
       let query = `SELECT ${selection.join(", ")} FROM ${resource}`;
-      if (orderBy && direction) {
-        query += ` ORDER BY ${`${resource}.${orderBy}`} ${direction}`;
-      }
-      if (limit) {
-        query += ` LIMIT ${limit}`;
-      }
       if (objectFilter) {
         query += ` WHERE ${resource === "ad_group_ad"
           ? "ad_group_ad.ad"
@@ -234,6 +229,13 @@ export default {
         query += ` ${objectFilter
           ? "AND"
           : "WHERE"} segments.date ${dateClause}`;
+      }
+
+      if (orderBy && direction) {
+        query += ` ORDER BY ${orderBy} ${direction}`;
+      }
+      if (limit) {
+        query += ` LIMIT ${limit}`;
       }
 
       return query;
@@ -252,7 +254,7 @@ export default {
 
     const { length } = results;
 
-    $.export("$summary", `Sucessfully obtained ${length} result${length === 1
+    $.export("$summary", `Successfully obtained ${length} result${length === 1
       ? ""
       : "s"}`);
     return {

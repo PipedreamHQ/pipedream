@@ -30,3 +30,10 @@ export function parseStringObject(value = "{}") {
 **${err.toString()}**`);
   }
 }
+
+export function getOption(label, prefix) {
+  return {
+    label,
+    value: `${prefix}.${label}`,
+  };
+}

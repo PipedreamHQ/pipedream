@@ -1,3 +1,5 @@
+import { getOption } from "../utils.mjs";
+
 const fields = [
   "accessible_bidding_strategy",
   "ad_serving_optimization_status",
@@ -93,7 +95,7 @@ const fields = [
   "vanity_pharma.vanity_pharma_display_url_mode",
   "vanity_pharma.vanity_pharma_text",
   "video_brand_safety_suitability",
-];
+].map((f) => getOption(f, "campaign"));
 
 const segments = [
   "ad_destination_type",
@@ -126,7 +128,7 @@ const segments = [
   "sk_ad_network_source_type",
   "sk_ad_network_user_type",
   "slot",
-];
+].map((f) => getOption(f, "segments"));
 
 const metrics = [
   "absolute_top_impression_percentage",
@@ -268,7 +270,7 @@ const metrics = [
   "view_through_conversions_from_location_asset_other_engagement",
   "view_through_conversions_from_location_asset_store_visits",
   "view_through_conversions_from_location_asset_website",
-];
+].map((f) => getOption(f, "metrics"));
 
 const resourceOption = {
   label: "Campaign",

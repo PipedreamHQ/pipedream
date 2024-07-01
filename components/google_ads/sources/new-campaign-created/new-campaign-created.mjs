@@ -24,8 +24,8 @@ export default {
       options: campaign.fields,
       optional: true,
       default: [
-        "id",
-        "name",
+        "campaign.id",
+        "campaign.name",
       ],
     },
   },
