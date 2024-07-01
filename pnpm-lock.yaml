@@ -4227,6 +4227,9 @@ importers:
   components/hygraph:
     specifiers: {}
 
+  components/hypeauditor:
+    specifiers: {}
+
   components/hyperise:
     specifiers:
       '@pipedream/platform': ^1.6.0
