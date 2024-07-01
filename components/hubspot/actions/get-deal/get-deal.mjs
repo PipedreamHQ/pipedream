@@ -1,12 +1,12 @@
 import { OBJECT_TYPE } from "../../common/constants.mjs";
-import common from "../common-get-object.mjs";
+import common from "../common/common-get-object.mjs";
 
 export default {
   ...common,
   key: "hubspot-get-deal",
   name: "Get Deal",
   description: "Gets a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=GET-/crm/v3/objects/deals/{dealId})",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,

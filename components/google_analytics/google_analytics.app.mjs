@@ -1,5 +1,6 @@
 import analyticsreporting from "@googleapis/analyticsreporting";
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -24,51 +25,8 @@ export default {
     },
   },
   methods: {
-    monthAgo() {
-      const monthAgo = new Date();
-      monthAgo.setMonth(monthAgo.getMonth() - 1);
-      return monthAgo.toISOString().split("T")[0];
-    },
     _accessToken() {
       return this.$auth.oauth_access_token;
-    },
-    getHeaders(headers = {}) {
-      return {
-        authorization: `Bearer ${this._accessToken()}`,
-        ...headers,
-      };
-    },
-    makeRequest(customConfig) {
-      const {
-        $ = this,
-        headers,
-        ...otherConfig
-      } = customConfig;
-
-      const config = {
-        headers: this.getHeaders(headers),
-        ...otherConfig,
-      };
-      return axios($, config);
-    },
-    async queryReportsGA4(args = {}) {
-      return this.makeRequest({
-        url: `https://analyticsdata.googleapis.com/v1beta/properties/${args.property}:runReport`,
-        method: "POST",
-        ...args,
-      });
-    },
-    async listAccounts() {
-      return this.makeRequest({
-        url: "https://analyticsadmin.googleapis.com/v1beta/accounts",
-      });
-    },
-    async createProperty(args) {
-      return this.makeRequest({
-        url: "https://analyticsadmin.googleapis.com/v1beta/properties",
-        method: "POST",
-        ...args,
-      });
     },
     client() {
       const auth = new analyticsreporting.auth.OAuth2();
@@ -80,9 +38,55 @@ export default {
         auth,
       });
     },
-    async queryReports(data) {
+    queryReports(data) {
       const client = this.client();
       return client.reports.batchGet(data);
+    },
+    getHeaders(headers = {}) {
+      return {
+        authorization: `Bearer ${this._accessToken()}`,
+        ...headers,
+      };
+    },
+    getUrl(path, api = constants.API.ADMIN) {
+      return `${api.BASE_URL}${api.VERSION_PATH}${path}`;
+    },
+    makeRequest({
+      $ = this, path, headers, api, ...args
+    } = {}) {
+      const config = {
+        url: this.getUrl(path, api),
+        headers: this.getHeaders(headers),
+        ...args,
+      };
+      return axios($, config);
+    },
+    post(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        ...args,
+      });
+    },
+    createProperty(args) {
+      return this.post({
+        path: "/properties",
+        ...args,
+      });
+    },
+    listAccounts(args = {}) {
+      return this.makeRequest({
+        path: "/accounts",
+        ...args,
+      });
+    },
+    queryReportsGA4({
+      property, ...args
+    } = {}) {
+      return this.post({
+        api: constants.API.DATA,
+        path: `/properties/${property}:runReport`,
+        ...args,
+      });
     },
   },
 };
