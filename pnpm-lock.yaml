@@ -2893,6 +2893,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/faceup:
+    specifiers: {}
+
   components/facturadirecta:
     specifiers: {}
 
