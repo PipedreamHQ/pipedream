@@ -1,14 +1,35 @@
 import common from "../common/common.mjs";
+import {
+  DEFAULT_LIMIT, DEFAULT_TICKET_PROPERTIES,
+} from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-ticket",
-  name: "New Tickets",
+  name: "New Ticket",
   description: "Emit new event for each new ticket created.",
-  version: "0.0.13",
+  version: "0.0.14",
   dedupe: "unique",
   type: "source",
-  hooks: {},
+  props: {
+    ...common.props,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: `Properties:\n\`${DEFAULT_TICKET_PROPERTIES.join(", ")}\``,
+    },
+    properties: {
+      propDefinition: [
+        common.props.hubspot,
+        "ticketProperties",
+        () => ({
+          excludeDefaultProperties: true,
+        }),
+      ],
+      label: "Additional properties to retrieve",
+    },
+  },
   methods: {
     ...common.methods,
     getTs(ticket) {
@@ -30,14 +51,21 @@ export default {
       return this.getTs(ticket) > createdAfter;
     },
     getParams() {
+      const { properties = [] } = this;
       return {
-        limit: 100,
-        sorts: [
-          {
-            propertyName: "createdate",
-            direction: "DESCENDING",
-          },
-        ],
+        data: {
+          limit: DEFAULT_LIMIT,
+          sorts: [
+            {
+              propertyName: "createdate",
+              direction: "DESCENDING",
+            },
+          ],
+          properties: [
+            ...DEFAULT_TICKET_PROPERTIES,
+            ...properties,
+          ],
+        },
         object: "tickets",
       };
     },
@@ -45,4 +73,5 @@ export default {
       await this.searchCRM(params, after);
     },
   },
+  sampleEmit,
 };

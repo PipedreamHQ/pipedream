@@ -1,12 +1,21 @@
 const MODEL_OPTIONS = [
-  "medium",
-  "xlarge",
-];
-
-const RETURN_LIKELIHOODS_OPTIONS = [
-  "GENERATION",
-  "ALL",
-  "NONE",
+  "command-r-plus",
+  "command-r",
+  "command",
+  "command-nightly",
+  "command-light",
+  "command-light-nightly",
+  "embed-english-v3.0",
+  "embed-english-light-v3.0",
+  "embed-multilingual-v3.0",
+  "embed-multilingual-light-v3.0",
+  "embed-english-v2.0",
+  "embed-english-light-v2.0",
+  "embed-multilingual-v2.0",
+  "rerank-english-v3.0",
+  "rerank-multilingual-v3.0",
+  "rerank-english-v2.0",
+  "rerank-multilingual-v2.0",
 ];
 
 const TRUNCATE_OPTIONS = [
@@ -21,30 +30,8 @@ const CLASSIFY_MODEL_OPTIONS = [
   "embed-english-v2.0",
 ];
 
-const SUMMARY_LENGTH_OPTIONS = [
-  "short",
-  "medium",
-  "long",
-  "auto",
-];
-
-const SUMMARY_FORMAT_OPTIONS = [
-  "paragraph",
-  "bullets",
-  "auto",
-];
-
-const SUMMARY_MODEL_OPTIONS = [
-  "summarize-medium",
-  "summarize-xlarge",
-];
-
 export default {
   MODEL_OPTIONS,
-  RETURN_LIKELIHOODS_OPTIONS,
   TRUNCATE_OPTIONS,
   CLASSIFY_MODEL_OPTIONS,
-  SUMMARY_LENGTH_OPTIONS,
-  SUMMARY_FORMAT_OPTIONS,
-  SUMMARY_MODEL_OPTIONS,
 };

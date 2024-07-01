@@ -1,12 +1,14 @@
 import common from "../common/common.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-event",
   name: "New Events",
   description: "Emit new event for each new Hubspot event. Note: Only available for Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise accounts",
-  version: "0.0.17",
+  version: "0.0.18",
   dedupe: "unique",
   type: "source",
   props: {
@@ -31,8 +33,10 @@ export default {
     async deploy() {
       try {
         await this.hubspot.getEvents({
-          objectType: this.objectType,
-          objectId: this.objectIds[0],
+          params: {
+            objectType: this.objectType,
+            objectId: this.objectIds[0],
+          },
         });
       }
       catch {
@@ -61,10 +65,12 @@ export default {
     },
     getEventParams(objectId, occurredAfter) {
       return {
-        limit: 100,
-        objectType: this.objectType,
-        objectId,
-        occurredAfter,
+        params: {
+          limit: DEFAULT_LIMIT,
+          objectType: this.objectType,
+          objectId,
+          occurredAfter,
+        },
       };
     },
     async processResults(after) {
@@ -79,4 +85,5 @@ export default {
       }
     },
   },
+  sampleEmit,
 };
