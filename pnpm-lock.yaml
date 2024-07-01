@@ -8533,7 +8533,10 @@ importers:
       form-data: 4.0.0
 
   components/spiritme:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/splitwise:
     specifiers:
