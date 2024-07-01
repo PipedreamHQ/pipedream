@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/serpapi",
+  "version": "0.0.1",
+  "description": "Pipedream SerpApi Components",
+  "main": "serpapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "serpapi"
+  ],
+  "homepage": "https://pipedream.com/apps/serpapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
