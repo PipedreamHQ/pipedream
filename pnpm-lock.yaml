@@ -2983,7 +2983,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/fillout:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/filter:
     specifiers:
