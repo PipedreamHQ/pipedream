@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hypeauditor",
+  "version": "0.0.1",
+  "description": "Pipedream HypeAuditor Components",
+  "main": "hypeauditor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hypeauditor"
+  ],
+  "homepage": "https://pipedream.com/apps/hypeauditor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
