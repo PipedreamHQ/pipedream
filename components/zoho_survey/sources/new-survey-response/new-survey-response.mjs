@@ -7,7 +7,7 @@ export default {
   key: "zoho_survey-new-survey-response",
   name: "New Survey Response (Instant)",
   description: "Emit new event when a new survey response is received in Zoho Surveys.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -25,18 +25,32 @@ export default {
     },
     collectFieldLabels(obj) {
       const labels = {};
-      function recursiveSearch(obj) {
+      function recursiveSearch(obj, primaryLabel) {
         if (Array.isArray(obj)) {
-          obj.forEach((item) => recursiveSearch(item));
-        } else if (obj && typeof obj === "object") {
-          if ("label" in obj && "key" in obj) {
-            labels[obj.key] = obj.label;
-          }
-          Object.values(obj).forEach((value) => recursiveSearch(value));
+          obj.forEach((question) => recursiveSearch(question, primaryLabel));
+        }
+        if ("variables" in obj && "label" in obj) {
+          recursiveSearch(obj.variables, `${primaryLabel
+            ? primaryLabel + " - "
+            : ""}${obj.label}`);
+        }
+        if ("label" in obj && "key" in obj) {
+          labels[obj.key] = `${primaryLabel
+            ? primaryLabel + " - "
+            : ""}${obj.label}`;
         }
       }
       recursiveSearch(obj);
       return labels;
+    },
+    formatValue(value) {
+      return typeof value === "string"
+        ? decode(value)
+        : Array.isArray(value)
+          ? value.map((v) => v
+            ? decode(v)
+            : "")
+          : "";
     },
     async formatResponse(body) {
       const { variables } = await this.zohoSurvey.listSurveyFields({
@@ -58,9 +72,9 @@ export default {
         response[key] = labels[key]
           ? {
             label: decode(labels[key]),
-            value: decode(value),
+            value: this.formatValue(value),
           }
-          : decode(value);
+          : this.formatValue(value);
       }
       for (const [
         key,
@@ -69,6 +83,7 @@ export default {
         if (!response[key]) {
           response[key] = {
             label: decode(value),
+            value: "",
           };
         }
       }
