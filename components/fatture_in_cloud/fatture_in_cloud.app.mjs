@@ -1,142 +1,149 @@
 import { axios } from "@pipedream/platform";
+import { EVENT_TYPES_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "fatture_in_cloud",
   propDefinitions: {
-    companyid: {
+    companyId: {
       type: "string",
       label: "Company ID",
       description: "The ID of the company",
+      async options({ page }) {
+        const { data: { companies } } = await this.listCompanies({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return companies.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    eventtype: {
-      type: "string",
-      label: "Event Type",
-      description: "The type of the event",
-    },
-    clientid: {
+    clientId: {
       type: "string",
       label: "Client ID",
       description: "The ID of the client",
+      async options({
+        page, companyId,
+      }) {
+        const { data } = await this.listClients({
+          companyId,
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the client",
-    },
-    code: {
-      type: "string",
-      label: "Code",
-      description: "The code of the client",
-      optional: true,
-    },
-    type: {
-      type: "string",
-      label: "Type",
-      description: "The type of the client",
-      optional: true,
-    },
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The first name of the client",
-      optional: true,
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The last name of the client",
-      optional: true,
-    },
-    vatNumber: {
-      type: "string",
-      label: "VAT Number",
-      description: "The VAT number of the client",
-      optional: true,
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email address of the client",
-      optional: true,
-    },
-    phone: {
-      type: "string",
-      label: "Phone",
-      description: "The phone number of the client",
-      optional: true,
+    eventTypes: {
+      type: "string[]",
+      label: "Event Types",
+      description: "The types of the event.",
+      options: EVENT_TYPES_OPTIONS,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.fattureincloud.it/v1";
+      return "https://api-v2.fattureincloud.it";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async emitEnrichedEventWebhook({
-      companyid, eventtype,
-    }) {
-      this.$emit({
-        companyid,
-        eventtype,
-      }, {
-        summary: `New enriched event: ${eventtype}`,
-        id: `${companyid}-${eventtype}`,
-      });
-    },
-    async emitRawEventWebhook({
-      companyid, eventtype,
-    }) {
-      this.$emit({
-        companyid,
-        eventtype,
-      }, {
-        summary: `New raw event: ${eventtype}`,
-        id: `${companyid}-${eventtype}`,
-      });
-    },
-    async createClient({
-      companyid, name, code, type, firstName, lastName, vatNumber, email, phone,
+    createWebhook({
+      companyId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/companies/${companyid}/clients`,
-        data: {
-          name,
-          code,
-          type,
-          first_name: firstName,
-          last_name: lastName,
-          vat_number: vatNumber,
-          email,
-          phone,
-        },
+        path: `/c/${companyId}/subscriptions`,
+        ...opts,
       });
     },
-    async listClients({ companyid }) {
-      return this._makeRequest({
-        path: `/companies/${companyid}/clients`,
-      });
-    },
-    async removeClient({
-      companyid, clientid,
+    deleteWebhook({
+      companyId, webhookId,
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/companies/${companyid}/clients/${clientid}`,
+        path: `/c/${companyId}/subscriptions/${webhookId}`,
       });
+    },
+    createClient({
+      companyId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/c/${companyId}/entities/clients`,
+        ...opts,
+      });
+    },
+    listClients({ companyId }) {
+      return this._makeRequest({
+        path: `/c/${companyId}/entities/clients`,
+      });
+    },
+    listCompanies(opts = {}) {
+      return this._makeRequest({
+        path: "/user/companies/",
+        ...opts,
+      });
+    },
+    removeClient({
+      companyId, clientId,
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/c/${companyId}/entities/clients/${clientId}`,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          data,
+          current_page,
+          last_page,
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = !(current_page == last_page);
+
+      } while (hasMore);
     },
   },
 };

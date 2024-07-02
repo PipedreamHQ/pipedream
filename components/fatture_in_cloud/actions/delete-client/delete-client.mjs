@@ -1,33 +1,36 @@
-import fatture_in_cloud from "../../fatture_in_cloud.app.mjs";
-import { axios } from "@pipedream/platform";
+import fattureInCloud from "../../fatture_in_cloud.app.mjs";
 
 export default {
   key: "fatture_in_cloud-delete-client",
   name: "Delete Client",
   description: "Removes a client from the list. [See the documentation](https://developers.fattureincloud.it/api-reference)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    fatture_in_cloud,
-    companyid: {
+    fattureInCloud,
+    companyId: {
       propDefinition: [
-        fatture_in_cloud,
-        "companyid",
+        fattureInCloud,
+        "companyId",
       ],
     },
-    clientid: {
+    clientId: {
       propDefinition: [
-        fatture_in_cloud,
-        "clientid",
+        fattureInCloud,
+        "clientId",
+        ({ companyId }) => ({
+          companyId,
+        }),
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.fatture_in_cloud.removeClient({
-      companyid: this.companyid,
-      clientid: this.clientid,
+    const response = await this.fattureInCloud.removeClient({
+      $,
+      companyId: this.companyId,
+      clientId: this.clientId,
     });
-    $.export("$summary", `Successfully removed client with ID ${this.clientid}`);
+    $.export("$summary", `Successfully removed client with ID ${this.clientId}`);
     return response;
   },
 };

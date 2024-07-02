@@ -1,83 +1,92 @@
 import fattureInCloud from "../../fatture_in_cloud.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "fatture_in_cloud-create-client",
   name: "Create Client",
   description: "Creates a new client. [See the documentation](https://developers.fattureincloud.it/api-reference)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     fattureInCloud,
-    companyid: {
+    companyId: {
       propDefinition: [
         fattureInCloud,
-        "companyid",
+        "companyId",
       ],
     },
     name: {
-      propDefinition: [
-        fattureInCloud,
-        "name",
-      ],
+      type: "string",
+      label: "Name",
+      description: "The name of the client",
     },
     code: {
-      propDefinition: [
-        fattureInCloud,
-        "code",
-      ],
+      type: "string",
+      label: "Code",
+      description: "The code of the client",
+      optional: true,
     },
     type: {
-      propDefinition: [
-        fattureInCloud,
-        "type",
+      type: "string",
+      label: "Type",
+      description: "The type of the client",
+      options: [
+        "company",
+        "person",
+        "pa",
+        "condo",
       ],
+      optional: true,
     },
     firstName: {
-      propDefinition: [
-        fattureInCloud,
-        "firstName",
-      ],
+      type: "string",
+      label: "First Name",
+      description: "The first name of the client",
+      optional: true,
     },
     lastName: {
-      propDefinition: [
-        fattureInCloud,
-        "lastName",
-      ],
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the client",
+      optional: true,
     },
     vatNumber: {
-      propDefinition: [
-        fattureInCloud,
-        "vatNumber",
-      ],
+      type: "string",
+      label: "VAT Number",
+      description: "The VAT number of the client",
+      optional: true,
     },
     email: {
-      propDefinition: [
-        fattureInCloud,
-        "email",
-      ],
+      type: "string",
+      label: "Email",
+      description: "The email address of the client",
+      optional: true,
     },
     phone: {
-      propDefinition: [
-        fattureInCloud,
-        "phone",
-      ],
+      type: "string",
+      label: "Phone",
+      description: "The phone number of the client",
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.fattureInCloud.createClient({
-      companyid: this.companyid,
-      name: this.name,
-      code: this.code,
-      type: this.type,
-      firstName: this.firstName,
-      lastName: this.lastName,
-      vatNumber: this.vatNumber,
-      email: this.email,
-      phone: this.phone,
+      $,
+      companyId: this.companyId,
+      data: {
+        data: {
+          name: this.name,
+          code: this.code,
+          type: this.type,
+          first_name: this.firstName,
+          last_name: this.lastName,
+          vat_number: this.vatNumber,
+          email: this.email,
+          phone: this.phone,
+        },
+      },
     });
 
-    $.export("$summary", `Successfully created client with name ${this.name}`);
+    $.export("$summary", `Successfully created client with Id: ${response.data.id}`);
     return response;
   },
 };

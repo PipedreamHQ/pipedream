@@ -1,26 +1,34 @@
 import fattureInCloud from "../../fatture_in_cloud.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "fatture_in_cloud-list-clients",
   name: "List Clients",
   description: "Returns a list of all clients. [See the documentation](https://developers.fattureincloud.it/api-reference)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     fattureInCloud,
-    companyid: {
+    companyId: {
       propDefinition: [
         fattureInCloud,
-        "companyid",
+        "companyId",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.fattureInCloud.listClients({
-      companyid: this.companyid,
+    const response = this.fattureInCloud.paginate({
+      $,
+      fn: this.fattureInCloud.listClients,
+      companyId: this.companyId,
     });
-    $.export("$summary", `Successfully retrieved ${response.length} clients`);
-    return response;
+
+    const responseArray = [];
+
+    for await (const client of response) {
+      responseArray.push(client);
+    }
+
+    $.export("$summary", `Successfully retrieved ${responseArray.length} clients`);
+    return responseArray;
   },
 };
