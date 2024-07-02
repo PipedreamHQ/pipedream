@@ -1,15 +1,19 @@
 import fillout from "../../fillout.app.mjs";
-import { axios } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "fillout-new-submission-instant",
-  name: "New Submission Instant",
-  description: "Emit new event when a form receives a new submission. [See the documentation](https://www.fillout.com/help/fillout-rest-api)",
+  name: "New Submission (Instant)",
+  description: "Emit new event when a form receives a new submission.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     fillout,
+    http: {
+      type: "$.interface.http",
+      customResponse: false,
+    },
     db: "$.service.db",
     formId: {
       propDefinition: [
@@ -19,43 +23,32 @@ export default {
     },
   },
   hooks: {
-    async deploy() {
-      const submissions = await this.fillout.getFormSubmissions({
-        formId: this.formId,
-        limit: 50,
-      });
-
-      submissions.responses.slice(0, 50).forEach((submission) => {
-        this.$emit(submission, {
-          id: submission.submissionId,
-          summary: `New submission from form ${this.formId}`,
-          ts: new Date(submission.submissionTime).getTime(),
-        });
-      });
-    },
     async activate() {
-      const webhookUrl = this.http.endpoint;
-      const response = await this.fillout.createWebhook({
-        formId: this.formId,
-        url: webhookUrl,
+      const data = await this.fillout.createWebhook({
+        data: {
+          formId: this.formId,
+          url: this.http.endpoint,
+        },
       });
-      await this.db.set("webhookId", response.webhookId);
+      this.db.set("webhookId", data.id);
     },
     async deactivate() {
-      const webhookId = await this.db.get("webhookId");
+      const webhookId = this.db.get("webhookId");
       if (webhookId) {
         await this.fillout.deleteWebhook({
-          webhookId,
+          data: {
+            webhookId,
+          },
         });
       }
     },
   },
-  async run() {
-    const { body } = this.http;
+  async run({ body }) {
     this.$emit(body, {
-      id: body.submissionId,
-      summary: `New submission from form ${this.formId}`,
-      ts: new Date(body.submissionTime).getTime(),
+      id: body.submission.submissionId,
+      summary: `New submission from form ${body.submission.submissionId}`,
+      ts: body.submission.submissionTime,
     });
   },
+  sampleEmit,
 };

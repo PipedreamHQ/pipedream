@@ -16,108 +16,41 @@ export default {
         }));
       },
     },
-    form: {
-      type: "string",
-      label: "Form",
-      description: "The form to be sent",
-      async options() {
-        const forms = await this.getForms();
-        return forms.map((form) => ({
-          label: form.name,
-          value: form.formId,
-        }));
-      },
-    },
-    email: {
-      type: "string[]",
-      label: "Email Address List",
-      description: "The list of email addresses to send the form to",
-    },
-    cc: {
-      type: "string[]",
-      label: "CC",
-      description: "The list of email addresses to CC",
-      optional: true,
-    },
-    bcc: {
-      type: "string[]",
-      label: "BCC",
-      description: "The list of email addresses to BCC",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {
-      return "https://api.fillout.com/v1";
+      return "https://api.fillout.com/v1/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async getForms() {
+    getForms() {
       return this._makeRequest({
         path: "/forms",
       });
     },
-    async getFormSubmissions({
-      formId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/forms/${formId}/submissions`,
-        ...opts,
-      });
-    },
-    async createWebhook({
-      formId, url, ...opts
-    }) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/webhook/create",
-        data: {
-          formId,
-          url,
-        },
         ...opts,
       });
     },
-    async deleteWebhook({
-      webhookId, ...opts
-    }) {
+    deleteWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/webhook/delete",
-        data: {
-          webhookId,
-        },
-        ...opts,
-      });
-    },
-    async sendForm({
-      form, email, cc, bcc, ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/forms/send",
-        data: {
-          form,
-          email,
-          cc,
-          bcc,
-        },
         ...opts,
       });
     },
