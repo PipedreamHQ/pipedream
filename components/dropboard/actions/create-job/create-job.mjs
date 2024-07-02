@@ -1,116 +1,101 @@
+import { parseObject } from "../../common/utils.mjs";
 import dropboard from "../../dropboard.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "dropboard-create-job",
   name: "Create Job",
   description: "Creates a new job within Dropboard. [See the documentation](https://dropboard.readme.io/reference/jobs-post)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     dropboard,
     title: {
-      propDefinition: [
-        dropboard,
-        "title",
-      ],
+      type: "string",
+      label: "Title",
+      description: "The title of the job",
     },
     description: {
-      propDefinition: [
-        dropboard,
-        "description",
-      ],
+      type: "string",
+      label: "Description",
+      description: "The description of the job",
     },
     hiringManagerEmails: {
-      propDefinition: [
-        dropboard,
-        "hiringManagerEmails",
-      ],
-    },
-    clientId: {
-      propDefinition: [
-        dropboard,
-        "clientId",
-      ],
-      optional: true,
+      type: "string[]",
+      label: "Hiring Manager Emails",
+      description: "The emails of the hiring managers",
     },
     status: {
-      propDefinition: [
-        dropboard,
-        "status",
+      type: "string",
+      label: "Status",
+      description: "The status of the job",
+      options: [
+        "open",
+        "closed",
       ],
       optional: true,
     },
-    location: {
-      propDefinition: [
-        dropboard,
-        "location",
-      ],
+    locations: {
+      type: "string[]",
+      label: "Locations",
+      description: "Locations of the job",
       optional: true,
     },
     qualifications: {
-      propDefinition: [
-        dropboard,
-        "qualifications",
-      ],
+      type: "string",
+      label: "Qualifications",
+      description: "The qualifications required for the job",
       optional: true,
     },
     responsibilities: {
-      propDefinition: [
-        dropboard,
-        "responsibilities",
-      ],
+      type: "string",
+      label: "Responsibilities",
+      description: "The responsibilities of the job",
       optional: true,
     },
     compensation: {
-      propDefinition: [
-        dropboard,
-        "compensation",
-      ],
+      type: "string",
+      label: "Compensation",
+      description: "The compensation for the job",
       optional: true,
     },
     openDateStart: {
-      propDefinition: [
-        dropboard,
-        "openDateStart",
-      ],
+      type: "string",
+      label: "Open Date Start",
+      description: "If only open during a timeframe, this is the start day",
       optional: true,
     },
     openDateEnd: {
-      propDefinition: [
-        dropboard,
-        "openDateEnd",
-      ],
+      type: "string",
+      label: "Open Date End",
+      description: "If only open during a timeframe, this is the end day",
       optional: true,
     },
     jobCode: {
-      propDefinition: [
-        dropboard,
-        "jobCode",
-      ],
+      type: "string",
+      label: "Job Code",
+      description: "Specify a unique job code. Will be generated if not specified",
       optional: true,
     },
   },
   async run({ $ }) {
-    const data = {
-      title: this.title,
-      description: this.description,
-      hiringManagerEmails: this.hiringManagerEmails,
-      clientId: this.clientId,
-      status: this.status,
-      location: this.location,
-      qualifications: this.qualifications,
-      responsibilities: this.responsibilities,
-      compensation: this.compensation,
-      openDateStart: this.openDateStart,
-      openDateEnd: this.openDateEnd,
-      jobCode: this.jobCode,
-    };
-
     const response = await this.dropboard.createJob({
-      data,
+      $,
+      data: {
+        title: this.title,
+        description: this.description,
+        hiringManagerEmails: parseObject(this.hiringManagerEmails),
+        clientId: this.clientId,
+        status: this.status,
+        locations: parseObject(this.locations),
+        qualifications: this.qualifications,
+        responsibilities: this.responsibilities,
+        compensation: this.compensation,
+        openDateStart: this.openDateStart,
+        openDateEnd: this.openDateEnd,
+        jobCode: this.jobCode,
+      },
     });
-    $.export("$summary", `Successfully created job with title: ${this.title}`);
+    $.export("$summary", `Successfully created job with Id: ${response.id}`);
     return response;
   },
 };

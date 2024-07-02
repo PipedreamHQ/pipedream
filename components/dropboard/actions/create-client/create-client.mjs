@@ -1,11 +1,10 @@
 import dropboard from "../../dropboard.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "dropboard-create-client",
   name: "Create Client",
   description: "Creates a new client within Dropboard. Note this is available only for recruiter plan users and may incur additional charges based on your organization's plan. [See the documentation](https://dropboard.readme.io/reference/clients-post)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     dropboard,
@@ -20,18 +19,16 @@ export default {
         dropboard,
         "clientPlanId",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    const data = {
-      name: this.clientName,
-      ...(this.clientPlanId && {
-        clientPlanId: this.clientPlanId,
-      }),
-    };
-
     const response = await this.dropboard.createClient({
-      data,
+      $,
+      data: {
+        name: this.clientName,
+        clientPlanId: this.clientPlanId,
+      },
     });
 
     $.export("$summary", `Successfully created client with ID ${response.id}`);

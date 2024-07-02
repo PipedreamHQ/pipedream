@@ -1,104 +1,45 @@
-import { axios } from "@pipedream/platform";
-import dropboard from "../../dropboard.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "dropboard-new-candidate-instant",
-  name: "New Candidate Profile Created",
-  description: "Emit new event when a candidate profile is created. [See the documentation](https://dropboard.readme.io/reference/webhooks-candidates)",
-  version: "0.0.{{ts}}",
+  name: "New Candidate Profile Created (Instant)",
+  description: "Emit new event when a candidate profile is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    dropboard,
-    db: "$.service.db",
+    ...common.props,
     jobId: {
       propDefinition: [
-        dropboard,
+        common.props.dropboard,
         "jobId",
-      ],
-      optional: true,
-    },
-    clientId: {
-      propDefinition: [
-        dropboard,
-        "clientId",
       ],
       optional: true,
     },
     hiringManagerEmail: {
       propDefinition: [
-        dropboard,
+        common.props.dropboard,
         "hiringManagerEmail",
       ],
       optional: true,
     },
-    webhookUrl: {
-      type: "string",
-      label: "Webhook URL",
-      description: "The URL to receive Dropboard data",
-      required: true,
+  },
+  methods: {
+    ...common.methods,
+    getData() {
+      return {
+        jobId: this.jobId,
+        hiringManagerEmail: this.hiringManagerEmail,
+      };
+    },
+    getPath() {
+      return "candidates";
+    },
+    getSummary(body) {
+      return `New Candidate: ${body.first} ${body.last} ${body.email}`;
     },
   },
-  hooks: {
-    async deploy() {
-      const response = await this.dropboard.createCandidateWebhook({
-        data: {
-          url: this.webhookUrl,
-          jobId: this.jobId,
-          clientId: this.clientId,
-          hiringManagerEmail: this.hiringManagerEmail,
-        },
-      });
-
-      this.db.set("webhookId", response.id);
-
-      // Fetch and emit historical data
-      const candidates = await this.dropboard._makeRequest({
-        method: "GET",
-        path: "/candidates",
-      });
-      candidates.slice(0, 50).forEach((candidate) => {
-        this.$emit(candidate, {
-          id: candidate.id,
-          summary: `New Candidate: ${candidate.name}`,
-          ts: Date.parse(candidate.created_at),
-        });
-      });
-    },
-    async activate() {
-      const response = await this.dropboard.createCandidateWebhook({
-        data: {
-          url: this.webhookUrl,
-          jobId: this.jobId,
-          clientId: this.clientId,
-          hiringManagerEmail: this.hiringManagerEmail,
-        },
-      });
-
-      this.db.set("webhookId", response.id);
-    },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      if (webhookId) {
-        await axios(this, {
-          method: "DELETE",
-          url: `${this.dropboard._baseUrl()}/candidates/webhooks`,
-          headers: {
-            Authorization: `Bearer ${this.dropboard.$auth.oauth_access_token}`,
-          },
-          data: {
-            id: webhookId,
-          },
-        });
-      }
-    },
-  },
-  async run() {
-    const event = this.http.body;
-    this.$emit(event, {
-      id: event.id,
-      summary: `New Candidate: ${event.name}`,
-      ts: Date.parse(event.created_at),
-    });
-  },
+  sampleEmit,
 };

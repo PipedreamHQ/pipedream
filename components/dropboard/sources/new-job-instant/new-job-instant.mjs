@@ -1,79 +1,37 @@
-import { axios } from "@pipedream/platform";
-import dropboard from "../../dropboard.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "dropboard-new-job-instant",
-  name: "New Job Created",
-  description: "Emit new event when a new job is created. [See the documentation](https://dropboard.readme.io/reference/webhooks-jobs)",
-  version: "0.0.{{ts}}",
+  name: "New Job Created (Instant)",
+  description: "Emit new event when a new job is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    dropboard,
-    db: "$.service.db",
-    jobDetails: {
+    ...common.props,
+    hiringManagerEmail: {
       propDefinition: [
-        dropboard,
-        "jobDetails",
+        common.props.dropboard,
+        "hiringManagerEmail",
       ],
-    },
-    clientId: {
-      propDefinition: [
-        dropboard,
-        "clientId",
-      ],
-    },
-    jobId: {
-      propDefinition: [
-        dropboard,
-        "jobId",
-      ],
+      optional: true,
     },
   },
-  hooks: {
-    async deploy() {
-      // Fetch historical data and emit up to 50 events
-      const jobs = await this.dropboard._makeRequest({
-        method: "GET",
-        path: "/jobs",
-        params: {
-          clientId: this.clientId,
-        },
-      });
-
-      for (const job of jobs.slice(0, 50)) {
-        this.$emit(job, {
-          id: job.id,
-          summary: `New Job: ${job.title}`,
-          ts: new Date(job.createdAt).getTime(),
-        });
-      }
+  methods: {
+    ...common.methods,
+    getData() {
+      return {
+        hiringManagerEmail: this.hiringManagerEmail,
+      };
     },
-    async activate() {
-      const webhook = await this.dropboard.createJobWebhook({
-        data: {
-          url: this.http.endpoint,
-          clientId: this.clientId,
-        },
-      });
-      this.db.set("webhookId", webhook.id);
+    getPath() {
+      return "jobs";
     },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      if (webhookId) {
-        await this.dropboard._makeRequest({
-          method: "DELETE",
-          path: `/jobs/webhooks/${webhookId}`,
-        });
-      }
+    getSummary(body) {
+      return `New Job: ${body.title}`;
     },
   },
-  async run(event) {
-    const job = event.body;
-    this.$emit(job, {
-      id: job.id,
-      summary: `New Job: ${job.title}`,
-      ts: new Date(job.createdAt).getTime(),
-    });
-  },
+  sampleEmit,
 };
