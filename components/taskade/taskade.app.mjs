@@ -4,107 +4,115 @@ export default {
   type: "app",
   app: "taskade",
   propDefinitions: {
-    task_id: {
+    projectId: {
       type: "string",
-      label: "Task ID",
-      description: "The ID of the task to track due date for",
-      required: true,
-    },
-    assignee_id: {
-      type: "string",
-      label: "Assignee ID",
-      description: "The ID of the assignee to filter by",
-      optional: true,
-    },
-    task_title: {
-      type: "string",
-      label: "Task Title",
-      description: "The title of the task to be created",
-      required: true,
-    },
-    workspace: {
-      type: "string",
-      label: "Workspace",
-      description: "The workspace where the task should be created",
-      required: true,
-    },
-    due_date: {
-      type: "string",
-      label: "Due Date",
-      description: "The due date for the task",
-      optional: true,
-    },
-    assignees: {
-      type: "string[]",
-      label: "Assignees",
-      description: "The assignees for the task",
-      optional: true,
+      label: "Project ID",
+      description: "The identifier of a project",
+      async options({ page }) {
+        const { items } = await this.listProjects({
+          params: {
+            page: page + 1,
+          },
+        });
+        return items?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://www.taskade.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "Content-Type": "application/json",
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async createTask(task_title, workspace, due_date, assignees) {
-      const project = await this._makeRequest({
-        method: "POST",
-        path: `/projects/${workspace}/tasks/`,
-        data: {
-          tasks: [
-            {
-              content: task_title,
-            },
-          ],
-        },
+    listProjects(opts = {}) {
+      return this._makeRequest({
+        path: "/me/projects",
+        ...opts,
       });
-
-      if (due_date) {
-        await this._makeRequest({
-          method: "PUT",
-          path: `/projects/${workspace}/tasks/${project.item[0].id}/date`,
-          data: {
-            start: {
-              date: due_date,
-            },
-          },
-        });
-      }
-
-      if (assignees) {
-        await this._makeRequest({
-          method: "PUT",
-          path: `/projects/${workspace}/tasks/${project.item[0].id}/assignees`,
-          data: {
-            handles: assignees,
-          },
-        });
-      }
-
-      return project;
     },
-    async getTask(task_id) {
-      return await this._makeRequest({
-        path: `/tasks/${task_id}`,
+    listTasks({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/tasks`,
+        ...opts,
       });
+    },
+    createTask({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/projects/${projectId}/tasks`,
+        ...opts,
+      });
+    },
+    assignTask({
+      projectId, taskId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/projects/${projectId}/tasks/${taskId}/assignees`,
+        ...opts,
+      });
+    },
+    createOrUpdateDueDate({
+      projectId, taskId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/projects/${projectId}/tasks/${taskId}/date`,
+        ...opts,
+      });
+    },
+    async *paginate({
+      resourceFn,
+      args,
+      resourceType,
+      max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args.params,
+        },
+      };
+      let count = 0;
+      do {
+        const results = await resourceFn(args);
+        const items = resourceType
+          ? results[resourceType]
+          : results;
+        if (!items?.length) {
+          return;
+        }
+        for (const item of items) {
+          yield item;
+          count++;
+          if (max && max >= count) {
+            return;
+          }
+        }
+        args.params.after = items[items.length - 1].id;
+      } while (args.params.after);
     },
   },
 };

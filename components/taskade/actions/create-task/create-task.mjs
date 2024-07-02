@@ -1,47 +1,75 @@
 import taskade from "../../taskade.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "taskade-create-task",
   name: "Create Task",
   description: "Creates a new task in Taskade. [See the documentation](https://developers.taskade.com/docs/api/tasks/create)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     taskade,
-    taskTitle: {
-      type: "string",
-      label: "Task Title",
-      description: "The title of the task to be created",
-      required: true,
+    projectId: {
+      propDefinition: [
+        taskade,
+        "projectId",
+      ],
     },
-    workspace: {
+    content: {
       type: "string",
-      label: "Workspace",
-      description: "The workspace where the task should be created",
-      required: true,
+      label: "Content",
+      description: "Content of the task",
     },
-    dueDate: {
+    contentType: {
       type: "string",
-      label: "Due Date",
-      description: "The due date for the task",
-      optional: true,
+      label: "Content Type",
+      description: "The type of content",
+      options: [
+        "text/markdown",
+        "text/plain",
+      ],
+    },
+    placement: {
+      type: "string",
+      label: "Placement",
+      description: "Placement of the task",
+      options: [
+        "afterbegin",
+        "beforeend",
+      ],
     },
     assignees: {
       type: "string[]",
       label: "Assignees",
-      description: "The assignees for the task",
+      description: "An array of user handles to assign to the task",
       optional: true,
     },
   },
   async run({ $ }) {
-    const task = await this.taskade.createTask(
-      this.taskTitle,
-      this.workspace,
-      this.dueDate,
-      this.assignees,
-    );
-    $.export("$summary", `Successfully created task ${this.taskTitle}`);
+    const task = await this.taskade.createTask({
+      $,
+      projectId: this.projectId,
+      data: {
+        tasks: [
+          {
+            content: this.content,
+            contentType: this.contentType,
+            placement: this.placement,
+          },
+        ],
+      },
+    });
+    const taskId = task.item[0].id;
+    if (this.assignees?.length) {
+      await this.taskade.assignTask({
+        $,
+        projectId: this.projectId,
+        taskId,
+        data: {
+          handles: this.assignees,
+        },
+      });
+    }
+    $.export("$summary", `Successfully created task with ID ${taskId}`);
     return task;
   },
 };
