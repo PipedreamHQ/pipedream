@@ -755,6 +755,9 @@ importers:
       mssql: 10.0.1
       uuid: 9.0.1
 
+  components/backblaze:
+    specifiers: {}
+
   components/badger_maps:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -1852,6 +1855,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/control_d:
+    specifiers: {}
+
   components/convenia:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2138,6 +2144,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.6.2
+
+  components/deftship:
+    specifiers: {}
 
   components/degreed:
     specifiers: {}
@@ -2892,6 +2901,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/faceup:
+    specifiers: {}
 
   components/facturadirecta:
     specifiers: {}
@@ -4225,6 +4237,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/hygraph:
+    specifiers: {}
+
+  components/hypeauditor:
     specifiers: {}
 
   components/hyperise:
@@ -8374,6 +8389,9 @@ importers:
   components/smarty:
     specifiers: {}
 
+  components/smartymeet:
+    specifiers: {}
+
   components/smiirl:
     specifiers:
       '@smiirl/smiirl-library-js': ^1.0.5
@@ -8533,7 +8551,10 @@ importers:
       form-data: 4.0.0
 
   components/spiritme:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/splitwise:
     specifiers:
@@ -9934,6 +9955,9 @@ importers:
     specifiers: {}
 
   components/wati:
+    specifiers: {}
+
+  components/watsonx_ai:
     specifiers: {}
 
   components/wave:
