@@ -11,6 +11,7 @@ if (!PIPEDREAM_PROJECT_PUBLIC_KEY) {
 
 const pd = createClient({
   publicKey: PIPEDREAM_PROJECT_PUBLIC_KEY,
+  frontendHost: process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST,
 })
 
 export default function Home() {
@@ -35,10 +36,10 @@ export default function Home() {
     const token = await serverConnectTokenCreate(clientUserId)
     pd.startConnect({
       app: "spotify",
-      token: token,
+      token,
       onSuccess: () => {
-        getSpotifyData(clientUserId).then((d) => setSpotifyData(d))
-      },
+        console.log(`Connected Spotify account for ${clientUserId}`)
+      }
     })
   }
   const connectSlack = async () => {
@@ -47,11 +48,8 @@ export default function Home() {
     pd.startConnect({
       app: "slack",
       token: token,
-      onSuccess: () => {
-        getSlackData(clientUserId).then((d) => setSlackData(d))
-      },
     })
-  }
+  } 
   const connectOtherApp = async () => {
     if (!clientUserId) return
     const token = await serverConnectTokenCreate(clientUserId)

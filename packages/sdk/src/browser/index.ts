@@ -1,6 +1,7 @@
 type CreateBrowserClientOpts = {
   environment?: string;
   publicKey: string;
+  frontendHost?: string;
 };
 
 type AppId = string;
@@ -17,14 +18,10 @@ class ConnectError extends Error {}
 
 type StartConnectOpts = {
   token: string;
-  userId: string;
   app: AppId | StartConnectApp;
   onSuccess?: (res: ConnectResult) => void;
   onError?: (err: ConnectError) => void;
 };
-
-const PIPEDREAM_BASE_URL = "https://frontend.gkes.pipedream.net";
-const IFRAME_URL = `${PIPEDREAM_BASE_URL}/_static/connect.html`;
 
 export function createClient(opts: CreateBrowserClientOpts) {
   return new BrowserClient(opts);
@@ -33,17 +30,22 @@ export function createClient(opts: CreateBrowserClientOpts) {
 class BrowserClient {
   environment?: string;
   publicKey: string;
+  baseURL: string;
+  iframeURL: string;
   iframe?: HTMLIFrameElement;
   iframeId = 0;
 
   constructor(opts: CreateBrowserClientOpts) {
     this.environment = opts.environment;
     this.publicKey = opts.publicKey;
+    this.baseURL = `https://${opts.frontendHost || "pipedream.com"}`;
+    this.iframeURL = `${this.baseURL}/_static/connect.html`;
   }
 
   startConnect(opts: StartConnectOpts) {
+    console.log("startConnect", opts);
     const onMessage = (e: MessageEvent) => {
-      if (e.origin !== PIPEDREAM_BASE_URL) {
+      if (e.origin !== this.baseURL) {
         console.warn("Received message from unauthorized origin:", e.origin);
         return;
       }
@@ -63,7 +65,6 @@ class BrowserClient {
     const qp = new URLSearchParams();
     qp.set("token", opts.token);
     qp.set("publicKey", this.publicKey);
-    qp.set("userId", opts.userId);
     if (this.environment) {
       qp.set("environment", this.environment);
     }
@@ -78,10 +79,11 @@ class BrowserClient {
       throw err;
     }
 
+    console.log(`${this.iframeURL}?${qp.toString()}`);
     const iframe = document.createElement("iframe");
     iframe.id = `pipedream-connect-iframe-${this.iframeId++}`;
     iframe.title = "Pipedream Connect";
-    iframe.src = `${IFRAME_URL}?${qp.toString()}`;
+    iframe.src = `${this.iframeURL}?${qp.toString()}`;
     iframe.setAttribute(
       "style",
       "position:fixed;inset:0;z-index:2147483647;border:0;display:block;overflow:hidden auto",

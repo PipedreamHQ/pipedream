@@ -9,13 +9,12 @@ if (!PIPEDREAM_PROJECT_SECRET_KEY) {
 }
 
 const pd = createClient({
-  fetch: fetch,
   secretKey: PIPEDREAM_PROJECT_SECRET_KEY,
+  apiHost: process.env.PIPEDREAM_API_HOST,
 });
 
 export async function serverConnectTokenCreate(clientUserId: string) {
   return pd.connectTokenCreate({
-    clientName: "Next.js Example App",
     clientUserId,
   });
 }
