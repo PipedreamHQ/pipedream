@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/looker_studio",
+  "version": "0.0.1",
+  "description": "Pipedream Looker Studio Components",
+  "main": "looker_studio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "looker_studio"
+  ],
+  "homepage": "https://pipedream.com/apps/looker_studio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
