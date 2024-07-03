@@ -5,6 +5,7 @@ import { campaign } from "../../common/resources/campaign.mjs";
 import { customer } from "../../common/resources/customer.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { DATE_RANGE_OPTIONS } from "./common-constants.mjs";
+import { checkPrefix } from "../../common/utils.mjs";
 
 const RESOURCES = [
   adGroup,
@@ -207,9 +208,9 @@ export default {
         : segments?.filter((i) => i !== "segments.date");
 
       const selection = [
-        ...(fields ?? []),
-        ...(filteredSegments ?? []),
-        ...(metrics ?? []),
+        ...checkPrefix(fields, resource),
+        ...checkPrefix(filteredSegments, "segments"),
+        ...checkPrefix(metrics, "metrics"),
       ];
 
       if (!selection.length) {
