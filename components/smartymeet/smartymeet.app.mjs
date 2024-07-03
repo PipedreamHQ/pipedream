@@ -4,10 +4,65 @@ export default {
   type: "app",
   app: "smartymeet",
   propDefinitions: {
+    jobId: {
+      type: "string",
+      label: "Job Id",
+      description: "The Id of the job.",
+      async options({ page }) {
+        const data = await this.listJobs({
+          params: {
+            pageNumber: page + 1,
+          },
+        });
+
+        return data.map(({
+          shardId, jobId, title: label,
+        }) => ({
+          label,
+          value: `${shardId}:${jobId}`,
+        }));
+      },
+    },
+    talentId: {
+      type: "string",
+      label: "Talent Id",
+      description: "The Id of the talent.",
+      async options({ page }) {
+        const { data } = await this.listTalents({
+          params: {
+            pageNumber: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, attributes: { name: label },
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     candidateId: {
       type: "string",
-      label: "Candidate ID",
-      description: "The ID of the candidate",
+      label: "Candidate Id",
+      description: "The Id of the candidate.",
+      async options({
+        page, jobId,
+      }) {
+        const data = await this.listCandidates({
+          jobId,
+          params: {
+            pageNumber: page + 1,
+          },
+        });
+
+        return data.map(({
+          shardId, contactId, firstName, lastName,
+        }) => ({
+          label: `${firstName} ${lastName}`,
+          value: `${shardId}:${contactId}`,
+        }));
+      },
     },
     reportType: {
       type: "string",
@@ -67,27 +122,48 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.smartymeet.com";
+      return `${this.$auth.server}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
+    _headers() {
+      return {
+        Authorization: `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      const config = {
+        ...opts,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
+        headers: this._headers(),
+      };
+      console.log("config: ", config);
+
+      return axios($, config);
+    },
+    listJobs(opts = {}) {
+      return this._makeRequest({
+        path: "/jobs",
+        ...opts,
       });
     },
-    async emitNewCandidateAnalysisReport({
+    listCandidates({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/jobs/${jobId}/candidates`,
+        ...opts,
+      });
+    },
+    listTalents(opts = {}) {
+      return this._makeRequest({
+        path: "/talents",
+        ...opts,
+      });
+    },
+
+    emitNewCandidateAnalysisReport({
       candidateId, reportType,
     }) {
       return this._makeRequest({
@@ -98,21 +174,14 @@ export default {
         },
       });
     },
-    async generateNewJob({
-      jobTitle, jobDescription, jobLocation, jobSalary,
-    }) {
+    createJob(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/jobs",
-        data: {
-          jobTitle,
-          jobDescription,
-          jobLocation,
-          jobSalary,
-        },
+        ...opts,
       });
     },
-    async retrieveCandidateAnalysis({
+    retrieveCandidateAnalysis({
       candidateId, analysisType,
     }) {
       return this._makeRequest({
@@ -123,21 +192,11 @@ export default {
         },
       });
     },
-    async createNewCandidateProfile({
-      candidateName,
-      candidateContacts,
-      candidateLinks,
-      candidateResume,
-    }) {
+    createCandidate(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/candidates",
-        data: {
-          candidateName,
-          candidateContacts,
-          candidateLinks,
-          candidateResume,
-        },
+        ...opts,
       });
     },
   },

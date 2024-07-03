@@ -1,6 +1,5 @@
-import smartymeet from "../../smartymeet.app.mjs";
 import crypto from "crypto";
-import { axios } from "@pipedream/platform";
+import smartymeet from "../../smartymeet.app.mjs";
 
 export default {
   key: "smartymeet-new-candidate-analysis-ready-instant",

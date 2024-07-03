@@ -1,5 +1,4 @@
 import smartymeet from "../../smartymeet.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "smartymeet-create-candidate",
@@ -9,42 +8,73 @@ export default {
   type: "action",
   props: {
     smartymeet,
-    candidateName: {
-      propDefinition: [
-        smartymeet,
-        "candidateName",
-      ],
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The candidate's name.",
     },
-    candidateContacts: {
-      propDefinition: [
-        smartymeet,
-        "candidateContacts",
-      ],
-    },
-    candidateLinks: {
-      propDefinition: [
-        smartymeet,
-        "candidateLinks",
+    status: {
+      type: "string",
+      label: "Status",
+      description: "The candidate's status.",
+      options: [
+        "active",
+        "rejected",
+        "archived",
+        "closed",
       ],
       optional: true,
     },
-    candidateResume: {
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The candidate's phone.",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The candidate's email.",
+      optional: true,
+    },
+    /* talentId: {
       propDefinition: [
         smartymeet,
-        "candidateResume",
+        "talentId",
       ],
-      optional: true,
+    }, */
+    jobId: {
+      propDefinition: [
+        smartymeet,
+        "jobId",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.smartymeet.createNewCandidateProfile({
-      candidateName: this.candidateName,
-      candidateContacts: this.candidateContacts,
-      candidateLinks: this.candidateLinks,
-      candidateResume: this.candidateResume,
+    const response = await this.smartymeet.createCandidate({
+      $,
+      data: {
+        type: "candidates",
+        attributes: {
+          name: this.name,
+          status: this.status,
+          phone: this.phone,
+          email: this.email,
+        },
+        relationships: {
+          /* talents: {
+            type: "talents",
+            id: this.talentId,
+          }, */
+          jobs: {
+            type: "jobs",
+            id: this.jobId,
+          },
+        },
+      },
     });
 
-    $.export("$summary", `Successfully created candidate profile for ${this.candidateName}`);
+    $.export("$summary", `Successfully created candidate with Id: ${response.data.id}`);
     return response;
   },
 };
