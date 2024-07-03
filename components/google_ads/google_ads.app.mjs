@@ -128,7 +128,7 @@ export default {
         },
         ...args,
       });
-      return response.results;
+      return response;
     },
     async listAccessibleCustomers() {
       const response = await this._makeRequest({
@@ -139,13 +139,15 @@ export default {
     async listCustomerClients({
       query, ...args
     }) {
-      return this.search({
+      const { results } = await this.search({
         query: QUERIES.listCustomerClients(query),
         ...args,
       });
+      return results;
     },
     async createReport(args) {
-      return this.search(args);
+      const { results } = await this.search(args);
+      return results;
     },
     async createUserList(args) {
       const response = await this._makeRequest({
@@ -156,44 +158,62 @@ export default {
       return response;
     },
     async listUserLists(args) {
-      return this.search({
+      const { results } = await this.search({
         query: QUERIES.listUserLists(),
         ...args,
       });
+      return results;
     },
     async listConversionActions(args) {
-      return this.search({
+      const { results } = await this.search({
         query: QUERIES.listConversionActions(),
         ...args,
       });
+      return results;
     },
     async listRemarketingActions(args) {
-      return this.search({
+      const { results } = await this.search({
         query: QUERIES.listRemarketingActions(),
         ...args,
       });
+      return results;
     },
     async listLeadForms(args) {
-      return this.search({
+      const { results } = await this.search({
         query: QUERIES.listLeadForms(),
         ...args,
       });
+      return results;
     },
     async listCampaigns({
       query, ...args
     }) {
-      return this.search({
+      const { results } = await this.search({
         query: QUERIES.listCampaigns(query),
+        ...args,
+      });
+      return results;
+    },
+    async listResources({
+      resource, query, pageToken, ...args
+    }) {
+      return this.search({
+        query: QUERIES.listResources(resource, query),
+        params: {
+          pageSize: 100,
+          pageToken,
+        },
         ...args,
       });
     },
     async getLeadFormData({
       leadFormId, ...args
     }) {
-      return this.search({
+      const { results } = await this.search({
         query: QUERIES.listLeadFormSubmissionData(leadFormId),
         ...args,
       });
+      return results;
     },
     async createConversionAction(args) {
       const response = await this._makeRequest({
