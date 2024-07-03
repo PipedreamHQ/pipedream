@@ -74,7 +74,7 @@ export default {
       $,
       data,
     });
-    $.export("$summary", "Succcessfully created event");
+    $.export("$summary", `Succcessfully created event "${this.Subject}"`);
     return response;
   },
 };

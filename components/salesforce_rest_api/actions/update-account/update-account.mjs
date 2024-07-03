@@ -56,7 +56,7 @@ export default {
       id: this.AccountId,
       data,
     });
-    $.export("$summary", `Successfully updated account ${this.AccountId}`);
+    $.export("$summary", `Successfully updated account (ID: ${this.AccountId})`);
     return response;
   },
 };

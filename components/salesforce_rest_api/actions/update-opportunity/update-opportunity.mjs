@@ -69,7 +69,7 @@ export default {
       id: this.OpportunityId,
       data,
     });
-    $.export("$summary", `Successfully updated opportunity ${this.OpportunityId}`);
+    $.export("$summary", `Successfully updated opportunity (ID: ${this.OpportunityId})`);
     return response;
   },
 };

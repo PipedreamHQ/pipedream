@@ -51,7 +51,7 @@ export default {
       id: this.sobjectId,
       params,
     });
-    $.export("$summary", `Retrieved ${this.objectType} field values`);
+    $.export("$summary", `Successfully retrieved ${this.objectType} field values`);
     return response;
   },
 };

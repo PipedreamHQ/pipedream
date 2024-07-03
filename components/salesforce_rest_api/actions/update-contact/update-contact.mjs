@@ -55,7 +55,7 @@ export default {
       id: this.ContactId,
       data,
     });
-    $.export("$summary", `Successfully updated contact for ${this.ContactId}`);
+    $.export("$summary", `Successfully updated contact (ID: ${this.ContactId})`);
     return response;
   },
 };

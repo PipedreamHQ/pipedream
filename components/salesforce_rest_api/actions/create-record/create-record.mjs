@@ -30,7 +30,7 @@ export default {
       $,
       data: this.sobject,
     });
-    $.export("$summary", `Created record "${this.objectType}"`);
+    $.export("$summary", `Successfully created ${this.objectType} record`);
     return response;
   },
 };

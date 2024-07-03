@@ -44,6 +44,7 @@ export default {
     try {
       const notifications = json.elements[0].elements[0].elements[0].elements
         .filter(({ name }) => name === "Notification");
+      $.export("$summary", "Successfully converted to JSON and extracted notifications");
       return {
         notifications,
       };

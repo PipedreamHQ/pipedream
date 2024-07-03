@@ -71,7 +71,7 @@ export default {
       headers,
       data,
     });
-    $.export("$summary", `Inserted Blob data to ${this.sobjectName}`);
+    $.export("$summary", `Successfully inserted blob data in ${this.sobjectName}`);
     return response;
   },
 };

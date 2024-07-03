@@ -24,7 +24,7 @@ export default {
       $,
       id: this.OpportunityId,
     });
-    $.export("$summary", "Successfully deleted opportunity");
+    $.export("$summary", `Successfully deleted opportunity (ID: ${this.OpportunityId})`);
     return response;
   },
 };

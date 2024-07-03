@@ -37,7 +37,7 @@ export default {
       sobjectType,
       sobjectId,
     });
-    response && $.export("$summary", `Successfully deleted record with ID ${sobjectId}`);
+    response && $.export("$summary", `Successfully deleted record (ID: ${sobjectId})`);
     return response;
   },
 };

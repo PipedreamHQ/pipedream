@@ -209,7 +209,7 @@ export default {
       $,
       data: utils.keysToCapitalCase(data),
     });
-    $.export("$summary", `Successfully created user with ID \`${response.id}\``);
+    $.export("$summary", `Successfully created user (ID: ${response.id})`);
     return response;
   },
 };
