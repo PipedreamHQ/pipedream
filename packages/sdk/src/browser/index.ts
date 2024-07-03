@@ -43,12 +43,7 @@ class BrowserClient {
   }
 
   startConnect(opts: StartConnectOpts) {
-    console.log("startConnect", opts);
     const onMessage = (e: MessageEvent) => {
-      if (e.origin !== this.baseURL) {
-        console.warn("Received message from unauthorized origin:", e.origin);
-        return;
-      }
       if (e.data?.type === "close") {
         this.iframe?.remove();
         window.removeEventListener("message", onMessage);
@@ -79,7 +74,6 @@ class BrowserClient {
       throw err;
     }
 
-    console.log(`${this.iframeURL}?${qp.toString()}`);
     const iframe = document.createElement("iframe");
     iframe.id = `pipedream-connect-iframe-${this.iframeId++}`;
     iframe.title = "Pipedream Connect";
