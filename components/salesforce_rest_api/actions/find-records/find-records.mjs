@@ -38,12 +38,14 @@ export default {
       fields,
       ids,
     } = this;
-    const response = await this.salesForceRestApi.getRecords(
-      sobjectType, {
+    const response = await this.salesForceRestApi.getRecords({
+      $,
+      sobjectType,
+      params: {
         fields: Array.isArray(fields) && fields.join(",") || fields,
         ids: Array.isArray(ids) && ids.join(",") || ids,
       },
-    );
+    });
     if (response) {
       $.export("$summary", "Record found successfully");
     }

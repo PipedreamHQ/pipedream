@@ -241,18 +241,23 @@ export default {
         ...args,
       });
     },
-    async deleteObject(objectType, sobjectId) {
+    async deleteObject({
+      objectType, sobjectId, ...args
+    }) {
       const url = `${this._sObjectsApiUrl()}/${objectType}/${sobjectId}`;
       return this._makeRequest({
         url,
         method: "DELETE",
+        ...args,
       });
     },
-    async getRecords(objectType, params) {
+    async getRecords({
+      objectType, ...args
+    }) {
       const url = `${this._sCompositeApiUrl()}/${objectType}`;
       return this._makeRequest({
         url,
-        params,
+        ...args,
       });
     },
     async getSObject(objectType, id, params = null) {
@@ -510,14 +515,14 @@ export default {
         url,
       });
     },
-    async parameterizedSearch(params) {
+    async parameterizedSearch(args) {
       const baseUrl = this._baseApiVersionUrl();
       const url = `${baseUrl}/parameterizedSearch/`;
 
       return this._makeRequest({
         url,
         method: "GET",
-        params,
+        ...args,
       });
     },
     async insertBlobData(sobjectName, {

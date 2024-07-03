@@ -32,10 +32,11 @@ export default {
       sobjectType,
       sobjectId,
     } = this;
-    const response = await this.salesForceRestApi.deleteObject(
+    const response = await this.salesForceRestApi.deleteObject({
+      $,
       sobjectType,
       sobjectId,
-    );
+    });
     response && $.export("$summary", `Successfully deleted record with ID ${sobjectId}`);
     return response;
   },
