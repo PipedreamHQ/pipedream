@@ -5094,6 +5094,9 @@ importers:
   components/looker:
     specifiers: {}
 
+  components/looker_studio:
+    specifiers: {}
+
   components/loop_returns:
     specifiers:
       '@pipedream/platform': ^1.5.1
