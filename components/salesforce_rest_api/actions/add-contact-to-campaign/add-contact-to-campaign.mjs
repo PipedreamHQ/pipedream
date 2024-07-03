@@ -8,7 +8,7 @@ export default {
   description: toSingleLineString(`
     Adds an existing contact to an existing campaign. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)
   `),
-  version: "0.0.6",
+  version: "0.1.0",
   type: "action",
   props: {
     salesForceRestApi,

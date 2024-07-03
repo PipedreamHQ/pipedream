@@ -13,7 +13,7 @@ export default {
     See [User SObject](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_objects_user.htm)
     and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)
   `),
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     salesforce,
