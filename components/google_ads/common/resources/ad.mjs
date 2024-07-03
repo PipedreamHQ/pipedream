@@ -1,3 +1,5 @@
+import { getOption } from "../utils.mjs";
+
 const fields = [
   "action_items",
   "ad.added_by_google_ads",
@@ -213,7 +215,7 @@ const fields = [
   "primary_status_reasons",
   "resource_name",
   "status",
-];
+].map((f) => getOption(f, "ad_group_ad"));
 
 const segments = [
   "ad_destination_type",
@@ -226,20 +228,14 @@ const segments = [
   "conversion_lag_bucket",
   "conversion_or_adjustment_lag_bucket",
   "date",
-  "day_of_week",
   "device",
   "external_conversion_source",
   "keyword.ad_group_criterion",
   "keyword.info.match_type",
   "keyword.info.text",
-  "month",
-  "month_of_year",
   "new_versus_returning_customers",
-  "quarter",
   "slot",
-  "week",
-  "year",
-];
+].map((f) => getOption(f, "segments"));
 
 const metrics = [
   "absolute_top_impression_percentage",
@@ -319,7 +315,7 @@ const metrics = [
   "video_view_rate",
   "video_views",
   "view_through_conversions",
-];
+].map((f) => getOption(f, "metrics"));
 
 const resourceOption = {
   label: "Ad",
