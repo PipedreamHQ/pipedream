@@ -7675,7 +7675,7 @@ importers:
 
   components/salesforce_rest_api:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.0
       fast-xml-parser: ^4.3.2
       handlebars: ^4.7.7
       lodash: ^4.17.21
@@ -7683,7 +7683,7 @@ importers:
       salesforce-webhooks: ^1.1.11
       uuid: ^9.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       fast-xml-parser: 4.3.2
       handlebars: 4.7.8
       lodash: 4.17.21
