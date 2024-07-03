@@ -20,19 +20,16 @@ const pd = createClient({
 
 export default function Home() {
   const [clientUserId, setClientUserId] = useState<string | null>(null)
-  const [spotifyData, setSpotifyData] = useState<{ name: string, artist: string } | null>(null)
-  const [slackData, setSlackData] = useState<{ display_name: string, image_original: string } | null>(null)
+  const [githubData, setGithubData] = useState<{ login: string } | null>(null)
   const [token, setToken] = useState<string | null>(null)
   const [app, setApp] = useState<string>("")
   const inputRef = createRef<HTMLInputElement>()
   useEffect(() => {
     if (!clientUserId) {
-      setSpotifyData(null)
-      setSlackData(null)
+      setGithubData(null)
     } else {
       getAppsData(clientUserId).then((d) => {
-        setSpotifyData(d.spotify)
-        setSlackData(d.slack)
+        setGithubData(d.github)
       })
     }
   }, [clientUserId])
@@ -53,7 +50,7 @@ export default function Home() {
     })
   }
 
-  const connectSlack = async () => {
+  const connectGitHub = async () => {
     if (!PIPEDREAM_TEST_APP_ID) {
       console.log("Missing NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID env var")
       return
@@ -68,9 +65,9 @@ export default function Home() {
         : <div>
             <p>Signed in as: {clientUserId} <button onClick={() => setClientUserId(null)} style={{all: "revert"}}>Sign out</button></p>
             <p>Token: {token}</p>
-            <p className="pt-2">Your slack username: {slackData 
-              ? <span><b>{slackData.display_name}</b><img src={slackData.image_original} /></span>
-              : <button style={{all: "revert"}} onClick={connectSlack}>Connect your Slack account</button>}
+            <p className="pt-2">Your GitHub username: {githubData
+              ? <span><b>{githubData.login}</b></span>
+              : <button style={{all: "revert"}} onClick={connectGitHub}>Connect your GitHub account</button>}
             </p>
           </div>
       }

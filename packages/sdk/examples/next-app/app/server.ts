@@ -2,10 +2,16 @@
 
 import { createClient } from "../../../src";
 
-const { PIPEDREAM_PROJECT_SECRET_KEY } = process.env;
+const {
+  PIPEDREAM_PROJECT_SECRET_KEY, NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID,
+} = process.env;
 
 if (!PIPEDREAM_PROJECT_SECRET_KEY) {
   throw new Error("PIPEDREAM_PROJECT_SECRET_KEY not set in environment");
+}
+
+if (!NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID) {
+  throw new Error("NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID not set in environment");
 }
 
 const pd = createClient({
@@ -21,21 +27,21 @@ export async function serverConnectTokenCreate(clientUserId: string) {
 
 export async function getAppsData(clientUserId: string) {
   const [
-    spotify,
-    slack,
+    github,
   ] = await Promise.all([
-    getSpotifyData(clientUserId),
-    getSlackData(clientUserId),
+    getGithubData(clientUserId),
   ]);
   return {
-    spotify,
-    slack,
+    github,
   };
 }
 
-export async function getSpotifyData(clientUserId: string) {
+export async function getGithubData(clientUserId: string) {
+  if (!NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID) {
+    throw new Error("NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID not set in environment");
+  }
   const data = await pd.getAccount({
-    app: "spotify",
+    app: NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID,
     clientUserId,
   }, {
     includeCredentials: true,
@@ -43,40 +49,13 @@ export async function getSpotifyData(clientUserId: string) {
   if (!data) {
     return null;
   }
-  const resp = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=1", {
-    headers: {
-      Authorization: `Bearer ${data.credentials.oauth_access_token}`,
-    },
-  });
-  const res = await resp.json();
-  const item = res.items[0];
-  if (!item) {
-    return null;
-  }
-  return {
-    name: item.album.name,
-    artist: item.album.artists[0].name,
-  };
-}
-
-export async function getSlackData(clientUserId: string) {
-  const data = await pd.getAccount({
-    app: "slack",
-    clientUserId,
-  }, {
-    includeCredentials: true,
-  });
-  if (!data) {
-    return null;
-  }
-  const resp = await fetch("https://slack.com/api/users.profile.get", {
+  const resp = await fetch("https://api.github.com/user", {
     headers: {
       Authorization: `Bearer ${data.credentials.oauth_access_token}`,
     },
   });
   const res = await resp.json();
   return {
-    display_name: res.profile.display_name,
-    image_original: res.profile.image_original,
+    login: res.login,
   };
 }
