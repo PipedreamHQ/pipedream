@@ -30,3 +30,19 @@ export function parseStringObject(value = "{}") {
 **${err.toString()}**`);
   }
 }
+
+export function getOption(label, prefix) {
+  return {
+    label,
+    value: `${prefix}.${label}`,
+  };
+}
+
+export function checkPrefix(value, prefix) {
+  const checkStr = (s) => s && (s?.startsWith?.(prefix)
+    ? s
+    : `${prefix}.${s}`);
+  return Array.isArray(value ?? [])
+    ? (value ?? []).map(checkStr)
+    : checkStr(value);
+}

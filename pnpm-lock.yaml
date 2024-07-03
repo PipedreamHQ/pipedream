@@ -4772,7 +4772,10 @@ importers:
     specifiers: {}
 
   components/kodagpt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/kommo:
     specifiers: {}
@@ -16234,6 +16237,8 @@ packages:
       - debug
     dev: false
 
+<<<<<<< HEAD
+=======
   /@pipedream/snowflake-sdk/1.0.8_asn1.js@5.4.1:
     resolution: {integrity: sha512-/nLCQNjlSCz71MUnOUZqWmnjZTbEX7mie91mstPspb8uDG/GvaDk/RynLGhhYfgEP5d1KWj+OPaI71hmPSxReg==}
     dependencies:
@@ -16245,6 +16250,7 @@ packages:
       - supports-color
     dev: false
 
+>>>>>>> origin/master
   /@pipedream/types/0.0.5:
     resolution: {integrity: sha512-VVQB9j+94XG/EB7fzKA1t0McQcQIPhaireePeLRTlJIN4y5W59SJjERjW4h5l7zWIfTnwpLizk3qGholyiw1Vw==}
     dependencies:
