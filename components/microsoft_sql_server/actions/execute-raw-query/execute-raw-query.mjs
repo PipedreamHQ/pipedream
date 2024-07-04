@@ -19,11 +19,11 @@ export default {
   },
   async run({ $: step }) {
     const {
-      query, params,
+      query, inputs = {},
     } = this.app.executeQueryAdapter(this.sql);
     const response = await this.app.executeQuery({
       query,
-      inputs: params || {},
+      inputs,
     });
     step.export("$summary", "Successfully executed query.");
     return response;

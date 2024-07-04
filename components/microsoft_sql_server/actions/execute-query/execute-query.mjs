@@ -21,13 +21,13 @@ export default {
       optional: true,
     },
   },
-  run({ $: step }) {
+  async run({ $: step }) {
     const {
       app,
       inputs,
       query,
     } = this;
-    const response = app.executeQuery({
+    const response = await app.executeQuery({
       query,
       inputs,
     });
