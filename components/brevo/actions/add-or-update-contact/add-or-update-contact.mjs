@@ -88,7 +88,7 @@ export default {
 
         $.export("$summary", `Successfully updated contact "${identifier}"`);
       } catch ({ response: { data } }) {
-        let errorMessage = data;
+        let errorMessage = data.message;
         if (data.message === "Contact already exist") {
           errorMessage = `A contact with email ${this.email} already exists!`;
         }
