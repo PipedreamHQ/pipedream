@@ -7995,6 +7995,9 @@ importers:
   components/seqera:
     specifiers: {}
 
+  components/serpapi:
+    specifiers: {}
+
   components/serpdog:
     specifiers: {}
 
