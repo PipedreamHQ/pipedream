@@ -27,12 +27,11 @@ export default {
       inputs,
       query,
     } = this;
-
-    return app.executeQuery({
-      step,
+    const response = app.executeQuery({
       query,
       inputs,
-      summary: () => "Successfully executed query.",
     });
+    step.export("$summary", "Successfully executed query.");
+    return response;
   },
 };

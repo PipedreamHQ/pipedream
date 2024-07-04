@@ -17,12 +17,15 @@ export default {
       label: "SQL Query",
     },
   },
-  async run({ $ }) {
-    const args = this.app.executeQueryAdapter(this.sql);
-    return await this.app.executeQuery({
-      $,
-      summary: () => "Successfully executed query.",
-      ...args,
+  async run({ $: step }) {
+    const {
+      query, params,
+    } = this.app.executeQueryAdapter(this.sql);
+    const response = await this.app.executeQuery({
+      query,
+      inputs: params || {},
     });
+    step.export("$summary", "Successfully executed query.");
+    return response;
   },
 };

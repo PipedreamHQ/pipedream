@@ -37,18 +37,18 @@ export default {
       },
     }), {});
   },
-  run({ $: step }) {
+  async run({ $: step }) {
     const {
       app,
       table,
       ...inputs
     } = this;
 
-    return app.insertRow({
-      step,
+    const response = await app.insertRow({
       table,
       inputs,
-      summary: () => "Successfully inserted row.",
     });
+    step.export("$summary", "Successfully inserted row.");
+    return response;
   },
 };
