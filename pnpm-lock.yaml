@@ -2149,7 +2149,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/deftship:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/degreed:
     specifiers: {}
