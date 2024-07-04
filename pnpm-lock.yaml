@@ -3963,7 +3963,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/hackerone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/handwrytten:
     specifiers: {}
