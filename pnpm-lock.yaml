@@ -4859,7 +4859,10 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/leadoku:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/leadzen_ai:
     specifiers:
@@ -15756,7 +15759,7 @@ packages:
       '@opentelemetry/api': 1.6.0
       guid-typescript: 1.0.9
       tinyduration: 3.3.0
-      tslib: 2.6.2
+      tslib: 2.6.3
       uri-template-lite: 23.4.0
       uuid: 9.0.1
     dev: false
@@ -15768,7 +15771,7 @@ packages:
       '@opentelemetry/api': 1.6.0
       guid-typescript: 1.0.9
       node-fetch: 2.7.0
-      tslib: 2.6.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -15778,7 +15781,7 @@ packages:
     dependencies:
       '@microsoft/kiota-abstractions': 1.0.0-preview.26
       guid-typescript: 1.0.9
-      tslib: 2.6.2
+      tslib: 2.6.3
     dev: false
 
   /@microsoft/kiota-serialization-json/1.0.0-preview.26:
@@ -15786,7 +15789,7 @@ packages:
     dependencies:
       '@microsoft/kiota-abstractions': 1.0.0-preview.26
       guid-typescript: 1.0.9
-      tslib: 2.6.2
+      tslib: 2.6.3
     dev: false
 
   /@microsoft/kiota-serialization-text/1.0.0-preview.23:
@@ -15794,7 +15797,7 @@ packages:
     dependencies:
       '@microsoft/kiota-abstractions': 1.0.0-preview.26
       guid-typescript: 1.0.9
-      tslib: 2.6.2
+      tslib: 2.6.3
     dev: false
 
   /@microsoft/microsoft-graph-client/3.0.7:
