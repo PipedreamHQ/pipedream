@@ -1,151 +1,158 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "deftship",
   propDefinitions: {
-    freightOrderId: {
+    serviceCode: {
       type: "string",
-      label: "Freight Order ID",
-      description: "The unique identification of the freight order",
+      label: "Service Code",
+      description: "Service code of this order",
+      async options({ carrier }) {
+        const { data } = await this.getServiceNames();
+        const relevant = data.filter((item) => item.carrier === carrier);
+        return relevant.map(({
+          code: value, service: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
-    parcelOrderId: {
+    fromName: {
       type: "string",
-      label: "Parcel Order ID",
-      description: "The unique identification of the parcel order",
+      label: "From Address: Name",
+      description: "The name in the sender address",
     },
-    freightShipmentId: {
+    fromAttention: {
       type: "string",
-      label: "Freight Shipment ID",
-      description: "The unique identification of the freight shipment",
+      label: "From Address: Attention",
+      description: "Attention of the sender",
     },
-    vehicleType: {
+    fromStreet: {
       type: "string",
-      label: "Vehicle Type",
-      description: "The type of vehicle for the insurance policy",
+      label: "From Address: Street",
+      description: "The street address of the sender",
     },
-    shipmentValue: {
+    fromCity: {
+      type: "string",
+      label: "From Address: City",
+      description: "The city address of the sender",
+    },
+    fromState: {
+      type: "string",
+      label: "From Address: State",
+      description: "The state code of the sender",
+      options: constants.STATE_CODES,
+    },
+    fromZip: {
+      type: "string",
+      label: "From Address: Zip Code",
+      description: "The zip code of the sender",
+    },
+    fromCountry: {
+      type: "string",
+      label: "From Address: Country",
+      description: "The country code of the sender",
+      options: constants.COUNTRY_CODES,
+    },
+    fromTelephone: {
+      type: "string",
+      label: "From Address: Telephone",
+      description: "The telephone number of the sender",
+    },
+    toName: {
+      type: "string",
+      label: "To Address: Name",
+      description: "The name in the receiver address",
+    },
+    toAttention: {
+      type: "string",
+      label: "To Address: Attention",
+      description: "Attention of the receiver",
+    },
+    toStreet: {
+      type: "string",
+      label: "To Address: Street",
+      description: "The street address of the receiver",
+    },
+    toCity: {
+      type: "string",
+      label: "To Address: City",
+      description: "The city address of the receiver",
+    },
+    toState: {
+      type: "string",
+      label: "To Address: State",
+      description: "The state code of the receiver",
+      options: constants.STATE_CODES,
+    },
+    toZip: {
+      type: "string",
+      label: "To Address: Zip Code",
+      description: "The zip code of the receiver",
+    },
+    toCountry: {
+      type: "string",
+      label: "To Address: Country",
+      description: "The country code of the receiver",
+      options: constants.COUNTRY_CODES,
+    },
+    toTelephone: {
+      type: "string",
+      label: "To Address: Telephone",
+      description: "The telephone number of the receiver",
+    },
+    itemCount: {
       type: "integer",
-      label: "Shipment Value",
-      description: "The value of the shipment for the insurance policy",
-    },
-    parcelSize: {
-      type: "string",
-      label: "Parcel Size",
-      description: "The size of the parcel for the new order",
-    },
-    destination: {
-      type: "string",
-      label: "Destination",
-      description: "The destination of the parcel for the new order",
+      label: "Count",
+      description: "Pieces count",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.deftship.com";
+      return this.$auth.environment;
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           Authorization: `Bearer ${this.$auth.api_token}`,
         },
       });
     },
-    async getFreightOrder({
-      freightOrderId, ...opts
-    }) {
-      return this._makeRequest({
-        ...opts,
-        path: `/freightOrders/${freightOrderId}`,
-      });
-    },
-    async getParcelOrder({
-      parcelOrderId, ...opts
-    }) {
-      return this._makeRequest({
-        ...opts,
-        path: `/parcelOrders/${parcelOrderId}`,
-      });
-    },
-    async getFreightShipment({
-      freightShipmentId, ...opts
-    }) {
-      return this._makeRequest({
-        ...opts,
-        path: `/freightShipments/${freightShipmentId}`,
-      });
-    },
-    async bookInsurancePolicy({
-      vehicleType, shipmentValue, ...opts
-    }) {
-      return this._makeRequest({
-        ...opts,
-        method: "POST",
-        path: "/insurancePolicies",
-        data: {
-          vehicleType,
-          shipmentValue,
-        },
-      });
-    },
-    async createParcelOrder({
-      parcelSize, destination, ...opts
-    }) {
-      return this._makeRequest({
-        ...opts,
-        method: "POST",
-        path: "/parcelOrders",
-        data: {
-          parcelSize,
-          destination,
-        },
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    emitNewFreightOrder(freightOrderId, additionalData = {}) {
-      this.$emit({
-        freightOrderId,
-        ...additionalData,
-      }, {
-        summary: `New freight order: ${freightOrderId}`,
-        id: freightOrderId,
-      });
-    },
-    emitNewParcelOrder(parcelOrderId, additionalData = {}) {
-      this.$emit({
-        parcelOrderId,
-        ...additionalData,
-      }, {
-        summary: `New parcel order: ${parcelOrderId}`,
-        id: parcelOrderId,
-      });
-    },
-    emitNewFreightShipment(freightShipmentId, additionalData = {}) {
-      this.$emit({
-        freightShipmentId,
-        ...additionalData,
-      }, {
-        summary: `New freight shipment: ${freightShipmentId}`,
-        id: freightShipmentId,
-      });
-    },
-    async triggerNewFreightOrder() {
+    getInsuranceRates(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/freight_order",
+        path: "/insurances/get-rates",
+        ...opts,
+      });
+    },
+    getServiceNames(opts = {}) {
+      return this._makeRequest({
+        path: "/shipment/service-names",
+        ...opts,
+      });
+    },
+    createFreightOrder(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/freight-orders",
+        ...opts,
+      });
+    },
+    createParcelOrder(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/parcel-orders",
+        ...opts,
       });
     },
   },
