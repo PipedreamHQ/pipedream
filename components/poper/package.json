@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/poper",
+  "version": "0.0.1",
+  "description": "Pipedream Poper Components",
+  "main": "poper.app.mjs",
+  "keywords": [
+    "pipedream",
+    "poper"
+  ],
+  "homepage": "https://pipedream.com/apps/poper",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
