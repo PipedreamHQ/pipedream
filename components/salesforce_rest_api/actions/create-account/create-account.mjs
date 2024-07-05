@@ -19,21 +19,20 @@ export default {
   `),
   version: "0.3.0",
   type: "action",
+  methods: {
+    getAdvancedProps() {
+      return account.extraProps;
+    },
+  },
   props: {
     salesforce,
-    Name: {
-      type: "string",
-      label: "Name",
-      description: "Name of the account.",
-    },
-    selector: {
+    ...account.createProps,
+    ...account.initialProps,
+    useAdvancedProps: {
       propDefinition: [
         salesforce,
-        "fieldSelector",
+        "useAdvancedProps",
       ],
-      description: `${salesforce.propDefinitions.fieldSelector.description} Account`,
-      options: () => Object.keys(account),
-      reloadProps: true,
     },
   },
   additionalProps() {

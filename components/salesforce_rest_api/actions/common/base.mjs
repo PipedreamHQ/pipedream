@@ -5,14 +5,13 @@ export default {
     salesforce,
   },
   methods: {
-    additionalProps(selector, sobject) {
-      if (!selector || !sobject) {
-        return {};
-      }
-      return selector.reduce((props, prop) => ({
-        ...props,
-        [prop]: sobject[prop],
-      }), {});
+    getAdvancedProps() {
+      return {};
+    },
+    additionalProps() {
+      return this.useAdvancedProps
+        ? this.getAdvancedProps()
+        : {};
     },
   },
 };

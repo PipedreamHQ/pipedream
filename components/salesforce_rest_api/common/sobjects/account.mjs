@@ -6,8 +6,7 @@ export default {
       description: "Name of the account. Max 255 characters.",
     },
   },
-  initialProps: {},
-  extraProps: {
+  initialProps: {
     AccountNumber: {
       type: "string",
       label: "Account Number",
@@ -15,6 +14,26 @@ export default {
         "Account number assigned to this account (not the unique, system-generated ID assigned during creation). Max 40 characters.",
       optional: true,
     },
+    Description: {
+      type: "string",
+      label: "Account Description",
+      description: "Text description of the account. Limited to 32,000 KB.",
+      optional: true,
+    },
+    Phone: {
+      type: "string",
+      label: "Account Phone",
+      description: "Phone number for this account. Max 40 characters.",
+      optional: true,
+    },
+    Website: {
+      type: "string",
+      label: "Website",
+      description: "The website of this account. Max 255 characters.",
+      optional: true,
+    },
+  },
+  extraProps: {
     AccountSource: {
       type: "string",
       label: "Account Source",
@@ -172,12 +191,6 @@ export default {
         },
       ],
     },
-    Description: {
-      type: "string",
-      label: "Account Description",
-      description: "Text description of the account. Limited to 32,000 KB.",
-      optional: true,
-    },
     DunsNumber: {
       type: "string",
       label: "D-U-N-S Number",
@@ -251,12 +264,6 @@ export default {
         "Subsidiary",
         "Other",
       ],
-    },
-    Phone: {
-      type: "string",
-      label: "Account Phone",
-      description: "Phone number for this account. Max 40 characters.",
-      optional: true,
     },
     PhotoUrl: {
       type: "string",
@@ -393,12 +400,15 @@ export default {
       label: "Account Type",
       description: "Type of account.",
       optional: true,
-    },
-    Website: {
-      type: "string",
-      label: "Website",
-      description: "The website of this account. Max 255 characters.",
-      optional: true,
+      options: [
+        "Prospect",
+        "Customer - Direct",
+        "Customer - Channel",
+        "Channel Partner / Reseller",
+        "Installation Partner",
+        "Technology Partner",
+        "Other",
+      ],
     },
     YearStarted: {
       type: "string",

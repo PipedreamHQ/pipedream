@@ -85,6 +85,13 @@ export default {
       },
       description: "A string array of contact or lead IDs who accepted this event. This JunctionIdList is linked to the AcceptedEventRelation child relationship. Warning Adding a JunctionIdList field name to the fieldsToNull property deletes all related junction records. This action can't be undone.",
     },
+    useAdvancedProps: {
+      type: "boolean",
+      label: "Use Advanced Props",
+      description: "Set to true to see all available props for this object.",
+      optional: true,
+      reloadProps: true,
+    },
   },
   methods: {
     _authToken() {
