@@ -1,20 +1,22 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import poper from "../../poper.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "poper-new-lead",
   name: "New Lead from Poper Popup",
-  description: "Emit new event when a new lead is obtained from Poper popups. [See the documentation](https://help.poper.ai/portal/en/kb/articles/view-popup-responses)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new lead is obtained from Poper popups.",
+  version: "0.0.1",
   type: "source",
-  dedupe: "unique",
   props: {
     poper,
     db: "$.service.db",
     timer: {
+      label: "Polling interval",
+      description: "Pipedream will poll the Poper API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     poperId: {
@@ -25,48 +27,49 @@ export default {
     },
   },
   methods: {
-    _getLastLeadId() {
-      return this.db.get("lastLeadId");
+    _getLastId() {
+      return this.db.get("lastId") || 0;
     },
-    _setLastLeadId(id) {
-      this.db.set("lastLeadId", id);
+    _setLastId(lastId) {
+      this.db.set("lastId", lastId);
+    },
+    getParams() {
+      return {};
+    },
+    async startEvent(maxResults = 0) {
+      const lastId = this._getLastId();
+      const { responses } = await this.poper.listPoperResponses({
+        maxResults,
+        data: {
+          popup_id: this.poperId,
+        },
+      });
+
+      const filteredResponse = responses.filter((item) => item.id > lastId);
+
+      if (filteredResponse.length) {
+        if (maxResults && filteredResponse.length > maxResults) {
+          filteredResponse.length = maxResults;
+        }
+        this._setLastId(filteredResponse[0].id);
+      }
+
+      for (const item of filteredResponse.reverse()) {
+        this.$emit( item, {
+          id: item.id,
+          summary: `New lead with Id: ${item.id}`,
+          ts: Date.parse(item.time_stamp),
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      await this.emitNewLeads();
-    },
-    async activate() {
-      await this.emitNewLeads();
-    },
-    async deactivate() {
-      // No specific deactivation logic required
+      await this.startEvent(25);
     },
   },
   async run() {
-    await this.emitNewLeads();
+    await this.startEvent();
   },
-  async emitNewLeads() {
-    const poperId = this.poperId;
-    const responses = await this.poper.getPopupResponses({
-      poperId,
-    });
-    const lastLeadId = this._getLastLeadId();
-    let newLastLeadId = lastLeadId;
-
-    for (const response of responses.responses) {
-      if (!lastLeadId || response.id > lastLeadId) {
-        this.$emit(response, {
-          summary: `New lead from Poper ID: ${poperId}`,
-          id: response.id,
-          ts: Date.now(),
-        });
-        newLastLeadId = response.id;
-      }
-    }
-
-    if (newLastLeadId !== lastLeadId) {
-      this._setLastLeadId(newLastLeadId);
-    }
-  },
+  sampleEmit,
 };

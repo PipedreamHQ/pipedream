@@ -9,67 +9,48 @@ export default {
       label: "Poper ID",
       description: "The ID of the Poper popup",
       async options() {
-        const popups = await this.listPopups();
-        return popups.map((popup) => ({
-          label: popup.name,
-          value: popup.id,
+        const { popups } = await this.listPopups();
+        return popups.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    apiKey: {
-      type: "string",
-      label: "API Key",
-      description: "Your Poper API Key",
-      secret: true,
-    },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.poper.ai/general/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _data(data = {}) {
+      return {
+        ...data,
+        api_key: `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, data, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
+        method: "POST",
         url: this._baseUrl() + path,
         headers: {
-          ...headers,
           "Content-Type": "application/x-www-form-urlencoded",
         },
+        data: this._data(data),
+        ...opts,
       });
     },
-    async listPopups() {
+    listPopups() {
       return this._makeRequest({
         path: "/popup/list",
-        data: `api_key=${this.$auth.api_key}`,
       });
     },
-    async getPopupResponses({ poperId }) {
+    listPoperResponses(opts = {}) {
       return this._makeRequest({
         path: "/popup/responses",
-        data: `api_key=${this.$auth.api_key}&popup_id=${poperId}`,
-      });
-    },
-    async emitNewLeadEvent({ poperId }) {
-      const responses = await this.getPopupResponses({
-        poperId,
-      });
-      responses.responses.forEach((response) => {
-        this.$emit(response, {
-          summary: `New lead from Poper ID: ${poperId}`,
-          id: response.id,
-        });
+        ...opts,
       });
     },
   },
