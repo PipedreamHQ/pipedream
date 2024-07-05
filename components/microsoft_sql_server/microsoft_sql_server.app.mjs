@@ -144,9 +144,8 @@ export default {
     },
     async executeQuery(preparedStatement = {}) {
       let connection;
-      const {
-        query, inputs = {},
-      } = preparedStatement;
+      const { query } = preparedStatement;
+      const inputs = preparedStatement?.inputs || {};
       try {
         connection = await mssql.connect(this.getClientConfiguration());
         const input =

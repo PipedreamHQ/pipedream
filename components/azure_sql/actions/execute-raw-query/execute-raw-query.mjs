@@ -12,17 +12,20 @@ export default {
     sql: {
       type: "sql",
       auth: {
-        app: "axure_sql",
+        app: "azure_sql",
       },
       label: "SQL Query",
     },
   },
   async run({ $ }) {
-    const args = this.app.executeQueryAdapter(this.sql);
-    return await this.app.executeQuery({
-      $,
-      summary: () => "Successfully executed query.",
-      ...args,
+    const {
+      query, inputs = {},
+    } = this.app.executeQueryAdapter(this.sql);
+    const response = await this.app.executeQuery({
+      query,
+      inputs,
     });
+    $.export("$summary", "Successfully executed query.");
+    return response;
   },
 };
