@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/faceup",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream FaceUp Components",
   "main": "faceup.app.mjs",
   "keywords": [
