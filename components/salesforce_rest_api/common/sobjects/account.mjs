@@ -1,7 +1,7 @@
 export default {
   createProps: {
     Name: {
-      type: "",
+      type: "string",
       label: "Account Name",
       description: "Name of the account. Max 255 characters.",
     },
@@ -21,7 +21,13 @@ export default {
       description:
         "The source of the account record. Available values are set by an administrator.",
       optional: true,
-      options: [],
+      options: [
+        "Web",
+        "Phone Inquiry",
+        "Partner Referral",
+        "Purchased List",
+        "Other",
+      ],
     },
     AnnualRevenue: {
       type: "string",
@@ -41,20 +47,57 @@ export default {
       description: "Max 80 characters.",
       optional: true,
     },
-    BillingCountryCode: {
-      type: "string",
-      label: "Billing Country Code",
-      description: "The ISO country code for the account's billing address.",
-      optional: true,
-      options: [],
-    },
     BillingGeocodeAccuracy: {
       type: "string",
       label: "Billing Geocode Accuracy",
-      description:
-        "Accuracy level of the geocode for the billing address.",
+      description: "Accuracy level of the geocode for the billing address.",
       optional: true,
-      options: [],
+      options: [
+        {
+          label: "Address",
+          value: "Address",
+        },
+        {
+          label: "Near Address",
+          value: "NearAddress",
+        },
+        {
+          label: "Block",
+          value: "Block",
+        },
+        {
+          label: "Street",
+          value: "Street",
+        },
+        {
+          label: "Extended Zip",
+          value: "ExtendedZip",
+        },
+        {
+          label: "Zip",
+          value: "Zip",
+        },
+        {
+          label: "Neighborhood",
+          value: "Neighborhood",
+        },
+        {
+          label: "City",
+          value: "City",
+        },
+        {
+          label: "County",
+          value: "County",
+        },
+        {
+          label: "State",
+          value: "State",
+        },
+        {
+          label: "Unknown",
+          value: "Unknown",
+        },
+      ],
     },
     BillingLatitude: {
       type: "string",
@@ -81,13 +124,6 @@ export default {
       label: "Billing State/Province",
       description: "Max 80 characters.",
       optional: true,
-    },
-    BillingStateCode: {
-      type: "string",
-      label: "Billing State Code",
-      description: "The ISO state code for the account's billing address.",
-      optional: true,
-      options: [],
     },
     BillingStreet: {
       type: "string",
@@ -136,14 +172,6 @@ export default {
         },
       ],
     },
-    ConnectionReceivedId: {
-      type: "string",
-      label: "Connection Received ID",
-      description:
-        "ID of the PartnerNetworkConnection that shared this record with your organization.",
-      optional: true,
-      async options() {},
-    },
     Description: {
       type: "string",
       label: "Account Description",
@@ -165,80 +193,64 @@ export default {
     Industry: {
       type: "string",
       label: "Industry",
-      description: "An industry associated with this account. Max 40 characters.",
+      description:
+        "An industry associated with this account. Max 40 characters.",
       optional: true,
     },
     IsCustomerPortal: {
       type: "boolean",
       label: "Is Customer Portal",
-      description: "Indicates whether the account has at least one contact enabled to use the org's Experience Cloud site or Customer Portal.",
+      description:
+        "Indicates whether the account has at least one contact enabled to use the org's Experience Cloud site or Customer Portal.",
       optional: true,
     },
     IsPartner: {
       type: "boolean",
       label: "Is Partner",
-      description: "Indicates whether the account has at least one contact enabled to use the org's partner portal.",
+      description:
+        "Indicates whether the account has at least one contact enabled to use the org's partner portal.",
       optional: true,
     },
     IsPriorityRecord: {
       type: "boolean",
       label: "Is Priority Record",
-      description: "Shows whether the user has marked the account as important.",
+      description:
+        "Shows whether the user has marked the account as important.",
       optional: true,
     },
     NaicsCode: {
       type: "string",
       label: "NAICS Code",
-      description: "6-digit code (North American Industry Classification System)",
+      description:
+        "6-digit code (North American Industry Classification System)",
       optional: true,
     },
     NaicsDesc: {
-      type: "",
+      type: "string",
       label: "NAICS Description",
-      description: "A brief description of an org's line of business, based on its NAICS code. Max 120 characters.",
+      description:
+        "A brief description of an org's line of business, based on its NAICS code. Max 120 characters.",
       optional: true,
     },
     NumberOfEmployees: {
       type: "integer",
       label: "Employees",
-      description: "Number of employees working at the company represented by this account.",
+      description:
+        "Number of employees working at the company represented by this account.",
       max: 99999999,
       optional: true,
-    },
-    OperatingHoursId: {
-      type: "string",
-      label: "Operating Hour ID",
-      description: "The operating hours associated with the account. Available only if Field Service is enabled.",
-      optional: true,
-      async options() {},
-    },
-    OwnerId: {
-      type: "string",
-      label: "Owner ID",
-      description: "The ID of the user who currently owns this account. You must have the “Transfer Record” permission in order to update (transfer) account ownership using this field.",
-      optional: true,
-      async options() {},
     },
     Ownership: {
       type: "string",
       label: "Ownership",
       description: "Ownership type for the account.",
       optional: true,
-      options: [],
-    },
-    ParentId: {
-      type: "string",
-      label: "Parent Account ID",
-      description: "ID of the parent object, if any.",
-      optional: true,
-      async options() {},
-    },
-    PersonIndividualId: {
-      type: "string",
-      label: "Person Individual ID",
-      description: "ID of the data privacy record associated with this person's account.",
-      optional: true,
-      async options() { },
+      options: [
+        "Public",
+        "Private",
+        "Subsidiary",
+        "Other",
+      ],
     },
     Phone: {
       type: "string",
@@ -249,7 +261,8 @@ export default {
     PhotoUrl: {
       type: "string",
       label: "Photo URL",
-      description: "Path to be combined with the URL of a Salesforce instance (for example, `https://yourInstance.salesforce.com/`) to generate a URL to request the social network profile image associated with the account.",
+      description:
+        "Path to be combined with the URL of a Salesforce instance (for example, `https://yourInstance.salesforce.com/`) to generate a URL to request the social network profile image associated with the account.",
       optional: true,
     },
     Rating: {
@@ -257,21 +270,11 @@ export default {
       label: "Account Rating",
       description: "The account's prospect rating.",
       optional: true,
-      options: [],
-    },
-    RecordTypeId: {
-      type: "string",
-      label: "Record Type ID",
-      description: "ID of the record type assigned to this object.",
-      optional: true,
-      async options() {},
-    },
-    Salutation: {
-      type: "string",
-      label: "Salutation",
-      description: "Honorific added to the name for use in letters, etc.",
-      optional: true,
-      options: [],
+      options: [
+        "Hot",
+        "Warm",
+        "Cold",
+      ],
     },
     ShippingCity: {
       type: "string",
@@ -285,32 +288,50 @@ export default {
       description: "Max 80 characters.",
       optional: true,
     },
-    ShippingCountryCode: {
-      type: "string",
-      label: "Shipping Country Code",
-      description: "The ISO country code for the account's shipping address.",
-      optional: true,
-      options: [],
-    },
     ShippingGeocodeAccuracy: {
       type: "string",
       label: "Shipping Geocode Accuracy",
       description: "Accuracy level of the geocode for the shipping address.",
       optional: true,
-      options: [],
+      options: [
+        {
+          label: "Address",
+          value: "Address",
+        },
+        {
+          label: "Near Address",
+          value: "NearAddress",
+        },
+        {
+          label: "Block",
+          value: "Block",
+        },
+        {
+          label: "Street",
+          value: "Street",
+        },
+        {
+          label: "Extended Zip",
+          value: "ExtendedZip",
+        },
+        {
+          label: "Zip",
+          value: "Zip",
+        },
+      ],
     },
     ShippingLatitude: {
       type: "string",
       label: "Shipping Latitude",
       description:
-      "A number between -90 and 90 with up to 15 decimal places. Use with `Shipping Longitude` to specify the precise geolocation of a shipping address.",
+        "A number between -90 and 90 with up to 15 decimal places. Use with `Shipping Longitude` to specify the precise geolocation of a shipping address.",
       optional: true,
     },
     ShippingLongitude: {
       type: "string",
       label: "Shipping Longitude",
       description:
-      "A number between -180 and 180 with up to 15 decimal places. Use with `Shipping Latitude` to specify the precise geolocation of a shipping address.",
+        "A number between -180 and 180 with up to 15 decimal places. Use with `Shipping Latitude` to specify the precise geolocation of a shipping address.",
       optional: true,
     },
     ShippingPostalCode: {
@@ -325,47 +346,46 @@ export default {
       description: "Max 80 characters.",
       optional: true,
     },
-    ShippingStateCode: {
-      type: "string",
-      label: "Shipping State Code",
-      description: "The ISO state code for the account's shipping address.",
-      optional: true,
-      options: [],
-    },
     ShippingStreet: {
       type: "string",
       label: "Shipping Street",
-      description: "The street address of the shipping address for this account. Max 255 characters.",
+      description:
+        "The street address of the shipping address for this account. Max 255 characters.",
       optional: true,
     },
     Sic: {
       type: "string",
       label: "SIC Code",
-      description: "Standard Industrial Classification code of the company's main business categorization, for example, 57340 for Electronics. Max 20 characters.",
+      description:
+        "Standard Industrial Classification code of the company's main business categorization, for example, 57340 for Electronics. Max 20 characters.",
       optional: true,
     },
     SicDesc: {
       type: "string",
       label: "SIC Description",
-      description: "A brief description of an org's line of business, based on its SIC code. Max 80 characters.",
+      description:
+        "A brief description of an org's line of business, based on its SIC code. Max 80 characters.",
       optional: true,
     },
     Site: {
       type: "string",
       label: "Account Site",
-      description: "Name of the account's location, for example Headquarters or London. Max 80 characters.",
+      description:
+        "Name of the account's location, for example Headquarters or London. Max 80 characters.",
       optional: true,
     },
     TickerSymbol: {
       type: "string",
       label: "Ticker Symbol",
-      description: "The stock market symbol for this account. Maximum of 20 characters.",
+      description:
+        "The stock market symbol for this account. Maximum of 20 characters.",
       optional: true,
     },
     Tradestyle: {
       type: "string",
       label: "Tradestyle",
-      description: "A name, different from its legal name, that an org may use for conducting business. Similar to “Doing business as” or “DBA”. Max 255 characters.",
+      description:
+        "A name, different from its legal name, that an org may use for conducting business. Similar to “Doing business as” or “DBA”. Max 255 characters.",
       optional: true,
     },
     Type: {
@@ -383,7 +403,8 @@ export default {
     YearStarted: {
       type: "string",
       label: "Year Started",
-      description: "The date when an org was legally established. Max 4 characters",
+      description:
+        "The date when an org was legally established. Max 4 characters",
       optional: true,
     },
   },
