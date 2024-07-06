@@ -8,10 +8,10 @@ export default {
     getAdvancedProps() {
       return {};
     },
-    additionalProps() {
-      return this.useAdvancedProps
-        ? this.getAdvancedProps()
-        : {};
-    },
+  },
+  additionalProps() {
+    return this.useAdvancedProps
+      ? this.getAdvancedProps()
+      : {};
   },
 };

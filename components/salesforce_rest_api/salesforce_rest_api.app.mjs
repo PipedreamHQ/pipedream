@@ -87,7 +87,7 @@ export default {
     },
     useAdvancedProps: {
       type: "boolean",
-      label: "Use Advanced Props",
+      label: "See All Props",
       description: "Set to true to see all available props for this object.",
       optional: true,
       reloadProps: true,
