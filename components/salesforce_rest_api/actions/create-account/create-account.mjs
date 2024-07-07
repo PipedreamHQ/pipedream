@@ -15,6 +15,7 @@ export default {
   version: "0.3.{{ts}}",
   type: "action",
   methods: {
+    ...common.methods,
     getAdvancedProps() {
       return account.extraProps;
     },
@@ -37,11 +38,14 @@ export default {
   },
   async run({ $ }) {
     const { // eslint-disable-next-line no-unused-vars
-      salesforce, useAdvancedProps, docsInfo, ...data
+      salesforce, useAdvancedProps, docsInfo, additionalFields, ...data
     } = this;
     const response = await salesforce.createAccount({
       $,
-      data,
+      data: {
+        ...data,
+        ...this.getAdditionalFields(),
+      },
     });
     $.export("$summary", `Successfully created account "${this.Name}"`);
     return response;
