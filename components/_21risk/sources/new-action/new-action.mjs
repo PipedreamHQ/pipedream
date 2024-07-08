@@ -18,7 +18,7 @@ export default {
       return this._21risk.listActions;
     },
     getSummary(item) {
-      return `New Action: ${item.name}`;
+      return `New Action: ${item._KeyActionId}`;
     },
   },
   sampleEmit,
