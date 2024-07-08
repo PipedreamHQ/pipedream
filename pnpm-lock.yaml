@@ -7208,6 +7208,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/ramp_sandbox:
+    specifiers: {}
+
   components/range:
     specifiers:
       '@pipedream/platform': ^1.2.1
