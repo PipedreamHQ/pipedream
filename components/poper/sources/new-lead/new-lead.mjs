@@ -39,7 +39,6 @@ export default {
     async startEvent(maxResults = 0) {
       const lastId = this._getLastId();
       const { responses } = await this.poper.listPoperResponses({
-        maxResults,
         data: {
           popup_id: this.poperId,
         },
