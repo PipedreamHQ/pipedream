@@ -76,6 +76,7 @@ export default {
         FROM INFORMATION_SCHEMA.TABLES AS t
             JOIN INFORMATION_SCHEMA.COLUMNS AS c ON t.TABLE_NAME = c.TABLE_NAME
             AND t.TABLE_SCHEMA = c.TABLE_SCHEMA
+        WHERE t.TABLE_TYPE = 'BASE TABLE'
         ORDER BY t.TABLE_NAME,
             c.ORDINAL_POSITION
       `;
@@ -105,13 +106,17 @@ export default {
      * @returns {object} - The adapted query and parameters.
      */
     proxyAdapter(preparedStatement = {}) {
-      const {
-        query,
-        inputs: params,
-      } = preparedStatement;
+      const { query } = preparedStatement;
+      const inputs = preparedStatement?.inputs || {};
+      for (const [
+        key,
+        value,
+      ] of Object.entries(inputs)) {
+        query.replaceAll(`@${key}`, value);
+      }
       return {
         query,
-        params,
+        params: [],
       };
     },
     /**
@@ -125,13 +130,15 @@ export default {
      * `executeQuery`.
      */
     executeQueryAdapter(proxyArgs = {}) {
-      const {
-        query = "",
-        params: inputs,
-      } = proxyArgs;
+      let { query } = proxyArgs;
+      const params = proxyArgs?.params || [];
+      for (const param of params) {
+        query = query.replace("?", param);
+      }
+      query = query.replaceAll("\n", " ");
       return {
         query,
-        inputs,
+        inputs: {},
       };
     },
     getClientConfiguration() {

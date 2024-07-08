@@ -12,19 +12,14 @@ export default {
     sql: {
       type: "sql",
       auth: {
-        app: "azure_sql",
+        app: "app",
       },
       label: "SQL Query",
     },
   },
   async run({ $ }) {
-    const {
-      query, inputs = {},
-    } = this.app.executeQueryAdapter(this.sql);
-    const response = await this.app.executeQuery({
-      query,
-      inputs,
-    });
+    const args = this.app.executeQueryAdapter(this.sql);
+    const response = await this.app.executeQuery(args);
     $.export("$summary", "Successfully executed query.");
     return response;
   },

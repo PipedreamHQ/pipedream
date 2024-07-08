@@ -12,20 +12,15 @@ export default {
     sql: {
       type: "sql",
       auth: {
-        app: "microsoft_sql_server",
+        app: "app",
       },
       label: "SQL Query",
     },
   },
-  async run({ $: step }) {
-    const {
-      query, inputs = {},
-    } = this.app.executeQueryAdapter(this.sql);
-    const response = await this.app.executeQuery({
-      query,
-      inputs,
-    });
-    step.export("$summary", "Successfully executed query.");
+  async run({ $ }) {
+    const args = this.app.executeQueryAdapter(this.sql);
+    const response = await this.app.executeQuery(args);
+    $.export("$summary", "Successfully executed query.");
     return response;
   },
 };
