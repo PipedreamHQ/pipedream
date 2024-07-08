@@ -1077,9 +1077,9 @@ importers:
 
   components/brevo:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 3.0.0
 
   components/brex:
     specifiers:
