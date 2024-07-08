@@ -10,7 +10,7 @@ export default {
   key: "database-query-sql-database",
   description:
     "Execute a SQL Query. See [our docs](https://pipedream.com/docs/databases/working-with-sql) to learn more about working with SQL in Pipedream.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     database: {
@@ -35,7 +35,6 @@ export default {
           value: "snowflake",
         },
       ],
-      default: "postgresql",
       reloadProps: true,
     },
     postgresql: {
