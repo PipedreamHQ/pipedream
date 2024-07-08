@@ -75,7 +75,10 @@ importers:
     specifiers: {}
 
   components/_21risk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/_2chat:
     specifiers: {}
