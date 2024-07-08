@@ -1077,9 +1077,9 @@ importers:
 
   components/brevo:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 3.0.0
 
   components/brex:
     specifiers:
@@ -6786,7 +6786,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/poper:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/popupsmart:
     specifiers: {}
@@ -9333,10 +9336,10 @@ importers:
 
   components/toggl:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^3.0.0
       toggl-api: ^1.0.2
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 3.0.0
       toggl-api: 1.0.2
 
   components/token_metrics:
