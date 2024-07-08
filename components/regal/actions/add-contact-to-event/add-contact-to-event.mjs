@@ -79,7 +79,7 @@ export default {
       }
       : {};
     for (let i = 2; i < this.additionalProperties + 2; i++) {
-      properties[this[`customProopertyName${i}`]] = this[`customPropertyValue${i}`];
+      properties[this[`customPropertyName${i}`]] = this[`customPropertyValue${i}`];
     }
 
     const response = await this.regal.customEvent({

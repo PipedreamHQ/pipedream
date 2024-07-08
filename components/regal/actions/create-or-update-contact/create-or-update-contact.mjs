@@ -40,7 +40,7 @@ export default {
         "email",
       ],
     },
-    emailOptin: {
+    emailOptIn: {
       type: "boolean",
       label: "Email Opt-In",
       description: "Email subscription status. Defaults to `true`",
