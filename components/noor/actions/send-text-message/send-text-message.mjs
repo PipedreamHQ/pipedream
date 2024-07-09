@@ -37,6 +37,8 @@ export default {
       },
     });
 
+    if (response.error) throw new Error(response?.error);
+
     $.export("$summary", `Successfully sent message to '${this.thread}' thread`);
 
     return response;
