@@ -72,7 +72,7 @@ class ServerClient {
       id = key;
       url = `${baseAccountURL}/${id}`;
     } else {
-      url = `${baseAccountURL}?app=${key.app}&client_user_id=${key.clientUserId}`;
+      url = `${baseAccountURL}?app=${key.app}&limit=100&client_user_id=${key.clientUserId}`;
     }
     if (opts?.includeCredentials) {
       url += `${id
@@ -85,6 +85,7 @@ class ServerClient {
       },
     });
     const res = await resp.json();
+    console.log('res :>> ', res);
     const {
       data, error,
     } = res;

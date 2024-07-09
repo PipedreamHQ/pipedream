@@ -6,10 +6,10 @@ import { createClient } from "../../../src/browser"
 
 const publicKey = process.env.NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST
-const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID
+const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID
 
 if (!publicKey) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY env var")
-if (!oauthAppId) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID env var")
+if (!appSlug) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID env var")
 
 const pd = createClient({ publicKey, frontendHost })
 
@@ -21,20 +21,20 @@ export default function Home() {
   const [apn, setAuthProvisionId] = useState<string | null>(null)
   const inputRef = createRef<HTMLInputElement>()
 
-  const connectApp = (oauthAppId: string) => {
+  const connectApp = (app: string) => {
     if (!externalUserId || !token) return
+    setOauthAppId(app)
     pd.startConnect({
-      app: oauthAppId,
+      app,
       token,
       onSuccess: ({ id: authProvisionId }: any) => {
-        setOauthAppId(oauthAppId)
         setAuthProvisionId(authProvisionId as string)
       }
     })
   }
 
-  const connectGitHub = async () => {
-    if (oauthAppId) connectApp(oauthAppId)
+  const connectAccount = async () => {
+    if (appSlug) connectApp(appSlug)
     else console.error("Missing NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID env var")
   }
 
@@ -54,16 +54,11 @@ export default function Home() {
       setOauthAppId(null)
       setAuthProvisionId(null)
     } else {
+      serverConnectTokenCreate(externalUserId).then((t) => setToken(t))
       getAppsData(externalUserId).then((d) => {
-        console.log('Github App Data? :>> ', d);
         setGithubData(d.github)
       })
     }
-  }, [externalUserId])
-
-  useEffect(() => {
-    if (!externalUserId) return
-    serverConnectTokenCreate(externalUserId).then((t) => setToken(t))
   }, [externalUserId])
 
 
@@ -88,7 +83,7 @@ export default function Home() {
                   <button onClick={signOut} style={{ all: "revert" }}>Sign out</button>
                 </p>
               </div>
-              : <button style={{ all: "revert" }} onClick={connectGitHub}>Connect your GitHub account</button>
+              : <button style={{ all: "revert" }} onClick={connectAccount}>Connect your GitHub account</button>
             }
             {
               githubData?.login &&

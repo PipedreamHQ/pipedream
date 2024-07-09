@@ -46,16 +46,16 @@ export async function getGithubData(clientUserId: string) {
   }, {
     includeCredentials: true,
   });
-  if (!data) {
+  if (!data?.accounts.length) {
     return null;
   }
+  const account = data.accounts[data.accounts.length - 1]
   const resp = await fetch("https://api.github.com/user", {
     headers: {
-      Authorization: `Bearer ${data.credentials.oauth_access_token}`,
+      Authorization: `Bearer ${account.credentials.oauth_access_token}`,
     },
   });
   const res = await resp.json();
-  return {
-    login: res.login,
-  };
+
+  return res;
 }
