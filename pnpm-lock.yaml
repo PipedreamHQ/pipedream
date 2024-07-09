@@ -756,11 +756,11 @@ importers:
 
   components/azure_sql:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
       mssql: ^10.0.1
       uuid: ^9.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       mssql: 10.0.1
       uuid: 9.0.1
 
@@ -5544,10 +5544,10 @@ importers:
 
   components/microsoft_sql_server:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
       mssql: ^10.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       mssql: 10.0.1
 
   components/microsoft_teams:

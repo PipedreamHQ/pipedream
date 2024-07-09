@@ -7,7 +7,7 @@ export default {
   name: "New Column",
   description: "Triggers when a new column is added to a table.",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     ...common.props,
