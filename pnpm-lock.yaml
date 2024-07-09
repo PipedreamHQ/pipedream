@@ -7371,9 +7371,9 @@ importers:
 
   components/regal:
     specifiers:
-      '@pipedream/platform': ^2.0.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 2.0.0
+      '@pipedream/platform': 3.0.0
 
   components/regfox:
     specifiers:
