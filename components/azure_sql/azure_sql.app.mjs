@@ -37,7 +37,7 @@ export default {
     },
     getConfig() {
       const {
-        host, username, password, port, database, encrypt,
+        host, username, password, port, database,
       } = this.$auth;
       return {
         user: username,
@@ -49,7 +49,7 @@ export default {
           type: "default",
         },
         options: {
-          encrypt: String(encrypt).toLowerCase() === "true",
+          encrypt: true,
           port: Number(port),
         },
       };
