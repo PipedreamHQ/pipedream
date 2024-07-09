@@ -6,14 +6,15 @@ import { createClient } from "../../../src/browser"
 
 const publicKey = process.env.NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST
-const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID
-
-if (!publicKey) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY env var")
-if (!appSlug) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID env var")
-
-const pd = createClient({ publicKey, frontendHost })
+const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID
+const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG
 
 export default function Home() {
+  if (!publicKey) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY env var")
+  if (!oauthAppId) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID env var")
+  if (!appSlug) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_APP_SLUG env var")
+
+    const pd = createClient({ publicKey, frontendHost })
   const [externalUserId, setExternalUserId] = useState<string | null>(null)
   const [githubData, setGithubData] = useState<{ login: string } | null>(null)
   const [token, setToken] = useState<string | null>(null)
@@ -34,8 +35,8 @@ export default function Home() {
   }
 
   const connectAccount = async () => {
-    if (appSlug) connectApp(appSlug)
-    else console.error("Missing NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID env var")
+    connectApp(oauthAppId as string)
+
   }
 
   const signIn = () => {
