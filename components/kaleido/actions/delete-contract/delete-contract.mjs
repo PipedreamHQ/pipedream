@@ -31,7 +31,7 @@ export default {
       contractId: this.contractId,
     });
 
-    $.export("$summary", `Successfully deleted contract with ID '${this.this.contract_id}'`);
+    $.export("$summary", `Successfully deleted contract with ID '${this.contractId}'`);
 
     return response;
   },
