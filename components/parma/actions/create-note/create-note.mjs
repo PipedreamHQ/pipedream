@@ -1,42 +1,42 @@
 import parma from "../../parma.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "parma-create-note",
   name: "Create Note",
   description: "Adds a new note in Parma. [See the documentation](https://developers.parma.ai/api-docs/index.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     parma,
-    content: {
+    relationshipId: {
       propDefinition: [
         parma,
-        "content",
+        "relationshipId",
       ],
     },
-    title: {
-      propDefinition: [
-        parma,
-        "title",
-      ],
+    body: {
+      type: "string",
+      label: "Body",
+      description: "The body of the note.",
     },
-    relatedTo: {
-      propDefinition: [
-        parma,
-        "relatedTo",
-      ],
+    datetime: {
+      type: "string",
+      label: "Date Time",
+      description: "The datetime of the note.",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.parma.addNote({
-      content: this.content,
-      title: this.title,
-      relatedTo: this.relatedTo,
+      $,
+      data: {
+        relationship_ids: this.relationshipId,
+        body: this.body,
+        datetime: this.datetime,
+      },
     });
 
-    $.export("$summary", `Successfully created note with title: ${this.title}`);
+    $.export("$summary", `Successfully created note with Id: ${response.data.id}`);
     return response;
   },
 };

@@ -1,49 +1,51 @@
 import parma from "../../parma.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "parma-create-relationship",
   name: "Create Relationship",
   description: "Creates a new relationship in Parma. [See the documentation](https://developers.parma.ai/api-docs/index.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     parma,
-    source: {
+    name: {
       propDefinition: [
         parma,
-        "source",
-      ],
-    },
-    target: {
-      propDefinition: [
-        parma,
-        "target",
+        "name",
       ],
     },
     type: {
       propDefinition: [
         parma,
-        "type",
+        "relationshipType",
       ],
+      optional: true,
     },
-    metadata: {
+    groupIds: {
       propDefinition: [
         parma,
-        "metadata",
+        "groupIds",
       ],
+    },
+    about: {
+      type: "string",
+      label: "About",
+      description: "The context of the relationship.",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.parma.createRelationship({
-      source: this.source,
-      target: this.target,
-      type: this.type,
-      metadata: this.metadata,
+      $,
+      data: {
+        name: this.name,
+        type: this.type,
+        group_ids: this.groupIds,
+        about: this.about,
+      },
     });
 
-    $.export("$summary", `Successfully created relationship of type ${this.type} with source ${this.source} and target ${this.target}`);
+    $.export("$summary", `Successfully created relationship with Id: ${response.data.id}`);
     return response;
   },
 };

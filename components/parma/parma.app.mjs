@@ -4,111 +4,125 @@ export default {
   type: "app",
   app: "parma",
   propDefinitions: {
+    groupIds: {
+      type: "string[]",
+      label: "Group Ids",
+      description: "An array of group Ids.",
+      async options() {
+        const { data } = await this.listGroups();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     relationshipType: {
       type: "string",
-      label: "Relationship Type",
-      description: "The type of relationship (contact or company)",
+      label: "Type",
+      description: "The type of relationship.",
       options: [
-        "contact",
+        "person",
         "company",
       ],
     },
-    source: {
+    name: {
       type: "string",
-      label: "Source",
-      description: "The source of the relationship",
-    },
-    target: {
-      type: "string",
-      label: "Target",
-      description: "The target of the relationship",
-    },
-    type: {
-      type: "string",
-      label: "Type",
-      description: "The type of the relationship",
-    },
-    metadata: {
-      type: "object",
-      label: "Metadata",
-      description: "Additional context related to the relationship",
-      optional: true,
+      label: "Name",
+      description: "The name of the relationship.",
     },
     relationshipId: {
-      type: "string",
+      type: "string[]",
       label: "Relationship ID",
-      description: "The ID of the relationship to search for",
-    },
-    content: {
-      type: "string",
-      label: "Content",
-      description: "The content of the note",
-    },
-    title: {
-      type: "string",
-      label: "Title",
-      description: "The title of the note",
-    },
-    relatedTo: {
-      type: "string",
-      label: "Related To",
-      description: "Associate the note to a specific item in Parma",
-      optional: true,
+      description: "The ID of the relationship.",
+      async options({ page }) {
+        const { data } = await this.listRelationships({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.parma.ai/api/v1";
+      return "https://app.parma.ai/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
+        ...opts,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
       });
     },
-    async createRelationship({
-      source, target, type, metadata,
-    }) {
+    createRelationship(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/relationships",
-        data: {
-          source,
-          target,
-          type,
-          metadata,
-        },
+        ...opts,
       });
     },
-    async getRelationship({ relationshipId }) {
+    listGroups(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: `/relationships/${relationshipId}`,
+        path: "/groups",
+        ...opts,
       });
     },
-    async addNote({
-      content, title, relatedTo,
-    }) {
+    listRelationships(opts = {}) {
+      return this._makeRequest({
+        path: "/relationships",
+        ...opts,
+      });
+    },
+    addNote(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/notes",
-        data: {
-          content,
-          title,
-          relatedTo,
-        },
+        ...opts,
       });
     },
-    async emitNewRelationshipEvent({ relationshipType }) {
-      console.log(`New relationship of type ${relationshipType} created`);
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const { data } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = params.length;
+
+      } while (hasMore);
     },
   },
 };

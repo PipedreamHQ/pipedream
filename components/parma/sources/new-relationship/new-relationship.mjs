@@ -1,69 +1,65 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import parma from "../../parma.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "parma-new-relationship",
   name: "New Relationship Created",
-  description: "Emit new event when a new relationship is created. [See the documentation](https://developers.parma.ai/api-docs/index.html)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new relationship is created.",
+  version: "0.0.1",
   type: "source",
-  dedupe: "unique",
   props: {
     parma,
     db: "$.service.db",
-    relationshipType: {
-      propDefinition: [
-        parma,
-        "relationshipType",
-      ],
-    },
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+  },
+  methods: {
+    getWebhookProps() {
+      return {};
+    },
+    _getLastId() {
+      return this.db.get("lastId") || 0;
+    },
+    _setLastId(lastId) {
+      this.db.set("lastId", lastId);
+    },
+    async startEvent(maxResults = 0) {
+      const lastId = this._getLastId();
+      const response = this.parma.paginate({
+        fn: this.parma.listRelationships,
+        maxResults,
+      });
+
+      let responseArray = [];
+
+      for await (const item of response) {
+        if (item.id <= lastId) break;
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) this._setLastId(responseArray[0].id);
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, {
+          id: item.id,
+          summary: `New Relationship: ${item.name}`,
+          ts: Date.parse(new Date()),
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      const relationships = await this.parma._makeRequest({
-        method: "GET",
-        path: "/relationships",
-      });
-
-      relationships.slice(0, 50).forEach((relationship) => {
-        this.$emit(relationship, {
-          id: relationship.id,
-          summary: `New Relationship: ${relationship.type}`,
-          ts: Date.parse(relationship.created_at),
-        });
-      });
-    },
-    async activate() {
-      // Placeholder for webhook subscription logic if needed
-    },
-    async deactivate() {
-      // Placeholder for webhook unsubscription logic if needed
-    },
-  },
-  methods: {
-    async getNewRelationships() {
-      const relationships = await this.parma._makeRequest({
-        method: "GET",
-        path: "/relationships",
-      });
-      return relationships.filter((relationship) => relationship.type === this.relationshipType);
+      await this.startEvent(25);
     },
   },
   async run() {
-    const newRelationships = await this.getNewRelationships();
-
-    newRelationships.forEach((relationship) => {
-      this.$emit(relationship, {
-        id: relationship.id,
-        summary: `New Relationship: ${relationship.type}`,
-        ts: Date.parse(relationship.created_at),
-      });
-    });
+    await this.startEvent();
   },
+  sampleEmit,
 };
