@@ -61,20 +61,20 @@ export default {
       });
     },
     async createInvitation({
-      organization_id, ...args
+      organizationId, ...args
     }) {
       return this._makeRequest({
         method: "post",
-        path: `/organizations/${organization_id}/invitations`,
+        path: `/organizations/${organizationId}/invitations`,
         ...args,
       });
     },
     async createGroup({
-      organization_id, ...args
+      organizationId, ...args
     }) {
       return this._makeRequest({
         method: "post",
-        path: `/organizations/${organization_id}/groups`,
+        path: `/organizations/${organizationId}/groups`,
         ...args,
       });
     },
@@ -85,10 +85,10 @@ export default {
       });
     },
     async getMembers({
-      organization_id, ...args
+      organizationId, ...args
     }) {
       return this._makeRequest({
-        path: `/organizations/${organization_id}/members`,
+        path: `/organizations/${organizationId}/members`,
         ...args,
       });
     },

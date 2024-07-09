@@ -30,7 +30,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.createInvitation({
       $,
-      organization_id: this.organizationId,
+      organizationId: this.organizationId,
       data: {
         data: {
           type: "invitation-organization-member",

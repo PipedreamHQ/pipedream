@@ -18,10 +18,10 @@ export default {
   async run({ $ }) {
     const response = await this.app.getMembers({
       $,
-      organization_id: this.organizationId,
+      organizationId: this.organizationId,
     });
 
-    $.export("$summary", `Successfully ${response.data.length} retrieved members`);
+    $.export("$summary", `Successfully retrieved ${response.data.length} members`);
 
     return response;
   },
