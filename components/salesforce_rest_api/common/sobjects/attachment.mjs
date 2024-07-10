@@ -17,6 +17,11 @@ export default {
       label: "Content Type",
       description: "The content type (MIME type) of the attachment. For example, `image/png`.",
     },
+    ParentId: {
+      type: "string",
+      label: "Parent ID",
+      description: "ID of the parent object of the attachment. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_attachment.htm) for supported objects.",
+    },
   },
   initialProps: {
     Description: {
@@ -27,24 +32,6 @@ export default {
     },
   },
   extraProps: {
-    ConnectionReceivedId: {
-      ...commonProps.PartnerNetworkConnectionId,
-      label: "Connection Received ID",
-      description: "ID of the `PartnerNetworkConnection` that shared this record with your organization.",
-      optional: true,
-    },
-    IsEncrypted: {
-      type: "boolean",
-      label: "Is Encrypted",
-      description: "Whether the attachment is encrypted using Shield Platform Encryption.",
-      optional: true,
-    },
-    IsPartnerShared: {
-      type: "boolean",
-      label: "Is Shared With Partner",
-      description: "Whether this record is shared with a connection using Salesforce to Salesforce.",
-      optional: true,
-    },
     IsPrivate: {
       type: "boolean",
       label: "Private",
@@ -57,10 +44,12 @@ export default {
       description: "ID of the user who owns the attachment.",
       optional: true,
     },
-    ParentId: {
-      type: "string",
-      label: "Parent ID",
-      description: "ID of the parent object of the attachment. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_attachment.htm) for supported objects.",
+  },
+  updateProps: {
+    IsPartnerShared: {
+      type: "boolean",
+      label: "Is Shared With Partner",
+      description: "Whether this record is shared with a connection using Salesforce to Salesforce.",
       optional: true,
     },
   },

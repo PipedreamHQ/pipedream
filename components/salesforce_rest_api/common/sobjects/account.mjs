@@ -203,25 +203,17 @@ export default {
       description: "Fax number for the account.",
       optional: true,
     },
+    HasOptedOutOfEmail: {
+      type: "boolean",
+      label: "Email Opt Out",
+      description: "Indicates whether the contact doesn't want to receive email from Salesforce (true) or does (false)",
+      optional: true,
+    },
     Industry: {
       type: "string",
       label: "Industry",
       description:
         "An industry associated with this account. Max 40 characters.",
-      optional: true,
-    },
-    IsCustomerPortal: {
-      type: "boolean",
-      label: "Is Customer Portal",
-      description:
-        "Indicates whether the account has at least one contact enabled to use the org's Experience Cloud site or Customer Portal.",
-      optional: true,
-    },
-    IsPartner: {
-      type: "boolean",
-      label: "Is Partner",
-      description:
-        "Indicates whether the account has at least one contact enabled to use the org's partner portal.",
       optional: true,
     },
     IsPriorityRecord: {
@@ -264,13 +256,6 @@ export default {
         "Subsidiary",
         "Other",
       ],
-    },
-    PhotoUrl: {
-      type: "string",
-      label: "Photo URL",
-      description:
-        "Path to be combined with the URL of a Salesforce instance (for example, `https://yourInstance.salesforce.com/`) to generate a URL to request the social network profile image associated with the account.",
-      optional: true,
     },
     Rating: {
       type: "string",
@@ -415,6 +400,22 @@ export default {
       label: "Year Started",
       description:
         "The date when an org was legally established. Max 4 characters",
+      optional: true,
+    },
+  },
+  updateProps: {
+    IsCustomerPortal: {
+      type: "boolean",
+      label: "Is Customer Portal",
+      description:
+        "Indicates whether the account has at least one contact enabled to use the org's Experience Cloud site or Customer Portal.",
+      optional: true,
+    },
+    IsPartner: {
+      type: "boolean",
+      label: "Is Partner",
+      description:
+        "Indicates whether the account has at least one contact enabled to use the org's partner portal.",
       optional: true,
     },
   },
