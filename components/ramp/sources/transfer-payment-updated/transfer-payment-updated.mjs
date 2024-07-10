@@ -3,16 +3,30 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "ramp_sandbox-transfer-payment-updated",
+  key: "ramp-transfer-payment-updated",
   name: "Transfer Payment Updated",
   description: "Emit new event when the status of a transfer payment changes",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    transferStatus: {
+      propDefinition: [
+        common.props.ramp,
+        "transferStatus",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     getResourceFn() {
       return this.ramp.listTransfers;
+    },
+    getParams() {
+      return {
+        status: this.transferStatus,
+      };
     },
     generateMeta(transfer) {
       const ts = Date.now();

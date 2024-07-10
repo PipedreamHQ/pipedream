@@ -10,6 +10,21 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    departmentId: {
+      propDefinition: [
+        common.props.ramp,
+        "departmentId",
+      ],
+    },
+    locationId: {
+      propDefinition: [
+        common.props.ramp,
+        "locationId",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     ...transactionStatusUpdated.methods,

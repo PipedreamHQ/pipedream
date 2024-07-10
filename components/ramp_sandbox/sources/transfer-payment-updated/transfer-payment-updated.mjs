@@ -10,6 +10,15 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    transferStatus: {
+      propDefinition: [
+        common.props.ramp,
+        "transferStatus",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     ...transferPaymentUpdated.methods,

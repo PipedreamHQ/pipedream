@@ -121,7 +121,15 @@ export default {
       type: "string",
       label: "State",
       description: "Filter transactions by the current state",
+      optional: true,
       options: constants.TRANSACTION_STATE_OPTIONS,
+    },
+    transferStatus: {
+      type: "string",
+      label: "Status",
+      description: "Filter transfers by the current status",
+      optional: true,
+      options: constants.TRANSFER_STATUSES,
     },
   },
   methods: {

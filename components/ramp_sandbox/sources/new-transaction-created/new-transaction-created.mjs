@@ -12,6 +12,18 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
+    departmentId: {
+      propDefinition: [
+        common.props.ramp,
+        "departmentId",
+      ],
+    },
+    locationId: {
+      propDefinition: [
+        common.props.ramp,
+        "locationId",
+      ],
+    },
   },
   methods: {
     ...common.methods,

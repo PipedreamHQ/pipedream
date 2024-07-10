@@ -9,6 +9,21 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    departmentId: {
+      propDefinition: [
+        common.props.ramp,
+        "departmentId",
+      ],
+    },
+    locationId: {
+      propDefinition: [
+        common.props.ramp,
+        "locationId",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     _getLatestTransactionId() {
@@ -24,6 +39,8 @@ export default {
       const latestTransactionId = this._getLatestTransactionId();
       const params = {
         order_by_date_asc: true,
+        department_id: this.departmentId,
+        location_id: this.locationId,
       };
       if (latestTransactionId) {
         params.start = latestTransactionId;
