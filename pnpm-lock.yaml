@@ -4854,6 +4854,9 @@ importers:
   components/lahar:
     specifiers: {}
 
+  components/lambdatest:
+    specifiers: {}
+
   components/laposta:
     specifiers:
       '@pipedream/platform': ^1.2.1
