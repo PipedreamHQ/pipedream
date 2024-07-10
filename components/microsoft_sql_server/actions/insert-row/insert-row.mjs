@@ -5,7 +5,7 @@ export default {
   name: "Insert Row",
   description: "Inserts a new row in a table. [See the documentation](https://learn.microsoft.com/en-us/sql/t-sql/statements/insert-transact-sql?view=sql-server-ver16)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
     table: {
