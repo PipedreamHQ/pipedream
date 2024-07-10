@@ -31,6 +31,7 @@ export default {
       ...commonProps.PartnerNetworkConnectionId,
       label: "Connection Received ID",
       description: "ID of the `PartnerNetworkConnection` that shared this record with your organization.",
+      optional: true,
     },
     IsEncrypted: {
       type: "boolean",

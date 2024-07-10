@@ -3,7 +3,6 @@ export default {
     type: "string",
     label: "Partner Network Connection ID",
     description: "The ID of a connection between Salesforce organizations.",
-    optional: true,
     async options() {
       const items = await this.salesforce.listSObjectTypeIds("PartnerNetworkConnection");
       return items?.map((item) => ({
@@ -16,7 +15,6 @@ export default {
     type: "string",
     label: "User ID",
     description: "The ID of a user in your organization.",
-    optional: true,
     async options() {
       const items = await this.salesforce.listSObjectTypeIds("User");
       return items?.map((item) => ({
