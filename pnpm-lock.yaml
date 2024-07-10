@@ -71,13 +71,25 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
-  components/_21risk:
+  components/_1crm:
     specifiers: {}
+
+  components/_21risk:
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/_2chat:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/_2markdown:
+    specifiers: {}
+
+  components/_360nrs:
     specifiers: {}
 
   components/_46elks:
@@ -85,6 +97,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/_4dem:
+    specifiers: {}
 
   components/__1msg:
     specifiers: {}
@@ -747,11 +762,11 @@ importers:
 
   components/azure_sql:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
       mssql: ^10.0.1
       uuid: ^9.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       mssql: 10.0.1
       uuid: 9.0.1
 
@@ -1071,9 +1086,9 @@ importers:
 
   components/brevo:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 3.0.0
 
   components/brex:
     specifiers:
@@ -1257,6 +1272,9 @@ importers:
       '@pipedream/platform': ^1.4.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/canva:
+    specifiers: {}
 
   components/captaindata:
     specifiers: {}
@@ -2983,7 +3001,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/fillout:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/filter:
     specifiers:
@@ -4856,7 +4877,10 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/leadoku:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/leadzen_ai:
     specifiers:
@@ -5526,10 +5550,10 @@ importers:
 
   components/microsoft_sql_server:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
       mssql: ^10.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       mssql: 10.0.1
 
   components/microsoft_teams:
@@ -6470,6 +6494,9 @@ importers:
   components/pdfmonkey:
     specifiers: {}
 
+  components/peach:
+    specifiers: {}
+
   components/peaka:
     specifiers:
       '@pipedream/platform': ^2.0.0
@@ -6769,6 +6796,12 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/poper:
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/popupsmart:
     specifiers: {}
@@ -7071,6 +7104,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/qryptal:
+    specifiers: {}
+
   components/qstash:
     specifiers: {}
 
@@ -7180,6 +7216,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/ramp_sandbox:
+    specifiers: {}
 
   components/range:
     specifiers:
@@ -7338,9 +7377,9 @@ importers:
 
   components/regal:
     specifiers:
-      '@pipedream/platform': ^2.0.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 2.0.0
+      '@pipedream/platform': 3.0.0
 
   components/regfox:
     specifiers:
@@ -7993,6 +8032,9 @@ importers:
       slugify: 1.6.6
 
   components/seqera:
+    specifiers: {}
+
+  components/serpapi:
     specifiers: {}
 
   components/serpdog:
@@ -8956,7 +8998,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/taskade:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/tave:
     specifiers: {}
@@ -9306,10 +9351,10 @@ importers:
 
   components/toggl:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^3.0.0
       toggl-api: ^1.0.2
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 3.0.0
       toggl-api: 1.0.2
 
   components/token_metrics:
@@ -15747,7 +15792,7 @@ packages:
       '@opentelemetry/api': 1.6.0
       guid-typescript: 1.0.9
       tinyduration: 3.3.0
-      tslib: 2.6.2
+      tslib: 2.6.3
       uri-template-lite: 23.4.0
       uuid: 9.0.1
     dev: false
@@ -15759,7 +15804,7 @@ packages:
       '@opentelemetry/api': 1.6.0
       guid-typescript: 1.0.9
       node-fetch: 2.7.0
-      tslib: 2.6.2
+      tslib: 2.6.3
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -15769,7 +15814,7 @@ packages:
     dependencies:
       '@microsoft/kiota-abstractions': 1.0.0-preview.26
       guid-typescript: 1.0.9
-      tslib: 2.6.2
+      tslib: 2.6.3
     dev: false
 
   /@microsoft/kiota-serialization-json/1.0.0-preview.26:
@@ -15777,7 +15822,7 @@ packages:
     dependencies:
       '@microsoft/kiota-abstractions': 1.0.0-preview.26
       guid-typescript: 1.0.9
-      tslib: 2.6.2
+      tslib: 2.6.3
     dev: false
 
   /@microsoft/kiota-serialization-text/1.0.0-preview.23:
@@ -15785,7 +15830,7 @@ packages:
     dependencies:
       '@microsoft/kiota-abstractions': 1.0.0-preview.26
       guid-typescript: 1.0.9
-      tslib: 2.6.2
+      tslib: 2.6.3
     dev: false
 
   /@microsoft/microsoft-graph-client/3.0.7:

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/peach",
+  "version": "0.0.1",
+  "description": "Pipedream Peach Components",
+  "main": "peach.app.mjs",
+  "keywords": [
+    "pipedream",
+    "peach"
+  ],
+  "homepage": "https://pipedream.com/apps/peach",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

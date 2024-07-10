@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/canva",
+  "version": "0.0.1",
+  "description": "Pipedream Canva Components",
+  "main": "canva.app.mjs",
+  "keywords": [
+    "pipedream",
+    "canva"
+  ],
+  "homepage": "https://pipedream.com/apps/canva",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
