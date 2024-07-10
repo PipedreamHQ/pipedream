@@ -22,7 +22,7 @@ export default {
     datetime: {
       type: "string",
       label: "Date Time",
-      description: "The datetime of the note.",
+      description: "The datetime of the note in ISO-8601 format. Example: `2024-06-19T23:26:32.693Z`",
       optional: true,
     },
   },
