@@ -59,6 +59,18 @@ export default {
       }));
     },
   },
+  OperatingHoursId: {
+    type: "string",
+    label: "Operating Hours ID",
+    description: "The ID of an Operating Hours object.",
+    async options() {
+      const items = await this.salesforce.listSObjectTypeIds("OperatingHours");
+      return items?.map((item) => ({
+        label: item.Name,
+        value: item.Id,
+      }));
+    },
+  },
   PartnerNetworkConnectionId: {
     type: "string",
     label: "Partner Network Connection ID",
