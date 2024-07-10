@@ -7224,12 +7224,19 @@ importers:
 
   components/ramp:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.0
+      uuid: ^10.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
+      uuid: 10.0.0
 
   components/ramp_sandbox:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      uuid: ^10.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      uuid: 10.0.0
 
   components/range:
     specifiers:
@@ -33461,6 +33468,11 @@ packages:
     dependencies:
       escape-string-regexp: 1.0.5
       extend: 3.0.2
+    dev: false
+
+  /uuid/10.0.0:
+    resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
+    hasBin: true
     dev: false
 
   /uuid/3.3.2:
