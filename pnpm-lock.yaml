@@ -6579,9 +6579,9 @@ importers:
 
   components/pidj:
     specifiers:
-      '@pipedream/platform': ^1.6.5
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.6.5
+      '@pipedream/platform': 3.0.0
 
   components/piggy:
     specifiers:
