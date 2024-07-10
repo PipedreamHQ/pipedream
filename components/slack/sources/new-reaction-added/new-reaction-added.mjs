@@ -1,10 +1,11 @@
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "slack-new-reaction-added",
   name: "New Reaction Added (Instant)",
-  version: "1.1.17",
+  version: "1.1.21",
   description: "Emit new event when a member has added an emoji reaction to a message",
   type: "source",
   dedupe: "unique",
@@ -54,6 +55,7 @@ export default {
       optional: true,
     },
     includeUserData: {
+      label: "Include User Data",
       description: "Include user object in the response. Default `false`",
       type: "boolean",
       optional: true,
@@ -103,4 +105,5 @@ export default {
       return event;
     },
   },
+  sampleEmit,
 };

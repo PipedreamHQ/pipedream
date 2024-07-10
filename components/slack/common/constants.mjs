@@ -8,8 +8,24 @@ const CHANNEL_TYPE = {
   IM: "im",
 };
 
+const CHANNEL_TYPE_OPTIONS = [
+  {
+    label: "Channels",
+    value: "Channels",
+  },
+  {
+    label: "Group",
+    value: CHANNEL_TYPE.MPIM,
+  },
+  {
+    label: "User / Direct Message",
+    value: CHANNEL_TYPE.IM,
+  },
+];
+
 export default {
   MAX_RESOURCES,
   LIMIT,
   CHANNEL_TYPE,
+  CHANNEL_TYPE_OPTIONS,
 };

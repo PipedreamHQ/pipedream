@@ -1,11 +1,12 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "openai-new-file-created",
   name: "New File Created",
   description: "Emit new event when a new file is created in OpenAI. [See the documentation](https://platform.openai.com/docs/api-reference/files/list)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -21,7 +22,7 @@ export default {
   },
   methods: {
     ...common.methods,
-    async getData() {
+    getData() {
       return this.openai.listFiles({
         purpose: this.purpose,
       });
@@ -34,4 +35,5 @@ export default {
       };
     },
   },
+  sampleEmit,
 };

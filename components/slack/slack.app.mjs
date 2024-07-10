@@ -1,5 +1,6 @@
 import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -9,17 +10,26 @@ export default {
       type: "string",
       label: "User",
       description: "Select a user",
-      async options({ prevContext }) {
+      async options({
+        prevContext, channelId,
+      }) {
         const types = [
           "im",
         ];
-        const [
+        let [
           userNames,
           conversationsResp,
         ] = await Promise.all([
           prevContext.userNames ?? this.userNames(),
           this.availableConversations(types.join(), prevContext.cursor),
         ]);
+        if (channelId) {
+          const { members } = await this.sdk().conversations.members({
+            channel: channelId,
+          });
+          conversationsResp.conversations = conversationsResp.conversations
+            .filter((c) => members.includes(c.user || c.id));
+        }
         return {
           options: conversationsResp.conversations.map((c) => ({
             label: `@${userNames[c.user]}`,
@@ -55,22 +65,6 @@ export default {
         };
       },
     },
-    users: {
-      type: "string[]",
-      label: "Users",
-      description: "Select users",
-      async options() {
-        const userNames = await this.userNames();
-        const users = [];
-        for (const key of Object.keys(userNames)) {
-          users.push({
-            label: userNames[key],
-            value: key,
-          });
-        }
-        return users;
-      },
-    },
     userGroup: {
       type: "string",
       label: "User Group",
@@ -99,12 +93,16 @@ export default {
       type: "string",
       label: "Channel",
       description: "Select a public or private channel, or a user or group",
-      async options({ prevContext }) {
+      async options({
+        prevContext, types,
+      }) {
         let {
-          types,
           cursor,
           userNames: userNamesOrPromise,
         } = prevContext;
+        if (prevContext?.types) {
+          types = prevContext.types;
+        }
         if (types == null) {
           const { response_metadata: { scopes } } = await this.authTest();
           types = [
@@ -128,8 +126,11 @@ export default {
           userNamesOrPromise,
           this.availableConversations(types.join(), cursor),
         ]);
+        const conversations = userNames
+          ? conversationsResp.conversations
+          : conversationsResp.conversations.filter((c) => !c.is_im);
         return {
-          options: conversationsResp.conversations.map((c) => {
+          options: conversations.map((c) => {
             if (c.is_im) {
               return {
                 label: `Direct messaging with: @${userNames[c.user]}`,
@@ -162,7 +163,10 @@ export default {
       label: "Channel ID",
       description: "Select the channel's id.",
       async options({
-        prevContext, types = [], channelsFilter = (channel) => channel, excludeArchived = true,
+        prevContext,
+        types = Object.values(constants.CHANNEL_TYPE),
+        channelsFilter = (channel) => channel,
+        excludeArchived = true,
       }) {
         const userNames = prevContext.userNames || await this.userNames();
         const {
@@ -177,12 +181,26 @@ export default {
 
         const options = channels
           .filter(channelsFilter)
-          .map((c) => ({
-            value: c.id,
-            label: c.is_im
-              ? `@${userNames[c.user]}`
-              : c.name,
-          }));
+          .map((c) => {
+            if (c.is_im) {
+              return {
+                label: `Direct messaging with: @${userNames[c.user]}`,
+                value: c.id,
+              };
+            } else if (c.is_mpim) {
+              return {
+                label: c.purpose.value,
+                value: c.id,
+              };
+            } else {
+              return {
+                label: `${c.is_private
+                  ? "Private"
+                  : "Public"} channel: ${c.name}`,
+                value: c.id,
+              };
+            }
+          });
 
         return {
           options,
@@ -217,26 +235,39 @@ export default {
         };
       },
     },
-    notificationText: {
+    messageTs: {
       type: "string",
-      label: "Notification Text",
-      description: "Optionally provide a string for Slack to display as the new message notification (if you do not provide this, notification will be blank).",
-      optional: true,
+      label: "Message Timestamp",
+      description: "Timestamp of a message",
+      async options({
+        channel, prevContext,
+      }) {
+        if (!channel) {
+          throw new ConfigurationError("Provide a Channel ID in order to retrieve Messages.");
+        }
+        const {
+          messages, response_metadata: { next_cursor: cursor },
+        } = await this.conversationsHistory({
+          channel,
+          cursor: prevContext?.cursor,
+        });
+        return {
+          options: messages.map(({
+            ts: value, text: label,
+          }) => ({
+            value,
+            label,
+          })),
+          context: {
+            cursor,
+          },
+        };
+      },
     },
     text: {
       type: "string",
       label: "Text",
       description: "Text of the message to send (see Slack's [formatting docs](https://api.slack.com/reference/surfaces/formatting)). This field is usually necessary, unless you're providing only attachments instead.",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "Name of a single key to set.",
-    },
-    value: {
-      type: "string",
-      label: "Value",
-      description: "Value to set a single key to.",
     },
     topic: {
       type: "string",
@@ -253,15 +284,24 @@ export default {
       label: "Query",
       description: "Search query.",
     },
-    team_id: {
-      type: "string",
-      label: "Team ID",
-      description: "The ID of the team.",
-    },
     file: {
       type: "string",
       label: "File ID",
       description: "Specify a file by providing its ID.",
+      async options({
+        channel, page,
+      }) {
+        const { files } = await this.sdk().files.list({
+          channel,
+          page: page + 1,
+        });
+        return files?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     attachments: {
       type: "string",
@@ -273,24 +313,26 @@ export default {
       type: "boolean",
       label: "Unfurl Links",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of links.",
+      default: true,
       optional: true,
     },
     unfurl_media: {
       type: "boolean",
       label: "Unfurl Media",
       description: "`TRUE` by default. Pass `FALSE` to disable unfurling of media content.",
+      default: true,
       optional: true,
     },
     parse: {
       type: "string",
       label: "Parse",
-      description: "Change how messages are treated. Defaults to none. See below.",
+      description: "Change how messages are treated. Defaults to none. By default, URLs will be hyperlinked. Set `parse` to `none` to remove the hyperlinks. The behavior of `parse` is different for text formatted with `mrkdwn`. By default, or when `parse` is set to `none`, `mrkdwn` formatting is implemented. To ignore `mrkdwn` formatting, set `parse` to full.",
       optional: true,
     },
     as_user: {
       type: "boolean",
       label: "Send as User",
-      description: "Optionally pass `TRUE` to post the message as the authed user, instead of as a bot. Defaults to `FALSE`.",
+      description: "Optionally pass `TRUE` to post the message as the authenticated user, instead of as a bot. Defaults to `FALSE`.",
       default: false,
       optional: true,
     },
@@ -303,14 +345,14 @@ export default {
     },
     post_at: {
       label: "Schedule message",
-      description: "Messages can only be scheduled up to 120 days in advance, and cannot be scheduled for the past. The datetime format should be a unix timestamp (e.g., `1650507616`, [see here](https://www.epochconverter.com/) for help with this format).",
-      type: "integer",
+      description: "Messages can only be scheduled up to 120 days in advance, and cannot be scheduled for the past. The datetime should be in ISO 8601 format. (Example: `2014-01-01T00:00:00Z`)",
+      type: "string",
       optional: true,
     },
     username: {
       type: "string",
       label: "Bot Username",
-      description: "Optionally customize your bot's user name (default is `Pipedream`). Must be used in conjunction with `as_user` set to false, otherwise ignored.",
+      description: "Optionally customize your bot's user name (default is `Pipedream`). Must be used in conjunction with `Send as User` set to false, otherwise ignored.",
       optional: true,
     },
     blocks: {
@@ -322,7 +364,7 @@ export default {
     icon_emoji: {
       type: "string",
       label: "Icon (emoji)",
-      description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
+      description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `Send as User` set to `false`, otherwise ignored.",
       optional: true,
       async options() {
         return await this.getCustomEmojis();
@@ -334,15 +376,15 @@ export default {
       type: "string",
     },
     link_names: {
-      type: "string",
+      type: "boolean",
       label: "Link Names",
       description: "Find and link channel names and usernames.",
       optional: true,
     },
-    reply_broadcast: {
+    thread_broadcast: {
       type: "boolean",
-      label: "Reply Broadcasts",
-      description: "Used in conjunction with thread_ts and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to false.",
+      label: "Send Channel Message",
+      description: "If `true`, posts in the thread and channel. Used in conjunction with `Message Timestamp` and indicates whether reply should be made visible to everyone in the channel. Defaults to `false`.",
       default: false,
       optional: true,
     },
@@ -352,34 +394,16 @@ export default {
       description: "Provide the channel or conversation ID for the thread to reply to (e.g., if triggering on new Slack messages, enter `{{event.channel}}`). If the channel does not match the thread timestamp, a new message will be posted to this channel.",
       optional: true,
     },
-    thread_ts: {
-      label: "Thread Timestamp",
-      type: "string",
-      description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead.",
-      optional: true,
-    },
-    timestamp: {
-      label: "Timestamp",
-      type: "string",
-      description: "Timestamp of the relevant data.",
-      optional: true,
-    },
     icon_url: {
       type: "string",
       label: "Icon (image URL)",
-      description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `as_user` set to `false`, otherwise ignored.",
+      description: "Optionally provide an image URL to use as the icon for this message. Must be used in conjunction with `Send as User` set to `false`, otherwise ignored.",
       optional: true,
     },
     initial_comment: {
       type: "string",
       label: "Initial Comment",
       description: "The message text introducing the file",
-      optional: true,
-    },
-    count: {
-      type: "integer",
-      label: "Count",
-      description: "Number of items to return per page.",
       optional: true,
     },
     email: {
@@ -390,13 +414,13 @@ export default {
     metadata_event_type: {
       type: "string",
       label: "Metadata Event Type",
-      description: "The name of the metadata event",
+      description: "The name of the metadata event. Example: `task_created`",
       optional: true,
     },
     metadata_event_payload: {
       type: "string",
       label: "Metadata Event Payload",
-      description: "The payload of the metadata event. Must be a JSON string e.g. `{\"key\": \"value\"}`",
+      description: "The payload of the metadata event. Must be a JSON string. Example: `{ \"id\": \"11223\", \"title\": \"Redesign Homepage\"}`",
       optional: true,
     },
     ignoreMyself: {
@@ -409,13 +433,6 @@ export default {
       type: "string",
       label: "Keyword",
       description: "Keyword to monitor",
-    },
-    isUsername: {
-      type: "boolean",
-      label: "Is Username",
-      description: "Filters out mentions of the keyword that are not a username",
-      default: false,
-      optional: true,
     },
     ignoreBot: {
       type: "boolean",

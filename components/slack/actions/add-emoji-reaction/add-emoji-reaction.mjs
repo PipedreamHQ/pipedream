@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-add-emoji-reaction",
   name: "Add Emoji Reaction",
-  description: "Add an emoji reaction to a message. [See docs here](https://api.slack.com/methods/reactions.add)",
-  version: "0.0.6",
+  description: "Add an emoji reaction to a message. [See the documentation](https://api.slack.com/methods/reactions.add)",
+  version: "0.0.10",
   type: "action",
   props: {
     slack,
@@ -13,15 +13,16 @@ export default {
         slack,
         "conversation",
       ],
-      optional: false,
-      description: "Channel to add reaction to, or channel where the message to add reaction to was posted (used with timestamp).",
+      description: "Channel where the message to add reaction to was posted.",
     },
     timestamp: {
       propDefinition: [
         slack,
-        "timestamp",
+        "messageTs",
+        (c) => ({
+          channel: c.conversation,
+        }),
       ],
-      optional: false,
       description: "Timestamp of the message to add reaction to.",
     },
     icon_emoji: {
@@ -33,11 +34,13 @@ export default {
       optional: false,
     },
   },
-  async run() {
-    return await this.slack.sdk().reactions.add({
+  async run({ $ }) {
+    const response = await this.slack.sdk().reactions.add({
       channel: this.conversation,
       timestamp: this.timestamp,
       name: this.icon_emoji,
     });
+    $.export("$summary", `Successfully added ${this.icon_emoji} emoji reaction.`);
+    return response;
   },
 };

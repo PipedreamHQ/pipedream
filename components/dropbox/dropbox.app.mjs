@@ -12,78 +12,90 @@ export default {
   type: "app",
   app: "dropbox",
   propDefinitions: {
-    pathFolder: {
+    path: {
       type: "string",
       label: "Path",
-      description: "The folder path. (Please use a valid path to filter the values and type at least 2 characters after the latest '/' to perform the search.)",
+      description: "Type the file name to search for it in the user's Dropbox.",
       useQuery: true,
       withLabel: true,
       async options({
-        prevContext,
-        query,
-        returnSimpleString,
-        omitRootFolder,
+        query, prevContext: { cursor },
+        params,
+        initialOptions = [
+          {
+            label: "Root Folder",
+            value: "",
+          },
+        ],
+        filter = ({ metadata: { metadata: { [".tag"]: type } } }) => type === "file",
+        mapper = ({ metadata: { metadata } }) => ({
+          label: metadata.path_display,
+          value: metadata.path_lower,
+        }),
       }) {
-        if (prevContext?.reachedLastPage) {
+        try {
+          const dpx = await this.sdk();
+
+          if (cursor === null) {
+            return [];
+          }
+
+          if (cursor) {
+            const {
+              result: {
+                matches,
+                cursor: nextCursor,
+                has_more: hasMore,
+              },
+            } = await dpx.filesSearchContinueV2({
+              cursor,
+            });
+
+            return {
+              options: matches
+                .filter(filter)
+                .map(mapper),
+              context: {
+                cursor: hasMore
+                  ? nextCursor
+                  : null,
+              },
+            };
+          }
+
+          const {
+            result: {
+              matches,
+              cursor: nextCursor,
+              has_more: hasMore,
+            },
+          } = await dpx.filesSearchV2({
+            ...params,
+            query: query || "text",
+            options: {
+              path: params?.path || "",
+              max_results: config.SEARCH_FILE_FOLDERS.DEFAULT_MAX_RESULTS,
+              ...params?.options,
+            },
+          });
+
+          return {
+            options: initialOptions.concat(
+              matches
+                .filter(filter)
+                .map(mapper),
+            ),
+            context: {
+              cursor: hasMore
+                ? nextCursor
+                : null,
+            },
+          };
+
+        } catch (error) {
+          console.log("Error searching for files/folders", error);
           return [];
         }
-        return this.getPathOptions(
-          query,
-          {
-            omitFiles: true,
-            returnSimpleString,
-            omitRootFolder,
-          },
-        );
-      },
-    },
-    pathFile: {
-      type: "string",
-      label: "Path",
-      description: "The file path. (Please use a valid path to filter the values)",
-      useQuery: true,
-      withLabel: true,
-      async options({
-        prevContext,
-        query,
-        returnSimpleString,
-        omitRootFolder,
-      }) {
-        if (prevContext?.reachedLastPage) {
-          return [];
-        }
-        return this.getPathOptions(
-          query,
-          {
-            omitFolders: true,
-            returnSimpleString,
-            omitRootFolder,
-          },
-        );
-      },
-    },
-    pathFileFolder: {
-      type: "string",
-      label: "Path",
-      description: "The file or folder path. (Please use a valid path to filter the values)",
-      useQuery: true,
-      withLabel: true,
-      async options({
-        prevContext,
-        query,
-        returnSimpleString,
-        omitRootFolder,
-      }) {
-        if (prevContext?.reachedLastPage) {
-          return [];
-        }
-        return this.getPathOptions(
-          query,
-          {
-            returnSimpleString,
-            omitRootFolder,
-          },
-        );
       },
     },
     fileRevision: {
@@ -187,106 +199,6 @@ export default {
         }));
       } catch (err) {
         this.normalizeError(err);
-      }
-    },
-    async getPathOptions(path, opts = {}) {
-      try {
-        const {
-          omitFolders,
-          omitFiles,
-          omitRootFolder,
-        } = opts;
-
-        let data = [];
-        path = path === "/" || path === null
-          ? ""
-          : path;
-
-        if (path.length > 0 && !path.startsWith("/")) {
-          path = "/" + path;
-        }
-
-        if (path === "") {
-          const entries = await this.listFilesFolders({
-            path,
-            recursive: true,
-            include_mounted_folders: true,
-          });
-
-          data = entries.map((item) => ({
-            path: item.path_display,
-            type: item[".tag"],
-          }));
-
-        } else {
-          let subpath = "";
-          let query = path;
-          if ((path.match(/\//g) || []).length > 1) {
-            const splitPath = path.split("/");
-            query = splitPath.pop();
-            subpath = splitPath.join("/");
-          }
-          const res = await this.searchFilesFolders({
-            query,
-            options: {
-              path: subpath,
-            },
-          });
-
-          data = res.map(({ metadata }) => ({
-            path: metadata.metadata.path_display,
-            type: metadata.metadata[".tag"],
-          }));
-
-          const folders = data.filter((item) => item.type !== "file");
-          for (const folder of folders) {
-            const entries = await this.listFilesFolders({
-              path: folder.path,
-              recursive: true,
-              include_mounted_folders: true,
-            });
-            const folderData = entries?.map((item) => ({
-              path: item.path_display,
-              type: item[".tag"],
-            }));
-            data.push(...folderData);
-          }
-        }
-
-        if (omitFiles) {
-          data = data.filter((item) => item.type !== "file");
-        }
-
-        if (omitFolders) {
-          data = data.filter((item) => item.type !== "folder");
-        }
-
-        data = data.map((item) => ({
-          label: item.path,
-          value: item.path,
-        }));
-
-        if (path === "" && !omitFolders && !omitRootFolder) {
-          data = [
-            {
-              label: "Root Folder",
-              value: "",
-            },
-            ...data,
-          ];
-        }
-
-        data.sort((a, b) => {
-          return a > b ?
-            1 :
-            -1;
-        });
-
-        return data;
-
-      } catch (err) {
-        console.log(err);
-        return [];
       }
     },
     async initState(context) {

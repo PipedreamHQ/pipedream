@@ -140,7 +140,7 @@ export default {
     attachments: {
       type: "object",
       label: "Attachments",
-      description: "Add any attachments you'd like to include as objects. The `key` should be the **filename** and the `value` should be the **url** for the attachment. The **filename** must contain the file extension (i.e. `.jpeg`, `.txt`) and the **url** is the download link for the file.",
+      description: "Add any attachments you'd like to include as objects.\n- The `key` should be the filename and must contain the file extension (e.g. `.jpeg`, `.txt`).\n- The `value` should be a URL of the download link for the file, or the local path (e.g. `/tmp/my-file.txt`).",
       optional: true,
     },
     inReplyTo: {

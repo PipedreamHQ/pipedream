@@ -10,6 +10,6 @@ export default {
     component,
   }),
   key: "slack_bot-create-channel",
-  description: "Create a new channel (Bot). [See docs here](https://api.slack.com/methods/conversations.create)",
-  version: "0.0.2",
+  description: "Create a new channel (Bot). [See the documentation](https://api.slack.com/methods/conversations.create)",
+  version: "0.0.3",
 };

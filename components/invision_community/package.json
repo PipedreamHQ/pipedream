@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/invision_community",
+  "version": "0.1.0",
+  "description": "Pipedream Invision Community Components",
+  "main": "invision_community.app.mjs",
+  "keywords": [
+    "pipedream",
+    "invision_community"
+  ],
+  "homepage": "https://pipedream.com/apps/invision_community",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
+

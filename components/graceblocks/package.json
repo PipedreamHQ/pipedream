@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/graceblocks",
+  "version": "0.0.1",
+  "description": "Pipedream Graceblocks Components",
+  "main": "graceblocks.app.mjs",
+  "keywords": [
+    "pipedream",
+    "graceblocks"
+  ],
+  "homepage": "https://pipedream.com/apps/graceblocks",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

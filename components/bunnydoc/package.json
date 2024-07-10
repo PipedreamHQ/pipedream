@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/bunnydoc",
+  "version": "0.1.0",
+  "description": "Pipedream BunnyDoc Components",
+  "main": "bunnydoc.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bunnydoc"
+  ],
+  "homepage": "https://pipedream.com/apps/bunnydoc",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5"
+  }
+}

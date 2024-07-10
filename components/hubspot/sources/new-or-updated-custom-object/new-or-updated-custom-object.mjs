@@ -1,11 +1,13 @@
 import common from "../common/common.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-or-updated-custom-object",
   name: "New or Updated Custom Object",
   description: "Emit new event each time a Custom Object of the specified schema is updated.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   type: "source",
   props: {
@@ -17,7 +19,6 @@ export default {
       ],
     },
   },
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(object) {
@@ -40,13 +41,15 @@ export default {
     },
     getObjectParams(object) {
       return {
-        limit: 100,
-        sorts: [
-          {
-            propertyName: "hs_lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
+        data: {
+          limit: DEFAULT_LIMIT,
+          sorts: [
+            {
+              propertyName: "hs_lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+        },
         object,
       };
     },
@@ -55,4 +58,5 @@ export default {
       await this.searchCRM(params, after);
     },
   },
+  sampleEmit,
 };

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/neuronwriter",
+  "version": "0.1.0",
+  "description": "Pipedream NEURONWriter Components",
+  "main": "neuronwriter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "neuronwriter"
+  ],
+  "homepage": "https://pipedream.com/apps/neuronwriter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^2.0.0"
+  }
+}
+

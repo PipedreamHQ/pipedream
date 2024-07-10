@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/invoicing_plus",
+  "version": "0.0.1",
+  "description": "Pipedream Invoicing.Plus Components",
+  "main": "invoicing_plus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "invoicing_plus"
+  ],
+  "homepage": "https://pipedream.com/apps/invoicing_plus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

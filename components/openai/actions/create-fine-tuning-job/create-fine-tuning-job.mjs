@@ -4,7 +4,7 @@ export default {
   key: "openai-create-fine-tuning-job",
   name: "Create Fine Tuning Job",
   description: "Creates a job that fine-tunes a specified model from a given dataset. [See the documentation](https://platform.openai.com/docs/api-reference/fine-tuning/create)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     openai,
@@ -17,8 +17,13 @@ export default {
     trainingFile: {
       propDefinition: [
         openai,
-        "trainingFile",
+        "fileId",
+        () => ({
+          purpose: "fine-tune",
+        }),
       ],
+      label: "Training File",
+      description: "The ID of an uploaded file that contains training data. You can use the **Upload File** action and reference the returned ID here.",
     },
     hyperParameters: {
       type: "object",
@@ -33,7 +38,13 @@ export default {
       optional: true,
     },
     validationFile: {
-      type: "string",
+      propDefinition: [
+        openai,
+        "fileId",
+        () => ({
+          purpose: "fine-tune",
+        }),
+      ],
       label: "Validation File",
       description: "The ID of an uploaded file that contains validation data. [See details in the documentation](https://platform.openai.com/docs/api-reference/fine-tuning/create#fine-tuning-create-validation_file).",
       optional: true,

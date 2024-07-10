@@ -4,28 +4,32 @@ export default {
   name: "Move a File/Folder",
   description: "Moves a file or folder to a different location in the user's Dropbox [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesMoveV2__anchor)",
   key: "dropbox-move-file-folder",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
     pathFrom: {
       propDefinition: [
         dropbox,
-        "pathFileFolder",
+        "path",
         () => ({
-          omitRootFolder: true,
+          initialOptions: [],
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => [
+            "file",
+            "folder",
+          ].includes(type),
         }),
       ],
       label: "Path from",
-      description: "The file/folder that you want to move.",
+      description: "Type the file or folder name to search for it in the user's Dropbox.",
     },
     pathTo: {
       propDefinition: [
         dropbox,
-        "pathFolder",
+        "path",
       ],
       label: "Path to",
-      description: "The new path of your file/folder",
+      description: "Type the folder name to search for it in the user's Dropbox. If not filled, it will be moved in the root folder.",
     },
     autorename: {
       type: "boolean",

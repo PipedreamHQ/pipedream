@@ -7,7 +7,7 @@ export default {
   key: "notion-create-page-from-database",
   name: "Create Page from Database",
   description: "Creates a page from a database. [See the docs](https://developers.notion.com/reference/post-page)",
-  version: "0.1.12",
+  version: "0.1.13",
   type: "action",
   props: {
     notion,
@@ -37,10 +37,16 @@ export default {
       ],
       reloadProps: true,
     },
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "This action will create an empty page by default. To add content, use the `pageContent` prop below.",
+    },
     pageContent: {
       type: "string",
       label: "Page Content",
       description: "Content of the page. You can use Markdown syntax [See docs](https://www.notion.so/help/writing-and-editing-basics#markdown-&-shortcuts)",
+      optional: true,
     },
   },
   async additionalProps() {

@@ -1,11 +1,13 @@
 import common from "../common/common.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-or-updated-crm-object",
   name: "New or Updated CRM Object",
   description: "Emit new event each time a CRM Object of the specified object type is updated.",
-  version: "0.0.13",
+  version: "0.0.14",
   dedupe: "unique",
   type: "source",
   props: {
@@ -17,7 +19,6 @@ export default {
       ],
     },
   },
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(object) {
@@ -43,13 +44,15 @@ export default {
         ? "lastmodifieddate"
         : "hs_lastmodifieddate";
       return {
-        limit: 100,
-        sorts: [
-          {
-            propertyName,
-            direction: "DESCENDING",
-          },
-        ],
+        data: {
+          limit: DEFAULT_LIMIT,
+          sorts: [
+            {
+              propertyName,
+              direction: "DESCENDING",
+            },
+          ],
+        },
         object,
       };
     },
@@ -61,4 +64,5 @@ export default {
       await this.searchCRM(params, after);
     },
   },
+  sampleEmit,
 };

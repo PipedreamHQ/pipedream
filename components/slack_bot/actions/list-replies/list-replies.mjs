@@ -17,7 +17,7 @@ export default {
       conversation: {
         propDefinition: [
           undefined,
-          "channelId",
+          "conversation",
           () => ({
             types: [
               constants.CHANNEL_TYPE.PUBLIC,
@@ -31,13 +31,16 @@ export default {
       timestamp: {
         propDefinition: [
           undefined,
-          "timestamp",
+          "messageTs",
+          (c) => ({
+            channel: c.conversation,
+          }),
         ],
         optional: false,
       },
     },
   }),
   key: "slack_bot-list-replies",
-  description: "Retrieve a thread of messages posted to a conversation (Bot). [See docs here](https://api.slack.com/methods/conversations.replies)",
-  version: "0.0.2",
+  description: "Retrieve a thread of messages posted to a conversation (Bot). [See the documentation](https://api.slack.com/methods/conversations.replies)",
+  version: "0.0.3",
 };

@@ -7,16 +7,19 @@ export default {
   name: "Upload a File",
   description: "Uploads a file to a selected folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-file",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     dropbox,
     path: {
       propDefinition: [
         dropbox,
-        "pathFolder",
+        "path",
+        () => ({
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => type === "folder",
+        }),
       ],
-      description: "The file path in the user's Dropbox to create the file. If not filled, it will be created in the root folder.",
+      description: "Type the folder name to search for it in the user's Dropbox. If not filled, it will be created in the root folder.",
     },
     name: {
       type: "string",

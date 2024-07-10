@@ -29,7 +29,7 @@ export default {
       return result;
     },
     async processCollection(statement, timestamp) {
-      const rowStream = await this.snowflake.getRows(statement);
+      const rowStream = await this.snowflake.executeQuery(statement);
       const rows = await this.streamToArray(rowStream);
       this.$emit(rows, this.generateMetaForCollection({
         timestamp,
@@ -38,7 +38,7 @@ export default {
     async processSingle(statement, timestamp) {
       let lastResultId;
       let rowCount = 0;
-      const rowStream = await this.snowflake.getRows(statement);
+      const rowStream = await this.snowflake.executeQuery(statement);
       for await (const row of rowStream) {
         const meta = this.generateMeta({
           row,

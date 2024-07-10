@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/faceup",
+  "version": "0.1.0",
+  "description": "Pipedream FaceUp Components",
+  "main": "faceup.app.mjs",
+  "keywords": [
+    "pipedream",
+    "faceup"
+  ],
+  "homepage": "https://pipedream.com/apps/faceup",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

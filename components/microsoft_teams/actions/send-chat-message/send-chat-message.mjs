@@ -5,7 +5,7 @@ export default {
   name: "Send Chat Message",
   description: "Send a message to a team&#39;s chat. [See the docs here](https://docs.microsoft.com/en-us/graph/api/chat-post-messages?view=graph-rest-1.0&tabs=http)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     microsoftTeams,
     chatId: {
@@ -20,11 +20,18 @@ export default {
         "message",
       ],
     },
+    contentType: {
+      propDefinition: [
+        microsoftTeams,
+        "contentType",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       chatId,
       message,
+      contentType,
     } = this;
 
     const response =
@@ -33,6 +40,7 @@ export default {
         content: {
           body: {
             content: message,
+            contentType,
           },
         },
       });

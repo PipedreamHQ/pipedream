@@ -3,8 +3,8 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-delete-message",
   name: "Delete Message",
-  description: "Delete a message. [See docs here](https://api.slack.com/methods/chat.delete)",
-  version: "0.0.14",
+  description: "Delete a message. [See the documentation](https://api.slack.com/methods/chat.delete)",
+  version: "0.0.18",
   type: "action",
   props: {
     slack,
@@ -17,7 +17,10 @@ export default {
     timestamp: {
       propDefinition: [
         slack,
-        "timestamp",
+        "messageTs",
+        (c) => ({
+          channel: c.conversation,
+        }),
       ],
     },
     as_user: {
@@ -28,11 +31,13 @@ export default {
       description: "Pass true to update the message as the authed user. Bot users in this context are considered authed users.",
     },
   },
-  async run() {
-    return await this.slack.sdk().chat.delete({
+  async run({ $ }) {
+    const response = await this.slack.sdk().chat.delete({
       channel: this.conversation,
       ts: this.timestamp,
       as_user: this.as_user,
     });
+    $.export("$summary", "Successfully deleted message.");
+    return response;
   },
 };

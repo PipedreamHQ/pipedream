@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/deepseek",
+  "version": "0.0.1",
+  "description": "Pipedream DeepSeek Components",
+  "main": "deepseek.app.mjs",
+  "keywords": [
+    "pipedream",
+    "deepseek"
+  ],
+  "homepage": "https://pipedream.com/apps/deepseek",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

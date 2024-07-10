@@ -1,33 +1,12 @@
 import slack from "../../slack.app.mjs";
 
-/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
-  pipedream/required-properties-version, pipedream/required-properties-description */
 export default {
-  type: "action",
   props: {
     slack,
     as_user: {
       propDefinition: [
         slack,
         "as_user",
-      ],
-    },
-    username: {
-      propDefinition: [
-        slack,
-        "username",
-      ],
-    },
-    icon_emoji: {
-      propDefinition: [
-        slack,
-        "icon_emoji",
-      ],
-    },
-    icon_url: {
-      propDefinition: [
-        slack,
-        "icon_url",
       ],
     },
     post_at: {
@@ -43,18 +22,122 @@ export default {
       label: "Include link to workflow",
       description: "Defaults to `true`, includes a link to the workflow at the end of your Slack message.",
     },
+    customizeBotSettings: {
+      type: "boolean",
+      label: "Customize Bot Settings",
+      description: "Customize the username and/or icon of the Bot",
+      optional: true,
+      reloadProps: true,
+    },
+    username: {
+      propDefinition: [
+        slack,
+        "username",
+      ],
+      hidden: true,
+    },
+    icon_emoji: {
+      propDefinition: [
+        slack,
+        "icon_emoji",
+      ],
+      hidden: true,
+    },
+    icon_url: {
+      propDefinition: [
+        slack,
+        "icon_url",
+      ],
+      hidden: true,
+    },
+    replyToThread: {
+      type: "boolean",
+      label: "Reply to Thread",
+      description: "Reply to an existing thread",
+      optional: true,
+      reloadProps: true,
+    },
+    thread_ts: {
+      propDefinition: [
+        slack,
+        "messageTs",
+        (c) => ({
+          channel: c.conversation,
+        }),
+      ],
+      description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead.",
+      optional: true,
+      hidden: true,
+    },
+    thread_broadcast: {
+      propDefinition: [
+        slack,
+        "thread_broadcast",
+      ],
+      hidden: true,
+    },
+    addMessageMetadata: {
+      type: "boolean",
+      label: "Add Message Metadata",
+      description: "Set the metadata event type and payload",
+      optional: true,
+      reloadProps: true,
+    },
     metadata_event_type: {
       propDefinition: [
         slack,
         "metadata_event_type",
       ],
+      hidden: true,
     },
     metadata_event_payload: {
       propDefinition: [
         slack,
         "metadata_event_payload",
       ],
+      hidden: true,
     },
+    configureUnfurlSettings: {
+      type: "boolean",
+      label: "Configure Unfurl Settings",
+      description: "Configure settings for unfurling links and media",
+      optional: true,
+      reloadProps: true,
+    },
+    unfurl_links: {
+      propDefinition: [
+        slack,
+        "unfurl_links",
+      ],
+      hidden: true,
+    },
+    unfurl_media: {
+      propDefinition: [
+        slack,
+        "unfurl_media",
+      ],
+      hidden: true,
+    },
+  },
+  async additionalProps(props) {
+    if (this.conversation && this.replyToThread) {
+      props.thread_ts.hidden = false;
+      props.thread_broadcast.hidden = false;
+    }
+    if (this.customizeBotSettings) {
+      props.username.hidden = false;
+      props.icon_emoji.hidden = false;
+      props.icon_url.hidden = false;
+    }
+    if (this.addMessageMetadata) {
+      props.metadata_event_type.hidden = false;
+      props.metadata_event_payload.hidden = false;
+    }
+    if (this.configureUnfurlSettings) {
+      props.unfurl_links.hidden = false;
+      props.unfurl_media.hidden = false;
+    }
+    return {};
   },
   methods: {
     _makeSentViaPipedreamBlock() {
@@ -111,7 +194,7 @@ export default {
 
     if (this.metadata_event_type) {
 
-      if (typeof metadataEventPayload === "string") {
+      if (typeof this.metadata_event_payload === "string") {
         try {
           metadataEventPayload = JSON.parse(this.metadata_event_payload);
         } catch (error) {
@@ -139,36 +222,27 @@ export default {
       mrkdwn: this.mrkdwn,
       blocks,
       link_names: this.link_names,
-      reply_broadcast: this.reply_broadcast,
+      reply_broadcast: this.thread_broadcast,
       thread_ts: this.thread_ts,
       metadata: this.metadata || null,
     };
 
-    console.log({
-      text: this.text,
-      channel: this.conversation ?? this.reply_channel,
-      attachments: this.attachments,
-      unfurl_links: this.unfurl_links,
-      unfurl_media: this.unfurl_media,
-      parse: this.parse,
-      as_user: this.as_user,
-      username: this.username,
-      icon_emoji: this.icon_emoji,
-      icon_url: this.icon_url,
-      mrkdwn: this.mrkdwn,
-      blocks,
-      link_names: this.link_names,
-      reply_broadcast: this.reply_broadcast,
-      thread_ts: this.thread_ts,
-      metadata: this.metadata || null,
-    });
-
     if (this.post_at) {
-      obj.post_at = this.post_at;
+      obj.post_at = Math.floor(new Date(this.post_at).getTime() / 1000);
       return await this.slack.sdk().chat.scheduleMessage(obj);
     }
     const resp = await this.slack.sdk().chat.postMessage(obj);
-    $.export("$summary", "Successfully sent a message to channel ID " + resp.channel);
+    const { channel } = await this.slack.conversationsInfo({
+      channel: resp.channel,
+    });
+    let channelName = `#${channel?.name}`;
+    if (channel.is_im) {
+      const usernames = await this.slack.userNames();
+      channelName = `@${usernames[channel.user]}`;
+    } else if (channel.is_mpim) {
+      channelName = `@${channel.purpose.value}`;
+    }
+    $.export("$summary", `Successfully sent a message to ${channelName}`);
     return resp;
   },
 };

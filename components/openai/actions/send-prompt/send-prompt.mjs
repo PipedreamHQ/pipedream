@@ -4,12 +4,17 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "Create Completion (Send Prompt)",
-  version: "0.1.7",
+  version: "0.1.8",
   key: "openai-send-prompt",
-  description: "OpenAI recommends using the **Chat** action for the latest `gpt-3.5-turbo` API, since it's faster and 10x cheaper. This action creates a completion for the provided prompt and parameters using the older `/completions` API. [See docs here](https://beta.openai.com/docs/api-reference/completions/create)",
+  description: "OpenAI recommends using the **Chat** action for the latest `gpt-3.5-turbo` API, since it's faster and 10x cheaper. This action creates a completion for the provided prompt and parameters using the older `/completions` API. [See the documentation](https://beta.openai.com/docs/api-reference/completions/create)",
   type: "action",
   props: {
     openai,
+    alert: {
+      type: "alert",
+      alertType: "warning",
+      content: "We recommend using the Pipedream **Chat** action instead of this one. It supports the latest `gpt-3.5-turbo` API, which is faster and 10x cheaper. This action, **Create Completion (Send Prompt)**, creates a completion for the provided prompt and parameters using the older `/completions` API.",
+    },
     modelId: {
       propDefinition: [
         openai,
@@ -38,7 +43,7 @@ export default {
   async run({ $ }) {
     const response = await this.openai.createCompletion({
       $,
-      args: this._getCommonArgs(),
+      data: this._getCommonArgs(),
     });
 
     if (response) {

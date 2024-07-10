@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cohere_platform",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Cohere Components",
   "main": "cohere_platform.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "cohere-ai": "^6.1.0"
+    "cohere-ai": "^7.10.6"
   }
 }

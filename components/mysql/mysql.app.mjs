@@ -234,14 +234,14 @@ export default {
      * (like the `sql` prop) to enrich the code editor and provide the user with
      * auto-complete and fields suggestion.
      *
-     * @returns {DbSchema} The schema of the database, which is a
+     * @returns {DbInfo} The schema of the database, which is a
      * JSON-serializable object.
      */
     async getSchema() {
       const sql = `
         SELECT t.table_schema AS tableSchema,
             t.table_name AS tableName,
-            t.table_rows AS rowCount,
+            CAST(t.table_rows AS UNSIGNED) AS rowCount,
             c.column_name AS columnName,
             c.data_type AS dataType,
             c.is_nullable AS isNullable,
@@ -261,9 +261,12 @@ export default {
       });
       return rows.reduce((acc, row) => {
         acc[row.tableName] ??= {
-          _rowCount: row.rowCount,
+          metadata: {
+            rowCount: row.rowCount,
+          },
+          schema: {},
         };
-        acc[row.tableName][row.columnName] = {
+        acc[row.tableName].schema[row.columnName] = {
           ...row,
         };
         return acc;
