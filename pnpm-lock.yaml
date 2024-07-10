@@ -9579,7 +9579,10 @@ importers:
     specifiers: {}
 
   components/txt_werk:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/typebot:
     specifiers: {}
