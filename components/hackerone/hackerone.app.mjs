@@ -16,7 +16,7 @@ export default {
       description: "Email of the invitee",
     },
     organizationAdmin: {
-      type: "string",
+      type: "boolean",
       label: "Organization Admin",
       description: "Sets the invitee as an organization admin",
     },
