@@ -4665,7 +4665,10 @@ importers:
     specifiers: {}
 
   components/kaleido:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/kanban_tool:
     specifiers:
