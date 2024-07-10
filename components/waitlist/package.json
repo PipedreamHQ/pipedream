@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/waitlist",
+  "version": "0.0.1",
+  "description": "Pipedream Waitlist Components",
+  "main": "waitlist.app.mjs",
+  "keywords": [
+    "pipedream",
+    "waitlist"
+  ],
+  "homepage": "https://pipedream.com/apps/waitlist",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
