@@ -20,14 +20,6 @@ export default {
         pidj,
         "contactId",
       ],
-      optional: true,
-    },
-    toNumber: {
-      propDefinition: [
-        pidj,
-        "toNumber",
-      ],
-      optional: true,
     },
     fromNumber: {
       propDefinition: [
@@ -45,9 +37,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if ((!this.contactId && !this.toNumber) || (this.contactId && this.toNumber)) {
-      throw new ConfigurationError("You must provide either Contact Id or To Number.");
-    }
     if ((!this.fromNumber && !this.groupId) || (this.fromNumber && this.groupId)) {
       throw new ConfigurationError("You must provide either From Number or Group Id.");
     }
@@ -57,13 +46,12 @@ export default {
       data: {
         survey_id: this.surveyId,
         contact_id: this.contactId,
-        to_number: this.toNumber,
         from_number: this.fromNumber,
         group_id: this.groupId,
       },
     });
 
-    $.export("$summary", `Successfully initiated survey for contact ${this.contactId || this.toNumber}`);
+    $.export("$summary", `Successfully initiated survey for contact ${this.contactId}`);
     return response;
   },
 };

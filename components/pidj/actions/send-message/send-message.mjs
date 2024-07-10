@@ -38,7 +38,7 @@ export default {
     });
     if (response.status != "success") throw new ConfigurationError(response.message);
 
-    $.export("$summary", `Message successfully sent to ${this.recipientPhoneNumber}`);
+    $.export("$summary", `Message successfully sent to ${this.toNumber}`);
     return response;
   },
 };
