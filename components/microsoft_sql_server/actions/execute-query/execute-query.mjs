@@ -5,7 +5,7 @@ export default {
   name: "Execute Query",
   description: "Executes a SQL query and returns the results. [See the documentation](https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver16)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
     query: {
