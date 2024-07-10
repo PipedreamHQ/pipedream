@@ -120,7 +120,7 @@ export default {
           }
         }
 
-        hasMore = params.length;
+        hasMore = data.length;
 
       } while (hasMore);
     },

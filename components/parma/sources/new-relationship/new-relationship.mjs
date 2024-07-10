@@ -19,9 +19,6 @@ export default {
     },
   },
   methods: {
-    getWebhookProps() {
-      return {};
-    },
     _getLastId() {
       return this.db.get("lastId") || 0;
     },
