@@ -14,6 +14,7 @@ export default {
       type: "string",
       label: "Title",
       description: "Title of the document to be analyzed",
+      optional: true,
     },
     services: {
       type: "string[]",
