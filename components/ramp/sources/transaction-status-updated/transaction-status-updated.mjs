@@ -1,77 +1,54 @@
-import ramp from "../../ramp.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "ramp-transaction-status-updated",
   name: "Transaction Status Updated",
-  description: "Emits a new event when there is a change in transaction status.",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when there is a change in transaction status.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    ramp,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    state: ramp.propDefinitions.state,
-    department: ramp.propDefinitions.department,
-    location: ramp.propDefinitions.location,
-    merchant: ramp.propDefinitions.merchant,
-  },
   methods: {
-    _getAfter() {
-      return this.db.get("after");
+    ...common.methods,
+    getResourceFn() {
+      return this.ramp.listTransactions;
     },
-    _setAfter(after) {
-      this.db.set("after", after);
+    getParams() {
+      return {
+        order_by_date_asc: true,
+      };
     },
-  },
-  hooks: {
-    async deploy() {
-      const transactions = await this.ramp.listTransactions(this, this.state, 50);
-      for (const transaction of transactions) {
-        this.$emit(transaction, {
-          id: transaction.id,
-          summary: `Transaction ${transaction.id} has status ${transaction.state}`,
-          ts: Date.parse(transaction.created_at),
-        });
+    generateMeta(transaction) {
+      const ts = Date.now();
+      return {
+        id: `${transaction.id}-${ts}`,
+        summary: `Status updated for transaction ID: ${transaction.id}`,
+        ts,
+      };
+    },
+    emitResults(results, max) {
+      const previousStatuses = this._getPreviousStatuses();
+      let transactions = [];
+      for (const transaction of results) {
+        if (previousStatuses[transaction.id]
+          && previousStatuses[transaction.id] !== transaction.state) {
+          transactions.push(transaction);
+        }
+        previousStatuses[transaction.id] = transaction.state;
       }
+      this._setPreviousStatuses(previousStatuses);
+      if (!transactions.length) {
+        return;
+      }
+      if (max && transactions.length > max) {
+        transactions = transactions.slice(-1 * max);
+      }
+      transactions.reverse().forEach((transaction) => {
+        const meta = this.generateMeta(transaction);
+        this.$emit(transaction, meta);
+      });
     },
   },
-  async run() {
-    const after = this._getAfter();
-    const params = {
-      state: this.state,
-      department: this.department,
-      location: this.location,
-      merchant: this.merchant,
-      after,
-    };
-
-    const transactions = await this.ramp.listTransactions(this, this.state, 50, after);
-    if (transactions.length === 0) {
-      console.log("No new transactions.");
-      return;
-    }
-
-    for (const transaction of transactions) {
-      if (this.department && transaction.department_id !== this.department) continue;
-      if (this.location && transaction.location_id !== this.location) continue;
-      if (this.merchant && transaction.merchant_id !== this.merchant) continue;
-
-      this.$emit(transaction, {
-        id: transaction.id,
-        summary: `Transaction ${transaction.id} has status ${transaction.state}`,
-        ts: Date.parse(transaction.created_at),
-      });
-    }
-
-    const lastTransaction = transactions[transactions.length - 1];
-    this._setAfter(lastTransaction
-      ? lastTransaction.id
-      : after);
-  },
+  sampleEmit,
 };

@@ -1,66 +1,48 @@
-import { axios } from "@pipedream/platform";
-import ramp from "../../ramp.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
-  type: "source",
-  key: "ramp-transfer-payment-updated",
+  ...common,
+  key: "ramp_sandbox-transfer-payment-updated",
   name: "Transfer Payment Updated",
-  description: "Emits an event when the status of a transfer payment changes",
+  description: "Emit new event when the status of a transfer payment changes",
   version: "0.0.1",
+  type: "source",
   dedupe: "unique",
-  props: {
-    ramp,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-    state: {
-      propDefinition: [
-        ramp,
-        "state",
-      ],
-    },
-  },
   methods: {
-    ...ramp.methods,
-    _getLatestTransactionId() {
-      return this.db.get("latestTransactionId");
+    ...common.methods,
+    getResourceFn() {
+      return this.ramp.listTransfers;
     },
-    _setLatestTransactionId(id) {
-      this.db.set("latestTransactionId", id);
+    generateMeta(transfer) {
+      const ts = Date.now();
+      return {
+        id: `${transfer.id}-${ts}`,
+        summary: `Status updated for transfer ID: ${transfer.id}`,
+        ts,
+      };
     },
-  },
-  hooks: {
-    async deploy() {
-      const latestTransaction = await this.ramp.listTransactions(
-        this,
-        this.state,
-        1,
-      );
-      if (latestTransaction.length > 0) {
-        this._setLatestTransactionId(latestTransaction[0].id);
+    emitResults(results, max) {
+      const previousStatuses = this._getPreviousStatuses();
+      let transfers = [];
+      for (const transfer of results) {
+        if (previousStatuses[transfer.id] && previousStatuses[transfer.id] !== transfer.status) {
+          transfers.push(transfer);
+        }
+        previousStatuses[transfer.id] = transfer.status;
       }
+      this._setPreviousStatuses(previousStatuses);
+      if (!transfers.length) {
+        return;
+      }
+      if (max && transfers.length > max) {
+        transfers = transfers.slice(-1 * max);
+      }
+      transfers.reverse().forEach((transfer) => {
+        const meta = this.generateMeta(transfer);
+        this.$emit(transfer, meta);
+      });
     },
   },
-  async run() {
-    const latestTransactionId = this._getLatestTransactionId();
-    const transactions = await this.ramp.listTransactions(
-      this,
-      this.state,
-      50,
-      latestTransactionId,
-    );
-    for (const transaction of transactions) {
-      this.$emit(transaction, {
-        id: transaction.id,
-        summary: `Transfer payment with ID ${transaction.id} has been updated`,
-        ts: Date.parse(transaction.created_at),
-      });
-    }
-    const newLatestTransactionId = transactions[transactions.length - 1]?.id;
-    this._setLatestTransactionId(newLatestTransactionId);
-  },
+  sampleEmit,
 };

@@ -11,5 +11,9 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0",
+    "uuid": "^10.0.0"
   }
 }

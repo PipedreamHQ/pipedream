@@ -1,10 +1,11 @@
 import ramp from "../../ramp.app.mjs";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   key: "ramp-create-user-invite",
   name: "Create User Invite",
   description: "Sends out an invite for a new user. [See the documentation](https://docs.ramp.com/developer-api/v1/reference/rest/users#post-developer-v1-users-deferred)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     ramp,
@@ -62,6 +63,7 @@ export default {
         department_id: this.departmentId,
         direct_manager_id: this.directManagerId,
         location_id: this.locationId,
+        idempotency_key: uuidv4(),
       },
     });
     $.export("$summary", `Invite sent successfully to new user ${this.firstName} ${this.lastName}`);

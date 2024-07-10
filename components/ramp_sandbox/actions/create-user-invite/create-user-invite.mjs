@@ -1,10 +1,12 @@
 import ramp from "../../ramp_sandbox.app.mjs";
+import createUserInvite from "../../../ramp/actions/create-user-invite/create-user-invite.mjs";
 
 export default {
+  ...createUserInvite,
   key: "ramp_sandbox-create-user-invite",
   name: "Create User Invite",
   description: "Sends out an invite for a new user. [See the documentation](https://docs.ramp.com/developer-api/v1/reference/rest/users#post-developer-v1-users-deferred)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     ramp,
@@ -50,21 +52,5 @@ export default {
         "locationId",
       ],
     },
-  },
-  async run({ $ }) {
-    const response = await this.ramp.createUserInvite({
-      $,
-      data: {
-        email: this.email,
-        first_name: this.firstName,
-        last_name: this.lastName,
-        role: this.role,
-        department_id: this.departmentId,
-        direct_manager_id: this.directManagerId,
-        location_id: this.locationId,
-      },
-    });
-    $.export("$summary", `Invite sent successfully to new user ${this.firstName} ${this.lastName}`);
-    return response;
   },
 };

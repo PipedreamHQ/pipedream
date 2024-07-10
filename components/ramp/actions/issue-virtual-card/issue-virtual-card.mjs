@@ -5,7 +5,7 @@ export default {
   key: "ramp-issue-virtual-card",
   name: "Issue Virtual Card",
   description: "Creates a new virtual card for a given user. [See the documentation](https://docs.ramp.com/developer-api/v1/reference/rest/limits#post-developer-v1-limits-deferred)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     ramp,
@@ -55,7 +55,7 @@ export default {
     }
     if (this.linkToSpendProgram) {
       props.spendProgramId.hidden = false;
-    } else if (this.linkToSpendProgram === false) { 
+    } else if (this.linkToSpendProgram === false) {
       props.spendProgramId.hidden = true;
       props.allowedCategories.hidden = false;
       props.blockedCategories.hidden = false;

@@ -1,68 +1,52 @@
-import ramp from "../../ramp.app.mjs";
-import common from "../../sources/common/common.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
-  type: "source",
+  ...common,
   key: "ramp-new-transaction-created",
   name: "New Transaction Created",
-  description: "Emits an event for each new transaction created in Ramp.",
-  version: "0.0.{{ts}}",
+  description: "Emit new event for each new transaction created in Ramp.",
+  version: "0.0.1",
+  type: "source",
   dedupe: "unique",
-  props: {
-    ramp,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    state: {
-      ...ramp.propDefinitions.state,
-      description: "The state of the transaction to watch for",
-      optional: false,
-    },
-    department: ramp.propDefinitions.department,
-    location: ramp.propDefinitions.location,
-    merchant: ramp.propDefinitions.merchant,
-  },
   methods: {
-    ...ramp.methods,
+    ...common.methods,
     _getLatestTransactionId() {
       return this.db.get("latestTransactionId");
     },
     _setLatestTransactionId(id) {
       this.db.set("latestTransactionId", id);
     },
-  },
-  hooks: {
-    async deploy() {
-      const transactions = await this.ramp.listTransactions(this, this.state, common.defaultPageSize);
-      if (transactions.length > 0) {
-        const latestTransaction = transactions[0];
-        this._setLatestTransactionId(latestTransaction.id);
+    getResourceFn() {
+      return this.ramp.listTransactions;
+    },
+    getParams() {
+      const latestTransactionId = this._getLatestTransactionId();
+      const params = {
+        order_by_date_asc: true,
+      };
+      if (latestTransactionId) {
+        params.start = latestTransactionId;
       }
+      return params;
+    },
+    generateMeta(transaction) {
+      return {
+        id: transaction.id,
+        summary: `New Transaction ID: ${transaction.id}`,
+        ts: Date.parse(transaction.user_transaction_time),
+      };
+    },
+    emitResults(results, max) {
+      if (max && results.length > max) {
+        results = results.slice(-1 * max);
+      }
+      this._setLatestTransactionId(results[results.length - 1].id);
+      results.reverse().forEach((transaction) => {
+        const meta = this.generateMeta(transaction);
+        this.$emit(transaction, meta);
+      });
     },
   },
-  async run() {
-    const latestTransactionId = this._getLatestTransactionId();
-    const transactions = await this.ramp.listTransactions(this, this.state, common.defaultPageSize, latestTransactionId);
-    for (const transaction of transactions) {
-      if (
-        (!this.department || transaction.department === this.department) &&
-        (!this.location || transaction.location === this.location) &&
-        (!this.merchant || transaction.merchant === this.merchant)
-      ) {
-        this.$emit(transaction, {
-          id: transaction.id,
-          summary: `New transaction from ${transaction.merchant}`,
-          ts: Date.parse(transaction.created_at),
-        });
-
-        if (!latestTransactionId || transaction.id > latestTransactionId) {
-          this._setLatestTransactionId(transaction.id);
-        }
-      }
-    }
-  },
+  sampleEmit,
 };

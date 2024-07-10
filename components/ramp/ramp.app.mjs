@@ -10,23 +10,16 @@ export default {
       label: "User ID",
       description: "The ID of the user",
       async options({ prevContext }) {
-        const args = prevContext?.next
-          ? {
-            url: prevContext.next,
-          }
-          : {};
-        const {
-          data, page,
-        } = await this.listUsers(args);
-        return {
-          options: data.map((user) => ({
-            label: (`${user?.first_name} ${user.last_name}`).trim(),
-            value: user.id,
-          })),
-          context: {
-            next: page.next,
-          },
-        };
+        return this.getPropOptions({
+          prevContext,
+          resourceFn: this.listUsers,
+          mapper: ({
+            id: value, first_name: firstName, last_name: lastName,
+          }) => ({
+            value,
+            label: (`${firstName} ${lastName}`).trim(),
+          }),
+        });
       },
     },
     spendProgramId: {
@@ -35,23 +28,73 @@ export default {
       description: "The ID of the spend program",
       optional: true,
       async options({ prevContext }) {
-        const args = prevContext?.next
-          ? {
-            url: prevContext.next,
-          }
-          : {};
-        const {
-          data, page,
-        } = await this.listSpendPrograms(args);
-        return {
-          options: data.map((program) => ({
-            label: program.display_name,
-            value: program.id,
-          })),
-          context: {
-            next: page.next,
-          },
-        };
+        return this.getPropOptions({
+          prevContext,
+          resourceFn: this.listSpendPrograms,
+          mapper: ({
+            id: value, display_name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    departmentId: {
+      type: "string",
+      label: "Department ID",
+      description: "Unique identifier of the employee's department",
+      optional: true,
+      async options({ prevContext }) {
+        return this.getPropOptions({
+          prevContext,
+          resourceFn: this.listDepartments,
+          mapper: ({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    locationId: {
+      type: "string",
+      label: "Location ID",
+      description: "Unique identifier of the employee's location",
+      optional: true,
+      async options({ prevContext }) {
+        return this.getPropOptions({
+          prevContext,
+          resourceFn: this.listLocations,
+          mapper: ({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    transactionId: {
+      type: "string",
+      label: "Transaction ID",
+      description: "The ID of a transaction",
+      async options({ prevContext }) {
+        return this.getPropOptions({
+          prevContext,
+          resourceFn: this.listTransactions,
+          mapper: ({
+            id: value,
+            merchant_name: merchantName,
+            amount,
+            currency_code: currencyCode,
+            user_transaction_time: userTransactionTime,
+          }) => ({
+            value,
+            label: `${merchantName} - ${amount} ${currencyCode} - ${userTransactionTime}`,
+          }),
+        });
       },
     },
     allowedCategories: {
@@ -68,192 +111,66 @@ export default {
       options: constants.CATEGORY_CODES,
       optional: true,
     },
-    state: {
-      type: "string",
-      label: "State",
-      description: "The state of the transaction",
-    },
-    department: {
-      type: "string",
-      label: "Department",
-      description: "The department involved in the transaction",
-      optional: true,
-      async options() {
-        const departments = await this.getDepartments();
-        return departments.map((dept) => ({
-          label: dept.name,
-          value: dept.id,
-        }));
-      },
-    },
-    location: {
-      type: "string",
-      label: "Location",
-      description: "The location involved in the transaction",
-      optional: true,
-      async options() {
-        const locations = await this.getLocations();
-        return locations.map((loc) => ({
-          label: loc.name,
-          value: loc.id,
-        }));
-      },
-    },
-    merchant: {
-      type: "string",
-      label: "Merchant",
-      description: "The merchant involved in the transaction",
-      optional: true,
-      async options() {
-        const merchants = await this.getMerchants();
-        return merchants.map((merchant) => ({
-          label: merchant.name,
-          value: merchant.id,
-        }));
-      },
-    },
     role: {
       type: "string",
       label: "Role",
-      description: "The role of the new user",
-      options: [
-        "Admin",
-        "User",
-      ],
+      description: "The employee's role",
+      options: constants.ROLES,
     },
-    departmentId: {
-      type: "string",
-      label: "Department ID",
-      description: "The ID of the department",
-      optional: true,
-      async options() {
-        const departments = await this.getDepartments();
-        return departments.map((dept) => ({
-          label: dept.name,
-          value: dept.id,
-        }));
-      },
-    },
-    locationId: {
-      type: "string",
-      label: "Location ID",
-      description: "The ID of the location",
-      optional: true,
-      async options() {
-        const locations = await this.getLocations();
-        return locations.map((loc) => ({
-          label: loc.name,
-          value: loc.id,
-        }));
-      },
-    },
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The first name of the recipient",
-      required: true,
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The last name of the recipient",
-      required: true,
-    },
-    address1: {
-      type: "string",
-      label: "Address 1",
-      description: "The first line of the recipient's address",
-      required: true,
-    },
-    city: {
-      type: "string",
-      label: "City",
-      description: "The city of the recipient",
-      required: true,
-    },
-    state: {
+    transactionState: {
       type: "string",
       label: "State",
-      description: "The state of the recipient",
-      required: true,
-    },
-    postalCode: {
-      type: "string",
-      label: "Postal Code",
-      description: "The postal code of the recipient",
-      required: true,
-    },
-    country: {
-      type: "string",
-      label: "Country",
-      description: "The country of the recipient",
-      required: true,
-    },
-    address2: {
-      type: "string",
-      label: "Address 2",
-      description: "The second line of the recipient's address",
-      optional: true,
-    },
-    phone: {
-      type: "string",
-      label: "Phone",
-      description: "The phone number of the recipient",
-      optional: true,
+      description: "Filter transactions by the current state",
+      options: constants.TRANSACTION_STATE_OPTIONS,
     },
   },
   methods: {
-    _getBaseUrl() {
-      return "https://api.ramp.com/developer/v1";
+    _baseUrl() {
+      return "https://demo-api.ramp.com/developer/v1";
     },
-    _getHeaders() {
+    _getHeaders(headers) {
       return {
+        ...headers,
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this,
       path,
+      headers,
       ...opts
     }) {
-      return axios($, {
-        url: `${this._baseUrl()}${path}`,
-        headers: this._getHeaders(),
-        ...opts,
-      });
-    },
-    listTransactions(ctx = this, state, defaultPageSize, latestTransactionId) {
-      const params = {
-        order_by_date_asc: true,
-        page_size: defaultPageSize,
-        state,
-      };
-      if (latestTransactionId) {
-        params.start = latestTransactionId;
+      try {
+        return await axios($, {
+          url: `${this._baseUrl()}${path}`,
+          headers: this._getHeaders(headers),
+          ...opts,
+        });
+      } catch (e) {
+        throw new Error(JSON.parse(e.message).error_v2.message);
       }
-      return this._makeRequest({
-        path: "/transactions",
-        params,
-        $: ctx,
-      });
     },
-    async getDepartments() {
-      return axios(this._getAxiosParams({
-        path: "/departments",
-        method: "GET",
-      }));
-    },
-    async getLocations() {
-      return axios(this._getAxiosParams({
-        path: "/locations",
-        method: "GET",
-      }));
-    },
-    async getMerchants() {
-      return axios(this._getAxiosParams({
-        path: "/merchants",
-        method: "GET",
-      }));
+    async getPropOptions({
+      prevContext,
+      resourceFn,
+      mapper,
+    }) {
+      const args = prevContext?.next
+        ? {
+          url: prevContext.next,
+        }
+        : {};
+
+      const {
+        data, page,
+      } = await resourceFn(args);
+
+      return {
+        options: data.map(mapper),
+        context: {
+          next: page.next,
+        },
+      };
     },
     listUsers(opts = {}) {
       return this._makeRequest({
@@ -267,25 +184,29 @@ export default {
         ...opts,
       });
     },
-    createUserInvite(opts = {}) {
+    listDepartments(opts = {}) {
       return this._makeRequest({
-        path: "/users/deferred",
-        method: "POST",
+        path: "/departments",
         ...opts,
       });
     },
-    async uploadReceipt(ctx = this, transactionId, userId, file) {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      return axios(ctx, this._getAxiosParams({
-        path: `/transactions/${transactionId}/receipts`,
-        method: "POST",
-        data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }));
+    listLocations(opts = {}) {
+      return this._makeRequest({
+        path: "/locations",
+        ...opts,
+      });
+    },
+    listTransactions(opts = {}) {
+      return this._makeRequest({
+        path: "/transactions",
+        ...opts,
+      });
+    },
+    listTransfers(opts = {}) {
+      return this._makeRequest({
+        path: "/transfers",
+        ...opts,
+      });
     },
     createLimit(opts = {}) {
       return this._makeRequest({
@@ -293,6 +214,40 @@ export default {
         method: "POST",
         ...opts,
       });
+    },
+    createUserInvite(opts = {}) {
+      return this._makeRequest({
+        path: "/users/deferred",
+        method: "POST",
+        ...opts,
+      });
+    },
+    uploadReceipt(opts = {}) {
+      return this._makeRequest({
+        path: "/receipts",
+        method: "POST",
+        ...opts,
+      });
+    },
+    async *paginate({
+      resourceFn,
+      params = {},
+    }) {
+      const args = {
+        params: {
+          ...params,
+          page_size: constants.DEFAULT_PAGE_SIZE,
+        },
+      };
+      do {
+        const {
+          data, page,
+        } = await resourceFn(args);
+        for (const item of data) {
+          yield item;
+        }
+        args.url = page.next;
+      } while (args.url);
     },
   },
 };
