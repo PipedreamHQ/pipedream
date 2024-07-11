@@ -5197,6 +5197,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/mailblaze:
+    specifiers: {}
+
   components/mailbluster:
     specifiers:
       md5: ^2.3.0
