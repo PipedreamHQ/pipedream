@@ -23,6 +23,8 @@ export default function Home() {
   const [apn, setAuthProvisionId] = useState<string | null>(null)
   const inputRef = createRef<HTMLInputElement>()
 
+  const [initialized, setInitialized] = useState(false)
+
 
   const signIn = (e: { preventDefault: () => void }) => {
     e.preventDefault()
@@ -45,11 +47,13 @@ export default function Home() {
       setToken(null)
       setGithubData(null)
       setAuthProvisionId(null)
-    } else {
-      serverConnectTokenCreate(externalUserId).then((t) => setToken(t))
-      getAppsData(externalUserId).then((d) => {
-        setGithubData(d.github)
-      })
+    } else if (!initialized) {
+      Promise.all([
+        serverConnectTokenCreate(externalUserId).then((t) => setToken(t)),
+        getAppsData(externalUserId).then((d) => {
+          setGithubData(d.github)
+        })
+      ]).finally(() => { setInitialized(true) })
     }
   }, [externalUserId])
 
@@ -80,16 +84,20 @@ export default function Home() {
           </form>
 
       }
+      {
+        initialized && <div>
+          {token && <p>Token: {token}</p>}
+          {
+            githubData?.login
+              ? <p>Your GitHub username: <b>{githubData.login}</b></p>
+              : externalUserId && token && !apn &&
+              <p>
+                <button style={{ all: "revert" }} onClick={connectApp}>Connect your GitHub account</button>
+              </p>
+          }
+        </div>
+      }
       <div>
-        {token && <p>Token: {token}</p>}
-        {
-          githubData?.login
-            ? <p>Your GitHub username: <b>{githubData.login}</b></p>
-            : externalUserId && token && !apn &&
-            <p>
-              <button style={{ all: "revert" }} onClick={connectApp}>Connect your GitHub account</button>
-            </p>
-        }
         {
           apn &&
           <div>
