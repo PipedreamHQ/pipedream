@@ -1,11 +1,21 @@
+import ramp from "../ramp/ramp.app.mjs";
+
 export default {
   type: "app",
   app: "ramp_sandbox",
-  propDefinitions: {},
+  propDefinitions: {
+    ...ramp.propDefinitions,
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...ramp.methods,
+    _baseUrl() {
+      return "https://demo-api.ramp.com/developer/v1";
+    },
+    _getHeaders(headers) {
+      return {
+        ...headers,
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
     },
   },
 };
