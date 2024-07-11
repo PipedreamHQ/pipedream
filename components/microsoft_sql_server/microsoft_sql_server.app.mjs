@@ -89,13 +89,14 @@ export default {
         query: sql,
       });
       return rows.reduce((acc, row) => {
-        acc[`${row.tableSchema}.${row.tableName}`] ??= {
+        const key = `${row.tableSchema}.${row.tableName}`;
+        acc[key] ??= {
           metadata: {
             rowCount: row.rowCount,
           },
           schema: {},
         };
-        acc[`${row.tableSchema}.${row.tableName}`].schema[row.columnName] = {
+        acc[key].schema[row.columnName] = {
           ...row,
         };
         return acc;
