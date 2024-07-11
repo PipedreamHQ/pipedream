@@ -109,7 +109,7 @@ export default {
       if (!amount) {
         return undefined;
       }
-      return +(this.transactionAmountLimit.split("$").pop()) * 100;
+      return +(amount.split("$").pop()) * 100;
     },
   },
   async run({ $ }) {
@@ -132,7 +132,7 @@ export default {
               amount: this.formatUSD(this.limit),
             },
             interval: this.interval,
-            transaction_amount_limit: this.transaction_amount_limit
+            transaction_amount_limit: this.transactionAmountLimit
               ? {
                 amount: this.formatUSD(this.transactionAmountLimit),
               }
