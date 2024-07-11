@@ -23,6 +23,14 @@ export default {
       description: "ID of the parent object of the attachment. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_attachment.htm) for supported objects.",
     },
   },
+  updateProps: {
+    IsPartnerShared: {
+      type: "boolean",
+      label: "Is Shared With Partner",
+      description: "Whether this record is shared with a connection using Salesforce to Salesforce.",
+      optional: true,
+    },
+  },
   initialProps: {
     Description: {
       type: "string",
@@ -42,14 +50,6 @@ export default {
       ...commonProps.UserId,
       label: "Owner ID",
       description: "ID of the user who owns the attachment.",
-      optional: true,
-    },
-  },
-  updateProps: {
-    IsPartnerShared: {
-      type: "boolean",
-      label: "Is Shared With Partner",
-      description: "Whether this record is shared with a connection using Salesforce to Salesforce.",
       optional: true,
     },
   },

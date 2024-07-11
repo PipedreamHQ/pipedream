@@ -8,6 +8,22 @@ export default {
       description: "Name of the account. Max 255 characters.",
     },
   },
+  updateProps: {
+    IsCustomerPortal: {
+      type: "boolean",
+      label: "Is Customer Portal",
+      description:
+        "Indicates whether the account has at least one contact enabled to use the org's Experience Cloud site or Customer Portal.",
+      optional: true,
+    },
+    IsPartner: {
+      type: "boolean",
+      label: "Is Partner",
+      description:
+        "Indicates whether the account has at least one contact enabled to use the org's partner portal.",
+      optional: true,
+    },
+  },
   initialProps: {
     AccountNumber: {
       type: "string",
@@ -429,22 +445,6 @@ export default {
       label: "Year Started",
       description:
         "The date when an org was legally established. Max 4 characters",
-      optional: true,
-    },
-  },
-  updateProps: {
-    IsCustomerPortal: {
-      type: "boolean",
-      label: "Is Customer Portal",
-      description:
-        "Indicates whether the account has at least one contact enabled to use the org's Experience Cloud site or Customer Portal.",
-      optional: true,
-    },
-    IsPartner: {
-      type: "boolean",
-      label: "Is Partner",
-      description:
-        "Indicates whether the account has at least one contact enabled to use the org's partner portal.",
       optional: true,
     },
   },
