@@ -23,6 +23,12 @@ export default function Home() {
   const [apn, setAuthProvisionId] = useState<string | null>(null)
   const inputRef = createRef<HTMLInputElement>()
 
+
+  const signIn = (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    setExternalUserId(inputRef.current?.value || "")
+  }
+
   const connectApp = () => {
     if (!externalUserId || !token) return
     pd.startConnect({
@@ -46,11 +52,6 @@ export default function Home() {
       })
     }
   }, [externalUserId])
-
-  const signIn = (e: { preventDefault: () => void }) => {
-    e.preventDefault()
-    setExternalUserId(inputRef.current?.value || "")
-  }
 
   return (
     <main className="p-5 flex flex-col gap-2">
