@@ -1,7 +1,23 @@
+import commonProps from "../props.mjs";
+
 export default {
-  CommentBody: {
-    type: "string",
-    label: "Comment Body",
-    description: "Text of the CaseComment. The maximum size of the comment body is 4,000 bytes. Label is Body.",
+  initialProps: {
+    CommentBody: {
+      type: "string",
+      label: "Body",
+      description: "Text of the CaseComment. Max size is 4,000 bytes.",
+      optional: true,
+    },
+    ParentId: {
+      ...commonProps.CaseId,
+      label: "Parent Case ID",
+      description: "ID of the parent Case.",
+    },
+    IsNotificationSelected: {
+      type: "boolean",
+      label: "Is Notification Selected",
+      description: "Indicates whether an email notification is sent to the case contact when a CaseComment is created or updated.",
+      optional: true,
+    },
   },
 };
