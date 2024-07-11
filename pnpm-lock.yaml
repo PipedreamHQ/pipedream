@@ -3413,17 +3413,17 @@ importers:
 
   components/ghost_org_admin_api:
     specifiers:
-      '@pipedream/platform': ^1.0.0
+      '@pipedream/platform': ^3.0.0
       jsonwebtoken: ^9.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       jsonwebtoken: 9.0.2
 
   components/ghost_org_content_api:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
 
   components/giantcampaign:
     specifiers:
