@@ -43,7 +43,7 @@ export default {
     },
     getConfig() {
       const {
-        host, port, username, password, database, trustServerCertificate,
+        host, port, username, password, database, trustServerCertificate, encrypt,
       } = this.$auth;
       return {
         user: username,
@@ -53,7 +53,7 @@ export default {
         port: Number(port),
         options: {
           // for azure
-          encrypt: true,
+          encrypt: String(encrypt).toLowerCase() === "true",
           // true for local dev / self-signed certs
           trustServerCertificate: String(trustServerCertificate).toLowerCase() === "true",
         },
