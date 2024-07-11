@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/database",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "description": "Pipedream Database Components",
   "main": "database.app.mjs",
   "keywords": [
