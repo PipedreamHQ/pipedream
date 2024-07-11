@@ -21,40 +21,35 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://developer.adobe.com/photoshop/api";
+      return "https://image.adobe.io/sensei";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
-    },
-    async removeBackground({
-      imageUrl, outputFormat,
-    }) {
-      const data = {
-        imageUrl,
-        outputFormat,
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "x-api-key": `${this.$auth.client_id}`,
       };
-      return this._makeRequest({
-        path: "/photoshop/removeBackground",
-        data,
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      console.log("config: ", {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
+        ...opts,
+      });
+
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    removeBackground(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/cutout",
+        ...opts,
+      });
     },
   },
 };
