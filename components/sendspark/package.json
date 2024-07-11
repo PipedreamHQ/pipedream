@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sendspark",
+  "version": "0.0.1",
+  "description": "Pipedream Sendspark Components",
+  "main": "sendspark.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sendspark"
+  ],
+  "homepage": "https://pipedream.com/apps/sendspark",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
