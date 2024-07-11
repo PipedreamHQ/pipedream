@@ -11,24 +11,22 @@ const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG
 const orgId = process.env.NEXT_PUBLIC_PIPEDREAM_ORG_ID
 
 export default function Home() {
+  if (!orgId) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_ORG_ID env var")
   if (!publicKey) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY env var")
   if (!oauthAppId) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID env var")
   if (!appSlug) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_APP_SLUG env var")
-  if (!orgId) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_ORG_ID env var")
 
   const pd = createClient({ publicKey, frontendHost, orgId })
   const [externalUserId, setExternalUserId] = useState<string | null>(null)
   const [githubData, setGithubData] = useState<{ login: string } | null>(null)
   const [token, setToken] = useState<string | null>(null)
-  const [oa, setOauthAppId] = useState<string | null>(null)
   const [apn, setAuthProvisionId] = useState<string | null>(null)
   const inputRef = createRef<HTMLInputElement>()
 
-  const connectApp = (app: string) => {
+  const connectApp = () => {
     if (!externalUserId || !token) return
-    setOauthAppId(app)
     pd.startConnect({
-      app,
+      app: oauthAppId,
       token,
       onSuccess: ({ id: authProvisionId }: any) => {
         setAuthProvisionId(authProvisionId as string)
@@ -36,24 +34,10 @@ export default function Home() {
     })
   }
 
-  const connectAccount = async () => {
-    connectApp(oauthAppId as string)
-  }
-
-  const signIn = () => {
-    setExternalUserId(inputRef.current?.value || "")
-  }
-
-  const signOut = () => {
-    setExternalUserId(null)
-  }
-
-  // Reactive Effects
   useEffect(() => {
     if (!externalUserId) {
       setToken(null)
       setGithubData(null)
-      setOauthAppId(null)
       setAuthProvisionId(null)
     } else {
       serverConnectTokenCreate(externalUserId).then((t) => setToken(t))
@@ -63,51 +47,56 @@ export default function Home() {
     }
   }, [externalUserId])
 
+  const signIn = (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    setExternalUserId(inputRef.current?.value || "")
+  }
 
   return (
     <main className="p-5 flex flex-col gap-2">
       <h1 className="text-2xl font-bold">Pipedream connect Next.js demo</h1>
+      <div>
+        <p>Org Id: {orgId} </p>
+        <p>Project Key: {publicKey} </p>
+        <p>Oauth App Id: {oauthAppId}</p>
+      </div>
       {
         externalUserId ?
-          <div>
-            <p>Org Id: {orgId} </p>
+          <form>
             <p>External User Id: {externalUserId} </p>
-            <p>Token: {token}</p>
-
-            {apn ?
-              <div>
-                <p>
-                  Auth Provision Id: {apn}
-                </p>
-                <p>
-                  Oauth App Id: {oa}
-                </p>
-                <p>
-                  <button onClick={signOut} style={{ all: "revert" }}>Sign out</button>
-                </p>
-              </div>
-              : <button style={{ all: "revert" }} onClick={connectAccount}>Connect your GitHub account</button>
-            }
-            {
-              githubData?.login &&
-              <p className="pt-2">Your GitHub username:
-                <span><b>{githubData.login}</b></span>
-              </p>
-            }
             <p>
+              <button onClick={() => setExternalUserId(null)} style={{ all: "revert" }}>Sign out</button>
             </p>
-          </div>
+          </form>
           :
-          <div>
+          <form>
             <p>
               <input className="border" ref={inputRef} placeholder="External user id" />
             </p>
             <p>
-              <button onClick={signIn} style={{ all: "revert" }}>Sign in</button>
+              <button type="submit" onClick={signIn} style={{ all: "revert" }}>Sign in</button>
             </p>
-          </div>
+          </form>
 
       }
+      <div>
+        {token && <p>Token: {token}</p>}
+        {
+          githubData?.login
+            ? <p>Your GitHub username: <b>{githubData.login}</b></p>
+            : externalUserId && token && !apn &&
+            <p>
+              <button style={{ all: "revert" }} onClick={connectApp}>Connect your GitHub account</button>
+            </p>
+        }
+        {
+          apn &&
+          <div>
+            <p><b>Connected your account to Pipedream!</b></p>
+            <p>Auth Provision Id: {apn}</p>
+          </div>
+        }
+      </div>
     </main>
   );
 }
