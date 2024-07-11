@@ -48,15 +48,11 @@ class BrowserClient {
   startConnect(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
 
-      console.log('WINDOW EVENT BABY!!! e :>> ', window.location.origin, e);
       if (e.data?.type === "verify-domain") {
-        iframe.contentWindow?.postMessage(
-          { type: "domain-response", domain: window.location.origin }
+        e.source?.postMessage(
+          { type: "domain-response", origin: window.origin }, { targetOrigin: e.origin }
         )
-      }
-
-
-      if (e.data?.type === "close") {
+      } else if (e.data?.type === "close") {
         this.iframe?.remove()
         window.removeEventListener("message", onMessage)
       } else if (e.data?.type === "success") {
