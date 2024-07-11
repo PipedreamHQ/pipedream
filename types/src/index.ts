@@ -232,6 +232,8 @@ export interface UserProp extends BasePropInterface {
   secret?: boolean;
   min?: number;
   max?: number;
+  disabled?: boolean;
+  hidden?: boolean;
 }
 
 // https://pipedream.com/docs/components/api/#interface-props
