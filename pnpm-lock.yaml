@@ -8011,6 +8011,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/sendspark:
+    specifiers: {}
+
   components/sendx:
     specifiers:
       '@pipedream/platform': ^1.5.1
