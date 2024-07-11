@@ -2423,6 +2423,9 @@ importers:
       '@pipedream/platform': 3.0.0
       form-data: 4.0.0
 
+  components/documerge:
+    specifiers: {}
+
   components/documint:
     specifiers:
       '@pipedream/platform': ^1.5.1
