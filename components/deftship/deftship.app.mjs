@@ -109,6 +109,12 @@ export default {
       label: "Count",
       description: "Pieces count",
     },
+    additionalFields: {
+      type: "object",
+      label: "Additional Fields",
+      description: "An object of key/value pairs containing additional fields to add to the order",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {

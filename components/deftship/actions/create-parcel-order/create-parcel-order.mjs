@@ -138,8 +138,19 @@ export default {
         "KG",
       ],
     },
+    additionalFields: {
+      propDefinition: [
+        deftship,
+        "additionalFields",
+      ],
+    },
   },
   async run({ $ }) {
+    const additionalFields = !this.additionalFields
+      ? {}
+      : typeof this.additionalFields === "string"
+        ? JSON.parse(this.additionalFields)
+        : this.additionalFields;
     const response = await this.deftship.createParcelOrder({
       $,
       data: {
@@ -172,6 +183,7 @@ export default {
             weight: +this.weight,
           },
         ],
+        ...additionalFields,
       },
     });
     $.export("$summary", `Successfully created parcel order with ID: ${response.data.shipment_order_id}`);

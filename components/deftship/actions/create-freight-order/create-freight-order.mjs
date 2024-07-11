@@ -16,12 +16,12 @@ export default {
     },
     fromOpeningTime: {
       type: "string",
-      label: "Opening Time",
+      label: "From Opening Time",
       description: "Opening time of pickup address, in `H:i`",
     },
     fromClosingTime: {
       type: "string",
-      label: "Closing Time",
+      label: "From Closing Time",
       description: "Closing time of pickup address, in `H:i`",
     },
     fromName: {
@@ -69,12 +69,12 @@ export default {
     },
     toOpeningTime: {
       type: "string",
-      label: "Opening Time",
+      label: "To Opening Time",
       description: "Opening time of delivery address, in `H:i`",
     },
     toClosingTime: {
       type: "string",
-      label: "Closing Time",
+      label: "To Closing Time",
       description: "Closing time of delivery address, in `H:i`",
     },
     toName: {
@@ -161,6 +161,7 @@ export default {
       type: "string",
       label: "Price",
       description: "Price (Commodity Value) of the item",
+      optional: true,
     },
     sku: {
       type: "string",
@@ -168,8 +169,19 @@ export default {
       description: "PO number of the shipment",
       optional: true,
     },
+    additionalFields: {
+      propDefinition: [
+        deftship,
+        "additionalFields",
+      ],
+    },
   },
   async run({ $ }) {
+    const additionalFields = !this.additionalFields
+      ? {}
+      : typeof this.additionalFields === "string"
+        ? JSON.parse(this.additionalFields)
+        : this.additionalFields;
     const response = await this.deftship.createFreightOrder({
       $,
       data: {
@@ -205,10 +217,11 @@ export default {
             height: +this.height,
             weight: +this.weight,
             description: this.description,
-            price: +this.price,
+            price: this.price && +this.price,
             sku: this.sku,
           },
         ],
+        ...additionalFields,
       },
     });
     $.export("$summary", `New freight order with ID: ${response.data.shipment_order_id}`);
