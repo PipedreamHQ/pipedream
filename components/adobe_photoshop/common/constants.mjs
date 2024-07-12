@@ -8,3 +8,7 @@ export const MASK_FORMAT_OPTIONS = [
   "soft",
   "binary",
 ];
+export const OPTIMIZE_OPTIONS = [
+  "performance",
+  "batch",
+];

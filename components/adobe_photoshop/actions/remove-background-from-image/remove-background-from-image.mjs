@@ -1,6 +1,7 @@
 import adobePhotoshop from "../../adobe_photoshop.app.mjs";
 import {
   MASK_FORMAT_OPTIONS,
+  OPTIMIZE_OPTIONS,
   STORAGE_OPTIONS,
 } from "../../common/constants.mjs";
 
@@ -29,10 +30,7 @@ export default {
       label: "Optimize",
       description: "The value 'performance' optimizes for speed. 'batch' ensures the job will ultimately run regardless of wait time.",
       optional: true,
-      options: [
-        "performance",
-        "batch",
-      ],
+      options: OPTIMIZE_OPTIONS,
     },
     outputHref: {
       type: "string",
