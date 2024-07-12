@@ -101,6 +101,9 @@ importers:
   components/_4dem:
     specifiers: {}
 
+  components/_8x8_connect:
+    specifiers: {}
+
   components/__1msg:
     specifiers: {}
 
