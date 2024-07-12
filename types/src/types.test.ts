@@ -300,6 +300,20 @@ const sourceReturningDataShouldWarn: Pipedream.Source<Pipedream.Methods, Pipedre
   run(event) { return "data"; },
 };
 
+const sourceMissingId: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinitions> = {
+  key: "source",
+  version: "0.0.1",
+  type: "source",
+  dedupe: "unique",
+  run() {
+    this.$emit(
+      {},
+      // @ts-expect-error $ExpectError - Missing id property in metadata object
+      {},
+    );
+  },
+};
+
 const action: Pipedream.Action<Pipedream.Methods, Pipedream.ActionPropDefinitions> = {
   key: "action",
   name: "Test Action",
@@ -352,17 +366,3 @@ const actionWrongType: Pipedream.Action<Pipedream.Methods, Pipedream.ActionPropD
   type: "source",
   run() { console.log("foo"); },
 };
-
-Pipedream.defineSource({
-  key: "source",
-  version: "0.0.1",
-  type: "source",
-  dedupe: "unique",
-  run() {
-    this.$emit(
-      {},
-      // @ts-expect-error $ExpectError - Missing id property in metadata object
-      {},
-    );
-  },
-});
