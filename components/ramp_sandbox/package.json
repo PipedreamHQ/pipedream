@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ramp_sandbox",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Ramp (Sandbox) Components",
   "main": "ramp_sandbox.app.mjs",
   "keywords": [

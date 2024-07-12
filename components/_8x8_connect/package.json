@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/_8x8_connect",
+  "version": "0.0.1",
+  "description": "Pipedream 8x8 Connect Components",
+  "main": "_8x8_connect.app.mjs",
+  "keywords": [
+    "pipedream",
+    "_8x8_connect"
+  ],
+  "homepage": "https://pipedream.com/apps/_8x8_connect",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

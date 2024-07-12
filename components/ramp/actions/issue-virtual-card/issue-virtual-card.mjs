@@ -5,7 +5,7 @@ export default {
   key: "ramp-issue-virtual-card",
   name: "Issue Virtual Card",
   description: "Creates a new virtual card for a given user. [See the documentation](https://docs.ramp.com/developer-api/v1/reference/rest/limits#post-developer-v1-limits-deferred)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     ramp,
@@ -77,9 +77,9 @@ export default {
       };
     }
     newProps.limit = {
-      type: "integer",
+      type: "string",
       label: "Total Limit per Interval (USD)",
-      description: "Total amount limit per interval. Currently we expect the currency to be USD and the amount need to be denominated in cents.",
+      description: "Total amount limit per interval in USD",
     };
     newProps.interval = {
       type: "string",
@@ -97,12 +97,20 @@ export default {
       ],
     };
     newProps.transactionAmountLimit = {
-      type: "integer",
+      type: "string",
       label: "Maximum Spend per Transaction (USD)",
-      description: "Max amount per transaction. Currently we expect the currency to be USD and the amount need to be denominated in cents.",
+      description: "Max amount per transaction in USD",
       optional: true,
     };
     return newProps;
+  },
+  methods: {
+    formatUSD(amount) {
+      if (!amount) {
+        return undefined;
+      }
+      return +(amount.split("$").pop()) * 100;
+    },
   },
   async run({ $ }) {
     const response = await this.ramp.createLimit({
@@ -121,12 +129,12 @@ export default {
         spending_restrictions: !this.spendProgramId
           ? {
             limit: {
-              amount: this.limit,
+              amount: this.formatUSD(this.limit),
             },
             interval: this.interval,
-            transaction_amount_limit: this.transaction_amount_limit
+            transaction_amount_limit: this.transactionAmountLimit
               ? {
-                amount: this.transactionAmountLimit,
+                amount: this.formatUSD(this.transactionAmountLimit),
               }
               : undefined,
             allowed_categories: this.allowedCategories,

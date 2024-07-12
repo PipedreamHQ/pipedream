@@ -6,7 +6,7 @@ export default {
   key: "ramp-transaction-status-updated",
   name: "Transaction Status Updated",
   description: "Emit new event when there is a change in transaction status.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
