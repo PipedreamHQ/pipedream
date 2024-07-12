@@ -349,16 +349,6 @@ interface BaseSource<
   run: (this: PropThis<SourcePropDefinitions> & Methods & EmitFunction, options?: SourceRunOptions) => void | Promise<void>;
 }
 
-export interface LastSource<
-  Methods,
-  SourcePropDefinitions
-> extends BaseSource<
-  Methods,
-  SourcePropDefinitions
-> {
-  dedupe?: "last";
-}
-
 export type DedupedSource<
   Methods,
   SourcePropDefinitions
@@ -366,14 +356,14 @@ export type DedupedSource<
   Methods,
   SourcePropDefinitions
 >, {
-  dedupe: "greatest" | "unique";
+  dedupe: "last" | "greatest" | "unique";
   run: (this: PropThis<SourcePropDefinitions> & Methods & IdEmitFunction, options?: SourceRunOptions) => void | Promise<void>;
 }>;
 
 export type Source<
   Methods,
   SourcePropDefinitions
-> = LastSource<
+> = BaseSource<
   Methods,
   SourcePropDefinitions
 > | DedupedSource<
