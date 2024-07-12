@@ -9057,6 +9057,9 @@ importers:
   components/tave:
     specifiers: {}
 
+  components/tavily:
+    specifiers: {}
+
   components/tawk_to:
     specifiers:
       '@pipedream/platform': ^1.6.0
