@@ -363,10 +363,10 @@ export type DedupedSource<
 export type Source<
   Methods,
   SourcePropDefinitions
-> = BaseSource<
+> = DedupedSource<
   Methods,
   SourcePropDefinitions
-> | DedupedSource<
+> | BaseSource<
   Methods,
   SourcePropDefinitions
 >;
