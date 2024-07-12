@@ -35,6 +35,18 @@ export default {
       }));
     },
   },
+  CampaignId: {
+    type: "string",
+    label: "Campaign ID",
+    description: "The ID of a Campaign object.",
+    async options() {
+      const items = await this.salesforce.listSObjectTypeIds("Campaign");
+      return items?.map((item) => ({
+        label: item.Name,
+        value: item.Id,
+      }));
+    },
+  },
   CommunityId: {
     type: "string",
     label: "Community ID",
