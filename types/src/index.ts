@@ -366,9 +366,6 @@ export type Source<
 > = DedupedSource<
   Methods,
   SourcePropDefinitions
-> | BaseSource<
-  Methods,
-  SourcePropDefinitions
 >;
 
 export function defineSource<
