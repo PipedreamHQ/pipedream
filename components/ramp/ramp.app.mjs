@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://demo-api.ramp.com/developer/v1";
+      return "https://api.ramp.com/developer/v1";
     },
     _getHeaders(headers) {
       return {

@@ -101,6 +101,9 @@ importers:
   components/_4dem:
     specifiers: {}
 
+  components/_8x8_connect:
+    specifiers: {}
+
   components/__1msg:
     specifiers: {}
 
@@ -572,6 +575,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/appointo:
+    specifiers: {}
 
   components/appwrite:
     specifiers:
@@ -2423,6 +2429,9 @@ importers:
       '@pipedream/platform': 3.0.0
       form-data: 4.0.0
 
+  components/documerge:
+    specifiers: {}
+
   components/documint:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3915,6 +3924,9 @@ importers:
       '@pipedream/platform': ^1.6.5
     dependencies:
       '@pipedream/platform': 1.6.5
+
+  components/greptile:
+    specifiers: {}
 
   components/grist:
     specifiers:
@@ -5468,6 +5480,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/merge:
+    specifiers: {}
 
   components/messagebird:
     specifiers: {}
