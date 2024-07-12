@@ -2,6 +2,7 @@ type CreateServerClientOpts = {
   environment?: string;
   secretKey: string;
   apiHost?: string;
+  projectId?: string;
 };
 
 type ConnectTokenCreateOpts = {
@@ -22,16 +23,18 @@ export function createClient(opts: CreateServerClientOpts) {
 class ServerClient {
   environment?: string;
   secretKey: string;
+  projectId: string;
   baseURL: string;
 
   constructor(opts: CreateServerClientOpts) {
     this.environment = opts.environment;
     this.secretKey = opts.secretKey;
+    this.projectId = opts.projectId;
     this.baseURL = `https://${opts.apiHost || "pipedream.com"}`;
   }
 
   private _authorizonHeader(): string {
-    return "Basic " + Buffer.from(this.secretKey + ":").toString("base64");
+    return "Basic " + Buffer.from(`${this.projectId}:${this.secretKey}`).toString("base64");
   }
 
   // XXX move to REST API endpoint
@@ -43,10 +46,12 @@ class ServerClient {
       },
       body: JSON.stringify({
         query: `mutation sdkConnectTokenCreate(
+          $projectId: String!
           $secretKey: String!
           $clientUserId: String!
         ) {
           connectTokenCreate(
+            projectId: $projectId
             secretKey: $secretKey
             clientUserId: $clientUserId
           ) {
@@ -54,6 +59,7 @@ class ServerClient {
           }
         }`,
         variables: {
+          projectId: this.projectId,
           secretKey: this.secretKey,
           clientUserId: opts.clientUserId,
         },

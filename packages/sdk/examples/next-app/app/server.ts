@@ -5,6 +5,7 @@ import { createClient } from "../../../src";
 const {
   PIPEDREAM_PROJECT_SECRET_KEY,
   NEXT_PUBLIC_PIPEDREAM_APP_SLUG,
+  PIPEDREAM_PROJECT_ID,
 } = process.env;
 
 if (!PIPEDREAM_PROJECT_SECRET_KEY) throw new Error("PIPEDREAM_PROJECT_SECRET_KEY not set in environment");
@@ -13,6 +14,7 @@ if (!NEXT_PUBLIC_PIPEDREAM_APP_SLUG) throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_
 const pd = createClient({
   secretKey: PIPEDREAM_PROJECT_SECRET_KEY,
   apiHost: process.env.PIPEDREAM_API_HOST,
+  projectId: PIPEDREAM_PROJECT_ID,
 });
 
 export async function serverConnectTokenCreate(clientUserId: string) {
