@@ -71,6 +71,18 @@ export default {
       }));
     },
   },
+  IndividualId: {
+    type: "string",
+    label: "Individual ID",
+    description: "The ID of an Individual object.",
+    async options() {
+      const items = await this.salesforce.listSObjectTypeIds("Individual");
+      return items?.map((item) => ({
+        label: item.Name,
+        value: item.Id,
+      }));
+    },
+  },
   OperatingHoursId: {
     type: "string",
     label: "Operating Hours ID",
