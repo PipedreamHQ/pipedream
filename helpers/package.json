@@ -13,7 +13,7 @@
   ],
   "homepage": "https://pipedream.com/",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/appointo",
+  "version": "0.0.1",
+  "description": "Pipedream Appointo Components",
+  "main": "appointo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "appointo"
+  ],
+  "homepage": "https://pipedream.com/apps/appointo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
