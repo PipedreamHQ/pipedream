@@ -5,7 +5,7 @@ export default {
   key: "shopify_partner-new-app-charges",
   name: "New App Charges",
   type: "source",
-  version: "0.1.3",
+  version: "0.0.18",
   description:
     "Emit new events when new app charges made to your partner account.",
   ...common,
