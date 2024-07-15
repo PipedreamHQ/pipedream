@@ -206,7 +206,10 @@ importers:
       '@adobe/pdfservices-node-sdk': 3.4.2
 
   components/adobe_photoshop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/adobe_sign:
     specifiers: {}
