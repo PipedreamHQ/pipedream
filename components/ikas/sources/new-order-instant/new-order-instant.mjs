@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "ikas-new-order-instant",
   name: "New Order Created (Instant)",
-  description: "Emit new event when a new order is created on ikas.",
+  description: "Emit new event when a new order is created on ikas. **You can only have one webhook of each type at the same time.**",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
