@@ -36,6 +36,10 @@ class ServerClient {
 
   // XXX move to REST API endpoint
   async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<string> {
+    const variables = {
+      secretKey: this.secretKey,
+      clientUserId: opts.clientUserId,
+    }
     const resp = await fetch(`${this.baseURL}/graphql`, {
       method: "POST",
       headers: {
@@ -43,23 +47,25 @@ class ServerClient {
       },
       body: JSON.stringify({
         query: `mutation sdkConnectTokenCreate(
+          $projectId: String!
           $secretKey: String!
           $clientUserId: String!
         ) {
           connectTokenCreate(
+            projectId: $projectId
             secretKey: $secretKey
             clientUserId: $clientUserId
           ) {
             token
           }
         }`,
-        variables: {
-          secretKey: this.secretKey,
-          clientUserId: opts.clientUserId,
-        },
+        variables,
       }),
     });
     const res = await resp.json();
+    if(res.errors?.length) {
+      throw new Error(res.errors[0])
+    }
     // XXX expose error here
     return res.data?.connectTokenCreate?.token;
   }
