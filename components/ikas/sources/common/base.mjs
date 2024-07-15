@@ -8,6 +8,19 @@ export default {
       customResponse: false,
     },
     db: "$.service.db",
+    alert: {
+      type: "alert",
+      alertType: "warning",
+      content: "Please note that you can have only one webhook of each type at the same time, any change will overwrite the current webhook configuration.",
+    },
+  },
+  methods: {
+    _getWebhookId() {
+      return this.db.get("webhookId");
+    },
+    _setWebhookId(webhookId) {
+      return this.db.set("webhookId", webhookId);
+    },
   },
   hooks: {
     async activate() {
@@ -30,10 +43,10 @@ export default {
         }`,
         },
       });
-      this.db.set("webhookId", data.saveWebhook[0].id);
+      this._setWebhookId(data.saveWebhook[0].id);
     },
     async deactivate() {
-      const webhookId = this.db.get("webhookId");
+      const webhookId = this._getWebhookId();
       if (webhookId) {
         await this.ikas.makeRequest({
           data: {
@@ -46,9 +59,11 @@ export default {
     },
   },
   async run({ body }) {
+    const data = JSON.parse(body.data);
+
     this.$emit(body, {
       id: body.id,
-      summary: this.getSummary(body),
+      summary: this.getSummary(data),
       ts: Date.parse(body.createdAt),
     });
   },

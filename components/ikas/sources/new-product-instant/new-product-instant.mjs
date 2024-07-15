@@ -14,8 +14,7 @@ export default {
     getScope() {
       return "store/product/created";
     },
-    getSummary(body) {
-      const data = JSON.parse(body.data);
+    getSummary(data) {
       return `New product created with Id: ${data.id}.`;
     },
   },

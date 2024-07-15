@@ -14,8 +14,7 @@ export default {
     getScope() {
       return "store/customer/created";
     },
-    getSummary(body) {
-      const data = JSON.parse(body.data);
+    getSummary(data) {
       return `New customer created with Id: ${data.id}.`;
     },
   },
