@@ -206,7 +206,10 @@ importers:
       '@adobe/pdfservices-node-sdk': 3.4.2
 
   components/adobe_photoshop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/adobe_sign:
     specifiers: {}
@@ -2061,6 +2064,9 @@ importers:
   components/danny_test_app:
     specifiers: {}
 
+  components/dart:
+    specifiers: {}
+
   components/darwinbox:
     specifiers: {}
 
@@ -2172,7 +2178,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/deftship:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/degreed:
     specifiers: {}
@@ -6405,13 +6414,19 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/parma:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/parsehub:
     specifiers:
       '@pipedream/platform': ^1.6.2
     dependencies:
       '@pipedream/platform': 1.6.2
+
+  components/parser_expert:
+    specifiers: {}
 
   components/parseur:
     specifiers:
@@ -9052,6 +9067,9 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/tave:
+    specifiers: {}
+
+  components/tavily:
     specifiers: {}
 
   components/tawk_to:
