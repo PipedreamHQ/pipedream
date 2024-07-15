@@ -113,28 +113,32 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://demo.1crmcloud.com/api.php";
+      return `${this.$auth.url}/api.php`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
+    _auth() {
+      return {
+        username: `${this.$auth.username}`,
+        password: `${this.$auth.password}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      const config = {
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
+        auth: this._auth(),
+        ...opts,
+      };
+      console.log("config: ", config);
+
+      return axios($, config);
+    },
+    getFields({ module }) {
+      return this._makeRequest({
+        path: `/meta/${module}`,
       });
     },
-    async createContact({
+    createContact({
       firstName, lastName, email, address, phoneNumber,
     }) {
       return this._makeRequest({
@@ -149,7 +153,7 @@ export default {
         },
       });
     },
-    async updateContact({
+    updateContact({
       contactId, firstName, lastName, email, address, phoneNumber,
     }) {
       return this._makeRequest({
@@ -164,7 +168,7 @@ export default {
         },
       });
     },
-    async createLead({
+    createLead({
       leadName, email, companyName, description,
     }) {
       return this._makeRequest({
@@ -178,7 +182,7 @@ export default {
         },
       });
     },
-    async updateLead({
+    updateLead({
       leadId, leadName, email, companyName, description,
     }) {
       return this._makeRequest({
@@ -192,7 +196,7 @@ export default {
         },
       });
     },
-    async findAccount({
+    findAccount({
       accountName, contactDetails,
     }) {
       return this._makeRequest({
@@ -204,7 +208,7 @@ export default {
         },
       });
     },
-    async createWebhook({
+    createWebhook({
       type, url, model, filters,
     }) {
       return this._makeRequest({
@@ -218,7 +222,7 @@ export default {
         },
       });
     },
-    async updateWebhook({
+    updateWebhook({
       id, type, url, model, filters,
     }) {
       return this._makeRequest({
@@ -232,7 +236,7 @@ export default {
         },
       });
     },
-    async emitAccountEvent({
+    emitAccountEvent({
       accountDetails, accountStatus,
     }) {
       return this.createWebhook({
@@ -254,7 +258,7 @@ export default {
         },
       });
     },
-    async emitInvoiceEvent({
+    emitInvoiceEvent({
       invoiceDetails, invoiceStatus,
     }) {
       return this.createWebhook({
@@ -276,7 +280,7 @@ export default {
         },
       });
     },
-    async emitLeadEvent({
+    emitLeadEvent({
       leadDetails, leadStatus,
     }) {
       return this.createWebhook({

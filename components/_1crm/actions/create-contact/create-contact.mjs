@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import _1crm from "../../_1crm.app.mjs";
 
 export default {
@@ -9,53 +8,46 @@ export default {
   type: "action",
   props: {
     _1crm,
-    firstName: {
-      propDefinition: [
-        _1crm,
-        "firstName",
-      ],
+    checkDuplicates: {
+      type: "boolean",
+      label: "Check Duplicates",
+      description: "Check Duplicates Flag",
+      reloadProps: true,
     },
-    lastName: {
-      propDefinition: [
-        _1crm,
-        "lastName",
-      ],
-    },
-    email: {
-      propDefinition: [
-        _1crm,
-        "email",
-        {
-          optional: true,
-        },
-      ],
-    },
-    address: {
-      propDefinition: [
-        _1crm,
-        "address",
-        {
-          optional: true,
-        },
-      ],
-    },
-    phoneNumber: {
-      propDefinition: [
-        _1crm,
-        "phoneNumber",
-        {
-          optional: true,
-        },
-      ],
-    },
+  },
+  async additionalProps() {
+    const props = {};
+    let { fields } = await this._1crm.getFields({
+      module: "Contact",
+    });
+    console.log("fields: ", fields);
+
+    fields = Object.keys(fields)
+      .filter( (key) => !("editable" in key))
+      .reduce( (res, key) => (res[key] = fields[key], res), {} );
+
+    for (const [
+      key,
+      value,
+    ] of Object.entries(fields)) {
+      props[key] = {
+        type: "string",
+        label: value.vname,
+        description: value.comment,
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     const response = await this._1crm.createContact({
-      firstName: this.firstName,
-      lastName: this.lastName,
-      email: this.email,
-      address: this.address,
-      phoneNumber: this.phoneNumber,
+      $,
+      data: {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        address: this.address,
+        phoneNumber: this.phoneNumber,
+      },
     });
     $.export("$summary", `Successfully created contact with ID ${response.id}`);
     return response;
