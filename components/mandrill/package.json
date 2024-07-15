@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/parma",
-  "version": "0.1.0",
-  "description": "Pipedream Parma Components",
-  "main": "parma.app.mjs",
+  "name": "@pipedream/mandrill",
+  "version": "0.0.1",
+  "description": "Pipedream Mandrill Components",
+  "main": "mandrill.app.mjs",
   "keywords": [
     "pipedream",
-    "parma"
+    "mandrill"
   ],
-  "homepage": "https://pipedream.com/apps/parma",
+  "homepage": "https://pipedream.com/apps/mandrill",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"

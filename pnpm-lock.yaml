@@ -101,6 +101,9 @@ importers:
   components/_4dem:
     specifiers: {}
 
+  components/_8x8_connect:
+    specifiers: {}
+
   components/__1msg:
     specifiers: {}
 
@@ -2056,6 +2059,9 @@ importers:
     specifiers: {}
 
   components/danny_test_app:
+    specifiers: {}
+
+  components/dart:
     specifiers: {}
 
   components/darwinbox:
@@ -5328,6 +5334,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/mandrill:
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
+
   components/manifestly_checklists:
     specifiers: {}
 
@@ -5477,6 +5489,9 @@ importers:
       '@pipedream/platform': ^1.2.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/merge:
+    specifiers: {}
 
   components/messagebird:
     specifiers: {}
@@ -6393,13 +6408,19 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/parma:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/parsehub:
     specifiers:
       '@pipedream/platform': ^1.6.2
     dependencies:
       '@pipedream/platform': 1.6.2
+
+  components/parser_expert:
+    specifiers: {}
 
   components/parseur:
     specifiers:
@@ -6601,7 +6622,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/pidj:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/piggy:
     specifiers:
@@ -9037,6 +9061,9 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/tave:
+    specifiers: {}
+
+  components/tavily:
     specifiers: {}
 
   components/tawk_to:
