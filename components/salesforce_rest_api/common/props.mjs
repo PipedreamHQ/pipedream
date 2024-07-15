@@ -71,6 +71,22 @@ export default {
       }));
     },
   },
+  ContactOrLeadIds: {
+    type: "string[]",
+    label: "Contact or Lead IDs",
+    description: "The IDs of Contact or Lead objects.",
+    async options() {
+      const contacts = await this.salesforce.listSObjectTypeIds("Contact");
+      const leads = await this.salesforce.listSObjectTypeIds("Lead");
+      return [
+        ...(contacts ?? []),
+        ...(leads ?? []),
+      ]?.map((item) => ({
+        label: item.Name,
+        value: item.Id,
+      }));
+    },
+  },
   IndividualId: {
     type: "string",
     label: "Individual ID",
