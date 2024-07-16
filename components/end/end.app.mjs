@@ -5,7 +5,7 @@ export default {
     reason: {
       type: "string",
       label: "Reason",
-      description: "Reason for terminating / exiting / ending workflow execution",
+      description: "Reason for ending workflow execution",
     },
   },
   methods: {},
