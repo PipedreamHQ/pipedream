@@ -4,71 +4,53 @@ export default {
   type: "app",
   app: "waitlist",
   propDefinitions: {
-    listId: {
+    waitlistId: {
       type: "string",
-      label: "List ID",
-      description: "The ID of the waitlist",
-    },
-    subscriberId: {
-      type: "string",
-      label: "Subscriber ID",
-      description: "The ID of the subscriber",
+      label: "Waitlist Id",
+      description: "The ID of your waitlist.",
+      async options() {
+        const waitlists = await this.listWaitlists();
+
+        return waitlists.map(({
+          id: value, waitlist_name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.getwaitlist.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Content-Type": "application/json",
+        "api-key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
-    },
-    async getListDetails({
-      listId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/waitlist/${listId}`,
+        headers: this._headers(),
         ...opts,
       });
     },
-    async getSubscriberDetails({
-      subscriberId, ...opts
-    }) {
+    listWaitlists(opts = {}) {
       return this._makeRequest({
-        path: `/signup/${subscriberId}`,
+        path: "/waitlist",
         ...opts,
       });
     },
-    async emitNewListEvent(listId) {
-      const listDetails = await this.getListDetails({
-        listId,
-      });
-      this.$emit(listDetails, {
-        name: "new_list",
-        summary: `New list created with ID: ${listId}`,
-      });
-    },
-    async emitNewSubscriberEvent(subscriberId) {
-      const subscriberDetails = await this.getSubscriberDetails({
-        subscriberId,
-      });
-      this.$emit(subscriberDetails, {
-        name: "new_subscriber",
-        summary: `New subscriber added with ID: ${subscriberId}`,
+    listSignups({
+      waitlistId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/signup/waitlist/${waitlistId}`,
+        ...opts,
       });
     },
   },

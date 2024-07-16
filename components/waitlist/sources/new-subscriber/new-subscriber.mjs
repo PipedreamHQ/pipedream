@@ -1,84 +1,44 @@
-import { axios } from "@pipedream/platform";
-import waitlist from "../../waitlist.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "waitlist-new-subscriber",
   name: "New Subscriber Added",
-  description: "Emit a new event each time a subscriber is added. [See the documentation](https://getwaitlist.com/docs/api-docs/waitlist)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event each time a subscriber is added. [See the documentation](https://getwaitlist.com/docs/api-docs/waitlist)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    waitlist,
-    db: "$.service.db",
-    listId: {
+    ...common.props,
+    waitlistId: {
       propDefinition: [
-        waitlist,
-        "listId",
+        common.props.waitlist,
+        "waitlistId",
       ],
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
     },
   },
   methods: {
-    _getLastSubscriberId() {
-      return this.db.get("lastSubscriberId");
+    ...common.methods,
+    getFunction() {
+      return this.waitlist.listSignups;
     },
-    _setLastSubscriberId(lastSubscriberId) {
-      this.db.set("lastSubscriberId", lastSubscriberId);
+    getProps() {
+      return {
+        waitlistId: this.waitlistId,
+      };
     },
-    async _getSubscribers() {
-      const listDetails = await this.waitlist.getListDetails({
-        listId: this.listId,
-      });
-      return listDetails.signups || [];
+    getSummary(item) {
+      return  `New signup with Id: ${item.uuid}`;
     },
-  },
-  hooks: {
-    async deploy() {
-      const subscribers = await this._getSubscribers();
-      const lastSubscriber = subscribers[0];
-      if (lastSubscriber) {
-        this._setLastSubscriberId(lastSubscriber.uuid);
-        subscribers.slice(0, 50).forEach((subscriber) => {
-          this.$emit(subscriber, {
-            id: subscriber.uuid,
-            summary: `New subscriber added: ${subscriber.email}`,
-            ts: new Date(subscriber.created_at).getTime(),
-          });
-        });
-      }
+    getField() {
+      return "created_at";
     },
-    async activate() {
-      console.log("Source activated");
-    },
-    async deactivate() {
-      console.log("Source deactivated");
+    getFilter(item, lastValue) {
+      let parseDate = item.split("_");
+      const itemDate = `${parseDate[0]}T${parseDate[1].replace(/-/g, ":")}`;
+      return Date.parse(itemDate) > Date.parse(lastValue);
     },
   },
-  async run() {
-    const lastSubscriberId = this._getLastSubscriberId();
-    const subscribers = await this._getSubscribers();
-    const newSubscribers = [];
-
-    for (const subscriber of subscribers) {
-      if (subscriber.uuid === lastSubscriberId) break;
-      newSubscribers.push(subscriber);
-    }
-
-    if (newSubscribers.length > 0) {
-      this._setLastSubscriberId(newSubscribers[0].uuid);
-      newSubscribers.reverse().forEach((subscriber) => {
-        this.$emit(subscriber, {
-          id: subscriber.uuid,
-          summary: `New subscriber added: ${subscriber.email}`,
-          ts: new Date(subscriber.created_at).getTime(),
-        });
-      });
-    }
-  },
+  sampleEmit,
 };
