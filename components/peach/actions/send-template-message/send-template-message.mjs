@@ -10,9 +10,10 @@ export default {
   props: {
     peach,
     phoneNumber: {
-      type: "string",
-      label: "Phone Number",
-      description: "The phone number of the contact to send the message to",
+      propDefinition: [
+        peach,
+        "phoneNumber",
+      ],
     },
     templateName: {
       type: "string",
@@ -20,15 +21,17 @@ export default {
       description: "WhatsApp approved utility template name",
     },
     contactName: {
-      type: "string",
-      label: "Contact Name",
-      description: "The name of the contact",
+      propDefinition: [
+        peach,
+        "contactName",
+      ],
       optional: true,
     },
     contactEmail: {
-      type: "string",
-      label: "Contact Email",
-      description: "The email of the contact",
+      propDefinition: [
+        peach,
+        "contactEmail",
+      ],
       optional: true,
     },
     arguments: {
