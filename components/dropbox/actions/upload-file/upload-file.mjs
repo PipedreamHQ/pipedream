@@ -2,12 +2,13 @@ import dropbox from "../../dropbox.app.mjs";
 import consts from "../../common/consts.mjs";
 import fs from "fs";
 import got from "got";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Upload a File",
-  description: "Uploads a file to a selected folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
+  description: "Uploads a file to a selected folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-file",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
   props: {
     dropbox,
@@ -23,8 +24,8 @@ export default {
     },
     name: {
       type: "string",
-      label: "File name",
-      description: "The name of your new file.",
+      label: "File Name",
+      description: "The name of your new file (make sure to include the file extension).",
     },
     fileUrl: {
       type: "string",
@@ -76,6 +77,10 @@ export default {
       mode,
       clientModified,
     } = this;
+
+    if (!fileUrl && !filePath) {
+      throw new ConfigurationError("Must specify either File URL or File Path.");
+    }
 
     const contents = fileUrl
       ? await got.stream(fileUrl)

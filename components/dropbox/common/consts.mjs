@@ -23,7 +23,6 @@ export default {
   LIST_FILE_REVISIONS_OPTIONS: [
     "path",
     "id",
-    "other",
   ],
   CREATE_SHARED_LINK_AUDIENCE_OPTIONS: [
     "public",

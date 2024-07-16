@@ -3,9 +3,9 @@ import consts from "../../common/consts.mjs";
 
 export default {
   name: "Create/Update a Share Link",
-  description: "Creates or updates a public share link to the file or folder (It allows to share the file or folder with anyone). [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#sharingCreateSharedLinkWithSettings__anchor)",
+  description: "Creates or updates a public share link to the file or folder (It allows you to share the file or folder with anyone). [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#sharingCreateSharedLinkWithSettings__anchor)",
   key: "dropbox-create-update-share-link",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
@@ -25,19 +25,20 @@ export default {
     },
     requirePassword: {
       type: "boolean",
-      label: "Require password",
+      label: "Require Password",
       description: "Boolean flag to enable or disable password protection.",
       default: false,
+      reloadProps: true,
     },
     linkPassword: {
       type: "string",
-      label: "Link password",
+      label: "Link Password",
       description: "If `require_password` is `true`, this is needed to specify the password to access the link.",
-      optional: true,
+      hidden: true,
     },
     allowDownload: {
       type: "boolean",
-      label: "Allow downloads",
+      label: "Allow Downloads",
       description: "Boolean flag to allow or not allow capabilities for shared links.",
     },
     expires: {
@@ -60,6 +61,19 @@ export default {
       optional: true,
       options: consts.CREATE_SHARED_LINK_ACCESS_OPTIONS,
     },
+  },
+  async additionalProps(props) {
+    let newProps = {
+      linkPassword: {
+        ...props.linkPassword,
+      },
+    };
+    if (this.requirePassword) {
+      newProps.linkPassword.hidden = false;
+    } else {
+      newProps.linkPassword.hidden = true;
+    }
+    return newProps;
   },
   async run({ $ }) {
     const {
