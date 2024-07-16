@@ -60,6 +60,7 @@ export default {
   },
   async run({ body }) {
     const data = JSON.parse(body.data);
+    body.data = data;
 
     this.$emit(body, {
       id: body.id,
