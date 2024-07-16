@@ -71,6 +71,20 @@ export default {
       }));
     },
   },
+  ContractId: {
+    type: "string",
+    label: "Contract ID",
+    description: "The ID of a Contract.",
+    async options() {
+      const items = await this.salesforce.listSObjectTypeIds("Contract");
+      return items?.map((item) => ({
+        label: item.ContractNumber + (item.Description
+          ? ` - ${item.Description}`
+          : ""),
+        value: item.Id,
+      }));
+    },
+  },
   ContactOrLeadIds: {
     type: "string[]",
     label: "Contact or Lead IDs",
@@ -131,6 +145,18 @@ export default {
       const items = await this.salesforce.listSObjectTypeIds("PartnerNetworkConnection");
       return items?.map((item) => ({
         label: item.ConnectionName,
+        value: item.Id,
+      }));
+    },
+  },
+  Pricebook2Id: {
+    type: "string",
+    label: "Pricebook2 ID",
+    description: "The ID of a Pricebook2 object.",
+    async options() {
+      const items = await this.salesforce.listSObjectTypeIds("Pricebook2");
+      return items?.map((item) => ({
+        label: item.Name,
         value: item.Id,
       }));
     },
