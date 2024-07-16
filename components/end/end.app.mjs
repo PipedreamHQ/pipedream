@@ -1,11 +1,13 @@
 export default {
   type: "app",
   app: "end",
-  propDefinitions: {},
-  methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+  propDefinitions: {
+    reason: {
+      type: "string",
+      label: "Reason",
+      description: "A reason why the workflow execution was ended",
+      optional: false,
     },
   },
+  methods: {},
 };

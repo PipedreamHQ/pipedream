@@ -1,18 +1,21 @@
-export default ({
+import end from "../../end.app.mjs";
+
+export default {
   name: "End Workflow",
-  description: "Terminate the workflow execution.",
-  version: "0.0.1",
+  description: "Terminate the workflow execution",
+  version: "0.0.2",
   type: "action",
-  key: "end_workflow",
+  key: "end-end-workflow",
   props: {
+    end,
     reason: {
-      type: "string",
-      label: "Reason",
-      description: "An optional reason why the workflow execution was ended.",
-      optional: true,
+      propDefinition: [
+        end,
+        "reason",
+      ],
     },
   },
   async run({ $ }) {
     $.flow.exit(this.reason);
   },
-});
+};
