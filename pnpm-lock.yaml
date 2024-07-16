@@ -6548,7 +6548,10 @@ importers:
     specifiers: {}
 
   components/peach:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/peaka:
     specifiers:
