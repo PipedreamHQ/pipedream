@@ -360,10 +360,23 @@ export type DedupedSource<
   run: (this: PropThis<SourcePropDefinitions> & Methods & IdEmitFunction, options?: SourceRunOptions) => void | Promise<void>;
 }>;
 
+export type NonDedupedSource<
+  Methods,
+  SourcePropDefinitions
+> = Modify<BaseSource<
+  Methods,
+  SourcePropDefinitions
+>, {
+  dedupe?: never;
+}>;
+
 export type Source<
   Methods,
   SourcePropDefinitions
 > = DedupedSource<
+  Methods,
+  SourcePropDefinitions
+> | NonDedupedSource<
   Methods,
   SourcePropDefinitions
 >;

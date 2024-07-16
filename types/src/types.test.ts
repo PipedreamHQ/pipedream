@@ -252,6 +252,23 @@ const source: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinition
   },
 };
 
+const nonDedupedSource: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinitions> = {
+  key: "source",
+  name: "Test Source",
+  description: "hello, world",
+  version: "0.0.1",
+  type: "source",
+  async run() {
+    this.$emit({
+      foo: "bar ",
+    }, {
+      name: "channel",
+      summary: "Summary",
+      ts: 123,
+    });
+  },
+};
+
 // Bad sources
 
 // @ts-expect-error $ExpectError - Missing key
