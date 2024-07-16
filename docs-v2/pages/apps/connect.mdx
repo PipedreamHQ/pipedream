@@ -1,0 +1,41 @@
+import Callout from '@/components/Callout'
+import { Steps } from 'nextra/components'
+
+# Pipedream Connect
+
+<Callout type="info">
+Pipedream Connect is currently in **preview**, and we're looking for feedback. Please [let us know](https://pipedream.com/support) how you're using it, what's not working, and what else you'd like to see.
+
+While in the **preview** phase, the API may change without notice. We'll do our best to communicate any changes, but please be aware that breaking changes may occur.
+</Callout>
+
+## Overview
+
+Connect enables you to easily integrate more than {process.env.PUBLIC_APPS}+ APIs directly into your application, letting you make authenticated requests on behalf of your end users, while not having to worry about authorization grants or refresh tokens, and includes these features:
+1. [JavaScript SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) to initiate authorization for any one of the [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps) available on Pipedream
+2. [REST API](/connected-accounts/api) to retrieve credentials (access token, API key, etc.) for your end users
+3. [Serverless runtime platform](/), [thousands of pre-built source-available triggers and actions](https://github.com/PipedreamHQ/pipedream/tree/master/components), and a first-class developer experience to build, test, and deploy custom workflows
+
+## Getting started
+
+<Steps>
+
+### Configure an OAuth client in Pipedream
+
+
+### Verify your application's domain
+
+
+### Enable the feature flag
+Enable the feature flag for **Connect** in your Pipedream account: [https://pipedream.com/settings/alpha](https://pipedream.com/settings/alpha)
+
+### Open your Pipedream project
+Open an existing Pipedream project or create a new one: [https://pipedream.com/projects](https://pipedream.com/projects)
+
+### Run the example app
+
+
+### Retrieve your credentials from Pipedream's API
+
+
+</Steps>

@@ -12,13 +12,17 @@
   "workflows": {
     "title": "Workflows"
   },
-  "connected-accounts": {
-    "title": "Connected Accounts"
-  },
   "code": {
     "title": "Code"
   },
   "data-stores": "Data Stores",
+  "databases": {
+    "title": "Databases"
+  },
+  "connected-accounts": {
+    "title": "Connected Accounts"
+  },
+  "apps": "Integrations",
   "components": "Components",
   "sources": "Sources",
   "event-history": "Event History",
@@ -26,10 +30,6 @@
   "environment-variables": {
     "title": "Environment Variables"
   },
-  "databases": {
-    "title": "Databases"
-  },
-  "apps": "Integrations",
   "rest-api": "API Reference",
   "cli": "CLI",
   "destinations": "Destinations",

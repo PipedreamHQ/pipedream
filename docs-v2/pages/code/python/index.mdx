@@ -90,7 +90,7 @@ There are many cases where you may want to specify the version of the packages y
 import pandas
 ```
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 Currently, you cannot use different versions of the same package in different steps in a workflow.
 </Callout>
 
@@ -118,11 +118,11 @@ def handler(pd: "pipedream"):
 
 Please note to always include at least the `body` and `status` keys in your `pd.respond` argument. The `body` must also be a JSON serializable object or dictionary.
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/triggers/#http-responses), the Python `pd.respond` helper does not yet support responding with Streams.
 </Callout>
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 _Don't forget_ to [configure your workflow's HTTP trigger to allow a custom response](/workflows/steps/triggers/#http-responses). Otherwise your workflow will return the default response.
 </Callout>
 
@@ -177,7 +177,7 @@ def handler(pd: "pipedream"):
 
 Now this `pokemon` data is accessible to downstream steps within `pd.steps["code"]["pokemon"]`
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 You can only export JSON-serializable data from steps. Things like:
 
 - strings
@@ -224,7 +224,7 @@ def handler(pd: "pipedream"):
   print(r.text)
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 There are 2 different ways of using the `os` module to access your environment variables.
 
 `os.environ["ENV_NAME_HERE"]` will raise an error that stops your workflow if that key doesn't exist in your Pipedream account.
@@ -255,7 +255,7 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 
 **In any code step, calling `return pd.flow.exit()` will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 It's a good practice to use `return pd.flow.exit()` to immediately exit the workflow.
 In contrast, `pd.flow.exit()` on its own will end the workflow only after executing all remaining code in the step.
 </Callout>
