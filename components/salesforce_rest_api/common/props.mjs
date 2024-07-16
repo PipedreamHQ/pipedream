@@ -111,6 +111,18 @@ export default {
       }));
     },
   },
+  OpportunityId: {
+    type: "string",
+    label: "Opportunity ID",
+    description: "The ID of an Opportunity object.",
+    async options() {
+      const items = await this.salesforce.listSObjectTypeIds("Opportunity");
+      return items?.map((item) => ({
+        label: item.Name,
+        value: item.Id,
+      }));
+    },
+  },
   PartnerNetworkConnectionId: {
     type: "string",
     label: "Partner Network Connection ID",
