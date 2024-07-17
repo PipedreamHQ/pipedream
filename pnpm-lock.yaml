@@ -6474,6 +6474,9 @@ importers:
       axios: 1.5.1
       url: 0.11.3
 
+  components/paved:
+    specifiers: {}
+
   components/payhere:
     specifiers:
       '@pipedream/platform': ^0.10.0
