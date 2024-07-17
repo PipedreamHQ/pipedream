@@ -1,4 +1,4 @@
-const VERSION_PATH = "/ghost/api/v3/content";
+const VERSION_PATH = "/ghost/api/content";
 const DEFAULT_LIMIT = 100;
 const MAX_RESOURCES = 200;
 const LAST_CREATED_AT = "lastCreatedAt";

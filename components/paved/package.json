@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/paved",
+  "version": "0.0.1",
+  "description": "Pipedream Paved Components",
+  "main": "paved.app.mjs",
+  "keywords": [
+    "pipedream",
+    "paved"
+  ],
+  "homepage": "https://pipedream.com/apps/paved",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

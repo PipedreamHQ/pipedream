@@ -9,7 +9,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       label: "Polling schedule",
-      description: "How often to poll the Feedbin API",
+      description: "How often to poll the Ghost API",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
