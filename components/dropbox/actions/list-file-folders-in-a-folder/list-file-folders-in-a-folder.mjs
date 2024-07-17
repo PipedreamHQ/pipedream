@@ -13,6 +13,7 @@ export default {
         dropbox,
         "path",
         () => ({
+          initialOptions: [],
           filter: ({ metadata: { metadata: { [".tag"]: type } } }) => type === "folder",
         }),
       ],

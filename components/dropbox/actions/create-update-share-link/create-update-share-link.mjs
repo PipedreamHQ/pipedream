@@ -1,4 +1,4 @@
-import dropbox from "../../dropbox.app.mjs";
+import common from "./common.mjs";
 import consts from "../../common/consts.mjs";
 
 export default {
@@ -8,10 +8,16 @@ export default {
   version: "0.0.10",
   type: "action",
   props: {
-    dropbox,
+    ...common.props,
+    alert: {
+      type: "alert",
+      alertType: "error",
+      content: "This action is not supported for `basic` Dropbox accounts. Paid account required.",
+      hidden: true,
+    },
     path: {
       propDefinition: [
-        dropbox,
+        common.props.dropbox,
         "path",
         () => ({
           initialOptions: [],
@@ -68,12 +74,29 @@ export default {
         ...props.linkPassword,
       },
     };
+
+    const accountType = await this.getCurrentAccount();
+    if (accountType === "basic") {
+      newProps.alert = {
+        ...props.alert,
+        hidden: false,
+      };
+    }
+
     if (this.requirePassword) {
       newProps.linkPassword.hidden = false;
     } else {
       newProps.linkPassword.hidden = true;
     }
+
     return newProps;
+  },
+  methods: {
+    async getCurrentAccount() {
+      const dpx = await this.dropbox.sdk();
+      const { result: { account_type: accountType } } = await dpx.usersGetCurrentAccount();
+      return accountType[".tag"];
+    },
   },
   async run({ $ }) {
     const {
