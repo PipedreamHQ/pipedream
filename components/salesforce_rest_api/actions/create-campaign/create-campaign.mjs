@@ -19,6 +19,7 @@ export default {
   props: getProps({
     objType: campaign,
     docsLink,
+    showDateInfo: true,
   }),
   async run({ $ }) {
     /* eslint-disable no-unused-vars */

@@ -5,6 +5,7 @@ export function getProps({
   objType,
   createOrUpdate = "create",
   docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_concepts.htm",
+  showDateInfo = false,
 }) {
   let { initialProps } = objType;
   if (initialProps && createOrUpdate === "update") {
@@ -24,6 +25,13 @@ export function getProps({
 
   return {
     salesforce,
+    ...showDateInfo && {
+      dateInfo: {
+        type: "alert",
+        alertType: "info",
+        content: "Date fields should be a [valid date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format) or a Unix timestamp in milliseconds. Example values: `2022-01-15T18:30:00.000Z` or `1642271400000`.",
+      },
+    },
     ...objType[createOrUpdate === "create"
       ? "createProps"
       : "updateProps"],
@@ -78,7 +86,7 @@ export default {
           ? value
           : numValue);
         if (isNaN(date.valueOf())) {
-          throw new ConfigurationError(`Invalid date format for prop \`${key}\`. Please provide a [valid date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format).`);
+          throw new ConfigurationError(`Invalid date format for prop \`${key}\`. Please provide a valid date format.`);
         }
         return [
           key,
