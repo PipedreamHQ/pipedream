@@ -24,7 +24,7 @@ export default {
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
-      salesforce, useAdvancedProps, docsInfo, additionalFields, Birthdate, ...data
+      salesforce, useAdvancedProps, docsInfo, dateInfo, additionalFields, Birthdate, ...data
     } = this;
     /* eslint-enable no-unused-vars */
     const response = await salesforce.createContact({

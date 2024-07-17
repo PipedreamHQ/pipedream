@@ -23,7 +23,7 @@ export default {
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
-      salesforce, useAdvancedProps, docsInfo, additionalFields, ...data
+      salesforce, useAdvancedProps, docsInfo, dateInfo, additionalFields, ...data
     } = this;
     /* eslint-enable no-unused-vars */
     const response = await salesforce.createLead({

@@ -27,6 +27,7 @@ export default {
       salesforce,
       useAdvancedProps,
       docsInfo,
+      dateInfo,
       additionalFields,
       ActivityDate,
       EndDateTime,

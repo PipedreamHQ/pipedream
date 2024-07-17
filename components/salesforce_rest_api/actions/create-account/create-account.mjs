@@ -22,7 +22,7 @@ export default {
   }),
   async run({ $ }) {
     const { // eslint-disable-next-line no-unused-vars
-      salesforce, useAdvancedProps, docsInfo, additionalFields, ...data
+      salesforce, useAdvancedProps, docsInfo, dateInfo, additionalFields, ...data
     } = this;
     const response = await salesforce.createAccount({
       $,

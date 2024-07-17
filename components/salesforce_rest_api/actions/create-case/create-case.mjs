@@ -24,7 +24,7 @@ export default {
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
-      salesforce, useAdvancedProps, docsInfo, additionalFields, SlaStartDate, ...data
+      salesforce, useAdvancedProps, docsInfo, dateInfo, additionalFields, SlaStartDate, ...data
     } = this;
     /* eslint-enable no-unused-vars */
     const response = await salesforce.createCase({

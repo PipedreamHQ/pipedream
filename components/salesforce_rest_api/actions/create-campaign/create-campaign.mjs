@@ -22,11 +22,11 @@ export default {
     showDateInfo: true,
   }),
   async run({ $ }) {
-    /* eslint-disable no-unused-vars */
+    /* eslint-disable no-unused-vars, max-len */
     const {
-      salesforce, useAdvancedProps, docsInfo, additionalFields, StartDate, EndDate, ...data
+      salesforce, useAdvancedProps, docsInfo, dateInfo, additionalFields, StartDate, EndDate, ...data
     } = this;
-    /* eslint-enable no-unused-vars */
+    /* eslint-enable no-unused-vars, max-len */
     const response = await salesforce.createCampaign({
       $,
       data: {

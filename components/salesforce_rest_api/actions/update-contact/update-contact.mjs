@@ -43,6 +43,7 @@ export default {
       contactId,
       useAdvancedProps,
       docsInfo,
+      dateInfo,
       additionalFields,
       ...data
     } = this;

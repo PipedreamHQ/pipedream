@@ -43,6 +43,7 @@ export default {
       accountId,
       useAdvancedProps,
       docsInfo,
+      dateInfo,
       additionalFields,
       ...data
     } = this;
