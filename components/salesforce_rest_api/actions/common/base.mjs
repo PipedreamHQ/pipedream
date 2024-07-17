@@ -1,19 +1,36 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export function getProps({
-  objType, createOrUpdate = "create", docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_concepts.htm",
+  objType,
+  createOrUpdate = "create",
+  docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_concepts.htm",
 }) {
+  let { initialProps } = objType;
+  if (initialProps && createOrUpdate === "update") {
+    initialProps = Object.fromEntries(
+      Object.entries(initialProps).map(([
+        key,
+        value,
+      ]) => [
+        key,
+        {
+          ...value,
+          optional: true,
+        },
+      ]),
+    );
+  }
+
   return {
     salesforce,
     ...objType[createOrUpdate === "create"
       ? "createProps"
       : "updateProps"],
-    ...objType.initialProps,
+    ...initialProps,
     docsInfo: {
       type: "alert",
       alertType: "info",
-      content:
-        `[See the documentation](${docsLink}) for more information on available fields.`,
+      content: `[See the documentation](${docsLink}) for more information on available fields.`,
     },
     useAdvancedProps: {
       propDefinition: [

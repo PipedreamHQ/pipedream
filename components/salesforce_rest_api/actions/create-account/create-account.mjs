@@ -1,17 +1,13 @@
 import common, { getProps } from "../common/base.mjs";
 import account from "../../common/sobjects/account.mjs";
-import { toSingleLineString } from "../../common/utils.mjs";
 
-const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_account.htm";
+export const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_account.htm";
 
 export default {
   ...common,
   key: "salesforce_rest_api-create-account",
   name: "Create Account",
-  description: toSingleLineString(`
-    Creates a Salesforce account
-    which is an organization or person involved with your business. [See the documentation](${docsLink})
-  `),
+  description: `Creates a Salesforce account. [See the documentation](${docsLink})`,
   version: "0.3.{{ts}}",
   type: "action",
   methods: {

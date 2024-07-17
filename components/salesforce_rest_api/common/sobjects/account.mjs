@@ -37,13 +37,13 @@ export default {
     },
     Description: {
       type: "string",
-      label: "Account Description",
+      label: "Description",
       description: "Text description of the account. Limited to 32,000 KB.",
       optional: true,
     },
     Phone: {
       type: "string",
-      label: "Account Phone",
+      label: "Phone",
       description: "Phone number for this account. Max 40 characters.",
       optional: true,
     },
@@ -363,7 +363,7 @@ export default {
       type: "string",
       label: "Year Started",
       description:
-        "The date when an org was legally established. Max 4 characters",
+        "The year when an org was legally established. Max 4 characters",
       optional: true,
     },
   },
