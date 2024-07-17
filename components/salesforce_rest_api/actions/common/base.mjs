@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export function getProps({
@@ -65,6 +66,25 @@ export default {
           }
         }),
       );
+    },
+    formatDateTimeProps(props = {}) {
+      // https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_valid_date_formats.htm
+      return Object.fromEntries(Object.entries(props).map(([
+        key,
+        value,
+      ]) => {
+        const numValue = Number(value);
+        const date = new Date(isNaN(numValue)
+          ? value
+          : numValue);
+        if (isNaN(date.valueOf())) {
+          throw new ConfigurationError(`Invalid date format for prop \`${key}\`. Please provide a [valid date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format).`);
+        }
+        return [
+          key,
+          date.toISOString(),
+        ];
+      }));
     },
   },
   additionalProps() {
