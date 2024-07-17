@@ -11,9 +11,9 @@ export default {
     ...common.props,
     alert: {
       type: "alert",
-      alertType: "error",
-      content: "This action is not supported for `basic` Dropbox accounts. Paid account required.",
-      hidden: true,
+      alertType: "warning",
+      content: `Dropbox Free and Basic users are able to create a publicly-available share link which allows downloads.
+        \nIn order to utilize advanced link sharing functionality, you must be on a Dropbox Essentials plan or higher. See the Dropbox pricing [page](https://www.dropbox.com/plans?trigger=nr#:~:text=Collaborative%20sharing) for more details.`,
     },
     path: {
       propDefinition: [
@@ -29,67 +29,55 @@ export default {
       ],
       description: "Type the file or folder name to search for it in the user's Dropbox.",
     },
-    requirePassword: {
-      type: "boolean",
-      label: "Require Password",
-      description: "Boolean flag to enable or disable password protection.",
-      default: false,
-      reloadProps: true,
-    },
-    linkPassword: {
-      type: "string",
-      label: "Link Password",
-      description: "If `require_password` is `true`, this is needed to specify the password to access the link.",
-      hidden: true,
-    },
-    allowDownload: {
-      type: "boolean",
-      label: "Allow Downloads",
-      description: "Boolean flag to allow or not allow capabilities for shared links.",
-    },
-    expires: {
-      type: "string",
-      label: "Expires",
-      description: "Expiration time of the shared link. By default the link never expires. Make sure to use a valid [timestamp](https://dropbox.github.io/dropbox-sdk-js/global.html#Timestamp) value.",
-      optional: true,
-    },
-    audience: {
-      type: "string",
-      label: "Audience",
-      description: "The new audience who can benefit from the access level specified by the link's access level specified in the `link_access_level` field of `LinkPermissions`. This is used in conjunction with team policies and shared folder policies to determine the final effective audience type in the `effective_audience` field of `LinkPermissions.",
-      optional: true,
-      options: consts.CREATE_SHARED_LINK_AUDIENCE_OPTIONS,
-    },
-    access: {
-      type: "string",
-      label: "Access",
-      description: "Requested access level you want the audience to gain from this link. Note, modifying access level for an existing link is not supported.",
-      optional: true,
-      options: consts.CREATE_SHARED_LINK_ACCESS_OPTIONS,
-    },
   },
-  async additionalProps(props) {
-    let newProps = {
-      linkPassword: {
-        ...props.linkPassword,
-      },
-    };
+  async additionalProps() {
+    const props = {};
 
     const accountType = await this.getCurrentAccount();
-    if (accountType === "basic") {
-      newProps.alert = {
-        ...props.alert,
-        hidden: false,
+    if (accountType !== "basic") {
+      props.requirePassword = {
+        type: "boolean",
+        label: "Require Password",
+        description: "Boolean flag to enable or disable password protection.",
+        default: false,
+        reloadProps: true,
+      };
+      props.linkPassword = {
+        type: "string",
+        label: "Link Password",
+        description: "If `require_password` is `true`, this is needed to specify the password to access the link.",
+        hidden: this.requirePassword
+          ? false
+          : true,
+      };
+      props.allowDownload = {
+        type: "boolean",
+        label: "Allow Downloads",
+        description: "Boolean flag to allow or not allow capabilities for shared links.",
+      };
+      props.expires = {
+        type: "string",
+        label: "Expires",
+        description: "Expiration time of the shared link. By default the link never expires. Make sure to use a valid [timestamp](https://dropbox.github.io/dropbox-sdk-js/global.html#Timestamp) value.",
+        optional: true,
+      };
+      props.audience = {
+        type: "string",
+        label: "Audience",
+        description: "The new audience who can benefit from the access level specified by the link's access level specified in the `link_access_level` field of `LinkPermissions`. This is used in conjunction with team policies and shared folder policies to determine the final effective audience type in the `effective_audience` field of `LinkPermissions.",
+        optional: true,
+        options: consts.CREATE_SHARED_LINK_AUDIENCE_OPTIONS,
+      };
+      props.access = {
+        type: "string",
+        label: "Access",
+        description: "Requested access level you want the audience to gain from this link. Note, modifying access level for an existing link is not supported.",
+        optional: true,
+        options: consts.CREATE_SHARED_LINK_ACCESS_OPTIONS,
       };
     }
 
-    if (this.requirePassword) {
-      newProps.linkPassword.hidden = false;
-    } else {
-      newProps.linkPassword.hidden = true;
-    }
-
-    return newProps;
+    return props;
   },
   methods: {
     async getCurrentAccount() {
@@ -106,10 +94,12 @@ export default {
       expires,
       audience,
       access,
-      requestedVisibility,
-      allowDownload,
-      removeExpiration,
     } = this;
+
+    const accountType = await this.getCurrentAccount();
+    const allowDownload = accountType === "basic"
+      ? true
+      : this.allowDownload;
 
     if (requirePassword && !linkPassword) {
       throw new Error("Since the password is required, please add a linkPassword");
@@ -123,10 +113,8 @@ export default {
         expires,
         audience,
         access,
-        requested_visibility: requestedVisibility,
         allow_download: allowDownload,
       },
-      remove_expiration: removeExpiration,
     });
     $.export("$summary", `Shared link for "${path?.label || path}" successfully created`);
     return res;
