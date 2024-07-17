@@ -141,6 +141,16 @@ export default {
       });
     },
   },
+  ServiceContractId: {
+    type: "string",
+    label: "ServiceContract ID",
+    description: "The ID of a Service Contract record.",
+    options: async () => {
+      return this.salesforce.listRecordOptions({
+        objType: "ServiceContract",
+      });
+    },
+  },
   UserId: {
     type: "string",
     label: "User ID",

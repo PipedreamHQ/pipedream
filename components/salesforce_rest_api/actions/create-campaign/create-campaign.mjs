@@ -1,7 +1,7 @@
 import common, { getProps } from "../common/base.mjs";
 import campaign from "../../common/sobjects/campaign.mjs";
 
-const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaign.htm";
+const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_campaign.htm";
 
 export default {
   ...common,

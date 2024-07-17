@@ -1,8 +1,11 @@
 import commonProps from "../props-async-options.mjs";
 
 export default {
-  createProps: {},
   initialProps: {
+    ServiceContractId: {
+      ...commonProps.ServiceContractId,
+      description: "ID of the ServiceContract associated with the entitlement.",
+    },
     Description: {
       type: "string",
       label: "Description",
@@ -21,10 +24,16 @@ export default {
         "Closed",
       ],
     },
-    Subject: {
+    SuppliedEmail: {
       type: "string",
-      label: "Subject",
-      description: "The subject of the case. Max 255 characters.",
+      label: "Email",
+      description: "The email address associated with the case.",
+      optional: true,
+    },
+    SuppliedName: {
+      type: "string",
+      label: "Name",
+      description: "The name of the case.",
       optional: true,
     },
   },
@@ -144,22 +153,16 @@ export default {
       description: "The ID of the social post source.",
       optional: true,
     },
+    Subject: {
+      type: "string",
+      label: "Subject",
+      description: "The subject of the case. Max 255 characters.",
+      optional: true,
+    },
     SuppliedCompany: {
       type: "string",
       label: "Company",
       description: "The company name that was entered when the case was created.",
-      optional: true,
-    },
-    SuppliedEmail: {
-      type: "string",
-      label: "Email",
-      description: "The email address that was entered when the case was created.",
-      optional: true,
-    },
-    SuppliedName: {
-      type: "string",
-      label: "Name",
-      description: "The name that was entered when the case was created.",
       optional: true,
     },
     SuppliedPhone: {
