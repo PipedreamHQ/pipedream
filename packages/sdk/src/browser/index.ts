@@ -1,6 +1,5 @@
 type CreateBrowserClientOpts = {
   publicKey: string;
-  environment?: string;
   frontendHost?: string;
 };
 
@@ -14,6 +13,7 @@ class ConnectError extends Error { }
 
 type StartConnectOpts = {
   token: string;
+  oauthAppId: string;
   onSuccess?: (res: ConnectResult) => void;
   onError?: (err: ConnectError) => void;
 };
@@ -67,9 +67,9 @@ class BrowserClient {
     window.addEventListener("message", onMessage)
 
     const qp = new URLSearchParams()
-    // We can use access token in the open because both the sdk and server are secured through verified origins
+    qp.set("public_key", this.publicKey)
     qp.set("token", opts.token)
-    // qp.set("publicKey", this.publicKey)
+    qp.set("app", opts.oauthAppId)
 
     const iframe = document.createElement("iframe")
     iframe.id = `pipedream-connect-iframe-${this.iframeId++}`
