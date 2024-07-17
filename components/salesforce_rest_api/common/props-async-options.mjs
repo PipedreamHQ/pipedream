@@ -62,7 +62,7 @@ export default {
   },
   ContactId: {
     type: "string",
-    label: "Account ID",
+    label: "Contact ID",
     description: "The ID of a Contact.",
     options: async () => {
       return this.salesforce.listRecordOptions({

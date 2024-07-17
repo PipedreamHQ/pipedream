@@ -10,6 +10,18 @@ export default {
       label: "Accepted Event Invitee IDs",
       description: "One or more Contact or Lead IDs who accepted this event.",
       optional: true,
+      async options() {
+        const contacts = await this.salesforce.listRecordOptions({
+          objType: "Contact",
+        });
+        const leads = await this.salesforce.listRecordOptions({
+          objType: "Lead",
+        });
+        return [
+          ...(contacts ?? []),
+          ...(leads ?? []),
+        ];
+      },
     },
     ActivityDate: {
       type: "string",

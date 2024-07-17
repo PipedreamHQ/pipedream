@@ -20,9 +20,6 @@ export default {
     objType: contact,
     docsLink,
   }),
-  additionalProps() {
-    return this.additionalProps(this.selector, contact);
-  },
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
