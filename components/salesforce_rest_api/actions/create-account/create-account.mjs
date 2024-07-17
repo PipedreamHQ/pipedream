@@ -1,16 +1,16 @@
-import common from "../common/base.mjs";
+import common, { getProps } from "../common/base.mjs";
 import account from "../../common/sobjects/account.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
-const { salesforce } = common.props;
+const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_account.htm";
 
 export default {
   ...common,
   key: "salesforce_rest_api-create-account",
   name: "Create Account",
   description: toSingleLineString(`
-    Creates a Salesforce account, representing an individual account,
-    which is an organization or person involved with your business (such as customers, competitors, and partners).
+    Creates a Salesforce account
+    which is an organization or person involved with your business. [See the documentation](${docsLink})
   `),
   version: "0.3.{{ts}}",
   type: "action",
@@ -20,22 +20,10 @@ export default {
       return account.extraProps;
     },
   },
-  props: {
-    salesforce,
-    ...account.createProps,
-    ...account.initialProps,
-    docsInfo: {
-      type: "alert",
-      alertType: "info",
-      content: "[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_account.htm) for more information on Account fields.",
-    },
-    useAdvancedProps: {
-      propDefinition: [
-        salesforce,
-        "useAdvancedProps",
-      ],
-    },
-  },
+  props: getProps({
+    objType: account,
+    docsLink,
+  }),
   async run({ $ }) {
     const { // eslint-disable-next-line no-unused-vars
       salesforce, useAdvancedProps, docsInfo, additionalFields, ...data

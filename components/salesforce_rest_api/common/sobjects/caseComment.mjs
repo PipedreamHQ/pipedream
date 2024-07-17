@@ -1,4 +1,4 @@
-import commonProps from "../props.mjs";
+import commonProps from "../props-async-options.mjs";
 
 export default {
   initialProps: {
