@@ -1,3 +1,6 @@
+import {
+  CLEAN_STATUS_OPTIONS, GEOCODE_ACCURACY_OPTIONS, RECORD_SOURCE_OPTIONS,
+} from "../constants-props.mjs";
 import commonProps from "../props-async-options.mjs";
 
 export default {
@@ -58,13 +61,7 @@ export default {
       description:
         "The source of the account record. Available values are set by an administrator.",
       optional: true,
-      options: [
-        "Web",
-        "Phone Inquiry",
-        "Partner Referral",
-        "Purchased List",
-        "Other",
-      ],
+      options: RECORD_SOURCE_OPTIONS,
     },
     AnnualRevenue: {
       type: "string",
@@ -89,52 +86,7 @@ export default {
       label: "Billing Geocode Accuracy",
       description: "Accuracy level of the geocode for the billing address.",
       optional: true,
-      options: [
-        {
-          label: "Address",
-          value: "Address",
-        },
-        {
-          label: "Near Address",
-          value: "NearAddress",
-        },
-        {
-          label: "Block",
-          value: "Block",
-        },
-        {
-          label: "Street",
-          value: "Street",
-        },
-        {
-          label: "Extended Zip",
-          value: "ExtendedZip",
-        },
-        {
-          label: "Zip",
-          value: "Zip",
-        },
-        {
-          label: "Neighborhood",
-          value: "Neighborhood",
-        },
-        {
-          label: "City",
-          value: "City",
-        },
-        {
-          label: "County",
-          value: "County",
-        },
-        {
-          label: "State",
-          value: "State",
-        },
-        {
-          label: "Unknown",
-          value: "Unknown",
-        },
-      ],
+      options: GEOCODE_ACCURACY_OPTIONS,
     },
     BillingLatitude: {
       type: "string",
@@ -174,40 +126,7 @@ export default {
       description:
         "Indicates the record's clean status as compared with Data.com.",
       optional: true,
-      options: [
-        {
-          value: "Acknowledged",
-          label: "The label on the account record detail page is Reviewed.",
-        },
-        {
-          value: "Different",
-          label: "Different",
-        },
-        {
-          value: "Inactive",
-          label: "Inactive",
-        },
-        {
-          value: "Matched",
-          label: "The label on the account record detail page is In Sync.",
-        },
-        {
-          value: "NotFound",
-          label: "NotFound",
-        },
-        {
-          value: "Pending",
-          label: "The label on the account record detail page is Not Compared.",
-        },
-        {
-          value: "SelectMatch",
-          label: "SelectMatch",
-        },
-        {
-          value: "Skipped",
-          label: "Skipped",
-        },
-      ],
+      options: CLEAN_STATUS_OPTIONS,
     },
     DunsNumber: {
       type: "string",

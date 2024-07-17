@@ -494,3 +494,93 @@ export const RECURRENCE_TYPE_OPTIONS = [
     value: "RecursYearlyNth",
   },
 ];
+
+export const GEOCODE_ACCURACY_OPTIONS = [
+  {
+    label: "Address",
+    value: "Address",
+  },
+  {
+    label: "Near Address",
+    value: "NearAddress",
+  },
+  {
+    label: "Block",
+    value: "Block",
+  },
+  {
+    label: "Street",
+    value: "Street",
+  },
+  {
+    label: "Extended Zip",
+    value: "ExtendedZip",
+  },
+  {
+    label: "Zip",
+    value: "Zip",
+  },
+  {
+    label: "Neighborhood",
+    value: "Neighborhood",
+  },
+  {
+    label: "City",
+    value: "City",
+  },
+  {
+    label: "County",
+    value: "County",
+  },
+  {
+    label: "State",
+    value: "State",
+  },
+  {
+    label: "Unknown",
+    value: "Unknown",
+  },
+];
+
+export const CLEAN_STATUS_OPTIONS = [
+  {
+    label: "In Sync",
+    value: "Matched",
+  },
+  {
+    label: "Different",
+    value: "Different",
+  },
+  {
+    label: "Reviewed",
+    value: "Acknowledged",
+  },
+  {
+    label: "Not Found",
+    value: "NotFound",
+  },
+  {
+    label: "Inactive",
+    value: "Inactive",
+  },
+  {
+    label: "Not Compared",
+    value: "Pending",
+  },
+  {
+    label: "Select Match",
+    value: "SelectMatch",
+  },
+  {
+    label: "Skipped",
+    value: "Skipped",
+  },
+];
+
+export const RECORD_SOURCE_OPTIONS = [
+  "Web",
+  "Phone Inquiry",
+  "Partner Referral",
+  "Purchased List",
+  "Other",
+];

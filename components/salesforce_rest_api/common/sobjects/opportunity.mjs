@@ -1,3 +1,4 @@
+import { RECORD_SOURCE_OPTIONS } from "../constants-props.mjs";
 import commonProps from "../props-async-options.mjs";
 
 export default {
@@ -95,15 +96,9 @@ export default {
       type: "string",
       label: "Lead Source",
       description:
-        "Source of this opportunity, such as Advertisement or Trade Show.",
+        "Source of this opportunity.",
       optional: true,
-      options: [
-        "Web",
-        "Phone Inquiry",
-        "Partner Referral",
-        "Purchased List",
-        "Other",
-      ],
+      options: RECORD_SOURCE_OPTIONS,
     },
     NextStep: {
       type: "string",
