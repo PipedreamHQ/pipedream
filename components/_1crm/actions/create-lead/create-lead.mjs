@@ -1,51 +1,19 @@
-import { axios } from "@pipedream/platform";
-import _1crm from "../../_1crm.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "_1crm-create-lead",
   name: "Create Lead",
-  description: "Crafts a new lead in 1CRM. [See the documentation](https://demo.1crmcloud.com/api.php)",
-  version: "0.0.{{ts}}",
+  description: "Crafts a new lead in 1CRM. [See the documentation](https://demo.1crmcloud.com/api.php#endpoint_dataList_post)",
+  version: "0.0.1",
   type: "action",
-  props: {
-    _1crm,
-    leadName: {
-      propDefinition: [
-        _1crm,
-        "leadName",
-      ],
+  methods: {
+    ...common.methods,
+    getModule() {
+      return "Lead";
     },
-    email: {
-      propDefinition: [
-        _1crm,
-        "email",
-      ],
-      optional: true,
+    getSummary({ id }) {
+      return  `Successfully created lead with ID ${id}`;
     },
-    companyName: {
-      propDefinition: [
-        _1crm,
-        "companyName",
-      ],
-      optional: true,
-    },
-    description: {
-      propDefinition: [
-        _1crm,
-        "description",
-      ],
-      optional: true,
-    },
-  },
-  async run({ $ }) {
-    const response = await this._1crm.createLead({
-      leadName: this.leadName,
-      email: this.email,
-      companyName: this.companyName,
-      description: this.description,
-    });
-
-    $.export("$summary", `Successfully created lead with ID ${response.id}`);
-    return response;
   },
 };
