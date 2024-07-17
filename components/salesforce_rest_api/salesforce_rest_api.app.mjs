@@ -512,6 +512,23 @@ export default {
         url,
       });
     },
+    async listRecordOptions({
+      objType,
+      fields = [
+        "Id",
+        "Name",
+      ],
+      getLabel = (item) => item[fields[1]],
+      getValue = (item) => item[fields[0]],
+    }) {
+      const { records } = await this.query({
+        query: `SELECT ${fields.join(", ")} FROM ${objType}`,
+      });
+      return records?.map?.((item) => ({
+        label: getLabel(item),
+        value: getValue(item),
+      })) ?? [];
+    },
     async search({
       $, search,
     }) {
