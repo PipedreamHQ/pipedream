@@ -3947,7 +3947,10 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/greptile:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/grist:
     specifiers:
