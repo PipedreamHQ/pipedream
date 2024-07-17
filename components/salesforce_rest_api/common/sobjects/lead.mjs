@@ -12,7 +12,6 @@ export default {
       optional: true,
     },
   },
-  updateProps: {},
   initialProps: {
     Company: {
       type: "string",

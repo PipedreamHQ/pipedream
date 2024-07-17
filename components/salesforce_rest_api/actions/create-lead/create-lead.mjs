@@ -1,59 +1,39 @@
-import common from "../common/base.mjs";
+import common, { getProps } from "../common/base.mjs";
 import lead from "../../common/sobjects/lead.mjs";
-import {
-  pickBy, pick,
-} from "lodash-es";
-import { toSingleLineString } from "../../common/utils.mjs";
 
-const { salesforce } = common.props;
+export const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_lead.htm";
 
 export default {
   ...common,
   key: "salesforce_rest_api-create-lead",
   name: "Create Lead",
-  description: toSingleLineString(`
-    Creates a lead, which represents a prospect or lead.
-    See [Lead SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_lead.htm)
-    and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
-  `),
-  version: "0.3.0",
+  description: `Creates a lead. [See the documentation](${docsLink})`,
+  version: "0.3.{{ts}}",
   type: "action",
-  props: {
-    salesforce,
-    Company: {
-      type: "string",
-      label: "Company",
-      description: "The lead's company. Note If person account record types have been enabled, and if the value of Company is null, the lead converts to a person account.",
-    },
-    LastName: {
-      type: "string",
-      label: "Last name",
-      description: "Required. Last name of the lead up to 80 characters.",
-    },
-    selector: {
-      propDefinition: [
-        salesforce,
-        "fieldSelector",
-      ],
-      description: `${salesforce.propDefinitions.fieldSelector.description} Lead`,
-      options: () => Object.keys(lead),
-      reloadProps: true,
+  methods: {
+    ...common.methods,
+    getAdvancedProps() {
+      return lead.extraProps;
     },
   },
-  additionalProps() {
-    return this.additionalProps(this.selector, lead);
-  },
+  props: getProps({
+    objType: lead,
+    docsLink,
+  }),
   async run({ $ }) {
-    const data = pickBy(pick(this, [
-      "Company",
-      "LastName",
-      ...this.selector,
-    ]));
-    const response = await this.salesforce.createLead({
+    /* eslint-disable no-unused-vars */
+    const {
+      salesforce, useAdvancedProps, docsInfo, additionalFields, ...data
+    } = this;
+    /* eslint-enable no-unused-vars */
+    const response = await salesforce.createLead({
       $,
-      data,
+      data: {
+        ...data,
+        ...this.getAdditionalFields(),
+      },
     });
-    $.export("$summary", `Successfully created lead for ${this.Company}`);
+    $.export("$summary", `Successfully created lead "${this.LastName}"`);
     return response;
   },
 };
