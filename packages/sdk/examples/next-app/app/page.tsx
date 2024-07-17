@@ -1,22 +1,17 @@
 "use client"
 
 import { createRef, useEffect, useState } from "react";
-import { serverConnectTokenCreate, getAppsData } from "./server"
+import { serverConnectTokenCreate, getGithubData } from "./server"
 import { createClient } from "../../../src/browser"
 
 const publicKey = process.env.NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY
-const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST
-const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID
-const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG
-const orgId = process.env.NEXT_PUBLIC_PIPEDREAM_ORG_ID
+const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_OAUTH_APP_ID
 
 export default function Home() {
-  if (!orgId) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_ORG_ID env var")
   if (!publicKey) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY env var")
-  if (!oauthAppId) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID env var")
-  if (!appSlug) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_APP_SLUG env var")
+  if (!oauthAppId) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_OAUTH_APP_ID env var")
 
-  const pd = createClient({ publicKey, frontendHost, orgId })
+  const pd = createClient({ publicKey })
   const [externalUserId, setExternalUserId] = useState<string | null>(null)
   const [githubData, setGithubData] = useState<{ login: string } | null>(null)
   const [token, setToken] = useState<string | null>(null)
@@ -34,10 +29,9 @@ export default function Home() {
   const connectApp = () => {
     if (!externalUserId || !token) return
     pd.startConnect({
-      app: oauthAppId,
       token,
-      onSuccess: ({ id: authProvisionId }: any) => {
-        setAuthProvisionId(authProvisionId as string)
+      onSuccess: ({ authProvisionId }: { authProvisionId: string }) => {
+        setAuthProvisionId(authProvisionId)
       }
     })
   }
@@ -45,23 +39,24 @@ export default function Home() {
   useEffect(() => {
     if (!externalUserId) {
       setToken(null)
-      setGithubData(null)
       setAuthProvisionId(null)
     } else if (!initialized) {
-      Promise.all([
-        serverConnectTokenCreate(externalUserId).then((t) => setToken(t)),
-        getAppsData(externalUserId).then((d) => {
-          setGithubData(d.github)
-        })
-      ]).finally(() => { setInitialized(true) })
+      serverConnectTokenCreate(externalUserId).then(setToken).finally(() => { setInitialized(true) })
     }
   }, [externalUserId])
+
+  useEffect(() => {
+    if (!apn) {
+      setGithubData(null)
+    } else {
+      getGithubData(apn).then(setGithubData)
+    }
+  }, [apn])
 
   return (
     <main className="p-5 flex flex-col gap-2">
       <h1 className="text-2xl font-bold">Pipedream connect Next.js demo</h1>
       <div>
-        <p>Org Id: {orgId} </p>
         <p>Project Key: {publicKey} </p>
         <p>Oauth App Id: {oauthAppId}</p>
       </div>

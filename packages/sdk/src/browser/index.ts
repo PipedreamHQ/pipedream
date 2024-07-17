@@ -1,25 +1,19 @@
 type CreateBrowserClientOpts = {
-  environment?: string;
   publicKey: string;
+  environment?: string;
   frontendHost?: string;
-  orgId: string;
 };
 
-type AppId = string;
 
-type StartConnectApp = {
-  id: AppId;
-};
 
 type ConnectResult = {
-  // TODO
+  authProvisionId: string
 };
 
 class ConnectError extends Error { }
 
 type StartConnectOpts = {
   token: string;
-  app: AppId | StartConnectApp;
   onSuccess?: (res: ConnectResult) => void;
   onError?: (err: ConnectError) => void;
 };
@@ -29,59 +23,53 @@ export function createClient(opts: CreateBrowserClientOpts) {
 }
 
 class BrowserClient {
-  environment?: string;
   publicKey: string;
-  orgId: string;
   baseURL: string;
   iframeURL: string;
   iframe?: HTMLIFrameElement;
   iframeId = 0;
 
   constructor(opts: CreateBrowserClientOpts) {
-    this.environment = opts.environment;
     this.publicKey = opts.publicKey;
-    this.orgId = opts.orgId;
     this.baseURL = `https://${opts.frontendHost || "pipedream.com"}`;
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
   }
 
   startConnect(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
-
-      if (e.data?.type === "verify-domain") {
-        e.source?.postMessage(
-          { type: "domain-response", origin: window.origin }, { targetOrigin: e.origin }
-        )
-      } else if (e.data?.type === "close") {
-        this.iframe?.remove()
-        window.removeEventListener("message", onMessage)
-      } else if (e.data?.type === "success") {
-        opts.onSuccess?.({
-          id: e.data.authProvisionId,
-        })
-      } else if (e.data?.type === "error") {
-        opts.onError?.(new ConnectError(e.data.error))
+      switch (e.data?.type) {
+        case "verify-domain":
+          // The Application should respond with it's domain to the iframe for security
+          e.source?.postMessage(
+            { type: "domain-response", origin: window.origin }, { targetOrigin: e.origin }
+          )
+          break;
+        case "success":
+          // We got a Successful Authorization
+          // We can return the Auth Provision ID to the parent.
+          // The parent can then use that auth provision id to query for the Account information
+          opts.onSuccess?.(e.data)
+          break;
+        case "error":
+          // Return the error to the parent if there was a problem with the Authorization
+          opts.onError?.(new ConnectError(e.data.error))
+          break;
+        case "close":
+          // Final case, where we close the window and remove the handler
+          this.iframe?.remove()
+          window.removeEventListener("message", onMessage)
+          break;
+        default:
+          console.info('Unknown Connect Event type', e)
+          break;
       }
     }
     window.addEventListener("message", onMessage)
 
     const qp = new URLSearchParams()
+    // We can use access token in the open because both the sdk and server are secured through verified origins
     qp.set("token", opts.token)
-    qp.set("publicKey", this.publicKey)
-    qp.set("orgId", this.orgId)
-    if (this.environment) {
-      qp.set("environment", this.environment)
-    }
-    if (typeof opts.app === "string") {
-      qp.set("app", opts.app)
-    } else {
-      const err = new ConnectError("object app not yet supported")
-      if (opts.onError) {
-        opts.onError(err)
-        return
-      }
-      throw err
-    }
+    // qp.set("publicKey", this.publicKey)
 
     const iframe = document.createElement("iframe")
     iframe.id = `pipedream-connect-iframe-${this.iframeId++}`

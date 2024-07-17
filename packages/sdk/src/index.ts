@@ -2,18 +2,20 @@ type CreateServerClientOpts = {
   environment?: string;
   secretKey: string;
   apiHost?: string;
+  projectId: string;
 };
 
 type ConnectTokenCreateOpts = {
-  clientUserId: string;
+  externalId: string;
+  oauthAppId: string
 };
 
-type AccountId = string;
-type AccountKeyFields = {
-  clientUserId: string;
-  app: string;
-};
-type AccountKey = AccountId | AccountKeyFields;
+// type AccountId = string;
+// type AccountKeyFields = {
+//   externalId: string;
+//   app: string;
+// };
+// type AccountKey = AccountId | AccountKeyFields;
 
 export function createClient(opts: CreateServerClientOpts) {
   return new ServerClient(opts);
@@ -22,23 +24,23 @@ export function createClient(opts: CreateServerClientOpts) {
 class ServerClient {
   environment?: string;
   secretKey: string;
+  projectId: string;
   baseURL: string;
 
   constructor(opts: CreateServerClientOpts) {
     this.environment = opts.environment;
     this.secretKey = opts.secretKey;
+    this.projectId = opts.projectId;
     this.baseURL = `https://${opts.apiHost || "pipedream.com"}`;
-  }
-
-  private _authorizationHeader(): string {
-    return "Basic " + Buffer.from(this.secretKey + ":").toString("base64");
   }
 
   // XXX move to REST API endpoint
   async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<string> {
     const variables = {
+      projectId: this.projectId,
       secretKey: this.secretKey,
-      clientUserId: opts.clientUserId,
+      oauthAppId: opts.oauthAppId,
+      externalId: opts.externalId,
     }
     const resp = await fetch(`${this.baseURL}/graphql`, {
       method: "POST",
@@ -49,12 +51,14 @@ class ServerClient {
         query: `mutation sdkConnectTokenCreate(
           $projectId: String!
           $secretKey: String!
-          $clientUserId: String!
+          $oauthAppId: String!
+          $externalId: String!
         ) {
           connectTokenCreate(
             projectId: $projectId
             secretKey: $secretKey
-            clientUserId: $clientUserId
+            oauthAppId: $oauthAppId
+            externalId: $externalId
           ) {
             token
           }
@@ -63,41 +67,25 @@ class ServerClient {
       }),
     });
     const res = await resp.json();
-    if(res.errors?.length) {
-      throw new Error(res.errors[0])
+    if (res.errors?.length) {
+      throw res.errors[0]
     }
-    // XXX expose error here
     return res.data?.connectTokenCreate?.token;
   }
 
-  async getAccount(key: AccountKey, opts?: { includeCredentials?: boolean; }) {
-    let url: string;
-    let id: string | undefined;
-    const baseAccountURL = `${this.baseURL}/v1/accounts`;
-    if (typeof key === "string") {
-      id = key;
-      url = `${baseAccountURL}/${id}`;
-    } else {
-      url = `${baseAccountURL}?app=${key.app}&limit=100&client_user_id=${key.clientUserId}`;
-    }
-    if (opts?.includeCredentials) {
-      url += `${id
-        ? "?"
-        : "&"}include_credentials=1`;
-    }
+  async getAccount(opts: { authProvisionId: string; projectId: string; }) {
+    const url = `${this.baseURL}/v1/accounts?id=${opts.authProvisionId}&include_credentials=1`;
+    const Authorization = "Basic " + Buffer.from(opts.projectId + ":" + this.secretKey).toString("base64")
+
     const resp = await fetch(url, {
       headers: {
-        Authorization: this._authorizationHeader(),
+        Authorization,
       },
     });
-    const res = await resp.json();
-    const {
-      data, error,
-    } = res;
+
+    const { data, error } = await resp.json();
     if (error) {
-      if (error === "record not found") {
-        return null;
-      }
+      if (error === "record not found") return null;
       throw new Error(error);
     }
     return data;
