@@ -93,7 +93,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully created communication");
+    $.export("$summary", `Successfully created communication with ID ${response.id}`);
     return response;
   },
 };
