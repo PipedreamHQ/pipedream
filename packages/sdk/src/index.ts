@@ -7,7 +7,7 @@ type CreateServerClientOpts = {
 
 type ConnectTokenCreateOpts = {
   externalId: string;
-  oauthAppId: string
+  clientName?: string
 };
 
 // type AccountId = string;
@@ -39,8 +39,8 @@ class ServerClient {
     const variables = {
       projectId: this.projectId,
       secretKey: this.secretKey,
-      oauthAppId: opts.oauthAppId,
       externalId: opts.externalId,
+      clientName: opts.clientName ?? "MyApplication"
     }
     const resp = await fetch(`${this.baseURL}/graphql`, {
       method: "POST",
@@ -51,13 +51,13 @@ class ServerClient {
         query: `mutation sdkConnectTokenCreate(
           $projectId: String!
           $secretKey: String!
-          $oauthAppId: String!
+          $clientName: String!
           $externalId: String!
         ) {
           connectTokenCreate(
             projectId: $projectId
             secretKey: $secretKey
-            oauthAppId: $oauthAppId
+            clientName: $clientName
             externalId: $externalId
           ) {
             token

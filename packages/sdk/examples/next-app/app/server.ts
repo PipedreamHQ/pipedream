@@ -6,12 +6,13 @@ const {
   PIPEDREAM_PROJECT_ID,
   PIPEDREAM_PROJECT_SECRET_KEY,
   NEXT_PUBLIC_PIPEDREAM_OAUTH_APP_ID,
+  NEXT_PUBLIC_CLIENT_NAME
 } = process.env;
 
 if (!PIPEDREAM_PROJECT_ID) throw new Error("PIPEDREAM_PROJECT_ID not set in environment");
 if (!PIPEDREAM_PROJECT_SECRET_KEY) throw new Error("PIPEDREAM_PROJECT_SECRET_KEY not set in environment");
 if (!NEXT_PUBLIC_PIPEDREAM_OAUTH_APP_ID) throw new Error("NEXT_PUBLIC_PIPEDREAM_OAUTH_APP_ID not set in environment");
-const oauthAppId = NEXT_PUBLIC_PIPEDREAM_OAUTH_APP_ID
+
 const projectId = PIPEDREAM_PROJECT_ID
 
 const pd = createClient({
@@ -23,7 +24,7 @@ const pd = createClient({
 export async function serverConnectTokenCreate(externalId: string) {
   return pd.connectTokenCreate({
     externalId,
-    oauthAppId
+    clientName: NEXT_PUBLIC_CLIENT_NAME
   });
 }
 

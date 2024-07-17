@@ -6,12 +6,13 @@ import { createClient } from "../../../src/browser"
 
 const publicKey = process.env.NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY
 const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_OAUTH_APP_ID
+const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST
 
 export default function Home() {
   if (!publicKey) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY env var")
   if (!oauthAppId) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_OAUTH_APP_ID env var")
 
-  const pd = createClient({ publicKey })
+  const pd = createClient({ publicKey, frontendHost })
   const [externalUserId, setExternalUserId] = useState<string | null>(null)
   const [githubData, setGithubData] = useState<{ login: string } | null>(null)
   const [token, setToken] = useState<string | null>(null)
@@ -29,6 +30,7 @@ export default function Home() {
   const connectApp = () => {
     if (!externalUserId || !token) return
     pd.startConnect({
+      oauthAppId,
       token,
       onSuccess: ({ authProvisionId }: { authProvisionId: string }) => {
         setAuthProvisionId(authProvisionId)
