@@ -45,13 +45,6 @@ export default {
         "ID of the [Community (Zone)](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_community.htm) associated with this case.",
       optional: true,
     },
-    ConnectionReceivedId: {
-      ...commonProps.PartnerNetworkConnectionId,
-      label: "Connection Received ID",
-      description:
-        "ID of the `PartnerNetworkConnection` that shared this record with your organization.",
-      optional: true,
-    },
     ContactId: {
       ...commonProps.ContactId,
       description: "ID of the Contact associated with this case.",

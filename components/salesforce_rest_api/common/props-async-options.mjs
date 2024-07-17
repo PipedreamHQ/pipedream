@@ -12,49 +12,48 @@ export default {
   BusinessHoursId: {
     type: "string",
     label: "Business Hours ID",
-    description: "The ID of a Business Hours object.",
+    description: "The ID of a Business Hours record.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("BusinessHours");
-      return items?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "BusinessHours",
+      });
     },
   },
   CaseId: {
     type: "string",
     label: "Case ID",
-    description: "The ID of a Case object.",
+    description: "The ID of a Case.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("Case");
-      return items?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "Case",
+        fields: [
+          "Id",
+          "CaseNumber",
+          "Subject",
+          "SuppliedName",
+        ],
+        getLabel: (item) => item.SuppliedName ?? item.Subject ?? item.CaseNumber,
+      });
     },
   },
   CampaignId: {
     type: "string",
     label: "Campaign ID",
-    description: "The ID of a Campaign object.",
+    description: "The ID of a Campaign.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("Campaign");
-      return items?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "Campaign",
+      });
     },
   },
   CommunityId: {
     type: "string",
     label: "Community ID",
-    description: "The ID of a Community (Zone) object.",
+    description: "The ID of a Community (Zone) record.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("Community");
-      return items?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "Community",
+      });
     },
   },
   ContactId: {
@@ -62,11 +61,9 @@ export default {
     label: "Account ID",
     description: "The ID of a Contact.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("Contact");
-      return items?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "Contact",
+      });
     },
   },
   ContractId: {
@@ -74,125 +71,104 @@ export default {
     label: "Contract ID",
     description: "The ID of a Contract.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("Contract");
-      return items?.map?.((item) => ({
-        label: item.ContractNumber + (item.Description
+      return this.salesforce.listRecordOptions({
+        objType: "Contract",
+        fields: [
+          "Id",
+          "ContractNumber",
+          "Description",
+        ],
+        getLabel: (item) => item.ContractNumber + (item.Description
           ? ` - ${item.Description}`
           : ""),
-        value: item.Id,
-      })) ?? [];
+      });
     },
   },
   ContactOrLeadIds: {
     type: "string[]",
     label: "Contact or Lead IDs",
-    description: "The IDs of Contact or Lead objects.",
+    description: "The IDs of Contacts or Leads.",
     options: async () => {
-      const contacts = await this.salesforce.listSObjectTypeIds("Contact");
-      const leads = await this.salesforce.listSObjectTypeIds("Lead");
+      const contacts = await this.salesforce.listRecordOptions({
+        objType: "Contact",
+      });
+      const leads = await this.salesforce.listRecordOptions({
+        objType: "Lead",
+      });
       return [
         ...(contacts ?? []),
         ...(leads ?? []),
-      ]?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
+      ];
     },
   },
   IndividualId: {
     type: "string",
     label: "Individual ID",
-    description: "The ID of an Individual object.",
+    description: "The ID of an Individual.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("Individual");
-      return items?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "Individual",
+      });
     },
   },
   OperatingHoursId: {
     type: "string",
     label: "Operating Hours ID",
-    description: "The ID of an Operating Hours object.",
+    description: "The ID of an Operating Hours record.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("OperatingHours");
-      return items?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "OperatingHours",
+      });
     },
   },
   OpportunityId: {
     type: "string",
     label: "Opportunity ID",
-    description: "The ID of an Opportunity object.",
+    description: "The ID of an Opportunity.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("Opportunity");
-      return items?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
-    },
-  },
-  PartnerNetworkConnectionId: {
-    type: "string",
-    label: "Partner Network Connection ID",
-    description: "The ID of a connection between Salesforce organizations.",
-    options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("PartnerNetworkConnection");
-      return items?.map?.((item) => ({
-        label: item.ConnectionName,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "Opportunity",
+      });
     },
   },
   Pricebook2Id: {
     type: "string",
     label: "Pricebook2 ID",
-    description: "The ID of a Pricebook2 object.",
+    description: "The ID of a Pricebook2 record.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("Pricebook2");
-      return items?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "Pricebook2",
+      });
     },
   },
   UserId: {
     type: "string",
     label: "User ID",
-    description: "The ID of a user in your organization.",
+    description: "The ID of a User in your organization.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("User");
-      return items?.map?.((item) => ({
-        label: item.Name,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "User",
+      });
     },
   },
   QuestionId: {
     type: "string",
     label: "Question ID",
-    description: "The ID of a Question object.",
+    description: "The ID of a Question.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("Question");
-      return items?.map?.((item) => ({
-        label: item.Title,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "Question",
+      });
     },
   },
   RecordTypeId: {
     type: "string",
     label: "Record Type ID",
-    description: "ID of the record type assigned to this object.",
+    description: "ID of the record type assigned to this record.",
     options: async () => {
-      const items = await this.salesforce.listSObjectTypeIds("RecordType");
-      return items?.map?.((item) => ({
-        label: item.Title,
-        value: item.Id,
-      })) ?? [];
+      return this.salesforce.listRecordOptions({
+        objType: "RecordType",
+      });
     },
   },
 };
