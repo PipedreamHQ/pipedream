@@ -14,9 +14,9 @@ export default {
       label: "Profile ID",
       description: "Primary key of main profile to enforce on this device",
       async options() {
-        const { body: { profile: profilesIds } } = await this.getProfiles();
+        const { body: { profiles } } = await this.getProfiles();
 
-        return profilesIds.map(({
+        return profiles.map(({
           PK, name,
         }) => ({
           value: PK,
