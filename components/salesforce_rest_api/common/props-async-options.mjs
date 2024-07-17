@@ -1,3 +1,7 @@
+// Note: the arrow function syntax is required when calling from within additionalProps,
+// whereas when using regular props, the standard method syntax is needed instead.
+// These props are more commonly used in additionalProps, so all are defined as such,
+// and the options method needs to be redefined if used in regular props.
 export default {
   AccountId: {
     type: "string",

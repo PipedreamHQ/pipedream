@@ -5,6 +5,11 @@ export default {
     ServiceContractId: {
       ...commonProps.ServiceContractId,
       description: "ID of the ServiceContract associated with the entitlement.",
+      async options () {
+        return this.salesforce.listRecordOptions({
+          objType: "ServiceContract",
+        });
+      },
     },
     Description: {
       type: "string",
