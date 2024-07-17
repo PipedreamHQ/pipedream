@@ -45,17 +45,13 @@ class BrowserClient {
           )
           break;
         case "success":
-          // We got a Successful Authorization
-          // We can return the Auth Provision ID to the parent.
-          // The parent can then use that auth provision id to query for the Account information
-          opts.onSuccess?.(e.data)
+  opts.onSuccess?.(e.data)
           break;
         case "error":
           // Return the error to the parent if there was a problem with the Authorization
           opts.onError?.(new ConnectError(e.data.error))
           break;
         case "close":
-          // Final case, where we close the window and remove the handler
           this.iframe?.remove()
           window.removeEventListener("message", onMessage)
           break;
