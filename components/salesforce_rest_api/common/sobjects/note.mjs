@@ -18,18 +18,21 @@ export default {
       label: "Owner ID",
       description: "ID of the user who owns the note.",
       optional: true,
+      async options () {
+        return this.salesforce.listRecordOptions({
+          objType: "User",
+        });
+      },
     },
     ParentId: {
       type: "string",
       label: "Parent ID",
       description: "ID of the object associated with the note. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_note.htm) for which objects can be referenced.",
-      optional: true,
     },
     Title: {
       type: "string",
       label: "Title",
       description: "Title of the note.",
-      optional: true,
     },
   },
 };

@@ -15,7 +15,7 @@ const {
 export default {
   ...common,
   key: "salesforce_rest_api-create-casecomment",
-  name: "Create CaseComment",
+  name: "Create Case Comment",
   description: `Creates a Case Comment on a selected Case. [See the documentation](${docsLink})`,
   version: "0.3.{{ts}}",
   type: "action",

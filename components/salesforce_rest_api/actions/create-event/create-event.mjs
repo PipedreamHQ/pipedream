@@ -1,7 +1,7 @@
 import common, { getProps } from "../common/base.mjs";
 import event from "../../common/sobjects/event.mjs";
 
-export const docsLink =
+const docsLink =
   "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_event.htm";
 
 export default {

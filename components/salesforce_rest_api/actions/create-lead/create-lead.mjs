@@ -1,7 +1,7 @@
 import common, { getProps } from "../common/base.mjs";
 import lead from "../../common/sobjects/lead.mjs";
 
-export const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_lead.htm";
+const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_lead.htm";
 
 export default {
   ...common,
