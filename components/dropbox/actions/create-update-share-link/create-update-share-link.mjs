@@ -46,9 +46,7 @@ export default {
         type: "string",
         label: "Link Password",
         description: "If `require_password` is `true`, this is needed to specify the password to access the link.",
-        hidden: this.requirePassword
-          ? false
-          : true,
+        hidden: !this.requirePassword,
       };
       props.allowDownload = {
         type: "boolean",
