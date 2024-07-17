@@ -6,7 +6,7 @@ export default {
   key: "ghost_org_admin_api-member-updated",
   name: "Member Updated (Instant)",
   description: "Emit new event each time a member is updated.",
-  version: "0.0.8",
+  version: "0.0.9",
   methods: {
     ...common.methods,
     getEvent() {

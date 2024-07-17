@@ -5,7 +5,7 @@ export default {
   key: "shopify_partner-new-app-charges",
   name: "New App Charges",
   type: "source",
-  version: "0.0.17",
+  version: "0.0.18",
   description:
     "Emit new events when new app charges made to your partner account.",
   ...common,
@@ -28,9 +28,7 @@ export default {
   },
   async run() {
     const {
-      createdAtMin,
-      createdAtMax,
-      db,
+      createdAtMin, createdAtMax, db,
     } = this;
 
     const variables = {};
@@ -51,7 +49,9 @@ export default {
         return null;
       },
       handleEmit: (data) => {
-        console.log(data.transactions.edges.map(({ node: { ...txn } }) => txn.id));
+        console.log(
+          data.transactions.edges.map(({ node: { ...txn } }) => txn.id),
+        );
 
         data.transactions.edges.map(({ node: { ...txn } }) => {
           this.$emit(txn, {

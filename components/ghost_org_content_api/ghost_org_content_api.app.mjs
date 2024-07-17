@@ -7,7 +7,10 @@ export default {
   propDefinitions: {},
   methods: {
     getURL(path) {
-      return `${this.$auth.admin_domain}${constants.VERSION_PATH}${path}`;
+      const { admin_domain: domain } = this.$auth;
+      return `${domain.includes("https://")
+        ? ""
+        : "https://"}${domain}${constants.VERSION_PATH}${path}`;
     },
     async makeRequest({
       $ = this, path, params, ...args
@@ -18,13 +21,16 @@ export default {
           key: this.$auth.content_api_key,
           ...params,
         },
+        headers: {
+          "Accept-Version": "v5.0",
+        },
         ...args,
       };
       return axios($, config);
     },
     async getAuthors(args = {}) {
       return this.makeRequest({
-        path: "/authors",
+        path: "/authors/",
         ...args,
       });
     },
