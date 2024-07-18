@@ -1,55 +1,16 @@
-import mailblaze from "../../mailblaze.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "mailblaze-add-subscriber",
   name: "Add Subscriber",
   description: "Adds a new subscriber to your mailing list. [See the documentation](https://www.mailblaze.com/support/api-documentation)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
-  props: {
-    mailblaze,
-    listUid: {
-      propDefinition: [
-        mailblaze,
-        "listUid",
-      ],
+  methods: {
+    ...common.methods,
+    getSummary(response) {
+      return `Successfully added subscriber with Id: ${response.data.record.subscriber_uid}`;
     },
-    email: {
-      propDefinition: [
-        mailblaze,
-        "email",
-      ],
-    },
-    fname: {
-      propDefinition: [
-        mailblaze,
-        "fname",
-      ],
-    },
-    lname: {
-      propDefinition: [
-        mailblaze,
-        "lname",
-      ],
-    },
-    customTagName: {
-      propDefinition: [
-        mailblaze,
-        "customTagName",
-      ],
-    },
-  },
-  async run({ $ }) {
-    const response = await this.mailblaze.addSubscriber({
-      listUid: this.listUid,
-      email: this.email,
-      fname: this.fname,
-      lname: this.lname,
-      customTagName: this.customTagName,
-    });
-
-    $.export("$summary", `Successfully added subscriber with email ${this.email}`);
-    return response;
   },
 };
