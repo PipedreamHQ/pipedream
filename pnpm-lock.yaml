@@ -6236,6 +6236,9 @@ importers:
       node-fetch: 2.7.0
       ongage: 1.1.7_node-fetch@2.7.0
 
+  components/onlyoffice_docspace:
+    specifiers: {}
+
   components/onstrategy:
     specifiers:
       '@pipedream/platform': ^1.6.2
