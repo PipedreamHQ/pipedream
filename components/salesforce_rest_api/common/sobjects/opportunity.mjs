@@ -8,9 +8,13 @@ export default {
       description:
         "ID of the contact associated with this opportunity, set as the primary contact.",
       optional: true,
+      async options() {
+        return this.salesforce.listRecordOptions({
+          objType: "Contact",
+        });
+      },
     },
   },
-  updateProps: {},
   initialProps: {
     CloseDate: {
       type: "string",
