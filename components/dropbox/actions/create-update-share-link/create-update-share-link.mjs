@@ -56,15 +56,8 @@ export default {
       props.expires = {
         type: "string",
         label: "Expires",
-        description: "Expiration time of the shared link. By default the link never expires. Make sure to use a valid [timestamp](https://dropbox.github.io/dropbox-sdk-js/global.html#Timestamp) value.",
+        description: "Expiration time of the shared link. By default the link never expires. Make sure to use a valid [timestamp](https://dropbox.github.io/dropbox-sdk-js/global.html#Timestamp) value. Example: `2024-07-18T20:00:00Z`",
         optional: true,
-      };
-      props.audience = {
-        type: "string",
-        label: "Audience",
-        description: "The new audience who can benefit from the access level specified by the link's access level specified in the `link_access_level` field of `LinkPermissions`. This is used in conjunction with team policies and shared folder policies to determine the final effective audience type in the `effective_audience` field of `LinkPermissions.",
-        optional: true,
-        options: consts.CREATE_SHARED_LINK_AUDIENCE_OPTIONS,
       };
       props.access = {
         type: "string",
@@ -90,7 +83,6 @@ export default {
       requirePassword,
       linkPassword,
       expires,
-      audience,
       access,
     } = this;
 
@@ -103,13 +95,16 @@ export default {
       throw new Error("Since the password is required, please add a linkPassword");
     }
 
+    if (expires && Date.parse(expires) < Date.now()) {
+      throw new Error("Expire date must be later than the current datetime");
+    }
+
     const res = await this.dropbox.createSharedLink({
       path: this.dropbox.getPath(path),
       settings: {
         require_password: requirePassword,
         link_password: linkPassword,
         expires,
-        audience,
         access,
         allow_download: allowDownload,
       },
