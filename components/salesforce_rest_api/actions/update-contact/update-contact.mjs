@@ -9,6 +9,7 @@ const {
   createOrUpdate: "update",
   objType: contact,
   docsLink,
+  showDateInfo: true,
 });
 
 export default {
@@ -45,6 +46,7 @@ export default {
       docsInfo,
       dateInfo,
       additionalFields,
+      Birthdate,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -53,6 +55,9 @@ export default {
       id: contactId,
       data: {
         ...data,
+        ...this.formatDateTimeProps({
+          Birthdate,
+        }),
         ...this.getAdditionalFields(),
       },
     });

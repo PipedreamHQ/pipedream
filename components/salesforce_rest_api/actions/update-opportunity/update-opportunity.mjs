@@ -1,73 +1,65 @@
-import common from "../common/base.mjs";
+import common, { getProps } from "../common/base.mjs";
 import opportunity from "../../common/sobjects/opportunity.mjs";
-import {
-  pickBy, pick,
-} from "lodash-es";
-import { toSingleLineString } from "../../common/utils.mjs";
+import { docsLink } from "../create-opportunity/create-opportunity.mjs";
+import propsAsyncOptions from "../../common/props-async-options.mjs";
 
-const { salesforce } = common.props;
+const {
+  salesforce, ...props
+} = getProps({
+  createOrUpdate: "update",
+  objType: opportunity,
+  docsLink,
+  showDateInfo: true,
+});
 
 export default {
   ...common,
   key: "salesforce_rest_api-update-opportunity",
   name: "Update Opportunity",
-  description: toSingleLineString(`
-    Updates an opportunity, which represents an opportunity, which is a sale or pending deal.
-    See [Opportunity SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_opportunity.htm)
-    and [Update Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_update_fields.htm)
-  `),
-  version: "0.3.0",
+  description: `Updates an opportunity. [See the documentation](${docsLink})`,
+  version: "0.3.{{ts}}",
   type: "action",
+  methods: {
+    ...common.methods,
+    getAdvancedProps() {
+      return opportunity.extraProps;
+    },
+  },
   props: {
     salesforce,
-    OpportunityId: {
-      type: "string",
-      label: "Opportunity ID",
-      description: "ID of the Opportunity to update.",
+    opportunityId: {
+      ...propsAsyncOptions.OpportunityId,
+      async options() {
+        return this.salesforce.listRecordOptions({
+          objType: "Opportunity",
+        });
+      },
     },
-    CloseDate: {
-      type: "string",
-      label: "CloseDate",
-      description: "Date when the opportunity is expected to close.",
-      optional: true,
-    },
-    Name: {
-      type: "string",
-      label: "Name",
-      description: "A name for this opportunity. Limit: 120 characters.",
-      optional: true,
-    },
-    StageName: {
-      type: "string",
-      label: "StageName",
-      description: "Current stage of this record. The StageName field controls several other fields on an opportunity. Each of the fields can be directly set or implied by changing the StageName field. In addition, the StageName field is a picklist, so it has additional members in the returned describeSObjectResult to indicate how it affects the other fields. To obtain the stage name values in the picklist, query the OpportunityStage object. If the StageName is updated, then the ForecastCategoryName, IsClosed, IsWon, and Probability are automatically updated based on the stage-category mapping.",
-      optional: true,
-    },
-    selector: {
-      propDefinition: [
-        salesforce,
-        "fieldSelector",
-      ],
-      description: `${salesforce.propDefinitions.fieldSelector.description} Opportunity`,
-      options: () => Object.keys(opportunity),
-      reloadProps: true,
-    },
-  },
-  additionalProps() {
-    return this.additionalProps(this.selector, opportunity);
+    ...props,
   },
   async run({ $ }) {
-    const data = pickBy(pick(this, [
-      "OpportunityId",
-      "CloseDate",
-      "Name",
-      "StageName",
-      ...this.selector,
-    ]));
-    const response = await this.salesforce.updateOpportunity({
+    /* eslint-disable no-unused-vars */
+    const {
+      salesforce,
+      opportunityId,
+      useAdvancedProps,
+      docsInfo,
+      dateInfo,
+      additionalFields,
+      CloseDate,
+      ...data
+    } = this;
+    /* eslint-enable no-unused-vars */
+    const response = await salesforce.updateOpportunity({
       $,
-      id: this.OpportunityId,
-      data,
+      id: opportunityId,
+      data: {
+        ...data,
+        ...this.formatDateTimeProps({
+          CloseDate,
+        }),
+        ...this.getAdditionalFields(),
+      },
     });
     $.export("$summary", `Successfully updated opportunity (ID: ${this.OpportunityId})`);
     return response;
