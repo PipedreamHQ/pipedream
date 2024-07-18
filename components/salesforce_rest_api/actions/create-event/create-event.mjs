@@ -55,7 +55,9 @@ export default {
         ...this.getAdditionalFields(),
       },
     });
-    $.export("$summary", `Succcessfully created event "${this.Subject}"`);
+    $.export("$summary", `Succcessfully created event${this.Subject
+      ? ` "${this.Subject}"`
+      : ""}`);
     return response;
   },
 };

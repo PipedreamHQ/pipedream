@@ -1,59 +1,60 @@
-import common from "../common/base.mjs";
+import common, { getProps } from "../common/base.mjs";
 import task from "../../common/sobjects/task.mjs";
-import {
-  pickBy, pick,
-} from "lodash-es";
-import { toSingleLineString } from "../../common/utils.mjs";
 
-const { salesforce } = common.props;
+const docsLink =
+  "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_task.htm";
 
 export default {
   ...common,
   key: "salesforce_rest_api-create-task",
   name: "Create Task",
-  description: toSingleLineString(`
-    Creates a task, which represents a business activity such as making a phone call or other to-do items.
-    See [Task SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_task.htm)
-    and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
-  `),
-  version: "0.4.0",
+  description: `Creates a task. [See the documentation](${docsLink})`,
+  version: "0.4.{{ts}}",
   type: "action",
-  props: {
-    salesforce,
-    Priority: {
-      type: "string",
-      label: "Priority",
-      description: "Required. Indicates the importance or urgency of a task, such as high or low.",
-    },
-    Status: {
-      type: "string",
-      label: "Status",
-      description: "Required. The status of the task, such as In Progress or Completed. Each predefined Status field implies a value for the IsClosed flag. To obtain picklist values, query the TaskStatus object. Note This field can't be updated for recurring tasks (IsRecurrence is true).",
-    },
-    selector: {
-      propDefinition: [
-        salesforce,
-        "fieldSelector",
-      ],
-      description: `${salesforce.propDefinitions.fieldSelector.description} Task`,
-      options: () => Object.keys(task),
-      reloadProps: true,
+  methods: {
+    ...common.methods,
+    getAdvancedProps() {
+      return task.extraProps;
     },
   },
-  additionalProps() {
-    return this.additionalProps(this.selector, task);
-  },
+  props: getProps({
+    objType: task,
+    docsLink,
+    showDateInfo: true,
+  }),
   async run({ $ }) {
-    const data = pickBy(pick(this, [
-      "Priority",
-      "Status",
-      ...this.selector,
-    ]));
+    /* eslint-disable no-unused-vars */
+    const {
+      salesforce,
+      useAdvancedProps,
+      docsInfo,
+      dateInfo,
+      additionalFields,
+      ActivityDate,
+      RecurrenceEndDateOnly,
+      RecurrenceStartDateOnly,
+      ReminderDateTime,
+      RecurrenceDayOfWeekMask,
+      ...data
+    } = this;
+    /* eslint-enable no-unused-vars */
     const response = await this.salesforce.createTask({
       $,
-      data,
+      data: {
+        ...data,
+        ...this.formatDateTimeProps({
+          ActivityDate,
+          RecurrenceEndDateOnly,
+          RecurrenceStartDateOnly,
+          ReminderDateTime,
+        }),
+        RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask?.reduce?.((acc, val) => acc + val, 0),
+        ...this.getAdditionalFields(),
+      },
     });
-    $.export("$summary", "Successfully created task");
+    $.export("$summary", `Succcessfully created task${this.Subject
+      ? ` "${this.Subject}"`
+      : ""}`);
     return response;
   },
 };
