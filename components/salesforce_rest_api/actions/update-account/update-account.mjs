@@ -40,6 +40,9 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
+      getAdvancedProps,
+      getAdditionalFields,
+      formatDateTimeProps,
       accountId,
       useAdvancedProps,
       docsInfo,
@@ -53,7 +56,7 @@ export default {
       id: accountId,
       data: {
         ...data,
-        ...this.getAdditionalFields(),
+        ...getAdditionalFields(),
       },
     });
     $.export(

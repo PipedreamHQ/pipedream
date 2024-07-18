@@ -23,7 +23,11 @@ export default {
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
-      salesforce, docsInfo,  ...data
+      salesforce,
+      getAdvancedProps,
+      getAdditionalFields,
+      formatDateTimeProps,
+      docsInfo,  ...data
     } = this;
     /* eslint-enable no-unused-vars */
     const response = await salesforce.createNote({

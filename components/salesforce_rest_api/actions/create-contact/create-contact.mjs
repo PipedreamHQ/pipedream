@@ -24,17 +24,26 @@ export default {
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
-      salesforce, useAdvancedProps, docsInfo, dateInfo, additionalFields, Birthdate, ...data
+      salesforce,
+      getAdvancedProps,
+      getAdditionalFields,
+      formatDateTimeProps,
+      useAdvancedProps,
+      docsInfo,
+      dateInfo,
+      additionalFields,
+      Birthdate,
+      ...data
     } = this;
     /* eslint-enable no-unused-vars */
     const response = await salesforce.createContact({
       $,
       data: {
         ...data,
-        ...this.formatDateTimeProps({
+        ...formatDateTimeProps({
           Birthdate,
         }),
-        ...this.getAdditionalFields(),
+        ...getAdditionalFields(),
       },
     });
     $.export("$summary", `Successfully created contact "${this.LastName}"`);

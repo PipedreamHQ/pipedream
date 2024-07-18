@@ -25,6 +25,9 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
+      getAdvancedProps,
+      getAdditionalFields,
+      formatDateTimeProps,
       useAdvancedProps,
       docsInfo,
       dateInfo,
@@ -39,11 +42,11 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await this.salesforce.createEvent({
+    const response = await salesforce.createEvent({
       $,
       data: {
         ...data,
-        ...this.formatDateTimeProps({
+        ...formatDateTimeProps({
           ActivityDate,
           EndDateTime,
           RecurrenceEndDateOnly,
@@ -52,7 +55,7 @@ export default {
           StartDateTime,
         }),
         RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask?.reduce?.((acc, val) => acc + val, 0),
-        ...this.getAdditionalFields(),
+        ...getAdditionalFields(),
       },
     });
     $.export("$summary", `Succcessfully created event${this.Subject

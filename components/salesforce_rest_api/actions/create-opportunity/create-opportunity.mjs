@@ -24,17 +24,26 @@ export default {
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
-      salesforce, useAdvancedProps, docsInfo, dateInfo, additionalFields, CloseDate, ...data
+      salesforce,
+      getAdvancedProps,
+      getAdditionalFields,
+      formatDateTimeProps,
+      useAdvancedProps,
+      docsInfo,
+      dateInfo,
+      additionalFields,
+      CloseDate,
+      ...data
     } = this;
     /* eslint-enable no-unused-vars */
     const response = await salesforce.createOpportunity({
       $,
       data: {
         ...data,
-        ...this.formatDateTimeProps({
+        ...formatDateTimeProps({
           CloseDate,
         }),
-        ...this.getAdditionalFields(),
+        ...getAdditionalFields(),
       },
     });
     $.export("$summary", `Successfully created opportunity "${this.Name}"`);

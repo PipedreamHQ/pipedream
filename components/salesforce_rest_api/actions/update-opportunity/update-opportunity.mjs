@@ -41,6 +41,9 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
+      getAdvancedProps,
+      getAdditionalFields,
+      formatDateTimeProps,
       opportunityId,
       useAdvancedProps,
       docsInfo,
@@ -55,10 +58,10 @@ export default {
       id: opportunityId,
       data: {
         ...data,
-        ...this.formatDateTimeProps({
+        ...formatDateTimeProps({
           CloseDate,
         }),
-        ...this.getAdditionalFields(),
+        ...getAdditionalFields(),
       },
     });
     $.export("$summary", `Successfully updated opportunity (ID: ${this.OpportunityId})`);

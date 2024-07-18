@@ -21,14 +21,24 @@ export default {
     docsLink,
   }),
   async run({ $ }) {
-    const { // eslint-disable-next-line no-unused-vars
-      salesforce, useAdvancedProps, docsInfo, dateInfo, additionalFields, ...data
+    /* eslint-disable no-unused-vars */
+    const {
+      salesforce,
+      getAdvancedProps,
+      getAdditionalFields,
+      formatDateTimeProps,
+      useAdvancedProps,
+      docsInfo,
+      dateInfo,
+      additionalFields,
+      ...data
     } = this;
+    /* eslint-enable no-unused-vars */
     const response = await salesforce.createAccount({
       $,
       data: {
         ...data,
-        ...this.getAdditionalFields(),
+        ...getAdditionalFields(),
       },
     });
     $.export("$summary", `Successfully created account "${this.Name}"`);

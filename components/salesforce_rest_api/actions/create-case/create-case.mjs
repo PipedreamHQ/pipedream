@@ -24,17 +24,26 @@ export default {
   async run({ $ }) {
     /* eslint-disable no-unused-vars */
     const {
-      salesforce, useAdvancedProps, docsInfo, dateInfo, additionalFields, SlaStartDate, ...data
+      salesforce,
+      getAdvancedProps,
+      getAdditionalFields,
+      formatDateTimeProps,
+      useAdvancedProps,
+      docsInfo,
+      dateInfo,
+      additionalFields,
+      SlaStartDate,
+      ...data
     } = this;
     /* eslint-enable no-unused-vars */
     const response = await salesforce.createCase({
       $,
       data: {
         ...data,
-        ...this.formatDateTimeProps({
+        ...formatDateTimeProps({
           SlaStartDate,
         }),
-        ...this.getAdditionalFields(),
+        ...getAdditionalFields(),
       },
     });
     const summary = (this.SuppliedName && ` "${this.SuppliedName}"`) ?? (this.SuppliedEmail && ` with email ${this.SuppliedEmail}`) ?? "";
