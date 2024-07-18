@@ -2052,6 +2052,9 @@ importers:
   components/d2l_brightspace:
     specifiers: {}
 
+  components/d7_darwin:
+    specifiers: {}
+
   components/d7_networks:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -4355,7 +4358,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/ikas:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/ikigai:
     specifiers: {}
@@ -6230,6 +6236,9 @@ importers:
       node-fetch: 2.7.0
       ongage: 1.1.7_node-fetch@2.7.0
 
+  components/onlyoffice_docspace:
+    specifiers: {}
+
   components/onstrategy:
     specifiers:
       '@pipedream/platform': ^1.6.2
@@ -6473,6 +6482,9 @@ importers:
     dependencies:
       axios: 1.5.1
       url: 0.11.3
+
+  components/paved:
+    specifiers: {}
 
   components/payhere:
     specifiers:
@@ -8666,6 +8678,9 @@ importers:
   components/sparkpost:
     specifiers: {}
 
+  components/specific:
+    specifiers: {}
+
   components/speechace:
     specifiers:
       '@pipedream/platform': ^2.0.0
@@ -9658,6 +9673,9 @@ importers:
   components/typebot:
     specifiers: {}
 
+  components/typeflowai:
+    specifiers: {}
+
   components/typeform:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -9847,6 +9865,9 @@ importers:
     specifiers: {}
 
   components/utradea:
+    specifiers: {}
+
+  components/v7_darwin:
     specifiers: {}
 
   components/vapi:
