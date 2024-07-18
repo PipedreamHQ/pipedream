@@ -4,100 +4,124 @@ export default {
   type: "app",
   app: "documerge",
   propDefinitions: {
-    documentTypes: {
-      type: "string[]",
-      label: "Document Types",
-      description: "The types of documents to listen to for the trigger",
-    },
-    routeTypes: {
-      type: "string[]",
-      label: "Route Types",
-      description: "The types of routes to listen to for the trigger",
-    },
-    fileUrlsOrIds: {
-      type: "string[]",
-      label: "File URLs or IDs",
-      description: "Array of file URLs or IDs to merge",
-    },
-    pdfFileUrlOrId: {
+    documentId: {
       type: "string",
-      label: "PDF File URL or ID",
-      description: "URL or ID of the PDF file to extract data from",
+      label: "Document ID",
+      description: "Identifier of a document",
+      async options() {
+        const { data } = await this.listDocuments();
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    fieldNames: {
-      type: "string[]",
-      label: "Field Names",
-      description: "Array of field names to extract data from in the PDF file",
-    },
-    fileUrlOrId: {
+    routeId: {
       type: "string",
-      label: "File URL or ID",
-      description: "URL or ID of the file to convert into a PDF",
+      label: "Routet ID",
+      description: "Identifier of a route",
+      async options() {
+        const { data } = await this.listRoutes();
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://app.documerge.ai/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Authorization": `Bearer ${this.$auth.api_token}`,
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
       });
     },
-    async mergeDocuments(opts = {}) {
+    listDocuments(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/documents/merge",
-        ...opts,
-      });
-    },
-    async mergeRoutes(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/routes/merge",
-        ...opts,
-      });
-    },
-    async createDocument(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
         path: "/documents",
         ...opts,
       });
     },
-    async createRoute(opts = {}) {
+    listRoutes(opts = {}) {
       return this._makeRequest({
-        method: "POST",
         path: "/routes",
         ...opts,
       });
     },
-    async splitPdf(opts = {}) {
+    getDocumentFields({
+      documentId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/tools/pdf/split",
+        path: `/documents/fields/${documentId}`,
         ...opts,
       });
     },
-    async convertToPdf(opts = {}) {
+    combineFiles(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/tools/combine",
+        responseType: "arraybuffer",
+        ...opts,
+      });
+    },
+    convertToPdf(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/tools/pdf/convert",
+        responseType: "arraybuffer",
+        ...opts,
+      });
+    },
+    createDocumentDeliveryMethod({
+      documentId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/documents/delivery-methods/${documentId}`,
+        ...opts,
+      });
+    },
+    deleteDocumentDeliveryMethod({
+      documentId, deliveryMethodId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/documents/delivery-methods/${documentId}/${deliveryMethodId}`,
+        ...opts,
+      });
+    },
+    createRouteDeliveryMethod({
+      routeId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/routes/delivery-methods/${routeId}`,
+        ...opts,
+      });
+    },
+    deleteRouteDeliveryMethod({
+      routeId, deliveryMethodId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/routes/delivery-methods/${routeId}/${deliveryMethodId}`,
         ...opts,
       });
     },

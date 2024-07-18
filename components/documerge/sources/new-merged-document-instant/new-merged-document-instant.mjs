@@ -1,53 +1,54 @@
-import documerge from "../../documerge.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "documerge-new-merged-document-instant",
-  name: "New Merged Document Instant",
-  description: "Emits a new event when a merged document is created in documerge.",
-  version: "0.0.{{ts}}",
+  name: "New Merged Document (Instant)",
+  description: "Emit new event when a merged document is created in documerge.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    documerge,
-    documentTypes: documerge.propDefinitions.documentTypes,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+    ...common.props,
+    documentIds: {
+      propDefinition: [
+        common.props.documerge,
+        "documentId",
+      ],
+      type: "string[]",
+      label: "Document IDs",
+      description: "An array of document identifiers of the documents to watch",
     },
-    db: "$.service.db",
   },
   hooks: {
     async activate() {
-      const { documentTypes } = this;
-      for (const type of documentTypes) {
-        await this.documerge.createDocument({
-          data: {
-            type,
-            status: "Active",
-          },
+      const deliveryMethodIds = {};
+      for (const documentId of this.documentIds) {
+        const { data: { id } } = await this.documerge.createDocumentDeliveryMethod({
+          documentId,
+          data: this.getWebhookSettings(),
         });
+        deliveryMethodIds[documentId] = id;
       }
+      this._setDeliveryMethodIds(deliveryMethodIds);
     },
     async deactivate() {
-      const documentId = this.db.get("documentId");
-      await this.documerge.deleteDocument(documentId);
+      const deliveryMethodIds = this._getDeliveryMethodIds();
+      for (const documentId of this.documentIds) {
+        await this.documerge.deleteDocumentDeliveryMethod({
+          documentId,
+          deliveryMethodId: deliveryMethodIds[documentId],
+        });
+      }
+      this._setDeliveryMethodIds({});
     },
   },
-  async run(event) {
-    const {
-      headers, body,
-    } = event;
-    if (headers["Content-Type"] !== "application/json") {
-      return;
-    }
-    const { data } = body;
-    if (!this.documentTypes.includes(data.type)) {
-      return;
-    }
-    this.$emit(data, {
-      id: data.id,
-      summary: `New merged document of type ${data.type}`,
-      ts: Date.parse(data.created_at),
-    });
+  methods: {
+    ...common.methods,
+    getSummary(body) {
+      return `Merged Document: ${body.file_name}`;
+    },
   },
+  sampleEmit,
 };

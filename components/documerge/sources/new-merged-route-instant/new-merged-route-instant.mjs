@@ -1,66 +1,54 @@
-import documerge from "../../documerge.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "documerge-new-merged-route-instant",
-  name: "New Merged Route Instant",
-  description: "Emit new event when a merged route is created. [See the documentation](https://app.documerge.ai/api-docs/)",
-  version: "0.0.{{ts}}",
+  name: "New Merged Route (Instant)",
+  description: "Emit new event when a merged route is created in documerge.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    documerge,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: "$.service.db",
-    routeTypes: {
+    ...common.props,
+    routeIds: {
       propDefinition: [
-        documerge,
-        "routeTypes",
+        common.props.documerge,
+        "routeId",
       ],
+      type: "string[]",
+      label: "Route IDs",
+      description: "An array of route identifiers of the routes to watch",
     },
   },
   hooks: {
     async activate() {
-      const { data } = await this.documerge.createRoute();
-      this.db.set("routeId", data.id);
+      const deliveryMethodIds = {};
+      for (const routeId of this.routeIds) {
+        const { data: { id } } = await this.documerge.createRouteDeliveryMethod({
+          routeId,
+          data: this.getWebhookSettings(),
+        });
+        deliveryMethodIds[routeId] = id;
+      }
+      this._setDeliveryMethodIds(deliveryMethodIds);
     },
     async deactivate() {
-      const routeId = this.db.get("routeId");
-      await this.documerge.mergeRoutes({
-        data: {
+      const deliveryMethodIds = this.getDeliveryMethodIds();
+      for (const routeId of this.routeIds) {
+        await this.documerge.deleteRoutetDeliveryMethod({
           routeId,
-        },
-      });
+          deliveryMethodId: deliveryMethodIds[routeId],
+        });
+      }
+      this._setDeliveryMethodIds({});
     },
   },
-  async run(event) {
-    const {
-      body, headers,
-    } = event;
-
-    // validate headers
-    if (headers["Content-Type"] !== "application/json") {
-      this.http.respond({
-        status: 400,
-      });
-      return;
-    }
-
-    // validate body
-    if (!this.routeTypes.includes(body.routeType)) {
-      this.http.respond({
-        status: 422,
-      });
-      return;
-    }
-
-    // emit the event
-    this.$emit(body, {
-      id: body.id,
-      summary: `New Route Created: ${body.name}`,
-      ts: Date.now(),
-    });
+  methods: {
+    ...common.methods,
+    getSummary(body) {
+      return `Merged Route: ${body.file_name}`;
+    },
   },
+  sampleEmit,
 };
