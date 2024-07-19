@@ -2,9 +2,9 @@ import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "List All Files/Subfolders in a Folder",
-  description: "Retrieves a list of files or subfolders in a specified folder [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesListFolder__anchor)",
+  description: "Retrieves a list of files or subfolders in a specified folder [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesListFolder__anchor)",
   key: "dropbox-list-file-folders-in-a-folder",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
@@ -13,6 +13,7 @@ export default {
         dropbox,
         "path",
         () => ({
+          initialOptions: [],
           filter: ({ metadata: { metadata: { [".tag"]: type } } }) => type === "folder",
         }),
       ],
@@ -26,7 +27,7 @@ export default {
     },
     includeDeleted: {
       type: "boolean",
-      label: "Include deleted",
+      label: "Include Deleted",
       description: "If `true`, the results will include files and folders that used to exist but were deleted.",
       default: false,
     },
