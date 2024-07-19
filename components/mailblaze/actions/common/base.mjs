@@ -19,11 +19,12 @@ export default {
       }));
     },
     parseProp(data) {
-      return Object.keys(data).reduce(
-        (res, key) => ( res[key] = Array.isArray(data[key])
+      return Object.keys(data).reduce((res, key) => {
+        res[key] = Array.isArray(data[key])
           ? data[key].join(",")
-          : data[key], res), {},
-      );
+          : data[key];
+        return res;
+      }, {});
     },
     getAction() {
       return "add";
