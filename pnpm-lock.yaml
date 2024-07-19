@@ -9870,6 +9870,9 @@ importers:
   components/v7_darwin:
     specifiers: {}
 
+  components/v7_go:
+    specifiers: {}
+
   components/vapi:
     specifiers: {}
 
