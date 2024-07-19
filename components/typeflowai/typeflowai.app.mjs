@@ -4,77 +4,59 @@ export default {
   type: "app",
   app: "typeflowai",
   propDefinitions: {
-    workflowId: {
-      type: "string",
-      label: "Workflow ID",
-      description: "The ID of the workflow",
-      required: true,
-    },
-    responseId: {
-      type: "string",
-      label: "Response ID",
-      description: "The ID of the response",
-      required: true,
-    },
-    markedBy: {
-      type: "string",
-      label: "Marked By",
-      description: "The ID of the user or system that marked the response as finished",
-      optional: true,
+    workflowIds: {
+      type: "string[]",
+      label: "Workflow IDs",
+      description: "List of workflow IDs that will trigger the webhook. If not provided, the webhook will be triggered for all workflows.",
+      async options() {
+        const { data } = await this.listWorkflows();
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.typeflowai.com";
+      return "https://dashboard.typeflowai.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
+          "x-api-key": this.$auth.api_key,
         },
       });
     },
-    async createResponse(workflowId, data) {
+    listWorkflows(opts = {}) {
+      return this._makeRequest({
+        path: "/management/workflows",
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/client/responses",
-        data: {
-          workflowId,
-          data,
-          finished: false,
-        },
+        path: "/webhooks",
+        ...opts,
       });
     },
-    async updateResponse(workflowId, responseId, data) {
+    deleteWebhook({
+      hookId, ...opts
+    }) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/v1/client/responses/${responseId}`,
-        data: {
-          workflowId,
-          data,
-        },
-      });
-    },
-    async markResponseAsFinished(responseId, data, markedBy) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/v1/client/responses/${responseId}`,
-        data: {
-          ...data,
-          finished: true,
-          markedBy,
-        },
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
+        ...opts,
       });
     },
   },
