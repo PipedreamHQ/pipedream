@@ -1,10 +1,13 @@
-import googleSheets from "../../google_sheets.app.mjs";
+import common from "../common/worksheet.mjs";
+
+const { googleSheets } = common.props;
 
 export default {
+  ...common,
   key: "google_sheets-find-row",
   name: "Find Row",
   description: "Find one or more rows by a column and value. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
-  version: "0.2.5",
+  version: "0.2.6",
   type: "action",
   props: {
     googleSheets,
@@ -33,7 +36,6 @@ export default {
       ],
       type: "string",
       label: "Worksheet Id",
-      withLabel: true,
     },
     column: {
       propDefinition: [
@@ -54,11 +56,12 @@ export default {
     },
   },
   async run() {
+    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const sheets = this.googleSheets.sheets();
 
     const colValues = (await sheets.spreadsheets.values.get({
       spreadsheetId: this.sheetId,
-      range: `${this.worksheetId.label}!${this.column}:${this.column}`,
+      range: `${worksheet?.properties?.title}!${this.column}:${this.column}`,
     })).data.values;
 
     const rows = [];
@@ -81,7 +84,7 @@ export default {
     const { data: { values } } =
       await sheets.spreadsheets.values.get({
         spreadsheetId: this.sheetId,
-        range: `${this.worksheetId.label}`,
+        range: `${worksheet?.properties?.title}`,
       });
     return values.reduce((acc, row, index) => {
       if (indexes.includes(index)) {

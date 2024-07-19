@@ -1,14 +1,17 @@
-import googleSheets from "../../google_sheets.app.mjs";
+import common from "../common/worksheet.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   parseArray, getWorksheetHeaders,
 } from "../../common/utils.mjs";
 
+const { googleSheets } = common.props;
+
 export default {
+  ...common,
   key: "google_sheets-add-multiple-rows",
   name: "Add Multiple Rows",
   description: "Add multiple rows of data to a Google Sheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "0.2.6",
+  version: "0.2.7",
   type: "action",
   props: {
     googleSheets,
@@ -37,7 +40,6 @@ export default {
       ],
       type: "string",
       label: "Worksheet Id",
-      withLabel: true,
       reloadProps: true,
     },
     headersDisplay: {
@@ -70,7 +72,8 @@ export default {
     if (!this.sheetId || !this.worksheetId) {
       return props;
     }
-    const rowHeaders = await getWorksheetHeaders(this, this.sheetId, this.worksheetId.label);
+    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
+    const rowHeaders = await getWorksheetHeaders(this, this.sheetId, worksheet?.properties?.title);
     if (rowHeaders.length) {
       return {
         headersDisplay: {
@@ -100,9 +103,10 @@ export default {
       throw new ConfigurationError("Rows data is not an array of arrays. Please enter an array of arrays in the `Rows` parameter above. If you're trying to send a single rows to Google Sheets, search for the action to add a single row to Sheets or try modifying the code for this step.");
     }
 
+    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const addRowsResponse = await this.googleSheets.addRowsToSheet({
       spreadsheetId: this.sheetId,
-      range: this.worksheetId.label,
+      range: worksheet?.properties?.title,
       rows,
     });
 
