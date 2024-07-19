@@ -2,7 +2,8 @@ type CreateServerClientOpts = {
   environment?: string;
   secretKey: string;
   apiHost?: string;
-  projectId?: string;
+  //projectId?: string;
+  publicKey: string;
 };
 
 type ConnectTokenCreateOpts = {
@@ -23,18 +24,20 @@ export function createClient(opts: CreateServerClientOpts) {
 class ServerClient {
   environment?: string;
   secretKey: string;
-  projectId: string;
+  publicKey: string;
+  //projectId: string;
   baseURL: string;
 
   constructor(opts: CreateServerClientOpts) {
     this.environment = opts.environment;
     this.secretKey = opts.secretKey;
-    this.projectId = opts.projectId;
+    this.publicKey = opts.publicKey;
+    //this.projectId = opts.projectId;
     this.baseURL = `https://${opts.apiHost || "pipedream.com"}`;
   }
 
   private _authorizonHeader(): string {
-    return "Basic " + Buffer.from(`${this.projectId}:${this.secretKey}`).toString("base64");
+    return "Basic " + Buffer.from(`${this.publicKey}:${this.secretKey}`).toString("base64");
   }
 
   // XXX move to REST API endpoint
@@ -46,27 +49,32 @@ class ServerClient {
       },
       body: JSON.stringify({
         query: `mutation sdkConnectTokenCreate(
-          $projectId: String!
+          $publicKey: String!
           $secretKey: String!
-          $clientUserId: String!
+          $externalId: String!
+          $oauthAppId: String!
         ) {
           connectTokenCreate(
-            projectId: $projectId
+            publicKey: $publicKey
             secretKey: $secretKey
-            clientUserId: $clientUserId
+            externalId: $externalId
+            oauthAppId: $oauthAppId
           ) {
             token
           }
         }`,
         variables: {
-          projectId: this.projectId,
+          publicKey: this.publicKey,
           secretKey: this.secretKey,
-          clientUserId: opts.clientUserId,
+          externalId: opts.clientUserId,
+          oauthAppId: "oa_aLZiMJ",
         },
       }),
     });
     const res = await resp.json();
     // XXX expose error here
+    console.log("connect token create result")
+    console.log(res)
     return res.data?.connectTokenCreate?.token;
   }
 
@@ -78,7 +86,7 @@ class ServerClient {
       id = key;
       url = `${baseAccountURL}/${id}`;
     } else {
-      url = `${baseAccountURL}?app=${key.app}&limit=100&client_user_id=${key.clientUserId}`;
+      url = `${baseAccountURL}?app=${key.app}&limit=100&external_id=${key.clientUserId}`;
     }
     if (opts?.includeCredentials) {
       url += `${id
