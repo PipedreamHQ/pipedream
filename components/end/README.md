@@ -1,6 +1,6 @@
 # Overview
 
-The End API on Pipedream provides a straightforward utility to terminate workflows conditionally or unconditionally based on specific criteria or the status of preceding steps. This feature is particularly useful in scenarios where workflows need to be efficient, by stopping the execution once a certain condition is met or a particular goal is achieved. Utilizing the End API can prevent unnecessary API calls, processing, or actions that are redundant, ensuring that resources are utilized optimally and costs are minimized.
+The End utility on Pipedream provides a straightforward way to terminate workflows conditionally or unconditionally based on specific criteria or the status of preceding steps. This feature is particularly useful in scenarios where workflows need to be efficient, by stopping the execution once a certain condition is met or a particular goal is achieved. Utilizing the End API can prevent unnecessary API calls, processing, or actions that are redundant, ensuring that resources are utilized optimally and costs are minimized.
 
 # Example Use Cases
 
