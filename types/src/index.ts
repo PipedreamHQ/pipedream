@@ -6,7 +6,7 @@ export type JSONValue =
   | boolean
   | null
   | JSONValue[]
-  | { [key: string]: JSONValue };
+  | { [key: string]: JSONValue; };
 
 export type SendPayload = any;
 export interface SendConfigHTTPKv {
@@ -84,24 +84,15 @@ export interface Methods {
 
 export interface FlowFunctions {
   exit: (reason: string) => void;
-  delay: (
-    ms: number,
-    context: object
-  ) => {
+  delay: (ms: number, context: object) => {
     resume_url: string;
     cancel_url: string;
   };
-  rerun: (
-    ms: number,
-    context: object
-  ) => {
+  rerun: (ms: number, context: object) => {
     resume_url: string;
     cancel_url: string;
   };
-  suspend: (
-    ms: number,
-    context: object
-  ) => {
+  suspend: (ms: number, context: object) => {
     resume_url: string;
     cancel_url: string;
   };
@@ -111,9 +102,7 @@ export interface FlowFunctions {
 export interface IApi {
   open(path: string): IFile;
   openDescriptor(descriptor: any): IFile;
-  dir(
-    path?: string
-  ): AsyncGenerator<{
+  dir(path?: string): AsyncGenerator<{
     isDirectory: () => boolean;
     isFile: () => boolean;
     path: string;
@@ -127,23 +116,12 @@ export interface IApi {
 export interface IFile {
   delete(): Promise<void>;
   createReadStream(): Promise<NodeJS.ReadableStream>;
-  createWriteStream(
-    contentType?: string,
-    contentLength?: number
-  ): Promise<NodeJS.WritableStream>;
-  toEncodedString(
-    encoding?: string,
-    start?: number,
-    end?: number
-  ): Promise<string>;
+  createWriteStream(contentType?: string, contentLength?: number): Promise<NodeJS.WritableStream>;
+  toEncodedString(encoding?: string, start?: number, end?: number): Promise<string>;
   toUrl(): Promise<string>;
   toFile(localFilePath: string): Promise<void>;
   toBuffer(): Promise<Buffer>;
-  fromReadableStream(
-    readableStream: NodeJS.ReadableStream,
-    contentType?: string,
-    contentSize?: number
-  ): Promise<IFile>;
+  fromReadableStream(readableStream: NodeJS.ReadableStream, contentType?: string, contentSize?: number): Promise<IFile>;
   fromFile(localFilePath: string, contentType?: string): Promise<IFile>;
   fromUrl(url: string, options?: any): Promise<IFile>;
   toJSON(): any;
@@ -171,12 +149,12 @@ export interface OptionsMethodArgs {
 
 // https://pipedream.com/docs/components/api/#referencing-values-from-previous-props
 export interface OptionalOptsFn {
-  (configuredProps: { [key: string]: any }): object; // XXX strictly type configuredProps
+  (configuredProps: { [key: string]: any; }): object; // XXX strictly type configuredProps
 }
 
 export type PropDefinition =
-  | [App<Methods, AppPropDefinitions>, string]
-  | [App<Methods, AppPropDefinitions>, string, OptionalOptsFn];
+  [App<Methods, AppPropDefinitions>, string] |
+  [App<Methods, AppPropDefinitions>, string, OptionalOptsFn];
 
 // https://pipedream.com/docs/components/api/#prop-definitions-example
 export interface PropDefinitionReference {
@@ -186,16 +164,21 @@ export interface PropDefinitionReference {
 // https://pipedream.com/docs/components/api/#app-props
 // See https://www.typescriptlang.org/docs/handbook/utility-types.html#thistypetype
 // for more information on this technique
-export interface App<Methods, AppPropDefinitions> {
+export interface App<
+  Methods,
+  AppPropDefinitions
+> {
   type: "app";
   app: string;
   propDefinitions?: AppPropDefinitions;
   methods?: Methods & ThisType<Methods & AppPropDefinitions>;
 }
 
-export function defineApp<Methods, AppPropDefinitions>(
-  app: App<Methods, AppPropDefinitions>
-): App<Methods, AppPropDefinitions> {
+export function defineApp<
+  Methods,
+  AppPropDefinitions,
+>
+(app: App<Methods, AppPropDefinitions>): App<Methods, AppPropDefinitions> {
   return app;
 }
 
@@ -238,22 +221,12 @@ export interface BasePropInterface {
   description?: string;
 }
 
-export type PropOptions = any[] | Array<{ [key: string]: string }>;
+export type PropOptions = any[] | Array<{ [key: string]: string; }>;
 
 // https://pipedream.com/docs/components/api/#user-input-props
 export interface UserProp extends BasePropInterface {
-  type:
-    | "boolean"
-    | "boolean[]"
-    | "integer"
-    | "integer[]"
-    | "string"
-    | "string[]"
-    | "object"
-    | "any";
-  options?:
-    | PropOptions
-    | ((this: any, opts: OptionsMethodArgs) => Promise<PropOptions>);
+  type: "boolean" | "boolean[]" | "integer" | "integer[]" | "string" | "string[]" | "object" | "any";
+  options?: PropOptions | ((this: any, opts: OptionsMethodArgs) => Promise<PropOptions>);
   optional?: boolean;
   default?: JSONValue;
   secret?: boolean;
@@ -285,29 +258,15 @@ export interface HttpRequestProp extends BasePropInterface {
 }
 
 export interface SourcePropDefinitions {
-  [name: string]:
-    | PropDefinitionReference
-    | App<Methods, AppPropDefinitions>
-    | UserProp
-    | InterfaceProp
-    | ServiceDBProp
-    | HttpRequestProp;
+  [name: string]: PropDefinitionReference | App<Methods, AppPropDefinitions> | UserProp | InterfaceProp | ServiceDBProp | HttpRequestProp;
 }
 
 export interface ActionPropDefinitions {
-  [name: string]:
-    | PropDefinitionReference
-    | App<Methods, AppPropDefinitions>
-    | UserProp
-    | DataStoreProp
-    | HttpRequestProp;
+  [name: string]: PropDefinitionReference | App<Methods, AppPropDefinitions> | UserProp | DataStoreProp | HttpRequestProp;
 }
 
 export interface AppPropDefinitions {
-  [name: string]:
-    | PropDefinitionReference
-    | App<Methods, AppPropDefinitions>
-    | UserProp;
+  [name: string]: PropDefinitionReference | App<Methods, AppPropDefinitions> | UserProp;
 }
 
 export interface Hooks {
@@ -366,30 +325,26 @@ type IdEmitFunction = {
 };
 
 type PropThis<Props> = {
-  [Prop in keyof Props]: Props[Prop] extends App<Methods, AppPropDefinitions>
-    ? any
-    : any;
+  [Prop in keyof Props]: Props[Prop] extends App<Methods, AppPropDefinitions> ? any : any
 };
 
-interface BaseSource<Methods, SourcePropDefinitions> {
+interface BaseSource<
+  Methods,
+  SourcePropDefinitions
+> {
   key: string;
   name?: string;
   description?: string;
   version: string;
   type: "source";
-  methods?: Methods &
-    ThisType<PropThis<SourcePropDefinitions> & Methods & EmitFunction>;
-  hooks?: Hooks &
-    ThisType<PropThis<SourcePropDefinitions> & Methods & EmitFunction>;
+  methods?: Methods & ThisType<PropThis<SourcePropDefinitions> & Methods & EmitFunction>;
+  hooks?: Hooks & ThisType<PropThis<SourcePropDefinitions> & Methods & EmitFunction>;
   props?: SourcePropDefinitions;
   dedupe?: "last" | "greatest" | "unique";
   additionalProps?: (
     previousPropDefs: SourcePropDefinitions
   ) => Promise<SourcePropDefinitions>;
-  run: (
-    this: PropThis<SourcePropDefinitions> & Methods & EmitFunction,
-    options?: SourceRunOptions
-  ) => void | Promise<void>;
+  run: (this: PropThis<SourcePropDefinitions> & Methods & EmitFunction, options?: SourceRunOptions) => void | Promise<void>;
 }
 
 export interface DedupedSource<Methods, SourcePropDefinitions>
@@ -410,13 +365,18 @@ export type Source<Methods, SourcePropDefinitions> =
   | DedupedSource<Methods, SourcePropDefinitions>
   | NonDedupedSource<Methods, SourcePropDefinitions>;
 
-export function defineSource<Methods, SourcePropDefinitions>(
-  component: Source<Methods, SourcePropDefinitions>
-): Source<Methods, SourcePropDefinitions> {
+export function defineSource<
+  Methods,
+  SourcePropDefinitions,
+>
+(component: Source<Methods, SourcePropDefinitions>): Source<Methods, SourcePropDefinitions> {
   return component;
 }
 
-export interface Action<Methods, ActionPropDefinitions> {
+export interface Action<
+  Methods,
+  ActionPropDefinitions
+> {
   key: string;
   name?: string;
   description?: string;
@@ -427,14 +387,13 @@ export interface Action<Methods, ActionPropDefinitions> {
   additionalProps?: (
     previousPropDefs: ActionPropDefinitions
   ) => Promise<ActionPropDefinitions>;
-  run: (
-    this: PropThis<ActionPropDefinitions> & Methods,
-    options?: ActionRunOptions
-  ) => any;
+  run: (this: PropThis<ActionPropDefinitions> & Methods, options?: ActionRunOptions) => any;
 }
 
-export function defineAction<Methods, ActionPropDefinitions>(
-  component: Action<Methods, ActionPropDefinitions>
-): Action<Methods, ActionPropDefinitions> {
+export function defineAction<
+  Methods,
+  ActionPropDefinitions,
+>
+(component: Action<Methods, ActionPropDefinitions>): Action<Methods, ActionPropDefinitions> {
   return component;
 }
