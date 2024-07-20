@@ -23,6 +23,26 @@ export default {
       });
     },
   },
+  CallCenterId: {
+    type: "string",
+    label: "Call Center ID",
+    description: "The ID of a Call Center.",
+    options: async () => {
+      return this.salesforce.listRecordOptions({
+        objType: "CallCenter",
+      });
+    },
+  },
+  CampaignId: {
+    type: "string",
+    label: "Campaign ID",
+    description: "The ID of a Campaign.",
+    options: async () => {
+      return this.salesforce.listRecordOptions({
+        objType: "Campaign",
+      });
+    },
+  },
   CaseId: {
     type: "string",
     label: "Case ID",
@@ -37,16 +57,6 @@ export default {
           "SuppliedName",
         ],
         getLabel: (item) => item.SuppliedName ?? item.Subject ?? item.CaseNumber,
-      });
-    },
-  },
-  CampaignId: {
-    type: "string",
-    label: "Campaign ID",
-    description: "The ID of a Campaign.",
-    options: async () => {
-      return this.salesforce.listRecordOptions({
-        objType: "Campaign",
       });
     },
   },
@@ -145,6 +155,16 @@ export default {
       });
     },
   },
+  ProfileId: {
+    type: "string",
+    label: "Profile ID",
+    description: "The ID of a Profile.",
+    options: async () => {
+      return this.salesforce.listRecordOptions({
+        objType: "Profile",
+      });
+    },
+  },
   ServiceContractId: {
     type: "string",
     label: "ServiceContract ID",
@@ -162,6 +182,16 @@ export default {
     options: async () => {
       return this.salesforce.listRecordOptions({
         objType: "User",
+      });
+    },
+  },
+  UserRoleId: {
+    type: "string",
+    label: "User Role ID",
+    description: "The ID of a User Role record.",
+    options: async () => {
+      return this.salesforce.listRecordOptions({
+        objType: "UserRole",
       });
     },
   },

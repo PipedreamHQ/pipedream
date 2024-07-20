@@ -148,7 +148,7 @@ export default {
       type: "string",
       label: "Latitude",
       description:
-        "A number between -90 and 90 with up to 15 decimal places. Use with `Longitude` to specify the precise geolocation of a billing address.",
+        "A number between -90 and 90 with up to 15 decimal places. Use with `Longitude` to specify the precise geolocation of an address.",
       optional: true,
     },
     Longitude: {

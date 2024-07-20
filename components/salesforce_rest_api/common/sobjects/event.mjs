@@ -1,5 +1,5 @@
 import { // eslint-disable-next-line max-len
-  RECURRENCE_INSTANCE_OPTIONS, RECURRENCE_MONTH_OPTIONS, RECURRENCE_TIMEZONE_OPTIONS, RECURRENCE_TYPE_OPTIONS, WEEKDAY_MASK_OPTIONS,
+  RECURRENCE_INSTANCE_OPTIONS, RECURRENCE_MONTH_OPTIONS, TIMEZONE_OPTIONS, RECURRENCE_TYPE_OPTIONS, WEEKDAY_MASK_OPTIONS,
 } from "../constants-props.mjs";
 import commonProps from "../props-async-options.mjs";
 
@@ -155,7 +155,7 @@ export default {
       description:
         "Indicates the time zone associated with a Salesforce Classic recurring event.",
       optional: true,
-      options: RECURRENCE_TIMEZONE_OPTIONS,
+      options: TIMEZONE_OPTIONS,
     },
     RecurrenceType: {
       type: "string",

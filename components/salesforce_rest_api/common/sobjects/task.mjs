@@ -1,7 +1,7 @@
 import {
   RECURRENCE_INSTANCE_OPTIONS,
   RECURRENCE_MONTH_OPTIONS,
-  RECURRENCE_TIMEZONE_OPTIONS,
+  TIMEZONE_OPTIONS,
   RECURRENCE_TYPE_OPTIONS,
   WEEKDAY_MASK_OPTIONS,
 } from "../constants-props.mjs";
@@ -195,7 +195,7 @@ export default {
       label: "Recurrence Time Zone",
       description: "The time zone associated with the recurring task.",
       optional: true,
-      options: RECURRENCE_TIMEZONE_OPTIONS,
+      options: TIMEZONE_OPTIONS,
     },
     RecurrenceType: {
       type: "string",
