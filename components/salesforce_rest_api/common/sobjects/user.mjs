@@ -21,39 +21,13 @@ export default {
     Alias: {
       type: "string",
       label: "Alias",
-      description: "The user's alias.",
+      description: "The user's alias (max 8 characters).",
     },
     CommunityNickname: {
       type: "string",
       label: "Nickname",
       description:
         "Name used to identify this user in the Experience Cloud site.",
-      optional: true,
-    },
-    DefaultGroupNotificationFrequency: {
-      type: "string",
-      label: "Default Notification Frequency when Joining Groups",
-      description:
-        "The default frequency for sending the user's Chatter group email notifications when the user joins groups.",
-      optional: true,
-      options: [
-        {
-          label: "Email on Each Post",
-          value: "P",
-        },
-        {
-          label: "Daily Digests",
-          value: "D",
-        },
-        {
-          label: "Weekly Digests",
-          value: "W",
-        },
-        {
-          label: "Never",
-          value: "N",
-        },
-      ],
     },
     DigestFrequency: {
       type: "string",
@@ -80,6 +54,12 @@ export default {
       label: "Email",
       description: "The user's email address.",
     },
+    EmailEncodingKey: {
+      type: "string",
+      label: "Email Encoding",
+      description: "The email encoding for the user.",
+      options: EMAIL_ENCODING_OPTIONS,
+    },
     LanguageLocaleKey: {
       type: "string",
       label: "Language",
@@ -102,6 +82,18 @@ export default {
       ...commonProps.ProfileId,
       description:
         "ID of the user's Profile. Use this value to cache metadata based on profile.",
+      async options() {
+        return this.salesforce.listRecordOptions({
+          objType: "Profile",
+        });
+      },
+    },
+    TimeZoneSidKey: {
+      type: "string",
+      label: "Time Zone",
+      description:
+        "A User time zone affects the offset used when displaying or entering times in the user interface.",
+      options: TIMEZONE_OPTIONS,
     },
     Username: {
       type: "string",
@@ -172,6 +164,31 @@ export default {
       description: "Text that describes what the user is working on.",
       optional: true,
     },
+    DefaultGroupNotificationFrequency: {
+      type: "string",
+      label: "Default Notification Frequency when Joining Groups",
+      description:
+        "The default frequency for sending the user's Chatter group email notifications when the user joins groups.",
+      optional: true,
+      options: [
+        {
+          label: "Email on Each Post",
+          value: "P",
+        },
+        {
+          label: "Daily Digests",
+          value: "D",
+        },
+        {
+          label: "Weekly Digests",
+          value: "W",
+        },
+        {
+          label: "Never",
+          value: "N",
+        },
+      ],
+    },
     DelegatedApproverId: {
       ...commonProps.UserId,
       label: "Delegated Approver ID",
@@ -189,13 +206,6 @@ export default {
       label: "Division",
       description: "The division associated with this user.",
       optional: true,
-    },
-    EmailEncodingKey: {
-      type: "string",
-      label: "Email Encoding",
-      description: "The email encoding for the user.",
-      optional: true,
-      options: EMAIL_ENCODING_OPTIONS,
     },
     EmailPreferencesAutoBcc: {
       type: "boolean",
@@ -363,13 +373,6 @@ export default {
       label: "Suffix",
       description: "The user's name suffix. Maximum size is 40 characters.",
       optional: true,
-    },
-    TimeZoneSidKey: {
-      type: "string",
-      label: "Time Zone",
-      description:
-        "A User time zone affects the offset used when displaying or entering times in the user interface.",
-      options: TIMEZONE_OPTIONS,
     },
     Title: {
       type: "string",
