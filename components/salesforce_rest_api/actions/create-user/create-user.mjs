@@ -9,7 +9,7 @@ export default {
   key: "salesforce_rest_api-create-user",
   name: "Create User",
   description: `Creates a Salesforce user. [See the documentation](${docsLink})`,
-  version: "0.1.0",
+  version: "0.1.{{ts}}",
   type: "action",
   methods: {
     ...common.methods,
@@ -27,17 +27,28 @@ export default {
   props: getProps({
     objType: user,
     docsLink,
-    showDateInfo: true,
   }),
   async run({ $ }) {
+    /* eslint-disable no-unused-vars */
     const {
+      salesforce,
       createUser,
+      getAdvancedProps,
+      getAdditionalFields,
+      formatDateTimeProps,
+      useAdvancedProps,
+      docsInfo,
+      dateInfo,
+      additionalFields,
       ...data
     } = this;
-
+    /* eslint-enable no-unused-vars */
     const response = await createUser({
       $,
-      data,
+      data: {
+        ...data,
+        ...getAdditionalFields(),
+      },
     });
     $.export("$summary", `Successfully created user (ID: ${response.id})`);
     return response;

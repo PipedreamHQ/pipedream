@@ -629,80 +629,78 @@ export const EMAIL_ENCODING_OPTIONS = [
 ];
 
 export const LANGUAGE_OPTIONS = [
-  [
-    {
-      label: "English",
-      value: "en_US",
-    },
-    {
-      label: "German",
-      value: "de",
-    },
-    {
-      label: "Spanish",
-      value: "es",
-    },
-    {
-      label: "French",
-      value: "fr",
-    },
-    {
-      label: "Italian",
-      value: "it",
-    },
-    {
-      label: "Japanese",
-      value: "ja",
-    },
-    {
-      label: "Swedish",
-      value: "sv",
-    },
-    {
-      label: "Korean",
-      value: "ko",
-    },
-    {
-      label: "Chinese (Traditional)",
-      value: "zh_TW",
-    },
-    {
-      label: "Chinese (Simplified)",
-      value: "zh_CN",
-    },
-    {
-      label: "Portuguese (Brazil)",
-      value: "pt_BR",
-    },
-    {
-      label: "Dutch",
-      value: "nl_NL",
-    },
-    {
-      label: "Danish",
-      value: "da",
-    },
-    {
-      label: "Thai",
-      value: "th",
-    },
-    {
-      label: "Finnish",
-      value: "fi",
-    },
-    {
-      label: "Russian",
-      value: "ru",
-    },
-    {
-      label: "Spanish (Mexico)",
-      value: "es_MX",
-    },
-    {
-      label: "Norwegian",
-      value: "no",
-    },
-  ],
+  {
+    label: "English",
+    value: "en_US",
+  },
+  {
+    label: "German",
+    value: "de",
+  },
+  {
+    label: "Spanish",
+    value: "es",
+  },
+  {
+    label: "French",
+    value: "fr",
+  },
+  {
+    label: "Italian",
+    value: "it",
+  },
+  {
+    label: "Japanese",
+    value: "ja",
+  },
+  {
+    label: "Swedish",
+    value: "sv",
+  },
+  {
+    label: "Korean",
+    value: "ko",
+  },
+  {
+    label: "Chinese (Traditional)",
+    value: "zh_TW",
+  },
+  {
+    label: "Chinese (Simplified)",
+    value: "zh_CN",
+  },
+  {
+    label: "Portuguese (Brazil)",
+    value: "pt_BR",
+  },
+  {
+    label: "Dutch",
+    value: "nl_NL",
+  },
+  {
+    label: "Danish",
+    value: "da",
+  },
+  {
+    label: "Thai",
+    value: "th",
+  },
+  {
+    label: "Finnish",
+    value: "fi",
+  },
+  {
+    label: "Russian",
+    value: "ru",
+  },
+  {
+    label: "Spanish (Mexico)",
+    value: "es_MX",
+  },
+  {
+    label: "Norwegian",
+    value: "no",
+  },
 ];
 
 export const LOCALE_OPTIONS = [

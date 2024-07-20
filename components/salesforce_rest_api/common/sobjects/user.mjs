@@ -56,10 +56,8 @@ export default {
       ],
     },
     DigestFrequency: {
-      type: "picklist",
+      type: "string",
       label: "Chatter Email Highlights Frequency",
-      flags:
-        "Create, Defaulted on create, Filter, Group, Restricted picklist, Sort, Update",
       description:
         "The send frequency of the user's Chatter personal email digest.",
       options: [
@@ -227,7 +225,6 @@ export default {
     FederationIdentifier: {
       type: "string",
       label: "SAML Federation ID",
-      flags: "Create, Filter, idLookup, Nillable, Sort, Update",
       description:
         "Indicates the value that must be listed in the Subject element of a Security Assertion Markup Language (SAML) IDP certificate to authenticate the user for a client application using single sign-on.",
       optional: true,
@@ -246,7 +243,7 @@ export default {
     },
     GeocodeAccuracy: {
       type: "string",
-      label: "GeocodeAccuracy",
+      label: "Geocode Accuracy",
       description:
         "The level of accuracy of a location's geographical coordinates compared with its physical address.",
       optional: true,
