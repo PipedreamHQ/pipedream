@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://l3mbda.com/integrations/pipedream";
+      return "https://l3mbda.com/api/oracles";
     },
     _headers() {
       return {

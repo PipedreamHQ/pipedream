@@ -28,14 +28,13 @@ export default {
     },
     createEndpoint(args = {}) {
       return this.app.post({
-        path: "/endpoint",
+        path: "/simple",
         ...args,
       });
     },
-    deleteEndpoint(args = {}) {
+    deleteEndpoint(endpointId) {
       return this.app.delete({
-        path: "/endpoint",
-        ...args,
+        path: `/${endpointId}`
       });
     },
     getEvent() {
@@ -89,7 +88,7 @@ export default {
         },
       });
 
-      setEndpointId(response.endpointId);
+      setEndpointId(response.id);
     },
     async deactivate() {
       const {
@@ -99,11 +98,7 @@ export default {
 
       const endpointId = getEndpointId();
       if (endpointId) {
-        await deleteEndpoint({
-          data: {
-            endpointId,
-          },
-        });
+        await deleteEndpoint(endpointId);
       }
     },
   },
