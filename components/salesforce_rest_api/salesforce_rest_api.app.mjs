@@ -38,6 +38,35 @@ export default {
         return sobjects.filter(filter).map(mapper);
       },
     },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "The ID of the record of the selected object type.",
+      async options({
+        objType,
+        fields,
+        getLabel,
+      }) {
+        let response;
+        try {
+          console.log("first request attempt");
+          response = await this.listRecordOptions({
+            objType,
+            fields,
+            getLabel,
+          });
+        } catch (err) {
+          response = await this.listRecordOptions({
+            objType,
+            fields: [
+              "Id",
+            ],
+            getLabel: (item) => `ID ${item.Id}`,
+          });
+        }
+        return response;
+      },
+    },
     field: {
       type: "string",
       label: "Field",
@@ -249,9 +278,9 @@ export default {
       });
     },
     async deleteObject({
-      objectType, sobjectId, ...args
+      sobjectType, recordId, ...args
     }) {
-      const url = `${this._sObjectsApiUrl()}/${objectType}/${sobjectId}`;
+      const url = `${this._sObjectsApiUrl()}/${sobjectType}/${recordId}`;
       return this._makeRequest({
         url,
         method: "DELETE",
