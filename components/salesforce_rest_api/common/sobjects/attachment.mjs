@@ -38,8 +38,6 @@ export default {
       description: "Description of the attachment. Max 500 characters.",
       optional: true,
     },
-  },
-  extraProps: {
     IsPrivate: {
       type: "boolean",
       label: "Private",
@@ -51,6 +49,11 @@ export default {
       label: "Owner ID",
       description: "ID of the user who owns the attachment.",
       optional: true,
+      async options () {
+        return this.salesforce.listRecordOptions({
+          objType: "User",
+        });
+      },
     },
   },
 };
