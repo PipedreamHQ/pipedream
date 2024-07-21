@@ -6,7 +6,7 @@ export default {
   propDefinitions: {
     sobjectId: {
       type: "string",
-      label: "SObject ID",
+      label: "Object Type",
       description: "ID of the Standard object to get field values from",
       async options(context) {
         const { objectType } = context;
@@ -593,7 +593,7 @@ export default {
       };
       return axios($ ?? this, requestConfig);
     },
-    async postFeed(args = {}) {
+    async postFeed(args) {
       const baseUrl = this._baseApiVersionUrl();
       const url = `${baseUrl}/chatter/feed-elements`;
       return this._makeRequest({

@@ -14,6 +14,7 @@ export default {
         salesForceRestApi,
         "objectType",
       ],
+      description: "The type of object to delete a record from.",
     },
     recordId: {
       propDefinition: [
