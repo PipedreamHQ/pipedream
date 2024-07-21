@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mission_mobile",
+  "version": "0.0.1",
+  "description": "Pipedream Mission Mobile Components",
+  "main": "mission_mobile.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mission_mobile"
+  ],
+  "homepage": "https://pipedream.com/apps/mission_mobile",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

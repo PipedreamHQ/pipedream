@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/end",
+  "version": "0.0.4",
+  "description": "Pipedream End Components",
+  "main": "end.app.mjs",
+  "keywords": [
+    "pipedream",
+    "end"
+  ],
+  "homepage": "https://pipedream.com/apps/end",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

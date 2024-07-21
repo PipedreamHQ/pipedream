@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/typeflowai",
+  "version": "0.0.1",
+  "description": "Pipedream TypeflowAI Components",
+  "main": "typeflowai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "typeflowai"
+  ],
+  "homepage": "https://pipedream.com/apps/typeflowai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

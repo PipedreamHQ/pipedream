@@ -2,15 +2,15 @@ import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "Create folder",
-  description: "Create a folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesCreateFolderV2__anchor)",
+  description: "Create a Folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesCreateFolderV2__anchor)",
   key: "dropbox-create-folder",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
     name: {
       type: "string",
-      label: "Folder name",
+      label: "Folder Name",
       description: "Your new folder name.",
     },
     path: {
