@@ -1,4 +1,5 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
+import { docsInfo } from "../sosl-search/sosl-search.mjs";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select_examples.htm";
 
@@ -10,6 +11,7 @@ export default {
   type: "action",
   props: {
     salesforce,
+    docsInfo,
     exampleInfo: {
       type: "alert",
       alertType: "info",
