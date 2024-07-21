@@ -10,7 +10,7 @@ export default {
   type: "action",
   props: {
     salesforce,
-    CampaignId: {
+    campaignId: {
       ...commonProps.CampaignId,
       description: "The Campaign to add a Contact to.",
       async options() {
@@ -19,7 +19,7 @@ export default {
         });
       },
     },
-    ContactId: {
+    contactId: {
       ...commonProps.ContactId,
       description: "The Contact to add to the selected Campaign.",
       async options() {
@@ -31,14 +31,17 @@ export default {
   },
   async run({ $ }) {
     const {
-      salesforce, ...data
+      salesforce, campaignId, contactId,
     } = this;
     const response = await salesforce.createObject({
       $,
       objectType: constants.OBJECT_TYPE.CAMPAIGN_MEMBER,
-      data,
+      data: {
+        CampaignId: campaignId,
+        ContactId: contactId,
+      },
     });
-    $.export("$summary", "Successfully added contact to campaign");
+    $.export("$summary", `Successfully added contact (ID: ${contactId}) to campaign (ID: ${campaignId})`);
     return response;
   },
 };

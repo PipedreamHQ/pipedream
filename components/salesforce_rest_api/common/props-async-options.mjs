@@ -125,6 +125,16 @@ export default {
       });
     },
   },
+  LeadId: {
+    type: "string",
+    label: "Lead ID",
+    description: "The ID of a Lead.",
+    options: async () => {
+      return this.salesforce.listRecordOptions({
+        objType: "Lead",
+      });
+    },
+  },
   OperatingHoursId: {
     type: "string",
     label: "Operating Hours ID",
