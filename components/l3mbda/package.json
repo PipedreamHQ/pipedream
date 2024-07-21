@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/l3mbda",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream l3mbda Components",
   "main": "l3mbda.app.mjs",
   "keywords": [

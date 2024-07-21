@@ -7,7 +7,7 @@ export default {
   key: "l3mbda-new-erc-1155-transfer-instant",
   name: "New ERC1155 NFT Transfer (Instant)",
   description: "Emit new event when a new ERC1155 NFT transfer is detected by [l3mbda.](https://l3mbda.com/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
