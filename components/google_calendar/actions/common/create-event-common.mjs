@@ -1,4 +1,3 @@
-import googleCalendar from "../../google_calendar.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
@@ -9,6 +8,18 @@ export default {
         type: "string",
         description: "Enter a title for the event, (e.g., `My event`)",
         optional: true,
+      },
+      eventStartDate: {
+        label: "Event Start Date",
+        type: "string",
+        description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
+        optional: isUpdate,
+      },
+      eventEndDate: {
+        label: "Event End Date",
+        type: "string",
+        description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
+        optional: isUpdate,
       },
       location: {
         label: "Event Location",
@@ -27,18 +38,6 @@ export default {
         type: "string[]",
         description: "Enter an array of email addresses for any attendees",
         optional: true,
-      },
-      eventStartDate: {
-        label: "Event Start Date",
-        type: "string",
-        description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
-        optional: isUpdate,
-      },
-      eventEndDate: {
-        label: "Event End Date",
-        type: "string",
-        description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
-        optional: isUpdate,
       },
       repeatFrequency: {
         type: "string",
@@ -63,24 +62,6 @@ export default {
         label: "Repeat How Many Times?",
         description: "Limit the number of times this event will occur",
         optional: true,
-      },
-      timeZone: {
-        propDefinition: [
-          googleCalendar,
-          "timeZone",
-        ],
-      },
-      sendUpdates: {
-        propDefinition: [
-          googleCalendar,
-          "sendUpdates",
-        ],
-      },
-      sendNotifications: {
-        propDefinition: [
-          googleCalendar,
-          "sendNotifications",
-        ],
       },
     }
   ),

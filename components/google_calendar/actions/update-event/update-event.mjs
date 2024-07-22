@@ -5,7 +5,7 @@ export default {
   key: "google_calendar-update-event",
   name: "Update Event",
   description: "Update an event from Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#update)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     googleCalendar,
@@ -27,6 +27,24 @@ export default {
     ...createEventCommon.props({
       isUpdate: true,
     }),
+    timeZone: {
+      propDefinition: [
+        googleCalendar,
+        "timeZone",
+      ],
+    },
+    sendUpdates: {
+      propDefinition: [
+        googleCalendar,
+        "sendUpdates",
+      ],
+    },
+    sendNotifications: {
+      propDefinition: [
+        googleCalendar,
+        "sendNotifications",
+      ],
+    },
   },
   methods: {
     ...createEventCommon.methods,
