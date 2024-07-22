@@ -1,4 +1,5 @@
 import googleCalendar from "../../google_calendar.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   props: ({ isUpdate }) => (
@@ -39,10 +40,28 @@ export default {
         description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
         optional: isUpdate,
       },
-      recurrence: {
-        label: "Recurrence",
-        type: "string[]",
-        description: "Recurrence rule(s) for the event. For example, `RRULE:FREQ=DAILY;INTERVAL=2` means once every two days, `RRULE:FREQ=YEARLY` means annually.\nYou can combine multiple recurrence rules. [See the documentation](https://developers.google.com/calendar/api/concepts/events-calendars#recurrence_rule)",
+      repeatFrequency: {
+        type: "string",
+        label: "Repeat Frequency",
+        description: "Select a frequency to make this event repeating",
+        optional: true,
+        options: [
+          "DAILY",
+          "WEEKLY",
+          "MONTHLY",
+          "YEARLY",
+        ],
+      },
+      repeatUntil: {
+        type: "string",
+        label: "Repeat Until",
+        description: "The event will repeat only until this date, if set",
+        optional: true,
+      },
+      repeatTimes: {
+        type: "integer",
+        label: "Repeat How Many Times?",
+        description: "Limit the number of times this event will occur",
         optional: true,
       },
       timeZone: {
@@ -118,6 +137,37 @@ export default {
         dateTime: this.checkDateOrDateTimeInput(date, "dateTime"),
         timeZone,
       };
+    },
+    /**
+    * Format recurrence prop
+    * https://developers.google.com/calendar/api/concepts/events-calendars#recurrence_rule
+    */
+    formatRecurrence({
+      repeatFrequency,
+      repeatTimes,
+      repeatUntil,
+    }) {
+      if (!repeatUntil && !repeatTimes && !repeatUntil) {
+        return;
+      }
+      if ((repeatUntil || repeatTimes) && !repeatFrequency) {
+        throw new ConfigurationError("Repeat Frequency must be set to make event repeating");
+      }
+      if (repeatTimes && repeatUntil) {
+        throw new ConfigurationError("Only one of Repeat Unitl or Repeat How Many Times may be entered");
+      }
+
+      let recurrence = `RRULE:FREQ=${repeatFrequency}`;
+      if (repeatTimes) {
+        recurrence = `${recurrence};COUNT=${repeatTimes}`;
+      }
+      if (repeatUntil) {
+        const date = repeatUntil.slice(0, 10).replaceAll("-", "");
+        recurrence = `${recurrence};UNTIL=${date}`;
+      }
+      return [
+        recurrence,
+      ];
     },
   },
 };

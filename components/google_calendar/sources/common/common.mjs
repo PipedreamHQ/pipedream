@@ -48,7 +48,7 @@ export default {
     async processEvents(event) {
       const intervalData = this.getIntervalData(event);
       const config = this.getConfig(intervalData);
-      const resp = await this.googleCalendar.getEvents(config);
+      const resp = await this.googleCalendar.listEvents(config);
 
       const events = resp?.data?.items;
       if (!Array.isArray(events)) {

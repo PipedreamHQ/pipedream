@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export default {
   key: "google_calendar-create-event",
   name: "Create Event",
-  description: "Create an event to the Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
+  description: "Create an event in a Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
   version: "0.2.2",
   type: "action",
   props: {
@@ -38,6 +38,11 @@ export default {
   async run({ $ }) {
     const timeZone = await this.getTimeZone(this.timeZone);
     const attendees = this.formatAttendees(this.attendees);
+    const recurrence = this.formatRecurrence({
+      repeatFrequency: this.repeatFrequency,
+      repeatTimes: this.repeatTimes,
+      repeatUntil: this.repeatUntil,
+    });
 
     const data = {
       calendarId: this.calendarId,
@@ -55,7 +60,7 @@ export default {
           date: this.eventEndDate,
           timeZone,
         }),
-        recurrence: this.recurrence,
+        recurrence,
         attendees,
         colorId: this.colorId,
       },
@@ -75,7 +80,7 @@ export default {
 
     const response = await this.googleCalendar.createEvent(data);
 
-    $.export("$summary", `Successfully created event: "${response.id}"`);
+    $.export("$summary", `Successfully created event with ID: "${response.id}"`);
 
     return response;
   },

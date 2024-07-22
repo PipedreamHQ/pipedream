@@ -12,7 +12,9 @@ export default {
   async run({ $ }) {
     const { items: calendars } = await this.googleCalendar.listCalendars();
 
-    $.export("$summary", `Successfully retrieved ${calendars.length} calendar(s)`);
+    $.export("$summary", `Successfully retrieved ${calendars.length} calendar${calendars.length === 1
+      ? ""
+      : "s"}`);
 
     return calendars;
   },

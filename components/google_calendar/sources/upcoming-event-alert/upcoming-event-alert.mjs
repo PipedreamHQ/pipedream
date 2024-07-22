@@ -99,7 +99,7 @@ export default {
           data: {
             items, nextPageToken,
           },
-        } = await this.googleCalendar.getEvents(params);
+        } = await this.googleCalendar.listEvents(params);
         if (items?.length) {
           calendarEvents.push(...items);
         }

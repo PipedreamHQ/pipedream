@@ -1,6 +1,7 @@
 import timezones from "moment-timezone";
 import calendar from "@googleapis/calendar";
 import constants from "./common/constants.mjs";
+import { closest } from "color-2-name";
 
 export default {
   type: "app",
@@ -47,10 +48,19 @@ export default {
           calendarId,
           pageToken: nextPageToken,
         });
-        const options = response.items.map((item) => ({
-          label: item.summary,
-          value: item.id,
-        }));
+        const options = response.items.map((item) => {
+          let label = item.summary || item.id;
+          const date = item.start && (item.start.date
+            ? item.start.date
+            : item.start.dateTime.slice(0, 10));
+          if (date) {
+            label += ` - ${date}`;
+          }
+          return {
+            label,
+            value: item.id,
+          };
+        });
         return {
           options,
           context: {
@@ -66,19 +76,19 @@ export default {
       type: "string",
     },
     maxAttendees: {
-      label: "Max attendees",
+      label: "Max Attendees",
       description: "The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned. Optional.",
       optional: true,
       type: "integer",
     },
     maxResults: {
-      label: "Max results",
+      label: "Max Results",
       description: "Maximum number of events returned on one result page. The number of events in the resulting page may be less than this value, or none at all, even if there are more events matching the query. Incomplete pages can be detected by a non-empty nextPageToken field in the response. By default the value is 250 events. The page size can never be larger than 2500 events. Optional.",
       optional: true,
       type: "integer",
     },
     orderBy: {
-      label: "Order by",
+      label: "Order By",
       description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order.",
       optional: true,
       type: "string",
@@ -94,12 +104,6 @@ export default {
       ],
       default: "startTime",
     },
-    pageToken: {
-      label: "Page token",
-      description: "Token specifying which result page to return. Optional.",
-      optional: true,
-      type: "string",
-    },
     privateExtendedProperty: {
       label: "Private extended property",
       description: "Extended properties constraint specified as propertyName=value. Matches only private properties. This parameter might be repeated multiple times to return events that match all given constraints.",
@@ -113,37 +117,37 @@ export default {
       type: "string",
     },
     sharedExtendedProperty: {
-      label: "Shared extended property",
+      label: "Shared Extended Property",
       description: "Extended properties constraint specified as propertyName=value. Matches only shared properties. This parameter might be repeated multiple times to return events that match all given constraints.",
       optional: true,
       type: "string",
     },
     showDeleted: {
-      label: "Show deleted",
+      label: "Show Deleted",
       description: "Whether to include deleted events (with status equals \"cancelled\") in the result. Cancelled instances of recurring events (but not the underlying recurring event) will still be included if showDeleted and singleEvents are both False. If showDeleted and singleEvents are both True, only single instances of deleted events (but not the underlying recurring events) are returned. Optional. The default is False.",
       optional: true,
       type: "boolean",
     },
     showHiddenInvitations: {
-      label: "Show hidden invitations",
+      label: "Show Hidden Invitations",
       description: "Whether to include hidden invitations in the result. Optional. The default is False.",
       optional: true,
       type: "boolean",
     },
     singleEvents: {
-      label: "Single events",
+      label: "Single Events",
       description: "Whether to expand recurring events into instances and only return single one-off events and instances of recurring events, but not the underlying recurring events themselves. Optional. The default is False.",
       optional: true,
       type: "boolean",
     },
     syncToken: {
-      label: "Sync token",
+      label: "Sync Token",
       description: "Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since then. All events deleted since the previous list request will always be in the result set and it is not allowed to set showDeleted to False.",
       optional: true,
       type: "string",
     },
     timeMax: {
-      label: "Max time",
+      label: "Max Time",
       description: "Upper bound (exclusive) for an event's time to filter by. Must be an RFC3339 timestamp with mandatory time zone offset, for example, 2011-06-03T10:00:00-07:00, 2011-06-03T10:00:00Z. Milliseconds may be provided but are ignored. Must be greater than Min Time.",
       optional: true,
       type: "string",
@@ -170,13 +174,13 @@ export default {
       },
     },
     updatedMin: {
-      label: "Minimum updated time",
+      label: "Minimum Updated Time",
       description: "Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by. When specified, entries deleted since this time will always be included regardless of showDeleted. Optional. The default is not to filter by last modification time.",
       optional: true,
       type: "string",
     },
     ruleId: {
-      label: "ACL rule identifier",
+      label: "ACL Rule Identifier",
       type: "string",
       description: "ACL rule identifier.",
       async options({
@@ -272,7 +276,7 @@ export default {
           key,
           value,
         ]) => ({
-          label: `Background ${value.background} | Foreground ${value.foreground}`,
+          label: `${closest(value.background).name} (${value.background})`,
           value: key,
         }));
       },
@@ -296,26 +300,6 @@ export default {
         access_token: this?.$auth?.oauth_access_token,
         refresh_token: this?.$auth?.oauth_refresh_token,
       };
-    },
-    async calendarList() {
-      const calendar = this.client();
-      return calendar.calendarList.list();
-    },
-    async list(config) {
-      const calendar = this.client();
-      return calendar.events.list(config);
-    },
-    // for config key value pairs - https://developers.google.com/calendar/v3/reference/events/list
-    async getEvents(config) {
-      return this.list(config);
-    },
-    async watch(config) {
-      const calendar = this.client();
-      return calendar.events.watch(config);
-    },
-    async stop(config) {
-      const calendar = this.client();
-      return calendar.channels.stop(config);
     },
     client() {
       const auth = new calendar.auth.OAuth2();

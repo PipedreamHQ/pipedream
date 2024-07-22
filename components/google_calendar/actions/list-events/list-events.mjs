@@ -40,12 +40,6 @@ export default {
       ],
       default: "",
     },
-    pageToken: {
-      propDefinition: [
-        googleCalendar,
-        "pageToken",
-      ],
-    },
     privateExtendedProperty: {
       propDefinition: [
         googleCalendar,
@@ -80,12 +74,6 @@ export default {
       propDefinition: [
         googleCalendar,
         "singleEvents",
-      ],
-    },
-    syncToken: {
-      propDefinition: [
-        googleCalendar,
-        "syncToken",
       ],
     },
     timeMax: {
@@ -124,26 +112,36 @@ export default {
       calendarId: this.calendarId,
       iCalUID: this.iCalUID,
       maxAttendees: this.maxAttendees,
-      maxResults: this.maxResults,
       orderBy: this.orderBy || undefined,
-      pageToken: this.pageToken,
       privateExtendedProperty: this.privateExtendedProperty,
       q: this.q,
       sharedExtendedProperty: this.sharedExtendedProperty,
       showDeleted: this.showDeleted,
       showHiddenInvitations: this.showHiddenInvitations,
       singleEvents: this.singleEvents,
-      syncToken: this.syncToken,
       timeMax: this.timeMax,
       timeMin: this.timeMin,
       timeZone: this.timeZone,
       updatedMin: this.updatedMin,
       eventTypes: this.eventTypes,
     });
-    const response = await this.googleCalendar.listEvents(args);
 
-    $.export("$summary", `Successfully retrieved ${response.items.length} event(s)`);
+    const events = [];
+    do {
+      const {
+        items, nextPageToken,
+      } = await this.googleCalendar.listEvents(args);
+      events.push(...items);
+      args.pageToken = nextPageToken;
+    } while (args.pageToken && (!this.maxResults || events.length < this.maxResults));
+    if (events.length > this.maxResults) {
+      events.length = this.maxResults;
+    }
 
-    return response;
+    $.export("$summary", `Successfully retrieved ${events.length} event${events.length === 1
+      ? ""
+      : "s"}`);
+
+    return events;
   },
 };
