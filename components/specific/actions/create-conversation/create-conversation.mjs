@@ -155,6 +155,7 @@ export default {
           id
           name
       }`,
+      on: "Conversation",
     });
 
     if (response.errors) throw new Error(response.errors[0].message);

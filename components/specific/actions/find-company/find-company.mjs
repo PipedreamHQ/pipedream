@@ -25,6 +25,7 @@ export default {
             customFields
             visitorId
             contactsCount`,
+      on: "Company",
     });
 
     $.export("$summary", `Successfully retrieved details for company ID: ${this.companyId}`);
