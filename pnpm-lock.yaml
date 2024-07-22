@@ -1894,7 +1894,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/control_d:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/convenia:
     specifiers:
