@@ -1,50 +1,22 @@
-import specific from "../../specific.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "specific-new-contact-instant",
-  name: "New Contact Created",
-  description: "Emit new event whenever a new contact is created. [See the documentation](https://public-api.specific.app/docs/introduction/welcome)",
-  version: "0.0.{{ts}}",
+  name: "New Contact Created (Instant)",
+  description: "Emit new event whenever a new contact is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    specific: {
-      type: "app",
-      app: "specific",
+  methods: {
+    ...common.methods,
+    getOperation() {
+      return "new-contact";
     },
-    http: {
-      type: "$.interface.http",
-      customResponse: false,
-    },
-    db: "$.service.db",
-  },
-  hooks: {
-    async deploy() {
-      // Emit historical events
-      const contacts = await this.specific.emitNewContactCreated();
-      for (const contact of contacts) {
-        this.$emit(contact, {
-          id: contact.id,
-          summary: `New contact: ${contact.name}`,
-          ts: Date.parse(contact.createdAt),
-        });
-      }
-    },
-    async activate() {
-      const webhookId = await this.specific.emitNewContactCreated();
-      this.db.set("webhookId", webhookId);
-    },
-    async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      await this.specific.emitNewContactCreated(webhookId);
+    getSummary(body) {
+      return `New contact created: ${body.name}`;
     },
   },
-  async run(event) {
-    this.$emit(event.body, {
-      id: event.body.id,
-      summary: `New contact created: ${event.body.name}`,
-      ts: Date.parse(event.body.createdAt),
-    });
-  },
+  sampleEmit,
 };
