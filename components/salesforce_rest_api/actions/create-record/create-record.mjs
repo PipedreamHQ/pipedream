@@ -1,14 +1,12 @@
+import { getAdditionalFields } from "../../common/props-utils.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
-import { toSingleLineString } from "../../common/utils.mjs";
+import { additionalFields } from "../common/base.mjs";
 
 export default {
   key: "salesforce_rest_api-create-record",
   name: "Create Record",
-  description: toSingleLineString(`
-    Create new records of a given resource.
-    See [docs](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)
-  `),
-  version: "0.3.0",
+  description: "Create a record of a given object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_sobject_create.htm)",
+  version: "0.3.{{ts}}",
   type: "action",
   props: {
     salesforce,
@@ -17,20 +15,114 @@ export default {
         salesforce,
         "objectType",
       ],
-      description: "SObject Type for this record",
-    },
-    sobject: {
-      type: "object",
-      label: "SObject fields and values",
-      description: "Data of the SObject record to create",
+      description: "SObject Type to create a record of",
+      reloadProps: true,
     },
   },
-  async run({ $ }) {
-    const response = await this.salesforce.createRecord(this.objectType, {
-      $,
-      data: this.sobject,
+  methods: {
+    getAdditionalFields,
+    getFieldPropType(fieldType) {
+      // https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/field_types.htm
+      switch (fieldType) {
+      case "boolean":
+        return "boolean";
+      case "int":
+        return "integer";
+      case "multipicklist":
+        return "string[]";
+      default:
+        return "string";
+      }
+    },
+  },
+  async additionalProps() {
+    const { objectType } = this;
+    const fields = await this.salesforce.getFieldsForObjectType(objectType);
+
+    const requiredFields = fields.filter((field) => {
+      return field.createable && !field.nillable && !field.defaultedOnCreate;
     });
-    $.export("$summary", `Successfully created ${this.objectType} record`);
+
+    const requiredFieldProps = requiredFields.map((field) => {
+      const { type } = field;
+      const prop = {
+        label: field.name,
+        type: this.getFieldPropType(type),
+      };
+      if ([
+        "date",
+        "datetime",
+      ].includes(type)) {
+        prop.description = `This is a \`${type}\` field. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_valid_date_formats.htm) for the expected format.`;
+      }
+      else if ([
+        "picklist",
+        "multipicklist",
+      ].includes(type) && field.picklistValues?.length) {
+        prop.options = field.picklistValues.map(({
+          label, value,
+        }) => ({
+          label,
+          value,
+        }));
+      } else if (type === "reference" && field.referenceTo?.length === 1) {
+        prop.options = async () => {
+          let response;
+          try {
+            response = await this.salesforce.listRecordOptions({
+              objType: field.referenceTo[0],
+            });
+          } catch (err) {
+            response = await this.salesforce.listRecordOptions({
+              objType: field.referenceTo[0],
+              fields: [
+                "Id",
+              ],
+              getLabel: (item) => `ID ${item.Id}`,
+            });
+          }
+          return response;
+        };
+      }
+
+      return prop;
+    }).reduce((obj, prop) => {
+      obj[prop.label] = prop;
+      return obj;
+    }, {});
+
+    return {
+      docsInfo: {
+        type: "alert",
+        alertType: "info",
+        content: `[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_${objectType.toLowerCase()}.htm) for information on all available fields.`,
+      },
+      ...requiredFieldProps,
+      additionalFields,
+    };
+  },
+  async run({ $ }) {
+    /* eslint-disable no-unused-vars */
+    const {
+      salesforce,
+      objectType,
+      getAdditionalFields,
+      getFieldPropType,
+      docsInfo,
+      dateInfo,
+      additionalFields,
+      ...data
+    } = this;
+    /* eslint-enable no-unused-vars */
+    $.export("data", data);
+    const response = await salesforce.createRecord(objectType, {
+      $,
+      data: {
+        ...data,
+        ...getAdditionalFields(),
+      },
+    });
+    $.export("$summary", `Successfully created ${this.objectType} record (ID: ${response.id})`);
     return response;
   },
 };

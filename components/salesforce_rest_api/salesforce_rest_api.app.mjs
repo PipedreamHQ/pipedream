@@ -49,7 +49,6 @@ export default {
       }) {
         let response;
         try {
-          console.log("first request attempt");
           response = await this.listRecordOptions({
             objType,
             fields,

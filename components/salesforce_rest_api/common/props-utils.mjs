@@ -36,3 +36,24 @@ function keysToCapitalCase(data = {}) {
 export default {
   keysToCapitalCase,
 };
+
+export function getAdditionalFields() {
+  return Object.fromEntries(
+    Object.entries(this.additionalFields ?? {}).map(([
+      key,
+      value,
+    ]) => {
+      try {
+        return [
+          key,
+          JSON.parse(value),
+        ];
+      } catch (err) {
+        return [
+          key,
+          value,
+        ];
+      }
+    }),
+  );
+}

@@ -1,5 +1,14 @@
 import { ConfigurationError } from "@pipedream/platform";
 import salesforce from "../../salesforce_rest_api.app.mjs";
+import { getAdditionalFields } from "../../common/props-utils.mjs";
+
+export const additionalFields = {
+  type: "object",
+  label: "Additional Fields",
+  description:
+      "Other fields to set for this record. Values will be parsed as JSON where applicable.",
+  optional: true,
+};
 
 export function getProps({
   objType,
@@ -28,7 +37,7 @@ export function getProps({
     ...showDateInfo && {
       dateInfo: {
         type: "alert",
-        alertType: "info",
+        alertType: "warning",
         content: "Date fields should be a [valid date string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format) or a Unix timestamp in milliseconds. Example values: `2022-01-15T18:30:00.000Z` or `1642271400000`.",
       },
     },
@@ -55,26 +64,7 @@ export default {
     getAdvancedProps() {
       return {};
     },
-    getAdditionalFields() {
-      return Object.fromEntries(
-        Object.entries(this.additionalFields ?? {}).map(([
-          key,
-          value,
-        ]) => {
-          try {
-            return [
-              key,
-              JSON.parse(value),
-            ];
-          } catch (err) {
-            return [
-              key,
-              value,
-            ];
-          }
-        }),
-      );
-    },
+    getAdditionalFields,
     formatDateTimeProps(props = {}) {
       // https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_valid_date_formats.htm
       return Object.fromEntries(Object.entries(props).map(([
@@ -99,13 +89,7 @@ export default {
     return this.useAdvancedProps
       ? {
         ...this.getAdvancedProps(),
-        additionalFields: {
-          type: "object",
-          label: "Additional Fields",
-          description:
-              "Other fields to set for this object. Values will be parsed as JSON where applicable.",
-          optional: true,
-        },
+        additionalFields,
       }
       : {};
   },
