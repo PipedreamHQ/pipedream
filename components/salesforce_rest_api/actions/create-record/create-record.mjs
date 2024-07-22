@@ -43,53 +43,72 @@ export default {
       return field.createable && !field.nillable && !field.defaultedOnCreate;
     });
 
-    const requiredFieldProps = requiredFields.map((field) => {
-      const { type } = field;
-      const prop = {
-        label: field.name,
-        type: this.getFieldPropType(type),
-      };
-      if ([
-        "date",
-        "datetime",
-      ].includes(type)) {
-        prop.description = `This is a \`${type}\` field. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_valid_date_formats.htm) for the expected format.`;
-      }
-      else if ([
-        "picklist",
-        "multipicklist",
-      ].includes(type) && field.picklistValues?.length) {
-        prop.options = field.picklistValues.map(({
-          label, value,
-        }) => ({
-          label,
-          value,
-        }));
-      } else if (type === "reference" && field.referenceTo?.length === 1) {
-        prop.options = async () => {
-          let response;
-          try {
-            response = await this.salesforce.listRecordOptions({
-              objType: field.referenceTo[0],
-            });
-          } catch (err) {
-            response = await this.salesforce.listRecordOptions({
-              objType: field.referenceTo[0],
-              fields: [
-                "Id",
-              ],
-              getLabel: (item) => `ID ${item.Id}`,
-            });
-          }
-          return response;
+    const requiredFieldProps = requiredFields
+      .map((field) => {
+        const { type } = field;
+        const prop = {
+          type: this.getFieldPropType(type),
+          label: field.name,
+          description: `Field type: \`${type}\``,
         };
-      }
+        if ([
+          "date",
+          "datetime",
+        ].includes(type)) {
+          prop.description = `This is a \`${type}\` field. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_valid_date_formats.htm) for the expected format.`;
+        } else if (
+          [
+            "picklist",
+            "multipicklist",
+          ].includes(type) &&
+        field.picklistValues?.length
+        ) {
+          prop.description = `Select ${
+            type === "picklist"
+              ? "a value"
+              : "one or more values"
+          } from the list.`;
+          prop.options = field.picklistValues.map(({
+            label, value,
+          }) => ({
+            label,
+            value,
+          }));
+        } else if (type === "reference") {
+          if (field.referenceTo?.length === 1) {
+            prop.description = `The ID of a${field.referenceTo[0].startsWith("A")
+              ? "n"
+              : ""} \`${field.referenceTo[0]}\` record.`;
+            prop.options = async () => {
+              let response;
+              try {
+                response = await this.salesforce.listRecordOptions({
+                  objType: field.referenceTo[0],
+                });
+              } catch (err) {
+                response = await this.salesforce.listRecordOptions({
+                  objType: field.referenceTo[0],
+                  fields: [
+                    "Id",
+                  ],
+                  getLabel: (item) => `ID ${item.Id}`,
+                });
+              }
+              return response;
+            };
+          } else if (field.referenceTo?.length > 1) {
+            prop.description = `The ID of a record of one of these object types: ${field.referenceTo
+              .map((s) => `\`${s}\``)
+              .join(", ")}`;
+          }
+        }
 
-      return prop;
-    }).reduce((obj, prop) => {
-      obj[prop.label] = prop;
-      return obj;
-    }, {});
+        return prop;
+      })
+      .reduce((obj, prop) => {
+        obj[prop.label] = prop;
+        return obj;
+      }, {});
 
     return {
       docsInfo: {
@@ -107,7 +126,7 @@ export default {
       salesforce,
       objectType,
       getAdditionalFields,
-      getFieldPropType,
+      convertFieldsToProps,
       docsInfo,
       dateInfo,
       additionalFields,
