@@ -1,5 +1,6 @@
 import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "google_calendar-upcoming-event-alert",
@@ -20,15 +21,11 @@ export default {
         "calendarId",
       ],
     },
-    eventId: {
+    eventTypes: {
       propDefinition: [
         googleCalendar,
-        "eventId",
-        (c) => ({
-          calendarId: c.calendarId,
-        }),
+        "eventTypes",
       ],
-      optional: true,
     },
     time: {
       type: "integer",
@@ -95,26 +92,19 @@ export default {
       const calendarEvents = [];
       const params = {
         calendarId: this.calendarId,
+        eventTypes: this.eventTypes,
       };
-      if (this.eventId) {
-        const item = await this.googleCalendar.getEvent({
-          ...params,
-          eventId: this.eventId,
-        });
-        calendarEvents.push(item);
-      } else {
-        do {
-          const {
-            data: {
-              items, nextPageToken,
-            },
-          } = await this.googleCalendar.getEvents(params);
-          if (items?.length) {
-            calendarEvents.push(...items);
-          }
-          params.pageToken = nextPageToken;
-        } while (params.pageToken);
-      }
+      do {
+        const {
+          data: {
+            items, nextPageToken,
+          },
+        } = await this.googleCalendar.getEvents(params);
+        if (items?.length) {
+          calendarEvents.push(...items);
+        }
+        params.pageToken = nextPageToken;
+      } while (params.pageToken);
       return calendarEvents;
     },
   },
@@ -157,4 +147,5 @@ export default {
     this._setScheduledEventIds(scheduledEventIds);
     this._setScheduledCalendarEventIds(scheduledCalendarEventIds);
   },
+  sampleEmit,
 };

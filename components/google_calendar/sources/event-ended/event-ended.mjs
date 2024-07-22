@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -41,4 +42,5 @@ export default {
       return eventEnd && msFromEnd > 0 && msFromEnd < intervalMs;
     },
   },
+  sampleEmit,
 };

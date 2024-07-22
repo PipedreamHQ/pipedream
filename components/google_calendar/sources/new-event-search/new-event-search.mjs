@@ -37,7 +37,7 @@ export default {
     },
     isRelevant(event, { past }) {
       const created = new Date(event.created);
-      // created in last 5 mins and not cancelled
+      // created since last run and not cancelled
       return created > past && event.status !== "cancelled";
     },
   },
