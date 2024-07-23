@@ -476,16 +476,6 @@ export default {
         data,
       });
     },
-    async getRecordFieldValues(sobjectName, {
-      $, id, params,
-    }) {
-      const url = this._sObjectDetailsApiUrl(sobjectName, id);
-      return this._makeRequest({
-        $,
-        url,
-        params,
-      });
-    },
     async createRecord(sobjectName, {
       $, data,
     }) {
