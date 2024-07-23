@@ -1,4 +1,4 @@
-import common, { getProps } from "../common/base.mjs";
+import common, { getProps } from "../common/base-create-update.mjs";
 import lead from "../../common/sobjects/lead.mjs";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_lead.htm";

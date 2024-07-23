@@ -1,4 +1,4 @@
-import common, { getProps } from "../common/base.mjs";
+import common, { getProps } from "../common/base-create-update.mjs";
 import account from "../../common/sobjects/account.mjs";
 import { docsLink } from "../create-account/create-account.mjs";
 

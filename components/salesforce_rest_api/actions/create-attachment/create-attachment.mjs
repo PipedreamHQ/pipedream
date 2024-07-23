@@ -1,4 +1,4 @@
-import common, { getProps } from "../common/base.mjs";
+import common, { getProps } from "../common/base-create-update.mjs";
 import attachment from "../../common/sobjects/attachment.mjs";
 import fs from "fs";
 

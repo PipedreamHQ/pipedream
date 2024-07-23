@@ -1,4 +1,4 @@
-import common, { getProps } from "../common/base.mjs";
+import common, { getProps } from "../common/base-create-update.mjs";
 import opportunity from "../../common/sobjects/opportunity.mjs";
 import { docsLink } from "../create-opportunity/create-opportunity.mjs";
 

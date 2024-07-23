@@ -2,7 +2,7 @@ import {
   convertFieldsToProps, getAdditionalFields,
 } from "../../common/props-utils.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
-import { additionalFields } from "../common/base.mjs";
+import { additionalFields } from "../common/base-create-update.mjs";
 
 export default {
   key: "salesforce_rest_api-create-record",

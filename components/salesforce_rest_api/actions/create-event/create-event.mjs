@@ -1,4 +1,4 @@
-import common, { getProps } from "../common/base.mjs";
+import common, { getProps } from "../common/base-create-update.mjs";
 import event from "../../common/sobjects/event.mjs";
 
 const docsLink =
