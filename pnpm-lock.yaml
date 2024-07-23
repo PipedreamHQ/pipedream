@@ -2457,7 +2457,10 @@ importers:
       form-data: 4.0.0
 
   components/documerge:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/documint:
     specifiers:
@@ -6053,7 +6056,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/noor:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/nordigen:
     specifiers:
@@ -6502,7 +6508,10 @@ importers:
       url: 0.11.3
 
   components/paved:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/payhere:
     specifiers:
@@ -8697,7 +8706,10 @@ importers:
     specifiers: {}
 
   components/specific:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/speechace:
     specifiers:
@@ -9116,7 +9128,10 @@ importers:
     specifiers: {}
 
   components/tavily:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/tawk_to:
     specifiers:
