@@ -33,7 +33,7 @@ export default {
       sobjectType,
       recordId,
     } = this;
-    const response = await this.salesforce.deleteObject({
+    const response = await this.salesforce.deleteRecord({
       $,
       sobjectType,
       recordId,

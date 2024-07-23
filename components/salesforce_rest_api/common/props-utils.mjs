@@ -64,7 +64,7 @@ export function getAdditionalFields() {
 }
 
 export const convertFieldsToProps = (fields) => {
-  function getFieldPropType(fieldType) {
+  const getFieldPropType = (fieldType) => {
     // https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/field_types.htm
     switch (fieldType) {
     case "boolean":
@@ -76,7 +76,7 @@ export const convertFieldsToProps = (fields) => {
     default:
       return "string";
     }
-  }
+  };
 
   return fields
     .map((field) => {

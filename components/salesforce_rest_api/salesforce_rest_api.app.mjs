@@ -75,11 +75,23 @@ export default {
         "If provided, the trigger will only fire when the updated field is an EXACT MATCH (including spacing and casing) to the value you provide in this field",
       optional: true,
     },
-    fieldSelector: {
+    fieldsToUpdate: {
       type: "string[]",
-      label: "Field Selector",
-      description: "Select fields for the Standard Object",
-      options: () => [], // override options for each object, e.g., () => Object.keys(account)
+      label: "Fields to Update",
+      description: "Select which fields you want to update for this record.",
+      async options({ objectType }) {
+        const fields = await this.getFieldsForObjectType(objectType);
+        return fields.filter((field) => field.updateable).map(({ name }) => name);
+      },
+    },
+    fieldsToQuery: {
+      type: "string[]",
+      label: "Fields to Return",
+      description: "Select which fields you want to obtain for this record.",
+      async options({ objectType }) {
+        const fields = await this.getFieldsForObjectType(objectType);
+        return fields.map(({ name }) => name);
+      },
     },
     AcceptedEventInviteeIds: {
       type: "string[]",
@@ -263,7 +275,7 @@ export default {
         ...args,
       });
     },
-    async deleteObject({
+    async deleteRecord({
       sobjectType, recordId, ...args
     }) {
       const url = `${this._sObjectsApiUrl()}/${sobjectType}/${recordId}`;

@@ -50,23 +50,21 @@ export default {
     const {
       salesforce,
       objectType,
-      getAdditionalFields,
+      getAdditionalFields: getData,
       convertFieldsToProps,
       docsInfo,
-      dateInfo,
       additionalFields,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    $.export("data", data);
     const response = await salesforce.createRecord(objectType, {
       $,
       data: {
         ...data,
-        ...getAdditionalFields(),
+        ...getData(),
       },
     });
-    $.export("$summary", `Successfully created ${this.objectType} record (ID: ${response.id})`);
+    $.export("$summary", `Successfully created ${objectType} record (ID: ${response.id})`);
     return response;
   },
 };
