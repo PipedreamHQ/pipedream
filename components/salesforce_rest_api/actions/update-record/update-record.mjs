@@ -39,6 +39,7 @@ export default {
           objType: c.sobjectType,
         }),
       ],
+      reloadProps: true,
     },
   },
   methods: {
@@ -47,9 +48,9 @@ export default {
   },
   async additionalProps() {
     const {
-      objectType, fieldsToUpdate,
+      sobjectType, fieldsToUpdate,
     } = this;
-    const fields = await this.salesforce.getFieldsForObjectType(objectType);
+    const fields = await this.salesforce.getFieldsForObjectType(sobjectType);
 
     const selectedFields = fields.filter(({ name }) => fieldsToUpdate.includes(name));
     const selectedFieldProps = this.convertFieldsToProps(selectedFields);
@@ -58,7 +59,7 @@ export default {
       docsInfo: {
         type: "alert",
         alertType: "info",
-        content: `[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_${objectType.toLowerCase()}.htm) for information on all available fields.`,
+        content: `[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_${sobjectType.toLowerCase()}.htm) for information on all available fields.`,
       },
       ...selectedFieldProps,
       additionalFields,

@@ -79,8 +79,8 @@ export default {
       type: "string[]",
       label: "Fields to Update",
       description: "Select which fields you want to update for this record.",
-      async options({ objectType }) {
-        const fields = await this.getFieldsForObjectType(objectType);
+      async options({ objType }) {
+        const fields = await this.getFieldsForObjectType(objType);
         return fields.filter((field) => field.updateable).map(({ name }) => name);
       },
     },
