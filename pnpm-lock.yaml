@@ -6508,7 +6508,10 @@ importers:
       url: 0.11.3
 
   components/paved:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/payhere:
     specifiers:
