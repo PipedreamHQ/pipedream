@@ -301,17 +301,6 @@ export default {
         params,
       });
     },
-    async getUpdatedForObjectType(objectType, start, end) {
-      const url = this._sObjectTypeUpdatedApiUrl(objectType);
-      const params = {
-        start: this._formatDateString(start),
-        end: this._formatDateString(end),
-      };
-      return this._makeRequest({
-        url,
-        params,
-      });
-    },
     async getDeletedForObjectType(objectType, start, end) {
       const url = this._sObjectTypeDeletedApiUrl(objectType);
       const params = {
