@@ -9116,7 +9116,10 @@ importers:
     specifiers: {}
 
   components/tavily:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/tawk_to:
     specifiers:
