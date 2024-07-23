@@ -1,18 +1,22 @@
 import { RECORD_SOURCE_OPTIONS } from "../constants-props.mjs";
 import commonProps from "../props-async-options.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   createProps: {
     ContactId: {
-      ...commonProps.ContactId,
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
+          objType: "Contact",
+          nameField: "Name",
+        }),
+      ],
+      label: "Contact ID",
       description:
         "ID of the contact associated with this opportunity, set as the primary contact.",
       optional: true,
-      async options() {
-        return this.salesforce.listRecordOptions({
-          objType: "Contact",
-        });
-      },
     },
   },
   initialProps: {

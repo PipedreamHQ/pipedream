@@ -44,26 +44,13 @@ export default {
       description: "The ID of the record of the selected object type.",
       async options({
         objType,
-        fields,
-        getLabel,
+        nameField,
       }) {
-        let response;
-        try {
-          response = await this.listRecordOptions({
-            objType,
-            fields,
-            getLabel,
-          });
-        } catch (err) {
-          response = await this.listRecordOptions({
-            objType,
-            fields: [
-              "Id",
-            ],
-            getLabel: (item) => `ID ${item.Id}`,
-          });
-        }
-        return response;
+        if (!nameField) nameField = await this.getNameFieldForObjectType(objType);
+        return this.listRecordOptions({
+          objType,
+          nameField,
+        });
       },
     },
     field: {
@@ -542,7 +529,7 @@ export default {
     },
     async listRecordOptions({
       objType,
-      nameField = "Name",
+      nameField = "Id",
     }) {
       const fields = [
         "Id",

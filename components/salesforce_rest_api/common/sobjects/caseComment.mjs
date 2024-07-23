@@ -1,4 +1,4 @@
-import commonProps from "../props-async-options.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   initialProps: {
@@ -9,22 +9,16 @@ export default {
       optional: true,
     },
     ParentId: {
-      ...commonProps.CaseId,
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
+          objType: "Case",
+          nameField: "CaseNumber",
+        }),
+      ],
       label: "Parent Case ID",
       description: "ID of the parent Case.",
-      async options() {
-        return this.salesforce.listRecordOptions({
-          objType: "Case",
-          fields: [
-            "Id",
-            "CaseNumber",
-            "Subject",
-            "SuppliedName",
-          ],
-          getLabel: (item) =>
-            item.SuppliedName ?? item.Subject ?? item.CaseNumber,
-        });
-      },
     },
     IsNotificationSelected: {
       type: "boolean",

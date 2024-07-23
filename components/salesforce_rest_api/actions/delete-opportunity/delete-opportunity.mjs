@@ -1,4 +1,3 @@
-import propsAsyncOptions from "../../common/props-async-options.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
@@ -10,13 +9,16 @@ export default {
   props: {
     salesforce,
     opportunityId: {
-      ...propsAsyncOptions.OpportunityId,
-      description: "ID of the opportunity to delete.",
-      async options() {
-        return this.salesforce.listRecordOptions({
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
           objType: "Opportunity",
-        });
-      },
+          nameField: "Name",
+        }),
+      ],
+      label: "Opportunity ID",
+      description: "ID of the opportunity to delete.",
     },
   },
   async run({ $ }) {

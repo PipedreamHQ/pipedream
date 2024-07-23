@@ -1,6 +1,5 @@
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import constants from "../../common/constants.mjs";
-import commonProps from "../../common/props-async-options.mjs";
 
 export default {
   key: "salesforce_rest_api-add-lead-to-campaign",
@@ -11,22 +10,28 @@ export default {
   props: {
     salesforce,
     campaignId: {
-      ...commonProps.CampaignId,
-      description: "The Campaign to add a Lead to.",
-      async options() {
-        return this.salesforce.listRecordOptions({
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
           objType: "Campaign",
-        });
-      },
+          nameField: "Name",
+        }),
+      ],
+      label: "Campaign ID",
+      description: "The Campaign to add a Lead to.",
     },
     leadId: {
-      ...commonProps.LeadId,
-      description: "The Lead to add to the selected Campaign.",
-      async options() {
-        return this.salesforce.listRecordOptions({
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
           objType: "Lead",
-        });
-      },
+          nameField: "Name",
+        }),
+      ],
+      label: "Lead ID",
+      description: "The Lead to add to the selected Campaign.",
     },
   },
   async run({ $ }) {

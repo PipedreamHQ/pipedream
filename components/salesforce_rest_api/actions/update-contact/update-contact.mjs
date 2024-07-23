@@ -1,7 +1,6 @@
 import common, { getProps } from "../common/base.mjs";
 import contact from "../../common/sobjects/contact.mjs";
 import { docsLink } from "../create-contact/create-contact.mjs";
-import propsAsyncOptions from "../../common/props-async-options.mjs";
 
 const {
   salesforce, ...props
@@ -28,12 +27,16 @@ export default {
   props: {
     salesforce,
     contactId: {
-      ...propsAsyncOptions.ContactId,
-      async options() {
-        return this.salesforce.listRecordOptions({
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
           objType: "Contact",
-        });
-      },
+          nameField: "Name",
+        }),
+      ],
+      label: "Contact ID",
+      description: "The Contact to update.",
     },
     ...props,
   },

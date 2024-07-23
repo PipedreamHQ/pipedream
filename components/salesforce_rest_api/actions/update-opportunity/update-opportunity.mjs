@@ -1,7 +1,6 @@
 import common, { getProps } from "../common/base.mjs";
 import opportunity from "../../common/sobjects/opportunity.mjs";
 import { docsLink } from "../create-opportunity/create-opportunity.mjs";
-import propsAsyncOptions from "../../common/props-async-options.mjs";
 
 const {
   salesforce, ...props
@@ -28,12 +27,16 @@ export default {
   props: {
     salesforce,
     opportunityId: {
-      ...propsAsyncOptions.OpportunityId,
-      async options() {
-        return this.salesforce.listRecordOptions({
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
           objType: "Opportunity",
-        });
-      },
+          nameField: "Name",
+        }),
+      ],
+      label: "Opportunity ID",
+      description: "The Opportunity to update.",
     },
     ...props,
   },

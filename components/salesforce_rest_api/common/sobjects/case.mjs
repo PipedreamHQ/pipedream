@@ -1,15 +1,19 @@
 import commonProps from "../props-async-options.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   initialProps: {
     ServiceContractId: {
-      ...commonProps.ServiceContractId,
-      description: "ID of the ServiceContract associated with the entitlement.",
-      async options () {
-        return this.salesforce.listRecordOptions({
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
           objType: "ServiceContract",
-        });
-      },
+          nameField: "Name",
+        }),
+      ],
+      label: "Service Contract ID",
+      description: "ID of the ServiceContract associated with the entitlement.",
     },
     Description: {
       type: "string",

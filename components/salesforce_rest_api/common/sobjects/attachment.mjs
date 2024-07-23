@@ -1,4 +1,4 @@
-import commonProps from "../props-async-options.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   createProps: {
@@ -45,15 +45,17 @@ export default {
       optional: true,
     },
     OwnerId: {
-      ...commonProps.UserId,
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
+          objType: "User",
+          nameField: "Name",
+        }),
+      ],
       label: "Owner ID",
       description: "ID of the user who owns the attachment.",
       optional: true,
-      async options () {
-        return this.salesforce.listRecordOptions({
-          objType: "User",
-        });
-      },
     },
   },
 };

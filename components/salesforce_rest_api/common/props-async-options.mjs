@@ -105,9 +105,11 @@ export default {
     options: async () => {
       const contacts = await this.salesforce.listRecordOptions({
         objType: "Contact",
+        nameField: "Name",
       });
       const leads = await this.salesforce.listRecordOptions({
         objType: "Lead",
+        nameField: "Name",
       });
       return [
         ...(contacts ?? []),

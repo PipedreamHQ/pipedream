@@ -1,7 +1,6 @@
 import common, { getProps } from "../common/base.mjs";
 import account from "../../common/sobjects/account.mjs";
 import { docsLink } from "../create-account/create-account.mjs";
-import propsAsyncOptions from "../../common/props-async-options.mjs";
 
 const {
   salesforce, ...props
@@ -27,12 +26,16 @@ export default {
   props: {
     salesforce,
     accountId: {
-      ...propsAsyncOptions.AccountId,
-      async options() {
-        return this.salesforce.listRecordOptions({
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
           objType: "Account",
-        });
-      },
+          nameField: "Name",
+        }),
+      ],
+      label: "Account ID",
+      description: "The Account to update.",
     },
     ...props,
   },
