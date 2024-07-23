@@ -1,5 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
-import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-find-create-record",
@@ -9,16 +9,16 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    salesForceRestApi,
+    salesforce,
     sobjectType: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "objectType",
       ],
     },
     sobjectId: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "sobjectId",
         (c) => ({
           objectType: c.sobjectType,
@@ -60,7 +60,7 @@ export default {
     } = this;
     let data;
     try {
-      data = await this.salesForceRestApi.getSObject(
+      data = await this.salesforce.getSObject(
         sobjectType,
         sobjectId,
         sobjectFields && {
@@ -72,7 +72,7 @@ export default {
     }
 
     if (createIfNotFound && !data) {
-      const response = await this.salesForceRestApi.createObject({
+      const response = await this.salesforce.createObject({
         $,
         objectType: sobjectType,
         data: sobject,

@@ -1,4 +1,4 @@
-import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-post-feed-to-chatter",
@@ -8,17 +8,17 @@ export default {
   version: "0.1.{{ts}}",
   type: "action",
   props: {
-    salesForceRestApi,
+    salesforce,
     sobjectType: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "objectType",
       ],
       description: "The type of object to select a record from.",
     },
     subjectId: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "recordId",
         (c) => ({
           objType: c.sobjectType,
@@ -54,7 +54,7 @@ export default {
         }),
       },
     };
-    const response = await this.salesForceRestApi.postFeed({
+    const response = await this.salesforce.postFeed({
       $,
       data,
     });

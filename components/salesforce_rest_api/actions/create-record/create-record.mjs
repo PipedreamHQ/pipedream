@@ -17,7 +17,7 @@ export default {
         salesforce,
         "objectType",
       ],
-      description: "SObject Type to create a record of",
+      description: "The type of object to create a record of",
       reloadProps: true,
     },
   },

@@ -1,4 +1,4 @@
-import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-search-string",
@@ -8,7 +8,7 @@ export default {
   version: "0.1.{{ts}}",
   type: "action",
   props: {
-    salesForceRestApi,
+    salesforce,
     infoBox: {
       type: "alert",
       alertType: "info",
@@ -16,7 +16,7 @@ export default {
     },
     sobjectType: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "objectType",
       ],
       description: "The type of object to search for records.",
@@ -40,7 +40,7 @@ export default {
       fields,
     } = this;
 
-    const response = await this.salesForceRestApi.parameterizedSearch({
+    const response = await this.salesforce.parameterizedSearch({
       $,
       params: {
         q: searchTerm,

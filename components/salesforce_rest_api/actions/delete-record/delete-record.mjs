@@ -1,4 +1,4 @@
-import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-delete-record",
@@ -8,17 +8,17 @@ export default {
   version: "0.2.{{ts}}",
   type: "action",
   props: {
-    salesForceRestApi,
+    salesforce,
     sobjectType: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "objectType",
       ],
-      description: "The type of object to delete a record from.",
+      description: "The type of object to delete a record of.",
     },
     recordId: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "recordId",
         (c) => ({
           objType: c.sobjectType,
@@ -33,7 +33,7 @@ export default {
       sobjectType,
       recordId,
     } = this;
-    const response = await this.salesForceRestApi.deleteObject({
+    const response = await this.salesforce.deleteObject({
       $,
       sobjectType,
       recordId,

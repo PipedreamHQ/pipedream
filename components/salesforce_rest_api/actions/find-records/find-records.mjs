@@ -1,4 +1,4 @@
-import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-find-records",
@@ -8,16 +8,16 @@ export default {
   version: "0.2.0",
   type: "action",
   props: {
-    salesForceRestApi,
+    salesforce,
     sobjectType: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "objectType",
       ],
     },
     ids: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "sobjectId",
         (c) => ({
           objectType: c.sobjectType,
@@ -38,7 +38,7 @@ export default {
       fields,
       ids,
     } = this;
-    const response = await this.salesForceRestApi.getRecords({
+    const response = await this.salesforce.getRecords({
       $,
       sobjectType,
       params: {
