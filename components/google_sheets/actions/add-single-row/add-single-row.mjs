@@ -1,12 +1,15 @@
-import googleSheets from "../../google_sheets.app.mjs";
+import common from "../common/worksheet.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { parseArray } from "../../common/utils.mjs";
 
+const { googleSheets } = common.props;
+
 export default {
+  ...common,
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "2.1.7",
+  version: "2.1.8",
   type: "action",
   props: {
     googleSheets,
@@ -24,7 +27,6 @@ export default {
           driveId: googleSheets.methods.getDriveId(c.drive),
         }),
       ],
-      withLabel: true,
     },
     worksheetId: {
       propDefinition: [
@@ -36,21 +38,26 @@ export default {
       ],
       type: "string",
       label: "Worksheet Id",
-      withLabel: true,
     },
     hasHeaders: {
       type: "boolean",
       label: "Does the first row of the sheet have headers?",
-      description: "If the first row of your document has headers, we'll retrieve them to make it easy to enter the value for each column.",
+      description: "If the first row of your document has headers, we'll retrieve them to make it easy to enter the value for each column. Please note, that if you are referencing a worksheet using a custom expression referencing data from another step, e.g. `{{steps.my_step.$return_value}}` this prop cannot be used. If you want to retrieve the headers use the `Select an option` instead in both **Spreadsheet** and **Worksheet Id** props.",
       reloadProps: true,
+      optional: true,
     },
   },
   async additionalProps() {
-    const sheetId = this.sheetId?.value || this.sheetId;
-    const worksheetName = this.worksheetId?.label;
+    const {
+      sheetId,
+      worksheetId,
+    } = this;
+
     const props = {};
     if (this.hasHeaders) {
-      const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheetName}!1:1`);
+      const worksheet = await this.getWorksheetById(sheetId, worksheetId);
+
+      const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheet?.properties?.title}!1:1`);
       if (!values[0]?.length) {
         throw new ConfigurationError("Could not find a header row. Please either add headers and click \"Refresh fields\" or adjust the action configuration to continue.");
       }
@@ -76,8 +83,17 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const sheetId = this.sheetId?.value || this.sheetId;
-    const worksheetName = this.worksheetId.label;
+    const {
+      sheetId,
+      worksheetId,
+    } = this;
+
+    const { name: sheetName } = await this.googleSheets.getFile(sheetId, {
+      fields: "name",
+    });
+
+    const worksheet = await this.getWorksheetById(sheetId, worksheetId);
+
     let cells;
     if (this.hasHeaders) {
       const rows = JSON.parse(this.allColumns);
@@ -109,13 +125,13 @@ export default {
 
     const data = await this.googleSheets.addRowsToSheet({
       spreadsheetId: sheetId,
-      range: worksheetName,
+      range: worksheet?.properties?.title,
       rows: [
         arr,
       ],
     });
 
-    let summary = `Added 1 row to [${this.sheetId?.label || sheetId} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${sheetId}).`;
+    let summary = `Added 1 row to [${sheetName || sheetId} (${data.updatedRange})](https://docs.google.com/spreadsheets/d/${sheetId}).`;
     if (convertedIndexes.length > 0) {
       summary += " We detected something other than a string/number/boolean in at least one of the fields and automatically converted it to a string.";
     }

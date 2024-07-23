@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/end",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream End Components",
   "main": "end.app.mjs",
   "keywords": [

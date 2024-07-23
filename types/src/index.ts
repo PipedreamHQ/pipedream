@@ -328,8 +328,6 @@ type PropThis<Props> = {
   [Prop in keyof Props]: Props[Prop] extends App<Methods, AppPropDefinitions> ? any : any
 };
 
-type Modify<T, R> = Omit<T, keyof R> & R;
-
 interface BaseSource<
   Methods,
   SourcePropDefinitions
@@ -349,24 +347,23 @@ interface BaseSource<
   run: (this: PropThis<SourcePropDefinitions> & Methods & EmitFunction, options?: SourceRunOptions) => void | Promise<void>;
 }
 
-export type DedupedSource<
-  Methods,
-  SourcePropDefinitions
-> = Modify<BaseSource<
-  Methods,
-  SourcePropDefinitions
->, {
+export interface DedupedSource<Methods, SourcePropDefinitions>
+  extends BaseSource<Methods, SourcePropDefinitions> {
   dedupe: "last" | "greatest" | "unique";
-  run: (this: PropThis<SourcePropDefinitions> & Methods & IdEmitFunction, options?: SourceRunOptions) => void | Promise<void>;
-}>;
+  run: (
+    this: PropThis<SourcePropDefinitions> & Methods & IdEmitFunction,
+    options?: SourceRunOptions
+  ) => void | Promise<void>;
+}
 
-export type Source<
-  Methods,
-  SourcePropDefinitions
-> = DedupedSource<
-  Methods,
-  SourcePropDefinitions
->;
+export interface NonDedupedSource<Methods, SourcePropDefinitions>
+  extends BaseSource<Methods, SourcePropDefinitions> {
+  dedupe?: never;
+}
+
+export type Source<Methods, SourcePropDefinitions> =
+  | DedupedSource<Methods, SourcePropDefinitions>
+  | NonDedupedSource<Methods, SourcePropDefinitions>;
 
 export function defineSource<
   Methods,
