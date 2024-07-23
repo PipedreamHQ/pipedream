@@ -8,7 +8,7 @@ export default {
   key: "jira-add-multiple-attachments-to-issue",
   name: "Add Multiple Attachments To Issue",
   description: "Adds multiple attachments to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     jira,
