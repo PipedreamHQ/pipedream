@@ -1,3 +1,5 @@
+import allSobjects from "./all-sobjects.mjs";
+
 function toCapitalCase(str) {
   return str
     .split(" ")
@@ -61,21 +63,21 @@ export function getAdditionalFields() {
   );
 }
 
-function getFieldPropType(fieldType) {
-  // https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/field_types.htm
-  switch (fieldType) {
-  case "boolean":
-    return "boolean";
-  case "int":
-    return "integer";
-  case "multipicklist":
-    return "string[]";
-  default:
-    return "string";
-  }
-}
-
 export const convertFieldsToProps = (fields) => {
+  function getFieldPropType(fieldType) {
+    // https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/field_types.htm
+    switch (fieldType) {
+    case "boolean":
+      return "boolean";
+    case "int":
+      return "integer";
+    case "multipicklist":
+      return "string[]";
+    default:
+      return "string";
+    }
+  }
+
   return fields
     .map((field) => {
       const { type } = field;
@@ -109,32 +111,20 @@ export const convertFieldsToProps = (fields) => {
         }));
       } else if (type === "reference") {
         if (field.referenceTo?.length === 1) {
-          const objType = field.referenceTo[0];
-          prop.description = `The ID of a${objType.startsWith("A")
-            ? "n"
-            : ""} \`${objType}\` record.`;
-          prop.options = async () => {
-            let response;
-            try {
-              response = await this.salesforce.listRecordOptions({
-                objType,
-              });
-            } catch (err) {
-              response = await this.salesforce.listRecordOptions({
-                objType,
-                fields: [
-                  "Id",
-                ],
-                getLabel: (item) => `ID ${item.Id}`,
-              });
-            }
-            return response;
-          };
+          const objName = field.referenceTo[0];
+          prop.description = `The ID of a${
+            objName.startsWith("A")
+              ? "n"
+              : ""
+          } \`${objName}\` record.`;
+          const optionsFn = allSobjects.find(
+            ({ name }) => name === objName,
+          )?.getRecords;
+          if (optionsFn) prop.options = optionsFn;
         } else if (field.referenceTo?.length > 1) {
-          const fieldNames = field.referenceTo
+          prop.description = `The ID of a record of one of these object types: ${field.referenceTo
             .map((s) => `\`${s}\``)
-            .join(", ");
-          prop.description = `The ID of a record of one of these object types: ${fieldNames}`;
+            .join(", ")}`;
         }
       }
 
