@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   props: ({ isUpdate }) => (
@@ -35,8 +36,8 @@ export default {
       },
       attendees: {
         label: "Attendees",
-        type: "string[]",
-        description: "Enter an array of email addresses for any attendees",
+        type: "string",
+        description: "Enter either an array or a comma separated list of email addresses of attendees",
         optional: true,
       },
       repeatFrequency: {
@@ -44,24 +45,29 @@ export default {
         label: "Repeat Frequency",
         description: "Select a frequency to make this event repeating",
         optional: true,
-        options: [
-          "DAILY",
-          "WEEKLY",
-          "MONTHLY",
-          "YEARLY",
-        ],
+        options: Object.keys(constants.REPEAT_FREQUENCIES),
+        reloadProps: true,
+      },
+      repeatInterval: {
+        type: "integer",
+        label: "Repeat Interval",
+        description: "Enter 1 to \"repeat every day\", enter 2 to \"repeat every other day\", etc. Defaults to 1.",
+        optional: true,
+        hidden: true,
       },
       repeatUntil: {
         type: "string",
         label: "Repeat Until",
         description: "The event will repeat only until this date, if set",
         optional: true,
+        hidden: true,
       },
       repeatTimes: {
         type: "integer",
         label: "Repeat How Many Times?",
         description: "Limit the number of times this event will occur",
         optional: true,
+        hidden: true,
       },
     }
   ),
@@ -86,6 +92,11 @@ export default {
       * ]
       */
       let attendees = [];
+      if (typeof selectedAttendees === "string") {
+        selectedAttendees = selectedAttendees.includes("[") && selectedAttendees.includes("]")
+          ? JSON.parse(selectedAttendees)
+          : selectedAttendees.replaceAll(" ", "").split(",");
+      }
       if (selectedAttendees && Array.isArray(selectedAttendees)) {
         attendees = selectedAttendees.map((email) => ({
           email,
@@ -125,20 +136,21 @@ export default {
     */
     formatRecurrence({
       repeatFrequency,
+      repeatInterval,
       repeatTimes,
       repeatUntil,
     }) {
-      if (!repeatUntil && !repeatTimes && !repeatUntil) {
+      if (!repeatFrequency) {
         return;
-      }
-      if ((repeatUntil || repeatTimes) && !repeatFrequency) {
-        throw new ConfigurationError("Repeat Frequency must be set to make event repeating");
       }
       if (repeatTimes && repeatUntil) {
         throw new ConfigurationError("Only one of Repeat Unitl or Repeat How Many Times may be entered");
       }
 
       let recurrence = `RRULE:FREQ=${repeatFrequency}`;
+      if (repeatInterval) {
+        recurrence = `${recurrence};INTERVAL=${repeatInterval}`;
+      }
       if (repeatTimes) {
         recurrence = `${recurrence};COUNT=${repeatTimes}`;
       }

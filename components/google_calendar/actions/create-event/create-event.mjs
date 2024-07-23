@@ -1,6 +1,7 @@
 import googleCalendar from "../../google_calendar.app.mjs";
 import createEventCommon from "../common/create-event-common.mjs";
 import { v4 as uuidv4 } from "uuid";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "google_calendar-create-event",
@@ -15,8 +16,14 @@ export default {
       label: "Type of Add",
       description: "Whether to perform a quick add or a detailed event",
       options: [
-        "quick add",
-        "detailed event",
+        {
+          label: "Add Detailed Event",
+          value: "detailed",
+        },
+        {
+          label: "Add Quick Event using Natural Languagee",
+          value: "quick",
+        },
       ],
       reloadProps: true,
     },
@@ -26,10 +33,18 @@ export default {
         "calendarId",
       ],
     },
+    text: {
+      type: "string",
+      label: "Describe Event",
+      description: "Write a plain text description of event, and Google will parse this string to create the event. eg. 'Meet with Michael 10am 7/22/2024' or 'Call Sarah at 1:30PM on Friday'",
+      hidden: true,
+    },
     summary: {
       label: "Event Title",
       type: "string",
       description: "Enter a title for the event, (e.g., `My event`)",
+      optional: true,
+      hidden: true,
     },
     colorId: {
       propDefinition: [
@@ -52,46 +67,62 @@ export default {
       ],
       hidden: true,
     },
-    sendNotifications: {
-      propDefinition: [
-        googleCalendar,
-        "sendNotifications",
+    createMeetRoom: {
+      type: "boolean",
+      label: "Create Meet Room",
+      description: "Create a Google Meet room for this event.",
+      optional: true,
+      hidden: true,
+    },
+    visibility: {
+      type: "string",
+      label: "Visibility",
+      description: "Visibility of the event",
+      options: [
+        "default",
+        "public",
+        "private",
+        "confidential",
       ],
+      optional: true,
       hidden: true,
     },
   },
   async additionalProps(props) {
-    const newProps = {};
-    if (this.addType !== "detailed event") {
-      return newProps;
+    const isDetailed = this.addType === "detailed";
+
+    props.text.hidden = isDetailed;
+
+    props.summary.hidden = !isDetailed;
+    props.colorId.hidden = !isDetailed;
+    props.timeZone.hidden = !isDetailed;
+    props.sendUpdates.hidden = !isDetailed;
+    props.createMeetRoom.hidden = !isDetailed;
+    props.visibility.hidden = !isDetailed;
+
+    if (isDetailed) {
+      const commonProps = createEventCommon.props({
+        isUpdate: false,
+      });
+      if (this.repeatFrequency) {
+        const frequency = constants[this.repeatFrequency];
+        commonProps.repeatInterval.description = `Enter 1 to "repeat every ${frequency}", enter 2 to "repeat every other ${frequency}", etc. Defaults to 1.`;
+        commonProps.repeatInterval.hidden = !this.repeatFrequency;
+        commonProps.repeatUntil.hidden = !this.repeatFrequency;
+        commonProps.repeatTimes.hidden = !this.repeatFrequency;
+      }
+      return commonProps;
     }
-    props.summary.optional = true;
-    props.colorId.hidden = false;
-    props.timeZone.hidden = false;
-    props.sendUpdates.hidden = false;
-    props.sendNotifications.hidden = false;
-    newProps.createMeetRoom = {
-      label: "Create Meet Room",
-      description: "Create a Google Meet room for this event.",
-      type: "boolean",
-      optional: true,
-    };
-    const commonProps = createEventCommon.props({
-      isUpdate: false,
-    });
-    return {
-      ...newProps,
-      ...commonProps,
-    };
+    return {};
   },
   methods: {
     ...createEventCommon.methods,
   },
   async run({ $ }) {
-    if (this.addType === "quick add") {
+    if (this.addType === "quick") {
       const quickResponse = await this.googleCalendar.quickAddEvent({
         calendarId: this.calendarId,
-        text: this.summary,
+        text: this.text,
       });
       $.export("$summary", `Successfully added a quick event: "${quickResponse.id}"`);
       return quickResponse;
@@ -101,6 +132,7 @@ export default {
     const attendees = this.formatAttendees(this.attendees);
     const recurrence = this.formatRecurrence({
       repeatFrequency: this.repeatFrequency,
+      repeatInterval: this.repeatInterval,
       repeatTimes: this.repeatTimes,
       repeatUntil: this.repeatUntil,
     });
@@ -108,7 +140,6 @@ export default {
     const data = {
       calendarId: this.calendarId,
       sendUpdates: this.sendUpdates,
-      sendNotifications: this.sendNotifications,
       resource: {
         summary: this.summary,
         location: this.location,
@@ -124,6 +155,7 @@ export default {
         recurrence,
         attendees,
         colorId: this.colorId,
+        visibility: this.visibility,
       },
     };
 

@@ -1,5 +1,6 @@
 import googleCalendar from "../../google_calendar.app.mjs";
 import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "google_calendar-list-events",
@@ -108,6 +109,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.orderBy === "startTime" && !this.singleEvents) {
+      throw new ConfigurationError("Singe Events must be `true` to order by `startTime`");
+    }
+
     const args = utils.filterEmptyValues({
       calendarId: this.calendarId,
       iCalUID: this.iCalUID,

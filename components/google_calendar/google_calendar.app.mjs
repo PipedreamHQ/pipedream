@@ -37,16 +37,12 @@ export default {
       label: "Event ID",
       type: "string",
       description: "Select an event from Google Calendar.",
-      async options({
-        calendarId, prevContext,
-      }) {
-        const { nextPageToken } = prevContext;
-        if (nextPageToken === false) {
-          return [];
-        }
+      async options({ calendarId }) {
+        const monthAgo = new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString();
         const response = await this.listEvents({
           calendarId,
-          pageToken: nextPageToken,
+          maxResults: 100,
+          timeMin: monthAgo,
         });
         const options = response.items.map((item) => {
           let label = item.summary || item.id;
@@ -61,12 +57,7 @@ export default {
             value: item.id,
           };
         });
-        return {
-          options,
-          context: {
-            nextPageToken: response.nextPageToken ?? false,
-          },
-        };
+        return options.reverse();
       },
     },
     iCalUID: {
@@ -89,7 +80,7 @@ export default {
     },
     orderBy: {
       label: "Order By",
-      description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order.",
+      description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order. Must set Singe Events to `true` to order by `startTime`.",
       optional: true,
       type: "string",
       options: [
@@ -259,16 +250,10 @@ export default {
         "none",
       ],
     },
-    sendNotifications: {
-      label: "Send Notifications",
-      type: "boolean",
-      description: "Whether to send notifications about the event update",
-      optional: true,
-    },
     colorId: {
       label: "Color ID",
       type: "string",
-      description: "The color of the event. This is an ID referring to an entry in the event section of the colors definition (see the colors endpoint).",
+      description: "The color assigned to this event on your calendar. You can only select a color from the list of event colors provided from your calendar. This setting will only affect your calendar.",
       optional: true,
       async options() {
         const response = await this.listColors();
