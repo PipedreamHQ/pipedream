@@ -78,18 +78,18 @@ export default {
     fieldsToUpdate: {
       type: "string[]",
       label: "Fields to Update",
-      description: "Select which fields you want to update for this record.",
+      description: "Select the field(s) you want to update for this record.",
       async options({ objType }) {
         const fields = await this.getFieldsForObjectType(objType);
         return fields.filter((field) => field.updateable).map(({ name }) => name);
       },
     },
-    fieldsToQuery: {
+    fieldsToObtain: {
       type: "string[]",
-      label: "Fields to Return",
-      description: "Select which fields you want to obtain for this record.",
-      async options({ objectType }) {
-        const fields = await this.getFieldsForObjectType(objectType);
+      label: "Fields to Obtain",
+      description: "Select the field(s) to obtain for the selected record(s) (or all records).",
+      async options({ objType }) {
+        const fields = await this.getFieldsForObjectType(objType);
         return fields.map(({ name }) => name);
       },
     },
