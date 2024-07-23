@@ -9,7 +9,7 @@ export default {
   key: "salesforce_rest_api-create-user",
   name: "Create User",
   description: `Creates a Salesforce user. [See the documentation](${docsLink})`,
-  version: "0.1.{{ts}}",
+  version: "0.1.0",
   type: "action",
   methods: {
     ...common.methods,

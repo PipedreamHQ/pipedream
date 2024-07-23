@@ -15,7 +15,7 @@ export default {
       customResponse: true,
     },
     salesforce,
-    alertTest: {
+    infoBox: {
       type: "alert",
       alertType: "info",
       content: `See Salesforce's guide on [setting up Outbound Messaging](https://sforce.co/3JbZJom).

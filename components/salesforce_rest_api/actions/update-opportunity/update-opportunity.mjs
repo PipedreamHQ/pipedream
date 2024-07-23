@@ -16,7 +16,7 @@ export default {
   key: "salesforce_rest_api-update-opportunity",
   name: "Update Opportunity",
   description: `Updates an opportunity. [See the documentation](${docsLink})`,
-  version: "0.3.{{ts}}",
+  version: "0.3.0",
   type: "action",
   methods: {
     ...common.methods,
