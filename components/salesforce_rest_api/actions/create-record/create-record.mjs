@@ -1,6 +1,7 @@
 import { getAdditionalFields } from "../../common/props-utils.mjs";
 import salesforce from "../../salesforce_rest_api.app.mjs";
 import { additionalFields } from "../common/base.mjs";
+import allSobjects from "../../common/all-sobjects.mjs";
 
 export default {
   key: "salesforce_rest_api-create-record",
@@ -76,26 +77,12 @@ export default {
           }));
         } else if (type === "reference") {
           if (field.referenceTo?.length === 1) {
-            prop.description = `The ID of a${field.referenceTo[0].startsWith("A")
+            const objName = field.referenceTo[0];
+            prop.description = `The ID of a${objName.startsWith("A")
               ? "n"
-              : ""} \`${field.referenceTo[0]}\` record.`;
-            prop.options = async () => {
-              let response;
-              try {
-                response = await this.salesforce.listRecordOptions({
-                  objType: field.referenceTo[0],
-                });
-              } catch (err) {
-                response = await this.salesforce.listRecordOptions({
-                  objType: field.referenceTo[0],
-                  fields: [
-                    "Id",
-                  ],
-                  getLabel: (item) => `ID ${item.Id}`,
-                });
-              }
-              return response;
-            };
+              : ""} \`${objName}\` record.`;
+            const optionsFn = allSobjects.find(({ name }) => name === objName)?.getRecords;
+            if (optionsFn) prop.options = optionsFn;
           } else if (field.referenceTo?.length > 1) {
             prop.description = `The ID of a record of one of these object types: ${field.referenceTo
               .map((s) => `\`${s}\``)
