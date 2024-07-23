@@ -4,19 +4,6 @@ export default {
   type: "app",
   app: "salesforce_rest_api",
   propDefinitions: {
-    sobjectId: {
-      type: "string",
-      label: "Object Type",
-      description: "ID of the Standard object to get field values from",
-      async options(context) {
-        const { objectType } = context;
-        const { recentItems } = await this.listSObjectTypeIds(objectType);
-        return recentItems.map((item) => ({
-          label: item.Name,
-          value: item.Id,
-        }));
-      },
-    },
     objectType: {
       type: "string",
       label: "SObject Type",
@@ -68,13 +55,6 @@ export default {
         return fields.filter(filter).map(({ name }) => name);
       },
     },
-    fieldUpdatedTo: {
-      type: "string",
-      label: "Field Updated to",
-      description:
-        "If provided, the trigger will only fire when the updated field is an EXACT MATCH (including spacing and casing) to the value you provide in this field",
-      optional: true,
-    },
     fieldsToUpdate: {
       type: "string[]",
       label: "Fields to Update",
@@ -92,25 +72,6 @@ export default {
         const fields = await this.getFieldsForObjectType(objType);
         return fields.map(({ name }) => name);
       },
-    },
-    AcceptedEventInviteeIds: {
-      type: "string[]",
-      label: "Accepted Event Invitee IDs",
-      async options() {
-        const { recentItems: contacts } = await this.listSObjectTypeIds("Contact");
-        const { recentItems: leads } = await this.listSObjectTypeIds("Lead");
-        const allContacts = [
-          ...contacts,
-          ...leads,
-        ];
-        return allContacts.map(({
-          Name, Id,
-        }) => ({
-          label: Name,
-          value: Id,
-        }));
-      },
-      description: "A string array of contact or lead IDs who accepted this event. This JunctionIdList is linked to the AcceptedEventRelation child relationship. Warning Adding a JunctionIdList field name to the fieldsToNull property deletes all related junction records. This action can't be undone.",
     },
     useAdvancedProps: {
       type: "boolean",
@@ -171,10 +132,6 @@ export default {
     _sObjectTypeDescriptionApiUrl(sObjectType) {
       const baseUrl = this._sObjectTypeApiUrl(sObjectType);
       return `${baseUrl}/describe`;
-    },
-    _sObjectTypeUpdatedApiUrl(sObjectType) {
-      const baseUrl = this._sObjectTypeApiUrl(sObjectType);
-      return `${baseUrl}/updated`;
     },
     _sObjectTypeDeletedApiUrl(sObjectType) {
       const baseUrl = this._sObjectTypeApiUrl(sObjectType);
@@ -256,15 +213,6 @@ export default {
         url,
       });
       return data.fields;
-    },
-    async getHistorySObjectForObjectType(objectType) {
-      const { sobjects } = await this.listSObjectTypes();
-      const historyObject = sobjects.find(
-        (sobject) =>
-          sobject.associateParentEntity === objectType &&
-          this.isHistorySObject(sobject),
-      );
-      return historyObject;
     },
     async createObject({
       objectType, ...args
