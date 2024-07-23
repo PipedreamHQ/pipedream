@@ -34,7 +34,7 @@ export default {
     },
     deleteEndpoint(endpointId) {
       return this.app.delete({
-        path: `/${endpointId}`
+        path: `/${endpointId}`,
       });
     },
     getEvent() {
