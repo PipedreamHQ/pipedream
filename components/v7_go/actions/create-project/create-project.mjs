@@ -1,11 +1,10 @@
 import v7Go from "../../v7_go.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "v7_go-create-project",
   name: "Create Project",
   description: "Initiates the creation of a new project with a unique project identifier. [See the documentation](https://docs.go.v7labs.com/reference/project-create)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     v7Go,
@@ -16,16 +15,18 @@ export default {
       ],
     },
     name: {
-      propDefinition: [
-        v7Go,
-        "name",
-      ],
+      type: "string",
+      label: "Name",
+      description: "The name of the project.",
     },
   },
   async run({ $ }) {
     const response = await this.v7Go.createProject({
+      $,
       workspaceId: this.workspaceId,
-      name: this.name,
+      data: {
+        name: this.name,
+      },
     });
     $.export("$summary", `Successfully created project with ID ${response.id}`);
     return response;
