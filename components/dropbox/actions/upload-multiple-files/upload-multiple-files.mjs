@@ -64,22 +64,25 @@ export default {
   },
   async additionalProps() {
     const props = {};
+    let i = 1;
     if (this.fileUrls?.length) {
       for (const url of this.fileUrls) {
-        props[`name_${url}`] = {
+        props[`name_${i}`] = {
           type: "string",
           label: `New filename for "${url}"`,
           description: "Make sure to include the file extension",
         };
+        i++;
       }
     }
     if (this.filePaths?.length) {
       for (const filePath of this.filePaths) {
-        props[`name_${filePath}`] = {
+        props[`name_${i}`] = {
           type: "string",
           label: `New filename for "${filePath}"`,
           description: "Make sure to include the file extension",
         };
+        i++;
       }
     }
     return props;
@@ -102,24 +105,27 @@ export default {
 
     const fileInfo = [];
     const normalizedPath = this.dropbox.getNormalizedPath(path, true);
+    let i = 1;
 
     if (this.fileUrls?.length) {
       for (const url of fileUrls) {
-        const filename = fileProps[`name_${url}`];
+        const filename = fileProps[`name_${i}`];
         fileInfo.push({
           contents: await got.stream(url),
           path: `${normalizedPath}${filename}`,
         });
+        i++;
       }
     }
 
     if (this.filePaths?.length) {
       for (const filePath of filePaths) {
-        const filename = fileProps[`name_${filePath}`];
+        const filename = fileProps[`name_${i}`];
         fileInfo.push({
           contents: fs.createReadStream(filePath),
           path: `${normalizedPath}${filename}`,
         });
+        i++;
       }
     }
 
