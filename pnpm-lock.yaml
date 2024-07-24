@@ -3374,6 +3374,9 @@ importers:
   components/funnelcockpit:
     specifiers: {}
 
+  components/gagelist:
+    specifiers: {}
+
   components/gan_ai:
     specifiers:
       '@pipedream/platform': 1.6.4
