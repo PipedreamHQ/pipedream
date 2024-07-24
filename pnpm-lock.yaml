@@ -4863,6 +4863,9 @@ importers:
   components/kommo:
     specifiers: {}
 
+  components/konfhub:
+    specifiers: {}
+
   components/kontent_ai:
     specifiers:
       '@kontent-ai/delivery-sdk': ^14.4.0
