@@ -56,6 +56,10 @@ const IMAGE_RESPONSE_FORMATS = [
     value: "url",
   },
   {
+    label: "Write file to /tmp directory",
+    value: "tmp",
+  },
+  {
     label: "Base64 JSON",
     value: "b64_json",
   },
