@@ -144,7 +144,7 @@ export default {
         return;
       }
       if (repeatTimes && repeatUntil) {
-        throw new ConfigurationError("Only one of Repeat Unitl or Repeat How Many Times may be entered");
+        throw new ConfigurationError("Only one of `Repeat Until` or Repeat `How Many Times` may be entered");
       }
 
       let recurrence = `RRULE:FREQ=${repeatFrequency}`;

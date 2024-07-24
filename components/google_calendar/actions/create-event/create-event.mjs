@@ -21,7 +21,7 @@ export default {
           value: "detailed",
         },
         {
-          label: "Add Quick Event using Natural Languagee",
+          label: "Add Quick Event using Natural Language",
           value: "quick",
         },
       ],
@@ -70,7 +70,7 @@ export default {
     createMeetRoom: {
       type: "boolean",
       label: "Create Meet Room",
-      description: "Create a Google Meet room for this event.",
+      description: "Whether to create a Google Meet room for this event.",
       optional: true,
       hidden: true,
     },

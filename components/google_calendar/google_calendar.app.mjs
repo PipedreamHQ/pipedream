@@ -80,7 +80,7 @@ export default {
     },
     orderBy: {
       label: "Order By",
-      description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order. Must set Singe Events to `true` to order by `startTime`.",
+      description: "The order of the events returned in the result. Optional. The default is an unspecified, stable order. Must set Single Events to `true` to order by `startTime`.",
       optional: true,
       type: "string",
       options: [
