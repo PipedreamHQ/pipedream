@@ -79,18 +79,5 @@ export default {
         ...opts,
       });
     },
-    createWebhook(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks",
-        ...opts,
-      });
-    },
-    deleteWebhook(webhookId) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/webhooks/${webhookId}`,
-      });
-    },
   },
 };
