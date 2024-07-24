@@ -4,52 +4,55 @@ export default {
   type: "app",
   app: "sendspark",
   propDefinitions: {
-    name: {
+    dynamicId: {
       type: "string",
-      label: "Name",
-      description: "Name of the dynamic video campaign",
-    },
-    workspaceId: {
-      type: "string",
-      label: "Workspace ID",
-      description: "The ID of the workspace where the dynamic video campaign will be created",
+      label: "Dynamic Campaign ID",
+      description: "The ID of the dynamic campaign.",
+      async options() {
+        const { response: { data } } = await this.listDynamicCampaigns();
+
+        return data.map(({
+          _id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.sendspark.com/v1";
+      return `${this.$auth.api_url}/v1/workspaces/${this.$auth.workspace_id}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "x-api-key": `${this.$auth.api_key}`,
+        "x-api-secret": `${this.$auth.api_secret_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async createDynamicVideoCampaign({
-      workspaceId, name,
+    listDynamicCampaigns(opts = {}) {
+      return this._makeRequest({
+        path: "/dynamics",
+        ...opts,
+      });
+    },
+    createDynamicVideoCampaign({
+      dynamicId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/workspaces/${workspaceId}/dynamics`,
-        data: {
-          name,
-        },
+        path: `/dynamics/${dynamicId}/prospect`,
+        ...opts,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
