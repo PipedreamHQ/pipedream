@@ -105,7 +105,7 @@ export default {
         isUpdate: false,
       });
       if (this.repeatFrequency) {
-        const frequency = constants[this.repeatFrequency];
+        const frequency = constants.REPEAT_FREQUENCIES[this.repeatFrequency];
         commonProps.repeatInterval.description = `Enter 1 to "repeat every ${frequency}", enter 2 to "repeat every other ${frequency}", etc. Defaults to 1.`;
         commonProps.repeatInterval.hidden = !this.repeatFrequency;
         commonProps.repeatUntil.hidden = !this.repeatFrequency;

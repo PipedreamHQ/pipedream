@@ -43,7 +43,7 @@ export default {
   },
   async additionalProps(props) {
     if (this.repeatFrequency) {
-      const frequency = constants[this.repeatFrequency];
+      const frequency = constants.REPEAT_FREQUENCIES[this.repeatFrequency];
       props.repeatInterval.description = `Enter 1 to "repeat every ${frequency}", enter 2 to "repeat every other ${frequency}", etc. Defaults to 1.`;
     }
     props.repeatInterval.hidden = !this.repeatFrequency;
