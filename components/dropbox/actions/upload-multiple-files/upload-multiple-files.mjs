@@ -26,15 +26,20 @@ export default {
       type: "string[]",
       label: "File URLs",
       description: "The URLs of the files you want to upload to Dropbox. Must specify either File URLs or File Paths.",
+      default: [],
       optional: true,
-      reloadProps: true,
     },
     filePaths: {
       type: "string[]",
       label: "File Paths",
       description: "The paths to the files, e.g. /tmp/myFile.csv . Must specify either File URLs or File Paths.",
+      default: [],
       optional: true,
-      reloadProps: true,
+    },
+    filenames: {
+      type: "string[]",
+      label: "File Names",
+      description: "An array of filenames for the new files. Please provide a name for each URL and/or Path. Make sure to include the file extensions.",
     },
     autorename: {
       type: "boolean",
@@ -62,33 +67,9 @@ export default {
       optional: true,
     },
   },
-  async additionalProps() {
-    const props = {};
-    let i = 1;
-    if (this.fileUrls?.length) {
-      for (const url of this.fileUrls) {
-        props[`name_${i}`] = {
-          type: "string",
-          label: `New filename for "${url}"`,
-          description: "Make sure to include the file extension",
-        };
-        i++;
-      }
-    }
-    if (this.filePaths?.length) {
-      for (const filePath of this.filePaths) {
-        props[`name_${i}`] = {
-          type: "string",
-          label: `New filename for "${filePath}"`,
-          description: "Make sure to include the file extension",
-        };
-        i++;
-      }
-    }
-    return props;
-  },
   async run({ $ }) {
     const {
+      dropbox,
       path,
       fileUrls,
       filePaths,
@@ -96,34 +77,37 @@ export default {
       mute,
       strictConflict,
       mode,
-      ...fileProps
+      filenames,
     } = this;
 
     if (!fileUrls?.length && !filePaths?.length) {
       throw new ConfigurationError("Must specify either File URLs or File Paths.");
     }
 
-    const fileInfo = [];
-    const normalizedPath = this.dropbox.getNormalizedPath(path, true);
-    let i = 1;
+    const numFiles = fileUrls.length + filePaths.length;
+    if (numFiles !== filenames.length) {
+      throw new ConfigurationError(`Number of filenames must match number of files. Detected ${numFiles} file(s) and ${filenames.length} filename(s)`);
+    }
 
-    if (this.fileUrls?.length) {
+    const fileInfo = [];
+    const normalizedPath = dropbox.getNormalizedPath(path, true);
+    let i = 0;
+
+    if (fileUrls?.length) {
       for (const url of fileUrls) {
-        const filename = fileProps[`name_${i}`];
         fileInfo.push({
           contents: await got.stream(url),
-          path: `${normalizedPath}${filename}`,
+          path: `${normalizedPath}${filenames[i]}`,
         });
         i++;
       }
     }
 
-    if (this.filePaths?.length) {
+    if (filePaths?.length) {
       for (const filePath of filePaths) {
-        const filename = fileProps[`name_${i}`];
         fileInfo.push({
           contents: fs.createReadStream(filePath),
-          path: `${normalizedPath}${filename}`,
+          path: `${normalizedPath}${filenames[i]}`,
         });
         i++;
       }
@@ -131,7 +115,7 @@ export default {
 
     const responses = [];
     for (const file of fileInfo) {
-      const { result } = await this.dropbox.uploadFile({
+      const { result } = await dropbox.uploadFile({
         contents: file.contents,
         autorename,
         path: file.path,
