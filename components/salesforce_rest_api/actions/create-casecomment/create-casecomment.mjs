@@ -31,7 +31,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.createCaseComment({
+    const response = await salesforce.createRecord("CaseComment", {
       $,
       data,
     });

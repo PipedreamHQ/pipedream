@@ -36,7 +36,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.createCase({
+    const response = await salesforce.createRecord("Case", {
       $,
       data: {
         ...data,

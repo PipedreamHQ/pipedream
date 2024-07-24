@@ -16,13 +16,6 @@ export default {
     getAdvancedProps() {
       return user.extraProps;
     },
-    createUser(args = {}) {
-      return this.salesforce._makeRequest({
-        method: "POST",
-        url: this.salesforce._sObjectTypeApiUrl("User"),
-        ...args,
-      });
-    },
   },
   props: getProps({
     objType: user,
@@ -32,7 +25,6 @@ export default {
     /* eslint-disable no-unused-vars */
     const {
       salesforce,
-      createUser,
       getAdvancedProps,
       getAdditionalFields,
       formatDateTimeProps,
@@ -43,7 +35,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await createUser({
+    const response = await salesforce.createRecord("User", {
       $,
       data: {
         ...data,

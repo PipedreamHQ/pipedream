@@ -37,7 +37,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars, max-len */
-    const response = await salesforce.createCampaign({
+    const response = await salesforce.createRecord("Campaign", {
       $,
       data: {
         ...data,

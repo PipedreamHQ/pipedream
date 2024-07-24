@@ -36,7 +36,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.createOpportunity({
+    const response = await salesforce.createRecord("Opportunity", {
       $,
       data: {
         ...data,

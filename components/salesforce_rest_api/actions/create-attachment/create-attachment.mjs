@@ -40,7 +40,7 @@ export default {
       })
       : filePathOrContent;
 
-    const response = await salesforce.createAttachment({
+    const response = await salesforce.createRecord("Attachment", {
       $,
       data: {
         Body: body,

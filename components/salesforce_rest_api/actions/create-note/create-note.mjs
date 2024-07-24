@@ -30,7 +30,7 @@ export default {
       docsInfo,  ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.createNote({
+    const response = await salesforce.createRecord("Note", {
       $,
       data,
     });

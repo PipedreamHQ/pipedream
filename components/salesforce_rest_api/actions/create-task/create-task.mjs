@@ -41,7 +41,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.createTask({
+    const response = await salesforce.createRecord("Task", {
       $,
       data: {
         ...data,

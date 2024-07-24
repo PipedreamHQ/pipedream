@@ -270,17 +270,6 @@ export default {
         },
       });
     },
-    async createAccount({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Account");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
     async updateAccount({
       $, id, data,
     }) {
@@ -292,61 +281,6 @@ export default {
         data,
       });
     },
-    async createAttachment({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Attachment");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createCampaign({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Campaign");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createCase({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Case");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createCaseComment({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("CaseComment");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createContact({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Contact");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
     async updateContact({
       $, id, data,
     }) {
@@ -355,50 +289,6 @@ export default {
         $,
         url,
         method: "PATCH",
-        data,
-      });
-    },
-    async createEvent({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Event");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createLead({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Lead");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createNote({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Note");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createOpportunity({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Opportunity");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
         data,
       });
     },
@@ -432,17 +322,6 @@ export default {
         $,
         url,
         method: "PATCH",
-        data,
-      });
-    },
-    async createTask({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Task");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
         data,
       });
     },

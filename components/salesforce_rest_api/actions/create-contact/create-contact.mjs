@@ -36,7 +36,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.createContact({
+    const response = await salesforce.createRecord("Contact", {
       $,
       data: {
         ...data,

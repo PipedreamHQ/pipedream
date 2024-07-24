@@ -34,7 +34,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.createAccount({
+    const response = await salesforce.createRecord("Account", {
       $,
       data: {
         ...data,

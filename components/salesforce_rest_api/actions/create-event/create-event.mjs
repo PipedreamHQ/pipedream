@@ -42,7 +42,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.createEvent({
+    const response = await salesforce.createRecord("Event", {
       $,
       data: {
         ...data,
