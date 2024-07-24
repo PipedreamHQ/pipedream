@@ -56,7 +56,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.updateOpportunity({
+    const response = await salesforce.updateRecord("Opportunity", {
       $,
       id: opportunityId,
       data: {

@@ -270,39 +270,6 @@ export default {
         },
       });
     },
-    async updateAccount({
-      $, id, data,
-    }) {
-      const url = this._sObjectDetailsApiUrl("Account", id);
-      return this._makeRequest({
-        $,
-        url,
-        method: "PATCH",
-        data,
-      });
-    },
-    async updateContact({
-      $, id, data,
-    }) {
-      const url = this._sObjectDetailsApiUrl("Contact", id);
-      return this._makeRequest({
-        $,
-        url,
-        method: "PATCH",
-        data,
-      });
-    },
-    async updateOpportunity({
-      $, id, data,
-    }) {
-      const url = this._sObjectDetailsApiUrl("Opportunity", id);
-      return this._makeRequest({
-        $,
-        url,
-        method: "PATCH",
-        data,
-      });
-    },
     async createRecord(sobjectName, {
       $, data,
     }) {
@@ -323,16 +290,6 @@ export default {
         url,
         method: "PATCH",
         data,
-      });
-    },
-    async deleteOpportunity({
-      $, id,
-    }) {
-      const url = this._sObjectDetailsApiUrl("Opportunity", id);
-      return this._makeRequest({
-        $,
-        url,
-        method: "DELETE",
       });
     },
     async query({

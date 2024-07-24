@@ -22,7 +22,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.salesforce.deleteOpportunity({
+    const response = await this.salesforce.deleteRecord({
+      sobjectType: "Opportunity",
       $,
       id: this.opportunityId,
     });

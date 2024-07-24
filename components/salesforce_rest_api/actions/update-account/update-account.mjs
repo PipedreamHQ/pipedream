@@ -54,7 +54,7 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.updateAccount({
+    const response = await salesforce.updateRecord("Account", {
       $,
       id: accountId,
       data: {
