@@ -72,10 +72,10 @@ export default {
         value,
       ]) => {
         const numValue = Number(value);
-        const date = new Date(isNaN(numValue)
+        const date = new Date(Number.isNaN(numValue)
           ? value
           : numValue);
-        if (isNaN(date.valueOf())) {
+        if (Number.isNaN(date.valueOf())) {
           throw new ConfigurationError(`Invalid date format for prop \`${key}\`. Please provide a valid date format.`);
         }
         return [
