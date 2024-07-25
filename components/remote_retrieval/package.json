@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/remote_retrieval",
+  "version": "0.0.1",
+  "description": "Pipedream Remote Retrieval Components",
+  "main": "remote_retrieval.app.mjs",
+  "keywords": [
+    "pipedream",
+    "remote_retrieval"
+  ],
+  "homepage": "https://pipedream.com/apps/remote_retrieval",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

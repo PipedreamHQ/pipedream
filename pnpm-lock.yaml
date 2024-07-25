@@ -586,7 +586,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/appointo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/appwrite:
     specifiers:
@@ -2454,7 +2457,10 @@ importers:
       form-data: 4.0.0
 
   components/documerge:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/documint:
     specifiers:
@@ -3366,6 +3372,9 @@ importers:
     specifiers: {}
 
   components/funnelcockpit:
+    specifiers: {}
+
+  components/gagelist:
     specifiers: {}
 
   components/gan_ai:
@@ -4854,6 +4863,9 @@ importers:
   components/kommo:
     specifiers: {}
 
+  components/konfhub:
+    specifiers: {}
+
   components/kontent_ai:
     specifiers:
       '@kontent-ai/delivery-sdk': ^14.4.0
@@ -6050,7 +6062,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/noor:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/nordigen:
     specifiers:
@@ -6402,6 +6417,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash.pickby: 4.6.0
 
+  components/owl_protocol:
+    specifiers: {}
+
   components/oxford_dictionaries:
     specifiers: {}
 
@@ -6499,7 +6517,10 @@ importers:
       url: 0.11.3
 
   components/paved:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/payhere:
     specifiers:
@@ -7511,6 +7532,9 @@ importers:
     specifiers: {}
 
   components/remote:
+    specifiers: {}
+
+  components/remote_retrieval:
     specifiers: {}
 
   components/render:
@@ -8694,7 +8718,10 @@ importers:
     specifiers: {}
 
   components/specific:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/speechace:
     specifiers:
@@ -9113,7 +9140,10 @@ importers:
     specifiers: {}
 
   components/tavily:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/tawk_to:
     specifiers:
@@ -9592,6 +9622,9 @@ importers:
   components/truss:
     specifiers: {}
 
+  components/trust:
+    specifiers: {}
+
   components/trustpilot:
     specifiers: {}
 
@@ -9689,7 +9722,10 @@ importers:
     specifiers: {}
 
   components/typeflowai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/typeform:
     specifiers:
@@ -10858,6 +10894,9 @@ importers:
     specifiers: {}
 
   components/zuora:
+    specifiers: {}
+
+  components/zylvie:
     specifiers: {}
 
   components/zyte_api:

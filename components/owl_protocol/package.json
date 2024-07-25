@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/owl_protocol",
+  "version": "0.0.1",
+  "description": "Pipedream Owl Protocol Components",
+  "main": "owl_protocol.app.mjs",
+  "keywords": [
+    "pipedream",
+    "owl_protocol"
+  ],
+  "homepage": "https://pipedream.com/apps/owl_protocol",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
