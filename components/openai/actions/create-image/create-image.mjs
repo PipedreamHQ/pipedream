@@ -1,9 +1,10 @@
 import openai from "../../openai.app.mjs";
 import constants from "../../common/constants.mjs";
+import fs from "fs";
 
 export default {
   name: "Create Image (Dall-E)",
-  version: "0.1.14",
+  version: "0.1.15",
   key: "openai-create-image",
   description: "Creates an image given a prompt returning a URL to the image. [See the documentation](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
@@ -28,6 +29,7 @@ export default {
       optional: true,
       options: constants.IMAGE_RESPONSE_FORMATS,
       default: "url",
+      reloadProps: true,
     },
     size: {
       label: "Size",
@@ -40,10 +42,17 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (!this.model) {
+    if (!this.model && !this.responseFormat) {
       return props;
     }
-    if (this.model !== "dall-e-3") {
+    if (this.responseFormat === "tmp") {
+      props.filename = {
+        type: "string",
+        label: "Filename",
+        description: "Filename of the new file in `/tmp` directory. Make sure to include the extension.",
+      };
+    }
+    if (this.model && this.model !== "dall-e-3") {
       props.n = {
         type: "integer",
         label: "N",
@@ -78,15 +87,41 @@ export default {
         prompt: this.prompt,
         n: this.n,
         size: this.size,
-        response_format: this.responseFormat,
+        response_format: this.responseFormat === "url"
+          ? this.responseFormat
+          : "b64_json",
         model: this.model,
         quality: this.quality,
         style: this.style,
       },
     });
 
+    if (this.responseFormat === "tmp") {
+      const n = this.n || 1;
+      const fileData = [];
+      for (let i = 0; i < n; i++) {
+        // if N > 0, name subsequent files "filename_1.ext", "filename_2.ext", etc.
+        const filename = i === 0
+          ? this.filename
+          : this.filename.replace(/(\.[^/.]+)$/, `_${i}$1`);
+        const outputFilePath = filename.includes("tmp/")
+          ? filename
+          : `/tmp/${filename}`;
+        await fs.writeFileSync(outputFilePath, Buffer.from(response.data[0].b64_json.toString(), "base64"));
+        fileData.push({
+          tmp: [
+            filename,
+            outputFilePath,
+          ],
+        });
+      }
+      response.data = fileData;
+    }
+
     if (response.data.length) {
-      $.export("$summary", `Successfully created ${response.data.length} images`);
+      $.export("$summary", `Successfully created ${response.data.length} image${response.data.length === 1
+        ? ""
+        : "s"}`);
     }
 
     return response;
