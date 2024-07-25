@@ -6684,6 +6684,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/picdefense:
+    specifiers: {}
+
   components/picky_assist:
     specifiers:
       '@pipedream/platform': ^1.2.1
