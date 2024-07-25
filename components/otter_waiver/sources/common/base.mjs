@@ -10,7 +10,6 @@ export default {
       type: "$.interface.http",
       customResponse: true,
     },
-    db: "$.service.db",
   },
   methods: {
     _getWebhookId() {
