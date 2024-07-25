@@ -6,7 +6,7 @@ export default {
   key: "openai-upload-file",
   name: "Upload File",
   description: "Upload a file that can be used across various endpoints/features. The size of individual files can be a maximum of 512mb. [See the documentation](https://platform.openai.com/docs/api-reference/files/create)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     openai,
