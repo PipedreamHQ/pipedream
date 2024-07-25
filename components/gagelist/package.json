@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/gagelist",
+  "version": "0.0.1",
+  "description": "Pipedream GageList Components",
+  "main": "gagelist.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gagelist"
+  ],
+  "homepage": "https://pipedream.com/apps/gagelist",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

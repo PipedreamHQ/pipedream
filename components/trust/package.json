@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/trust",
+  "version": "0.0.1",
+  "description": "Pipedream Trust Components",
+  "main": "trust.app.mjs",
+  "keywords": [
+    "pipedream",
+    "trust"
+  ],
+  "homepage": "https://pipedream.com/apps/trust",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
