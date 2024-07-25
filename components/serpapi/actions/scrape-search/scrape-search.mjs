@@ -40,13 +40,13 @@ export default {
         engine: this.engine,
       },
       data: {
-        q: this.q,
+        q: this.q.join(","),
         device: this.device,
         no_cache: this.noCache,
       },
     });
 
-    $.export("$summary", `Successfully sent quety to '${this.engine}'`);
+    $.export("$summary", `Successfully sent query to '${this.engine}'`);
 
     return response;
   },

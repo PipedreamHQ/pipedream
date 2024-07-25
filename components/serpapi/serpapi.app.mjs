@@ -17,9 +17,9 @@ export default {
       description: "The query or queries you want to search. When passing multiple queries you need to use a comma `,` to separate them",
     },
     device: {
-      type: "string",
+      type: "string[]",
       label: "Device",
-      description: "efines the device to use to get the results",
+      description: "Defines the device to use to get the results",
       options: constants.DEVICES,
     },
     noCache: {
