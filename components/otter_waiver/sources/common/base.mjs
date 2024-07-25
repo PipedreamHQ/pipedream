@@ -16,7 +16,7 @@ export default {
       this.$emit(event, {
         id: event.id,
         summary: this.getSummary(event),
-        ts: Date.parse(event.timeStamps.checkedIn),
+        ts: Date.now(),
       });
     },
   },
