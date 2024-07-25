@@ -1697,6 +1697,9 @@ importers:
       '@pipedream/types': 0.1.6
       form-data: 4.0.0
 
+  components/cloudpresenter:
+    specifiers: {}
+
   components/cloudpress:
     specifiers:
       '@pipedream/platform': ^1.6.0
