@@ -12,12 +12,6 @@ export default {
     },
   },
   methods: {
-    _getWebhookId() {
-      return this.db.get("webhookId");
-    },
-    _setWebhookId(id) {
-      this.db.set("webhookId", id);
-    },
     emitEvent(event) {
       this.$emit(event, {
         id: event.id,
