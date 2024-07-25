@@ -6372,7 +6372,10 @@ importers:
     specifiers: {}
 
   components/otter_waiver:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/ottertext:
     specifiers: {}
