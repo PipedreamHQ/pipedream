@@ -67,22 +67,25 @@ export default {
     getAdditionalFields,
     formatDateTimeProps(props = {}) {
       // https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_valid_date_formats.htm
-      return Object.fromEntries(Object.entries(props).map(([
-        key,
-        value,
-      ]) => {
-        const numValue = Number(value);
-        const date = new Date(Number.isNaN(numValue)
-          ? value
-          : numValue);
-        if (Number.isNaN(date.valueOf())) {
-          throw new ConfigurationError(`Invalid date format for prop \`${key}\`. Please provide a valid date format.`);
-        }
-        return [
+      return Object.fromEntries(Object.entries(props).filter(([
+        , value,
+      ]) => value !== undefined)
+        .map(([
           key,
-          date.toISOString(),
-        ];
-      }));
+          value,
+        ]) => {
+          const numValue = Number(value);
+          const date = new Date(Number.isNaN(numValue)
+            ? value
+            : numValue);
+          if (Number.isNaN(date.valueOf())) {
+            throw new ConfigurationError(`Invalid date format for prop \`${key}\`. Please provide a valid date format.`);
+          }
+          return [
+            key,
+            date.toISOString(),
+          ];
+        }));
     },
   },
   additionalProps() {

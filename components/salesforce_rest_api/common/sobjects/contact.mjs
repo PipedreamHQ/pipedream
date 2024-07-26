@@ -73,12 +73,6 @@ export default {
       description: "The contact's department.",
       optional: true,
     },
-    DoNotCall: {
-      type: "boolean",
-      label: "Do Not Call",
-      description: "Indicates that the contact doesn't want to receive calls.",
-      optional: true,
-    },
     Fax: {
       type: "string",
       label: "Business Fax",
