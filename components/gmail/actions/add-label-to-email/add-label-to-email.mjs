@@ -2,7 +2,7 @@ import common from "../../common/verify-client-id.mjs";
 
 export default {
   ...common,
-  key: "gmail_add-label-to-email",
+  key: "gmail-add-label-to-email",
   name: "Add Label to Email",
   description: "Add a label to an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
   version: "0.0.1",
