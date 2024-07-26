@@ -1,10 +1,13 @@
-import googleSheets from "../../google_sheets.app.mjs";
+import common from "../common/worksheet.mjs";
+
+const { googleSheets } = common.props;
 
 export default {
+  ...common,
   key: "google_sheets-clear-cell",
   name: "Clear Cell",
   description: "Delete the content of a specific cell in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/clear)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     googleSheets,
@@ -34,7 +37,6 @@ export default {
       ],
       type: "string",
       label: "Worksheet Id",
-      withLabel: true,
     },
     cell: {
       type: "string",
@@ -43,9 +45,10 @@ export default {
     },
   },
   async run() {
+    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.worksheetId.label}!${this.cell}`,
+      range: `${worksheet?.properties?.title}!${this.cell}`,
     };
     return await this.googleSheets.clearSheetValues(request);
   },

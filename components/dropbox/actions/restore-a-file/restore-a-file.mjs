@@ -2,9 +2,9 @@ import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "Restore a File",
-  description: "Restores a previous file version. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesRestore__anchor)",
+  description: "Restores a previous file version. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesRestore__anchor)",
   key: "dropbox-restore-a-file",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
@@ -14,11 +14,6 @@ export default {
         "path",
         () => ({
           initialOptions: [],
-          params: {
-            options: {
-              file_status: "deleted",
-            },
-          },
         }),
       ],
       description: "Type the file name to search for it in the user's Dropbox.",

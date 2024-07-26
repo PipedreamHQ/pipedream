@@ -4,7 +4,7 @@ export default {
   key: "jira-get-transitions",
   name: "Get Transitions",
   description: "Gets either all transitions or a transition that can be performed by the user on an issue, based on the issue's status, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-get)",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "action",
   props: {
     jira,

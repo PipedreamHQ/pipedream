@@ -1,5 +1,9 @@
 import mssql from "mssql";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  sqlProxy,
+  sqlProp,
+  ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
 
@@ -29,15 +33,17 @@ export default {
     },
   },
   methods: {
+    ...sqlProxy.methods,
+    ...sqlProp.methods,
     exportSummary(step) {
       if (!step?.export) {
-        throw new ConfigurationError("The summary method should be bind to the step object aka `$`");
+        throw new ConfigurationError("The summary method should be bound to the step object aka `$`");
       }
       return (msg = "") => step.export(constants.SUMMARY_LABEL, msg);
     },
     getConfig() {
       const {
-        host, port, username, password, database, encrypt, trustServerCertificate,
+        host, port, username, password, database, trustServerCertificate, encrypt,
       } = this.$auth;
       return {
         user: username,
@@ -56,24 +62,105 @@ export default {
     getConnection() {
       return mssql.connect(this.getConfig());
     },
-    async executeQuery({
-      step = this, summary, query = "", inputs = {},
-    } = {}) {
+    /**
+     * A helper method to get the schema of the database. Used by other features
+     * (like the `sql` prop) to enrich the code editor and provide the user with
+     * auto-complete and fields suggestion.
+     *
+     * @returns {DbInfo} The schema of the database, which is a
+     * JSON-serializable object.
+     */
+    async getSchema() {
+      const sql = `
+        SELECT t.TABLE_SCHEMA AS tableSchema,
+            t.TABLE_NAME AS tableName,
+            c.COLUMN_NAME AS columnName,
+            c.DATA_TYPE AS dataType,
+            c.IS_NULLABLE AS isNullable,
+            c.COLUMN_DEFAULT AS columnDefault
+        FROM INFORMATION_SCHEMA.TABLES AS t
+            JOIN INFORMATION_SCHEMA.COLUMNS AS c ON t.TABLE_NAME = c.TABLE_NAME
+            AND t.TABLE_SCHEMA = c.TABLE_SCHEMA
+        WHERE t.TABLE_TYPE = 'BASE TABLE'
+        ORDER BY t.TABLE_NAME,
+            c.ORDINAL_POSITION
+      `;
+      const { recordset: rows } = await this.executeQuery({
+        query: sql,
+      });
+      return rows.reduce((acc, row) => {
+        const key = `${row.tableSchema}.${row.tableName}`;
+        acc[key] ??= {
+          metadata: {
+            rowCount: row.rowCount,
+          },
+          schema: {},
+        };
+        acc[key].schema[row.columnName] = {
+          ...row,
+        };
+        return acc;
+      }, {});
+    },
+    /**
+     * Adapts the arguments to `executeQuery` so that they can be consumed by
+     * the SQL proxy (when applicable). Note that this method is not intended to
+     * be used by the component directly.
+     * @param {object} preparedStatement The prepared statement to be sent to the DB.
+     * @param {string} preparedStatement.sql The prepared SQL query to be executed.
+     * @param {string[]} preparedStatement.values The values to replace in the SQL query.
+     * @returns {object} - The adapted query and parameters.
+     */
+    proxyAdapter(preparedStatement = {}) {
+      const { query } = preparedStatement;
+      const inputs = preparedStatement?.inputs || {};
+      for (const [
+        key,
+        value,
+      ] of Object.entries(inputs)) {
+        query.replaceAll(`@${key}`, value);
+      }
+      return {
+        query,
+        params: [],
+      };
+    },
+    /**
+     * A method that performs the inverse transformation of `proxyAdapter`.
+     *
+     * @param {object} proxyArgs - The output of `proxyAdapter`.
+     * @param {string} proxyArgs.query - The SQL query to be executed.
+     * @param {string[]} proxyArgs.params - The values to replace in the SQL
+     * query.
+     * @returns {object} - The adapted query and parameters, compatible with
+     * `executeQuery`.
+     */
+    executeQueryAdapter(proxyArgs = {}) {
+      let { query } = proxyArgs;
+      const params = proxyArgs?.params || [];
+      for (const param of params) {
+        query = query.replace("?", param);
+      }
+      query = query.replaceAll("\n", " ");
+      return {
+        query,
+        inputs: {},
+      };
+    },
+    getClientConfiguration() {
+      return this.getConfig();
+    },
+    async executeQuery(preparedStatement = {}) {
       let connection;
-
+      const { query } = preparedStatement;
+      const inputs = preparedStatement?.inputs || {};
       try {
-        connection = await this.getConnection();
-
+        connection = await mssql.connect(this.getClientConfiguration());
         const input =
           Object.entries(inputs)
             .reduce((req, inputArgs) =>
               req.input(...inputArgs), connection.request());
-
         const response = await input.query(query);
-
-        if (typeof summary === "function") {
-          this.exportSummary(step)(summary(response));
-        }
 
         return response;
 

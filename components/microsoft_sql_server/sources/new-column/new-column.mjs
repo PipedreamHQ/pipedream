@@ -8,7 +8,7 @@ export default {
   name: "New Column",
   description: "Triggers when a new column is added to a table. [See the documentation](https://learn.microsoft.com/en-us/sql/relational-databases/system-catalog-views/sys-columns-transact-sql?view=sql-server-ver16)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,

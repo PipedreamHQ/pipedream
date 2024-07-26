@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/_4dem",
+  "version": "0.1.0",
+  "description": "Pipedream  4Dem Components",
+  "main": "_4dem.app.mjs",
+  "keywords": [
+    "pipedream",
+    "_4dem"
+  ],
+  "homepage": "https://pipedream.com/apps/_4dem",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

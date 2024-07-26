@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/tavily",
+  "version": "0.1.0",
+  "description": "Pipedream Tavily Components",
+  "main": "tavily.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tavily"
+  ],
+  "homepage": "https://pipedream.com/apps/tavily",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

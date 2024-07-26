@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lambdatest",
+  "version": "0.0.1",
+  "description": "Pipedream LambdaTest Components",
+  "main": "lambdatest.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lambdatest"
+  ],
+  "homepage": "https://pipedream.com/apps/lambdatest",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

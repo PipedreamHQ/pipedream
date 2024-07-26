@@ -5,7 +5,7 @@ export default {
   name: "Insert Row",
   description: "Inserts a new row in a table. [See the documentation](https://learn.microsoft.com/en-us/sql/t-sql/statements/insert-transact-sql?view=sql-server-ver16)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.4",
   props: {
     app,
     table: {
@@ -37,18 +37,18 @@ export default {
       },
     }), {});
   },
-  run({ $: step }) {
+  async run({ $: step }) {
     const {
       app,
       table,
       ...inputs
     } = this;
 
-    return app.insertRow({
-      step,
+    const response = await app.insertRow({
       table,
       inputs,
-      summary: () => "Successfully inserted row.",
     });
+    step.export("$summary", "Successfully inserted row.");
+    return response;
   },
 };

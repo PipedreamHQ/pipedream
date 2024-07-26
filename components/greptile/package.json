@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/greptile",
+  "version": "0.1.0",
+  "description": "Pipedream Greptile Components",
+  "main": "greptile.app.mjs",
+  "keywords": [
+    "pipedream",
+    "greptile"
+  ],
+  "homepage": "https://pipedream.com/apps/greptile",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

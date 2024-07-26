@@ -5,7 +5,7 @@ export default {
   key: "openai-convert-text-to-speech",
   name: "Convert Text to Speech (TTS)",
   description: "Generates audio from the input text. [See the documentation](https://platform.openai.com/docs/api-reference/audio/createSpeech)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     openai,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/frontapp",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Pipedream Frontapp Components",
   "main": "frontapp.app.mjs",
   "keywords": [
