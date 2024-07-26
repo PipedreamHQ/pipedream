@@ -12,13 +12,6 @@ export default {
     },
   },
   updateProps: {
-    IsCustomerPortal: {
-      type: "boolean",
-      label: "Is Customer Portal",
-      description:
-        "Indicates whether the account has at least one contact enabled to use the org's Experience Cloud site or Customer Portal.",
-      optional: true,
-    },
     IsPartner: {
       type: "boolean",
       label: "Is Partner",

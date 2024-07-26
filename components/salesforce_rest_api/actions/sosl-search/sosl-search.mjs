@@ -33,7 +33,7 @@ export default {
       $,
       search: this.search,
     });
-    $.export("$summary", `Successfully returned ${response.searchRecords} results for SOSL search`);
+    $.export("$summary", `Successfully returned ${response.searchRecords?.length} results for SOSL search`);
     return response;
   },
 };
