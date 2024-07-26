@@ -8,7 +8,7 @@ export default {
   type: "action",
   props: {
     salesforce,
-    opportunityId: {
+    recordId: {
       propDefinition: [
         salesforce,
         "recordId",
@@ -22,12 +22,13 @@ export default {
     },
   },
   async run({ $ }) {
+    const { recordId } = this;
     const response = await this.salesforce.deleteRecord({
       sobjectType: "Opportunity",
       $,
-      id: this.opportunityId,
+      recordId,
     });
-    $.export("$summary", `Successfully deleted opportunity (ID: ${this.opportunityId})`);
+    $.export("$summary", `Successfully deleted opportunity (ID: ${recordId})`);
     return response;
   },
 };
