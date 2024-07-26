@@ -74,12 +74,6 @@ export default {
       description: "ID of a related Campaign.",
       optional: true,
     },
-    ContractId: {
-      ...commonProps.ContractId,
-      description:
-        "ID of the contract that's associated with this opportunity.",
-      optional: true,
-    },
     ForecastCategoryName: {
       type: "string",
       label: "Forecast Category Name",

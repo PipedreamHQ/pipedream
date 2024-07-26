@@ -105,13 +105,6 @@ export default {
       description: "The lead's fax number.",
       optional: true,
     },
-    HasOptedOutOfEmail: {
-      type: "boolean",
-      label: "Email Opt Out",
-      description:
-        "Indicates whether the lead doesn't want to receive email from Salesforce (`true`) or not (`false`)",
-      optional: true,
-    },
     HasOptedOutOfFax: {
       type: "boolean",
       label: "Fax Opt Out",

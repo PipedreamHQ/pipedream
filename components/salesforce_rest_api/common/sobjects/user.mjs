@@ -162,12 +162,6 @@ export default {
         "The country associated with the user. Up to 80 characters allowed.",
       optional: true,
     },
-    CurrentStatus: {
-      type: "string",
-      label: "Current Status",
-      description: "Text that describes what the user is working on.",
-      optional: true,
-    },
     DefaultGroupNotificationFrequency: {
       type: "string",
       label: "Default Notification Frequency when Joining Groups",
