@@ -10915,7 +10915,10 @@ importers:
     specifiers: {}
 
   components/zylvie:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/zyte_api:
     specifiers: {}
