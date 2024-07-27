@@ -1,19 +1,20 @@
 type CreateServerClientOpts = {
-  environment?: string;
-  secretKey: string;
   apiHost?: string;
-  //projectId?: string;
+  environment?: string;
   publicKey: string;
+  secretKey: string;
 };
 
-type ConnectTokenCreateOpts = {
-  clientUserId: string;
+export type ConnectTokenCreateOpts = {
+  app_id: string;
+  client_name?: string;
+  external_id: string;
 };
 
 type AccountId = string;
 type AccountKeyFields = {
-  clientUserId: string;
-  app: string;
+  externalId: string;
+  appId: string;
 };
 type AccountKey = AccountId | AccountKeyFields;
 
@@ -25,57 +26,39 @@ class ServerClient {
   environment?: string;
   secretKey: string;
   publicKey: string;
-  //projectId: string;
   baseURL: string;
 
   constructor(opts: CreateServerClientOpts) {
     this.environment = opts.environment;
     this.secretKey = opts.secretKey;
     this.publicKey = opts.publicKey;
-    //this.projectId = opts.projectId;
-    this.baseURL = `https://${opts.apiHost || "pipedream.com"}`;
+
+    const { apiHost = "pipedream.com" } = opts;
+    this.baseURL = `https://${apiHost}`;
   }
 
   private _authorizonHeader(): string {
-    return "Basic " + Buffer.from(`${this.publicKey}:${this.secretKey}`).toString("base64");
+    const encoded = Buffer
+      .from(`${this.publicKey}:${this.secretKey}`)
+      .toString("base64");
+    return `Basic ${encoded}`;
   }
 
   // XXX move to REST API endpoint
   async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<string> {
-    const resp = await fetch(`${this.baseURL}/graphql`, {
+    const resp = await fetch(`${this.baseURL}/v1/connect/tokens`, {
       method: "POST",
       headers: {
+        "authorization": this._authorizonHeader(),
         "content-type": "application/json",
       },
-      body: JSON.stringify({
-        query: `mutation sdkConnectTokenCreate(
-          $publicKey: String!
-          $secretKey: String!
-          $externalId: String!
-          $oauthAppId: String!
-        ) {
-          connectTokenCreate(
-            publicKey: $publicKey
-            secretKey: $secretKey
-            externalId: $externalId
-            oauthAppId: $oauthAppId
-          ) {
-            token
-          }
-        }`,
-        variables: {
-          publicKey: this.publicKey,
-          secretKey: this.secretKey,
-          externalId: opts.clientUserId,
-          oauthAppId: "oa_aLZiMJ",
-        },
-      }),
+      body: JSON.stringify(opts),
     });
     const res = await resp.json();
     // XXX expose error here
-    console.log("connect token create result")
-    console.log(res)
-    return res.data?.connectTokenCreate?.token;
+    console.log("connect token create result");
+    console.log(res);
+    return res?.token;
   }
 
   async getAccount(key: AccountKey, opts?: { includeCredentials?: boolean; }) {
@@ -86,7 +69,7 @@ class ServerClient {
       id = key;
       url = `${baseAccountURL}/${id}`;
     } else {
-      url = `${baseAccountURL}?app=${key.app}&limit=100&external_id=${key.clientUserId}`;
+      url = `${baseAccountURL}?app=${key.appId}&limit=100&external_id=${key.externalId}`;
     }
     if (opts?.includeCredentials) {
       url += `${id
@@ -99,7 +82,7 @@ class ServerClient {
       },
     });
     const res = await resp.json();
-    console.log('res :>> ', res);
+    console.log("res :>> ", res);
     const {
       data, error,
     } = res;

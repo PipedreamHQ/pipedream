@@ -1,6 +1,5 @@
 type CreateBrowserClientOpts = {
   environment?: string;
-  publicKey: string;
   frontendHost?: string;
 };
 
@@ -29,7 +28,6 @@ export function createClient(opts: CreateBrowserClientOpts) {
 
 class BrowserClient {
   environment?: string;
-  publicKey: string;
   baseURL: string;
   iframeURL: string;
   iframe?: HTMLIFrameElement;
@@ -37,7 +35,6 @@ class BrowserClient {
 
   constructor(opts: CreateBrowserClientOpts) {
     this.environment = opts.environment;
-    this.publicKey = opts.publicKey;
     this.baseURL = `https://${opts.frontendHost || "pipedream.com"}`;
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
   }
@@ -59,7 +56,6 @@ class BrowserClient {
 
     const qp = new URLSearchParams();
     qp.set("token", opts.token);
-    qp.set("publicKey", this.publicKey);
     if (this.environment) {
       qp.set("environment", this.environment);
     }

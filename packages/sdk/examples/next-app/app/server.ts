@@ -1,55 +1,59 @@
 "use server";
 
-import { createClient } from "../../../src";
+import {
+  createClient,
+  type ConnectTokenCreateOpts,
+} from "../../../src";
 
 const {
+  NEXT_PUBLIC_PIPEDREAM_APP_ID,
+  PIPEDREAM_API_HOST,
+  PIPEDREAM_PROJECT_PUBLIC_KEY,
   PIPEDREAM_PROJECT_SECRET_KEY,
-  NEXT_PUBLIC_PIPEDREAM_APP_SLUG,
-  PIPEDREAM_PROJECT_ID,
-  NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY,
 } = process.env;
 
-if (!PIPEDREAM_PROJECT_SECRET_KEY) throw new Error("PIPEDREAM_PROJECT_SECRET_KEY not set in environment");
-if (!NEXT_PUBLIC_PIPEDREAM_APP_SLUG) throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_SLUG not set in environment");
+if (!NEXT_PUBLIC_PIPEDREAM_APP_ID)
+  throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_ID not set in environment");
+if (!PIPEDREAM_PROJECT_PUBLIC_KEY)
+  throw new Error("PIPEDREAM_PROJECT_SECRET_KEY not set in environment");
+if (!PIPEDREAM_PROJECT_SECRET_KEY)
+  throw new Error("PIPEDREAM_PROJECT_SECRET_KEY not set in environment");
 
 const pd = createClient({
   secretKey: PIPEDREAM_PROJECT_SECRET_KEY,
-  apiHost: process.env.PIPEDREAM_API_HOST,
-  //projectId: PIPEDREAM_PROJECT_ID,
-  publicKey: process.env.NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY,
+  apiHost: PIPEDREAM_API_HOST,
+  publicKey: PIPEDREAM_PROJECT_PUBLIC_KEY,
 });
 
-export async function serverConnectTokenCreate(clientUserId: string) {
-  return pd.connectTokenCreate({
-    clientUserId,
-  });
+export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts) {
+  return pd.connectTokenCreate(opts);
 }
 
-export async function getAppsData(clientUserId: string) {
+export async function getAppsData(externalId: string) {
   const [
     github,
   ] = await Promise.all([
-    getGithubData(clientUserId),
+    getGithubData(externalId),
   ]);
   return {
     github,
   };
 }
 
-export async function getGithubData(clientUserId: string) {
-  if (!NEXT_PUBLIC_PIPEDREAM_APP_SLUG) {
-    throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_SLUG not set in environment");
-  }
+export async function getGithubData(externalId: string) {
+  if (!NEXT_PUBLIC_PIPEDREAM_APP_ID)
+    throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_ID not set in environment");
+
   const data = await pd.getAccount({
-    app: NEXT_PUBLIC_PIPEDREAM_APP_SLUG,
-    clientUserId,
+    appId: NEXT_PUBLIC_PIPEDREAM_APP_ID,
+    externalId,
   }, {
     includeCredentials: true,
   });
   if (!data?.accounts.length) {
     return null;
   }
-  const account = data.accounts[data.accounts.length - 1]
+  const account = data.accounts[data.accounts.length - 1];
   const resp = await fetch("https://api.github.com/user", {
     headers: {
       Authorization: `Bearer ${account.credentials.oauth_access_token}`,
