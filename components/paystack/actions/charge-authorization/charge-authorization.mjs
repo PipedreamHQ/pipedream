@@ -21,13 +21,15 @@ export default {
       ],
     },
     authorization_code: {
-        propDefinition: [
-            paystack,
-            "authorization_code",
-            (configuredProps) => ({ customer: configuredProps.email }),
-        ],
+      propDefinition: [
+        paystack,
+        "authorization_code",
+        (configuredProps) => ({
+          customer: configuredProps.email,
+        }),
+      ],
     },
-    },
+  },
   async run({ $ }) {
     const response = await this.paystack.chargeAuthorization({
       $,
@@ -35,11 +37,11 @@ export default {
         email: this.email,
         amount: this.amount,
         authorization_code: this.authorization_code,
-      }
-        
+      },
+
     });
 
-    $.export("$summary", `Authorization charged`);
+    $.export("$summary", "Authorization charged");
     return response;
   },
 };

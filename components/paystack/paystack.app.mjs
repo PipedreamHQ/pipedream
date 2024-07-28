@@ -9,7 +9,9 @@ export default {
       type: "string",
       label: "Email",
       description: "Email address of the customer to charge",
-      async options({ page, query }) {
+      async options({
+        page, query,
+      }) {
         const { data } = await this.listCustomers({
           params: {
             page: page + 1,
@@ -18,7 +20,9 @@ export default {
         });
         console.log(data);
         return (
-          data?.map(({ email: value, email: label }) => ({
+          data?.map(({
+            email: value, email: label,
+          }) => ({
             label,
             value,
           })) || []
@@ -106,7 +110,9 @@ export default {
         });
         console.log(data);
         return (
-          data?.map(({ id: value, email: label }) => ({
+          data?.map(({
+            id: value, email: label,
+          }) => ({
             label,
             value,
           })) || []
@@ -119,7 +125,9 @@ export default {
       description:
         "Authorization code to charge. This is created whenever a customer makes a payment on your integration",
       async options({ customer }) {
-        const { data } = await this.fetchCustomer({ customer });
+        const { data } = await this.fetchCustomer({
+          customer,
+        });
         const authorizations = data?.authorizations || [];
         return authorizations
           .filter(({ reusable }) => reusable)
@@ -154,12 +162,14 @@ export default {
     },
     _headers() {
       return {
-        Authorization: `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
         "Content-Type": "application/json",
         "user-agent": "@PaystackOSS/paystack v0.1",
       };
     },
-    _makeRequest({ $ = this, path = "/", ...opts }) {
+    _makeRequest({
+      $ = this, path = "/", ...opts
+    }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
@@ -173,7 +183,9 @@ export default {
         ...args,
       });
     },
-    verifyTransaction({ reference, ...args }) {
+    verifyTransaction({
+      reference, ...args
+    }) {
       return this._makeRequest({
         path: `/transaction/verify/${reference}`,
         ...args,
@@ -191,13 +203,17 @@ export default {
         ...args,
       });
     },
-    fetchTransaction({ transactionID, ...args }) {
+    fetchTransaction({
+      transactionID, ...args
+    }) {
       return this._makeRequest({
         path: `/transaction/${transactionID}`,
         ...args,
       });
     },
-    fetchCustomer({ customer, ...args }) {
+    fetchCustomer({
+      customer, ...args
+    }) {
       return this._makeRequest({
         path: `/customer/${customer}`,
         args,
@@ -206,11 +222,13 @@ export default {
     chargeAuthorization(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/transaction/charge_authorization`,
+        path: "/transaction/charge_authorization",
         ...args,
       });
     },
-    async *paginate({ resourceFn, args, max }) {
+    async *paginate({
+      resourceFn, args, max,
+    }) {
       args = {
         ...args,
         params: {
