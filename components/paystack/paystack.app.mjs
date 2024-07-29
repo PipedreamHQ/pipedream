@@ -18,7 +18,6 @@ export default {
             email: query,
           },
         });
-        console.log(data);
         return (
           data?.map(({
             email: value, email: label,
@@ -108,7 +107,6 @@ export default {
             page: page + 1,
           },
         });
-        console.log(data);
         return (
           data?.map(({
             id: value, email: label,
