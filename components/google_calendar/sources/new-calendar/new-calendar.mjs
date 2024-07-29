@@ -1,11 +1,13 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "google_calendar-new-calendar",
   name: "New Calendar Created",
   description: "Emit new event when a calendar is created.",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     db: "$.service.db",
@@ -58,4 +60,5 @@ export default {
     const calendarIds = calendars.map((item) => item.id);
     this.setCalendarIds(calendarIds);
   },
+  sampleEmit,
 };

@@ -6,7 +6,7 @@ export default {
   key: "openai-create-assistant",
   name: "Create Assistant",
   description: "Creates an assistant with a model and instructions. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/createAssistant)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     openai,
