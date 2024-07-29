@@ -1,6 +1,6 @@
 /* eslint-disable pipedream/required-properties-name */
 /* eslint-disable pipedream/required-properties-description */
-import base from "../../../gmail/sources/new-email-sent/new-email-sent.mjs";
+import base from "../../../gmail/sources/new-sent-email/new-sent-email.mjs";
 import overrideApp from "../../common/override-app.mjs";
 
 overrideApp(base);
