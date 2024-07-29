@@ -5168,6 +5168,9 @@ importers:
   components/llamaindex:
     specifiers: {}
 
+  components/llmwhisperer:
+    specifiers: {}
+
   components/lmnt:
     specifiers:
       '@pipedream/platform': ^1.5.1
