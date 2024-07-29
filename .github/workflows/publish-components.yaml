@@ -231,8 +231,8 @@ jobs:
                 fi
               fi
             else
-              echo "${f} will not be added to the registry"
-              SKIPPED+="*${f}"
+              echo "${added_modified_file} will not be added to the registry"
+              SKIPPED+="*${added_modified_file}"
             fi
           done
           # print out everything that didn't publish
