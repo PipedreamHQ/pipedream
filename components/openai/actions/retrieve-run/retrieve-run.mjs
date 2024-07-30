@@ -4,7 +4,7 @@ export default {
   key: "openai-retrieve-run",
   name: "Retrieve Run (Assistants)",
   description: "Retrieves a specific run within a thread. [See the documentation](https://platform.openai.com/docs/api-reference/runs/getRun)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     openai,
