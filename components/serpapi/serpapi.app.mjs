@@ -12,12 +12,12 @@ export default {
       options: constants.ENGINES,
     },
     q: {
-      type: "string",
+      type: "string[]",
       label: "Query",
       description: "The query or queries you want to search. When passing multiple queries you need to use a comma `,` to separate them",
     },
     device: {
-      type: "string[]",
+      type: "string",
       label: "Device",
       description: "Defines the device to use to get the results",
       options: constants.DEVICES,
