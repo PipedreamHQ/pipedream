@@ -3,18 +3,6 @@ import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   initialProps: {
-    ServiceContractId: {
-      propDefinition: [
-        salesforce,
-        "recordId",
-        () => ({
-          objType: "ServiceContract",
-          nameField: "Name",
-        }),
-      ],
-      label: "Service Contract ID",
-      description: "ID of the ServiceContract associated with the entitlement.",
-    },
     Description: {
       type: "string",
       label: "Description",
@@ -73,6 +61,38 @@ export default {
       description: "ID of the question in Chatter associated with the case.",
       optional: true,
     },
+    OwnerId: {
+      ...commonProps.ContactId,
+      description: "ID of the contact who owns the case.",
+      optional: true,
+    },
+    ParentId: {
+      ...commonProps.CaseId,
+      description: "The ID of the parent case in the hierarchy.",
+      optional: true,
+    },
+    QuestionId: {
+      ...commonProps.QuestionId,
+      description:
+        "The question in the answers community that is associated with the case.",
+      optional: true,
+    },
+    RecordTypeId: {
+      ...commonProps.RecordTypeId,
+      optional: true,
+    },
+    ServiceContractId: {
+      propDefinition: [
+        salesforce,
+        "recordId",
+        () => ({
+          objType: "ServiceContract",
+          nameField: "Name",
+        }),
+      ],
+      label: "Service Contract ID",
+      description: "ID of the ServiceContract associated with the entitlement.",
+    },
     IsEscalated: {
       type: "boolean",
       label: "Escalated",
@@ -104,16 +124,6 @@ export default {
         "Web",
       ],
     },
-    OwnerId: {
-      ...commonProps.ContactId,
-      description: "ID of the contact who owns the case.",
-      optional: true,
-    },
-    ParentId: {
-      ...commonProps.CaseId,
-      description: "The ID of the parent case in the hierarchy.",
-      optional: true,
-    },
     Priority: {
       type: "string",
       label: "Priority",
@@ -124,12 +134,6 @@ export default {
         "Medium",
         "Low",
       ],
-    },
-    QuestionId: {
-      ...commonProps.QuestionId,
-      description:
-        "The question in the answers community that is associated with the case.",
-      optional: true,
     },
     Reason: {
       type: "string",
@@ -145,10 +149,6 @@ export default {
         "Feedback",
         "Other",
       ],
-    },
-    RecordTypeId: {
-      ...commonProps.RecordTypeId,
-      optional: true,
     },
     SlaStartDate: {
       type: "string",

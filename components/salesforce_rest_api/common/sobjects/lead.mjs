@@ -49,6 +49,40 @@ export default {
     },
   },
   extraProps: {
+    ConvertedAccountId: {
+      ...commonProps.AccountId,
+      label: "Converted Account ID",
+      description: "The account into which the lead converted.",
+      optional: true,
+    },
+    ConvertedContactId: {
+      ...commonProps.ContactId,
+      label: "Converted Contact ID",
+      description: "The contact into which the lead converted.",
+      optional: true,
+    },
+    ConvertedOpportunityId: {
+      ...commonProps.OpportunityId,
+      label: "Converted Opportunity ID",
+      description: "The opportunity into which the lead converted.",
+      optional: true,
+    },
+    IndividualId: {
+      ...commonProps.IndividualId,
+      label: "Individual ID",
+      description: "ID of the data privacy record associated with this lead.",
+      optional: true,
+    },
+    OwnerId: {
+      ...commonProps.UserId,
+      label: "Owner ID",
+      description: "ID of the lead's owner.",
+      optional: true,
+    },
+    RecordTypeId: {
+      ...commonProps.RecordTypeId,
+      optional: true,
+    },
     AnnualRevenue: {
       type: "string",
       label: "Annual Revenue",
@@ -73,24 +107,6 @@ export default {
       label: "Company D-U-N-S Number",
       description:
         "The Data Universal Numbering System (D-U-N-S) number (max 9 characters).",
-      optional: true,
-    },
-    ConvertedAccountId: {
-      ...commonProps.AccountId,
-      label: "Converted Account ID",
-      description: "The account into which the lead converted.",
-      optional: true,
-    },
-    ConvertedContactId: {
-      ...commonProps.ContactId,
-      label: "Converted Contact ID",
-      description: "The contact into which the lead converted.",
-      optional: true,
-    },
-    ConvertedOpportunityId: {
-      ...commonProps.OpportunityId,
-      label: "Converted Opportunity ID",
-      description: "The opportunity into which the lead converted.",
       optional: true,
     },
     Country: {
@@ -118,12 +134,6 @@ export default {
       description: "Accuracy level of the geocode for the address.",
       optional: true,
       options: GEOCODE_ACCURACY_OPTIONS,
-    },
-    IndividualId: {
-      ...commonProps.IndividualId,
-      label: "Individual ID",
-      description: "ID of the data privacy record associated with this lead.",
-      optional: true,
     },
     Industry: {
       type: "string",
@@ -176,12 +186,6 @@ export default {
       description: "Number of employees at the lead's company.",
       optional: true,
     },
-    OwnerId: {
-      ...commonProps.UserId,
-      label: "Owner ID",
-      description: "ID of the lead's owner.",
-      optional: true,
-    },
     PostalCode: {
       type: "string",
       label: "Zip/Postal Code",
@@ -198,10 +202,6 @@ export default {
         "Warm",
         "Cold",
       ],
-    },
-    RecordTypeId: {
-      ...commonProps.RecordTypeId,
-      optional: true,
     },
     State: {
       type: "string",

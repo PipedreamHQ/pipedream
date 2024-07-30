@@ -119,13 +119,6 @@ export default {
     },
   },
   extraProps: {
-    AboutMe: {
-      type: "string",
-      label: "About Me",
-      description:
-        "Information about the user, such as areas of interest or skills.",
-      optional: true,
-    },
     AccountId: {
       ...commonProps.AccountId,
       description: "ID of the Account associated with a Customer Portal user.",
@@ -135,6 +128,40 @@ export default {
       ...commonProps.CallCenterId,
       description:
         "If Salesforce CRM Call Center is enabled, represents the call center that this user is assigned to.",
+      optional: true,
+    },
+    ContactId: {
+      ...commonProps.ContactId,
+      description: "ID of the Contact associated with this account.",
+      optional: true,
+    },
+    DelegatedApproverId: {
+      ...commonProps.UserId,
+      label: "Delegated Approver ID",
+      description: "ID of the user who is a delegated approver for this user.",
+      optional: true,
+    },
+    IndividualId: {
+      ...commonProps.IndividualId,
+      description: "ID of the data privacy record associated with this user.",
+      optional: true,
+    },
+    ManagerId: {
+      ...commonProps.UserId,
+      label: "Manager ID",
+      description: "The ID of the user who manages this user.",
+      optional: true,
+    },
+    UserRoleId: {
+      ...commonProps.AccountId,
+      description: "ID of the user's UserRole.",
+      optional: true,
+    },
+    AboutMe: {
+      type: "string",
+      label: "About Me",
+      description:
+        "Information about the user, such as areas of interest or skills.",
       optional: true,
     },
     City: {
@@ -148,11 +175,6 @@ export default {
       type: "string",
       label: "Company Name",
       description: "The name of the user's company.",
-      optional: true,
-    },
-    ContactId: {
-      ...commonProps.ContactId,
-      description: "ID of the Contact associated with this account.",
       optional: true,
     },
     Country: {
@@ -186,12 +208,6 @@ export default {
           value: "N",
         },
       ],
-    },
-    DelegatedApproverId: {
-      ...commonProps.UserId,
-      label: "Delegated Approver ID",
-      description: "ID of the user who is a delegated approver for this user.",
-      optional: true,
     },
     Department: {
       type: "string",
@@ -257,11 +273,6 @@ export default {
       optional: true,
       options: GEOCODE_ACCURACY_OPTIONS,
     },
-    IndividualId: {
-      ...commonProps.IndividualId,
-      description: "ID of the data privacy record associated with this user.",
-      optional: true,
-    },
     IsActive: {
       type: "boolean",
       label: "Active",
@@ -287,12 +298,6 @@ export default {
       label: "Longitude",
       description:
         "A number between -180 and 180 with up to 15 decimal places. Use with `Latitude` to specify the precise geolocation of an address.",
-      optional: true,
-    },
-    ManagerId: {
-      ...commonProps.UserId,
-      label: "Manager ID",
-      description: "The ID of the user who manages this user.",
       optional: true,
     },
     MiddleName: {
@@ -376,11 +381,6 @@ export default {
       type: "string",
       label: "Title",
       description: "The user's business title, such as Vice President.",
-      optional: true,
-    },
-    UserRoleId: {
-      ...commonProps.AccountId,
-      description: "ID of the user's UserRole.",
       optional: true,
     },
     UserPermissionsCallCenterAutoLogin: {

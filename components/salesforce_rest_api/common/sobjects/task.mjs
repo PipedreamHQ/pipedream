@@ -75,6 +75,18 @@ export default {
     },
   },
   extraProps: {
+    OwnerId: {
+      ...commonProps.UserId,
+      label: "Owner ID",
+      description: "ID of the User or Group who owns the record.",
+      optional: true,
+    },
+    TaskWhoIds: {
+      ...commonProps.ContactOrLeadIds,
+      label: "Related IDs",
+      description: "One or more Contact or Lead IDs related to this task.",
+      optional: true,
+    },
     CallDisposition: {
       type: "string",
       label: "Call Result",
@@ -117,12 +129,6 @@ export default {
       label: "Visible in Self-Service",
       description:
         "Indicates whether a task associated with an object can be viewed in the Customer Portal.",
-      optional: true,
-    },
-    OwnerId: {
-      ...commonProps.UserId,
-      label: "Owner ID",
-      description: "ID of the User or Group who owns the record.",
       optional: true,
     },
     RecurrenceDayOfMonth: {
@@ -235,12 +241,6 @@ export default {
         "Send Quote",
         "Other",
       ],
-    },
-    TaskWhoIds: {
-      ...commonProps.ContactOrLeadIds,
-      label: "Related IDs",
-      description: "One or more Contact or Lead IDs related to this task.",
-      optional: true,
     },
   },
 };

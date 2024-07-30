@@ -69,6 +69,18 @@ export default {
       description: "One or more Contact or Lead IDs who declined this event.",
       optional: true,
     },
+    UndecidedEventInviteeIds: {
+      ...commonProps.ContactOrLeadIds,
+      label: "Undecided Event Invitee IDs",
+      description: "One or more Contact or Lead IDs who are undecided about this event.",
+      optional: true,
+    },
+    OwnerId: {
+      ...commonProps.UserId,
+      label: "Assigned to ID",
+      description: "ID of the user or public calendar who owns the event.",
+      optional: true,
+    },
     IsPrivate: {
       type: "boolean",
       label: "Private",
@@ -94,12 +106,6 @@ export default {
       label: "Visible in Self-Service",
       description:
         "Indicates whether an event associated with an object can be viewed in the Customer Portal.",
-      optional: true,
-    },
-    OwnerId: {
-      ...commonProps.UserId,
-      label: "Assigned to ID",
-      description: "ID of the user or public calendar who owns the event.",
       optional: true,
     },
     RecurrenceDayOfMonth: {
@@ -211,12 +217,6 @@ export default {
         "Send Letter/Quote",
         "Other",
       ],
-    },
-    UndecidedEventInviteeIds: {
-      ...commonProps.ContactOrLeadIds,
-      label: "Undecided Event Invitee IDs",
-      description: "One or more Contact or Lead IDs who are undecided about this event.",
-      optional: true,
     },
   },
 };

@@ -48,6 +48,22 @@ export default {
     },
   },
   extraProps: {
+    OwnerId: {
+      ...commonProps.UserId,
+      label: "Owner ID",
+      description: "The ID of the user who owns this campaign (defaults to the user logged in).",
+      optional: true,
+    },
+    ParentCampaign: {
+      ...commonProps.CampaignId,
+      label: "Parent Campaign ID",
+      description: "The campaign above this one in the campaign hierarchy.",
+      optional: true,
+    },
+    RecordTypeId: {
+      ...commonProps.RecordTypeId,
+      optional: true,
+    },
     StartDate: {
       type: "string",
       label: "Start Date",
@@ -107,22 +123,6 @@ export default {
       type: "integer",
       label: "Number Sent",
       description: "Number of individuals targeted by the campaign. For example, the number of emails sent.",
-      optional: true,
-    },
-    OwnerId: {
-      ...commonProps.UserId,
-      label: "Owner ID",
-      description: "The ID of the user who owns this campaign (defaults to the user logged in).",
-      optional: true,
-    },
-    ParentCampaign: {
-      ...commonProps.CampaignId,
-      label: "Parent Campaign ID",
-      description: "The campaign above this one in the campaign hierarchy.",
-      optional: true,
-    },
-    RecordTypeId: {
-      ...commonProps.RecordTypeId,
       optional: true,
     },
   },

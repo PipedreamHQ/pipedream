@@ -48,6 +48,27 @@ export default {
     },
   },
   extraProps: {
+    OperatingHoursId: {
+      ...commonProps.OperatingHoursId,
+      description: "The operating hours associated with the account.",
+      optional: true,
+    },
+    OwnerId: {
+      ...commonProps.UserId,
+      label: "Owner ID",
+      description: "The ID of the user who currently owns this account (defaults to the user logged in).",
+      optional: true,
+    },
+    ParentId: {
+      ...commonProps.AccountId,
+      label: "Parent Account ID",
+      description: "ID of the parent account, if any.",
+      optional: true,
+    },
+    RecordTypeId: {
+      ...commonProps.RecordTypeId,
+      optional: true,
+    },
     AccountSource: {
       type: "string",
       label: "Account Source",
@@ -175,17 +196,6 @@ export default {
       max: 99999999,
       optional: true,
     },
-    OperatingHoursId: {
-      ...commonProps.OperatingHoursId,
-      description: "The operating hours associated with the account.",
-      optional: true,
-    },
-    OwnerId: {
-      ...commonProps.UserId,
-      label: "Owner ID",
-      description: "The ID of the user who currently owns this account (defaults to the user logged in).",
-      optional: true,
-    },
     Ownership: {
       type: "string",
       label: "Ownership",
@@ -197,12 +207,6 @@ export default {
         "Subsidiary",
         "Other",
       ],
-    },
-    ParentId: {
-      ...commonProps.AccountId,
-      label: "Parent Account ID",
-      description: "ID of the parent account, if any.",
-      optional: true,
     },
     PersonIndividualId: {
       type: "string",
@@ -220,10 +224,6 @@ export default {
         "Warm",
         "Cold",
       ],
-    },
-    RecordTypeId: {
-      ...commonProps.RecordTypeId,
-      optional: true,
     },
     ShippingCity: {
       type: "string",

@@ -41,6 +41,25 @@ export default {
       description: "ID of the account that's the parent of this contact.",
       optional: true,
     },
+    IndividualId: {
+      ...commonProps.IndividualId,
+      optional: true,
+    },
+    OwnerId: {
+      ...commonProps.UserId,
+      description:
+        "The ID of the owner of the account associated with this contact.",
+      optional: true,
+    },
+    RecordTypeId: {
+      ...commonProps.RecordTypeId,
+      optional: true,
+    },
+    ReportsToId: {
+      ...commonProps.ContactId,
+      label: "Reports To ID",
+      optional: true,
+    },
     AssistantName: {
       type: "string",
       label: "Assistant's Name",
@@ -96,10 +115,6 @@ export default {
       type: "string",
       label: "Home Phone",
       description: "The contact's home phone number.",
-      optional: true,
-    },
-    IndividualId: {
-      ...commonProps.IndividualId,
       optional: true,
     },
     LeadSource: {
@@ -164,20 +179,6 @@ export default {
       type: "string",
       label: "Mobile Phone",
       description: "The contact's mobile phone number.",
-      optional: true,
-    },
-    OwnerId: {
-      ...commonProps.UserId,
-      description:
-        "The ID of the owner of the account associated with this contact.",
-      optional: true,
-    },
-    RecordTypeId: {
-      ...commonProps.RecordTypeId,
-      optional: true,
-    },
-    ReportsToId: {
-      ...commonProps.ContactId,
       optional: true,
     },
     Salutation: {

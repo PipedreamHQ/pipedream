@@ -62,16 +62,31 @@ export default {
       description: "ID of the account associated with this opportunity.",
       optional: true,
     },
+    CampaignId: {
+      ...commonProps.CampaignId,
+      description: "ID of a related Campaign.",
+      optional: true,
+    },
+    OwnerId: {
+      ...commonProps.UserId,
+      description:
+        "ID of the User who has been assigned to work this opportunity.",
+      optional: true,
+    },
+    Pricebook2Id: {
+      ...commonProps.Pricebook2Id,
+      description: "ID of a related Pricebook2 object.",
+      optional: true,
+    },
+    RecordTypeId: {
+      ...commonProps.RecordTypeId,
+      optional: true,
+    },
     Amount: {
       type: "string",
       label: "Amount",
       description:
         "Estimated total sale amount. For opportunities with products, the amount is the sum of the related products.",
-      optional: true,
-    },
-    CampaignId: {
-      ...commonProps.CampaignId,
-      description: "ID of a related Campaign.",
       optional: true,
     },
     ForecastCategoryName: {
@@ -109,26 +124,11 @@ export default {
         "Description of next task in closing opportunity. Limit: 255 characters.",
       optional: true,
     },
-    OwnerId: {
-      ...commonProps.UserId,
-      description:
-        "ID of the User who has been assigned to work this opportunity.",
-      optional: true,
-    },
-    Pricebook2Id: {
-      ...commonProps.Pricebook2Id,
-      description: "ID of a related Pricebook2 object.",
-      optional: true,
-    },
     Probability: {
       type: "string",
       label: "Probability (%)",
       description:
         "Percentage of estimated confidence in closing the opportunity.",
-      optional: true,
-    },
-    RecordTypeId: {
-      ...commonProps.RecordTypeId,
       optional: true,
     },
     TotalOpportunityQuantity: {
