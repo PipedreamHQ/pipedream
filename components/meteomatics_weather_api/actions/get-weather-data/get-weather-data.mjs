@@ -42,7 +42,7 @@ export default {
       format: this.format,
     });
 
-    $.export("$summary", `Successfully retrieved weather data for ${response.data.length} parameters`);
+    $.export("$summary", "Successfully retrieved weather data");
 
     return response;
   },
