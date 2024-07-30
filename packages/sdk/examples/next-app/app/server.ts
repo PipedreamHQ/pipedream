@@ -10,6 +10,10 @@ const {
   PIPEDREAM_API_HOST,
   PIPEDREAM_PROJECT_PUBLIC_KEY,
   PIPEDREAM_PROJECT_SECRET_KEY,
+  NEXT_PUBLIC_PIPEDREAM_APP_SLUG,
+  PIPEDREAM_PROJECT_ID,
+  NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY,
+  NEXT_PUBLIC_PIPEDREAM_TEST_APP_ID,
 } = process.env;
 
 if (!NEXT_PUBLIC_PIPEDREAM_APP_ID)
@@ -45,7 +49,8 @@ export async function getGithubData(externalId: string) {
     throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_ID not set in environment");
 
   const data = await pd.getAccount({
-    appId: NEXT_PUBLIC_PIPEDREAM_APP_ID,
+   // appId: NEXT_PUBLIC_PIPEDREAM_APP_ID,
+    appId: NEXT_PUBLIC_PIPEDREAM_APP_SLUG,
     externalId,
   }, {
     includeCredentials: true,

@@ -51,6 +51,7 @@ class ServerClient {
       headers: {
         "authorization": this._authorizonHeader(),
         "content-type": "application/json",
+        Authorization: this._authorizonHeader(),
       },
       body: JSON.stringify(opts),
     });
