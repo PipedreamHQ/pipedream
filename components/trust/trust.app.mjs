@@ -124,7 +124,6 @@ export default {
     } = {}) {
       return axios($, {
         ...args,
-        debug: true,
         url: this.getUrl(path),
         auth: this.getAuth(),
         headers: {
