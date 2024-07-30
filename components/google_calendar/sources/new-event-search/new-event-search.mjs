@@ -5,7 +5,7 @@ export default {
   key: "google_calendar-new-event-search",
   name: "New Event Matching a Search",
   description: "Emit new event when a Google Calendar event is created that matches a search",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -37,7 +37,7 @@ export default {
     },
     isRelevant(event, { past }) {
       const created = new Date(event.created);
-      // created in last 5 mins and not cancelled
+      // created since last run and not cancelled
       return created > past && event.status !== "cancelled";
     },
   },

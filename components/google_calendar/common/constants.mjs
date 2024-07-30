@@ -78,6 +78,14 @@ const API = {
   },
 };
 
+const REPEAT_FREQUENCIES = {
+  DAILY: "day",
+  WEEKLY: "week",
+  MONTHLY: "month",
+  YEARLY: "year",
+};
+
 export default {
   API,
+  REPEAT_FREQUENCIES,
 };
