@@ -72,7 +72,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/_1crm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/_21risk:
     specifiers:
@@ -90,7 +93,10 @@ importers:
     specifiers: {}
 
   components/_360nrs:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/_46elks:
     specifiers:
@@ -99,7 +105,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/_4dem:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/_8x8_connect:
     specifiers: {}
@@ -206,7 +215,10 @@ importers:
       '@adobe/pdfservices-node-sdk': 3.4.2
 
   components/adobe_photoshop:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/adobe_sign:
     specifiers: {}
@@ -577,7 +589,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/appointo:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/appwrite:
     specifiers:
@@ -586,6 +601,9 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/arcgis_online:
+    specifiers: {}
+
+  components/are_na:
     specifiers: {}
 
   components/arxiv:
@@ -1282,7 +1300,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/canva:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/captaindata:
     specifiers: {}
@@ -1682,6 +1703,9 @@ importers:
       '@pipedream/types': 0.1.6
       form-data: 4.0.0
 
+  components/cloudpresenter:
+    specifiers: {}
+
   components/cloudpress:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -1882,7 +1906,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/control_d:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/convenia:
     specifiers:
@@ -2040,6 +2067,9 @@ importers:
   components/d2l_brightspace:
     specifiers: {}
 
+  components/d7_darwin:
+    specifiers: {}
+
   components/d7_networks:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -2059,6 +2089,9 @@ importers:
     specifiers: {}
 
   components/danny_test_app:
+    specifiers: {}
+
+  components/dart:
     specifiers: {}
 
   components/darwinbox:
@@ -2172,7 +2205,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/deftship:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/degreed:
     specifiers: {}
@@ -2430,7 +2466,10 @@ importers:
       form-data: 4.0.0
 
   components/documerge:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/documint:
     specifiers:
@@ -2552,7 +2591,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dropboard:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/dropbox:
     specifiers:
@@ -2745,6 +2787,9 @@ importers:
       '@pipedream/platform': ^1.6.4
     dependencies:
       '@pipedream/platform': 1.6.4
+
+  components/end:
+    specifiers: {}
 
   components/endorsal:
     specifiers:
@@ -3341,6 +3386,9 @@ importers:
   components/funnelcockpit:
     specifiers: {}
 
+  components/gagelist:
+    specifiers: {}
+
   components/gan_ai:
     specifiers:
       '@pipedream/platform': 1.6.4
@@ -3422,17 +3470,17 @@ importers:
 
   components/ghost_org_admin_api:
     specifiers:
-      '@pipedream/platform': ^1.0.0
+      '@pipedream/platform': ^3.0.0
       jsonwebtoken: ^9.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       jsonwebtoken: 9.0.2
 
   components/ghost_org_content_api:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
 
   components/giantcampaign:
     specifiers:
@@ -3615,13 +3663,15 @@ importers:
   components/google_calendar:
     specifiers:
       '@googleapis/calendar': ^1.0.2
-      '@pipedream/platform': ^1.6.0
+      '@pipedream/platform': ^3.0.0
+      color-2-name: ^1.4.4
       lodash.get: ^4.4.2
       moment-timezone: ^0.5.33
       uuid: ^8.3.2
     dependencies:
       '@googleapis/calendar': 1.0.4
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 3.0.0
+      color-2-name: 1.4.4
       lodash.get: 4.4.2
       moment-timezone: 0.5.43
       uuid: 8.3.2
@@ -3926,7 +3976,10 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/greptile:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/grist:
     specifiers:
@@ -4237,11 +4290,11 @@ importers:
 
   components/hubspot:
     specifiers:
-      '@pipedream/platform': ^1.6.0
+      '@pipedream/platform': ^3.0.0
       bottleneck: ^2.19.5
       package: ^1.0.1
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 3.0.0
       bottleneck: 2.19.5
     devDependencies:
       package: 1.0.1
@@ -4334,7 +4387,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/ikas:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/ikigai:
     specifiers: {}
@@ -4616,6 +4672,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/jooto:
+    specifiers: {}
+
   components/joplin:
     specifiers: {}
 
@@ -4821,6 +4880,9 @@ importers:
   components/kommo:
     specifiers: {}
 
+  components/konfhub:
+    specifiers: {}
+
   components/kontent_ai:
     specifiers:
       '@kontent-ai/delivery-sdk': ^14.4.0
@@ -4882,6 +4944,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/lattice:
+    specifiers: {}
+
+  components/launchnotes:
     specifiers: {}
 
   components/leadboxer:
@@ -5106,6 +5171,9 @@ importers:
   components/llamaindex:
     specifiers: {}
 
+  components/llmwhisperer:
+    specifiers: {}
+
   components/lmnt:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5210,7 +5278,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/mailblaze:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/mailbluster:
     specifiers:
@@ -5488,7 +5559,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/merge:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/messagebird:
     specifiers: {}
@@ -5624,6 +5698,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/mission_mobile:
+    specifiers: {}
 
   components/missive:
     specifiers:
@@ -6008,7 +6085,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/noor:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/nordigen:
     specifiers:
@@ -6209,6 +6289,14 @@ importers:
       node-fetch: 2.7.0
       ongage: 1.1.7_node-fetch@2.7.0
 
+  components/onlyoffice_docspace:
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      form-data: 4.0.0
+
   components/onstrategy:
     specifiers:
       '@pipedream/platform': ^1.6.2
@@ -6357,6 +6445,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash.pickby: 4.6.0
 
+  components/owl_protocol:
+    specifiers: {}
+
   components/oxford_dictionaries:
     specifiers: {}
 
@@ -6416,6 +6507,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/parser_expert:
+    specifiers: {}
+
   components/parseur:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -6449,6 +6543,12 @@ importers:
     dependencies:
       axios: 1.5.1
       url: 0.11.3
+
+  components/paved:
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/payhere:
     specifiers:
@@ -6533,7 +6633,10 @@ importers:
     specifiers: {}
 
   components/peach:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/peaka:
     specifiers:
@@ -6608,6 +6711,9 @@ importers:
       '@pipedream/platform': ^1.1.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/picdefense:
+    specifiers: {}
 
   components/picky_assist:
     specifiers:
@@ -7459,6 +7565,9 @@ importers:
   components/remote:
     specifiers: {}
 
+  components/remote_retrieval:
+    specifiers: {}
+
   components/render:
     specifiers: {}
 
@@ -7704,7 +7813,6 @@ importers:
       '@types/object-hash': ^2.2.1
       feedparser: ^2.2.10
       object-hash: ^3.0.0
-      querystring: ^0.2.1
       rss-parser: ^3.12.0
       string-to-stream: ^3.0.1
     dependencies:
@@ -7712,7 +7820,6 @@ importers:
       '@pipedream/platform': 1.5.1
       feedparser: 2.2.10
       object-hash: 3.0.0
-      querystring: 0.2.1
       rss-parser: 3.13.0
       string-to-stream: 3.0.1
     devDependencies:
@@ -8049,7 +8156,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/sendspark:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/sendx:
     specifiers:
@@ -8355,6 +8465,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/simla_com:
+    specifiers: {}
+
   components/simple_analytics:
     specifiers: {}
 
@@ -8640,6 +8753,12 @@ importers:
 
   components/sparkpost:
     specifiers: {}
+
+  components/specific:
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/speechace:
     specifiers:
@@ -9058,7 +9177,10 @@ importers:
     specifiers: {}
 
   components/tavily:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/tawk_to:
     specifiers:
@@ -9537,6 +9659,9 @@ importers:
   components/truss:
     specifiers: {}
 
+  components/trust:
+    specifiers: {}
+
   components/trustpilot:
     specifiers: {}
 
@@ -9554,9 +9679,9 @@ importers:
 
   components/turso:
     specifiers:
-      '@pipedream/platform': ^2.0.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 2.0.0
+      '@pipedream/platform': 3.0.0
 
   components/tutor_lms:
     specifiers: {}
@@ -9632,6 +9757,12 @@ importers:
 
   components/typebot:
     specifiers: {}
+
+  components/typeflowai:
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/typeform:
     specifiers:
@@ -9823,6 +9954,15 @@ importers:
 
   components/utradea:
     specifiers: {}
+
+  components/v7_darwin:
+    specifiers: {}
+
+  components/v7_go:
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/vapi:
     specifiers: {}
@@ -10022,7 +10162,10 @@ importers:
     specifiers: {}
 
   components/waitlist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/waitwhile:
     specifiers:
@@ -10792,6 +10935,12 @@ importers:
 
   components/zuora:
     specifiers: {}
+
+  components/zylvie:
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/zyte_api:
     specifiers: {}
@@ -20925,7 +21074,7 @@ packages:
   /axios/1.6.5:
     resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
     dependencies:
-      follow-redirects: 1.15.4
+      follow-redirects: 1.15.5
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -21805,6 +21954,11 @@ packages:
   /collect-v8-coverage/1.0.2:
     resolution: {integrity: sha512-lHl4d5/ONEbLlJvaJNtsF/Lz+WvB07u2ycqTYbdrq7UypDXailES4valYb2eWiJFxZlVmpGekfqoxQhzyFdT4Q==}
     dev: true
+
+  /color-2-name/1.4.4:
+    resolution: {integrity: sha512-CSF+PANU5YSZYviiU88GJBeJADD4g9mydxLRMYtMEqVxhcLyl72b6PkMQnvomZyUZZLbPhfXs42QZcR0We4JOA==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+    dev: false
 
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -24008,15 +24162,6 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.15.4:
-    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-
   /follow-redirects/1.15.5:
     resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
     engines: {node: '>=4.0'}
@@ -24025,7 +24170,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
 
   /follow-redirects/1.15.5_debug@3.2.7:
     resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}

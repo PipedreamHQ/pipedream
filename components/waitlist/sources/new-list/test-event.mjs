@@ -1,0 +1,40 @@
+export default {
+  "id": 213,
+  "configuration_style_json": {
+    "social_links": {
+      "facebook": "",
+      "instagram": "",
+      "linkedin": "",
+      "pinterest": "",
+      "twitter": "https://twitter.com/WaitlistAPI"
+    },
+    "status_description": "Thanks for signing up!",
+    "status_font_color": "#000000",
+    "status_main_color": "#222222",
+    "widget_background_color": "#4937E7",
+    "widget_button_color": "#000000",
+    "widget_font_color": "#000000"
+  },
+  "logo": null,
+  "spots_to_move_upon_referral": 3,
+  "uses_firstname_lastname": false,
+  "uses_leaderboard": true,
+  "uses_signup_verification": false,
+  "waitlist_name": "Title",
+  "waitlist_url_location": "https://getwaitlist.com",
+  "statistics": {
+      'total_signups': 2200,
+      'current_signups': 2200,
+  },
+  "title": null,
+  "success_title": null,
+  "required_contact_detail": "EMAIL",
+  "widget_shows_social_links": false,
+  "signup_button_title": "Sign Up",
+  "hide_counts": false,
+  "leaderboard_length": 5,
+  "remove_widget_headers": false,
+  "questions": [{'question_value': "What is your favorite animal?", 'optional': false, "answer_value": ["Cat", "Dog", "Duck", "Other"]}],
+  "twitter_message": "",
+  "organization_uuid_fk": "30120c24-0ddc-4f35-9bc6-f5e3c7b09257",
+}

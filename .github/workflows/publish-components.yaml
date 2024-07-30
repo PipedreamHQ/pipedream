@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r --no-frozen-lockfile
       - name: Setup Node Env
-        uses: actions/setup-node@v4.0.2
+        uses: actions/setup-node@v4.0.3
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -133,7 +133,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: Setup Node Env
-        uses: actions/setup-node@v4.0.2
+        uses: actions/setup-node@v4.0.3
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
@@ -231,8 +231,8 @@ jobs:
                 fi
               fi
             else
-              echo "${f} will not be added to the registry"
-              SKIPPED+="*${f}"
+              echo "${added_modified_file} will not be added to the registry"
+              SKIPPED+="*${added_modified_file}"
             fi
           done
           # print out everything that didn't publish

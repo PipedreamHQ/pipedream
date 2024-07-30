@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/zylvie",
+  "version": "0.1.0",
+  "description": "Pipedream Zylvie Components",
+  "main": "zylvie.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zylvie"
+  ],
+  "homepage": "https://pipedream.com/apps/zylvie",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
