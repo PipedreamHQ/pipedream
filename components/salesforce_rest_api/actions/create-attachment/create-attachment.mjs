@@ -36,7 +36,7 @@ export default {
 
     const body =  filePathOrContent.includes("tmp/")
       ? fs.createReadStream(filePathOrContent, {
-        encoding: "base64 ",
+        encoding: "base64",
       })
       : filePathOrContent;
 
