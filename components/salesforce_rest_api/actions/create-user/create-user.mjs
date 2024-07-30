@@ -13,6 +13,9 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
+    getObjectType() {
+      return "User";
+    },
     getAdvancedProps() {
       return user.extraProps;
     },
@@ -26,6 +29,7 @@ export default {
     const {
       salesforce,
       getAdvancedProps,
+      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
       useAdvancedProps,

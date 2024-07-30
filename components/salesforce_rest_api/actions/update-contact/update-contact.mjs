@@ -20,6 +20,9 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
+    getObjectType() {
+      return "Contact";
+    },
     getAdvancedProps() {
       return contact.extraProps;
     },
@@ -45,6 +48,7 @@ export default {
     const {
       salesforce,
       getAdvancedProps,
+      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
       contactId,

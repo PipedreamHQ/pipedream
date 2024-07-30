@@ -12,6 +12,9 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
+    getObjectType() {
+      return "Lead";
+    },
     getAdvancedProps() {
       return lead.extraProps;
     },
@@ -25,6 +28,7 @@ export default {
     const {
       salesforce,
       getAdvancedProps,
+      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
       useAdvancedProps,

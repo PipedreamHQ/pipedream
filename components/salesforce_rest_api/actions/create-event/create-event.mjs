@@ -13,6 +13,9 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
+    getObjectType() {
+      return "Event";
+    },
     getAdvancedProps() {
       return event.extraProps;
     },
@@ -27,6 +30,7 @@ export default {
     const {
       salesforce,
       getAdvancedProps,
+      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
       useAdvancedProps,

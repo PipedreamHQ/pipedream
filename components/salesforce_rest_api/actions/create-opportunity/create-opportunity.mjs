@@ -12,6 +12,9 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
+    getObjectType() {
+      return "Opportunity";
+    },
     getAdvancedProps() {
       return opportunity.extraProps;
     },
@@ -26,6 +29,7 @@ export default {
     const {
       salesforce,
       getAdvancedProps,
+      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
       useAdvancedProps,

@@ -19,6 +19,9 @@ export default {
   type: "action",
   methods: {
     ...common.methods,
+    getObjectType() {
+      return "Account";
+    },
     getAdvancedProps() {
       return account.extraProps;
     },
@@ -44,6 +47,7 @@ export default {
     const {
       salesforce,
       getAdvancedProps,
+      getObjectType,
       getAdditionalFields,
       formatDateTimeProps,
       accountId,

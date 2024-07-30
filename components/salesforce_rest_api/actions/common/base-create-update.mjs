@@ -61,6 +61,9 @@ export function getProps({
 
 export default {
   methods: {
+    getObjectType() {
+      return "";
+    },
     getAdvancedProps() {
       return {};
     },
@@ -88,12 +91,18 @@ export default {
         }));
     },
   },
-  additionalProps() {
-    return this.useAdvancedProps
-      ? {
-        ...this.getAdvancedProps(),
-        additionalFields,
-      }
-      : {};
+  async additionalProps() {
+    const objectType = this.getObjectType();
+    if (!this.useAdvancedProps || !objectType) return {};
+
+    const fields = (await this.salesforce.getFieldsForObjectType(objectType));
+    const fieldNames = fields.map((f) => f.name);
+    const filteredProps = Object.fromEntries(Object.entries(this.getAdvancedProps()).filter(([
+      key,
+    ]) => fieldNames.includes(key) || key[0] === key[0].toLowerCase()));
+    return {
+      ...filteredProps,
+      additionalFields,
+    };
   },
 };
