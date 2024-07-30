@@ -6621,7 +6621,12 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/pdffiller:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      fs: 0.0.1-security
 
   components/pdfless:
     specifiers:
