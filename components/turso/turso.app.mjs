@@ -95,35 +95,27 @@ export default {
      * JSON-serializable object.
      */
     async getSchema() {
-      const {
-        cols, rows,
-      } = await this.executeQuery({
+      const columns = await this.executeQuery({
         sql: `SELECT m.name AS tableName, ti.name AS columnName, ti.type AS dataType, ti.[notnull] AS isNullable, ti.[dflt_value] AS columnDefault 
               FROM sqlite_master AS m 
               JOIN pragma_table_info(m.name) AS ti 
               WHERE m.type = 'table' ORDER BY  m.name, ti.cid`,
       });
       const schema = {};
-      const colIndexes = {};
-      for (let i = 0; i < cols.length; i++) {
-        colIndexes[cols[i].name] = i;
-      }
-      for (const row of rows) {
-        const tableName = row[colIndexes["tableName"]].value;
-        const columnName = row[colIndexes["columnName"]].value;
-        const { rows: rowCount } = await this.executeQuery({
-          sql: `SELECT COUNT (*) FROM ${tableName}`,
+      for (const col of columns) {
+        const count = await this.executeQuery({
+          sql: `SELECT COUNT (*) as count FROM ${col.tableName}`,
         });
-        schema[tableName] = {
+        schema[col.tableName] = {
           metadata: {
-            rowCount: rowCount[0][0].value,
+            rowCount: count[0].count,
           },
           schema: {
-            ...schema[tableName]?.schema,
-            [columnName]: {
-              columnDefault: row[colIndexes["columnDefault"]].value,
-              dataType: row[colIndexes["dataType"]].value,
-              isNullable: row[colIndexes["isNullable"]].value,
+            ...schema[col.tableName]?.schema,
+            [col.columnName]: {
+              columnDefault: col.columnDefault,
+              dataType: col.dataType,
+              isNullable: col.isNullable,
             },
           },
         };
@@ -189,7 +181,21 @@ export default {
       if (results[0].type === "error") {
         throw new Error(`${results[0].error.message}`);
       }
-      return results[0].response.result;
+      const {
+        cols = [], rows = [],
+      } = results[0].response.result;
+
+      // format response
+      const response = [];
+      const columnNames = cols.map(({ name }) => name);
+      rows.forEach((row) => {
+        const newRow = {};
+        for (let i = 0; i < columnNames.length; i++) {
+          newRow[columnNames[i]] = row[i].value;
+        }
+        response.push(newRow);
+      });
+      return response;
     },
   },
 };

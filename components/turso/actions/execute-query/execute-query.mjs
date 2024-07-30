@@ -5,7 +5,7 @@ export default {
   name: "Execute SQL Query",
   description: "Execute a custom SQLite query. See [our docs](https://pipedream.com/docs/databases/working-with-sql) to learn more about working with SQL in Pipedream.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     turso,
     // eslint-disable-next-line pipedream/props-description
@@ -23,7 +23,7 @@ export default {
       $,
       ...args,
     });
-    $.export("$summary", `Returned ${data.rows.length} ${data.rows.length === 1
+    $.export("$summary", `Returned ${data.length} ${data.length === 1
       ? "row"
       : "rows"}`);
     return data;
