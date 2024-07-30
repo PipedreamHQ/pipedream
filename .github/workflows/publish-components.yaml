@@ -64,8 +64,9 @@ jobs:
           PUBLISHED=""
           ERRORS=""
           SKIPPED=""
-          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
-          for added_modified_file in "${added_modified_renamed_files[@]}"; do
+          # Ana06/get-changed-files@v2.3.0 treats renamed files that are modified as modified. We shouldn't be renaming files without modification.
+          mapfile -d ',' -t added_modified_files < <(printf '%s' '${{ steps.files.outputs.added_modified }}')
+          for added_modified_file in "${added_modified_files[@]}"; do
           # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
           # doesn't end with /common*.*js, and doesn't follow */common/
           if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]] \
@@ -178,10 +179,11 @@ jobs:
           PUBLISHED=""
           ERRORS=""
           SKIPPED=""
-          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
+          # Ana06/get-changed-files@v2.3.0 treats renamed files that are modified as modified. We shouldn't be renaming files without modification.
+          mapfile -d ',' -t added_modified_files < <(printf '%s' '${{ steps.files.outputs.added_modified }}')
           # included in the components dir, ends with .ts and not app.ts,
           # doesn't end with /common*.ts, and doesn't follow */common/
-          for added_modified_file in "${added_modified_renamed_files[@]}";
+          for added_modified_file in "${added_modified_files[@]}";
           do
             echo "Checking if $added_modified_file is a publishable ts file"
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.ts ]] && [[ $added_modified_file != *.app.ts ]] \
