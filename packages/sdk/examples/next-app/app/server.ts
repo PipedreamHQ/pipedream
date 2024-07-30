@@ -49,7 +49,6 @@ export async function getGithubData(externalId: string) {
     throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_ID not set in environment");
 
   const data = await pd.getAccount({
-   // appId: NEXT_PUBLIC_PIPEDREAM_APP_ID,
     appId: NEXT_PUBLIC_PIPEDREAM_APP_SLUG,
     externalId,
   }, {
