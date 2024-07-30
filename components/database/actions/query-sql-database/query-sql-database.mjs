@@ -6,6 +6,7 @@ import mysql from "../../../mysql/mysql.app.mjs";
 import snowflake from "../../../snowflake/snowflake.app.mjs";
 import azure_sql from "../../../azure_sql/azure_sql.app.mjs";
 import microsoft_sql_server from "../../../microsoft_sql_server/microsoft_sql_server.app.mjs";
+import turso from "../../../turso/turso.app.mjs";
 
 export default {
   name: "Query SQL Database",
@@ -44,6 +45,10 @@ export default {
           label: "Microsoft SQL Server",
           value: "microsoft_sql_server",
         },
+        {
+          label: "Turso",
+          value: "turso",
+        },
       ],
       reloadProps: true,
     },
@@ -67,6 +72,10 @@ export default {
       ...microsoft_sql_server,
       hidden: true,
     },
+    turso: {
+      ...turso,
+      hidden: true,
+    },
     sql: {
       type: "sql",
       auth: {
@@ -83,6 +92,7 @@ export default {
     prev.postgresql.hidden = db_type !== "postgresql";
     prev.azure_sql.hidden = db_type !== "azure_sql";
     prev.microsoft_sql_server.hidden = db_type !== "microsoft_sql_server";
+    prev.turso.hidden = db_type !== "turso";
     prev.sql.hidden = !db_type;
 
     prev.snowflake.disabled = db_type !== "snowflake";
@@ -90,6 +100,7 @@ export default {
     prev.postgresql.disabled = db_type !== "postgresql";
     prev.azure_sql.disabled = db_type !== "azure_sql";
     prev.microsoft_sql_server.disabled = db_type !== "microsoft_sql_server";
+    prev.turso.disabled = db_type !== "turso";
 
     prev.sql.disabled = !db_type;
     prev.sql.auth.app = db_type;
