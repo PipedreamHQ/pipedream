@@ -1,4 +1,5 @@
 import canva from "../../canva.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "canva-create-design-from-brand-template",
@@ -15,6 +16,12 @@ export default {
       ],
       reloadProps: true,
     },
+    alert: {
+      type: "alert",
+      alertType: "error",
+      content: "Design not fillable. Design does not have any autofill capable elements.",
+      hidden: true,
+    },
     title: {
       type: "string",
       label: "Title",
@@ -28,7 +35,7 @@ export default {
       ],
     },
   },
-  async additionalProps() {
+  async additionalProps(existingProps) {
     const props = {};
     if (!this.brandTemplateId) {
       return props;
@@ -37,6 +44,7 @@ export default {
       brandTemplateId: this.brandTemplateId,
     });
     if (!dataset) {
+      existingProps.alert.hidden = false;
       return props;
     }
     for (const [
@@ -58,6 +66,9 @@ export default {
       $,
       brandTemplateId: this.brandTemplateId,
     });
+    if (!dataset) {
+      throw new ConfigurationError("Design not fillable. Design does not have any autofill capable elements.");
+    }
     for (const [
       key,
       value,
