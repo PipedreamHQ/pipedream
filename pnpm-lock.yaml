@@ -72,7 +72,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/_1crm:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/_21risk:
     specifiers:
@@ -598,6 +601,9 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/arcgis_online:
+    specifiers: {}
+
+  components/are_na:
     specifiers: {}
 
   components/arxiv:
@@ -2585,7 +2591,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dropboard:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/dropbox:
     specifiers:
@@ -3654,13 +3663,15 @@ importers:
   components/google_calendar:
     specifiers:
       '@googleapis/calendar': ^1.0.2
-      '@pipedream/platform': ^1.6.0
+      '@pipedream/platform': ^3.0.0
+      color-2-name: ^1.4.4
       lodash.get: ^4.4.2
       moment-timezone: ^0.5.33
       uuid: ^8.3.2
     dependencies:
       '@googleapis/calendar': 1.0.4
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 3.0.0
+      color-2-name: 1.4.4
       lodash.get: 4.4.2
       moment-timezone: 0.5.43
       uuid: 8.3.2
@@ -5158,6 +5169,9 @@ importers:
       '@pipedream/platform': 1.6.4
 
   components/llamaindex:
+    specifiers: {}
+
+  components/llmwhisperer:
     specifiers: {}
 
   components/lmnt:
@@ -21940,6 +21954,11 @@ packages:
   /collect-v8-coverage/1.0.2:
     resolution: {integrity: sha512-lHl4d5/ONEbLlJvaJNtsF/Lz+WvB07u2ycqTYbdrq7UypDXailES4valYb2eWiJFxZlVmpGekfqoxQhzyFdT4Q==}
     dev: true
+
+  /color-2-name/1.4.4:
+    resolution: {integrity: sha512-CSF+PANU5YSZYviiU88GJBeJADD4g9mydxLRMYtMEqVxhcLyl72b6PkMQnvomZyUZZLbPhfXs42QZcR0We4JOA==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+    dev: false
 
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
