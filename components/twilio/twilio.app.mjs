@@ -10,13 +10,6 @@ export default {
   type: "app",
   app: "twilio",
   propDefinitions: {
-    authToken: {
-      type: "string",
-      secret: true,
-      label: "Twilio Auth Token",
-      description:
-        "Your Twilio auth token, found [in your Twilio console](https://www.twilio.com/console). Required for validating Twilio events.",
-    },
     body: {
       type: "string",
       label: "Message Body",
@@ -72,7 +65,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of results to be worked with during one execution cycle.",
+      description: "The maximum number of results to retreive",
       optional: true,
       default: 50,
     },
@@ -166,10 +159,16 @@ export default {
         }));
       },
     },
+    includeTranscriptText: {
+      type: "boolean",
+      label: "Include Transcript Text?",
+      description: "Set to `true` to include the transcript sentences in the response",
+      optional: true,
+    },
   },
   methods: {
     validateRequest({
-      signature, url, params, authToken = this.$auth.authToken,
+      signature, url, params, authToken = this.$auth.AuthToken,
     } = {}) {
       // See https://www.twilio.com/docs/usage/webhooks/webhooks-security
       return twilio.validateRequest(
@@ -239,6 +238,24 @@ export default {
     listTranscriptions(params) {
       const client = this.getClient();
       return client.transcriptions.list(params);
+    },
+    listTranscripts(params) {
+      const client = this.getClient();
+      return client.intelligence.v2.transcripts.list(params);
+    },
+    listTranscriptSentences(transcriptId, params = {}) {
+      const client = this.getClient();
+      return client.intelligence.v2.transcripts(transcriptId).sentences.list(params);
+    },
+    async getSentences(transcriptId) {
+      const sentences = await this.listTranscriptSentences(transcriptId, {
+        limit: 1000,
+      });
+      const transcript = (sentences.map((sentence) => sentence.transcript)).join(" ");
+      return {
+        sentences,
+        transcript,
+      };
     },
     /**
      * Returns a list of messages associated with your account. When getting the

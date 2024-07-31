@@ -5,9 +5,9 @@ import { messageToString } from "../../common/utils.mjs";
 export default {
   key: "twilio-send-mms",
   name: "Send MMS",
-  description: "Send an SMS with text and media files. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource) for more information",
+  description: "Send an SMS with text and media files. [See the documentation](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource)",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
   props: {
     twilio,
     from: {
