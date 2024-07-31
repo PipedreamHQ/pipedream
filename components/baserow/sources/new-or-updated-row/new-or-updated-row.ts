@@ -7,9 +7,9 @@ import { EventType } from "../../common/constants";
 export default defineSource({
   ...common,
   key: "baserow-new-or-updated-row",
-  name: "New Agreement with Status",
+  name: "New or Updated Row",
   description:
-    "Emit new event for new agreements with the specified status(es) [See the documentation](https://api.doc.concordnow.com/#tag/Agreement/operation/ListAgreements)",
+    "Emit new event when a table row is created, updated or deleted, according to the selected event types",
   version: "0.0.1",
   type: "source",
   props: {
