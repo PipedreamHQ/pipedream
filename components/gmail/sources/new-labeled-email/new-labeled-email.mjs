@@ -40,7 +40,7 @@ export default {
       id, messages,
     }) {
       return {
-        id: id,
+        id,
         summary: `A new message with ID: ${messages[0].id} was labeled with "${this.label}"`,
         ts: Date.now(),
       };
@@ -51,6 +51,9 @@ export default {
           labelIds: this.label,
         },
       });
+      if (!messages?.length) {
+        return;
+      }
       if (messages.length > 25) messages.length = 25;
       const { id } = messages[messages.length - 1];
       const { historyId } = await this.gmail.getMessage({
@@ -86,6 +89,9 @@ export default {
   hooks: {
     async deploy() {
       const historyId = await this.getHistoryId();
+      if (!historyId) {
+        return;
+      }
       await this.emitHistories(historyId);
     },
   },
