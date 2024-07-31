@@ -1,0 +1,21 @@
+export default {
+  "id": "07be6cab-8c40-4855-945c-77ec27ddaffa",
+  "brandId": "dd493aea-1289-488d-aeb4-c633717758fd",
+  "created": "2024-07-27T00:20:45.933",
+  "firstname": null,
+  "lastname": null,
+  "title": null,
+  "subtitle": null,
+  "company": null,
+  "email": "test@test.com",
+  "imageUrl": null,
+  "testimonialText": "Always fantastic support. I love that Trust keep bringing out new features!",
+  "externalVideoHtml": null,
+  "videoVideoUrl": null,
+  "socialMediaProfiles": "[]",
+  "stars": 0,
+  "gaveConsent": false,
+  "consentDateTime": null,
+  "published": false,
+  "questionsAndAnswers": "[]"
+};

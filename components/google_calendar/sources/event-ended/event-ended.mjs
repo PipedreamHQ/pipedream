@@ -1,11 +1,12 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "google_calendar-event-ended",
   name: "New Ended Event",
   description: "Emit new event when a Google Calendar event ends",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -41,4 +42,5 @@ export default {
       return eventEnd && msFromEnd > 0 && msFromEnd < intervalMs;
     },
   },
+  sampleEmit,
 };
