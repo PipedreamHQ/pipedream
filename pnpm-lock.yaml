@@ -273,6 +273,9 @@ importers:
   components/ahrefs:
     specifiers: {}
 
+  components/aidbase:
+    specifiers: {}
+
   components/aimtell:
     specifiers: {}
 
