@@ -5,7 +5,7 @@ export default {
   key: "canva-create-design-import-job",
   name: "Create Design Import Job",
   description: "Starts a new job to import an external file as a new design in Canva. [See the documentation](https://www.canva.dev/docs/connect/api-reference/design-imports/create-design-import-job/)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     canva,
