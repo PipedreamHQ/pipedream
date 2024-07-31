@@ -5,7 +5,7 @@ export default {
   key: "canva-create-design",
   name: "Create Design",
   description: "Creates a new Canva design. [See the documentation](https://www.canva.dev/docs/connect/api-reference/designs/create-design/)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     canva,
