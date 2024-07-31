@@ -1,26 +1,14 @@
+import { ConfigurationError } from "@pipedream/platform";
 import hubstaff from "../../hubstaff.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "hubstaff-update-task",
   name: "Update Task",
-  description: "Update a specific task within your Hubstaff organization. [See the documentation](https://developer.hubstaff.com/docs/hubstaff_v2)",
-  version: "0.0.{{ts}}",
+  description: "Update a specific task within your Hubstaff organization. [See the documentation](https://developer.hubstaff.com/docs/hubstaff_v2#!/tasks/putV2TasksTaskId)",
+  version: "0.0.1",
   type: "action",
   props: {
     hubstaff,
-    taskId: {
-      propDefinition: [
-        hubstaff,
-        "taskId",
-        ({
-          organizationId, projectId,
-        }) => ({
-          organizationId,
-          projectId,
-        }),
-      ],
-    },
     organizationId: {
       propDefinition: [
         hubstaff,
@@ -36,45 +24,72 @@ export default {
         }),
       ],
     },
-    name: {
+    taskId: {
+      propDefinition: [
+        hubstaff,
+        "taskId",
+        ({
+          organizationId, projectId,
+        }) => ({
+          organizationId,
+          projectId,
+        }),
+      ],
+    },
+    summary: {
+      propDefinition: [
+        hubstaff,
+        "summary",
+      ],
+    },
+    assigneeId: {
+      propDefinition: [
+        hubstaff,
+        "userIds",
+        ({ projectId }) => ({
+          projectId,
+        }),
+      ],
       type: "string",
-      label: "Task Name",
-      description: "The new name for the task",
-      optional: true,
+      label: "User ID",
+      description: "Assignee user ID for this task.",
     },
     status: {
       propDefinition: [
         hubstaff,
         "status",
       ],
-      optional: true,
-    },
-    assignees: {
-      propDefinition: [
-        hubstaff,
-        "userIds",
-        ({ organizationId }) => ({
-          organizationId,
-        }),
+      options: [
+        "active",
+        "completed",
       ],
       optional: true,
     },
+    lockVersion: {
+      type: "integer",
+      label: "Lock Version",
+      description: "The lock version from the task fetch in order to update.",
+      default: 0,
+    },
   },
   async run({ $ }) {
-    const {
-      taskId, organizationId, projectId, name, status, assignees,
-    } = this;
+    try {
+      const response = await this.hubstaff.updateTask({
+        $,
+        taskId: this.taskId,
+        data: {
+          summary: this.summary,
+          lock_version: this.lockVersion,
+          status: this.status,
+          assignee_id: this.assigneeId,
+        },
+      });
 
-    const response = await this.hubstaff.updateTask({
-      taskId,
-      organizationId,
-      projectId,
-      summary: name,
-      status,
-      assigneeIds: assignees,
-    });
-
-    $.export("$summary", `Successfully updated task with ID ${taskId}`);
-    return response;
+      $.export("$summary", `Successfully updated task with ID ${this.taskId}`);
+      return response;
+    } catch ({ message }) {
+      const { error } = JSON.parse(message);
+      throw new ConfigurationError(error);
+    }
   },
 };

@@ -1,11 +1,12 @@
+import { INCLUDE_OPTIONS } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import hubstaff from "../../hubstaff.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "hubstaff-list-tasks",
   name: "List Tasks",
-  description: "Retrieves a list of all tasks from your Hubstaff organization. [See the documentation](https://developer.hubstaff.com/docs/hubstaff_v2)",
-  version: "0.0.{{ts}}",
+  description: "Retrieves a list of all tasks from your Hubstaff organization. [See the documentation](https://developer.hubstaff.com/docs/hubstaff_v2#!/tasks/getV2OrganizationsOrganizationIdTasks)",
+  version: "0.0.1",
   type: "action",
   props: {
     hubstaff,
@@ -19,10 +20,11 @@ export default {
       propDefinition: [
         hubstaff,
         "projectId",
-        (c) => ({
-          organizationId: c.organizationId,
+        ({ organizationId }) => ({
+          organizationId,
         }),
       ],
+      type: "string[]",
       optional: true,
     },
     status: {
@@ -30,6 +32,7 @@ export default {
         hubstaff,
         "status",
       ],
+      type: "string[]",
       optional: true,
     },
     userIds: {
@@ -42,16 +45,27 @@ export default {
       ],
       optional: true,
     },
+    include: {
+      type: "string[]",
+      label: "Include",
+      description: "Specify related data to side load.",
+      options: INCLUDE_OPTIONS,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.hubstaff.listAllTasks({
+      $,
       organizationId: this.organizationId,
-      projectId: this.projectId,
-      status: this.status,
-      userIds: this.userIds,
+      params: {
+        include: parseObject(this.include),
+        project_ids: parseObject(this.projectId),
+        user_ids: parseObject(this.userIds),
+        status: parseObject(this.status),
+      },
     });
 
-    $.export("$summary", "Successfully retrieved tasks");
+    $.export("$summary", `Successfully retrieved ${response.tasks.length} task(s)`);
     return response;
   },
 };

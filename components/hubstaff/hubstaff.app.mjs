@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { STATUS_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,10 +10,12 @@ export default {
       label: "Organization ID",
       description: "The ID of the organization",
       async options() {
-        const organizations = await this.listOrganizations();
-        return organizations.map((org) => ({
-          label: org.name,
-          value: org.id,
+        const { organizations } = await this.listOrganizations();
+        return organizations.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -21,12 +24,14 @@ export default {
       label: "Project ID",
       description: "The ID of the project",
       async options({ organizationId }) {
-        const projects = await this.listProjects({
+        const { projects } = await this.listProjects({
           organizationId,
         });
-        return projects.map((project) => ({
-          label: project.name,
-          value: project.id,
+        return projects.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -37,13 +42,15 @@ export default {
       async options({
         organizationId, projectId,
       }) {
-        const tasks = await this.listTasks({
+        const { tasks } = await this.listTasks({
           organizationId,
           projectId,
         });
-        return tasks.map((task) => ({
-          label: task.summary,
-          value: task.id,
+        return tasks.map(({
+          id: value, summary: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -51,13 +58,24 @@ export default {
       type: "string[]",
       label: "User IDs",
       description: "List of user IDs",
-      async options({ organizationId }) {
-        const users = await this.listUsers({
+      async options({
+        organizationId, projectId,
+      }) {
+        const {
+          members, users,
+        } = await this.listUsers({
           organizationId,
+          projectId,
+          params: {
+            include: [
+              "users",
+            ],
+          },
         });
-        return users.map((user) => ({
-          label: user.name,
-          value: user.id,
+
+        return members.map(({ user_id: value }) => ({
+          label: users.find((user) => user.user_id = value).name,
+          value,
         }));
       },
     },
@@ -65,109 +83,113 @@ export default {
       type: "string",
       label: "Status",
       description: "The status of the task",
-      options: [
-        "active",
-        "completed",
-        "deleted",
-        "archived",
-        "archived_native_active",
-        "archived_native_completed",
-        "archived_native_deleted",
-      ],
+      options: STATUS_OPTIONS,
+    },
+    summary: {
+      type: "string",
+      label: "Summary",
+      description: "A brief summary of the task",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.hubstaff.com/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listOrganizations() {
+    listClients({ organizationId }) {
+      return this._makeRequest({
+        path: `/organizations/${organizationId}/clients`,
+      });
+    },
+    listOrganizations() {
       return this._makeRequest({
         path: "/organizations",
       });
     },
-    async listProjects({ organizationId }) {
+    listProjects({ organizationId }) {
       return this._makeRequest({
         path: `/organizations/${organizationId}/projects`,
       });
     },
-    async listTasks({
-      organizationId, projectId,
+    listTasks({ projectId }) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/tasks`,
+      });
+    },
+    listUsers({
+      organizationId, projectId, ...opts
     }) {
       return this._makeRequest({
-        path: `/organizations/${organizationId}/projects/${projectId}/tasks`,
+        path: `${projectId
+          ? `/projects/${projectId}`
+          : `/organizations/${organizationId}`}/members`,
+        ...opts,
       });
     },
-    async listUsers({ organizationId }) {
-      return this._makeRequest({
-        path: `/organizations/${organizationId}/users`,
-      });
-    },
-    async createTask({
-      organizationId, projectId, summary, dueDate, assigneeIds,
+    createTask({
+      projectId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/organizations/${organizationId}/projects/${projectId}/tasks`,
-        data: {
-          summary,
-          due_date: dueDate,
-          assignee_ids: assigneeIds,
-        },
+        path: `/projects/${projectId}/tasks`,
+        ...opts,
       });
     },
-    async updateTask({
-      taskId, organizationId, projectId, summary, status, assigneeIds,
+    updateTask({
+      taskId, ...opts
     }) {
       return this._makeRequest({
         method: "PUT",
         path: `/tasks/${taskId}`,
-        data: {
-          organization_id: organizationId,
-          project_id: projectId,
-          summary,
-          status,
-          assignee_ids: assigneeIds,
-        },
+        ...opts,
       });
     },
-    async listAllTasks({
-      organizationId, projectId, status, userIds,
+    listAllTasks({
+      organizationId, ...opts
     }) {
       return this._makeRequest({
         path: `/organizations/${organizationId}/tasks`,
-        params: {
-          project_id: projectId,
-          status,
-          user_ids: userIds,
-        },
+        ...opts,
       });
     },
-    async emitNewClientEvent() {
-      // Logic to emit new client event
-    },
-    async emitNewScheduleEvent({ organizationId }) {
-      // Logic to emit new schedule event
-    },
-    async emitUpdatedScheduleEvent({ organizationId }) {
-      // Logic to emit updated schedule event
+    async *paginate({
+      fn, params = {}, model, ...opts
+    }) {
+      let nextToken = false;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        params.page_start_id = nextToken;
+        const {
+          pagination, [model]: data,
+        } = await fn({
+          params,
+          ...opts,
+        });
+
+        for (const d of data) {
+          yield d;
+        }
+
+        nextToken = pagination
+          ? pagination.next_page_start_id
+          : false;
+
+      } while (nextToken);
     },
   },
 };
