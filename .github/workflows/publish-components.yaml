@@ -64,12 +64,14 @@ jobs:
           PUBLISHED=""
           ERRORS=""
           SKIPPED=""
-          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
-          for added_modified_file in "${added_modified_renamed_files[@]}"; do
-          # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
-          # doesn't end with /common*.*js, and doesn't follow */common/
-          if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]] \
-              && [[ $added_modified_file != */common*.*js ]] && [[ $added_modified_file != */common/* ]] && [[ $added_modified_file != components/*/test-event.mjs ]]
+          # Ana06/get-changed-files@v2.3.0 treats renamed files that are modified as modified. We shouldn't be renaming files without modification.
+          mapfile -d ',' -t added_modified_files < <(printf '%s' '${{ steps.files.outputs.added_modified }}')
+          for added_modified_file in "${added_modified_files[@]}";
+          do
+            # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
+            # doesn't end with /common*.*js, and doesn't follow */common/
+            if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]] \
+                && [[ $added_modified_file != */common*.*js ]] && [[ $added_modified_file != */common/* ]] && [[ $added_modified_file != components/*/test-event.mjs ]]
             then
               echo "retrieving previous version for ${added_modified_file}"
               KEY=`echo $added_modified_file | tr '/' ' ' | awk '{ print $2 "-" $4 }'`
@@ -82,7 +84,8 @@ jobs:
                 KEY=`echo $PD_OUTPUT | jq -r ".key"`
                 echo "published ${KEY}"
                 echo "${KEY} will be added to the registry"
-                curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String, $orgId: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath, orgId: $orgId){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'","orgId":"'${PD_ORG_ID}'"}}'
+                PUBLISHED_COMP=`curl --silent "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String, $orgId: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath, orgId: $orgId){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'","orgId":"'${PD_ORG_ID}'"}}'`
+                echo "set component registry response: ${PUBLISHED_COMP}"
                 [[ "$PREV_VERSION" == "null" ]] && PUBLISHED+="*${added_modified_file}" || PUBLISHED+="*${added_modified_file}~$PREV_VERSION"
               else
                 ERROR=`echo $PD_OUTPUT | jq -r ".error" || $PD_OUTPUT`
@@ -178,10 +181,11 @@ jobs:
           PUBLISHED=""
           ERRORS=""
           SKIPPED=""
-          mapfile -d ',' -t added_modified_renamed_files < <(printf '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}')
+          # Ana06/get-changed-files@v2.3.0 treats renamed files that are modified as modified. We shouldn't be renaming files without modification.
+          mapfile -d ',' -t added_modified_files < <(printf '%s' '${{ steps.files.outputs.added_modified }}')
           # included in the components dir, ends with .ts and not app.ts,
           # doesn't end with /common*.ts, and doesn't follow */common/
-          for added_modified_file in "${added_modified_renamed_files[@]}";
+          for added_modified_file in "${added_modified_files[@]}";
           do
             echo "Checking if $added_modified_file is a publishable ts file"
             if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.ts ]] && [[ $added_modified_file != *.app.ts ]] \
@@ -219,7 +223,8 @@ jobs:
                   KEY=`echo $PD_OUTPUT | jq -r ".key"`
                   echo "published ${KEY}"
                   echo "${KEY} will be added to the registry"
-                  curl "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String, $orgId: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath, orgId: $orgId){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'","orgId":"'${PD_ORG_ID}'"}}'
+                  PUBLISHED_COMP=`curl --silent "https://api.pipedream.com/graphql" -H "Content-Type: application/json" -H "Authorization: Bearer ${PD_API_KEY}" --data-binary $'{"query":"mutation setComponentRegistry($key: String!, $registry: Boolean!, $gitPath: String, $orgId: String){\\n  setComponentRegistry(key: $key, registry: $registry, gitPath: $gitPath, orgId: $orgId){\\n    savedComponent{\\n      id\\n      key\\n      gitPath\\n    }\\n  }\\n}","variables":{"key":"'${KEY}'","registry":'true',"gitPath":"'${added_modified_file}'","orgId":"'${PD_ORG_ID}'"}}'`
+                  echo "set component registry response: ${PUBLISHED_COMP}"
                   [[ "$PREV_VERSION" == "null" ]] && PUBLISHED+="*${changed_output_file}" || PUBLISHED+="*${changed_output_file}~$PREV_VERSION"
                 else
                   ERROR=`echo $PD_OUTPUT | jq -r ".error"`
@@ -231,8 +236,8 @@ jobs:
                 fi
               fi
             else
-              echo "${f} will not be added to the registry"
-              SKIPPED+="*${f}"
+              echo "${added_modified_file} will not be added to the registry"
+              SKIPPED+="*${added_modified_file}"
             fi
           done
           # print out everything that didn't publish
