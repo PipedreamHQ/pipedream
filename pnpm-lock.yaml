@@ -1004,6 +1004,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/blogify:
+    specifiers: {}
+
   components/bloom_growth:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5583,7 +5586,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/meteomatics_weather_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/mezmo:
     specifiers: {}
@@ -6713,7 +6719,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/picdefense:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/picky_assist:
     specifiers:
@@ -8196,7 +8205,10 @@ importers:
     specifiers: {}
 
   components/serpapi:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/serpdog:
     specifiers: {}
@@ -9660,7 +9672,14 @@ importers:
     specifiers: {}
 
   components/trust:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/trustpilot:
     specifiers: {}
