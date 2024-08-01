@@ -3398,6 +3398,9 @@ importers:
   components/gagelist:
     specifiers: {}
 
+  components/gami5d:
+    specifiers: {}
+
   components/gan_ai:
     specifiers:
       '@pipedream/platform': 1.6.4

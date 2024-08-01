@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/gami5d",
+  "version": "0.0.1",
+  "description": "Pipedream Gami5d Components",
+  "main": "gami5d.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gami5d"
+  ],
+  "homepage": "https://pipedream.com/apps/gami5d",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
