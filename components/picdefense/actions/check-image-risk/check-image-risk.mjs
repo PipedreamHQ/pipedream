@@ -4,7 +4,7 @@ export default {
   key: "picdefense-check-image-risk",
   name: "Check Image Risk",
   description: "Check the risk of the image on the provided URL. [See the documentation](https://app.picdefense.io/apidocs/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
