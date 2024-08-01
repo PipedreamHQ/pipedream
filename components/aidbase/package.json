@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/aidbase",
+  "version": "0.0.1",
+  "description": "Pipedream Aidbase Components",
+  "main": "aidbase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "aidbase"
+  ],
+  "homepage": "https://pipedream.com/apps/aidbase",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
