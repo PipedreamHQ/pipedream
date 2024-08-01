@@ -165,6 +165,18 @@ export default {
       description: "Set to `true` to include the transcript sentences in the response",
       optional: true,
     },
+    applicationSid: {
+      type: "string",
+      label: "Application SID",
+      description: "The SID of the Application resource",
+      async options() {
+        const applications = await this.listApplications();
+        return applications?.map((application) => ({
+          label: application.friendly_name,
+          value: application.sid,
+        })) || [];
+      },
+    },
   },
   methods: {
     validateRequest({
@@ -256,6 +268,14 @@ export default {
         sentences,
         transcript,
       };
+    },
+    listApplications(params) {
+      const client = this.getClient();
+      return client.applications.list(params);
+    },
+    createVerificationService(params) {
+      const client = this.getClient();
+      return client.verify.v2.services.create(params);
     },
     /**
      * Returns a list of messages associated with your account. When getting the

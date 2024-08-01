@@ -1,4 +1,4 @@
-import twilio from "../twilio.app.mjs";
+import twilio from "../../twilio.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {

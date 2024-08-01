@@ -1,4 +1,4 @@
-import twilio from "../twilio.app.mjs";
+import twilio from "../../twilio.app.mjs";
 
 export default {
   props: {

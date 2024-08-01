@@ -1,5 +1,5 @@
 import twilio from "twilio";
-import common from "../common-webhook.mjs";
+import common from "../common/common-webhook.mjs";
 import constants from "../../common/constants.mjs";
 
 const MessagingResponse = twilio.twiml.MessagingResponse;
