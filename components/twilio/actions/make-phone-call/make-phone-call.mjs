@@ -133,7 +133,7 @@ export default {
       twiml: this.text && `<Response><Say>${this.text}</Say></Response>`,
       url: this.url,
       applicationSid: this.applicationSid,
-      timeout: this.timeouot,
+      timeout: this.timeout,
       record: this.record,
       trim: this.trim,
       recordingTrack: this.recordingTrack,
