@@ -25,23 +25,16 @@ export default {
     _setLastId(lastId) {
       this.db.set("lastId", lastId);
     },
-    _getLastDate() {
-      return this.db.get("lastDate") || 0;
-    },
-    _setLastDate(lastDate) {
-      this.db.set("lastDate", lastDate);
-    },
     getParams() {
       return {};
     },
     async emitEvent(maxResults = false) {
       const lastId = this._getLastId();
-      const lastDate = this._getLastDate();
 
       const response = this.hubstaff.paginate({
         fn: this.getFunction(),
         model: this.getModel(),
-        params: this.getParams(lastDate),
+        params: this.getParams(),
         organizationId: this.organizationId,
       });
 
@@ -59,14 +52,13 @@ export default {
           responseArray.length = maxResults;
         }
         this._setLastId(responseArray[0].id);
-        this._setLastDate(responseArray[0].created_at);
       }
 
       for (const item of responseArray.reverse()) {
         this.$emit(item, {
           id: item.id,
           summary: this.getSummary(item),
-          ts: Date.parse(new Date()),
+          ts: Date.parse(item.created_at),
         });
       }
     },

@@ -17,10 +17,10 @@ export default {
     getFunction() {
       return this.hubstaff.listSchedules;
     },
-    getParams(lastDate) {
+    getParams() {
       return {
-        "date[start]": lastDate,
-        "date[stop]": Date.now(),
+        "date[start]": "1970-01-01",
+        "date[stop]": ((d) => new Date(d.getFullYear() + 1000, d.getMonth(), d.getDate()))(new Date),
       };
     },
     getSummary(item) {

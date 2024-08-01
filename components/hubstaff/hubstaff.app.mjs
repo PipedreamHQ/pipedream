@@ -9,30 +9,62 @@ export default {
       type: "string",
       label: "Organization ID",
       description: "The ID of the organization",
-      async options() {
-        const { organizations } = await this.listOrganizations();
-        return organizations.map(({
-          name: label, id: value,
-        }) => ({
-          label,
-          value,
-        }));
+      async options({ prevContext }) {
+        const params = {};
+        if (prevContext.nextToken) {
+          params.page_start_id = prevContext.nextToken;
+        }
+        const {
+          organizations, pagination,
+        } = await this.listOrganizations({
+          params,
+        });
+        return {
+          options: organizations.map(({
+            name: label, id: value,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextToken: pagination
+              ? pagination.next_page_start_id
+              : false,
+          },
+        };
       },
     },
     projectId: {
       type: "string",
       label: "Project ID",
       description: "The ID of the project",
-      async options({ organizationId }) {
-        const { projects } = await this.listProjects({
+      async options({
+        prevContext, organizationId,
+      }) {
+        const params = {};
+        if (prevContext.nextToken) {
+          params.page_start_id = prevContext.nextToken;
+        }
+        const {
+          projects, pagination,
+        } = await this.listProjects({
+          params,
           organizationId,
         });
-        return projects.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+
+        return {
+          options: projects.map(({
+            name: label, id: value,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextToken: pagination
+              ? pagination.next_page_start_id
+              : false,
+          },
+        };
       },
     },
     taskId: {
@@ -40,18 +72,33 @@ export default {
       label: "Task ID",
       description: "The ID of the task",
       async options({
-        organizationId, projectId,
+        prevContext, organizationId, projectId,
       }) {
-        const { tasks } = await this.listTasks({
+        const params = {};
+        if (prevContext.nextToken) {
+          params.page_start_id = prevContext.nextToken;
+        }
+        const {
+          tasks, pagination,
+        } = await this.listTasks({
+          params,
           organizationId,
           projectId,
         });
-        return tasks.map(({
-          id: value, summary: label,
-        }) => ({
-          label,
-          value,
-        }));
+
+        return {
+          options: tasks.map(({
+            id: value, summary: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextToken: pagination
+              ? pagination.next_page_start_id
+              : false,
+          },
+        };
       },
     },
     userIds: {
@@ -59,24 +106,35 @@ export default {
       label: "User IDs",
       description: "List of user IDs",
       async options({
-        organizationId, projectId,
+        prevContext, organizationId, projectId,
       }) {
+        const params = {
+          include: [
+            "users",
+          ],
+        };
+        if (prevContext.nextToken) {
+          params.page_start_id = prevContext.nextToken;
+        }
         const {
-          members, users,
+          members, users, pagination,
         } = await this.listUsers({
+          params,
           organizationId,
           projectId,
-          params: {
-            include: [
-              "users",
-            ],
-          },
         });
 
-        return members.map(({ user_id: value }) => ({
-          label: users.find((user) => user.user_id = value).name,
-          value,
-        }));
+        return {
+          options: members.map(({ user_id: value }) => ({
+            label: users.find((user) => user.user_id = value).name,
+            value,
+          })),
+          context: {
+            nextToken: pagination
+              ? pagination.next_page_start_id
+              : false,
+          },
+        };
       },
     },
     status: {
@@ -122,6 +180,14 @@ export default {
     listProjects({ organizationId }) {
       return this._makeRequest({
         path: `/organizations/${organizationId}/projects`,
+      });
+    },
+    listSchedules({
+      organizationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/organizations/${organizationId}/attendance_schedules`,
+        ...opts,
       });
     },
     listTasks({ projectId }) {
@@ -173,7 +239,10 @@ export default {
 
       do {
         params.page = ++page;
-        params.page_start_id = nextToken;
+        delete params.page_start_id;
+        if (nextToken) {
+          params.page_start_id = nextToken;
+        }
         const {
           pagination, [model]: data,
         } = await fn({
