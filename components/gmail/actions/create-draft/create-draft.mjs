@@ -1,84 +1,88 @@
-import gmail from "../../gmail.app.mjs";
+import common from "../../common/verify-client-id.mjs";
 
 export default {
-  key: "gmail-send-email",
-  name: "Send Email",
-  description: "Send an email from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/send)",
-  version: "0.1.3",
+  ...common,
+  key: "gmail-create-draft",
+  name: "Create Draft",
+  description: "Create a draft from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.drafts/create)",
+  version: "0.0.1",
   type: "action",
   props: {
-    gmail,
+    ...common.props,
     to: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "to",
       ],
     },
     cc: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "cc",
       ],
     },
     bcc: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "bcc",
       ],
     },
     fromName: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "fromName",
       ],
     },
     replyTo: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "replyTo",
       ],
     },
     subject: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "subject",
       ],
     },
     body: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "body",
       ],
     },
     bodyType: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "bodyType",
       ],
     },
     attachments: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "attachments",
       ],
     },
     inReplyTo: {
       propDefinition: [
-        gmail,
-        "inReplyTo",
+        common.props.gmail,
+        "message",
       ],
+      label: "In Reply To",
+      description: "Specify the `message-id` this email is replying to.",
+      optional: true,
     },
     mimeType: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "mimeType",
       ],
     },
   },
   async run({ $ }) {
     const opts = await this.gmail.getOptionsToSendEmail($, this);
-    const response = await this.gmail.sendEmail(opts);
-    $.export("$summary", `Successfully sent email to ${this.to}`);
+    const response = await this.gmail.createDraft(opts);
+    $.export("$summary", "Successfully created a draft message");
     return response;
   },
 };
