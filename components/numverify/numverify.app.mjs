@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "aidbase",
+  app: "numverify",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

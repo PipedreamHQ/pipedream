@@ -2624,6 +2624,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/dropinblog:
+    specifiers: {}
+
   components/dropmark:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -6161,6 +6164,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/numverify:
+    specifiers: {}
 
   components/nusii_proposals:
     specifiers: {}
