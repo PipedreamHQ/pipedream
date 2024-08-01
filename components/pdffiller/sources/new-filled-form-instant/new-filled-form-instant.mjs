@@ -6,7 +6,7 @@ export default {
   key: "pdffiller-new-filled-form-instant",
   name: "New Filled Form (Instant)",
   description: "Emit new event when a form is filled out.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
