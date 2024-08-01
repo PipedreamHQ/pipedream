@@ -10340,6 +10340,9 @@ importers:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
 
+  components/whautomate:
+    specifiers: {}
+
   components/white_swan:
     specifiers:
       '@pipedream/platform': ^1.6.0
