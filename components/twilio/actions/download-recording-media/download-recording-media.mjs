@@ -1,5 +1,5 @@
 import twilio from "../../twilio.app.mjs";
-import got from "got@13.0.0";
+import got from "got";
 import stream from "stream";
 import { promisify } from "util";
 import fs from "fs";
