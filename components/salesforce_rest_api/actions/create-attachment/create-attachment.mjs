@@ -35,9 +35,7 @@ export default {
     /* eslint-enable no-unused-vars */
 
     const body =  filePathOrContent.includes("tmp/")
-      ? fs.createReadStream(filePathOrContent, {
-        encoding: "base64",
-      })
+      ? (await fs.promises.readFile(filePathOrContent)).toString("base64")
       : filePathOrContent;
 
     const response = await salesforce.createRecord("Attachment", {
