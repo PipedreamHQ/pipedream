@@ -67,21 +67,26 @@ class ServerClient {
   async getAccount(key: AccountKey, opts?: { includeCredentials?: boolean; }) {
     let url: string;
     let id: string | undefined;
-    const baseAccountURL = `${this.baseURL}/v1/accounts`;
+    const baseAccountURL = `${this.baseURL}/v1/connect`;
     if (typeof key === "string") {
       id = key;
-      url = `${baseAccountURL}/${id}`;
+      url = `${baseAccountURL}/accounts/${id}`;
+    } else if (key.externalId) {
+      url = `${baseAccountURL}/users/${key.externalId}/accounts`;
+    } else if (key.appId) {
+      url = `${baseAccountURL}/apps/${key.appId}/accounts`;
     } else {
-      url = `${baseAccountURL}?app=${key.appId}&limit=100&external_id=${key.externalId}`;
+      url = `${baseAccountURL}/accounts`;
     }
+
     if (opts?.includeCredentials) {
-      url += `${id
-        ? "?"
-        : "&"}include_credentials=1`;
+      url += "?include_credentials=1";
     }
+
     const resp = await fetch(url, {
       headers: {
-        Authorization: this._authorizationHeader(),
+        "authorization": this._authorizationHeader(),
+        "content-type": "application/json",
       },
     });
     const res = await resp.json();
