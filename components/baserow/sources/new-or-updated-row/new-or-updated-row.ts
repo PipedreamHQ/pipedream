@@ -47,7 +47,7 @@ export default defineSource({
       this.db.set("tableId", value);
     },
     _getSavedData(): string[] {
-      return JSON.parse(this.db.get("savedData") ?? {});
+      return JSON.parse(this.db.get("savedData") ?? "{}");
     },
     _setSavedData(data: string[]) {
       this.db.set("savedData", JSON.stringify(data));
