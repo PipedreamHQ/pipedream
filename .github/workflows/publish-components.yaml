@@ -66,11 +66,12 @@ jobs:
           SKIPPED=""
           # Ana06/get-changed-files@v2.3.0 treats renamed files that are modified as modified. We shouldn't be renaming files without modification.
           mapfile -d ',' -t added_modified_files < <(printf '%s' '${{ steps.files.outputs.added_modified }}')
-          for added_modified_file in "${added_modified_files[@]}"; do
-          # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
-          # doesn't end with /common*.*js, and doesn't follow */common/
-          if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]] \
-              && [[ $added_modified_file != */common*.*js ]] && [[ $added_modified_file != */common/* ]] && [[ $added_modified_file != components/*/test-event.mjs ]]
+          for added_modified_file in "${added_modified_files[@]}";
+          do
+            # starts with components, ends with .*js (e.g. .js and .mjs) and not app.js,
+            # doesn't end with /common*.*js, and doesn't follow */common/
+            if [[ $added_modified_file == components/* ]] && [[ $added_modified_file == *.*js ]] && [[ $added_modified_file != *.app.*js ]] \
+                && [[ $added_modified_file != */common*.*js ]] && [[ $added_modified_file != */common/* ]] && [[ $added_modified_file != components/*/test-event.mjs ]]
             then
               echo "retrieving previous version for ${added_modified_file}"
               KEY=`echo $added_modified_file | tr '/' ' ' | awk '{ print $2 "-" $4 }'`

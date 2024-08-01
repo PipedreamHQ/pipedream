@@ -273,6 +273,9 @@ importers:
   components/ahrefs:
     specifiers: {}
 
+  components/aidbase:
+    specifiers: {}
+
   components/aimtell:
     specifiers: {}
 
@@ -1003,6 +1006,9 @@ importers:
       '@pipedream/platform': ^0.10.0
     dependencies:
       '@pipedream/platform': 0.10.0
+
+  components/blogify:
+    specifiers: {}
 
   components/bloom_growth:
     specifiers:
@@ -2617,6 +2623,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/dropinblog:
+    specifiers: {}
 
   components/dropmark:
     specifiers:
@@ -5583,7 +5592,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/meteomatics_weather_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/mezmo:
     specifiers: {}
@@ -6153,6 +6165,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/numverify:
+    specifiers: {}
+
   components/nusii_proposals:
     specifiers: {}
 
@@ -6621,7 +6636,12 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/pdffiller:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      fs: 0.0.1-security
 
   components/pdfless:
     specifiers:
@@ -6713,7 +6733,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/picdefense:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/picky_assist:
     specifiers:
@@ -8196,7 +8219,10 @@ importers:
     specifiers: {}
 
   components/serpapi:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/serpdog:
     specifiers: {}
