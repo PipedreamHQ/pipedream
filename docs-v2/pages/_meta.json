@@ -23,6 +23,10 @@
     "title": "Connected Accounts"
   },
   "apps": "Integrations",
+  "connect": {
+    "title": "Pipedream Connect",
+    "display": "hidden"
+  },
   "components": "Components",
   "sources": "Sources",
   "event-history": "Event History",
