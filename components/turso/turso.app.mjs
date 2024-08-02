@@ -95,27 +95,27 @@ export default {
      * JSON-serializable object.
      */
     async getSchema() {
-      const columns = await this.executeQuery({
+      const { rows } = await this.executeQuery({
         sql: `SELECT m.name AS tableName, ti.name AS columnName, ti.type AS dataType, ti.[notnull] AS isNullable, ti.[dflt_value] AS columnDefault 
               FROM sqlite_master AS m 
               JOIN pragma_table_info(m.name) AS ti 
               WHERE m.type = 'table' ORDER BY  m.name, ti.cid`,
       });
       const schema = {};
-      for (const col of columns) {
-        const count = await this.executeQuery({
-          sql: `SELECT COUNT (*) as count FROM ${col.tableName}`,
+      for (const row of rows) {
+        const { rows: count } = await this.executeQuery({
+          sql: `SELECT COUNT (*) as count FROM ${row.tableName}`,
         });
-        schema[col.tableName] = {
+        schema[row.tableName] = {
           metadata: {
             rowCount: count[0].count,
           },
           schema: {
-            ...schema[col.tableName]?.schema,
-            [col.columnName]: {
-              columnDefault: col.columnDefault,
-              dataType: col.dataType,
-              isNullable: col.isNullable,
+            ...schema[row.tableName]?.schema,
+            [row.columnName]: {
+              columnDefault: row.columnDefault,
+              dataType: row.dataType,
+              isNullable: row.isNullable,
             },
           },
         };
@@ -182,7 +182,7 @@ export default {
         throw new Error(`${results[0].error.message}`);
       }
       const {
-        cols = [], rows = [],
+        cols = [], rows = [], ...data
       } = results[0].response.result;
 
       // format response
@@ -195,7 +195,10 @@ export default {
         }
         response.push(newRow);
       });
-      return response;
+      return {
+        rows: response,
+        ...data,
+      };
     },
   },
 };

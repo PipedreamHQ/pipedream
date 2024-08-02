@@ -23,7 +23,7 @@ export default {
       $,
       ...args,
     });
-    $.export("$summary", `Returned ${data.length} ${data.length === 1
+    $.export("$summary", `Returned ${data.rows.length} ${data.rows.length === 1
       ? "row"
       : "rows"}`);
     return data;
