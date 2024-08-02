@@ -126,7 +126,7 @@ export default {
 
         return {
           options: members.map(({ user_id: value }) => ({
-            label: users.find((user) => user.user_id = value).name,
+            label: users.find((user) => user.id === value).name,
             value,
           })),
           context: {
