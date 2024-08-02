@@ -1,10 +1,4 @@
 {
-  "index": {
-    "title": "Connect Overview",
-    "display": "hidden"
-  },
-  "reference": {
-    "title": "API Reference",
-    "display": "hidden"
-  }
+  "index": "Connect Overview",
+  "reference": "API Reference"
 }
