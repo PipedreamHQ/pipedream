@@ -36,6 +36,7 @@ export default {
         } = await this.twilio.getSentences(result.sid);
         transcripts.push({
           ...result,
+          _version: undefined,
           sentences,
           transcript,
         });

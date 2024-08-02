@@ -263,10 +263,10 @@ export default {
       const sentences = await this.listTranscriptSentences(transcriptId, {
         limit: 1000,
       });
-      const transcript = (sentences.map((sentence) => sentence.transcript)).join(" ");
+      const transcriptParts = sentences.map((sentence) => `Speaker ${sentence.mediaChannel} (Sentence ${sentence.sentenceIndex}):\n${sentence.transcript}\nConfidence: ${sentence.confidence}\n`);
       return {
         sentences,
-        transcript,
+        transcript: transcriptParts.join("\n"),
       };
     },
     listApplications(params) {
