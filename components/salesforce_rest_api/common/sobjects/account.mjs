@@ -11,15 +11,6 @@ export default {
       description: "Name of the account. Max 255 characters.",
     },
   },
-  updateProps: {
-    IsPartner: {
-      type: "boolean",
-      label: "Is Partner",
-      description:
-        "Indicates whether the account has at least one contact enabled to use the org's partner portal.",
-      optional: true,
-    },
-  },
   initialProps: {
     AccountNumber: {
       type: "string",

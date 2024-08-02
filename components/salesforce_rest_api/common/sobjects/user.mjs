@@ -153,7 +153,7 @@ export default {
       optional: true,
     },
     UserRoleId: {
-      ...commonProps.AccountId,
+      ...commonProps.UserRoleId,
       description: "ID of the user's UserRole.",
       optional: true,
     },

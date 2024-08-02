@@ -20,13 +20,6 @@ export default {
       label: "Parent Case ID",
       description: "ID of the parent Case.",
     },
-    IsNotificationSelected: {
-      type: "boolean",
-      label: "Is Notification Selected",
-      description:
-        "Indicates whether an email notification is sent to the case contact when a CaseComment is created or updated.",
-      optional: true,
-    },
     IsPublished: {
       type: "boolean",
       label: "Is Published",

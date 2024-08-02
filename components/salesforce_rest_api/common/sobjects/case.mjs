@@ -62,8 +62,8 @@ export default {
       optional: true,
     },
     OwnerId: {
-      ...commonProps.ContactId,
-      description: "ID of the contact who owns the case.",
+      ...commonProps.UserId,
+      description: "ID of the user who owns the case.",
       optional: true,
     },
     ParentId: {

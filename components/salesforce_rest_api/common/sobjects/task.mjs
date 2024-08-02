@@ -172,7 +172,7 @@ export default {
     },
     RecurrenceRegeneratedType: {
       type: "string",
-      label: "Recurrence Regenerated Type",
+      label: "Repeat This Task",
       description: "Represents what triggers a repeating task to repeat.",
       optional: true,
       options: [
