@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/whautomate",
+  "version": "0.0.1",
+  "description": "Pipedream Whautomate Components",
+  "main": "whautomate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "whautomate"
+  ],
+  "homepage": "https://pipedream.com/apps/whautomate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
