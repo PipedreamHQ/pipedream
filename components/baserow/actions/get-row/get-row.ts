@@ -12,7 +12,7 @@ export default defineAction({
   description:
     `Get a single row [See docs here](${DOCS_LINK})`,
   key: "baserow-get-row",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
