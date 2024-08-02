@@ -71,7 +71,7 @@ export default {
         ...getAdditionalFields(),
       },
     });
-    $.export("$summary", `Successfully updated opportunity (ID: ${this.OpportunityId})`);
+    $.export("$summary", `Successfully updated opportunity (ID: ${opportunityId})`);
     return response;
   },
 };
