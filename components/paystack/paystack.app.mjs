@@ -153,6 +153,22 @@ export default {
           });
       },
     },
+    from: {
+      type: "string",
+      label: "From",
+      description: "The start date for record retrieval, in ISO 8601 format (e.g., 2016-09-24T00:00:05.000Z or 2016-09-21).",
+    },
+    to: {
+      type: "string",
+      label: "To",
+      description: "The end date for record retrieval, in ISO 8601 format (e.g., 2016-09-24T00:00:05.000Z or 2016-09-21).",
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
