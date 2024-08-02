@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/paradym",
+  "version": "0.0.1",
+  "description": "Pipedream Paradym Components",
+  "main": "paradym.app.mjs",
+  "keywords": [
+    "pipedream",
+    "paradym"
+  ],
+  "homepage": "https://pipedream.com/apps/paradym",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
