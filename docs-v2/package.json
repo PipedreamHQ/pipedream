@@ -22,7 +22,7 @@
     "eslint-plugin-putout": "^22.10.0",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.7",
-    "next": "^13.5.6",
+    "next": "^14.2.5",
     "nextra": "latest",
     "nextra-theme-docs": "latest",
     "react": "^18.3.1",
