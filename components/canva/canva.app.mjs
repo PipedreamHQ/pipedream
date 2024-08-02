@@ -32,6 +32,34 @@ export default {
         };
       },
     },
+    brandTemplateId: {
+      type: "string",
+      label: "Brand Template ID",
+      description: "The ID of a brand template",
+      async options({ prevContext }) {
+        const params = prevContext?.continuation
+          ? {
+            continuation: prevContext.continuation,
+          }
+          : {};
+        const {
+          items, continuation,
+        } = await this.listBrandTemplates({
+          params,
+        });
+        return {
+          options: items?.map(({
+            id: value, title: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            continuation,
+          },
+        };
+      },
+    },
     title: {
       type: "string",
       label: "Title",
@@ -75,6 +103,12 @@ export default {
         ...opts,
       });
     },
+    listBrandTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/brand-templates",
+        ...opts,
+      });
+    },
     getUploadJob({
       jobId, ...opts
     }) {
@@ -97,10 +131,33 @@ export default {
         ...opts,
       });
     },
+    createDesignAutofillJob(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/autofills",
+        ...opts,
+      });
+    },
     importDesign(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/imports",
+        ...opts,
+      });
+    },
+    getBrandTemplateDataset({
+      brandTemplateId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/brand-templates/${brandTemplateId}/dataset`,
+        ...opts,
+      });
+    },
+    getDesignAutofillJob({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/autofills/${jobId}`,
         ...opts,
       });
     },
