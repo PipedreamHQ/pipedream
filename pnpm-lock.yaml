@@ -3398,6 +3398,9 @@ importers:
   components/gagelist:
     specifiers: {}
 
+  components/gami5d:
+    specifiers: {}
+
   components/gan_ai:
     specifiers:
       '@pipedream/platform': 1.6.4
@@ -4376,6 +4379,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.6.2
+
+  components/ideal_postcodes:
+    specifiers: {}
 
   components/idealpostcodes:
     specifiers: {}
@@ -6418,7 +6424,10 @@ importers:
     specifiers: {}
 
   components/otter_waiver:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/ottertext:
     specifiers: {}
@@ -6512,6 +6521,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/paradym:
+    specifiers: {}
 
   components/parma:
     specifiers:
@@ -8782,6 +8794,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/spamcheck_ai:
+    specifiers: {}
+
   components/sparkpost:
     specifiers: {}
 
@@ -10339,6 +10354,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
+
+  components/whautomate:
+    specifiers: {}
 
   components/white_swan:
     specifiers:

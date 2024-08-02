@@ -5,7 +5,7 @@ export default {
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
