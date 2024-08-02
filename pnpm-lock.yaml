@@ -9479,6 +9479,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/tidyhq:
+    specifiers: {}
+
   components/tiledesk:
     specifiers: {}
 
