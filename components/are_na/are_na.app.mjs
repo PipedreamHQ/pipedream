@@ -3,7 +3,13 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "are_na",
-  propDefinitions: {},
+  propDefinitions: {
+    query: {
+      type: "string",
+      label: "Query",
+      description: "The search query",
+    },
+  },
   methods: {
     // this.$auth contains connected account data
     authKeys() {
@@ -31,6 +37,14 @@ export default {
     getAuthenticatedUser(args = {}) {
       return this._makeRequest({
         path: "/me",
+        args,
+      });
+    },
+    search({
+      query, ...args
+    }) {
+      return this._makeRequest({
+        path: `/search?q=${query}`,
         args,
       });
     },
