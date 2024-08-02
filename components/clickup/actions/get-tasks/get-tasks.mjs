@@ -1,11 +1,13 @@
 import clickup from "../../clickup.app.mjs";
 import common from "../common/list-props.mjs";
+import builder from "../../common/builder.mjs";
 
 export default {
+  ...common,
   key: "clickup-get-tasks",
   name: "Get Tasks",
   description: "Get a list of tasks. See the docs [here](https://clickup.com/api) in **Tasks / Get Tasks** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -47,7 +49,14 @@ export default {
       ],
       optional: true,
     },
+    listWithFolder: {
+      propDefinition: [
+        common.props.clickup,
+        "listWithFolder",
+      ],
+    },
   },
+  additionalProps: builder.buildListProps(),
   async run({ $ }) {
     const {
       listId,

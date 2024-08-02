@@ -1,10 +1,11 @@
 import common from "../common/space-props.mjs";
 
 export default {
+  ...common,
   key: "clickup-create-folder",
   name: "Create Folder",
   description: "Creates a new folder. See the docs [here](https://clickup.com/api) in **Folders / Create Folder** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
