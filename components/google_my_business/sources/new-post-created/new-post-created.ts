@@ -28,9 +28,11 @@ export default defineSource({
       return this.app.listPosts(params, false);
     },
     getSummary({ summary }: LocalPost) {
-      return `New Post${summary ? `: "${summary.length > 50
-        ? summary.slice(0, 45) + "[...]"
-        : summary}"` : ''}`;
+      return `New Post${summary
+        ? `: "${summary.length > 50
+          ? summary.slice(0, 45) + "[...]"
+          : summary}"`
+        : ""}`;
     },
   },
 });

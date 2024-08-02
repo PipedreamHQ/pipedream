@@ -28,9 +28,11 @@ export default defineSource({
       return this.app.listReviews(params);
     },
     getSummary({ comment }: Review) {
-      return `New Review${comment ? `: "${comment.length > 50
-        ? comment.slice(0, 45) + "[...]"
-        : comment}"` : ''}`;
+      return `New Review${comment
+        ? `: "${comment.length > 50
+          ? comment.slice(0, 45) + "[...]"
+          : comment}"`
+        : ""}`;
     },
   },
 });
