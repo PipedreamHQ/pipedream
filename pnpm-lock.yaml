@@ -6513,6 +6513,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/paradym:
+    specifiers: {}
+
   components/parma:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -8781,6 +8784,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/spamcheck_ai:
+    specifiers: {}
 
   components/sparkpost:
     specifiers: {}
