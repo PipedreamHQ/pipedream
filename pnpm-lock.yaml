@@ -10790,9 +10790,11 @@ importers:
 
   components/zoho_calendar:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
+      sugar: ^2.0.6
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
+      sugar: 2.0.6
 
   components/zoho_campaigns:
     specifiers: {}
