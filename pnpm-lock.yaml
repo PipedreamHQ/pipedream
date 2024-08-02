@@ -606,9 +606,6 @@ importers:
   components/are_na:
     specifiers: {}
 
-  components/arena:
-    specifiers: {}
-
   components/arxiv:
     specifiers: {}
 
