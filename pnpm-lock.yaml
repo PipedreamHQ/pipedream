@@ -4572,6 +4572,9 @@ importers:
   components/intuiface:
     specifiers: {}
 
+  components/invidious:
+    specifiers: {}
+
   components/invision_community:
     specifiers:
       '@pipedream/platform': ^3.0.0
