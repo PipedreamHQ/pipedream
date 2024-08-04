@@ -4377,6 +4377,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/ideal_postcodes:
+    specifiers: {}
+
   components/idealpostcodes:
     specifiers: {}
 
@@ -4567,6 +4570,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/intuiface:
+    specifiers: {}
+
+  components/invidious:
     specifiers: {}
 
   components/invision_community:
@@ -6418,7 +6424,10 @@ importers:
     specifiers: {}
 
   components/otter_waiver:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/ottertext:
     specifiers: {}
@@ -9472,6 +9481,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/tidyhq:
+    specifiers: {}
 
   components/tiledesk:
     specifiers: {}
