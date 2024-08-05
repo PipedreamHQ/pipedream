@@ -1605,11 +1605,11 @@ importers:
 
   components/clickup:
     specifiers:
-      '@pipedream/platform': ^0.10.0
+      '@pipedream/platform': ^3.0.0
       crypto: ^1.0.1
       lodash: ^4.17.21
     dependencies:
-      '@pipedream/platform': 0.10.0
+      '@pipedream/platform': 3.0.0
       crypto: 1.0.1
       lodash: 4.17.21
 
