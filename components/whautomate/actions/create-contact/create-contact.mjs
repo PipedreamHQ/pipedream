@@ -1,43 +1,77 @@
+import { STAGE_OPTIONS } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import whautomate from "../../whautomate.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "whautomate-create-contact",
   name: "Create Contact",
-  description: "Create a new contact associated with a WhatsApp number. [See the documentation](https://help.whautomate.com/product-guides/whautomate-rest-api/contacts)",
-  version: "0.0.{{ts}}",
+  description: "Create a new contact associated with a WhatsApp number. [See the documentation](https://help.whautomate.com/product-guides/whautomate-rest-api/contacts#/v1-contacts-1)",
+  version: "0.0.1",
   type: "action",
   props: {
     whautomate,
     name: {
-      propDefinition: [
-        whautomate,
-        "name",
-      ],
+      type: "string",
+      label: "Name",
+      description: "The name of the contact",
     },
     phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "The WhatsApp phone number of the contact",
+    },
+    locationId: {
       propDefinition: [
         whautomate,
-        "phoneNumber",
+        "locationId",
       ],
     },
-    email: {
+    stage: {
+      type: "string",
+      label: "Stage",
+      description: "The Contact Stage",
+      optional: true,
+      options: STAGE_OPTIONS,
+    },
+    tags: {
       propDefinition: [
         whautomate,
-        "email",
+        "contactTags",
       ],
+      optional: true,
+    },
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "The contact custom fields.",
+      optional: true,
+    },
+    notes: {
+      type: "string",
+      label: "Notes",
+      description: "The contact notes.",
       optional: true,
     },
   },
   async run({ $ }) {
     const {
-      name, phoneNumber, email,
+      whautomate,
+      locationId,
+      tags,
+      customFields,
+      ...data
     } = this;
 
-    const response = await this.whautomate.createNewContact({
-      name,
-      phoneNumber,
-      email,
+    const response = await whautomate.createContact({
+      $,
+      data: {
+        ...data,
+        location: {
+          id: locationId,
+        },
+        tags: parseObject(tags),
+        customFields: parseObject(customFields),
+      },
     });
 
     $.export("$summary", `Successfully created contact with ID ${response.id}`);

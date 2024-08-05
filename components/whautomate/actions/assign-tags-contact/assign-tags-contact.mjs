@@ -1,11 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import whautomate from "../../whautomate.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "whautomate-assign-tags-contact",
   name: "Assign Tags to Contact",
-  description: "Assign one or more tags to an existing contact. [See the documentation](https://help.whautomate.com/product-guides/whautomate-rest-api/contacts)",
-  version: "0.0.{{ts}}",
+  description: "Assign one or more tags to an existing contact. [See the documentation](https://help.whautomate.com/product-guides/whautomate-rest-api/contacts#/v1-contacts-contactid-1)",
+  version: "0.0.1",
   type: "action",
   props: {
     whautomate,
@@ -15,17 +15,25 @@ export default {
         "contactId",
       ],
     },
-    tags: {
+    contactTags: {
       propDefinition: [
         whautomate,
-        "tags",
+        "contactTags",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.whautomate.assignTagsToContact({
+    const contact = await this.whautomate.getContact(this.contactId);
+    const response = await this.whautomate.updateContact({
+      $,
       contactId: this.contactId,
-      tags: this.tags,
+      data: {
+        ...contact,
+        tags: [
+          ...contact.tags,
+          ...parseObject(this.contactTags),
+        ],
+      },
     });
     $.export("$summary", `Successfully assigned tags to contact ${this.contactId}`);
     return response;

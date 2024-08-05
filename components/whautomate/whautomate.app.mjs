@@ -4,174 +4,134 @@ export default {
   type: "app",
   app: "whautomate",
   propDefinitions: {
-    appointmentId: {
-      type: "string",
-      label: "Appointment ID",
-      description: "The unique identifier of the appointment",
-    },
-    appointmentDate: {
-      type: "string",
-      label: "Appointment Date",
-      description: "The date of the appointment",
-    },
-    clientId: {
-      type: "string",
-      label: "Client ID",
-      description: "The unique identifier of the client",
-    },
-    notificationPref: {
-      type: "string",
-      label: "Notification Preference",
-      description: "The preferred notification method",
-      optional: true,
-    },
-    clientDetails: {
-      type: "object",
-      label: "Client Details",
-      description: "Details of the client",
-    },
-    assignedAgentId: {
-      type: "string",
-      label: "Assigned Agent ID",
-      description: "The unique identifier of the assigned agent",
-      optional: true,
-    },
-    preferredCommunicationMethod: {
-      type: "string",
-      label: "Preferred Communication Method",
-      description: "The preferred method of communication",
-      optional: true,
-    },
     contactId: {
       type: "string",
       label: "Contact ID",
       description: "The unique identifier of the contact",
+      async options({ page }) {
+        const data = await this.listContacts({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    tags: {
+    contactTags: {
       type: "string[]",
-      label: "Tags",
-      description: "An array of tag names",
+      label: "Contact Tags",
+      description: "An array of contact tags.",
+      async options({ page }) {
+        const data = await this.listContactTags({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({ name }) => name);
+      },
     },
-    templateId: {
+    locationId: {
       type: "string",
-      label: "Template ID",
-      description: "The unique identifier of the WhatsApp message template",
-    },
-    templateVariables: {
-      type: "object",
-      label: "Template Variables",
-      description: "Variables to populate dynamic parts of the template",
-      optional: true,
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the contact",
-    },
-    phoneNumber: {
-      type: "string",
-      label: "Phone Number",
-      description: "The WhatsApp phone number of the contact",
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email of the contact",
-      optional: true,
+      label: "Location Id",
+      description: "The location id of the contact",
+      async options({ page }) {
+        const data = await this.listLocations({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.whautomate.com";
+      return "https://api.whautomate.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "x-api-key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async emitAppointmentCancelled({ appointmentId }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks/appointments/cancelled",
-        data: {
-          appointmentId,
-        },
-      });
-    },
-    async emitNewAppointmentScheduled({
-      appointmentDate, clientId, notificationPref,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks/appointments/scheduled",
-        data: {
-          appointmentDate,
-          clientId,
-          notificationPref,
-        },
-      });
-    },
-    async emitNewClientCreated({
-      clientDetails, assignedAgentId, preferredCommunicationMethod,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks/clients/created",
-        data: {
-          clientDetails,
-          assignedAgentId,
-          preferredCommunicationMethod,
-        },
-      });
-    },
-    async assignTagsToContact({
-      contactId, tags,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/contacts/${contactId}/tags/add`,
-        data: {
-          tags,
-        },
-      });
-    },
-    async sendWhatsAppMessageTemplate({
-      contactId, templateId, templateVariables,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/messages/whatsapp/sendtemplate",
-        data: {
-          contactId,
-          templateId,
-          templateVariables,
-        },
-      });
-    },
-    async createNewContact({
-      name, phoneNumber, email,
-    }) {
+    createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contacts",
-        data: {
-          name,
-          phoneNumber,
-          email,
-        },
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
+      });
+    },
+    getContact(contactId) {
+      return this._makeRequest({
+        path: `/contacts/${contactId}`,
+      });
+    },
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    listContactTags(opts = {}) {
+      return this._makeRequest({
+        path: "/contactTags",
+        ...opts,
+      });
+    },
+    listLocations(opts = {}) {
+      return this._makeRequest({
+        path: "/locations",
+        ...opts,
+      });
+    },
+    updateContact({
+      contactId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/contacts/${contactId}`,
+        ...opts,
+      });
+    },
+    sendWhatsAppMessageTemplate(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/messages/whatsapp/sendtemplate",
+        ...opts,
       });
     },
   },
