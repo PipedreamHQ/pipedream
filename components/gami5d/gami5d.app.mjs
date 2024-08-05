@@ -3,48 +3,44 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "gami5d",
-  propDefinitions: {
-    observationDetails: {
-      type: "string",
-      label: "Observation Details",
-      description: "Enter the details of your observation for evaluation",
-    },
-  },
   methods: {
     _baseUrl() {
-      return "https://app.gami5d.com/web/api";
+      return "https://app.gami5d.com";
     },
-    async _makeRequest(opts = {}) {
+    _getAuth() {
+      return {
+        username: `${this.$auth.access_key}`,
+        password: `${this.$auth.secret_access_key}`,
+      };
+    },
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "POST",
         path,
-        data,
-        headers,
         ...otherOpts
       } = opts;
 
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        data,
+        url: `${this._baseUrl()}${path}`,
+        auth: this._getAuth(),
       });
     },
-    async recordObservation(observationDetails) {
+    listAttributes(opts = {}) {
+      const {
+        client_id: clientId, project_id: projectId,
+      } = this.$auth;
       return this._makeRequest({
-        path: "/observations",
-        data: {
-          details: observationDetails,
-        },
+        path: `/attribute/${clientId}/${projectId}/list/basic`,
+        ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    recordObservation(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/observation",
+        ...opts,
+      });
     },
   },
 };
