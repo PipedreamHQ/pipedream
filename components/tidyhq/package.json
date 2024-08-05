@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/tidyhq",
+  "version": "0.0.1",
+  "description": "Pipedream TidyHQ Components",
+  "main": "tidyhq.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tidyhq"
+  ],
+  "homepage": "https://pipedream.com/apps/tidyhq",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

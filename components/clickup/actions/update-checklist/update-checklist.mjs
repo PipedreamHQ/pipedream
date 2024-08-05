@@ -1,10 +1,13 @@
-import common from "../common/checklist-props.mjs";
+import common from "../common/task-props.mjs";
+import builder from "../../common/builder.mjs";
+import propsFragments from "../../common/props-fragments.mjs";
 
 export default {
+  ...common,
   key: "clickup-update-checklist",
   name: "Update Checklist",
   description: "Updates a checklist in a task. See the docs [here](https://clickup.com/api) in **Checklists / Edit Checklist** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -20,7 +23,22 @@ export default {
       min: 0,
       optional: true,
     },
+    listWithFolder: {
+      propDefinition: [
+        common.props.clickup,
+        "listWithFolder",
+      ],
+    },
   },
+  additionalProps: builder.buildListProps({
+    tailProps: {
+      taskId: {
+        ...propsFragments.taskId,
+        description: "To show options please select a **List** first",
+      },
+      checklistId: propsFragments.checklistId,
+    },
+  }),
   async run({ $ }) {
     const {
       checklistId,
