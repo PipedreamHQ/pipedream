@@ -4,17 +4,19 @@ import { Steps } from 'nextra/components'
 # Pipedream Connect
 
 <Callout type="info">
-Pipedream Connect is currently in **preview**, and we're looking for feedback. Please [let us know](https://pipedream.com/support) how you're using it, what's not working, and what else you'd like to see.
+Pipedream Connect is currently in **preview** and we're looking for feedback!
 
-While in the **preview** phase, the API may change without notice. We'll do our best to communicate any changes, but please be aware that **breaking changes may occur.**
+**While in the preview phase, the API may change without notice. We'll do our best to communicate any changes, but please be aware that breaking changes may occur.**
+
+Please [let us know](https://pipedream.com/support) how you're using it, what's not working, and what else you'd like to see!
 </Callout>
 
 ## Overview
 
-Connect enables you to easily integrate more than {process.env.PUBLIC_APPS}+ APIs directly into your application, letting you make authenticated requests on behalf of your end users, while not having to worry about authorization grants or refresh tokens, and includes these features:
-1. [JavaScript SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) to initiate authorization for any one of the [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps) available on Pipedream
+Connect enables you to easily integrate more than {process.env.PUBLIC_APPS}+ APIs directly into your application, letting you make authenticated requests on behalf of your end users, while not having handle authorization grants or refresh tokens yourself, and it includes these features:
+1. [Client SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) to initiate authorization for any one of the [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps) available on Pipedream
 2. [REST API](/connected-accounts/api) to retrieve credentials (access token, API key, etc.) for your end users
-3. [Serverless runtime platform](/), [thousands of pre-built source-available triggers and actions](https://github.com/PipedreamHQ/pipedream/tree/master/components), and a first-class developer experience to build, test, and deploy custom workflows
+3. The rest of Pipedream, which includes [a serverless runtime platform](/), [thousands of pre-built source-available triggers and actions](https://github.com/PipedreamHQ/pipedream/tree/master/components), and a first-class developer experience to build, test, and deploy custom workflows
 
 ## Getting started
 
@@ -41,3 +43,9 @@ Open an existing Pipedream project or create a new one: [https://pipedream.com/p
 
 </Steps>
 
+## Glossary of terms
+
+- **App**: GitHub, Notion, Slack, Google Sheets, etc. — the API you want to make requests to on behalf of your end user. See our full list here: [https://pipedream.com/apps](https://pipedream.com/apps).
+- **Connect Partner**: This is probably you — the Pipedream customer who is developing an application and wants to use Pipedream Connect to make authenticated requests on behalf of their end users.
+- **Connected Account**: Read more about connected accounts [here](/connected-accounts) — this is the account connection for your end user.
+- **End User**: The customer of the Connect Partner and whose data you want to access on their behalf.
