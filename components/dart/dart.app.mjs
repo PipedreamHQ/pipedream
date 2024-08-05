@@ -57,53 +57,58 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://app.itsdart.com/api/v0";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async createTask(opts = {}) {
+    listDocs(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: `/dartboards/${opts.dartboard}/tasks`,
-        data: opts,
+        path: "/docs",
+        ...opts,
       });
     },
-    async updateTask(opts = {}) {
+    listTasks(opts = {}) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/dartboards/${opts.dartboard}/tasks/${opts.taskId}`,
-        data: opts,
+        path: "/tasks",
+        ...opts,
       });
     },
-    async checkAndCreateTask(opts = {}) {
-      const tasks = await this._makeRequest({
-        path: `/dartboards/${opts.dartboard}/tasks`,
-      });
-      const existingTask = tasks.find((task) => task.name === opts.taskName);
-      if (!existingTask) {
-        return this.createTask(opts);
-      }
-      return existingTask;
+    async *paginate({
+      resourceFn, params, max,
+    }) {
+      let total, count = 0;
+      params = {
+        ...params,
+        limit: 100,
+        offset: 0,
+      };
+      do {
+        const { results } = await resourceFn({
+          params,
+        });
+        total = results?.length;
+        for (const item of results) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+          params.offset += params.limit;
+        }
+      } while (total);
     },
   },
 };

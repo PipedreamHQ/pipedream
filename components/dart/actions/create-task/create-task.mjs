@@ -1,5 +1,4 @@
 import dart from "../../dart.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "dart-create-task",
