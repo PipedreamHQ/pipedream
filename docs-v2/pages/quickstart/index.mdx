@@ -18,7 +18,7 @@ Next, enter a project name and click **Create Project**. For this example, we'll
 
 ![configure project](./images/configure-project.png)
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Configure GitHub Sync for projects to enable git-based version control and unlock the ability to develop in branches, commit to or pull changes from GitHub, view diffs, create PRs and more. To learn more, complete this quickstart guide to learn the basics of workflow development and then follow the [quickstart guide for GitHub Sync](./github-sync/).
 </Callout>
 
@@ -54,7 +54,7 @@ Pipedream will generate a unique URL to trigger this workflow. Once your workflo
 
 Next, generate a test event to help you build the workflow. 
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 The test event will be used to provide autocomplete suggestion as you build your workflow. The data will also be used when testing later steps. You may generate or select a different test event at any time when building a workflow.
 </Callout>
 
@@ -74,7 +74,7 @@ Pipedream will automatically select and display the contents of the selected eve
 
 ![Inspect trigger event](./images/inspect-trigger-event.png)
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 
 You may also send live data to the unique URL for your workflow using your favorite HTTP tool or by running a `cURL` command, e.g.,
 
@@ -119,11 +119,11 @@ export default defineComponent({
 
 This code imports the npm package, passes the message we sent to our trigger to the `analyze()` function by referencing `steps.trigger.event.body.message` and then returns the result. 
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 To use any npm package on Pipedream, just `import` it. There's no `npm install` or `package.json` required.
 </Callout>
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Any data you `return` from a step is exported so it can be inspected and referenced it in future steps via the `steps` object. In this example, return values will be exported to `steps.sentiment.$return_value` because we renamed the step to **sentiment** .
 </Callout>
 
@@ -136,7 +136,7 @@ You should see the results of the sentiment analysis when the test is complete.
 ![Test results](./images/sentiment-results.png)
 
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 When you **Test** a step, only the current step is executed. Use the caret to test different ranges of steps including the entire workflow.
 </Callout>
 
@@ -162,7 +162,7 @@ Pipedream will open Google's sign in flow in a new window. Sign in with the acco
 
 ![Google OAuth Window](./images/google-oauth.png)
 
-<Callout type="warning" emoji="⚠️">
+<Callout type="warning">
 If prompted, you must check the box for Pipedream to **See, edit, create and delete all of your Google Drive files**. These permissions are required for configure and use the pre-built actions for Google Sheets.
 </Callout>
 

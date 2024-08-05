@@ -1,44 +1,30 @@
 {
   "index": "What is Pipedream?",
-  "quickstart": {
-    "title": "Quickstart"
-  },
-  "workspaces": {
-    "title": "Workspaces"
-  },
-  "projects": {
-    "title": "Projects"
-  },
-  "workflows": {
-    "title": "Workflows"
-  },
-  "connected-accounts": {
-    "title": "Connected Accounts"
-  },
-  "code": {
-    "title": "Code"
-  },
+  "quickstart": "Quickstart",
+  "workspaces": "Workspaces",
+  "projects": "Projects",
+  "workflows": "Workflows",
+  "code": "Code",
   "data-stores": "Data Stores",
+  "databases": "Databases",
+  "connected-accounts": "Connected Accounts",
+  "apps": "Integrations",
+  "connect": {
+    "title": "Pipedream Connect",
+    "display": "children"
+  },
   "components": "Components",
   "sources": "Sources",
   "event-history": "Event History",
   "http": "HTTP",
-  "environment-variables": {
-    "title": "Environment Variables"
-  },
-  "databases": {
-    "title": "Databases"
-  },
-  "apps": "Integrations",
+  "environment-variables": "Environment Variables",
   "rest-api": "API Reference",
   "cli": "CLI",
   "destinations": "Destinations",
   "user-settings": "User and Billing Settings",
   "troubleshooting": "Troubleshooting",
   "pricing": "Pricing FAQ",
-  "privacy-and-security": {
-    "title": "Security"
-  },
+  "privacy-and-security": "Security",
   "limits": "Limits",
   "glossary": "Glossary of Terms",
   "support": {
