@@ -1,10 +1,11 @@
 import common from "../common/comment-props.mjs";
 
 export default {
+  ...common,
   key: "clickup-update-comment",
   name: "Update Comment",
   description: "Updates a comment. See the docs [here](https://clickup.com/api) in **Comments / Update Comment** section.",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
@@ -31,6 +32,12 @@ export default {
       description: "Set the comment as resolved",
       type: "boolean",
       optional: true,
+    },
+    listWithFolder: {
+      propDefinition: [
+        common.props.clickup,
+        "listWithFolder",
+      ],
     },
   },
   async run({ $ }) {

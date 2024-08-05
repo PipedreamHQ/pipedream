@@ -5,7 +5,7 @@ export default {
   key: "clickup-new-list",
   name: "New List (Instant)",
   description: "Emit new event when a new list is created",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   type: "source",
   methods: {

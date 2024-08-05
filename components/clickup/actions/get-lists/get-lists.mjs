@@ -1,10 +1,11 @@
 import common from "../common/folder-props.mjs";
 
 export default {
+  ...common,
   key: "clickup-get-lists",
   name: "Get Lists",
   description: "Get a list of lists. See the docs [here](https://clickup.com/api) in **Lists / Get Lists** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,

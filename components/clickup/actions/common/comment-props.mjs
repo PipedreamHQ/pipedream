@@ -1,4 +1,6 @@
 import common from "./workspace-prop.mjs";
+import builder from "../../common/builder.mjs";
+import propsFragments from "../../common/props-fragments.mjs";
 
 export default {
   props: {
@@ -11,65 +13,13 @@ export default {
           workspaceId: c.workspaceId,
         }),
       ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        common.props.clickup,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        common.props.clickup,
-        "lists",
-        (c) => ({
-          folderId: c.folderId,
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    taskId: {
-      propDefinition: [
-        common.props.clickup,
-        "tasks",
-        (c) => ({
-          listId: c.listId,
-          useCustomTaskIds: c.useCustomTaskIds,
-        }),
-      ],
-      optional: true,
-    },
-    viewId: {
-      propDefinition: [
-        common.props.clickup,
-        "views",
-        (c) => ({
-          workspaceId: c.workspaceId,
-          spaceId: c.spaceId,
-          listId: c.listId,
-          folderId: c.folderId,
-        }),
-      ],
-      optional: true,
-    },
-    commentId: {
-      propDefinition: [
-        common.props.clickup,
-        "comments",
-        (c) => ({
-          listId: c.listId,
-          taskId: c.taskId,
-          viewId: c.viewId,
-          useCustomTaskIds: c.useCustomTaskIds,
-          authorizedTeamId: c.authorizedTeamId,
-        }),
-      ],
     },
   },
+  additionalProps: builder.buildListProps({
+    tailProps: {
+      taskId: propsFragments.taskId,
+      viewId: propsFragments.viewId,
+      commentId: propsFragments.commentId,
+    },
+  }),
 };
