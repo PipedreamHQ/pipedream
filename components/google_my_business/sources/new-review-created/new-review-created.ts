@@ -10,7 +10,7 @@ export default defineSource({
   key: "google_my_business-new-review-created",
   name: "New Review Created",
   description: `Emit new event for each new review on a location [See the documentation](${DOCS_LINK})`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -28,9 +28,11 @@ export default defineSource({
       return this.app.listReviews(params);
     },
     getSummary({ comment }: Review) {
-      return `New Review${comment ? `: "${comment.length > 50
-        ? comment.slice(0, 45) + "[...]"
-        : comment}"` : ''}`;
+      return `New Review${comment
+        ? `: "${comment.length > 50
+          ? comment.slice(0, 45) + "[...]"
+          : comment}"`
+        : ""}`;
     },
   },
 });
