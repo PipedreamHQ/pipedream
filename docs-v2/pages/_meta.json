@@ -11,7 +11,7 @@
   "apps": "Integrations",
   "connect": {
     "title": "Pipedream Connect",
-    "display": "hidden"
+    "display": "children"
   },
   "components": "Components",
   "sources": "Sources",

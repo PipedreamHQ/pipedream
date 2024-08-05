@@ -1,4 +1,10 @@
 {
-  "index": "Connect Overview",
-  "reference": "API Reference"
+  "index": {
+    "title": "Pipedream Connect",
+    "display": "hidden"
+  },
+  "reference": {
+    "title": "API Reference",
+    "display": "hidden"
+  }
 }

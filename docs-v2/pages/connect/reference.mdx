@@ -1,5 +1,5 @@
 # API Reference
-After your end users have connected their account using Pipedream Connect, you can retrieve their credentials using Pipedream's REST API, which enables you to make authenticated requests on their behalf
+After your end users have connected their account using Pipedream Connect, you can retrieve their credentials using Pipedream's REST API, which enables you to make authenticated requests on their behalf.
 
 ## Overview
 The base URL for all Connect requests is `https://api.pipedream.com/v1/connect`.
@@ -100,7 +100,10 @@ GET /accounts/
 
 ### List all connected accounts for an app
 
-`GET /apps/:app_id/accounts` 
+```
+GET /apps/:app_id/accounts
+``` 
+
 - `:app_id` can be `oauth_app_id` or `app_id`
 
 #### Example response
@@ -128,14 +131,14 @@ GET /accounts/
 ]
 ```
 
-### Retrieve account credentials
+### Retrieve account details
 Retrieve the account details for a specific account
 
 ```
 GET /accounts/:apn_id
 ```
 - `:apn_id` is the auth provision of the account you want to retrieve
-- Optionally include `include_credentials=1` to include the account credentials in the response
+- Optionally include `?include_credentials=1` as a query-string parameter to include the account credentials in the response
 
 #### Example response (without account credentials)
 
