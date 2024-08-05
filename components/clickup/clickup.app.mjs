@@ -52,35 +52,6 @@ export default {
         }));
       },
     },
-    lists: {
-      type: "string",
-      label: "List",
-      description: "The id of a list",
-      async options({
-        workspaceId, folderId, spaceId,
-      }) {
-        const lists = [];
-
-        if (!folderId && !spaceId) {
-          lists.push(...await this.getAllLists({
-            workspaceId,
-          }));
-        } else if (folderId) {
-          lists.push(...await this.getLists({
-            folderId,
-          }));
-        } else if (spaceId) {
-          lists.push(...await this.getFolderlessLists({
-            spaceId,
-          }));
-        }
-
-        return lists.map((list) => ({
-          label: list.name,
-          value: list.id,
-        }));
-      },
-    },
     useCustomTaskIds: {
       type: "boolean",
       label: "Use custom task ids",
@@ -98,35 +69,6 @@ export default {
         return teams.map((team) => ({
           label: team.name,
           value: team.id,
-        }));
-      },
-    },
-    tasks: {
-      type: "string",
-      label: "Task",
-      description: "The id of a task",
-      async options({
-        listId, page, useCustomTaskIds,
-      }) {
-        const tasks = await this.getTasks({
-          listId,
-          params: {
-            page,
-          },
-        });
-
-        const tasksHasCustomId = tasks.some((task) => task.custom_id);
-        if (useCustomTaskIds && !tasksHasCustomId) {
-          throw new ConfigurationError("Custom task id is a ClickApp, and it must to be enabled on ClickUp settings.");
-        }
-
-        console.log(tasks);
-
-        return tasks.map((task) => ({
-          label: task.name,
-          value: useCustomTaskIds ?
-            task.custom_id :
-            task.id,
         }));
       },
     },
@@ -157,122 +99,6 @@ export default {
         return tags.map((tag) => tag.name);
       },
     },
-    checklists: {
-      type: "string",
-      label: "Checklist",
-      description: "The id of a checklist",
-      async options({
-        taskId, useCustomTaskIds, authorizedTeamId,
-      }) {
-        if (!taskId) return [];
-
-        const params = this.getParamsForCustomTaskIdCall(useCustomTaskIds, authorizedTeamId);
-
-        const checklists = await this.getChecklists({
-          taskId,
-          params,
-        });
-
-        return checklists.map((checklist) => ({
-          label: checklist.name,
-          value: checklist.id,
-        }));
-      },
-    },
-    checklistItems: {
-      type: "string",
-      label: "Checklist Item",
-      description: "The id of a checklist item",
-      async options({
-        taskId, checklistId, useCustomTaskIds, authorizedTeamId,
-      }) {
-        if (!taskId || !checklistId) return [];
-
-        const params = this.getParamsForCustomTaskIdCall(useCustomTaskIds, authorizedTeamId);
-
-        const items = await this.getChecklistItems({
-          taskId,
-          checklistId,
-          params,
-        });
-
-        return items.map((item) => ({
-          label: item.name,
-          value: item.id,
-        }));
-      },
-    },
-    comments: {
-      type: "string",
-      label: "Comment",
-      description: "The id of a comment",
-      async options({
-        taskId, listId, viewId, useCustomTaskIds, authorizedTeamId,
-      }) {
-        if (!taskId && !listId && !viewId) {
-          throw new ConfigurationError("Please enter the List, View, or Task to retrieve Comments from");
-        }
-        let comments = [];
-
-        const params = this.getParamsForCustomTaskIdCall(useCustomTaskIds, authorizedTeamId);
-
-        if (taskId) comments = comments.concat(await this.getTaskComments({
-          taskId,
-          params,
-        }));
-        if (listId) comments = comments.concat(await this.getListComments({
-          listId,
-        }));
-        if (viewId) comments = comments.concat(await this.getViewComments({
-          viewId,
-        }));
-
-        return comments.map((comment) => ({
-          label: comment.comment_text,
-          value: comment.id,
-        }));
-      },
-    },
-    views: {
-      type: "string",
-      label: "Views",
-      description: "The id of a view",
-      async options({
-        workspaceId, spaceId, folderId, listId,
-      }) {
-        let views = [];
-
-        if (workspaceId) views = views.concat(await this.getTeamViews({
-          workspaceId,
-        }));
-        if (spaceId) views = views.concat(await this.getSpaceViews({
-          spaceId,
-        }));
-        if (folderId) views = views.concat(await this.getFolderViews({
-          folderId,
-        }));
-        if (listId) views = views.concat(await this.getListViews({
-          listId,
-        }));
-
-        return views.map((view) => ({
-          label: view.name,
-          value: view.id,
-        }));
-      },
-    },
-    statuses: {
-      type: "string",
-      label: "Status",
-      description: "Select a status",
-      async options({ listId }) {
-        const { statuses } = await this.getList({
-          listId,
-        });
-
-        return statuses.map((status) => status.status);
-      },
-    },
     taskTemplates: {
       type: "string",
       label: "Task Templates",
@@ -293,29 +119,18 @@ export default {
         }));
       },
     },
-    customFields: {
-      type: "string",
-      label: "Custom Field",
-      description: "Select a custom field",
-      async options({ listId }) {
-        if (!listId) return [];
-
-        const fields = await this.getCustomFields({
-          listId,
-        });
-
-        return fields.map((field) => ({
-          label: field.name,
-          value: field.id,
-        }));
-      },
-    },
     priorities: {
       type: "string",
       label: "Priority",
       description: "The level of priority",
       options: Object.keys(constants.PRIORITIES),
       default: "Normal",
+    },
+    listWithFolder: {
+      type: "boolean",
+      label: "Filter List ID By Folder?",
+      description: "If `TRUE`, the **List ID** field will be filtered by the selected **Folder ID**",
+      reloadProps: true,
     },
   },
   methods: {
@@ -472,36 +287,6 @@ export default {
       return this._makeRequest(`folder/${folderId}`, {
         method: "DELETE",
       }, $);
-    },
-    async getAllLists({
-      workspaceId, params, $,
-    }) {
-      const lists = [];
-      const foldersPromises = [];
-
-      const spaces = await this.getSpaces({
-        workspaceId,
-        params,
-        $,
-      });
-
-      for (const { id: spaceId } of spaces) {
-        foldersPromises.push(this.getFolders({
-          spaceId,
-        }));
-        lists.push(...await this.getFolderlessLists({
-          spaceId,
-        }));
-      }
-
-      const folders = (await Promise.all(foldersPromises)).flat();
-      for (const { id: folderId } of folders) {
-        lists.push(...await this.getLists({
-          folderId,
-        }));
-      }
-
-      return lists;
     },
     async getLists({
       folderId, params, $,

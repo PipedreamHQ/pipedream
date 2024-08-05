@@ -1,10 +1,13 @@
 import common from "../common/task-props.mjs";
+import builder from "../../common/builder.mjs";
+import propsFragments from "../../common/props-fragments.mjs";
 
 export default {
+  ...common,
   key: "clickup-create-task-comment",
   name: "Create Task Comment",
   description: "Creates a task comment. See the docs [here](https://clickup.com/api) in **Comments / Create Task Comment** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -30,8 +33,18 @@ export default {
       ],
       optional: true,
     },
-
+    listWithFolder: {
+      propDefinition: [
+        common.props.clickup,
+        "listWithFolder",
+      ],
+    },
   },
+  additionalProps: builder.buildListProps({
+    tailProps: {
+      taskId: propsFragments.taskId,
+    },
+  }),
   async run({ $ }) {
     const {
       taskId,
