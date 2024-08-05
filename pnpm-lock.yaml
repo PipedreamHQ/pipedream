@@ -4572,6 +4572,9 @@ importers:
   components/intuiface:
     specifiers: {}
 
+  components/invidious:
+    specifiers: {}
+
   components/invision_community:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -4836,10 +4839,10 @@ importers:
   components/klaviyo:
     specifiers:
       '@babel/core': ^7.0.0-0
-      klaviyo-sdk: ^1.0.1
+      klaviyo-api: ^11.0.0
     dependencies:
       '@babel/core': 7.23.0
-      klaviyo-sdk: 1.0.1_@babel+core@7.23.0
+      klaviyo-api: 11.0.0
 
   components/klaxoon:
     specifiers:
@@ -9478,6 +9481,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/tidyhq:
+    specifiers: {}
 
   components/tiledesk:
     specifiers: {}
@@ -27153,16 +27159,14 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  /klaviyo-sdk/1.0.1_@babel+core@7.23.0:
-    resolution: {integrity: sha512-7cYkissWJsMPmmOmalV9HYaJXrjJ4hJZTm6DjDmTTz6uXImqEy3gm+v5HPKkorbSQaKeQZGpInVFAcJ9T/NBag==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+  /klaviyo-api/11.0.0:
+    resolution: {integrity: sha512-lzWNSZO962HECjCWKAylCwdvyClpilUBPJAW7J1Zk9H1qvbVvg/UaLow7iOORw6EzXsPa8YL8xNE4OTKGn1tjQ==}
     dependencies:
-      '@babel/cli': 7.23.0_@babel+core@7.23.0
+      axios: 1.6.5
       exponential-backoff: 3.1.1
-      superagent: 7.1.5
+      form-data: 4.0.0
     transitivePeerDependencies:
-      - '@babel/core'
-      - supports-color
+      - debug
     dev: false
 
   /klaw/3.0.0:
