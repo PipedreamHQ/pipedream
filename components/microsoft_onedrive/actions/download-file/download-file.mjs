@@ -14,27 +14,11 @@ export default {
   props: {
     onedrive,
     fileId: {
-      type: "string",
-      label: "File ID",
-      description: "The file to download. You can either search for the file here, provide a custom *File ID*, or use the `File Path` prop to specify the path directly.",
+      propDefinition: [
+        onedrive,
+        "fileId",
+      ],
       optional: true,
-      useQuery: true,
-      async options(context) {
-        const { query } = context;
-        if (!query) return [];
-        const response = await this.httpRequest({
-          $: context,
-          url: `/search(q='${query}')?select=folder,name,id`,
-        });
-        return response.value
-          .filter(({ folder }) => !folder)
-          .map(({
-            name, id,
-          }) => ({
-            label: name,
-            value: id,
-          }));
-      },
     },
     filePath: {
       type: "string",
@@ -45,7 +29,7 @@ export default {
     newFileName: {
       type: "string",
       label: "New File Name",
-      description: "The file name to save the downloaded content as, under the `/tmp` folder.",
+      description: "The file name to save the downloaded content as, under the `/tmp` folder. Make sure to include the file extension.",
     },
   },
   methods: {

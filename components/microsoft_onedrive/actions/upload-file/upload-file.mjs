@@ -1,5 +1,4 @@
 import onedrive from "../../microsoft_onedrive.app.mjs";
-import httpRequest from "../../common/httpRequest.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import { fileTypeFromBuffer } from "file-type";
@@ -23,28 +22,12 @@ export default {
     filePath: {
       type: "string",
       label: "File Path",
-      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
     filename: {
       type: "string",
       label: "Name",
       description: "Name of the new uploaded file",
-    },
-  },
-  methods: {
-    httpRequest,
-    uploadFile({
-      uploadFolderId, name, data, ...args
-    }) {
-      return this.httpRequest({
-        url: `/items/${uploadFolderId}:/${encodeURI(name)}:/content`,
-        headers: {
-          "Content-Type": "application/octet-stream",
-        },
-        data,
-        method: "PUT",
-        ...args,
-      });
     },
   },
   async run({ $ }) {
