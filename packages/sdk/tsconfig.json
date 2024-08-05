@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"module": "NodeNext",
+		"target": "ES6",
+		"strict": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"outDir": "dist"
+	},
+	"include": [
+		"./lib/**/*"
+	]
+}

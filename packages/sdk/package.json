@@ -1,0 +1,31 @@
+{
+  "name": "@pipedream/sdk",
+  "version": "0.0.1",
+  "description": "Pipedream SDK",
+  "type": "module",
+  "main": "dist/index.js",
+  "browser": "dist/browser/index.js",
+  "types": "dist/index.d.ts",
+  "homepage": "https://pipedream.com/",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "exports": "./dist/index.js",
+  "keywords": [
+    "pipedream"
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublish": "rm -rf dist && tsc",
+    "build": "tsc"
+  },
+  "files": [
+    "dist",
+    "lib"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "typescript": "^5.5.2"
+  }
+}
