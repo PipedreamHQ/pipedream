@@ -115,7 +115,7 @@ export default function Home() {
 
       }
       <div className="flex flex-col gap-2 text-slate-800 pt-4">
-        <p>Refer to the <a href="https://pipedream.com/docs/apps/connect" target="_blank nofollow" className="hover:underline text-blue-600">Pipedream Connect docs</a> for any questions</p>
+        <p>Refer to the <a href="https://pipedream.com/docs/connect" target="_blank nofollow" className="hover:underline text-blue-600">Pipedream Connect docs</a> for any questions</p>
       </div>
     </main>
   );
