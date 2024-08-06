@@ -15,7 +15,7 @@ You can control workflow-specific settings in your workflow's **Settings**:
 />
 <br />
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 You can also open the workflow settings using `CMD` + `,` on Mac, or `Ctrl` + `,` on Windows.
 </Callout>
 
@@ -91,7 +91,7 @@ Refer to our [pricing page](https://pipedream.com/pricing) to understand the lat
 - **Data Retention Controls do not apply to sources**: Even with data retention disabled on your workflow, Pipedream will still log inbound events for the source.
 - **No events will be shown in the UI**: When data retention is disabled for your workflow, the Pipedream UI will not show any new events in the inspector or Event History for that workflow.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 **Avoid surfacing events in the builder**
 
 Even with data retention disabled on your workflow, the builder will still surface inbound events when in build mode. To avoid surfacing potentially sensitive data here as well, refer to [these docs](/workflows/steps/triggers/#pipedream-specific-request-parameters).
@@ -137,7 +137,7 @@ You can reduce cold starts by configuring a number of dedicated **workers**:
 
 When you configure workers for a specific workflow, Pipedream initializes dedicated workers — virtual machines that run Pipedream's [execution environment](/privacy-and-security/#execution-environment). [It can take a few minutes](#how-long-does-it-take-to-spin-up-a-dedicated-worker) for new dedicated workers to deploy. Once deployed, these workers are available at all times to respond to workflow executions, with no cold starts.
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 You may need to configure [multiple dedicated workers](#how-many-workers-should-i-configure) to handle multiple, concurrent requests.
 
 Pipedream also performs some initialization operations on new workflow runs, so you may still observe a small startup time (typically around 50ms per workflow step) on dedicated workers.

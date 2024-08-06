@@ -21,11 +21,11 @@ export default defineComponent({
 });
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 **`props` injects variables into `this`**. See how we declared the `data` prop in the `props` object, and then accessed it at `this.data` in the `run` method.
 </Callout>
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 All data store operations are asynchronous, so must be `await`ed.
 </Callout>
 
