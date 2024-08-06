@@ -8,13 +8,13 @@ export default {
   type: "action",
   props: {
     dart,
-    dartboard: {
+    dartboardId: {
       propDefinition: [
         dart,
-        "dartboard",
+        "dartboardId",
       ],
     },
-    taskName: {
+    title: {
       propDefinition: [
         dart,
         "taskName",
@@ -23,35 +23,32 @@ export default {
     description: {
       propDefinition: [
         dart,
-        "description",
+        "taskDescription",
       ],
-      optional: true,
-    },
-    dueDate: {
-      propDefinition: [
-        dart,
-        "dueDate",
-      ],
-      optional: true,
-    },
-    assignedTo: {
-      propDefinition: [
-        dart,
-        "assignedTo",
-      ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    const task = {
-      dartboard: this.dartboard,
-      taskName: this.taskName,
-      description: this.description,
-      dueDate: this.dueDate,
-      assignedTo: this.assignedTo,
-    };
-
-    const response = await this.dart.createTask(task);
+    const response = await this.dart.createTransaction({
+      $,
+      data: {
+        items: [
+          {
+            operations: [
+              {
+                model: "task",
+                kind: "create",
+                data: {
+                  dartboardDuid: this.dartboardId,
+                  tile: this.title,
+                  description: this.description,
+                },
+              },
+            ],
+            kind: "task_create",
+          },
+        ],
+      },
+    });
     $.export("$summary", `Created task ${this.taskName}`);
     return response;
   },

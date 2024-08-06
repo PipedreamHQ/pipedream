@@ -1,18 +1,39 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "dart",
   propDefinitions: {
-    dartboard: {
+    dartboardId: {
       type: "string",
-      label: "Dartboard",
+      label: "Dartboard ID",
       description: "The dartboard where the task is or will be located",
+      async options({ page }) {
+        const { results } = await this.listDartboards({
+          params: {
+            limit: constants.DEFAULT_LIMIT,
+            offset: page * constants.DEFAULT_LIMIT,
+          },
+        });
+        return results?.map(({
+          duid: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     taskName: {
       type: "string",
       label: "Task Name",
       description: "The name of the task",
+    },
+    taskDescription: {
+      type: "string",
+      label: "Description",
+      description: "The description of the task",
+      optional: true,
     },
     taskId: {
       type: "string",
@@ -23,12 +44,6 @@ export default {
       type: "string",
       label: "New Task Name",
       description: "The new name for the task",
-      optional: true,
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "The description of the task",
       optional: true,
     },
     newDescription: {
@@ -86,13 +101,26 @@ export default {
         ...opts,
       });
     },
+    listDartboards(opts = {}) {
+      return this._makeRequest({
+        path: "/dartboards",
+        ...opts,
+      });
+    },
+    createTransaction(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/transactions/craete",
+        ...opts,
+      });
+    },
     async *paginate({
       resourceFn, params, max,
     }) {
       let total, count = 0;
       params = {
         ...params,
-        limit: 100,
+        limit: constants.DEFAULT_LIMIT,
         offset: 0,
       };
       do {
