@@ -1,61 +1,80 @@
-import common from "../common/base.mjs";
+import common, { getProps } from "../common/base-create-update.mjs";
 import contact from "../../common/sobjects/contact.mjs";
-import {
-  pickBy, pick,
-} from "lodash-es";
-import { toSingleLineString } from "../../common/utils.mjs";
+import { docsLink } from "../create-contact/create-contact.mjs";
 
-const { salesforce } = common.props;
+const {
+  salesforce, ...props
+} = getProps({
+  createOrUpdate: "update",
+  objType: contact,
+  docsLink,
+  showDateInfo: true,
+});
 
 export default {
   ...common,
   key: "salesforce_rest_api-update-contact",
   name: "Update Contact",
-  description: toSingleLineString(`
-    Updates a Contact, which is a person associated with an account.
-    See [Contact SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_contact.htm)
-    and [Update Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_update_fields.htm)
-  `),
-  version: "0.2.7",
+  description: `Updates a contact. [See the documentation](${docsLink})`,
+  version: "0.3.0",
   type: "action",
+  methods: {
+    ...common.methods,
+    getObjectType() {
+      return "Contact";
+    },
+    getAdvancedProps() {
+      return contact.extraProps;
+    },
+  },
   props: {
     salesforce,
-    ContactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "ID of the Contact to update.",
-    },
-    LastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Last name of the contact up to 80 characters.",
-      optional: true,
-    },
-    selector: {
+    contactId: {
       propDefinition: [
         salesforce,
-        "fieldSelector",
+        "recordId",
+        () => ({
+          objType: "Contact",
+          nameField: "Name",
+        }),
       ],
-      description: `${salesforce.propDefinitions.fieldSelector.description} Contact`,
-      options: () => Object.keys(contact),
-      reloadProps: true,
+      label: "Contact ID",
+      description: "The Contact to update.",
     },
-  },
-  additionalProps() {
-    return this.additionalProps(this.selector, contact);
+    ...props,
   },
   async run({ $ }) {
-    const data = pickBy(pick(this, [
-      "ContactId",
-      "LastName",
-      ...this.selector,
-    ]));
-    const response = await this.salesforce.updateContact({
+    /* eslint-disable no-unused-vars */
+    const {
+      salesforce,
+      getAdvancedProps,
+      getObjectType,
+      getAdditionalFields,
+      formatDateTimeProps,
+      contactId,
+      useAdvancedProps,
+      docsInfo,
+      dateInfo,
+      additionalFields,
+      Birthdate,
+      ...data
+    } = this;
+    /* eslint-enable no-unused-vars */
+    const response = await salesforce.updateRecord("Contact", {
       $,
-      id: this.ContactId,
-      data,
+      id: contactId,
+      data: {
+        ...data,
+        ...formatDateTimeProps({
+          Birthdate,
+        }),
+        ...getAdditionalFields(),
+      },
     });
-    $.export("$summary", `Successfully updated contact for ${this.ContactId}`);
+    $.export(
+      "$summary",
+      `Successfully updated contact (ID: ${this.contactId})`,
+    );
     return response;
   },
 };

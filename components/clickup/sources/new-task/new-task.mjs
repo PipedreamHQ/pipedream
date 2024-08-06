@@ -1,28 +1,36 @@
 import common from "../common/common.mjs";
-import app from "../../clickup.app.mjs";
+import builder from "../../common/builder.mjs";
 
 export default {
   ...common,
   key: "clickup-new-task",
   name: "New Task (Instant)",
   description: "Emit new event when a new task is created",
-  version: "0.1.2",
+  version: "0.1.4",
   dedupe: "unique",
   type: "source",
   props: {
     ...common.props,
-    listId: {
+    spaceId: {
       propDefinition: [
-        app,
-        "lists",
-        ({ workspaceId }) => ({
-          workspaceId,
+        common.props.app,
+        "spaces",
+        (c) => ({
+          workspaceId: c.workspaceId,
         }),
       ],
-      description: "If a list is selected, only tasks created in this list will emit an event",
+    },
+    listWithFolder: {
       optional: true,
+      propDefinition: [
+        common.props.app,
+        "listWithFolder",
+      ],
     },
   },
+  additionalProps: builder.buildListProps({
+    listPropsOptional: true,
+  }),
   methods: {
     ...common.methods,
     _getMeta({ task_id: taskId }) {

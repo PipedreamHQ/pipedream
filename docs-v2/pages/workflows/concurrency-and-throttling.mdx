@@ -26,7 +26,7 @@ While the first example resulted in only two rows of data in Google Sheets, this
 
 If your workflow integrates with any APIs, then you may need to limit the rate at which your workflow executes to avoid hitting rate limits from your API provider. Since event-driven workflows are stateless, you can't manage the rate of execution from within your workflow code. Pipedream's execution controls solve this problem by allowing you to control the maximum number of times a workflow may be invoked over a specific period of time (e.g., up to 1 event every second).
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Pipedream controls the frequency of workflow invocations over a specified time interval using fixed window throttling. For example, if the execution rate limit is set at 1 execution every 5 seconds, this means that your workflow will be invoked no more than once within a fixed 5-second time box. This doesn’t mean that executions will occur 5 seconds apart.
 </Callout>
 

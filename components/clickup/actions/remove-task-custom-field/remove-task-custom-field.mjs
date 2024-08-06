@@ -1,23 +1,32 @@
 import common from "../common/task-props.mjs";
+import builder from "../../common/builder.mjs";
+import propsFragments from "../../common/props-fragments.mjs";
 
 export default {
+  ...common,
   key: "clickup-remove-task-custom-field",
   name: "Remove Task Custom Field",
   description: "Remove custom field from a task. See the docs [here](https://clickup.com/api) in **Custom Fields / Remove Custom Field Value** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
-    customFieldId: {
+    listWithFolder: {
       propDefinition: [
         common.props.clickup,
-        "customFields",
-        (c) => ({
-          listId: c.listId,
-        }),
+        "listWithFolder",
       ],
     },
   },
+  additionalProps: builder.buildListProps({
+    tailProps: {
+      taskId: {
+        ...propsFragments.taskId,
+        description: "To show options please select a **List** first",
+      },
+      customFieldId: propsFragments.customFieldId,
+    },
+  }),
   async run({ $ }) {
     const {
       taskId,

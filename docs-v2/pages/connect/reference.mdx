@@ -1,0 +1,220 @@
+# API Reference
+After your end users have connected their account using Pipedream Connect, you can retrieve their credentials using Pipedream's REST API, which enables you to make authenticated requests on their behalf.
+
+## Overview
+The base URL for all Connect requests is `https://api.pipedream.com/v1/connect`.
+
+You authenticate to the Connect REST API using **Basic Auth**. Send your Pipedream [Project Public Key]() as the username and the [Project Secret Key]() as the password. When you make API requests, pass an
+`Authorization` header of the following format:
+
+```
+Authorization: Basic <Base 64 encoded public_key:secret_key>
+```
+
+For example, here's how you can use `cURL` to fetch a list of all accounts in your project:
+
+```shell
+curl 'https://api.pipedream.com/v1/connect/accounts' \
+  -H 'Authorization: Basic <Base 64 encoded public_key:secret_key>'
+```
+
+## API Reference
+
+### List accounts
+List all connected accounts for end users within your project
+
+```
+GET /accounts/
+```
+
+#### Example response
+
+```json
+{
+  "data": {
+    "accounts": [
+      {
+        "id": "apn_XehyZPr",
+        "name": null,
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OkrhR1",
+          "name": "Slack"
+        },
+        "created_at": "2024-07-30T22:52:48.000Z",
+        "updated_at": "2024-08-01T03:44:17.000Z"
+      },
+      {
+        "id": "apn_b6h9QDK",
+        "name": null,
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OrZhaO",
+          "name": "GitHub"
+        },
+        "created_at": "2024-07-31T02:49:18.000Z",
+        "updated_at": "2024-08-01T03:58:17.000Z"
+      },
+      {
+        "id": "apn_0WhJYxv",
+        "name": null,
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OrZhaO",
+          "name": "GitHub"
+        },
+        "created_at": "2024-07-31T20:28:16.000Z",
+        "updated_at": "2024-08-01T03:47:30.000Z"
+      },
+      {
+        "id": "apn_kVh9PJx",
+        "name": null,
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OrZhaO",
+          "name": "GitHub"
+        },
+        "created_at": "2024-07-31T21:17:03.000Z",
+        "updated_at": "2024-08-01T03:43:23.000Z"
+      },
+      {
+        "id": "apn_WYhMlrz",
+        "name": null,
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_XBxhAl",
+          "name": "Airtable"
+        },
+        "created_at": "2024-08-01T04:04:03.000Z",
+        "updated_at": "2024-08-01T04:04:03.000Z"
+      }
+    ]
+  }
+}
+```
+
+### List all connected accounts for an app
+
+```
+GET /apps/:app_id/accounts
+``` 
+
+- `:app_id` can be `oauth_app_id` or `app_id`
+
+#### Example response
+
+```json
+[
+  {
+    "id": "apn_WYhMlrz",
+    "name": null,
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aw4ib2",
+      "name_slug": "airtable_oauth",
+      "name": "Airtable",
+      "auth_type": "oauth",
+      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": ["Productivity"]
+    },
+    "created_at": "2024-08-01T04:04:03.000Z",
+    "updated_at": "2024-08-01T04:04:03.000Z"
+  }
+]
+```
+
+### Retrieve account details
+Retrieve the account details for a specific account
+
+```
+GET /accounts/:apn_id
+```
+- `:apn_id` is the auth provision of the account you want to retrieve
+- Optionally include `?include_credentials=1` as a query-string parameter to include the account credentials in the response
+
+#### Example response (without account credentials)
+
+```json
+{
+  "data": {
+    "id": "apn_WYhMlrz",
+    "name": null,
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aw4ib2",
+      "name_slug": "airtable_oauth",
+      "name": "Airtable",
+      "auth_type": "oauth",
+      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": ["Productivity"]
+    },
+    "created_at": "2024-08-01T04:04:03.000Z",
+    "updated_at": "2024-08-01T04:04:03.000Z"
+  }
+}
+```
+
+#### Example Response (with `include_credentials=1`)
+
+```json
+{
+  "data": {
+    "id": "apn_WYhMlrz",
+    "name": null,
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "app_XBxhAl",
+      "name": "Airtable"
+    },
+    "created_at": "2024-08-01T04:04:03.000Z",
+    "updated_at": "2024-08-01T04:04:03.000Z",
+    "credentials": {
+      "oauth_client_id": "dd7a26ca-ba11-4f80-8667-xxxxxxxx",
+      "oauth_access_token": "oaaLa2Ob1umiregWa.v1.xxxxxxxx.xxxxxxxx",
+      "oauth_refresh_token": "oaaLa2Ob1umiregWa.v1.refresh.xxxxxxxx",
+      "oauth_uid": "usrnbIhrdiaOwPf7q"
+    },
+    "expires_at": "2024-08-01T05:04:03.000Z",
+    "project_id": 279440,
+    "user_id": "danny",
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-01T04:17:33.000Z"
+  }
+}
+```
+
+### Delete individual connected account
+Delete a specific connected account for an end user
+
+```
+DELETE /v1/connect/accounts/:apn_id
+```
+- `:apn_id` is the auth provision of the account you want to retrieve
+- We'll return a `204 No Content` response if the account was successfully deleted
+
+### Delete all connected accounts for a specific app
+
+`/DELETE /apps/:app_id/accounts`
+
+- `:app_id` can be `oauth_app_id` or `app_id`
+- We'll return a `204 No Content` response if the accounts were successfully deleted
+
+### Delete an end user and all their connected accounts
+
+`DELETE /users/:external_id` 
+
+- `:external_id` corresponds to the the end user's ID in your system
+- We'll return a `204 No Content` response if the user was successfully deleted
