@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/numverify",
+  "version": "0.0.1",
+  "description": "Pipedream numverify Components",
+  "main": "numverify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "numverify"
+  ],
+  "homepage": "https://pipedream.com/apps/numverify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
