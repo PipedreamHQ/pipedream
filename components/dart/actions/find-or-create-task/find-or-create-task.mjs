@@ -3,15 +3,15 @@ import dart from "../../dart.app.mjs";
 export default {
   key: "dart-find-or-create-task",
   name: "Find or Create Task",
-  description: "Checks for an existing task within a dartboard using the 'task-name'. If it doesn't exist, a new task is created.",
-  version: "0.0.{{ts}}",
+  description: "Checks for an existing task within a dartboard using the 'task-name'. If it doesn't exist, a new task is created. [See the documentation](https://app.itsdart.com/api/v0/docs/)",
+  version: "0.0.1",
   type: "action",
   props: {
     dart,
-    dartboard: {
+    dartboardId: {
       propDefinition: [
         dart,
-        "dartboard",
+        "dartboardId",
       ],
     },
     taskName: {
@@ -20,64 +20,79 @@ export default {
         "taskName",
       ],
     },
-    newTaskName: {
-      propDefinition: [
-        dart,
-        "newTaskName",
-      ],
-      optional: true,
+    duid: {
+      type: "string",
+      label: "Task DUID",
+      description: "If the task is not found, a unique identifier to assign to the newly created task. Must contain at least 12 characters.",
     },
     description: {
       propDefinition: [
         dart,
-        "description",
+        "taskDescription",
       ],
-      optional: true,
     },
-    newDescription: {
+    dueAt: {
       propDefinition: [
         dart,
-        "newDescription",
+        "dueAt",
       ],
-      optional: true,
     },
-    dueDate: {
+    assigneeIds: {
       propDefinition: [
         dart,
-        "dueDate",
+        "assigneeIds",
       ],
-      optional: true,
     },
-    newDueDate: {
+    priority: {
       propDefinition: [
         dart,
-        "newDueDate",
+        "priority",
       ],
-      optional: true,
-    },
-    assignedTo: {
-      propDefinition: [
-        dart,
-        "assignedTo",
-      ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    const task = await this.dart.checkAndCreateTask({
-      dartboard: this.dartboard,
-      taskName: this.taskName,
-      newTaskName: this.newTaskName,
-      description: this.description,
-      newDescription: this.newDescription,
-      dueDate: this.dueDate,
-      newDueDate: this.newDueDate,
-      assignedTo: this.assignedTo,
+    const { results } = await this.dart.listTasks({
+      $,
+      params: {
+        title: this.taskName,
+      },
     });
 
-    $.export("$summary", task
-      ? `Task ${this.taskName} found or created successfully`
-      : "No task found or created");
-    return task;
+    const matchingTasks = results.filter(({ dartboardDuid }) => dartboardDuid === this.dartboardId);
+
+    if (matchingTasks?.length) {
+      $.export("$summary", `Successfully found task "${this.taskName}"`);
+      return matchingTasks;
+    }
+
+    const response = await this.dart.createTransaction({
+      $,
+      data: {
+        clientDuid: this.duid,
+        items: [
+          {
+            duid: this.duid,
+            operations: [
+              {
+                model: "task",
+                kind: "create",
+                data: {
+                  duid: this.duid,
+                  dartboardDuid: this.dartboardId,
+                  title: this.taskName,
+                  description: this.description,
+                  dueAt: this.dueAt,
+                  assigneeDuids: this.assigneeIds,
+                  priority: this.priority,
+                },
+              },
+            ],
+            kind: "task_create",
+          },
+        ],
+      },
+    });
+    $.export("$summary", `Created task: "${this.taskName}"`);
+    return response;
   },
 };

@@ -3,8 +3,8 @@ import dart from "../../dart.app.mjs";
 export default {
   key: "dart-update-task",
   name: "Update Task",
-  description: "Updates an existing task within a dartboard.",
-  version: "0.0.{{ts}}",
+  description: "Updates an existing task within a dartboard. [See the documentation](https://app.itsdart.com/api/v0/docs/)",
+  version: "0.0.1",
   type: "action",
   props: {
     dart,
@@ -14,48 +14,67 @@ export default {
         "taskId",
       ],
     },
-    newTaskName: {
+    title: {
       propDefinition: [
         dart,
-        "newTaskName",
+        "taskName",
       ],
       optional: true,
     },
-    newDescription: {
+    description: {
       propDefinition: [
         dart,
-        "newDescription",
+        "taskDescription",
       ],
-      optional: true,
     },
-    newDueDate: {
+    dueDAt: {
       propDefinition: [
         dart,
-        "newDueDate",
+        "dueAt",
       ],
-      optional: true,
     },
-    assignedTo: {
+    assigneeIds: {
       propDefinition: [
         dart,
-        "assignedTo",
+        "assigneeIds",
       ],
-      optional: true,
+    },
+    priority: {
+      propDefinition: [
+        dart,
+        "priority",
+      ],
     },
   },
   async run({ $ }) {
-    const updateData = {};
-    if (this.newTaskName) updateData.name = this.newTaskName;
-    if (this.newDescription) updateData.description = this.newDescription;
-    if (this.newDueDate) updateData.dueDate = this.newDueDate;
-    if (this.assignedTo) updateData.assignedTo = this.assignedTo;
-
-    const response = await this.dart.updateTask({
-      taskId: this.taskId,
-      ...updateData,
+    const response = await this.dart.createTransaction({
+      $,
+      data: {
+        clientDuid: this.taskId,
+        items: [
+          {
+            duid: this.taskId,
+            operations: [
+              {
+                model: "task",
+                kind: "update",
+                data: {
+                  duid: this.taskId,
+                  dartboardDuid: this.dartboardId,
+                  title: this.title,
+                  description: this.description,
+                  dueAt: this.dueAt,
+                  assigneeDuids: this.assigneeIds,
+                  priority: this.priority,
+                },
+              },
+            ],
+            kind: "task_update",
+          },
+        ],
+      },
     });
-
-    $.export("$summary", `Successfully updated task ${this.taskId}`);
+    $.export("$summary", `Updated task with ID: "${this.taskId}"`);
     return response;
   },
 };

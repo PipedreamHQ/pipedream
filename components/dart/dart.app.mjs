@@ -24,6 +24,45 @@ export default {
         })) || [];
       },
     },
+    assigneeIds: {
+      type: "string[]",
+      label: "Assigned To",
+      description: "The user(s) the task is assigned to",
+      optional: true,
+      async options({ page }) {
+        const { results } = await this.listUsers({
+          params: {
+            limit: constants.DEFAULT_LIMIT,
+            offset: page * constants.DEFAULT_LIMIT,
+          },
+        });
+        return results?.map(({
+          duid: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    taskId: {
+      type: "string",
+      label: "Task ID",
+      description: "The ID of the task",
+      async options({ page }) {
+        const { results } = await this.listTasks({
+          params: {
+            limit: constants.DEFAULT_LIMIT,
+            offset: page * constants.DEFAULT_LIMIT,
+          },
+        });
+        return results?.map(({
+          duid: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     taskName: {
       type: "string",
       label: "Task Name",
@@ -35,40 +74,18 @@ export default {
       description: "The description of the task",
       optional: true,
     },
-    taskId: {
-      type: "string",
-      label: "Task ID",
-      description: "The ID of the task",
-    },
-    newTaskName: {
-      type: "string",
-      label: "New Task Name",
-      description: "The new name for the task",
-      optional: true,
-    },
-    newDescription: {
-      type: "string",
-      label: "New Description",
-      description: "The new description for the task",
-      optional: true,
-    },
-    dueDate: {
+    dueAt: {
       type: "string",
       label: "Due Date",
-      description: "The due date for the task",
+      description: "The due date for the task in ISO-8601 format. Example: `2024-06-25T15:43:49.214Z`",
       optional: true,
     },
-    newDueDate: {
+    priority: {
       type: "string",
-      label: "New Due Date",
-      description: "The new due date for the task",
+      label: "Priority",
+      description: "The priority of the task",
       optional: true,
-    },
-    assignedTo: {
-      type: "string",
-      label: "Assigned To",
-      description: "The person the task is assigned to",
-      optional: true,
+      options: constants.TASK_PRIORITIES,
     },
   },
   methods: {
@@ -107,10 +124,16 @@ export default {
         ...opts,
       });
     },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
     createTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/transactions/craete",
+        path: "/transactions/create",
         ...opts,
       });
     },

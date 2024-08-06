@@ -4,7 +4,7 @@ export default {
   key: "dart-create-task",
   name: "Create Task",
   description: "Creates a new task within a dartboard. [See the documentation](https://app.itsdart.com/api/v0/docs/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     dart,
@@ -13,6 +13,11 @@ export default {
         dart,
         "dartboardId",
       ],
+    },
+    duid: {
+      type: "string",
+      label: "Task DUID",
+      description: "A unique identifier for the task. Must contain at least 12 characters.",
     },
     title: {
       propDefinition: [
@@ -26,21 +31,45 @@ export default {
         "taskDescription",
       ],
     },
+    dueDAt: {
+      propDefinition: [
+        dart,
+        "dueAt",
+      ],
+    },
+    assigneeIds: {
+      propDefinition: [
+        dart,
+        "assigneeIds",
+      ],
+    },
+    priority: {
+      propDefinition: [
+        dart,
+        "priority",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.dart.createTransaction({
       $,
       data: {
+        clientDuid: this.duid,
         items: [
           {
+            duid: this.duid,
             operations: [
               {
                 model: "task",
                 kind: "create",
                 data: {
+                  duid: this.duid,
                   dartboardDuid: this.dartboardId,
-                  tile: this.title,
+                  title: this.title,
                   description: this.description,
+                  dueAt: this.dueAt,
+                  assigneeDuids: this.assigneeIds,
+                  priority: this.priority,
                 },
               },
             ],
@@ -49,7 +78,7 @@ export default {
         ],
       },
     });
-    $.export("$summary", `Created task ${this.taskName}`);
+    $.export("$summary", `Created task "${this.title}"`);
     return response;
   },
 };
