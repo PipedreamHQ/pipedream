@@ -1,10 +1,6 @@
 {
   "name": "@pipedream/jooto",
-<<<<<<< HEAD
   "version": "0.1.0",
-=======
-  "version": "0.1.,",
->>>>>>> f9839e95e4e9b628ad5093053af6df13e5e4fe3b
   "description": "Pipedream Jooto Components",
   "main": "jooto.app.mjs",
   "keywords": [
