@@ -5,7 +5,7 @@ export default {
   key: "clickup-new-folder",
   name: "New Folder (Instant)",
   description: "Emit new event when a new folder is created",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   type: "source",
   methods: {

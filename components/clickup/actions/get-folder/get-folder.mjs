@@ -1,12 +1,12 @@
 import common from "../common/folder-props.mjs";
 
 export default {
+  ...common,
   key: "clickup-get-folder",
   name: "Get Folder",
   description: "Get a folder in a workplace. See the docs [here](https://clickup.com/api) in **Folders / Get Folder** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
-  props: common.props,
   async run({ $ }) {
     const { folderId } = this;
 

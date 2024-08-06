@@ -14,7 +14,7 @@ The filters at the top of the screen allow you to search all events processed by
 
 You can filter by the event's **Status**, **time of initiation** or by the **Workflow name**.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 The filters are scoped to the current [workspace](/workspaces/).
 
 If you're not seeing the events or workflow you're expecting, try [switching workspaces](/workspaces/#switching-between-workspaces).
@@ -42,7 +42,7 @@ Workflows that are paused from `$.flow.delay` or `$.flow.suspend` will be shown 
 
 ![Only showing workflows that are currently paused](https://res.cloudinary.com/pipedreamin/image/upload/v1689875506/docs/docs/event%20histories/CleanShot_2023-07-20_at_13.51.11_2x_kn2dpw.png)
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 If you're using `setTimeout` or `sleep` in Node.js or Python steps, the event will not be considered **Paused**. Using those language native execution holding controls leaves your workflow in a **Executing** state.
 </Callout>
 
@@ -54,7 +54,7 @@ Using this dropdown, you can select between convenient time ranges, or specify a
 
 ![How to filter events by a timerange](https://res.cloudinary.com/pipedreamin/image/upload/v1683747452/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.37.01_2x_oxb07m.png)
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Long running workflows
 
 The time range filter depends on when the execution event first started. If a long running workflow starts within the specified time range but it's execution continues _past_ the filtered timeframe, it will still be included in the results.
@@ -82,7 +82,7 @@ If there is an error message, the link at the bottom of the error message will l
 
 ![Viewing individual event executions](https://res.cloudinary.com/pipedreamin/image/upload/v1683748495/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.53.44_2x_t30gsb.png)
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 The event log is missing a workflow step, or the configuration is not what I expect
 
 Changing a workflow _after_ a particular event's execution will not update it's event history with that new workflow change.

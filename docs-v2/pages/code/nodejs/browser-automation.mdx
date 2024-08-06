@@ -279,7 +279,7 @@ export default defineComponent({
 })
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 **Don't forget to close the browser context**
 
 Playwright differs from Puppeteer slightly in that you have to close the page's browser context before closing the browser itself.
@@ -519,7 +519,7 @@ Yes, the same `@pipedream/browsers` package can be used in [actions](https://pip
 
 The steps are the same as usage in Node.js code. Open a browser, create a page, and close the browser at the end of the code step.
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 **Memory limits**
 
 At this time it's not possible to configure the allocated memory to a Source. You may experience a higher rate of Out of Memory errors on Sources that use Puppeteer or Playwright due to the high usage of memory required by Chromium.
