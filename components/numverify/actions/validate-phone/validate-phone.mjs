@@ -13,16 +13,22 @@ export default {
       label: "Number",
       description: "It is most efficient to provide phone numbers in a strictly numeric format (e.g. `441179287870`), but NumVerify is also capable of processing numbers containing special characters (e.g. `+44 (0) 117 928 7870`).",
     },
+    countryCode: {
+      type: "string",
+      label: "Country Code",
+      description: "Specify only if working with national (local) phone numbers. 2-digit country code, such as `US`",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const {
-      numverify, number,
-    } = this;
-    const response = await numverify.validatePhone({
+    const response = await this.numverify.validatePhone({
       $,
-      number,
+      params: {
+        number: this.number,
+        country_code: this.countryCode,
+      },
     });
-    $.export("$summary", `Successfully validated phone number ${number}`);
+    $.export("$summary", `Successfully validated phone number ${this.number}`);
     return response;
   },
 };
