@@ -2101,7 +2101,10 @@ importers:
     specifiers: {}
 
   components/dart:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/darwinbox:
     specifiers: {}
