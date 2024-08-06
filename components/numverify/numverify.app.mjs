@@ -1,11 +1,25 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "numverify",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async _makeRequest({
+      $ = this, params,
+    }) {
+      return axios($, {
+        baseURL: "http://apilayer.net/api",
+        params: {
+          ...params,
+          access_key: `${this.$auth.api_key}`,
+        },
+      });
+    },
+    async validateNumber(args) {
+      return this._makeRequest({
+        url: "/validate",
+        ...args,
+      });
     },
   },
 };
