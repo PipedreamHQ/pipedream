@@ -27,7 +27,7 @@ export default {
         "taskDescription",
       ],
     },
-    dueDAt: {
+    dueAt: {
       propDefinition: [
         dart,
         "dueAt",

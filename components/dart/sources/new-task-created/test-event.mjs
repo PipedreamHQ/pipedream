@@ -1,7 +1,7 @@
 export default {
   "duid": "VEAMCZK4zj6z",
   "sourceType": "AppTcm",
-  "updatedByClientDuid": "t3FjkpraQAOb",
+  "updatedByClientDuid": "",
   "createdAt": "2024-08-05T21:38:40.916526Z",
   "createdByDuid": "CAZ1ew7TlAj6",
   "updatedAt": "2024-08-05T21:38:54.224427Z",

@@ -1,6 +1,6 @@
 export default {
   "duid": "7VApYuFA8cDv",
-  "updatedByClientDuid": "t3FjkpraQAOb",
+  "updatedByClientDuid": "",
   "createdAt": "2024-08-05T21:30:57.040460Z",
   "updatedAt": "2024-08-05T21:33:26.149020Z",
   "drafterDuid": null,
