@@ -1,12 +1,11 @@
 export default {
   MODELS: [
-    "llama-3-sonar-small-32k-chat",
-    "llama-3-sonar-small-32k-online",
-    "llama-3-sonar-large-32k-chat",
-    "llama-3-sonar-large-32k-online",
-    "llama-3-8b-instruct",
-    "llama-3-70b-instruct",
-    "mixtral-8x7b-instruct",
+    "llama-3.1-sonar-small-128k-online",
+    "llama-3.1-sonar-large-128k-online",
+    "llama-3.1-sonar-small-128k-chat",
+    "llama-3.1-sonar-large-128k-chat",
+    "llama-3.1-70b-instruct",
+    "llama-3.1-8b-instruct",
   ],
   ROLES: [
     "system",
