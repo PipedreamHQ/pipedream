@@ -65,7 +65,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of results to retreive",
+      description: "The maximum number of results to retrieve",
       optional: true,
       default: 50,
     },

@@ -2,8 +2,8 @@ import common from "../common/common-polling.mjs";
 
 export default {
   ...common,
-  key: "twilio-new-transcript",
-  name: "New Transcript",
+  key: "twilio-new-transcript-created",
+  name: "New Transcript Created",
   description: "Emit new event when a new call transcript is created",
   version: "0.0.1",
   type: "source",
