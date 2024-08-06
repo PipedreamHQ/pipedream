@@ -3405,7 +3405,10 @@ importers:
     specifiers: {}
 
   components/gami5d:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/gan_ai:
     specifiers:
