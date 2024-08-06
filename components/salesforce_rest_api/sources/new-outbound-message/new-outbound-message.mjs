@@ -5,17 +5,25 @@ export default {
   type: "source",
   name: "New Outbound Message (Instant)",
   key: "salesforce_rest_api-new-outbound-message",
-  description: "Emit new event when a new outbound message is received in Salesforce. See Salesforce's guide on setting up [Outbound Messaging](https://sforce.co/3JbZJom). Set the Outbound Message's Endpoint URL to the endpoint of the created source. The \"Send Session ID\" option must be enabled for validating outbound messages from Salesforce.",
-  version: "0.1.6",
+  description: "Emit new event when a new outbound message is received in Salesforce.",
+  version: "0.1.7",
   dedupe: "unique",
   props: {
     db: "$.service.db",
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     http: {
       type: "$.interface.http",
       customResponse: true,
     },
     salesforce,
+    infoBox: {
+      type: "alert",
+      alertType: "info",
+      content: `See Salesforce's guide on [setting up Outbound Messaging](https://sforce.co/3JbZJom).
+\\
+Set the Outbound Message's \`Endpoint URL\` to the endpoint of this source, which you can view after it is created.
+\\
+The \`Send Session ID\` option must be enabled in Salesforce for validating outbound messages.`,
+    },
   },
   methods: {
     _unwrapMessage(message) {

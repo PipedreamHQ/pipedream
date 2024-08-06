@@ -1,51 +1,52 @@
-import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
-import {
-  removeNullEntries, toSingleLineString,
-} from "../../common/utils.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "salesforce_rest_api-add-lead-to-campaign",
   name: "Add Lead to Campaign",
-  description: toSingleLineString(`
-    Adds an existing lead to an existing campaign.
-    See [Event SObject](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)
-    and [Create Record](https://developer.salesforce.com/docs/atlas.en-us.228.0.api_rest.meta/api_rest/dome_sobject_create.htm)
-  `),
-  version: "0.0.6",
+  description: "Adds an existing lead to an existing campaign. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.228.0.object_reference.meta/object_reference/sforce_api_objects_campaignmember.htm)",
+  version: "0.1.0",
   type: "action",
   props: {
-    salesForceRestApi,
+    salesforce,
     campaignId: {
       propDefinition: [
-        salesForceRestApi,
-        "sobjectId",
+        salesforce,
+        "recordId",
         () => ({
-          objectType: constants.OBJECT_TYPE.CAMPAIGN,
+          objType: "Campaign",
+          nameField: "Name",
         }),
       ],
       label: "Campaign ID",
-      description: "ID of the Campaign to which this Lead is associated.",
+      description: "The Campaign to add a Lead to.",
     },
     leadId: {
       propDefinition: [
-        salesForceRestApi,
-        "sobjectId",
+        salesforce,
+        "recordId",
         () => ({
-          objectType: constants.OBJECT_TYPE.LEAD,
+          objType: "Lead",
+          nameField: "Name",
         }),
       ],
       label: "Lead ID",
-      description: "ID of the Lead who is associated with a Campaign.",
+      description: "The Lead to add to the selected Campaign.",
     },
   },
   async run({ $ }) {
-    const data = removeNullEntries({
-      CampaignId: this.campaignId,
-      LeadId: this.leadId,
+    const {
+      salesforce, campaignId, leadId,
+    } = this;
+    const response = await salesforce.createObject({
+      $,
+      objectType: constants.OBJECT_TYPE.CAMPAIGN_MEMBER,
+      data: {
+        CampaignId: campaignId,
+        LeadId: leadId,
+      },
     });
-    const response = await this.salesForceRestApi.createObject("CampaignMember", data);
-    response && $.export("$summary", "Successfully added lead to campaign");
+    $.export("$summary", `Successfully added lead (ID: ${leadId}) to campaign (ID: ${campaignId})`);
     return response;
   },
 };

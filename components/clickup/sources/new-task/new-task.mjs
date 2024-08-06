@@ -6,7 +6,7 @@ export default {
   key: "clickup-new-task",
   name: "New Task (Instant)",
   description: "Emit new event when a new task is created",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   type: "source",
   props: {
@@ -23,7 +23,7 @@ export default {
     listWithFolder: {
       optional: true,
       propDefinition: [
-        common.props.clickup,
+        common.props.app,
         "listWithFolder",
       ],
     },
