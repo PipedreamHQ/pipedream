@@ -9884,7 +9884,10 @@ importers:
       moment: 2.29.4
 
   components/undetectable_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/unione:
     specifiers: {}
