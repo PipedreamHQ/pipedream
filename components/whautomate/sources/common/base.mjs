@@ -43,7 +43,7 @@ export default {
       this.$emit(body, {
         id: body.event.id,
         summary: this.getSummary(body),
-        ts: ts,
+        ts,
       });
     }
   },
