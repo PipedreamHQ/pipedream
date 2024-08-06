@@ -18,7 +18,7 @@ export default {
     phoneNumber: {
       type: "string",
       label: "Phone Number",
-      description: "The WhatsApp phone number of the contact",
+      description: "The WhatsApp phone number of the contact. Format: +15555555555",
     },
     locationId: {
       propDefinition: [

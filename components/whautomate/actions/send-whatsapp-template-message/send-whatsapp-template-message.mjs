@@ -58,7 +58,6 @@ export default {
     },
   },
   async run({ $ }) {
-
     const response = await this.whautomate.sendWhatsAppMessageTemplate({
       $,
       data: {

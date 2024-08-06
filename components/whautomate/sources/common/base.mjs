@@ -14,6 +14,14 @@ export default {
       description: "The name of the webhook.",
     },
   },
+  methods: {
+    _setWehookId(webhookId) {
+      this.db.set("webhookId", webhookId);
+    },
+    _getWebhookId() {
+      return this.db.get("webhookId");
+    },
+  },
   hooks: {
     async activate() {
       const data = await this.whautomate.createWebhook({
@@ -30,10 +38,10 @@ export default {
           active: true,
         },
       });
-      this.db.set("webhookId", data.id);
+      this._setWehookId(data.id);
     },
     async deactivate() {
-      const webhookId = this.db.get("webhookId");
+      const webhookId = this._getWebhookId();
       await this.whautomate.deleteWebhook(webhookId);
     },
   },
