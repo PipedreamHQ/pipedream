@@ -5414,6 +5414,9 @@ importers:
   components/mailrefine:
     specifiers: {}
 
+  components/mails_so:
+    specifiers: {}
+
   components/mailwizz:
     specifiers:
       '@pipedream/platform': ^1.4.1
