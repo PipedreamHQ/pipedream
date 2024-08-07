@@ -5,7 +5,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "zoho_workdrive-new-folder",
   name: "New Folder",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Emit new event when a new folder is created in a specific folder.",
   type: "source",
   dedupe: "unique",
@@ -26,12 +26,21 @@ export default {
         "teamId",
       ],
     },
+    folderType: {
+      propDefinition: [
+        app,
+        "folderType",
+      ],
+    },
     folderId: {
       propDefinition: [
         app,
         "parentId",
-        ({ teamId }) => ({
+        ({
+          teamId, folderType,
+        }) => ({
           teamId,
+          folderType,
         }),
       ],
       label: "Folder Id",
@@ -52,6 +61,7 @@ export default {
       } = this;
 
       const lastDate = this._getLastDate();
+      let maxDate = lastDate;
       const items = app.paginate({
         fn: app.listFiles,
         maxResults,
@@ -63,10 +73,15 @@ export default {
       let responseArray = [];
 
       for await (const item of items) {
-        if (new Date(item.created_time) <= new Date(lastDate)) break;
-        responseArray.push(item);
+        const createdTime = item.attributes.created_time;
+        if (new Date(createdTime) > new Date(lastDate)) {
+          responseArray.push(item);
+          if (new Date(createdTime) > new Date(maxDate)) {
+            maxDate = createdTime;
+          }
+        }
       }
-      if (responseArray.length) this._setLastDate(responseArray[0].created_time);
+      this._setLastDate(maxDate);
 
       for (const item of responseArray) {
         this.$emit(
@@ -74,7 +89,7 @@ export default {
           {
             id: item.id,
             summary: `A new folder with id: "${item.id}" was created!`,
-            ts: item.created_time,
+            ts: item.attributes.created_time,
           },
         );
       }

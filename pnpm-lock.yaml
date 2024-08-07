@@ -1247,6 +1247,9 @@ importers:
       '@pipedream/platform': 1.6.0
       crypto-js: 4.2.0
 
+  components/byteforms:
+    specifiers: {}
+
   components/bytenite:
     specifiers:
       '@pipedream/platform': ^1.6.4
@@ -1316,6 +1319,9 @@ importers:
       '@pipedream/platform': ^3.0.0
     dependencies:
       '@pipedream/platform': 3.0.0
+
+  components/canva_enterprise:
+    specifiers: {}
 
   components/captaindata:
     specifiers: {}
@@ -1883,6 +1889,9 @@ importers:
     specifiers: {}
 
   components/congress_gov:
+    specifiers: {}
+
+  components/connecteam:
     specifiers: {}
 
   components/connectwise_psa:
@@ -2690,6 +2699,9 @@ importers:
     specifiers: {}
 
   components/easycsv:
+    specifiers: {}
+
+  components/easyhire:
     specifiers: {}
 
   components/easyly:
@@ -4703,7 +4715,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/jooto:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/joplin:
     specifiers: {}
@@ -5409,6 +5424,9 @@ importers:
     specifiers: {}
 
   components/mailrefine:
+    specifiers: {}
+
+  components/mails_so:
     specifiers: {}
 
   components/mailwizz:
@@ -9257,6 +9275,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/team_sms:
+    specifiers: {}
 
   components/team_up:
     specifiers:
