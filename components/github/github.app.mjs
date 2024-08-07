@@ -120,15 +120,15 @@ export default {
       async options({
         org, repo, project,
       }) {
-        const { statuses } = await this.getProjectV2Items({
+        const items = await this.getProjectV2Items({
           repoOwner: org,
           repoName: repo,
           project,
           amount: 100,
         });
 
-        return statuses.map((status) => ({
-          label: status.name,
+        return items.map((status) => ({
+          label: status.type ?? status.id,
           value: status.id,
         }));
       },
@@ -397,7 +397,7 @@ export default {
     async getProjectV2Items({
       repoName, repoOwner, project, amount,
     }) {
-      const response = await this.github.graphql(repoName ?
+      const response = await this.graphql(repoName ?
         queries.projectItemsQuery :
         queries.organizationProjectItemsQuery,
       {
@@ -407,8 +407,13 @@ export default {
         amount,
       });
 
-      return response?.repository?.projectV2?.items?.nodes ??
-        response?.organization?.projectV2?.items?.nodes;
+      console.log(JSON.stringify(response));
+
+      return (response.repository ?? response.organization).projectV2?.items?.nodes;
+    },
+    async updateProjectV2ItemStatus(args) {
+      // pending
+      return args;
     },
     async getProjectColumns({ project }) {
       return this._client().paginate(`GET /projects/${project}/columns`, {});
