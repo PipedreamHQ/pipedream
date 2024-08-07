@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/airfocus",
+  "version": "0.0.1",
+  "description": "Pipedream Airfocus Components",
+  "main": "airfocus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "airfocus"
+  ],
+  "homepage": "https://pipedream.com/apps/airfocus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

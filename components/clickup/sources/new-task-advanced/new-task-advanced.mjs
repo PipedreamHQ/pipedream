@@ -1,11 +1,12 @@
 import common from "../common/common.mjs";
+import builder from "../../common/builder.mjs";
 
 export default {
   ...common,
   key: "clickup-new-task-advanced",
   name: "New Task Advanced (Instant)",
   description: "Emit new event when a new task is created matching the filter",
-  version: "0.0.3",
+  version: "0.0.5",
   dedupe: "unique",
   type: "source",
   props: {
@@ -18,33 +19,18 @@ export default {
           workspaceId: c.workspaceId,
         }),
       ],
-      description: "If selected, the **Lists** will be filtered by this Space ID",
-      optional: true,
     },
-    folderId: {
+    listWithFolder: {
+      optional: true,
       propDefinition: [
         common.props.app,
-        "folders",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
+        "listWithFolder",
       ],
-      description: "If selected, the **Lists** will be filtered by this Folder ID",
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        common.props.app,
-        "lists",
-        (c) => ({
-          workspaceId: c.workspaceId,
-          spaceId: c.spaceId,
-          folderId: c.folderId,
-        }),
-      ],
-      optional: true,
     },
   },
+  additionalProps: builder.buildListProps({
+    listPropsOptional: true,
+  }),
   methods: {
     ...common.methods,
     _getMeta({ task_id: taskId }) {

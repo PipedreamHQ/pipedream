@@ -1,10 +1,13 @@
-import common from "../common/view-props.mjs";
+import common from "../common/list-props.mjs";
+import builder from "../../common/builder.mjs";
+import propsFragments from "../../common/props-fragments.mjs";
 
 export default {
+  ...common,
   key: "clickup-get-view-tasks",
   name: "Get View Tasks",
   description: "Get all tasks of a view. See the docs [here](https://clickup.com/api) in **Views / Get View Tasks** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -16,7 +19,20 @@ export default {
       default: 0,
       optional: true,
     },
+    listWithFolder: {
+      optional: true,
+      propDefinition: [
+        common.props.clickup,
+        "listWithFolder",
+      ],
+    },
   },
+  additionalProps: builder.buildListProps({
+    listPropsOptional: true,
+    tailProps: {
+      viewId: propsFragments.viewId,
+    },
+  }),
   async run({ $ }) {
     const {
       viewId,

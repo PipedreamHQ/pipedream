@@ -76,7 +76,7 @@ def handler(pd: "pipedream"):
 
 Data stores are very performant at retrieving single records by keys. However you can also use key iteration to retrieve all records within a Data Store as well.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Data stores are intended to be a fast and convienent data storage option for quickly adding data storage capability to your workflows without adding another database dependency.
 
 However, if you need more advanced querying capabilities for querying records with nested dictionaries or filtering based on a record value - consider using a full fledged database. Pipedream can integrate with MySQL, Postgres, DynamoDb, MongoDB and more.
@@ -112,7 +112,7 @@ def handler(pd: "pipedream"):
     print(f"Last ran at {last_ran_at}")
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 What's the difference between `data_store["key"]` and `data_store.get("key")`?
 
 - `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the data store.
@@ -142,7 +142,7 @@ def handler(pd: "pipedream"):
 
 This code step example exports all records within the data store as a dictionary.
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 The `datastore.keys()` method does not return a list, but instead it returns a `Keys` iterable object. You cannot export a `data_store` or `data_store.keys()` from a Python code step at this time.
 
 Instead build a dictionary or list using the `data_store.keys()` method.
@@ -233,7 +233,7 @@ def handler(pd: "pipedream"):
     data_store.clear()
 ```
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 `data_store.clear()` is an **irreversible** change, **even when testing code** in the workflow builder.
 </Callout>
 
