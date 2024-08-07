@@ -30,8 +30,12 @@ export default {
       data: {
         ...contact,
         tags: [
-          ...contact.tags,
-          ...parseObject(this.contactTags),
+          ...new Set([
+            ...(contact.tags
+              ? contact.tags
+              : []),
+            ...parseObject(this.contactTags),
+          ]),
         ],
       },
     });
