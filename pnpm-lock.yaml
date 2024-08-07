@@ -1321,7 +1321,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/canva_enterprise:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/captaindata:
     specifiers: {}
