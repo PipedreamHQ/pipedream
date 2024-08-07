@@ -9270,6 +9270,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/team_sms:
+    specifiers: {}
+
   components/team_up:
     specifiers:
       '@pipedream/platform': ^1.4.1
