@@ -1320,6 +1320,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.0
 
+  components/canva_enterprise:
+    specifiers: {}
+
   components/captaindata:
     specifiers: {}
 
@@ -4712,7 +4715,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/jooto:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/joplin:
     specifiers: {}
