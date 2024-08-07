@@ -21,6 +21,19 @@ Connect enables you to easily integrate more than {process.env.PUBLIC_APPS}+ API
 Please [let us know](mailto:connect@pipedream.com) how you're using it, what's not working, and what else you'd like to see!
 </Callout>
 
+## Glossary of terms
+
+- **App**: GitHub, Notion, Slack, Google Sheets, etc. — the API you want to make requests to on behalf of your end user. See the [full list here](https://pipedream.com/apps).
+- **Connect Partner**: This is probably you, the Pipedream customer who is developing an application and wants to use Connect to make authenticated requests on behalf of their end users.
+- **Connected Account**: Read more about connected accounts [here](/connected-accounts) — this is the account connection for your end user, and is also referred to as **auth provision**.
+- **End User**: The customer of the Connect Partner and whose data you want to access on their behalf (`external_id` in the API).
+- **OAuth Client**: The OAuth client you create in Pipedream to connect to an app. Read more about OAuth clients [here](/connected-accounts/oauth-clients).
+
+## Known limitations
+- The only apps that work with Pipedream Connect today are apps that use OAuth 2.0 to authenticate, and that do not require any user-input fields during the OAuth flow. We're working on extending support to all integrated apps on Pipedream.
+- There is very limited error handling today, but this is top of mind for us and is on the near-term roadmap. If you or your end users encounter any issues, please reach out to us at [connect@pipedream.com](mailto:connect@pipedream.com).
+- This is the first iteration of the API and developer experience. We expect both to evolve as we get feedback from you and other developers.
+
 ## Getting started
 
 <Steps>
@@ -436,15 +449,13 @@ DELETE /users/:external_id
 - `:external_id` corresponds to the the end user's ID in your system
 - We'll return a `204 No Content` response if the user was successfully deleted
 
+## Plans and pricing
+- The core billing model will be based on the number of end users in your Pipedream workspace
+- During the preview phase, Pipedream Connect is available to Advanced and Business customers at no additional cost, with a limited number of end users during the preview phase
 
-## Glossary of terms
-
-- **App**: GitHub, Notion, Slack, Google Sheets, etc. — the API you want to make requests to on behalf of your end user. See our full list here: [https://pipedream.com/apps](https://pipedream.com/apps).
-- **Connect Partner**: This is probably you — the Pipedream customer who is developing an application and wants to use Pipedream Connect to make authenticated requests on behalf of their end users.
-- **Connected Account**: Read more about connected accounts [here](/connected-accounts) — this is the account connection for your end user, and is also referred to as **auth provision**.
-- **End User**: The customer of the Connect Partner and whose data you want to access on their behalf (`external_id` in the API).
-- **OAuth Client**: The OAuth client you create in Pipedream to connect to an app. Read more about OAuth clients [here](/connected-accounts/oauth-clients).
-
-## Known limitations
-- The only apps that work with Pipedream Connect today are apps that use OAuth 2.0 to authenticate, and that do not require any user-input fields during the OAuth flow. We're working on extending support to all integrated apps on Pipedream.
-- There is very limited error handling today, but this is top of mind for us and is on the near-term roadmap. If you or your end users encounter any issues, please reach out to us at [connect@pipedream.com](mailto:connect@pipedream.com)
+## Product roadmap for Connect
+- Address bugs and feedback during the preview phase
+- Extend support to all integrated apps on Pipedream
+- Improve error handling for Connect developers and end users
+- Expand the capabilities of the client SDK to directly invoke Pipedream workflows
+- And more...
