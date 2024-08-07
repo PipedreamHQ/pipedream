@@ -9,6 +9,17 @@ export default {
   type: "action",
   props: {
     onedrive,
+    parentFolderType: {
+      type: "string",
+      label: "Parent Folder Type",
+      description: "Whether to nest the new folder within a folder in your drive (`default`) or a shared folder (`shared`)",
+      optional: true,
+      options: [
+        "default",
+        "shared",
+      ],
+      reloadProps: true,
+    },
     parentFolderId: {
       propDefinition: [
         onedrive,
@@ -16,19 +27,29 @@ export default {
       ],
       label: "Parent Folder ID",
       description: "The ID of the folder which the the new folder should be created. Use the \"Load More\" button to load subfolders.",
-      optional: true,
+      hidden: true,
     },
     sharedFolderReference: {
       propDefinition: [
         onedrive,
         "sharedFolderReference",
       ],
+      hidden: true,
     },
     folderName: {
       type: "string",
       label: "Folder Name",
       description: "The name of the new folder to be created. e.g. `New Folder`",
     },
+  },
+  async additionalProps(props) {
+    if (this.parentFolderType === "default") {
+      props.parentFolderId.hidden = false;
+    }
+    if (this.parentFolderType === "shared") {
+      props.sharedFolderReference.hidden = false;
+    }
+    return {};
   },
   async run({ $ }) {
     const {

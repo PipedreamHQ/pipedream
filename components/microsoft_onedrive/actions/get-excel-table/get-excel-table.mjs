@@ -8,6 +8,13 @@ export default {
   type: "action",
   props: {
     onedrive,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: `Note: The table must exist within the Excel spreadsheet.
+        \nSee Microsoft's documentation on how to [Create and Format a Table](https://support.microsoft.com/en-us/office/create-and-format-tables-e81aa349-b006-4f8a-9806-5af9df0ac664)
+      `,
+    },
     itemId: {
       propDefinition: [
         onedrive,

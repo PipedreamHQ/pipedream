@@ -1,13 +1,14 @@
 import onedrive from "../../microsoft_onedrive.app.mjs";
 import base from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
   type: "source",
-  key: "microsoft_onedrive-new-file-of-types-in-folder",
-  name: "New File of Types in Folder (Instant)",
-  description: "Emit an event when a new file of a specific type is created under a directory tree in a OneDrive drive",
-  version: "0.1.2",
+  key: "microsoft_onedrive-new-file-created",
+  name: "New File Created (Instant)",
+  description: "Emit new event when a new file is created in a OneDrive drive",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
     ...base.props,
@@ -28,12 +29,25 @@ export default {
   },
   methods: {
     ...base.methods,
+    getDeltaLinkParams() {
+      return this.folder
+        ? {
+          folderId: this.folder,
+        }
+        : {};
+    },
     isItemTypeRelevant(driveItem) {
       const fileType = driveItem?.file?.mimeType;
-      return (
-        base.methods.isItemTypeRelevant.call(this, driveItem) &&
-        this.fileTypes.includes(fileType)
-      );
+      return this.fileTypes?.length
+        ? !!(this.fileTypes.find((type) => fileType?.includes(type)))
+        : true;
+    },
+    isItemRelevant(driveItem) {
+      if (!driveItem?.file) {
+        return false;
+      }
+      return !this.folder || driveItem?.parentReference?.id === this.folder;
     },
   },
+  sampleEmit,
 };

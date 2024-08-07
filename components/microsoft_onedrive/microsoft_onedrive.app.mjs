@@ -73,13 +73,13 @@ export default {
       type: "string[]",
       label: "File Types",
       description: "The types of files to watch for",
+      optional: true,
       options: mimeTypes,
     },
     sharedFolderReference: {
       type: "string",
       label: "Shared Folder Reference",
       description: "The reference of the shared folder which the the new folder should be created.\n\nE.g. `/drives/{driveId}/items/{folderId}/children`",
-      optional: true,
       async options() {
         const { value } = await this.httpRequest({
           url: "/sharedWithMe",
