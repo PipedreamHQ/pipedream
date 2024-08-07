@@ -1,8 +1,8 @@
 import twilio from "../../twilio.app.mjs";
-import got from "got";
 import stream from "stream";
 import { promisify } from "util";
 import fs from "fs";
+import { axios } from "@pipedream/platform";
 
 export default {
   key: "twilio-download-recording-media",
@@ -30,6 +30,20 @@ export default {
       description: "The destination path in [`/tmp`](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory) for the downloaded the file (e.g., `/tmp/myFile.mp3`). Make sure to include the file extension.",
     },
   },
+  methods: {
+    getFileStream({
+      $, downloadUrl,
+    }) {
+      return axios($, {
+        url: downloadUrl,
+        auth: {
+          username: `${this.twilio.$auth.AccountSid}`,
+          password: `${this.twilio.$auth.AuthToken}`,
+        },
+        responseType: "stream",
+      });
+    },
+  },
   async run({ $ }) {
     // Get Recording resource to get `uri`
     const recording = await this.twilio.getRecording(this.recordingID);
@@ -39,9 +53,13 @@ export default {
     // Add chosen download format extension (e.g. ".mp3"), as specified in the Twilio API docs:
     // https://www.twilio.com/docs/voice/api/recording#fetch-a-recording-media-file
     const downloadUrl = uri + this.format;
+    const fileStream = await this.getFileStream({
+      $,
+      downloadUrl,
+    });
     const pipeline = promisify(stream.pipeline);
     const resp = await pipeline(
-      got.stream(downloadUrl),
+      fileStream,
       fs.createWriteStream(this.filePath.includes("/tmp")
         ? this.filePath
         : `/tmp/${this.filePath}`),
