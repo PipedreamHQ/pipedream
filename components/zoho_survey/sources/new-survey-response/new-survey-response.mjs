@@ -7,7 +7,7 @@ export default {
   key: "zoho_survey-new-survey-response",
   name: "New Survey Response (Instant)",
   description: "Emit new event when a new survey response is received in Zoho Surveys.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -18,8 +18,8 @@ export default {
     generateMeta(response) {
       const ts = Date.now();
       return {
-        id: `${response["RESPONSE_ID"]}${ts}`,
-        summary: `New Response ${response["RESPONSE_ID"]}`,
+        id: `${response["RESPONSE_ID"].value}${ts}`,
+        summary: `New Response ${response["RESPONSE_ID"].value}`,
         ts,
       };
     },
@@ -29,10 +29,12 @@ export default {
         if (Array.isArray(obj)) {
           obj.forEach((question) => recursiveSearch(question, primaryLabel));
         }
-        if ("variables" in obj && "label" in obj) {
+        if ("variables" in obj) {
           recursiveSearch(obj.variables, `${primaryLabel
             ? primaryLabel + " - "
-            : ""}${obj.label}`);
+            : ""}${obj.label
+            ? obj.label
+            : ""}`);
         }
         if ("label" in obj && "key" in obj) {
           labels[obj.key] = `${primaryLabel
@@ -58,11 +60,7 @@ export default {
         groupId: this.groupId,
         surveyId: this.surveyId,
       });
-      const questions = (variables.find(({ label }) => label === "Questions"))?.variables;
-      const respondentVariables = (variables.find(({ label }) => label == "Respondent Variables"))?.variables;
-      if (respondentVariables?.length) {
-        questions.push(...respondentVariables);
-      }
+      const questions = variables.flatMap((v) => v.variables);
       const labels = this.collectFieldLabels(questions);
       const response = {};
       for (const [
