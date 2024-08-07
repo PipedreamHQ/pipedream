@@ -1,11 +1,11 @@
-import canva from "../../canva.app.mjs";
+import canva from "../../canva_enterprise.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "canva-create-design-from-brand-template",
+  key: "canva_enterprise-create-design-from-brand-template",
   name: "Create Design from Brand Template",
   description: "Creates an asynchronous job to autofill a design from a brand template with your input information. [See the documentation](https://www.canva.dev/docs/connect/api-reference/autofills/create-design-autofill-job/)",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "action",
   props: {
     canva,
