@@ -96,8 +96,8 @@ export default {
     },
     status: {
       label: "Item Status",
-      description: "The status for a project item",
-      type: "string",
+      description: "The status(es) to emit events for. If not specified, all events will be emitted for all statuses.",
+      type: "string[]",
       async options({
         org, repo, project,
       }) {

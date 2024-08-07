@@ -71,7 +71,7 @@ export default {
       } else if (isArchived) {
         message = "Issue is archived. Skipping...";
         isRelevant = false;
-      } else if (optionId !== this.status) {
+      } else if (this.status?.length && !this.status.includes(optionId)) {
         message = `Issue #${issueNumber} in ${statusName} status. Skipping...`;
         isRelevant = false;
       }
@@ -106,7 +106,10 @@ export default {
 
       console.log(`Emitting issue #${issueNumber}`);
       const meta = this.generateMeta(issue, statusName);
-      this.$emit(issue, meta);
+      this.$emit({
+        event,
+        issue,
+      }, meta);
     },
     async loadHistoricalEvents() {
       const response = await this.github.graphql(this.repo ?
