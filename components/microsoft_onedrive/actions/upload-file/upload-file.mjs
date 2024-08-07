@@ -47,7 +47,7 @@ export default {
       name = `${filename}.${extension}`;
     }
 
-    const response = await this.uploadFile({
+    const response = await this.onedrive.uploadFile({
       uploadFolderId,
       name,
       data,
