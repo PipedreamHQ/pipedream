@@ -1,20 +1,14 @@
 import airfocus from "../../airfocus.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "airfocus-update-item",
   name: "Update Item",
   description: "Updates an existing item in airfocus. [See the documentation](https://developer.airfocus.com/endpoints.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     airfocus,
-    workspaceId: {
-      propDefinition: [
-        airfocus,
-        "workspaceId",
-      ],
-    },
     itemId: {
       propDefinition: [
         airfocus,
@@ -28,13 +22,6 @@ export default {
       ],
       optional: true,
     },
-    itemType: {
-      propDefinition: [
-        airfocus,
-        "itemType",
-      ],
-      optional: true,
-    },
     statusId: {
       propDefinition: [
         airfocus,
@@ -42,10 +29,10 @@ export default {
       ],
       optional: true,
     },
-    order: {
+    description: {
       propDefinition: [
         airfocus,
-        "order",
+        "description",
       ],
       optional: true,
     },
@@ -53,13 +40,6 @@ export default {
       propDefinition: [
         airfocus,
         "fields",
-      ],
-      optional: true,
-    },
-    description: {
-      propDefinition: [
-        airfocus,
-        "description",
       ],
       optional: true,
     },
@@ -80,14 +60,30 @@ export default {
   },
   async run({ $ }) {
     const {
-      workspaceId, itemId, ...otherFields
+      airfocus,
+      fields,
+      ...props
     } = this;
-    const response = await this.airfocus.updateItem({
-      workspaceId,
-      itemId,
-      ...otherFields,
+    const item = await airfocus.getItem({
+      itemId: this.itemId,
     });
-    $.export("$summary", `Successfully updated item with ID ${itemId}`);
+
+    const data = {
+      ...item,
+      ...props,
+    };
+
+    const parsedFields = parseObject(fields);
+    if (parsedFields) {
+      data.fields = parsedFields;
+    }
+
+    const response = await this.airfocus.updateItem({
+      $,
+      itemId: this.itemId,
+      data,
+    });
+    $.export("$summary", `Successfully updated item with ID ${this.itemId}`);
     return response;
   },
 };

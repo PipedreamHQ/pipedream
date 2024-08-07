@@ -1,18 +1,18 @@
 import airfocus from "../../airfocus.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "airfocus-create-item",
   name: "Create Item",
   description: "Creates a new item in airfocus. [See the documentation](https://developer.airfocus.com/endpoints.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     airfocus,
-    workspaceId: {
+    name: {
       propDefinition: [
         airfocus,
-        "workspaceId",
+        "name",
       ],
     },
     statusId: {
@@ -20,61 +20,48 @@ export default {
         airfocus,
         "statusId",
       ],
-    },
-    order: {
-      propDefinition: [
-        airfocus,
-        "order",
-      ],
-    },
-    name: {
-      propDefinition: [
-        airfocus,
-        "name",
-      ],
-    },
-    itemType: {
-      propDefinition: [
-        airfocus,
-        "itemType",
-      ],
-    },
-    fields: {
-      propDefinition: [
-        airfocus,
-        "fields",
-      ],
+      optional: true,
     },
     description: {
       propDefinition: [
         airfocus,
         "description",
       ],
+      optional: true,
+    },
+    fields: {
+      propDefinition: [
+        airfocus,
+        "fields",
+      ],
+      optional: true,
     },
     color: {
       propDefinition: [
         airfocus,
         "color",
       ],
+      optional: true,
     },
     archived: {
       propDefinition: [
         airfocus,
         "archived",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.airfocus.createItem({
-      workspaceId: this.workspaceId,
-      statusId: this.statusId,
-      order: this.order,
-      name: this.name,
-      itemType: this.itemType,
-      fields: this.fields,
-      description: this.description,
-      color: this.color,
-      archived: this.archived,
+      $,
+      data: {
+        statusId: this.statusId,
+        name: this.name,
+        fields: parseObject(this.fields),
+        description: this.description,
+        color: this.color,
+        archived: this.archived,
+      },
     });
 
     $.export("$summary", `Successfully created item with name ${this.name}`);
