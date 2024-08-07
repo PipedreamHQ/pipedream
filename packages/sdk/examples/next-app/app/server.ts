@@ -19,7 +19,7 @@ const {
 if (!NEXT_PUBLIC_PIPEDREAM_APP_ID)
   throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_ID not set in environment");
 if (!PIPEDREAM_PROJECT_PUBLIC_KEY)
-  throw new Error("PIPEDREAM_PROJECT_SECRET_KEY not set in environment");
+  throw new Error("PIPEDREAM_PROJECT_PUBLIC_KEY not set in environment");
 if (!PIPEDREAM_PROJECT_SECRET_KEY)
   throw new Error("PIPEDREAM_PROJECT_SECRET_KEY not set in environment");
 
