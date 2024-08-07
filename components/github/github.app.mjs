@@ -129,7 +129,7 @@ export default {
         });
 
         return items.map((status) => ({
-          label: status.type ?? status.id,
+          label: status.fieldValueByName?.text ?? status.id,
           value: status.id,
         }));
       },

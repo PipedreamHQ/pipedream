@@ -97,6 +97,11 @@ const projectItemsQuery = `
           nodes {
             id
             type
+            fieldValueByName(name: "Title") {
+              ... on ProjectV2ItemFieldTextValue {
+                text
+              }
+            }
           }
         }
       }
@@ -112,6 +117,11 @@ const organizationProjectItemsQuery = `
           nodes {
             id
             type
+            fieldValueByName(name: "Title") {
+              ... on ProjectV2ItemFieldTextValue {
+                text
+              }
+            }
           }
         }
       }
