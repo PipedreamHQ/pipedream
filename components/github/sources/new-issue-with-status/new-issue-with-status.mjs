@@ -52,7 +52,7 @@ export default {
       const ts = Date.parse(issue.updated_at);
       return {
         id: `${number}-${ts}`,
-        summary: `Issue #${number} in ${statusName} status`,
+        summary: `Issue #${number} in "${statusName}" status`,
         ts,
       };
     },
