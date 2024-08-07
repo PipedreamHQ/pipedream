@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/byteforms",
+  "version": "0.0.1",
+  "description": "Pipedream ByteForms Components",
+  "main": "byteforms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "byteforms"
+  ],
+  "homepage": "https://pipedream.com/apps/byteforms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
