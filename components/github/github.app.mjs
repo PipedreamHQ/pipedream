@@ -4,6 +4,7 @@ import queries from "./common/queries.mjs";
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
+import mutations from "./common/mutations.mjs";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -101,13 +102,13 @@ export default {
       async options({
         org, repo, project,
       }) {
-        const { statuses } = await this.getProjectV2Statuses({
+        const { options } = await this.getProjectV2StatusField({
           repoOwner: org,
           repoName: repo,
           project,
         });
 
-        return statuses.map((status) => ({
+        return options.map((status) => ({
           label: status.name,
           value: status.id,
         }));
@@ -378,7 +379,7 @@ export default {
           response?.organization?.projectsV2?.pageInfo?.endCursor,
       };
     },
-    async getProjectV2Statuses({
+    async getProjectV2StatusField({
       repoOwner, repoName, project,
     }) {
       const response = await this.graphql(repoName ?
@@ -389,10 +390,8 @@ export default {
         project,
       });
 
-      return {
-        statuses: response?.repository?.projectV2?.field?.options ??
-          response?.organization?.projectV2?.field?.options,
-      };
+      return (response.repository ?? response.organization).projectV2?.field;
+
     },
     async getProjectV2Items({
       repoName, repoOwner, project, amount,
@@ -407,13 +406,17 @@ export default {
         amount,
       });
 
-      console.log(JSON.stringify(response));
-
       return (response.repository ?? response.organization).projectV2?.items?.nodes;
     },
-    async updateProjectV2ItemStatus(args) {
-      // pending
-      return args;
+    async updateProjectV2ItemStatus({
+      projectId, itemId, fieldId, value,
+    }) {
+      return this.graphql(mutations.updateProjectItemMutation, {
+        projectId,
+        itemId,
+        fieldId,
+        value,
+      });
     },
     async getProjectColumns({ project }) {
       return this._client().paginate(`GET /projects/${project}/columns`, {});

@@ -61,13 +61,28 @@ export default {
           project,
         }),
       ],
+      type: "string",
       description: "The status to set for the item",
     },
   },
   async run({ $ }) {
+    const {
+      github, org: repoOwner, repo: repoName, project, item, status,
+    } = this;
+    const { id: fieldId } = await github.getProjectV2StatusField({
+      repoOwner,
+      repoName,
+      project,
+    });
+
+    const response = await this.github.updateProjectV2ItemStatus({
+      projectId: project,
+      itemId: item,
+      fieldId,
+      value: status,
+    });
 
     $.export("$summary", "Successfully updated item");
-
-    // return response;
+    return response;
   },
 };

@@ -59,6 +59,7 @@ const organizationStatusFieldsQuery = `
       projectV2(number: $project) {
         field(name: "Status") {
           ... on ProjectV2SingleSelectField {
+            id
             options {
               name
               id
@@ -76,6 +77,7 @@ const statusFieldsQuery = `
       projectV2(number: $project) {
         field(name: "Status") {
           ... on ProjectV2SingleSelectField {
+            id
             options {
               name
               id
