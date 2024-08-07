@@ -59,6 +59,7 @@ class BrowserClient {
     if (this.environment) {
       qp.set("environment", this.environment);
     }
+    qp.set("public_key", process.env.PIPEDREAM_PROJECT_PUBLIC_KEY!!)
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
     } else {
