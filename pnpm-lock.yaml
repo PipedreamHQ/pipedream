@@ -9786,11 +9786,11 @@ importers:
 
   components/twilio:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.0
       phone: ^3.1.29
       twilio: ^3.54.2
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       phone: 3.1.41
       twilio: 3.84.1
 
@@ -16941,7 +16941,7 @@ packages:
   /@pipedream/platform/1.6.5:
     resolution: {integrity: sha512-h7afdBjRtptMKvejOhAYbhV3b+Kmy1jq7vETMBFLLnOfeXUbtbRX0sm1cdR96lbU1xw5EA5R0uaCB9l7+AUwPA==}
     dependencies:
-      axios: 1.6.5
+      axios: 1.7.3
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
@@ -16963,7 +16963,7 @@ packages:
   /@pipedream/platform/3.0.0:
     resolution: {integrity: sha512-qlSJBF0Gn5RloFEPr072hSf6pRSU++Zjs0j6X9ZE2SMmfg777qYR4RQ5HkTHEELEyA948xEOqkBt3bFplpfEbw==}
     dependencies:
-      axios: 1.6.5
+      axios: 1.7.3
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
@@ -21563,6 +21563,16 @@ packages:
       - debug
     dev: false
 
+  /axios/1.7.3:
+    resolution: {integrity: sha512-Ar7ND9pU99eJ9GpoGQKhKf58GpUOgnzuaB7ueNQ5BMi0p+LZ5oaEnfF999fAArcTIBwXTCHAmGcHOZJaWPq9Nw==}
+    dependencies:
+      follow-redirects: 1.15.6
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /b4a/1.6.4:
     resolution: {integrity: sha512-fpWrvyVHEKyeEvbKZTVOeZF3VSKKWtJxFIxX/jaVPf+cLbGUSitjb49pHLqPV2BUNNZ0LcoeEGfE/YCpyDYHIw==}
 
@@ -24834,6 +24844,16 @@ packages:
         optional: true
     dependencies:
       debug: 3.2.7
+    dev: false
+
+  /follow-redirects/1.15.6:
+    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /follow-redirects/1.5.10:
