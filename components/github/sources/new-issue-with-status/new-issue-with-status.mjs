@@ -52,7 +52,7 @@ export default {
       const ts = Date.parse(issue.updated_at);
       return {
         id: `${number}-${ts}`,
-        summary: `Issue #${number} in ${statusName} status`,
+        summary: `Issue #${number} in "${statusName}" status`,
         ts,
       };
     },
@@ -112,18 +112,12 @@ export default {
       }, meta);
     },
     async loadHistoricalEvents() {
-      const response = await this.github.graphql(this.repo ?
-        queries.projectItemsQuery :
-        queries.organizationProjectItemsQuery,
-      {
-        repoOwner: this.org,
+      const items = await this.github.getProjectV2Items({
         repoName: this.repo,
+        repoOwner: this.org,
         project: this.project,
-        historicalEventsNumber: constants.HISTORICAL_EVENTS,
+        amount: constants.HISTORICAL_EVENTS,
       });
-
-      const items = response?.repository?.projectV2?.items?.nodes ??
-        response?.organization?.projectV2?.items?.nodes;
 
       for (const node of items) {
         if (node.type === constants.ISSUE_TYPE) {

@@ -88,10 +88,10 @@ const statusFieldsQuery = `
 `;
 
 const projectItemsQuery = `
-  query ($repoOwner: String!, $repoName: String!, $project: Int!, $historicalEventsNumber: Int!) {
+  query ($repoOwner: String!, $repoName: String!, $project: Int!, $amount: Int!) {
     repository(name: $repoName, owner: $repoOwner) {
       projectV2(number: $project) {
-        items(last: $historicalEventsNumber) {
+        items(last: $amount) {
           nodes {
             id
             type
@@ -103,10 +103,10 @@ const projectItemsQuery = `
 `;
 
 const organizationProjectItemsQuery = `
-  query ($repoOwner: String!, $project: Int!, $historicalEventsNumber: Int!) {
+  query ($repoOwner: String!, $project: Int!, $amount: Int!) {
     organization(login: $repoOwner) {
       projectV2(number: $project) {
-        items(last: $historicalEventsNumber) {
+        items(last: $amount) {
           nodes {
             id
             type

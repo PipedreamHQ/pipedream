@@ -113,6 +113,26 @@ export default {
         }));
       },
     },
+    projectItem: {
+      label: "Project (V2) Item",
+      description: "The project item to update",
+      type: "string",
+      async options({
+        org, repo, project,
+      }) {
+        const { statuses } = await this.getProjectV2Items({
+          repoOwner: org,
+          repoName: repo,
+          project,
+          amount: 100,
+        });
+
+        return statuses.map((status) => ({
+          label: status.name,
+          value: status.id,
+        }));
+      },
+    },
     labels: {
       label: "Labels",
       description: "The labels",
@@ -373,6 +393,22 @@ export default {
         statuses: response?.repository?.projectV2?.field?.options ??
           response?.organization?.projectV2?.field?.options,
       };
+    },
+    async getProjectV2Items({
+      repoName, repoOwner, project, amount,
+    }) {
+      const response = await this.github.graphql(repoName ?
+        queries.projectItemsQuery :
+        queries.organizationProjectItemsQuery,
+      {
+        repoOwner,
+        repoName,
+        project,
+        amount,
+      });
+
+      return response?.repository?.projectV2?.items?.nodes ??
+        response?.organization?.projectV2?.items?.nodes;
     },
     async getProjectColumns({ project }) {
       return this._client().paginate(`GET /projects/${project}/columns`, {});
