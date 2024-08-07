@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/team_sms",
+  "version": "0.0.1",
+  "description": "Pipedream Team SMS Components",
+  "main": "team_sms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "team_sms"
+  ],
+  "homepage": "https://pipedream.com/apps/team_sms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

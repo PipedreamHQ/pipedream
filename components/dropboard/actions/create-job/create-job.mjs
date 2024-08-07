@@ -5,7 +5,7 @@ export default {
   key: "dropboard-create-job",
   name: "Create Job",
   description: "Creates a new job within Dropboard. [See the documentation](https://dropboard.readme.io/reference/jobs-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     dropboard,
