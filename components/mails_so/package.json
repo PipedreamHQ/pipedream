@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mails_so",
+  "version": "0.0.1",
+  "description": "Pipedream mails.so Components",
+  "main": "mails_so.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mails_so"
+  ],
+  "homepage": "https://pipedream.com/apps/mails_so",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

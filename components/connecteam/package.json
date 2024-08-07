@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/connecteam",
+  "version": "0.0.1",
+  "description": "Pipedream Connecteam Components",
+  "main": "connecteam.app.mjs",
+  "keywords": [
+    "pipedream",
+    "connecteam"
+  ],
+  "homepage": "https://pipedream.com/apps/connecteam",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
