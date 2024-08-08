@@ -9795,12 +9795,16 @@ importers:
 
   components/twilio:
     specifiers:
-      '@pipedream/platform': ^1.2.0
-      phone: ^3.1.29
+      '@pipedream/platform': ^3.0.0
+      got: ^13.0.0
+      phone: ^3.1.49
+      stream: ^0.0.3
       twilio: ^3.54.2
     dependencies:
-      '@pipedream/platform': 1.5.1
-      phone: 3.1.41
+      '@pipedream/platform': 3.0.0
+      got: 13.0.0
+      phone: 3.1.49
+      stream: 0.0.3
       twilio: 3.84.1
 
   components/twist:
@@ -22594,6 +22598,11 @@ packages:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}
     dev: false
 
+  /component-emitter/2.0.0:
+    resolution: {integrity: sha512-4m5s3Me2xxlVKG9PkZpQqHQR7bgpnN7joDMJ4yvVkVXngjoITG76IaZmzmywSeRTeTpc6N6r3H3+KyUurV8OYw==}
+    engines: {node: '>=18'}
+    dev: false
+
   /component-type/1.2.1:
     resolution: {integrity: sha512-Kgy+2+Uwr75vAi6ChWXgHuLvd+QLD7ssgpaRq2zCvt80ptvAfMc/hijcJxXkBa2wMlEZcJvC2H8Ubo+A9ATHIg==}
     dev: false
@@ -30662,8 +30671,8 @@ packages:
       split2: 4.2.0
     dev: false
 
-  /phone/3.1.41:
-    resolution: {integrity: sha512-sjYk1DdjYqSbcfYyeHQ6FNXr2RH7gHtkQflyleSBQ0V83db3tO9sXHhsr5WyYdsXaOW2tBg4p+P8HVgwFRJp+Q==}
+  /phone/3.1.49:
+    resolution: {integrity: sha512-S+rHWXSQrllK5eQwz0sDbwfxQ2PzennWPgsP/jdpEPH3k7P5IBJZYjvYfU8e/RF5AwKCgOtzbTGTGJcBSLJVVw==}
     engines: {node: '>=12'}
     dev: false
 
@@ -32909,6 +32918,12 @@ packages:
     resolution: {integrity: sha512-gCq3NDI2P35B2n6t76YJuOp7d6cN/C7Rt0577l91wllh0sY9ZBuw9KaSGqH/b0hzn3CWWJbpbW0W0WvQ1H/Q7g==}
     dependencies:
       emitter-component: 1.1.1
+    dev: false
+
+  /stream/0.0.3:
+    resolution: {integrity: sha512-aMsbn7VKrl4A2T7QAQQbzgN7NVc70vgF5INQrBXqn4dCXN1zy3L9HGgLO5s7PExmdrzTJ8uR/27aviW8or8/+A==}
+    dependencies:
+      component-emitter: 2.0.0
     dev: false
 
   /streamifier/0.1.1:
