@@ -8,54 +8,47 @@ export default {
       type: "string",
       label: "Form ID",
       description: "The ID of the form to monitor for new submissions",
-      required: true,
-    },
-    submissionDataFields: {
-      type: "string[]",
-      label: "Submission Data Fields",
-      description: "The data fields to include in the submission",
-      optional: true,
+      async options() {
+        const { data } = await this.listForms();
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.forms.bytesuite.io";
+      return "https://api.forms.bytesuite.io/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
+          Authorization: this.$auth.api_key,
         },
       });
     },
-    async getForm(formId) {
+    listForms(opts = {}) {
       return this._makeRequest({
-        path: `/api/form/${formId}`,
-      });
-    },
-    async getFormResponses(formId, opts = {}) {
-      return this._makeRequest({
-        path: `/api/form/responses/${formId}`,
+        path: "/form",
         ...opts,
       });
     },
-    async emitEvent(formId, submissionDataFields) {
-      const response = await this.getFormResponses(formId);
-      this.$emit(response, {
-        summary: `New submission for form ${formId}`,
-        id: response.id,
-        ts: Date.now(),
+    listFormResponses({
+      formId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/form/responses/${formId}`,
+        ...opts,
       });
     },
   },
