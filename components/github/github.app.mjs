@@ -393,6 +393,20 @@ export default {
       return (response.repository ?? response.organization).projectV2?.field;
 
     },
+    async getProjectV2Id({
+      repoOwner, repoName, project,
+    }) {
+      const response = await this.graphql(repoName ?
+        queries.repoProjectIdQuery :
+        queries.orgProjectIdQuery, {
+        repoOwner,
+        repoName,
+        project,
+      });
+
+      return (response.repository ?? response.organization).projectV2?.id;
+
+    },
     async getProjectV2Items({
       repoName, repoOwner, project, amount,
     }) {

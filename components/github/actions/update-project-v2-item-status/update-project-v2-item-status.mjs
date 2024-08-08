@@ -75,11 +75,19 @@ export default {
       project,
     });
 
+    const projectId = await github.getProjectV2Id({
+      repoOwner,
+      repoName,
+      project,
+    });
+
     const response = await this.github.updateProjectV2ItemStatus({
-      projectId: project,
+      projectId,
       itemId: item,
       fieldId,
-      value: status,
+      value: {
+        singleSelectOptionId: status,
+      },
     });
 
     $.export("$summary", "Successfully updated item");

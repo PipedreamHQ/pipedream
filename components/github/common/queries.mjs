@@ -154,6 +154,26 @@ const projectItemQuery = `
   }
 `;
 
+const orgProjectIdQuery = `
+  query ($repoOwner: String!, $project: Int!) {
+    organization(login: $repoOwner) {
+      projectV2(number: $project) {
+        id
+      }
+    }
+  }
+`;
+
+const repoProjectIdQuery = `
+  query ($repoOwner: String!, $repoName: String!, $project: Int!) {
+    repository(name: $repoName, owner: $repoOwner) {
+      projectV2(number: $project) {
+        id
+      }
+    }
+  }
+`;
+
 export default {
   discussionsQuery,
   projectsQuery,
@@ -163,4 +183,6 @@ export default {
   projectItemsQuery,
   organizationProjectItemsQuery,
   projectItemQuery,
+  orgProjectIdQuery,
+  repoProjectIdQuery,
 };
