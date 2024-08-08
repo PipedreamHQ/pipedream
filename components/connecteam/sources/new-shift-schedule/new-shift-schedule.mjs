@@ -1,106 +1,52 @@
-import { axios } from "@pipedream/platform";
-import connecteam from "../../connecteam.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "connecteam-new-shift-schedule",
   name: "New Shift Schedule",
-  description: "Emit new event when new shifts are created. [See the documentation](https://developer.connecteam.com/reference/get_shifts_scheduler_v1_schedulers__schedulerid__shifts_get)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when new shifts are created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    connecteam,
-    db: "$.service.db",
+    ...common.props,
     schedulerId: {
       propDefinition: [
-        connecteam,
+        common.props.connecteam,
         "schedulerId",
       ],
     },
-    jobId: {
-      propDefinition: [
-        connecteam,
-        "jobId",
-      ],
-    },
-    assignedUserIds: {
-      propDefinition: [
-        connecteam,
-        "assignedUserIds",
-      ],
-    },
-    userType: {
-      propDefinition: [
-        connecteam,
-        "userType",
-      ],
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // Poll every 15 minutes
-      },
-    },
   },
   methods: {
-    _getLastShiftCreationTime() {
-      return this.db.get("lastShiftCreationTime") || 0;
+    ...common.methods,
+    getModelField() {
+      return "shifts";
     },
-    _setLastShiftCreationTime(time) {
-      this.db.set("lastShiftCreationTime", time);
+    getModelFieldId() {
+      return "id";
     },
-  },
-  hooks: {
-    async deploy() {
-      const now = Math.floor(Date.now() / 1000);
-      const startTime = now - 7 * 24 * 60 * 60; // 1 week ago
-      const shifts = await this.connecteam._makeRequest({
-        path: `/scheduler/v1/schedulers/${this.schedulerId}/shifts`,
-        params: {
-          startTime,
-          endTime: now,
-          limit: 50,
-          sort: "creationTime",
-          order: "desc",
-        },
-      });
-
-      for (const shift of shifts) {
-        this.$emit(shift, {
-          id: shift.id,
-          summary: `New Shift: ${shift.title}`,
-          ts: shift.creationTime * 1000,
-        });
-      }
-
-      if (shifts.length > 0) {
-        this._setLastShiftCreationTime(shifts[0].creationTime);
-      }
+    getModelDateField() {
+      return "creationTime";
+    },
+    getParams() {
+      const date = new Date();
+      return {
+        startTime: 1,
+        endTime: date.setFullYear(date.getFullYear() + 1000),
+      };
+    },
+    getProps() {
+      return {
+        schedulerId: this.schedulerId,
+      };
+    },
+    getFunction() {
+      return this.connecteam.listShifts;
+    },
+    getSummary(item) {
+      return `New Shift: ${item.title}`;
     },
   },
-  async run() {
-    const lastShiftCreationTime = this._getLastShiftCreationTime();
-    const now = Math.floor(Date.now() / 1000);
-    const shifts = await this.connecteam._makeRequest({
-      path: `/scheduler/v1/schedulers/${this.schedulerId}/shifts`,
-      params: {
-        startTime: lastShiftCreationTime,
-        endTime: now,
-        sort: "creationTime",
-        order: "asc",
-      },
-    });
-
-    for (const shift of shifts) {
-      this.$emit(shift, {
-        id: shift.id,
-        summary: `New Shift: ${shift.title}`,
-        ts: shift.creationTime * 1000,
-      });
-    }
-
-    if (shifts.length > 0) {
-      this._setLastShiftCreationTime(shifts[shifts.length - 1].creationTime);
-    }
-  },
+  sampleEmit,
 };
