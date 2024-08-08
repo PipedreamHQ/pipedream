@@ -4402,7 +4402,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/ideal_postcodes:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/idealpostcodes:
     specifiers: {}
@@ -4597,7 +4600,10 @@ importers:
     specifiers: {}
 
   components/invidious:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/invision_community:
     specifiers:
@@ -6205,7 +6211,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/numverify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/nusii_proposals:
     specifiers: {}
