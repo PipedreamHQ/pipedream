@@ -68,26 +68,36 @@ export default function Home() {
 
   return (
     <main className="p-5 flex flex-col gap-2">
-      <h1 className="text-2xl font-bold">Pipedream connect Next.js demo</h1>
+      <h1 className="text-2xl font-bold">Pipedream Connect Example App</h1>
+      <div className="flex flex-col gap-2 text-slate-800 pb-4">
+        <p>Something about making sure to configure the `.env.local` file...</p>
+      </div>
       {
         externalUserId ?
           <div>
-            <p>External User Id: {externalUserId} </p>
-            <p>Token: {token}</p>
-
+            <p>
+              <span className="font-semibold">External User ID:</span>
+              <span className="font-mono"> {externalUserId}</span>
+            </p>
+            <p>
+              <span className="font-semibold">Connect Token:</span>
+              <span className="font-mono"> {token}</span>
+            </p>
             {apn ?
               <div>
                 <p>
-                  Auth Provision Id: {apn}
+                  <span className="font-semibold">Auth Provision ID:</span>
+                  <span className="font-mono"> {apn}</span>
                 </p>
                 <p>
-                  Oauth App Id: {oa}
+                  <span className="font-semibold">OAuth App ID:</span>
+                  <span className="font-mono"> {oa}</span>
                 </p>
                 <p>
                   <button onClick={signOut} style={{ all: "revert" }}>Sign out</button>
                 </p>
               </div>
-              : <button style={{ all: "revert" }} onClick={connectAccount}>Connect your GitHub account</button>
+              : <button style={{ all: "revert" }} onClick={connectAccount}>Connect your account</button>
             }
             {
               githubData?.login &&
@@ -109,6 +119,9 @@ export default function Home() {
           </div>
 
       }
+      <div className="flex flex-col gap-2 text-slate-800 pt-4">
+        <p>Refer to the <a href="https://pipedream.com/docs/connect" target="_blank nofollow" className="hover:underline text-blue-600">Pipedream Connect docs</a> for any questions</p>
+      </div>
     </main>
   );
 }

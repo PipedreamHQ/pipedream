@@ -13,7 +13,7 @@ type ConnectResult = {
   // TODO
 };
 
-class ConnectError extends Error {}
+class ConnectError extends Error { }
 
 type StartConnectOpts = {
   token: string;
@@ -41,15 +41,31 @@ class BrowserClient {
 
   startConnect(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
-      if (e.data?.type === "close") {
-        this.iframe?.remove();
-        window.removeEventListener("message", onMessage);
-      } else if (e.data?.type === "success") {
-        opts.onSuccess?.({
-          id: e.data.authProvisionId,
-        });
-      } else if (e.data?.type === "error") {
-        opts.onError?.(new ConnectError(e.data.error));
+      switch (e.data?.type) {
+        case "verify-domain":
+          // The Application should respond with it's domain to the iframe for security
+          e.source?.postMessage(
+            { type: "domain-response", origin: window.origin }, { targetOrigin: e.origin }
+          )
+          break;
+        case "success":
+          const { authProvisionId: id, ...rest } = e.data;
+          opts.onSuccess?.({
+            id,
+            ...rest
+          });
+          break;
+        case "error":
+          // Return the error to the parent if there was a problem with the Authorization
+          opts.onError?.(new ConnectError(e.data.error))
+          break;
+        case "close":
+          this.iframe?.remove()
+          window.removeEventListener("message", onMessage)
+          break;
+        default:
+          console.error('Unknown Connect Event type', e)
+          break;
       }
     };
     window.addEventListener("message", onMessage);
@@ -59,6 +75,7 @@ class BrowserClient {
     if (this.environment) {
       qp.set("environment", this.environment);
     }
+    qp.set("public_key", process.env.PIPEDREAM_PROJECT_PUBLIC_KEY!!)
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
     } else {
