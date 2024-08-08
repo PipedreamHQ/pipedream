@@ -5,6 +5,7 @@ export type JSONValue =
   | number
   | boolean
   | null
+  | Date
   | JSONValue[]
   | { [key: string]: JSONValue; };
 
