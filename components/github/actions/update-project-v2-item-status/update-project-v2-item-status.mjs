@@ -91,6 +91,6 @@ export default {
     });
 
     $.export("$summary", "Successfully updated item");
-    return response;
+    return response.updateProjectV2ItemFieldValue?.projectV2Item;
   },
 };
