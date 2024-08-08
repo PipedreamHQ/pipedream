@@ -6,7 +6,8 @@ type CreateServerClientOpts = {
 };
 
 export type ConnectTokenCreateOpts = {
-  app_id: string;
+  app_slug: string;
+  oauth_client_id?: string;
   client_name?: string;
   external_id: string;
 };
@@ -46,6 +47,7 @@ class ServerClient {
 
   // XXX move to REST API endpoint
   async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<string> {
+    //opts.app = "keyauth"
     const resp = await fetch(`${this.baseURL}/v1/connect/tokens`, {
       method: "POST",
       headers: {
