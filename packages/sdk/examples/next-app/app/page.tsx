@@ -51,6 +51,7 @@ export default function Home() {
       setAuthProvisionId(null)
     } else {
       serverConnectTokenCreate({
+        client_name: "My App",
         app_id: oauthAppId,
         external_id: externalUserId
       }).then((t) => setToken(t))

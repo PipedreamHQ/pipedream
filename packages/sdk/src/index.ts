@@ -37,7 +37,7 @@ class ServerClient {
     this.baseURL = `https://${apiHost}`;
   }
 
-  private _authorizonHeader(): string {
+  private _authorizationHeader(): string {
     const encoded = Buffer
       .from(`${this.publicKey}:${this.secretKey}`)
       .toString("base64");
@@ -46,18 +46,18 @@ class ServerClient {
 
   // XXX move to REST API endpoint
   async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<string> {
+    const auth = this._authorizationHeader()
     const resp = await fetch(`${this.baseURL}/v1/connect/tokens`, {
       method: "POST",
       headers: {
-        "authorization": this._authorizonHeader(),
+        "authorization": auth,
         "content-type": "application/json",
       },
       body: JSON.stringify(opts),
     });
+
     const res = await resp.json();
     // XXX expose error here
-    console.log("connect token create result");
-    console.log(res);
     return res?.token;
   }
 
@@ -78,11 +78,10 @@ class ServerClient {
     }
     const resp = await fetch(url, {
       headers: {
-        Authorization: this._authorizonHeader(),
+        Authorization: this._authorizationHeader(),
       },
     });
     const res = await resp.json();
-    console.log("res :>> ", res);
     const {
       data, error,
     } = res;
