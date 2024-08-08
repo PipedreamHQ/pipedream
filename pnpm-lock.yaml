@@ -4600,7 +4600,10 @@ importers:
     specifiers: {}
 
   components/invidious:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/invision_community:
     specifiers:
