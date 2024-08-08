@@ -1,5 +1,5 @@
-import common from "../common/webhook.mjs";
 import constants from "../../common/constants.mjs";
+import common from "../common/webhook.mjs";
 
 export default {
   ...common,
@@ -7,7 +7,7 @@ export default {
   name: "New Created Issue (Instant)",
   description: "Emit new event when a new issue is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.3.5",
+  version: "0.3.6",
   dedupe: "unique",
   methods: {
     ...common.methods,
