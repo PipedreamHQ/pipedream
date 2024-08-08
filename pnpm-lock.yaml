@@ -4402,7 +4402,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/ideal_postcodes:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/idealpostcodes:
     specifiers: {}
