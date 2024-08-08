@@ -2554,6 +2554,9 @@ importers:
   components/dots_:
     specifiers: {}
 
+  components/dotsimple:
+    specifiers: {}
+
   components/dpd2:
     specifiers:
       '@pipedream/platform': ^2.0.0
