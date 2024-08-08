@@ -182,10 +182,6 @@ export default defineComponent({
 });
 ```
 
-<div>
-<img alt="File attachment data" src="./images/attachment-file-data.png">
-</div>
-
 ### Limits
 
 Each attachment is limited to `25MB` in size. The total size of all attachments within a single workflow cannot exceed `200MB`.
