@@ -3,8 +3,8 @@ import twilio from "../../twilio.app.mjs";
 export default {
   key: "twilio-delete-message",
   name: "Delete Message",
-  description: "Delete a message record from your account. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#delete-a-message-resource) for more information",
-  version: "0.1.2",
+  description: "Delete a message record from your account. [See the documentation](https://www.twilio.com/docs/sms/api/message-resource#delete-a-message-resource)",
+  version: "0.1.3",
   type: "action",
   props: {
     twilio,
@@ -13,6 +13,7 @@ export default {
         twilio,
         "messageId",
       ],
+      optional: false,
     },
   },
   async run({ $ }) {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rentman",
+  "version": "0.0.1",
+  "description": "Pipedream Rentman Components",
+  "main": "rentman.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rentman"
+  ],
+  "homepage": "https://pipedream.com/apps/rentman",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -167,12 +167,6 @@ Data stores can hold any JSON-serializable data within the storage limits. This 
 
 But you cannot serialize functions, classes, sets, maps, or other complex objects.
 
-## Retrieving a large number of keys
-
-You can retrieve up to {process.env.DATA_STORES_MAX_KEYS} keys from a data store in a single query.
-
-If you're using a pre-built action or code to retrieve all records or keys, and your data store contains more than {process.env.DATA_STORES_MAX_KEYS} records, you'll receive a 426 error.
-
 ## Exporting data to an external service
 
 In order to stay within the [data store limits](#data-store-limits), you may need to export the data in your data store to an external service.

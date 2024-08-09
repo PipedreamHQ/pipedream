@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/twilio",
-  "version": "0.3.11",
+  "version": "0.4.0",
   "description": "Pipedream Twilio Components",
   "main": "twilio.app.mjs",
   "keywords": [
@@ -10,8 +10,10 @@
   "homepage": "https://pipedream.com/apps/twilio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
-    "phone": "^3.1.29",
+    "@pipedream/platform": "^3.0.0",
+    "got": "^13.0.0",
+    "phone": "^3.1.49",
+    "stream": "^0.0.3",
     "twilio": "^3.54.2"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

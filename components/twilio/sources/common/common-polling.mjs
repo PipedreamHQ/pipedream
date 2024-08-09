@@ -1,4 +1,4 @@
-import twilio from "../twilio.app.mjs";
+import twilio from "../../twilio.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
@@ -23,23 +23,28 @@ export default {
     },
     emitEvent(result) {
       const meta = this.generateMeta(result);
+      delete result._version;
       this.$emit(result, meta);
     },
   },
   async run() {
-    let dateCreatedAfter = this._getCreatedAfter();
-    const params = {
+    const dateCreatedAfter = this._getCreatedAfter();
+    let newDateCreatedAfter = dateCreatedAfter;
+
+    const results = await this.listResults({
       dateCreatedAfter,
-    };
-    const results = await this.listResults(params);
+    });
+
     for (const result of results) {
-      this.emitEvent(result);
-      if (
-        !dateCreatedAfter ||
-        Date.parse(result.dateCreated) > Date.parse(dateCreatedAfter)
-      )
-        dateCreatedAfter = result.dateCreated;
+      const dateCreated = result.dateCreated;
+      const ts = Date.parse(dateCreated);
+      if ( !dateCreatedAfter || ts > Date.parse(dateCreatedAfter) ) {
+        this.emitEvent(result);
+        if (!dateCreatedAfter || ts > Date.parse(newDateCreatedAfter)) {
+          newDateCreatedAfter = dateCreated;
+        }
+      }
     }
-    this._setCreatedAfter(dateCreatedAfter);
+    this._setCreatedAfter(newDateCreatedAfter);
   },
 };

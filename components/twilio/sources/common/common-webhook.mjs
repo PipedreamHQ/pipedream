@@ -1,4 +1,4 @@
-import twilio from "../twilio.app.mjs";
+import twilio from "../../twilio.app.mjs";
 
 export default {
   props: {
@@ -7,12 +7,6 @@ export default {
       propDefinition: [
         twilio,
         "incomingPhoneNumber",
-      ],
-    },
-    authToken: {
-      propDefinition: [
-        twilio,
-        "authToken",
       ],
     },
     http: {
@@ -93,7 +87,6 @@ export default {
       signature,
       url: `${this.http.endpoint}/`,
       params: body,
-      authToken: this.authToken,
     });
 
     if (!isRequestValid) {
