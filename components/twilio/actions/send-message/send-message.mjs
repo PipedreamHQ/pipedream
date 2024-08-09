@@ -3,11 +3,11 @@ import twilio from "../../twilio.app.mjs";
 import { messageToString } from "../../common/utils.mjs";
 
 export default {
-  key: "twilio-send-sms",
-  name: "Send SMS",
-  description: "Send a simple text-only SMS. [See the docs](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource) for more information",
+  key: "twilio-send-message",
+  name: "Send Message",
+  description: "Send an SMS text with optional media files. [See the documentation](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource)",
   type: "action",
-  version: "0.1.3",
+  version: "0.0.1",
   props: {
     twilio,
     from: {
@@ -26,6 +26,12 @@ export default {
       propDefinition: [
         twilio,
         "body",
+      ],
+    },
+    mediaUrl: {
+      propDefinition: [
+        twilio,
+        "mediaUrl",
       ],
     },
   },
@@ -48,10 +54,11 @@ export default {
       to: toParsed.phoneNumber,
       from: fromParsed.phoneNumber,
       body: this.body,
+      mediaUrl: this.mediaUrl,
     };
 
     const resp = await this.twilio.getClient().messages.create(data);
-    $.export("$summary", `Successfully sent a new SMS, "${messageToString(resp)}"`);
+    $.export("$summary", `Successfully sent a new message, "${messageToString(resp)}"`);
     return resp;
   },
 };

@@ -4,8 +4,8 @@ import { omitEmptyStringValues } from "../../common/utils.mjs";
 export default {
   key: "twilio-list-calls",
   name: "List Calls",
-  description: "Return a list of calls associated with your account. [See the docs](https://www.twilio.com/docs/voice/api/call-resource#read-multiple-call-resources) for more information",
-  version: "0.1.2",
+  description: "Return a list of calls associated with your account. [See the documentation](https://www.twilio.com/docs/voice/api/call-resource#read-multiple-call-resources)",
+  version: "0.1.3",
   type: "action",
   props: {
     twilio,
