@@ -1,5 +1,4 @@
 import onedrive from "../../microsoft_onedrive.app.mjs";
-import httpRequest from "../../common/httpRequest.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import { fileTypeFromBuffer } from "file-type";
@@ -8,7 +7,7 @@ export default {
   name: "Upload File",
   description: "Upload a file to OneDrive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_put_content?view=odsp-graph-online)",
   key: "microsoft_onedrive-upload-file",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     onedrive,
@@ -23,28 +22,12 @@ export default {
     filePath: {
       type: "string",
       label: "File Path",
-      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
     filename: {
       type: "string",
       label: "Name",
       description: "Name of the new uploaded file",
-    },
-  },
-  methods: {
-    httpRequest,
-    uploadFile({
-      uploadFolderId, name, data, ...args
-    }) {
-      return this.httpRequest({
-        url: `/items/${uploadFolderId}:/${encodeURI(name)}:/content`,
-        headers: {
-          "Content-Type": "application/octet-stream",
-        },
-        data,
-        method: "PUT",
-        ...args,
-      });
     },
   },
   async run({ $ }) {
@@ -64,7 +47,7 @@ export default {
       name = `${filename}.${extension}`;
     }
 
-    const response = await this.uploadFile({
+    const response = await this.onedrive.uploadFile({
       uploadFolderId,
       name,
       data,

@@ -1,5 +1,4 @@
 import onedrive from "../../microsoft_onedrive.app.mjs";
-import { toSingleLineString } from "./utils.mjs";
 
 // Defaulting to 15 days. The maximum allowed expiration time is 30 days,
 // according to their API response message: "Subscription expiration can only
@@ -18,14 +17,12 @@ const props = {
   },
   timer: {
     type: "$.interface.timer",
-    label: "Webhook subscription renewal schedule",
-    description: toSingleLineString(`
-      The OneDrive API requires occasional renewal of webhook notification subscriptions.
-      **This runs in the background, so you should not need to modify this schedule**.
-    `),
+    //  The OneDrive API requires occasional renewal of webhook notification subscriptions.
+    //  **This runs in the background, so the user should not need to modify this schedule**.
     default: {
       intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
     },
+    hidden: true,
   },
 };
 
@@ -151,8 +148,6 @@ const methods = {
         this._setSequentialErrorsCount(errors + 1);
       }
 
-      this._setSequentialErrorsCount(0);
-
       if (done) {
         // No more items to retrieve from OneDrive. We update the cached Delta
         // Link and move on.
@@ -175,7 +170,7 @@ const methods = {
         await this.processEvent(value);
       }
     }
-
+    this._setSequentialErrorsCount(0);
     await this.postProcessEvent();
   },
   /**
