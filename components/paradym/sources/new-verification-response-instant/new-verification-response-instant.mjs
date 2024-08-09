@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "app-new-verification-response-instant",
+  key: "paradym-new-verification-response-instant",
   name: "New Verification Response (Instant)",
   description: "Emit new event when a verification results in a confirmed response from the user.",
   version: "0.0.1",
