@@ -2557,6 +2557,9 @@ importers:
   components/dots_:
     specifiers: {}
 
+  components/dotsimple:
+    specifiers: {}
+
   components/dpd2:
     specifiers:
       '@pipedream/platform': ^2.0.0
@@ -7664,6 +7667,9 @@ importers:
       '@pipedream/platform': ^2.0.0
     dependencies:
       '@pipedream/platform': 2.0.0
+
+  components/rentman:
+    specifiers: {}
 
   components/repairshopr:
     specifiers:
