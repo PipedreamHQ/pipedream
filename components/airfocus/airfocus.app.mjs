@@ -123,6 +123,13 @@ export default {
         ...opts,
       });
     },
+    searchItem(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/items/search",
+        ...opts,
+      });
+    },
     updateItem({
       itemId, ...opts
     }) {

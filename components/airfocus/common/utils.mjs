@@ -20,5 +20,13 @@ export const parseObject = (obj) => {
       return obj;
     }
   }
+  if (typeof obj === "object") {
+    for (const [
+      key,
+      value,
+    ] of Object.entries(obj)) {
+      obj[key] = parseObject(value);
+    }
+  }
   return obj;
 };
