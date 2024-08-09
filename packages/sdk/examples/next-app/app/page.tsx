@@ -5,11 +5,11 @@ import { serverConnectTokenCreate, getAppsData } from "./server"
 import { createClient } from "../../../src/browser"
 
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST
-const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_APP_ID
-const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG
+const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG // required
+const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_APP_ID // required only for oauth connections
 
 export default function Home() {
-  //if (!oauthAppId) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_APP_ID env var")
+  if (!appSlug) throw new Error("Missing NEXT_PUBLIC_PIPEDREAM_APP_SLUG")
 
   const pd = createClient({ frontendHost })
   const [externalUserId, setExternalUserId] = useState<string | null>(null)
@@ -21,7 +21,6 @@ export default function Home() {
   const inputRef = createRef<HTMLInputElement>()
 
   const connectApp = (app: string, oauthAppId: string) => {
-    //debugger
     if (!externalUserId || !token) return
     setApp(app)
     setOauthAppId(oauthAppId)
