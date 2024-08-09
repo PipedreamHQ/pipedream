@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-add-deal",
   name: "Add Deal (Anility)",
   description: "Adds a new deal if missing. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     pipedriveApp,
@@ -122,6 +122,18 @@ export default {
       label: "Order By Id field key",
       description: "Pipedrive person id (value) who ordered the assessment",
     },
+    anilityDelayRequestFieldKey: {
+      propDefinition: [
+        pipedriveApp,
+        "dealCustomFieldKey",
+      ],
+      description: "Delay Request field in Pipedrive",
+    },
+    anilityDelayRequestFieldValue: {
+      type: "string",
+      label: "Delay Request field value",
+      description: "Pipedrive person id (value) who ordered the assessment",
+    },
     label: {
       type: "string",
       label: "label",
@@ -149,6 +161,8 @@ export default {
       anilityCustomerIdFieldValue,
       anilityOrderByIdFieldKey,
       anilityOrderByIdFieldValue,
+      anilityDelayRequestFieldKey,
+      anilityDelayRequestFieldValue,
       label,
     } = this;
 
@@ -176,6 +190,7 @@ export default {
         customFieldValue[anilityIdFieldKey] = anilityIdFieldValue;
         customFieldValue[anilityCustomerIdFieldKey] = anilityCustomerIdFieldValue;
         customFieldValue[anilityOrderByIdFieldKey] = anilityOrderByIdFieldValue;
+        customFieldValue[anilityDelayRequestFieldKey] = anilityDelayRequestFieldValue;
         const resp = await this.pipedriveApp.addDeal({
           title,
           value,
