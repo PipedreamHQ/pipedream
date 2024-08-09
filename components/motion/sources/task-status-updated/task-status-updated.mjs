@@ -4,7 +4,7 @@ import motion from "../../motion.app.mjs";
 export default {
   key: "motion-task-status-updated",
   name: "Task Status Updated",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when the status of a specific task is updated.",
   type: "source",
   dedupe: "unique",
