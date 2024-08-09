@@ -7,7 +7,7 @@ export default {
   key: "github-new-issue-with-status",
   name: "New Issue with Status (Projects V2)",
   description: "Emit new event when a project issue is tagged with a specific status. Currently supports Organization Projects only. [More information here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project)",
-  version: "0.0.17",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -52,7 +52,7 @@ export default {
       const ts = Date.parse(issue.updated_at);
       return {
         id: `${number}-${ts}`,
-        summary: `Issue #${number} in ${statusName} status`,
+        summary: `Issue #${number} in "${statusName}" status`,
         ts,
       };
     },
@@ -71,7 +71,7 @@ export default {
       } else if (isArchived) {
         message = "Issue is archived. Skipping...";
         isRelevant = false;
-      } else if (optionId !== this.status) {
+      } else if (this.status?.length && !this.status.includes(optionId)) {
         message = `Issue #${issueNumber} in ${statusName} status. Skipping...`;
         isRelevant = false;
       }
@@ -106,21 +106,18 @@ export default {
 
       console.log(`Emitting issue #${issueNumber}`);
       const meta = this.generateMeta(issue, statusName);
-      this.$emit(issue, meta);
+      this.$emit({
+        event,
+        issue,
+      }, meta);
     },
     async loadHistoricalEvents() {
-      const response = await this.github.graphql(this.repo ?
-        queries.projectItemsQuery :
-        queries.organizationProjectItemsQuery,
-      {
-        repoOwner: this.org,
+      const items = await this.github.getProjectV2Items({
         repoName: this.repo,
+        repoOwner: this.org,
         project: this.project,
-        historicalEventsNumber: constants.HISTORICAL_EVENTS,
+        amount: constants.HISTORICAL_EVENTS,
       });
-
-      const items = response?.repository?.projectV2?.items?.nodes ??
-        response?.organization?.projectV2?.items?.nodes;
 
       for (const node of items) {
         if (node.type === constants.ISSUE_TYPE) {

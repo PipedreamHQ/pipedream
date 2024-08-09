@@ -4,7 +4,7 @@ export default {
   key: "github-create-issue",
   name: "Create Issue",
   description: "Create a new issue in a Gihub repo. [See docs here](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
-  version: "0.2.15",
+  version: "0.2.16",
   type: "action",
   props: {
     github,
