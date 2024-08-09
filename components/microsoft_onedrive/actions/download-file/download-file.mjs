@@ -47,11 +47,18 @@ export default {
     const url = fileId
       ? `items/${fileId}/content`
       : `/root:/${encodeURI(filePath)}:/content`;
-    const response = await this.httpRequest({
-      $,
-      url,
-      responseType: "stream",
-    });
+    let response;
+    try {
+      response = await this.httpRequest({
+        $,
+        url,
+        responseType: "stream",
+      });
+    } catch {
+      throw new ConfigurationError(`Error accessing file. Please make sure that the ${ fileId
+        ? "File ID"
+        : "File Path"} is correct.`);
+    }
 
     const fileName = newFileName.split("/").pop();
     const tmpFilePath = `/tmp/${fileName}`;

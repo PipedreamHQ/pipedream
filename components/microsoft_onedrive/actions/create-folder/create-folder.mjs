@@ -45,9 +45,11 @@ export default {
   async additionalProps(props) {
     if (this.parentFolderType === "default") {
       props.parentFolderId.hidden = false;
+      props.sharedFolderReference.hidden = true;
     }
     if (this.parentFolderType === "shared") {
       props.sharedFolderReference.hidden = false;
+      props.parentFolderId.hidden = true;
     }
     return {};
   },

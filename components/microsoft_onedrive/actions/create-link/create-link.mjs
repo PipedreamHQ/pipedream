@@ -18,7 +18,7 @@ export default {
         }),
       ],
       label: "Drive Item ID",
-      description: "The ID of the DriveItem to create a sharing link for. Search for the file/folder by name",
+      description: "The ID of the DriveItem to create a sharing link for. **Search for the file/folder by name.**",
     },
     type: {
       type: "string",

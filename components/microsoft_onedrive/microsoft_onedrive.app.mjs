@@ -98,10 +98,11 @@ export default {
       async options({
         query, excludeFolders = true,
       }) {
-        if (!query) return [];
-        const response = await this.httpRequest({
-          url: `/search(q='${query}')?select=folder,name,id`,
-        }); console.log(response.value);
+        const response = query
+          ? await this.httpRequest({
+            url: `/search(q='${query}')?select=folder,name,id`,
+          })
+          : await this.listDriveItems();
         const values = excludeFolders
           ? response.value.filter(({ folder }) => !folder)
           : response.value;
@@ -117,7 +118,7 @@ export default {
     excelFileId: {
       type: "string",
       label: "Spreadsheet",
-      description: "Search for the file by name, only xlsx files are supported",
+      description: "**Search for the file by name.** Only xlsx files are supported.",
       useQuery: true,
       async options({ query }) {
         const response = await this.httpRequest({
@@ -143,6 +144,12 @@ export default {
         });
         return response.value.map(({ name }) => name);
       },
+    },
+    excludeFolders: {
+      type: "boolean",
+      label: "Exclude Folders?",
+      description: "Set to `true` to return only files in the response. Defaults to `false`",
+      optional: true,
     },
   },
   methods: {
@@ -407,6 +414,12 @@ export default {
         method: "PUT",
         ...args,
       });
+    },
+    listDriveItems(args = {}) {
+      const client = this.client();
+      return client
+        .api("/me/drive/root/children")
+        .get(args);
     },
   },
 };
