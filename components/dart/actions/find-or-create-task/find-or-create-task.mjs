@@ -92,6 +92,11 @@ export default {
         ],
       },
     });
+
+    if (!response.results[0].success) {
+      throw new Error(response.results[0].message);
+    }
+
     $.export("$summary", `Created task: "${this.taskName}"`);
     return response;
   },
