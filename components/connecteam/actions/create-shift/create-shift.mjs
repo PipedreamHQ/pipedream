@@ -16,14 +16,14 @@ export default {
       ],
     },
     startTime: {
-      type: "integer",
+      type: "string",
       label: "Start Time",
-      description: "The start time of the shift in Unix format (in seconds).",
+      description: "The start time of the shift in ISO8601 format (YYYY-MM-DDTHH:MM:SSSZ).",
     },
     endTime: {
-      type: "integer",
+      type: "string",
       label: "End Time",
-      description: "The end time of the shift in Unix format (in seconds).",
+      description: "The end time of the shift in ISO8601 format (YYYY-MM-DDTHH:MM:SSSZ).",
     },
     title: {
       type: "string",
@@ -52,7 +52,7 @@ export default {
     locationData: {
       type: "object",
       label: "Location Data",
-      description: "The location data of the shift. [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
+      description: "The location data of the shift. Example `{\"gps\":{\"address\": \"Address Example 123\",\"longitude\":\"-12.345678\",\"latitude\":\"-12.345678\"},\"isReferencedToJob\":false}`. [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
       optional: true,
     },
     assignedUserId: {
@@ -65,19 +65,13 @@ export default {
     notes: {
       type: "object",
       label: "Notes",
-      description: "Additional notes for the shift. [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
-      optional: true,
-    },
-    statuses: {
-      type: "object",
-      label: "Statuses",
-      description: "The list of statuses associated with the shift. [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
+      description: "Additional notes for the shift. Example `[{\"html\": \"<p>Note example</p>\"}]` [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
       optional: true,
     },
     breaks: {
       type: "object",
       label: "Breaks",
-      description: "A list of breaks to create for the shift. [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
+      description: "A list of breaks to create for the shift. Example `[{\"name\":\"Break name example\",\"type\":\"paid\",\"startTime\":123456789,\"duration\":123}]` [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
       optional: true,
     },
     isOpenShift: {
@@ -104,6 +98,8 @@ export default {
     const {
       connecteam,
       schedulerId,
+      startTime,
+      endTime,
       ...data
     } = this;
 
@@ -119,8 +115,13 @@ export default {
               data.assignedUserId,
             ]
             : undefined,
+          startTime: startTime
+            ? Date.parse(new Date(startTime)) / 1000
+            : undefined,
+          endTime: endTime
+            ? Date.parse(new Date(endTime)) / 1000
+            : undefined,
           notes: parseObject(data.notes),
-          statuses: parseObject(data.statuses),
           breaks: parseObject(data.breaks),
         },
       ],
