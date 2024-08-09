@@ -289,7 +289,10 @@ importers:
     specifiers: {}
 
   components/airfocus:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/airmeet:
     specifiers:

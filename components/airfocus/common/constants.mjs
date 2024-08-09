@@ -1,0 +1,23 @@
+export const LIMIT = 100;
+export const COLOR_OPTIONS = [
+  "amber",
+  "azure",
+  "black",
+  "blue",
+  "coco",
+  "daulphine",
+  "emerald",
+  "fanta",
+  "granite",
+  "great",
+  "leaf",
+  "moss",
+  "ocean",
+  "orange",
+  "pink",
+  "purple",
+  "red",
+  "sky",
+  "violet",
+  "yellow",
+];
