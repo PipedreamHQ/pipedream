@@ -7,7 +7,7 @@ export default {
   key: "l3mbda-new-erc-20-transfer-instant",
   name: "New ERC20 Transfer (Instant)",
   description: "Emit new event when a new ERC20 transfer is detected by [l3mbda.](https://l3mbda.com/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
