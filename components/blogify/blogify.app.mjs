@@ -5,30 +5,35 @@ export default {
   app: "blogify",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.blogify.ai";
+      return "https://api.blogify.ai/public-api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async emitNewBlogEvent() {
+    createWebhook(opts = {}) {
       return this._makeRequest({
-        path: "/blogs/new",
+        method: "POST",
+        path: "/subscribe",
+        ...opts,
+      });
+    },
+    deleteWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: "/subscribe",
+        ...opts,
       });
     },
   },

@@ -1,61 +1,48 @@
 import blogify from "../../blogify.app.mjs";
-import { axios } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "blogify-new-blog-instant",
-  name: "New Blog Instant",
+  name: "New Blog (Instant)",
   description: "Emit new events when a blog is created. [See the documentation](https://blogify.ai/developer/docs)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    blogify: {
-      type: "app",
-      app: "blogify",
-    },
+    blogify,
     http: {
       type: "$.interface.http",
       customResponse: false,
     },
-    db: "$.service.db",
+  },
+  methods: {
+    filterEvent() {
+      return true;
+    },
   },
   hooks: {
-    async deploy() {
-      const blogs = await this.blogify.emitNewBlogEvent();
-      for (const blog of blogs) {
-        this.$emit(blog, {
-          id: blog.id,
-          summary: `New blog: ${blog.title}`,
-          ts: Date.parse(blog.createdAt),
-        });
-      }
-    },
     async activate() {
-      const webhookId = await this.blogify._makeRequest({
-        method: "POST",
-        path: "/webhooks",
+      await this.blogify.createWebhook({
         data: {
-          url: this.http.endpoint,
-          event: "blog.created",
+          hookUrl: this.http.endpoint,
         },
       });
-      this.db.set("webhookId", webhookId);
     },
     async deactivate() {
-      const webhookId = this.db.get("webhookId");
-      if (webhookId) {
-        await this.blogify._makeRequest({
-          method: "DELETE",
-          path: `/webhooks/${webhookId}`,
-        });
-      }
+      await this.blogify.deleteWebhook({
+        data: {
+          hookUrl: this.http.endpoint,
+        },
+      });
     },
   },
-  async run(event) {
-    this.$emit(event.body, {
-      id: event.body.id,
-      summary: `New blog: ${event.body.title}`,
-      ts: Date.parse(event.body.createdAt),
+  async run({ body }) {
+    const ts = Date.parse(new Date());
+    this.$emit(body, {
+      id: `${body.title}- ${ts}`,
+      summary: `New blog: ${body.title}`,
+      ts: ts,
     });
   },
+  sampleEmit,
 };
