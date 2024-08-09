@@ -1,4 +1,9 @@
 import onedrive from "../../microsoft_onedrive.app.mjs";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 100, // 10 requests per second
+  maxConcurrent: 1,
+});
 
 // Defaulting to 15 days. The maximum allowed expiration time is 30 days,
 // according to their API response message: "Subscription expiration can only
@@ -34,16 +39,21 @@ const hooks = {
     // We skip the first drive item, since it represents the root directory
     await itemsStream.next();
 
-    let eventsToProcess = 10;
-    for await (const driveItem of itemsStream) {
-      if (!this.isItemTypeRelevant(driveItem)) {
+    let done, value, eventsToProcess = 10;
+    while (true) {
+      ({
+        done, value,
+      } = await limiter.schedule(() => itemsStream.next()));
+      if (!this.isItemTypeRelevant(value)) {
         // If the type of the item being processed is not relevant to the
         // event source we want to skip it in order to avoid confusion in
         // terms of the actual payload of the sample events
         continue;
       }
 
-      await this.processEvent(driveItem);
+      if (done) break;
+
+      await this.processEvent(value);
       if (--eventsToProcess <= 0) {
         break;
       }
@@ -133,9 +143,8 @@ const methods = {
       let done, value;
       try {
         ({
-          done,
-          value,
-        } = await itemsStream.next());
+          done, value,
+        } = await limiter.schedule(() => itemsStream.next()));
       } catch (e) {
         // Users have come upon an error with deltaLink, so we need to reset it by
         // creating a new subscription.
