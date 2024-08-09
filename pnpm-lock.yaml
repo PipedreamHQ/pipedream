@@ -1324,7 +1324,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/canva_enterprise:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/captaindata:
     specifiers: {}
@@ -2552,6 +2555,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/dots_:
+    specifiers: {}
+
+  components/dotsimple:
     specifiers: {}
 
   components/dpd2:
@@ -7661,6 +7667,9 @@ importers:
       '@pipedream/platform': ^2.0.0
     dependencies:
       '@pipedream/platform': 2.0.0
+
+  components/rentman:
+    specifiers: {}
 
   components/repairshopr:
     specifiers:
