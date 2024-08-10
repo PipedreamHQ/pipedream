@@ -277,9 +277,6 @@ async function run(event) {
       Received an HTTP call containing 'validationToken'.
       Validating webhook subscription and exiting...
     `);
-    this.http.respond({
-      status: 202,
-    });
     return;
   }
 
