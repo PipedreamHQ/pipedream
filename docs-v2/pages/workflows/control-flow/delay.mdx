@@ -1,10 +1,6 @@
 import VideoPlayer from "@/components/VideoPlayer";
 
-# Flow Control
-
-Use Pipedream built-in functions to filter, delay, and perform other common flow control operations.
-
-## Delay
+### Delay
 
 <VideoPlayer title="Delaying Workflow Steps" src="https://www.youtube.com/embed/IBORwBnIZ-k" />
 
@@ -15,7 +11,7 @@ Sometimes you need to wait a specific amount of time before the next step of you
 
 {process.env.DELAY_MIN_MAX_TIME}. For example, we at Pipedream use this functionality to delay welcome emails to our customers until they've had a chance to use the product.
 
-### Delay actions
+#### Delay actions
 
 You can pause your workflow without writing code using the **Delay** actions:
 
@@ -26,11 +22,11 @@ You can pause your workflow without writing code using the **Delay** actions:
 
 ![Workflow delay step](pages/workflows/images/delay/delay-step-props.png)
 
-### `$.flow.delay`
+#### `$.flow.delay`
 
 If you need to delay a workflow within Node.js code, or you need detailed control over how delays occur, [see the docs on `$.flow.delay`](/code/nodejs/delay/).
 
-### The state of delayed executions
+#### The state of delayed executions
 
 Delayed executions can hold one of three states:
 
@@ -40,7 +36,7 @@ Delayed executions can hold one of three states:
 
 You'll see the current state of an execution by [viewing its event data](/workflows/events/inspect/).
 
-### Cancelling or resuming execution manually
+#### Cancelling or resuming execution manually
 
 The [**Delay** actions](#delay-actions) and [`$.flow.delay`](/code/nodejs/delay/) return two URLs each time they run:
 
@@ -52,23 +48,3 @@ These URLs are specific to a single execution of your workflow. While the workfl
 - Hitting the `resume_url` will immediately resume that execution early
 
 If you use [`$.flow.delay`](/code/nodejs/delay/), you can send these URLs to your own system to handle cancellation / resumption. You can even email your customers to let them cancel / resume workflows that run on their behalf.
-
-## Filter
-
-<VideoPlayer title="Conditionally run Workflows" src="https://www.youtube.com/embed/sajgIH3dG58" />
-
-Use the Filter action to quickly stop or continue workflows on certain conditions.
-
-![Create a filter action](https://res.cloudinary.com/pipedreamin/image/upload/v1651603927/docs/animations/CleanShot_2022-05-03_at_13.51.17_za1skw.gif)
-
-Add a filter action to your workflow by searching for the **Filter** app in a new step.
-
-The **Filter** app includes several built-in actions: Continue Workflow on Condition, Exit Workflow on Condition and Exit Workflow on Custom Condition.
-
-In each of these actions, the **Value** is the subject of the condition, and the **Condition** is the operand to compare the value against.
-
-For example, to only process orders with a `status = ready`
-
-### Continue Workflow on Condition
-
-With this action, only when values that _pass_ a set condition will the workflow continue to execute steps after this filter.

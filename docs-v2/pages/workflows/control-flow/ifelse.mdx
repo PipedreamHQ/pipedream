@@ -1,0 +1,52 @@
+### If/Else
+
+#### Overview
+
+**If/Else** is a single path branching operator. 
+
+- You may create multiple execution branches
+- Pipedream will execute the **first** branch that matches the configured rules
+- The rules for multiple branches may match the configured rules, so the order in which rules are defined will affect the path of execution
+
+#### Demo
+
+[VIDEO]
+
+#### Getting Started
+
+Add a trigger and generate a trigger event:
+
+![trigger.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/596d94af-ff09-4a5e-910b-e28db3850890/trigger.gif)
+
+Click the + button to add a step to the canvas and select If/Else from the Control Flow section on the right. In the “start” phase, configure rules for each branch (optionally toggle the else branch) and then test the step.
+
+![add if else.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/4a100194-907b-4822-9f8a-1bc5864c1832/add_if_else.gif)
+
+<aside>
+❗ **IMPORTANT:** If you disable the **Else** condition and an event does not match any of the rules, the workflow will continue to the next step after the **If/Else** section. If you want to end workflow execution if no other conditions evaluate to `true`, enable the Else condition and add a **Terminate Workflow** action.
+
+</aside>
+
+Add a step to the success branch and test it.
+
+![add step to branch.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/1647927c-e2f8-42c6-b8a6-4319f99bb352/add_step_to_branch.gif)
+
+Test the end phase to export results from the If/Else control flow block.
+
+![test end phase.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/a7b0d758-8311-4bc2-961f-1fe37002a6ad/test_end_phase.gif)
+
+Add a step and reference the exports from `ifelse` using the steps object.
+
+![reference end exports.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/a30eba15-c42f-4eb9-add4-e9af40d12231/reference_end_exports.gif)
+
+Generate or select an alternate event to generate data to help you test other branches as you build. When you select a new event, the steps in the root workflow segments go stale. Steps in control flow blocks will only go stale if they are in the know path of execution; i.e., if you test a start phase, the steps in the success path will become stale.
+
+![select different event.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/53223b1c-3b05-4d11-a8fc-511506577cfd/select_different_event.gif)
+
+Build, test and deploy the workflow.
+
+![test and deploy.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/7779b5c7-6a75-498c-98fa-b9c1c3d41fbd/test_and_deploy.gif)
+
+Generate test events to trigger the deployed workflow and inspect the executions.
+
+![Inspect.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/7a37dc30-02c6-4d03-af87-e2480ee3006f/Inspect.gif)
