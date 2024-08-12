@@ -105,7 +105,7 @@ export default {
       data: {
         contact: {
           first_name: this.firstName || contact.first_name,
-          last_name: this.last_name || contact.last_name,
+          last_name: this.lastName || contact.last_name,
           email: this.email || contact.email,
           company: this.company || contact.company,
           job_title: this.jobTitle || contact.job_title,

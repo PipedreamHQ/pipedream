@@ -88,7 +88,7 @@ export default {
       data: {
         contact: {
           first_name: this.firstName,
-          last_name: this.last_name,
+          last_name: this.lastName,
           email: this.email,
           company: this.company || null,
           job_title: this.jobTitle || null,
