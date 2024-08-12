@@ -6,60 +6,157 @@ export default {
   propDefinitions: {
     contactId: {
       type: "string",
-      label: "Contact ID",
+      label: "Contact UUID",
       description: "Unique identifier for the contact",
+      async options({ page }) {
+        const { data } = await this.listContacts({
+          params: {
+            page: page + 1,
+          },
+        });
+        if (!data?.contacts) {
+          return [];
+        }
+        return data.contacts.data?.map(({
+          uuid: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    contactDetails: {
-      type: "object",
-      label: "Contact Details",
-      description: "Details of the contact such as name, email, and more",
+    tagIds: {
+      type: "string",
+      label: "Tag IDs",
+      description: "Unique identifiers for the tags to associate with the contact",
+      optional: true,
+      async options({ page }) {
+        const { data } = await this.listTags({
+          params: {
+            page: page + 1,
+          },
+        });
+        if (!data?.tags) {
+          return [];
+        }
+        return data.tags.data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    newContactDetails: {
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the contact",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the contact",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the contact",
+    },
+    company: {
+      type: "string",
+      label: "Company",
+      description: "The company of the contact",
+      optional: true,
+    },
+    jobTitle: {
+      type: "string",
+      label: "Job Title",
+      description: "The job title of the contact",
+      optional: true,
+    },
+    streetAddress: {
+      type: "string",
+      label: "Street Address",
+      description: "The street address of the contact",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "The city of the contact",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The state of the contact",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "The country of the contact",
+      optional: true,
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The phone number of the contact",
+      optional: true,
+    },
+    customFields: {
       type: "object",
-      label: "New Contact Details",
-      description: "The details for the new contact",
+      label: "Custom Fields",
+      description: "Custom fields to add to the contact in key/value pairs. The key represents an `id`, and the `value` represents the value of the field.",
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api2.cloudpresenter.com";
+      return `${this.$auth.api_base_url}/v1`;
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "origin": `${this.$auth.api_base_url}`,
+          "workspace": `${this.$auth.workspace_id}`,
         },
       });
     },
-    async createContact(newContactDetails) {
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    listTags(opts = {}) {
+      return this._makeRequest({
+        path: "/tags",
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/contacts",
-        data: newContactDetails,
+        path: "/contact",
+        ...opts,
       });
     },
-    async updateContact(contactId, contactDetails) {
+    updateContact({
+      contactId, ...opts
+    }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/contacts/${contactId}`,
-        data: contactDetails,
-      });
-    },
-    async emitEvent(eventName, metadata) {
-      this.$emit(metadata, {
-        summary: eventName,
-        id: metadata.id,
+        path: `/contact/${contactId}`,
+        ...opts,
       });
     },
   },

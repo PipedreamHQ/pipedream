@@ -1,23 +1,108 @@
 import cloudpresenter from "../../cloudpresenter.app.mjs";
+import { parseCustomFields } from "../../common/utils.mjs";
 
 export default {
   key: "cloudpresenter-create-contact",
   name: "Create Contact",
-  description: "Creates a new contact within the Cloudpresenter application",
-  version: "0.0.{{ts}}",
+  description: "Creates a new contact within the Cloudpresenter application. [See the documentation](https://cloudpresenter.stoplight.io/docs/cloudpresenter-public-apis/gnglqnrsy7k38-create-contact)",
+  version: "0.0.1",
   type: "action",
   props: {
     cloudpresenter,
-    newContactDetails: {
+    firstName: {
       propDefinition: [
         cloudpresenter,
-        "newContactDetails",
+        "firstName",
+      ],
+    },
+    lastName: {
+      propDefinition: [
+        cloudpresenter,
+        "lastName",
+      ],
+    },
+    email: {
+      propDefinition: [
+        cloudpresenter,
+        "email",
+      ],
+    },
+    company: {
+      propDefinition: [
+        cloudpresenter,
+        "company",
+      ],
+    },
+    jobTitle: {
+      propDefinition: [
+        cloudpresenter,
+        "jobTitle",
+      ],
+    },
+    streetAddress: {
+      propDefinition: [
+        cloudpresenter,
+        "streetAddress",
+      ],
+    },
+    city: {
+      propDefinition: [
+        cloudpresenter,
+        "city",
+      ],
+    },
+    state: {
+      propDefinition: [
+        cloudpresenter,
+        "state",
+      ],
+    },
+    country: {
+      propDefinition: [
+        cloudpresenter,
+        "country",
+      ],
+    },
+    phone: {
+      propDefinition: [
+        cloudpresenter,
+        "phone",
+      ],
+    },
+    tagIds: {
+      propDefinition: [
+        cloudpresenter,
+        "tagIds",
+      ],
+    },
+    customFields: {
+      propDefinition: [
+        cloudpresenter,
+        "customFields",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.cloudpresenter.createContact(this.newContactDetails);
-    $.export("$summary", `Successfully created contact with ID: ${response.id}`);
+    const response = await this.cloudpresenter.createContact({
+      $,
+      data: {
+        contact: {
+          first_name: this.firstName,
+          last_name: this.last_name,
+          email: this.email,
+          company: this.company || null,
+          job_title: this.jobTitle || null,
+          address: this.streetAddress || null,
+          city: this.city || null,
+          state: this.state || null,
+          country: this.country || null,
+          phone: this.phone || null,
+          tags: this.tagIds || null,
+          custom_fields: parseCustomFields(this.customFields),
+        },
+      },
+    });
+    $.export("$summary", `Successfully created contact: ${this.firstName} ${this.lastName}`);
     return response;
   },
 };
