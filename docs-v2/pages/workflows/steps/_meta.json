@@ -1,0 +1,8 @@
+{
+  "index": "Overview",
+  "triggers": "Pre-Built Triggers",
+  "actions": "Pre-Built Actions",
+  "code": "Custom Code",
+  "http-request-builder": "API Request",
+  "working-with-sql": "Database Query"
+}

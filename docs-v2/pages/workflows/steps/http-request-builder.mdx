@@ -1,0 +1,54 @@
+# API Request Builder
+
+## Overview
+
+The API request builder provides an intuitive interface to configure any HTTP request, including the method, URL, query parameters, headers and body. It is also compatible with Pipedream connected accounts so you can authenticate any API for integrated apps.
+
+## Build API Rquests for an App
+
+Search for an app in the step selector and select the **Build any [app] API request** option. 
+
+![Finding the HTTP request builder action](pages/images/v3/http/selecting-the-slack-api-http-request-builder.png)
+
+Selecting this action will display an HTTP request builder, with the Slack app slot to connect your account with.
+
+![Connecting a Slack account to the http request action builder](pages/images/v3/http/connect-slack-account-to-http-request-action.png)
+
+Once you connect your account to the step, it will automatically configure the authorization headers to match.
+
+For example, the Slack API expects a Bearer token with the `Authorization` header. So Pipedream automatically configures this HTTP request to pass your token to that specific header:
+
+![Showing how Pipedream passes the managed auth token to the header](pages/images/v3/http/viewing-authorization-configuration.png)
+
+The configuration of the request and management of your token is automatically handled for you. So you can simply modify the request to match the API endpoint you're seeking to interact with.
+
+## Adding apps to an HTTP request builder action
+
+You can also attach apps to the *Send any HTTP Request* action from the action selection menu. After adding a new step to your workflow, select the *Send any HTTP Request* action:
+
+![Selecting the HTTP request builder action from the step selector menu](pages/images/v3/http/selecting-the-http-request-builder-action.png)
+
+Then within the HTTP request builder, click the *Autorization Type* dropdown to select a method, and click **Select an app**:
+
+![Selecting a connected account for a HTTP request step](https://res.cloudinary.com/pipedreamin/image/upload/v1684259987/docs/docs/event%20histories/CleanShot_2023-05-16_at_13.50.53_fv3caw.png)
+
+Then you can choose **Slack** as the service to connect the HTTP request with:
+
+![Connecting the HTTP Request step to Slack](https://res.cloudinary.com/pipedreamin/image/upload/v1684420551/docs/docs/http/CleanShot_2023-05-18_at_10.35.41_dxyipl.png)
+
+The HTTP request action will automatically be configured with the Slack connection, you'll just need to select your account to finish the authentication.
+
+Then it's simply updating the URL to send a message which is [`https://slack.com/api/chat.postMessage`](https://api.slack.com/methods/chat.postMessage):
+
+![Defining the Slack API endpoint URL and connecting an account](https://res.cloudinary.com/pipedreamin/image/upload/v1684263130/docs/docs/CleanShot_2023-05-16_at_14.35.05_mame6o.png)
+
+Finally modify the body of the request to specify the `channel` and `message` for the request:
+
+![Configuring the Slack body for sending the request](https://res.cloudinary.com/pipedreamin/image/upload/v1684263128/docs/docs/CleanShot_2023-05-16_at_14.34.56_kpk2vp.png)
+
+HTTP Request actions can be used to quickly scaffold API requests, but are not as flexible as code for a few reasons:
+
+* Conditionally sending requests - The HTTP request action will always request, to send requests conditionally you'll need to use code.
+* Workflow execution halts - if an HTTP request fails, the entire workflow cancels
+* Automatically retrying - `$.flow.retry` isn't available in the HTTP Request action to retry automatically if the request fails
+* Error handling - It's not possible to set up a secondary action if an HTTP request fails.

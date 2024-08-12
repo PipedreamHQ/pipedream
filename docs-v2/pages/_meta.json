@@ -1,25 +1,33 @@
 {
   "index": "What is Pipedream?",
-  "quickstart": "Quickstart",
+  "quickstart": "Quickstart Guides",
+  "--- Product Features": {
+    "type": "separator",
+    "title": "Product Guide"
+  },
   "workspaces": "Workspaces",
   "projects": "Projects",
   "workflows": "Workflows",
-  "code": "Code",
+  "connected-accounts": "Connect Apps & Databases",
+  "code": "Serverless Runtimes",
   "data-stores": "Data Stores",
-  "databases": "Databases",
-  "connected-accounts": "Connected Accounts",
-  "apps": "Integrations",
   "connect": {
     "title": "Pipedream Connect",
     "display": "children"
   },
-  "components": "Components",
-  "sources": "Sources",
   "event-history": "Event History",
-  "http": "HTTP",
-  "environment-variables": "Environment Variables",
-  "rest-api": "API Reference",
-  "cli": "CLI",
+  "sources": "Sources",
+  "-- Themes": {
+    "type": "separator",
+    "title": "More"
+  },
+  "apps": "Integrated Apps",
+  "http": {
+    "display": "hidden"
+  },
+  "components": "Component API Reference",
+  "rest-api": "REST API Reference",
+  "cli": "CLI Reference",
   "destinations": "Destinations",
   "user-settings": "User and Billing Settings",
   "troubleshooting": "Troubleshooting",

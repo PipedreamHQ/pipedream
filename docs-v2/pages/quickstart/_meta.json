@@ -1,4 +1,6 @@
 {
   "index": "Build a workflow",
-  "github-sync": "Use GitHub Sync"
+  "github-sync": "Use GitHub Sync",
+  "actions-quickstart": "Publish a reusable action",
+  "sources-quickstart": "Publish a reusable source"
 }
