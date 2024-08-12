@@ -41,7 +41,7 @@ class BrowserClient {
 
   startConnect(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
-      console.log("START CONNECT ON MESSAGE", e)
+      console.log("CONNECT ON MESSAGE", e)
       switch (e.data?.type) {
         case "verify-domain":
           // The Application should respond with it's domain to the iframe for security
@@ -52,6 +52,8 @@ class BrowserClient {
           break;
         case "success":
           const { authProvisionId: id, ...rest } = e.data;
+          console.log("SUCCESS!!!", e)
+
           opts.onSuccess?.({
             id,
             ...rest
@@ -59,9 +61,12 @@ class BrowserClient {
           break;
         case "error":
           // Return the error to the parent if there was a problem with the Authorization
+          console.log("ERROR!!!", e)
           opts.onError?.(new ConnectError(e.data.error))
           break;
         case "close":
+          console.log("CLOSE!!!", e)
+
           this.iframe?.remove()
           window.removeEventListener("message", onMessage)
           break;
