@@ -7,7 +7,7 @@ Pipedream supports writing Node.js v{process.env.PIPEDREAM_NODE_VERSION} at any 
 
 Anything you can do with Node.js, you can do in a workflow. This includes using most of [npm's 400,000+ packages](#using-npm-packages). JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2019#technology-_-programming-scripting-and-markup-languages) [languages](https://github.blog/2018-11-15-state-of-the-octoverse-top-programming-languages/) in the world, with a thriving community and extensive package ecosystem. If you work on websites and know JavaScript well, Pipedream makes you a full stack engineer. If you've never used JavaScript, see the [resources below](#new-to-javascript).
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or its URL**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
 </Callout>
 
@@ -109,7 +109,7 @@ export default defineComponent({
 
 Now this `pokemon` data is accessible to downstream steps within `steps.code.pokemon`
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 You can only export JSON-serializable data from steps. Things like:
 
 - strings
@@ -216,7 +216,7 @@ export default defineComponent({
 
 Pipedream will attempt to catch syntax errors when you're writing code, highlighting the lines where the error occurred in red.
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 While you can save a workflow with syntax errors, it's unlikely to run correctly on new events. Make sure to fix syntax errors before running your workflow.
 </Callout>
 
@@ -278,7 +278,7 @@ To allow for patch and minor version upgrades, use:
 import got from "got@^11.0.0";
 ```
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 The behavior of the caret (`^`) operator is different for 0.x versions, for which it will only match patch versions, and not minor versions.
 </Callout>
 
@@ -365,7 +365,7 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 
 **In any code step, calling `return $.flow.exit()` will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 It's a good practice to use `return $.flow.exit()` to immediately exit the workflow.
 In contrast, `$.flow.exit()` on its own will end the workflow only after executing all remaining code in the step.
 </Callout>

@@ -91,7 +91,7 @@ def handler(pd: "pipedream"):
 
 When you make a `POST` request, pass a dictionary with the data you'd like to send to the `data` argument. Requests automatically form-encodes the data when the request is made.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 The code example above will NOT set the `Content-Type` header, meaning it will NOT be set to `application/json`.
 
 If you want the header set to `application/json` and don't want to encode the `dict` yourself, you can pass it using the `json` parameter and it will be encoded automatically:

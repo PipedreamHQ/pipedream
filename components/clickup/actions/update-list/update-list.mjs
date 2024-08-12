@@ -1,12 +1,14 @@
 import clickup from "../../clickup.app.mjs";
 import common from "../common/list-props.mjs";
 import constants from "../common/constants.mjs";
+import builder from "../../common/builder.mjs";
 
 export default {
+  ...common,
   key: "clickup-update-list",
   name: "Update List",
   description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists / Update List** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -38,7 +40,14 @@ export default {
       ],
       optional: true,
     },
+    listWithFolder: {
+      propDefinition: [
+        common.props.clickup,
+        "listWithFolder",
+      ],
+    },
   },
+  additionalProps: builder.buildListProps(),
   async run({ $ }) {
     const {
       listId,

@@ -1,12 +1,31 @@
 import common from "../common/task-props.mjs";
+import builder from "../../common/builder.mjs";
+import propsFragments from "../../common/props-fragments.mjs";
 
 export default {
+  ...common,
   key: "clickup-delete-task",
   name: "Delete Task",
   description: "Delete a task. See the docs [here](https://clickup.com/api) in **Tasks / Delete Task** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
-  props: common.props,
+  props: {
+    ...common.props,
+    listWithFolder: {
+      propDefinition: [
+        common.props.clickup,
+        "listWithFolder",
+      ],
+    },
+  },
+  additionalProps: builder.buildListProps({
+    tailProps: {
+      taskId: {
+        ...propsFragments.taskId,
+        description: "To show options please select a **List** first",
+      },
+    },
+  }),
   async run({ $ }) {
     const { taskId } = this;
 

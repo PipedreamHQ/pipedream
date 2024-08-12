@@ -1,0 +1,461 @@
+import Callout from '@/components/Callout'
+import { Steps } from 'nextra/components'
+
+# Pipedream Connect
+
+## Overview
+
+Pipedream Connect is the easiest way for your users to connect to any API, **right in your product**.
+
+Connect enables you to easily integrate more than {process.env.PUBLIC_APPS}+ APIs directly into your application, letting you make authenticated requests on behalf of your end users, while not having to handle authorization grants or refresh tokens yourself, and it includes these features:
+1. [Client SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) to initiate authorization for any one of the [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps) available on Pipedream
+2. [REST API](#rest-api-overview) to retrieve credentials (access token, API key, etc.) for your end users
+3. The Pipedream platform, which includes [a serverless runtime](/), [thousands of pre-built source-available triggers and actions](https://github.com/PipedreamHQ/pipedream/tree/master/components), and a first-class developer experience to build, test, and deploy custom workflows
+
+
+<Callout type="info">
+**Pipedream Connect is currently in preview and we're looking for feedback!**
+
+**While in the preview phase, the API may change without notice. We'll do our best to communicate any changes, but please be aware that breaking changes may occur.**
+
+Please [let us know](mailto:connect@pipedream.com) how you're using it, what's not working, and what else you'd like to see!
+</Callout>
+
+## Glossary of terms
+
+- **App**: GitHub, Notion, Slack, Google Sheets, etc. — the API you want to make requests to on behalf of your end user. See the [full list here](https://pipedream.com/apps).
+- **Connect Partner**: This is probably you, the Pipedream customer who is developing an application and wants to use Connect to make authenticated requests on behalf of their end users.
+- **Connected Account**: Read more about connected accounts [here](/connected-accounts) — this is the account connection for your end user, and is also referred to as **auth provision**.
+- **End User**: The customer of the Connect Partner and whose data you want to access on their behalf (`external_id` in the API).
+- **OAuth Client**: The OAuth client you create in Pipedream to connect to an app. Read more about OAuth clients [here](/connected-accounts/oauth-clients).
+
+## Known limitations
+- The only apps that work with Pipedream Connect today are apps that use OAuth 2.0 to authenticate, and that do not require any user-input fields during the OAuth flow. We're working on extending support to all integrated apps on Pipedream.
+- There is very limited error handling today, but this is top of mind for us and is on the near-term roadmap. If you or your end users encounter any issues, please reach out to us at [connect@pipedream.com](mailto:connect@pipedream.com).
+- This is the first iteration of the API and developer experience. We expect both to evolve as we get feedback from you and other developers.
+
+## Getting started
+
+<Steps>
+
+### Enable the feature flag
+- Enable the feature flag for **Pipedream Connect** in your [account settings here](https://pipedream.com/settings/alpha).
+
+<Callout type="info">
+Please reach out to our team at [connect@pipedream.com](mailto:connect@pipedream.com) to activate your account for Connect once you've enabled the feature flag and send us your [workspace ID](https://pipedream.com/settings/account).
+</Callout>
+
+### Verify your application's domain
+- To integrate the Pipedream SDK on your site, you'll need to verify ownership of your web domain. [Check out the docs](workspaces/domain-verification#pipedream-connect) to get started.
+
+### Configure an OAuth client in Pipedream
+- To use Pipedream Connect, you'll need to create an OAuth client in Pipedream for whatever app you want to integrate. [Check out the docs](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) to get started.
+- Make sure to check the box to **Allow external user connections** in the OAuth client configuration in Pipedream
+
+### Open your Pipedream project
+- Open an existing Pipedream project or create a new one: [https://pipedream.com/projects](https://pipedream.com/projects)
+- Note your **Project Public Key** and **Project Secret Key** from the **Connect** tab within your project — you'll need these when configuring the SDK and making API requests
+
+### Run the example app
+- Install the [SDK](https://www.npmjs.com/package/@pipedream/sdk) via npm: `npm install @pipedream/sdk`
+- The code for the Pipedream SDK lives in the [public pipedream repo](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk)
+- Check out the example app and README there to get started
+
+### Retrieve your user credentials from Pipedream's API
+- Check out to the API reference below to retrieve your users' credentials from Pipedream's API after they've connected their account.
+
+</Steps>
+
+## Retrieving account details and user credentials
+After your end users have connected their account using Pipedream Connect, you can retrieve their credentials using Pipedream's REST API, which enables you to make authenticated requests on their behalf.
+
+### REST API Overview
+<Callout type="warning">
+Note that both the Base URL and authentication method for the Connect REST API are different from the rest of Pipedream's REST API.
+</Callout>
+
+**Base URL for all Connect requests**
+```
+https://api.pipedream.com/v1/connect
+```
+
+**Authentication**
+
+You authenticate to the Connect REST API using **Basic Auth**. Send your Pipedream [Project Public Key]() as the username and the [Project Secret Key]() as the password. When you make API requests, pass an
+`Authorization` header of the following format:
+
+```
+Authorization: Basic <Base 64 encoded public_key:secret_key>
+```
+
+For example, here's how you can use `cURL` to fetch a list of all accounts in your project:
+
+```shell
+curl 'https://api.pipedream.com/v1/connect/accounts' \
+  -H 'Authorization: Basic <Base 64 encoded public_key:secret_key>'
+```
+
+### API Reference
+
+#### List all accounts
+List all connected accounts for all end users within your project
+
+<Callout type="warning">
+This endpoint is not currently paginated, so we'll attempt to return all connected accounts for all users within your project. We intend to add pagination soon.
+</Callout>
+
+```
+GET /accounts/
+```
+
+##### Example response
+
+```json
+{
+  "data": {
+    "accounts": [
+      {
+        "id": "apn_XehyZPr",
+        "name": null,
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OkrhR1",
+          "name": "Slack"
+        },
+        "created_at": "2024-07-30T22:52:48.000Z",
+        "updated_at": "2024-08-01T03:44:17.000Z"
+      },
+      {
+        "id": "apn_b6h9QDK",
+        "name": null,
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OrZhaO",
+          "name": "GitHub"
+        },
+        "created_at": "2024-07-31T02:49:18.000Z",
+        "updated_at": "2024-08-01T03:58:17.000Z"
+      },
+      {
+        "id": "apn_0WhJYxv",
+        "name": null,
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OrZhaO",
+          "name": "GitHub"
+        },
+        "created_at": "2024-07-31T20:28:16.000Z",
+        "updated_at": "2024-08-01T03:47:30.000Z"
+      },
+      {
+        "id": "apn_kVh9PJx",
+        "name": null,
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OrZhaO",
+          "name": "GitHub"
+        },
+        "created_at": "2024-07-31T21:17:03.000Z",
+        "updated_at": "2024-08-01T03:43:23.000Z"
+      },
+      {
+        "id": "apn_WYhMlrz",
+        "name": null,
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_XBxhAl",
+          "name": "Airtable"
+        },
+        "created_at": "2024-08-01T04:04:03.000Z",
+        "updated_at": "2024-08-01T04:04:03.000Z"
+      }
+    ]
+  }
+}
+```
+
+#### List all connected accounts for an app
+
+```
+GET /apps/:app_id/accounts
+``` 
+
+- `:app_id` can be `oauth_app_id` or `app_id`
+
+##### Example response
+
+```json
+[
+  {
+    "id": "apn_WYhMlrz",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aw4ib2",
+      "name_slug": "airtable_oauth",
+      "name": "Airtable",
+      "auth_type": "oauth",
+      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": ["Productivity"]
+    },
+    "created_at": "2024-08-01T04:04:03.000Z",
+    "updated_at": "2024-08-01T04:04:03.000Z"
+  }
+]
+```
+
+#### Retrieve account details for a specific auth provision
+
+Retrieve the account details for a specific account based on the auth provision
+
+```
+GET /accounts/:apn_id
+```
+- `:apn_id` is the auth provision of the account you want to retrieve
+- Optionally include `?include_credentials=1` as a query-string parameter to include the account credentials in the response
+
+##### Example response (without account credentials)
+
+```json
+{
+  "data": {
+    "id": "apn_WYhMlrz",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aw4ib2",
+      "name_slug": "airtable_oauth",
+      "name": "Airtable",
+      "auth_type": "oauth",
+      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": ["Productivity"]
+    },
+    "created_at": "2024-08-01T04:04:03.000Z",
+    "updated_at": "2024-08-01T04:04:03.000Z"
+  }
+}
+```
+
+##### Example Response (with `include_credentials=1`)
+
+```json
+{
+  "data": {
+    "id": "apn_WYhMlrz",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "app_XBxhAl",
+      "name": "Airtable"
+    },
+    "created_at": "2024-08-01T04:04:03.000Z",
+    "updated_at": "2024-08-01T04:04:03.000Z",
+    "credentials": {
+      "oauth_client_id": "dd7a26ca-ba11-4f80-8667-xxxxxxxx",
+      "oauth_access_token": "oaaLa2Ob1umiregWa.v1.xxxxxxxx.xxxxxxxx",
+      "oauth_refresh_token": "oaaLa2Ob1umiregWa.v1.refresh.xxxxxxxx",
+      "oauth_uid": "usrnbIhrxxxxxxxx"
+    },
+    "expires_at": "2024-08-01T05:04:03.000Z",
+    "project_id": 279440,
+    "user_id": "danny",
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-01T04:17:33.000Z"
+  }
+}
+```
+
+#### Retrieve account details for a specific external user
+
+Retrieve the account details for a specific account based on the external user ID
+
+```
+GET /users/:external_id/accounts
+```
+- `:external_id` is the end user's ID in the Connect Partner's system
+- Optionally include `?include_credentials=1` as a query-string parameter to include the account credentials in the response
+
+##### Example response (without account credentials)
+
+```json
+[
+  {
+    "id": "apn_WYhM5ov",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aw4ib2",
+      "name_slug": "airtable_oauth",
+      "name": "Airtable",
+      "auth_type": "oauth",
+      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": [
+        "Productivity"
+      ]
+    },
+    "created_at": "2024-08-06T21:51:30.000Z",
+    "updated_at": "2024-08-06T21:51:30.000Z",
+    "expires_at": "2024-08-06T22:51:30.000Z",
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-06T22:04:41.000Z"
+  },
+  {
+    "id": "apn_KAh7JwW",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aPXiQd",
+      "name_slug": "github",
+      "name": "GitHub",
+      "auth_type": "oauth",
+      "description": "Where the world builds software. Millions of developers and companies build, ship, and maintain their software on GitHub—the largest and most advanced development platform in the world.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_OrZhaO/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": [
+        "Developer Tools"
+      ]
+    },
+    "created_at": "2024-08-06T21:53:05.000Z",
+    "updated_at": "2024-08-06T21:53:05.000Z",
+    "expires_at": null,
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-06T22:50:01.000Z"
+  }
+]
+```
+
+##### Example Response (with `include_credentials=1`)
+
+```json
+[
+  {
+    "id": "apn_WYhM5ov",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aw4ib2",
+      "name_slug": "airtable_oauth",
+      "name": "Airtable",
+      "auth_type": "oauth",
+      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": [
+        "Productivity"
+      ]
+    },
+    "created_at": "2024-08-06T21:51:30.000Z",
+    "updated_at": "2024-08-06T21:51:30.000Z",
+    "credentials": {
+      "oauth_client_id": "dd7a26ca-ba11-4f80-8667-xxxxxxxx",
+      "oauth_access_token": "oaaLa2Ob1umiregWa.v1.xxxxxxxx.xxxxxxxx",
+      "oauth_refresh_token": "oaaLa2Ob1umiregWa.v1.refresh.xxxxxxxx",
+      "oauth_uid": "usrnbIhrxxxxxxxx"
+    },
+    "expires_at": "2024-08-06T22:51:30.000Z",
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-06T22:04:41.000Z"
+  },
+  {
+    "id": "apn_KAh7JwW",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aPXiQd",
+      "name_slug": "github",
+      "name": "GitHub",
+      "auth_type": "oauth",
+      "description": "Where the world builds software. Millions of developers and companies build, ship, and maintain their software on GitHub—the largest and most advanced development platform in the world.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_OrZhaO/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": [
+        "Developer Tools"
+      ]
+    },
+    "created_at": "2024-08-06T21:53:05.000Z",
+    "updated_at": "2024-08-06T21:53:05.000Z",
+    "credentials": {
+      "oauth_client_id": "57dc28xxxxxxxxxxxxx",
+      "oauth_access_token": "gho_xxxxxxxxxxxxxxxxxx",
+      "oauth_uid": "104484339"
+    },
+    "expires_at": null,
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-06T22:50:01.000Z"
+  }
+]
+```
+
+#### Delete individual connected account
+Delete a specific connected account for an end user
+
+```
+DELETE /v1/connect/accounts/:apn_id
+```
+
+- `:apn_id` is the auth provision of the account you want to retrieve
+- We'll return a `204 No Content` response if the account was successfully deleted
+
+#### Delete all connected accounts for a specific app
+
+```
+/DELETE /apps/:app_id/accounts
+```
+
+- `:app_id` can be `oauth_app_id` or `app_id`
+- We'll return a `204 No Content` response if the accounts were successfully deleted
+
+#### Delete an end user and all their connected accounts
+
+```
+DELETE /users/:external_id
+```
+
+- `:external_id` corresponds to the the end user's ID in your system
+- We'll return a `204 No Content` response if the user was successfully deleted
+
+## Plans and pricing
+- The core billing model will be based on the number of end users in your Pipedream workspace
+- During the preview phase, Pipedream Connect is available to Advanced and Business customers at no additional cost, with a limited number of end users during the preview phase
+
+## Product roadmap for Connect
+- Address bugs and feedback during the preview phase
+- Extend support to all integrated apps on Pipedream
+- Improve error handling for Connect developers and end users
+- Expand the capabilities of the client SDK to directly invoke Pipedream workflows
+- And more...

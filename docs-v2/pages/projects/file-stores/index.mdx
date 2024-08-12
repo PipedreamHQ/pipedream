@@ -2,7 +2,7 @@ import Callout from '@/components/Callout'
 
 # File Stores
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 In Preview
 
 File Stores are available in Preview. There may be changes to allowed limits in the future.
@@ -56,7 +56,7 @@ You can delete individual files from a File Store by clicking the three dot menu
 
 After confirming that you want to delete the file, it will be permanently deleted.
 
-<Callout type="error" emoji="🚫">
+<Callout type="error">
 File deletion is permanent
 
 Once a file is deleted, it's not possible to recover it. Please take care when deleting files from File Stores.
@@ -69,7 +69,7 @@ Files uploaded to a File Store are accessible by workflows within that same proj
 You can access these files programmatically using the `$.files` helper within Node.js code steps.
 
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 File Stores are scoped to Projects
 
 Only workflows within the same project as the File Store can access the files. Workflows outside of the project will not be able to access that project's File Store.
@@ -194,7 +194,7 @@ export default defineComponent({
 })
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 (Recommended) Pass the contentLength if possible
 
 If possible, pass a `contentLength` argument, then File Store will be able to efficiently stream to use less memory. Without a `contentLength` argument, the entire file will need to be downloaded to `/tmp/` until it can be uploaded to the File store.
@@ -223,7 +223,7 @@ export default defineComponent({
 })
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Only the `/tmp/` directory is readable and writable
 
 Make sure that your path to `toFile(path)` includes
@@ -259,7 +259,7 @@ export default defineComponent({
 })
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Files descriptions are compatible with other workflow helpers
 
 Files can also be used with `$.suspend` and `$.delay`.
@@ -312,7 +312,7 @@ export default defineComponent({
 })
 ```
 
-<Callout type="error" emoji="🚫">
+<Callout type="error">
 Deleting files is irreversible
 
 It's not possible to restore deleted files. Please take care when deleting files.

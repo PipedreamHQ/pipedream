@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is. Note that this issue will be displayed publicly.
 
 **To Reproduce**
 Steps to reproduce the behavior:
@@ -21,7 +21,7 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If applicable, add screenshots to help explain your problem. Note that the screenshots will be displayed publicly.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]

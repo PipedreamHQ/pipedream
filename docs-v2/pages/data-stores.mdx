@@ -110,7 +110,7 @@ You can delete a data store from this dashboard as well. On the far right in the
 
 **Deleting a data store is irreversible**.
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 If the **Delete** option is greyed out and unclickable, you have workflows using the data store in a step. Click the **>** to the left of the data store's name to expand the linked workflows.
 
 <br />
@@ -167,19 +167,13 @@ Data stores can hold any JSON-serializable data within the storage limits. This 
 
 But you cannot serialize functions, classes, sets, maps, or other complex objects.
 
-## Retrieving a large number of keys
-
-You can retrieve up to {process.env.DATA_STORES_MAX_KEYS} keys from a data store in a single query.
-
-If you're using a pre-built action or code to retrieve all records or keys, and your data store contains more than {process.env.DATA_STORES_MAX_KEYS} records, you'll receive a 426 error.
-
 ## Exporting data to an external service
 
 In order to stay within the [data store limits](#data-store-limits), you may need to export the data in your data store to an external service.
 
 The following Node.js example action will export the data in chunks via an HTTP POST request. You may need to adapt the code to your needs. Click on [this link](https://pipedream.com/new?h=tch_egfAMv) to create a copy of the workflow in your workspace.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
   If the data contained in each key is large, consider lowering the number of
   `chunkSize`.
 </Callout>
@@ -188,7 +182,7 @@ The following Node.js example action will export the data in chunks via an HTTP 
 
 - Monitor the exports of this step after each execution for any potential errors preventing a full export. Run the step as many times as needed until all your data is exported.
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
   This action deletes the keys that were successfully exported. It is advisable
   to first run a test without deleting the keys. In case of any unforeseen
   errors, your data will still be safe.

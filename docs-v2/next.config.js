@@ -27,7 +27,6 @@ module.exports = withNextra({
     MAX_WORKFLOW_EXECUTION_LIMIT: "750",
     BASE_CREDITS_PRICE_MEMORY: "256",
     BASE_CREDITS_PRICE_SECONDS: "30",
-    DATA_STORES_MAX_KEYS: "1,024",
     DAILY_TESTING_LIMIT: "30 minutes",
     INSPECTOR_EVENT_EXPIRY_DAYS: "365",
     FUNCTION_PAYLOAD_LIMIT: "6MB",
@@ -48,8 +47,8 @@ module.exports = withNextra({
     SERVICE_DB_SIZE_LIMIT: "60KB",
     TMP_SIZE_LIMIT: "2GB",
     DELAY_MIN_MAX_TIME:
-    "You can pause your workflow for as little as one millisecond, or as long as one year",
-    PUBLIC_APPS: "2,000",
+      "You can pause your workflow for as little as one millisecond, or as long as one year",
+    PUBLIC_APPS: "2,200",
     FREE_INSPECTOR_EVENT_LIMIT: "7 days of events",
     WARM_WORKERS_INTERVAL: "10 minutes",
     WARM_WORKERS_CREDITS_PER_INTERVAL: "5",

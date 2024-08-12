@@ -1,4 +1,6 @@
 import Callout from '@/components/Callout'
+import Image from 'next/image'
+import ArcadeEmbed from '@/components/ArcadeEmbed'
 
 # Event History
 
@@ -14,51 +16,43 @@ The filters at the top of the screen allow you to search all events processed by
 
 You can filter by the event's **Status**, **time of initiation** or by the **Workflow name**.
 
-<Callout type="info" emoji="ℹ️">
-The filters are scoped to the current [workspace](/workspaces/).
-
-If you're not seeing the events or workflow you're expecting, try [switching workspaces](/workspaces/#switching-between-workspaces).
+<Callout type="info">
+The filters are scoped to the current [workspace](/workspaces/). If you're not seeing the events or workflow you're expecting, try [switching workspaces](/workspaces/#switching-between-workspaces).
 </Callout>
 
 ### Filtering by status
 
-The **Status** filter controls which events are shown by their status. For example selecting the **Success** status, you'll be shown all events that were successfully executed by workflows.
+- The **Status** filter controls which events are shown by their status
+- For example selecting the **Success** status, you'll see all workflow events that were successfully executed
 
-![Only showing workflow events by current execution status](https://res.cloudinary.com/pipedreamin/image/upload/v1689875830/docs/docs/event%20histories/image_44_g2sabg.png)
+<br />
+
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1689875830/docs/docs/event%20histories/image_44_g2sabg.png" alt="Only showing workflow events by current execution status" width={300} height={300} />
 
 #### All failed workflow executions
 
-You can view all failed workflow executions by applying the **Error** status filter.
+- You can view all failed workflow executions by applying the **Error** status filter
+- This will only display the failed workflow executions in the selected time period
+- This view in particular is helpful for identifying trends of errors, or workflows with persistent problems
 
-This will only display the failed workflow executions in the selected time period.
-
-This view in particular is helpful for identifying trends of errors, or workflows with persistent problems.
-
-![Viewing all failed workflow executions by the filter in the Event History](https://res.cloudinary.com/pipedreamin/image/upload/v1689876111/docs/docs/event%20histories/CleanShot_2023-07-20_at_14.01.43_2x_nksdxd.png)
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1689876111/docs/docs/event%20histories/CleanShot_2023-07-20_at_14.01.43_2x_nksdxd.png" alt="Viewing all failed workflow executions by the filter in the Event History" width={300} height={300} />
 
 #### All paused workflow executions
 
-Workflows that are paused from `$.flow.delay` or `$.flow.suspend` will be shown when this filter is activated.
+- Workflow executions that are currently in a suspended state from `$.flow.delay` or `$.flow.suspend` will be shown when this filter is selected
 
-![Only showing workflows that are currently paused](https://res.cloudinary.com/pipedreamin/image/upload/v1689875506/docs/docs/event%20histories/CleanShot_2023-07-20_at_13.51.11_2x_kn2dpw.png)
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1689875506/docs/docs/event%20histories/CleanShot_2023-07-20_at_13.51.11_2x_kn2dpw.png" alt="Only showing workflows that are currently paused" width={300} height={300} />
 
-<Callout type="warning" emoji="⚠">
+<Callout type="info">
 If you're using `setTimeout` or `sleep` in Node.js or Python steps, the event will not be considered **Paused**. Using those language native execution holding controls leaves your workflow in a **Executing** state.
 </Callout>
 
-### Within a time frame
+### Within a timeframe
 
-Filtering by time frame will only include workflow events _started_ within the defined range.
+- Filtering by time frame will include workflow events that _began_ execution within the defined range
+- Using this dropdown, you can select between convenient time ranges, or specify a custom range on the right side
 
-Using this dropdown, you can select between convenient time ranges, or specify a custom range on the right side.
-
-![How to filter events by a timerange](https://res.cloudinary.com/pipedreamin/image/upload/v1683747452/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.37.01_2x_oxb07m.png)
-
-<Callout type="info" emoji="ℹ️">
-Long running workflows
-
-The time range filter depends on when the execution event first started. If a long running workflow starts within the specified time range but it's execution continues _past_ the filtered timeframe, it will still be included in the results.
-</Callout>
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1683747452/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.37.01_2x_oxb07m.png" alt="How to filter events by a timerange" width={500} height={500} />
 
 ### Filtering by workflow
 
@@ -72,22 +66,26 @@ Alternatively, you can filter by workflow from a specific event. First, open the
 
 ## Inspecting events
 
-Clicking on an individual event will open a panel that displays the steps executed, their individual configurations, as well as the overall performance and results of the entire workflow.
-
-At this time it is not possible to edit the workflow with the selected event history. Only events shown in the [event inspector](/workflows/events/inspect/#the-inspector) can be choosen for the workflow builder.
-
-The top of the event history details will display details including the overall status of that particular event execution and errors if any.
-
-If there is an error message, the link at the bottom of the error message will link to the corresponding workflow step that threw the error.
+- Clicking on an individual event will open a panel that displays the steps executed, their individual configurations, as well as the overall performance and results of the entire workflow.
+- The top of the event history details will display details including the overall status of that particular event execution and errors if any.
+- If there is an error message, the link at the bottom of the error message will link to the corresponding workflow step that threw the error.
+- From here you can easily **Build from event** or **Replay event**
 
 ![Viewing individual event executions](https://res.cloudinary.com/pipedreamin/image/upload/v1683748495/docs/docs/event%20histories/CleanShot_2023-05-10_at_15.53.44_2x_t30gsb.png)
 
-<Callout type="warning" emoji="⚠">
-The event log is missing a workflow step, or the configuration is not what I expect
+## Bulk actions
+You can select multiple events and perform bulk actions on them.
 
-Changing a workflow _after_ a particular event's execution will not update it's event history with that new workflow change.
+- **Replay**: Replays the selected events. This is useful for example when you have multiple errored events that you want to execute again after fixing a bug in your workflow.
+- **Delete**: Deletes the selected events. This may be useful if you have certain events you want to scrub from the event history, or when you've successfully replayed events that had originally errored.
 
-You'll need to replay an event to execute the workflow with the latest changes.
+<ArcadeEmbed
+    src="https://demo.arcade.software/eLd2F3KJ1YFEj0ARi0Vq?embed"
+    title="Bulk replay">
+</ArcadeEmbed>
+
+<Callout type="info">
+When you replay multiple events at once, they'll be replayed in the order they were originally executed. This means the first event that came in will be replayed first, followed by the second, and so on.
 </Callout>
 
 ## Limits
@@ -96,6 +94,6 @@ The number of events recorded and available for viewing in the Event History dep
 
 ## Frequently asked questions
 
-### Are event histories available on all plans?
+### Is Event History available on all plans?
 
 Yes, event history is available for all workspace plans, including free plans. However, the length of searchable or viewable history changes depending on your plan. [Please see the pricing page](https://pipedream.com/pricing) for more details.
