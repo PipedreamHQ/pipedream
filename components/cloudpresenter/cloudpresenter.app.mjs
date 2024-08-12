@@ -113,7 +113,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.api_base_url}/v1`;
+      return "https://api2.cloudpresenter.com/v1";
     },
     _makeRequest(opts = {}) {
       const {
