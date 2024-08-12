@@ -41,9 +41,11 @@ class BrowserClient {
 
   startConnect(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
+      console.log("START CONNECT ON MESSAGE", e)
       switch (e.data?.type) {
         case "verify-domain":
           // The Application should respond with it's domain to the iframe for security
+          console.log("Sending Response to", e.origin)
           e.source?.postMessage(
             { type: "domain-response", origin: window.origin }, { targetOrigin: e.origin }
           )
@@ -64,7 +66,7 @@ class BrowserClient {
           window.removeEventListener("message", onMessage)
           break;
         default:
-          console.error('Unknown Connect Event type', e)
+          console.info('Unknown Connect Event type', e)
           break;
       }
     };
