@@ -1014,7 +1014,10 @@ importers:
       '@pipedream/platform': 0.10.0
 
   components/blogify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/bloom_growth:
     specifiers:
