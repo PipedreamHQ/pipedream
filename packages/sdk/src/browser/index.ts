@@ -101,6 +101,7 @@ class BrowserClient {
       }
       throw err;
     }
+    qp.set("iframeId", this.iframeId.toString());
 
     const iframe = document.createElement("iframe");
     iframe.id = `pipedream-connect-iframe-${this.iframeId++}`;
