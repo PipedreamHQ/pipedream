@@ -99,6 +99,10 @@ export default {
       resourceType: "contacts",
     });
     const contact = contacts.find(({ uuid }) => uuid === this.contactId);
+    contact.tags = contact?.tags
+      ? contact.tags.map(({ id }) => id)
+      : [];
+
     const response = await this.cloudpresenter.updateContact({
       $,
       contactId: this.contactId,

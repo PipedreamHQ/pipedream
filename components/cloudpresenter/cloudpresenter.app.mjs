@@ -26,7 +26,7 @@ export default {
       },
     },
     tagIds: {
-      type: "string",
+      type: "string[]",
       label: "Tag IDs",
       description: "Unique identifiers for the tags to associate with the contact",
       optional: true,
@@ -36,11 +36,8 @@ export default {
             page: page + 1,
           },
         });
-        if (!data?.tags) {
-          return [];
-        }
-        return data.tags.data?.map(({
-          id: value, name: label,
+        return data?.map(({
+          id: value, tag_name: label,
         }) => ({
           value,
           label,

@@ -96,7 +96,7 @@ export default {
           city: this.city || null,
           state: this.state || null,
           country: this.country || null,
-          phone: this.phone || null,
+          phone_number: this.phone || null,
           tags: this.tagIds || null,
           custom_fields: parseCustomFields(this.customFields),
         },
