@@ -5,8 +5,8 @@ import constants from "../common/constants.mjs";
 export default {
   ...common,
   key: "github-new-issue-with-status",
-  name: "New Issue with Status (Projects V2)",
-  description: "Emit new event when a project issue is tagged with a specific status. Currently supports Organization Projects only. [More information here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project)",
+  name: "Project Item Status Changed",
+  description: "Emit new event when a project item is tagged with a specific status. Currently supports Organization Projects only. [More information here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project)",
   version: "0.1.0",
   type: "source",
   dedupe: "unique",
@@ -60,15 +60,11 @@ export default {
       let isRelevant = true;
       let message = "";
       const {
-        type,
         isArchived,
         fieldValueByName: { optionId },
       } = item;
 
-      if (type !== constants.ISSUE_TYPE) {
-        message = `Not an issue: ${type}. Skipping...`;
-        isRelevant = false;
-      } else if (isArchived) {
+      if (isArchived) {
         message = "Issue is archived. Skipping...";
         isRelevant = false;
       } else if (this.status?.length && !this.status.includes(optionId)) {
