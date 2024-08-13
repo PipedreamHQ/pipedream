@@ -1,24 +1,27 @@
-import app from "../../remote_retriever.app.mjs";
+import app from "../../remote_retrieval.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
-  key: "remote_retriever-get-pending-order",
-  name: "Get Pending Order",
+  key: "remote_retriever-get-pending-orders",
+  name: "Get Pending Orders",
   description: "Retrieve a list of the orders for which the payment process has not been completed.[See the documentation](https://www.remoteretrieval.com/api-documentation/#pending-orders)",
   type: "action",
-  version: "0.1.0",
+  version: "0.0.1",
   props: {
     app,
   },
-  methods: {
-  },
-  async run({ $: step }) {
-    const { getPendingOrder } = this;
-    const response = await this.app.getPendingOrder({
-      step,
+  methods: {},
+  async run({ $ }) {
+    const results = this.app.getResourcesStream({
+      resourceFn: this.app.getPendingOrders,
+      resourceFnArgs: {
+        $,
+      },
     });
+    const orders = await utils.streamIterator(results);
 
-    step.export("$summary", `Successfully retrieved ${response.length} order(s).`);
+    $.export("$summary", `Successfully retrieved ${orders.length} pending order(s).`);
 
-    return response;
+    return orders;
   },
 };

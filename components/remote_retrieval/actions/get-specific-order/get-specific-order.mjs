@@ -1,11 +1,11 @@
-import app from "../../remote_retriever.app.mjs";
+import app from "../../remote_retrieval.app.mjs";
 
 export default {
   key: "remote_retrieval-get-specific-order",
   name: "Get Specific Order",
   description: "Fetches a single device return order. [See the documentation](https://www.remoteretrieval.com/api-documentation/#order-detail)",
   type: "action",
-  version: "0.1.0",
+  version: "0.0.1",
   props: {
     app,
     oid: {
@@ -15,27 +15,14 @@ export default {
       ],
     },
   },
-  methods: {
-    getOrder({
-      oid, ...args
-    } = {}) {
-      return this.app.makeRequest({
-        path: `/device_returns?oid=${oid}/`,
-        ...args,
-      });
-    },
-  },
-  async run({ $: step }) {
-    const {
-      getOrder,
-      oid,
-    } = this;
-    const response = await getOrder({
-      step,
+  async run({ $ }) {
+    const { oid } = this;
+    const response = await this.app.getOrder({
+      $,
       oid,
     });
 
-    step.export("$summary", `Successfully retrieved order with ID \`${response.id}\`.`);
+    $.export("$summary", `Successfully retrieved order with ID \`${this.oid}\`.`);
 
     return response;
   },

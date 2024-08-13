@@ -6,15 +6,6 @@ async function streamIterator(stream) {
   return resources;
 }
 
-function getParamFromUrl(url, key = "page") {
-  if (!url) {
-    return null;
-  }
-  const parsedUrl = new URL(url);
-  return parsedUrl.searchParams.get(key);
-}
-
 export default {
   streamIterator,
-  getParamFromUrl,
 };
