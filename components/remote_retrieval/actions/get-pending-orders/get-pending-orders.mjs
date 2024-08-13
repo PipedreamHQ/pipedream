@@ -2,7 +2,7 @@ import app from "../../remote_retrieval.app.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
-  key: "remote_retriever-get-pending-orders",
+  key: "remote_retrieval-get-pending-orders",
   name: "Get Pending Orders",
   description: "Retrieve a list of the orders for which the payment process has not been completed.[See the documentation](https://www.remoteretrieval.com/api-documentation/#pending-orders)",
   type: "action",
