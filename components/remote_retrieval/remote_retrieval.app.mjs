@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import utils from "./common/utils.mjs";
+// import utils from "./common/utils.mjs";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -10,35 +10,6 @@ export default {
       type: "string",
       label: "Order ID",
       description: "The ID of the order to retrieve.",
-      async options({ prevContext }) {
-        const { page } = prevContext;
-        if (page === null) {
-          return [];
-        }
-
-        const {
-          next,
-          results: orders,
-        } = await this.pendingOrders({
-          params: {
-            page,
-          },
-        });
-
-        const options = orders.map(({
-          id: value, employee_info: { name: label },
-        }) => ({
-          label,
-          value,
-        }));
-
-        return {
-          options,
-          context: {
-            page: utils.getParamFromUrl(next),
-          },
-        };
-      },
     },
   },
   methods: {
@@ -84,50 +55,5 @@ export default {
         ...args,
       });
     },
-
-    async *getResourcesStream({
-      resourceFn,
-      resourceFnArgs,
-      resourceName,
-      max = constants.DEFAULT_MAX,
-    }) {
-      let page;
-      let resourcesCount = 0;
-
-      while (true) {
-        const response =
-          await resourceFn({
-            ...resourceFnArgs,
-            params: {
-              page,
-              ...resourceFnArgs?.params,
-            },
-          });
-
-        const nextResources = resourceName && response[resourceName] || response;
-
-        if (!nextResources?.length) {
-          console.log("No more resources found");
-          return;
-        }
-
-        for (const resource of nextResources) {
-          yield resource;
-          resourcesCount += 1;
-
-          if (resourcesCount >= max) {
-            return;
-          }
-        }
-
-        if (!response.next) {
-          console.log("No next page found");
-          return;
-        }
-
-        page = utils.getParamFromUrl(response.next);
-      }
-    },
-
   },
 };

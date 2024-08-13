@@ -1,11 +1,11 @@
 import app from "../../remote_retriever.app.mjs";
 
 export default {
-  key: "remote_retrieval-get-specificorder",
+  key: "remote_retrieval-get-specific-order",
   name: "Get Specific Order",
   description: "Fetches a single device return order. [See the documentation](https://www.remoteretrieval.com/api-documentation/#order-detail)",
   type: "action",
-  version: "0.0.1",
+  version: "0.1.0",
   props: {
     app,
     oid: {
