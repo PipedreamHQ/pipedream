@@ -1,11 +1,41 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "mails_so",
-  propDefinitions: {},
+  propDefinitions: {
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email to validate",
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.mails.so/v1";
+    },
+    async _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        path,
+        headers,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        url: this._baseUrl() + path,
+        headers: {
+          ...headers,
+          "x-mails-api-key": `${this.$auth.api_key}`,
+        },
+      });
+    },
+    async validateEmail(args = {}) {
+      return this._makeRequest({
+        method: "post",
+        path: "/validate",
+        ...args,
+      });
     },
   },
 };
