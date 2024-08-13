@@ -1,5 +1,3 @@
-import { Buffer } from "buffer"
-
 type CreateServerClientOpts = {
   apiHost?: string;
   environment?: string;
