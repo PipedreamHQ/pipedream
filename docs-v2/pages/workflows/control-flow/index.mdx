@@ -32,11 +32,11 @@ The execution path represents the specific steps (and the order of steps) that r
 
 - Simple linear workflows are executed from top to bottom — every step is in the execution path.
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/9d80a89d-395b-473f-98a9-764f23740777/Untitled.png)
+    ![Linear workflow](./images/execution_path_a_linear.png)
     
 - With the introduction of non-linear workflows, steps may or may not be executed depending on the rules configured for control flow operators and the results exported from prior steps.
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/b8582ce4-8e8b-4f30-afcb-bd2ff6dcaf70/Untitled.png)
+    ![Non-linear workflow](./images/execution_path_b_nonlinear.png)
     
     Therefore, we introduced new patterns to signal the execution path and help you build, test and inspect workflows.
     
@@ -45,13 +45,13 @@ The execution path represents the specific steps (and the order of steps) that r
 
 Step borders, backgrounds and connectors now highlight the **executed path** — the steps that are executed on the execution path. If a non-execution path step is tested, it will not be reflected as being on the execution path.
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/1a5c1fe0-4441-492a-be26-be7aa14d420b/Untitled.png)
+![Linear workflow](./images/executed_path.png)
 
 ### Building and Testing in an Unknown or Non-Execution Path
 
 You may add and test steps that are in an unknown or non-execution path. However, Pipedream highlights that the results may not be reliable; the results may not match the outcome if the steps were in a known execution path and may lead to invalid or misleading results. 
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/6ef6cbc0-a932-46b7-9e36-39712de441ca/Untitled.png)
+![Unkonwn execution path](./images/unknown_execution_path.png)
 
 ### Signaling Steps are “Out of Date”
 
@@ -59,12 +59,12 @@ If prior steps in a workflow are modified or retested, Pipedream marks later ste
 
 - If a change is made to a prior step, then the executed path is cleared.
     
-    ![2024-07-21 13.39.18.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/ede1541c-d7a6-409d-b11c-07e1f95749b2/2024-07-21_13.39.18.gif)
+    ![Out of date](./images/out_of_date.gif)
     
 - Steps in the known execution path are immediately marked as stale
 - The state of steps within a conditional blocks are not updated until the path of execution is known. The execution path is known when the start phase is tested and the success branch is identified. At that point, the steps in the known path of execution are marked stale. The test state of steps that are not in the path of execution is preserved.
     
-    ![2024-07-21 13.43.08.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/41ee9042-1246-40e5-b45c-693c6f10d3dc/2024-07-21_13.43.08.gif)
+    ![Change in state](./images/change_in_state.gif)
     
 
 ### Test State vs Execution Path
@@ -73,15 +73,15 @@ Steps may be tested whether or not they are in the execution path. The test stat
 
 - Last test was successful
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/cb10c5ff-3452-403c-bdda-399a9cb5ff6d/Untitled.png)
+    ![Success](./images/state_success.png)
     
 - Results may be stale, step may be untested, etc
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/cfd522b0-588f-417f-abff-c2369e7e0a71/Untitled.png)
+    ![Stale](./images/state_stale.png)
     
 - **Step has an error or is not configured**
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/d741c5b1-abac-4a71-a383-851f0137d0e4/Untitled.png)
+    ![Error](./images/state_error.png)
     
 
 ## Workflow Segments
@@ -92,15 +92,15 @@ Workflow segments are a linear series of steps that with no control flow operato
 
 - A simple linear workflow is composed of a single workflow segment.
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/dc1b59e9-ffa5-4d08-b96f-ee68df42482c/Untitled.png)
+    ![Success](./images/state_success.png)
     
 - When a control flow operator is introduced, then the workflow contains multiple segments. For example, when a Delay operator is added to the simple linear workflow above the workflow goes from 1 to 2 segements.
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/5e53d257-f566-4427-9449-fe9c619b2697/Untitled.png)
+    ![Linear Segment](./images/segment_linear.png)
     
 - The following example using If/Else contains 5 workflow segments. However, since only 1 branch within the If/Else control flow block is run on each workflow execution, the maximum number of segments that will be executed for each trigger event is 3.
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/8a60bc92-877f-475c-b6de-feaee19f8340/Untitled.png)
+    ![Non-Linear Segment](./images/segment_non_linear.png)
     
 
 ### Billing
@@ -110,15 +110,15 @@ Pipedream compiles each workflow segment into an executable function to optimize
 - For example, the two workflow segments below both use a single credit:
     - **Trigger + 1 step workflow segment (1 credit)**
         
-        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/b1fa327f-c8bd-40c8-96d2-db3d6f1400f8/Untitled.png)
+        ![1 credit](./images/billing_1credit_a.png)
         
     - **Trigger + 5 step workflow segment (1 credit)**
         
-        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/5dcf1a4a-b8db-4acd-a136-0f17c641e675/Untitled.png)
+        ![1 credit](./images/billing_1credit_b.png)
         
 - The If/Else example above that contains 5 workflow segments, but only 3 workflow segments in any given execution path will only incur 3 credits of usage per execution.
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/8a60bc92-877f-475c-b6de-feaee19f8340/Untitled.png)
+    ![1 credit](./images/billing_3credits.png)
     
 
 ### Timeout and Memory
@@ -166,23 +166,23 @@ Steps may only reference prior steps in the same workflow segment or it’s dire
 
 When building a workflow with a control flow block, we recommend testing the start phase, followed by steps in the execution path followed by the end phase.
 
-![2024-07-21 20.51.37.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/aee64fdd-c08a-4b10-a062-370b3d2f2531/2024-07-21_20.51.37.gif)
+![Testing](./images/2024-07-21_20.51.37.gif)
 
 For a conditional operator like if/else, we then recommend generating events that trigger alternate conditions and testing those.
 
-![2024-07-21 20.55.09.gif](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/9b5cc1cf-7c92-457d-9053-bf68a0efc999/2024-07-21_20.55.09.gif)
+![Testing](./images/2024-07-21_20.55.09.gif)
 
 #### Passing data to steps in a control flow block
 
 Steps may only reference prior steps in the same workflow segment or it’s direct ancestors. In the following example, `step_c` and `step_d` (within the if/else control flow block) can directly reference any exports from `trigger`, `step_a`, or `step_b` (in the parent/root workflow segment) via the steps object. `step_c` and `step_d` are siblings and cannot reference exports from each other.
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/28a6822a-3007-4940-bbd9-a9357a2c5898/7fa05e87-6a5d-4791-893d-bdfc61013b84.png)
+![Passing data](./images/passing_data.png)
 
 #### Referencing data from steps in a previous block
 
 Steps after the end phase may not directly reference steps within a control flow block (between the start and end phases). E.g., in the following workflow there are two branches:
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/0e94a35e-16c5-45af-9b2a-9ce6b3a96359/Untitled.png)
+![Passing data](./images/referencing_data.png)
 
 In this example, `step_f` is executed after a control flow block. It can directly reference prior steps in the root workflow segment (`trigger`, `step_a` and `step_b` using the `steps` object).
 
@@ -199,7 +199,7 @@ Control flow blocks may be nested within other control flow blocks. E.g.,
 
 There is currently no limit on the number of nested elements.
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/555cb67c-7d79-46b2-b9b7-933b0261566c/Untitled.png)
+![Passing data](./images/nesting.png)
 
 ## Rule Builder
 
@@ -207,25 +207,25 @@ There is currently no limit on the number of nested elements.
 
 Pipedream is introducing a rule builder for comparative operations. The rule builder is currently only supported by the If/Else operator, but it will be extended to other operators including Switch and Filter.
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/c7af496a-79fb-4e01-a9aa-b9be70531900/Untitled.png)
+![Rule builder overview](./images/rule_builder_overview.png)
 
 ### Simple conditions
 
 Compare values using supported operators.
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/7046888b-7a62-4838-86f7-67e803af1e22/Untitled.png)
+![Rule builder simple](./images/rule_builder_simple.png)
 
 ### Combine multiple conditions using AND / OR
 
 Click “Add condition” using the menu on the right to add multiple conditions. Click on AND / OR to toggle the operator.
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/ba863f43-5d78-4332-9d76-a553385b766e/Untitled.png)
+![Rule builder multiple](./images/rule_builder_multiple.png)
 
 ### Test for multiple conditions using Groups
 
 Create and manage groups using the menu options to “Add group”, “Make condition into group”, “Nest group” and “Remove group”.
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/6e16aa4c-a31f-4db8-a947-0d80bcdcf984/5dbe2a87-801f-4541-a4e5-99e62246d00a/Untitled.png)
+![Rule builder groups](./images/rule_builder_groups.png)
 
 ### Supported Operators
 
@@ -234,6 +234,8 @@ Create and manage groups using the menu options to “Add group”, “Make cond
 - String
     - Equals
     - Doesn’t equal
+    - Is blank
+    - Is not blank
     - Starts with
     - Contains
     - Ends with

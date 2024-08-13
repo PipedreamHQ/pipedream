@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Returning an HTTP Response
 
 ## Using the HTTP Response Action
@@ -116,12 +118,28 @@ Workflows may return HTTP responses to trigger events when they are invoked by a
 - Workflow Delay
 - Workflow End (including a workflow ended by a Filter operation)
 
-<aside>
-<img src="/icons/info-alternate_blue.svg" alt="/icons/info-alternate_blue.svg" width="40px" /> Pipedream recommends including the response step as close to the trigger step as possible to minimize latency; the response will be immediately returned by the first HTTP response operator that is executed in a workflow.
+<Callout type="info">
+Pipedream recommends including the response step as close to the trigger step as possible to minimize latency; the response will be immediately returned by the first HTTP response operator that is executed in a workflow.
+</Callout>
 
-</aside>
+<Callout type="info">
+If your workflow contains multiple HTTP response steps, the first response will be returned.
+</Callout>
 
-<aside>
-<img src="/icons/info-alternate_blue.svg" alt="/icons/info-alternate_blue.svg" width="40px" /> If your workflow contains multiple HTTP response steps, the first response will be returned.
+### Return an HTTP response from within a control flow block
 
-</aside>
+You may return an HTTP response from within a control flow block. In the following example, every branch includes a response action (you may also respond in a code step).
+
+![Return response in block](./images/return_response_in_block.png)
+
+### Return an HTTP response after a control flow block
+
+You may return an HTTP response after a control flow block. In the following example, the HTTP response is issued immediately after the control flow block and it may refer to the data exported by the If/Else block.
+
+![Return response after block](./images/return_response_after_block.png)
+
+### Conditionally return an HTTP response
+
+You may conditionally return an HTTP response. In the following example, the `http_trigger` branch returns a response while the `schedule_trigger` branch does not.
+
+![Conditionally return response](./images/return_response_conditional.png)
