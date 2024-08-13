@@ -10413,6 +10413,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/welcome:
+    specifiers: {}
+
   components/wesupply:
     specifiers: {}
 
