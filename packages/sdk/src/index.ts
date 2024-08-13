@@ -11,6 +11,11 @@ export type ConnectTokenCreateOpts = {
   external_id: string;
 };
 
+export type ConnectTokenResponse = {
+  token: string;
+  expires_at: string;
+};
+
 type AccountId = string;
 type AccountKeyFields = {
   externalId: string;
@@ -44,9 +49,8 @@ class ServerClient {
     return `Basic ${encoded}`;
   }
 
-  // XXX move to REST API endpoint
-  async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<string> {
-    const auth = this._authorizationHeader()
+  async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
+    const auth = this._authorizationHeader();
     const resp = await fetch(`${this.baseURL}/v1/connect/tokens`, {
       method: "POST",
       headers: {
@@ -56,9 +60,7 @@ class ServerClient {
       body: JSON.stringify(opts),
     });
 
-    const res = await resp.json();
-    // XXX expose error here
-    return res?.token;
+    return resp.json();
   }
 
   async getAccount(key: AccountKey, opts?: { includeCredentials?: boolean; }) {

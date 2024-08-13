@@ -1,4 +1,5 @@
 type CreateBrowserClientOpts = {
+  publicKey: string;
   environment?: string;
   frontendHost?: string;
 };
@@ -10,7 +11,7 @@ type StartConnectApp = {
 };
 
 type ConnectResult = {
-  // TODO
+  // XXX TO DO
 };
 
 class ConnectError extends Error { }
@@ -27,6 +28,7 @@ export function createClient(opts: CreateBrowserClientOpts) {
 }
 
 class BrowserClient {
+  publicKey: string;
   environment?: string;
   baseURL: string;
   iframeURL: string;
@@ -34,6 +36,7 @@ class BrowserClient {
   iframeId = 0;
 
   constructor(opts: CreateBrowserClientOpts) {
+    this.publicKey = opts.publicKey;
     this.environment = opts.environment;
     this.baseURL = `https://${opts.frontendHost || "pipedream.com"}`;
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
@@ -41,38 +44,46 @@ class BrowserClient {
 
   startConnect(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
-      console.log("CONNECT ON MESSAGE", e)
+      console.log("CONNECT ON MESSAGE", e);
       switch (e.data?.type) {
-        case "verify-domain":
-          // The Application should respond with it's domain to the iframe for security
-          console.log("Sending Response to", e.origin)
-          e.source?.postMessage(
-            { type: "domain-response", origin: window.origin }, { targetOrigin: e.origin }
-          )
-          break;
-        case "success":
-          const { authProvisionId: id, ...rest } = e.data;
-          console.log("SUCCESS!!!", e)
+      case "verify-domain":
+        // The Application should respond with it's domain to the iframe for security
+        console.log("Sending Response to", e.origin);
+        e.source?.postMessage(
+          {
+            type: "domain-response",
+            origin: window.origin,
+          }, {
+            targetOrigin: e.origin,
+          },
+        );
+        break;
+      case "success":
+        // XXX TO DO
+        const {
+          authProvisionId: id, ...rest
+        } = e.data;
+        console.log("SUCCESS!!!", e);
 
-          opts.onSuccess?.({
-            id,
-            ...rest
-          });
-          break;
-        case "error":
-          // Return the error to the parent if there was a problem with the Authorization
-          console.log("ERROR!!!", e)
-          opts.onError?.(new ConnectError(e.data.error))
-          break;
-        case "close":
-          console.log("CLOSE!!!", e)
+        opts.onSuccess?.({
+          id,
+          ...rest,
+        });
+        break;
+      case "error":
+        // Return the error to the parent if there was a problem with the Authorization
+        console.log("ERROR!!!", e);
+        opts.onError?.(new ConnectError(e.data.error));
+        break;
+      case "close":
+        console.log("CLOSE!!!", e);
 
-          this.iframe?.remove()
-          window.removeEventListener("message", onMessage)
-          break;
-        default:
-          console.info('Unknown Connect Event type', e)
-          break;
+        this.iframe?.remove();
+        window.removeEventListener("message", onMessage);
+        break;
+      default:
+        console.info("Unknown Connect Event type", e);
+        break;
       }
     };
     window.addEventListener("message", onMessage);
@@ -82,7 +93,7 @@ class BrowserClient {
     if (this.environment) {
       qp.set("environment", this.environment);
     }
-    qp.set("public_key", process.env.PIPEDREAM_PROJECT_PUBLIC_KEY!!)
+    qp.set("public_key", this.publicKey);
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
     } else {
