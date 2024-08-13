@@ -44,7 +44,6 @@ class BrowserClient {
 
   startConnect(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
-      console.log("CONNECT ON MESSAGE", e)
       switch (e.data?.type) {
         case "verify-domain":
           // The Application should respond with it's domain to the iframe for security
@@ -56,7 +55,6 @@ class BrowserClient {
         case "success":
           const { authProvisionId: id, ...rest } = e.data;
           console.log("SUCCESS!!!", e)
-
           opts.onSuccess?.({
             id,
             ...rest
@@ -69,12 +67,11 @@ class BrowserClient {
           break;
         case "close":
           console.log("CLOSE!!!", e)
-
           this.iframe?.remove()
           window.removeEventListener("message", onMessage)
           break;
         default:
-          console.info('Unknown Connect Event type', e)
+          console.debug('Unknown Connect Event type', e)
           break;
       }
     };
