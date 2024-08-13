@@ -5283,7 +5283,12 @@ importers:
     specifiers: {}
 
   components/llmwhisperer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      fs: 0.0.1-security
 
   components/lmnt:
     specifiers:
