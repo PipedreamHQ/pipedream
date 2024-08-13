@@ -1,6 +1,7 @@
 type CreateBrowserClientOpts = {
   environment?: string;
   frontendHost?: string;
+  publicKey: string;
 };
 
 type AppId = string;
@@ -29,12 +30,14 @@ export function createClient(opts: CreateBrowserClientOpts) {
 class BrowserClient {
   environment?: string;
   baseURL: string;
+  publicKey: string;
   iframeURL: string;
   iframe?: HTMLIFrameElement;
   iframeId = 0;
 
   constructor(opts: CreateBrowserClientOpts) {
     this.environment = opts.environment;
+    this.publicKey = opts.publicKey;
     this.baseURL = `https://${opts.frontendHost || "pipedream.com"}`;
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
   }
@@ -82,7 +85,7 @@ class BrowserClient {
     if (this.environment) {
       qp.set("environment", this.environment);
     }
-    qp.set("public_key", process.env.PIPEDREAM_PROJECT_PUBLIC_KEY!!)
+    qp.set("public_key", this.publicKey || process.env.PIPEDREAM_PROJECT_PUBLIC_KEY!!)
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
     } else {
