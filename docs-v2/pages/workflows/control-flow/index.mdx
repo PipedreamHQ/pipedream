@@ -154,7 +154,7 @@ Steps may only reference prior steps in the same workflow segment or it’s dire
 
 **Blocks** are compound steps that are composed of a **start** and an **end** phase. Blocks may contain one or more workflow segments between the phases.
 
-- Most non-linear control flow operators will be blocks (vs standard steps)
+- Most non-linear control flow operators will be structured as blocks (vs. standard steps)
 - You may add steps or blocks to [workflow segments](https://www.notion.so/Pipedream-3-0-Control-Flow-Preview-feb105a8c7ba41bbbb87028d2eb1e47b?pvs=21) between start and end phases of a block
 - The start and end phases are independently testable
     - The start phase evaluates the rules/configuration for a block; the results may influence the execution path
