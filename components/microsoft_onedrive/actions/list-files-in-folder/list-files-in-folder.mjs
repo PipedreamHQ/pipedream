@@ -29,7 +29,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.httpRequest({
-      url: `/items/${this.folderId}/children?select=folder,name,id`,
+      url: `/items/${this.folderId}/children`,
     });
     const values = this.excludeFolders
       ? response.value.filter(({ folder }) => !folder)

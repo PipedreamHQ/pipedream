@@ -26,7 +26,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.httpRequest({
-      url: `/search(q='${this.name}')?select=folder,name,id`,
+      url: `/search(q='${this.name}')`,
     });
     let values = response.value.filter(
       ({ name }) => name.toLowerCase().includes(this.name.toLowerCase()),
