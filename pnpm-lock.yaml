@@ -10347,6 +10347,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/webling:
+    specifiers: {}
+
   components/webscraper_io:
     specifiers:
       '@pipedream/platform': ^1.4.1
