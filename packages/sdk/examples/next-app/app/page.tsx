@@ -5,11 +5,25 @@ import { useEffect, useState } from "react";
 import { serverConnectTokenCreate, getAppsData } from "./server"
 import { createClient } from "../../../src/browser"
 
+const publicKey = process.env.NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST || "pipedream.com"
 const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_APP_ID
 
 export default function Home() {
-  const pd = createClient({ frontendHost })
+  if (!publicKey) {
+    return (
+      <main className="p-5 flex flex-col gap-2">
+        <div className="flex flex-col gap-2 text-slate-800 pb-4">
+          <div>
+            <p>
+              The <code>NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY</code> variable is not set in your environment. SHOW ME THE CODE TO FIX IT.
+            </p>
+          </div>
+        </div>
+      </main>
+    )
+  }
+  const pd = createClient({ publicKey, frontendHost })
   const [externalUserId, setExternalUserId] = useState<string | null>(null);
   const [githubData, setGithubData] = useState<{ login: string } | null>(null)
   const [token, setToken] = useState<string | null>(null)
@@ -70,12 +84,12 @@ export default function Home() {
       {
         (!oauthAppId || oauthAppId === "oa_") &&
         <div className="flex flex-col gap-2 text-slate-800 pb-4">
-        <div>
-          <p>
-            The <code>NEXT_PUBLIC_PIPEDREAM_APP_ID</code> variable is not set in your environment. See the <code>README</code> in this directory for instructions on how to set it.
-          </p>
+          <div>
+            <p>
+              The <code>NEXT_PUBLIC_PIPEDREAM_APP_ID</code> variable is not set in your environment. SHOW ME THE CODE TO FIX IT.
+            </p>
+          </div>
         </div>
-      </div>
       }
       {
         oauthAppId && externalUserId &&
@@ -84,20 +98,20 @@ export default function Home() {
             <div className="mb-8">
               <p>Refer to the <a href="https://pipedream.com/docs/connect" target="_blank nofollow" className="hover:underline text-blue-600">Pipedream Connect docs</a> for a full walkthrough of how to configure Connect for your site. This example app implements Connect in a Next.js (React) app.</p>
             </div>
-            <p className="mb-8">
-              When your customers connect accounts with Pipedream, you'll pass their unique user ID in your system — whatever you use to identify them. In this example, we generate a random external user ID for you.
-            </p>
-            <p className="mb-8">
+            <div className="mb-8">
+              <p>When your customers connect accounts with Pipedream, you'll pass their unique user ID in your system — whatever you use to identify them. In this example, we generate a random external user ID for you.</p>
+            </div>
+            <div className="mb-8">
               <span className="font-semibold">External User ID:</span>
               <span className="font-mono"> {externalUserId}</span>
-            </p>
-            <p className="mb-8">
-              In <code>server.ts</code>, the app calls <code>serverConnectTokenCreate</code> to create a short-lived token for the user. You'll use that token to initiate app connection requests from your site securely. SEE THE DOCS.
-            </p>
-            <p className="mb-8">
-            <CodePanel
-          language="typescript"
-          code={`import { connectTokenCreate } from "@pipedream/sdk";
+            </div>
+            <div className="mb-8">
+              <p>In <code>server.ts</code>, the app calls <code>serverConnectTokenCreate</code> to create a short-lived token for the user. You'll use that token to initiate app connection requests from your site securely. SEE THE DOCS.</p>
+            </div>
+            <div className="mb-8">
+              <CodePanel
+                language="typescript"
+                code={`import { connectTokenCreate } from "@pipedream/sdk";
 
 const { token, expires_at } = await serverConnectTokenCreate({
   client_name: "My App",
@@ -105,15 +119,15 @@ const { token, expires_at } = await serverConnectTokenCreate({
   external_id: "${externalUserId}",
 })`}
         />
-        </p>
-            <p className="mb-8">
+            </div>
+            <div className="mb-8">
               <span className="font-semibold">Connect Token:</span>
               <span className="font-mono"> {token}</span>
-            </p>
+            </div>
             <p className="mb-8">
               When a user wants to connect an app from your frontend, you'll call <code>pd.startConnect</code> with the token and the OAuth App ID of the app you'd like to connect.
             </p>
-            <p className="mb-8">
+            <div className="mb-8">
               <CodePanel
                 language="typescript"
                 code={`import { startConnect } from "@pipedream/sdk";
@@ -126,11 +140,7 @@ pd.startConnect({
   }
 })`}
               />
-            </p>
-            <p className="mb-8">
-            </p>
-            <p className="mb-8">
-            </p>
+            </div>
             {apn ?
               <div>
                 <p>
