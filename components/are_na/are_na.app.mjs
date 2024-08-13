@@ -52,6 +52,20 @@ export default {
         },
       });
     },
+    getAuthenticatedUser(args = {}) {
+      return this._makeRequest({
+        path: "/me",
+        args,
+      });
+    },
+    search({
+      query, ...args
+    }) {
+      return this._makeRequest({
+        path: `/search?q=${query}`,
+        args,
+      });
+    },
     async createChannel(args = {}) {
       return this._makeRequest({
         method: "post",
