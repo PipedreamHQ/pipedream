@@ -44,7 +44,7 @@ const hooks = {
       ({
         done, value,
       } = await limiter.schedule(() => itemsStream.next()));
-      if (!this.isItemTypeRelevant(value)) {
+      if (value && !this.isItemTypeRelevant(value)) {
         // If the type of the item being processed is not relevant to the
         // event source we want to skip it in order to avoid confusion in
         // terms of the actual payload of the sample events

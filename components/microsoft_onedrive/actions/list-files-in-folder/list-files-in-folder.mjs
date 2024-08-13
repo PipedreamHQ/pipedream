@@ -14,7 +14,7 @@ export default {
         onedrive,
         "folder",
       ],
-      label: "Upload Folder ID",
+      label: "Folder ID",
       description: "The ID of the folder. Use the \"Load More\" button to load subfolders.",
     },
     excludeFolders: {
