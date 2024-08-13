@@ -1,52 +1,67 @@
-import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-find-records",
-  name: "Get Object Records",
+  name: "Find Records",
   description:
-    "Retrieves all records in an object or a record in an object by the given ID or criteria. [API Doc](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
-  version: "0.1.5",
+    "Retrieves selected fields for some or all records of a selected object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
+  version: "0.2.0",
   type: "action",
   props: {
-    salesForceRestApi,
+    salesforce,
     sobjectType: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "objectType",
       ],
+      description: "The type of object to obtain records of.",
     },
-    ids: {
+    fieldsToObtain: {
       propDefinition: [
-        salesForceRestApi,
-        "sobjectId",
+        salesforce,
+        "fieldsToObtain",
         (c) => ({
-          objectType: c.sobjectType,
+          objType: c.sobjectType,
         }),
       ],
-      type: "string[]",
     },
-    fields: {
+    recordIds: {
+      propDefinition: [
+        salesforce,
+        "recordId",
+        (c) => ({
+          objType: c.sobjectType,
+        }),
+      ],
+      label: "Record ID(s)",
       type: "string[]",
-      label: "Fields to get values from",
+      optional: true,
       description:
-        "list of the Salesforce standard object's fields to get values from.",
+        "The record(s) to retrieve. If not specified, all records will be retrieved.",
     },
   },
   async run({ $ }) {
-    const {
+    let {
       sobjectType,
-      fields,
-      ids,
+      recordIds,
+      fieldsToObtain,
     } = this;
-    const response = await this.salesForceRestApi.getRecords(
-      sobjectType, {
-        fields: Array.isArray(fields) && fields.join(",") || fields,
-        ids: Array.isArray(ids) && ids.join(",") || ids,
-      },
-    );
-    if (response) {
-      $.export("$summary", "Record found successfully");
+
+    if (typeof recordIds === "string") recordIds = recordIds.split(",");
+    if (typeof fieldsToObtain === "string") fieldsToObtain = fieldsToObtain.split(",");
+
+    let query = `SELECT ${fieldsToObtain.join(", ")} FROM ${sobjectType}`;
+
+    if (recordIds?.length) {
+      query += ` WHERE Id IN ('${recordIds.join("','")}')`;
     }
-    return response;
+
+    const { records } = await this.salesforce.query({
+      $,
+      query,
+    });
+
+    $.export("$summary", `Sucessfully retrieved ${records.length} records`);
+    return records;
   },
 };

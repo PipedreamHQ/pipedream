@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/jooto",
+  "version": "0.1.0",
+  "description": "Pipedream Jooto Components",
+  "main": "jooto.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jooto"
+  ],
+  "homepage": "https://pipedream.com/apps/jooto",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

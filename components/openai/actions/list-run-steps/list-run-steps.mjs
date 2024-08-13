@@ -4,7 +4,7 @@ export default {
   key: "openai-list-run-steps",
   name: "List Run Steps (Assistants)",
   description: "Returns a list of run steps belonging to a run. [See the documentation](https://platform.openai.com/docs/api-reference/runs/list-run-steps)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     openai,
