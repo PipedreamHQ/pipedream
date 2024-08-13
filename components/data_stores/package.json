@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/data_stores",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Pipedream Data Stores Components",
   "main": "data_stores.app.js",
   "keywords": [

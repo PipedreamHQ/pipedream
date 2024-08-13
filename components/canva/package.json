@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/canva",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Pipedream Canva Components",
   "main": "canva.app.mjs",
   "keywords": [
