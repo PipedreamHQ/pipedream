@@ -13,6 +13,7 @@ export default {
         app,
         "page",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
