@@ -1,47 +1,86 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "are_na",
   propDefinitions: {
-    query: {
+    channelSlug: {
       type: "string",
-      label: "Query",
-      description: "The search query",
+      label: "Channel Slug",
+      description: "Slug of the Channel",
+      async options() {
+        const response = await this.getChannels();
+        const channelsSlugs = response.channels;
+        return channelsSlugs.map(({
+          slug, title,
+        }) => ({
+          value: slug,
+          label: title,
+        }));
+      },
+    },
+    channelTittle: {
+      type: "string",
+      label: "Channel Tittle",
+      description: "Tittle of the Channel",
+    },
+    channelStatus: {
+      type: "string",
+      label: "Channel Status",
+      description: "Status of the Channel",
+      options: constants.CHANNEL_STATUS,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.are.na/v2";
+      return "http://api.are.na/v2";
     },
-    _headers() {
-      return {
-        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-        "user-agent": "@Pipedream/are_na v0.1",
-      };
-    },
-    _makeRequest({
-      $ = this, path = "/", ...opts
-    }) {
+    async _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        path,
+        headers,
+        ...otherOpts
+      } = opts;
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
-        ...opts,
+        ...otherOpts,
+        url: this._baseUrl() + path,
+        headers: {
+          ...headers,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
       });
     },
-    getAuthenticatedUser(args = {}) {
+    async createChannel(args = {}) {
       return this._makeRequest({
-        path: "/me",
-        args,
+        method: "post",
+        path: "/channels",
+        ...args,
       });
     },
-    search({
-      query, ...args
+    async deleteChannel({
+      slug, ...args
     }) {
       return this._makeRequest({
-        path: `/search?q=${query}`,
-        args,
+        method: "delete",
+        path: `/channels/${slug}`,
+        ...args,
+      });
+    },
+    async updateChannel({
+      slug, ...args
+    }) {
+      return this._makeRequest({
+        method: "put",
+        path: `/channels/${slug}`,
+        ...args,
+      });
+    },
+    async getChannels(args = {}) {
+      return this._makeRequest({
+        path: "/search/channels",
+        ...args,
       });
     },
   },
