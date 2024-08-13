@@ -53,6 +53,9 @@ export default {
           formId: this.formId,
           params,
         });
+        if (!data?.length) {
+          return submissions;
+        }
         for (const item of data) {
           const ts = Date.parse(item.created_at);
           if (ts >= lastCreated) {
