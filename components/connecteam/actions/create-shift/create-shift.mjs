@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import connecteam from "../../connecteam.app.mjs";
 
@@ -18,12 +19,12 @@ export default {
     startTime: {
       type: "string",
       label: "Start Time",
-      description: "The start time of the shift in ISO8601 format (YYYY-MM-DDTHH:MM:SSSZ).",
+      description: "The start time of the shift in ISO8601 format (YYYY-MM-DDTHH:MM:SSZ).",
     },
     endTime: {
       type: "string",
       label: "End Time",
-      description: "The end time of the shift in ISO8601 format (YYYY-MM-DDTHH:MM:SSSZ).",
+      description: "The end time of the shift in ISO8601 format (YYYY-MM-DDTHH:MM:SSZ).",
     },
     title: {
       type: "string",
@@ -63,15 +64,15 @@ export default {
       optional: true,
     },
     notes: {
-      type: "object",
+      type: "string[]",
       label: "Notes",
-      description: "Additional notes for the shift. Example `[{\"html\": \"<p>Note example</p>\"}]` [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
+      description: "Additional notes for the shift. HTML is supported. Example `<p>Note example</p>` [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
       optional: true,
     },
     breaks: {
-      type: "object",
+      type: "string[]",
       label: "Breaks",
-      description: "A list of breaks to create for the shift. Example `[{\"name\":\"Break name example\",\"type\":\"paid\",\"startTime\":123456789,\"duration\":123}]` [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
+      description: "A list of stringified objects of breaks to create for the shift. Example `{\"name\":\"Break name example\",\"type\":\"paid\",\"startTime\":123456789,\"duration\":123}` [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post).",
       optional: true,
     },
     isOpenShift: {
@@ -95,39 +96,43 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const {
-      connecteam,
-      schedulerId,
-      startTime,
-      endTime,
-      ...data
-    } = this;
+    try {
+      const {
+        connecteam,
+        schedulerId,
+        startTime,
+        endTime,
+        ...data
+      } = this;
 
-    const response = await connecteam.createShift({
-      $,
-      schedulerId,
-      data: [
-        {
-          ...data,
-          locationData: parseObject(data.locationData),
-          assignedUserIds: data.assignedUserId
-            ? [
-              data.assignedUserId,
-            ]
-            : undefined,
-          startTime: startTime
-            ? Date.parse(new Date(startTime)) / 1000
-            : undefined,
-          endTime: endTime
-            ? Date.parse(new Date(endTime)) / 1000
-            : undefined,
-          notes: parseObject(data.notes),
-          breaks: parseObject(data.breaks),
-        },
-      ],
-    });
+      const response = await connecteam.createShift({
+        $,
+        schedulerId,
+        data: [
+          {
+            ...data,
+            locationData: parseObject(data.locationData),
+            assignedUserIds: data.assignedUserId
+              ? [
+                data.assignedUserId,
+              ]
+              : undefined,
+            startTime: Date.parse(new Date(startTime)) / 1000,
+            endTime: Date.parse(new Date(endTime)) / 1000,
+            notes: parseObject(data.notes)?.map((note) => ({
+              html: note,
+            })),
+            breaks: parseObject(data.breaks),
+          },
+        ],
+      });
 
-    $.export("$summary", `Successfully created shift with ID ${response.data.shifts[0].id}`);
-    return response;
+      $.export("$summary", `Successfully created shift with ID ${response.data.shifts[0].id}`);
+      return response;
+    } catch ({ message }) {
+      const errors = JSON.parse(message);
+      const keys = Object.keys(errors.error);
+      throw new ConfigurationError(errors.error[keys[0]].message);
+    }
   },
 };
