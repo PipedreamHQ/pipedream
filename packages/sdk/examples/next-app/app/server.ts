@@ -7,15 +7,14 @@ import {
 } from "../../../src";
 
 const {
-  NEXT_PUBLIC_PIPEDREAM_APP_ID,
   PIPEDREAM_API_HOST,
   PIPEDREAM_PROJECT_PUBLIC_KEY,
   PIPEDREAM_PROJECT_SECRET_KEY,
   NEXT_PUBLIC_PIPEDREAM_APP_SLUG,
 } = process.env;
 
-if (!NEXT_PUBLIC_PIPEDREAM_APP_ID)
-  throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_ID not set in environment");
+if (!NEXT_PUBLIC_PIPEDREAM_APP_SLUG)
+  throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_SLUG not set in environment");
 if (!PIPEDREAM_PROJECT_PUBLIC_KEY)
   throw new Error("PIPEDREAM_PROJECT_PUBLIC_KEY not set in environment");
 if (!PIPEDREAM_PROJECT_SECRET_KEY)
@@ -43,7 +42,7 @@ export async function getAppsData(externalId: string) {
 }
 
 export async function getGithubData(externalId: string) {
-  if (!NEXT_PUBLIC_PIPEDREAM_APP_ID)
+  if (!NEXT_PUBLIC_PIPEDREAM_APP_SLUG)
     throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_ID not set in environment");
 
   const data = await pd.getAccount({

@@ -10,7 +10,7 @@ type StartConnectApp = {
 };
 
 type ConnectResult = {
-  // XXX TO DO
+  id: string;
 };
 
 class ConnectError extends Error { }
@@ -57,22 +57,15 @@ class BrowserClient {
         }
         break;
       case "success": {
-        const {
-          authProvisionId: id, ...rest
-        } = e.data;
-        console.log("SUCCESS!!!", e);
         opts.onSuccess?.({
-          id,
-          ...rest,
+          id: e.data?.authProvisionId,
         });
         break;
       }
       case "error":
-        console.log("ERROR!!!", e);
         opts.onError?.(new ConnectError(e.data.error));
         break;
       case "close":
-        console.log("CLOSE!!!", e);
         this.iframe?.remove();
         window.removeEventListener("message", onMessage);
         break;

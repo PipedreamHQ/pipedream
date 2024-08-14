@@ -3,6 +3,7 @@ import Prism from "prismjs";
 import "prismjs/themes/prism-okaidia.css";
 import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-bash";
+import DOMPurify from 'dompurify'; 
 
 interface CodePanelProps {
   code: string;
@@ -39,7 +40,7 @@ const CodePanel = ({ code, language }: CodePanelProps) => {
       </div>
       <div className="pt-6 mt-2 overflow-x-auto">
         <pre>
-          <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+          <code dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(highlightedCode) }} />
           <br />
         </pre>
       </div>
