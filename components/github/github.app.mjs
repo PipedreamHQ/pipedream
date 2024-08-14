@@ -432,6 +432,15 @@ export default {
         value,
       });
     },
+    async updateProjectV2ItemPosition({
+      projectId, itemId,
+    }) {
+      return this.graphql(mutations.updateProjectItemPositionMutation, {
+        projectId,
+        itemId,
+        afterId: null,
+      });
+    },
     async getProjectColumns({ project }) {
       return this._client().paginate(`GET /projects/${project}/columns`, {});
     },

@@ -64,6 +64,12 @@ export default {
       type: "string",
       description: "The status to set for the item",
     },
+    moveToTop: {
+      type: "boolean",
+      label: "Move to Top",
+      description: "If true, moves the item to the top of the column instead of the bottom.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -81,7 +87,7 @@ export default {
       project,
     });
 
-    const response = await this.github.updateProjectV2ItemStatus({
+    const response = await github.updateProjectV2ItemStatus({
       projectId,
       itemId: item,
       fieldId,
@@ -89,6 +95,13 @@ export default {
         singleSelectOptionId: status,
       },
     });
+
+    if (this.moveToTop) {
+      await github.updateProjectV2ItemPosition({
+        projectId,
+        itemId: item,
+      });
+    }
 
     $.export("$summary", "Successfully updated item");
     return response.updateProjectV2ItemFieldValue?.projectV2Item;
