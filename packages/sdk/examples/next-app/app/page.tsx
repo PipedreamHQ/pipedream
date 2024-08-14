@@ -9,7 +9,6 @@ const publicKey = process.env.NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST || "pipedream.com"
 const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_APP_ID
 
-// test
 export default function Home() {
   if (!publicKey) {
     return (

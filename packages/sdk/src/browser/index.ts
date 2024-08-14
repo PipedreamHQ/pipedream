@@ -44,17 +44,10 @@ class BrowserClient {
   }
 
   startConnect(opts: StartConnectOpts) {
-    console.log("Parent: ", window.parent);
-    console.log("Top: ", window.top);
-    console.log("Window = top", window === window.top);
-
     const onMessage = (e: MessageEvent) => {
       switch (e.data?.type) {
       case "verify-domain":
-        console.log("Sending Response to", e.origin);
         if (e.origin === this.baseURL && this.iframe?.contentWindow) {
-          console.log("Passed origin check");
-          console.log("iframe", this.iframe?.contentWindow);
           this.iframe.contentWindow.postMessage(
             {
               type: "domain-response",
@@ -110,7 +103,6 @@ class BrowserClient {
       }
       throw err;
     }
-    qp.set("iframeId", this.iframeId.toString());
 
     const iframe = document.createElement("iframe");
     iframe.id = `pipedream-connect-iframe-${this.iframeId++}`;
