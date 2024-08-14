@@ -2,5 +2,6 @@
   "index": "Overview",
   "ifelse": "If/Else",
   "delay": "Delay",
-  "filter": "Filter"
+  "filter": "Filter",
+  "end-workflow": "End Workflow"
 }

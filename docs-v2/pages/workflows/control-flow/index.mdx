@@ -6,19 +6,20 @@ Pipedream is adding powerful control flow operators so you can build and run non
 
 <VideoPlayer title="If/Else Demo" src="https://www.youtube.com/embed/vsgdBV3LG4E?si=jNzZ-JVG8sl92VgR" />
 
-**The If/Else operator is now available in preview.** The following operators are coming soon:
+## Operators
 
-- Switch
-- Parallel
-- Wait for callback
-- Looping
-- Subworkflows
+| Operator | Description |
+| :--- | :--- |
+| [If/Else (beta)](./control-flow/ifelse) | Supports single-path, logical branching orchestration. |
+| [Delay](./control-flow/delay) | Add a delay from 1 millisecond to 1 year before the next step of your workflow proceeds. |
+| [Filter](./control-flow/filter) | Define rules to stop or continue workflow execution. |
+| [End Workflow](./control-flow/end-workflow) | Terminate the workflow prior to the last step. |
 
-In addition, we plan to release new and improved **Filter** and **Delay** operators as well as support for advanced error handling.
+More operators (including parallel and looping) are coming soon.
 
 ## Key Capabilities
 
-- Orchestrate execution of non-linear workflows
+- Orchestrate execution of linear and non-linear workflows
 - Normalize results and continue after a non-linear operation
 - Nest control flow operators for advanced use cases
 - Return HTTP responses during or after most non-linear operations
