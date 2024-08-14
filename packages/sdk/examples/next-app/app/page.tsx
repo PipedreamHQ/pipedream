@@ -41,7 +41,12 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
   const [apn, setAuthProvisionId] = useState<string | null>(null)
 
   const connectApp = (app: string) => {
-    if (!externalUserId || !token) return
+    if (!externalUserId) {
+      throw new Error("External user ID is required.");
+    }
+    if (!token) {
+      throw new Error("Token is required.");
+    }
     setOauthAppId(app)
     pd.startConnect({
       app,
