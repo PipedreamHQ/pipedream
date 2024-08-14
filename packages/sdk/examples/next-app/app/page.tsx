@@ -122,7 +122,6 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
               code={`import { connectTokenCreate } from "@pipedream/sdk";
 
 const { token, expires_at } = await serverConnectTokenCreate({
-  client_name: "My App",
   app_slug: "github",
   oauth_client_id: "oa_abc123",  // Only required for OAuth apps
   external_id: "${externalUserId}",
