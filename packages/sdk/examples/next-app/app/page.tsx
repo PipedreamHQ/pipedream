@@ -7,7 +7,8 @@ import { createClient } from "../../../src/browser"
 
 const publicKey = process.env.NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST || "pipedream.com"
-const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_APP_ID
+const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG // required
+const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_APP_ID // required only for oauth connections
 
 export default function Home() {
   if (!publicKey) {
@@ -21,6 +22,7 @@ export default function Home() {
             <CodePanel
               language="text"
               code={`# Config for the Next.js app
+NEXT_PUBLIC_PIPEDREAM_APP_SLUG=github
 NEXT_PUBLIC_PIPEDREAM_APP_ID=oa_abc123
 
 # Project credentials — used to authenticate with the Pipedream API
@@ -38,11 +40,13 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
   const [token, setToken] = useState<string | null>(null)
   const [expiresAt, setExpiresAt] = useState<string | null>(null)
   const [oa, setOauthAppId] = useState<string | null>(null)
+  const [app, setApp] = useState<string | null>(null)
   const [apn, setAuthProvisionId] = useState<string | null>(null)
 
-  const connectApp = (app: string) => {
+  const connectApp = (app: string, oauthAppId: string) => {
     if (!externalUserId || !token) return
-    setOauthAppId(app)
+    setApp(app)
+    setOauthAppId(oauthAppId)
     pd.startConnect({
       app,
       token,
@@ -53,7 +57,7 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
   }
 
   const connectAccount = async () => {
-    await connectApp(oauthAppId as string)
+    await connectApp(appSlug as string, oauthAppId as string)
   }
 
   useEffect(() => {
@@ -71,9 +75,9 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
       (async () => {
         try {
           const { token, expires_at } = await serverConnectTokenCreate({
-            client_name: "My App",
-            app_id: oauthAppId,
-            external_id: externalUserId,
+            app_slug: appSlug,
+            oauth_client_id: oauthAppId,
+            external_id: externalUserId
           })
           setToken(token)
           setExpiresAt(expires_at)
