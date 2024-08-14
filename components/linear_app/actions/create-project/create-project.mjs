@@ -4,8 +4,8 @@ export default {
   type: "action",
   key: "linear_app-create-project",
   name: "Create Project",
-  description: "Create an project (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#queries-and-mutations)",
-  version: "0.0.1",
+  description: "Create a project (API Key). [See the documentation](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#queries-and-mutations)",
+  version: "0.0.2",
   props: {
     linearApp,
     color: {
@@ -19,7 +19,7 @@ export default {
         linearApp,
         "issueId",
       ],
-      label: "Converted From Issue Id.",
+      label: "Converted From Issue Id",
       description: "The ID of the issue from which that project is created.",
       optional: true,
     },
@@ -89,7 +89,7 @@ export default {
     targetDate: {
       type: "string",
       label: "Target Date",
-      description: "The planned target date of the project in ISO 8601 format.",
+      description: "The planned target date of the project in ISO 8601 format, e.g. `2024-08-12T09:30:00Z`",
       optional: true,
     },
     teamIds: {
