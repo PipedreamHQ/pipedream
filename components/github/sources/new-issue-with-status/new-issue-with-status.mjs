@@ -51,22 +51,22 @@ export default {
       const ts = Date.parse(item.updated_at);
       return {
         id: `${id}-${ts}`,
-        summary: `Item #${id} status changed to "${statusName}"`,
+        summary: `Item #${id} to status "${statusName}"`,
         ts,
       };
     },
-    isRelevant(item, statusName) {
+    isRelevant(event) {
+      const fieldChanged = event.changes?.field_value?.field_name;
+      if (fieldChanged !== "Status") {
+        return;
+      }
+
       let isRelevant = true;
       let message = "";
-      const {
-        isArchived,
-        fieldValueByName: { optionId },
-      } = item;
 
-      if (isArchived) {
-        message = "Item is archived. Skipping...";
-        isRelevant = false;
-      } else if (this.status?.length && !this.status.includes(optionId)) {
+      const statusId = event.changes.field_value.to.id;
+      if (this.status?.length && !this.status.includes(statusId)) {
+        const statusName = event.changes.field_value.to.name;
         message = `Status "${statusName}". Skipping...`;
         isRelevant = false;
       }
@@ -81,22 +81,17 @@ export default {
       return node;
     },
     async processEvent(event) {
-      const item = await this.getProjectItem({
-        nodeId: event.projects_v2_item.node_id,
-      });
+      const item = event.projects_v2_item;
 
-      const statusName = item.fieldValueByName.name;
-
-      if (!this.isRelevant(item, statusName)) {
+      if (!this.isRelevant(event)) {
         return;
       }
 
       console.log(`Emitting item #${item.id}`);
+
+      const statusName = event.changes.field_value.to.name;
       const meta = this.generateMeta(item, statusName);
-      this.$emit({
-        event,
-        item,
-      }, meta);
+      this.$emit(event, meta);
     },
   },
   async run({ body: event }) {
