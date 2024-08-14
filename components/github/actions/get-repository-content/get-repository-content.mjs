@@ -8,7 +8,7 @@ export default {
     Get the content of a file or directory in a specific repository.
     [See docs here](https://docs.github.com/en/rest/repos/contents#get-repository-content)
   `),
-  version: "0.0.15",
+  version: "0.0.16",
   type: "action",
   props: {
     github,
