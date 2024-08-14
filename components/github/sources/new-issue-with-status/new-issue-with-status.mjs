@@ -1,5 +1,6 @@
 import queries from "../../common/queries.mjs";
 import common from "../common/common-webhook-orgs.mjs";
+import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -37,6 +38,14 @@ export default {
           project: c.project,
         }),
       ],
+      optional: true,
+    },
+    itemType: {
+      type: "string[]",
+      label: "Filter Item Type",
+      description: "The item type(s) to emit events or. If not specified, events will be emitted for all item types.",
+      optional: true,
+      options: constants.PROJECT_ITEM_TYPES,
     },
   },
   methods: {
@@ -65,9 +74,14 @@ export default {
       let message = "";
 
       const statusId = event.changes.field_value.to.id;
+      const itemType = event.projects_v2_item.content_type;
+
       if (this.status?.length && !this.status.includes(statusId)) {
         const statusName = event.changes.field_value.to.name;
         message = `Status "${statusName}". Skipping...`;
+        isRelevant = false;
+      } else if (this.itemType?.length && !this.itemType.includes(itemType)) {
+        message = `Item type "${itemType}". Skipping...`;
         isRelevant = false;
       }
 
