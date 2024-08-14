@@ -34,13 +34,11 @@ In the case where you return a Readable stream:
 - The stream must close and be finished reading within your [workflow execution timeout](/limits/#time-per-execution).
 - You cannot return a Readable and use the [`immediate: true`](#returning-a-response-immediately) property of `$.respond`.
 
-## Timing of `$.respond()` execution
+## Returning a response immediately
 
 You may notice some response latency calling workflows that use `$.respond()` from your HTTP client. By default, `$.respond()` is called at the end of your workflow, after all other code is done executing, so it may take some time to issue the response back.
 
 If you need to issue an HTTP response in the middle of a workflow, see the section on [returning a response immediately](#returning-a-response-immediately).
-
-#### Returning a response immediately
 
 You can issue an HTTP response within a workflow, and continue the rest of the workflow execution, by setting the `immediate` property to `true`:
 
