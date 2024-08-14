@@ -62,7 +62,7 @@ If prior steps in a workflow are modified or retested, Pipedream marks later ste
     ![Out of date](./images/out_of_date.gif)
     
 - Steps in the known execution path are immediately marked as stale
-- The state of steps within a conditional blocks are not updated until the path of execution is known. The execution path is known when the start phase is tested and the success branch is identified. At that point, the steps in the known path of execution are marked stale. The test state of steps that are not in the path of execution is preserved.
+- State within conditional blocks is not updated until the start phase is tested and execution path is identified.
     
     ![Change in state](./images/change_in_state.gif)
     
