@@ -105,7 +105,7 @@ export default defineComponent({
 
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Pre-signed GET URLs are short lived.
 
 The `File.toUrl()` will expire after 30 minutes.
@@ -115,7 +115,7 @@ The `File.toUrl()` will expire after 30 minutes.
 
 *Async.* Downloads the file to the local path in the current workflow. If the file doesn't exist, a new one will be created at the path specified.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Only `/tmp` is writable in workflow environments
 
 Only the `/tmp` directory is writable in your workflow's exection environment. So you must download your file to the `/tmp` directory.
@@ -180,7 +180,7 @@ export default defineComponent({
 
 *Async.* Creates a write stream to populate the file with.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Pass the content length if possible
 
 The `contentLength` argument is optional, however we do recommend passing it. Otherwise the entire file will need to be written to the local `/tmp` before it can be uploaded to the File store.
@@ -205,7 +205,7 @@ export default defineComponent({
 
 *Async.* Populates a file's contents from the `ReadableStream`.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Pass the content length if possible
 
 The `contentLength` argument is optional, however we do recommend passing it. Otherwise the entire file will need to be written to the local `/tmp` before it can be uploaded to the File store.
@@ -240,7 +240,7 @@ export default defineComponent({
 })
 ```
 
-<Callout type="error" emoji="🚫">
+<Callout type="error">
 Deleting files is irreversible
 
 It's not possible to restore deleted files. Please take care when deleting files.

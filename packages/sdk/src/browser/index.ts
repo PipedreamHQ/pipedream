@@ -1,4 +1,5 @@
 type CreateBrowserClientOpts = {
+  publicKey: string;
   environment?: string;
   frontendHost?: string;
 };
@@ -10,7 +11,7 @@ type StartConnectApp = {
 };
 
 type ConnectResult = {
-  // TODO
+  // XXX TO DO
 };
 
 class ConnectError extends Error { }
@@ -27,6 +28,7 @@ export function createClient(opts: CreateBrowserClientOpts) {
 }
 
 class BrowserClient {
+  publicKey: string;
   environment?: string;
   baseURL: string;
   iframeURL: string;
@@ -34,40 +36,55 @@ class BrowserClient {
   iframeId = 0;
 
   constructor(opts: CreateBrowserClientOpts) {
+    this.publicKey = opts.publicKey;
     this.environment = opts.environment;
-    this.baseURL = `https://${opts.frontendHost || "pipedream.com"}`;
+    this.publicKey = opts.publicKey;
+    this.baseURL = `https://${opts.frontendHost || "https://pipedream.com"}`;
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
   }
 
   startConnect(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
       switch (e.data?.type) {
-        case "verify-domain":
-          // The Application should respond with it's domain to the iframe for security
-          e.source?.postMessage(
-            { type: "domain-response", origin: window.origin }, { targetOrigin: e.origin }
-          )
-          break;
-        case "success":
-          const { authProvisionId: id, ...rest } = e.data;
-          opts.onSuccess?.({
-            id,
-            ...rest
-          });
-          break;
-        case "error":
-          // Return the error to the parent if there was a problem with the Authorization
-          opts.onError?.(new ConnectError(e.data.error))
-          break;
-        case "close":
-          this.iframe?.remove()
-          window.removeEventListener("message", onMessage)
-          break;
-        default:
-          console.error('Unknown Connect Event type', e)
-          break;
+      case "verify-domain":
+        if (e.origin === this.baseURL && this.iframe?.contentWindow) {
+          this.iframe.contentWindow.postMessage(
+            {
+              type: "domain-response",
+              origin: window.origin,
+            }, {
+              targetOrigin: e.origin,
+            },
+          );
+        } else {
+          console.warn("Untrusted origin or iframe not ready:", e.origin);
+        }
+        break;
+      case "success":
+        const {
+          authProvisionId: id, ...rest
+        } = e.data;
+        console.log("SUCCESS!!!", e);
+        opts.onSuccess?.({
+          id,
+          ...rest,
+        });
+        break;
+      case "error":
+        console.log("ERROR!!!", e);
+        opts.onError?.(new ConnectError(e.data.error));
+        break;
+      case "close":
+        console.log("CLOSE!!!", e);
+        this.iframe?.remove();
+        window.removeEventListener("message", onMessage);
+        break;
+      default:
+        console.debug("Unknown Connect Event type", e);
+        break;
       }
     };
+
     window.addEventListener("message", onMessage);
 
     const qp = new URLSearchParams();
@@ -75,7 +92,7 @@ class BrowserClient {
     if (this.environment) {
       qp.set("environment", this.environment);
     }
-    qp.set("public_key", process.env.PIPEDREAM_PROJECT_PUBLIC_KEY!!)
+    qp.set("public_key", this.publicKey);
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
     } else {
@@ -97,7 +114,11 @@ class BrowserClient {
     );
     iframe.setAttribute("height", "100%");
     iframe.setAttribute("width", "100%");
+
+    iframe.onload = () => {
+      this.iframe = iframe;
+    };
+
     document.body.appendChild(iframe);
-    this.iframe = iframe;
   }
 }

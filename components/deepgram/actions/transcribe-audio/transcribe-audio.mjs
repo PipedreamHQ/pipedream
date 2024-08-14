@@ -6,7 +6,7 @@ export default {
   key: "deepgram-transcribe-audio",
   name: "Transcribe Audio",
   description: "Transcribes the specified audio file. [See the documentation](https://developers.deepgram.com/api-reference/transcription/#transcribe-pre-recorded-audio)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     deepgram,
@@ -51,7 +51,7 @@ export default {
       type: "boolean",
       label: "Detect Language",
       description: "Indicates whether to detect the language of the provided audio",
-      optional: true,
+      default: true,
     },
     punctuate: {
       type: "boolean",
@@ -86,8 +86,8 @@ export default {
     smartFormat: {
       type: "boolean",
       label: "Smart Format",
-      description: "Indicates whether to apply formatting to transcript output",
-      optional: true,
+      description: "Applies additional formatting to transcripts to optimize them for human readability.",
+      default: true,
     },
     multiChannel: {
       type: "boolean",

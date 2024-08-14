@@ -5,10 +5,17 @@ export default {
   key: "salesforce_rest_api-convert-soap-xml-to-json",
   name: "Convert SOAP XML Object to JSON",
   description: "Converts a SOAP XML Object received from Salesforce to JSON",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     salesforce_rest_api,
+    infoBox: {
+      type: "alert",
+      alertType: "info",
+      content: `This action is useful in conjunction with Salesforce Flow Builder, and is primarily used if Instant triggers are not working for your use case.
+\\
+[See the documentation](https://pipedream.com/apps/salesforce-rest-api#troubleshooting) for more details.`,
+    },
     xml: {
       type: "string",
       label: "XML Soap Object",
@@ -17,14 +24,14 @@ export default {
     extractNotificationOnly: {
       type: "boolean",
       label: "Extract Notifications Only",
-      description: "Extracts only the notification parts from the XML. Default: `true`.",
+      description: "Whether to extract only the notification parts from the XML. Default: `true`.",
       optional: true,
       default: true,
     },
     failOnError: {
       type: "boolean",
       label: "Fail on Error",
-      description: "If should fail on error when extracting notifications. Default: `false`.",
+      description: "Whether the action should fail if an error occurs when extracting notifications. Default: `false`.",
       optional: true,
       default: false,
     },
@@ -44,6 +51,7 @@ export default {
     try {
       const notifications = json.elements[0].elements[0].elements[0].elements
         .filter(({ name }) => name === "Notification");
+      $.export("$summary", "Successfully converted to JSON and extracted notifications");
       return {
         notifications,
       };

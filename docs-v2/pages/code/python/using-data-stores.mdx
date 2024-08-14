@@ -58,6 +58,12 @@ def handler(pd: "pipedream"):
     print(*keys, sep=",")
 ```
 
+<Callout type="warning">
+The `datastore.keys()` method does not return a list, but instead it returns a `Keys` iterable object. You cannot export a `data_store` or `data_store.keys()` from a Python code step at this time.
+
+Instead, build a dictionary or list when using the `data_store.keys()` method.
+</Callout>
+
 ## Checking for the existence of specific keys
 
 If you need to check whether a specific `key` exists in a data store, use `if` and `in` as a conditional:
@@ -76,7 +82,7 @@ def handler(pd: "pipedream"):
 
 Data stores are very performant at retrieving single records by keys. However you can also use key iteration to retrieve all records within a Data Store as well.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Data stores are intended to be a fast and convienent data storage option for quickly adding data storage capability to your workflows without adding another database dependency.
 
 However, if you need more advanced querying capabilities for querying records with nested dictionaries or filtering based on a record value - consider using a full fledged database. Pipedream can integrate with MySQL, Postgres, DynamoDb, MongoDB and more.
@@ -112,7 +118,7 @@ def handler(pd: "pipedream"):
     print(f"Last ran at {last_ran_at}")
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 What's the difference between `data_store["key"]` and `data_store.get("key")`?
 
 - `data_store["key"]` will throw a `TypeError` if the key doesn't exist in the data store.
@@ -122,31 +128,18 @@ What's the difference between `data_store["key"]` and `data_store.get("key")`?
 
 ### Retrieving all records
 
-You can retrieve all records within a data store by iterating over all keys within the data store.
-
-For example, use the `data_store.keys()` method to retrieve all keys, then iterate over each to build a dictionary of records:
+You can retrieve all records within a data store by using an async iterator:
 
 ```python
 def handler(pd: "pipedream"):
-    data_store = pd.inputs['data_store']
-
+    data_store = pd.inputs["data_store"]
     records = {}
-    keys = data_store.keys()
-
-    # iterate through all keys within the Data Store to generate a new dictionary
-    for key in keys:
-      records[key] = data_store[key]
-
+    for k,v in data_store.items():
+        records[k] = v
     return records
 ```
 
 This code step example exports all records within the data store as a dictionary.
-
-<Callout type="warning" emoji="⚠">
-The `datastore.keys()` method does not return a list, but instead it returns a `Keys` iterable object. You cannot export a `data_store` or `data_store.keys()` from a Python code step at this time.
-
-Instead build a dictionary or list using the `data_store.keys()` method.
-</Callout>
 
 ## Deleting or updating values within a record
 
@@ -233,7 +226,7 @@ def handler(pd: "pipedream"):
     data_store.clear()
 ```
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 `data_store.clear()` is an **irreversible** change, **even when testing code** in the workflow builder.
 </Callout>
 
@@ -303,9 +296,3 @@ Data stores can hold any JSON-serializable data within the storage limits. This 
 - Floats
 
 But you cannot serialize Modules, Functions, Classes, or other more complex objects.
-
-### Querying records
-
-You can retrieve up to {process.env.DATA_STORES_MAX_KEYS} records within a single query.
-
-The `pd.inputs["data_store"].keys()` function allow you to retrieve all keys from your data store. However, using this method with a data store with over {process.env.DATA_STORES_MAX_KEYS} keys will result in a 426 error.

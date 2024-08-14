@@ -1,10 +1,13 @@
-import common from "../common/checklist-item-props.mjs";
+import common from "../common/task-props.mjs";
+import builder from "../../common/builder.mjs";
+import propsFragments from "../../common/props-fragments.mjs";
 
 export default {
+  ...common,
   key: "clickup-update-checklist-item",
   name: "Update Checklist Item",
   description: "Updates item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists / Edit Checklist Item** section.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -31,22 +34,29 @@ export default {
       type: "boolean",
       optional: true,
     },
-    parent: {
-      label: "Checklist Parent",
-      description: "Set another checklist item as parent",
+    listWithFolder: {
       propDefinition: [
         common.props.clickup,
-        "checklistItems",
-        (c) => ({
-          taskId: c.taskId,
-          checklistId: c.checklistId,
-          useCustomTaskIds: c.useCustomTaskIds,
-          authorizedTeamId: c.authorizedTeamId,
-        }),
+        "listWithFolder",
       ],
-      optional: true,
     },
   },
+  additionalProps: builder.buildListProps({
+    tailProps: {
+      taskId: {
+        ...propsFragments.taskId,
+        description: "To show options please select a **List** first",
+      },
+      checklistId: propsFragments.checklistId,
+      checklistItemId: propsFragments.checklistItemId,
+      parent: {
+        ...propsFragments.checklistItemId,
+        label: "Checklist Parent",
+        description: "Set another checklist item as parent",
+        optional: true,
+      },
+    },
+  }),
   async run({ $ }) {
     const {
       checklistId,

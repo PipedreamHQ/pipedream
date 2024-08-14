@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dropinblog",
+  "version": "0.0.1",
+  "description": "Pipedream DropInBlog Components",
+  "main": "dropinblog.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dropinblog"
+  ],
+  "homepage": "https://pipedream.com/apps/dropinblog",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -29,10 +29,21 @@ Prepared statements let you safely execute SQL queries with dynamic inputs that 
 To reference dynamic data in a SQL query, simply use the standard `{{ }}` notation just like any other code step in Pipedream. For example,
 
 ```sql
-SELECT *
-  FROM products
-  WHERE type = {{steps.get_product_info.$return_value}}
+select *
+  from products
+  where name = {{steps.get_product_info.$return_value.name}}
+  and created_at > {{steps.get_product_info.$return_value.created_at}}
 ```
+
+**Prepared statement:**
+![Prepared statement](https://res.cloudinary.com/pipedreamin/image/upload/v1722568229/prepared-statement_lh1cat.png)
+
+**Computed statement:**
+![Computed statement](https://res.cloudinary.com/pipedreamin/image/upload/v1722568229/computed-statement_pth31z.png)
+
+<Callout type="info">
+When you include step references in your SQL query, Pipedream automatically converts your query to a prepared statement using placeholders with an array of params.
+</Callout>
 
 Below your query input, you can toggle between the computed and prepared statements:
 
