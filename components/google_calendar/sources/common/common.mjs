@@ -50,7 +50,7 @@ export default {
       const config = this.getConfig(intervalData);
       const resp = await this.googleCalendar.listEvents(config);
 
-      const events = resp?.data?.items;
+      const events = resp?.data?.items || resp?.items;
       if (!Array.isArray(events)) {
         console.log("nothing to emit");
         return;
