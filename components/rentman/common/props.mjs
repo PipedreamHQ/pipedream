@@ -412,7 +412,7 @@ export const ADDITIONAL_PROPS = {
     recurrenceIntervalUnit: {
       type: "string",
       label: "Recurrence Interval Unit",
-      description: "The type od the recurrene",
+      description: "The type od the recurrence",
       options: RECURRENCE_UNIT_OPTIONS,
       optional: true,
     },
