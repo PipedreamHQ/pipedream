@@ -43,6 +43,8 @@ export async function getAppsData(externalId: string) {
 }
 
 export async function getGithubData(externalId: string) {
+  if (!NEXT_PUBLIC_PIPEDREAM_APP_ID)
+    throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_ID not set in environment");
 
   const data = await pd.getAccount({
     appId: NEXT_PUBLIC_PIPEDREAM_APP_SLUG ?? "",
