@@ -78,7 +78,7 @@ export default function Home() {
   return (
     <main className="p-5 flex flex-col gap-2 max-w-5xl">
       {
-        (!oauthAppId || oauthAppId === "oa_") &&
+        (!appSlug) &&
         <div className="flex flex-col gap-2 text-slate-800 pb-4">
           <div>
             <p>
@@ -87,17 +87,20 @@ export default function Home() {
             <CodePanel
               language="plaintext"
               code={`# Config for the Next.js app
+# Key based apps only require the app_slug value. OAuth apps require both.
+NEXT_PUBLIC_PIPEDREAM_APP_SLUG=github
 NEXT_PUBLIC_PIPEDREAM_APP_ID=oa_abc123
 
-# Project credentials — used to authenticate with the Pipedream API
-NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY=pub_abc123
+# Project credentials — used to authenticate with the Pipedream API.
+# These are scoped to the server-side only.
+PIPEDREAM_PROJECT_PUBLIC_KEY=pub_abc123
 PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
             />
           </div>
         </div>
       }
       {
-        oauthAppId && externalUserId &&
+        appSlug && externalUserId &&
         <div>
           <h1 className="text-2xl font-bold mb-8">Pipedream Connect Example App</h1>
           <div className="mb-8">
@@ -120,7 +123,8 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
 
 const { token, expires_at } = await serverConnectTokenCreate({
   client_name: "My App",
-  app_id: "YOUR_APP_ID",
+  app_slug: "github",
+  oauth_client_id: "oa_abc123",  // Only required for OAuth apps
   external_id: "${externalUserId}",
 })`}
             />
