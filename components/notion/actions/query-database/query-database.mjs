@@ -5,7 +5,7 @@ export default {
   key: "notion-query-database",
   name: "Query Database",
   description: "Query a database. [See the docs](https://developers.notion.com/reference/post-database-query)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     notion,
