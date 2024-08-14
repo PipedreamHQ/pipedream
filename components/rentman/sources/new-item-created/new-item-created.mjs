@@ -1,78 +1,40 @@
-import { axios } from "@pipedream/platform";
-import rentman from "../../rentman.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "rentman-new-item-created",
   name: "New Item Created",
-  description: "Emit new event when an item is created. [See the documentation](https://api.rentman.net/)",
+  description: "Emit new event when an item is created.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    rentman,
-    db: "$.service.db",
+    ...common.props,
     itemType: {
       propDefinition: [
-        rentman,
+        common.props.rentman,
         "itemType",
       ],
     },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-  },
-  hooks: {
-    async deploy() {
-      const items = await this.getItems();
-      for (const item of items.slice(0, 50)) {
-        this.emitEvent(item);
-      }
-    },
-    async activate() {
-      // Implement webhook subscription logic if available
-    },
-    async deactivate() {
-      // Implement webhook unsubscription logic if available
-    },
   },
   methods: {
-    _getLastCreatedId() {
-      return this.db.get("lastCreatedId") || null;
+    ...common.methods,
+    getDateField() {
+      return "created";
     },
-    _setLastCreatedId(id) {
-      this.db.set("lastCreatedId", id);
+    getFunction() {
+      return this.rentman.listItems.bind(null, this.itemType);
     },
-    async getItems() {
-      const itemType = this.itemType;
-      const lastCreatedId = this._getLastCreatedId();
-      const path = `/items/${itemType}`;
-      const params = lastCreatedId
-        ? {
-          since_id: lastCreatedId,
-        }
-        : {};
-      return this.rentman._makeRequest({
-        method: "GET",
-        path,
-        params,
-      });
+    getParams({ lastDate }) {
+      return {
+        "created[gt]": lastDate,
+        "sort": "-created",
+      };
     },
-    emitEvent(item) {
-      this.$emit(item, {
-        id: item.id,
-        summary: `New ${this.itemType} created: ${item.name}`,
-        ts: Date.parse(item.created_at),
-      });
+    getSummary(item) {
+      return `New ${this.itemType} created: ${item.displayName}`;
     },
   },
-  async run() {
-    const items = await this.getItems();
-    if (items.length > 0) {
-      items.forEach((item) => this.emitEvent(item));
-      this._setLastCreatedId(items[0].id);
-    }
-  },
+  sampleEmit,
 };

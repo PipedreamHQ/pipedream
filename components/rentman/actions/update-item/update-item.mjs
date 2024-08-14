@@ -1,11 +1,14 @@
+import {
+  ADDITIONAL_PROPS, ADDITIONAL_PROPS_SEARCH,
+} from "../../common/props.mjs";
+import { snakeCaseData } from "../../common/utils.mjs";
 import rentman from "../../rentman.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "rentman-update-item",
   name: "Update Rentman Item",
   description: "Updates the details of an existing item based on its type. [See the documentation](https://api.rentman.net)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     rentman,
@@ -14,45 +17,37 @@ export default {
         rentman,
         "itemType",
       ],
+      reloadProps: true,
     },
-    itemId: {
-      propDefinition: [
-        rentman,
-        "itemId",
-      ],
-    },
-    appointmentDetails: {
-      propDefinition: [
-        rentman,
-        "appointmentDetails",
-      ],
-      optional: true,
-    },
-    // Add other item type specific prop definitions here
+  },
+  async additionalProps() {
+    if (this.itemType) {
+      const item = ADDITIONAL_PROPS_SEARCH[this.itemType];
+      return {
+        itemId: {
+          ...item,
+          description: `${item.description} to update.`,
+        },
+        ...ADDITIONAL_PROPS[this.itemType],
+      };
+    }
   },
   async run({ $ }) {
-    const data = {};
+    const {
+      rentman,
+      itemType,
+      itemId,
+      ...data
+    } = this;
 
-    if (this.itemType === "appointment" && this.appointmentDetails) {
-      data.name = this.appointmentDetails.name;
-      data.start = this.appointmentDetails.start;
-      data.end = this.appointmentDetails.end;
-      data.color = this.appointmentDetails.color;
-      data.location = this.appointmentDetails.location;
-      data.remark = this.appointmentDetails.remark;
-      data.isPublic = this.appointmentDetails.isPublic;
-      data.isPlannable = this.appointmentDetails.isPlannable;
-    }
-
-    // Add other item type specific data handling here
-
-    const response = await this.rentman.updateItemDetails({
-      itemType: this.itemType,
-      itemId: this.itemId,
-      ...data,
+    const response = await rentman.updateItem({
+      $,
+      itemType,
+      itemId,
+      data: snakeCaseData(data),
     });
 
-    $.export("$summary", `Successfully updated item with ID ${this.itemId}`);
+    $.export("$summary", `Successfully updated item with ID ${itemId}`);
     return response;
   },
 };
