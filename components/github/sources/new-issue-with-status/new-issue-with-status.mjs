@@ -1,6 +1,5 @@
 import queries from "../../common/queries.mjs";
 import common from "../common/common-webhook-orgs.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
   ...common,
@@ -47,16 +46,16 @@ export default {
         "projects_v2_item",
       ];
     },
-    generateMeta(issue, statusName) {
-      const { number } = issue;
-      const ts = Date.parse(issue.updated_at);
+    generateMeta(item, statusName) {
+      const { id } = item;
+      const ts = Date.parse(item.updated_at);
       return {
-        id: `${number}-${ts}`,
-        summary: `Issue #${number} in "${statusName}" status`,
+        id: `${id}-${ts}`,
+        summary: `Item #${id} status changed to "${statusName}"`,
         ts,
       };
     },
-    isRelevant(item, issueNumber, statusName) {
+    isRelevant(item, statusName) {
       let isRelevant = true;
       let message = "";
       const {
@@ -65,10 +64,10 @@ export default {
       } = item;
 
       if (isArchived) {
-        message = "Issue is archived. Skipping...";
+        message = "Item is archived. Skipping...";
         isRelevant = false;
       } else if (this.status?.length && !this.status.includes(optionId)) {
-        message = `Issue #${issueNumber} in ${statusName} status. Skipping...`;
+        message = `Status "${statusName}". Skipping...`;
         isRelevant = false;
       }
 
@@ -86,45 +85,18 @@ export default {
         nodeId: event.projects_v2_item.node_id,
       });
 
-      const issueNumber = item.content.number;
       const statusName = item.fieldValueByName.name;
 
-      if (!this.isRelevant(item, issueNumber, statusName)) {
+      if (!this.isRelevant(item, statusName)) {
         return;
       }
 
-      const repoName = this.repo ?? item.content.repository.name;
-
-      const issue = await this.github.getIssue({
-        repoFullname: `${this.org}/${repoName}`,
-        issueNumber,
-      });
-
-      console.log(`Emitting issue #${issueNumber}`);
-      const meta = this.generateMeta(issue, statusName);
+      console.log(`Emitting item #${item.id}`);
+      const meta = this.generateMeta(item, statusName);
       this.$emit({
         event,
-        issue,
+        item,
       }, meta);
-    },
-    async loadHistoricalEvents() {
-      const items = await this.github.getProjectV2Items({
-        repoName: this.repo,
-        repoOwner: this.org,
-        project: this.project,
-        amount: constants.HISTORICAL_EVENTS,
-      });
-
-      for (const node of items) {
-        if (node.type === constants.ISSUE_TYPE) {
-          const event = {
-            projects_v2_item: {
-              node_id: node.id,
-            },
-          };
-          await this.processEvent(event);
-        }
-      }
     },
   },
   async run({ body: event }) {
