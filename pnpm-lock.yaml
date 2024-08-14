@@ -3163,6 +3163,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/firecrawl:
+    specifiers: {}
+
   components/fireflies:
     specifiers:
       '@pipedream/platform': ^1.6.2
