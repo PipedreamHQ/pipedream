@@ -36,26 +36,42 @@ async function *paginate({
   } while (params.page <= lastPage);
 }
 
-function parseCustomFields(customFields) {
-  const jsonParsedCustomFields = customFields
-    ? typeof customFields === "string"
-      ? JSON.parse(customFields)
-      : customFields
-    : {};
-  const parsedCustomFields = [];
-  for (const [
-    key,
-    value,
-  ] of Object.entries(jsonParsedCustomFields)) {
-    parsedCustomFields.push({
-      id: key,
-      value,
+async function getCustomFieldProps(ctx) {
+  const props = {};
+  if (!ctx.customFieldIds?.length) {
+    return props;
+  }
+  const { data } = await ctx.cloudpresenter.listCustomFields();
+  const customFieldLabels = {};
+  for (const field of data) {
+    customFieldLabels[field.id] = field.name;
+  }
+  for (const id of ctx.customFieldIds) { console.log(id);
+    const fieldLabel = customFieldLabels[`${id}`]; console.log(fieldLabel);
+    props[`customField-${id}`] = {
+      type: "string",
+      label: `Value of ${fieldLabel}`,
+    };
+  }
+  return props;
+}
+
+function parseCustomFields(ctx) {
+  const customFields = [];
+  if (!ctx.customFieldIds?.length) {
+    return customFields;
+  }
+  for (const id of ctx.customFieldIds) {
+    customFields.push({
+      id,
+      value: ctx[`customField-${id}`],
     });
   }
-  return parsedCustomFields;
+  return customFields;
 }
 
 export {
   getPaginatedResources,
+  getCustomFieldProps,
   parseCustomFields,
 };

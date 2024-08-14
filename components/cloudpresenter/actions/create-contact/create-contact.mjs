@@ -1,5 +1,7 @@
 import cloudpresenter from "../../cloudpresenter.app.mjs";
-import { parseCustomFields } from "../../common/utils.mjs";
+import {
+  getCustomFieldProps, parseCustomFields,
+} from "../../common/utils.mjs";
 
 export default {
   key: "cloudpresenter-create-contact",
@@ -75,12 +77,16 @@ export default {
         "tagIds",
       ],
     },
-    customFields: {
+    customFieldIds: {
       propDefinition: [
         cloudpresenter,
-        "customFields",
+        "customFieldIds",
       ],
+      reloadProps: true,
     },
+  },
+  async additionalProps() {
+    return getCustomFieldProps(this);
   },
   async run({ $ }) {
     const response = await this.cloudpresenter.createContact({
@@ -97,8 +103,8 @@ export default {
           state: this.state || null,
           country: this.country || null,
           phone_number: this.phone || null,
-          tags: this.tagIds || null,
-          custom_fields: parseCustomFields(this.customFields),
+          tags: this.tagIds || [],
+          custom_fields: parseCustomFields(this),
         },
       },
     });

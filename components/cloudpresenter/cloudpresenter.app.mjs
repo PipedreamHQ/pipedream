@@ -44,6 +44,21 @@ export default {
         })) || [];
       },
     },
+    customFieldIds: {
+      type: "integer[]",
+      label: "Custom Field IDs",
+      description: "The IDs of custom fields to add to the contact",
+      optional: true,
+      async options() {
+        const { data } = await this.listCustomFields();
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     firstName: {
       type: "string",
       label: "First Name",
@@ -101,12 +116,6 @@ export default {
       description: "The phone number of the contact",
       optional: true,
     },
-    customFields: {
-      type: "object",
-      label: "Custom Fields",
-      description: "Custom fields to add to the contact in key/value pairs. The key represents an `id`, and the `value` represents the value of the field.",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {
@@ -137,6 +146,12 @@ export default {
     listTags(opts = {}) {
       return this._makeRequest({
         path: "/tags",
+        ...opts,
+      });
+    },
+    listCustomFields(opts = {}) {
+      return this._makeRequest({
+        path: "/custom-fields/all",
         ...opts,
       });
     },

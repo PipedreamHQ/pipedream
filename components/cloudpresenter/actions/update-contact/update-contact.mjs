@@ -1,6 +1,6 @@
 import cloudpresenter from "../../cloudpresenter.app.mjs";
 import {
-  getPaginatedResources, parseCustomFields,
+  getCustomFieldProps, getPaginatedResources, parseCustomFields,
 } from "../../common/utils.mjs";
 
 export default {
@@ -86,12 +86,16 @@ export default {
         "tagIds",
       ],
     },
-    customFields: {
+    customFieldIds: {
       propDefinition: [
         cloudpresenter,
-        "customFields",
+        "customFieldIds",
       ],
+      reloadProps: true,
     },
+  },
+  async additionalProps() {
+    return getCustomFieldProps(this);
   },
   async run({ $ }) {
     const contacts = await getPaginatedResources({
@@ -101,6 +105,12 @@ export default {
     const contact = contacts.find(({ uuid }) => uuid === this.contactId);
     contact.tags = contact?.tags
       ? contact.tags.map(({ id }) => id)
+      : [];
+    contact.custom_fields = contact?.custom_fields
+      ? contact.custom_fields.filter((field) => field.custom_field).map((field) => ({
+        id: field.custom_field.id,
+        value: field.value,
+      }))
       : [];
 
     const response = await this.cloudpresenter.updateContact({
@@ -119,8 +129,8 @@ export default {
           country: this.country || contact.country,
           phone_number: this.phone || contact.phone,
           tags: this.tagIds || contact.tags,
-          custom_fields: this.customFields
-            ? parseCustomFields(this.customFields)
+          custom_fields: this.customFieldIds
+            ? parseCustomFields(this)
             : contact.custom_fields,
         },
       },
