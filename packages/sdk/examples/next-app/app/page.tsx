@@ -12,12 +12,21 @@ const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_APP_ID
 export default function Home() {
   if (!publicKey) {
     return (
-      <main className="p-5 flex flex-col gap-2">
+      <main className="p-5 flex flex-col gap-2 max-w-5xl">
         <div className="flex flex-col gap-2 text-slate-800 pb-4">
           <div>
-            <p>
-              The <code>NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY</code> variable is not set in your environment. SHOW ME THE CODE TO FIX IT.
+            <p className="mb-8">
+              The <code>NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY</code> variable is not set in your environment. Copy the <code>.env.example</code> file in this directory and fill in the appropriate environment variables.
             </p>
+            <CodePanel
+              language="text"
+              code={`# Config for the Next.js app
+NEXT_PUBLIC_PIPEDREAM_APP_ID=oa_abc123
+
+# Project credentials — used to authenticate with the Pipedream API
+NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY=pub_abc123
+PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
+            />
           </div>
         </div>
       </main>
@@ -80,20 +89,29 @@ export default function Home() {
 
 
   return (
-    <main className="p-5 flex flex-col gap-2">
+    <main className="p-5 flex flex-col gap-2 max-w-5xl">
       {
         (!oauthAppId || oauthAppId === "oa_") &&
         <div className="flex flex-col gap-2 text-slate-800 pb-4">
           <div>
             <p>
-              The <code>NEXT_PUBLIC_PIPEDREAM_APP_ID</code> variable is not set in your environment. SHOW ME THE CODE TO FIX IT.
+              The <code>NEXT_PUBLIC_PIPEDREAM_APP_ID</code> variable is not set in your environment. Copy the <code>.env.example</code> file in this directory and fill in the appropriate environment variables.
             </p>
+            <CodePanel
+              language="plaintext"
+              code={`# Config for the Next.js app
+NEXT_PUBLIC_PIPEDREAM_APP_ID=oa_abc123
+
+# Project credentials — used to authenticate with the Pipedream API
+NEXT_PUBLIC_PIPEDREAM_PROJECT_PUBLIC_KEY=pub_abc123
+PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
+            />
           </div>
         </div>
       }
       {
         oauthAppId && externalUserId &&
-          <div className="max-w-5xl">
+          <div>
             <h1 className="text-2xl font-bold mb-8">Pipedream Connect Example App</h1>
             <div className="mb-8">
               <p>Refer to the <a href="https://pipedream.com/docs/connect" target="_blank nofollow" className="hover:underline text-blue-600">Pipedream Connect docs</a> for a full walkthrough of how to configure Connect for your site. This example app implements Connect in a Next.js (React) app.</p>

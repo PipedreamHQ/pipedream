@@ -38,7 +38,7 @@ class ServerClient {
     this.secretKey = opts.secretKey;
     this.publicKey = opts.publicKey;
 
-    const { apiHost = "pipedream.com" } = opts;
+    const { apiHost = "api.pipedream.com" } = opts;
     this.baseURL = `https://${apiHost}`;
   }
 

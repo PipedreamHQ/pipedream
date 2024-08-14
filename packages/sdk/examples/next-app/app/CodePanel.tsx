@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Prism from "prismjs";
-import "prismjs/themes/prism-okaidia.css"; // Import the Prism.js theme you prefer
-import "prismjs/components/prism-typescript"; // Load just the TypeScript language support
+import "prismjs/themes/prism-okaidia.css";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-bash";
 
 interface CodePanelProps {
   code: string;
