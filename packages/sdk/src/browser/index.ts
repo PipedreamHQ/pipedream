@@ -1,5 +1,4 @@
 type CreateBrowserClientOpts = {
-  publicKey: string;
   environment?: string;
   frontendHost?: string;
 };
@@ -28,7 +27,6 @@ export function createClient(opts: CreateBrowserClientOpts) {
 }
 
 class BrowserClient {
-  publicKey: string;
   environment?: string;
   baseURL: string;
   iframeURL: string;
@@ -36,9 +34,7 @@ class BrowserClient {
   iframeId = 0;
 
   constructor(opts: CreateBrowserClientOpts) {
-    this.publicKey = opts.publicKey;
     this.environment = opts.environment;
-    this.publicKey = opts.publicKey;
     this.baseURL = `https://${opts.frontendHost || "https://pipedream.com"}`;
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
   }
@@ -60,11 +56,12 @@ class BrowserClient {
           console.warn("Untrusted origin or iframe not ready:", e.origin);
         }
         break;
-      case "success":
+      case "success": {
         opts.onSuccess?.({
           id: e.data?.authProvisionId,
         });
         break;
+      }
       case "error":
         opts.onError?.(new ConnectError(e.data.error));
         break;
@@ -85,7 +82,6 @@ class BrowserClient {
     if (this.environment) {
       qp.set("environment", this.environment);
     }
-    qp.set("public_key", this.publicKey);
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
     } else {
