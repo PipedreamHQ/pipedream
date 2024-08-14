@@ -187,7 +187,7 @@ In this example, `step_f` is executed after a control flow block. It can directl
 
 However, `step_f` cannot reference directly reference data exported by `step_c` or `step_d`. The reason is that due to the non-linear execution, `step_c` and `step_d` are not guaranteed to execute for every event. **To reference data from a control flow block, reference the exports of the end phase.** Refer to the documentation to understand how data is exported for each control flow operator (e.g., for if/else, the exports of the last step in the branch are returned as the exports for the end phase; you can easily normalize the results across branches using a code step).
 
-In this example, `step_f` can reference returned for an executed branch by referencing `steps.ifelse.$return_value`.  
+In this example, `step_f` can reference the exported data for an executed branch by referencing `steps.ifelse.$return_value`.  
 
 ### Nesting
 
