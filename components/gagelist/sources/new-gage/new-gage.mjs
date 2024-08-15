@@ -1,58 +1,25 @@
-import { axios } from "@pipedream/platform";
-import gagelist from "../../gagelist.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "gagelist-new-gage",
   name: "New Gage Created",
-  description: "Emits an event each time a new gage is created",
-  version: "0.0.{{ts}}",
+  description: "Emit new event each time a new gage is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    gagelist,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-  },
   methods: {
-    _getCursor() {
-      return this.db.get("cursor") || null;
+    ...common.methods,
+    getResourceFn() {
+      return this.gagelist.listGages;
     },
-    _setCursor(cursor) {
-      this.db.set("cursor", cursor);
+    getTsField() {
+      return "CreatedDate";
     },
-    generateMeta(data) {
-      const {
-        id, created_at, name,
-      } = data;
-      return {
-        id,
-        summary: `New Gage: ${name}`,
-        ts: Date.parse(created_at),
-      };
+    getSummary(item) {
+      return `New Gage ID: ${item.Id}`;
     },
   },
-  async run() {
-    const since = this.db.get("since");
-
-    const params = since
-      ? {
-        since,
-      }
-      : {};
-    const results = await this.gagelist.getGages(params);
-
-    for (const result of results) {
-      this.$emit(result, this.generateMeta(result));
-    }
-
-    if (results.length > 0) {
-      const lastResult = results[results.length - 1];
-      this.db.set("since", lastResult.created_at);
-    }
-  },
+  sampleEmit,
 };

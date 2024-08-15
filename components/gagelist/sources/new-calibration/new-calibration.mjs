@@ -1,45 +1,25 @@
-import gagelist from "../../gagelist.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "gagelist-new-calibration",
   name: "New Calibration Created",
   description: "Emit new event when a new calibration is created.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    gagelist: {
-      type: "app",
-      app: "gagelist",
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-  },
   methods: {
-    _getLastCalibrationId() {
-      return this.db.get("lastCalibrationId") || 0;
+    ...common.methods,
+    getResourceFn() {
+      return this.gagelist.listCalibrations;
     },
-    _setLastCalibrationId(id) {
-      this.db.set("lastCalibrationId", id);
+    getTsField() {
+      return "CreatedDate";
+    },
+    getSummary(item) {
+      return `New Calibration ID: ${item.Id}`;
     },
   },
-  async run() {
-    const lastCalibrationId = this._getLastCalibrationId();
-    const { data: calibrations } = await this.gagelist.createCalibration();
-    calibrations.forEach((calibration) => {
-      if (calibration.id > lastCalibrationId) {
-        this.$emit(calibration, {
-          id: calibration.id,
-          summary: `New calibration: ${calibration.id}`,
-          ts: Date.now(),
-        });
-        this._setLastCalibrationId(calibration.id);
-      }
-    });
-  },
+  sampleEmit,
 };
