@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-add-deal",
   name: "Add Deal (Anility)",
   description: "Adds a new deal if missing. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     pipedriveApp,
@@ -132,7 +132,19 @@ export default {
     anilityDelayRequestFieldValue: {
       type: "string",
       label: "Delay Request field value",
-      description: "Pipedrive person id (value) who ordered the assessment",
+      description: "Custom field to decide if the emails should be delayed",
+    },
+    anilityExpiryDateFieldKey: {
+      propDefinition: [
+        pipedriveApp,
+        "dealCustomFieldKey",
+      ],
+      description: "Expiry date field in Pipedrive",
+    },
+    anilityExpiryDateFieldValue: {
+      type: "string",
+      label: "Expiry date field value",
+      description: "Custom field to set the proposed expiry date",
     },
     label: {
       type: "string",
@@ -163,6 +175,8 @@ export default {
       anilityOrderByIdFieldValue,
       anilityDelayRequestFieldKey,
       anilityDelayRequestFieldValue,
+      anilityExpiryDateFieldKey,
+      anilityExpiryDateFieldValue,
       label,
     } = this;
 
@@ -191,6 +205,7 @@ export default {
         customFieldValue[anilityCustomerIdFieldKey] = anilityCustomerIdFieldValue;
         customFieldValue[anilityOrderByIdFieldKey] = anilityOrderByIdFieldValue;
         customFieldValue[anilityDelayRequestFieldKey] = anilityDelayRequestFieldValue;
+        customFieldValue[anilityExpiryDateFieldKey] = anilityExpiryDateFieldValue;
         const resp = await this.pipedriveApp.addDeal({
           title,
           value,
