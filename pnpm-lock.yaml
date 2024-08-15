@@ -8734,7 +8734,10 @@ importers:
     specifiers: {}
 
   components/smartymeet:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/smiirl:
     specifiers:
