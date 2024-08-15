@@ -1,5 +1,6 @@
 import Callout from '@/components/Callout'
 import { Steps } from 'nextra/components'
+import Image from 'next/image'
 
 # Pipedream Connect
 
@@ -60,9 +61,10 @@ Connecting Key-based apps with the Pipedream API requires only [the app's name s
 2. Search and select the app you want to integrate
 3. In the **Authentication** section, copy the **Name slug**.
 
-Typically, the name slug is the name of the app in lowercase, with spaces replaced by underscores. For example, the name slug for the GitHub app is `github`. The name slug for Google Sheets is `google_sheets`.
+Typically, the name slug is the name of the app in lowercase, with spaces replaced by underscores. For example, the name slug for the GitHub app is `github`. The name slug for [Google Sheets](https://pipedream.com/apps/google-sheets#authentication) is `google_sheets`.
 
-**SCREENSHOT**
+<br />
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723760323/google-sheets-name-slug_gwa4rb.png" alt="Google Sheets name slug" width={550} height={300} />
 
 #### Creating a custom OAuth client
 
@@ -71,12 +73,13 @@ First, [create an OAuth client](/connected-accounts/oauth-clients#configuring-cu
 <Callout type="warning">
 Make sure to check the **Enable for Pipedream Connect** setting in the OAuth client configuration in Pipedream to allow your end users to connect their accounts. By default, OAuth clients are accessible only to members of your Pipedream workspace. Checking this box allows your end users to create accounts for this app, too.
 
-**SCREENSHOT**
+<br />
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723760958/enable-oauth-client-for-pd-connect_ipkzmo.png" alt="Enable OAuth client for Pipedream Connect" width={450} height={300} />
 </Callout>
 
 Once that's done, copy the OAuth app ID from the app configuration.
 
-**SCREEENSHOT**
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723761240/copy-oauth-app-id_on6d8p.png" alt="Copy your OAuth app ID" width={550} height={300} />
 
 ### Get your project keys
 
@@ -84,7 +87,7 @@ Open an existing Pipedream project or create a new one: [https://pipedream.com/p
 
 Find your **Project Public Key** and **Project Secret Key** from the **Connect** tab within your project — you'll need these when configuring the SDK and making API requests.
 
-**SCREENSHOT**
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723761665/proj-connect-keys_bodybd.png" alt="Project keys in the Connect tab" width={650} height={300} />
 
 ### Run the Pipedream demo app, or configure your own
 
@@ -192,7 +195,8 @@ const { token, expires_at } = await serverConnectTokenCreate({
 
 Once you have a token, you can use it to connect an account. In our example, `app/page.tsx` calls the `connectAccount` method from the Pipedream SDK when the user clicks the **Connect your account** button.
 
-**SCREENSHOT OF CONNECT ACCOUNT BUTTON**
+<br />
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723762300/connect-account-button_ugkdrd.png" alt="Connect your account button" width={550} height={300} />
 
 ```typescript
 export default function Home() {
