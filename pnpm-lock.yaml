@@ -1740,7 +1740,10 @@ importers:
       form-data: 4.0.0
 
   components/cloudpresenter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/cloudpress:
     specifiers:
@@ -2573,7 +2576,10 @@ importers:
     specifiers: {}
 
   components/dotsimple:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/dpd2:
     specifiers:
@@ -2664,7 +2670,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dropinblog:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/dropmark:
     specifiers:

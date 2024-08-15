@@ -5,14 +5,23 @@ export default {
   key: "airfocus-update-item",
   name: "Update Item",
   description: "Updates an existing item in airfocus. [See the documentation](https://developer.airfocus.com/endpoints.html)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     airfocus,
+    workspaceId: {
+      propDefinition: [
+        airfocus,
+        "workspaceId",
+      ],
+    },
     itemId: {
       propDefinition: [
         airfocus,
         "itemId",
+        ({ workspaceId }) => ({
+          workspaceId,
+        }),
       ],
     },
     name: {
@@ -26,6 +35,9 @@ export default {
       propDefinition: [
         airfocus,
         "statusId",
+        ({ workspaceId }) => ({
+          workspaceId,
+        }),
       ],
       optional: true,
     },
@@ -65,6 +77,7 @@ export default {
       ...props
     } = this;
     const item = await airfocus.getItem({
+      workspaceId: this.workspaceId,
       itemId: this.itemId,
     });
 
@@ -80,6 +93,7 @@ export default {
 
     const response = await this.airfocus.updateItem({
       $,
+      workspaceId: this.workspaceId,
       itemId: this.itemId,
       data,
     });
