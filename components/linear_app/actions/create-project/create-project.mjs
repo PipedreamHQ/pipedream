@@ -35,13 +35,6 @@ export default {
       description: "The icon of the project.",
       optional: true,
     },
-    lastAppliedTemplateId: {
-      propDefinition: [
-        linearApp,
-        "templateId",
-      ],
-      optional: true,
-    },
     leadId: {
       propDefinition: [
         linearApp,

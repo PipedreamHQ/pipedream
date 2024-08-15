@@ -8,21 +8,6 @@ export default {
   type: "app",
   app: "linear_app",
   propDefinitions: {
-    templateId: {
-      type: "string",
-      label: "Template Id",
-      description: "The ID of the template to apply to the project.",
-      async options() {
-        const { data: { templates } } = await this.listTemplates();
-
-        return templates.map(({
-          id: value, name: label,
-        }) => ({
-          value,
-          label,
-        }));
-      },
-    },
     teamId: {
       type: "string",
       label: "Team",
@@ -295,18 +280,6 @@ export default {
     },
     async listComments(variables = {}) {
       return this.client().comments(variables);
-    },
-    /** SDK doesn't have the .templates method
-     * so it is necessary to fetch through rawRequest*/
-    async listTemplates() {
-      const graphQLClient = this.client().client;
-      return graphQLClient.rawRequest(`
-        query Templates {
-          templates {
-            id
-            name
-          }
-        }`);
     },
     async getComment(variables) {
       const { data: { comment } } = await this.post({
