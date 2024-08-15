@@ -1,4 +1,6 @@
-import { ADDITIONAL_PROPS } from "../../common/props.mjs";
+import {
+  ADDITIONAL_PROPS, CONTACT_NAME_FIELDS,
+} from "../../common/props.mjs";
 import { snakeCaseData } from "../../common/utils.mjs";
 import rentman from "../../rentman.app.mjs";
 
@@ -19,9 +21,17 @@ export default {
     },
   },
   async additionalProps() {
+    let props = {};
     if (this.itemType) {
-      return ADDITIONAL_PROPS[this.itemType];
+      props = ADDITIONAL_PROPS[this.itemType];
+      if (this.itemType === "contacts" && this.type) {
+        props = {
+          ...props,
+          ...CONTACT_NAME_FIELDS[this.type],
+        };
+      }
     }
+    return props;
   },
   async run({ $ }) {
     const {

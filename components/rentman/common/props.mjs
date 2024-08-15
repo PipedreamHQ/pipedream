@@ -203,25 +203,7 @@ export const ADDITIONAL_PROPS = {
         "private",
         "company",
       ],
-      optional: true,
-    },
-    firstname: {
-      type: "string",
-      label: "First Name",
-      description: "The contact's first name.",
-      optional: true,
-    },
-    surfix: {
-      type: "string",
-      label: "Surfix",
-      description: "The contact's middle name.",
-      optional: true,
-    },
-    surname: {
-      type: "string",
-      label: "Surname",
-      description: "The contact's last name.",
-      optional: true,
+      reloadProps: true,
     },
     extNameLine: {
       type: "string",
@@ -230,13 +212,13 @@ export const ADDITIONAL_PROPS = {
       optional: true,
     },
     distance: {
-      type: "string",
+      type: "integer",
       label: "Distance",
       description: "Distance from warehouse to visiting address.",
       optional: true,
     },
     travelTime: {
-      type: "string",
+      type: "integer",
       label: "Travel Time",
       description: "Travel time from warehouse to visiting address.",
       optional: true,
@@ -800,5 +782,35 @@ export const ADDITIONAL_PROPS_SEARCH = {
       page,
       fn: this.rentman.listItems.bind(null, "stockmovements"),
     }),
+  },
+};
+
+export const CONTACT_NAME_FIELDS = {
+  "company": {
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The contact's name.",
+    },
+  },
+  "private": {
+    firstname: {
+      type: "string",
+      label: "First Name",
+      description: "The contact's first name.",
+      optional: true,
+    },
+    surfix: {
+      type: "string",
+      label: "Surfix",
+      description: "The contact's middle name.",
+      optional: true,
+    },
+    surname: {
+      type: "string",
+      label: "Surname",
+      description: "The contact's last name.",
+      optional: true,
+    },
   },
 };
