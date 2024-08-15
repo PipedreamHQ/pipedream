@@ -11148,7 +11148,7 @@ importers:
   platform:
     specifiers:
       '@octokit/core': ^3.6.0
-      axios: ^1.6.5
+      axios: ^1.7.4
       fp-ts: ^2.0.2
       husky: ^3.0.0
       io-ts: ^2.0.0
@@ -11157,7 +11157,7 @@ importers:
       type-fest: ^4.15.0
       typescript: ^3.5.3
     dependencies:
-      axios: 1.6.5
+      axios: 1.7.4
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
@@ -21632,6 +21632,16 @@ packages:
       - debug
     dev: false
 
+  /axios/1.7.4:
+    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
+    dependencies:
+      follow-redirects: 1.15.6
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /b4a/1.6.4:
     resolution: {integrity: sha512-fpWrvyVHEKyeEvbKZTVOeZF3VSKKWtJxFIxX/jaVPf+cLbGUSitjb49pHLqPV2BUNNZ0LcoeEGfE/YCpyDYHIw==}
 
@@ -24908,6 +24918,16 @@ packages:
         optional: true
     dependencies:
       debug: 3.2.7
+    dev: false
+
+  /follow-redirects/1.15.6:
+    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /follow-redirects/1.5.10:
