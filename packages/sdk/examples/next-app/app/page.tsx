@@ -137,14 +137,15 @@ const { token, expires_at } = await serverConnectTokenCreate({
             <span className="font-mono"> {expiresAt}</span>
           </div>
           <p className="mb-8">
-            When a user wants to connect an app from your frontend, you&apos;ll call <code>pd.startConnect</code> with the token and the OAuth App ID of the app you&apos;d like to connect.
+            When a user wants to connect an app from your frontend, you&apos;ll call <code>pd.connectAccount</code> with the token and the OAuth App ID of the app you&apos;d like to connect.
           </p>
           <div className="mb-8">
             <CodePanel
               language="typescript"
-              code={`import { startConnect } from "@pipedream/sdk";
+              code={`import { createClient } from "@pipedream/sdk/browser";
 
-pd.startConnect({
+const pd = createClient();
+pd.connectAccount({
   app,
   token,
   onSuccess: () => {
@@ -156,12 +157,8 @@ pd.startConnect({
           {apn ?
             <div>
               <p>
-                <span className="font-semibold">Auth Provision ID:</span>
+                <span className="font-semibold">Pipedream Account ID:</span>
                 <span className="font-mono"> {apn}</span>
-              </p>
-              <p>
-                <span className="font-semibold">OAuth App ID:</span>
-                <span className="font-mono"> {oa}</span>
               </p>
             </div>
             : <div>

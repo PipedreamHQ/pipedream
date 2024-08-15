@@ -255,18 +255,17 @@ https://api.pipedream.com/v1/connect
 
 **Authentication**
 
-You authenticate to the Connect REST API using **Basic Auth**. Send your Pipedream [Project Public Key]() as the username and the [Project Secret Key]() as the password. When you make API requests, pass an
+You authenticate to the Connect REST API using **Basic Auth**. Send your project public key as the username and the project secret key as the password. When you make API requests, pass an
 `Authorization` header of the following format:
 
 ```
-Authorization: Basic <Base 64 encoded public_key:secret_key>
+Authorization: Basic base_64(public_key:secret_key)
 ```
 
-For example, here's how you can use `cURL` to fetch a list of all accounts in your project:
+Clients like `cURL` will often make this easy. For example, here's how you list all accounts on a project:
 
 ```shell
-curl 'https://api.pipedream.com/v1/connect/accounts' \
-  -H 'Authorization: Basic <Base 64 encoded public_key:secret_key>'
+curl 'https://api.pipedream.com/v1/connect/accounts' -u public_key:secret_key
 ```
 
 ### API Reference
