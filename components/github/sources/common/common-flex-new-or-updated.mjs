@@ -28,11 +28,7 @@ export default {
         const id = `${action}_${ts}`;
         const summary = this.getSummary(action, item);
 
-        this.$emit({
-          action,
-          [item]: item,
-          sender: body.sender,
-        }, {
+        this.$emit(body, {
           id,
           summary,
           ts,

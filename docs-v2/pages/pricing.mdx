@@ -48,53 +48,43 @@ Pipedream uses a number of terms to describe platform metrics and details of our
 
 ### Credits
 
-Pipedream charges one credit per 30 seconds of compute time at 256MB megabytes of memory (the default) per workflow execution. Credits are also charged for [dedicated workers](/workflows/settings/#eliminate-cold-starts).
+Pipedream charges one credit per 30 seconds of compute time at 256MB megabytes of memory (the default) per [workflow segment](/workflows/flow-control#workflow-segments). Credits are also charged for [dedicated workers](/workflows/settings/#eliminate-cold-starts). 
 
-**Most workflow executions use a single credit**, regardless of the number of steps (unlike some other platforms, Pipedream does not charge for usage based on the number of steps).
-
-Credits are not charged for workflows during development or testing.
+Unlike some other platforms, Pipedream does not charge for usage based on the number of steps. Credits are not charged for workflows during development or testing.
 
 Adding additional memory capacity to workflows will increase credit usage in intervals of 256 megabytes. For example, doubling the memory of a workflow from 256MB to 512MB will double the cost of credits in the same execution time.
 
 #### Scenarios
 
 <Callout type="info">
-A workflow that executes once for less than 30 seconds total
-
-This is the most common scenario. Regardless of the number of steps within the workflow, if it completes it's execution under 30 seconds then only one credit is incurred.
+Developing a workflow with test events in the Pipedream workflow builder is free. No credit usage is incurred.
 </Callout>
 
 <Callout type="info">
-A workflow that executes 5 times with 1 second per run
-
-5 credits are incurred, because the workflow ran for a total of 5 executions and under the 30 second threshold (5 executions at 1 credit each).
+If an active workflow isn't executed in a billing period no credit usage is incurred. Pipedream only charges credits for workflow executions.
 </Callout>
 
-<Callout type="info">
-A workflow that executes 2 times with 35 seconds per run
+##### Workflow segments configured to use 256MB memory (default)
 
-4 credits are incurred, because each workflow execution exceeded 1 credit time limit of 30 seconds by 5 seconds.
-</Callout>
+| Scenario | Credits Used |
+| --- | --- |
+| Simple linear workflow - 1 second of compute | 1 credit |
+| Simple linear workflow - 15 seconds of compute | 1 credit |
+| Simple linear workflow - 35 seconds of compute | 2 credits |
+| Linear workflow with a delay- 15 seconds before the delay- 15 seconds after execution resumes | 2 credits |
+| Workflow with a branch - 3 seconds before the branch- 15 seconds within the executed branch | 2 credits |
+| Workflow with a branch - 3 seconds before the branch, 15 seconds within the executed branch, 3 seconds after the branch in the parent flow | 3 credits |
 
-<Callout type="info">
-Developing a workflow with test events in the Pipedream workflow builder
+##### Workflow segments configured to use 1GB memory
 
-0 credits are incurred. Developing and testing your workflows is free.
-
-Execution time used to develop a workflow in the builder does not count towards your credit usage.
-</Callout>
-
-<Callout type="info">
-An active standard workflow that isn't executed at all in a billing period
-
-0 credits are incurred. Pipedream only charges credits for workflow executions.
-</Callout>
-
-<Callout type="info">
-A workflow with 512 megabytes of memory executing for 5 seconds
-
-2 credits are incurred, because the workflow executed for a total of 5 seconds at 512 megabytes of memory.
-</Callout>
+| Scenario | Credits Used |
+| --- | --- |
+| Simple linear workflow - 1 second of compute | 4 credit |
+| Simple linear workflow - 15 seconds of compute | 4 credit |
+| Simple linear workflow - 35 seconds of compute | 8 credits |
+| Linear workflow with a delay- 15 seconds before the delay- 15 seconds after execution resumes | 8 credits |
+| Workflow with a branch - 3 seconds before the branch- 15 seconds within the executed branch | 8 credits |
+| Workflow with a branch - 3 seconds before the branch, 15 seconds within the executed branch, 3 seconds after the branch in the parent flow | 24 credits |
 
 #### Source Credit Usage
 

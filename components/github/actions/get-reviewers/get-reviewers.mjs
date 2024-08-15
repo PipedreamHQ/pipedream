@@ -6,7 +6,7 @@ export default {
   key: "github-get-reviewers",
   name: "Get Reviewers",
   description: "Get reviewers for a PR ([see docs](https://docs.github.com/en/rest/pulls/reviews#list-reviews-for-a-pull-request)) or Commit SHA ([see docs](https://docs.github.com/en/rest/commits/commits#list-pull-requests-associated-with-a-commit)).",
-  version: "0.0.16",
+  version: "0.0.17",
   type: "action",
   props: {
     github,
