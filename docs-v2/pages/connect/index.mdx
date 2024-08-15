@@ -65,11 +65,21 @@ There are two types of apps in Pipedream:
 1. **Key-based**: These apps require static credentials, like API keys. Pipedream stores these credentials securely and exposes them via API.
 2. **OAuth**: These apps require OAuth authorization. Pipedream manages the OAuth flow for these apps, ensuring you always have a fresh access token for requests.
 
-#### Key-based apps
+Connecting Key-based apps with the Pipedream API requires only [the app's name slug](#find-your-apps-name-slug). OAuth apps require you to [create your own OAuth client](#creating-a-custom-oauth-client) and pass the OAuth app ID, as well.
 
-#### OAuth apps
+#### Find your app's name slug
 
-To use Pipedream Connect with OAuth apps, you'll need to create your own OAuth client. [See the docs](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) to create a client.
+1. Visit [https://pipedream.com/apps](https://pipedream.com/apps)
+2. Search and select the app you want to integrate
+3. In the **Authentication** section, copy the **Name slug**.
+
+Typically, the name slug is the name of the app in lowercase, with spaces replaced by underscores. For example, the name slug for the GitHub app is `github`. The name slug for Google Sheets is `google_sheets`.
+
+**SCREENSHOT**
+
+#### Creating a custom OAuth client
+
+First, [create an OAuth client](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) for the app you'd like to integrate.
 
 <Callout type="warning">
 Make sure to check the **Enable for Pipedream Connect** setting in the OAuth client configuration in Pipedream to allow end users to connect their accounts. By default, OAuth clients are accessible only to members of your Pipedream workspace.
@@ -83,14 +93,17 @@ Once that's done, copy the OAuth app ID from the app configuration.
 
 ### Open your Pipedream project
 
-- Open an existing Pipedream project or create a new one: [https://pipedream.com/projects](https://pipedream.com/projects)
-- Note your **Project Public Key** and **Project Secret Key** from the **Connect** tab within your project — you'll need these when configuring the SDK and making API requests
+Open an existing Pipedream project or create a new one: [https://pipedream.com/projects](https://pipedream.com/projects).
+
+Find your **Project Public Key** and **Project Secret Key** from the **Connect** tab within your project — you'll need these when configuring the SDK and making API requests.
+
+**SCREENSHOT**
 
 ### Run the example app
 
 - Install the [SDK](https://www.npmjs.com/package/@pipedream/sdk) via npm: `npm install @pipedream/sdk`
 - The code for the Pipedream SDK lives in the [public pipedream repo](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk)
-- Check out the example app and README there to get started
+- Check out the example Next.js app and `README` for an implementation example.
 
 ### Retrieve your user credentials from Pipedream's API
 
