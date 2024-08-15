@@ -1,11 +1,10 @@
 import firecrawl from "../../firecrawl.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "firecrawl-scrape-page",
   name: "Scrape Page",
   description: "Scrapes a URL and returns content from that page. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/scrape)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     firecrawl,
@@ -14,18 +13,97 @@ export default {
         firecrawl,
         "url",
       ],
+      description: "The URL to start scraping from.",
     },
-    extractorOptions: {
+    extractorMode: {
       propDefinition: [
         firecrawl,
-        "extractorOptions",
+        "extractorMode",
       ],
       optional: true,
     },
-    pageOptions: {
+    extractionPrompt: {
       propDefinition: [
         firecrawl,
-        "pageOptions",
+        "extractionPrompt",
+      ],
+      optional: true,
+    },
+    extractionSchema: {
+      propDefinition: [
+        firecrawl,
+        "extractionSchema",
+      ],
+      optional: true,
+    },
+
+    headers: {
+      propDefinition: [
+        firecrawl,
+        "headers",
+      ],
+      optional: true,
+    },
+    includeHtml: {
+      propDefinition: [
+        firecrawl,
+        "includeHtml",
+      ],
+      optional: true,
+    },
+    includeRawHtml: {
+      propDefinition: [
+        firecrawl,
+        "includeRawHtml",
+      ],
+      optional: true,
+    },
+    onlyIncludeTags: {
+      propDefinition: [
+        firecrawl,
+        "onlyIncludeTags",
+      ],
+      optional: true,
+    },
+    onlyMainContent: {
+      propDefinition: [
+        firecrawl,
+        "onlyMainContent",
+      ],
+      optional: true,
+    },
+    removeTags: {
+      propDefinition: [
+        firecrawl,
+        "removeTags",
+      ],
+      optional: true,
+    },
+    replaceAllPathsWithAbsolutePaths: {
+      propDefinition: [
+        firecrawl,
+        "replaceAllPathsWithAbsolutePaths",
+      ],
+      optional: true,
+    },
+    screenshot: {
+      propDefinition: [
+        firecrawl,
+        "screenshot",
+      ],
+      optional: true,
+    },
+    fullPageScreenshot: {
+      propDefinition: [
+        firecrawl,
+        "fullPageScreenshot",
+      ],
+      optional: true,
+    },
+    waitFor: {
+      propDefinition: [
+        firecrawl,
+        "waitFor",
       ],
       optional: true,
     },
@@ -39,10 +117,28 @@ export default {
   },
   async run({ $ }) {
     const response = await this.firecrawl.scrape({
-      url: this.url,
-      pageOptions: this.pageOptions,
-      extractorOptions: this.extractorOptions,
-      timeout: this.timeout,
+      $,
+      data: {
+        url: this.url,
+        pageOptions: {
+          headers: this.headers,
+          includeHtml: this.includeHtml,
+          includeRawHtml: this.includeRawHtml,
+          onlyIncludeTags: this.onlyIncludeTags,
+          onlyMainContent: this.onlyMainContent,
+          removeTags: this.removeTags,
+          replaceAllPathsWithAbsolutePaths: this.replaceAllPathsWithAbsolutePaths,
+          screenshot: this.screenshot,
+          fullPageScreenshot: this.fullPageScreenshot,
+          waitFor: parseInt(this.waitFor),
+        },
+        extractorOptions: {
+          mode: this.extractorMode,
+          extractionPrompt: this.extractionPrompt,
+          extractionSchema: this.extractionSchema,
+        },
+        timeout: this.timeout,
+      },
     });
 
     $.export("$summary", `Successfully scraped content from ${this.url}`);
