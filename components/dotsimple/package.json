@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dotsimple",
+  "version": "0.0.1",
+  "description": "Pipedream DotSimple Components",
+  "main": "dotsimple.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dotsimple"
+  ],
+  "homepage": "https://pipedream.com/apps/dotsimple",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,7 @@ export default {
   key: "github-create-repository",
   name: "Create Repository",
   description: "Creates a new repository for the authenticated user. [See docs here](https://docs.github.com/en/rest/repos/repos#create-a-repository-for-the-authenticated-user)",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     github,

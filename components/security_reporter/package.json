@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/security_reporter",
+  "version": "0.0.1",
+  "description": "Pipedream Security Reporter Components",
+  "main": "security_reporter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "security_reporter"
+  ],
+  "homepage": "https://pipedream.com/apps/security_reporter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
