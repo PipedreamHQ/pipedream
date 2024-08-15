@@ -1,0 +1,33 @@
+import addresszen from "../../addresszen.app.mjs";
+import { axios } from "@pipedream/platform";
+
+export default {
+  key: "addresszen-verify-correct-us-address-zip-code",
+  name: "Verify and Correct US Address by Zip Code",
+  description: "Verifies and corrects a US address based on a single address line and a zip code. [See the documentation](https://docs.addresszen.com/docs/api)",
+  version: "0.0.{{ts}}",
+  type: "action",
+  props: {
+    addresszen,
+    addressLine: {
+      propDefinition: [
+        addresszen,
+        "addressLine",
+      ],
+    },
+    zipCode: {
+      propDefinition: [
+        addresszen,
+        "zipCode",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.addresszen.verifyAndCorrectAddressByZipCode({
+      addressLine: this.addressLine,
+      zipCode: this.zipCode,
+    });
+    $.export("$summary", "Successfully verified and corrected the address");
+    return response;
+  },
+};
