@@ -5,15 +5,17 @@ import { Steps } from 'nextra/components'
 
 ## Overview
 
-Pipedream Connect is the easiest way for your users to connect to any API, **right in your product**.
+Pipedream Connect is the easiest way for your users to connect to over {process.env.PUBLIC_APPS}+ APIs, **right in your product**. 
 
-Connect enables you to easily integrate more than {process.env.PUBLIC_APPS}+ APIs into your product. Your users connect their API accounts for Slack, GitHub, and more, directly in your app. You can then retrieve fresh credentials for any account via API, making authenticated requests on their behalf. Pipedream handles the security of credentials and the whole OAuth flow — no need to manage authorization grants or token refresh yourself. 
+Connect lets your users to authorize API access for Slack, GitHub, and more, directly in your app. You can then retrieve fresh credentials for any account, making authenticated requests on their behalf. Pipedream handles the security of credentials and the whole OAuth flow — no need to manage authorization grants or token refresh yourself.
 
-Connect includes:
+Since it's your app, you have full control over how these integrations work. You handle the product, Pipedream takes care of the auth. Connect provides:
 
-1. A [Client SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) to initiate authorization for any one of the [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps) available on Pipedream
-2. A [REST API](#rest-api-overview) to retrieve credentials (OAuth access tokens, API keys, etc.) for your end users
+1. A [Client SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) to initiate authorization or accept API keys on behalf of your users, for any of the [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps) available on Pipedream
+2. A [REST API](#rest-api-overview) to retrieve credentials for your end users — OAuth access tokens, API keys, and other credentials stored by users.
 3. The Pipedream platform and its [serverless runtime](/), [thousands of pre-built source-available triggers and actions](https://github.com/PipedreamHQ/pipedream/tree/master/components), and a first-class developer experience to build, test, and deploy custom workflows
+
+Pipedream takes security seriously. Please [review our security docs](/privacy-and-security) and send us any questions or [suspected vulnerabilities](/privacy-and-security#reporting-a-vulnerability). You can also get a copy of our [SOC 2 Type 2 report](/privacy-and-security#soc-2), [sign HIPAA BAAs](/privacy-and-security#hipaa), and get information on other practices and controls.
 
 ### PUT VIDEO HERE ###
 
@@ -67,7 +69,7 @@ Typically, the name slug is the name of the app in lowercase, with spaces replac
 First, [create an OAuth client](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) for the app you'd like to integrate.
 
 <Callout type="warning">
-Make sure to check the **Enable for Pipedream Connect** setting in the OAuth client configuration in Pipedream to allow end users to connect their accounts. By default, OAuth clients are accessible only to members of your Pipedream workspace.
+Make sure to check the **Enable for Pipedream Connect** setting in the OAuth client configuration in Pipedream to allow end users to connect their accounts. By default, OAuth clients are accessible only to members of your Pipedream workspace. Checking this box allows your end users to create accounts for this app, too.
 
 **SCREENSHOT**
 </Callout>
@@ -84,7 +86,7 @@ Find your **Project Public Key** and **Project Secret Key** from the **Connect**
 
 **SCREENSHOT**
 
-### Add the integration to your app
+### Run the Pipedream demo app, or configure your own
 
 You'll need to do two things to integrate Pipedream Connect into your app:
 
@@ -93,9 +95,23 @@ You'll need to do two things to integrate Pipedream Connect into your app:
 
 **DEVELOPER FLOW SCREENSHOT**
 
-We'll walk through these steps below, using [a Next.js app](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk/examples/next-app/) as an example.
+We'll walk through these steps below, using [a Next.js app](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk/examples/next-app/) as an example. If you'd like to run that code, clone the repo and follow the instructions in the example app `README`. That will run the app on `localhost:3000`.
 
-#### Connect to the Pipedream API from your server
+In the example app, we provide an `.env.example` file that shows you the environment variables required to run the app:
+
+```bash
+# Specific to Next.js — see `app/page.tsx` for how these are used
+NEXT_PUBLIC_PIPEDREAM_APP_SLUG=github
+NEXT_PUBLIC_PIPEDREAM_APP_ID=oa_abc123
+
+# Used by `app/server.ts` to authorize requests to the Pipedream API — see below
+PIPEDREAM_PROJECT_PUBLIC_KEY=pub_abc123
+PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123
+```
+
+If you're building your own app, you'll need to provide these values to its environment, or retrieve them from your secrets store.
+
+### Connect to the Pipedream API from your server
 
 <Callout type="info">
 **Why do I need to talk to the Pipedream API from my server?**
@@ -109,13 +125,13 @@ You need to secure specific operations, for example:
 
 In this Next.js example, we're running Node.js code on our server, via [Next server components](https://nextjs.org/docs/app/building-your-application/rendering/server-components), so we'll use the Pipedream SDK. Additional examples in Python, Ruby, and other languages are noted below.
 
-To install the [Pipedream SDK](https://www.npmjs.com/package/@pipedream/sdk):
+To install the [Pipedream SDK](https://www.npmjs.com/package/@pipedream/sdk) in your own project, run:
 
 ```bash
 npm i --save @pipedream/sdk
 ```
 
-To create a short-lived token via SDK, you'll need to create a Pipedream API client and call the `connectTokenCreate` method. In our example app, this logic is in `app/server.ts`. Click into other tabs to see examples in additional languages.
+To create a short-lived token via SDK, you'll need to create a Pipedream API client and call the `connectTokenCreate` method. In our example app, this code is in `app/server.ts`. Click into other tabs to see examples in additional languages.
 
 ```typescript
 import {
@@ -127,7 +143,6 @@ import {
 const pd = createClient({
   publicKey: PIPEDREAM_PROJECT_PUBLIC_KEY,
   secretKey: PIPEDREAM_PROJECT_SECRET_KEY,
-  apiHost: PIPEDREAM_API_HOST,
 });
 
 export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
@@ -141,21 +156,23 @@ In our Next.js app, we call this method [from the frontend](#add-the-pipedream-s
 import { serverConnectTokenCreate } from "./server"
 
 const { token, expires_at } = await serverConnectTokenCreate({
-  app_slug: appSlug,  // The app's name slug
-  oauth_client_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app
+  app_slug: appSlug,  // The app's name slug, passed from the frontend
+  oauth_client_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
   external_id: externalUserId  // The end user's ID in your system
 });
 ```
 
 If you're using a different server / API framework, you'll need to make secure calls to that API to create a new token for your users. For example, you might validate a user's session, then call the Pipedream API to create a new token for that user.
 
-#### Add the Pipedream SDK to your frontend
+### Add the Pipedream SDK to your frontend
 
 Install the [Pipedream SDK](https://www.npmjs.com/package/@pipedream/sdk):
 
 ```bash
 npm i --save @pipedream/sdk
 ```
+
+### Get a token
 
 In our example app, `app/page.tsx` imports the SDK and the token creation code we wrote above:
 
@@ -171,19 +188,59 @@ const { token, expires_at } = await serverConnectTokenCreate({
 });
 ```
 
-### Retrieve your user credentials from Pipedream's API
+### Connect your account from the frontend
 
-- Check out to the API reference below to retrieve your users' credentials from Pipedream's API after they've connected their account.
+Once you have a token, you can use it to connect an account. In our example, `app/page.tsx` calls the `connectAccount` method from the Pipedream SDK when the user clicks the **Connect your account** button.
 
-## Deploying to production
+**SCREENSHOT OF CONNECT ACCOUNT BUTTON**
 
-Once you have the app working locally and want to deploy it to production, you'll need to [verify the domain](/workspaces/domain-verification#pipedream-connect) where the app will be hosted.
+```typescript
+export default function Home() {
+  pd.connectAccount({
+    app: process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG,
+    token,
+    onSuccess: ({ id: authProvisionId }) => {
+      setAuthProvisionId(authProvisionId as string)
+    }
+  })
+
+  return (
+    <main>
+      <button style={{ all: "revert" }} onClick={connectAccount}>Connect your account</button>
+    </main>
+  )
+}
+```
+
+Press that button to connect an account for the app you configured.
+
+### Retrieve the credentials from the backend
+
+Once the user has connected their account, you can retrieve their credentials from your backend with your project keys.
+
+```typescript
+import {
+  createClient,
+} from "@pipedream/sdk";
+
+const pd = createClient({
+  publicKey: PIPEDREAM_PROJECT_PUBLIC_KEY,
+  secretKey: PIPEDREAM_PROJECT_SECRET_KEY,
+});
+
+const data = await pd.getAccount({
+  appId: appSlug, // The app's name slug whose credentials you want to retrieve
+  externalId, // The end user's ID in your system
+}, {
+  includeCredentials: true,
+});
+```
+
+### Deploy your app to production
+
+Once you have the app working locally and want to deploy it to production, you'll need to [verify the domain](/workspaces/domain-verification#pipedream-connect) where the app will be hosted. This secures the account-connection process by ensuring that the app is hosted on a domain you control.
 
 </Steps>
-
-## Retrieving account details and user credentials
-
-After your end users have connected their account using Pipedream Connect, you can retrieve their credentials using Pipedream's REST API, which enables you to make authenticated requests on their behalf.
 
 ### REST API Overview
 

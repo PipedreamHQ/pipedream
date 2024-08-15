@@ -39,7 +39,7 @@ class BrowserClient {
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
   }
 
-  startConnect(opts: StartConnectOpts) {
+  connectAccount(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
       switch (e.data?.type) {
       case "verify-domain":

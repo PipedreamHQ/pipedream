@@ -29,7 +29,7 @@ export default function Home() {
     }
     setApp(app)
     if (oauthAppId) setOauthAppId(oauthAppId)
-    pd.startConnect({
+    pd.connectAccount({
       app,
       token,
       onSuccess: ({ id: authProvisionId }) => {
@@ -167,7 +167,7 @@ pd.startConnect({
             : <div>
               <p className="mb-8">
               </p>
-              <button style={{ all: "revert" }} onClick={connectAccount}>Connect your {app} account</button>
+              <button style={{ all: "revert" }} onClick={connectAccount}>Connect your account</button>
             </div>
           }
           {
