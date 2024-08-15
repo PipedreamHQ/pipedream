@@ -43,21 +43,6 @@ Please [let us know](mailto:connect@pipedream.com) how you're using it, what's n
 
 Enable the feature flag for **Pipedream Connect** in your [account settings](https://pipedream.com/settings/alpha).
 
-### Verify your application's domain
-
-To integrate [the client SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) on your site, you'll need to verify ownership of your web domain. [See the domain validation docs](workspaces/domain-verification#pipedream-connect) to get started.
-
-When developing locally, the following origins are automatically validated:
-
-```plaintext
-http://localhost
-https://localhost
-http://localhost:3000
-http://localhost:5000
-http://localhost:8000
-http://localhost:8080
-```
-
 ### Choose the apps you want to integrate
 
 There are two types of apps in Pipedream:
@@ -91,7 +76,7 @@ Once that's done, copy the OAuth app ID from the app configuration.
 
 **SCREEENSHOT**
 
-### Open your Pipedream project
+### Get your project keys
 
 Open an existing Pipedream project or create a new one: [https://pipedream.com/projects](https://pipedream.com/projects).
 
@@ -99,15 +84,100 @@ Find your **Project Public Key** and **Project Secret Key** from the **Connect**
 
 **SCREENSHOT**
 
-### Run the example app
+### Add the integration to your app
 
-- Install the [SDK](https://www.npmjs.com/package/@pipedream/sdk) via npm: `npm install @pipedream/sdk`
-- The code for the Pipedream SDK lives in the [public pipedream repo](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk)
-- Check out the example Next.js app and `README` for an implementation example.
+You'll need to do two things to integrate Pipedream Connect into your app:
+
+1. [Connect to the Pipedream API from your server](#connect-to-the-pipedream-api-from-your-server). This lets you make secure calls to the Pipedream API to initiate the account connection flow and retrieve account credentials. If you're running a JavaScript framework like Node.js on the server, you can use the Pipedream SDK.
+2. [Add the Pipedream SDK to your frontend](#add-the-pipedream-sdk-to-your-frontend). This lets you kick off the account connection flow for your end users.
+
+**DEVELOPER FLOW SCREENSHOT**
+
+We'll walk through these steps below, using [a Next.js app](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk/examples/next-app/) as an example.
+
+#### Connect to the Pipedream API from your server
+
+<Callout type="info">
+**Why do I need to talk to the Pipedream API from my server?**
+
+You need to secure specific operations, for example:
+
+- You need to initiate the account connection flow for your end users. In Pipedream Connect, **you exchange your project keys for a short-lived token that allows a specific user to connect a specific app**, and return that token to your frontend. If you expose your Pipedream project keys directly to the frontend, anyone could initiate the account connection flow for any user, and you'd be charged for those accounts.
+- You need to retrieve account credentials for your end users. Again, this should happen securely on your server, not in the frontend, to protect your users' data.
+
+</Callout>
+
+In this Next.js example, we're running Node.js code on our server, via [Next server components](https://nextjs.org/docs/app/building-your-application/rendering/server-components), so we'll use the Pipedream SDK. Additional examples in Python, Ruby, and other languages are noted below.
+
+To install the [Pipedream SDK](https://www.npmjs.com/package/@pipedream/sdk):
+
+```bash
+npm i --save @pipedream/sdk
+```
+
+To create a short-lived token via SDK, you'll need to create a Pipedream API client and call the `connectTokenCreate` method. In our example app, this logic is in `app/server.ts`. Click into other tabs to see examples in additional languages.
+
+```typescript
+import {
+  createClient,
+  type ConnectTokenCreateOpts,
+  type ConnectTokenResponse,
+} from "@pipedream/sdk";
+
+const pd = createClient({
+  publicKey: PIPEDREAM_PROJECT_PUBLIC_KEY,
+  secretKey: PIPEDREAM_PROJECT_SECRET_KEY,
+  apiHost: PIPEDREAM_API_HOST,
+});
+
+export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
+  return pd.connectTokenCreate(opts);
+}
+```
+
+In our Next.js app, we call this method [from the frontend](#add-the-pipedream-sdk-to-your-frontend) to initiate the account connection flow **for a specific user, and a specific app**:
+
+```typescript
+import { serverConnectTokenCreate } from "./server"
+
+const { token, expires_at } = await serverConnectTokenCreate({
+  app_slug: appSlug,  // The app's name slug
+  oauth_client_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app
+  external_id: externalUserId  // The end user's ID in your system
+});
+```
+
+If you're using a different server / API framework, you'll need to make secure calls to that API to create a new token for your users. For example, you might validate a user's session, then call the Pipedream API to create a new token for that user.
+
+#### Add the Pipedream SDK to your frontend
+
+Install the [Pipedream SDK](https://www.npmjs.com/package/@pipedream/sdk):
+
+```bash
+npm i --save @pipedream/sdk
+```
+
+In our example app, `app/page.tsx` imports the SDK and the token creation code we wrote above:
+
+```typescript
+// Note that we import the browser-specific SDK client here
+import { createClient } from "@pipedream/sdk/browser"
+import { serverConnectTokenCreate } from "./server"
+
+const { token, expires_at } = await serverConnectTokenCreate({
+  app_slug: appSlug,  // The app's name slug
+  oauth_client_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app
+  external_id: externalUserId  // The end user's ID in your system
+});
+```
 
 ### Retrieve your user credentials from Pipedream's API
 
 - Check out to the API reference below to retrieve your users' credentials from Pipedream's API after they've connected their account.
+
+## Deploying to production
+
+Once you have the app working locally and want to deploy it to production, you'll need to [verify the domain](/workspaces/domain-verification#pipedream-connect) where the app will be hosted.
 
 </Steps>
 
