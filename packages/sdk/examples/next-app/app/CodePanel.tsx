@@ -27,7 +27,7 @@ const CodePanel = ({ code, language }: CodePanelProps) => {
       </div>`,
     );
     setHighlightedCode(lines.join(""));
-  }, [code]);
+  }, [code, language]);
 
   return (
     <div className="relative pt-4 bg-gray-800 text-white font-mono text-sm rounded-md max-w-full shadow-lg pr-4">

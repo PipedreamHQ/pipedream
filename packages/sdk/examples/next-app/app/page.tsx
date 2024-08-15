@@ -32,7 +32,7 @@ export default function Home() {
     pd.startConnect({
       app,
       token,
-      onSuccess: ({ id: authProvisionId }: any) => {
+      onSuccess: ({ id: authProvisionId }) => {
         setAuthProvisionId(authProvisionId as string)
       }
     })
@@ -100,21 +100,21 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
         </div>
       }
       {
-        appSlug && externalUserId &&
+        appSlug && externalUserId && 
         <div>
           <h1 className="text-2xl font-bold mb-8">Pipedream Connect Example App</h1>
           <div className="mb-8">
             <p>Refer to the <a href="https://pipedream.com/docs/connect" target="_blank nofollow" className="hover:underline text-blue-600">Pipedream Connect docs</a> for a full walkthrough of how to configure Connect for your site. This example app implements Connect in a Next.js (React) app.</p>
           </div>
           <div className="mb-8">
-            <p>When your customers connect accounts with Pipedream, you'll pass their unique user ID in your system — whatever you use to identify them. In this example, we generate a random external user ID for you.</p>
+            <p>When your customers connect accounts with Pipedream, you&apos;ll pass their unique user ID in your system — whatever you use to identify them. In this example, we generate a random external user ID for you.</p>
           </div>
           <div className="mb-8">
             <span className="font-semibold">External User ID:</span>
             <span className="font-mono"> {externalUserId}</span>
           </div>
           <div className="mb-8">
-            <p>In <code>server.ts</code>, the app calls <code>serverConnectTokenCreate</code> to create a short-lived token for the user. You'll use that token to initiate app connection requests from your site securely. SEE THE DOCS.</p>
+            <p>In <code>server.ts</code>, the app calls <code>serverConnectTokenCreate</code> to create a short-lived token for the user. You&apos;ll use that token to initiate app connection requests from your site securely. SEE THE DOCS.</p>
           </div>
           <div className="mb-8">
             <CodePanel
@@ -128,12 +128,16 @@ const { token, expires_at } = await serverConnectTokenCreate({
 })`}
             />
           </div>
-          <div className="mb-8">
+          <div className="mb-2">
             <span className="font-semibold">Connect Token:</span>
             <span className="font-mono"> {token}</span>
           </div>
+          <div className="mb-8">
+            <span className="font-semibold">Expires at:</span>
+            <span className="font-mono"> {expiresAt}</span>
+          </div>
           <p className="mb-8">
-            When a user wants to connect an app from your frontend, you'll call <code>pd.startConnect</code> with the token and the OAuth App ID of the app you'd like to connect.
+            When a user wants to connect an app from your frontend, you&apos;ll call <code>pd.startConnect</code> with the token and the OAuth App ID of the app you&apos;d like to connect.
           </p>
           <div className="mb-8">
             <CodePanel
@@ -163,7 +167,7 @@ pd.startConnect({
             : <div>
               <p className="mb-8">
               </p>
-              <button style={{ all: "revert" }} onClick={connectAccount}>Connect your account</button>
+              <button style={{ all: "revert" }} onClick={connectAccount}>Connect your {app} account</button>
             </div>
           }
           {
