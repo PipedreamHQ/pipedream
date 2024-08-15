@@ -19,12 +19,12 @@ export default {
     startTime: {
       type: "string",
       label: "Start Time",
-      description: "The start time of the shift in ISO8601 format (YYYY-MM-DDTHH:MM:SSZ).",
+      description: "The start time of the shift in ISO8601 format (YYYY-MM-DDTHH:MM:SS.SSSZ).",
     },
     endTime: {
       type: "string",
       label: "End Time",
-      description: "The end time of the shift in ISO8601 format (YYYY-MM-DDTHH:MM:SSZ).",
+      description: "The end time of the shift in ISO8601 format (YYYY-MM-DDTHH:MM:SS.SSSZ).",
     },
     title: {
       type: "string",
@@ -95,6 +95,22 @@ export default {
     }
     return props;
   },
+  methods: {
+    checkDatetime(dateTime) {
+      try {
+        new Date(dateTime).toISOString();
+        return Date.parse(new Date(dateTime)) / 1000;
+      } catch (e) {
+        throw new Error(JSON.stringify({
+          "error": {
+            "errorDate": {
+              message: "Invalid datetime format.",
+            },
+          },
+        }));
+      }
+    },
+  },
   async run({ $ }) {
     try {
       const {
@@ -117,8 +133,8 @@ export default {
                 data.assignedUserId,
               ]
               : undefined,
-            startTime: Date.parse(new Date(startTime)) / 1000,
-            endTime: Date.parse(new Date(endTime)) / 1000,
+            startTime: this.checkDatetime(startTime),
+            endTime: this.checkDatetime(endTime),
             notes: parseObject(data.notes)?.map((note) => ({
               html: note,
             })),
