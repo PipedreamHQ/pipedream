@@ -116,7 +116,7 @@ GET /accounts/
 }
 ```
 
-#### List all connected accounts for an app
+#### List all accounts for an app
 
 ```
 GET /apps/:app_id/accounts
@@ -150,14 +150,14 @@ GET /apps/:app_id/accounts
 ]
 ```
 
-#### Retrieve account details for a specific auth provision
+#### Retrieve account details
 
-Retrieve the account details for a specific account based on the auth provision
+Retrieve the account details for a specific account based on the account ID
 
 ```
 GET /accounts/:apn_id
 ```
-- `:apn_id` is the auth provision of the account you want to retrieve
+- `:apn_id` is the ID of the account you want to retrieve
 - Optionally include `?include_credentials=1` as a query-string parameter to include the account credentials in the response
 
 ##### Example response (without account credentials)
@@ -218,7 +218,7 @@ GET /accounts/:apn_id
 }
 ```
 
-#### Retrieve account details for a specific external user
+#### Retrieve account details for an external user
 
 Retrieve the account details for a specific account based on the external user ID
 
@@ -353,17 +353,18 @@ GET /users/:external_id/accounts
 ]
 ```
 
-#### Delete individual connected account
+#### Delete connected account
 Delete a specific connected account for an end user
 
 ```
 DELETE /v1/connect/accounts/:apn_id
 ```
 
-- `:apn_id` is the auth provision of the account you want to retrieve
+- `:apn_id` is the ID of the account you want to retrieve
 - We'll return a `204 No Content` response if the account was successfully deleted
 
-#### Delete all connected accounts for a specific app
+#### Delete all connected accounts for an app
+Delete all connected accounts for a specific app
 
 ```
 DELETE /apps/:app_id/accounts
@@ -372,7 +373,8 @@ DELETE /apps/:app_id/accounts
 - `:app_id` can be `oauth_app_id` or `app_id`
 - We'll return a `204 No Content` response if the accounts were successfully deleted
 
-#### Delete an end user and all their connected accounts
+#### Delete an end user
+Delete an end user and all their connected accounts
 
 ```
 DELETE /users/:external_id
