@@ -122,7 +122,7 @@ GET /accounts/
 GET /apps/:app_id/accounts
 ``` 
 
-- `:app_id` can be `oauth_app_id` or `app_id`
+- `:app_id` can be `oauth_app_id` for [OAuth apps](/connect/quickstart#creating-a-custom-oauth-client) or [name slug](/connect/quickstart/#find-your-apps-name-slug) for key-based apps
 
 ##### Example response
 
@@ -155,9 +155,9 @@ GET /apps/:app_id/accounts
 Retrieve the account details for a specific account based on the account ID
 
 ```
-GET /accounts/:apn_id
+GET /accounts/:account_id
 ```
-- `:apn_id` is the ID of the account you want to retrieve
+- `:account_id` is the ID of the account you want to retrieve
 - Optionally include `?include_credentials=1` as a query-string parameter to include the account credentials in the response
 
 ##### Example response (without account credentials)
@@ -357,10 +357,10 @@ GET /users/:external_id/accounts
 Delete a specific connected account for an end user
 
 ```
-DELETE /v1/connect/accounts/:apn_id
+DELETE /v1/connect/accounts/:account_id
 ```
 
-- `:apn_id` is the ID of the account you want to retrieve
+- `:account_id` is the ID of the account you want to retrieve
 - We'll return a `204 No Content` response if the account was successfully deleted
 
 #### Delete all connected accounts for an app
@@ -370,7 +370,7 @@ Delete all connected accounts for a specific app
 DELETE /apps/:app_id/accounts
 ```
 
-- `:app_id` can be `oauth_app_id` or `app_id`
+- `:app_id` can be `oauth_app_id` for [OAuth apps](/connect/quickstart#creating-a-custom-oauth-client) or [name slug](/connect/quickstart/#find-your-apps-name-slug) for key-based apps
 - We'll return a `204 No Content` response if the accounts were successfully deleted
 
 #### Delete an end user
