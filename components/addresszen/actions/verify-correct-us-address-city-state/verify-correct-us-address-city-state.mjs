@@ -33,7 +33,7 @@ export default {
       addressLine, city, state,
     } = this;
 
-    const parsedState = STATE_OPTIONS[state] || state;
+    const parsedState = STATE_OPTIONS[state.toLowerCase()] || state;
     const response = await this.addresszen.verifyAddress({
       $,
       data: {
