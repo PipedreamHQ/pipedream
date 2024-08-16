@@ -33,7 +33,7 @@ export default {
       };
     },
     getSummary(item) {
-      return `New ${this.itemType} created: ${item.displayName}`;
+      return `New ${this.itemType} created: ${item.id}`;
     },
   },
   sampleEmit,
