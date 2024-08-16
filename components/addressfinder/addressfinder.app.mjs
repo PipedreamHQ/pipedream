@@ -28,16 +28,15 @@ export default {
       return "https://api.addressfinder.io/api";
     },
     async _makeRequest({
-      $ = this, method = "GET", path, params, headers,
+      $ = this, headers, ...args
     }) {
       return axios($, {
-        method,
-        url: `${this._baseUrl()}${path}`,
-        params,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: this.$auth.secret,
         },
+        ...args,
       });
     },
     async verifyAustralianAddress({ address }) {
