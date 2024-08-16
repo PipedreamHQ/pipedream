@@ -16,12 +16,13 @@ export type ConnectTokenResponse = {
   expires_at: string;
 };
 
-type AccountId = string;
-type AccountKeyFields = {
-  externalId: string;
-  appId: string;
+type GetAccountsOpts = {
+  externalId?: string;
+  accountId?: string;
+  appId?: string;
+  includeCredentials?: boolean;
 };
-type AccountKey = AccountId | AccountKeyFields;
+// change this to a key like before? Need to simplify as much as possible.
 
 export function createClient(opts: CreateServerClientOpts) {
   return new ServerClient(opts);
@@ -63,6 +64,8 @@ class ServerClient {
     return resp.json();
   }
 
+  // XXX refactor this, accept account ID, external ID, app, and any relevant combination
+  // What's the best DX to do this?
   async getAccount(key: AccountKey, opts?: { includeCredentials?: boolean; }) {
     let url: string;
     let id: string | undefined;
@@ -81,6 +84,8 @@ class ServerClient {
     if (opts?.includeCredentials) {
       url += "?include_credentials=1";
     }
+
+    console.log("url", url);
 
     const resp = await fetch(url, {
       headers: {

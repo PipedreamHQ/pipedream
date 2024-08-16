@@ -30,37 +30,15 @@ export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Pr
   return pd.connectTokenCreate(opts);
 }
 
-export async function getAppsData(externalId: string) {
-  const [
-    github,
-  ] = await Promise.all([
-    getGithubData(externalId),
-  ]);
-  return {
-    github,
-  };
-}
-
-export async function getGithubData(externalId: string) {
-  if (!NEXT_PUBLIC_PIPEDREAM_APP_SLUG)
-    throw new Error("NEXT_PUBLIC_PIPEDREAM_APP_ID not set in environment");
-
+export async function getUserAccounts(externalId: string) {
   const data = await pd.getAccount({
-    appId: NEXT_PUBLIC_PIPEDREAM_APP_SLUG ?? "",
     externalId,
-  }, {
     includeCredentials: true,
-  });
+  })
   if (!data?.accounts.length) {
     return null;
   }
-  const account = data.accounts[data.accounts.length - 1];
-  const resp = await fetch("https://api.github.com/user", {
-    headers: {
-      Authorization: `Bearer ${account.credentials.oauth_access_token}`,
-    },
-  });
-  const res = await resp.json();
 
-  return res;
+  // Parse and return data?.accounts. These may contain credentials, 
+  // which you should never return to the client
 }
