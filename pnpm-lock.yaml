@@ -170,6 +170,9 @@ importers:
   components/action_network:
     specifiers: {}
 
+  components/activecalculator:
+    specifiers: {}
+
   components/activecampaign:
     specifiers:
       '@pipedream/platform': ^1.6.0
