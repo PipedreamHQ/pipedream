@@ -3,8 +3,12 @@
     "title": "Pipedream Connect",
     "display": "hidden"
   },
-  "reference": {
-    "title": "API Reference",
+  "quickstart": {
+    "title": "Quickstart",
+    "display": "hidden"
+  },
+  "api": {
+    "title": "Connect API Reference",
     "display": "hidden"
   }
 }
