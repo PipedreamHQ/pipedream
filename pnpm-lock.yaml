@@ -5724,12 +5724,14 @@ importers:
     specifiers:
       '@microsoft/microsoft-graph-client': ^3.0.1
       '@pipedream/platform': ^1.1.0
+      bottleneck: ^2.19.5
       file-type: ^18.7.0
       isomorphic-fetch: ^3.0.0
       lodash.get: ^4.4.2
     dependencies:
       '@microsoft/microsoft-graph-client': 3.0.7
       '@pipedream/platform': 1.5.1
+      bottleneck: 2.19.5
       file-type: 18.7.0
       isomorphic-fetch: 3.0.0
       lodash.get: 4.4.2
