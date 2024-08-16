@@ -7,3 +7,13 @@ export async function checkAdminPermission() {
   });
   return admin;
 }
+
+export async function checkOrgAdminPermission() {
+  const { org } = this;
+  const { login: username } = await this.github.getAuthenticatedUser();
+  const { role } = await this.github.getOrgUserInfo({
+    org,
+    username,
+  });
+  return role === "admin";
+}
