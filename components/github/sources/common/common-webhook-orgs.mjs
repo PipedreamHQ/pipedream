@@ -1,4 +1,6 @@
+import { ConfigurationError } from "@pipedream/platform";
 import github from "../../github.app.mjs";
+import { checkOrgAdminPermission } from "./utils.mjs";
 
 export default {
   props: {
@@ -8,6 +10,7 @@ export default {
         github,
         "orgName",
       ],
+      reloadProps: true,
     },
     repo: {
       propDefinition: [
@@ -20,6 +23,10 @@ export default {
     },
     db: "$.service.db",
     http: "$.interface.http",
+  },
+  async additionalProps() {
+    await this.requireAdminPermission();
+    return {};
   },
   methods: {
     _getWebhookId() {
@@ -37,9 +44,16 @@ export default {
     loadHistoricalEvents() {
       return true;
     },
+    checkOrgAdminPermission,
+    async requireAdminPermission() {
+      if (!await this.checkOrgAdminPermission()) {
+        throw new ConfigurationError("Webhooks are only supported on organizations where you have admin access.");
+      }
+    },
   },
   hooks: {
     async deploy() {
+      await this.requireAdminPermission();
       await this.loadHistoricalEvents();
     },
     async activate() {

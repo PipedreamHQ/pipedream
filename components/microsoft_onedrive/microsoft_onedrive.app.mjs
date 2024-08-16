@@ -2,6 +2,7 @@ import "isomorphic-fetch";
 import { Client } from "@microsoft/microsoft-graph-client";
 import get from "lodash.get";
 import mimeTypes from "./sources/common/mime-types.mjs";
+import httpRequest from "./common/httpRequest.mjs";
 
 export default {
   type: "app",
@@ -72,10 +73,87 @@ export default {
       type: "string[]",
       label: "File Types",
       description: "The types of files to watch for",
+      optional: true,
       options: mimeTypes,
+    },
+    sharedFolderReference: {
+      type: "string",
+      label: "Shared Folder Reference",
+      description: "The reference of the shared folder which the the new folder should be created.\n\nE.g. `/drives/{driveId}/items/{folderId}/children`",
+      async options() {
+        const { value } = await this.httpRequest({
+          url: "/sharedWithMe",
+        });
+        return value.map((shared) => ({
+          label: shared.name,
+          value: `/drives/${shared.remoteItem.parentReference.driveId}/items/${shared.remoteItem.id}/children`,
+        }));
+      },
+    },
+    fileId: {
+      type: "string",
+      label: "File ID",
+      description: "The file to download. You can either search for the file here, provide a custom *File ID*, or use the `File Path` prop to specify the path directly.",
+      useQuery: true,
+      async options({
+        query, excludeFolders = true,
+      }) {
+        const response = query
+          ? await this.httpRequest({
+            url: `/search(q='${query}')?select=folder,name,id`,
+          })
+          : await this.listDriveItems();
+        const values = excludeFolders
+          ? response.value.filter(({ folder }) => !folder)
+          : response.value;
+        return values
+          .map(({
+            name, id,
+          }) => ({
+            label: name,
+            value: id,
+          }));
+      },
+    },
+    excelFileId: {
+      type: "string",
+      label: "Spreadsheet",
+      description: "**Search for the file by name.** Only xlsx files are supported.",
+      useQuery: true,
+      async options({ query }) {
+        const response = await this.httpRequest({
+          url: `/search(q='${query ?? ""} .xlsx')?select=name,id`,
+        });
+        return response.value
+          .filter(({ name }) => name.endsWith(".xlsx"))
+          .map(({
+            name, id,
+          }) => ({
+            label: name,
+            value: id,
+          }));
+      },
+    },
+    tableName: {
+      type: "string",
+      label: "Table name",
+      description: "This is set in the **Table Design** tab of the ribbon.",
+      async options({ itemId }) {
+        const response = await this.httpRequest({
+          url: `/items/${itemId}/workbook/tables?$select=name`,
+        });
+        return response.value.map(({ name }) => name);
+      },
+    },
+    excludeFolders: {
+      type: "boolean",
+      label: "Exclude Folders?",
+      description: "Set to `true` to return only files in the response. Defaults to `false`",
+      optional: true,
     },
   },
   methods: {
+    httpRequest,
     /**
      * @returns Microsoft Graph Client instance
      */
@@ -284,6 +362,64 @@ export default {
 
         url = nextLink;
       }
+    },
+    createLink({
+      driveItemId, ...args
+    } = {}) {
+      const client = this.client();
+      return client
+        .api(`/me/drive/items/${driveItemId}/createLink`)
+        .post(args);
+    },
+    createFolder({
+      folderName, parentFolderId, sharedFolderReference,
+    }) {
+      let url = "/root/children";
+      if (parentFolderId) {
+        url = `/items/${parentFolderId}/children`;
+      }
+      if (sharedFolderReference) {
+        url = sharedFolderReference;
+      }
+      return this.httpRequest({
+        url,
+        useSharedDrive: !!sharedFolderReference,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          name: folderName,
+          folder: {},
+          ["@microsoft.graph.conflictBehavior"]: "rename",
+        },
+        method: "POST",
+      });
+    },
+    getExcelTable({
+      itemId, tableName, ...args
+    }) {
+      return this.httpRequest({
+        url: `/items/${itemId}/workbook/tables/${tableName}/range`,
+        ...args,
+      });
+    },
+    uploadFile({
+      uploadFolderId, name, ...args
+    }) {
+      return this.httpRequest({
+        url: `/items/${uploadFolderId}:/${encodeURI(name)}:/content`,
+        headers: {
+          "Content-Type": "application/octet-stream",
+        },
+        method: "PUT",
+        ...args,
+      });
+    },
+    listDriveItems(args = {}) {
+      const client = this.client();
+      return client
+        .api("/me/drive/root/children")
+        .get(args);
     },
   },
 };
