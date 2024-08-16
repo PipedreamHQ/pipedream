@@ -164,7 +164,7 @@ const client = new Client({
 
 const connectTokenOpts = {
   app_slug: "YOUR_APP_SLUG",  // The app's name slug
-  oauth_client_id: "o_abc123",  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
+  oauth_app_id: "o_abc123",  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
   external_id: "USER_ID"  // The end user's ID in your system
 }
 
@@ -216,7 +216,7 @@ client = Client({
 
 connect_token_opts = {
     'app_slug': "YOUR_APP_SLUG",
-    'oauth_client_id': "o_abc123",
+    'oauth_app_id': "o_abc123",
     'external_id': "USER_ID"
 }
 
@@ -260,7 +260,7 @@ public class Client {
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setDoOutput(true);
 
-        String jsonInputString = String.format("{\"app_slug\":\"%s\",\"oauth_client_id\":\"%s\",\"external_id\":\"%s\"}", appSlug, oauthClientId, externalId);
+        String jsonInputString = String.format("{\"app_slug\":\"%s\",\"oauth_app_id\":\"%s\",\"external_id\":\"%s\"}", appSlug, oauthClientId, externalId);
 
         try (OutputStream os = conn.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
@@ -311,7 +311,7 @@ public class Client {
             client.DefaultRequestHeaders.Add("Authorization", auth);
             client.DefaultRequestHeaders.Add("Content-Type", "application/json");
 
-            var content = new StringContent($"{{\"app_slug\":\"{appSlug}\",\"oauth_client_id\":\"{oauthClientId}\",\"external_id\":\"{externalId}\"}}", Encoding.UTF8, "application/json");
+            var content = new StringContent($"{{\"app_slug\":\"{appSlug}\",\"oauth_app_id\":\"{oauthClientId}\",\"external_id\":\"{externalId}\"}}", Encoding.UTF8, "application/json");
             var response = await client.PostAsync($"{baseURL}/v1/connect/tokens", content);
 
             return await response.Content.ReadAsStringAsync();
@@ -368,7 +368,7 @@ func (c *Client) ConnectTokenCreate(appSlug, oauthClientId, externalId string) (
 
 	opts := map[string]string{
 		"app_slug":       appSlug,
-		"oauth_client_id": oauthClientId,
+		"oauth_app_id": oauthClientId,
 		"external_id":    externalId,
 	}
 
@@ -440,7 +440,7 @@ class Client {
 
         $data = json_encode([
             'app_slug' => $appSlug,
-            'oauth_client_id' => $oauthClientId,
+            'oauth_app_id' => $oauthClientId,
             'external_id' => $externalId
         ]);
 
@@ -467,12 +467,12 @@ $client = new Client('YOUR_SECRET_KEY', 'YOUR_PUBLIC_KEY');
 
 $connectTokenOpts = [
     'app_slug' => "YOUR_APP_SLUG",
-    'oauth_client_id' => "o_abc123",
+    'oauth_app_id' => "o_abc123",
     'external_id' => "USER_ID"
 ];
 
 // Expose this code as an API endpoint in your server to fetch the token from the frontend
-$response = $client->connectTokenCreate($connectTokenOpts['app_slug'], $connectTokenOpts['oauth_client_id'], $connectTokenOpts['external_id']);
+$response = $client->connectTokenCreate($connectTokenOpts['app_slug'], $connectTokenOpts['oauth_app_id'], $connectTokenOpts['external_id']);
 ?>
 ```
 </Tabs.Tab>
@@ -497,12 +497,12 @@ class Client
     "Basic #{encoded}"
   end
 
-  def connect_token_create(app_slug, oauth_client_id, external_id)
+  def connect_token_create(app_slug, oauth_app_id, external_id)
     uri = URI("#{@base_url}/v1/connect/tokens")
     req = Net::HTTP::Post.new(uri)
     req['Authorization'] = authorization_header
     req['Content-Type'] = 'application/json'
-    req.body = { app_slug: app_slug, oauth_client_id: oauth_client_id, external_id: external_id }.to_json
+    req.body = { app_slug: app_slug, oauth_app_id: oauth_app_id, external_id: external_id }.to_json
 
     res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
       http.request(req)
@@ -516,12 +516,12 @@ client = Client.new('YOUR_SECRET_KEY', 'YOUR_PUBLIC_KEY')
 
 connect_token_opts = {
   app_slug: "YOUR_APP_SLUG",
-  oauth_client_id: "o_abc123",
+  oauth_app_id: "o_abc123",
   external_id: "USER_ID"
 }
 
 # Expose this code as an API endpoint in your server to fetch the token from the frontend
-response = client.connect_token_create(connect_token_opts[:app_slug], connect_token_opts[:oauth_client_id], connect_token_opts[:external_id])
+response = client.connect_token_create(connect_token_opts[:app_slug], connect_token_opts[:oauth_app_id], connect_token_opts[:external_id])
 ```
 </Tabs.Tab>
 </Tabs>
@@ -533,7 +533,7 @@ import { serverConnectTokenCreate } from "./server"
 
 const { token, expires_at } = await serverConnectTokenCreate({
   app_slug: appSlug,  // The app's name slug, passed from the frontend
-  oauth_client_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
+  oauth_app_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
   external_id: externalUserId  // The end user's ID in your system
 });
 ```

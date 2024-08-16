@@ -7,7 +7,7 @@ type CreateServerClientOpts = {
 
 export type ConnectTokenCreateOpts = {
   app_slug: string;
-  oauth_client_id?: string;
+  oauth_app_id?: string;
   external_id: string;
 };
 

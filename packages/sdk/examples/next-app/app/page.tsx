@@ -59,7 +59,7 @@ export default function Home() {
         try {
           const { token, expires_at } = await serverConnectTokenCreate({
             app_slug: appSlug,
-            oauth_client_id: oauthAppId,
+            oauth_app_id: oauthAppId,
             external_id: externalUserId
           })
           setToken(token)
@@ -122,7 +122,7 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
 
 const { token, expires_at } = await serverConnectTokenCreate({
   app_slug: "github",
-  oauth_client_id: "oa_abc123",  // Only required for OAuth apps
+  oauth_app_id: "oa_abc123",  // Only required for OAuth apps
   external_id: "${externalUserId}",
 })`}
             />
