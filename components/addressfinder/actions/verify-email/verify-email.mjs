@@ -3,7 +3,7 @@ import addressfinder from "../../addressfinder.app.mjs";
 export default {
   key: "addressfinder-verify-email",
   name: "Verify Email",
-  description: "Validates the input email and returns fully verified email data. Props include 'email' (required), the email address to be verified.",
+  description: "Validates the input email. [See the documentation](https://addressfinder.com.au/api/email/verification/)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
@@ -12,16 +12,44 @@ export default {
       type: "string",
       label: "Email Address",
       description: "The email address to be verified",
-      required: true,
+    },
+    domain: {
+      type: "string",
+      label: "Domain",
+      description: "Used to identify which of your services is calling the API for activity monitoring purposes. [See the documentation](https://addressfinder.com/r/faq/what-is-the-domain-option-used-for/) for more information.",
+      optional: true,
+    },
+    features: {
+      type: "string[]",
+      label: "Features",
+      description: "The methods of verification to be completed. This will impact the query processing time and data returned in the response.",
+      optional: true,
+      options: [
+        {
+          label: "Domain - a check to verify that the domain of the email address is configured to receive emails.",
+          value: "domain",
+        },
+        {
+          label: "Connection - a check to verify that the email account exists at the provided domain.",
+          value: "connection",
+        },
+        {
+          label: "Email provider - a check that determines the underlaying provider of the email service.",
+          value: "provider",
+        },
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.addressfinder.verifyEmailAddress({
-      email: this.email,
+    const {
+      addressfinder, ...params
+    } = this;
+    const response = await addressfinder.verifyEmailAddress({
+      $,
+      params,
     });
-    $.export("$summary", `Email verification status: ${response.is_verified
-      ? "Verified"
-      : "Not Verified"}`);
+
+    $.export("$summary", `Successfully verified email ${this.email}`);
     return response;
   },
 };

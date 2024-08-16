@@ -28,13 +28,17 @@ export default {
       return "https://api.addressfinder.io/api";
     },
     async _makeRequest({
-      $ = this, headers, ...args
+      $ = this, headers, params, ...args
     }) {
       return axios($, {
         baseURL: this._baseUrl(),
         headers: {
           ...headers,
           Authorization: this.$auth.secret,
+        },
+        params: {
+          ...params,
+          key: this.$auth.key,
         },
         ...args,
       });
@@ -49,14 +53,16 @@ export default {
         },
       });
     },
-    async verifyEmailAddress({ email }) {
+    async verifyEmailAddress({
+      params, ...args
+    }) {
       return this._makeRequest({
-        path: "/email/verification/",
+        url: "/email/v1/verification",
         params: {
-          email: email,
-          key: this.$auth.api_key,
+          ...params,
           format: "json",
         },
+        ...args,
       });
     },
     async verifyNewZealandAddress({ nzAddress }) {
