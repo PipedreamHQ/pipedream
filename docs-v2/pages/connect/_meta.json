@@ -1,14 +1,11 @@
 {
   "index": {
-    "title": "Pipedream Connect",
-    "display": "hidden"
+    "title": "Overview"
   },
   "quickstart": {
-    "title": "Quickstart",
-    "display": "hidden"
+    "title": "Quickstart"
   },
   "api": {
-    "title": "Connect API Reference",
-    "display": "hidden"
+    "title": "API Reference"
   }
 }
