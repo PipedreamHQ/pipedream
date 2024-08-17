@@ -4,7 +4,7 @@ export default {
   key: "addressfinder-verify-email",
   name: "Verify Email",
   description: "Validates the input email. [See the documentation](https://addressfinder.com.au/api/email/verification/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     addressfinder,
@@ -42,11 +42,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      addressfinder, ...params
+      addressfinder, features, ...params
     } = this;
     const response = await addressfinder.verifyEmailAddress({
       $,
-      params,
+      params: {
+        ...params,
+        features: features?.join?.(),
+      },
     });
 
     $.export("$summary", `Successfully verified email ${this.email}`);
