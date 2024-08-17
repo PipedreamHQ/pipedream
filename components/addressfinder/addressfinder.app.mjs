@@ -4,23 +4,11 @@ export default {
   type: "app",
   app: "addressfinder",
   propDefinitions: {
-    address: {
+    domain: {
       type: "string",
-      label: "Australian Address",
-      description: "The Australian address to be verified",
-      required: true,
-    },
-    email: {
-      type: "string",
-      label: "Email Address",
-      description: "The email address to be verified",
-      required: true,
-    },
-    nzAddress: {
-      type: "string",
-      label: "New Zealand Address",
-      description: "The New Zealand address to be verified",
-      required: true,
+      label: "Domain",
+      description: "Used to identify which of your services is calling the API for activity monitoring purposes. [See the documentation](https://addressfinder.com/r/faq/what-is-the-domain-option-used-for/) for more information.",
+      optional: true,
     },
   },
   methods: {
@@ -43,14 +31,16 @@ export default {
         ...args,
       });
     },
-    async verifyAustralianAddress({ address }) {
+    async verifyAustralianAddress({
+      params, ...args
+    }) {
       return this._makeRequest({
-        path: "/au/address/verification/",
+        url: "/au/address/v2/verification",
         params: {
-          q: address,
-          key: this.$auth.api_key,
+          ...params,
           format: "json",
         },
+        ...args,
       });
     },
     async verifyEmailAddress({

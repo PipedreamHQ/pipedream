@@ -14,10 +14,10 @@ export default {
       description: "The email address to be verified",
     },
     domain: {
-      type: "string",
-      label: "Domain",
-      description: "Used to identify which of your services is calling the API for activity monitoring purposes. [See the documentation](https://addressfinder.com/r/faq/what-is-the-domain-option-used-for/) for more information.",
-      optional: true,
+      propDefinition: [
+        addressfinder,
+        "domain",
+      ],
     },
     features: {
       type: "string[]",
@@ -42,17 +42,18 @@ export default {
   },
   async run({ $ }) {
     const {
-      addressfinder, features, ...params
+      email, domain,
     } = this;
-    const response = await addressfinder.verifyEmailAddress({
+    const response = await this.addressfinder.verifyEmailAddress({
       $,
       params: {
-        ...params,
-        features: features?.join?.(),
+        email,
+        domain,
+        features: this.features?.join?.(),
       },
     });
 
-    $.export("$summary", `Successfully verified email ${this.email}`);
+    $.export("$summary", `Successfully verified email ${email}`);
     return response;
   },
 };
