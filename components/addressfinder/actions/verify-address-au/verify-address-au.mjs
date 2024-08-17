@@ -71,7 +71,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully verified address "${address}"`);
+    $.export("$summary", `Successfully verified AU address "${address}"`);
     return response;
   },
 };

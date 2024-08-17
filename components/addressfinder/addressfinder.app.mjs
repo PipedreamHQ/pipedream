@@ -7,7 +7,8 @@ export default {
     domain: {
       type: "string",
       label: "Domain",
-      description: "Used to identify which of your services is calling the API for activity monitoring purposes. [See the documentation](https://addressfinder.com/r/faq/what-is-the-domain-option-used-for/) for more information.",
+      description:
+        "Used to identify which of your services is calling the API for activity monitoring purposes. [See the documentation](https://addressfinder.com/r/faq/what-is-the-domain-option-used-for/) for more information.",
       optional: true,
     },
   },
@@ -26,43 +27,28 @@ export default {
         },
         params: {
           ...params,
+          format: "json",
           key: this.$auth.key,
         },
         ...args,
       });
     },
-    async verifyAustralianAddress({
-      params, ...args
-    }) {
+    async verifyAustralianAddress(args) {
       return this._makeRequest({
         url: "/au/address/v2/verification",
-        params: {
-          ...params,
-          format: "json",
-        },
         ...args,
       });
     },
-    async verifyEmailAddress({
-      params, ...args
-    }) {
+    async verifyEmailAddress(args) {
       return this._makeRequest({
         url: "/email/v1/verification",
-        params: {
-          ...params,
-          format: "json",
-        },
         ...args,
       });
     },
-    async verifyNewZealandAddress({ nzAddress }) {
+    async verifyNewZealandAddress(args) {
       return this._makeRequest({
-        path: "/nz/address/verification/",
-        params: {
-          q: nzAddress,
-          key: this.$auth.api_key,
-          format: "json",
-        },
+        url: "/nz/address/verification",
+        ...args,
       });
     },
   },

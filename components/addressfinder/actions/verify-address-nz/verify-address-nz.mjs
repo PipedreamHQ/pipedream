@@ -3,23 +3,33 @@ import addressfinder from "../../addressfinder.app.mjs";
 export default {
   key: "addressfinder-verify-address-nz",
   name: "Verify New Zealand Address",
-  description: "Validates the input New Zealand address and returns a fully verified address.",
-  version: "0.0.{{ts}}",
+  description: "Validates a New Zealand address. [See the documentation](https://addressfinder.com.au/api/nz/address/verification/)",
+  version: "0.0.1",
   type: "action",
   props: {
     addressfinder,
-    nzAddress: {
+    address: {
       type: "string",
       label: "New Zealand Address",
-      description: "The New Zealand address to be verified",
-      required: true,
+      description: "The New Zealand address to be verified, e.g. `186 Willis St, Te Aro`",
+    },
+    domain: {
+      propDefinition: [
+        addressfinder,
+        "domain",
+      ],
     },
   },
   async run({ $ }) {
+    const { address } = this;
     const response = await this.addressfinder.verifyNewZealandAddress({
-      nzAddress: this.nzAddress,
+      $,
+      params: {
+        q: address,
+        domain: this.domain,
+      },
     });
-    $.export("$summary", "Successfully verified the New Zealand address");
+    $.export("$summary", `Successfully verified NZ address "${address}"`);
     return response;
   },
 };
