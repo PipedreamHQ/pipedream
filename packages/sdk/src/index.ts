@@ -8,7 +8,7 @@ type CreateServerClientOpts = {
 export type ConnectTokenCreateOpts = {
   app_slug: string;
   oauth_app_id?: string;
-  external_id: string;
+  external_user_id: string;
 };
 
 export type ConnectTokenResponse = {
@@ -16,13 +16,58 @@ export type ConnectTokenResponse = {
   expires_at: string;
 };
 
-type GetAccountsOpts = {
-  externalId?: string;
-  accountId?: string;
-  appId?: string;
-  includeCredentials?: boolean;
+type ConnectParams = {
+  includeCredentials?: string;
 };
-// change this to a key like before? Need to simplify as much as possible.
+
+type AuthType = "oauth" | "keys" | "none";
+
+type AppResponse = {
+  id: string;
+  name_slug: string;
+  name: string;
+  auth_type: AuthType;
+  img_src: string;
+  custom_fields_json: string;
+  categories: string[];
+
+};
+
+type CreateAccountOpts = {
+  app_slug: string;
+  connect_token: string;
+  cfmap_json: string;
+  name?: string;
+};
+
+// Updated Account type to include optional fields
+type Account = {
+  id: string;
+  name: string;
+  external_id: string;
+  healthy: boolean;
+  dead: boolean;
+  app: AppResponse;
+  created_at: string;
+  updated_at: string;
+  credentials?: Record<string, string>; // Optional field for when include_credentials is true
+};
+
+interface SuccessResponse<T> {
+  status: "success";
+  data: T;
+}
+
+type ErrorResponse = {
+  error: string;
+};
+
+type ConnectAPIResponse<T> = SuccessResponse<T> | ErrorResponse;
+
+interface ConnectRequestOptions extends Omit<RequestInit, "headers"> {
+  params?: Record<string, string | boolean | number>;
+  headers?: Record<string, string>;
+}
 
 export function createClient(opts: CreateServerClientOpts) {
   return new ServerClient(opts);
@@ -40,7 +85,7 @@ class ServerClient {
     this.publicKey = opts.publicKey;
 
     const { apiHost = "api.pipedream.com" } = opts;
-    this.baseURL = `https://${apiHost}`;
+    this.baseURL = `https://${apiHost}/v1`;
   }
 
   private _authorizationHeader(): string {
@@ -64,45 +109,102 @@ class ServerClient {
     return resp.json();
   }
 
-  // XXX refactor this, accept account ID, external ID, app, and any relevant combination
-  // What's the best DX to do this?
-  async getAccount(key: AccountKey, opts?: { includeCredentials?: boolean; }) {
-    let url: string;
-    let id: string | undefined;
-    const baseAccountURL = `${this.baseURL}/v1/connect`;
-    if (typeof key === "string") {
-      id = key;
-      url = `${baseAccountURL}/accounts/${id}`;
-    } else if (key.externalId) {
-      url = `${baseAccountURL}/users/${key.externalId}/accounts`;
-    } else if (key.appId) {
-      url = `${baseAccountURL}/apps/${key.appId}/accounts`;
-    } else {
-      url = `${baseAccountURL}/accounts`;
-    }
-
-    if (opts?.includeCredentials) {
-      url += "?include_credentials=1";
-    }
-
-    console.log("url", url);
-
-    const resp = await fetch(url, {
-      headers: {
-        "authorization": this._authorizationHeader(),
-        "content-type": "application/json",
-      },
-    });
-    const res = await resp.json();
+  async _makeConnectRequest<T>(
+    path: string,
+    opts: ConnectRequestOptions = {},
+  ): Promise<ConnectAPIResponse<T>> {
     const {
-      data, error,
-    } = res;
-    if (error) {
-      if (error === "record not found") {
-        return null;
-      }
-      throw new Error(error);
+      params,
+      headers: customHeaders,
+      body,
+      method = "GET",
+      ...fetchOpts
+    } = opts;
+    const url = new URL(`${this.baseURL}/connect${path}`);
+
+    if (params) {
+      Object.entries(params).forEach(([
+        key,
+        value,
+      ]) => {
+        if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+          url.searchParams.append(key, value.toString());
+        }
+      });
     }
-    return data;
+
+    const headers = {
+      "Authorization": this._authorizationHeader(),
+      "Content-Type": "application/json",
+      ...customHeaders,
+    };
+
+    // Prepare the request options
+    const requestOptions: RequestInit = {
+      method,
+      headers,
+      ...fetchOpts,
+    };
+
+    // Handle body for POST, PUT, PATCH requests
+    if ([
+      "POST",
+      "PUT",
+      "PATCH",
+    ].includes(method.toUpperCase()) && body) {
+      requestOptions.body = JSON.stringify(body);
+    }
+
+    const response: Response = await fetch(url.toString(), requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result: ConnectAPIResponse<T> = await response.json();
+    return result;
+  }
+
+  async getAccounts(params: ConnectParams = {}): Promise<ConnectAPIResponse<Account[]>> {
+    return this._makeConnectRequest<Account[]>("/accounts", {
+      params,
+    });
+  }
+
+  async getAccount(accountId: string, params: ConnectParams = {}): Promise<ConnectAPIResponse<Account>> {
+    return this._makeConnectRequest<Account>(`/accounts/${accountId}`, {
+      params,
+    });
+  }
+
+  async getAccountsByApp(appId: string, params: ConnectParams = {}): Promise<ConnectAPIResponse<Account[]>> {
+    return this._makeConnectRequest<Account[]>(`/accounts/app/${appId}`, {
+      params,
+    });
+  }
+
+  async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<ConnectAPIResponse<Account[]>> {
+    return this._makeConnectRequest<Account[]>(`/accounts/external_id/${externalId}`, {
+      params,
+    });
+  }
+
+  async createAccount(opts: CreateAccountOpts): Promise<ConnectAPIResponse<Account>> {
+    return this._makeConnectRequest<Account>("/accounts", {
+      method: "POST",
+      body: JSON.stringify(opts),
+    });
+  }
+
+  async deleteAccount(accountId: string): Promise<void> {
+    await this._makeConnectRequest(`/accounts/${accountId}`, {
+      method: "DELETE",
+    });
+  }
+
+  async deleteAccountsByApp(appId: string): Promise<void> {
+    await this._makeConnectRequest(`/accounts/app/${appId}`, {
+      method: "DELETE",
+    });
   }
 }
