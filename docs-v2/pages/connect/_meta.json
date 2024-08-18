@@ -2,6 +2,9 @@
   "index": {
     "title": "Overview"
   },
+  "use-cases": {
+    "title": "Use cases"
+  },
   "quickstart": {
     "title": "Quickstart"
   },

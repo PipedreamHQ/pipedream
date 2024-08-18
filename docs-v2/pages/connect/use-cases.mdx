@@ -1,0 +1,31 @@
+# Pipedream Connect use cases
+
+## Integrations are hard
+
+In 20 years of building software, we've seen a common theme. No matter the product, your customers end up needing to connect your app to third-party APIs. 
+
+You might build real-time notifications with messaging apps, export customer data to databases or spreadsheets, ingest data from CRMs, or connect to any of the thousands of APIs and SaaS services your customers are using. These features are often tied to large contracts and Enterprise customers.
+
+But it's hard to justify the engineering effort required for these integrations. They're a distraction from the core product. Once built, they're hard to maintain. You have to securely manage auth, learn the nuances of each API, and improve the integration as your customers ask for new features. Managing these integrations is a huge context switch for any engineer. Most teams have trouble scaling this.
+
+At Pipedream, our customers tell us a variant of this story every day. Pipedream Connect helps you build these features **in minutes**, for any app.
+
+## How customers are using Connect
+
+Building an app with Pipedream and want to be profiled here? Email <code>connect@pipedream.com</code> to let us know!
+
+### In-app messaging
+
+Most apps build email notifications, since it's easy. But most teams work in Slack, Discord, Microsoft Teams, or a variety of other messaging apps. Sometimes you want to send messages via SMS or push notifications. It's hard to maintain integrations for all the apps your customers are using. Pipedream makes this simple.
+
+### CRM syncs
+
+Sync data between your app and Salesforce, HubSpot, or any CRM. Pipedream lets your customers connect their accounts directly from your UI, define the sync logic, and run it on Pipedream's infrastructure. Pull data from your customers' CRMs in real-time, or push data from your app.
+
+### AI products
+
+Talk to any AI API or LLM. Build chat apps or interact in real-time with your users. Or run asynchronous tasks in the background, like image classification, article summarization, or other tasks you want to offload to an AI agent. You can use built-in functions like [`$.flow.suspend`](/code/nodejs/rerun#flowsuspend) to send a message to your team, or directly to the user, to approve specific actions.
+
+### Spreadsheet integrations
+
+Sync data between your app and Google Sheets, Airtable, or any spreadsheet. Pipedream Connect lets your users auth with any app, select the sheet, and define custom sync logic.
