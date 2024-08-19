@@ -16,12 +16,17 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      async options({ prevContext }) {
+      description: "The identifier of a message",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
         const {
           messages,
           nextPageToken,
         } = await this.listMessages({
           pageToken: prevContext?.nextPageToken,
+          q: query,
         });
 
         const options = await Promise.all(messages.map(async (message) => {
@@ -42,6 +47,41 @@ export default {
         };
       },
     },
+    messageWithAttachments: {
+      type: "string",
+      label: "Message",
+      description: "The identifier of a message",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
+        const {
+          messages,
+          nextPageToken,
+        } = await this.listMessages({
+          pageToken: prevContext?.nextPageToken,
+          q: query,
+        });
+        const options = await Promise.all(messages.map(async (message) => {
+          const { payload } = await this.getMessage({
+            id: message.id,
+          });
+          const { value: subject } = payload.headers.find(({ name }) => name === "Subject");
+          const hasAttachments = payload?.parts?.filter(({ body }) => body.attachmentId );
+          return {
+            label: subject,
+            value: message.id,
+            hasAttachments: !!hasAttachments?.length,
+          };
+        }));
+        return {
+          options: options?.filter(({ hasAttachments }) => hasAttachments) || [],
+          context: {
+            nextPageToken,
+          },
+        };
+      },
+    },
     label: {
       type: "string",
       label: "Label",
@@ -52,6 +92,28 @@ export default {
           label: label.name,
           value: label.id,
         }));
+      },
+    },
+    messageLabels: {
+      type: "string[]",
+      label: "Message Labels",
+      description: "Labels are used to categorize messages and threads within the user's mailbox",
+      optional: true,
+      async options({
+        messageId, type = "add",
+      }) {
+        const { labels } = await this.listLabels();
+        const { labelIds } = await this.getMessage({
+          id: messageId,
+        });
+        return labels
+          .filter(({ id }) => type === "add"
+            ? !labelIds.includes(id)
+            : labelIds.includes(id))
+          .map((label) => ({
+            label: label.name,
+            value: label.id,
+          }));
       },
     },
     signature: {
@@ -345,16 +407,15 @@ export default {
         }
       }
     },
-    async addLabelToEmail({
-      message, label,
+    async updateLabels({
+      message, addLabelIds = [], removeLabelIds = [],
     }) {
       const response = await this._client().users.messages.modify({
         userId: constants.USER_ID,
         id: message,
         requestBody: {
-          addLabelIds: [
-            label,
-          ],
+          addLabelIds,
+          removeLabelIds,
         },
       });
       return response.data;

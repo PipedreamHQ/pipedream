@@ -14,7 +14,7 @@ export default {
     messageId: {
       propDefinition: [
         common.props.gmail,
-        "message",
+        "messageWithAttachments",
       ],
     },
     attachmentId: {

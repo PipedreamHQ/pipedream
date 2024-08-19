@@ -1,4 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import base from "../common/polling.mjs";
 import common from "../../common/verify-client-id.mjs";
 
 export default {
@@ -19,6 +20,7 @@ export default {
     },
   },
   methods: {
+    ...base.methods,
     ...common.methods,
     setLastMessageId(id) {
       this.db.set("lastMessageId", id);
@@ -27,7 +29,7 @@ export default {
       return this.db.get("lastMessageId");
     },
     emit(event) {
-      this.$emit(event, {
+      this.$emit(this.decodeContent(event), {
         id: event.id,
         summary: event.snippet,
         ts: new Date(event.internalDate),
