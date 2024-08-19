@@ -101,7 +101,7 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
       }
       {
         appSlug && externalUserId && 
-        <div>
+        <div className="mb-48">
           <h1 className="text-2xl font-bold mb-8">Pipedream Connect Example App</h1>
           <div className="mb-8">
             <p>Refer to the <a href="https://pipedream.com/docs/connect" target="_blank nofollow" className="hover:underline text-blue-600">Pipedream Connect docs</a> for a full walkthrough of how to configure Connect for your site. This example app implements Connect in a Next.js (React) app.</p>
@@ -167,7 +167,7 @@ pd.startConnect({
             : <div>
               <p className="mb-8">
               </p>
-              <button style={{ all: "revert" }} onClick={connectAccount}>Connect your {app} account</button>
+              <button className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded" onClick={connectAccount}>Connect your {app} account</button>
             </div>
           }
           {
