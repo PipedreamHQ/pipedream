@@ -2,7 +2,7 @@
 
 import CodePanel from "./CodePanel";
 import { useEffect, useState } from "react";
-import { serverConnectTokenCreate, getAppData } from "./server"
+import { serverConnectTokenCreate, getUserAccounts } from "./server"
 import { createClient } from "../../../src/browser"
 
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST || "pipedream.com"
@@ -60,11 +60,10 @@ export default function Home() {
           const { token, expires_at } = await serverConnectTokenCreate({
             app_slug: appSlug,
             oauth_app_id: oauthAppId,
-            external_id: externalUserId
+            external_user_id: externalUserId
           })
           setToken(token)
           setExpiresAt(expires_at)
-          const appsData = await getAppData(externalUserId, appSlug, oauthAppId)
         } catch (error) {
           console.error("Error fetching data:", error)
           // Handle error appropriately

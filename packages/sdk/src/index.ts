@@ -17,7 +17,7 @@ export type ConnectTokenResponse = {
 };
 
 type ConnectParams = {
-  includeCredentials?: string;
+  include_credentials?: number;
 };
 
 type AuthType = "oauth" | "keys" | "none";
@@ -95,20 +95,6 @@ class ServerClient {
     return `Basic ${encoded}`;
   }
 
-  async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
-    const auth = this._authorizationHeader();
-    const resp = await fetch(`${this.baseURL}/v1/connect/tokens`, {
-      method: "POST",
-      headers: {
-        "authorization": auth,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(opts),
-    });
-
-    return resp.json();
-  }
-
   async _makeConnectRequest<T>(
     path: string,
     opts: ConnectRequestOptions = {},
@@ -152,8 +138,11 @@ class ServerClient {
       "PUT",
       "PATCH",
     ].includes(method.toUpperCase()) && body) {
-      requestOptions.body = JSON.stringify(body);
+      requestOptions.body = body;
     }
+
+    console.log(`Making request to ${url.toString()}`);
+    console.log(`Request options: ${JSON.stringify(requestOptions)}`);
 
     const response: Response = await fetch(url.toString(), requestOptions);
 
@@ -163,6 +152,18 @@ class ServerClient {
 
     const result: ConnectAPIResponse<T> = await response.json();
     return result;
+  }
+
+  async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectAPIResponse<ConnectTokenResponse>> {
+    const body = {
+      // named external_id in the API, but from the developer's perspective, it's the user's ID
+      external_id: opts.external_user_id,
+      ...opts,
+    };
+    return this._makeConnectRequest<ConnectTokenResponse>("/tokens", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
   }
 
   async getAccounts(params: ConnectParams = {}): Promise<ConnectAPIResponse<Account[]>> {

@@ -69,13 +69,13 @@ You'll need to do two things to integrate Pipedream Connect into your app:
 
 We'll walk through these steps below, using [an example Next.js app](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk/examples/next-app/). To follow along, clone [the repo](https://github.com/PipedreamHQ/pipedream) and follow the instructions in [the app's `README`](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk/examples/next-app/). That will run the app on `localhost:3000`.
 
-First, copy the `.env.example` file to `.env`:
+First, copy the `.env.example` file to `.env.local`:
 
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
-and fill the `.env` file with your project and app details:
+and fill the `.env.local` file with your project and app details:
 
 ```bash
 # Specific to Next.js — see `app/page.tsx` for how these are used
