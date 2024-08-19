@@ -116,9 +116,12 @@ In other languages, you'll need to make an HTTP POST request to the `/v1/connect
 <Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
 <Tabs.Tab>
 ```typescript
+"use server";
+
 import {
   createClient,
-  type ConnectTokenCreateOpts,
+  type ConnectAPIResponse, 
+  type ConnectTokenCreateOpts, 
   type ConnectTokenResponse,
 } from "@pipedream/sdk";
 
@@ -127,7 +130,7 @@ const pd = createClient({
   secretKey: process.env.PIPEDREAM_PROJECT_SECRET_KEY,
 });
 
-export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
+export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectAPIResponse<ConnectTokenResponse>> {
   return pd.connectTokenCreate(opts);
 }
 ```
