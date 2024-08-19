@@ -1,6 +1,6 @@
 # Example Pipedream Connect app
 
-This app provides an example implementation of Pipedream Connect.
+This app provides an example implementation of Pipedream Connect. [See the full quickstart](https://pipedream.com/docs/connect/quickstart) for instructions on how to configure your Pipedream project with this example app.
 
 ## Getting Started
 
