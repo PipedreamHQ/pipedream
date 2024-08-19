@@ -61,8 +61,10 @@ export default {
       const sort = {
         [this.timestampField]: -1,
       };
-      const documents = await collection.find().sort(sort)
-        .toArray();
+      const query = {
+        [this.timestampField]: { $gt: new Timestamp({ t: lastTs, i: 0 }) }
+      };
+      const documents = await collection.find(query).sort(sort).toArray();
       const docs = [];
       for (const doc of documents) {
         const ts = this.getTs(doc);
