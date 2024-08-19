@@ -6,7 +6,7 @@ export default {
   key: "gmail-add-label-to-email",
   name: "Add Label to Email",
   description: "Add or remove labels associated with an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

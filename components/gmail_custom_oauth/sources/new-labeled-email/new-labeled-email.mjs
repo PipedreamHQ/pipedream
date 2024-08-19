@@ -10,7 +10,7 @@ export default {
   ...base,
   key: "gmail_custom_oauth-new-labeled-email",
   type: "source",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   sampleEmit,
 };
