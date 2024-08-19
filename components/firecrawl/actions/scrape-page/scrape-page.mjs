@@ -1,3 +1,4 @@
+import { parseObject } from "../../common/utils.mjs";
 import firecrawl from "../../firecrawl.app.mjs";
 
 export default {
@@ -116,6 +117,12 @@ export default {
     },
   },
   async run({ $ }) {
+    const extractorOptions = {};
+    if (this.extractorMode) extractorOptions.extractorMode = this.extractorMode;
+    if (this.extractionPrompt) extractorOptions.extractionPrompt = this.extractionPrompt;
+    if (this.extractionSchema)
+      extractorOptions.extractionSchema = parseObject(this.extractionSchema);
+
     const response = await this.firecrawl.scrape({
       $,
       data: {
@@ -132,11 +139,7 @@ export default {
           fullPageScreenshot: this.fullPageScreenshot,
           waitFor: parseInt(this.waitFor),
         },
-        extractorOptions: {
-          mode: this.extractorMode,
-          extractionPrompt: this.extractionPrompt,
-          extractionSchema: this.extractionSchema,
-        },
+        extractorOptions,
         timeout: this.timeout,
       },
     });
