@@ -150,7 +150,7 @@ class ServerClient {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const result: ConnectAPIResponse<T> = await response.json();
+    const result = await response.json() as ConnectAPIResponse<T>;
     return result;
   }
 

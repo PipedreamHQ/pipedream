@@ -26,12 +26,12 @@ const pd = createClient({
 
 export async function serverConnectTokenCreate(
   opts: ConnectTokenCreateOpts
-): Promise<ConnectTokenResponse> {
+): Promise<ConnectAPIResponse<ConnectTokenResponse>> {
   return pd.connectTokenCreate(opts);
 }
 ```
 
-and a client, to perform user-facing operations like connecting accounts:
+and a browser client, to perform user-facing operations like connecting accounts:
 
 ```typescript
 // Note that we import the browser-specific SDK client here
@@ -50,9 +50,7 @@ export default function Home() {
 
   return (
     <main>
-      <button style={{ all: "revert" }} onClick={connectAccount}>
-        Connect your account
-      </button>
+      <button onClick={connectAccount}>Connect your account</button>
     </main>
   );
 }

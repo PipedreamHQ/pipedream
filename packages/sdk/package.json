@@ -3,12 +3,25 @@
   "version": "0.0.1",
   "description": "Pipedream SDK",
   "type": "module",
-  "main": "dist/index.js",
-  "browser": "dist/browser/index.js",
-  "types": "dist/index.d.ts",
-  "homepage": "https://pipedream.com/",
-  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "exports": "./dist/index.js",
+  "main": "dist/server/index.cjs",
+  "module": "dist/server/index.mjs",
+  "types": "dist/server/index.d.ts",
+  "browser": {
+    "import": "dist/browser/index.mjs",
+    "require": "dist/browser/index.cjs"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.cjs",
+      "types": "./dist/server/index.d.ts"
+    },
+    "./browser": {
+      "import": "./dist/browser/index.mjs",
+      "require": "./dist/browser/index.cjs",
+      "types": "./dist/browser/index.d.ts"
+    }
+  },
   "keywords": [
     "pipedream"
   ],
@@ -17,12 +30,13 @@
     "access": "public"
   },
   "scripts": {
-    "prepublish": "rm -rf dist && tsc",
-    "build": "tsc"
+    "prepublish": "rm -rf dist && npm run build",
+    "build": "npm run build:node && npm run build:browser",
+    "build:node": "tsc -p tsconfig.node.json",
+    "build:browser": "tsc -p tsconfig.browser.json"
   },
   "files": [
-    "dist",
-    "lib"
+    "dist"
   ],
   "devDependencies": {
     "@types/node": "^20.14.9",
