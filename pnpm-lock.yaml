@@ -11187,6 +11187,7 @@ importers:
 
   packages/sdk/examples/next-app:
     specifiers:
+      '@pipedream/sdk': ^0.0.6
       '@types/dompurify': ^3.0.5
       '@types/node': ^20
       '@types/prismjs': ^1.26.4
@@ -11206,6 +11207,7 @@ importers:
       tailwindcss: ^3.3.0
       typescript: ^5
     dependencies:
+      '@pipedream/sdk': 0.0.6
       dompurify: 3.1.6
       next: 14.1.0_nnrd3gsncyragczmpvfhocinkq
       prismjs: 1.29.0
@@ -15255,7 +15257,7 @@ packages:
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.3
       '@definitelytyped/utils': 0.1.7
-      semver: 7.5.4
+      semver: 7.6.3
     dev: true
 
   /@definitelytyped/typescript-versions/0.1.3:
@@ -16976,6 +16978,10 @@ packages:
       - debug
     dev: false
 
+  /@pipedream/sdk/0.0.6:
+    resolution: {integrity: sha512-GMfQKWYlo//VJD+5Mtep3aAKF8wd43U3/Hts5cSa3eyThjyB1TzbOYXdrK8d1Sl0yXs8QNttwfF5hwaC+iZT6A==}
+    dev: false
+
   /@pipedream/snowflake-sdk/1.0.8_asn1.js@5.4.1:
     resolution: {integrity: sha512-/nLCQNjlSCz71MUnOUZqWmnjZTbEX7mie91mstPspb8uDG/GvaDk/RynLGhhYfgEP5d1KWj+OPaI71hmPSxReg==}
     dependencies:
@@ -18385,7 +18391,7 @@ packages:
       request: 2.88.2
       retry: 0.12.0
       safe-buffer: 5.2.1
-      semver: 7.5.4
+      semver: 7.6.3
       slide: 1.1.6
       ssri: 8.0.1
     optionalDependencies:
@@ -20960,7 +20966,7 @@ packages:
       glob: 7.2.3
       is-glob: 4.0.3
       lodash: 4.17.21
-      semver: 7.5.4
+      semver: 7.6.3
       tsutils: 3.21.0_typescript@3.9.10
       typescript: 3.9.10
     transitivePeerDependencies:
@@ -20981,7 +20987,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.4
+      semver: 7.6.3
       tsutils: 3.21.0_typescript@4.9.5
       typescript: 4.9.5
     transitivePeerDependencies:
@@ -21002,7 +21008,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.4
+      semver: 7.6.3
       tsutils: 3.21.0_typescript@5.2.2
       typescript: 5.2.2
     transitivePeerDependencies:
@@ -21023,7 +21029,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.4
+      semver: 7.6.3
       tsutils: 3.21.0_typescript@5.5.2
       typescript: 5.5.2
     transitivePeerDependencies:
@@ -21066,7 +21072,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.62.0_typescript@4.9.5
       eslint: 8.15.0
       eslint-scope: 5.1.1
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -21086,7 +21092,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.62.0_typescript@5.2.2
       eslint: 8.15.0
       eslint-scope: 5.1.1
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -27364,7 +27370,7 @@ packages:
       '@babel/parser': 7.23.0
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -27909,7 +27915,7 @@ packages:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -29071,7 +29077,7 @@ packages:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
     engines: {node: '>=10'}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.3
     dev: true
 
   /make-error/1.3.6:
@@ -30503,7 +30509,7 @@ packages:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.14.0
-      semver: 7.5.4
+      semver: 7.6.3
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -30542,7 +30548,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       hosted-git-info: 4.1.0
-      semver: 7.5.4
+      semver: 7.6.3
       validate-npm-package-name: 3.0.0
     dev: true
 
@@ -31721,7 +31727,7 @@ packages:
       jsdoc: 4.0.2
       minimist: 1.2.8
       protobufjs: 7.2.4
-      semver: 7.5.4
+      semver: 7.6.3
       tmp: 0.2.1
       uglify-js: 3.17.4
     dev: false
@@ -33119,7 +33125,6 @@ packages:
     resolution: {integrity: sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==}
     engines: {node: '>=10'}
     hasBin: true
-    dev: true
 
   /sendbird-platform-sdk/0.0.14_@babel+core@7.23.0:
     resolution: {integrity: sha512-nuVX2mwGBdMUys/c6MLOrjbTavfo34HDbrVjcjbL9UNeWXWK1hJ9/CUnxpnviCNzB9BCv4SEZhEQ2K6w4dZYoQ==}
@@ -34068,7 +34073,7 @@ packages:
       mime: 2.6.0
       qs: 6.12.0
       readable-stream: 3.6.2
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
     dev: false

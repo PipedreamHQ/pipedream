@@ -11,13 +11,19 @@ npm i  # installs dependencies
 npm run dev  # runs app locally
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the example app running
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the example app running. Start editing by modifying `app/page.tsx` or `app/server.ts`. The app auto-updates as you edit files.
 
 ### Environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+First,
 
-## Learn More about Next.js
+```bash
+cp .env.example .env.local
+```
+
+Then fill in the values of all environment variables.
+
+## Learn more about Next.js
 
 This example app is built with Next.js, a framework for quickly developing web apps with React. To learn more about Next, take a look at the following resources:
 

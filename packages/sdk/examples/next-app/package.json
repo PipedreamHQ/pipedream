@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@pipedream/sdk": "^0.0.6",
     "dompurify": "^3.1.6",
     "next": "14.1.0",
     "prismjs": "^1.29.0",

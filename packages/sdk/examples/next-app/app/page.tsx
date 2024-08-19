@@ -2,8 +2,8 @@
 
 import CodePanel from "./CodePanel";
 import { useEffect, useState } from "react";
-import { serverConnectTokenCreate, getAppsData } from "./server"
-import { createClient } from "../../../src/browser"
+import { serverConnectTokenCreate, getUserAccounts } from "./server"
+import { createClient } from "@pipedream/sdk/browser"
 
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST || "pipedream.com"
 const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG // required
@@ -29,7 +29,7 @@ export default function Home() {
     }
     setApp(app)
     if (oauthAppId) setOauthAppId(oauthAppId)
-    pd.startConnect({
+    pd.connectAccount({
       app,
       token,
       onSuccess: ({ id: authProvisionId }) => {
@@ -59,13 +59,11 @@ export default function Home() {
         try {
           const { token, expires_at } = await serverConnectTokenCreate({
             app_slug: appSlug,
-            oauth_client_id: oauthAppId,
-            external_id: externalUserId
+            oauth_app_id: oauthAppId,
+            external_user_id: externalUserId
           })
           setToken(token)
           setExpiresAt(expires_at)
-          const appsData = await getAppsData(externalUserId)
-          setGithubData(appsData.github)
         } catch (error) {
           console.error("Error fetching data:", error)
           // Handle error appropriately
@@ -123,8 +121,8 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
 
 const { token, expires_at } = await serverConnectTokenCreate({
   app_slug: "github",
-  oauth_client_id: "oa_abc123",  // Only required for OAuth apps
-  external_id: "${externalUserId}",
+  oauth_app_id: "oa_abc123",  // Only required for OAuth apps
+  external_user_id: "${externalUserId}",
 })`}
             />
           </div>
@@ -137,14 +135,15 @@ const { token, expires_at } = await serverConnectTokenCreate({
             <span className="font-mono"> {expiresAt}</span>
           </div>
           <p className="mb-8">
-            When a user wants to connect an app from your frontend, you&apos;ll call <code>pd.startConnect</code> with the token and the OAuth App ID of the app you&apos;d like to connect.
+            When a user wants to connect an app from your frontend, you&apos;ll call <code>pd.connectAccount</code> with the token and the OAuth App ID of the app you&apos;d like to connect.
           </p>
           <div className="mb-8">
             <CodePanel
               language="typescript"
-              code={`import { startConnect } from "@pipedream/sdk";
+              code={`import { createClient } from "@pipedream/sdk/browser";
 
-pd.startConnect({
+const pd = createClient();
+pd.connectAccount({
   app,
   token,
   onSuccess: () => {
@@ -156,12 +155,8 @@ pd.startConnect({
           {apn ?
             <div>
               <p>
-                <span className="font-semibold">Auth Provision ID:</span>
+                <span className="font-semibold">Pipedream Account ID:</span>
                 <span className="font-mono"> {apn}</span>
-              </p>
-              <p>
-                <span className="font-semibold">OAuth App ID:</span>
-                <span className="font-mono"> {oa}</span>
               </p>
             </div>
             : <div>
@@ -169,12 +164,6 @@ pd.startConnect({
               </p>
               <button className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded" onClick={connectAccount}>Connect your {app} account</button>
             </div>
-          }
-          {
-            githubData?.login &&
-            <p className="pt-2">Your GitHub username:
-              <span><b>{githubData.login}</b></span>
-            </p>
           }
         </div>
       }

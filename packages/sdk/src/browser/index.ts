@@ -13,7 +13,7 @@ type ConnectResult = {
   id: string;
 };
 
-class ConnectError extends Error { }
+class ConnectError extends Error {}
 
 type StartConnectOpts = {
   token: string;
@@ -27,47 +27,39 @@ export function createClient(opts: CreateBrowserClientOpts) {
 }
 
 class BrowserClient {
-  environment?: string;
-  baseURL: string;
-  iframeURL: string;
-  iframe?: HTMLIFrameElement;
-  iframeId = 0;
+  private environment?: string;
+  private baseURL: string;
+  private iframeURL: string;
+  private iframe?: HTMLIFrameElement;
+  private iframeId = 0;
 
   constructor(opts: CreateBrowserClientOpts) {
     this.environment = opts.environment;
-    this.baseURL = `https://${opts.frontendHost || "https://pipedream.com"}`;
+    this.baseURL = `https://${opts.frontendHost || "pipedream.com"}`;
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
   }
 
-  startConnect(opts: StartConnectOpts) {
+  connectAccount(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
+      if (e.origin !== this.baseURL || !this.iframe?.contentWindow) {
+        console.warn("Untrusted origin or iframe not ready:", e.origin);
+        return;
+      }
+
       switch (e.data?.type) {
       case "verify-domain":
-        if (e.origin === this.baseURL && this.iframe?.contentWindow) {
-          this.iframe.contentWindow.postMessage(
-            {
-              type: "domain-response",
-              origin: window.origin,
-            }, {
-              targetOrigin: e.origin,
-            },
-          );
-        } else {
-          console.warn("Untrusted origin or iframe not ready:", e.origin);
-        }
+        this.handleVerifyDomain(e);
         break;
-      case "success": {
+      case "success":
         opts.onSuccess?.({
           id: e.data?.authProvisionId,
         });
         break;
-      }
       case "error":
         opts.onError?.(new ConnectError(e.data.error));
         break;
       case "close":
-        this.iframe?.remove();
-        window.removeEventListener("message", onMessage);
+        this.cleanup(onMessage);
         break;
       default:
         break;
@@ -76,32 +68,53 @@ class BrowserClient {
 
     window.addEventListener("message", onMessage);
 
-    const qp = new URLSearchParams();
-    qp.set("token", opts.token);
+    try {
+      this.createIframe(opts);
+    } catch (err) {
+      opts.onError?.(err as ConnectError);
+    }
+  }
+
+  private handleVerifyDomain(e: MessageEvent) {
+    if (this.iframe?.contentWindow) {
+      this.iframe.contentWindow.postMessage(
+        {
+          type: "domain-response",
+          origin: window.origin,
+        },
+        e.origin,
+      );
+    }
+  }
+
+  private cleanup(onMessage: (e: MessageEvent) => void) {
+    this.iframe?.remove();
+    window.removeEventListener("message", onMessage);
+  }
+
+  private createIframe(opts: StartConnectOpts) {
+    const qp = new URLSearchParams({
+      token: opts.token,
+    });
+
     if (this.environment) {
       qp.set("environment", this.environment);
     }
+
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
     } else {
-      const err = new ConnectError("object app not yet supported");
-      if (opts.onError) {
-        opts.onError(err);
-        return;
-      }
-      throw err;
+      throw new ConnectError("Object app not yet supported");
     }
 
     const iframe = document.createElement("iframe");
     iframe.id = `pipedream-connect-iframe-${this.iframeId++}`;
     iframe.title = "Pipedream Connect";
     iframe.src = `${this.iframeURL}?${qp.toString()}`;
-    iframe.setAttribute(
-      "style",
-      "position:fixed;inset:0;z-index:2147483647;border:0;display:block;overflow:hidden auto",
-    );
-    iframe.setAttribute("height", "100%");
-    iframe.setAttribute("width", "100%");
+    iframe.style.cssText =
+      "position:fixed;inset:0;z-index:2147483647;border:0;display:block;overflow:hidden auto";
+    iframe.width = "100%";
+    iframe.height = "100%";
 
     iframe.onload = () => {
       this.iframe = iframe;
