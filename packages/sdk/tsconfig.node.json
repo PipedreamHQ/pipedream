@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "module": "NodeNext",
+      "target": "ES6",
+      "lib": ["ES6"],
+      "declaration": true,
+      "outDir": "dist/server",
+      "strict": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "moduleResolution": "NodeNext",
+      "skipLibCheck": true,
+      "types": ["node"]
+    },
+    "include": [
+      "src/server/**/*"
+    ],
+    "exclude": [
+      "node_modules"
+    ]
+}
