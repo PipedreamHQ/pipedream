@@ -6,7 +6,7 @@ export default {
   key: "google_calendar-event-cancelled",
   name: "New Cancelled Event",
   description: "Emit new event when a Google Calendar event is cancelled or deleted",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "source",
   dedupe: "unique",
   props: {
