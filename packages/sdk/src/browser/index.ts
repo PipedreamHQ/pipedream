@@ -70,7 +70,6 @@ class BrowserClient {
         window.removeEventListener("message", onMessage);
         break;
       default:
-        console.debug("Unknown Connect Event type", e);
         break;
       }
     };
