@@ -46,15 +46,17 @@ Make sure to check the **Enable for Pipedream Connect** setting in the OAuth cli
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723760958/enable-oauth-client-for-pd-connect_ipkzmo.png" alt="Enable OAuth client for Pipedream Connect" width={450} height={300} />
 </Callout>
 
-Once that's done, copy the OAuth app ID from the app configuration.
+Once that's done, copy the **OAuth App ID** from the app configuration.
 
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723761240/copy-oauth-app-id_on6d8p.png" alt="Copy your OAuth app ID" width={550} height={300} />
 
 ### Get your project keys
 
-Open an existing Pipedream project or create a new one: [https://pipedream.com/projects](https://pipedream.com/projects).
+1. Open an existing Pipedream project or create a new one at [https://pipedream.com/projects](https://pipedream.com/projects).
+2. Visit the **Connect** tab.
+3. Find your project's **Public Key** and **Secret Key**
 
-Find your **Project Public Key** and **Project Secret Key** from the **Connect** tab within your project — you'll need these when configuring the SDK and making API requests.
+You'll need these when configuring the SDK and making API requests.
 
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723761665/proj-connect-keys_bodybd.png" alt="Project keys in the Connect tab" width={650} height={300} />
 
@@ -63,11 +65,17 @@ Find your **Project Public Key** and **Project Secret Key** from the **Connect**
 You'll need to do two things to integrate Pipedream Connect into your app:
 
 1. [Connect to the Pipedream API from your server](#connect-to-the-pipedream-api-from-your-server). This lets you make secure calls to the Pipedream API to initiate the account connection flow and retrieve account credentials. If you're running a JavaScript framework like Node.js on the server, you can use the Pipedream SDK.
-2. [Add the Pipedream SDK to your frontend](#add-the-pipedream-sdk-to-your-frontend). This lets you kick off the account connection flow for your end users.
+2. [Add the Pipedream SDK to your frontend](#add-the-pipedream-sdk-to-your-frontend). This lets you start the account connection flow for your end users.
 
-We'll walk through these steps below, using [a Next.js app](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk/examples/next-app/) as an example. If you'd like to run that code, clone the repo and follow the instructions in the example app `README`. That will run the app on `localhost:3000`.
+We'll walk through these steps below, using [an example Next.js app](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk/examples/next-app/). To follow along, clone [the repo](https://github.com/PipedreamHQ/pipedream) and follow the instructions in [the app's `README`](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk/examples/next-app/). That will run the app on `localhost:3000`.
 
-In the example app, we provide an `.env.example` file that shows you the environment variables required to run the app. First, `cp .env.example .env` and **fill this in with your own values**:
+First, copy the `.env.example` file to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+and fill the `.env` file with your project and app details:
 
 ```bash
 # Specific to Next.js — see `app/page.tsx` for how these are used
@@ -79,7 +87,7 @@ PIPEDREAM_PROJECT_PUBLIC_KEY=pub_abc123
 PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123
 ```
 
-If you're building your own app, you'll need to provide these values to its environment, or retrieve them from your secrets store.
+If you're building your own app, you'll need to provide these values to the environment, or retrieve them from your secrets store.
 
 ### Connect to the Pipedream API from your server and create a token
 
