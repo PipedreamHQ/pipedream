@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "thinkific-new-order-instant",
   name: "New Order (Instant)",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a new purchase has been made.)",
   type: "source",
   dedupe: "unique",
