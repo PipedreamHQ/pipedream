@@ -5,10 +5,16 @@ export default {
   key: "airfocus-create-item",
   name: "Create Item",
   description: "Creates a new item in airfocus. [See the documentation](https://developer.airfocus.com/endpoints.html)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     airfocus,
+    workspaceId: {
+      propDefinition: [
+        airfocus,
+        "workspaceId",
+      ],
+    },
     name: {
       propDefinition: [
         airfocus,
@@ -19,6 +25,9 @@ export default {
       propDefinition: [
         airfocus,
         "statusId",
+        ({ workspaceId }) => ({
+          workspaceId,
+        }),
       ],
       optional: true,
     },
@@ -54,6 +63,7 @@ export default {
   async run({ $ }) {
     const response = await this.airfocus.createItem({
       $,
+      workspaceId: this.workspaceId,
       data: {
         statusId: this.statusId,
         name: this.name,

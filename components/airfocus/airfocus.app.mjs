@@ -7,12 +7,38 @@ export default {
   type: "app",
   app: "airfocus",
   propDefinitions: {
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "The ID of the workspace.",
+      async options({
+        workspaceId, page,
+      }) {
+        const { items } = await this.listWorkspaces({
+          workspaceId,
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     itemId: {
       type: "string",
       label: "Item ID",
       description: "The ID of the item.",
-      async options({ page }) {
+      async options({
+        workspaceId, page,
+      }) {
         const { items } = await this.listItems({
+          workspaceId,
           params: {
             limit: LIMIT,
             offset: LIMIT * page,
@@ -36,8 +62,10 @@ export default {
       type: "string",
       label: "Status ID",
       description: "The ID of the status.",
-      async options() {
-        const { _embedded: { statuses } } = await this.getWorkspace();
+      async options({ workspaceId }) {
+        const { _embedded: { statuses } } = await this.getWorkspace({
+          workspaceId,
+        });
 
         return Object.entries(statuses).map(([
           , {
@@ -73,10 +101,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://api.airfocus.com/api/workspaces/${this.getWorkspaceId()}`;
-    },
-    getWorkspaceId() {
-      return `${this.$auth.workspace_id}`;
+      return "https://api.airfocus.com/api/workspaces/";
     },
     _headers() {
       return {
@@ -92,50 +117,67 @@ export default {
         ...opts,
       });
     },
-    getWorkspace() {
-      return this._makeRequest();
-    },
-    getItem({ itemId }) {
+    getWorkspace({ workspaceId }) {
       return this._makeRequest({
-        path: `/items/${itemId}`,
+        path: workspaceId,
       });
     },
-    listItems(opts = {}) {
+    getItem({
+      workspaceId, itemId,
+    }) {
+      return this._makeRequest({
+        path: `${workspaceId}/items/${itemId}`,
+      });
+    },
+    listItems({
+      workspaceId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/items/search",
+        path: `${workspaceId}/items/search`,
+        ...opts,
+      });
+    },
+    listWorkspaces(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "search",
         ...opts,
       });
     },
     deleteItem({
-      itemId, ...opts
+      workspaceId, itemId, ...opts
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/items/${itemId}`,
+        path: `${workspaceId}/items/${itemId}`,
         ...opts,
       });
     },
-    createItem(opts = {}) {
+    createItem({
+      workspaceId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/items",
+        path: `${workspaceId}/items`,
         ...opts,
       });
     },
-    searchItem(opts = {}) {
+    searchItem({
+      workspaceId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/items/search",
+        path: `${workspaceId}/items/search`,
         ...opts,
       });
     },
     updateItem({
-      itemId, ...opts
+      workspaceId, itemId, ...opts
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/items/${itemId}`,
+        path: `${workspaceId}/items/${itemId}`,
         ...opts,
       });
     },

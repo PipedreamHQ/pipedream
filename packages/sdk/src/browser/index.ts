@@ -62,7 +62,6 @@ class BrowserClient {
         this.cleanup(onMessage);
         break;
       default:
-        console.debug("Unknown Connect Event type", e);
         break;
       }
     };

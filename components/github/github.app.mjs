@@ -659,6 +659,13 @@ export default {
 
       return response.data;
     },
+    async getOrgUserInfo({
+      org, username,
+    }) {
+      const response = await this._client().request(`GET /orgs/${org}/memberships/${username}`, {});
+
+      return response.data;
+    },
     async getRepositoryLatestPullRequests({
       repoFullname, ...args
     }) {
