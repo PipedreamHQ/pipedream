@@ -1,7 +1,8 @@
-import { axios } from "@pipedream/platform";
-import constants from "./actions/common/constants.mjs";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import _ from "lodash";
-import { ConfigurationError } from "@pipedream/platform";
+import constants from "./actions/common/constants.mjs";
 
 export default {
   type: "app",
@@ -559,6 +560,14 @@ export default {
         method: "POST",
         data,
         params,
+      }, $);
+    },
+    async createThreadedComment({
+      commentId, data, $,
+    }) {
+      return this._makeRequest(`comment/${commentId}/reply`, {
+        method: "POST",
+        data,
       }, $);
     },
     async createListComment({

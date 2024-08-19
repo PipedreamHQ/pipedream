@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -28,4 +29,5 @@ export default {
     this.checkSignature(httpRequest);
     this.$emit(httpRequest.body, this._getMeta(httpRequest.body));
   },
+  sampleEmit,
 };
