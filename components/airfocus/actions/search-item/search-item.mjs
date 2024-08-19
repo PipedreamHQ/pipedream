@@ -5,10 +5,16 @@ export default {
   key: "airfocus-search-item",
   name: "Search Item",
   description: "Searches items by query in airfocus. [See the documentation](https://developer.airfocus.com/endpoints.html)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     airfocus,
+    workspaceId: {
+      propDefinition: [
+        airfocus,
+        "workspaceId",
+      ],
+    },
     filter: {
       type: "object",
       label: "Filter",
@@ -19,6 +25,7 @@ export default {
   async run({ $ }) {
     const response = this.airfocus.paginate({
       $,
+      workspaceId: this.workspaceId,
       fn: this.airfocus.searchItem,
       data: {
         filter: parseObject(this.filter),

@@ -170,6 +170,9 @@ importers:
   components/action_network:
     specifiers: {}
 
+  components/activecalculator:
+    specifiers: {}
+
   components/activecampaign:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -212,7 +215,10 @@ importers:
     specifiers: {}
 
   components/addresszen:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/adobe_pdf_services:
     specifiers:
@@ -628,6 +634,9 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/arxiv:
+    specifiers: {}
+
+  components/aryn:
     specifiers: {}
 
   components/asana:
@@ -1263,7 +1272,10 @@ importers:
       crypto-js: 4.2.0
 
   components/byteforms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/bytenite:
     specifiers:
@@ -1740,7 +1752,10 @@ importers:
       form-data: 4.0.0
 
   components/cloudpresenter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/cloudpress:
     specifiers:
@@ -1910,7 +1925,10 @@ importers:
     specifiers: {}
 
   components/connecteam:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/connectwise_psa:
     specifiers:
@@ -2573,7 +2591,10 @@ importers:
     specifiers: {}
 
   components/dotsimple:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/dpd2:
     specifiers:
@@ -2664,7 +2685,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dropinblog:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/dropmark:
     specifiers:
@@ -3441,7 +3465,10 @@ importers:
     specifiers: {}
 
   components/gagelist:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/gami5d:
     specifiers:
@@ -4232,7 +4259,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/heyzine:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/highlevel_oauth:
     specifiers:
@@ -5712,12 +5742,14 @@ importers:
     specifiers:
       '@microsoft/microsoft-graph-client': ^3.0.1
       '@pipedream/platform': ^1.1.0
+      bottleneck: ^2.19.5
       file-type: ^18.7.0
       isomorphic-fetch: ^3.0.0
       lodash.get: ^4.4.2
     dependencies:
       '@microsoft/microsoft-graph-client': 3.0.7
       '@pipedream/platform': 1.5.1
+      bottleneck: 2.19.5
       file-type: 18.7.0
       isomorphic-fetch: 3.0.0
       lodash.get: 4.4.2
@@ -7701,7 +7733,10 @@ importers:
       '@pipedream/platform': 2.0.0
 
   components/rentman:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/repairshopr:
     specifiers:
@@ -9333,7 +9368,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/team_sms:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/team_up:
     specifiers:

@@ -11,6 +11,12 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    workspaceId: {
+      propDefinition: [
+        airfocus,
+        "workspaceId",
+      ],
+    },
   },
   methods: {
     _getLastDate() {
@@ -39,6 +45,7 @@ export default {
 
       const response = this.airfocus.paginate({
         fn: this.airfocus.listItems,
+        workspaceId: this.workspaceId,
         maxResults,
         data: {
           filter: {
