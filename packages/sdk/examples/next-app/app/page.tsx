@@ -3,7 +3,7 @@
 import CodePanel from "./CodePanel";
 import { useEffect, useState } from "react";
 import { serverConnectTokenCreate, getUserAccounts } from "./server"
-import { createClient } from "../../../src/browser"
+import { createClient } from "@pipedream/sdk/browser"
 
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST || "pipedream.com"
 const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG // required
@@ -122,7 +122,7 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
 const { token, expires_at } = await serverConnectTokenCreate({
   app_slug: "github",
   oauth_app_id: "oa_abc123",  // Only required for OAuth apps
-  external_id: "${externalUserId}",
+  external_user_id: "${externalUserId}",
 })`}
             />
           </div>

@@ -1,4 +1,4 @@
-type CreateServerClientOpts = {
+export type CreateServerClientOpts = {
   apiHost?: string;
   environment?: string;
   publicKey: string;
@@ -16,13 +16,13 @@ export type ConnectTokenResponse = {
   expires_at: string;
 };
 
-type ConnectParams = {
+export type ConnectParams = {
   include_credentials?: number;
 };
 
-type AuthType = "oauth" | "keys" | "none";
+export type AuthType = "oauth" | "keys" | "none";
 
-type AppResponse = {
+export type AppResponse = {
   id: string;
   name_slug: string;
   name: string;
@@ -33,7 +33,7 @@ type AppResponse = {
 
 };
 
-type CreateAccountOpts = {
+export type CreateAccountOpts = {
   app_slug: string;
   connect_token: string;
   cfmap_json: string;
@@ -41,7 +41,7 @@ type CreateAccountOpts = {
 };
 
 // Updated Account type to include optional fields
-type Account = {
+export type Account = {
   id: string;
   name: string;
   external_id: string;
@@ -58,11 +58,11 @@ interface SuccessResponse<T> {
   data: T;
 }
 
-type ErrorResponse = {
+export type ErrorResponse = {
   error: string;
 };
 
-type ConnectAPIResponse<T> = SuccessResponse<T> | ErrorResponse;
+export type ConnectAPIResponse<T> = SuccessResponse<T> | ErrorResponse;
 
 interface ConnectRequestOptions extends Omit<RequestInit, "headers"> {
   params?: Record<string, string | boolean | number>;
@@ -140,9 +140,6 @@ class ServerClient {
     ].includes(method.toUpperCase()) && body) {
       requestOptions.body = body;
     }
-
-    console.log(`Making request to ${url.toString()}`);
-    console.log(`Request options: ${JSON.stringify(requestOptions)}`);
 
     const response: Response = await fetch(url.toString(), requestOptions);
 

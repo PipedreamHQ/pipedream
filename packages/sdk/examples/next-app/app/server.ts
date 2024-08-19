@@ -2,10 +2,10 @@
 
 import {
   createClient,
-  type ConnectAPIResponse,
-  type ConnectTokenCreateOpts,
+  type ConnectAPIResponse, 
+  type ConnectTokenCreateOpts, 
   type ConnectTokenResponse,
-} from "../../../src";
+} from "@pipedream/sdk";
 
 const {
   PIPEDREAM_API_HOST,
