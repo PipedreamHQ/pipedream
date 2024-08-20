@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "quickbooks-new-invoice-updated",
-  name: "New Item Updated",
+  name: "New Invoice Updated",
   description: "Emit new event when an invoice is updated.",
   version: "0.0.1",
   type: "source",
