@@ -9552,9 +9552,9 @@ importers:
 
   components/thinkific:
     specifiers:
-      '@pipedream/platform': ^1.6.2
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.6.2
+      '@pipedream/platform': 3.0.0
 
   components/thoughtful_gpt:
     specifiers:
