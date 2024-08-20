@@ -2,7 +2,6 @@
 
 import {
   createClient,
-  type ConnectAPIResponse, 
   type ConnectTokenCreateOpts, 
   type ConnectTokenResponse,
 } from "@pipedream/sdk";
@@ -27,11 +26,11 @@ const pd = createClient({
   apiHost: PIPEDREAM_API_HOST,
 });
 
-export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectAPIResponse<ConnectTokenResponse>> {
+export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
   return pd.connectTokenCreate(opts);
 }
 
-export async function getUserAccounts(externalId: string, include_credentials: number = 0) {
+export async function getUserAccounts(externalId: string, include_credentials: number = 0): Promise<void> {
   await pd.getAccountsByExternalId(externalId, {
     include_credentials, // set to 1 to include credentials
   })
