@@ -369,16 +369,15 @@ export default {
         });
 
         const items = QueryResponse[fieldList];
-        if (items) {
-          for (const d of items) {
-            yield d;
-
-            if (maxResults && ++count === maxResults) {
-              return count;
-            }
-          }
-        } else {
+        if (!items) {
           return false;
+        }
+        for (const d of items) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
         }
 
         hasMore = items.length;
