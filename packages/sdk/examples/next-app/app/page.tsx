@@ -2,7 +2,7 @@
 
 import CodePanel from "./CodePanel";
 import { useEffect, useState } from "react";
-import { serverConnectTokenCreate, getUserAccounts } from "./server"
+import { serverConnectTokenCreate } from "./server"
 import { createClient } from "@pipedream/sdk/browser"
 
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST || "pipedream.com"
@@ -12,15 +12,13 @@ const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_APP_ID // required only for
 export default function Home() {
   const pd = createClient({ frontendHost })
   const [externalUserId, setExternalUserId] = useState<string | null>(null);
-  const [githubData, setGithubData] = useState<{ login: string } | null>(null)
   const [token, setToken] = useState<string | null>(null)
   const [expiresAt, setExpiresAt] = useState<string | null>(null)
-  const [oa, setOauthAppId] = useState<string | null>(null)
   const [app, setApp] = useState<string | null>(null)
   const [apn, setAuthProvisionId] = useState<string | null>(null)
 
     
-  const connectApp = (app: string, oauthAppId: string | undefined) => {
+  const connectApp = (app: string) => {
     if (!externalUserId) {
       throw new Error("External user ID is required.");
     }
@@ -28,7 +26,6 @@ export default function Home() {
       throw new Error("Token is required.");
     }
     setApp(app)
-    if (oauthAppId) setOauthAppId(oauthAppId)
     pd.connectAccount({
       app,
       token,
@@ -40,7 +37,7 @@ export default function Home() {
 
   const connectAccount = async () => {
     if (!appSlug) return
-    await connectApp(appSlug, oauthAppId)
+    await connectApp(appSlug)
   }
 
   useEffect(() => {
@@ -50,8 +47,6 @@ export default function Home() {
   useEffect(() => {
     if (!externalUserId) {
       setToken(null)
-      setGithubData(null)
-      setOauthAppId(null)
       setAuthProvisionId(null)
     } else {
       if (!appSlug) return
