@@ -5,7 +5,7 @@ export default {
   key: "clickup-stop-time-entry",
   name: "Stop Time Entry",
   description: "Stop time entry. [See documentation here](https://clickup.com/api/clickupreference/operation/StopatimeEntry)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   async run({ $ }) {
     const response = await this.clickup.stopTimeEntry({

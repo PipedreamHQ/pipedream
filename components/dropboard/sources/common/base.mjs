@@ -35,12 +35,7 @@ export default {
     },
     async deactivate() {
       const webhookId = this.db.get("webhookId");
-      await this.dropboard.deleteWebhook({
-        params: {
-          webhookId,
-        },
-        path: this.getPath(),
-      });
+      await this.dropboard.deleteWebhook(webhookId);
     },
   },
   async run({ body }) {

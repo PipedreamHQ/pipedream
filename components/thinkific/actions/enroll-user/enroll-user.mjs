@@ -4,7 +4,7 @@ export default {
   key: "thinkific-enroll-user",
   name: "Enroll User",
   description: "Creates a new Enrollment for specified student in specified course. [See the documentation](https://developers.thinkific.com/api/api-documentation/#/Enrollments/createEnrollment)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     thinkific,

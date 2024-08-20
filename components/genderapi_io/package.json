@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/genderapi_io",
+  "version": "0.0.1",
+  "description": "Pipedream GenderAPI.io Components",
+  "main": "genderapi_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "genderapi_io"
+  ],
+  "homepage": "https://pipedream.com/apps/genderapi_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

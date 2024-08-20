@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -348,6 +349,40 @@ export default {
         data,
         params,
       }, $);
+    },
+    async *paginate({
+      fn, params = {}, fieldList, query, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        const position = 1 + (page * LIMIT);
+        params.query = query + ` maxresults ${LIMIT} ${page
+          ? `startposition ${position}`
+          : ""} `;
+        page++;
+        const { QueryResponse: queryResponse } = await fn({
+          params,
+          ...opts,
+        });
+
+        const items = queryResponse[fieldList];
+        if (!items) {
+          return false;
+        }
+        for (const d of items) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = items.length;
+
+      } while (hasMore);
     },
   },
 };

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/addressfinder",
+  "version": "0.0.1",
+  "description": "Pipedream Addressfinder Components",
+  "main": "addressfinder.app.mjs",
+  "keywords": [
+    "pipedream",
+    "addressfinder"
+  ],
+  "homepage": "https://pipedream.com/apps/addressfinder",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
