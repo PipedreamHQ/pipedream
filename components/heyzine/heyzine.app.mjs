@@ -1,11 +1,26 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "heyzine",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://heyzine.com/api1/rest";
+    },
+    makeRequest(opts = {}) {
+      const {
+        $ = this,
+        params = {},
+        ...otherOpts
+      } = opts; console.log(params);
+      return axios($, {
+        ...otherOpts,
+        url: this._baseUrl(),
+        params: {
+          ...params,
+          "k": `${this.$auth.api_key}`,
+        },
+      });
     },
   },
 };
