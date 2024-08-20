@@ -15,7 +15,7 @@ export default {
       return constants.EVENT_TOPIC.REFUNDS_CREATE;
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.updated_at);
+      const ts = Date.parse(resource.created_at);
       return {
         id: `${resource.id}-${ts}`,
         summary: `Refund Created ${resource.id}`,
