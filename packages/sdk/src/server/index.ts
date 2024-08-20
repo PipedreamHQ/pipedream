@@ -53,16 +53,11 @@ export type Account = {
   credentials?: Record<string, string>; // Optional field for when include_credentials is true
 };
 
-interface SuccessResponse<T> {
-  status: "success";
-  data: T;
-}
-
 export type ErrorResponse = {
   error: string;
 };
 
-export type ConnectAPIResponse<T> = SuccessResponse<T> | ErrorResponse;
+export type ConnectAPIResponse<T> = T | ErrorResponse;
 
 interface ConnectRequestOptions extends Omit<RequestInit, "headers"> {
   params?: Record<string, string | boolean | number>;
@@ -98,7 +93,7 @@ class ServerClient {
   async _makeConnectRequest<T>(
     path: string,
     opts: ConnectRequestOptions = {},
-  ): Promise<ConnectAPIResponse<T>> {
+  ): Promise<T> {
     const {
       params,
       headers: customHeaders,
@@ -147,11 +142,11 @@ class ServerClient {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const result = await response.json() as ConnectAPIResponse<T>;
+    const result = await response.json() as unknown as T;
     return result;
   }
 
-  async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectAPIResponse<ConnectTokenResponse>> {
+  async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
     const body = {
       // named external_id in the API, but from the developer's perspective, it's the user's ID
       external_id: opts.external_user_id,
@@ -163,31 +158,31 @@ class ServerClient {
     });
   }
 
-  async getAccounts(params: ConnectParams = {}): Promise<ConnectAPIResponse<Account[]>> {
+  async getAccounts(params: ConnectParams = {}): Promise<Account[]> {
     return this._makeConnectRequest<Account[]>("/accounts", {
       params,
     });
   }
 
-  async getAccount(accountId: string, params: ConnectParams = {}): Promise<ConnectAPIResponse<Account>> {
+  async getAccount(accountId: string, params: ConnectParams = {}): Promise<Account> {
     return this._makeConnectRequest<Account>(`/accounts/${accountId}`, {
       params,
     });
   }
 
-  async getAccountsByApp(appId: string, params: ConnectParams = {}): Promise<ConnectAPIResponse<Account[]>> {
+  async getAccountsByApp(appId: string, params: ConnectParams = {}): Promise<Account[]> {
     return this._makeConnectRequest<Account[]>(`/accounts/app/${appId}`, {
       params,
     });
   }
 
-  async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<ConnectAPIResponse<Account[]>> {
+  async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<Account[]> {
     return this._makeConnectRequest<Account[]>(`/accounts/external_id/${externalId}`, {
       params,
     });
   }
 
-  async createAccount(opts: CreateAccountOpts): Promise<ConnectAPIResponse<Account>> {
+  async createAccount(opts: CreateAccountOpts): Promise<Account> {
     return this._makeConnectRequest<Account>("/accounts", {
       method: "POST",
       body: JSON.stringify(opts),
