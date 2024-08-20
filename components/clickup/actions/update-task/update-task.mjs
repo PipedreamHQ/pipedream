@@ -1,15 +1,15 @@
 import { ConfigurationError } from "@pipedream/platform";
-import common from "../common/task-props.mjs";
 import builder from "../../common/builder.mjs";
-import constants from "../common/constants.mjs";
 import propsFragments from "../../common/props-fragments.mjs";
+import constants from "../common/constants.mjs";
+import common from "../common/task-props.mjs";
 
 export default {
   ...common,
   key: "clickup-update-task",
   name: "Update Task",
   description: "Update a task. See the docs [here](https://clickup.com/api) in **Tasks / Update Task** section.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     ...common.props,

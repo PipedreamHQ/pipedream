@@ -10,8 +10,7 @@
   "connected-accounts": "Connected Accounts",
   "apps": "Integrations",
   "connect": {
-    "title": "Pipedream Connect",
-    "display": "children"
+    "title": "Pipedream Connect"
   },
   "components": "Components",
   "sources": "Sources",
