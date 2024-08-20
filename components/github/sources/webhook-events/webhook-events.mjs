@@ -1,5 +1,6 @@
 import common from "../common/common-webhook.mjs";
 import constants from "../common/constants.mjs";
+import { getRelevantHeaders } from "../common/utils.mjs";
 
 export default {
   ...common,
@@ -7,7 +8,7 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event type",
   type: "source",
-  version: "1.0.2",
+  version: "1.0.3",
   props: {
     ...common.props,
     events: {
@@ -36,7 +37,10 @@ export default {
       return;
     }
 
-    this.$emit(body, {
+    this.$emit({
+      ...getRelevantHeaders(headers),
+      ...body,
+    }, {
       id: headers["x-github-delivery"],
       summary: `New event ${headers["x-github-hook-installation-target-id"]} of type ${headers["x-github-hook-installation-target-type"]}}`,
       ts: new Date(),
