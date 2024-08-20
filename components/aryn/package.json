@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/aryn",
+  "version": "0.0.1",
+  "description": "Pipedream Aryn Components",
+  "main": "aryn.app.mjs",
+  "keywords": [
+    "pipedream",
+    "aryn"
+  ],
+  "homepage": "https://pipedream.com/apps/aryn",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

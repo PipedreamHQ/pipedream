@@ -5,7 +5,7 @@ export default {
   key: "clickup-update-space",
   name: "Update Space",
   description: "Update a space. See the docs [here](https://clickup.com/api) in **Spaces / Update Space** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,

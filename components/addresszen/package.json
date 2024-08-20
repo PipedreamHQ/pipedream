@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/addresszen",
+  "version": "0.1.0",
+  "description": "Pipedream AddressZen Components",
+  "main": "addresszen.app.mjs",
+  "keywords": [
+    "pipedream",
+    "addresszen"
+  ],
+  "homepage": "https://pipedream.com/apps/addresszen",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
+

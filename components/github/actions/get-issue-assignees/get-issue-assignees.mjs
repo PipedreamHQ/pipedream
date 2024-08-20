@@ -4,7 +4,7 @@ export default {
   key: "github-get-issue-assignees",
   name: "Get Issue Assignees",
   description: "Get assignees for an issue in a Gihub repo. [See docs here](https://docs.github.com/en/rest/issues/issues#get-an-issue)",
-  version: "0.0.16",
+  version: "0.0.17",
   type: "action",
   props: {
     github,

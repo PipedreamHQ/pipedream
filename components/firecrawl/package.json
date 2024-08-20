@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/firecrawl",
+  "version": "0.0.1",
+  "description": "Pipedream FireCrawl Components",
+  "main": "firecrawl.app.mjs",
+  "keywords": [
+    "pipedream",
+    "firecrawl"
+  ],
+  "homepage": "https://pipedream.com/apps/firecrawl",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
