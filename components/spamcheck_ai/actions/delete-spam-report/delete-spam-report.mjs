@@ -1,7 +1,7 @@
 import app from "../../spamcheck_ai.app.mjs";
 
 export default {
-  key: "spamcheck_ai-delete-report",
+  key: "spamcheck_ai-delete-spam-report",
   name: "Delete Report",
   description: "Delete a spam report. [See the documentation](https://app.spamcheck.ai/api_docs/index.html)",
   version: "0.0.1",
