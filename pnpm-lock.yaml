@@ -6937,6 +6937,9 @@ importers:
       '@pipedream/platform': 1.5.1
       uuidv4: 6.2.13
 
+  components/pipedream_connect:
+    specifiers: {}
+
   components/pipedrive:
     specifiers:
       '@pipedream/platform': ^1.2.0
