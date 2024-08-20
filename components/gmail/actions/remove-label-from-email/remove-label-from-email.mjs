@@ -2,10 +2,10 @@ import common from "../../common/verify-client-id.mjs";
 
 export default {
   ...common,
-  key: "gmail-add-label-to-email",
-  name: "Add Label to Email",
-  description: "Add label(s) to an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
-  version: "0.0.4",
+  key: "gmail-remove-label-from-email",
+  name: "Remove Label from Email",
+  description: "Remove label(s) from an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -15,32 +15,32 @@ export default {
         "message",
       ],
     },
-    addLabelIds: {
+    removeLabelIds: {
       propDefinition: [
         common.props.gmail,
         "messageLabels",
         (c) => ({
           messageId: c.message,
-          type: "add",
+          type: "remove",
         }),
       ],
-      label: "Labels To Add",
-      description: "The labels to add to the email",
+      label: "Labels To Remove",
+      description: "The labels to remove from the email",
     },
   },
   async run({ $ }) {
     const {
       gmail,
       message,
-      addLabelIds = [],
+      removeLabelIds = [],
     } = this;
 
     const response = await gmail.updateLabels({
       message,
-      addLabelIds,
+      removeLabelIds,
     });
 
-    $.export("$summary", `Successfully added ${addLabelIds.length} label(s)`);
+    $.export("$summary", `Successfully removed ${removeLabelIds.length} label(s)`);
     return response;
   },
 };

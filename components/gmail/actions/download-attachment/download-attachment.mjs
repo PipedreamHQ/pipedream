@@ -5,7 +5,7 @@ import path from "path";
 export default {
   ...common,
   key: "gmail-download-attachment",
-  name: "Download Attachement",
+  name: "Download Attachment",
   description: "Download an attachment by attachmentId to the /tmp directory. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get)",
   version: "0.0.2",
   type: "action",

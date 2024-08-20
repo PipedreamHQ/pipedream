@@ -98,7 +98,6 @@ export default {
       type: "string[]",
       label: "Message Labels",
       description: "Labels are used to categorize messages and threads within the user's mailbox",
-      optional: true,
       async options({
         messageId, type = "add",
       }) {
@@ -150,11 +149,15 @@ export default {
       label: "Attachment",
       description: "Identifier of the attachment to download",
       async options({ messageId }) {
-        const { payload: { parts } } = await this.getMessage({
-          id: messageId,
-        });
-        return parts?.filter(({ body }) => body.attachmentId )
-          ?.map(({ body }) => body.attachmentId ) || [];
+        try {
+          const { payload: { parts } } = await this.getMessage({
+            id: messageId,
+          });
+          return parts?.filter(({ body }) => body.attachmentId )
+            ?.map(({ body }) => body.attachmentId ) || [];
+        } catch {
+          return [];
+        }
       },
     },
     q: {

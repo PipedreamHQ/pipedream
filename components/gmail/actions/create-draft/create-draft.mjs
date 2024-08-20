@@ -27,12 +27,6 @@ export default {
         "bcc",
       ],
     },
-    fromName: {
-      propDefinition: [
-        common.props.gmail,
-        "fromName",
-      ],
-    },
     replyTo: {
       propDefinition: [
         common.props.gmail,
@@ -80,7 +74,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = await this.gmail.getOptionsToSendEmail($, this);
+    const opts = await this.gmail.getOptionsToSendEmail($, this); console.log(opts);
     const response = await this.gmail.createDraft(opts);
     $.export("$summary", "Successfully created a draft message");
     return response;
