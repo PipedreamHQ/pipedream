@@ -1,11 +1,10 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import sampleEmit from "./test-event.mjs";
 import base from "../common/polling.mjs";
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
-  ...common,
   key: "gmail-new-labeled-email",
   name: "New Labeled Email",
   description: "Emit new event when a new email is labeled.",
@@ -13,7 +12,7 @@ export default {
   version: "0.0.2",
   dedupe: "unique",
   props: {
-    ...common.props,
+    gmail,
     db: "$.service.db",
     timer: {
       label: "Polling interval",
@@ -25,14 +24,13 @@ export default {
     },
     label: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "label",
       ],
     },
   },
   methods: {
     ...base.methods,
-    ...common.methods,
     _getLastHistoryId() {
       return this.db.get("lastHistoryId");
     },

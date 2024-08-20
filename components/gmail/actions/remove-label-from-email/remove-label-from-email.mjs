@@ -1,23 +1,22 @@
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
-  ...common,
   key: "gmail-remove-label-from-email",
   name: "Remove Label from Email",
   description: "Remove label(s) from an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
   version: "0.0.1",
   type: "action",
   props: {
-    ...common.props,
+    gmail,
     message: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "message",
       ],
     },
     removeLabelIds: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "messageLabels",
         (c) => ({
           messageId: c.message,

@@ -1,16 +1,15 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import base from "../common/polling.mjs";
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
-  ...common,
   key: "gmail-new-sent-email",
   name: "New Sent Email",
   description: "Emit new event for each new email sent. (Maximum of 300 events emited per execution)",
   version: "0.0.2",
   type: "source",
   props: {
-    ...common.props,
+    gmail,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -21,7 +20,6 @@ export default {
   },
   methods: {
     ...base.methods,
-    ...common.methods,
     setLastMessageId(id) {
       this.db.set("lastMessageId", id);
     },

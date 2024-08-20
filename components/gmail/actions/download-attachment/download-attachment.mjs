@@ -1,25 +1,24 @@
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 import fs from "fs";
 import path from "path";
 
 export default {
-  ...common,
   key: "gmail-download-attachment",
   name: "Download Attachment",
   description: "Download an attachment by attachmentId to the /tmp directory. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get)",
   version: "0.0.2",
   type: "action",
   props: {
-    ...common.props,
+    gmail,
     messageId: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "messageWithAttachments",
       ],
     },
     attachmentId: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "attachmentId",
         ({ messageId }) => ({
           messageId,

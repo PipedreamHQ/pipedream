@@ -1,65 +1,64 @@
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
-  ...common,
   key: "gmail-create-draft",
   name: "Create Draft",
   description: "Create a draft from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.drafts/create)",
   version: "0.0.2",
   type: "action",
   props: {
-    ...common.props,
+    gmail,
     to: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "to",
       ],
     },
     cc: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "cc",
       ],
     },
     bcc: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "bcc",
       ],
     },
     replyTo: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "replyTo",
       ],
     },
     subject: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "subject",
       ],
     },
     body: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "body",
       ],
     },
     bodyType: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "bodyType",
       ],
     },
     attachments: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "attachments",
       ],
     },
     inReplyTo: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "message",
       ],
       label: "In Reply To",
@@ -68,7 +67,7 @@ export default {
     },
     mimeType: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "mimeType",
       ],
     },

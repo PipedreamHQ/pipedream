@@ -1,6 +1,6 @@
 import googleCloud from "../../../google_cloud/google_cloud.app.mjs";
 import base from "../update-primary-signature/update-primary-signature.mjs";
-import verifyClient from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
   ...base,
@@ -11,7 +11,7 @@ export default {
   version: "0.0.2",
   type: "action",
   props: {
-    ...verifyClient.props,
+    gmail,
     googleCloud,
     signature: base.props.signature,
     email: {

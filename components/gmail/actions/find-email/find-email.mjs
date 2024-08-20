@@ -1,23 +1,22 @@
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
-  ...common,
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
   version: "0.0.5",
   type: "action",
   props: {
-    ...common.props,
+    gmail,
     q: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "q",
       ],
     },
     labels: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "label",
       ],
       type: "string[]",

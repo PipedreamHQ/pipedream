@@ -1,11 +1,10 @@
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 import constants from "../../common/constants.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  ...common,
   props: {
-    ...common.props,
+    gmail,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -15,13 +14,13 @@ export default {
     },
     q: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "q",
       ],
     },
     labels: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "label",
       ],
       type: "string[]",
@@ -35,7 +34,6 @@ export default {
     },
   },
   methods: {
-    ...common.methods,
     getLastMessageId() {
       return this.db.get("lastMessageId");
     },

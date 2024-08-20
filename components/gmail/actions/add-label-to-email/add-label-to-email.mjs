@@ -1,23 +1,22 @@
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
-  ...common,
   key: "gmail-add-label-to-email",
   name: "Add Label to Email",
   description: "Add label(s) to an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
   version: "0.0.4",
   type: "action",
   props: {
-    ...common.props,
+    gmail,
     message: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "message",
       ],
     },
     addLabelIds: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "messageLabels",
         (c) => ({
           messageId: c.message,
