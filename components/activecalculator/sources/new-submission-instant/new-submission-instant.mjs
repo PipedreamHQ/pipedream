@@ -1,47 +1,62 @@
-import { axios } from "@pipedream/platform";
 import activecalculator from "../../activecalculator.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "activecalculator-new-submission-instant",
   name: "New Submission Instant",
-  description: "Emit new event when there's a new submission. [See the documentation](https://activecalculator.readme.io/reference/get-all-webhooks)",
+  description: "Emit new event when there's a new submission.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     activecalculator,
+    http: {
+      type: "$.interface.http",
+      customResponse: false,
+    },
     db: "$.service.db",
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the webhook.",
+      optional: true,
+    },
+    calculatorIds: {
+      propDefinition: [
+        activecalculator,
+        "calculatorIds",
+      ],
+    },
   },
   hooks: {
-    async deploy() {
-      const webhooks = await this.activecalculator.getAllWebhooks();
-      const allSubmissions = [];
-
-      for (const webhook of webhooks) {
-        const submissions = await this.activecalculator.getWebhook(webhook.id);
-        allSubmissions.push(...submissions);
-      }
-
-      for (const submission of allSubmissions.slice(0, 50)) {
-        this.$emit(submission, {
-          id: submission.id,
-          summary: `New Submission: ${submission.id}`,
-          ts: Date.parse(submission.createdAt),
-        });
-      }
-    },
     async activate() {
-      const webhookUrl = this.$endpoint;
-      await this.activecalculator.registerWebhook(webhookUrl, []);
+      const { data } = await this.activecalculator.createWebhook({
+        data: {
+          url: this.http.endpoint,
+          name: this.name,
+          source: "pipedream",
+          triggers: [
+            "newSubmission",
+          ],
+          calculators: parseObject(this.calculatorIds),
+        },
+      });
+      this.db.set("webhookId", data.id);
     },
     async deactivate() {
-      const webhooks = await this.activecalculator.getAllWebhooks();
-      for (const webhook of webhooks) {
-        await this.activecalculator.removeWebhook(webhook.id);
+      const webhookId = this.db.get("webhookId");
+      if (webhookId) {
+        await this.activecalculator.deleteWebhook(webhookId);
       }
     },
   },
-  async run(event) {
-    this.activecalculator.emitNewSubmissionEvent(event);
+  async run({ body }) {
+    this.$emit(body, {
+      id: body.data.id,
+      summary: `New Submission: ${body.data.id}`,
+      ts: Date.parse(body.data.createdAt),
+    });
   },
+  sampleEmit,
 };

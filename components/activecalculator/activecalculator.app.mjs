@@ -1,72 +1,67 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "activecalculator",
-  propDefinitions: {},
+  propDefinitions: {
+    calculatorIds: {
+      type: "string[]",
+      label: "Calculator Ids",
+      description: "A list of calculator's Ids.",
+      async options({ page }) {
+        const { data } = await this.listCalculators({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://app.activecalculator.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "x-ac-api-key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async registerWebhook(url, calculators) {
-      const data = {
-        url,
-        triggers: [
-          "newSubmission",
-        ],
-        calculators,
-      };
+    listCalculators(opts = {}) {
+      return this._makeRequest({
+        path: "/calculators",
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/webhooks",
-        data,
+        ...opts,
       });
     },
-    async getAllWebhooks() {
-      return this._makeRequest({
-        method: "GET",
-        path: "/webhooks",
-      });
-    },
-    async getWebhook(webhookId) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/webhooks/${webhookId}`,
-      });
-    },
-    async removeWebhook(webhookId) {
+    deleteWebhook(webhookId) {
       return this._makeRequest({
         method: "DELETE",
         path: `/webhooks/${webhookId}`,
       });
-    },
-    async emitNewSubmissionEvent(event) {
-      this.$emit(event, {
-        summary: "New Submission",
-        id: event.id,
-        ts: Date.now(),
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
