@@ -1,12 +1,12 @@
-import common from "../common/list-props.mjs";
 import builder from "../../common/builder.mjs";
 import propsFragments from "../../common/props-fragments.mjs";
+import common from "../common/list-props.mjs";
 
 export default {
   key: "clickup-create-view-comment",
   name: "Create View Comment",
   description: "Creates a view comment. See the docs [here](https://clickup.com/api) in **Comments / Create Chat View Comment** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,

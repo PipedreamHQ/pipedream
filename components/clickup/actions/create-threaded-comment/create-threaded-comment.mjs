@@ -1,13 +1,11 @@
-import clickup from "../../clickup.app.mjs";
-import builder from "../../common/builder.mjs";
-import common from "../common/list-props.mjs";
+import common from "../common/thread-comment-props.mjs";
 
 export default {
   ...common,
-  key: "clickup-create-list-comment",
-  name: "Create List Comment",
-  description: "Creates a list comment. See the docs [here](https://clickup.com/api) in **Comments / Create List Comment** section.",
-  version: "0.0.9",
+  key: "clickup-create-threaded-comment",
+  name: "Create Threaded Comment",
+  description: "Creates a threaded comment. See the docs [here](https://clickup.com/api) in **Comments / Create Threaded Comment** section.",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -21,11 +19,10 @@ export default {
       description: "Will notify all",
       type: "boolean",
       default: false,
-      optional: true,
     },
-    assignees: {
+    assignee: {
       propDefinition: [
-        clickup,
+        common.props.clickup,
         "assignees",
         (c) => ({
           workspaceId: c.workspaceId,
@@ -40,26 +37,28 @@ export default {
       ],
     },
   },
-  additionalProps: builder.buildListProps(),
   async run({ $ }) {
     const {
-      listId,
+      commentId,
       commentText,
       notifyAll,
-      assignees,
+      assignee,
     } = this;
 
-    const response = await this.clickup.createListComment({
+    const data = {
+      comment_text: commentText,
+      notify_all: notifyAll,
+    };
+
+    if (assignee) data.assignee = assignee;
+
+    const response = await this.clickup.createThreadedComment({
       $,
-      listId,
-      data: {
-        comment_text: commentText,
-        notify_all: notifyAll,
-        assignees,
-      },
+      commentId,
+      data,
     });
 
-    $.export("$summary", "Successfully created comment");
+    $.export("$summary", "Successfully created threaded comment");
 
     return response;
   },

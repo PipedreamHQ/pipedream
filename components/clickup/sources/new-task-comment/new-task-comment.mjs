@@ -4,10 +4,10 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "clickup-new-task",
-  name: "New Task (Instant)",
-  description: "Emit new event when a new task is created",
-  version: "0.1.5",
+  key: "clickup-new-task-comment",
+  name: "New Task Comment (Instant)",
+  description: "Emit new event when a new task comment is posted",
+  version: "0.0.1",
   dedupe: "unique",
   type: "source",
   props: {
@@ -34,16 +34,20 @@ export default {
   }),
   methods: {
     ...common.methods,
-    _getMeta({ task_id: taskId }) {
+    _getMeta({
+      task_id: taskId, history_items: [
+        { id },
+      ],
+    }) {
       return {
-        id: taskId,
+        id,
         summary: String(taskId),
         ts: Date.now(),
       };
     },
     _getEventsList() {
       return [
-        "taskCreated",
+        "taskCommentPosted",
       ];
     },
   },

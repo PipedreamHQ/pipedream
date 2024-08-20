@@ -1,14 +1,15 @@
-import common from "../common/common.mjs";
-import constants from "../common/constants.mjs";
 import builder from "../../common/builder.mjs";
 import propsFragments from "../../common/props-fragments.mjs";
+import common from "../common/common.mjs";
+import constants from "../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "clickup-updated-task",
   name: "New Updated Task (Instant)",
   description: "Emit new event when a new task is updated",
-  version: "0.0.10",
+  version: "0.0.11",
   dedupe: "unique",
   type: "source",
   props: {
@@ -97,6 +98,6 @@ export default {
     if (isValidated) {
       this.$emit(body, this._getMeta(body.history_items));
     }
-
   },
+  sampleEmit,
 };
