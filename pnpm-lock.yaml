@@ -11187,8 +11187,7 @@ importers:
 
   packages/sdk/examples/next-app:
     specifiers:
-      '@pipedream/sdk': ^0.0.6
-      '@types/dompurify': ^3.0.5
+      '@pipedream/sdk': ^0.0.7
       '@types/node': ^20
       '@types/prismjs': ^1.26.4
       '@types/react': ^18
@@ -11196,7 +11195,6 @@ importers:
       '@typescript-eslint/eslint-plugin': ^8.1.0
       '@typescript-eslint/parser': ^8.1.0
       autoprefixer: ^10.0.1
-      dompurify: ^3.1.6
       eslint: ^8.57.0
       eslint-config-next: ^14.1.0
       next: 14.1.0
@@ -11207,14 +11205,12 @@ importers:
       tailwindcss: ^3.3.0
       typescript: ^5
     dependencies:
-      '@pipedream/sdk': 0.0.6
-      dompurify: 3.1.6
+      '@pipedream/sdk': 0.0.7
       next: 14.1.0_nnrd3gsncyragczmpvfhocinkq
       prismjs: 1.29.0
       react: 18.3.1
       react-dom: 18.3.1_react@18.3.1
     devDependencies:
-      '@types/dompurify': 3.0.5
       '@types/node': 20.14.9
       '@types/prismjs': 1.26.4
       '@types/react': 18.3.3
@@ -16978,8 +16974,8 @@ packages:
       - debug
     dev: false
 
-  /@pipedream/sdk/0.0.6:
-    resolution: {integrity: sha512-GMfQKWYlo//VJD+5Mtep3aAKF8wd43U3/Hts5cSa3eyThjyB1TzbOYXdrK8d1Sl0yXs8QNttwfF5hwaC+iZT6A==}
+  /@pipedream/sdk/0.0.7:
+    resolution: {integrity: sha512-o9TSoMqriYSm8gYOrwv0mkUtSgu3u4hX9rh0p8ssoYOZ6LLH5mvy5GX1ACD5BPwcaEUSHHzqJ+E7kJjq3eMtrw==}
     dev: false
 
   /@pipedream/snowflake-sdk/1.0.8_asn1.js@5.4.1:
@@ -20301,12 +20297,6 @@ packages:
       '@types/ms': 0.7.32
     dev: true
 
-  /@types/dompurify/3.0.5:
-    resolution: {integrity: sha512-1Wg0g3BtQF7sSb27fJQAKck1HECM6zV1EB66j8JH9i3LCjYabJa0FSdiSgsD5K/RbrsR0SiraKacLB+T8ZVYAg==}
-    dependencies:
-      '@types/trusted-types': 2.0.7
-    dev: true
-
   /@types/duplexify/3.6.2:
     resolution: {integrity: sha512-2/0R4riyD/OS6GNJLIhwRaj+8ZbxHUZl3I0a3PHwH7zhZEEAACUWjzaBrY1qVWckueZ5pouDRP0UxX6P8Hzfww==}
     dependencies:
@@ -20640,10 +20630,6 @@ packages:
   /@types/triple-beam/1.3.3:
     resolution: {integrity: sha512-6tOUG+nVHn0cJbVp25JFayS5UE6+xlbcNF9Lo9mU7U0zk3zeUShZied4YEQZjy1JBF043FSkdXw8YkUJuVtB5g==}
     dev: false
-
-  /@types/trusted-types/2.0.7:
-    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
-    dev: true
 
   /@types/tunnel/0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
@@ -23832,10 +23818,6 @@ packages:
     engines: {node: '>= 4'}
     dependencies:
       domelementtype: 2.3.0
-    dev: false
-
-  /dompurify/3.1.6:
-    resolution: {integrity: sha512-cTOAhc36AalkjtBpfG6O8JimdTMWNXjiePT2xQH/ppBGi/4uIpmj8eKyIkMJErXWARyINV/sB38yf8JCLF5pbQ==}
     dev: false
 
   /domutils/2.8.0:
