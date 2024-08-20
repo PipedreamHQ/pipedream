@@ -4,7 +4,7 @@ export default {
   key: "thinkific-update-user",
   name: "Update User",
   description: "Updates the information of a specific user on Thinkific. [See the documentation](https://developers.thinkific.com/api/api-documentation/#/Users/updateUserByID)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     thinkific,
