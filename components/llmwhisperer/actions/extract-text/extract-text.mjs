@@ -95,7 +95,6 @@ export default {
       type: "boolean",
       label: "URL In Post",
       description: "If set to `true`, the headers will be set to `text/plain`. If set to `false`, the headers will be set to `application/octet-stream`.",
-      optional: true,
       reloadProps: true,
       default: true,
     },
