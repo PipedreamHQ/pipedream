@@ -363,12 +363,12 @@ export default {
           ? `startposition ${position}`
           : ""} `;
         page++;
-        const { QueryResponse } = await fn({
+        const { QueryResponse: queryResponse } = await fn({
           params,
           ...opts,
         });
 
-        const items = QueryResponse[fieldList];
+        const items = queryResponse[fieldList];
         if (!items) {
           return false;
         }
