@@ -285,6 +285,9 @@ importers:
   components/ahrefs:
     specifiers: {}
 
+  components/ai_ml_api:
+    specifiers: {}
+
   components/aidbase:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -2485,6 +2488,9 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/docraptor:
+    specifiers: {}
+
+  components/docsautomator:
     specifiers: {}
 
   components/docsbot_ai:
