@@ -5513,7 +5513,10 @@ importers:
     specifiers: {}
 
   components/mails_so:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/mailwizz:
     specifiers:
@@ -6594,7 +6597,10 @@ importers:
       lodash.pickby: 4.6.0
 
   components/owl_protocol:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/oxford_dictionaries:
     specifiers: {}
@@ -10029,7 +10035,10 @@ importers:
       moment: 2.29.4
 
   components/undetectable_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/unione:
     specifiers: {}
