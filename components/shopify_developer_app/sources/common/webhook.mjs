@@ -59,6 +59,39 @@ export default {
       return this.app.getShopId() === shopId
         && this.getTopic() === topic;
     },
+    checkMetaFields({
+      metafields = [], private_metafields: privateMetafields = [],
+    } = {}) {
+      let validateMetafield = true;
+      let validatePrivateMetafield = true;
+      if (this.metafieldNamespaces?.length) {
+        validateMetafield = false;
+        for (const metafieldNamespace of this.metafieldNamespaces) {
+          for (const metafieldObj of metafields) {
+            if (metafieldObj.namespace === metafieldNamespace) {
+              validateMetafield = true;
+              break;
+            }
+          }
+          if (validateMetafield) break;
+        }
+      }
+
+      if (this.privateMetafieldNamespaces?.length) {
+        validatePrivateMetafield = false;
+        for (const privateMetafieldNamespace of this.privateMetafieldNamespaces) {
+          for (const privateMetafieldObj of privateMetafields) {
+            if (privateMetafieldObj.namespace === privateMetafieldNamespace) {
+              validatePrivateMetafield = true;
+              break;
+            }
+          }
+          if (validatePrivateMetafield) break;
+        }
+      }
+
+      return validateMetafield && validatePrivateMetafield;
+    },
     isRelevant() {
       return true;
     },
@@ -89,7 +122,7 @@ export default {
       status: 200,
     });
 
-    if (this.isRelevant(resource)) {
+    if (this.isRelevant(resource) && this.checkMetaFields(resource)) {
       this.$emit(resource, this.generateMeta(resource));
     }
   },
