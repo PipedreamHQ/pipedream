@@ -10,7 +10,7 @@ npm i @pipedream/sdk
 
 ## Quickstart
 
-The [quickstart](/connect/quickstart) is the easiest way to get started with the SDK and Pipedream Connect.
+The [quickstart](https://pipedream.com/docs/connect/quickstart) is the easiest way to get started with the SDK and Pipedream Connect.
 
 ## Usage
 
