@@ -6591,7 +6591,10 @@ importers:
       lodash.pickby: 4.6.0
 
   components/owl_protocol:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/oxford_dictionaries:
     specifiers: {}
