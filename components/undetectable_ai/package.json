@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/undetectable_ai",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Undetectable AI Components",
   "main": "undetectable_ai.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
   }
 }

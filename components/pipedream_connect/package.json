@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pipedream_connect",
+  "version": "0.0.1",
+  "description": "Pipedream Pipedream Connect Components",
+  "main": "pipedream_connect.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pipedream_connect"
+  ],
+  "homepage": "https://pipedream.com/apps/pipedream_connect",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

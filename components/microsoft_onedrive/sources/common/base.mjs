@@ -1,5 +1,9 @@
 import onedrive from "../../microsoft_onedrive.app.mjs";
-import { toSingleLineString } from "./utils.mjs";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 100, // 10 requests per second
+  maxConcurrent: 1,
+});
 
 // Defaulting to 15 days. The maximum allowed expiration time is 30 days,
 // according to their API response message: "Subscription expiration can only
@@ -18,14 +22,12 @@ const props = {
   },
   timer: {
     type: "$.interface.timer",
-    label: "Webhook subscription renewal schedule",
-    description: toSingleLineString(`
-      The OneDrive API requires occasional renewal of webhook notification subscriptions.
-      **This runs in the background, so you should not need to modify this schedule**.
-    `),
+    //  The OneDrive API requires occasional renewal of webhook notification subscriptions.
+    //  **This runs in the background, so the user should not need to modify this schedule**.
     default: {
       intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
     },
+    hidden: true,
   },
 };
 
@@ -37,16 +39,21 @@ const hooks = {
     // We skip the first drive item, since it represents the root directory
     await itemsStream.next();
 
-    let eventsToProcess = 10;
-    for await (const driveItem of itemsStream) {
-      if (!this.isItemTypeRelevant(driveItem)) {
+    let done, value, eventsToProcess = 10;
+    while (true) {
+      ({
+        done, value,
+      } = await limiter.schedule(() => itemsStream.next()));
+      if (value && !this.isItemTypeRelevant(value)) {
         // If the type of the item being processed is not relevant to the
         // event source we want to skip it in order to avoid confusion in
         // terms of the actual payload of the sample events
         continue;
       }
 
-      await this.processEvent(driveItem);
+      if (done) break;
+
+      await this.processEvent(value);
       if (--eventsToProcess <= 0) {
         break;
       }
@@ -136,9 +143,8 @@ const methods = {
       let done, value;
       try {
         ({
-          done,
-          value,
-        } = await itemsStream.next());
+          done, value,
+        } = await limiter.schedule(() => itemsStream.next()));
       } catch (e) {
         // Users have come upon an error with deltaLink, so we need to reset it by
         // creating a new subscription.
@@ -150,8 +156,6 @@ const methods = {
         }
         this._setSequentialErrorsCount(errors + 1);
       }
-
-      this._setSequentialErrorsCount(0);
 
       if (done) {
         // No more items to retrieve from OneDrive. We update the cached Delta
@@ -175,7 +179,7 @@ const methods = {
         await this.processEvent(value);
       }
     }
-
+    this._setSequentialErrorsCount(0);
     await this.postProcessEvent();
   },
   /**
@@ -273,9 +277,6 @@ async function run(event) {
       Received an HTTP call containing 'validationToken'.
       Validating webhook subscription and exiting...
     `);
-    this.http.respond({
-      status: 202,
-    });
     return;
   }
 

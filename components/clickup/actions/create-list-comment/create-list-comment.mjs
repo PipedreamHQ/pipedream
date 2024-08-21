@@ -1,13 +1,13 @@
 import clickup from "../../clickup.app.mjs";
-import common from "../common/list-props.mjs";
 import builder from "../../common/builder.mjs";
+import common from "../common/list-props.mjs";
 
 export default {
   ...common,
   key: "clickup-create-list-comment",
   name: "Create List Comment",
   description: "Creates a list comment. See the docs [here](https://clickup.com/api) in **Comments / Create List Comment** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,
