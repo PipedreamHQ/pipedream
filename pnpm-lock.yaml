@@ -9972,9 +9972,6 @@ importers:
       form-data: 4.0.0
       oauth-1.0a: 2.2.6
 
-  components/twitter:
-    specifiers: {}
-
   components/twitter_ads:
     specifiers: {}
 
