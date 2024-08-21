@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/supabase_management_api",
+  "version": "0.0.1",
+  "description": "Pipedream Supabase Management API Components",
+  "main": "supabase_management_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "supabase_management_api"
+  ],
+  "homepage": "https://pipedream.com/apps/supabase_management_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

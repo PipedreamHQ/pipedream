@@ -9196,6 +9196,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@supabase/supabase-js': 2.39.0
 
+  components/supabase_management_api:
+    specifiers: {}
+
   components/supercast:
     specifiers:
       '@pipedream/platform': ^1.6.0
