@@ -10,7 +10,7 @@ const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG // required
 const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_APP_ID // required only for oauth connections
 
 export default function Home() {
-  const pd = createClient({})
+  const pd = createClient({ frontendHost })
   const [externalUserId, setExternalUserId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null)
   const [expiresAt, setExpiresAt] = useState<string | null>(null)
