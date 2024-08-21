@@ -241,6 +241,9 @@ importers:
   components/adp:
     specifiers: {}
 
+  components/adrapid:
+    specifiers: {}
+
   components/adroll:
     specifiers:
       '@pipedream/platform': ^1.2.1
