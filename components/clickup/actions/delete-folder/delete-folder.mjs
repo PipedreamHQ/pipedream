@@ -5,7 +5,7 @@ export default {
   key: "clickup-delete-folder",
   name: "Delete Folder",
   description: "Delete a folder. See the docs [here](https://clickup.com/api) in **Folders / Delete Folder** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   async run({ $ }) {
     const { folderId } = this;

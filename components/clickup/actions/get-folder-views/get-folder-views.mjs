@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-folder-views",
   name: "Get Folder Views",
   description: "Get all views of a folder. See the docs [here](https://clickup.com/api) in **Views / Get Folder Views** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   async run({ $ }) {
     const { folderId } = this;

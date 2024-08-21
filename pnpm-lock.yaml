@@ -288,6 +288,9 @@ importers:
   components/ahrefs:
     specifiers: {}
 
+  components/ai_ml_api:
+    specifiers: {}
+
   components/aidbase:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -2490,6 +2493,9 @@ importers:
   components/docraptor:
     specifiers: {}
 
+  components/docsautomator:
+    specifiers: {}
+
   components/docsbot_ai:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3191,7 +3197,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/firecrawl:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/fireflies:
     specifiers:
@@ -3503,7 +3512,10 @@ importers:
     specifiers: {}
 
   components/genderapi_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/genderize:
     specifiers: {}
@@ -5286,7 +5298,12 @@ importers:
     specifiers: {}
 
   components/llmwhisperer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      fs: 0.0.1-security
 
   components/lmnt:
     specifiers:
@@ -6940,6 +6957,9 @@ importers:
       '@pipedream/platform': 1.5.1
       uuidv4: 6.2.13
 
+  components/pipedream_connect:
+    specifiers: {}
+
   components/pipedrive:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -7447,9 +7467,9 @@ importers:
 
   components/quickbooks:
     specifiers:
-      '@pipedream/platform': ^1.0.0
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
 
   components/quickemailverification:
     specifiers:
@@ -9552,9 +9572,9 @@ importers:
 
   components/thinkific:
     specifiers:
-      '@pipedream/platform': ^1.6.2
+      '@pipedream/platform': ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.6.2
+      '@pipedream/platform': 3.0.0
 
   components/thoughtful_gpt:
     specifiers:

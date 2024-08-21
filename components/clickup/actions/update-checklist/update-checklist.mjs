@@ -1,13 +1,13 @@
-import common from "../common/task-props.mjs";
 import builder from "../../common/builder.mjs";
 import propsFragments from "../../common/props-fragments.mjs";
+import common from "../common/task-props.mjs";
 
 export default {
   ...common,
   key: "clickup-update-checklist",
   name: "Update Checklist",
   description: "Updates a checklist in a task. See the docs [here](https://clickup.com/api) in **Checklists / Edit Checklist** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,
