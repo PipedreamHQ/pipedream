@@ -2490,6 +2490,9 @@ importers:
   components/docraptor:
     specifiers: {}
 
+  components/docsautomator:
+    specifiers: {}
+
   components/docsbot_ai:
     specifiers:
       '@pipedream/platform': ^1.5.1

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/docsautomator",
+  "version": "0.0.1",
+  "description": "Pipedream DocsAutomator Components",
+  "main": "docsautomator.app.mjs",
+  "keywords": [
+    "pipedream",
+    "docsautomator"
+  ],
+  "homepage": "https://pipedream.com/apps/docsautomator",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
