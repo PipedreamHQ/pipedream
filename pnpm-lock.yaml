@@ -5018,6 +5018,9 @@ importers:
       '@kontent-ai/webhook-helper': 2.1.0
       crypto: 1.0.1
 
+  components/krispcall:
+    specifiers: {}
+
   components/kucoin_futures:
     specifiers: {}
 
