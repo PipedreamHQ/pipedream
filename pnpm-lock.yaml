@@ -285,6 +285,9 @@ importers:
   components/ahrefs:
     specifiers: {}
 
+  components/ai_ml_api:
+    specifiers: {}
+
   components/aidbase:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -2487,6 +2490,9 @@ importers:
   components/docraptor:
     specifiers: {}
 
+  components/docsautomator:
+    specifiers: {}
+
   components/docsbot_ai:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3188,7 +3194,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/firecrawl:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/fireflies:
     specifiers:
@@ -3500,7 +3509,10 @@ importers:
     specifiers: {}
 
   components/genderapi_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/genderize:
     specifiers: {}
@@ -5283,7 +5295,12 @@ importers:
     specifiers: {}
 
   components/llmwhisperer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      fs: 0.0.1-security
 
   components/lmnt:
     specifiers:
@@ -5493,7 +5510,10 @@ importers:
     specifiers: {}
 
   components/mails_so:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/mailwizz:
     specifiers:
@@ -6574,7 +6594,10 @@ importers:
       lodash.pickby: 4.6.0
 
   components/owl_protocol:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/oxford_dictionaries:
     specifiers: {}
@@ -6936,6 +6959,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       uuidv4: 6.2.13
+
+  components/pipedream_connect:
+    specifiers: {}
 
   components/pipedrive:
     specifiers:
@@ -35507,7 +35533,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
