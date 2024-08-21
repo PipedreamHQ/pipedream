@@ -1,13 +1,13 @@
-import common from "../common/task-props.mjs";
 import builder from "../../common/builder.mjs";
 import propsFragments from "../../common/props-fragments.mjs";
+import common from "../common/task-props.mjs";
 
 export default {
   ...common,
   key: "clickup-start-time-entry",
   name: "Start Time Entry",
   description: "Start time entry. [See documentation here](https://clickup.com/api/clickupreference/operation/StartatimeEntry)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,

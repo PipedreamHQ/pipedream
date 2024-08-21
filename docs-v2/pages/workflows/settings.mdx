@@ -110,6 +110,8 @@ If your workflow times out, and needs to run for longer than the [default limit]
 
 By default, workflows run with {process.env.MEMORY_LIMIT} of memory. If you're processing a lot of data in memory, you might need to raise that limit. Here, you can increase the memory of your workflow up to {process.env.MEMORY_ABSOLUTE_LIMIT}.
 
+Increasing your workflow's memory gives you a proportional increase in CPU, so increasing your workflow's memory can reduce its overall runtime and make it more performant.
+
 **Pipedream charges credits proportional to your memory configuration**. When you modify your memory settings, Pipedream will show you the number of credits you'll be charged per execution. [Read more here](/pricing/#how-does-workflow-memory-affect-credits).
 
 ### Concurrency and Throttling

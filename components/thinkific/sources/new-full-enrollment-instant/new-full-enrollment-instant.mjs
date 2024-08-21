@@ -6,7 +6,7 @@ export default {
   key: "thinkific-new-full-enrollment-instant",
   name: "New Full Enrollment (Instant)",
   description: "Emit new event when a user enrolls in your course.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
