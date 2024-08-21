@@ -1,13 +1,13 @@
-import common from "../common/task-props.mjs";
 import builder from "../../common/builder.mjs";
 import propsFragments from "../../common/props-fragments.mjs";
+import common from "../common/task-props.mjs";
 
 export default {
   ...common,
   key: "clickup-create-checklist",
   name: "Create Checklist",
   description: "Creates a new checklist in a task. See the docs [here](https://clickup.com/api) in **Checklists / Create Checklist** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,

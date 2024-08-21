@@ -4,7 +4,7 @@ export default {
   key: "clickup-create-space",
   name: "Create Space",
   description: "Creates a new space. See the docs [here](https://clickup.com/api) in **Spaces / Create Space** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,

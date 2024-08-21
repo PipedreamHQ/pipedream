@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-get-sales-receipt",
   name: "Get Sales Receipt",
   description: "Returns details about a sales receipt. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/salesreceipt#read-a-salesreceipt)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     quickbooks,
