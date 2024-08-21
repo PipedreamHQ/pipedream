@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ai_ml_api",
+  "version": "0.0.1",
+  "description": "Pipedream AI/ML API Components",
+  "main": "ai_ml_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ai_ml_api"
+  ],
+  "homepage": "https://pipedream.com/apps/ai_ml_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
