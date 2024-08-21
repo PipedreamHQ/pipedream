@@ -439,29 +439,6 @@ class ServerClient {
   }
 
   /**
-   * Creates a new account.
-   *
-   * @param opts - The options for creating the account.
-   * @returns A promise resolving to the created account.
-   *
-   * @example
-   * ```typescript
-   * const account = await client.createAccount({
-   *   app_slug: "your-app-slug",
-   *   connect_token: "connect-token",
-   *   cfmap_json: "{}",
-   * });
-   * console.log(account);
-   * ```
-   */
-  async createAccount(opts: CreateAccountOpts): Promise<Account> {
-    return this._makeConnectRequest<Account>("/accounts", {
-      method: "POST",
-      body: JSON.stringify(opts),
-    });
-  }
-
-  /**
    * Deletes a specific account by ID.
    *
    * @param accountId - The ID of the account to delete.
@@ -493,6 +470,24 @@ class ServerClient {
    */
   async deleteAccountsByApp(appId: string): Promise<void> {
     await this._makeConnectRequest(`/accounts/app/${appId}`, {
+      method: "DELETE",
+    });
+  }
+
+  /**
+   * Deletes all accounts associated with a specific external ID.
+   *
+   * @param externalId - The external ID associated with the accounts.
+   * @returns A promise resolving when all accounts are deleted.
+   *
+   * @example
+   * ```typescript
+   * await client.deleteExternalUser("external-id");
+   * console.log("All accounts deleted");
+   * ```
+   */
+  async deleteExternalUser(externalId: string): Promise<void> {
+    await this._makeConnectRequest(`/users/${externalId}`, {
       method: "DELETE",
     });
   }
