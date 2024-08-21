@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-search-accounts",
   name: "Search Accounts",
   description: "Search for accounts. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/account#query-an-account)",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   props: {
     quickbooks,

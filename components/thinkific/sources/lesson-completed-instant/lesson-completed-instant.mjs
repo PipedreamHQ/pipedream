@@ -4,9 +4,9 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "thinkific-lesson-completed-instant",
-  name: "Lesson Completed (Instant)",
+  name: "New Lesson Completed (Instant)",
   description: "Emit new event when a user completes a lesson in a course.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
