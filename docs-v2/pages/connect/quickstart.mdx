@@ -4,6 +4,15 @@ import Image from 'next/image'
 
 # Quickstart
 
+Pipedream Connect is the easiest way for your users to connect to [over 200+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI-driven products, [and much more](/connect/use-cases), all in a few minutes.
+
+Here's a high-level overview of how Connect works with your app:
+
+<br />
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1724194758/Screenshot_2024-08-20_at_3.59.05_PM_rfylfq.png" alt="Pipedream Connect overview" width={800} height={529} />
+
+And here's the technical flow between your frontend, backend, and Pipedream's API, described step-by-step below:
+
 <br />
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723834101/docs/Screenshot_2024-08-16_at_11.48.15_AM_kijxa7.png" alt="Connect developer flow" width={800} height={500} />
 
@@ -571,10 +580,11 @@ In our example, `app/page.tsx` calls the `connectAccount` method from the Pipedr
 import { createClient } from "@pipedream/sdk/browser"
 
 export default function Home() {
+  const pd = createClient()
   function connectAccount() {
     pd.connectAccount({
       app: process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG, // From the Next.js example — adjust to pass your own app name slug
-      token: "YOUR_TOKEN", // The token you received from your server
+      token: "YOUR_TOKEN", // The token you received from your server above
       onSuccess: ({ id: accountId }) => {
         console.log(`Account successfully connected: ${accountId}`)
       }

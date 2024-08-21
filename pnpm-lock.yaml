@@ -3509,7 +3509,10 @@ importers:
     specifiers: {}
 
   components/genderapi_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/genderize:
     specifiers: {}
@@ -5507,7 +5510,10 @@ importers:
     specifiers: {}
 
   components/mails_so:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/mailwizz:
     specifiers:
@@ -6588,7 +6594,10 @@ importers:
       lodash.pickby: 4.6.0
 
   components/owl_protocol:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/oxford_dictionaries:
     specifiers: {}
@@ -10023,7 +10032,10 @@ importers:
       moment: 2.29.4
 
   components/undetectable_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/unione:
     specifiers: {}
@@ -35521,7 +35533,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
