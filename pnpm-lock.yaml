@@ -9196,6 +9196,9 @@ importers:
       '@pipedream/platform': 1.5.1
       '@supabase/supabase-js': 2.39.0
 
+  components/supabase_management_api:
+    specifiers: {}
+
   components/supercast:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -9965,6 +9968,9 @@ importers:
       '@pipedream/types': 0.1.6
       form-data: 4.0.0
       oauth-1.0a: 2.2.6
+
+  components/twitter:
+    specifiers: {}
 
   components/twitter_ads:
     specifiers: {}
