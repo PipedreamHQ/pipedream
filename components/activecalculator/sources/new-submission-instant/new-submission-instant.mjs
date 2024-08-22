@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "activecalculator-new-submission-instant",
-  name: "New Submission Instant",
+  name: "New Submission (Instant)",
   description: "Emit new event when there's a new submission.",
   version: "0.0.1",
   type: "source",
