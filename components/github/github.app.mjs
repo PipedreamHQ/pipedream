@@ -182,9 +182,7 @@ export default {
       }) {
         const branches = await this.getBranches({
           repoFullname,
-          params: {
-            page: page + 1,
-          },
+          page: page + 1,
         });
 
         return branches.map((branch) => ({
