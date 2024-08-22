@@ -215,7 +215,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/addressfinder:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/addresszen:
     specifiers:
@@ -239,6 +242,9 @@ importers:
     specifiers: {}
 
   components/adp:
+    specifiers: {}
+
+  components/adrapid:
     specifiers: {}
 
   components/adroll:
@@ -2493,6 +2499,9 @@ importers:
   components/docraptor:
     specifiers: {}
 
+  components/docsautomator:
+    specifiers: {}
+
   components/docsbot_ai:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2509,6 +2518,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/docugenerate:
+    specifiers: {}
+
+  components/documenso:
     specifiers: {}
 
   components/document360:
@@ -2556,6 +2568,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/docuseal:
+    specifiers: {}
 
   components/docusign:
     specifiers:
@@ -3509,7 +3524,10 @@ importers:
     specifiers: {}
 
   components/genderapi_io:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/genderize:
     specifiers: {}
@@ -3971,14 +3989,12 @@ importers:
       '@googleapis/drive': ^2.3.0
       '@googleapis/slides': ^0.7.1
       '@pipedream/platform': ^0.9.0
-      axios: ^0.21.1
       mime-db: ^1.51.0
       uuid: ^8.3.2
     dependencies:
       '@googleapis/drive': 2.4.0
       '@googleapis/slides': 0.7.1
       '@pipedream/platform': 0.9.0
-      axios: 0.21.4
       mime-db: 1.52.0
       uuid: 8.3.2
 
@@ -5015,6 +5031,9 @@ importers:
       '@kontent-ai/webhook-helper': 2.1.0
       crypto: 1.0.1
 
+  components/krispcall:
+    specifiers: {}
+
   components/kucoin_futures:
     specifiers: {}
 
@@ -5507,7 +5526,10 @@ importers:
     specifiers: {}
 
   components/mails_so:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/mailwizz:
     specifiers:
@@ -6588,7 +6610,10 @@ importers:
       lodash.pickby: 4.6.0
 
   components/owl_protocol:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/oxford_dictionaries:
     specifiers: {}
@@ -8631,6 +8656,9 @@ importers:
   components/signerx:
     specifiers: {}
 
+  components/signnow:
+    specifiers: {}
+
   components/signpath:
     specifiers: {}
 
@@ -9179,6 +9207,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       '@supabase/supabase-js': 2.39.0
+
+  components/supabase_management_api:
+    specifiers: {}
 
   components/supercast:
     specifiers:
@@ -9950,6 +9981,9 @@ importers:
       form-data: 4.0.0
       oauth-1.0a: 2.2.6
 
+  components/twitter:
+    specifiers: {}
+
   components/twitter_ads:
     specifiers: {}
 
@@ -10023,7 +10057,10 @@ importers:
       moment: 2.29.4
 
   components/undetectable_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/unione:
     specifiers: {}
@@ -11250,7 +11287,7 @@ importers:
   platform:
     specifiers:
       '@octokit/core': ^3.6.0
-      axios: ^1.6.5
+      axios: ^1.7.4
       fp-ts: ^2.0.2
       husky: ^3.0.0
       io-ts: ^2.0.0
@@ -11259,7 +11296,7 @@ importers:
       type-fest: ^4.15.0
       typescript: ^3.5.3
     dependencies:
-      axios: 1.6.5
+      axios: 1.7.4
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
@@ -21867,6 +21904,16 @@ packages:
       - debug
     dev: false
 
+  /axios/1.7.4:
+    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
+    dependencies:
+      follow-redirects: 1.15.6
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axobject-query/3.1.1:
     resolution: {integrity: sha512-goKlv8DZrK9hUh975fnHzhNIO4jUnFCfv/dszV5VwUGDFjI6vQ2VwoyjYjYNEbBE8AH87TduWP5uyDR1D+Iteg==}
     dependencies:
@@ -25371,6 +25418,16 @@ packages:
         optional: true
     dependencies:
       debug: 3.2.7
+    dev: false
+
+  /follow-redirects/1.15.6:
+    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /follow-redirects/1.5.10:
