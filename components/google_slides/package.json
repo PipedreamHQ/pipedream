@@ -13,7 +13,6 @@
     "@googleapis/slides": "^0.7.1",
     "@googleapis/drive": "^2.3.0",
     "@pipedream/platform": "^0.9.0",
-    "axios": "^0.21.1",
     "mime-db": "^1.51.0",
     "uuid": "^8.3.2"
   },
