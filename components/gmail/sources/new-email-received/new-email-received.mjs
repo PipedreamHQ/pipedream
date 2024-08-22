@@ -19,15 +19,15 @@ export default {
         ts: message.internalDate,
       };
     },
-    emitEvents(messages) {
-      for (const message of messages) {
-        const meta = this.generateMeta(message);
-        this.$emit(this.decodeContent(message), meta);
-      }
+    emitEvent(message) {
+      const meta = this.generateMeta(message);
+      this.$emit(this.decodeContent(message), meta);
     },
     async processMessageIds(messageIds) {
-      const messages = await this.gmail.getMessages(messageIds);
-      this.emitEvents(messages);
+      const messages = this.gmail.getAllMessages(messageIds);
+      for await (const message of messages) {
+        this.emitEvent(message);
+      }
     },
   },
 };

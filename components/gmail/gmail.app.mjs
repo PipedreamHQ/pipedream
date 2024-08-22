@@ -350,6 +350,14 @@ export default {
       }));
       return Promise.all(promises);
     },
+    async *getAllMessages(ids = []) {
+      for (const id of ids) {
+        const message = await this.getMessage({
+          id,
+        });
+        yield message;
+      }
+    },
     async listSignatures() {
       const { data } = await this._client().users.settings.sendAs.list({
         userId: constants.USER_ID,
