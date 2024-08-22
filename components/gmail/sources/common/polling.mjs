@@ -34,17 +34,21 @@ export default {
     },
   },
   methods: {
-    getLastMessageId() {
-      return this.db.get("lastMessageId");
+    getLastDate() {
+      return this.db.get("lastDate");
     },
-    setLastMessageId(lastMessageId) {
-      this.db.set("lastMessageId", lastMessageId);
+    setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
     },
-    processMessageIds() {
-      throw new Error("processMessageIds not implemented");
-    },
-    constructQuery() {
-      return this.q;
+    constructQuery(lastDate) {
+      const { q: query } = this;
+      const after = !query.includes("after:") && lastDate
+        ? `after:${lastDate / 1000}`
+        : "";
+      return [
+        after,
+        query,
+      ].join(" ").trim();
     },
     isValidType(data) {
       return typeof(data) === "string"
@@ -86,9 +90,11 @@ export default {
         labels,
       } = this;
 
+      const lastDate = this.getLastDate() || 0; console.log(constructQuery(lastDate));
+
       console.log("Polling for new messages...");
       const { messages } = await gmail.listMessages({
-        q: constructQuery(),
+        q: constructQuery(lastDate),
         labelIds: labels,
         maxResults: max,
       });
@@ -100,27 +106,18 @@ export default {
         return;
       }
 
-      const lastMessageId = this.getLastMessageId();
-      if (lastMessageId !== messageIds[0]) {
-        this.setLastMessageId(messageIds[0]);
+      await this.processMessageIds(messageIds.reverse(), lastDate);
+    },
+    async processMessageIds(messageIds, lastDate) {
+      let maxDate = lastDate;
+      const messages = this.gmail.getAllMessages(messageIds);
+      for await (const message of messages) {
+        if (message.internalDate >= lastDate) {
+          this.emitEvent(message);
+          maxDate = Math.max(maxDate, message.internalDate);
+        }
       }
-
-      const index = messageIds.indexOf(lastMessageId);
-      if (index !== -1) {
-        messageIds = messageIds.slice(0, index);
-      }
-
-      const numMessages = messageIds.length;
-      if (!numMessages) {
-        console.log("Messages already processed. Exiting...");
-        return;
-      }
-
-      const suffix = numMessages === 1
-        ? ""
-        : "s";
-      console.log(`Received ${numMessages} new message${suffix}. Please be patient while more information for each message is being fetched.`);
-      await this.processMessageIds(messageIds.reverse());
+      if (maxDate) this.setLastDate(maxDate);
     },
   },
   async run() {

@@ -23,11 +23,5 @@ export default {
       const meta = this.generateMeta(message);
       this.$emit(this.decodeContent(message), meta);
     },
-    async processMessageIds(messageIds) {
-      const messages = this.gmail.getAllMessages(messageIds);
-      for await (const message of messages) {
-        this.emitEvent(message);
-      }
-    },
   },
 };
