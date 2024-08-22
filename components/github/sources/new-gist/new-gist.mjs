@@ -5,7 +5,7 @@ export default {
   key: "github-new-gist",
   name: "New Gist",
   description: "Emit new events when new gists are created by the authenticated user",
-  version: "0.1.16",
+  version: "0.1.17",
   type: "source",
   dedupe: "unique",
   async run() {

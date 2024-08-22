@@ -1,7 +1,7 @@
 {
   "index": "Overview",
   "steps": "Steps",
-  "operators": "Control Flow",
+  "control-flow": "Control Flow",
   "build": "Build, Test & Deploy",
   "inspect": "Run and Monitor",
   "errors": "Handle Errors",

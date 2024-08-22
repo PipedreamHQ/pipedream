@@ -1,12 +1,13 @@
-import common from "../common/common.mjs";
 import builder from "../../common/builder.mjs";
+import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "clickup-new-task",
   name: "New Task (Instant)",
   description: "Emit new event when a new task is created",
-  version: "0.1.4",
+  version: "0.1.5",
   dedupe: "unique",
   type: "source",
   props: {
@@ -63,4 +64,5 @@ export default {
 
     this.$emit(body, this._getMeta(body));
   },
+  sampleEmit,
 };

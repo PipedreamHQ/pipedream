@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-delete-purchase",
   name: "Delete Purchase",
   description: "Delete a specific purchase. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#delete-a-purchase)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     quickbooks,

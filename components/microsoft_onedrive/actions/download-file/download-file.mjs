@@ -9,32 +9,16 @@ export default {
   name: "Download File",
   description: "Download a file stored in OneDrive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_get_content?view=odsp-graph-online)",
   key: "microsoft_onedrive-download-file",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     onedrive,
     fileId: {
-      type: "string",
-      label: "File ID",
-      description: "The file to download. You can either search for the file here, provide a custom *File ID*, or use the `File Path` prop to specify the path directly.",
+      propDefinition: [
+        onedrive,
+        "fileId",
+      ],
       optional: true,
-      useQuery: true,
-      async options(context) {
-        const { query } = context;
-        if (!query) return [];
-        const response = await this.httpRequest({
-          $: context,
-          url: `/search(q='${query}')?select=folder,name,id`,
-        });
-        return response.value
-          .filter(({ folder }) => !folder)
-          .map(({
-            name, id,
-          }) => ({
-            label: name,
-            value: id,
-          }));
-      },
     },
     filePath: {
       type: "string",
@@ -45,7 +29,7 @@ export default {
     newFileName: {
       type: "string",
       label: "New File Name",
-      description: "The file name to save the downloaded content as, under the `/tmp` folder.",
+      description: "The file name to save the downloaded content as, under the `/tmp` folder. Make sure to include the file extension.",
     },
   },
   methods: {
@@ -63,11 +47,18 @@ export default {
     const url = fileId
       ? `items/${fileId}/content`
       : `/root:/${encodeURI(filePath)}:/content`;
-    const response = await this.httpRequest({
-      $,
-      url,
-      responseType: "stream",
-    });
+    let response;
+    try {
+      response = await this.httpRequest({
+        $,
+        url,
+        responseType: "stream",
+      });
+    } catch {
+      throw new ConfigurationError(`Error accessing file. Please make sure that the ${ fileId
+        ? "File ID"
+        : "File Path"} is correct.`);
+    }
 
     const fileName = newFileName.split("/").pop();
     const tmpFilePath = `/tmp/${fileName}`;

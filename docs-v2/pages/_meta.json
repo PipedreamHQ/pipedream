@@ -12,8 +12,7 @@
   "code": "Serverless Runtimes",
   "data-stores": "Data Stores",
   "connect": {
-    "title": "Pipedream Connect",
-    "display": "children"
+    "title": "Pipedream Connect"
   },
   "event-history": "Event History",
   "sources": "Sources",
