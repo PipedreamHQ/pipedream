@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/activecalculator",
+  "version": "0.0.1",
+  "description": "Pipedream ActiveCalculator Components",
+  "main": "activecalculator.app.mjs",
+  "keywords": [
+    "pipedream",
+    "activecalculator"
+  ],
+  "homepage": "https://pipedream.com/apps/activecalculator",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

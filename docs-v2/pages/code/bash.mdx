@@ -61,7 +61,7 @@ cat $PIPEDREAM_STEPS | jq .trigger.event
 # Results in { id: 1, name: "Bulbasaur", type: "plant" }
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 The period (`.`) in front the `trigger.event` in the example is not a typo. This is to define the starting point for `jq` to traverse down the JSON in the HTTP response.
 </Callout>
 
@@ -78,7 +78,7 @@ EXPORT="key:json=${DATA}"
 echo $EXPORT >> $PIPEDREAM_EXPORTS
 ```
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 Not all data types can be stored in the `$PIPEDREAM_EXPORTS` data shared between workflow steps.
 
 You can only export JSON-serializable data from Bash steps.
@@ -113,7 +113,7 @@ echo $WEATHER
 # San Francisco: 🌫  +48°F
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Use the `--silent` flag with `curl` to suppress extra extra diagnostic information that `curl` produces when making requests.
 
 This enables you to only worry about the body of the response so you can visualize it with tools like `echo` or `jq`.
@@ -153,7 +153,7 @@ echo "Exiting now!" 1>&2
 exit 1
 ```
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 Using `exit` to quit a Bash step early _won't_ stop the execution of the rest of the workflow.
 
 Exiting a Bash step will only apply that particular step in the workflow.
@@ -177,6 +177,6 @@ curl --silent https://wttr.in/Cleveland.png --output /tmp/weather.png
 ls /tmp
 ```
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/limits/#disk) for details.
 </Callout>

@@ -1,6 +1,10 @@
 export default {
   HISTORICAL_EVENTS: 25,
-  ISSUE_TYPE: "ISSUE",
+  PROJECT_ITEM_TYPES: [
+    "Issue",
+    "PullRequest",
+    "DraftIssue",
+  ],
   REPOSITORY_WEBHOOK_EVENTS: [
     {
       label: "Activity related to a branch protection rule",

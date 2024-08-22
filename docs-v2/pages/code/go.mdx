@@ -20,7 +20,7 @@ You can use `fmt.Println` at any time to log information as the script is runnin
 
 The output for the `fmt.Println` **Logs** will appear in the `Results` section just beneath the code editor.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Don't forget to import the `fmt` package in order to run `fmt.Println`.
 
 ```go {3}
@@ -162,7 +162,7 @@ func main() {
 
 Now this `pokemon` data is accessible to downstream steps within `pd.Steps["code"]["pokemon"]`
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 Not all data types can be stored in the `Steps` data shared between workflow steps.
 
 For the best experience, we recommend only [exporting structs that can be marshalled into JSON](https://go.dev/blog/json).

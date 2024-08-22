@@ -13,11 +13,11 @@ This guide assumes you:
 - Are familiar with git-concepts (branches, commits, merges, etc)
 - Are on an [eligible plan](https://pipedream.com/pricing/)
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 If you are new to Pipedream, we recommend starting with the [basics of workflow development](/quickstart/).
 </Callout>
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Users on the Free and Basic plan may preview GitHub Sync by enabling the feature **when creating a new project.**  You will not be able to merge to production without upgrading. When you upgrade, you may enable or disable GitHub sync for projects at any time.
 </Callout>
 
@@ -26,7 +26,7 @@ Users on the Free and Basic plan may preview GitHub Sync by enabling the feature
 
 Follow the steps below to create a new project and configure GitHub Sync.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 This example uses Pipedream's OAuth integration with GitHub which will automaticallly create a a new, empty repo in GitHub. The OAuth integration requires the granting of extensive scopes so Pipedream can create and manage the integration. If you prefer not to use OAuth and configure the integration manually, follow the steps in Pipedream's docs to configure the integration using deploy keys. Deploy keys allow you to restrict Pipedream's access to a specific repo.
 </Callout>
 
@@ -55,7 +55,7 @@ Since this is a new project, you will prompted to create a branch. You may accep
 
 In the future, when you click **Edit**, Pipedream will load development mode for the last branch you were editing for the project. You may also create or select a different branch from the drop down menu.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 When GitHub Sync is enabled, project resources may only be edited in a branch.
 </Callout>
 
@@ -96,7 +96,7 @@ You can explore the files created, including the YAML file with the workflow def
 
 ![github](./images/view_branch_on_github_2.png)
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Optionally navigate to the file with the code step and make an edit to the file and commit your changes to the branch (e.g., add another comment). When you return to Pipedream, you'll notice the git actions button will prompt you to pull changes. Pipedream's integration with GitHub is bi-directional, so you can make edits outside of Pipedream (including locally) and sync them via GitHub. Note: there are currently restrictions on local development (e.g., you can only edit existing resources -- you can't create new workflows locally).
 </Callout>
 

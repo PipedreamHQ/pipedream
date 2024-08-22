@@ -104,13 +104,10 @@ export default {
         ...opts,
       });
     },
-    deleteWebhook({
-      path, ...opts
-    }) {
+    deleteWebhook(webhookId) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/${path}/webhooks`,
-        ...opts,
+        path: `/webhooks/${webhookId}`,
       });
     },
     createJob(opts = {}) {

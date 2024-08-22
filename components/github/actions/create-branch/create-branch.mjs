@@ -5,7 +5,7 @@ export default {
   key: "github-create-branch",
   name: "Create Branch",
   description: "Create a new branch in a Github repo. [See docs here](https://docs.github.com/en/rest/git/refs?apiVersion=2022-11-28#create-a-reference)",
-  version: "0.0.10",
+  version: "0.0.12",
   type: "action",
   props: {
     github,

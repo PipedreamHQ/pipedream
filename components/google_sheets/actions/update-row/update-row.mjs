@@ -9,7 +9,7 @@ export default {
   key: "google_sheets-update-row",
   name: "Update Row",
   description: "Update a row in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     googleSheets,
