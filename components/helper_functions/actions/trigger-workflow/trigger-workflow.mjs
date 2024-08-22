@@ -19,30 +19,16 @@ export default {
       description: "The event to be sent to the triggered workflow as the triggering event",
       optional: true,
     },
-    resultType: {
-      type: "string",
-      label: "Result Type",
-      description: "Set to `all_exports` to get $.exports of the triggered event as well as its $return_value: `{\"code\":{\"my_export\":\"value\",\"$return_value\":{\"hello\":\"world\"}},\"$context\":null}`",
-      optional: true,
-      options: [
-        "all_exports",
-      ],
-    },
   },
   async run({ $ }) {
     const {
       workflowId,
       event = {},
-      resultType,
     } = this;
 
-    const result = resultType === "all_exports"
-      ? await $.flow.trigger(workflowId, event, {
-        result_type: resultType,
-      })
-      : await $.flow.trigger(workflowId, event);
+    const result = await $.flow.trigger(workflowId, event);
 
-    $.export("$summary", `Successfully triggerd workflow with ID: ${workflowId}`);
+    $.export("$summary", `Successfully triggered workflow with ID: ${workflowId}`);
 
     return result;
   },
