@@ -7,7 +7,7 @@ export default {
   key: "google_sheets-get-values-in-range",
   name: "Get Values in Range",
   description: "Get all values or values from a range of cells using A1 notation. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     googleSheets,

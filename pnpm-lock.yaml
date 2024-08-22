@@ -3969,14 +3969,14 @@ importers:
     specifiers:
       '@googleapis/sheets': ^0.3.0
       '@pipedream/google_drive': ^0.6.12
-      '@pipedream/platform': ^1.6.4
+      '@pipedream/platform': ^3.0.0
       lodash: ^4.17.21
       uuidv4: ^6.2.6
       zlib: ^1.0.5
     dependencies:
       '@googleapis/sheets': 0.3.0
       '@pipedream/google_drive': 0.6.15
-      '@pipedream/platform': 1.6.4
+      '@pipedream/platform': 3.0.0
       lodash: 4.17.21
       uuidv4: 6.2.13
       zlib: 1.0.5
@@ -22976,7 +22976,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   /concat-stream/2.0.0:
     resolution: {integrity: sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==}
