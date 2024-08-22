@@ -3,8 +3,8 @@ import React from "react";
 const VideoPlayer = ({
   src, title, startAt,
 }) => {
-  const embedUrl = `${src}${startAt
-    ? `?start=${startAt}`
+  const embedUrl = `${src}?rel=0${startAt
+    ? `&start=${startAt}`
     : ""}`;
 
   return (
