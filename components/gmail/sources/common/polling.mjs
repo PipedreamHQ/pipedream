@@ -90,7 +90,7 @@ export default {
         labels,
       } = this;
 
-      const lastDate = this.getLastDate() || 0; console.log(constructQuery(lastDate));
+      const lastDate = this.getLastDate() || 0;
 
       console.log("Polling for new messages...");
       const { messages } = await gmail.listMessages({
