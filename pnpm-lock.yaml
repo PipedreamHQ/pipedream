@@ -2517,6 +2517,9 @@ importers:
   components/docugenerate:
     specifiers: {}
 
+  components/documenso:
+    specifiers: {}
+
   components/document360:
     specifiers:
       '@pipedream/platform': ^1.5.1
