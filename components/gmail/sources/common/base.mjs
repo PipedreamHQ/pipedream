@@ -1,9 +1,7 @@
-import gmail from "../../gmail.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
-    gmail,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
