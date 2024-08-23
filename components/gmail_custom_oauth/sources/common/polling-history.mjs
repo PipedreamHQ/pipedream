@@ -1,4 +1,4 @@
-import base from "../../../gmail/sources/common/polling.mjs";
+import base from "../../../gmail/sources/common/polling-history.mjs";
 import overrideApp from "../../common/override-app.mjs";
 
 overrideApp(base);

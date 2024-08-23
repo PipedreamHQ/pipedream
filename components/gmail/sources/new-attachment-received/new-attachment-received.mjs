@@ -1,4 +1,4 @@
-import common from "../common/polling.mjs";
+import common from "../common/polling-messages.mjs";
 
 export default {
   ...common,
@@ -8,6 +8,18 @@ export default {
   version: "0.0.2",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common,
+    labels: {
+      propDefinition: [
+        common.props.gmail,
+        "label",
+      ],
+      type: "string[]",
+      label: "Labels",
+      optional: true,
+    },
+  },
   methods: {
     ...common.methods,
     constructQuery(lastDate) {
@@ -23,6 +35,9 @@ export default {
         after,
         query,
       ].join(" ").trim();
+    },
+    getLabels() {
+      return this.labels;
     },
     generateMeta(attachment, message) {
       return {

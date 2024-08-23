@@ -324,10 +324,11 @@ export default {
       return data;
     },
     async getMessage({ id }) {
-      const { data } = await this._client().users.messages.get({
+      const fn = () => this._client().users.messages.get({
         userId: constants.USER_ID,
         id,
       });
+      const { data } = await this.retryWithExponentialBackoff(fn);
       return data;
     },
     async listHistory(opts = {}) {
@@ -493,25 +494,26 @@ export default {
       });
       return data;
     },
-    getMessagesWithRetry(ids = [], maxRetries = 3) {
-      const getMessageWithRetry = async (id, retryCount = 0) => {
+    retryWithExponentialBackoff(func, maxAttempts = 3, baseDelayS = 2) {
+      let attempt = 0;
+
+      const execute = async () => {
         try {
-          return await this.getMessage({
-            id,
-          });
-        } catch (err) {
-          console.error(`Failed to get message with id ${id}:`, err);
-          if (retryCount < maxRetries) {
-            console.log("Retrying...");
-            return await getMessageWithRetry(id, retryCount + 1);
+          return await func();
+        } catch (error) {
+          if (attempt >= maxAttempts) {
+            throw error;
           }
-          console.error("Failed after 3 attempts.");
-          return null;
+
+          const delayMs = Math.pow(baseDelayS, attempt) * 1000;
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+
+          attempt++;
+          return execute();
         }
       };
 
-      const promises = ids.map((id) => getMessageWithRetry(id));
-      return Promise.all(promises);
+      return execute();
     },
   },
 };

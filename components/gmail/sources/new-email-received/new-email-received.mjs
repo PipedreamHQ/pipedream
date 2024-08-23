@@ -1,27 +1,44 @@
-import common from "../common/polling.mjs";
+import common from "../common/polling-history.mjs";
 
 export default {
   ...common,
   key: "gmail-new-email-received",
   name: "New Email Received",
-  description: "Emit new event when an email is received. This source is capped at 100 max new messages per run.",
-  version: "0.0.2",
+  description: "Emit new event when a new email is received.",
   type: "source",
+  version: "0.0.2",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    label: {
+      propDefinition: [
+        common.props.gmail,
+        "label",
+      ],
+      optional: true,
+    },
+  },
   methods: {
     ...common.methods,
+    getHistoryTypes() {
+      return [
+        "messageAdded",
+      ];
+    },
     generateMeta(message) {
-      const selectedHeader = message.payload.headers.find(({ name }) => name === "Subject");
-      const subject = selectedHeader?.value || "No subject";
       return {
         id: message.id,
-        summary: `New email: ${subject}`,
+        summary: `A new message with ID: ${message.id} was received"`,
         ts: message.internalDate,
       };
     },
-    emitEvent(message) {
-      const meta = this.generateMeta(message);
-      this.$emit(this.decodeContent(message), meta);
+    filterHistory(history) {
+      return this.label
+        ? history.filter((item) =>
+          item.messagesAdded?.length
+            && item.messagesAdded[0].message.labelIds
+            && item.messagesAdded[0].message.labelIds.includes(this.label))
+        : history.filter((item) => item.messagesAdded?.length);
     },
   },
 };
