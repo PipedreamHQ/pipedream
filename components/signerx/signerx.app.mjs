@@ -8,107 +8,90 @@ export default {
       type: "string",
       label: "Package ID",
       description: "The ID of the package",
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email address of the recipient",
-    },
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The first name of the recipient",
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The last name of the recipient",
-    },
-    file: {
-      type: "string",
-      label: "File",
-      description: "The file to upload",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the package/document",
+      async options({ page }) {
+        const { data } = await this.listPackages({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.signerx.com/v1";
+      return "https://api.signerx.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers(headers = {}) {
+      return {
+        ...headers,
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(headers),
+        ...opts,
       });
     },
-    async addRecipientToTemplate({
-      packageId, email, firstName, lastName,
+    listPackages(opts = {}) {
+      return this._makeRequest({
+        path: "/packages",
+        ...opts,
+      });
+    },
+    addRecipientToTemplate({
+      packageId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/packages/${packageId}/recipients`,
-        data: {
-          email,
-          first_name: firstName,
-          last_name: lastName,
-        },
+        ...opts,
       });
     },
-    async createDraftPackage({
-      file, name,
-    }) {
+    createDraftPackage(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/packages",
-        data: {
-          file,
-          name,
-        },
+        path: "/packages/create-and-upload",
+        ...opts,
       });
     },
-    async getPackagesByStatus(statusIds) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/packages",
-        params: {
-          status_ids: statusIds,
-        },
-      });
-    },
-    async emitNewPackageEvents(statusIds, eventName) {
-      const packages = await this.getPackagesByStatus(statusIds);
-      for (const pkg of packages) {
-        this.$emit(pkg, {
-          summary: `New package with status ${statusIds}`,
-          id: pkg.id,
-          ts: Date.now(),
-          name: eventName,
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          data,
+          next_page_url,
+        } = await fn({
+          params,
+          ...opts,
         });
-      }
-    },
-    async emitPublishedPackages() {
-      return this.emitNewPackageEvents("published", "New Published Package");
-    },
-    async emitSignedPackages() {
-      return this.emitNewPackageEvents("complete", "New Signed Package");
-    },
-    async emitNewlyCreatedPackages() {
-      return this.emitNewPackageEvents("draft", "Newly Created Package");
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = next_page_url;
+
+      } while (hasMore);
     },
   },
 };

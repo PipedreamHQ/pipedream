@@ -1,35 +1,28 @@
-import { axios } from "@pipedream/platform";
-import signerx from "../../signerx.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "signerx-new-package-published",
   name: "New Package Published",
-  description: "Emit new event when a package is published. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a package is published.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    signerx,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // Poll every 15 minutes by default
-      },
+  methods: {
+    ...common.methods,
+    getDateField() {
+      return "published_at";
+    },
+    getParams() {
+      return {
+        direction: "desc",
+        status_id: "published",
+      };
+    },
+    getSummary(item) {
+      return `New Package Published: ${item.id}`;
     },
   },
-  hooks: {
-    async deploy() {
-      await this.signerx.emitPublishedPackages();
-    },
-    async activate() {
-      // No webhook support, so no action needed
-    },
-    async deactivate() {
-      // No webhook support, so no action needed
-    },
-  },
-  async run() {
-    await this.signerx.emitPublishedPackages();
-  },
+  sampleEmit,
 };

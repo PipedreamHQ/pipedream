@@ -1,42 +1,25 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
-import signerx from "../../signerx.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "signerx-new-package-created",
   name: "New Package Created",
-  description: "Emit new event when a package is newly created. [See the documentation](https://documenter.getpostman.com/view/13877745/2sa3xv9kni)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a package is newly created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    signerx,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-  },
-  hooks: {
-    async deploy() {
-      await this.emitNewlyCreatedPackages();
-    },
-    async activate() {
-      // No webhook subscription available for this API
-    },
-    async deactivate() {
-      // No webhook subscription available for this API
-    },
-  },
   methods: {
-    async emitNewlyCreatedPackages() {
-      await this.signerx.emitNewlyCreatedPackages();
+    ...common.methods,
+    getParams() {
+      return {
+        order_by: "created_at",
+        direction: "desc",
+      };
+    },
+    getSummary(item) {
+      return `New Package Created: ${item.id}`;
     },
   },
-  async run() {
-    await this.emitNewlyCreatedPackages();
-  },
+  sampleEmit,
 };
