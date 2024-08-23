@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "launchnotes-new-subscription-created-instant",
+  key: "launchnotes-new-subscription-created",
   name: "New Subscription Created",
   description: "Emit new event when a new project subscription is created.",
   version: "0.0.1",
