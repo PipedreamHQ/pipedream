@@ -7,11 +7,6 @@ export default {
   app: "remote_retrieval",
   propDefinitions: { },
   methods: {
-
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-
     getBaseUrl() {
       return `${constants.BASE_URL}${constants.VERSION_PATH}`;
     },

@@ -6,7 +6,7 @@ export default {
   name: "New Device Return Order",
   description: "Triggers when a new device return order is created. [See the documentation](https://www.remoteretrieval.com/api-documentation/#all-orders)",
   type: "source",
-  version: "0.1.1",
+  version: "0.1.0",
   dedupe: "unique",
   methods: {
     ...common.methods,

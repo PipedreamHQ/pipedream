@@ -5,7 +5,7 @@ export default {
   name: "Create Device Order",
   description: "Creates a device return order. [See the documentation](https://www.remoteretrieval.com/api-documentation/#create-order)",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.0",
   props: {
     app,
 
@@ -57,7 +57,6 @@ export default {
          options: ["US"],
         default:  "US",
       },    
-      
 
       companyInfoPerson: {
         type: "string",
@@ -117,12 +116,8 @@ export default {
         description: "You can choose 'Return to Company' or 'Sell this Equipment'",
         options: ['Return to Company','Sell this Equipment'],
         default: "Return to Company"
-        
       },         
-
-
   },
-
 
   methods: {
     createDeviceReturn(args = {}) {
