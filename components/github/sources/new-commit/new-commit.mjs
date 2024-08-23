@@ -45,12 +45,15 @@ export default {
       return `New commit: ${item.commit?.message ?? item.message}`;
     },
     async onWebhookTrigger(event) {
-      const { body } = event;
+      const {
+        body, headers,
+      } = event;
       if (body?.ref?.split?.("refs/heads/").pop() === this.branch.split("/").pop()) {
         body.commits.forEach((commit) => {
           const { id } = commit;
           this.emitEvent({
             id,
+            headers,
             item: commit,
           });
         });
