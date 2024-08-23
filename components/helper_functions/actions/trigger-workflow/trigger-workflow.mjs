@@ -16,7 +16,7 @@ export default {
     event: {
       type: "object",
       label: "Event",
-      description: "The event to be sent to the triggered workflow as the triggering event",
+      description: "The event to be sent to the triggered workflow as the triggering event. In the triggered workflow, you can refer to this event object using the Custom Expression `{{steps.trigger.event}}`",
       optional: true,
     },
   },
