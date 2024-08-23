@@ -5,7 +5,7 @@ export default {
   key: "google_sheets-insert-anchored-note",
   name: "Insert an Anchored Note",
   description: "Insert a note on a spreadsheet cell. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/batchUpdate)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     app,
@@ -18,12 +18,9 @@ export default {
     sheetId: {
       propDefinition: [
         app,
-        "fileId",
-        ({ drive }) => ({
-          drive,
-          baseOpts: {
-            q: "mimeType = 'application/vnd.google-apps.spreadsheet'",
-          },
+        "sheetID",
+        (c) => ({
+          driveId: app.methods.getDriveId(c.drive),
         }),
       ],
     },

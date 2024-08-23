@@ -6,7 +6,7 @@ export default {
   key: "slack-upload-file",
   name: "Upload File",
   description: "Upload a file. [See the documentation](https://api.slack.com/methods/files.upload)",
-  version: "0.0.21",
+  version: "0.0.22",
   type: "action",
   props: {
     slack,
@@ -23,7 +23,6 @@ export default {
       ],
     },
     initialComment: {
-      label: "Report Name",
       description: "Will be added as an initial comment before the image",
       propDefinition: [
         slack,
@@ -34,13 +33,13 @@ export default {
   },
   async run({ $ }) {
     if (!fs.existsSync(this.content)) {
-      throw new ConfigurationError(`\`${this.content}\` not found, is needed a valid \`/tmp\` path`);
+      throw new ConfigurationError(`\`${this.content}\` not found, a valid \`/tmp\` path is needed`);
     }
-
-    const response = await this.slack.sdk().files.upload({
+    const response = await this.slack.sdk().filesUploadV2({
       file: fs.createReadStream(this.content),
-      channels: this.conversation,
+      channel_id: this.conversation,
       initial_comment: this.initialComment,
+      filename: this.content.split("/").pop(),
     });
     $.export("$summary", "Successfully uploaded file");
     return response;
