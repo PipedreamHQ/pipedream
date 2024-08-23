@@ -1,155 +1,207 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
+import mutations from "./common/mutations.mjs";
+import queries from "./common/queries.mjs";
 
 export default {
   type: "app",
   app: "launchnotes",
   propDefinitions: {
-    announcementId: {
-      type: "string",
-      label: "Announcement ID",
-      description: "The ID of the announcement",
+    categories: {
+      type: "string[]",
+      label: "Categories",
+      description: "Associated categories of the announcement.",
+      async options({ projectId }) {
+        const { data: { project: { categories: { nodes } } } } = await this.getProject({
+          projectId,
+        });
+
+        return nodes.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    announcementType: {
+    clientMutationId: {
       type: "string",
-      label: "Announcement Type",
-      description: "The type of the announcement",
-      optional: true,
+      label: "Client Mutation Id",
+      description: "A unique identifier for the client performing the mutation.",
     },
-    category: {
-      type: "string",
-      label: "Category",
-      description: "The category of the announcement",
-      optional: true,
+    eventTypes: {
+      type: "string[]",
+      label: "Event Types",
+      description: "Event types you would like receive notifications on.",
+      async options({ projectId }) {
+        const { data: { project: { eventTypes: { nodes } } } } = await this.getProject({
+          projectId,
+        });
+
+        return nodes.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     projectId: {
       type: "string",
       label: "Project ID",
       description: "The ID of the project",
+      async options() {
+        const { data: { session: { projects: { nodes } } } } = await this.listProjects();
+
+        return nodes.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    subscriberId: {
+    subscriber: {
       type: "string",
-      label: "Subscriber ID",
-      description: "The ID of the subscriber",
+      label: "Subscriber",
+      description: "The subscriber of the subscription.",
+      withLabel: true,
+      async options({
+        projectId, workItemId,
+      }) {
+        let nodes = [];
+        if (workItemId) {
+          const { data: { project: { subscribers } } } = await this.getWorkItem({
+            workItemId,
+          });
+          nodes = subscribers.nodes;
+        } else {
+          const { data: { project: { subscribers } } } = await this.getProject({
+            projectId,
+          });
+          nodes = subscribers.nodes;
+        }
+
+        return nodes.map(({
+          id: value, email: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
-    subscriptionType: {
+    templateId: {
       type: "string",
-      label: "Subscription Type",
-      description: "The type of the subscription",
-      optional: true,
-    },
-    scheduleTime: {
-      type: "string",
-      label: "Schedule Time",
-      description: "The scheduled time for the announcement",
-      optional: true,
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email address of the subscriber",
-    },
-    username: {
-      type: "string",
-      label: "Username",
-      description: "The username of the subscriber",
-      optional: true,
-    },
-    title: {
-      type: "string",
-      label: "Title",
-      description: "The title of the announcement",
-    },
-    text: {
-      type: "string",
-      label: "Text",
-      description: "The body text of the announcement",
-      optional: true,
+      label: "Template Id",
+      description: "Pre-fill the announcement with a template. If this is provided, all other input is ignored.",
+      async options({ projectId }) {
+        const { data: { project: { templates: { nodes } } } } = await this.getProject({
+          projectId,
+        });
+
+        return nodes.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.launchnotes.io";
+      return "https://api.launchnotes.io/graphql";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, ...data
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        method: "POST",
+        url: this._baseUrl(),
+        headers: this._headers(),
+        data,
       });
     },
-    async emitAnnouncementPublishedEvent({
-      announcementId, announcementType, category,
+    createAnnouncement({
+      $, variables,
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: `/announcements/${announcementId}/published`,
-        data: {
-          announcementType,
-          category,
-        },
+        $,
+        query: mutations.createAnnouncement,
+        variables,
       });
     },
-    async emitProjectSubscriptionCreatedEvent({
-      projectId, subscriberId, subscriptionType,
+    createSubscription({
+      $, variables,
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: `/projects/${projectId}/subscriptions`,
-        data: {
-          subscriberId,
-          subscriptionType,
-        },
+        $,
+        query: mutations.createSubscription,
+        variables,
       });
     },
-    async emitAnnouncementScheduledEvent({
-      announcementId, scheduleTime, category,
-    }) {
+    getProject(variables) {
       return this._makeRequest({
-        method: "POST",
-        path: `/announcements/${announcementId}/scheduled`,
-        data: {
-          scheduleTime,
-          category,
-        },
+        query: queries.getProject,
+        variables,
       });
     },
-    async addSubscriber({
-      email, username,
-    }) {
+    getWorkItem(variables) {
       return this._makeRequest({
-        method: "POST",
-        path: "/subscribers",
-        data: {
-          email,
-          username,
-        },
+        query: queries.getWorkItem,
+        variables,
       });
     },
-    async generateDraftAnnouncement({
-      title, text,
-    }) {
+    listAnnouncements(variables) {
       return this._makeRequest({
-        method: "POST",
-        path: "/announcements/draft",
-        data: {
-          title,
-          text,
-        },
+        query: queries.paginateAnnouncements,
+        variables,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    listProjects() {
+      return this._makeRequest({
+        query: queries.listProjects,
+      });
+    },
+    listSubscriptions(variables) {
+      return this._makeRequest({
+        query: queries.paginateSubscriptions,
+        variables,
+      });
+    },
+    async *paginate({
+      fn, maxResults = null, type, ...variables
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let cursor;
+
+      do {
+        variables.limit = LIMIT;
+        variables.cursor = cursor;
+        const { data: { project: { [type]: { edges } } } } = await fn(
+          variables,
+        );
+
+        for (const { node } of edges) {
+          yield node;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = edges.length;
+        if (hasMore) {
+          cursor = edges[0].cursor;
+        }
+
+      } while (hasMore);
     },
   },
 };
