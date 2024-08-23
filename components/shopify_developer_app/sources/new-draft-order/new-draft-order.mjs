@@ -1,5 +1,5 @@
-import common from "../common/webhook.mjs";
 import constants from "../common/constants.mjs";
+import common from "../common/webhook-metafields.mjs";
 
 export default {
   ...common,
