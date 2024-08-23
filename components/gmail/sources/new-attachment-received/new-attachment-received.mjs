@@ -9,7 +9,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    ...common,
+    ...common.props,
     labels: {
       propDefinition: [
         common.props.gmail,
