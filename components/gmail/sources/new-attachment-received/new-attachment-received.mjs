@@ -1,3 +1,4 @@
+import gmail from "../../gmail.app.mjs";
 import common from "../common/polling-messages.mjs";
 
 export default {
@@ -10,9 +11,16 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
+    gmail,
+    q: {
+      propDefinition: [
+        gmail,
+        "q",
+      ],
+    },
     labels: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "label",
       ],
       type: "string[]",

@@ -1,3 +1,4 @@
+import gmail from "../../gmail.app.mjs";
 import common from "../common/polling-messages.mjs";
 
 export default {
@@ -7,6 +8,16 @@ export default {
   description: "Emit new event for each new email sent. (Maximum of 100 events emited per execution)",
   version: "0.0.2",
   type: "source",
+  props: {
+    ...common.props,
+    gmail,
+    q: {
+      propDefinition: [
+        gmail,
+        "q",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     getLabels() {

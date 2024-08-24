@@ -1,3 +1,4 @@
+import gmail from "../../gmail.app.mjs";
 import common from "../common/polling-history.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -11,9 +12,10 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
+    gmail,
     label: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "label",
       ],
     },

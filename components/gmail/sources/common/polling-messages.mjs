@@ -3,15 +3,6 @@ import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
-  props: {
-    ...common.props,
-    q: {
-      propDefinition: [
-        common.props.gmail,
-        "q",
-      ],
-    },
-  },
   hooks: {
     ...common.hooks,
     async deploy() {
