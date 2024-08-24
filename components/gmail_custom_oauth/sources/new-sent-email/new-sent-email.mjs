@@ -1,5 +1,7 @@
 import base from "../../../gmail/sources/new-sent-email/new-sent-email.mjs";
-import common from "../common/polling-messages.mjs";
+import overrideApp from "../../common/override-app.mjs";
+
+overrideApp(base);
 
 export default {
   ...base,
@@ -9,8 +11,4 @@ export default {
   version: "0.0.9",
   type: "source",
   dedupe: "unique",
-  methods: {
-    ...common.methods,
-    ...base.methods,
-  },
 };

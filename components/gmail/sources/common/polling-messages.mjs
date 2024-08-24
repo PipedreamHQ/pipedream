@@ -1,11 +1,9 @@
-import gmail from "../../gmail.app.mjs";
 import common from "./base.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
   props: {
-    gmail,
     ...common.props,
     q: {
       propDefinition: [
