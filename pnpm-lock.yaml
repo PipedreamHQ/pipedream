@@ -11247,7 +11247,7 @@ importers:
 
   packages/sdk/examples/next-app:
     specifiers:
-      '@pipedream/sdk': ^0.0.8
+      '@pipedream/sdk': ^0.0.7
       '@types/node': ^20
       '@types/prismjs': ^1.26.4
       '@types/react': ^18
@@ -11265,7 +11265,7 @@ importers:
       tailwindcss: ^3.3.0
       typescript: ^5
     dependencies:
-      '@pipedream/sdk': 0.0.8
+      '@pipedream/sdk': 0.0.7
       next: 14.1.0_nnrd3gsncyragczmpvfhocinkq
       prismjs: 1.29.0
       react: 18.3.1
@@ -17323,8 +17323,8 @@ packages:
       - debug
     dev: false
 
-  /@pipedream/sdk/0.0.8:
-    resolution: {integrity: sha512-2nDLi0kARHfsErxrk06Ev2Deg2jWXS1ZMy1i95rH8SzHZ5O0XTSYKj5zIDb1ADZV5xIbROws2mIvBuP+hn/Qew==}
+  /@pipedream/sdk/0.0.7:
+    resolution: {integrity: sha512-o9TSoMqriYSm8gYOrwv0mkUtSgu3u4hX9rh0p8ssoYOZ6LLH5mvy5GX1ACD5BPwcaEUSHHzqJ+E7kJjq3eMtrw==}
     dev: false
 
   /@pipedream/snowflake-sdk/1.0.8_asn1.js@5.4.1:
@@ -26226,7 +26226,7 @@ packages:
       foreground-child: 3.3.0
       jackspeak: 2.3.6
       minimatch: 9.0.5
-      minipass: 5.0.0
+      minipass: 7.1.2
       path-scurry: 1.11.1
     dev: true
 
