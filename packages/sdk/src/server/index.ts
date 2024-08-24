@@ -2,6 +2,8 @@
 // Pipedream project's public and secret keys and access customer credentials.
 // See the browser/ directory for the browser client.
 
+type JsonSerializable = string | number | boolean | null | JsonSerializable[] | { [key: string]: JsonSerializable; };
+
 /**
  * Options for creating a server-side client.
  * This is used to configure the ServerClient instance.
@@ -23,9 +25,14 @@ export type CreateServerClientOpts = {
   secretKey: string;
 
   /**
-   * The API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
+   * The REST API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
    */
-  apiHost?: string;
+  restAPIHost?: string;
+
+  /**
+   * The invoke API domain. Used by Pipedream employees. Defaults to "invoke.api.pipedream.net" if not provided.
+   */
+  invokeAPIDomain?: string;
 };
 
 /**
@@ -193,6 +200,10 @@ export type Account = {
   credentials?: Record<string, string>;
 };
 
+type InvokeResponse = {
+  id: string;
+};
+
 /**
  * Error response returned by the API in case of an error.
  */
@@ -209,9 +220,9 @@ export type ErrorResponse = {
 export type ConnectAPIResponse<T> = T | ErrorResponse;
 
 /**
- * Options for making a request to the Connect API.
+ * Options for making a request to Pipedream APIs.
  */
-interface ConnectRequestOptions extends Omit<RequestInit, "headers"> {
+interface APIRequestOptions extends Omit<RequestInit, "headers"> {
   /**
    * Query parameters to include in the request URL.
    */
@@ -221,6 +232,13 @@ interface ConnectRequestOptions extends Omit<RequestInit, "headers"> {
    * Headers to include in the request.
    */
   headers?: Record<string, string>;
+}
+
+interface InvokeRequest extends APIRequestOptions {
+  /**
+   * The payload to send to the trigger.
+   */
+  payload?: JsonSerializable;
 }
 
 /**
@@ -247,7 +265,8 @@ class ServerClient {
   environment?: string;
   secretKey: string;
   publicKey: string;
-  baseURL: string;
+  restAPIBaseURL: string;
+  invokeAPIBaseDomain: string;
 
   /**
    * Constructs a new `ServerClient` instance.
@@ -259,8 +278,10 @@ class ServerClient {
     this.secretKey = opts.secretKey;
     this.publicKey = opts.publicKey;
 
-    const { apiHost = "api.pipedream.com" } = opts;
-    this.baseURL = `https://${apiHost}/v1`;
+    const { restAPIHost = "api.pipedream.com" } = opts;
+    const { invokeAPIDomain = "invoke.api.pipedream.net" } = opts;
+    this.restAPIBaseURL = `https://${restAPIHost}/v1`;
+    this.invokeAPIBaseDomain = `${this.publicKey}.${invokeAPIDomain}`;
   }
 
   /**
@@ -274,17 +295,19 @@ class ServerClient {
   }
 
   /**
-   * Makes a request to the Connect API.
+   * Makes a request to a Pipedream API.
    *
    * @template T - The expected response type.
+   * @param baseURL - The base URL for the API.
    * @param path - The API endpoint path.
    * @param opts - The options for the request.
    * @returns A promise resolving to the API response.
    * @throws Will throw an error if the response status is not OK.
    */
-  async _makeConnectRequest<T>(
+  async _makeRequest<T>(
+    baseURL: string,
     path: string,
-    opts: ConnectRequestOptions = {},
+    opts: APIRequestOptions = {},
   ): Promise<T> {
     const {
       params,
@@ -293,7 +316,7 @@ class ServerClient {
       method = "GET",
       ...fetchOpts
     } = opts;
-    const url = new URL(`${this.baseURL}/connect${path}`);
+    const url = new URL(`${baseURL}${path}`);
 
     if (params) {
       Object.entries(params).forEach(([
@@ -334,6 +357,44 @@ class ServerClient {
 
     const result = await response.json() as unknown as T;
     return result;
+  }
+
+  /**
+   * Makes a request to the Connect API.
+   *
+   * @template T - The expected response type.
+   * @param path - The API endpoint path.
+   * @param opts - The options for the request.
+   * @returns A promise resolving to the API response.
+   * @throws Will throw an error if the response status is not OK.
+   */
+  async _makeConnectRequest<T>(
+    path: string,
+    opts: APIRequestOptions = {},
+  ): Promise<T> {
+    return this._makeRequest<T>(this.restAPIBaseURL, `/connect${path}`, opts);
+  }
+
+  /**
+   * Makes a request to the Connect API.
+   *
+   * @param triggerID - The ID of the trigger to invoke.
+   * @param payload - The payload to send to the trigger.
+   * @param opts - The options for the request.
+   * @returns A promise resolving to the API response.
+   * @throws Will throw an error if the response status is not OK.
+   */
+  async invoke(
+    triggerID: string,
+    opts: InvokeRequest = {},
+  ): Promise<InvokeResponse> {
+    const url = `https://${triggerID}.${this.invokeAPIBaseDomain}`;
+    const { payload } = opts;
+    return this._makeRequest<InvokeResponse>(url, "/", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      ...opts,
+    });
   }
 
   /**
