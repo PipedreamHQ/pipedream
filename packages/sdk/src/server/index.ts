@@ -376,7 +376,7 @@ class ServerClient {
   }
 
   /**
-   * Makes a request to the Connect API.
+   * Makes a request to the invoke API.
    *
    * @param triggerID - The ID of the trigger to invoke.
    * @param payload - The payload to send to the trigger.
