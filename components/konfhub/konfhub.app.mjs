@@ -14,46 +14,16 @@ export default {
     _baseUrl() {
       return "https://api.konfhub.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, data, params, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, headers, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        baseURL: this._baseUrl(),
         headers: {
           ...headers,
-          "Content-Type": "application/json",
+          "x-api-key": `${this.$auth.api_key}`,
         },
-        data,
-        params,
-      });
-    },
-    async emitEventForRegistrationCancellation({ eventReference }) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/event/${eventReference}/referral/cancel`,
-      });
-    },
-    async emitEventForNewRegistration({
-      eventReference, emailId, otp,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/event/${eventReference}/validateOTP`,
-        data: {
-          email_id: emailId,
-          otp: otp,
-        },
-      });
-    },
-    async emitEventForNewLead({ eventReference }) {
-      // Assuming the API call for generating a new lead is similar to registration
-      // As there's no direct API endpoint provided for new lead generation in the instructions
-      return this._makeRequest({
-        method: "POST",
-        path: `/event/${eventReference}/lead/new`,
       });
     },
   },
