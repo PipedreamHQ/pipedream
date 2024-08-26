@@ -17,7 +17,7 @@ export default {
     getParams() {
       return {
         direction: "desc",
-        status_id: "complete",
+        status_ids: "complete",
       };
     },
     getSummary(item) {
