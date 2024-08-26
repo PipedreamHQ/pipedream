@@ -17,9 +17,10 @@ export default {
 At least one of \`Email Address\` or \`Phone Number\` is required.`,
     },
     email: {
-      type: "string",
-      label: "Email Address",
-      description: "Email address of the user",
+      propDefinition: [
+        konfhub,
+        "email",
+      ],
       optional: true,
     },
     phone: {
@@ -35,9 +36,10 @@ At least one of \`Email Address\` or \`Phone Number\` is required.`,
       optional: true,
     },
     eventId: {
-      type: "string",
-      label: "Event ID",
-      description: "ID of the event",
+      propDefinition: [
+        konfhub,
+        "eventId",
+      ],
       optional: true,
     },
     ticketId: {

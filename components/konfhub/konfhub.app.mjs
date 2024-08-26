@@ -4,10 +4,15 @@ export default {
   type: "app",
   app: "konfhub",
   propDefinitions: {
-    eventReference: {
+    email: {
       type: "string",
-      label: "Event Reference",
-      description: "The unique identifier for the event.",
+      label: "Email Address",
+      description: "Email address of the user",
+    },
+    eventId: {
+      type: "string",
+      label: "Event ID",
+      description: "ID of the event",
     },
   },
   methods: {
@@ -29,6 +34,14 @@ export default {
     validateRegistration(args) {
       return this._makeRequest({
         url: "/validate",
+        ...args,
+      });
+    },
+    sendOTP({
+      eventId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/event/${eventId}/referral/otp`,
         ...args,
       });
     },
