@@ -171,7 +171,10 @@ importers:
     specifiers: {}
 
   components/activecalculator:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/activecampaign:
     specifiers:
@@ -2517,6 +2520,9 @@ importers:
   components/docugenerate:
     specifiers: {}
 
+  components/documenso:
+    specifiers: {}
+
   components/document360:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3966,14 +3972,14 @@ importers:
     specifiers:
       '@googleapis/sheets': ^0.3.0
       '@pipedream/google_drive': ^0.6.12
-      '@pipedream/platform': ^1.6.4
+      '@pipedream/platform': ^3.0.0
       lodash: ^4.17.21
       uuidv4: ^6.2.6
       zlib: ^1.0.5
     dependencies:
       '@googleapis/sheets': 0.3.0
       '@pipedream/google_drive': 0.6.15
-      '@pipedream/platform': 1.6.5
+      '@pipedream/platform': 3.0.0
       lodash: 4.17.21
       uuidv4: 6.2.13
       zlib: 1.0.5
@@ -4046,6 +4052,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/govee:
+    specifiers: {}
+
+  components/gozen_growth:
     specifiers: {}
 
   components/gpt_trainer:
@@ -8724,18 +8733,18 @@ importers:
 
   components/slack:
     specifiers:
-      '@pipedream/platform': ^2.0.0
+      '@pipedream/platform': ^3.0.0
       '@slack/web-api': ^7.0.4
     dependencies:
-      '@pipedream/platform': 2.0.0
+      '@pipedream/platform': 3.0.0
       '@slack/web-api': 7.0.4
 
   components/slack_bot:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
       '@slack/web-api': ^5.15.0
     dependencies:
-      '@pipedream/platform': 1.6.5
+      '@pipedream/platform': 3.0.0
       '@slack/web-api': 5.15.0
 
   components/slack_demo_app:
@@ -9306,6 +9315,9 @@ importers:
       '@pipedream/platform': ^1.2.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/swapcard_exhibitor:
+    specifiers: {}
 
   components/swapi:
     specifiers:
@@ -10072,6 +10084,9 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/unstructured:
+    specifiers: {}
+
+  components/unthread:
     specifiers: {}
 
   components/upbooks:

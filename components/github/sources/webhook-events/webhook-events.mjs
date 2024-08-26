@@ -42,7 +42,7 @@ export default {
       ...body,
     }, {
       id: headers["x-github-delivery"],
-      summary: `New event ${headers["x-github-hook-installation-target-id"]} of type ${headers["x-github-hook-installation-target-type"]}}`,
+      summary: `New event ${headers["x-github-hook-installation-target-id"]} of type ${headers["x-github-hook-installation-target-type"]}`,
       ts: new Date(),
     });
   },
