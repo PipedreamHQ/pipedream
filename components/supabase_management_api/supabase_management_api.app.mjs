@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,104 +9,95 @@ export default {
       type: "string",
       label: "Project Reference",
       description: "The reference to the Supabase project",
-    },
-    includedSchemas: {
-      type: "string",
-      label: "Included Schemas",
-      description: "Schemas to be included in the TypeScript types generation",
-      optional: true,
+      async options() {
+        const projects = await this.listProjects();
+        return projects?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     organizationId: {
       type: "string",
       label: "Organization ID",
       description: "The ID of the organization",
-    },
-    projectName: {
-      type: "string",
-      label: "Project Name",
-      description: "The name of the project",
-    },
-    dbPassword: {
-      type: "string",
-      label: "Database Password",
-      description: "The password for the database",
+      async options() {
+        const organizations = await this.listOrganizations();
+        return organizations?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     region: {
       type: "string",
       label: "Region",
       description: "The region for the Supabase project",
+      options: constants.REGIONS,
     },
     instanceSize: {
       type: "string",
       label: "Instance Size",
       description: "The desired instance size for the Supabase project",
-      optional: true,
-    },
-    templateUrl: {
-      type: "string",
-      label: "Template URL",
-      description: "The template URL used to create the project from the CLI",
+      options: constants.INSTANCE_SIZES,
       optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://supabase.io/api";
+      return "https://api.supabase.com/v1";
     },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
-        data,
-        params,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
-        data,
-        params,
-      });
-    },
-    async listDatabaseBackups(projectRef) {
-      return this._makeRequest({
-        path: `/v1/projects/${projectRef}/database/backups`,
-      });
-    },
-    async generateTypescriptTypes(projectRef, includedSchemas) {
-      return this._makeRequest({
-        path: `/v1/projects/${projectRef}/types/typescript`,
-        params: {
-          included_schemas: includedSchemas,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async createProject(
-      organizationId,
-      projectName,
-      databasePassword,
-      region,
-      instanceSize,
-      templateUrl,
-    ) {
+    listProjects(opts = {}) {
+      return this._makeRequest({
+        path: "/projects",
+        ...opts,
+      });
+    },
+    listOrganizations(opts = {}) {
+      return this._makeRequest({
+        path: "/organizations",
+        ...opts,
+      });
+    },
+    listDatabaseBackups({
+      projectRef, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/projects/${projectRef}/database/backups`,
+        ...opts,
+      });
+    },
+    generateTypescriptTypes({
+      projectRef, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/projects/${projectRef}/types/typescript`,
+        ...opts,
+      });
+    },
+    createProject(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/projects",
-        data: {
-          organization_id: organizationId,
-          name: projectName,
-          db_pass: databasePassword,
-          region,
-          desired_instance_size: instanceSize,
-          template_url: templateUrl,
-        },
+        path: "/projects",
+        ...opts,
       });
     },
   },

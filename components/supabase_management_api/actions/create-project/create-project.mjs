@@ -3,15 +3,16 @@ import supabaseManagementApi from "../../supabase_management_api.app.mjs";
 export default {
   key: "supabase_management_api-create-project",
   name: "Create Project",
-  description: "Creates a new Supabase project within a specified organization.",
-  version: "0.0.{{ts}}",
+  description: "Creates a new Supabase project within a specified organization. [See the documentation](https://supabase.com/docs/reference/api/v1-create-a-project)",
+  version: "0.0.1",
   type: "action",
   props: {
     supabaseManagementApi,
     organizationId: {
-      type: "string",
-      label: "Organization ID",
-      description: "The ID of the organization",
+      propDefinition: [
+        supabaseManagementApi,
+        "organizationId",
+      ],
     },
     projectName: {
       type: "string",
@@ -24,15 +25,16 @@ export default {
       description: "The password for the database",
     },
     region: {
-      type: "string",
-      label: "Region",
-      description: "The region for the Supabase project",
+      propDefinition: [
+        supabaseManagementApi,
+        "region",
+      ],
     },
     instanceSize: {
-      type: "string",
-      label: "Instance Size",
-      description: "The desired instance size for the Supabase project",
-      optional: true,
+      propDefinition: [
+        supabaseManagementApi,
+        "instanceSize",
+      ],
     },
     templateUrl: {
       type: "string",
@@ -42,14 +44,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.supabaseManagementApi.createProject(
-      this.organizationId,
-      this.projectName,
-      this.dbPassword,
-      this.region,
-      this.instanceSize,
-      this.templateUrl,
-    );
+    const response = await this.supabaseManagementApi.createProject({
+      $,
+      data: {
+        organization_id: this.organizationId,
+        name: this.projectName,
+        db_pass: this.dbPassword,
+        region: this.region,
+        desired_instance_size: this.instanceSize,
+        template_url: this.templateUrl,
+      },
+    });
     $.export("$summary", `Successfully created project: ${this.projectName}`);
     return response;
   },
