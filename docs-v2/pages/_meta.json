@@ -10,10 +10,10 @@
   "workflows": "Workflows",
   "connected-accounts": "Connect Apps & Databases",
   "code": "Serverless Runtimes",
-  "data-stores": "Data Stores",
   "connect": {
     "title": "Pipedream Connect"
   },
+  "data-stores": "Data Stores",
   "event-history": "Event History",
   "sources": "Sources",
   "-- Themes": {

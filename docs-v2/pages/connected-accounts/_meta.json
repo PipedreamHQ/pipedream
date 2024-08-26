@@ -1,5 +1,6 @@
 {
-  "index": "Connected Accounts",
-  "connecting-to-databases": "Connecting to Databases",
-  "oauth-clients": "OAuth Clients"
+  "index": "Connect Apps",
+  "connecting-to-databases": "Connect Databases",
+  "oauth-clients": "Use Custom OAuth Clients",
+  "external-auth": "Use Dynamic Auth Tokens"
 }

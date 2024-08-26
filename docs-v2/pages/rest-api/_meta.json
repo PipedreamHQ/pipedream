@@ -1,5 +1,6 @@
 {
   "index": "API Reference",
+  "connected-accounts": "Connected Accounts API",
   "auth": "Authentication",
   "workflows": "Example: Create a workflow",
   "rss": "Example: Create an RSS source",
