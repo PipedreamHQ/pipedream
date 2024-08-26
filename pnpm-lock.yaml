@@ -8555,10 +8555,10 @@ importers:
 
   components/shopify_developer_app:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
       shopify-api-node: ^3.12.5
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       shopify-api-node: 3.12.6
 
   components/shopify_partner:
