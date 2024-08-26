@@ -12,7 +12,7 @@ export default {
     eventId: {
       type: "string",
       label: "Event ID",
-      description: "ID of the event",
+      description: "ID of the event. You can obtain this from the Konfhub Dashboard's URL, e.g. if the URL is `https://events.konfhub.com/e/fe8c3fbb-8b7d-4268-b9c2-f3a8fa6b31c6/` the event ID is `fe8c3fbb-8b7d-4268-b9c2-f3a8fa6b31c6`",
     },
   },
   methods: {
