@@ -26,5 +26,11 @@ export default {
         },
       });
     },
+    validateRegistration(args) {
+      return this._makeRequest({
+        url: "/validate",
+        ...args,
+      });
+    },
   },
 };
