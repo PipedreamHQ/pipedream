@@ -237,10 +237,13 @@ export default {
     },
   },
   methods: {
+    getToken() {
+      return this.$auth.oauth_access_token;
+    },
     _client() {
       const auth = new gmail.auth.OAuth2();
       auth.setCredentials({
-        access_token: this.$auth.oauth_access_token,
+        access_token: this.getToken(),
       });
       return gmail.gmail({
         version: "v1",
