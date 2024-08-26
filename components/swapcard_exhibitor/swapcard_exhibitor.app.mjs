@@ -1,4 +1,6 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
+import { queries } from "./common/queries.mjs";
 
 export default {
   type: "app",
@@ -8,68 +10,90 @@ export default {
       type: "string",
       label: "Event ID",
       description: "The ID of the event to monitor for new connections (leads).",
+      async options({ page }) {
+        const { data: { events } } = await this.listEvents({
+          page: page + 1,
+          pageSize: LIMIT,
+        });
+
+        return events.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://developer.swapcard.com/event-admin/graphql";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Content-Type": "application/json",
+        "Authorization": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        method: "POST",
+        url: this._baseUrl(),
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async getEventPeople(eventId) {
-      const query = `
-        query ($eventId: ID!) {
-          eventPerson(eventId: $eventId) {
-            edges {
-              node {
-                id
-                firstName
-                lastName
-                email
-              }
-            }
-          }
-        }
-      `;
-      const variables = {
-        eventId,
-      };
-      const response = await this._makeRequest({
+    listEvents(variables) {
+      return this._makeRequest({
         data: {
-          query,
+          query: queries.events,
           variables,
         },
       });
-      return response.data.data.eventPerson.edges.map((edge) => edge.node);
     },
-    async emitNewConnection(eventId) {
-      const leads = await this.getEventPeople(eventId);
-      leads.forEach((lead) => {
-        this.$emit(lead, {
-          summary: `New connection: ${lead.firstName} ${lead.lastName}`,
-          id: lead.id,
-        });
+    async getEventPeople(variables) {
+      return this._makeRequest({
+        data: {
+          query: queries.eventPerson,
+          variables,
+        },
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    async *paginate({
+      fn, maxResults = null, type, ...variables
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let cursor;
+
+      do {
+        variables.cursor = {
+          first: LIMIT,
+          after: cursor,
+        };
+        const {
+          data: {
+            [type]: {
+              nodes, pageInfo,
+            },
+          },
+        } = await fn(
+          variables,
+        );
+
+        for (const node of nodes) {
+          yield node;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        cursor = pageInfo.endCursor;
+
+      } while (hasMore);
     },
   },
 };
