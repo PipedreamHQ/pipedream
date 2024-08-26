@@ -1,4 +1,5 @@
 import konfhub from "../../konfhub.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "konfhub-validate-registration",
@@ -55,6 +56,11 @@ At least one of \`Email Address\` or \`Phone Number\` is required.`,
       eventId,
       ticketId,
     } = this;
+
+    if (!email && !phone) {
+      throw new ConfigurationError("$summary", "At least one of `Email Address` or `Phone Number` is required");
+    }
+
     const response = await konfhub.validateRegistration({
       $,
       params: {
