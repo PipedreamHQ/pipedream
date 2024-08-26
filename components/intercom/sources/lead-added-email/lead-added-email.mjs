@@ -5,7 +5,7 @@ export default {
   key: "intercom-lead-added-email",
   name: "Lead Added Email",
   description: "Emit new event each time a lead adds their email address.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
