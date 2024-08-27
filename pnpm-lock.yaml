@@ -7742,9 +7742,9 @@ importers:
 
   components/remote_retrieval:
     specifiers:
-      '@pipedream/platform': ^3.0.0
+      '@pipedream/platform': ^3.0.1
     dependencies:
-      '@pipedream/platform': 3.0.0
+      '@pipedream/platform': 3.0.1
 
   components/render:
     specifiers: {}
@@ -15276,17 +15276,17 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.2.11:
-    resolution: {integrity: sha512-OUE+bz0puVYJaJUz39CeOrV7NYpfyRLZyEhRGJhLdTH+nzAnItiXNHRqsbw2jWKXuOSloez3VNcylyKqd10d6w==}
+  /@definitelytyped/header-parser/0.2.12:
+    resolution: {integrity: sha512-UYtSXiLMhzRFKh7xHMkgiWsscgHxIndmjetaptZMMS0EOvfhUTuEM68GpjiCtz5shXw22Vacs1vDTAkKGDhNmg==}
     engines: {node: '>=18.18.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.3
+      '@definitelytyped/typescript-versions': 0.1.4
       '@definitelytyped/utils': 0.1.7
       semver: 7.6.3
     dev: true
 
-  /@definitelytyped/typescript-versions/0.1.3:
-    resolution: {integrity: sha512-/OSa91o/iZWVnsIZD6C0yryQSMv4UKtoEyxOz2baqE4j4lOV/+ZLR+9A5Gew96lFaUkmWzA1x+rhx013mzaI7w==}
+  /@definitelytyped/typescript-versions/0.1.4:
+    resolution: {integrity: sha512-4Rz5kCpyxofwXCtBQaNfmWYXZcH0sMJxpbIgJzS+PAxgFCAa9W+2Jil7rrkpzsjx9E7+zOPukbXBXjyXohcyuQ==}
     engines: {node: '>=18.18.0'}
     dev: true
 
@@ -16996,6 +16996,17 @@ packages:
     resolution: {integrity: sha512-qlSJBF0Gn5RloFEPr072hSf6pRSU++Zjs0j6X9ZE2SMmfg777qYR4RQ5HkTHEELEyA948xEOqkBt3bFplpfEbw==}
     dependencies:
       axios: 1.6.5
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/3.0.1:
+    resolution: {integrity: sha512-xja1ZHUR/DpOQZZJY39daml8q1ZMzg8wKYwYbyxVPs7MiMqneHM7Bz+Lgj/QrjbNissIKsRSGXmkXbT+Y10L0w==}
+    dependencies:
+      axios: 1.7.5
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
@@ -21879,6 +21890,16 @@ packages:
       - debug
     dev: false
 
+  /axios/1.7.5:
+    resolution: {integrity: sha512-fZu86yCo+svH3uqJ/yTdQ0QHpQu5oL+/QE+QPSv6BZSkDAoky9vytxp7u5qk83OJFS3kEBcesWni9WTZAv3tSw==}
+    dependencies:
+      follow-redirects: 1.15.6
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axobject-query/3.1.1:
     resolution: {integrity: sha512-goKlv8DZrK9hUh975fnHzhNIO4jUnFCfv/dszV5VwUGDFjI6vQ2VwoyjYjYNEbBE8AH87TduWP5uyDR1D+Iteg==}
     dependencies:
@@ -23914,7 +23935,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.11
+      '@definitelytyped/header-parser': 0.2.12
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -23929,7 +23950,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.11
+      '@definitelytyped/header-parser': 0.2.12
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -23945,8 +23966,8 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.11
-      '@definitelytyped/typescript-versions': 0.1.3
+      '@definitelytyped/header-parser': 0.2.12
+      '@definitelytyped/typescript-versions': 0.1.4
       '@definitelytyped/utils': 0.1.7
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
@@ -23965,8 +23986,8 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.11
-      '@definitelytyped/typescript-versions': 0.1.3
+      '@definitelytyped/header-parser': 0.2.12
+      '@definitelytyped/typescript-versions': 0.1.4
       '@definitelytyped/utils': 0.1.7
       dts-critic: 3.3.11_typescript@5.5.2
       fs-extra: 6.0.1
@@ -25383,6 +25404,16 @@ packages:
         optional: true
     dependencies:
       debug: 3.2.7
+    dev: false
+
+  /follow-redirects/1.15.6:
+    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /follow-redirects/1.5.10:
