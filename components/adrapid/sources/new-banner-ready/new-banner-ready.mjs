@@ -1,10 +1,11 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import adrapid from "../../adrapid.app.mjs";
-import { axios } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "adrapid-new-banner-ready",
   name: "New Banner Ready",
-  description: "Emit new event when a new banner is ready. [See the documentation](https://docs.adrapid.com/api/overview)",
+  description: "Emit new event when a new banner is ready.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -14,45 +15,55 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+  },
+  methods: {
+    _getLastDate() {
+      return this.db.get("lastDate") || "1970-01-01T00:00:00.000Z";
+    },
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
+    },
+    async emitEvent(maxResults = false) {
+      const lastDate = this._getLastDate();
+      const response = this.adrapid.paginate({
+        fn: this.adrapid.listBanners,
+        params: {
+          status: "ready",
+        },
+      });
+
+      let responseArray = [];
+      for await (const item of response) {
+        if (Date.parse(item.createdAt) <= Date.parse(lastDate)) break;
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) {
+        if (maxResults && (responseArray.length > maxResults)) {
+          responseArray.length = maxResults;
+        }
+        this._setLastDate(responseArray[0].createdAt);
+      }
+
+      for (const banner of responseArray.reverse()) {
+        this.$emit(banner, {
+          id: banner.id,
+          summary: `New banner ready: ${banner.id}`,
+          ts: Date.parse(banner.createdAt),
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      await this.adrapid.emitNewBannerEvent();
-    },
-    async activate() {
-      // No webhook to create
-    },
-    async deactivate() {
-      // No webhook to delete
-    },
-  },
-  methods: {
-    _getLastCheckedTime() {
-      return this.db.get("lastCheckedTime") || 0;
-    },
-    _setLastCheckedTime(time) {
-      this.db.set("lastCheckedTime", time);
+      await this.emitEvent(25);
     },
   },
   async run() {
-    const lastCheckedTime = this._getLastCheckedTime();
-    const banners = await this.adrapid._makeRequest({
-      path: "/banners",
-    });
-
-    for (const banner of banners) {
-      if (banner.status === "ready" && new Date(banner.updatedAt).getTime() > lastCheckedTime) {
-        this.$emit(banner, {
-          summary: `New banner ready: ${banner.id}`,
-          id: banner.id,
-          ts: new Date(banner.updatedAt).getTime(),
-        });
-      }
-    }
-
-    this._setLastCheckedTime(Date.now());
+    await this.emitEvent();
   },
+  sampleEmit,
 };

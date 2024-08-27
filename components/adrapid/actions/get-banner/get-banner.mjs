@@ -1,11 +1,10 @@
 import adrapid from "../../adrapid.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "adrapid-get-banner",
   name: "Get Banner",
   description: "Retrieves a specified banner. This action should be used after a 'create-banner' action to ensure that the banner is fully processed and ready for use. [See the documentation](https://docs.adrapid.com/api/overview)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     adrapid,
@@ -17,7 +16,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.adrapid.retrieveBanner({
+    const response = await this.adrapid.getBanner({
+      $,
       bannerId: this.bannerId,
     });
 

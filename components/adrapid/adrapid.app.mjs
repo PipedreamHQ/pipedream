@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -6,87 +7,120 @@ export default {
   propDefinitions: {
     bannerId: {
       type: "string",
-      label: "Banner ID",
-      description: "The ID of the banner to retrieve",
+      label: "Banner Id",
+      description: "The id of the banner.",
+      async options({ page }) {
+        const { rows: data } = await this.listBanners({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    bannerData: {
-      type: "object",
-      label: "Banner Data",
-      description: "The data necessary for creating the banner",
-    },
-    bannerSettings: {
-      type: "object",
-      label: "Banner Settings",
-      description: "Optional settings or attributes for the banner",
-      optional: true,
+    templateId: {
+      type: "string",
+      label: "Template Id",
+      description: "The id of the template to create the banner.",
+      async options({ page }) {
+        const { rows: data } = await this.listTemplates({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.adrapid.com/v1/api";
+      return "https://api.adrapid.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.jwt}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async emitNewBannerEvent() {
-      const banners = await this._makeRequest({
+    listBanners(opts = {}) {
+      return this._makeRequest({
         path: "/banners",
+        ...opts,
       });
-      for (const banner of banners) {
-        if (banner.status === "ready") {
-          this.$emit(banner, {
-            summary: `New banner ready: ${banner.id}`,
-            id: banner.id,
-          });
-        }
-      }
     },
-    async retrieveBanner({ bannerId }) {
+    listTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/templates",
+        ...opts,
+      });
+    },
+    getTemplate({ templateId }) {
+      return this._makeRequest({
+        path: `/templates/${templateId}`,
+      });
+    },
+    getBanner({
+      bannerId, ...opts
+    }) {
       return this._makeRequest({
         path: `/banners/${bannerId}`,
+        ...opts,
       });
     },
-    async createBanner({
-      bannerData, bannerSettings,
-    }) {
-      const data = {
-        ...bannerData,
-        ...bannerSettings,
-      };
+    createBanner(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/banners",
-        data,
+        ...opts,
       });
     },
-    async pollForBannerReady({ bannerId }) {
-      while (true) {
-        const banner = await this.retrieveBanner({
-          bannerId,
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page++;
+        const { rows } = await fn({
+          params,
+          ...opts,
         });
-        if (banner.status === "ready") {
-          return banner;
+        for (const d of rows) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
         }
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-      }
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+
+        hasMore = rows.length;
+
+      } while (hasMore);
     },
   },
 };
