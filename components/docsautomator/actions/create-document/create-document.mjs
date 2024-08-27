@@ -1,18 +1,18 @@
+import { parseObj } from "../../common/utils.mjs";
 import docsautomator from "../../docsautomator.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "docsautomator-create-document",
   name: "Create Document",
   description: "Generate a new document from a pre-existing template. [See the documentation](https://docs.docsautomator.co/integrations-api/docsautomator-api)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     docsautomator,
-    templateId: {
+    automationId: {
       propDefinition: [
         docsautomator,
-        "templateId",
+        "automationId",
       ],
     },
     documentName: {
@@ -41,15 +41,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.docsautomator.duplicateGoogleDocTemplate({
-      templateId: this.templateId,
-      documentName: this.documentName,
-      recId: this.recId,
-      taskId: this.taskId,
-      data: this.data,
+    const response = await this.docsautomator.createDocumnet({
+      $,
+      data: {
+        docId: this.automationId,
+        documentName: this.documentName,
+        recId: this.recId,
+        taskId: this.taskId,
+        data: parseObj(this.data),
+      },
     });
 
-    $.export("$summary", `Successfully created document with template ID ${this.templateId}`);
+    $.export("$summary", `Successfully created document with automation ID ${this.automationId}`);
     return response;
   },
 };

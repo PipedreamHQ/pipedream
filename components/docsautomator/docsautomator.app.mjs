@@ -4,15 +4,18 @@ export default {
   type: "app",
   app: "docsautomator",
   propDefinitions: {
-    templateId: {
+    automationId: {
       type: "string",
-      label: "Template ID",
-      description: "The ID of the template to use for generating the document",
+      label: "Automation ID",
+      description: "The ID of the automation to use for generating the document",
       async options() {
-        const templates = await this.listTemplates();
-        return templates.map((template) => ({
-          label: template.name,
-          value: template.id,
+        const { automations } = await this.listAutomations();
+
+        return automations.map(({
+          title: label, _id: value,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -37,7 +40,7 @@ export default {
     data: {
       type: "object",
       label: "Data",
-      description: "Placeholders data for the template",
+      description: "Placeholders data for the template. [See the documentation](https://docs.docsautomator.co/integrations-api/docsautomator-api) for further information.",
       optional: true,
     },
   },
@@ -45,43 +48,31 @@ export default {
     _baseUrl() {
       return "https://api.docsautomator.co";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listTemplates(opts = {}) {
+    listAutomations(opts = {}) {
       return this._makeRequest({
         ...opts,
-        path: "/listTemplates",
+        path: "/automations",
       });
     },
-    async duplicateGoogleDocTemplate({
-      templateId, documentName, recId, taskId, data,
-    }) {
+    createDocumnet(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/duplicateGoogleDocTemplate",
-        data: {
-          templateId,
-          documentName,
-          recId,
-          taskId,
-          data,
-        },
+        path: "/createDocument",
+        ...opts,
       });
     },
   },
