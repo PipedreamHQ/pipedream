@@ -38,7 +38,10 @@ export default {
       }
       for (const tag of conversation.tags.tags) {
         const meta = this.generateMeta(conversation, tag);
-        this.$emit(tag, meta);
+        this.$emit({
+          conversation,
+          ...tag,
+        }, meta);
       }
     }
   },
