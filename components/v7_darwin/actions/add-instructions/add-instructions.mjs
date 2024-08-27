@@ -4,7 +4,7 @@ export default {
   key: "v7_darwin-add-instructions",
   name: "Add Instructions",
   description: "Add annotator instructions. [See the documentation](https://docs.v7labs.com/reference/adding-instructions)",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
