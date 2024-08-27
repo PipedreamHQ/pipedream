@@ -2,6 +2,7 @@
 
 import CodePanel from "./CodePanel";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { serverConnectTokenCreate } from "./server"
 import { createClient } from "@pipedream/sdk/browser"
 
@@ -16,6 +17,8 @@ export default function Home() {
   const [expiresAt, setExpiresAt] = useState<string | null>(null)
   const [app, setApp] = useState<string | null>(null)
   const [apn, setAuthProvisionId] = useState<string | null>(null)
+
+  const searchParams = useSearchParams()
 
     
   const connectApp = (app: string) => {
@@ -41,7 +44,10 @@ export default function Home() {
   }
 
   useEffect(() => {
-    setExternalUserId(crypto.randomUUID());
+    //setExternalUserId(crypto.randomUUID());
+    const uuid = searchParams.get("uuid") ? searchParams.get("uuid") : crypto.randomUUID()
+    setExternalUserId(uuid);
+
   }, []);
 
   useEffect(() => {
@@ -105,6 +111,7 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
           <div className="mb-8">
             <span className="font-semibold">External User ID:</span>
             <span className="font-mono"> {externalUserId}</span>
+            <span className="font-mono"><a href={`/accounts?uuid=${externalUserId}`}>accounts</a></span>
           </div>
           <div className="mb-8">
             <p>In <code>server.ts</code>, the app calls <code>serverConnectTokenCreate</code> to create a short-lived token for the user. You&apos;ll use that token to initiate app connection requests from your site securely. SEE THE DOCS.</p>

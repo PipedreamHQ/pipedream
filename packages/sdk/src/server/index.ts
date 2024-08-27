@@ -433,7 +433,7 @@ class ServerClient {
    * ```
    */
   async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<Account[]> {
-    return this._makeConnectRequest<Account[]>(`/accounts/external_id/${externalId}`, {
+    return this._makeConnectRequest<Account[]>(`/users/${externalId}/accounts`, {
       params,
     });
   }
