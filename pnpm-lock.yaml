@@ -111,7 +111,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/_8x8_connect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/__1msg:
     specifiers: {}
