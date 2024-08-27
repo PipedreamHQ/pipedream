@@ -5023,7 +5023,10 @@ importers:
     specifiers: {}
 
   components/konfhub:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/kontent_ai:
     specifiers:
@@ -26289,7 +26292,7 @@ packages:
       foreground-child: 3.3.0
       jackspeak: 2.3.6
       minimatch: 9.0.5
-      minipass: 5.0.0
+      minipass: 7.1.2
       path-scurry: 1.11.1
     dev: true
 
