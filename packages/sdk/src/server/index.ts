@@ -328,6 +328,8 @@ class ServerClient {
 
     const response: Response = await fetch(url.toString(), requestOptions);
 
+    console.log(response)
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -490,5 +492,9 @@ class ServerClient {
     await this._makeConnectRequest(`/users/${externalId}`, {
       method: "DELETE",
     });
+  }
+
+  async getLinkedApps() {
+    return await this._makeConnectRequest("/projects/info")
   }
 }

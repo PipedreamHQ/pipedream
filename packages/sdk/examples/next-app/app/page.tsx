@@ -3,12 +3,11 @@
 import CodePanel from "./CodePanel";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { serverConnectTokenCreate } from "./server"
+import { serverConnectTokenCreate, serverConnectGetApps } from "./server"
 import { createClient } from "@pipedream/sdk/browser"
 
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST || "pipedream.com"
-const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG // required
-const oauthAppId = process.env.NEXT_PUBLIC_PIPEDREAM_APP_ID // required only for oauth connections
+//const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG // required
 
 export default function Home() {
   const pd = createClient({ frontendHost })
@@ -17,8 +16,12 @@ export default function Home() {
   const [expiresAt, setExpiresAt] = useState<string | null>(null)
   const [app, setApp] = useState<string | null>(null)
   const [apn, setAuthProvisionId] = useState<string | null>(null)
+  const [apps, setApps] = useState<object[] | null>(null)
+  const [selectedApp, setSelectedApp] = useState<string | null>("")
+  const [selectedIdx, setSelectedIdx] = useState<string | null>("")
 
   const searchParams = useSearchParams()
+
 
     
   const connectApp = (app: string) => {
@@ -39,14 +42,24 @@ export default function Home() {
   }
 
   const connectAccount = async () => {
-    if (!appSlug) return
-    await connectApp(appSlug)
+    if (!selectedApp) return
+    await connectApp(selectedApp.name_slug)
   }
 
   useEffect(() => {
     //setExternalUserId(crypto.randomUUID());
     const uuid = searchParams.get("uuid") ? searchParams.get("uuid") : crypto.randomUUID()
     setExternalUserId(uuid);
+
+    (async () => {
+      try {
+        const linkedApps = await serverConnectGetApps()
+        setApps(linkedApps.apps)
+      } catch (error) {
+        console.error("Error fetching data:", error)
+        // Handle error appropriately
+      }
+    })()
 
   }, []);
 
@@ -55,12 +68,14 @@ export default function Home() {
       setToken(null)
       setAuthProvisionId(null)
     } else {
-      if (!appSlug) return
+      if (!selectedApp) return
       (async () => {
         try {
+          //const linkedApps = await serverConnectGetApps()
+          //setApps(linkedApps.apps)
           const { token, expires_at } = await serverConnectTokenCreate({
-            app_slug: appSlug,
-            oauth_app_id: oauthAppId,
+            app_slug: selectedApp.name_slug,
+            oauth_app_id: selectedApp.id,
             external_user_id: externalUserId
           })
           setToken(token)
@@ -71,13 +86,21 @@ export default function Home() {
         }
       })()
     }
-  }, [externalUserId])
+  }, [externalUserId, selectedApp])
+
+  const onSelectApp = (event) => {
+    //debugger
+    const idx = event.target.value
+    const app = apps[idx]
+    setSelectedIdx(idx)
+    setSelectedApp(apps[idx])
+  }
 
 
   return (
     <main className="p-5 flex flex-col gap-2 max-w-5xl">
       {
-        (!appSlug) &&
+        (false) &&
         <div className="flex flex-col gap-2 text-slate-800 pb-4">
           <div>
             <p>
@@ -99,7 +122,7 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
         </div>
       }
       {
-        appSlug && externalUserId && 
+        externalUserId && apps && 
         <div className="mb-48">
           <h1 className="text-2xl font-bold mb-8">Pipedream Connect Example App</h1>
           <div className="mb-8">
@@ -111,7 +134,7 @@ PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123`}
           <div className="mb-8">
             <span className="font-semibold">External User ID:</span>
             <span className="font-mono"> {externalUserId}</span>
-            <span className="font-mono"><a href={`/accounts?uuid=${externalUserId}`}>accounts</a></span>
+            <span className="ml-2"><a href={`/accounts?uuid=${externalUserId}`}>accounts</a></span>
           </div>
           <div className="mb-8">
             <p>In <code>server.ts</code>, the app calls <code>serverConnectTokenCreate</code> to create a short-lived token for the user. You&apos;ll use that token to initiate app connection requests from your site securely. SEE THE DOCS.</p>
@@ -127,6 +150,22 @@ const { token, expires_at } = await serverConnectTokenCreate({
   external_user_id: "${externalUserId}",
 })`}
             />
+          </div>
+          <div>
+            <label className="font-semibold" htmlFor="item-select">Select an App:</label>
+            <select
+              id="app-select"
+              value={selectedIdx}
+              onChange={onSelectApp}
+            >
+              <option value="">-- select an app</option>
+              {apps.map((app, index) => (
+                <option key={index} value={index}>
+                  {app.name_slug}
+                </option>
+              ))}
+            </select>
+
           </div>
           <div className="mb-2">
             <span className="font-semibold">Connect Token:</span>
@@ -161,10 +200,11 @@ pd.connectAccount({
                 <span className="font-mono"> {apn}</span>
               </p>
             </div>
-            : <div>
+            : 
+              <div>
               <p className="mb-8">
               </p>
-              <button className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded" onClick={connectAccount}>Connect your {app} account</button>
+              <button disabled={!selectedApp} className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded" onClick={connectAccount}>Connect your {selectedApp?.name_slug} account</button>
             </div>
           }
         </div>

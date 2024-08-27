@@ -51,3 +51,9 @@ export async function makeAppRequest(accountId: string, endpoint: string, opts: 
 
   return result
 }
+
+export async function serverConnectGetApps(): Promise {
+  const apps = await pd.getLinkedApps()
+  return apps
+}
+
