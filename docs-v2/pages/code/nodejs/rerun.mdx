@@ -67,7 +67,7 @@ Requests to the `resume_url` have [the same limits as any HTTP request to Pipedr
 
 ### Default timeout of 24 hours
 
-By default, `$.flow.suspend` will automatically resume the workflow after 24 hours. You can set your own timeout (in milliseconds) as the first argument:
+By default, `$.flow.suspend` will automatically cancel the workflow after 24 hours. You can set your own timeout (in milliseconds) as the first argument:
 
 ```javascript
 export default defineComponent({

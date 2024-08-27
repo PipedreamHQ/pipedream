@@ -4249,11 +4249,11 @@ importers:
 
   components/helper_functions:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^3.0.0
       streamifier: ^0.1.1
       xml-js: ^1.6.11
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       streamifier: 0.1.1
       xml-js: 1.6.11
 
