@@ -111,7 +111,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/_8x8_connect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/__1msg:
     specifiers: {}
@@ -4243,11 +4246,11 @@ importers:
 
   components/helper_functions:
     specifiers:
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^3.0.0
       streamifier: ^0.1.1
       xml-js: ^1.6.11
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       streamifier: 0.1.1
       xml-js: 1.6.11
 
@@ -5020,7 +5023,10 @@ importers:
     specifiers: {}
 
   components/konfhub:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/kontent_ai:
     specifiers:
@@ -8526,7 +8532,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/shiphero:
-    specifiers: {}
+    specifiers:
+      graphql-request: ^7.1.0
+    dependencies:
+      graphql-request: 7.1.0_graphql@16.8.1
 
   components/shippotoken:
     specifiers: {}
@@ -8555,10 +8564,10 @@ importers:
 
   components/shopify_developer_app:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.0
       shopify-api-node: ^3.12.5
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.0
       shopify-api-node: 3.12.6
 
   components/shopify_partner:
@@ -8657,7 +8666,12 @@ importers:
     specifiers: {}
 
   components/signerx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      form-data: 4.0.0
 
   components/signnow:
     specifiers: {}
@@ -8964,7 +8978,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/spamcheck_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/sparkpost:
     specifiers: {}
@@ -9317,7 +9334,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/swapcard_exhibitor:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/swapi:
     specifiers:
@@ -16805,6 +16825,28 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@molt/command/0.9.0:
+    resolution: {integrity: sha512-1JI8dAlpqlZoXyKWVQggX7geFNPxBpocHIXQCsnxDjKy+3WX4SGyZVJXuLlqRRrX7FmQCuuMAfx642ovXmPA9g==}
+    dependencies:
+      '@molt/types': 0.2.0
+      alge: 0.8.1
+      chalk: 5.3.0
+      lodash.camelcase: 4.3.0
+      lodash.snakecase: 4.1.1
+      readline-sync: 1.4.10
+      string-length: 6.0.0
+      strip-ansi: 7.1.0
+      ts-toolbelt: 9.6.0
+      type-fest: 4.15.0
+      zod: 3.23.8
+    dev: false
+
+  /@molt/types/0.2.0:
+    resolution: {integrity: sha512-p6ChnEZDGjg9PYPec9BK6Yp5/DdSrYQvXTBAtgrnqX6N36cZy37ql1c8Tc5LclfIYBNG7EZp8NBcRTYJwyi84g==}
+    dependencies:
+      ts-toolbelt: 9.6.0
+    dev: false
+
   /@mongodb-js/saslprep/1.1.0:
     resolution: {integrity: sha512-Xfijy7HvfzzqiOAhAepF4SGN5e9leLkMvg/OPOF97XemjfVCYN/oWa75wnkc6mltMSTwY+XlbhWgUOJmkFspSw==}
     requiresBuild: true
@@ -17316,6 +17358,17 @@ packages:
     resolution: {integrity: sha512-qlSJBF0Gn5RloFEPr072hSf6pRSU++Zjs0j6X9ZE2SMmfg777qYR4RQ5HkTHEELEyA948xEOqkBt3bFplpfEbw==}
     dependencies:
       axios: 1.6.5
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/3.0.1:
+    resolution: {integrity: sha512-xja1ZHUR/DpOQZZJY39daml8q1ZMzg8wKYwYbyxVPs7MiMqneHM7Bz+Lgj/QrjbNissIKsRSGXmkXbT+Y10L0w==}
+    dependencies:
+      axios: 1.7.4
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
@@ -21630,6 +21683,15 @@ packages:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
+  /alge/0.8.1:
+    resolution: {integrity: sha512-kiV9nTt+XIauAXsowVygDxMZLplZxDWt0W8plE/nB32/V2ziM/P/TxDbSVK7FYIUt2Xo16h3/htDh199LNPCKQ==}
+    dependencies:
+      lodash.ismatch: 4.4.0
+      remeda: 1.61.0
+      ts-toolbelt: 9.6.0
+      zod: 3.23.8
+    dev: false
+
   /algoliasearch/4.20.0:
     resolution: {integrity: sha512-y+UHEjnOItoNy0bYO+WWmLWBlPwDjKHW6mNHrPi0NkuhpQOOEbrkwQH/wgKFDLh7qlKjzoKeiRtlpewDPDG23g==}
     dependencies:
@@ -21679,7 +21741,6 @@ packages:
   /ansi-regex/6.0.1:
     resolution: {integrity: sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==}
     engines: {node: '>=12'}
-    dev: true
 
   /ansi-styles/2.2.1:
     resolution: {integrity: sha512-kmCevFghRiWM7HB5zTPULl4r9bVFSWjz62MhqizDGUrq2NWuNMQyuv4tHHoKJHs69M/MF64lEcHdYIocrdWQYA==}
@@ -22803,6 +22864,11 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
+
+  /chalk/5.3.0:
+    resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+    dev: false
 
   /char-regex/1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
@@ -26226,7 +26292,7 @@ packages:
       foreground-child: 3.3.0
       jackspeak: 2.3.6
       minimatch: 9.0.5
-      minipass: 5.0.0
+      minipass: 7.1.2
       path-scurry: 1.11.1
     dev: true
 
@@ -26727,6 +26793,28 @@ packages:
       graphql: 16.8.1
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /graphql-request/7.1.0_graphql@16.8.1:
+    resolution: {integrity: sha512-Ouu/lYVFhARS1aXeZoVJWnGT6grFJXTLwXJuK4mUGGRo0EUk1JkyYp43mdGmRgUVezpRm6V5Sq3t8jBDQcajng==}
+    hasBin: true
+    peerDependencies:
+      '@dprint/formatter': ^0.3.0
+      '@dprint/typescript': ^0.91.1
+      dprint: ^0.46.2
+      graphql: 14 - 16
+    peerDependenciesMeta:
+      '@dprint/formatter':
+        optional: true
+      '@dprint/typescript':
+        optional: true
+      dprint:
+        optional: true
+    dependencies:
+      '@graphql-typed-document-node/core': 3.2.0_graphql@16.8.1
+      '@molt/command': 0.9.0
+      graphql: 16.8.1
+      zod: 3.23.8
     dev: false
 
   /graphql/15.8.0:
@@ -29139,6 +29227,10 @@ packages:
 
   /lodash.isinteger/4.0.4:
     resolution: {integrity: sha512-DBwtEWN2caHQ9/imiNeEA5ys1JoRtRfY3d7V9wkqtbycnAmTvRRmbHKDV4a0EYc678/dia0jrte4tjYwVBaZUA==}
+    dev: false
+
+  /lodash.ismatch/4.4.0:
+    resolution: {integrity: sha512-fPMfXjGQEV9Xsq/8MTSgUf255gawYRbjwMyDbcvDhXgV7enSZA0hynz6vMPnpAb5iONEzBHBPsT+0zes5Z301g==}
     dev: false
 
   /lodash.isnumber/3.0.3:
@@ -32736,6 +32828,11 @@ packages:
     dependencies:
       picomatch: 2.3.1
 
+  /readline-sync/1.4.10:
+    resolution: {integrity: sha512-gNva8/6UAe8QYepIQH/jQ2qn91Qj0B9sYjMBBs3QOB8F2CXcKgLxQaJRP76sWVRQt+QU+8fAkCbCvjjMFu7Ycw==}
+    engines: {node: '>= 0.8.0'}
+    dev: false
+
   /recurly/3.29.0:
     resolution: {integrity: sha512-jn3+aawkAhIEpUu/bMtEZQIEWC4gpZnbPeVrrpA5AlA2MiAn5f6tCZKSXyhhmb2QwTEVpqYrWUqBP5SpZn8yKA==}
     dev: false
@@ -33061,6 +33158,10 @@ packages:
       mdast-util-to-markdown: 2.1.0
       unified: 11.0.5
     dev: true
+
+  /remeda/1.61.0:
+    resolution: {integrity: sha512-caKfSz9rDeSKBQQnlJnVW3mbVdFgxgGWQKq1XlFokqjf+hQD5gxutLGTTY2A/x24UxVyJe9gH5fAkFI63ULw4A==}
+    dev: false
 
   /remedial/1.0.8:
     resolution: {integrity: sha512-/62tYiOe6DzS5BqVsNpH/nkGlX45C/Sp6V+NtiN6JQNS1Viay7cWkazmRkrQrdFj2eshDe96SIQNIoMxqhzBOg==}
@@ -34093,6 +34194,13 @@ packages:
       strip-ansi: 6.0.1
     dev: true
 
+  /string-length/6.0.0:
+    resolution: {integrity: sha512-1U361pxZHEQ+FeSjzqRpV+cu2vTzYeWeafXFLykiFlv4Vc0n3njgU8HrMbyik5uwm77naWMuVG8fhEF+Ovb1Kg==}
+    engines: {node: '>=16'}
+    dependencies:
+      strip-ansi: 7.1.0
+    dev: false
+
   /string-similarity/4.0.4:
     resolution: {integrity: sha512-/q/8Q4Bl4ZKAPjj8WerIBJWALKkaPRfrvhfF8k/B23i4nzrlRj2/go1m90In7nG/3XDSbOo0+pu6RvCTM9RGMQ==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
@@ -34219,7 +34327,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       ansi-regex: 6.0.1
-    dev: true
 
   /strip-bom/3.0.0:
     resolution: {integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==}
@@ -35022,6 +35129,10 @@ packages:
       yargs-parser: 21.1.1
     dev: true
 
+  /ts-toolbelt/9.6.0:
+    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
+    dev: false
+
   /tsc-esm-fix/2.20.17:
     resolution: {integrity: sha512-TC/JVuSb8G0pAVtMmDIaB3sK6vfMUIIGPQAg82CPRStDPryZwXpppW9tJn/Z5Kr8vgxNiRtIOIgxtGY9D/WNBA==}
     engines: {node: '>=16.0.0'}
@@ -35258,7 +35369,6 @@ packages:
   /type-fest/4.15.0:
     resolution: {integrity: sha512-tB9lu0pQpX5KJq54g+oHOLumOx+pMep4RaM6liXh2PKmVRFF+/vAtUP0ZaJ0kOySfVNjF6doBWPHhBhISKdlIA==}
     engines: {node: '>=16'}
-    dev: true
 
   /type-is/1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
@@ -36591,6 +36701,10 @@ packages:
   /zlib/1.0.5:
     resolution: {integrity: sha512-40fpE2II+Cd3k8HWTWONfeKE2jL+P42iWJ1zzps5W51qcTsOUKM5Q5m2PFb0CLxlmFAaUuUdJGc3OfZy947v0w==}
     engines: {node: '>=0.2.0'}
+    dev: false
+
+  /zod/3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
     dev: false
 
   /zwitch/1.0.5:
