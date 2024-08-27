@@ -328,7 +328,7 @@ class ServerClient {
 
     const response: Response = await fetch(url.toString(), requestOptions);
 
-    console.log(response)
+    //console.log(response)
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
