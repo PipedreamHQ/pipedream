@@ -31,6 +31,11 @@ export default {
       description: "Status of the Channel",
       options: constants.CHANNEL_STATUS,
     },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "The search query",
+    },
   },
   methods: {
     _baseUrl() {
