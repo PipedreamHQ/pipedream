@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@google-cloud/pubsub": "^4.7.0",
     "@googleapis/gmail": "^0.3.4",
     "@pipedream/platform": "^3.0.0",
     "googleapis": "^109.0.1",
