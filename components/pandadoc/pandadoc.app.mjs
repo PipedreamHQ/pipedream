@@ -9,10 +9,11 @@ export default {
       type: "string",
       label: "Document Id",
       description: "Specify document's ID",
-      async options() {
+      async options({ page }) {
         const response = await this.listDocuments({
           params: {
             deleted: false,
+            page,
           },
         });
         return response?.results?.map(({
@@ -28,11 +29,12 @@ export default {
       type: "string",
       label: "Completed Document Id",
       description: "Select a completed document or provide its ID",
-      async options() {
+      async options({ page }) {
         const response = await this.listDocuments({
           params: {
             deleted: false,
             status: DOCUMENT_STATUS_COMPLETED,
+            page,
           },
         });
         return response?.results?.map(({
@@ -48,10 +50,11 @@ export default {
       type: "string",
       label: "Template Id",
       description: "Specify template's ID",
-      async options() {
+      async options({ page }) {
         const response = await this.listTemplates({
           params: {
             deleted: false,
+            page,
           },
         });
         return response?.results?.map(({
@@ -68,8 +71,12 @@ export default {
       label: "Document Folder Id",
       description: "Specify the document folder ID",
       optional: true,
-      async options() {
-        const response = await this.listDocumentFolders();
+      async options({ page }) {
+        const response = await this.listDocumentFolders({
+          params: {
+            page,
+          },
+        });
         return response?.results?.map(({
           uuid,
           name,
