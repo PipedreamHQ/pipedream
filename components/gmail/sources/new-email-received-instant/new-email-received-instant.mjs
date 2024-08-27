@@ -85,6 +85,7 @@ export default {
     };
     if (this.topicType === "new") {
       topicProp.description = "**Pipedream will create a Pub/Sub topic with this name in your account**, converting it to a [valid Pub/Sub topic name](https://cloud.google.com/pubsub/docs/admin#resource_names).";
+      topicProp.default = "gmail-notifications";
       delete topicProp.options;
     }
 
