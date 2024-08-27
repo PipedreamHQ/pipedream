@@ -22,11 +22,29 @@ export default {
       description: "Set to true to show available watermark props",
       reloadProps: true,
     },
+    outputFilename: {
+      type: "string",
+      label: "Output Filename",
+      description: "The filename of the downloaded document in the `tmp` folder.",
+      optional: true,
+      default: "document.pdf",
+    },
     separateFiles: {
       type: "boolean",
       label: "Separate Files",
       description: "Download document bundle as a zip-archive of separate PDFs (1 file per section)",
       optional: true,
+    },
+  },
+  methods: {
+    downloadDocument({
+      id, ...args
+    }) {
+      return this.app.makeRequest({
+        path: `/documents/${id}/download`,
+        responseType: "arraybuffer",
+        ...args,
+      });
     },
   },
   additionalProps() {
@@ -60,12 +78,28 @@ export default {
       : {};
   },
   async run({ $ }) {
-    fs;
-    const response = await this.app.getDocument({
-      id: this.id,
+    const {
+      outputFilename, id,
+    } = this;
+    const data = await this.downloadDocument({
+      $,
+      id,
+      params: {
+        separate_files: this.separateFiles,
+        watermark_text: this.watermarkText,
+        watermark_color: this.watermarkColor,
+        watermark_font_size: this.watermarkFontSize,
+        watermark_opacity: this.watermarkOpacity,
+      },
     });
 
-    $.export("$summary", `Successfully fetched document status with ID ${this.id}`);
-    return response;
+    const filePath = `/tmp/${outputFilename}`;
+    fs.writeFileSync(filePath, data);
+    $.export("$summary", `Successfully downloaded document "${outputFilename}"`);
+
+    return {
+      filePath,
+      rawData: data,
+    };
   },
 };
