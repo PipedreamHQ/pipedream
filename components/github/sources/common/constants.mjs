@@ -350,3 +350,11 @@ export default {
     },
   ],
 };
+
+export const SAMPLE_GITHUB_HEADERS = {
+  github_headers: {
+    "x-github-delivery": "string",
+    "x-github-event": "string",
+    "x-github-hook-id": "string",
+  },
+};

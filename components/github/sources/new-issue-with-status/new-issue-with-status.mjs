@@ -1,13 +1,14 @@
 import queries from "../../common/queries.mjs";
 import common from "../common/common-webhook-orgs.mjs";
 import constants from "../common/constants.mjs";
+import { getRelevantHeaders } from "../common/utils.mjs";
 
 export default {
   ...common,
   key: "github-new-issue-with-status",
   name: "Project Item Status Changed",
   description: "Emit new event when a project item is tagged with a specific status. Currently supports Organization Projects only. [More information here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -94,7 +95,9 @@ export default {
       });
       return node;
     },
-    async processEvent(event) {
+    async processEvent({
+      event, headers,
+    }) {
       const item = event.projects_v2_item;
 
       if (!this.isRelevant(event)) {
@@ -105,15 +108,23 @@ export default {
 
       const statusName = event.changes.field_value.to.name;
       const meta = this.generateMeta(item, statusName);
-      this.$emit(event, meta);
+      this.$emit({
+        ...event,
+        ...getRelevantHeaders(headers),
+      }, meta);
     },
   },
-  async run({ body: event }) {
+  async run({
+    body: event, headers,
+  }) {
     if (event.zen) {
       console.log(event.zen);
       return;
     }
 
-    await this.processEvent(event);
+    await this.processEvent({
+      event,
+      headers,
+    });
   },
 };

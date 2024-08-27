@@ -1,5 +1,8 @@
+import { SAMPLE_GITHUB_HEADERS } from "../common/constants.mjs";
+
 export function getSampleWebhookEvent() {
   return {
+    ...SAMPLE_GITHUB_HEADERS,
     id: 1296269,
     node_id: "MDEwOlJlcG9zaXRvcnkxMjk2MjY5",
     name: "Hello-World",
