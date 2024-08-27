@@ -14,10 +14,10 @@ export default {
         "channelSlug",
       ],
     },
-    channelTittle: {
+    channelTitle: {
       propDefinition: [
         app,
-        "channelTittle",
+        "channelTitle",
       ],
     },
     channelStatus: {
@@ -32,7 +32,7 @@ export default {
       $,
       slug: this.channelSlug,
       params: {
-        title: this.channelTittle,
+        title: this.channelTitle,
         status: this.channelStatus,
       },
     });

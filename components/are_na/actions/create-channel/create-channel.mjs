@@ -8,10 +8,10 @@ export default {
   type: "action",
   props: {
     app,
-    channelTittle: {
+    channelTitle: {
       propDefinition: [
         app,
-        "channelTittle",
+        "channelTitle",
       ],
     },
     channelStatus: {
@@ -25,11 +25,11 @@ export default {
     const response = await this.app.createChannel({
       $,
       params: {
-        title: this.channelTittle,
+        title: this.channelTitle,
         status: this.channelStatus,
       },
     });
-    $.export("$summary", `Successfully created channel '${this.channelTittle}' with slug '${response.slug}'`);
+    $.export("$summary", `Successfully created channel '${this.channelTitle}' with slug '${response.slug}'`);
     return response;
   },
 };

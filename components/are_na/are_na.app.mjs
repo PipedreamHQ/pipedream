@@ -20,7 +20,7 @@ export default {
         }));
       },
     },
-    channelTittle: {
+    channelTitle: {
       type: "string",
       label: "Channel Tittle",
       description: "Tittle of the Channel",
