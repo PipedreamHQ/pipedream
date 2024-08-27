@@ -16,35 +16,23 @@ export default {
         "documentId",
       ],
     },
+    outputFilename: {
+      propDefinition: [
+        app,
+        "outputFilename",
+      ],
+    },
     showWatermark: {
       type: "boolean",
       label: "Apply Watermark",
       description: "Set to true to show available watermark props",
       reloadProps: true,
     },
-    outputFilename: {
-      type: "string",
-      label: "Output Filename",
-      description: "The filename of the downloaded document in the `tmp` folder.",
-      optional: true,
-      default: "document.pdf",
-    },
     separateFiles: {
-      type: "boolean",
-      label: "Separate Files",
-      description: "Download document bundle as a zip-archive of separate PDFs (1 file per section)",
-      optional: true,
-    },
-  },
-  methods: {
-    downloadDocument({
-      id, ...args
-    }) {
-      return this.app.makeRequest({
-        path: `/documents/${id}/download`,
-        responseType: "arraybuffer",
-        ...args,
-      });
+      propDefinition: [
+        app,
+        "separateFiles",
+      ],
     },
   },
   additionalProps() {
@@ -81,7 +69,7 @@ export default {
     const {
       outputFilename, id,
     } = this;
-    const data = await this.downloadDocument({
+    const data = await this.app.downloadDocument({
       $,
       id,
       params: {
