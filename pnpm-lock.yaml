@@ -9325,7 +9325,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/swapcard_exhibitor:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/swapi:
     specifiers:
@@ -17346,6 +17349,17 @@ packages:
     resolution: {integrity: sha512-qlSJBF0Gn5RloFEPr072hSf6pRSU++Zjs0j6X9ZE2SMmfg777qYR4RQ5HkTHEELEyA948xEOqkBt3bFplpfEbw==}
     dependencies:
       axios: 1.6.5
+      fp-ts: 2.16.1
+      io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/3.0.1:
+    resolution: {integrity: sha512-xja1ZHUR/DpOQZZJY39daml8q1ZMzg8wKYwYbyxVPs7MiMqneHM7Bz+Lgj/QrjbNissIKsRSGXmkXbT+Y10L0w==}
+    dependencies:
+      axios: 1.7.4
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
       querystring: 0.2.1
