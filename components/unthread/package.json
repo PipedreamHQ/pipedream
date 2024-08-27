@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/unthread",
+  "version": "0.0.1",
+  "description": "Pipedream Unthread Components",
+  "main": "unthread.app.mjs",
+  "keywords": [
+    "pipedream",
+    "unthread"
+  ],
+  "homepage": "https://pipedream.com/apps/unthread",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

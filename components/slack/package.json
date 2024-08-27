@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/slack",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "Pipedream Slack Components",
   "main": "slack.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^2.0.0",
+    "@pipedream/platform": "^3.0.0",
     "@slack/web-api": "^7.0.4"
   }
 }

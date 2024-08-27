@@ -243,6 +243,10 @@
       "destination": "/docs/workflows/actions"
     },
     {
+      "source": "/docs/workflows/flow-control",
+      "destination": "/docs/workflows/control-flow"
+    },
+    {
       "source": "/docs/workspaces/okta",
       "destination": "/docs/workspaces/sso/okta"
     },

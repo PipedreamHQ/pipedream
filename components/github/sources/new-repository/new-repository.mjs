@@ -5,7 +5,7 @@ export default {
   key: "github-new-repository",
   name: "New Repository",
   description: "Emit new events when new repositories are created",
-  version: "0.1.16",
+  version: "0.1.17",
   type: "source",
   dedupe: "unique",
   async run() {

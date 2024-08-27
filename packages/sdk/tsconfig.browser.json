@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES6",
+    "lib": ["ES5", "DOM"],
+    "declaration": true,
+    "outDir": "dist/browser",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "types": []
+  },
+  "include": [
+    "src/browser/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
