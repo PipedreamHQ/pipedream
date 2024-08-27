@@ -111,7 +111,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/_8x8_connect:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/__1msg:
     specifiers: {}
@@ -8663,7 +8666,12 @@ importers:
     specifiers: {}
 
   components/signerx:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      form-data: 4.0.0
 
   components/signnow:
     specifiers: {}
@@ -8970,7 +8978,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/spamcheck_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/sparkpost:
     specifiers: {}
@@ -9323,7 +9334,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/swapcard_exhibitor:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/swapi:
     specifiers:
