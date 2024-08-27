@@ -1,12 +1,22 @@
 import Callout from '@/components/Callout'
 import { Steps, Tabs } from 'nextra/components'
 import Image from 'next/image'
+import VideoPlayer from "@/components/VideoPlayer";
 
 # Quickstart
 
-Pipedream Connect is the easiest way for your users to connect to [over 200+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI-driven products, [and much more](/connect/use-cases), all in a few minutes.
+Pipedream Connect is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI-driven products, [and much more](/connect/use-cases), all in a few minutes.
 
-Here's a high-level overview of the components of a Connect app that you'd build:
+If you prefer videos to text, this demo walks through this quickstart:
+
+<VideoPlayer
+  src="https://www.youtube.com/embed/xhUagMsogkQ"
+  title="Pipedream Connect Public Preview"
+/>
+
+## Visual overview
+
+Here's a high-level overview of how Connect works with your app:
 
 <br />
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1724194758/Screenshot_2024-08-20_at_3.59.05_PM_rfylfq.png" alt="Pipedream Connect overview" width={800} height={529} />
@@ -17,10 +27,6 @@ And here's the technical flow between your frontend, backend, and Pipedream's AP
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723834101/docs/Screenshot_2024-08-16_at_11.48.15_AM_kijxa7.png" alt="Connect developer flow" width={800} height={500} />
 
 <Steps>
-
-### Enable the feature flag
-
-Enable the feature flag for **Pipedream Connect** in your [account settings](https://pipedream.com/settings/alpha).
 
 ### Choose the apps you want to integrate
 
@@ -573,7 +579,7 @@ When the user connects an account in your product, [fetch a token from your back
 In our example, `app/page.tsx` calls the `connectAccount` method from the Pipedream SDK when the user clicks the **Connect your account** button.
 
 <br />
-<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723762300/connect-account-button_ugkdrd.png" alt="Connect your account button" width={550} height={300} />
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1724182571/connect-account-button-screenshot_n7vjvq.png" alt="Connect your account button" width={550} height={300} />
 
 ```typescript
 // Note that we import the browser-specific SDK client here
