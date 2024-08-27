@@ -60,7 +60,7 @@ At least one of \`Email Address\` or \`Phone Number\` is required.`,
     } = this;
 
     if (!email && !phone) {
-      throw new ConfigurationError("$summary", "At least one of `Email Address` or `Phone Number` is required");
+      throw new ConfigurationError("At least one of `Email Address` or `Phone Number` is required");
     }
 
     const response = await konfhub.validateRegistration({
