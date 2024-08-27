@@ -6,7 +6,7 @@ export default {
   description:
     "Get basic status info about a document. [See documentation here](https://developers.pandadoc.com/reference/document-status)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
     id: {
