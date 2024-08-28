@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zoho_inventory",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Zoho Inventory Components",
   "main": "zoho_inventory.app.mjs",
   "keywords": [
