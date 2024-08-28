@@ -55,7 +55,6 @@ export default {
       type: "string",
       label: "Subscription Type",
       description: "The type of subscription - eg. SimpleMailApp or SlackApp.",
-      optional: true,
       options: [
         "SimpleMailApp",
         "SlackApp",
