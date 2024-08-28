@@ -1,6 +1,7 @@
 import gmail from "../../gmail.app.mjs";
 import { axios } from "@pipedream/platform";
 import { PubSub } from "@google-cloud/pubsub";
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   key: "gmail-new-email-received-instant",
@@ -70,6 +71,7 @@ export default {
     if (!key) {
       props.keyAlert.hidden = false;
     }
+    let topicName = this.topic;
     const topicProp = {
       type: "string",
       label: "Pub/Sub Topic Name",
@@ -80,13 +82,16 @@ export default {
       reloadProps: true,
     };
     if (this.topicType === "new") {
-      topicProp.description = "**Pipedream will create a Pub/Sub topic with this name in your account**, converting it to a [valid Pub/Sub topic name](https://cloud.google.com/pubsub/docs/admin#resource_names).";
-      topicProp.default = "gmail-notifications";
-      delete topicProp.options;
+      const authKeyJSON = JSON.parse(key);
+      const { project_id: projectId } = authKeyJSON;
+      topicName = `projects/${projectId}/topics/${this.convertNameToValidPubSubTopicName(uuidv4())}`;
+      topicProp.default = topicName;
+      topicProp.hidden = true;
+      topicProp.reloadProps = false;
     }
 
-    if (this.topic) {
-      const topic = await this.getOrCreateTopic();
+    if (this.topic || this.topicType === "new") {
+      const topic = await this.getOrCreateTopic(topicName);
 
       // Retrieves the IAM policy for the topic
       let hasPublisherRole;
@@ -131,7 +136,7 @@ export default {
       const pubSubClient = new PubSub(sdkParams);
 
       const currentTopic = {
-        name: this.getTopicName(),
+        name: this.topic,
       };
       this._setTopicName(currentTopic.name);
 
@@ -206,13 +211,6 @@ export default {
       }
       return [];
     },
-    getTopicName() {
-      const authKeyJSON = JSON.parse(this.gmail.$auth.key_json);
-      const { project_id: projectId } = authKeyJSON;
-      return this.topicType === "new"
-        ? `projects/${projectId}/topics/${this.convertNameToValidPubSubTopicName(this.topic)}`
-        : this.topic;
-    },
     convertNameToValidPubSubTopicName(name) {
       // For valid names, see https://cloud.google.com/pubsub/docs/admin#resource_names
       return name
@@ -251,10 +249,10 @@ export default {
       console.log("Watch response:", watchResponse);
       this._setLastProcessedHistoryId(watchResponse.historyId);
     },
-    async getOrCreateTopic() {
+    async getOrCreateTopic(name) {
       const sdkParams = this.sdkParams();
       const pubSubClient = new PubSub(sdkParams);
-      const topicName = this.getTopicName();
+      const topicName = name || this.topic;
       // Create or get Pub/Sub topic
       let topic;
       try {
@@ -290,7 +288,7 @@ export default {
   async run(event) {
     if (!event.body) {
       // event was triggered by timer, renew Gmail push notifications
-      const topicName = this.getTopicName();
+      const topicName = this.topic;
       await this.setupGmailNotifications(topicName);
       return;
     }

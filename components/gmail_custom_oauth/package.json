@@ -18,6 +18,7 @@
     "@pipedream/platform": "^3.0.0",
     "googleapis": "^109.0.1",
     "html-to-text": "^8.2.1",
-    "nodemailer": "^6.7.8"
+    "nodemailer": "^6.7.8",
+    "uuid": "^10.0.0"
   }
 }
