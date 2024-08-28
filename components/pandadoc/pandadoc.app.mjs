@@ -13,7 +13,7 @@ export default {
         const response = await this.listDocuments({
           params: {
             deleted: false,
-            page,
+            page: page || undefined,
           },
         });
         return response?.results?.map(({
@@ -34,7 +34,7 @@ export default {
           params: {
             deleted: false,
             status: DOCUMENT_STATUS_COMPLETED,
-            page,
+            page: page || undefined,
           },
         });
         return response?.results?.map(({
@@ -54,7 +54,7 @@ export default {
         const response = await this.listTemplates({
           params: {
             deleted: false,
-            page,
+            page: page || undefined,
           },
         });
         return response?.results?.map(({
@@ -74,7 +74,7 @@ export default {
       async options({ page }) {
         const response = await this.listDocumentFolders({
           params: {
-            page,
+            page: page || undefined,
           },
         });
         return response?.results?.map(({
@@ -246,7 +246,7 @@ export default {
     downloadDocument({
       id, ...args
     }) {
-      return this.app.makeRequest({
+      return this.makeRequest({
         path: `/documents/${id}/download`,
         responseType: "arraybuffer",
         ...args,
@@ -255,7 +255,7 @@ export default {
     downloadProtectedDocument({
       id, ...args
     }) {
-      return this.app.makeRequest({
+      return this.makeRequest({
         path: `/documents/${id}/download-protected`,
         responseType: "arraybuffer",
         ...args,
