@@ -29,16 +29,12 @@ export default {
       ],
       reloadProps: true,
     },
-    labels: {
+    label: {
       propDefinition: [
         gmail,
         "label",
       ],
-      type: "string[]",
-      label: "Labels",
-      default: [
-        "INBOX",
-      ],
+      default: "INBOX",
       optional: true,
     },
     keyAlert: {
@@ -321,7 +317,7 @@ export default {
       historyTypes: [
         "messageAdded",
       ],
-      labelIds: this.labels,
+      labelId: this.label,
     });
 
     console.log("History response:", JSON.stringify(historyResponse, null, 2));
