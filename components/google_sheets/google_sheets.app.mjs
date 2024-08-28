@@ -59,12 +59,14 @@ export default {
       type: "string",
       label: "Spreadsheet",
       description: "The Spreadsheet ID",
+      useQuery: true,
       options({
+        query,
         prevContext,
         driveId,
       }) {
         const { nextPageToken } = prevContext;
-        return this.listSheetsOptions(driveId, nextPageToken);
+        return this.listSheetsOptions(driveId, nextPageToken, query);
       },
     },
     worksheetIDs: {
@@ -250,8 +252,11 @@ export default {
       }
       return sum;
     },
-    async listSheetsOptions(driveId, pageToken = null) {
-      const q = "mimeType='application/vnd.google-apps.spreadsheet'";
+    async listSheetsOptions(driveId, pageToken = null, query) {
+      const searchQuery = query
+        ? ` and name contains '${query}'`
+        : "";
+      const q = `mimeType='application/vnd.google-apps.spreadsheet'${searchQuery}`;
       let request = {
         q,
       };

@@ -1,5 +1,8 @@
+import { SAMPLE_GITHUB_HEADERS } from "../common/constants.mjs";
+
 export function getSampleWebhookEvent() {
   return {
+    ...SAMPLE_GITHUB_HEADERS,
     repository_url: "https://api.github.com/repos/octocat/Hello-World",
     category: {
       id: 40911353,

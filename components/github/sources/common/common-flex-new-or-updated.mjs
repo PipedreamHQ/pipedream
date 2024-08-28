@@ -1,4 +1,5 @@
 import common from "./common-flex.mjs";
+import { getRelevantHeaders } from "./utils.mjs";
 
 export default {
   ...common,
@@ -20,7 +21,9 @@ export default {
       return !this.eventTypes || this.eventTypes.includes(type);
     },
     async onWebhookTrigger(event) {
-      const { body } = event;
+      const {
+        body, headers,
+      } = event;
       const action = body?.action;
       if (action && this.checkEventType(action)) {
         const item = this.getBodyItem(body);
@@ -29,9 +32,8 @@ export default {
         const summary = this.getSummary(action, item);
 
         this.$emit({
-          action,
-          [item]: item,
-          sender: body.sender,
+          ...body,
+          ...getRelevantHeaders(headers),
         }, {
           id,
           summary,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/signnow",
+  "version": "0.0.1",
+  "description": "Pipedream signNow Components",
+  "main": "signnow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "signnow"
+  ],
+  "homepage": "https://pipedream.com/apps/signnow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

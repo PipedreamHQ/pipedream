@@ -12,7 +12,7 @@ export default {
   key: "github-new-or-updated-issue",
   name: "New or Updated Issue",
   description: `Emit new events when an issue is created or updated [See the documentation](${DOCS_LINK})`,
-  version: "1.0.2",
+  version: "1.1.1",
   type: "source",
   dedupe: "unique",
   methods: {

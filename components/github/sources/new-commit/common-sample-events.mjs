@@ -1,5 +1,8 @@
+import { SAMPLE_GITHUB_HEADERS } from "../common/constants.mjs";
+
 export function getSampleWebhookEvent() {
   return {
+    ...SAMPLE_GITHUB_HEADERS,
     id: "6dcb09b5b57875f334f61aebed695e2e4193db5e",
     tree_id: "21ffc34d6bc29947ef34d4ddbecade90139dad45",
     distinct: true,

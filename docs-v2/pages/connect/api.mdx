@@ -1,0 +1,3520 @@
+import Callout from '@/components/Callout'
+import { Tabs } from 'nextra/components'
+
+# Connect API & SDK Reference
+
+Pipedream provides a TypeScript SDK and a REST API to interact with the Connect service. You'll find examples using the SDK and the REST API in multiple languages below.
+
+<Callout type="warning">
+Note that both the Base URL and authentication method for the Connect REST API are different from the rest of Pipedream's REST API.
+</Callout>
+
+## REST API Base URL
+
+```
+https://api.pipedream.com/v1/connect
+```
+
+## Installing the TypeScript SDK
+
+Pipedream's SDK will work in any browser or server that can run JavaScript. To install [the SDK](https://www.npmjs.com/package/@pipedream/sdk), run:
+
+```bash
+npm i --save @pipedream/sdk
+```
+
+## Authentication
+
+### TypeScript SDK (Server)
+
+Most of your interactions with the Connect API will happen on the server, to protect API requests and user credentials. You'll use the SDK in [your frontend](#typescript-sdk-browser) to let users connect accounts. Once connected, you'll use the SDK on the server to retrieve credentials, invoke workflows on their behalf, and more.
+
+Find your [project keys](/connect/quickstart#get-your-project-keys) and instantiate the SDK client:
+
+```typescript
+import { createClient } from "@pipedream/sdk";
+
+// These secrets should be saved securely and passed to your environment
+const pd = createClient({
+  publicKey: "YOUR_PUBLIC_KEY",
+  secretKey: "YOUR_SECRET_KEY",
+});
+
+// The `pd` client provides methods to interact with the Connect API — see below
+```
+
+### TypeScript SDK (Browser)
+
+You'll primarily use the browser SDK to let your users securely connect apps from your frontend. Here, you
+
+1. [Create a short-lived token on your server](#create-a-new-token)
+2. Initiate auth with that token to securely connect an account for a specific user
+
+Here's a Next.js example [from our quickstart](/connect/quickstart):
+
+```typescript
+// Note that we import the browser-specific SDK client here
+import { createClient } from "@pipedream/sdk/browser"
+// Example from our Next.js app
+import { serverConnectTokenCreate } from "./server"
+ 
+const { token, expires_at } = await serverConnectTokenCreate({
+  app_slug: appSlug,  // The app's name slug — see the quickstart
+  oauth_app_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
+  external_id: externalUserId  // The end user's ID in your system
+});
+
+export default function Home() {
+  const pd = createClient({})
+  function connectAccount() {
+    pd.connectAccount({
+      app: appSlug,
+      token, // The token you received from your server above
+      onSuccess: ({ id: accountId }) => {
+        console.log(`Account successfully connected: ${accountId}`)
+      }
+    })
+  }
+
+  return (
+    <main>
+      <button style={{ all: "revert" }} onClick={connectAccount}>Connect your account</button>
+    </main>
+  )
+}
+```
+
+### REST API
+
+You authenticate to the Connect API using **Basic Auth**. Send your project public key as the username and the project secret key as the password. When you make API requests, pass an
+`Authorization` header of the following format:
+
+```shell
+Authorization: Basic base_64(public_key:secret_key)
+```
+
+Clients like `cURL` will often make this easy. For example, here's how you list all accounts on a project:
+
+```shell
+curl 'https://api.pipedream.com/v1/connect/accounts' -u public_key:secret_key
+```
+
+## API Reference
+
+### Tokens
+
+Your app will initiate the account connection flow for your end users in your frontend. But you can't expose your project keys in the client, since they'd be accessible to anyone. Instead, on your server, **you exchange your project keys for a short-lived token that allows a specific user to connect a specific app**, and return that token to your frontend.
+
+#### Create a new token
+
+```
+POST /tokens
+``` 
+
+##### Parameters
+
+- `app_slug` - [The app's name slug](/quickstart#find-your-apps-name-slug)
+- `oauth_app_id` - [The OAuth app ID](/quickstart#creating-a-custom-oauth-client), if you're connecting an OAuth app — keep this in config / a DB, pass here
+- `external_id` - The end user's ID in your system
+
+##### Examples
+
+To create a short-lived token via TypeScript / JavaScript SDK, you'll need to create a Pipedream API client and call the `connectTokenCreate` method. In our example app, this code is in `app/server.ts`. 
+
+In other languages, you'll need to make an HTTP POST request to the `/tokens` endpoint to create a token, then return the token to your frontend. Click into other tabs to see examples in additional languages.
+
+<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs.Tab>
+```typescript
+"use server";
+
+import {
+  createClient,
+  type ConnectAPIResponse, 
+  type ConnectTokenCreateOpts, 
+  type ConnectTokenResponse,
+} from "@pipedream/sdk";
+
+const pd = createClient({
+  publicKey: process.env.PIPEDREAM_PROJECT_PUBLIC_KEY,
+  secretKey: process.env.PIPEDREAM_PROJECT_SECRET_KEY,
+});
+
+export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectAPIResponse<ConnectTokenResponse>> {
+  return pd.connectTokenCreate(opts);
+}
+
+const { token, expires_at } = await serverConnectTokenCreate({
+  app_slug: appSlug,  // The app's name slug
+  oauth_app_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
+  external_id: externalUserId  // The end user's ID in your system
+});
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+const fetch = require('node-fetch');
+
+class Client {
+  constructor(opts) {
+    this.secretKey = opts.secretKey;
+    this.publicKey = opts.publicKey;
+
+    const apiHost = 'api.pipedream.com';
+    this.baseURL = `https://${apiHost}`;
+  }
+
+  _authorizationHeader() {
+    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
+    return `Basic ${encoded}`;
+  }
+
+  async connectTokenCreate(opts) {
+    const auth = this._authorizationHeader();
+    const response = await fetch(`${this.baseURL}/v1/connect/tokens`, {
+      method: 'POST',
+      headers: {
+        'Authorization': auth,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(opts),
+    });
+
+    return response.json();
+  }
+}
+
+const client = new Client({
+  publicKey: 'YOUR_PUBLIC_KEY',
+  secretKey: 'YOUR_SECRET_KEY',
+});
+
+const connectTokenOpts = {
+  app_slug: "YOUR_APP_SLUG",  // The app's name slug
+  oauth_app_id: "o_abc123",  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
+  external_id: "USER_ID"  // The end user's ID in your system
+}
+
+// Expose this code as an API endpoint in your server to fetch the token from the frontend
+client.connectTokenCreate(connectTokenOpts)
+  .then(response => {
+    // return the token to the frontend
+  })
+  .catch(error => {
+    // handle errors
+  });
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import base64
+import json
+import requests
+
+class Client:
+    def __init__(self, opts):
+        self.secret_key = opts['secret_key']
+        self.public_key = opts['public_key']
+
+        api_host = 'api.pipedream.com'
+        self.base_url = f"https://{api_host}"
+
+    def _authorization_header(self):
+        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
+        return f"Basic {encoded}"
+
+    def connect_token_create(self, opts):
+        auth = self._authorization_header()
+        response = requests.post(
+            f"{self.base_url}/v1/connect/tokens",
+            headers={
+                "Authorization": auth,
+                "Content-Type": "application/json",
+            },
+            data=json.dumps(opts)
+        )
+        return response.json()
+
+# Usage example
+client = Client({
+    'public_key': 'YOUR_PUBLIC_KEY',
+    'secret_key': 'YOUR_SECRET_KEY',
+})
+
+connect_token_opts = {
+    'app_slug': "YOUR_APP_SLUG",
+    'oauth_app_id': "o_abc123",
+    'external_id': "USER_ID"
+}
+
+# Expose this code as an API endpoint in your server to fetch the token from the frontend
+response = client.connect_token_create(connect_token_opts)
+
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```java
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
+public class Client {
+    private String secretKey;
+    private String publicKey;
+    private String baseURL;
+
+    public Client(String secretKey, String publicKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+
+        String apiHost = "api.pipedream.com";
+        this.baseURL = "https://" + apiHost;
+    }
+
+    private String authorizationHeader() {
+        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
+        return "Basic " + encoded;
+    }
+
+    public String connectTokenCreate(String appSlug, String oauthClientId, String externalId) throws Exception {
+        String auth = authorizationHeader();
+        URL url = new URL(baseURL + "/v1/connect/tokens");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Authorization", auth);
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
+
+        String jsonInputString = String.format("{\"app_slug\":\"%s\",\"oauth_app_id\":\"%s\",\"external_id\":\"%s\"}", appSlug, oauthClientId, externalId);
+
+        try (OutputStream os = conn.getOutputStream()) {
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        }
+
+        return new String(conn.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+    }
+
+    public static void main(String[] args) throws Exception {
+        Client client = new Client("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY");
+
+        // Expose this code as an API endpoint in your server to fetch the token from the frontend
+        String response = client.connectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID");
+    }
+}
+
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```csharp
+using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Client {
+    private string secretKey;
+    private string publicKey;
+    private string baseURL;
+
+    public Client(string secretKey, string publicKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+
+        string apiHost = "api.pipedream.com";
+        this.baseURL = $"https://{apiHost}";
+    }
+
+    private string AuthorizationHeader() {
+        string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
+        return $"Basic {encoded}";
+    }
+
+    public async Task<string> ConnectTokenCreate(string appSlug, string oauthClientId, string externalId) {
+        string auth = AuthorizationHeader();
+        using (HttpClient client = new HttpClient()) {
+            client.DefaultRequestHeaders.Add("Authorization", auth);
+            client.DefaultRequestHeaders.Add("Content-Type", "application/json");
+
+            var content = new StringContent($"{{\"app_slug\":\"{appSlug}\",\"oauth_app_id\":\"{oauthClientId}\",\"external_id\":\"{externalId}\"}}", Encoding.UTF8, "application/json");
+            var response = await client.PostAsync($"{baseURL}/v1/connect/tokens", content);
+
+            return await response.Content.ReadAsStringAsync();
+        }
+    }
+
+    public static async Task Main(string[] args) {
+        var client = new Client("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY");
+
+        // Expose this code as an API endpoint in your server to fetch the token from the frontend
+        string response = await client.ConnectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID");
+    }
+}
+
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```go
+package main
+
+import (
+	"bytes"
+	"encoding/base64"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+type Client struct {
+	SecretKey string
+	PublicKey string
+	BaseURL   string
+}
+
+func NewClient(secretKey, publicKey string) *Client {
+	apiHost := "api.pipedream.com"
+	baseURL := fmt.Sprintf("https://%s", apiHost)
+
+	return &Client{
+		PublicKey: publicKey,
+		SecretKey: secretKey,
+	}
+}
+
+func (c *Client) authorizationHeader() string {
+	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
+	return fmt.Sprintf("Basic %s", encoded)
+}
+
+func (c *Client) ConnectTokenCreate(appSlug, oauthClientId, externalId string) (map[string]interface{}, error) {
+	auth := c.authorizationHeader()
+	url := fmt.Sprintf("%s/v1/connect/tokens", c.BaseURL)
+
+	opts := map[string]string{
+		"app_slug":       appSlug,
+		"oauth_app_id": oauthClientId,
+		"external_id":    externalId,
+	}
+
+	jsonData, err := json.Marshal(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", auth)
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	var result map[string]interface{}
+	json.Unmarshal(body, &result)
+	return result, nil
+}
+
+func main() {
+	client := NewClient("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY")
+
+  // Expose this code as an API endpoint in your server to fetch the token from the frontend
+	response, err := client.ConnectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+}
+
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+<?php
+
+class Client {
+    private $secretKey;
+    private $publicKey;
+    private $baseURL;
+
+    public function __construct($secretKey, $publicKey) {
+        $this->publicKey = $publicKey;
+        $this->secretKey = $secretKey;
+
+        $apiHost = 'api.pipedream.com';
+        $this->baseURL = "https://$apiHost";
+    }
+
+    private function authorizationHeader() {
+        $encoded = base64_encode("$this->publicKey:$this->secretKey");
+        return "Basic $encoded";
+    }
+
+    public function connectTokenCreate($appSlug, $oauthClientId, $externalId) {
+        $auth = $this->authorizationHeader();
+        $url = "$this->baseURL/v1/connect/tokens";
+
+        $data = json_encode([
+            'app_slug' => $appSlug,
+            'oauth_app_id' => $oauthClientId,
+            'external_id' => $externalId
+        ]);
+
+        $options = [
+            'http' => [
+                'header' => [
+                    "Authorization: $auth",
+                    "Content-Type: application/json",
+                ],
+                'method' => 'POST',
+                'content' => $data,
+            ],
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+
+        return json_decode($result, true);
+    }
+}
+
+// Usage example
+$client = new Client('YOUR_SECRET_KEY', 'YOUR_PUBLIC_KEY');
+
+$connectTokenOpts = [
+    'app_slug' => "YOUR_APP_SLUG",
+    'oauth_app_id' => "o_abc123",
+    'external_id' => "USER_ID"
+];
+
+// Expose this code as an API endpoint in your server to fetch the token from the frontend
+$response = $client->connectTokenCreate($connectTokenOpts['app_slug'], $connectTokenOpts['oauth_app_id'], $connectTokenOpts['external_id']);
+?>
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+require 'base64'
+require 'json'
+require 'net/http'
+require 'uri'
+
+class Client
+  def initialize(secret_key, public_key)
+    @public_key = public_key
+    @secret_key = secret_key
+
+    api_host = 'api.pipedream.com'
+    @base_url = "https://#{api_host}"
+  end
+
+  def authorization_header
+    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
+    "Basic #{encoded}"
+  end
+
+  def connect_token_create(app_slug, oauth_app_id, external_id)
+    uri = URI("#{@base_url}/v1/connect/tokens")
+    req = Net::HTTP::Post.new(uri)
+    req['Authorization'] = authorization_header
+    req['Content-Type'] = 'application/json'
+    req.body = { app_slug: app_slug, oauth_app_id: oauth_app_id, external_id: external_id }.to_json
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    JSON.parse(res.body)
+  end
+end
+
+client = Client.new('YOUR_SECRET_KEY', 'YOUR_PUBLIC_KEY')
+
+connect_token_opts = {
+  app_slug: "YOUR_APP_SLUG",
+  oauth_app_id: "o_abc123",
+  external_id: "USER_ID"
+}
+
+# Expose this code as an API endpoint in your server to fetch the token from the frontend
+response = client.connect_token_create(connect_token_opts[:app_slug], connect_token_opts[:oauth_app_id], connect_token_opts[:external_id])
+```
+</Tabs.Tab>
+</Tabs>
+
+### Accounts
+
+#### List all accounts
+
+List all connected accounts for all end users within your project
+
+<Callout type="warning">
+This endpoint is not currently paginated, so we'll attempt to return all connected accounts for all users within your project. We intend to add pagination soon.
+</Callout>
+
+```
+GET /accounts/
+```
+
+##### Parameters
+
+- `include_credentials` — _Optional_. Pass `include_credentials=1` as a query-string parameter to include the account credentials in the response
+
+##### Examples
+
+<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs.Tab>
+```typescript
+import {
+  createClient,
+} from "@pipedream/sdk";
+
+const pd = createClient({
+  publicKey: "YOUR_PUBLIC_KEY",
+  secretKey: "YOUR_SECRET_KEY",
+});
+
+export async function getAccounts(include_credentials: number = 0) {
+  const accounts = await pd.getAccounts({
+    include_credentials, // set to 1 to include credentials
+  });
+
+  // Parse and return the data you need. These may contain credentials, 
+  // which you should never return to the client
+  return accounts;
+}
+
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+const fetch = require('node-fetch');
+
+class Client {
+  constructor({ publicKey, secretKey }) {
+    this.publicKey = publicKey;
+    this.secretKey = secretKey;
+    this.baseURL = 'https://api.pipedream.com/v1';
+  }
+
+  _authorizationHeader() {
+    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
+    return `Basic ${encoded}`;
+  }
+
+  async getAccounts() {
+    const auth = this._authorizationHeader();
+    const url = `${this.baseURL}/connect/accounts?include_credentials=1`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': auth,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (!data?.accounts?.length) {
+      return null;
+    }
+
+    // Parse and return data.accounts. Ensure to handle sensitive data appropriately.
+    return data.accounts;
+  }
+}
+
+// Usage example
+const client = new Client({
+  publicKey: 'YOUR_PUBLIC_KEY',
+  secretKey: 'YOUR_SECRET_KEY',
+});
+
+client.getAccounts()
+  .then(accounts => {
+    console.log(accounts);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import base64
+import requests
+
+class Client:
+    def __init__(self, public_key, secret_key):
+        self.public_key = public_key
+        self.secret_key = secret_key
+        self.base_url = "https://api.pipedream.com/v1"
+
+    def _authorization_header(self):
+        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
+        return f"Basic {encoded}"
+
+    def get_accounts(self):
+        auth = self._authorization_header()
+        url = f"{self.base_url}/connect/accounts?include_credentials=1"
+        response = requests.get(url, headers={"Authorization": auth})
+        data = response.json()
+        
+        if not data.get('accounts'):
+            return None
+
+        # Parse and return data['accounts']. Ensure to handle sensitive data appropriately.
+        return data['accounts']
+
+# Usage example
+client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+accounts = client.get_accounts()
+print(accounts)
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```java
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.nio.charset.StandardCharsets;
+
+public class Client {
+    private String publicKey;
+    private String secretKey;
+    private String baseURL;
+
+    public Client(String publicKey, String secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private String authorizationHeader() {
+        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
+        return "Basic " + encoded;
+    }
+
+    public String getAccounts() throws Exception {
+        String auth = authorizationHeader();
+        URL url = new URL(baseURL + "/connect/accounts?include_credentials=1");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Authorization", auth);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
+        StringBuilder content = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+
+        String response = content.toString();
+
+        // Parse response and return accounts data. Ensure to handle sensitive data appropriately.
+        if (!response.contains("accounts")) {
+            return null;
+        }
+
+        return response;  // Modify to parse and handle accounts as needed.
+    }
+
+    public static void main(String[] args) throws Exception {
+        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        String response = client.getAccounts();
+        System.out.println(response);
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```csharp
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Client {
+    private string publicKey;
+    private string secretKey;
+    private string baseURL;
+
+    public Client(string publicKey, string secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private string AuthorizationHeader() {
+        string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
+        return $"Basic {encoded}";
+    }
+
+    public async Task<string> GetAccounts() {
+        string auth = AuthorizationHeader();
+        using (HttpClient client = new HttpClient()) {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
+            HttpResponseMessage response = await client.GetAsync($"{baseURL}/connect/accounts?include_credentials=1");
+
+            string result = await response.Content.ReadAsStringAsync();
+
+            // Parse and return accounts data. Ensure to handle sensitive data appropriately.
+            if (!result.Contains("accounts")) {
+                return null;
+            }
+
+            return result;  // Modify to parse and handle accounts as needed.
+        }
+    }
+
+    public static async Task Main(string[] args) {
+        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        string accounts = await client.GetAccounts();
+        Console.WriteLine(accounts);
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```go
+package main
+
+import (
+	"encoding/base64"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+type Client struct {
+	PublicKey string
+	SecretKey string
+	BaseURL   string
+}
+
+func NewClient(publicKey, secretKey string) *Client {
+	return &Client{
+		PublicKey: publicKey,
+		SecretKey: secretKey,
+		BaseURL:   "https://api.pipedream.com/v1",
+	}
+}
+
+func (c *Client) authorizationHeader() string {
+	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
+	return fmt.Sprintf("Basic %s", encoded)
+}
+
+func (c *Client) GetAccounts() (map[string]interface{}, error) {
+	url := fmt.Sprintf("%s/connect/accounts?include_credentials=1", c.BaseURL)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", c.authorizationHeader())
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var result map[string]interface{}
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	if accounts, exists := result["accounts"]; exists {
+		return accounts.([]interface{}), nil
+	}
+
+	return nil, nil
+}
+
+func main() {
+	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
+
+	accounts, err := client.GetAccounts()
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println(accounts)
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+<?php
+
+class Client {
+    private $publicKey;
+    private $secretKey;
+    private $baseURL;
+
+    public function __construct($publicKey, $secretKey) {
+        $this->publicKey = $publicKey;
+        $this->secretKey = $secretKey;
+        $this->baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private function authorizationHeader() {
+        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
+    }
+
+    public function getAccounts() {
+        $url = "$this->baseURL/connect/accounts?include_credentials=1";
+        $opts = [
+            'http' => [
+                'header' => "Authorization: " . $this->authorizationHeader(),
+                'method' => 'GET',
+            ],
+        ];
+
+        $context = stream_context_create($opts);
+        $result = file_get_contents($url, false, $context);
+
+        if ($result === FALSE) {
+            return null;
+        }
+
+        $data = json_decode($result, true);
+
+        if (empty($data['accounts'])) {
+            return null;
+        }
+
+        return $data['accounts'];  // Modify to parse and handle accounts as needed.
+    }
+}
+
+// Usage example
+$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
+$accounts = $client->getAccounts();
+print_r($accounts);
+?>
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+require 'base64'
+require 'json'
+require 'net/http'
+require 'uri'
+
+class Client
+  def initialize(public_key, secret_key)
+    @public_key = public_key
+    @secret_key = secret_key
+    @base_url = "https://api.pipedream.com/v1"
+  end
+
+  def authorization_header
+    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
+    "Basic #{encoded}"
+  end
+
+  def get_accounts
+    uri = URI("#{@base_url}/connect/accounts?include_credentials=1")
+    req = Net::HTTP::Get.new(uri)
+    req['Authorization'] = authorization_header
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    data = JSON.parse(res.body)
+
+    # Parse and return accounts data. Ensure to handle sensitive data appropriately.
+    return nil if data['accounts'].nil? || data['accounts'].empty?
+
+    data['accounts']
+  end
+end
+
+# Usage example
+client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+accounts = client.get_accounts
+puts accounts.inspect
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "data": {
+    "accounts": [
+      {
+        "id": "apn_XehyZPr",
+        "name": null,
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OkrhR1",
+          "name": "Slack"
+        },
+        "created_at": "2024-07-30T22:52:48.000Z",
+        "updated_at": "2024-08-01T03:44:17.000Z"
+      },
+      {
+        "id": "apn_b6h9QDK",
+        "name": null,
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OrZhaO",
+          "name": "GitHub"
+        },
+        "created_at": "2024-07-31T02:49:18.000Z",
+        "updated_at": "2024-08-01T03:58:17.000Z"
+      },
+      {
+        "id": "apn_0WhJYxv",
+        "name": null,
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OrZhaO",
+          "name": "GitHub"
+        },
+        "created_at": "2024-07-31T20:28:16.000Z",
+        "updated_at": "2024-08-01T03:47:30.000Z"
+      },
+      {
+        "id": "apn_kVh9PJx",
+        "name": null,
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_OrZhaO",
+          "name": "GitHub"
+        },
+        "created_at": "2024-07-31T21:17:03.000Z",
+        "updated_at": "2024-08-01T03:43:23.000Z"
+      },
+      {
+        "id": "apn_WYhMlrz",
+        "name": null,
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": false,
+        "app": {
+          "id": "app_XBxhAl",
+          "name": "Airtable"
+        },
+        "created_at": "2024-08-01T04:04:03.000Z",
+        "updated_at": "2024-08-01T04:04:03.000Z"
+      }
+    ]
+  }
+}
+```
+
+#### List all accounts for an app
+
+```
+GET /apps/:app_id/accounts
+``` 
+##### Parameters
+
+- `app_id` — the `oauth_app_id` for [OAuth apps](/connect/quickstart#creating-a-custom-oauth-client) or [name slug](/connect/quickstart/#find-your-apps-name-slug) for key-based apps
+- `include_credentials` — _Optional_. Pass `include_credentials=1` as a query-string parameter to include the account credentials in the response
+
+##### Examples
+
+<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs.Tab>
+```typescript
+import {
+  createClient,
+} from "@pipedream/sdk";
+
+const pd = createClient({
+  publicKey: "YOUR_PUBLIC_KEY",
+  secretKey: "YOUR_SECRET_KEY",
+});
+
+export async function getAccountsByApp(appId: string, include_credentials: number = 0) {
+  const accounts = await pd.getAccountsByApp(appId, {
+    include_credentials, // set to 1 to include credentials
+  });
+
+  // Parse and return the data you need. These may contain credentials, 
+  // which you should never return to the client
+  return accounts;
+}
+
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+const fetch = require('node-fetch');
+
+class Client {
+  constructor({ publicKey, secretKey }) {
+    this.publicKey = publicKey;
+    this.secretKey = secretKey;
+    this.baseURL = 'https://api.pipedream.com/v1';
+  }
+
+  _authorizationHeader() {
+    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
+    return `Basic ${encoded}`;
+  }
+
+  async getAccountsByApp(appId) {
+    const auth = this._authorizationHeader();
+    const url = `${this.baseURL}/connect/accounts/app/${appId}?include_credentials=1`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': auth,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (!data?.accounts?.length) {
+      return null;
+    }
+
+    // Parse and return data.accounts. Ensure to handle sensitive data appropriately.
+    return data.accounts;
+  }
+}
+
+// Usage example
+const client = new Client({
+  publicKey: 'YOUR_PUBLIC_KEY',
+  secretKey: 'YOUR_SECRET_KEY',
+});
+
+client.getAccountsByApp('APP_ID')
+  .then(accounts => {
+    console.log(accounts);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import base64
+import requests
+
+class Client:
+    def __init__(self, public_key, secret_key):
+        self.public_key = public_key
+        self.secret_key = secret_key
+        self.base_url = "https://api.pipedream.com/v1"
+
+    def _authorization_header(self):
+        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
+        return f"Basic {encoded}"
+
+    def get_accounts_by_app(self, app_id):
+        auth = self._authorization_header()
+        url = f"{self.base_url}/connect/accounts/app/{app_id}?include_credentials=1"
+        response = requests.get(url, headers={"Authorization": auth})
+        data = response.json()
+        
+        if not data.get('accounts'):
+            return None
+
+        # Parse and return data['accounts']. Ensure to handle sensitive data appropriately.
+        return data['accounts']
+
+# Usage example
+client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+accounts = client.get_accounts_by_app('APP_ID')
+print(accounts)
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```java
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.nio.charset.StandardCharsets;
+
+public class Client {
+    private String publicKey;
+    private String secretKey;
+    private String baseURL;
+
+    public Client(String publicKey, String secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private String authorizationHeader() {
+        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
+        return "Basic " + encoded;
+    }
+
+    public String getAccountsByApp(String appId) throws Exception {
+        String auth = authorizationHeader();
+        URL url = new URL(baseURL + "/connect/accounts/app/" + appId + "?include_credentials=1");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Authorization", auth);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
+        StringBuilder content = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+
+        String response = content.toString();
+
+        // Parse response and return accounts data. Ensure to handle sensitive data appropriately.
+        if (!response.contains("accounts")) {
+            return null;
+        }
+
+        return response;  // Modify to parse and handle accounts as needed.
+    }
+
+    public static void main(String[] args) throws Exception {
+        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        String accounts = client.getAccountsByApp("APP_ID");
+        System.out.println(accounts);
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```csharp
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Client {
+    private string publicKey;
+    private string secretKey;
+    private string baseURL;
+
+    public Client(string publicKey, string secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private string AuthorizationHeader() {
+        string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
+        return $"Basic {encoded}";
+    }
+
+    public async Task<string> GetAccountsByApp(string appId) {
+        string auth = AuthorizationHeader();
+        using (HttpClient client = new HttpClient()) {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
+            HttpResponseMessage response = await client.GetAsync($"{baseURL}/connect/accounts/app/{appId}?include_credentials=1");
+
+            string result = await response.Content.ReadAsStringAsync();
+
+            // Parse and return accounts data. Ensure to handle sensitive data appropriately.
+            if (!result.Contains("accounts")) {
+                return null;
+            }
+
+            return result;  // Modify to parse and handle accounts as needed.
+        }
+    }
+
+    public static async Task Main(string[] args) {
+        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        string accounts = await client.GetAccountsByApp("APP_ID");
+        Console.WriteLine(accounts);
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```go
+package main
+
+import (
+	"encoding/base64"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+type Client struct {
+	PublicKey string
+	SecretKey string
+	BaseURL   string
+}
+
+func NewClient(publicKey, secretKey string) *Client {
+	return &Client{
+		PublicKey: publicKey,
+		SecretKey: secretKey,
+		BaseURL:   "https://api.pipedream.com/v1",
+	}
+}
+
+func (c *Client) authorizationHeader() string {
+	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
+	return fmt.Sprintf("Basic %s", encoded)
+}
+
+func (c *Client) GetAccountsByApp(appId string) (map[string]interface{}, error) {
+	url := fmt.Sprintf("%s/connect/accounts/app/%s?include_credentials=1", c.BaseURL, appId)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", c.authorizationHeader())
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var result map[string]interface{}
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	if accounts, exists := result["accounts"]; exists {
+		return accounts.([]interface{}), nil
+	}
+
+	return nil, nil
+}
+
+func main() {
+	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
+
+	accounts, err := client.GetAccountsByApp("APP_ID")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println(accounts)
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+<?php
+
+class Client {
+    private $publicKey;
+    private $secretKey;
+    private $baseURL;
+
+    public function __construct($publicKey, $secretKey) {
+        $this->publicKey = $publicKey;
+        $this->secretKey = $secretKey;
+        $this->baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private function authorizationHeader() {
+        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
+    }
+
+    public function getAccountsByApp($appId) {
+        $url = "$this->baseURL/connect/accounts/app/$appId?include_credentials=1";
+        $opts = [
+            'http' => [
+                'header' => "Authorization: " . $this->authorizationHeader(),
+                'method' => 'GET',
+            ],
+        ];
+
+        $context = stream_context_create($opts);
+        $result = file_get_contents($url, false, $context);
+
+        if ($result === FALSE) {
+            return null;
+        }
+
+        $data = json_decode($result, true);
+
+        if (empty($data['accounts'])) {
+            return null;
+        }
+
+        return $data['accounts'];  // Modify to parse and handle accounts as needed.
+    }
+}
+
+// Usage example
+$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
+$accounts = $client->getAccountsByApp('APP_ID');
+print_r($accounts);
+?>
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+require 'base64'
+require 'json'
+require 'net/http'
+require 'uri'
+
+class Client
+  def initialize(public_key, secret_key)
+    @public_key = public_key
+    @secret_key = secret_key
+    @base_url = "https://api.pipedream.com/v1"
+  end
+
+  def authorization_header
+    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
+    "Basic #{encoded}"
+  end
+
+  def get_accounts_by_app(app_id)
+    uri = URI("#{@base_url}/connect/accounts/app/#{app_id}?include_credentials=1")
+    req = Net::HTTP::Get.new(uri)
+    req['Authorization'] = authorization_header
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    data = JSON.parse(res.body)
+
+    # Parse and return accounts data. Ensure to handle sensitive data appropriately.
+    return nil if data['accounts'].nil? || data['accounts'].empty?
+
+    data['accounts']
+  end
+end
+
+# Usage example
+client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+accounts = client.get_accounts_by_app('APP_ID')
+puts accounts.inspect
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+[
+  {
+    "id": "apn_WYhMlrz",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aw4ib2",
+      "name_slug": "airtable_oauth",
+      "name": "Airtable",
+      "auth_type": "oauth",
+      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": ["Productivity"]
+    },
+    "created_at": "2024-08-01T04:04:03.000Z",
+    "updated_at": "2024-08-01T04:04:03.000Z"
+  }
+]
+```
+
+#### Retrieve account details by ID
+
+Retrieve the account details for a specific account based on the account ID
+
+```
+GET /accounts/:account_id
+```
+
+##### Parameters
+
+- `account_id` — the ID of the account you want to retrieve
+- `include_credentials` — _Optional_. Pass `include_credentials=1` as a query-string parameter to include the account credentials in the response
+
+##### Examples
+
+<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs.Tab>
+```typescript
+import {
+  createClient,
+} from "@pipedream/sdk";
+
+const pd = createClient({
+  publicKey: "YOUR_PUBLIC_KEY",
+  secretKey: "YOUR_SECRET_KEY",
+});
+
+export async function getAccount(accountId: string, include_credentials: number = 0) {
+  const account = await pd.getAccount(accountId, {
+    include_credentials, // set to 1 to include credentials
+  });
+
+  // Parse and return the data you need. These may contain credentials, 
+  // which you should never return to the client
+  return account;
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+const fetch = require('node-fetch');
+
+class Client {
+  constructor({ publicKey, secretKey }) {
+    this.publicKey = publicKey;
+    this.secretKey = secretKey;
+    this.baseURL = 'https://api.pipedream.com/v1';
+  }
+
+  _authorizationHeader() {
+    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
+    return `Basic ${encoded}`;
+  }
+
+  async getAccount(accountId) {
+    const auth = this._authorizationHeader();
+    const url = `${this.baseURL}/connect/accounts/${accountId}?include_credentials=1`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': auth,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (!data?.id) {
+      return null;
+    }
+
+    // Parse and return data.account. Ensure to handle sensitive data appropriately.
+    return data;
+  }
+}
+
+// Usage example
+const client = new Client({
+  publicKey: 'YOUR_PUBLIC_KEY',
+  secretKey: 'YOUR_SECRET_KEY',
+});
+
+client.getAccount('ACCOUNT_ID')
+  .then(account => {
+    console.log(account);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import base64
+import requests
+
+class Client:
+    def __init__(self, public_key, secret_key):
+        self.public_key = public_key
+        self.secret_key = secret_key
+        self.base_url = "https://api.pipedream.com/v1"
+
+    def _authorization_header(self):
+        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
+        return f"Basic {encoded}"
+
+    def get_account(self, account_id):
+        auth = self._authorization_header()
+        url = f"{self.base_url}/connect/accounts/{account_id}?include_credentials=1"
+        response = requests.get(url, headers={"Authorization": auth})
+        data = response.json()
+        
+        if not data.get('id'):
+            return None
+
+        # Parse and return data. Ensure to handle sensitive data appropriately.
+        return data
+
+# Usage example
+client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+account = client.get_account('ACCOUNT_ID')
+print(account)
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```java
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.nio.charset.StandardCharsets;
+
+public class Client {
+    private String publicKey;
+    private String secretKey;
+    private String baseURL;
+
+    public Client(String publicKey, String secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private String authorizationHeader() {
+        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
+        return "Basic " + encoded;
+    }
+
+    public String getAccount(String accountId) throws Exception {
+        String auth = authorizationHeader();
+        URL url = new URL(baseURL + "/connect/accounts/" + accountId + "?include_credentials=1");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Authorization", auth);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
+        StringBuilder content = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+
+        String response = content.toString();
+
+        // Parse response and return account data. Ensure to handle sensitive data appropriately.
+        if (!response.contains("id")) {
+            return null;
+        }
+
+        return response;  // Modify to parse and handle account as needed.
+    }
+
+    public static void main(String[] args) throws Exception {
+        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        String account = client.getAccount("ACCOUNT_ID");
+        System.out.println(account);
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```csharp
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Client {
+    private string publicKey;
+    private string secretKey;
+    private string baseURL;
+
+    public Client(string publicKey, string secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private string AuthorizationHeader() {
+        string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
+        return $"Basic {encoded}";
+    }
+
+    public async Task<string> GetAccount(string accountId) {
+        string auth = AuthorizationHeader();
+        using (HttpClient client = new HttpClient()) {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
+            HttpResponseMessage response = await client.GetAsync($"{baseURL}/connect/accounts/{accountId}?include_credentials=1");
+
+            string result = await response.Content.ReadAsStringAsync();
+
+            // Parse and return account data. Ensure to handle sensitive data appropriately.
+            if (!result.Contains("id")) {
+                return null;
+            }
+
+            return result;  // Modify to parse and handle account as needed.
+        }
+    }
+
+    public static async Task Main(string[] args) {
+        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        string account = await client.GetAccount("ACCOUNT_ID");
+        Console.WriteLine(account);
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```go
+package main
+
+import (
+	"encoding/base64"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+type Client struct {
+	PublicKey string
+	SecretKey string
+	BaseURL   string
+}
+
+func NewClient(publicKey, secretKey string) *Client {
+	return &Client{
+		PublicKey: publicKey,
+		SecretKey: secretKey,
+		BaseURL:   "https://api.pipedream.com/v1",
+	}
+}
+
+func (c *Client) authorizationHeader() string {
+	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
+	return fmt.Sprintf("Basic %s", encoded)
+}
+
+func (c *Client) GetAccount(accountId string) (map[string]interface{}, error) {
+	url := fmt.Sprintf("%s/connect/accounts/%s?include_credentials=1", c.BaseURL, accountId)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", c.authorizationHeader())
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var result map[string]interface{}
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	if id, exists := result["id"]; exists {
+		return id.(map[string]interface{}), nil
+	}
+
+	return nil, nil
+}
+
+func main() {
+	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
+
+	account, err := client.GetAccount("ACCOUNT_ID")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println(account)
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+<?php
+
+class Client {
+    private $publicKey;
+    private $secretKey;
+    private $baseURL;
+
+    public function __construct($publicKey, $secretKey) {
+        $this->publicKey = $publicKey;
+        $this->secretKey = $secretKey;
+        $this->baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private function authorizationHeader() {
+        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
+    }
+
+    public function getAccount($accountId) {
+        $url = "$this->baseURL/connect/accounts/$accountId?include_credentials=1";
+        $opts = [
+            'http' => [
+                'header' => "Authorization: " . $this->authorizationHeader(),
+                'method' => 'GET',
+            ],
+        ];
+
+        $context = stream_context_create($opts);
+        $result = file_get_contents($url, false, $context);
+
+        if ($result === FALSE) {
+            return null;
+        }
+
+        $data = json_decode($result, true);
+
+        if (empty($data['id'])) {
+            return null;
+        }
+
+        return $data;  // Modify to parse and handle account as needed.
+    }
+}
+
+// Usage example
+$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
+$account = $client->getAccount('ACCOUNT_ID');
+print_r($account);
+?>
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+require 'base64'
+require 'json'
+require 'net/http'
+require 'uri'
+
+class Client
+  def initialize(public_key, secret_key)
+    @public_key = public_key
+    @secret_key = secret_key
+    @base_url = "https://api.pipedream.com/v1"
+  end
+
+  def authorization_header
+    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
+    "Basic #{encoded}"
+  end
+
+  def get_account(account_id)
+    uri = URI("#{@base_url}/connect/accounts/#{account_id}?include_credentials=1")
+    req = Net::HTTP::Get.new(uri)
+    req['Authorization'] = authorization_header
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    data = JSON.parse(res.body)
+
+    # Parse and return account data. Ensure to handle sensitive data appropriately.
+    return nil if data['id'].nil?
+
+    data
+  end
+end
+
+# Usage example
+client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+account = client.get_account('ACCOUNT_ID')
+puts account.inspect
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response (without account credentials)
+
+```json
+{
+  "data": {
+    "id": "apn_WYhMlrz",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aw4ib2",
+      "name_slug": "airtable_oauth",
+      "name": "Airtable",
+      "auth_type": "oauth",
+      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": ["Productivity"]
+    },
+    "created_at": "2024-08-01T04:04:03.000Z",
+    "updated_at": "2024-08-01T04:04:03.000Z"
+  }
+}
+```
+
+##### Example Response (with `include_credentials=1`)
+
+```json
+{
+  "data": {
+    "id": "apn_WYhMlrz",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "app_XBxhAl",
+      "name": "Airtable"
+    },
+    "created_at": "2024-08-01T04:04:03.000Z",
+    "updated_at": "2024-08-01T04:04:03.000Z",
+    "credentials": {
+      "oauth_client_id": "dd7a26ca-ba11-4f80-8667-xxxxxxxx",
+      "oauth_access_token": "oaaLa2Ob1umiregWa.v1.xxxxxxxx.xxxxxxxx",
+      "oauth_refresh_token": "oaaLa2Ob1umiregWa.v1.refresh.xxxxxxxx",
+      "oauth_uid": "usrnbIhrxxxxxxxx"
+    },
+    "expires_at": "2024-08-01T05:04:03.000Z",
+    "project_id": 279440,
+    "user_id": "danny",
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-01T04:17:33.000Z"
+  }
+}
+```
+
+#### Retrieve accounts for an external user
+
+Retrieve the account details for a specific account based on the external user ID
+
+```
+GET /users/:external_id/accounts
+```
+
+##### Parameters
+
+- `external_id` — the end user's ID in the Connect Partner's system
+- `include_credentials` — _Optional_. Pass `?include_credentials=1` as a query-string parameter to include the account credentials in the response
+
+##### Examples
+
+<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs.Tab>
+```typescript
+import {
+  createClient,
+} from "@pipedream/sdk";
+
+const pd = createClient({
+  publicKey: PIPEDREAM_PROJECT_PUBLIC_KEY,
+  secretKey: PIPEDREAM_PROJECT_SECRET_KEY,
+});
+
+export async function getUserAccounts(externalId: string, include_credentials: number = 0) {
+  await pd.getAccountsByExternalId(externalId, {
+    include_credentials, // set to 1 to include credentials
+  })
+
+  // Parse and return the data you need. These may contain credentials, 
+  // which you should never return to the client
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+const fetch = require('node-fetch');
+
+class Client {
+  constructor({ publicKey, secretKey }) {
+    this.publicKey = publicKey;
+    this.secretKey = secretKey;
+    this.baseURL = 'https://api.pipedream.com';
+  }
+
+  _authorizationHeader() {
+    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
+    return `Basic ${encoded}`;
+  }
+
+  async getUserAccounts(externalId) {
+    const auth = this._authorizationHeader();
+    const url = `${this.baseURL}/v1/connect/users/${externalId}/accounts`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': auth,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (!data?.accounts?.length) {
+      return null;
+    }
+
+    // Parse and return data.accounts. Ensure to handle sensitive data appropriately.
+    return data.accounts;
+  }
+}
+
+// Usage example
+const client = new Client({
+  publicKey: 'YOUR_PUBLIC_KEY',
+  secretKey: 'YOUR_SECRET_KEY',
+});
+
+client.getUserAccounts('USER_ID')
+  .then(response => {
+    // handle response
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import base64
+import requests
+
+class Client:
+    def __init__(self, public_key, secret_key):
+        self.public_key = public_key
+        self.secret_key = secret_key
+        self.base_url = "https://api.pipedream.com"
+
+    def _authorization_header(self):
+        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
+        return f"Basic {encoded}"
+
+    def get_user_accounts(self, external_id):
+        auth = self._authorization_header()
+        url = f"{self.base_url}/v1/connect/users/{external_id}/accounts"
+        response = requests.get(url, headers={"Authorization": auth})
+        data = response.json()
+        
+        if not data.get('accounts'):
+            return None
+
+        # Parse and return data['accounts']. Ensure to handle sensitive data appropriately.
+        return data['accounts']
+
+# Usage example
+client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+response = client.get_user_accounts('USER_ID')
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```java
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.nio.charset.StandardCharsets;
+
+public class Client {
+    private String publicKey;
+    private String secretKey;
+    private String baseURL;
+
+    public Client(String publicKey, String secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com";
+    }
+
+    private String authorizationHeader() {
+        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
+        return "Basic " + encoded;
+    }
+
+    public String getUserAccounts(String externalId) throws Exception {
+        String auth = authorizationHeader();
+        URL url = new URL(baseURL + "/v1/connect/users/" + externalId + "/accounts");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Authorization", auth);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String inputLine;
+        StringBuilder content = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+
+        String response = content.toString();
+
+        // Parse response and return accounts data. Ensure to handle sensitive data appropriately.
+        if (!response.contains("accounts")) {
+            return null;
+        }
+
+        return response;  // Modify to parse and handle accounts as needed.
+    }
+
+    public static void main(String[] args) throws Exception {
+        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        String response = client.getUserAccounts("USER_ID");
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```csharp
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Client {
+    private string publicKey;
+    private string secretKey;
+    private string baseURL;
+
+    public Client(string publicKey, string secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com";
+    }
+
+    private string AuthorizationHeader() {
+        string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
+        return $"Basic {encoded}";
+    }
+
+    public async Task<string> GetUserAccounts(string externalId) {
+        string auth = AuthorizationHeader();
+        using (HttpClient client = new HttpClient()) {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
+            HttpResponseMessage response = await client.GetAsync($"{baseURL}/v1/connect/users/{externalId}/accounts");
+
+            string result = await response.Content.ReadAsStringAsync();
+
+            // Parse and return accounts data. Ensure to handle sensitive data appropriately.
+            if (!result.Contains("accounts")) {
+                return null;
+            }
+
+            return result;  // Modify to parse and handle accounts as needed.
+        }
+    }
+
+    public static async Task Main(string[] args) {
+        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        string response = await client.GetUserAccounts("USER_ID");
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```go
+package main
+
+import (
+	"encoding/base64"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+type Client struct {
+	PublicKey string
+	SecretKey string
+	BaseURL   string
+}
+
+func NewClient(publicKey, secretKey string) *Client {
+	return &Client{
+		PublicKey: publicKey,
+		SecretKey: secretKey,
+		BaseURL:   "https://api.pipedream.com",
+	}
+}
+
+func (c *Client) authorizationHeader() string {
+	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
+	return fmt.Sprintf("Basic %s", encoded)
+}
+
+func (c *Client) GetUserAccounts(externalId string) (map[string]interface{}, error) {
+	url := fmt.Sprintf("%s/v1/connect/users/%s/accounts", c.BaseURL, externalId)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", c.authorizationHeader())
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var result map[string]interface{}
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		return nil, err
+	}
+
+	if accounts, exists := result["accounts"]; exists {
+		return accounts.([]interface{}), nil
+	}
+
+	return nil, nil
+}
+
+func main() {
+	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
+
+	accounts, err := client.GetUserAccounts("USER_ID")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+<?php
+
+class Client {
+    private $publicKey;
+    private $secretKey;
+    private $baseURL;
+
+    public function __construct($publicKey, $secretKey) {
+        $this->publicKey = $publicKey;
+        $this->secretKey = $secretKey;
+        $this->baseURL = "https://api.pipedream.com";
+    }
+
+    private function authorizationHeader() {
+        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
+    }
+
+    public function getUserAccounts($externalId) {
+        $url = "$this->baseURL/v1/connect/users/$externalId/accounts";
+        $opts = [
+            'http' => [
+                'header' => "Authorization: " . $this->authorizationHeader(),
+                'method' => 'GET',
+            ],
+        ];
+
+        $context = stream_context_create($opts);
+        $result = file_get_contents($url, false, $context);
+
+        if ($result === FALSE) {
+            return null;
+        }
+
+        $data = json_decode($result, true);
+
+        if (empty($data['accounts'])) {
+            return null;
+        }
+
+        return $data['accounts'];  // Modify to parse and handle accounts as needed.
+    }
+}
+
+// Usage example
+$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
+$response = $client->getUserAccounts('USER_ID');
+?>
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+require 'base64'
+require 'json'
+require 'net/http'
+require 'uri'
+
+class Client
+  def initialize(public_key, secret_key)
+    @public_key = public_key
+    @secret_key = secret_key
+    @base_url = "https://api.pipedream.com"
+  end
+
+  def authorization_header
+    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
+    "Basic #{encoded}"
+  end
+
+  def get_user_accounts(external_id)
+    uri = URI("#{@base_url}/v1/connect/users/#{external_id}/accounts")
+    req = Net::HTTP::Get.new(uri)
+    req['Authorization'] = authorization_header
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    data = JSON.parse(res.body)
+
+    # Parse and return accounts data. Ensure to handle sensitive data appropriately.
+    return nil if data['accounts'].nil? || data['accounts'].empty?
+
+    data['accounts']
+  end
+end
+
+# Usage example
+client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+response = client.get_user_accounts('USER_ID')
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response (without account credentials)
+
+```json
+[
+  {
+    "id": "apn_WYhM5ov",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aw4ib2",
+      "name_slug": "airtable_oauth",
+      "name": "Airtable",
+      "auth_type": "oauth",
+      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": [
+        "Productivity"
+      ]
+    },
+    "created_at": "2024-08-06T21:51:30.000Z",
+    "updated_at": "2024-08-06T21:51:30.000Z",
+    "expires_at": "2024-08-06T22:51:30.000Z",
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-06T22:04:41.000Z"
+  },
+  {
+    "id": "apn_KAh7JwW",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aPXiQd",
+      "name_slug": "github",
+      "name": "GitHub",
+      "auth_type": "oauth",
+      "description": "Where the world builds software. Millions of developers and companies build, ship, and maintain their software on GitHub—the largest and most advanced development platform in the world.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_OrZhaO/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": [
+        "Developer Tools"
+      ]
+    },
+    "created_at": "2024-08-06T21:53:05.000Z",
+    "updated_at": "2024-08-06T21:53:05.000Z",
+    "expires_at": null,
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-06T22:50:01.000Z"
+  }
+]
+```
+
+##### Example Response (with `include_credentials=1`)
+
+```json
+[
+  {
+    "id": "apn_WYhM5ov",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aw4ib2",
+      "name_slug": "airtable_oauth",
+      "name": "Airtable",
+      "auth_type": "oauth",
+      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": [
+        "Productivity"
+      ]
+    },
+    "created_at": "2024-08-06T21:51:30.000Z",
+    "updated_at": "2024-08-06T21:51:30.000Z",
+    "credentials": {
+      "oauth_client_id": "dd7a26ca-ba11-4f80-8667-xxxxxxxx",
+      "oauth_access_token": "oaaLa2Ob1umiregWa.v1.xxxxxxxx.xxxxxxxx",
+      "oauth_refresh_token": "oaaLa2Ob1umiregWa.v1.refresh.xxxxxxxx",
+      "oauth_uid": "usrnbIhrxxxxxxxx"
+    },
+    "expires_at": "2024-08-06T22:51:30.000Z",
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-06T22:04:41.000Z"
+  },
+  {
+    "id": "apn_KAh7JwW",
+    "name": null,
+    "external_id": "user-abc-123",
+    "healthy": true,
+    "dead": false,
+    "app": {
+      "id": "oa_aPXiQd",
+      "name_slug": "github",
+      "name": "GitHub",
+      "auth_type": "oauth",
+      "description": "Where the world builds software. Millions of developers and companies build, ship, and maintain their software on GitHub—the largest and most advanced development platform in the world.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_OrZhaO/logo/orig",
+      "custom_fields_json": "[]",
+      "categories": [
+        "Developer Tools"
+      ]
+    },
+    "created_at": "2024-08-06T21:53:05.000Z",
+    "updated_at": "2024-08-06T21:53:05.000Z",
+    "credentials": {
+      "oauth_client_id": "57dc28xxxxxxxxxxxxx",
+      "oauth_access_token": "gho_xxxxxxxxxxxxxxxxxx",
+      "oauth_uid": "104484339"
+    },
+    "expires_at": null,
+    "error": null,
+    "last_refreshed_at": null,
+    "next_refresh_at": "2024-08-06T22:50:01.000Z"
+  }
+]
+```
+
+#### Delete connected account
+
+Delete a specific connected account for an end user
+
+```shell
+DELETE /v1/connect/accounts/:account_id
+```
+
+##### Parameters
+
+- `account_id` is the ID of the account you want to retrieve
+
+##### Examples
+
+<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs.Tab>
+```typescript
+import {
+  createClient,
+} from "@pipedream/sdk";
+
+const pd = createClient({
+  publicKey: "YOUR_PUBLIC_KEY",
+  secretKey: "YOUR_SECRET_KEY",
+});
+
+export async function deleteAccount(accountId: string) {
+  await pd.deleteAccount(accountId);
+
+  // You can return a message or handle any post-deletion logic here.
+}
+
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+const fetch = require('node-fetch');
+
+class Client {
+  constructor({ publicKey, secretKey }) {
+    this.publicKey = publicKey;
+    this.secretKey = secretKey;
+    this.baseURL = 'https://api.pipedream.com/v1';
+  }
+
+  _authorizationHeader() {
+    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
+    return `Basic ${encoded}`;
+  }
+
+  async deleteAccount(accountId) {
+    const auth = this._authorizationHeader();
+    const url = `${this.baseURL}/connect/accounts/${accountId}`;
+
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': auth,
+      },
+    });
+
+    if (response.status === 204) {
+      console.log("Account deleted successfully.");
+    } else {
+      console.log("Failed to delete account.");
+    }
+  }
+}
+
+// Usage example
+const client = new Client({
+  publicKey: 'YOUR_PUBLIC_KEY',
+  secretKey: 'YOUR_SECRET_KEY',
+});
+
+client.deleteAccount('ACCOUNT_ID')
+  .catch(error => {
+    console.error('Error:', error);
+  });
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import base64
+import requests
+
+class Client:
+    def __init__(self, public_key, secret_key):
+        self.public_key = public_key
+        self.secret_key = secret_key
+        self.base_url = "https://api.pipedream.com/v1"
+
+    def _authorization_header(self):
+        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
+        return f"Basic {encoded}"
+
+    def delete_account(self, account_id):
+        auth = self._authorization_header()
+        url = f"{self.base_url}/connect/accounts/{account_id}"
+        response = requests.delete(url, headers={"Authorization": auth})
+        
+        if response.status_code == 204:
+            print("Account deleted successfully.")
+        else:
+            print("Failed to delete account.")
+
+# Usage example
+client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+client.delete_account('ACCOUNT_ID')
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```java
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+import java.nio.charset.StandardCharsets;
+
+public class Client {
+    private String publicKey;
+    private String secretKey;
+    private String baseURL;
+
+    public Client(String publicKey, String secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private String authorizationHeader() {
+        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
+        return "Basic " + encoded;
+    }
+
+    public void deleteAccount(String accountId) throws Exception {
+        String auth = authorizationHeader();
+        URL url = new URL(baseURL + "/connect/accounts/" + accountId);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("DELETE");
+        conn.setRequestProperty("Authorization", auth);
+
+        int responseCode = conn.getResponseCode();
+        if (responseCode == 204) {
+            System.out.println("Account deleted successfully.");
+        } else {
+            System.out.println("Failed to delete account. Response code: " + responseCode);
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        client.deleteAccount("ACCOUNT_ID");
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```csharp
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+
+public class Client {
+    private string publicKey;
+    private string secretKey;
+    private string baseURL;
+
+    public Client(string publicKey, string secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private string AuthorizationHeader() {
+        string encoded = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
+        return $"Basic {encoded}";
+    }
+
+    public async Task DeleteAccount(string accountId) {
+        string auth = AuthorizationHeader();
+        using (HttpClient client = new HttpClient()) {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
+            HttpResponseMessage response = await client.DeleteAsync($"{baseURL}/connect/accounts/{accountId}");
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) {
+                Console.WriteLine("Account deleted successfully.");
+            } else {
+                Console.WriteLine("Failed to delete account.");
+            }
+        }
+    }
+
+    public static async Task Main(string[] args) {
+        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        await client.DeleteAccount("ACCOUNT_ID");
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```go
+package main
+
+import (
+	"encoding/base64"
+	"fmt"
+	"net/http"
+)
+
+type Client struct {
+	PublicKey string
+	SecretKey string
+	BaseURL   string
+}
+
+func NewClient(publicKey, secretKey string) *Client {
+	return &Client{
+		PublicKey: publicKey,
+		SecretKey: secretKey,
+		BaseURL:   "https://api.pipedream.com/v1",
+	}
+}
+
+func (c *Client) authorizationHeader() string {
+	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
+	return fmt.Sprintf("Basic %s", encoded)
+}
+
+func (c *Client) DeleteAccount(accountId string) error {
+	url := fmt.Sprintf("%s/connect/accounts/%s", c.BaseURL, accountId)
+	req, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Authorization", c.authorizationHeader())
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusNoContent {
+		fmt.Println("Account deleted successfully.")
+	} else {
+		fmt.Printf("Failed to delete account. Status code: %d\n", resp.StatusCode)
+	}
+
+	return nil
+}
+
+func main() {
+	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
+
+	err := client.DeleteAccount("ACCOUNT_ID")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+<?php
+
+class Client {
+    private $publicKey;
+    private $secretKey;
+    private $baseURL;
+
+    public function __construct($publicKey, $secretKey) {
+        $this->publicKey = $publicKey;
+        $this->secretKey = $secretKey;
+        $this->baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private function authorizationHeader() {
+        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
+    }
+
+    public function deleteAccount($accountId) {
+        $url = "$this->baseURL/connect/accounts/$accountId";
+        $opts = [
+            'http' => [
+                'header' => "Authorization: " . $this->authorizationHeader(),
+                'method' => 'DELETE',
+            ],
+        ];
+
+        $context = stream_context_create($opts);
+        $result = file_get_contents($url, false, $context);
+
+        if ($http_response_header[0] == 'HTTP/1.1 204 No Content') {
+            echo "Account deleted successfully.";
+        } else {
+            echo "Failed to delete account.";
+        }
+    }
+}
+
+// Usage example
+$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
+$client->deleteAccount('ACCOUNT_ID');
+?>
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+require 'base64'
+require 'net/http'
+require 'uri'
+
+class Client
+  def initialize(public_key, secret_key)
+    @public_key = public_key
+    @secret_key = secret_key
+    @base_url = "https://api.pipedream.com/v1"
+  end
+
+  def authorization_header
+    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
+    "Basic #{encoded}"
+  end
+
+  def delete_account(account_id)
+    uri = URI("#{@base_url}/connect/accounts/#{account_id}")
+    req = Net::HTTP::Delete.new(uri)
+    req['Authorization'] = authorization_header
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    if res.code.to_i == 204
+      puts "Account deleted successfully."
+    else
+      puts "Failed to delete account. Status code: #{res.code}"
+    end
+  end
+end
+
+# Usage example
+client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+client.delete_account('ACCOUNT_ID')
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Response
+
+Pipedream returns a `204 No Content` response on successful account deletion
+
+#### Delete all connected accounts for an app
+
+Delete all connected accounts for a specific app
+
+```shell
+DELETE /apps/:app_id/accounts
+```
+
+##### Parameters
+
+- `app_id` can be `oauth_app_id` for [OAuth apps](/connect/quickstart#creating-a-custom-oauth-client) or [name slug](/connect/quickstart/#find-your-apps-name-slug) for key-based apps
+
+##### Examples
+
+<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs.Tab>
+```typescript
+import {
+  createClient,
+} from "@pipedream/sdk";
+
+const pd = createClient({
+  publicKey: "YOUR_PUBLIC_KEY",
+  secretKey: "YOUR_SECRET_KEY",
+});
+
+export async function deleteAccountsByApp(appId: string) {
+  await pd.deleteAccountsByApp(appId);
+
+  // You can return a message or handle any post-deletion logic here.
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+const fetch = require('node-fetch');
+
+class Client {
+  constructor({ publicKey, secretKey }) {
+    this.publicKey = publicKey;
+    this.secretKey = secretKey;
+    this.baseURL = 'https://api.pipedream.com/v1';
+  }
+
+  _authorizationHeader() {
+    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
+    return `Basic ${encoded}`;
+  }
+
+  async deleteAccountsByApp(appId) {
+    const auth = this._authorizationHeader();
+    const url = `${this.baseURL}/connect/accounts/app/${appId}`;
+
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': auth,
+      },
+    });
+
+    if (response.status === 204) {
+      console.log("Accounts deleted successfully.");
+    } else {
+      console.log("Failed to delete accounts.");
+    }
+  }
+}
+
+// Usage example
+const client = new Client({
+  publicKey: 'YOUR_PUBLIC_KEY',
+  secretKey: 'YOUR_SECRET_KEY',
+});
+
+client.deleteAccountsByApp('APP_ID')
+  .catch(error => {
+    console.error('Error:', error);
+  });
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import base64
+import requests
+
+class Client:
+    def __init__(self, public_key, secret_key):
+        self.public_key = public_key
+        self.secret_key = secret_key
+        self.base_url = "https://api.pipedream.com/v1"
+
+    def _authorization_header(self):
+        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
+        return f"Basic {encoded}"
+
+    def delete_accounts_by_app(self, app_id):
+        auth = self._authorization_header()
+        url = f"{self.base_url}/connect/accounts/app/{app_id}"
+        response = requests.delete(url, headers={"Authorization": auth})
+        
+        if response.status_code == 204:
+            print("Accounts deleted successfully.")
+        else:
+            print("Failed to delete accounts.")
+
+# Usage example
+client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+client.delete_accounts_by_app('APP_ID')
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```java
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+import java.nio.charset.StandardCharsets;
+
+public class Client {
+    private String publicKey;
+    private String secretKey;
+    private String baseURL;
+
+    public Client(String publicKey, String secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private String authorizationHeader() {
+        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
+        return "Basic " + encoded;
+    }
+
+    public void deleteAccountsByApp(String appId) throws Exception {
+        String auth = authorizationHeader();
+        URL url = new URL(baseURL + "/connect/accounts/app/" + appId);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("DELETE");
+        conn.setRequestProperty("Authorization", auth);
+
+        int responseCode = conn.getResponseCode();
+        if (responseCode == 204) {
+            System.out.println("Accounts deleted successfully.");
+        } else {
+            System.out.println("Failed to delete accounts. Response code: " + responseCode);
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        client.deleteAccountsByApp("APP_ID");
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```csharp
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+
+public class Client {
+    private string publicKey;
+    private string secretKey;
+    private string baseURL;
+
+    public Client(string publicKey, string secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private string AuthorizationHeader() {
+        string encoded = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
+        return $"Basic {encoded}";
+    }
+
+    public async Task DeleteAccountsByApp(string appId) {
+        string auth = AuthorizationHeader();
+        using (HttpClient client = new HttpClient()) {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
+            HttpResponseMessage response = await client.DeleteAsync($"{baseURL}/connect/accounts/app/{appId}");
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) {
+                Console.WriteLine("Accounts deleted successfully.");
+            } else {
+                Console.WriteLine("Failed to delete accounts.");
+            }
+        }
+    }
+
+    public static async Task Main(string[] args) {
+        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        await client.DeleteAccountsByApp("APP_ID");
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```go
+package main
+
+import (
+	"encoding/base64"
+	"fmt"
+	"net/http"
+)
+
+type Client struct {
+	PublicKey string
+	SecretKey string
+	BaseURL   string
+}
+
+func NewClient(publicKey, secretKey string) *Client {
+	return &Client{
+		PublicKey: publicKey,
+		SecretKey: secretKey,
+		BaseURL:   "https://api.pipedream.com/v1",
+	}
+}
+
+func (c *Client) authorizationHeader() string {
+	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
+	return fmt.Sprintf("Basic %s", encoded)
+}
+
+func (c *Client) DeleteAccountsByApp(appId string) error {
+	url := fmt.Sprintf("%s/connect/accounts/app/%s", c.BaseURL, appId)
+	req, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Authorization", c.authorizationHeader())
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusNoContent {
+		fmt.Println("Accounts deleted successfully.")
+	} else {
+		fmt.Printf("Failed to delete accounts. Status code: %d\n", resp.StatusCode)
+	}
+
+	return nil
+}
+
+func main() {
+	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
+
+	err := client.DeleteAccountsByApp("APP_ID")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+<?php
+
+class Client {
+    private $publicKey;
+    private $secretKey;
+    private $baseURL;
+
+    public function __construct($publicKey, $secretKey) {
+        $this->publicKey = $publicKey;
+        $this->secretKey = $secretKey;
+        $this->baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private function authorizationHeader() {
+        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
+    }
+
+    public function deleteAccountsByApp($appId) {
+        $url = "$this->baseURL/connect/accounts/app/$appId";
+        $opts = [
+            'http' => [
+                'header' => "Authorization: " . $this->authorizationHeader(),
+                'method' => 'DELETE',
+            ],
+        ];
+
+        $context = stream_context_create($opts);
+        $result = file_get_contents($url, false, $context);
+
+        if ($http_response_header[0] == 'HTTP/1.1 204 No Content') {
+            echo "Accounts deleted successfully.";
+        } else {
+            echo "Failed to delete accounts.";
+        }
+    }
+}
+
+// Usage example
+$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
+$client->deleteAccountsByApp('APP_ID');
+?>
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+require 'base64'
+require 'net/http'
+require 'uri'
+
+class Client
+  def initialize(public_key, secret_key)
+    @public_key = public_key
+    @secret_key = secret_key
+    @base_url = "https://api.pipedream.com/v1"
+  end
+
+  def authorization_header
+    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
+    "Basic #{encoded}"
+  end
+
+  def delete_accounts_by_app(app_id)
+    uri = URI("#{@base_url}/connect/accounts/app/#{app_id}")
+    req = Net::HTTP::Delete.new(uri)
+    req['Authorization'] = authorization_header
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    if res.code.to_i == 204
+      puts "Accounts deleted successfully."
+    else
+      puts "Failed to delete accounts. Status code: #{res.code}"
+    end
+  end
+end
+
+# Usage example
+client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+client.delete_accounts_by_app('APP_ID')
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Response
+
+Pipedream returns a `204 No Content` response on successful account deletion
+
+#### Delete an end user
+
+Delete an end user and all their connected accounts
+
+```shell
+DELETE /users/:external_id
+```
+
+##### Parameters
+
+- `external_id` refers to the end user's ID in your system — whatever unique identifer you assign to your customers.
+
+##### Examples
+
+<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs.Tab>
+```typescript
+import {
+  createClient,
+} from "@pipedream/sdk";
+
+const pd = createClient({
+  publicKey: "YOUR_PUBLIC_KEY",
+  secretKey: "YOUR_SECRET_KEY",
+});
+
+export async function deleteExternalUser(externalId: string) {
+  await pd.deleteExternalUser(externalId);
+
+  console.log("All accounts associated with the external ID have been deleted.");
+}
+
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+const fetch = require('node-fetch');
+
+class Client {
+  constructor({ publicKey, secretKey }) {
+    this.publicKey = publicKey;
+    this.secretKey = secretKey;
+    this.baseURL = 'https://api.pipedream.com/v1';
+  }
+
+  _authorizationHeader() {
+    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
+    return `Basic ${encoded}`;
+  }
+
+  async deleteExternalUser(externalId) {
+    const auth = this._authorizationHeader();
+    const url = `${this.baseURL}/users/${externalId}`;
+
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': auth,
+      },
+    });
+
+    if (response.status === 204) {
+      console.log("All accounts associated with the external ID have been deleted.");
+    } else {
+      console.log("Failed to delete accounts.");
+    }
+  }
+}
+
+// Usage example
+const client = new Client({
+  publicKey: 'YOUR_PUBLIC_KEY',
+  secretKey: 'YOUR_SECRET_KEY',
+});
+
+client.deleteExternalUser('EXTERNAL_ID')
+  .catch(error => {
+    console.error('Error:', error);
+  });
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+import base64
+import requests
+
+class Client:
+    def __init__(self, public_key, secret_key):
+        self.public_key = public_key
+        self.secret_key = secret_key
+        self.base_url = "https://api.pipedream.com/v1"
+
+    def _authorization_header(self):
+        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
+        return f"Basic {encoded}"
+
+    def delete_external_user(self, external_id):
+        auth = self._authorization_header()
+        url = f"{self.base_url}/users/{external_id}"
+        response = requests.delete(url, headers={"Authorization": auth})
+        
+        if response.status_code == 204:
+            print("All accounts associated with the external ID have been deleted.")
+        else:
+            print("Failed to delete accounts.")
+
+# Usage example
+client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+client.delete_external_user('EXTERNAL_ID')
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```java
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+import java.nio.charset.StandardCharsets;
+
+public class Client {
+    private String publicKey;
+    private String secretKey;
+    private String baseURL;
+
+    public Client(String publicKey, String secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private String authorizationHeader() {
+        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
+        return "Basic " + encoded;
+    }
+
+    public void deleteExternalUser(String externalId) throws Exception {
+        String auth = authorizationHeader();
+        URL url = new URL(baseURL + "/users/" + externalId);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("DELETE");
+        conn.setRequestProperty("Authorization", auth);
+
+        int responseCode = conn.getResponseCode();
+        if (responseCode == 204) {
+            System.out.println("All accounts associated with the external ID have been deleted.");
+        } else {
+            System.out.println("Failed to delete accounts. Response code: " + responseCode);
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        client.deleteExternalUser("EXTERNAL_ID");
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```csharp
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+
+public class Client {
+    private string publicKey;
+    private string secretKey;
+    private string baseURL;
+
+    public Client(string publicKey, string secretKey) {
+        this.publicKey = publicKey;
+        this.secretKey = secretKey;
+        this.baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private string AuthorizationHeader() {
+        string encoded = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
+        return $"Basic {encoded}";
+    }
+
+    public async Task DeleteExternalUser(string externalId) {
+        string auth = AuthorizationHeader();
+        using (HttpClient client = new HttpClient()) {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
+            HttpResponseMessage response = await client.DeleteAsync($"{baseURL}/users/{externalId}");
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) {
+                Console.WriteLine("All accounts associated with the external ID have been deleted.");
+            } else {
+                Console.WriteLine("Failed to delete accounts.");
+            }
+        }
+    }
+
+    public static async Task Main(string[] args) {
+        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
+        await client.DeleteExternalUser("EXTERNAL_ID");
+    }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```go
+package main
+
+import (
+	"encoding/base64"
+	"fmt"
+	"net/http"
+)
+
+type Client struct {
+	PublicKey string
+	SecretKey string
+	BaseURL   string
+}
+
+func NewClient(publicKey, secretKey string) *Client {
+	return &Client{
+		PublicKey: publicKey,
+		SecretKey: secretKey,
+		BaseURL:   "https://api.pipedream.com/v1",
+	}
+}
+
+func (c *Client) authorizationHeader() string {
+	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
+	return fmt.Sprintf("Basic %s", encoded)
+}
+
+func (c *Client) DeleteExternalUser(externalId string) error {
+	url := fmt.Sprintf("%s/users/%s", c.BaseURL, externalId)
+	req, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Authorization", c.authorizationHeader())
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusNoContent {
+		fmt.Println("All accounts associated with the external ID have been deleted.")
+	} else {
+		fmt.Printf("Failed to delete accounts. Status code: %d\n", resp.StatusCode)
+	}
+
+	return nil
+}
+
+func main() {
+	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
+
+	err := client.DeleteExternalUser("EXTERNAL_ID")
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```php
+<?php
+
+class Client {
+    private $publicKey;
+    private $secretKey;
+    private $baseURL;
+
+    public function __construct($publicKey, $secretKey) {
+        $this->publicKey = $publicKey;
+        $this->secretKey = $secretKey;
+        $this->baseURL = "https://api.pipedream.com/v1";
+    }
+
+    private function authorizationHeader() {
+        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
+    }
+
+    public function deleteExternalUser($externalId) {
+        $url = "$this->baseURL/users/$externalId";
+        $opts = [
+            'http' => [
+                'header' => "Authorization: " . $this->authorizationHeader(),
+                'method' => 'DELETE',
+            ],
+        ];
+
+        $context = stream_context_create($opts);
+        $result = file_get_contents($url, false, $context);
+
+        if ($http_response_header[0] == 'HTTP/1.1 204 No Content') {
+            echo "All accounts associated with the external ID have been deleted.";
+        } else {
+            echo "Failed to delete accounts.";
+        }
+    }
+}
+
+// Usage example
+$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
+$client->deleteExternalUser('EXTERNAL_ID');
+?>
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```ruby
+require 'base64'
+require 'net/http'
+require 'uri'
+
+class Client
+  def initialize(public_key, secret_key)
+    @public_key = public_key
+    @secret_key = secret_key
+    @base_url = "https://api.pipedream.com/v1"
+  end
+
+  def authorization_header
+    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
+    "Basic #{encoded}"
+  end
+
+  def delete_external_user(external_id)
+    uri = URI("#{@base_url}/users/#{external_id}")
+    req = Net::HTTP::Delete.new(uri)
+    req['Authorization'] = authorization_header
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    if res.code.to_i == 204
+      puts "All accounts associated with the external ID have been deleted."
+    else
+      puts "Failed to delete accounts. Status code: #{res.code}"
+    end
+  end
+end
+
+# Usage example
+client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
+client.delete_external_user('EXTERNAL_ID')
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Response
+
+Pipedream returns a `204 No Content` response on successful account deletion

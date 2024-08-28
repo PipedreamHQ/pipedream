@@ -1,14 +1,14 @@
 import clickup from "../../clickup.app.mjs";
-import common from "../common/list-props.mjs";
-import constants from "../common/constants.mjs";
 import builder from "../../common/builder.mjs";
+import constants from "../common/constants.mjs";
+import common from "../common/list-props.mjs";
 
 export default {
   ...common,
   key: "clickup-update-list",
   name: "Update List",
   description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists / Update List** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,

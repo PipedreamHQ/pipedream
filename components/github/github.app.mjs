@@ -4,6 +4,7 @@ import queries from "./common/queries.mjs";
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
+import mutations from "./common/mutations.mjs";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -96,19 +97,39 @@ export default {
     },
     status: {
       label: "Item Status",
-      description: "The status for a project item",
-      type: "string",
+      description: "The status(es) to emit events for. If not specified, events will be emitted for all statuses.",
+      type: "string[]",
       async options({
         org, repo, project,
       }) {
-        const { statuses } = await this.getProjectV2Statuses({
+        const { options } = await this.getProjectV2StatusField({
           repoOwner: org,
           repoName: repo,
           project,
         });
 
-        return statuses.map((status) => ({
+        return options.map((status) => ({
           label: status.name,
+          value: status.id,
+        }));
+      },
+    },
+    projectItem: {
+      label: "Project (V2) Item",
+      description: "The project item to update",
+      type: "string",
+      async options({
+        org, repo, project,
+      }) {
+        const items = await this.getProjectV2Items({
+          repoOwner: org,
+          repoName: repo,
+          project,
+          amount: 100,
+        });
+
+        return items.map((status) => ({
+          label: status.fieldValueByName?.text ?? status.id,
           value: status.id,
         }));
       },
@@ -161,9 +182,7 @@ export default {
       }) {
         const branches = await this.getBranches({
           repoFullname,
-          params: {
-            page: page + 1,
-          },
+          page: page + 1,
         });
 
         return branches.map((branch) => ({
@@ -358,7 +377,7 @@ export default {
           response?.organization?.projectsV2?.pageInfo?.endCursor,
       };
     },
-    async getProjectV2Statuses({
+    async getProjectV2StatusField({
       repoOwner, repoName, project,
     }) {
       const response = await this.graphql(repoName ?
@@ -369,10 +388,56 @@ export default {
         project,
       });
 
-      return {
-        statuses: response?.repository?.projectV2?.field?.options ??
-          response?.organization?.projectV2?.field?.options,
-      };
+      return (response.repository ?? response.organization).projectV2?.field;
+
+    },
+    async getProjectV2Id({
+      repoOwner, repoName, project,
+    }) {
+      const response = await this.graphql(repoName ?
+        queries.repoProjectIdQuery :
+        queries.orgProjectIdQuery, {
+        repoOwner,
+        repoName,
+        project,
+      });
+
+      return (response.repository ?? response.organization).projectV2?.id;
+
+    },
+    async getProjectV2Items({
+      repoName, repoOwner, project, amount,
+    }) {
+      const response = await this.graphql(repoName ?
+        queries.projectItemsQuery :
+        queries.organizationProjectItemsQuery,
+      {
+        repoOwner,
+        repoName,
+        project,
+        amount,
+      });
+
+      return (response.repository ?? response.organization).projectV2?.items?.nodes;
+    },
+    async updateProjectV2ItemStatus({
+      projectId, itemId, fieldId, value,
+    }) {
+      return this.graphql(mutations.updateProjectItemMutation, {
+        projectId,
+        itemId,
+        fieldId,
+        value,
+      });
+    },
+    async updateProjectV2ItemPosition({
+      projectId, itemId,
+    }) {
+      return this.graphql(mutations.updateProjectItemPositionMutation, {
+        projectId,
+        itemId,
+        afterId: null,
+      });
     },
     async getProjectColumns({ project }) {
       return this._client().paginate(`GET /projects/${project}/columns`, {});
@@ -589,6 +654,13 @@ export default {
       repoFullname, username,
     }) {
       const response = await this._client().request(`GET /repos/${repoFullname}/collaborators/${username}/permission`, {});
+
+      return response.data;
+    },
+    async getOrgUserInfo({
+      org, username,
+    }) {
+      const response = await this._client().request(`GET /orgs/${org}/memberships/${username}`, {});
 
       return response.data;
     },

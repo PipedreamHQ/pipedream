@@ -25,6 +25,33 @@ export default {
       description: "Limits the response to keys that begin with the specified prefix",
       optional: true,
     },
+    acl: {
+      type: "string",
+      label: "ACL",
+      description: "The canned ACL to apply to the object",
+      options: [
+        "private",
+        "public-read",
+        "public-read-write",
+        "authenticated-read",
+        "aws-exec-read",
+        "bucket-owner-read",
+        "bucket-owner-full-control",
+      ],
+      optional: true,
+    },
+    contentType: {
+      type: "string",
+      label: "Content Type",
+      description: "A standard MIME type describing the format of the object data. Eg. `text/plain`",
+      optional: true,
+    },
+    metadata: {
+      type: "object",
+      label: "Metadata",
+      description: "A map of metadata to store with the object in S3.",
+      optional: true,
+    },
   },
   methods: {
     getAWSClient(clientType) {

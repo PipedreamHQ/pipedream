@@ -1,0 +1,45 @@
+{
+  "name": "@pipedream/sdk",
+  "version": "0.0.8",
+  "description": "Pipedream SDK",
+  "type": "module",
+  "main": "dist/server/index.js",
+  "module": "dist/server/index.js",
+  "types": "dist/server/index.d.ts",
+  "browser": {
+    "import": "dist/browser/index.js",
+    "require": "dist/browser/index.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/server/index.js",
+      "require": "./dist/server/index.js",
+      "types": "./dist/server/index.d.ts"
+    },
+    "./browser": {
+      "import": "./dist/browser/index.js",
+      "require": "./dist/browser/index.js",
+      "types": "./dist/browser/index.d.ts"
+    }
+  },
+  "keywords": [
+    "pipedream"
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublish": "rm -rf dist && npm run build",
+    "build": "npm run build:node && npm run build:browser",
+    "build:node": "tsc -p tsconfig.node.json",
+    "build:browser": "tsc -p tsconfig.browser.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "typescript": "^5.5.2"
+  }
+}

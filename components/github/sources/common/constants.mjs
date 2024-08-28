@@ -1,6 +1,10 @@
 export default {
   HISTORICAL_EVENTS: 25,
-  ISSUE_TYPE: "ISSUE",
+  PROJECT_ITEM_TYPES: [
+    "Issue",
+    "PullRequest",
+    "DraftIssue",
+  ],
   REPOSITORY_WEBHOOK_EVENTS: [
     {
       label: "Activity related to a branch protection rule",
@@ -345,4 +349,12 @@ export default {
       value: "opened",
     },
   ],
+};
+
+export const SAMPLE_GITHUB_HEADERS = {
+  github_headers: {
+    "x-github-delivery": "string",
+    "x-github-event": "string",
+    "x-github-hook-id": "string",
+  },
 };

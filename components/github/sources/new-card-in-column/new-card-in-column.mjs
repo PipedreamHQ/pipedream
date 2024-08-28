@@ -1,12 +1,13 @@
 import common from "../common/common-webhook.mjs";
 import constants from "../common/constants.mjs";
+import { getRelevantHeaders } from "../common/utils.mjs";
 
 export default {
   ...common,
   key: "github-new-card-in-column",
   name: "New Card in Column (Classic Projects)",
   description: "Emit new event when a (classic) project card is created or moved to a specific column. For Projects V2 use `New Issue with Status` trigger. [More information here](https://docs.github.com/en/issues/organizing-your-work-with-project-boards/tracking-work-with-project-boards/adding-issues-and-pull-requests-to-a-project-board)",
-  version: "1.0.2",
+  version: "1.0.4",
   type: "source",
   props: {
     ...common.props,
@@ -66,10 +67,14 @@ export default {
         per_page: constants.HISTORICAL_EVENTS,
       });
       for (const card of cards) {
-        await this.processCard(card);
+        await this.processCard({
+          card,
+        });
       }
     },
-    async processCard(card) {
+    async processCard({
+      card, headers = {},
+    }) {
       const meta = this.generateMeta(card);
       const issue = await this.github.getIssueFromProjectCard({
         repoFullname: this.repoFullname,
@@ -78,11 +83,14 @@ export default {
       this.$emit({
         card,
         issue,
+        ...getRelevantHeaders(headers),
       }, meta);
     },
   },
   async run(event) {
-    const card = event.body.project_card;
+    const {
+      headers, body: { project_card: card },
+    } = event;
     if (!card) {
       console.log("No card in event. Skipping event.");
       return;
@@ -93,6 +101,9 @@ export default {
       return;
     }
 
-    await this.processCard(card);
+    await this.processCard({
+      card,
+      headers,
+    });
   },
 };
