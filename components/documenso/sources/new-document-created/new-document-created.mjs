@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "documenso-new-document-created-",
+  key: "documenso-new-document-created",
   name: "New Document Created",
   description: "Emit new event when a new document is created.",
   version: "0.0.1",
