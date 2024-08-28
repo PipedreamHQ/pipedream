@@ -3,8 +3,8 @@ import documenso from "../../documenso.app.mjs";
 export default {
   key: "documenso-add-recipient-to-document",
   name: "Add Recipient To Document",
-  description: "Add a recipient to an existing Documenso document",
-  version: "0.0.{{ts}}",
+  description: "Add a recipient to an existing Documenso document. [See the documentation]([See the documentation](https://app.documenso.com/api/v1/openapi))",
+  version: "0.0.1",
   type: "action",
   props: {
     documenso,
@@ -14,33 +14,26 @@ export default {
         "documentId",
       ],
     },
-    recipientDetails: {
-      propDefinition: [
-        documenso,
-        "recipientDetails",
-      ],
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of the recipient",
     },
-    message: {
-      propDefinition: [
-        documenso,
-        "message",
-      ],
-      optional: true,
-    },
-    notificationSettings: {
-      propDefinition: [
-        documenso,
-        "notificationSettings",
-      ],
-      optional: true,
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email address of the recipient",
     },
   },
   async run({ $ }) {
     const response = await this.documenso.addRecipientToDocument({
+      $,
       documentId: this.documentId,
-      recipientDetails: this.recipientDetails,
-      message: this.message,
-      notificationSettings: this.notificationSettings,
+      data: {
+        name: this.name,
+        email: this.email,
+        role: "SIGNER",
+      },
     });
 
     $.export("$summary", `Successfully added recipient to document ${this.documentId}`);
