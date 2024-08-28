@@ -15,9 +15,10 @@ export default function Home() {
   // request stuff
   const [method, setMethod] = useState("GET");
   const [url, setUrl] = useState("");
-  const [headers, setHeaders] = useState("");
+  //const [headers, setHeaders] = useState("");
   const [body, setBody] = useState("");
   const [responseBody, setResponseBody] = useState("");
+  const [headersArray, setHeadersArray] = useState([])
     
   useEffect(() => {
     if (externalUserId) {
@@ -47,9 +48,40 @@ export default function Home() {
   }
 
   const makeRequest = async() => {
-    const resp = await makeAppRequest(apn, url, {})
-    setResponseBody(JSON.stringify(resp))
+    const headers = headersArray.reduce((acc, header) => {
+      if (header.name && header.value) {
+        acc[header.name] = header.value
+      }
+      return acc
+    }, {})
+    const resp = await makeAppRequest(apn, url, {
+      method,
+      headers,
+      body,
+    })
+    setResponseBody(JSON.stringify(resp, null, 2))
   }
+
+  const addHeader = () => {
+    //headersArray.push({})
+    setHeadersArray([...headersArray, {}])
+  }
+
+  const inputStyle = {
+    border: "1px solid #ccc",
+    padding: "8px",
+    borderRadius: "4px",
+  }
+
+  const onChangeHeaderName = (e) => {
+    //debugger
+    headersArray[e.target.id].name = e.target.value
+  }
+
+  const onChangeHeaderValue = (e) => {
+    headersArray[e.target.id].value = e.target.value
+  }
+
 
   return (
     <main className="p-5 flex flex-col gap-2 max-w-5xl">
@@ -94,13 +126,13 @@ export default function Home() {
 
 
       <h1>Fetch Request Builder</h1>
-      <form>
-        <div>
-          <label htmlFor="method">HTTP Method:</label>
+        <div style={{display: "flex", alightItems: "center", gap: "10px"}}>
+          <label htmlFor="method">Method:</label>
           <select
             id="method"
             value={method}
             onChange={(e) => setMethod(e.target.value)}
+            style={inputStyle}
           >
             <option value="GET">GET</option>
             <option value="POST">POST</option>
@@ -108,35 +140,36 @@ export default function Home() {
             <option value="DELETE">DELETE</option>
             <option value="PATCH">PATCH</option>
           </select>
-        </div>
-
-        <div>
           <label htmlFor="url">URL:</label>
           <input
             type="text"
             id="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            required
+            style={inputStyle}
           />
         </div>
 
         <div>
-          <label htmlFor="headers">Headers (key: value format, each header on a new line):</label>
-          <textarea
-            id="headers"
-            value={headers}
-            onChange={(e) => setHeaders(e.target.value)}
-            rows={5}
-          />
+          <label htmlFor="headersArray">Headers (key: value format, each header on a new line):</label>
+          {headersArray.map((header, index) => (
+            <div key={`header_${index}`}>
+              <span class="mr-2">Name</span>
+              <input key={`name_${index}`} id={index} style={inputStyle} class="mr-2" onChange={onChangeHeaderName}/>
+              <span class="mr-2">Value</span>
+              <input key={`value_${index}`} id={index} style={inputStyle} class="mr-2" onChange={onChangeHeaderValue}/>
+            </div>
+          ))}
         </div>
+
+
+              <button className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded" onClick={addHeader}>Add Header</button>
 
         {method !== "GET" && (
           <div>
             <label htmlFor="body">JSON Body:</label>
             <textarea
               id="body"
-              readOnly
               value={body}
               onChange={(e) => setBody(e.target.value)}
               rows={5}
@@ -144,10 +177,13 @@ export default function Home() {
           </div>
         )}
 
-      </form>
-
               <button className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded" onClick={makeRequest}>Make Request</button>
-                <textarea value={responseBody}/>
+              {
+                responseBody &&
+                <div>
+                  <pre>{responseBody}</pre>
+                </div>
+              }
             </div>
             : <div>
               <p className="mb-8">

@@ -38,14 +38,23 @@ export async function getUserAccounts(externalId: string, include_credentials: n
 
 export async function makeAppRequest(accountId: string, endpoint: string, opts: Object): Promise {
   const oauthToken = await pd.getAccount(accountId, {include_credentials: 1})
+  console.log("oauthToken", oauthToken)
   const headers = {
     authorization: `Bearer ${oauthToken.credentials?.oauth_access_token}`,
     "content-type": "application/json",
   }
-  const resp: Response = await fetch(endpoint.toString(), {
-    method: "GET",
-    headers,
-  })
+  const config = {
+    method: opts.method || "GET",
+    headers: {
+      ...headers,
+      ...opts.headers,
+    },
+  }
+
+  if(opts.method != "GET") {
+    config.body = opts.body
+  }
+  const resp: Response = await fetch(endpoint.toString(), config)
 
   const result = await resp.json()
 
