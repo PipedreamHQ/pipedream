@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat",
-  version: "0.1.11",
+  version: "0.1.12",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
@@ -43,12 +43,26 @@ export default {
     responseFormat: {
       type: "string",
       label: "Response Format",
-      description: "Specify the format that the model must output. [Setting to `json_object` guarantees the message the model generates is valid JSON](https://platform.openai.com/docs/api-reference/chat/create#chat-create-response_format). Defaults to `text`",
-      options: constants.CHAT_RESPONSE_FORMATS,
+      description: "Specify the format that the model must output. \n- **Text** (default): Returns unstructured text output.\n- **JSON Object**: Ensures the model's output is a valid JSON object.\n- **JSON Schema** (GPT-4o and later): Enables you to define a specific structure for the model's output using a JSON schema. Supported with models `gpt-4o-2024-08-06` and later, and `gpt-4o-mini-2024-07-18` and later.",
+      options: Object.values(constants.CHAT_RESPONSE_FORMAT),
       optional: true,
       default: "text",
+      reloadProps: true,
     },
     ...common.props,
+  },
+  additionalProps() {
+    const { responseFormat } = this;
+    if (responseFormat !== constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
+      return {};
+    }
+    return {
+      jsonSchema: {
+        type: "string",
+        label: "JSON Schema",
+        description: "Define the schema that the model's output must adhere to. [See the documentation here](https://platform.openai.com/docs/guides/structured-outputs/supported-schemas).",
+      },
+    };
   },
   async run({ $ }) {
     const args = this._getChatArgs();
