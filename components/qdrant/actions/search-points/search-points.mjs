@@ -7,7 +7,7 @@ export default {
   name: "Search Points",
   description: "Performs a semantic search on the Qdrant collection.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     collectionName: {
@@ -56,10 +56,10 @@ export default {
 
       const client = new QdrantClient(this.app.getCredentials());
 
-      return client.search(collectionName, {
+      return client.query(collectionName, {
         filter,
         limit,
-        vector,
+        query: vector,
         with_payload: withPayload,
         with_vector: withVector,
       });
@@ -84,6 +84,6 @@ export default {
 
     step.export("$summary", "Successfully searched the collection");
 
-    return response;
+    return response.points;
   },
 };
