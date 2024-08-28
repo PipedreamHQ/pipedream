@@ -1,13 +1,15 @@
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser',
+  parser: "@typescript-eslint/parser",
   extends: [
     "plugin:@typescript-eslint/recommended",
   ],
-  plugins: ['@typescript-eslint'],
+  plugins: [
+    "@typescript-eslint",
+  ],
   rules: {},
   ignorePatterns: [
-    "node_modules/", 
+    "node_modules/",
     ".eslintrc.js",
   ],
 };
