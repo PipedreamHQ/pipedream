@@ -1,4 +1,4 @@
-import { parseObj } from "../../common/utils.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import docsautomator from "../../docsautomator.app.mjs";
 
 export default {
@@ -41,14 +41,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.docsautomator.createDocumnet({
+    const response = await this.docsautomator.createDocument({
       $,
       data: {
         docId: this.automationId,
         documentName: this.documentName,
         recId: this.recId,
         taskId: this.taskId,
-        data: parseObj(this.data),
+        data: parseObject(this.data),
       },
     });
 

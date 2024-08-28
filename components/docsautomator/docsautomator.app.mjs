@@ -68,7 +68,7 @@ export default {
         path: "/automations",
       });
     },
-    createDocumnet(opts = {}) {
+    createDocument(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/createDocument",
