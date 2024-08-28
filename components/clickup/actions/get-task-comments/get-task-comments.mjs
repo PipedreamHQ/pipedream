@@ -1,13 +1,13 @@
-import common from "../common/task-props.mjs";
 import builder from "../../common/builder.mjs";
 import propsFragments from "../../common/props-fragments.mjs";
+import common from "../common/task-props.mjs";
 
 export default {
   ...common,
   key: "clickup-get-task-comments",
   name: "Get Task Comments",
   description: "Get a task comments. See the docs [here](https://clickup.com/api) in **Comments / Get Task Comments** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,

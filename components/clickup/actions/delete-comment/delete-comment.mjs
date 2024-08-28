@@ -5,7 +5,7 @@ export default {
   key: "clickup-delete-comment",
   name: "Delete Comment",
   description: "Deletes a comment. See the docs [here](https://clickup.com/api) in **Comments / Deleet Comment** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,

@@ -182,9 +182,7 @@ export default {
       }) {
         const branches = await this.getBranches({
           repoFullname,
-          params: {
-            page: page + 1,
-          },
+          page: page + 1,
         });
 
         return branches.map((branch) => ({
@@ -656,6 +654,13 @@ export default {
       repoFullname, username,
     }) {
       const response = await this._client().request(`GET /repos/${repoFullname}/collaborators/${username}/permission`, {});
+
+      return response.data;
+    },
+    async getOrgUserInfo({
+      org, username,
+    }) {
+      const response = await this._client().request(`GET /orgs/${org}/memberships/${username}`, {});
 
       return response.data;
     },

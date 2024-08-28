@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-search-vendors",
   name: "Search Vendors",
   description: "Searches for vendors. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/vendor#query-a-vendor)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     quickbooks,
