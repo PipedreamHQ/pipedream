@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-sparse-update-invoice",
   name: "Sparse Update Invoice",
   description: "Sparse updating provides the ability to update a subset of properties for a given object; only elements specified in the request are updated. Missing elements are left untouched. The ID of the object to update is specified in the request body.​ [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#sparse-update-an-invoice)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     quickbooks,

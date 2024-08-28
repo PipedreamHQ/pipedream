@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-get-purchase-order",
   name: "Get Purchase Order",
   description: "Returns details about a purchase order. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#read-a-purchase-order)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     quickbooks,
