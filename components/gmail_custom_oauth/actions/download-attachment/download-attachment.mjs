@@ -9,6 +9,6 @@ overrideApp(base);
 export default {
   ...base,
   key: "gmail_custom_oauth-download-attachment",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
 };
