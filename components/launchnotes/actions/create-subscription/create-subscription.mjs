@@ -1,4 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
+import {
+  SUBSCRIBE_TYPE_OPTIONS, SUBSCRIPTION_TYPE_OPTIONS,
+} from "../../common/constants.mjs";
 import launchnotes from "../../launchnotes.app.mjs";
 
 export default {
@@ -44,10 +47,7 @@ export default {
       type: "string",
       label: "Subscribe Type",
       description: "The type you would like to create a subscription for.",
-      options: [
-        "PROJECT",
-        "WORK_ITEM",
-      ],
+      options: SUBSCRIBE_TYPE_OPTIONS,
       optional: true,
       reloadProps: true,
     },
@@ -55,10 +55,7 @@ export default {
       type: "string",
       label: "Subscription Type",
       description: "The type of subscription - eg. SimpleMailApp or SlackApp.",
-      options: [
-        "SimpleMailApp",
-        "SlackApp",
-      ],
+      options: SUBSCRIPTION_TYPE_OPTIONS,
     },
     skipOptIn: {
       type: "boolean",
