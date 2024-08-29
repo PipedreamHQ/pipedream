@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/storeganise",
+  "version": "0.0.1",
+  "description": "Pipedream Storeganise Components",
+  "main": "storeganise.app.mjs",
+  "keywords": [
+    "pipedream",
+    "storeganise"
+  ],
+  "homepage": "https://pipedream.com/apps/storeganise",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
