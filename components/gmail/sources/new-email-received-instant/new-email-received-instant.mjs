@@ -1,7 +1,7 @@
-import gmail from "../../gmail.app.mjs";
 import { axios } from "@pipedream/platform";
 import { PubSub } from "@google-cloud/pubsub";
 import { v4 as uuidv4 } from "uuid";
+import common from "../common/verify-client-id.mjs";
 
 export default {
   key: "gmail-new-email-received-instant",
@@ -10,7 +10,7 @@ export default {
   version: "0.0.1",
   type: "source",
   props: {
-    gmail,
+    ...common.props,
     http: "$.interface.http",
     timer: {
       type: "$.interface.timer",
@@ -32,7 +32,7 @@ export default {
     },
     label: {
       propDefinition: [
-        gmail,
+        common.props.gmail,
         "label",
       ],
       default: "INBOX",
@@ -60,13 +60,25 @@ export default {
       \n2. Select "View Permissions" for the topic you intend to use for this source.
       \n3. Click "ADD PRINCIPAL"
       \n4. Select "Pub/Sub Publisher" for the Role.
-      \n5. Enter \`serviceAccount:gmail-api-push@system.gserviceaccount.com\` as the principal.
+      \n5. Enter \`serviceAccount:gmail-api-push@system.gserviceaccount.com\` as the principal. 
       \n6. Click "Save"
       `,
       hidden: true,
     },
   },
   async additionalProps(props) {
+    const isValidClientId = await this.checkClientId();
+    props.appAlert.alertType = isValidClientId
+      ? "info"
+      : "error";
+    props.appAlert.content = isValidClientId
+      ? "OAuth client ID is valid. You can use the component."
+      : "You must use a custom OAuth client to use this component. Please see [here](https://pipedream.com/docs/connected-accounts/oauth-clients) for more details.";
+    props.appAlert.hidden = false;
+    if (!isValidClientId) {
+      return {};
+    }
+
     const { key_json: key } = this.gmail.$auth;
     if (!key) {
       props.keyAlert.hidden = false;
@@ -177,6 +189,7 @@ export default {
     },
   },
   methods: {
+    ...common.methods,
     _getTopicName() {
       return this.db.get("topicName");
     },
