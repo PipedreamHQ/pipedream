@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/gozen_growth",
+  "version": "0.0.1",
+  "description": "Pipedream GoZen Growth Components",
+  "main": "gozen_growth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gozen_growth"
+  ],
+  "homepage": "https://pipedream.com/apps/gozen_growth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
