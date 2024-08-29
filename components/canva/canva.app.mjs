@@ -53,6 +53,9 @@ export default {
     _baseUrl() {
       return "https://api.canva.com/rest/v1";
     },
+    _auth() {
+      return this.$auth.oauth_access_token;
+    },
     _makeRequest(opts = {}) {
       const {
         $ = this,
@@ -65,7 +68,7 @@ export default {
         url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this._auth()}`,
         },
       });
     },

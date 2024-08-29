@@ -1,26 +1,25 @@
+import builder from "../../common/builder.mjs";
+import propsFragments from "../../common/props-fragments.mjs";
 import common from "../common/common.mjs";
-import app from "../../clickup.app.mjs";
 import constants from "../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "clickup-updated-task",
   name: "New Updated Task (Instant)",
   description: "Emit new event when a new task is updated",
-  version: "0.0.8",
+  version: "0.0.11",
   dedupe: "unique",
   type: "source",
   props: {
     ...common.props,
-    listId: {
-      description: "If a list is selected, only tasks updated in this list will emit an event",
-      optional: true,
-      reloadProps: true,
+    spaceId: {
       propDefinition: [
-        app,
-        "lists",
-        ({ workspaceId }) => ({
-          workspaceId,
+        common.props.app,
+        "spaces",
+        (c) => ({
+          workspaceId: c.workspaceId,
         }),
       ],
     },
@@ -31,20 +30,26 @@ export default {
       options: constants.TASK_FIELDS,
       optional: true,
     },
-    customFieldIds: {
-      label: "Custom Fields",
-      type: "string[]",
-      description: "Select a custom field to filter",
+    listWithFolder: {
       optional: true,
       propDefinition: [
-        app,
-        "customFields",
-        ({ listId }) => ({
-          listId,
-        }),
+        common.props.app,
+        "listWithFolder",
       ],
     },
   },
+  additionalProps: builder.buildListProps({
+    listPropsOptional: true,
+    tailProps: {
+      customFieldIds: {
+        ...propsFragments.customFieldId,
+        label: "Custom Fields",
+        type: "string[]",
+        description: "Select a custom field to filter",
+        optional: true,
+      },
+    },
+  }),
   methods: {
     ...common.methods,
     _getMeta(historyItems) {
@@ -93,6 +98,6 @@ export default {
     if (isValidated) {
       this.$emit(body, this._getMeta(body.history_items));
     }
-
   },
+  sampleEmit,
 };

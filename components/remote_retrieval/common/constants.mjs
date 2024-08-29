@@ -1,4 +1,4 @@
-const BASE_URL = "https://remoteretrieval.com/RR-enterprise/remoteretrieval/public";
+const BASE_URL = "https://remoteretrieval.com/RR-enterprise/remoteretrieval/public/index.php";
 const VERSION_PATH = "/api/v1";
 const DEFAULT_MAX = 600;
 

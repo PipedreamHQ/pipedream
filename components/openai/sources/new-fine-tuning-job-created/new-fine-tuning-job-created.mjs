@@ -6,7 +6,7 @@ export default {
   key: "openai-new-fine-tuning-job-created",
   name: "New Fine Tuning Job Created",
   description: "Emit new event when a new fine-tuning job is created in OpenAI. [See the documentation](https://platform.openai.com/docs/api-reference/fine-tuning/list)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

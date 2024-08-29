@@ -49,7 +49,7 @@ If you resume a workflow, any data sent in the HTTP request is passed to the wor
 
 ### Default timeout of 24 hours 
 
-By default, `pd.flow.suspend` will automatically resume the workflow after 24 hours. You can set your own timeout (in milliseconds) as the first argument:
+By default, `pd.flow.suspend` will automatically cancel the workflow after 24 hours. You can set your own timeout (in milliseconds) as the first argument:
 
 ```python
 def handler(pd: 'pipedream'):
@@ -172,7 +172,7 @@ These functions will only suspend and resume when run in production.
 
 You are not charged for the time your workflow is suspended during a `pd.flow.suspend` or `pd.flow.rerun`. Only when workflows are resumed will compute time count toward [credit usage](/pricing/#credits).
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 When a suspended workflow reawakens, it will reset the credit counter.
 
 Each rerun or reawakening from a suspension will count as a new fresh credit.

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/picdefense",
+  "version": "0.1.1",
+  "description": "Pipedream PicDefense Components",
+  "main": "picdefense.app.mjs",
+  "keywords": [
+    "pipedream",
+    "picdefense"
+  ],
+  "homepage": "https://pipedream.com/apps/picdefense",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

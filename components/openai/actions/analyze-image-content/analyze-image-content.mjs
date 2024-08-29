@@ -8,7 +8,7 @@ export default {
   key: "openai-analyze-image-content",
   name: "Analyze Image Content",
   description: "Send a message or question about an image and receive a response. [See the documentation](https://platform.openai.com/docs/api-reference/runs/createThreadAndRun)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     openai,

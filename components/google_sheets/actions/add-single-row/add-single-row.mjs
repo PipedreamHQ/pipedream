@@ -9,7 +9,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "2.1.8",
+  version: "2.1.10",
   type: "action",
   props: {
     googleSheets,
@@ -37,14 +37,13 @@ export default {
         }),
       ],
       type: "string",
-      label: "Worksheet Id",
+      label: "Worksheet ID",
     },
     hasHeaders: {
       type: "boolean",
       label: "Does the first row of the sheet have headers?",
-      description: "If the first row of your document has headers, we'll retrieve them to make it easy to enter the value for each column. Please note, that if you are referencing a worksheet using a custom expression referencing data from another step, e.g. `{{steps.my_step.$return_value}}` this prop cannot be used. If you want to retrieve the headers use the `Select an option` instead in both **Spreadsheet** and **Worksheet Id** props.",
+      description: "If the first row of your document has headers, we'll retrieve them to make it easy to enter the value for each column. Please note, that if you are referencing a worksheet using a custom expression referencing data from another step, e.g. `{{steps.my_step.$return_value}}` this prop cannot be used. If you want to retrieve the header row, select both **Spreadsheet** and **Worksheet ID** from the dropdowns above.",
       reloadProps: true,
-      optional: true,
     },
   },
   async additionalProps() {
