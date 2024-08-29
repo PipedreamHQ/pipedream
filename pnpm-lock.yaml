@@ -9253,7 +9253,10 @@ importers:
       '@supabase/supabase-js': 2.39.0
 
   components/supabase_management_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/supercast:
     specifiers:
