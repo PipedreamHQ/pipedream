@@ -1,5 +1,8 @@
+import { SAMPLE_GITHUB_HEADERS } from "../common/constants.mjs";
+
 export function getSampleWebhookEvent() {
   return {
+    ...SAMPLE_GITHUB_HEADERS,
     action: "created",
     starred_at: "2024-01-04T22:15:09Z",
     sender: {

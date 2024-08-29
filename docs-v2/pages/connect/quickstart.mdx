@@ -68,12 +68,14 @@ Once that's done, copy the **OAuth App ID** from the app configuration.
 ### Get your project keys
 
 1. Open an existing Pipedream project or create a new one at [https://pipedream.com/projects](https://pipedream.com/projects).
-2. Visit the **Connect** tab.
-3. Find your project's **Public Key** and **Secret Key**
+2. Visit the **Connect** tab, then select **Configuration**.
+3. Find your project's **Public Key** and **Secret Key**.
 
 You'll need these when configuring the SDK and making API requests.
 
-<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723761665/proj-connect-keys_bodybd.png" alt="Project keys in the Connect tab" width={650} height={300} />
+<br />
+
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1724773559/connect-keys_cb4ujt.png" alt="Project keys in the Connect tab" width={650} height={300} />
 
 ### Run the Pipedream demo app, or configure your own
 
@@ -82,7 +84,7 @@ You'll need to do two things to integrate Pipedream Connect into your app:
 1. [Connect to the Pipedream API from your server](#connect-to-the-pipedream-api-from-your-server-and-create-a-token). This lets you make secure calls to the Pipedream API to initiate the account connection flow and retrieve account credentials. If you're running a JavaScript framework like Node.js on the server, you can use the Pipedream SDK.
 2. [Add the Pipedream SDK to your frontend](#connect-your-account-from-the-frontend). This lets you start the account connection flow for your end users.
 
-We'll walk through these steps below, using [an example Next.js app](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk/examples/next-app/). To follow along, clone [the repo](https://github.com/PipedreamHQ/pipedream) and follow the instructions in [the app's `README`](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk/examples/next-app/). That will run the app on `localhost:3000`.
+We'll walk through these steps below, using [an example Next.js app](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/next-app/). To follow along, clone [the repo](https://github.com/PipedreamHQ/pipedream-connect-examples/) and follow the instructions in [the app's `README`](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/next-app/). That will run the app on `localhost:3000`.
 
 First, copy the `.env.example` file to `.env.local`:
 

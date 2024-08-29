@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/digitalocean_spaces",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream DigitalOcean Spaces Components",
   "main": "digitalocean_spaces.app.mjs",
   "keywords": [
@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.231.0",
+    "@pipedream/aws": "^0.7.0",
     "@pipedream/helper_functions": "^0.3.8",
-    "@pipedream/platform": "^1.2.1"
+    "@pipedream/platform": "^1.2.1",
+    "fs": "^0.0.1-security"
   }
 }
