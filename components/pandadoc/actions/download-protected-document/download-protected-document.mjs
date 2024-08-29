@@ -46,8 +46,7 @@ export default {
     $.export("$summary", `Successfully downloaded protected document "${outputFilename}"`);
 
     return {
-      filePath,
-      rawData: data,
+      filePath
     };
   },
 };
