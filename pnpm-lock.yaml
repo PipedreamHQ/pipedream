@@ -4070,6 +4070,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/gptzero_detect_ai:
+    specifiers: {}
+
   components/grab_your_reviews:
     specifiers: {}
 
