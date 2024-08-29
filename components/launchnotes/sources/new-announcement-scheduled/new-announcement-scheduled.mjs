@@ -15,7 +15,7 @@ export default {
       return this.launchnotes.listAnnouncements;
     },
     getDateField() {
-      return "scheduledAt";
+      return "createdAt";
     },
     getTypes() {
       return "announcements";
