@@ -92,7 +92,7 @@ export default {
         props.workItemId = {
           type: "string",
           label: "Work Item Id",
-          description: "The Id of hte workitem",
+          description: "Work Item ID",
           options: async () => {
             const { data: { project: { workItems } } } = await this.launchnotes.getProject({
               projectId: this.projectId,
