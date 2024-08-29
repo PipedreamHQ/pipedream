@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/shiphero",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream ShipHero Components",
   "main": "dist/app/shiphero.app.mjs",
   "keywords": [
     "pipedream",
     "shiphero"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/shiphero",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "graphql-request": "^7.1.0"
   }
 }

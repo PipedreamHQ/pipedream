@@ -1,5 +1,8 @@
+import { SAMPLE_GITHUB_HEADERS } from "../common/constants.mjs";
+
 export function getSampleWebhookEvent() {
   return {
+    ...SAMPLE_GITHUB_HEADERS,
     url: "https://api.github.com/repos/octocat/Hello-World/releases/1",
     assets_url:
       "https://api.github.com/repos/octocat/Hello-World/releases/1/assets",
