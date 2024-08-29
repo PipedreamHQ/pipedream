@@ -8690,7 +8690,18 @@ importers:
       form-data: 4.0.0
 
   components/signnow:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+      crypto: ^1.0.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+      uuid: ^10.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
+      crypto: 1.0.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
+      uuid: 10.0.0
 
   components/signpath:
     specifiers: {}
@@ -9245,7 +9256,10 @@ importers:
       '@supabase/supabase-js': 2.39.0
 
   components/supabase_management_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/supercast:
     specifiers:
@@ -17406,9 +17420,9 @@ packages:
   /@pipedream/platform/3.0.0:
     resolution: {integrity: sha512-qlSJBF0Gn5RloFEPr072hSf6pRSU++Zjs0j6X9ZE2SMmfg777qYR4RQ5HkTHEELEyA948xEOqkBt3bFplpfEbw==}
     dependencies:
-      axios: 1.6.5
-      fp-ts: 2.16.1
-      io-ts: 2.2.20_fp-ts@2.16.1
+      axios: 1.7.5
+      fp-ts: 2.16.9
+      io-ts: 2.2.21_fp-ts@2.16.9
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
@@ -22313,6 +22327,16 @@ packages:
       - debug
     dev: false
 
+  /axios/1.7.5:
+    resolution: {integrity: sha512-fZu86yCo+svH3uqJ/yTdQ0QHpQu5oL+/QE+QPSv6BZSkDAoky9vytxp7u5qk83OJFS3kEBcesWni9WTZAv3tSw==}
+    dependencies:
+      follow-redirects: 1.15.6
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axobject-query/3.1.1:
     resolution: {integrity: sha512-goKlv8DZrK9hUh975fnHzhNIO4jUnFCfv/dszV5VwUGDFjI6vQ2VwoyjYjYNEbBE8AH87TduWP5uyDR1D+Iteg==}
     dependencies:
@@ -25970,6 +25994,10 @@ packages:
     resolution: {integrity: sha512-by7U5W8dkIzcvDofUcO42yl9JbnHTEDBrzu3pt5fKT+Z4Oy85I21K80EYJYdjQGC2qum4Vo55Ag57iiIK4FYuA==}
     dev: false
 
+  /fp-ts/2.16.9:
+    resolution: {integrity: sha512-+I2+FnVB+tVaxcYyQkHUq7ZdKScaBlX53A41mxQtpIccsfyv8PzdzP7fzp2AY832T4aoK6UZ5WRX/ebGd8uZuQ==}
+    dev: false
+
   /fraction.js/4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
     dev: true
@@ -27422,6 +27450,14 @@ packages:
       fp-ts: ^2.5.0
     dependencies:
       fp-ts: 2.16.1
+    dev: false
+
+  /io-ts/2.2.21_fp-ts@2.16.9:
+    resolution: {integrity: sha512-zz2Z69v9ZIC3mMLYWIeoUcwWD6f+O7yP92FMVVaXEOSZH1jnVBmET/urd/uoarD1WGBY4rCj8TAyMPzsGNzMFQ==}
+    peerDependencies:
+      fp-ts: ^2.5.0
+    dependencies:
+      fp-ts: 2.16.9
     dev: false
 
   /ip/1.1.8:
