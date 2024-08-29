@@ -86,7 +86,7 @@ export default {
     $.export("$summary", `Successfully downloaded document "${outputFilename}"`);
 
     return {
-      filePath
+      filePath,
     };
   },
 };
