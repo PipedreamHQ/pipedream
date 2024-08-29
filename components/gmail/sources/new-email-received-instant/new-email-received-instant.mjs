@@ -90,6 +90,10 @@ export default {
       topicProp.reloadProps = false;
     }
 
+    const newProps = {
+      topic: topicProp,
+    };
+
     if (this.topic || this.topicType === "new") {
       const topic = await this.getOrCreateTopic(topicName);
 
@@ -124,13 +128,21 @@ export default {
           props.permissionAlert.hidden = false;
         }
       }
+
+      const historyId = await this.setupGmailNotifications(topicName);
+      newProps.initialHistoryId = {
+        type: "string",
+        default: historyId,
+        hidden: true,
+      };
     }
 
-    return {
-      topic: topicProp,
-    };
+    return newProps;
   },
   hooks: {
+    async deploy() {
+      this._setLastProcessedHistoryId(this.initialHistoryId);
+    },
     async activate() {
       const sdkParams = this.sdkParams();
       const pubSubClient = new PubSub(sdkParams);
@@ -138,7 +150,6 @@ export default {
       const currentTopic = {
         name: this.topic,
       };
-      this._setTopicName(currentTopic.name);
 
       // Create subscription
       const pushEndpoint = this.http.endpoint;
@@ -154,8 +165,6 @@ export default {
         .topic(currentTopic.name)
         .createSubscription(subscriptionName, subscriptionOptions);
       this._setSubscriptionName(subscriptionResult.name);
-
-      await this.setupGmailNotifications(currentTopic.name);
     },
     async deactivate() {
       const sdkParams = this.sdkParams();
@@ -247,7 +256,7 @@ export default {
         },
       });
       console.log("Watch response:", watchResponse);
-      this._setLastProcessedHistoryId(watchResponse.historyId);
+      return watchResponse.historyId;
     },
     async getOrCreateTopic(name) {
       const sdkParams = this.sdkParams();
@@ -286,11 +295,18 @@ export default {
     },
   },
   async run(event) {
-    if (!event.body) {
-      // event was triggered by timer, renew Gmail push notifications
-      const topicName = this.topic;
-      await this.setupGmailNotifications(topicName);
-      return;
+    if (event.timestamp) {
+      // event was triggered by timer
+      const topicName = this._getTopicName();
+      if (topicName) {
+        // renew Gmail push notifications
+        await this.setupGmailNotifications(topicName);
+        return;
+      } else {
+        // first run, no need to renew push notifications
+        this._setTopicName(this.topic);
+        return;
+      }
     }
 
     // Extract the Pub/Sub message data
