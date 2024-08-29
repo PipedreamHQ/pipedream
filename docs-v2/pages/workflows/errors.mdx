@@ -5,7 +5,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 Two types of errors are raised in Pipedream workflows:
 
 - **Workflow errors** — Errors in the workflow execution environment, like [Timeouts](/troubleshooting#timeout) or [Out of Memory](/troubleshooting#out-of-memory) errors. Often, you can change your workflow's configuration to fix them. You can find more details on these errors [in our troubleshooting guide](/troubleshooting).
-- **Step errors** — Errors raised by individual [code](/code) or [action](/workflows/actions) steps. These can by syntax errors, errors raised by the Node or Python runtime, errors with input data, and more. Pipedream will surface details about the error and the stack trace, and you can even [debug these errors with AI](#debug-with-ai).
+- **Step errors** — Errors raised by individual [code](/code) or [action](/workflows/actions) steps. These can be syntax errors, errors raised by the Node or Python runtime, errors with input data, and more. Pipedream will surface details about the error and the stack trace, and you can even [debug these errors with AI](#debug-with-ai).
 
 Both types of errors will trigger [error notifications](#error-notifications), can be handled by [custom error handlers](#handle-errors-with-custom-logic), and will show up in [the REST API](#poll-the-rest-api-for-workflow-errors).
 
