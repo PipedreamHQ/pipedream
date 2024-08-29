@@ -1,4 +1,7 @@
 import { axios } from "@pipedream/platform";
+import {
+  FIELDS_OPTIONS, LIMIT,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,89 +11,58 @@ export default {
       type: "string",
       label: "Entity ID",
       description: "UUID or permalink of the desired entity",
-      async options() {
-        const entities = await this.searchOrganizations({
-          query: [
-            {
-              field_id: "identifier",
-              operator: "exists",
-            },
-          ],
+      async options({ prevContext }) {
+        const { entities } = await this.searchOrganizations({
+          data: {
+            field_ids: FIELDS_OPTIONS,
+            limit: LIMIT,
+            after_id: prevContext.lastId,
+          },
         });
-        return entities.map((entity) => ({
-          label: entity.properties.name,
-          value: entity.uuid,
-        }));
+
+        return {
+          options: entities.map(({
+            uuid, properties: { name },
+          }) => ({
+            label: name,
+            value: uuid,
+          })),
+          context: {
+            lastId: entities[entities.length - 1].uuid,
+          },
+        };
       },
-    },
-    fieldIds: {
-      type: "string[]",
-      label: "Field IDs",
-      description: "Fields to include on the resulting entity",
-      optional: true,
-    },
-    order: {
-      type: "object[]",
-      label: "Order",
-      description: "Order in which the search results should be returned",
-      optional: true,
-    },
-    query: {
-      type: "object[]",
-      label: "Query",
-      description: "Query for searching organizations",
-      optional: true,
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.crunchbase.com/v4/data";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "X-cb-user-key": this.$auth.user_key,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async getOrganizationDetails({
-      entityId, fieldIds,
-    }) {
+    getOrganizationDetails({ entityId }) {
       return this._makeRequest({
         path: `/entities/organizations/${entityId}`,
-        params: {
-          field_ids: fieldIds
-            ? fieldIds.join(",")
-            : undefined,
-        },
       });
     },
-    async searchOrganizations({
-      fieldIds, order, query,
-    }) {
+    searchOrganizations(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/searches/organizations",
-        data: {
-          field_ids: fieldIds,
-          order,
-          query,
-        },
+        ...opts,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };

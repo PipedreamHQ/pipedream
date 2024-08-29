@@ -1,38 +1,35 @@
+import { FIELDS_OPTIONS } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import crunchbase from "../../crunchbase.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "crunchbase-search-organizations",
   name: "Search Organizations",
   description: "Search for organizations based on specified criteria. [See the documentation](https://data.crunchbase.com/reference/post_data-searches-organizations)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     crunchbase,
     fieldIds: {
-      propDefinition: [
-        crunchbase,
-        "fieldIds",
-      ],
-    },
-    order: {
-      propDefinition: [
-        crunchbase,
-        "order",
-      ],
+      type: "string[]",
+      label: "Field IDs",
+      description: "Fields to include on the resulting entity",
+      options: FIELDS_OPTIONS,
     },
     query: {
-      propDefinition: [
-        crunchbase,
-        "query",
-      ],
+      type: "string[]",
+      label: "Query",
+      description: "Array of stringified objects for searching organizations",
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.crunchbase.searchOrganizations({
-      fieldIds: this.fieldIds,
-      order: this.order,
-      query: this.query,
+      $,
+      data: {
+        field_ids: this.fieldIds,
+        query: parseObject(this.query),
+      },
     });
     $.export("$summary", "Successfully searched organizations");
     return response;
