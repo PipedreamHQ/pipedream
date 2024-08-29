@@ -1,14 +1,16 @@
 "use client"
 
-//import CodePanel from "../CodePanel";
+import CodePanel from "../CodePanel";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { getUserAccounts, serverConnectTokenCreate, makeAppRequest } from "../server"
+import { getUserAccounts, serverConnectTokenCreate, makeAppRequest, getTestRequest } from "../server"
 
 export default function Home() {
   const [externalUserId, setExternalUserId] = useState<string | null>(null);
   const [apn, setAuthProvisionId] = useState<string | null>(null)
+  const [nameSlug, setNameSlug] = useState<string | null>(null)
   const [externalAccounts, setExternalAccounts] = useState<object[] | null>(null)
+  const [testRequestConfig, setTestRequestConfig] = useState<object | null>(null)
   const searchParams = useSearchParams()
 
 
@@ -19,12 +21,14 @@ export default function Home() {
   const [body, setBody] = useState("");
   const [responseBody, setResponseBody] = useState("");
   const [headersArray, setHeadersArray] = useState([])
+
+
     
   useEffect(() => {
     if (externalUserId) {
       (async () => {
         try {
-          const accounts = await getUserAccounts(externalUserId, 1)
+          const accounts = await getUserAccounts(externalUserId)
           setExternalAccounts(accounts)
         } catch (error) {
           console.error("Error fetching data:", error)
@@ -43,8 +47,38 @@ export default function Home() {
     setExternalUserId(uuid);
   }, []);
 
-  const handleRadioChange = (accountId: string) => {
-    setAuthProvisionId(accountId)
+  useEffect(() => {
+    if (nameSlug) {
+      (async () => {
+        try {
+    const testRequest = await getTestRequest(nameSlug)
+    console.log("setting test request")
+    console.log("testRequest", testRequest)
+    setTestRequestConfig(testRequest)
+
+          // set some other stuff now?
+          setUrl(testRequest.url || "")
+          setMethod(testRequest.method || "GET")
+          const headers = Object.entries(testRequest.config.headers).reduce((acc, [key, value]) => {
+            if (key.toLowerCase() != "authorization") {
+              acc.push({ name: key, value:value })
+            }
+            return acc
+          }, [])
+          setHeadersArray([...headers])
+        } catch (error) {
+          console.error("Error fetching data:", error)
+          // Handle error appropriately
+        }
+      })()
+
+    }
+
+  }, [nameSlug])
+
+  const handleRadioChange = (account) => {
+    setAuthProvisionId(account.id)
+    setNameSlug(account.app.name_slug)
   }
 
   const makeRequest = async() => {
@@ -54,7 +88,7 @@ export default function Home() {
       }
       return acc
     }, {})
-    const resp = await makeAppRequest(apn, url, {
+    const resp = await makeAppRequest(apn, url, nameSlug, {
       method,
       headers,
       body,
@@ -76,10 +110,12 @@ export default function Home() {
   const onChangeHeaderName = (e) => {
     //debugger
     headersArray[e.target.id].name = e.target.value
+    setHeadersArray([...headersArray])
   }
 
   const onChangeHeaderValue = (e) => {
     headersArray[e.target.id].value = e.target.value
+    setHeadersArray([...headersArray])
   }
 
 
@@ -97,6 +133,7 @@ export default function Home() {
                     <th/>
                     <th>pd id</th>
                     <th>app</th>
+                    <th>app slug</th>
                     <th>auth type</th>
                   </tr>
                 </thead>
@@ -109,11 +146,12 @@ export default function Home() {
                   name="userSelection"
                   value={account.id}
                   checked={apn === account.id}
-                  onChange={() => handleRadioChange(account.id)}
+                  onChange={() => handleRadioChange(account)}
                 />
                       </td>
                       <td>{account.id}</td>
                       <td>{account.app.name}</td>
+                      <td>{account.app.name_slug}</td>
                       <td>{account.app.auth_type}</td>
                     </tr>
                   ))} 
@@ -123,6 +161,20 @@ export default function Home() {
                 <span>selected account: </span>
                 <span> {apn}</span>
               </p>
+            {testRequestConfig && false &&
+            <CodePanel
+              language="typescript"
+              code={
+`// this is an example of the fetch request for the app
+${testRequestConfig.authType === "bearer" ? "// use the oauth_access_token for your account in the authorization header": "use the given values for your account in the authorization header with Basic auth"}
+const config = {
+  method: "${testRequestConfig.config.method}",
+  headers: ${JSON.stringify(testRequestConfig.config.headers, null, 2).replace(/\n/g, '\n  ')},
+}
+const resp = await fetch("${testRequestConfig.url}", config)
+`}
+            />}
+
 
 
       <h1>Fetch Request Builder</h1>
@@ -151,19 +203,19 @@ export default function Home() {
         </div>
 
         <div>
-          <label htmlFor="headersArray">Headers (key: value format, each header on a new line):</label>
+          <label htmlFor="headersArray">Headers:</label>
+          <button className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded" onClick={addHeader}>Add Header</button>
           {headersArray.map((header, index) => (
             <div key={`header_${index}`}>
               <span class="mr-2">Name</span>
-              <input key={`name_${index}`} id={index} style={inputStyle} class="mr-2" onChange={onChangeHeaderName}/>
+              <input key={`name_${index}`} id={index} value={headersArray[index].name} style={inputStyle} class="mr-2" onChange={onChangeHeaderName}/>
               <span class="mr-2">Value</span>
-              <input key={`value_${index}`} id={index} style={inputStyle} class="mr-2" onChange={onChangeHeaderValue}/>
+              <input key={`value_${index}`} id={index} value={headersArray[index].value} style={inputStyle} class="mr-2" onChange={onChangeHeaderValue}/>
             </div>
           ))}
         </div>
 
 
-              <button className="bg-blue-500 hover:bg-blue-400 text-white py-2 px-4 rounded" onClick={addHeader}>Add Header</button>
 
         {method !== "GET" && (
           <div>
@@ -181,6 +233,7 @@ export default function Home() {
               {
                 responseBody &&
                 <div>
+                  <span>Response Body:</span>
                   <pre>{responseBody}</pre>
                 </div>
               }
