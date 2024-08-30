@@ -19,7 +19,7 @@ export default {
     query: {
       type: "string[]",
       label: "Query",
-      description: "Array of stringified objects for searching organizations",
+      description: "Array of objects for searching organizations. `Format example: { \"operator_id\": \"eq\", \"type\": \"predicate\", \"values\": [ \"Citi\" ], \"field_id\": \"name\"}` [See the documentation](https://data.crunchbase.com/reference/post_data-searches-organizations) for further information.",
       optional: true,
     },
   },

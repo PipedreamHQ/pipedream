@@ -52,9 +52,12 @@ export default {
         ...opts,
       });
     },
-    getOrganizationDetails({ entityId }) {
+    getOrganizationDetails({
+      entityId, ...opts
+    }) {
       return this._makeRequest({
         path: `/entities/organizations/${entityId}`,
+        ...opts,
       });
     },
     searchOrganizations(opts = {}) {
