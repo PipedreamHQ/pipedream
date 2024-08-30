@@ -248,7 +248,10 @@ importers:
     specifiers: {}
 
   components/adrapid:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/adroll:
     specifiers:
