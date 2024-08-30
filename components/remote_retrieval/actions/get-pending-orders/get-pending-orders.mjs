@@ -6,7 +6,7 @@ export default {
   name: "Get Pending Orders",
   description: "Retrieve a list of the orders for which the payment process has not been completed.[See the documentation](https://www.remoteretrieval.com/api-documentation/#pending-orders)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
   },
