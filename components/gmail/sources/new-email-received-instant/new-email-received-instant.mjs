@@ -10,6 +10,11 @@ export default {
   version: "0.0.1",
   type: "source",
   props: {
+    instructionsAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "The Gmail - New Email Received (Instant) trigger requires users to configure a Custom OAuth client for Gmail, which is available on Pipedream's **Advanced** plan or higher. Please see the setup instructions [here](https://pipedream.com/apps/gmail/triggers/new-email-received-instant).",
+    },
     ...common.props,
     http: "$.interface.http",
     timer: {
@@ -65,6 +70,12 @@ export default {
       `,
       hidden: true,
     },
+    latencyWarningAlert: {
+      type: "alert",
+      alertType: "warning",
+      content: "Please allow up to 1 minute for deployment. We're setting up your real-time email notifications behind the scenes.",
+      hidden: true,
+    },
   },
   async additionalProps(props) {
     const isValidClientId = await this.checkClientId();
@@ -78,6 +89,7 @@ export default {
     const { key_json: key } = this.gmail.$auth;
     if (!key) {
       props.keyAlert.hidden = false;
+      return {};
     }
     let topicName = this.topic;
     const topicProp = {
@@ -134,8 +146,11 @@ export default {
           console.log("Permissions granted to Gmail API service account.");
         } catch {
           props.permissionAlert.hidden = false;
+          return newProps;
         }
       }
+
+      props.latencyWarningAlert.hidden = false;
 
       const historyId = await this.setupGmailNotifications(topicName);
       newProps.initialHistoryId = {
