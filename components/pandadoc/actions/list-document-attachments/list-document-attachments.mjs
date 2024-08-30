@@ -2,10 +2,10 @@ import app from "../../pandadoc.app.mjs";
 
 export default {
   key: "pandadoc-list-document-attachments",
-  name: "List Document Attachment",
-  description: "Returns a list of attachments associated with a specified document. [See the docs here](https://developers.pandadoc.com/reference/list-attachment)",
+  name: "List Document Attachments",
+  description: "Returns a list of attachments associated with a specified document. [See the documentation here](https://developers.pandadoc.com/reference/list-attachment)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   props: {
     app,
     documentId: {
