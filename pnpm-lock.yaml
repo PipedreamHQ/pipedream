@@ -10586,7 +10586,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/welcome:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/wesupply:
     specifiers: {}
