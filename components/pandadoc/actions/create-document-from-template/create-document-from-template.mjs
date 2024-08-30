@@ -3,9 +3,9 @@ import app from "../../pandadoc.app.mjs";
 export default {
   key: "pandadoc-create-document-from-template",
   name: "Create Document From Template",
-  description: "Create Document from PandaDoc Template. [See the docs here](https://developers.pandadoc.com/reference/create-document-from-pandadoc-template)",
+  description: "Create a Document from a PandaDoc Template. [See the documentation here](https://developers.pandadoc.com/reference/create-document-from-pandadoc-template)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
   props: {
     app,
     name: {
