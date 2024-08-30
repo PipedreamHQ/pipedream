@@ -67,12 +67,5 @@ export default {
         ...args,
       });
     },
-    async extractFiles(args = {}) {
-      return this._makeRequest({
-        method: "post",
-        path: "/extract",
-        ...args,
-      });
-    },
   },
 };
