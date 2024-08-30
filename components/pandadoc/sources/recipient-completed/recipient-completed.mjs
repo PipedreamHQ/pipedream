@@ -6,9 +6,9 @@ export default {
   ...common,
   name: "Recipient Completed (Instant)",
   description:
-    `Emit new event when a recipient completes a document [See docs here](${DOCS_LINK})`,
+    `Emit new event when a recipient completes a document. [See the documentation here](${DOCS_LINK})`,
   key: "pandadoc-recipient-completed",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   methods: {
     ...common.methods,
