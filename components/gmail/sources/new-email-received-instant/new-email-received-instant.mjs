@@ -68,14 +68,10 @@ export default {
   },
   async additionalProps(props) {
     const isValidClientId = await this.checkClientId();
-    props.appAlert.alertType = isValidClientId
-      ? "info"
-      : "error";
-    props.appAlert.content = isValidClientId
-      ? "OAuth client ID is valid. You can use the component."
-      : "You must use a custom OAuth client to use this component. Please see [here](https://pipedream.com/docs/connected-accounts/oauth-clients) for more details.";
-    props.appAlert.hidden = false;
     if (!isValidClientId) {
+      props.appAlert.alertType = "error";
+      props.appAlert.content = "You must use a custom OAuth client to use this component. Please see [here](https://pipedream.com/docs/connected-accounts/oauth-clients) for more details.";
+      props.appAlert.hidden = false;
       return {};
     }
 

@@ -154,7 +154,12 @@ export default {
             id: messageId,
           });
           return parts?.filter(({ body }) => body.attachmentId )
-            ?.map(({ body }) => body.attachmentId ) || [];
+            ?.map(({
+              body, filename,
+            }) => ({
+              value: body.attachmentId,
+              label: filename,
+            })) || [];
         } catch {
           return [];
         }

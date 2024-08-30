@@ -1,6 +1,7 @@
 import gmail from "../../gmail.app.mjs";
 import fs from "fs";
 import path from "path";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "gmail-download-attachment",
@@ -24,26 +25,36 @@ export default {
           messageId,
         }),
       ],
+      withLabel: true,
     },
     filename: {
       type: "string",
       label: "Filename",
       description: "Name of the new file. Example: `test.jpg`",
+      optional: true,
     },
   },
   async run({ $ }) {
+    const attachmentId = this.attachmentId.value || this.attachmentId; console.log(attachmentId);
+
     const attachment = await this.gmail.getAttachment({
       messageId: this.messageId,
-      attachmentId: this.attachmentId,
+      attachmentId,
     });
 
-    const filePath = path.join("/tmp", this.filename);
+    const filename = this.filename || this.attachmentId.label;
+    if (!filename) {
+      throw new ConfigurationError("Please enter a filename to save the downloaded file as in the `/tmp` directory.");
+    }
+
+    const filePath = path.join("/tmp", filename);
     const buffer = Buffer.from(attachment.data, "base64");
     fs.writeFileSync(filePath, buffer);
 
-    $.export("$summary", `Successfully created file ${this.filename} in \`/tmp\` directory`);
+    $.export("$summary", `Successfully created file ${filename} in \`/tmp\` directory`);
 
     return {
+      filename,
       filePath,
     };
   },

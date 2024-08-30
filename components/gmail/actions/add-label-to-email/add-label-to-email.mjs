@@ -17,14 +17,10 @@ export default {
     addLabelIds: {
       propDefinition: [
         gmail,
-        "messageLabels",
-        (c) => ({
-          messageId: c.message,
-          type: "add",
-        }),
+        "label",
       ],
-      label: "Labels To Add",
-      description: "The labels to add to the email",
+      type: "string[]",
+      label: "Labels",
     },
   },
   async run({ $ }) {

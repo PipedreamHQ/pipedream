@@ -17,13 +17,10 @@ export default {
     removeLabelIds: {
       propDefinition: [
         gmail,
-        "messageLabels",
-        (c) => ({
-          messageId: c.message,
-          type: "remove",
-        }),
+        "label",
       ],
-      label: "Labels To Remove",
+      type: "string[]",
+      label: "Labels",
       description: "The labels to remove from the email",
     },
   },
