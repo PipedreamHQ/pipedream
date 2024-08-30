@@ -35,7 +35,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const attachmentId = this.attachmentId.value || this.attachmentId; console.log(attachmentId);
+    const attachmentId = this.attachmentId.value || this.attachmentId;
 
     const attachment = await this.gmail.getAttachment({
       messageId: this.messageId,
