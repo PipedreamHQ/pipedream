@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "documenso-new-document-completed",
-  name: "New Document Completed Instant",
+  name: "New Document Completed",
   description: "Emit new event when a document is signed by all recipients.",
   version: "0.0.1",
   type: "source",
