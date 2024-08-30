@@ -1,0 +1,1 @@
+export const DOCUMENT_STATUS_COMPLETED = 2;

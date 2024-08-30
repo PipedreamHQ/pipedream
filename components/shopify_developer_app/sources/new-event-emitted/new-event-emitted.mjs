@@ -1,5 +1,5 @@
-import common from "../common/webhook.mjs";
 import constants from "../common/constants.mjs";
+import common from "../common/webhook-metafields.mjs";
 
 export default {
   ...common,
@@ -7,7 +7,7 @@ export default {
   name: "New Event Emitted (Instant)",
   type: "source",
   description: "Emit new event for each new Shopify event.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,

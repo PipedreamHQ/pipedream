@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/helper_functions",
-  "version": "0.3.13",
+  "version": "0.4.0",
   "description": "Pipedream Helper_functions Components",
   "main": "helper_functions.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.1.1",
+    "@pipedream/platform": "^3.0.0",
     "streamifier": "^0.1.1",
     "xml-js": "^1.6.11"
   }

@@ -49,7 +49,7 @@ If you resume a workflow, any data sent in the HTTP request is passed to the wor
 
 ### Default timeout of 24 hours 
 
-By default, `pd.flow.suspend` will automatically resume the workflow after 24 hours. You can set your own timeout (in milliseconds) as the first argument:
+By default, `pd.flow.suspend` will automatically cancel the workflow after 24 hours. You can set your own timeout (in milliseconds) as the first argument:
 
 ```python
 def handler(pd: 'pipedream'):

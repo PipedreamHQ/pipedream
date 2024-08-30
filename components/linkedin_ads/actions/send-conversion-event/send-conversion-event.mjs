@@ -5,7 +5,7 @@ export default {
   key: "linkedin_ads-send-conversion-event",
   name: "Send Conversion Event",
   description: "Sends a conversion event to LinkedIn Ads. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/ads-reporting/conversions-api?view=li-lms-2024-01&tabs=http#streaming-conversion-events)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

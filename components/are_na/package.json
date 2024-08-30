@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/are_na",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Are.na Components",
   "main": "are_na.app.mjs",
   "keywords": [

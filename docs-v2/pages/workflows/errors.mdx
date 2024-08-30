@@ -2,6 +2,25 @@ import VideoPlayer from "@/components/VideoPlayer";
 
 # Handling errors
 
+Two types of errors are raised in Pipedream workflows:
+
+- **Workflow errors** — Errors in the workflow execution environment, like [Timeouts](/troubleshooting#timeout) or [Out of Memory](/troubleshooting#out-of-memory) errors. Often, you can change your workflow's configuration to fix them. You can find more details on these errors [in our troubleshooting guide](/troubleshooting).
+- **Step errors** — Errors raised by individual [code](/code) or [action](/workflows/actions) steps. These can be syntax errors, errors raised by the Node or Python runtime, errors with input data, and more. Pipedream will surface details about the error and the stack trace, and you can even [debug these errors with AI](#debug-with-ai).
+
+Both types of errors will trigger [error notifications](#error-notifications), can be handled by [custom error handlers](#handle-errors-with-custom-logic), and will show up in [the REST API](#poll-the-rest-api-for-workflow-errors).
+
+## Auto-retry
+
+You can [automatically retry events](/workflows/settings#auto-retry-errors) that yield an error. This can help for transient errors that occur when making API requests, like when a service is down or your request times out.
+
+## Apply conditional logic
+
+Many errors result from the data you're processing. You might only receive certain data from a webhook under certain conditions, or have malformed data in the payload that causes an error.
+
+You can apply conditional logic in code, or using the [If / Else operator](/workflows/control-flow/ifelse), handling these conditions accordingly.
+
+## Error notifications
+
 By default, [Pipedream sends an email](#default-system-emails) when a workflow throws an unhandled error. But you can
 
 - Send error notifications to Slack
@@ -12,7 +31,7 @@ These docs describe the default error behavior, and how to handle custom use cas
 
 Before you jump into the examples below, remember that all Pipedream workflows are just code. You can always use the built-in error handling logic native to your programming language, for example: using JavaScript's [`try / catch` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch). In the future, Pipedream plans to support this kind of error-handling for built-in actions, as well.
 
-## Default system emails
+### Default system emails
 
 Any time your workflow throws an unhandled error, you'll receive an email like this:
 
@@ -20,15 +39,29 @@ Any time your workflow throws an unhandled error, you'll receive an email like t
 
 This email includes a link to the error so you can see the data and logs associated with the run. When you inspect the data in the Pipedream UI, you'll see details on the error below the step that threw the error, e.g. the full stack trace.
 
-### Duplicate errors do not trigger duplicate emails
+#### Duplicate errors do not trigger duplicate emails
 
 High-volume errors can lead to lots of notifications, so Pipedream only sends at most one email, per error, per workflow, per 24 hour period.
 
 For example, if your workflow throws a `TypeError`, we'll send you an email, but if it continues to throw that same `TypeError`, we won't email you about the duplicate errors until the next day. If a different workflow throws a `TypeError`, you **will** receive an email about that.
 
-## Test mode vs. live mode
+### Test mode vs. live mode
 
 When you're editing and testing your workflow, any unhandled errors will **not** raise errors as emails, nor are they forwarded to [error listeners](#process-errors-with-custom-logic-instead-of-email). Error notifications are only sent when a deployed workflow encounters an error on a live event.
+
+## Debug with AI
+
+You can debug errors in [code](/code) or [action](/workflows/actions) steps with AI by pressing the **Debug with AI** button at the bottom of any error.
+
+### Data we send with errors
+
+When you debug an error with AI, Pipedream sends the following information to OpenAI:
+
+- The error code, message, and stack trace
+- The step's code
+- The input added to the step configuration. This **does not** contain the event data that triggered your workflow, just the static input entered in the step configuration, like the URL of an HTTP request, or the names of [step exports](/workflows/steps#step-exports).
+
+We explicitly **do not** send the event data that triggered the error, or any other information about your account or workflow.
 
 ## Handle errors with custom logic
 
