@@ -8280,6 +8280,9 @@ importers:
   components/security_reporter:
     specifiers: {}
 
+  components/securitytrails:
+    specifiers: {}
+
   components/segment:
     specifiers:
       '@pipedream/platform': ^0.10.0
