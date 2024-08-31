@@ -6661,6 +6661,9 @@ importers:
   components/paddle:
     specifiers: {}
 
+  components/page_x:
+    specifiers: {}
+
   components/pagerduty:
     specifiers:
       '@pipedream/platform': ^1.2.0

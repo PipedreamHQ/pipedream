@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/page_x",
+  "version": "0.0.1",
+  "description": "Pipedream PAGE X Components",
+  "main": "page_x.app.mjs",
+  "keywords": [
+    "pipedream",
+    "page_x"
+  ],
+  "homepage": "https://pipedream.com/apps/page_x",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
