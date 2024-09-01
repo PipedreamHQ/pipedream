@@ -13,6 +13,12 @@ function Search() {
           "version:latest",
         ],
       }}
+      transformItems={(items) => {
+        return items.map((item) => ({
+          ...item,
+          content: item.url,
+        }));
+      }}
     />
   );
 }
