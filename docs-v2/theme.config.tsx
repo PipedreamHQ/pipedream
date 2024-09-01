@@ -24,7 +24,7 @@ const config: DocsThemeConfig = {
     link: "https://pipedream.com/support",
     icon: SlackLogo,
   },
-  docsRepositoryBase: "https://github.com/PipedreamHQ/pipedream/docs-v2",
+  docsRepositoryBase: "https://github.com/PipedreamHQ/pipedream/blob/master/docs-v2",
   footer: {
     text: (
       <span>
