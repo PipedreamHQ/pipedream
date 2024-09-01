@@ -27,7 +27,7 @@ export default {
     db: "$.service.db",
     topicType: {
       type: "string",
-      label: "Type",
+      label: "Pub/Sub Topic",
       description: "Do you have an existing Pub/Sub topic, or would you like to create a new one?",
       options: [
         "existing",
