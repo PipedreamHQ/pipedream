@@ -1434,6 +1434,9 @@ importers:
   components/cflow:
     specifiers: {}
 
+  components/chainaware_ai:
+    specifiers: {}
+
   components/chaindesk:
     specifiers:
       '@pipedream/platform': ^1.5.1
