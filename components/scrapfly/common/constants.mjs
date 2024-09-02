@@ -1,6 +1,6 @@
 export const PROXY_POOL_OPTIONS = [
   "public_datacenter_pool",
-  "public_resitential_pool",
+  "public_residential_pool",
 ];
 
 export const FORMAT_OPTIONS = [
