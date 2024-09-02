@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { CONTENT_TYPE_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,76 +8,60 @@ export default {
     url: {
       type: "string",
       label: "URL",
-      description: "The URL of the web page to extract data from",
-    },
-    key: {
-      type: "string",
-      label: "API Key",
-      description: "Your Scrapfly API key",
+      description: "This URL is used to transform any relative URLs in the document into absolute URLs automatically. It can be either the base URL or the exact URL of the document. [Must be url encoded](https://scrapfly.io/web-scraping-tools/urlencode).",
     },
     body: {
       type: "string",
       label: "Body",
-      description: "The content of the page you want to extract data from",
+      description: "The request body must contain the content of the page you want to extract data from. The content must be in the format specified by the `content-type` header or via the `content_type` HTTP parameter.  Provide a file from `/tmp`. To upload a file to `/tmp` folder, please follow the doc [here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
     },
     contentType: {
       type: "string",
       label: "Content Type",
-      description: "The content type of the document passed in the body",
-      options: [
-        "text/html",
-        "text/markdown",
-        "text/plain",
-        "application/xml",
-      ],
+      description: "Content type of the document pass in the body - You must specify the content type of the document by using this parameter or via the `content-type` header. This parameter has priority over the `content-type` header.",
+      options: CONTENT_TYPE_OPTIONS,
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.scrapfly.io";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _params(params = {}) {
+      return {
+        ...params,
+        key: `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, params, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        params: this._params(params),
+        ...opts,
       });
     },
-    async getSubscriptionAndUsageDetails() {
+    getAccountInfo(opts = {}) {
       return this._makeRequest({
         path: "/account",
+        ...opts,
       });
     },
-    async extractWebPageContent({
-      url, key, ...params
+    extractWebPageContent({
+      params, ...opts
     }) {
       return this._makeRequest({
         method: "GET",
-        path: `/scrape?url=${encodeURIComponent(url)}&key=${key}`,
+        path: "/scrape",
         params,
+        ...opts,
       });
     },
-    async automateContentExtraction({
-      key, body, contentType, ...params
-    }) {
+    automateContentExtraction(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/extraction",
-        headers: {
-          "Content-Type": contentType,
-        },
-        data: body,
-        params: {
-          key,
-          ...params,
-        },
+        ...opts,
       });
     },
   },
