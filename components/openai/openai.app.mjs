@@ -21,7 +21,7 @@ export default {
       async options() {
         return (await this.getChatCompletionModels({})).map((model) => model.id);
       },
-      default: "gpt-3.5-turbo",
+      default: "gpt-4o-mini",
     },
     embeddingsModelId: {
       label: "Model",
