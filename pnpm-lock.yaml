@@ -174,7 +174,10 @@ importers:
     specifiers: {}
 
   components/actitime:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/activecalculator:
     specifiers:
@@ -17455,9 +17458,9 @@ packages:
   /@pipedream/platform/3.0.1:
     resolution: {integrity: sha512-xja1ZHUR/DpOQZZJY39daml8q1ZMzg8wKYwYbyxVPs7MiMqneHM7Bz+Lgj/QrjbNissIKsRSGXmkXbT+Y10L0w==}
     dependencies:
-      axios: 1.7.4
-      fp-ts: 2.16.1
-      io-ts: 2.2.20_fp-ts@2.16.1
+      axios: 1.7.5
+      fp-ts: 2.16.9
+      io-ts: 2.2.21_fp-ts@2.16.9
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
