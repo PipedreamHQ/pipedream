@@ -9184,7 +9184,10 @@ importers:
     specifiers: {}
 
   components/storeganise:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/stormboard:
     specifiers: {}
