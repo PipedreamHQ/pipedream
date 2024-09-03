@@ -14,7 +14,7 @@ export default {
       return "results";
     },
     getResourceFn() {
-      return this.app.allOrders;
+      return this.app.getAllOrders;
     },
     getResourceFnArgs() {
       return;

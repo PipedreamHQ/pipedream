@@ -12,7 +12,7 @@ export default {
   methods: {
   },
   async run({ $: step }) {
-        const response = await this.app.allOrders({
+        const response = await this.app.getAllOrders({
       step,
     });
 

@@ -38,7 +38,7 @@ export default {
         ...args,
       });
     },
-    allOrders(args = {}) {
+    getAllOrders(args = {}) {
       return this.makeRequest({
         path: "/orders/",
         ...args,
