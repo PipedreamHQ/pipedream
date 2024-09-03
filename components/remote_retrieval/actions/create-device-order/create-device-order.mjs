@@ -14,109 +14,109 @@ export default {
         label: "Employee Info Email",
         description: "Used in email communications with the employee."
       },
-      employeeInfoName: {
-        type: "string",
-        label: "Employee Info Name",
-        description: "Employee full name to print on the shipping label."
-      },
-      employeeInfoAdd_1: {
-        type: "string",
-        label: "Employee Info Address Line 1",
-        description: "The first line of the employee address"
-      },
-      employeeInfoAdd_2: {
-        type: "string",
-        label: "Employee Info Address Line 2",
-        description: "The second line is optional for employee address",
-        optional: true ,
-      },
-      employeeInfoCity: {
-        type: "string",
-        label: "Employee Info City",
-        description: "City of employee",
-      },
-      employeeInfoState: {
-        type: "string",
-        label: "Employee Info State",
-        description: "State of employee",
-      },
-      employeeInfoZip: {
-        type: "string",
-        label: "Employee Info Zip",
-        description: "Zip code of employee",
-      },
-      employeeInfoPhone: {
-        type: "string",
-        label: "Employee Info Phone",
-        description: "Phone of employee",
-      },
-      employeeInfoCountry: {
-        type: "string",
-        label: "Employee Info Country",
-        description: "This service is only for USA",
-         options: ["US"],
-        default:  "US",
-      },    
+    employeeInfoName: {
+      type: "string",
+      label: "Employee Info Name",
+      description: "Employee full name to print on the shipping label."
+    },
+    employeeInfoAdd_1: {
+      type: "string",
+      label: "Employee Info Address Line 1",
+      description: "The first line of the employee address"
+    },
+    employeeInfoAdd_2: {
+      type: "string",
+      label: "Employee Info Address Line 2",
+      description: "The second line is optional for employee address",
+      optional: true ,
+    },
+    employeeInfoCity: {
+      type: "string",
+      label: "Employee Info City",
+      description: "City of employee",
+    },
+    employeeInfoState: {
+      type: "string",
+      label: "Employee Info State",
+      description: "State of employee",
+    },
+    employeeInfoZip: {
+      type: "string",
+      label: "Employee Info Zip",
+      description: "Zip code of employee",
+    },
+    employeeInfoPhone: {
+      type: "string",
+      label: "Employee Info Phone",
+      description: "Phone of employee",
+    },
+    employeeInfoCountry: {
+      type: "string",
+      label: "Employee Info Country",
+      description: "This service is only for USA",
+        options: ["US"],
+      default:  "US",
+    },    
 
-      companyInfoPerson: {
-        type: "string",
-        label: "Company Info Person Name",
-        description: "Receipient Name"
-      },
-      companyInfoCompanyName: {
-        type: "string",
-        label: "Company Info Company Name",
-        description: "Company Name"        
-      },
-      companyInfoAdd_1: {
-        type: "string",
-        label: "Company Info Address Line 1",
-        description: "The first line of the company address"
-      },
-      companyInfoAdd_2: {
-        type: "string",
-        label: "Company Info Address Line 2",
-        description: "The second line is optional for company address",
-      },
-      companyInfoCity: {
-        type: "string",
-        label: "Company Info City",
-        description: "Company city",        
-      },
-      companyInfoState: {
-        type: "string",
-        label: "Company Info State",
-        description: "Company State(Example: TX,AL,NJ)",        
-      },
-      companyInfoZip: {
-        type: "string",
-        label: "Company Info Zip",
-        description: "Company Zip",        
-      },
-      companyInfoPhone: {
-        type: "string",
-        label: "Company Info Phone",
-        description: "Company Phone",                
-      },   
-      companyInfoEmail: {
-        type: "string",
-        label: "Company Info Email",
-        description: "Company Email",                        
-      },
-      typeOfEquipment: {
-        type: "string",
-        label: "Type of Equipment",
-        description: "You can choose 'Laptop' or 'Monitor'",
-        options: ['Laptop','Monitor'],
-        default: "Laptop"
-      },      
-      orderType: {
-        type: "string",
-        label: "Order Type",
-        description: "You can choose 'Return to Company' or 'Sell this Equipment'",
-        options: ['Return to Company','Sell this Equipment'],
-        default: "Return to Company"
-      },         
+    companyInfoPerson: {
+      type: "string",
+      label: "Company Info Person Name",
+      description: "Receipient Name"
+    },
+    companyInfoCompanyName: {
+      type: "string",
+      label: "Company Info Company Name",
+      description: "Company Name"        
+    },
+    companyInfoAdd_1: {
+      type: "string",
+      label: "Company Info Address Line 1",
+      description: "The first line of the company address"
+    },
+    companyInfoAdd_2: {
+      type: "string",
+      label: "Company Info Address Line 2",
+      description: "The second line is optional for company address",
+    },
+    companyInfoCity: {
+      type: "string",
+      label: "Company Info City",
+      description: "Company city",        
+    },
+    companyInfoState: {
+      type: "string",
+      label: "Company Info State",
+      description: "Company State(Example: TX,AL,NJ)",        
+    },
+    companyInfoZip: {
+      type: "string",
+      label: "Company Info Zip",
+      description: "Company Zip",        
+    },
+    companyInfoPhone: {
+      type: "string",
+      label: "Company Info Phone",
+      description: "Company Phone",                
+    },   
+    companyInfoEmail: {
+      type: "string",
+      label: "Company Info Email",
+      description: "Company Email",                        
+    },
+    typeOfEquipment: {
+      type: "string",
+      label: "Type of Equipment",
+      description: "You can choose 'Laptop' or 'Monitor'",
+      options: ['Laptop','Monitor'],
+      default: "Laptop"
+    },      
+    orderType: {
+      type: "string",
+      label: "Order Type",
+      description: "You can choose 'Return to Company' or 'Sell this Equipment'",
+      options: ['Return to Company','Sell this Equipment'],
+      default: "Return to Company"
+    },         
   },
 
   methods: {
