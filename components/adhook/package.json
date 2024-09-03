@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/adhook",
+  "version": "0.0.1",
+  "description": "Pipedream Adhook Components",
+  "main": "adhook.app.mjs",
+  "keywords": [
+    "pipedream",
+    "adhook"
+  ],
+  "homepage": "https://pipedream.com/apps/adhook",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
