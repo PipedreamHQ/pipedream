@@ -99,7 +99,6 @@ export async function makeAppRequest(accountId: string, endpoint: string, nameSl
     const buffer = `${username}:${password}`
     headers.authorization = `Basic ${Buffer.from(buffer).toString("base64")}`
   }
-  console.log("oauthToken", oauthToken)
   const config = {
     method: opts.method || "GET",
     headers: {
