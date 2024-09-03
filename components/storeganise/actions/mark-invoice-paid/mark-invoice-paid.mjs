@@ -1,28 +1,35 @@
 import storeganise from "../../storeganise.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "storeganise-mark-invoice-paid",
   name: "Mark Invoice as Paid",
-  description: "Marks the selected invoice as paid in Storeganise. [See the documentation](https://help.storeganise.com/article/21-api-faq)",
-  version: "0.0.{{ts}}",
+  description: "Marks the selected invoice as paid in Storeganise. [See the documentation](https://pipedream-dev-trial.storeganise.com/api/docs/admin/invoices#admin_invoices.PUT_invoiceId)",
+  version: "0.0.1",
   type: "action",
   props: {
     storeganise,
     invoiceId: {
-      type: "string",
-      label: "Invoice ID",
-      description: "The ID of the invoice",
+      propDefinition: [
+        storeganise,
+        "invoiceId",
+      ],
     },
     paymentDate: {
-      type: "string",
-      label: "Payment Date",
-      description: "The date of the payment (optional)",
-      optional: true,
+      propDefinition: [
+        storeganise,
+        "paymentDate",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.storeganise.markInvoicePaid(this.invoiceId, this.paymentDate);
+    const response = await this.storeganise.updateInvoice({
+      $,
+      invoiceId: this.invoiceId,
+      data: {
+        state: "paid",
+        paid: this.paymentDate,
+      },
+    });
     $.export("$summary", `Invoice ${this.invoiceId} was marked as paid successfully`);
     return response;
   },

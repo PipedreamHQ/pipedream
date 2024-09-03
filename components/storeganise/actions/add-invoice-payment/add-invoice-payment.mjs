@@ -1,11 +1,10 @@
 import storeganise from "../../storeganise.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "storeganise-add-invoice-payment",
   name: "Add Invoice Payment",
-  description: "Adds a payment to the targeted invoice. Requires invoice id and the payment amount as props. Can also include payment date and payment method as optional props.",
-  version: "0.0.{{ts}}",
+  description: "Adds a payment to the targeted invoice. [See the documentation]()",
+  version: "0.0.1",
   type: "action",
   props: {
     storeganise,
@@ -15,29 +14,47 @@ export default {
         "invoiceId",
       ],
     },
-    paymentAmount: {
-      propDefinition: [
-        storeganise,
-        "paymentAmount",
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The type of payment",
+      options: [
+        "credit",
+        "braintree",
+        "stripe",
+        "manual",
       ],
+    },
+    amount: {
+      type: "string",
+      label: "Amount",
+      description: "The payment amount",
     },
     paymentDate: {
       propDefinition: [
         storeganise,
         "paymentDate",
       ],
-      optional: true,
     },
-    paymentMethod: {
+    note: {
       propDefinition: [
         storeganise,
-        "paymentMethod",
+        "note",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.storeganise.addPaymentToInvoice(this.invoiceId, this.paymentAmount, this.paymentDate, this.paymentMethod);
+    const response = await this.storeganise.addPaymentToInvoice({
+      $,
+      invoiceId: this.invoiceId,
+      data: {
+        type: this.type,
+        amount: this.amount,
+        date: this.paymentDate,
+        notes: this.note,
+      },
+    });
     $.export("$summary", `Successfully added payment to invoice ${this.invoiceId}`);
     return response;
   },

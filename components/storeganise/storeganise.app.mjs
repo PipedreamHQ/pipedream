@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+const DEFAULT_LIMIT = 20;
 
 export default {
   type: "app",
@@ -8,120 +9,97 @@ export default {
       type: "string",
       label: "Invoice ID",
       description: "The ID of the invoice",
+      async options({ page }) {
+        const invoices = await this.listInvoices({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
+        return invoices?.map(({ id }) => id);
+      },
     },
-    unitId: {
+    note: {
       type: "string",
-      label: "Unit ID",
-      description: "The ID of the unit",
-    },
-    rentalId: {
-      type: "string",
-      label: "Rental ID",
-      description: "The ID of the rental",
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The ID of the user",
-    },
-    noteContent: {
-      type: "string",
-      label: "Note Content",
+      label: "Note",
       description: "The content of the note",
-      optional: true,
-    },
-    timestamp: {
-      type: "string",
-      label: "Timestamp",
-      description: "The timestamp of the note",
-      optional: true,
-    },
-    paymentAmount: {
-      type: "number",
-      label: "Payment Amount",
-      description: "The amount of the payment",
     },
     paymentDate: {
       type: "string",
       label: "Payment Date",
-      description: "The date of the payment",
-      optional: true,
-    },
-    paymentMethod: {
-      type: "string",
-      label: "Payment Method",
-      description: "The method of the payment",
+      description: "The date of the payment in ISO-8601 format (e.g., `2018-02-18T02:30:00-07:00`)",
       optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://pipedream-dev-trial.storeganise.com/api";
+      return `https://${this.$auth.subdomain}.storeganise.com/api/v1/admin`;
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_token}`,
+          Authorization: `ApiKey ${this.$auth.api_key}`,
         },
       });
     },
-    async createInvoice(invoiceId) {
+    listInvoices(opts = {}) {
       return this._makeRequest({
-        method: "POST",
+        path: "/invoices",
+        ...opts,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    listUnitRentals(opts = {}) {
+      return this._makeRequest({
+        path: "/unit-rentals",
+        ...opts,
+      });
+    },
+    getInvoice({
+      invoiceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `invoices/${invoiceId}`,
+        ...opts,
+      });
+    },
+    updateInvoice({
+      invoiceId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
         path: `/invoices/${invoiceId}`,
+        ...opts,
       });
     },
-    async markRentalOverdue(unitId, rentalId) {
+    updateInvoicePayment({
+      invoiceId, itemId, ...opts
+    }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/units/${unitId}/rentals/${rentalId}/overdue`,
+        path: `/invoices/${invoiceId}/payments/${itemId}`,
+        ...opts,
       });
     },
-    async createUser(userId) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/users/${userId}`,
-      });
-    },
-    async markInvoicePaid(invoiceId, paymentDate) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/invoices/${invoiceId}/paid`,
-        data: {
-          payment_date: paymentDate,
-        },
-      });
-    },
-    async addNoteToInvoice(invoiceId, noteContent, timestamp) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/invoices/${invoiceId}/notes`,
-        data: {
-          content: noteContent,
-          timestamp: timestamp,
-        },
-      });
-    },
-    async addPaymentToInvoice(invoiceId, paymentAmount, paymentDate, paymentMethod) {
+    addPaymentToInvoice({
+      invoiceId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/invoices/${invoiceId}/payments`,
-        data: {
-          amount: paymentAmount,
-          date: paymentDate,
-          method: paymentMethod,
-        },
+        ...opts,
       });
     },
   },
