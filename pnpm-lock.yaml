@@ -173,6 +173,9 @@ importers:
   components/action_network:
     specifiers: {}
 
+  components/actitime:
+    specifiers: {}
+
   components/activecalculator:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -228,6 +231,9 @@ importers:
       '@pipedream/platform': ^3.0.0
     dependencies:
       '@pipedream/platform': 3.0.0
+
+  components/adhook:
+    specifiers: {}
 
   components/adobe_pdf_services:
     specifiers:
@@ -592,6 +598,9 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/apilio:
+    specifiers: {}
+
+  components/apipie_ai:
     specifiers: {}
 
   components/apitemplate_io:
@@ -1429,6 +1438,9 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/cflow:
+    specifiers: {}
+
+  components/chainaware_ai:
     specifiers: {}
 
   components/chaindesk:
@@ -5111,7 +5123,10 @@ importers:
     specifiers: {}
 
   components/launchnotes:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/leadboxer:
     specifiers: {}
@@ -6653,6 +6668,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/paddle:
+    specifiers: {}
+
+  components/page_x:
     specifiers: {}
 
   components/pagerduty:
@@ -8272,6 +8290,9 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/security_reporter:
+    specifiers: {}
+
+  components/securitytrails:
     specifiers: {}
 
   components/segment:
@@ -10589,7 +10610,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/welcome:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/wesupply:
     specifiers: {}

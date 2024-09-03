@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/securitytrails",
+  "version": "0.0.1",
+  "description": "Pipedream SecurityTrails Components",
+  "main": "securitytrails.app.mjs",
+  "keywords": [
+    "pipedream",
+    "securitytrails"
+  ],
+  "homepage": "https://pipedream.com/apps/securitytrails",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
