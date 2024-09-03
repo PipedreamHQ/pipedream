@@ -1,49 +1,54 @@
 import deputy from "../../deputy.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "deputy-create-location",
   name: "Create Location",
-  description: "Creates a new location in Deputy app. [See the documentation](https://developer.deputy.com/deputy-docs/reference)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new location in Deputy. [See the documentation](https://developer.deputy.com/deputy-docs/reference/addalocation)",
+  version: "0.0.1",
   type: "action",
   props: {
     deputy,
-    locationDetails: {
-      propDefinition: [
-        deputy,
-        "locationDetails",
-      ],
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the workplace",
     },
-    photo: {
+    address: {
+      type: "string",
+      label: "Address",
+      description: "The address of the workplace",
+    },
+    parentCompanyId: {
       propDefinition: [
         deputy,
-        "photo",
+        "locationId",
       ],
+      label: "Parent Company ID",
+      description: "The identifier of the parent company",
+      optional: true,
+    },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "The timezone of the workplace. Example: `Australia/Sydney`",
       optional: true,
     },
     notes: {
-      propDefinition: [
-        deputy,
-        "notes",
-      ],
-      optional: true,
-    },
-    relatedBusinessUnits: {
-      propDefinition: [
-        deputy,
-        "relatedBusinessUnits",
-      ],
+      type: "string",
+      label: "Notes",
+      description: "Notes about the location",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.deputy.createNewLocation({
+    const response = await this.deputy.createLocation({
+      $,
       data: {
-        locationDetails: this.locationDetails,
-        photo: this.photo,
-        notes: this.notes,
-        relatedBusinessUnits: this.relatedBusinessUnits,
+        strWorkplaceName: this.name,
+        strAddress: this.address,
+        intParentCompany: this.parentCompanyId,
+        strTimezone: this.timezone,
+        strAddressNotes: this.notes,
       },
     });
     $.export("$summary", `Successfully created location with ID: ${response.Id}`);

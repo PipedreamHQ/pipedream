@@ -4,156 +4,90 @@ export default {
   type: "app",
   app: "deputy",
   propDefinitions: {
-    accessRights: {
+    locationId: {
       type: "string",
-      label: "Access Rights",
-      description: "Access rights to have workplace visibility",
+      label: "Location ID",
+      description: "The identifier of a location",
+      async options() {
+        const locations = await this.listLocations();
+        return locations?.map(({
+          Id: value, CompanyName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    user: {
+    employeeId: {
       type: "string",
-      label: "User",
-      description: "The user for whom the timesheet has been saved",
-      optional: true,
-    },
-    locationDetails: {
-      type: "object",
-      label: "Location Details",
-      description: "Location details including name, address, geo-coordinates if available, and timezone",
-    },
-    photo: {
-      type: "string",
-      label: "Photo",
-      description: "Optional photo for the location",
-      optional: true,
-    },
-    notes: {
-      type: "string",
-      label: "Notes",
-      description: "Optional notes for the location",
-      optional: true,
-    },
-    relatedBusinessUnits: {
-      type: "string",
-      label: "Related Business Units",
-      description: "Optional related business units for the location",
-      optional: true,
-    },
-    employeeIdentifier: {
-      type: "string",
-      label: "Employee Identifier",
-      description: "Identifier for the employee",
-    },
-    startTime: {
-      type: "string",
-      label: "Start Time",
-      description: "Start time for the work shift",
-    },
-    endTime: {
-      type: "string",
-      label: "End Time",
-      description: "End time for the work shift",
-    },
-    breakDetails: {
-      type: "string",
-      label: "Break Details",
-      description: "Optional break details for the work shift",
-      optional: true,
-    },
-    personalDetails: {
-      type: "object",
-      label: "Personal Details",
-      description: "Employee’s personal details",
-    },
-    designation: {
-      type: "string",
-      label: "Designation",
-      description: "Employee's designation",
-    },
-    employmentType: {
-      type: "string",
-      label: "Employment Type",
-      description: "Employee's employment type",
-    },
-    contactDetails: {
-      type: "string",
-      label: "Contact Details",
-      description: "Optional contact details for the employee",
-      optional: true,
-    },
-    emergencyContacts: {
-      type: "string",
-      label: "Emergency Contacts",
-      description: "Optional emergency contacts for the employee",
-      optional: true,
-    },
-    employeeNotes: {
-      type: "string",
-      label: "Notes",
-      description: "Optional notes for the employee",
-      optional: true,
+      label: "Employee ID",
+      description: "The identifier of an employee",
+      async options() {
+        const employees = await this.listEmployees();
+        return employees?.map(({
+          Id: value, DisplayName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.deputy.com";
+      return `https://${this.$auth.endpoint}/api/v1`;
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async addNewIndividual(opts = {}) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/addnewworkplace",
+        path: "/resource/Webhook",
         ...opts,
       });
     },
-    async addNewNewsfeedPost(opts = {}) {
+    listEmployees(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/postajournal",
+        path: "/supervise/employee",
         ...opts,
       });
     },
-    async saveNewTimesheet(opts = {}) {
+    listLocations(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/startanemployeestimesheetclockon",
+        path: "/resource/Company",
         ...opts,
       });
     },
-    async createNewLocation(opts = {}) {
+    createLocation(opts = {}) {
       return this._makeRequest({
         method: "PUT",
-        path: "/addalocation",
+        path: "/supervise/company",
         ...opts,
       });
     },
-    async startNewWorkShift(opts = {}) {
+    startTimesheet(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/startanemployeestimesheetclockon",
+        path: "/supervise/timesheet/start",
         ...opts,
       });
     },
-    async addNewEmployee(opts = {}) {
+    createEmployee(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/addanemployee",
+        path: "/supervise/employee",
         ...opts,
       });
     },
