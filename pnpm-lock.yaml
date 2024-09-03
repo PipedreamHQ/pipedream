@@ -3114,6 +3114,9 @@ importers:
       '@pipedream/platform': 1.6.2
       fs: 0.0.1-security
 
+  components/fakturoid:
+    specifiers: {}
+
   components/faraday:
     specifiers:
       '@pipedream/platform': ^1.6.0
