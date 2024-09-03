@@ -600,6 +600,9 @@ importers:
   components/apilio:
     specifiers: {}
 
+  components/apipie_ai:
+    specifiers: {}
+
   components/apitemplate_io:
     specifiers:
       '@pipedream/platform': ^1.1.1
