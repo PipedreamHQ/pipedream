@@ -3,7 +3,7 @@ import storeganise from "../../storeganise.app.mjs";
 export default {
   key: "storeganise-add-invoice-payment",
   name: "Add Invoice Payment",
-  description: "Adds a payment to the targeted invoice. [See the documentation]()",
+  description: "Adds a payment to the targeted invoice. [See the documentation](https://pipedream-dev-trial.storeganise.com/api/docs/admin/invoices#admin_invoices._invoiceId_payments)",
   version: "0.0.1",
   type: "action",
   props: {
