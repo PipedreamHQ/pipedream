@@ -2326,6 +2326,12 @@ importers:
   components/deployhq:
     specifiers: {}
 
+  components/deputy:
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
+
   components/desktime:
     specifiers:
       '@pipedream/platform': ^1.6.0
