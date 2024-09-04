@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -13,12 +14,27 @@ export default {
     getResourceFn() {
       return this.storeganise.listUsers;
     },
+    getParams(lastCreated) {
+      return {
+        include: [
+          "customFields",
+          "valetOrders",
+          "items",
+          "units",
+          "billing",
+          "settings",
+          "creditsDebits",
+        ],
+        updatedAfter: lastCreated,
+      };
+    },
     generateMeta(user) {
       return {
         id: user.id,
         summary: `New User Created: ${user.id}`,
-        ts: Date.now(),
+        ts: Date.parse(user.created),
       };
     },
   },
+  sampleEmit,
 };

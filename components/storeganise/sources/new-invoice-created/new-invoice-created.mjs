@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -13,12 +14,22 @@ export default {
     getResourceFn() {
       return this.storeganise.listInvoices;
     },
+    getParams(lastCreated) {
+      return {
+        include: [
+          "billing",
+          "customFields",
+        ],
+        updatedAfter: lastCreated,
+      };
+    },
     generateMeta(invoice) {
       return {
         id: invoice.id,
         summary: `New Invoice Created: ${invoice.id}`,
-        ts: Date.now(),
+        ts: Date.parse(invoice.created),
       };
     },
   },
+  sampleEmit,
 };
