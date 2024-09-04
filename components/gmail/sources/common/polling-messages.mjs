@@ -23,7 +23,7 @@ export default {
     },
     constructQuery(lastDate) {
       const { q: query } = this;
-      const after = !query.includes("after:") && lastDate
+      const after = !query?.includes("after:") && lastDate
         ? `after:${lastDate / 1000}`
         : "";
       return [

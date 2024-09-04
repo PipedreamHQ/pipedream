@@ -32,10 +32,10 @@ export default {
     ...common.methods,
     constructQuery(lastDate) {
       const { q: query } = this;
-      const hasAttachment = query.includes("has:attachment")
+      const hasAttachment = query?.includes("has:attachment")
         ? ""
         : "has:attachment";
-      const after = !query.includes("after:") && lastDate
+      const after = !query?.includes("after:") && lastDate
         ? `after:${lastDate / 1000}`
         : "";
       return [
