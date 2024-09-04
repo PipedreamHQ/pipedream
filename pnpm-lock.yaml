@@ -2552,7 +2552,10 @@ importers:
     specifiers: {}
 
   components/documenso:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/document360:
     specifiers:
