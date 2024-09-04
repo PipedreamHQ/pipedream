@@ -2098,6 +2098,12 @@ importers:
   components/crowdpower:
     specifiers: {}
 
+  components/crunchbase:
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
+
   components/cufinder:
     specifiers:
       '@pipedream/platform': ^1.6.0
