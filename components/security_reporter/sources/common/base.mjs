@@ -28,14 +28,22 @@ export default {
           mode: 0,
         },
       });
-      this.db.set("webhookId", id);
+      this._setWebhookId(id);
     },
     async deactivate() {
-      const webhookId = this.db.get("webhookId");
+      const webhookId = this._getWebhookId();
       if (webhookId) {
         await this.securityReporter.deleteWebhook(webhookId);
       }
     },
+  },
+  methods: {
+     _getWebhookId() {
+        return this.db.get("webhookId");
+     },
+     _setWebhookId(webhookId) {
+        this.db.set("webhookId", webhookId);
+     },
   },
   async run({ body }) {
     const ts = Date.parse(body.model.updated_at);
