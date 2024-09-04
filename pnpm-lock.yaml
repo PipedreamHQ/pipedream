@@ -174,7 +174,10 @@ importers:
     specifiers: {}
 
   components/actitime:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/activecalculator:
     specifiers:
