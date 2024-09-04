@@ -29,7 +29,7 @@ export default {
         $ = this,
         path,
         ...otherOpts
-      } = opts; console.log(otherOpts.data);
+      } = opts;
       return axios($, {
         ...otherOpts,
         url: `${this._baseUrl()}${path}`,
