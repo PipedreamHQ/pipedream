@@ -422,6 +422,9 @@ importers:
   components/alchemy:
     specifiers: {}
 
+  components/alerty:
+    specifiers: {}
+
   components/algolia:
     specifiers:
       algoliasearch: ^4.13.1
