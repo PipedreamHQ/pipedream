@@ -4629,6 +4629,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.4
 
+  components/infolobby:
+    specifiers: {}
+
   components/infusionsoft:
     specifiers:
       '@pipedream/platform': ^1.1.0
