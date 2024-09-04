@@ -4,57 +4,22 @@ export default {
   type: "app",
   app: "security_reporter",
   propDefinitions: {
-    name: {
-      type: "string",
-      label: "Name",
-      description: "Optional name for the event",
-      optional: true,
-    },
-    mode: {
-      type: "string",
-      label: "Mode",
-      description: "Optional mode for the event",
-      optional: true,
-    },
-    includes: {
-      type: "string",
-      label: "Includes",
-      description: "Optional includes for the event",
-      optional: true,
-    },
-    assessmentId: {
-      type: "string",
-      label: "Assessment ID",
-      description: "The ID of the assessment",
-      async options() {
-        const assessments = await this.listAssessments();
-        return assessments.map((assessment) => ({
-          label: assessment.title,
-          value: assessment.id,
-        }));
-      },
-    },
-    findingId: {
-      type: "string",
-      label: "Finding ID",
-      description: "The ID of the finding",
-      async options() {
-        const findings = await this.listFindings();
-        return findings.map((finding) => ({
-          label: finding.title,
-          value: finding.id,
-        }));
-      },
-    },
     clientId: {
       type: "string",
       label: "Client ID",
       description: "The ID of the client",
-      async options() {
-        const clients = await this.listClients();
-        return clients.map((client) => ({
-          label: client.name,
-          value: client.id,
+      async options({ page }) {
+        const { data } = await this.listClients({
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -62,11 +27,18 @@ export default {
       type: "string",
       label: "Assessment Template ID",
       description: "The ID of the assessment template",
-      async options() {
-        const templates = await this.listAssessmentTemplates();
-        return templates.map((template) => ({
-          label: template.name,
-          value: template.id,
+      async options({ page }) {
+        const { data } = await this.listAssessmentTemplates({
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -74,244 +46,335 @@ export default {
       type: "string",
       label: "Language ID",
       description: "The ID of the language",
-      optional: true,
-      async options() {
-        const languages = await this.listLanguages();
-        return languages.map((language) => ({
-          label: language.name,
-          value: language.id,
+      async options({ page }) {
+        const { data } = await this.listLanguages({
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
     themeId: {
       type: "string",
       label: "Theme ID",
-      description: "The ID of the theme",
-      optional: true,
-      async options() {
-        const themes = await this.listThemes();
-        return themes.map((theme) => ({
-          label: theme.name,
-          value: theme.id,
+      description: "ID of the report theme. If this is not set, the default theme will be used.",
+      async options({ page }) {
+        const { data } = await this.listThemes({
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    resolvers: {
+      type: "string[]",
+      label: "Resolvers",
+      description: "User IDs of users assigned to resolve the finding.",
+      async options({
+        assessmentId, findingId,
+      }) {
+        const id = await this.getAssesmentId({
+          assessmentId,
+          findingId,
+        });
+        const { users } = await this.getAssessment({
+          assessmentId: id,
+          params: {
+            include: "users",
+          },
+        });
+
+        return users.map(({
+          id: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    userGroups: {
+      type: "string[]",
+      label: "User Groups",
+      description: "The user groups for the finding",
+      async options({
+        assessmentId, findingId,
+      }) {
+        const id = await this.getAssesmentId({
+          assessmentId,
+          findingId,
+        });
+        const { userGroups } = await this.getAssessment({
+          assessmentId: id,
+          params: {
+            include: "userGroups",
+          },
+        });
+
+        return userGroups.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    resolvedTargets: {
+      type: "string[]",
+      label: "Resolved Targets",
+      description: "The targets for which the finding is resolved. If all targets are resolved, the finding is resolved as well.",
+      async options({ findingId }) {
+        const { targets } = await this.getFinding({
+          findingId,
+          params: {
+            include: "targets",
+          },
+        });
+
+        return targets.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    targets: {
+      type: "string[]",
+      label: "Targets",
+      description: "The IDs of targets the finding applies to. Each target must belong to the assessment.",
+      async options({
+        page, assessmentId, findingId,
+      }) {
+        const id = await this.getAssesmentId({
+          assessmentId,
+          findingId,
+        });
+        const { data } = await this.listTargets({
+          params: {
+            "page[number]": page + 1,
+            "filter[assessment_id]": id,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    assessmentSectionId: {
+      type: "string",
+      label: "Assessment Section ID",
+      description: "The ID of the assessment section to put the finding in. The section must belong to the assessment, and its can_have_findings must be true.",
+      async options({
+        assessmentId, findingId,
+      }) {
+        const id = await this.getAssesmentId({
+          assessmentId,
+          findingId,
+        });
+        const { sections } = await this.getAssessment({
+          assessmentId: id,
+          params: {
+            include: "sections",
+          },
+        });
+
+        return sections.filter(({ can_have_findings }) => can_have_findings).map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name associated with the webhook.",
+    },
+    assessmentId: {
+      type: "string",
+      label: "Assessment ID",
+      description: "The ID of the assessment",
+      async options({ page }) {
+        const { data } = await this.listAssessments({
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    findingId: {
+      type: "string",
+      label: "Finding ID",
+      description: "The ID of the finding",
+      async options({ page }) {
+        const { data } = await this.listFindings({
+          params: {
+            "page[number]": page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://trial3.securityreporter.app/api";
+      return `${this.$auth.base_url}/api/v1`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
-    },
-    async listAssessments(opts = {}) {
-      return this._makeRequest({
-        path: "/assessments",
+        headers: this._headers(),
         ...opts,
       });
     },
-    async listFindings(opts = {}) {
+    async getAssesmentId({
+      assessmentId, findingId,
+    }) {
+      if (assessmentId) return assessmentId;
+      const { assessment_id: id } = await this.getFinding({
+        findingId,
+      });
+      return id;
+    },
+    createAssessment({
+      clientId, ...opts
+    }) {
       return this._makeRequest({
-        path: "/findings",
+        method: "POST",
+        path: `/clients/${clientId}/assessments`,
         ...opts,
       });
     },
-    async listClients(opts = {}) {
+    getAssessment({
+      assessmentId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/assessments/${assessmentId}`,
+        ...opts,
+      });
+    },
+    getFinding({
+      findingId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/findings/${findingId}`,
+        ...opts,
+      });
+    },
+    listClients(opts = {}) {
       return this._makeRequest({
         path: "/clients",
         ...opts,
       });
     },
-    async listAssessmentTemplates(opts = {}) {
+    listTargets(opts = {}) {
+      return this._makeRequest({
+        path: "/targets",
+        ...opts,
+      });
+    },
+
+    listAssessments(opts = {}) {
+      return this._makeRequest({
+        path: "/assessments",
+        ...opts,
+      });
+    },
+    listFindings(opts = {}) {
+      return this._makeRequest({
+        path: "/findings",
+        ...opts,
+      });
+    },
+    listAssessmentTemplates(opts = {}) {
       return this._makeRequest({
         path: "/assessment-templates",
         ...opts,
       });
     },
-    async listLanguages(opts = {}) {
+    listLanguages(opts = {}) {
       return this._makeRequest({
         path: "/languages",
         ...opts,
       });
     },
-    async listThemes(opts = {}) {
+    listThemes(opts = {}) {
       return this._makeRequest({
         path: "/themes",
         ...opts,
       });
     },
-    async emitEvent(type, opts = {}) {
-      const {
-        name, mode, includes,
-      } = opts;
-      const event = {
-        type,
-        name,
-        mode,
-        includes,
-      };
-      this.$emit(event, {
-        summary: `New event: ${type}`,
-        id: new Date().toISOString(),
-      });
-    },
-    async createSecurityFinding(opts = {}) {
-      const {
-        assessmentId,
-        title,
-        targets,
-        assessmentSectionId,
-        isVulnerability,
-        description,
-        severityMetrics,
-        severity,
-        foundAt,
-        priority,
-        complexity,
-        action,
-        risk,
-        recommendation,
-        proof,
-        references,
-        draftDocuments,
-        resolvers,
-        userGroups,
-        classifications,
-        ...otherOpts
-      } = opts;
-
-      const response = await this._makeRequest({
+    createSecurityFinding({
+      assessmentId, ...opts
+    }) {
+      return this._makeRequest({
         method: "POST",
-        path: "/findings",
-        data: {
-          assessment_id: assessmentId,
-          title,
-          targets,
-          assessment_section_id: assessmentSectionId,
-          is_vulnerability: isVulnerability,
-          description,
-          severity_metrics: severityMetrics,
-          severity,
-          found_at: foundAt,
-          priority,
-          complexity,
-          action,
-          risk,
-          recommendation,
-          proof,
-          references,
-          draft_documents: draftDocuments,
-          resolvers,
-          user_groups: userGroups,
-          classifications,
-        },
-        ...otherOpts,
+        path: `/assessments/${assessmentId}/findings`,
+        ...opts,
       });
-
-      await this.emitEvent("finding:created", opts);
-      return response;
     },
-    async updateSecurityFinding(opts = {}) {
-      const {
-        findingId,
-        title,
-        targets,
-        assessmentSectionId,
-        isVulnerability,
-        description,
-        severityMetrics,
-        severity,
-        foundAt,
-        priority,
-        complexity,
-        action,
-        risk,
-        recommendation,
-        proof,
-        references,
-        draftDocuments,
-        resolvers,
-        userGroups,
-        classifications,
-        ...otherOpts
-      } = opts;
-
-      const response = await this._makeRequest({
+    updateSecurityFinding({
+      findingId, ...opts
+    }) {
+      return this._makeRequest({
         method: "PUT",
         path: `/findings/${findingId}`,
-        data: {
-          title,
-          targets,
-          assessment_section_id: assessmentSectionId,
-          is_vulnerability: isVulnerability,
-          description,
-          severity_metrics: severityMetrics,
-          severity,
-          found_at: foundAt,
-          priority,
-          complexity,
-          action,
-          risk,
-          recommendation,
-          proof,
-          references,
-          draft_documents: draftDocuments,
-          resolvers,
-          user_groups: userGroups,
-          classifications,
-        },
-        ...otherOpts,
+        ...opts,
       });
-
-      await this.emitEvent("finding:updated", opts);
-      return response;
     },
-    async createSecurityAssessment(opts = {}) {
-      const {
-        clientId,
-        assessmentTemplateId,
-        title,
-        languageId,
-        tags,
-        description,
-        scoringSystem,
-        themeId,
-        ...otherOpts
-      } = opts;
-
-      const response = await this._makeRequest({
+    createWebhook(opts = {}) {
+      return this._makeRequest({
         method: "POST",
-        path: "/assessments",
-        data: {
-          client_id: clientId,
-          assessment_template_id: assessmentTemplateId,
-          title,
-          language_id: languageId,
-          tags,
-          description,
-          scoring_system: scoringSystem,
-          theme_id: themeId,
-        },
-        ...otherOpts,
+        path: "/webhooks",
+        ...opts,
       });
-
-      await this.emitEvent("assessment:created", opts);
-      return response;
+    },
+    deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
+      });
     },
   },
 };
