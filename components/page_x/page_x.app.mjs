@@ -21,7 +21,7 @@ export default {
       $ = this, path, data, ...opts
     }) {
       return axios($, {
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: this._headers(data),
         data: {
           ...data,
