@@ -198,7 +198,7 @@ export default {
         props.severityMetricsLikelihood = {
           type: "string",
           label: "Severity Metrics Likelihood",
-          description: "the likelihood metric.",
+          description: "The likelihood metric.",
           options: OWASP_OPTIONS,
           default: (SM && SM.scoring_system === "owasp")
             ? `${SM.likelihood}`
