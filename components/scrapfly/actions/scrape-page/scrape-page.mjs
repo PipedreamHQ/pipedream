@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import {
   FORMAT_OPTIONS,
+  PROXY_COUNTRY_OPTIONS,
   PROXY_POOL_OPTIONS,
 } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
@@ -20,23 +21,10 @@ export default {
         "url",
       ],
     },
-    proxyPool: {
-      type: "string",
-      label: "Proxy Pool",
-      description: "Select the proxy pool to use.",
-      optional: true,
-      options: PROXY_POOL_OPTIONS,
-    },
     headers: {
       type: "object",
       label: "Headers",
       description: "Pass custom headers to the request.",
-      optional: true,
-    },
-    country: {
-      type: "string",
-      label: "Country",
-      description: "Proxy country location. If not set it chooses a random location available. A reference to a country must be ISO 3166 alpha-2 (2 letters). The available countries are defined by the proxy pool you use. [See the documentation](https://scrapfly.io/docs/scrape-api/getting-started#spec)",
       optional: true,
     },
     lang: {
@@ -106,6 +94,25 @@ export default {
       description: "SSL option.",
       optional: true,
     },
+    proxyPool: {
+      type: "string",
+      label: "Proxy Pool",
+      description: "Select the proxy pool to use.",
+      optional: true,
+      options: PROXY_POOL_OPTIONS,
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    props.country = {
+      type: "string",
+      label: "Country",
+      description: "Proxy country location. If not set it chooses a random location available. A reference to a country must be ISO 3166 alpha-2 (2 letters). The available countries are defined by the proxy pool you use. [See the documentation](https://scrapfly.io/docs/scrape-api/getting-started#spec)",
+      optional: true,
+      options: PROXY_COUNTRY_OPTIONS[this.proxyPool],
+    };
+    return props;
   },
   async run({ $ }) {
     try {
@@ -113,9 +120,9 @@ export default {
       if (this.headers) {
         headers = Object.keys(parseObject(this.headers))
           .reduce((acc, key) => {
-            acc += `headers[${key}]=${encodeURIComponent(this.headers[key])}`;
+            acc.push(`headers[${key}]=${encodeURIComponent(this.headers[key])}`);
             return acc;
-          }, "");
+          }, []);
       }
       const params = {
         url: this.url,
@@ -132,7 +139,7 @@ export default {
         tags: parseObject(this.tags),
         dns: this.dns,
         ssl: this.ssl,
-        ...headers,
+        headers,
       };
 
       const response = await this.scrapfly.extractWebPageContent({

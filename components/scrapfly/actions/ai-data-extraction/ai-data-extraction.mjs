@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import { checkTmp } from "../../common/utils.mjs";
 import scrapfly from "../../scrapfly.app.mjs";
@@ -45,6 +46,7 @@ export default {
       type: "string",
       label: "Extraction Prompt",
       description: "Instruction to extract data or ask a question on the scraped content with an LLM (Large Language Model). [Must be url encoded](https://scrapfly.io/web-scraping-tools/urlencode).",
+      optional: true,
     },
     extractionModel: {
       type: "string",
@@ -60,6 +62,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.extractionTemplate && !this.extractionPrompt && !this.extractionModel) {
+      throw new ConfigurationError("You must provide at least **Extraction Template**, **Extraction Prompt** or **Extraction Model**");
+    }
     const response = await this.scrapfly.automateContentExtraction({
       $,
       headers: {
