@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/firefish",
+  "version": "0.0.1",
+  "description": "Pipedream Firefish Components",
+  "main": "firefish.app.mjs",
+  "keywords": [
+    "pipedream",
+    "firefish"
+  ],
+  "homepage": "https://pipedream.com/apps/firefish",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

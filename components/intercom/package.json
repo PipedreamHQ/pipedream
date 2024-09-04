@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/intercom",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Pipedream Intercom Components",
   "main": "intercom.app.mjs",
   "keywords": [

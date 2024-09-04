@@ -232,6 +232,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.0
 
+  components/adhook:
+    specifiers: {}
+
   components/adobe_pdf_services:
     specifiers:
       '@adobe/pdfservices-node-sdk': ^3.4.2
@@ -595,6 +598,9 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/apilio:
+    specifiers: {}
+
+  components/apipie_ai:
     specifiers: {}
 
   components/apitemplate_io:
@@ -1434,6 +1440,9 @@ importers:
   components/cflow:
     specifiers: {}
 
+  components/chainaware_ai:
+    specifiers: {}
+
   components/chaindesk:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2089,6 +2098,12 @@ importers:
   components/crowdpower:
     specifiers: {}
 
+  components/crunchbase:
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
+
   components/cufinder:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -2310,6 +2325,12 @@ importers:
 
   components/deployhq:
     specifiers: {}
+
+  components/deputy:
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/desktime:
     specifiers:
@@ -2537,7 +2558,10 @@ importers:
     specifiers: {}
 
   components/documenso:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/document360:
     specifiers:
@@ -3105,6 +3129,9 @@ importers:
       '@pipedream/platform': 1.6.2
       fs: 0.0.1-security
 
+  components/fakturoid:
+    specifiers: {}
+
   components/faraday:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -3229,6 +3256,9 @@ importers:
       '@pipedream/platform': ^3.0.0
     dependencies:
       '@pipedream/platform': 3.0.0
+
+  components/firefish:
+    specifiers: {}
 
   components/fireflies:
     specifiers:
@@ -4617,6 +4647,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.4
 
+  components/infolobby:
+    specifiers: {}
+
   components/infusionsoft:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -5114,7 +5147,10 @@ importers:
     specifiers: {}
 
   components/launchnotes:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/leadboxer:
     specifiers: {}
@@ -6657,6 +6693,12 @@ importers:
 
   components/paddle:
     specifiers: {}
+
+  components/page_x:
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/pagerduty:
     specifiers:
@@ -8275,6 +8317,9 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/security_reporter:
+    specifiers: {}
+
+  components/securitytrails:
     specifiers: {}
 
   components/segment:
