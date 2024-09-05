@@ -6577,6 +6577,9 @@ importers:
       '@pipedream/platform': 1.5.1
       opengraph-io: 2.0.0
 
+  components/openperplex:
+    specifiers: {}
+
   components/opensea:
     specifiers:
       '@pipedream/platform': ^1.2.0

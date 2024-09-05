@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/openperplex",
+  "version": "0.0.1",
+  "description": "Pipedream OpenPerplex Components",
+  "main": "openperplex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "openperplex"
+  ],
+  "homepage": "https://pipedream.com/apps/openperplex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
