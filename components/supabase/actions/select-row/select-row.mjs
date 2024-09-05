@@ -5,7 +5,7 @@ export default {
   key: "supabase-select-row",
   name: "Select Row",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Selects row(s) in a database. [See the docs here](https://supabase.com/docs/reference/javascript/select)",
   props: {
     supabase,
