@@ -10322,7 +10322,10 @@ importers:
     specifiers: {}
 
   components/v7_darwin:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/v7_go:
     specifiers:
