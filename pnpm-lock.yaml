@@ -10206,7 +10206,10 @@ importers:
     specifiers: {}
 
   components/unthread:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.6
+    dependencies:
+      '@pipedream/platform': 1.6.6
 
   components/upbooks:
     specifiers:
@@ -17481,6 +17484,17 @@ packages:
       axios: 1.6.5
       fp-ts: 2.16.1
       io-ts: 2.2.20_fp-ts@2.16.1
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/1.6.6:
+    resolution: {integrity: sha512-YRkPVn3tiE3xywOO+dtrseo6eNepJrWKiPG8ejTww7KRRNzJNRIYeJyqTqLMxyG2da+wLHvVABZb+kKS6XzD+A==}
+    dependencies:
+      axios: 1.7.5
+      fp-ts: 2.16.9
+      io-ts: 2.2.21_fp-ts@2.16.9
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
