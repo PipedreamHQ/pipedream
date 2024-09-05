@@ -1,10 +1,10 @@
 import gmail from "../../gmail.app.mjs";
 
 export default {
-  key: "gmail-add-label-to-email",
-  name: "Add Label to Email",
-  description: "Add label(s) to an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
-  version: "0.0.4",
+  key: "gmail-remove-label-from-email",
+  name: "Remove Label from Email",
+  description: "Remove label(s) from an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
+  version: "0.0.1",
   type: "action",
   props: {
     gmail,
@@ -14,28 +14,29 @@ export default {
         "message",
       ],
     },
-    addLabelIds: {
+    removeLabelIds: {
       propDefinition: [
         gmail,
         "label",
       ],
       type: "string[]",
       label: "Labels",
+      description: "The labels to remove from the email",
     },
   },
   async run({ $ }) {
     const {
       gmail,
       message,
-      addLabelIds = [],
+      removeLabelIds = [],
     } = this;
 
     const response = await gmail.updateLabels({
       message,
-      addLabelIds,
+      removeLabelIds,
     });
 
-    $.export("$summary", `Successfully added ${addLabelIds.length} label(s)`);
+    $.export("$summary", `Successfully removed ${removeLabelIds.length} label(s)`);
     return response;
   },
 };
