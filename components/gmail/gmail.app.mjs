@@ -290,6 +290,9 @@ export default {
       }
 
       if (props.attachments) {
+        if (typeof props.attachments === "string") {
+          props.attachments = JSON.parse(props.attachments);
+        }
         opts.attachments = Object.entries(props.attachments)
           .map(([
             filename,
