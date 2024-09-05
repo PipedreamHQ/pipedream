@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 import { axios } from "@pipedream/platform";
+import flatten from "lodash/flatten.js";
 import get from "lodash/get.js";
 import sortBy from "lodash/sortBy.js";
-import flatten from "lodash/flatten.js";
-import zoomCountries from "./zoom_countries.mjs";
 import consts from "./consts.mjs";
+import zoomCountries from "./zoom_countries.mjs";
 
 export default {
   type: "app",
@@ -284,6 +284,14 @@ export default {
         },
       });
       return data;
+    },
+    listAccountCallLogs(nextPageToken) {
+      return this._makeRequest({
+        path: "/phone/call_history",
+        params: {
+          next_page_token: nextPageToken,
+        },
+      });
     },
     async listWebinarPanelists(webinarID, nextPageToken) {
       const { data } = await this._makeRequest({

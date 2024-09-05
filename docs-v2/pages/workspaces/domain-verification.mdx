@@ -1,0 +1,25 @@
+import Callout from '@/components/Callout'
+
+# Domain Verification
+
+Pipedream enables you to verify ownership of a domain in order to [configure SAML SSO](#saml-sso) for your workspace or integrate [Pipedream Connect](#pipedream-connect).
+
+### SAML SSO
+To configure [SAML SSO](./sso), you first need to verify ownership of the email domain. If your email is `foo@example.com`, you need to verify ownership of `example.com`. If configuring Google OAuth (not SAML), you can disregard this section.
+
+### Pipedream Connect
+To set up [Connect](/connect), you need to verify ownership of your application's domain (where you'll initiate the authorization flow).
+
+## Getting started
+
+1. Navigate to the **[Verified Domains](https://pipedream.com/settings/domains)** section of your workspace settings
+2. Enter the domain you'd like to use then click **Add Domain**
+3. You'll see a modal with instructions for adding a `TXT` record in the DNS configuration for your domain
+4. DNS changes may take between a few minutes and up to 72 hours to propagate. Once they're live, click the **Verify** button for the domain you've entered
+5. Once Pipedream verifies the `TXT` record, we'll show a green checkmark on the domain
+
+<Callout type="info">
+Make sure to verify all your domains. There's no limit on the number of domains you can verify for SSO, so if you use `example.com`, `example.net`, and `foo.example.com`, make sure to verify each one.
+</Callout>
+
+![Verified Domains](https://res.cloudinary.com/pipedreamin/image/upload/v1699938431/verified-domains_qcjpnb.png)

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/onlyoffice_docspace",
+  "version": "0.1.0",
+  "description": "Pipedream ONLYOFFICE DocSpace Components",
+  "main": "onlyoffice_docspace.app.mjs",
+  "keywords": [
+    "pipedream",
+    "onlyoffice_docspace"
+  ],
+  "homepage": "https://pipedream.com/apps/onlyoffice_docspace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0",
+    "form-data": "^4.0.0"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pdf_api_io",
+  "version": "0.0.1",
+  "description": "Pipedream PDF-API.io Components",
+  "main": "pdf_api_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pdf_api_io"
+  ],
+  "homepage": "https://pipedream.com/apps/pdf_api_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

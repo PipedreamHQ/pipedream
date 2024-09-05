@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/leadoku",
+  "version": "0.1.0",
+  "description": "Pipedream Leadoku Components",
+  "main": "leadoku.app.mjs",
+  "keywords": [
+    "pipedream",
+    "leadoku"
+  ],
+  "homepage": "https://pipedream.com/apps/leadoku",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,33 +1,14 @@
-import gmail from "../../gmail_custom_oauth.app.mjs";
+/* eslint-disable pipedream/required-properties-name */
+/* eslint-disable pipedream/required-properties-description */
+/* eslint-disable pipedream/required-properties-type */
+import base from "../../../gmail/actions/add-label-to-email/add-label-to-email.mjs";
+import overrideApp from "../../common/override-app.mjs";
+
+overrideApp(base);
 
 export default {
+  ...base,
   key: "gmail_custom_oauth-add-label-to-email",
-  name: "Add Label to Email",
-  description: "Add a label to an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
-  version: "0.0.8",
+  version: "0.0.12",
   type: "action",
-  props: {
-    gmail,
-    message: {
-      propDefinition: [
-        gmail,
-        "message",
-      ],
-    },
-    label: {
-      propDefinition: [
-        gmail,
-        "label",
-      ],
-      withLabel: true,
-    },
-  },
-  async run({ $ }) {
-    const response = await this.gmail.addLabelToEmail({
-      message: this.message,
-      label: this.label.value,
-    });
-    $.export("$summary", `Successfully added ${this.label.label} label to email`);
-    return response;
-  },
 };

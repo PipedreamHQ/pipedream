@@ -9,12 +9,9 @@ To connect your Stripe account to Pipedream, you'll need to generate a new Strip
 
 1. Open the [Stripe API keys dashboard](https://dashboard.stripe.com/apikeys)
 
+2. Create a new Restricted Key 
 
-2. Create a new Restricted Key (recommended)
-
-You can use a Standard Key to connect Stripe to Pipedream, but we recommend using a Restricted API key instead to control the individual permissions on your Stripe account that your workflows will have access to.
-
-3. Connect your Stripe API key
+3. Connect your Restricted API key
 
 Once your Restricted API key is created, copy and paste it into Pipedream, and click *Save*
 

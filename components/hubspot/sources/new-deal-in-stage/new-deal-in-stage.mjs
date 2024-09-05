@@ -1,14 +1,15 @@
 import common from "../common/common.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.0.17",
+  version: "0.0.18",
   dedupe: "unique",
   type: "source",
-  hooks: {},
   props: {
     ...common.props,
     pipeline: {
@@ -67,16 +68,18 @@ export default {
         ],
       };
       return {
-        limit: 100,
-        filterGroups: [
-          filterGroup,
-        ],
-        sorts: [
-          {
-            propertyName: "hs_lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
+        data: {
+          limit: DEFAULT_LIMIT,
+          filterGroups: [
+            filterGroup,
+          ],
+          sorts: [
+            {
+              propertyName: "hs_lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+        },
         object: "deals",
       };
     },
@@ -115,4 +118,5 @@ export default {
       }
     },
   },
+  sampleEmit,
 };

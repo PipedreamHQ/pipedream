@@ -1,10 +1,13 @@
-import googleSheets from "../../google_sheets.app.mjs";
+import common from "../common/worksheet.mjs";
+
+const { googleSheets } = common.props;
 
 export default {
+  ...common,
   key: "google_sheets-get-values-in-range",
   name: "Get Values in Range",
-  description: "Get values from a range of cells using A1 notation.",
-  version: "0.1.3",
+  description: "Get all values or values from a range of cells using A1 notation. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
+  version: "0.1.7",
   type: "action",
   props: {
     googleSheets,
@@ -23,28 +26,34 @@ export default {
         }),
       ],
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
     },
     range: {
       propDefinition: [
         googleSheets,
         "range",
       ],
+      optional: true,
     },
   },
   async run() {
+    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const sheets = this.googleSheets.sheets();
 
     return (await sheets.spreadsheets.values.get({
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.range}`,
+      range: this.range
+        ? `${worksheet?.properties?.title}!${this.range}`
+        : `${worksheet?.properties?.title}`,
     })).data.values;
   },
 };

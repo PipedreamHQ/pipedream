@@ -1,0 +1,15 @@
+export default {
+  GALLERY_ALL: "gallery.*",
+  GALLERY_CREATED: "gallery.created",
+  GALLERY_UPDATED: "gallery.updated",
+  GALLERY_DELETED: "gallery.deleted",
+  GALLERY_CLAIM: "gallery.claim",
+  GALLERY_SYNC: "gallery.sync",
+  GALLERY_SYNCED: "gallery.synced",
+  ASSET_ALL: "asset.*",
+  ASSET_UPLOADED: "asset.uploaded",
+  ASSET_SYNCED: "asset.synced",
+  ACCOUNT_ALL: "account.*",
+  ANALYTICS_ALL: "analytics.*",
+  LEADS_ALL: "leads.*",
+};

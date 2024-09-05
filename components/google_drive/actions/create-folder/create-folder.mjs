@@ -7,13 +7,13 @@ import {
 import {
   MY_DRIVE_VALUE,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
-} from "../../constants.mjs";
+} from "../../common/constants.mjs";
 
 export default {
   key: "google_drive-create-folder",
   name: "Create Folder",
-  description: "Create a new empty folder. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.1.3",
+  description: "Create a new empty folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
+  version: "0.1.5",
   type: "action",
   props: {
     googleDrive,
@@ -32,6 +32,7 @@ export default {
           drive: c.drive,
         }),
       ],
+      label: "Parent Folder",
       description: toSingleLineString(`
         Select a folder in which to place the new folder.
         If not specified, the folder will be placed directly in the drive's top-level folder.

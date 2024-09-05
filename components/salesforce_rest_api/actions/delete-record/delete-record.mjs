@@ -1,42 +1,44 @@
-import salesForceRestApi from "../../salesforce_rest_api.app.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
 
 export default {
   key: "salesforce_rest_api-delete-record",
-  name: "Delete a Record in an Object",
+  name: "Delete Record",
   description:
-    "Deletes an existing record in an object. [API Doc](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_query.htm)",
-  version: "0.1.5",
+    "Deletes an existing record in an object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
+  version: "0.2.0",
   type: "action",
   props: {
-    salesForceRestApi,
+    salesforce,
     sobjectType: {
       propDefinition: [
-        salesForceRestApi,
+        salesforce,
         "objectType",
       ],
+      description: "The type of object to delete a record of.",
     },
-    sobjectId: {
+    recordId: {
       propDefinition: [
-        salesForceRestApi,
-        "sobjectId",
+        salesforce,
+        "recordId",
         (c) => ({
-          objectType: c.sobjectType,
+          objType: c.sobjectType,
         }),
       ],
       description:
-        "ID of the Salesforce standard object to get field values from.",
+        "The record to delete.",
     },
   },
   async run({ $ }) {
     const {
       sobjectType,
-      sobjectId,
+      recordId,
     } = this;
-    const response = await this.salesForceRestApi.deleteObject(
+    const response = await this.salesforce.deleteRecord({
+      $,
       sobjectType,
-      sobjectId,
-    );
-    response && $.export("$summary", `Successfully deleted record with ID ${sobjectId}`);
+      recordId,
+    });
+    $.export("$summary", `Successfully deleted record (ID: ${recordId})`);
     return response;
   },
 };

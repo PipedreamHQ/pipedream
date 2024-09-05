@@ -1,14 +1,16 @@
 import crypto from "crypto";
 import googleAds from "../../google_ads.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "google_ads-add-contact-to-list-by-email",
   name: "Add Contact to Customer List by Email",
   description: "Adds a contact to a specific customer list in Google Ads. Lists typically update in 6 to 12 hours after operation. [See the documentation](https://developers.google.com/google-ads/api/docs/remarketing/audience-segments/customer-match/get-started)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
-    googleAds,
+    ...common.props,
     contactEmail: {
       propDefinition: [
         googleAds,
@@ -19,23 +21,37 @@ export default {
       propDefinition: [
         googleAds,
         "userListId",
+        ({
+          accountId, customerClientId,
+        }) => ({
+          accountId,
+          customerClientId,
+        }),
       ],
     },
   },
   async run({ $ }) {
-    const offlineUserDataJob = await this.googleAds.createOfflineUserDataJob({
+    const {
+      googleAds, accountId, customerClientId, contactEmail, userListId,
+    } = this;
+    const offlineUserDataJob = await googleAds.createOfflineUserDataJob({
+      $,
+      accountId,
+      customerClientId,
       data: {
         job: {
           customerMatchUserListMetadata: {
-            userList: `customers/${this.googleAds.$auth.login_customer_id}/userLists/${this.userListId}`,
+            userList: `customers/${customerClientId ?? accountId}/userLists/${userListId}`,
           },
           type: "CUSTOMER_MATCH_USER_LIST",
         },
       },
     });
 
-    await this.googleAds.addContactToCustomerList({
+    await googleAds.addContactToCustomerList({
       $,
+      accountId,
+      customerClientId,
       path: offlineUserDataJob.resourceName,
       data: {
         operations: [
@@ -43,7 +59,7 @@ export default {
             create: {
               userIdentifiers: [
                 {
-                  hashedEmail: crypto.createHash("sha256").update(this.contactEmail)
+                  hashedEmail: crypto.createHash("sha256").update(contactEmail)
                     .digest("hex"),
                 },
               ],
@@ -53,12 +69,14 @@ export default {
       },
     });
 
-    const response = await this.googleAds.runOfflineUserDataJob({
+    const response = await googleAds.runOfflineUserDataJob({
       $,
+      accountId,
+      customerClientId,
       path: offlineUserDataJob.resourceName,
     });
 
-    $.export("$summary", `Added contact ${this.contactEmail} to the user list ${this.userListId}`);
+    $.export("$summary", `Added contact ${contactEmail} to user list ${userListId}`);
     return response;
   },
 };

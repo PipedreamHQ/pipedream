@@ -5,7 +5,7 @@ export default {
   name: "Send Channel Message",
   description: "Send a message to a team&#39;s channel. [See the docs here](https://docs.microsoft.com/en-us/graph/api/channel-post-messages?view=graph-rest-1.0&tabs=http)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     microsoftTeams,
     teamId: {
@@ -29,12 +29,19 @@ export default {
         "message",
       ],
     },
+    contentType: {
+      propDefinition: [
+        microsoftTeams,
+        "contentType",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       teamId,
       channelId,
       message,
+      contentType,
     } = this;
 
     const response =
@@ -44,6 +51,7 @@ export default {
         content: {
           body: {
             content: message,
+            contentType,
           },
         },
       });

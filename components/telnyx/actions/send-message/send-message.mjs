@@ -3,8 +3,8 @@ import telnyxApp from "../../telnyx.app.mjs";
 export default {
   key: "telnyx-send-message",
   name: "Send Message",
-  description: "Send an SMS or MMS message. See documentation [here](https://developers.telnyx.com/docs/messaging/messages/send-message)",
-  version: "0.0.4",
+  description: "Send an SMS or MMS message. [See the documentation](https://developers.telnyx.com/docs/messaging/messages/send-message)",
+  version: "0.0.5",
   type: "action",
   props: {
     telnyxApp,

@@ -10,6 +10,21 @@ export default {
       ],
     },
   },
+  methods: {
+    parseBooleanValues(data) {
+      Object.entries(data).forEach(([
+        key,
+        value,
+      ]) => {
+        data[key] = value === "false"
+          ? false
+          : value === "true"
+            ? true
+            : value;
+      });
+      return data;
+    },
+  },
   async run({ $ }) {
     try {
       await this.firebase.initializeApp(this.databaseRegion);

@@ -1,11 +1,12 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event for each new submission of a form.",
-  version: "0.0.18",
+  version: "0.0.19",
   dedupe: "unique",
   type: "source",
   props: {
@@ -18,7 +19,6 @@ export default {
       withLabel: false,
     },
   },
-  hooks: {},
   methods: {
     ...common.methods,
     getTs(result) {
@@ -40,7 +40,9 @@ export default {
     },
     getParams() {
       return {
-        limit: 50,
+        params: {
+          limit: 50,
+        },
       };
     },
     async processResults(after, baseParams) {
@@ -60,4 +62,5 @@ export default {
       );
     },
   },
+  sampleEmit,
 };

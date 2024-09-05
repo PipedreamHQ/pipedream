@@ -1,11 +1,11 @@
 import { ConfigurationError } from "./errors";
+import { ExecuteQueryArgs } from "./sql";
 
 export type ClientConfiguration = object;
 export type ProxyArgs = {
   query: string;
   params?: unknown[];
 };
-export type ExecuteQueryArgs = object | string;
 export type Row = object;
 
 export default {
@@ -45,17 +45,6 @@ export default {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     proxyAdapter(args: ExecuteQueryArgs): ProxyArgs {
       throw new ConfigurationError("proxyAdapter not implemented");
-    },
-
-    /**
-     * A method that performs the inverse transformation of `proxyAdapter`.
-     *
-     * @param args - The output of `proxyAdapter`.
-     * @returns The query string or object to be sent to the DB.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    executeQueryAdapter(args: ProxyArgs): ExecuteQueryArgs {
-      throw new ConfigurationError("executeQueryAdapter not implemented");
     },
   },
 };

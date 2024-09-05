@@ -47,7 +47,7 @@ export default {
     _apiUrl(apiVersion) {
       return constants.API_BASE_URL_VERSIONS[apiVersion];
     },
-    async _makeRequest(apiVersion, path, options = {}, $ = this) {
+    _makeRequest(apiVersion, path, options = {}, $ = this) {
       return axios($, {
         url: `${this._apiUrl(apiVersion)}/${path}`,
         auth: {
@@ -57,7 +57,7 @@ export default {
         ...options,
       });
     },
-    async createWebhook({
+    createWebhook({
       workspaceId, data,
     }) {
       return this._makeRequest("v1", `subscriptions/${workspaceId}`, {
@@ -69,22 +69,20 @@ export default {
         },
       });
     },
-    async removeWebhook({
+    removeWebhook({
       workspaceId, webhookId,
     }) {
       return this._makeRequest("v1", `subscriptions/${workspaceId}/${webhookId}`, {
         method: "delete",
       });
     },
-    async getWorkspaces({
-      workspaceId, $,
-    }) {
-      return this._makeRequest("v9", `workspaces/${workspaceId}`, {}, $);
+    getWorkspaces({ $ }) {
+      return this._makeRequest("v9", "me/workspaces", {}, $);
     },
-    async getCurrentTimeEntry({ $ } = {}) {
+    getCurrentTimeEntry({ $ } = {}) {
       return this._makeRequest("v9", "me/time_entries/current", {}, $);
     },
-    async getTimeEntries({
+    getTimeEntries({
       params, $,
     } = {}) {
       return this._makeRequest("v9", "me/time_entries", {
@@ -94,12 +92,10 @@ export default {
         },
       }, $);
     },
-    async getTimeEntry({
+    getTimeEntry({
       timeEntryId, $,
     } = {}) {
-      const { data } = await this._makeRequest("v8", `time_entries/${timeEntryId}`, {}, $);
-
-      return data;
+      return this._makeRequest("v9", `me/time_entries/${timeEntryId}`, {}, $);
     },
   },
 };

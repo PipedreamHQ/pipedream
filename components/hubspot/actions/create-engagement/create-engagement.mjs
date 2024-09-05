@@ -1,7 +1,7 @@
-import common from "../common-create.mjs";
+import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
-  API_PATH, ASSOCIATION_CATEGORY,
+  ASSOCIATION_CATEGORY, ENGAGEMENT_TYPE_OPTIONS,
 } from "../../common/constants.mjs";
 
 export default {
@@ -9,7 +9,7 @@ export default {
   key: "hubspot-create-engagement",
   name: "Create Engagement",
   description: "Create a new engagement for a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     ...common.props,
@@ -18,28 +18,7 @@ export default {
       label: "Engagement Type",
       description: "The type of engagement to create",
       reloadProps: true,
-      options: [
-        {
-          label: "Note",
-          value: "notes",
-        },
-        {
-          label: "Task",
-          value: "tasks",
-        },
-        {
-          label: "Meeting",
-          value: "meetings",
-        },
-        {
-          label: "Email",
-          value: "emails",
-        },
-        {
-          label: "Call",
-          value: "calls",
-        },
-      ],
+      options: ENGAGEMENT_TYPE_OPTIONS,
     },
     toObjectType: {
       propDefinition: [
@@ -80,19 +59,18 @@ export default {
     getObjectType() {
       return this.engagementType;
     },
-    async createEngagement(objectType, properties, associations, $) {
-      return this.hubspot.makeRequest(
-        API_PATH.CRMV3,
-        `/objects/${objectType}`,
-        {
-          method: "POST",
-          data: {
-            properties,
-            associations,
-          },
-          $,
+    isRelevantProperty(property) {
+      return common.methods.isRelevantProperty(property) && !property.name.includes("hs_pipeline");
+    },
+    createEngagement(objectType, properties, associations, $) {
+      return this.hubspot.createObject({
+        objectType,
+        data: {
+          properties,
+          associations,
         },
-      );
+        $,
+      });
     },
   },
   async run({ $ }) {
@@ -128,6 +106,10 @@ export default {
         },
       ]
       : undefined;
+
+    if (properties.hs_task_reminders) {
+      properties.hs_task_reminders = Date.parse(properties.hs_task_reminders);
+    }
 
     const engagement = await this.createEngagement(objectType, properties, associations, $);
 

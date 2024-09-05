@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/dropboard",
+  "version": "0.1.1",
+  "description": "Pipedream Dropboard Components",
+  "main": "dropboard.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dropboard"
+  ],
+  "homepage": "https://pipedream.com/apps/dropboard",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
+

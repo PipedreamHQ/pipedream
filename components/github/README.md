@@ -4,7 +4,7 @@ The GitHub API is a powerful gateway to interaction with GitHub's vast web of da
 
 # Github API Integration Platform
 
-### Connect Github to 2,000+ apps, remarkably fast.
+### Connect Github to 2,200+ apps, remarkably fast.
 
 ---
 
@@ -18,7 +18,7 @@ Click the image below to watch a brief demo on YouTube.
 
 <p align="left">
   <br />
-  <a href="https://bit.ly/36fwHWs">
+  <a href="https://bit.ly/3ytGgyR">
     <img src="https://github.com/PipedreamHQ/pipedream/blob/master/images/demo.png" width="500px" alt="Pipedream demo static image" />
   </a>
 </p>

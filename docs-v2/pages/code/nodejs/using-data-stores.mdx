@@ -21,11 +21,11 @@ export default defineComponent({
 });
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 **`props` injects variables into `this`**. See how we declared the `data` prop in the `props` object, and then accessed it at `this.data` in the `run` method.
 </Callout>
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 All data store operations are asynchronous, so must be `await`ed.
 </Callout>
 
@@ -95,6 +95,25 @@ export default defineComponent({
   async run({ steps, $ }) {
     // Check if the lastRanAt key exists
     const lastRanAt = await this.data.get("lastRanAt");
+  },
+});
+```
+
+## Retrieving all records
+
+Use an async iterator to efficiently retrieve all records or keys in your data store:
+
+```javascript
+export default defineComponent({
+  props: {
+    data: { type: "data_store" },
+  },
+  async run({ steps, $ }) {
+    const records = {};
+    for await (const [k,v] of this.data) {
+      records[k] = v;
+    }
+    return records;
   },
 });
 ```
@@ -239,9 +258,3 @@ Data stores can hold any JSON-serializable data within the storage limits. This 
 - Floats
 
 But you cannot serialize Functions, Classes, or other more complex objects.
-
-### Querying records
-
-You can retrieve up to {process.env.DATA_STORES_MAX_KEYS} records within a single query.
-
-The `this.data.entries()` and `this.data.keys()` functions allow you to retrieve all keys and records from your data store. However, using these methods with a data store with over {process.env.DATA_STORES_MAX_KEYS} keys will result in a 426 error.

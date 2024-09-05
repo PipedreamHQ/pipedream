@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/parma",
+  "version": "0.1.0",
+  "description": "Pipedream Parma Components",
+  "main": "parma.app.mjs",
+  "keywords": [
+    "pipedream",
+    "parma"
+  ],
+  "homepage": "https://pipedream.com/apps/parma",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

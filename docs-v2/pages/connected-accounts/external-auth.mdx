@@ -9,7 +9,7 @@ There are two ways to pass external auth at runtime:
 1. [Pass it in an HTTP request](#pass-credentials-via-http)
 2. [Fetch credentials from a DB or secrets store](#fetch-credentials-from-a-db-or-secrets-store) within a workflow step
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 External auth is in beta
 Passing external credentials at runtime is in **beta**, and we're looking for feedback. Please [let us know](https://pipedream.com/support) how you're using it, what's not working, and what else you'd like to see.
 </Callout>
@@ -30,7 +30,7 @@ Most steps require additional, user-specific configuration. For example, the Sla
 
 ![Configure additional params](https://res.cloudinary.com/pipedreamin/image/upload/v1707630112/docs/Screenshot_2024-02-10_at_9.40.54_PM_hynkvq.png)
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 Default logging
 
 When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/workflows/settings/#data-retention-controls) you've configured.
@@ -53,7 +53,7 @@ Most steps require additional, user-specific configuration. For example, the Sla
 
 ![Configure additional params](https://res.cloudinary.com/pipedreamin/image/upload/v1707630112/docs/Screenshot_2024-02-10_at_9.40.54_PM_hynkvq.png)
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 Default logging
 
 When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/workflows/settings/#data-retention-controls) you've configured.

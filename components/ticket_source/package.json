@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ticket_source",
+  "version": "0.0.1",
+  "description": "Pipedream Ticket Source Components",
+  "main": "ticket_source.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ticket_source"
+  ],
+  "homepage": "https://pipedream.com/apps/ticket_source",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

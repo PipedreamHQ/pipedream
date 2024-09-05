@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/minio",
+  "version": "0.0.1",
+  "description": "Pipedream MinIO Components",
+  "main": "minio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "minio"
+  ],
+  "homepage": "https://pipedream.com/apps/minio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

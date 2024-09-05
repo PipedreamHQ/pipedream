@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/eyepop_ai",
+  "version": "0.0.1",
+  "description": "Pipedream EyePop.ai Components",
+  "main": "eyepop_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "eyepop_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/eyepop_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,12 +1,12 @@
-import zoomAdmin from "../../zoom_admin.app.mjs";
-import get from "lodash/get.js";
 import { axios } from "@pipedream/platform";
+import get from "lodash/get.js";
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "Get Webinar",
   description: "Retrieve the details of a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinar)",
   key: "zoom_admin-get-webinar",
-  version: "0.1.3",
+  version: "0.1.5",
   type: "action",
   props: {
     zoomAdmin,

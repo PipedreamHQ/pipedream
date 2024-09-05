@@ -7,7 +7,7 @@ export default {
   key: "gorgias_oauth-ticket-created",
   name: "New Ticket",
   description: "Emit new event when a ticket is created. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "source",
   props: {
     ...base.props,

@@ -1,0 +1,14 @@
+{
+  "index": {
+    "title": "Overview"
+  },
+  "use-cases": {
+    "title": "Use cases"
+  },
+  "quickstart": {
+    "title": "Quickstart"
+  },
+  "api": {
+    "title": "API & SDK Reference"
+  }
+}

@@ -1,15 +1,18 @@
 {
   "name": "@pipedream/hotmart",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Hotmart Components",
-  "main": "dist/app/hotmart.app.mjs",
+  "main": "hotmart.app.mjs",
   "keywords": [
     "pipedream",
     "hotmart"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/hotmart",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.6.4"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"
   }

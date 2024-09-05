@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/basecamp",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Pipedream Basecamp Components",
   "main": "basecamp.app.js",
   "keywords": [

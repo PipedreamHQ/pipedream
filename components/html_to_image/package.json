@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/html_to_image",
+  "version": "0.0.1",
+  "description": "Pipedream HTML to Image Components",
+  "main": "html_to_image.app.mjs",
+  "keywords": [
+    "pipedream",
+    "html_to_image"
+  ],
+  "homepage": "https://pipedream.com/apps/html_to_image",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,35 +1,33 @@
-import common from "../common/common.mjs";
+import common from "../common/polling.mjs";
+import activityTypes from "../common/activity-types.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "onedesk-new-user-created",
   name: "New User Created",
-  description: "Emit new event when a new user is created. [See the docs](https://www.onedesk.com/developers/#_get_item_updates)",
-  version: "0.0.1",
+  description: "Emit new event when a new user is created. [See the documentation](https://www.onedesk.com/dev/).",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    async getUpdates(applicationId) {
-      const { data } = await this.onedesk.getItemUpdates({
-        data: {
-          applicationId,
-          itemTypes: [
-            "User",
-          ],
-          operations: [
-            "CREATE",
-          ],
+    getActivityTypeProperties() {
+      return [
+        {
+          property: "types",
+          operation: "EQ",
+          value: activityTypes.CREATED_USER,
         },
-      });
-      return data;
+      ];
     },
-    generateMeta(item) {
+    generateMeta(resource) {
       return {
-        id: item.itemId,
-        summary: item.itemName,
-        ts: Date.parse(item.collectedTimestamp),
+        id: resource.itemExternalId,
+        summary: `New User Created: ${resource.itemName}`,
+        ts: Date.parse(resource.timestamp),
       };
     },
   },
+  sampleEmit,
 };

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/_21risk",
+  "version": "0.1.0",
+  "description": "Pipedream 21RISK Components",
+  "main": "_21risk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "_21risk"
+  ],
+  "homepage": "https://pipedream.com/apps/_21risk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
+

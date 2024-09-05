@@ -21,17 +21,24 @@ export default {
     _setLastMaxTimestamp(lastMaxTimestamp) {
       this.db.set("lastMaxTimestamp", lastMaxTimestamp);
     },
+    async streamToArray(stream) {
+      const result = [];
+      for await (const item of stream) {
+        result.push(item);
+      }
+      return result;
+    },
     async processCollection(statement, timestamp) {
-      const rowStream = await this.snowflake.getRows(statement);
-      this.$emit({
-        rows: rowStream,
+      const rowStream = await this.snowflake.executeQuery(statement);
+      const rows = await this.streamToArray(rowStream);
+      this.$emit(rows, this.generateMetaForCollection({
         timestamp,
-      });
+      }));
     },
     async processSingle(statement, timestamp) {
       let lastResultId;
       let rowCount = 0;
-      const rowStream = await this.snowflake.getRows(statement);
+      const rowStream = await this.snowflake.executeQuery(statement);
       for await (const row of rowStream) {
         const meta = this.generateMeta({
           row,

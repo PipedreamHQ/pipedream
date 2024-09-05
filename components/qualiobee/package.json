@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/qualiobee",
+  "version": "0.0.1",
+  "description": "Pipedream Qualiobee Components",
+  "main": "qualiobee.app.mjs",
+  "keywords": [
+    "pipedream",
+    "qualiobee"
+  ],
+  "homepage": "https://pipedream.com/apps/qualiobee",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

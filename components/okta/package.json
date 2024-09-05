@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/okta",
+  "version": "0.1.0",
+  "description": "Pipedream Okta Components",
+  "main": "okta.app.mjs",
+  "keywords": [
+    "pipedream",
+    "okta"
+  ],
+  "homepage": "https://pipedream.com/apps/okta",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^2.0.0"
+  }
+}
+

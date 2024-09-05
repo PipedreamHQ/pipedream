@@ -13,6 +13,6 @@ export default {
     ],
   }),
   key: "slack_bot-delete-message",
-  description: "Delete a message (Bot). [See docs here](https://api.slack.com/methods/chat.delete)",
-  version: "0.0.2",
+  description: "Delete a message (Bot). [See the documentation](https://api.slack.com/methods/chat.delete)",
+  version: "0.0.3",
 };

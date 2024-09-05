@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/transifex",
+  "version": "0.1.0",
+  "description": "Pipedream Transifex Components",
+  "main": "transifex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "transifex"
+  ],
+  "homepage": "https://pipedream.com/apps/transifex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^2.0.0",
+    "fs": "^0.0.1-security"
+  }
+}

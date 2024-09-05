@@ -9,33 +9,39 @@
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
 import common from "../common-webhook.mjs";
-import { GOOGLE_DRIVE_NOTIFICATION_CHANGE } from "../../constants.mjs";
+import { GOOGLE_DRIVE_NOTIFICATION_CHANGE } from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "google_drive-new-or-modified-comments",
-  name: "New or Modified Comments",
+  name: "New or Modified Comments (Instant)",
   description:
-    "Emits a new event any time a file comment is added, modified, or deleted in your linked Google Drive",
-  version: "0.1.6",
+    "Emit new event when a comment is created or modified in the selected file",
+  version: "1.0.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
+  props: {
+    ...common.props,
+    fileId: {
+      propDefinition: [
+        common.props.googleDrive,
+        "fileId",
+        (c) => ({
+          drive: c.drive,
+        }),
+      ],
+      description: "The file to watch for comments",
+    },
+  },
   hooks: {
     async deploy() {
-      const daysAgo = new Date();
-      daysAgo.setDate(daysAgo.getDate() - 30);
-      const timeString = daysAgo.toISOString();
-
-      const args = this.getListFilesOpts({
-        q: `mimeType != "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
-        fields: "files",
-      });
-
-      const { files } = await this.googleDrive.listFilesInPage(null, args);
-
-      await this.processChanges(files);
+      await this.processChanges([
+        {
+          id: this.fileId,
+        },
+      ]);
     },
     async activate() {
       await common.hooks.activate.bind(this)();
@@ -82,7 +88,9 @@ export default {
     },
     getChanges(headers) {
       if (!headers) {
-        return;
+        return {
+          change: { },
+        };
       }
       return {
         change: {
@@ -96,6 +104,9 @@ export default {
     },
     async processChanges(changedFiles, headers) {
       const changes = this.getChanges(headers);
+      if (changedFiles?.length) {
+        changedFiles = changedFiles.filter(({ id }) => id === this.fileId);
+      }
 
       for (const file of changedFiles) {
         const lastCommentTimeForFile = this._getLastCommentTimeForFile(file.id);
@@ -113,7 +124,6 @@ export default {
 
           const eventToEmit = {
             comment,
-            file,
             ...changes,
           };
           const meta = this.generateMeta(comment, headers);

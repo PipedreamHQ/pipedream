@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/hackerone",
+  "version": "0.1.0",
+  "description": "Pipedream HackerOne Components",
+  "main": "hackerone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hackerone"
+  ],
+  "homepage": "https://pipedream.com/apps/hackerone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

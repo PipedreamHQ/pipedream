@@ -1,6 +1,8 @@
 import github from "../../github.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import { checkAdminPermission } from "./utils.mjs";
+import {
+  checkAdminPermission, getRelevantHeaders,
+} from "./utils.mjs";
 
 export default {
   props: {
@@ -139,24 +141,30 @@ export default {
       return items;
     },
     emitEvent({
-      id, item,
+      id, item, headers = {},
     }) {
       const ts = Date.now();
       const summary = this.getSummary(item);
-      this.$emit(item, {
+      this.$emit({
+        ...item,
+        ...getRelevantHeaders(headers),
+      }, {
         id,
         summary,
         ts,
       });
     },
     async onWebhookTrigger(event) {
-      const { body } = event;
+      const {
+        body, headers,
+      } = event;
       if (this.shouldEmitWebhookEvent(body)) {
         const item = this.getWebhookEventItem(body);
         const id = this.getId(item);
         this.emitEvent({
           id,
           item,
+          headers,
         });
       }
     },

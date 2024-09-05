@@ -1,13 +1,13 @@
-import zoomAdmin from "../../zoom_admin.app.mjs";
+import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import isArray from "lodash/isArray.js";
-import { axios } from "@pipedream/platform";
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "Add webinar registrant",
   description: "Register a participant for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrantcreate)",
   key: "zoom_admin-add-webinar-registrant",
-  version: "0.1.3",
+  version: "0.1.5",
   type: "action",
   props: {
     zoomAdmin,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fakturoid",
+  "version": "0.0.1",
+  "description": "Pipedream Fakturoid Components",
+  "main": "fakturoid.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fakturoid"
+  ],
+  "homepage": "https://pipedream.com/apps/fakturoid",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

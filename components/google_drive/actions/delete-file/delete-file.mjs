@@ -4,11 +4,16 @@ export default {
   key: "google_drive-delete-file",
   name: "Delete File",
   description:
-    "Permanently delete a file or folder without moving it to the trash. [See the docs](https://developers.google.com/drive/api/v3/reference/files/delete) for more information",
-  version: "0.1.3",
+    "Permanently delete a file or folder without moving it to the trash. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/delete) for more information",
+  version: "0.1.6",
   type: "action",
   props: {
     googleDrive,
+    infoAlert: {
+      type: "alert",
+      alertType: "warning",
+      content: "This action will **permanently** delete a file. If you want to move it to the trash instead, use the **[Move File to Trash](https://pipedream.com/apps/google-drive/actions/move-file-to-trash)** action.",
+    },
     drive: {
       propDefinition: [
         googleDrive,
@@ -28,10 +33,12 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.googleDrive.deleteFile(this.fileId);
-    $.export("$summary", "Successfully deleted the file");
+    const { fileId } = this;
+    await this.googleDrive.deleteFile(fileId);
+    $.export("$summary", `Successfully deleted file (ID: ${fileId}`);
     return {
       success: true,
+      fileId,
     };
   },
 };

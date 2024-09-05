@@ -5,7 +5,7 @@ export default {
   name: "List Shifts",
   description: "Get the list of shift instances for a team. [See the documentation](https://learn.microsoft.com/en-us/graph/api/schedule-list-shifts?view=graph-rest-1.0&tabs=http)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     microsoftTeams,
     teamId: {

@@ -30,6 +30,11 @@ export default {
         }),
       ],
     },
+    triggerName: {
+      type: "string",
+      label: "Trigger Name",
+      description: "Trigger name to be displayed within Zoho Survey (Maximum 255 characters)",
+    },
   },
   hooks: {
     async activate() {
@@ -38,7 +43,7 @@ export default {
         groupId: this.groupId,
         surveyId: this.surveyId,
         data: {
-          name: "Pipedream Webhook",
+          name: this.triggerName,
           event: this.getEvent(),
           callbackUrl: this.http.endpoint,
           responseContentType: "json",
@@ -68,13 +73,17 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
+    formatResponse(body) {
+      return body;
+    },
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
   },
   async run(event) {
     const { body } = event;
-    const meta = this.generateMeta(body);
-    this.$emit(body, meta);
+    const response = await this.formatResponse(body);
+    const meta = this.generateMeta(response);
+    this.$emit(response, meta);
   },
 };

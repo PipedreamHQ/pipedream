@@ -10,6 +10,6 @@ export default {
     component,
   }),
   key: "slack_bot-delete-file",
-  description: "Delete a file (Bot). [See docs here](https://api.slack.com/methods/files.delete)",
-  version: "0.0.2",
+  description: "Delete a file (Bot). [See the documentation](https://api.slack.com/methods/files.delete)",
+  version: "0.0.3",
 };

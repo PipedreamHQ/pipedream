@@ -1,16 +1,16 @@
-import gorgias_oauth from "../../gorgias_oauth.app.mjs";
-import channels from "../../common/customer-channels.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   pick,
   pickBy,
 } from "lodash-es";
+import channels from "../../common/customer-channels.mjs";
+import gorgias_oauth from "../../gorgias_oauth.app.mjs";
 
 export default {
   key: "gorgias_oauth-update-customer",
   name: "Update Customer",
   description: "Update a customer. [See the docs](https://developers.gorgias.com/reference/put_api-customers-id-)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     gorgias_oauth,

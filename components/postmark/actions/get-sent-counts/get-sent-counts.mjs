@@ -4,7 +4,7 @@ export default {
   key: "postmark-get-sent-counts",
   name: "Get Sent Counts",
   description: "Gets a total count of emails you've sent out. [See the documentation](https://postmarkapp.com/developer/api/stats-api#sent-counts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     postmark,

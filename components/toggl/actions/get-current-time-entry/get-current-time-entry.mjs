@@ -2,7 +2,7 @@ import toggl from "../../toggl.app.mjs";
 
 export default {
   name: "Get Current Time Entry",
-  version: "0.0.4",
+  version: "0.0.5",
   key: "toggl-get-current-time-entry",
   description: "Get the time entry that is running now. [See docs here]https://developers.track.toggl.com/docs/api/time_entries#get-get-current-time-entry)",
   type: "action",

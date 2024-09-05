@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_gemini",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Google Gemini Components",
   "main": "google_gemini.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
   }
 }

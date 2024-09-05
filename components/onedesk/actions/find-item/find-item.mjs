@@ -1,96 +1,89 @@
-import onedesk from "../../onedesk.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import app from "../../onedesk.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "onedesk-find-item",
   name: "Find Item",
-  description: "Search for an existing item. [See the docs](https://www.onedesk.com/developers/#_search_items)",
-  version: "0.0.1",
+  description: "Search for an existing item. [See the documentation](https://www.onedesk.com/dev/).",
+  version: "0.0.2",
   type: "action",
   props: {
-    onedesk,
-    itemId: {
+    app,
+    itemType: {
+      optional: false,
       propDefinition: [
-        onedesk,
-        "itemId",
+        app,
+        "itemType",
       ],
+    },
+    creationTimeValue: {
+      type: "string",
+      label: "Creation Time Value",
+      description: "Item creation date. Eg. `2024-01-28`",
       optional: true,
     },
-    spaceName: {
-      propDefinition: [
-        onedesk,
-        "spaceName",
+    creationTimeOperator: {
+      type: "string",
+      label: "Creation Time Operator",
+      description: "Item creation date operator",
+      optional: true,
+      options: [
+        {
+          label: "Equal",
+          value: "EQ",
+        },
+        constants.DATE_OPERATOR.GT,
+        constants.DATE_OPERATOR.LT,
       ],
     },
     name: {
       type: "string",
       label: "Item Name",
       description: "Name of the item",
-      optional: true,
-    },
-    exactMatch: {
-      type: "boolean",
-      label: "Exact Match",
-      description: "The item name search should be an exact match",
-      optional: true,
-      default: false,
     },
   },
   async run({ $ }) {
     const {
-      itemId,
-      spaceName,
+      app,
+      itemType,
+      creationTimeValue,
+      creationTimeOperator,
       name,
-      exactMatch,
     } = this;
 
-    if (!itemId && !spaceName && !name) {
-      throw new ConfigurationError("Must enter `itemId`, `spaceName` or `name`.");
-    }
+    const properties = [
+      {
+        property: "name",
+        operation: "CONTAINS",
+        value: name,
+      },
+      {
+        property: "creationTime",
+        operation: creationTimeOperator || constants.DATE_OPERATOR.LT.value,
+        value: creationTimeValue,
+      },
+    ];
 
-    const data = {
-      filters: [],
-    };
-
-    if (itemId) {
-      data.itemIds = [
-        itemId,
-      ];
-    }
-
-    if (spaceName) {
-      data.filters.push({
-        propertyName: "spaceName",
-        operation: "EQ",
-        value: spaceName,
-      });
-    }
-
-    const { data: { items } } = await this.onedesk.searchItems({
-      data,
-      $,
+    const results = await app.paginate({
+      resourcesFn: app.filterItemDetails,
+      resourcesFnArgs: {
+        $,
+        data: {
+          properties: properties.filter(({ value }) => value),
+          isAsc: false,
+          itemType: [
+            itemType,
+          ],
+        },
+      },
+      resourceName: "data",
     });
 
-    let results = [];
-    for (const workItemId of items) {
-      const { data: itemWithData } = await this.onedesk.getItem({
-        params: {
-          workItemId,
-        },
-        $,
-      });
-      results.push(itemWithData);
+    if (!results.length) {
+      $.export("$summary", "No items found.");
+    } else {
+      $.export("$summary", `Found \`${results.length}\` matching item(s).`);
     }
-
-    if (name) {
-      const lowerCaseName = name.toLowerCase();
-      results = results.filter((item) =>
-        exactMatch
-          ? item.name === name
-          : item.name.toLowerCase().includes(lowerCaseName));
-    }
-
-    $.export("$summary", `Found ${results.length} matching item(s).`);
 
     return results;
   },

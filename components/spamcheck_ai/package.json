@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/spamcheck_ai",
+  "version": "0.1.0",
+  "description": "Pipedream SpamCheck.ai Components",
+  "main": "spamcheck_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "spamcheck_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/spamcheck_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

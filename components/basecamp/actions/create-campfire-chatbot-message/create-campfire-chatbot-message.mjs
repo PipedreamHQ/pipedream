@@ -5,7 +5,7 @@ export default {
   name: "Create Campfire Chatbot Message",
   description: "Creates a line in the Campfire for a Basecamp Chatbot. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/chatbots.md#create-a-line)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
     accountId: {

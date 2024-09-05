@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/v7_darwin",
+  "version": "0.0.1",
+  "description": "Pipedream V7 Darwin Components",
+  "main": "v7_darwin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "v7_darwin"
+  ],
+  "homepage": "https://pipedream.com/apps/v7_darwin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

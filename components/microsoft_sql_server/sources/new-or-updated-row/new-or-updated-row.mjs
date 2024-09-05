@@ -7,7 +7,7 @@ export default {
   name: "New Or Updated Row",
   description: "Triggers when a new row is added or an existing row is updated. [See the documentation](https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=sql-server-ver16)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,

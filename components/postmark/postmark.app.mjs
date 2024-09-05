@@ -27,6 +27,28 @@ export default {
         });
       },
     },
+    serverId: {
+      type: "string",
+      label: "Server Id",
+      description: "The identifier of the server.",
+      async options({ page }) {
+        const { Servers = [] } = await this.listServers({
+          params: {
+            count: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return Servers.map(({
+          Name: label, ID: value,
+        }) => {
+          return {
+            label,
+            value,
+          };
+        });
+      },
+    },
     signatureId: {
       type: "string",
       label: "Signature Id",
@@ -155,11 +177,14 @@ export default {
         ...opts,
       });
     },
-    async setServerInfo(data) {
-      return this.sharedRequest(this, {
-        endpoint: "server",
-        method: "put",
-        data,
+    setServerInfo({
+      serverId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        tokenType: "account",
+        path: `servers/${serverId}`,
+        ...opts,
       });
     },
     createDataRemoval(opts = {}) {
@@ -302,6 +327,13 @@ export default {
       return this._makeRequest({
         tokenType: "account",
         path: "senders",
+        ...opts,
+      });
+    },
+    listServers(opts = {}) {
+      return this._makeRequest({
+        tokenType: "account",
+        path: "servers",
         ...opts,
       });
     },

@@ -1,16 +1,21 @@
 import fs from "fs";
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../google_gemini.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "google_gemini-generate-content-from-text-and-image",
   name: "Generate Content from Text and Image",
   description: "Generates content from both text and image input using the Gemini API. [See the documentation](https://ai.google.dev/tutorials/rest_quickstart#text-and-image_input)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
+    model: {
+      propDefinition: [
+        app,
+        "model",
+      ],
+    },
     text: {
       propDefinition: [
         app,
@@ -46,6 +51,7 @@ export default {
   async run({ $ }) {
     const {
       app,
+      model,
       text,
       imagePaths,
       mimeType,
@@ -61,7 +67,7 @@ export default {
 
     const response = await app.generateContent({
       $,
-      modelType: constants.MODEL_TYPE.GEMINI_PRO_VISION,
+      model,
       data: {
         contents: [
           {

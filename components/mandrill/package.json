@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/mandrill",
+  "version": "0.0.1",
+  "description": "Pipedream Mandrill Components",
+  "main": "mandrill.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mandrill"
+  ],
+  "homepage": "https://pipedream.com/apps/mandrill",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

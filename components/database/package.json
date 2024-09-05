@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/database",
+  "version": "0.1.5",
+  "description": "Pipedream Database Components",
+  "main": "database.app.mjs",
+  "keywords": [
+    "pipedream",
+    "database"
+  ],
+  "homepage": "https://pipedream.com/apps/database",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

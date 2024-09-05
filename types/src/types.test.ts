@@ -252,6 +252,53 @@ const source: Pipedream.Source<Pipedream.Methods, Pipedream.SourcePropDefinition
   },
 };
 
+const nonDedupedSource: Pipedream.Source<
+  Pipedream.Methods,
+  Pipedream.SourcePropDefinitions
+> = {
+  key: "source",
+  name: "Test Source",
+  description: "hello, world",
+  version: "0.0.1",
+  type: "source",
+  async run() {
+    this.$emit(
+      {
+        foo: "bar ",
+      },
+      {
+        name: "channel",
+        summary: "Summary",
+        ts: 123,
+      },
+    );
+  },
+};
+
+const nonDedupedSourceWithId: Pipedream.Source<
+  Pipedream.Methods,
+  Pipedream.SourcePropDefinitions
+> = {
+  key: "source",
+  name: "Test Source",
+  description: "hello, world",
+  version: "0.0.1",
+  type: "source",
+  async run() {
+    this.$emit(
+      {
+        foo: "bar ",
+      },
+      {
+        id: 246,
+        name: "channel",
+        summary: "Summary",
+        ts: 123,
+      },
+    );
+  },
+};
+
 // Bad sources
 
 // @ts-expect-error $ExpectError - Missing key
@@ -352,3 +399,17 @@ const actionWrongType: Pipedream.Action<Pipedream.Methods, Pipedream.ActionPropD
   type: "source",
   run() { console.log("foo"); },
 };
+
+Pipedream.defineSource({
+  key: "source",
+  version: "0.0.1",
+  type: "source",
+  dedupe: "unique",
+  run() {
+    this.$emit(
+      {},
+      // @ts-expect-error $ExpectError - Missing id property in metadata object
+      {},
+    );
+  },
+});

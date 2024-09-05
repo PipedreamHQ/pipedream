@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/emaillistverify",
+  "version": "0.0.1",
+  "description": "Pipedream EmailListVerify Components",
+  "main": "emaillistverify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "emaillistverify"
+  ],
+  "homepage": "https://pipedream.com/apps/emaillistverify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

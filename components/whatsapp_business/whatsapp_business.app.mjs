@@ -101,7 +101,7 @@ export default {
       return data;
     },
     async _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, headers, ...opts
     }) {
       return axios($, {
         ...opts,
@@ -109,6 +109,7 @@ export default {
         headers: {
           "Authorization": `Bearer ${this._auth()}`,
           "Content-Type": "application/json",
+          ...headers,
         },
       });
     },
@@ -194,6 +195,24 @@ export default {
             components,
           },
         },
+      });
+    },
+    uploadMedia({
+      phoneNumberId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/${phoneNumberId}/media`,
+        ...opts,
+      });
+    },
+    sendVoiceMessage({
+      phoneNumberId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/${phoneNumberId}/messages`,
+        ...opts,
       });
     },
   },

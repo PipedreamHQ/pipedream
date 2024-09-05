@@ -1,11 +1,10 @@
-/* eslint-disable pipedream/props-description */
 import gmail from "../../gmail.app.mjs";
 
 export default {
   key: "gmail-send-email",
   name: "Send Email",
-  description: "Send an email from your Google Workspace email account",
-  version: "0.1.1",
+  description: "Send an email from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/send)",
+  version: "0.1.3",
   type: "action",
   props: {
     gmail,

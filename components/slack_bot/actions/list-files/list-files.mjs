@@ -16,21 +16,19 @@ export default {
       conversation: {
         propDefinition: [
           undefined,
-          "channelId",
+          "conversation",
           () => ({
             types: [
               constants.CHANNEL_TYPE.PUBLIC,
               constants.CHANNEL_TYPE.PRIVATE,
               constants.CHANNEL_TYPE.MPIM,
-              constants.CHANNEL_TYPE.IM,
             ],
-            channelsFilter: (channel) => channel.is_im || channel.is_member,
           }),
         ],
       },
     },
   }),
   key: "slack_bot-list-files",
-  description: "Return a list of files within a team (Bot). [See docs here](https://api.slack.com/methods/files.list)",
-  version: "0.0.2",
+  description: "Return a list of files within a team (Bot). [See the documentation](https://api.slack.com/methods/files.list)",
+  version: "0.0.3",
 };

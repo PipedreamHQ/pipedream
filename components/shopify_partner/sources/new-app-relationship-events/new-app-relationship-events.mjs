@@ -7,8 +7,9 @@ export default {
   key: "shopify_partner-new-app-relationship-events",
   name: "New App Relationship Events",
   type: "source",
-  version: "0.1.2",
-  description: "Emit new events when new shops installs, uninstalls, subscribes or unsubscribes your app.",
+  version: "0.1.3",
+  description:
+    "Emit new events when new shops installs, uninstalls, subscribes or unsubscribes your app.",
   ...common,
   props: {
     ...common.props,
@@ -69,9 +70,11 @@ export default {
     await this.shopify.query({
       db,
       key: "shopify_partner-relationship-events",
-      query: this.paginationDirection === "backward" || !this.db.get("shopify_partner-relationship-events") // on the first run, pull records from present day
-        ? getAppRelationshipEventsBackwards
-        : getAppRelationshipEventsForwards,
+      query:
+        this.paginationDirection === "backward" ||
+        !this.db.get("shopify_partner-relationship-events") // on the first run, pull records from present day
+          ? getAppRelationshipEventsBackwards
+          : getAppRelationshipEventsForwards,
       variables,
       handleEmit: (data) => {
         data.app.events.edges.map(({ node: { ...event } }) => {
@@ -94,11 +97,12 @@ export default {
           console.log("First event in batch: ", first);
           return first?.cursor;
         }
-
       },
-      hasNextPagePath: this.paginationDirection === "forward" || !this.db.get("shopify_partner-relationship-events")
-        ? "app.events.pageInfo.hasNextPage"
-        : "app.events.pageInfo.hasPreviousPage",
+      hasNextPagePath:
+        this.paginationDirection === "forward" ||
+        !this.db.get("shopify_partner-relationship-events")
+          ? "app.events.pageInfo.hasNextPage"
+          : "app.events.pageInfo.hasPreviousPage",
       paginationDirection,
       recordsPerRun,
     });

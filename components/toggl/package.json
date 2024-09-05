@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/toggl",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Toggl Components",
   "main": "toggl.app.js",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^0.10.0",
+    "@pipedream/platform": "^3.0.0",
     "toggl-api": "^1.0.2"
   }
 }

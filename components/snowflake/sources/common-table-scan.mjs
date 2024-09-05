@@ -15,7 +15,7 @@ export default {
       propDefinition: [
         common.props.snowflake,
         "schema",
-        (c) =>  ({
+        (c) => ({
           database: c.database,
         }),
       ],
@@ -146,7 +146,7 @@ export default {
         sqlText,
         binds,
       };
-      const rowStream = await this.snowflake.getRows(statement);
+      const rowStream = await this.snowflake.executeQuery(statement);
       for await (const row of rowStream) {
         return row[this.uniqueKey];
       }

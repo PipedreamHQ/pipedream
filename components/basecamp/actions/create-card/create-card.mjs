@@ -5,7 +5,7 @@ export default {
   name: "Create a Card",
   description: "Creates a card in the select column. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/card_table_cards.md#create-a-card)",
   type: "action",
-  version: "0.0.5",
+  version: "0.1.0",
   props: {
     app,
     accountId: {
@@ -23,15 +23,28 @@ export default {
         }),
       ],
     },
-    columnId: {
+    cardTableId: {
       propDefinition: [
         app,
-        "columnId",
+        "cardTableId",
         ({
           accountId, projectId,
         }) => ({
           accountId,
           projectId,
+        }),
+      ],
+    },
+    columnId: {
+      propDefinition: [
+        app,
+        "columnId",
+        ({
+          accountId, projectId, cardTableId,
+        }) => ({
+          accountId,
+          projectId,
+          cardTableId,
         }),
       ],
     },

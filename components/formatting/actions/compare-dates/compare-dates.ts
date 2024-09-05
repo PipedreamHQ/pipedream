@@ -9,7 +9,7 @@ export default defineAction({
   description:
     "Get the duration between two dates in days, hours, minutes, and seconds along with checking if they are the same.",
   key: "formatting-compare-dates",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...commonDateTime.props,

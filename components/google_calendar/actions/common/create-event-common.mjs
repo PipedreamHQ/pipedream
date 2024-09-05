@@ -1,4 +1,5 @@
-import googleCalendar from "../../google_calendar.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   props: ({ isUpdate }) => (
@@ -8,6 +9,18 @@ export default {
         type: "string",
         description: "Enter a title for the event, (e.g., `My event`)",
         optional: true,
+      },
+      eventStartDate: {
+        label: "Event Start Date",
+        type: "string",
+        description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
+        optional: isUpdate,
+      },
+      eventEndDate: {
+        label: "Event End Date",
+        type: "string",
+        description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
+        optional: isUpdate,
       },
       location: {
         label: "Event Location",
@@ -23,45 +36,38 @@ export default {
       },
       attendees: {
         label: "Attendees",
-        type: "string[]",
-        description: "Enter an array of email addresses for any attendees",
+        type: "string",
+        description: "Enter either an array or a comma separated list of email addresses of attendees",
         optional: true,
       },
-      eventStartDate: {
-        label: "Event Start Date",
+      repeatFrequency: {
         type: "string",
-        description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
-        optional: isUpdate,
-      },
-      eventEndDate: {
-        label: "Event End Date",
-        type: "string",
-        description: "For all-day events, enter the Event day in the format `yyyy-mm-dd`. For events with time, format according to [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-1): `yyyy-mm-ddThh:mm:ss+01:00`. A time zone offset is required unless a time zone is explicitly specified in timeZone.",
-        optional: isUpdate,
-      },
-      recurrence: {
-        label: "Recurrence",
-        type: "string[]",
-        description: "Recurrence rule(s) for the event. For example, `RRULE:FREQ=DAILY;INTERVAL=2` means once every two days, `RRULE:FREQ=YEARLY` means annually.\nYou can combine multiple recurrence rules. [See the documentation](https://developers.google.com/calendar/api/concepts/events-calendars#recurrence_rule)",
+        label: "Repeat Frequency",
+        description: "Select a frequency to make this event repeating",
         optional: true,
+        options: Object.keys(constants.REPEAT_FREQUENCIES),
+        reloadProps: true,
       },
-      timeZone: {
-        propDefinition: [
-          googleCalendar,
-          "timeZone",
-        ],
+      repeatInterval: {
+        type: "integer",
+        label: "Repeat Interval",
+        description: "Enter 1 to \"repeat every day\", enter 2 to \"repeat every other day\", etc. Defaults to 1.",
+        optional: true,
+        hidden: true,
       },
-      sendUpdates: {
-        propDefinition: [
-          googleCalendar,
-          "sendUpdates",
-        ],
+      repeatUntil: {
+        type: "string",
+        label: "Repeat Until",
+        description: "The event will repeat only until this date, if set",
+        optional: true,
+        hidden: true,
       },
-      sendNotifications: {
-        propDefinition: [
-          googleCalendar,
-          "sendNotifications",
-        ],
+      repeatTimes: {
+        type: "integer",
+        label: "Repeat How Many Times?",
+        description: "Limit the number of times this event will occur",
+        optional: true,
+        hidden: true,
       },
     }
   ),
@@ -86,6 +92,11 @@ export default {
       * ]
       */
       let attendees = [];
+      if (typeof selectedAttendees === "string") {
+        selectedAttendees = selectedAttendees.includes("[") && selectedAttendees.includes("]")
+          ? JSON.parse(selectedAttendees)
+          : selectedAttendees.replaceAll(" ", "").split(",");
+      }
       if (selectedAttendees && Array.isArray(selectedAttendees)) {
         attendees = selectedAttendees.map((email) => ({
           email,
@@ -118,6 +129,38 @@ export default {
         dateTime: this.checkDateOrDateTimeInput(date, "dateTime"),
         timeZone,
       };
+    },
+    /**
+    * Format recurrence prop
+    * https://developers.google.com/calendar/api/concepts/events-calendars#recurrence_rule
+    */
+    formatRecurrence({
+      repeatFrequency,
+      repeatInterval,
+      repeatTimes,
+      repeatUntil,
+    }) {
+      if (!repeatFrequency) {
+        return;
+      }
+      if (repeatTimes && repeatUntil) {
+        throw new ConfigurationError("Only one of `Repeat Until` or Repeat `How Many Times` may be entered");
+      }
+
+      let recurrence = `RRULE:FREQ=${repeatFrequency}`;
+      if (repeatInterval) {
+        recurrence = `${recurrence};INTERVAL=${repeatInterval}`;
+      }
+      if (repeatTimes) {
+        recurrence = `${recurrence};COUNT=${repeatTimes}`;
+      }
+      if (repeatUntil) {
+        const date = repeatUntil.slice(0, 10).replaceAll("-", "");
+        recurrence = `${recurrence};UNTIL=${date}`;
+      }
+      return [
+        recurrence,
+      ];
     },
   },
 };

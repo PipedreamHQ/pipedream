@@ -1,13 +1,13 @@
-import zoomAdmin from "../../zoom_admin.app.mjs";
-import isObject from "lodash/isObject.js";
 import { axios } from "@pipedream/platform";
+import isObject from "lodash/isObject.js";
 import consts from "../../consts.mjs";
+import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "Delete Cloud Recording",
   description: "Remove a recording from a meeting or webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingdeleteone)",
   key: "zoom_admin-delete-cloud-recording",
-  version: "0.1.3",
+  version: "0.1.5",
   type: "action",
   props: {
     zoomAdmin,

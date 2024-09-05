@@ -10,7 +10,7 @@ export default defineAction({
   description:
     `Delete a row [See docs here](${DOCS_LINK})`,
   key: "baserow-delete-row",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,

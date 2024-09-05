@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "Task Assigned in Project (Instant)",
   description: "Emit new event each time a task is assigned, reassigned or unassigned.",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,

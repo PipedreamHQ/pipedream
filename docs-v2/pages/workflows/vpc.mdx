@@ -1,12 +1,8 @@
 import VideoPlayer from '@/components/VideoPlayer';
 
-# Virtual Private Clouds
+# Virtual Private Clouds (VPCs)
 
 <VideoPlayer src="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Private Clouds" />
-
-Every Pipedream workflow is deployed to its own virtual machine in AWS. This means your workflow's execution environment has its own RAM and disk, isolated from other users’ workflows.
-
-However, outbound traffic shares the same network as other AWS services deployed in the `us-east-1` region. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
 
 Pipedream VPCs enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresses that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform).
 
@@ -52,7 +48,7 @@ To rename or delete a VPC, navigate to the [Virtual Private Cloud settings](http
 
 ## Self-hosting and VPC peering
 
-If you're interested in running Pipedream workflows in your own infrastructure, or configure VPC peering to allow Pipedream to communicate to resources in a private network, please reach out to our [Enterprise Sales team](mailto:sales@pipedream.com).
+If you're interested in running Pipedream workflows in your own infrastructure, or configure VPC peering to allow Pipedream to communicate to resources in a private network, please reach out to our [Sales team](mailto:sales@pipedream.com).
 
 ## Limitations
 

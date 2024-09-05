@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/turso",
+  "version": "0.2.1",
+  "description": "Pipedream Turso Components",
+  "main": "turso.app.mjs",
+  "keywords": [
+    "pipedream",
+    "turso"
+  ],
+  "homepage": "https://pipedream.com/apps/turso",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -44,12 +44,13 @@ export default {
   },
   async run(event) {
     const { body } = event;
-    if (!body || body?.data === "test") {
-      this.http.respond({
-        status: 200,
-      });
-      return;
-    }
+
+    this.http.respond({
+      status: 200,
+    });
+
+    if (!body || body?.data === "test") return;
+
     const {
       event: eventType, data,
     } = body;

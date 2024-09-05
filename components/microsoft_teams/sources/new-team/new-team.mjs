@@ -5,7 +5,7 @@ export default {
   key: "microsoft_teams-new-team",
   name: "New Team",
   description: "Emit new event when a new team is joined by the authenticated user",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

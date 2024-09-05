@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/signnow",
+  "version": "0.1.0",
+  "description": "Pipedream signNow Components",
+  "main": "signnow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "signnow"
+  ],
+  "homepage": "https://pipedream.com/apps/signnow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0",
+    "crypto": "^1.0.1",
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "uuid": "^10.0.0"
+  }
+}

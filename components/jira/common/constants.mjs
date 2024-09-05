@@ -34,9 +34,12 @@ const SCHEMA = {
   },
 };
 
+const DEFAULT_LIMIT = 50;
+
 export default {
   TYPE,
   FIELD_KEY,
   FIELD_TYPE,
   SCHEMA,
+  DEFAULT_LIMIT,
 };

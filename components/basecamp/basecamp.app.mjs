@@ -220,16 +220,36 @@ export default {
         }));
       },
     },
+    cardTableId: {
+      type: "string",
+      label: "Card Table Id",
+      description: "The card table ID",
+      async options({
+        accountId, projectId,
+      }) {
+        const columns = await this.getCardTables({
+          accountId,
+          projectId,
+        });
+        return columns.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
     columnId: {
       type: "string",
       label: "Column ID",
       description: "The column ID",
       async options({
-        accountId, projectId,
+        accountId, projectId, cardTableId,
       }) {
         const columns = await this.getColumns({
           accountId,
           projectId,
+          cardTableId,
         });
         return columns.map(({
           id: value, title: label,
@@ -408,18 +428,23 @@ export default {
         ...args,
       });
     },
-    async getColumns({
+    async getCardTables({
       accountId, projectId,
     }) {
       const { dock } = await this.getProject({
         accountId,
         projectId,
       });
-      const cardTable = dock.find(({ name }) => name === "kanban_board");
+      const cardTables = dock.filter(({ name }) => name === "kanban_board");
+      return cardTables;
+    },
+    async getColumns({
+      accountId, projectId, cardTableId,
+    }) {
       const { lists } = await this.getCardTable({
         accountId,
         projectId,
-        cardTableId: cardTable.id,
+        cardTableId: cardTableId,
       });
       return lists;
     },

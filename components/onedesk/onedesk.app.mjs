@@ -1,138 +1,221 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "onedesk",
   propDefinitions: {
+    containerType: {
+      type: "string",
+      label: "Container Type",
+      description: "Type of the container",
+      optional: true,
+      async options({
+        filter = ({ visible }) => visible,
+        mapper = ({ label }) => label,
+      }) {
+        const { data: containerTypes } = await this.getContainerTypes();
+        return containerTypes
+          .filter(filter)
+          .map(mapper);
+      },
+    },
+    parentPortfolioExternalIds: {
+      type: "string[]",
+      label: "Parent Portfolio External IDs",
+      description: "Array of parent portfolio external IDs. Type the name of the parent portfolio to search for it.",
+      useQuery: true,
+      optional: true,
+      async options({
+        query, prevContext: { offset = 0 },
+      }) {
+        const { data } = await this.filterPortfolioDetails({
+          data: {
+            properties: [
+              {
+                property: "name",
+                operation: "CONTAINS",
+                value: query,
+              },
+            ],
+            isAsc: false,
+            limit: constants.DEFAULT_LIMIT,
+            offset,
+          },
+        });
+
+        return {
+          options: data.map(({
+            name: label,
+            externalId: value,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            offset: offset + constants.DEFAULT_LIMIT,
+          },
+        };
+      },
+    },
     userType: {
       type: "string",
       label: "User Type",
       description: "Type of user or customer",
       optional: true,
       async options() {
-        const { data: { userTypes } } = await this.getOrgInfo();
-        return userTypes.map((type) => ({
-          label: type.name,
-          value: type.userType,
-        }));
-      },
-    },
-    itemType: {
-      type: "string",
-      label: "Item Type",
-      description: "Type of the item",
-      async options() {
-        const { data: { itemTypes } } = await this.getOrgInfo();
-        return itemTypes.map((type) => ({
-          label: type.name,
-          value: type.itemType,
-        }));
-      },
-    },
-    containerType: {
-      type: "string",
-      label: "Container Type",
-      description: "Type of the space",
-      async options() {
-        const { data: { containerTypes } } = await this.getOrgInfo();
-        return containerTypes.map((type) => ({
-          label: type.name,
-          value: type.containerType,
-        }));
+        const { data: userTypes } = await this.getUserTypes();
+        return userTypes.map(({ label }) => label);
       },
     },
     teamId: {
       type: "string",
       label: "Team ID",
       description: "The ID of the team",
+      useQuery: true,
       optional: true,
-      async options() {
-        const { data } = await this.listTeams();
-        return data.map((team) => ({
-          label: team.name,
-          value: team.id,
-        }));
-      },
-    },
-    itemId: {
-      type: "string",
-      label: "Item ID",
-      description: "Id of the work item to post a comment on",
-      async options() {
-        const { data: { items } } = await this.searchItems();
-        const { data: { items: workspaceItems } } = await this.getItemsByIds({
+      async options({
+        query, prevContext: { offset = 0 },
+      }) {
+        const { data } = await this.filterTeamDetails({
           data: {
-            workItemIds: items,
+            properties: [
+              {
+                property: "name",
+                operation: "CONTAINS",
+                value: query,
+              },
+            ],
+            isAsc: false,
+            limit: constants.DEFAULT_LIMIT,
+            offset,
           },
         });
-        return workspaceItems.map((workspaceItem) => ({
-          label: workspaceItem.name,
-          value: workspaceItem.id,
-        }));
+
+        return {
+          options: data.map(({
+            name: label,
+            externalId: value,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            offset: offset + constants.DEFAULT_LIMIT,
+          },
+        };
       },
     },
-    spaceId: {
+    invoice: {
       type: "string",
-      label: "Space ID",
-      description: "The ID of the space or project",
+      label: "Invoice",
+      description: "The invoice to search for",
       optional: true,
-      async options() {
-        const spaces = [];
-        const { data: { items } } = await this.searchSpaces();
-        for (const item of items) {
-          const { data: space } = await this.getSpace({
-            data: {
-              id: item,
-            },
-          });
-          spaces.push({
-            label: space.name,
-            value: space.id,
-          });
-        }
-        return spaces;
+      async options({
+        prevContext: { offset = 0 },
+        mapper = ({ type }) => type,
+      }) {
+        const { data } = await this.filterInvoiceDetails({
+          data: {
+            properties: [
+              {
+                property: "creationTime",
+                operation: constants.DATE_OPERATOR.LT.value,
+                value: utils.getDateAfterToday(),
+              },
+            ],
+            isAsc: false,
+            limit: constants.DEFAULT_LIMIT,
+            offset,
+          },
+        });
+
+        return {
+          options: data.map(mapper),
+          context: {
+            offset: offset + constants.DEFAULT_LIMIT,
+          },
+        };
       },
     },
-    spaceName: {
+    conversationExternalId: {
       type: "string",
-      label: "Space Name",
-      description: "The name of the space or project",
-      optional: true,
-      async options() {
-        const spaces = [];
-        const { data: { items } } = await this.searchSpaces();
-        for (const item of items) {
-          const { data: space } = await this.getSpace({
-            data: {
-              id: item,
-            },
-          });
-          spaces.push(space.name);
-        }
-        return spaces;
+      label: "Conversation External ID",
+      description: "The external ID of the conversation",
+      async options({ prevContext: { offset = 0 } }) {
+        const { data } = await this.filterConversationDetails({
+          data: {
+            properties: [
+              {
+                property: "createdTime",
+                operation: constants.DATE_OPERATOR.LT.value,
+                value: utils.getDateAfterToday(),
+              },
+            ],
+            isAsc: false,
+            limit: constants.DEFAULT_LIMIT,
+            offset,
+          },
+        });
+
+        return {
+          options: data.map(({
+            conversationId: value,
+            content: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            offset: offset + constants.DEFAULT_LIMIT,
+          },
+        };
       },
     },
-    parentIds: {
-      type: "string[]",
-      label: "Parent IDs",
-      description: "Array of parent/portfolio IDs",
+    itemType: {
+      type: "string",
+      label: "Item Type",
+      description: "Type of the item",
       optional: true,
       async options() {
-        const portfolios = [];
-        const { data: { items } } = await this.searchPortfolios();
-        for (const item of items) {
-          const { data: portfolio } = await this.getPortfolio({
-            data: {
-              id: item,
-            },
-          });
-          portfolios.push({
-            label: portfolio.name,
-            value: portfolio.id,
-          });
-        }
-        return portfolios;
+        const { data: itemTypes } = await this.getItemTypes();
+        return itemTypes.map(({ label }) => label);
+      },
+    },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "The ID of the project",
+      optional: true,
+      async options({ prevContext: { offset = 0 } }) {
+        const { data } = await this.filterProjectDetails({
+          data: {
+            properties: [
+              {
+                property: "creationTime",
+                operation: constants.DATE_OPERATOR.LT.value,
+                value: utils.getDateAfterToday(),
+              },
+            ],
+            isAsc: false,
+            limit: constants.DEFAULT_LIMIT,
+            offset,
+          },
+        });
+
+        return {
+          options: data.map(({
+            name: label,
+            externalId: value,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            offset: offset + constants.DEFAULT_LIMIT,
+          },
+        };
       },
     },
     priority: {
@@ -142,154 +225,209 @@ export default {
       optional: true,
       options: constants.PRIORITY_OPTIONS,
     },
-    postType: {
+    itemId: {
+      type: "integer",
+      label: "Item ID",
+      description: "Id of the item",
+      useQuery: true,
+      async options({
+        query, prevContext: { offset = 0 }, itemType,
+      }) {
+        const properties = [
+          {
+            property: "creationTime",
+            operation: constants.DATE_OPERATOR.LT.value,
+            value: utils.getDateAfterToday(),
+          },
+          {
+            property: "name",
+            operation: "CONTAINS",
+            value: query,
+          },
+        ];
+
+        const { data } = await this.filterItemDetails({
+          data: {
+            properties: properties.filter(({ value }) => value),
+            isAsc: false,
+            limit: constants.DEFAULT_LIMIT,
+            offset,
+            itemType: [
+              itemType,
+            ],
+          },
+        });
+
+        return {
+          options: data.map(({
+            name: label,
+            id: value,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            offset: offset + constants.DEFAULT_LIMIT,
+          },
+        };
+      },
+    },
+    itemName: {
       type: "string",
-      label: "Post Type",
-      description: "Type of comment",
-      options: constants.POST_TYPES,
+      label: "Name",
+      description: "Name of the item",
+    },
+    itemDescription: {
+      type: "string",
+      label: "Description",
+      description: "Description of the item",
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://app.onedesk.com/rest/2.0";
+      return "https://app.onedesk.com/rest/public";
     },
     _authToken() {
       return this.$auth.oauth_access_token;
     },
-    _buildAuth(method, data, params) {
-      if (method === "POST") {
-        return {
-          data: {
-            ...data,
-            authenticationToken: this._authToken(),
-          },
-        };
-      }
+    getHeaders(headers) {
       return {
-        params: {
-          ...params,
-          token: this._authToken(),
-        },
+        ...headers,
+        "OD-Public-API-Key": `${this.$auth.api_key}`,
       };
     },
     async _makeRequest({
-      $ = this,
-      path,
-      method = "GET",
-      data,
-      params,
-      ...args
-    }) {
-      const config = {
+      $ = this, path, headers, ...args
+    } = {}) {
+      const response = await axios($, {
         url: `${this._baseUrl()}${path}`,
-        method,
-        ...this._buildAuth(method, data, params),
+        headers: this.getHeaders(headers),
         ...args,
-      };
-      return axios($, config);
+      });
+
+      if (response?.data === null) {
+        throw new Error(`No data returned from the API ${JSON.stringify(response, null, 2)}`);
+      }
+
+      if (response?.status === 429) {
+        throw new Error("API rate limit exceeded");
+      }
+
+      return response;
     },
-    getItemUpdates(args = {}) {
+    post(args = {}) {
       return this._makeRequest({
-        path: "/history/getItemUpdates",
         method: "POST",
         ...args,
       });
     },
-    getOrgInfo(args = {}) {
+    getContainerTypes(args = {}) {
       return this._makeRequest({
-        path: "/organization/getOrgInfo",
+        path: "/organization/containerTypes",
         ...args,
       });
     },
-    getSpace(args = {}) {
+    getUserTypes(args = {}) {
       return this._makeRequest({
-        path: "/space/getItemById",
-        method: "POST",
+        path: "/organization/userTypes",
         ...args,
       });
     },
-    getItem(args = {}) {
+    getItemTypes(args = {}) {
       return this._makeRequest({
-        path: "/workitem/getItemDetails",
+        path: "/organization/itemTypes",
         ...args,
       });
     },
-    getPortfolio(args = {}) {
-      return this._makeRequest({
-        path: "/portfolio/getItemById",
-        method: "POST",
+    filterPortfolioDetails(args = {}) {
+      return this.post({
+        path: "/portfolios/filter/details",
         ...args,
       });
     },
-    getItemsByIds(args = {}) {
-      return this._makeRequest({
-        path: "/workitem/getItems",
-        method: "POST",
+    filterTeamDetails(args = {}) {
+      return this.post({
+        path: "/teams/filter/details",
         ...args,
       });
     },
-    listTeams(args = {}) {
-      return this._makeRequest({
-        path: "/userteam/get",
-        method: "POST",
+    filterInvoiceDetails(args = {}) {
+      return this.post({
+        path: "/invoices/filter/details",
         ...args,
       });
     },
-    createUser(args = {}) {
-      return this._makeRequest({
-        path: "/user/create",
-        method: "POST",
+    filterProjectDetails(args = {}) {
+      return this.post({
+        path: "/projects/filter/details",
         ...args,
       });
     },
-    createItem(args = {}) {
-      return this._makeRequest({
-        path: "/workitem/createWorkItem",
-        method: "POST",
+    filterConversationDetails(args = {}) {
+      return this.post({
+        path: "/conversation-messages/filter/details",
         ...args,
       });
     },
-    createSpace(args = {}) {
-      return this._makeRequest({
-        path: "/space/create",
-        method: "POST",
+    filterItemDetails(args = {}) {
+      return this.post({
+        path: "/items/filter/details",
         ...args,
       });
     },
-    createComment(args = {}) {
-      return this._makeRequest({
-        path: "/workitem/createComment",
-        method: "POST",
+    filterActivityDetails(args = {}) {
+      return this.post({
+        debug: true,
+        path: "/activities/filter/details",
         ...args,
       });
     },
-    searchSpaces(args = {}) {
-      return this._makeRequest({
-        path: "/space/search",
-        method: "POST",
-        ...args,
-      });
+    async *getIterations({
+      resourcesFn, resourcesFnArgs, resourceName,
+      max = constants.DEFAULT_MAX,
+    }) {
+      let offset = 0;
+      let resourcesCount = 0;
+
+      while (true) {
+        const response =
+          await resourcesFn({
+            ...resourcesFnArgs,
+            data: {
+              ...resourcesFnArgs?.data,
+              limit: constants.DEFAULT_LIMIT,
+              offset,
+            },
+          });
+
+        const nextResources = resourceName && response[resourceName] || response;
+
+        if (!nextResources?.length) {
+          console.log("No more resources found");
+          return;
+        }
+
+        for (const resource of nextResources) {
+          yield resource;
+          resourcesCount += 1;
+
+          if (resourcesCount >= max) {
+            console.log("Reached max resources");
+            return;
+          }
+        }
+
+        if (nextResources.length < constants.DEFAULT_LIMIT) {
+          console.log("No next page found");
+          return;
+        }
+
+        offset += constants.DEFAULT_LIMIT;
+      }
     },
-    searchPortfolios(args = {}) {
-      return this._makeRequest({
-        path: "/portfolio/search",
-        method: "POST",
-        ...args,
-      });
-    },
-    searchItems(args = {}) {
-      return this._makeRequest({
-        path: "/workitem/searchItems",
-        method: "POST",
-        ...args,
-      });
-    },
-    updateItem(args = {}) {
-      return this._makeRequest({
-        path: "/workitem/updateWorkItem",
-        method: "POST",
-        ...args,
-      });
+    paginate(args = {}) {
+      return utils.iterate(this.getIterations(args));
     },
   },
 };

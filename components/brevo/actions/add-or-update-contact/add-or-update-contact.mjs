@@ -4,7 +4,7 @@ export default {
   key: "brevo-add-or-update-contact",
   name: "Add or Update a contact",
   description: "Add or Update a contact",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     brevo,
@@ -55,10 +55,12 @@ export default {
     const listIds = Object.keys(this.listIds).map((key) => parseInt(this.listIds[key], 10));
     let contact = null;
     if (identifier) {
-      contact = await this.brevo.existingContactByIdentifier(
-        $,
-        encodeURIComponent(identifier),
-      );
+      try {
+        contact = await this.brevo.existingContactByIdentifier($,
+          identifier);
+      } catch (e) {
+        contact = null;
+      }
     }
 
     const attributes = {
@@ -73,16 +75,25 @@ export default {
     $.export("Defined attributes", attributes);
 
     if (contact) {
-      identifier = contact.id;
-      const unlinkListIds = contact.listIds.filter((el) => !listIds.includes(el));
-      await this.brevo.updateContact(
-        $,
-        identifier,
-        attributes,
-        listIds,
-        unlinkListIds,
-      );
-      $.export("$summary", `Successfully updated contact "${identifier}"`);
+      try {
+        identifier = contact.id;
+        const unlinkListIds = contact.listIds.filter((el) => !listIds.includes(el));
+        await this.brevo.updateContact(
+          $,
+          identifier,
+          attributes,
+          listIds,
+          unlinkListIds,
+        );
+
+        $.export("$summary", `Successfully updated contact "${identifier}"`);
+      } catch ({ response: { data } }) {
+        let errorMessage = data.message;
+        if (data.message === "Contact already exist") {
+          errorMessage = `A contact with email ${this.email} already exists!`;
+        }
+        throw new Error(errorMessage);
+      }
     } else {
       const inserted = await this.brevo.addContact(
         $,

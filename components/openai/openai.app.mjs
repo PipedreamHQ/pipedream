@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import { FINE_TUNING_MODEL_OPTIONS } from "./common/constants.mjs";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -12,7 +12,7 @@ export default {
       async options() {
         return (await this.getCompletionModels({})).map((model) => model.id);
       },
-      default: "text-davinci-003",
+      default: "davinci-002",
     },
     chatCompletionModelId: {
       label: "Model",
@@ -30,30 +30,41 @@ export default {
       async options() {
         return (await this.getEmbeddingsModels({})).map((model) => model.id);
       },
-      default: "text-embedding-ada-002",
+      default: "text-embedding-3-small",
     },
     assistantModel: {
       type: "string",
       label: "Model",
       description: "The ID of the model to use for the assistant",
       async options() {
-        const models = await this.models({});
-        return models.map((model) => ({
-          label: model.id,
-          value: model.id,
-        }));
+        const models = (await this.models({})).filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo") || id.includes("gpt-4o")) && (id !== "gpt-3.5-turbo-0301"));
+        return models.map(({ id }) => id);
       },
     },
     assistant: {
       type: "string",
       label: "Assistant",
       description: "Select an assistant to modify",
-      async options() {
-        const assistants = await this.listAssistants({});
-        return assistants.map((assistant) => ({
-          label: assistant.name || assistant.id,
-          value: assistant.id,
-        }));
+      async options({ prevContext }) {
+        const params = prevContext?.after
+          ? {
+            after: prevContext.after,
+          }
+          : {};
+        const {
+          data: assistants, last_id: after,
+        } = await this.listAssistants({
+          params,
+        });
+        return {
+          options: assistants.map((assistant) => ({
+            label: assistant.name || assistant.id,
+            value: assistant.id,
+          })),
+          context: {
+            after,
+          },
+        };
       },
     },
     name: {
@@ -66,58 +77,73 @@ export default {
       type: "string",
       label: "Description",
       description: "The description of the assistant.",
+      optional: true,
     },
     threadId: {
       type: "string",
       label: "Thread ID",
-      description: "The unique identifier for the thread.",
+      description: "The unique identifier for the thread. Example: `thread_abc123`. To locate the thread ID, make sure your OpenAI Threads setting (Settings -> Organization/Personal -> General -> Features and capabilities -> Threads) is set to \"Visible to organization owners\" or \"Visible to everyone\". You can then access the list of threads and click on individual threads to reveal their IDs",
     },
     runId: {
       type: "string",
       label: "Run ID",
       description: "The unique identifier for the run.",
-      async options({ threadId }) {
+      async options({
+        threadId, prevContext,
+      }) {
         if (!threadId) {
           return [];
         }
-        const { data: runs } = await this.listRuns({
+        const params = prevContext?.after
+          ? {
+            after: prevContext.after,
+          }
+          : {};
+        const {
+          data: runs, last_id: after,
+        } = await this.listRuns({
           threadId,
+          params,
         });
-        return runs.map(({ id }) => id);
+        return {
+          options: runs.map(({ id }) => id),
+          context: {
+            after,
+          },
+        };
       },
     },
     stepId: {
       type: "string",
       label: "Step ID",
       description: "The unique identifier for the step.",
-    },
-    assistantId: {
-      type: "string",
-      label: "Assistant ID",
-      description: "The unique identifier for the assistant.",
-    },
-    model: {
-      type: "string",
-      label: "Model",
-      description: "The ID of the model to use.",
-      optional: true,
+      async options({
+        threadId, runId, prevContext,
+      }) {
+        const params = prevContext?.after
+          ? {
+            after: prevContext.after,
+          }
+          : {};
+        const {
+          data, last_id: after,
+        } = await this.listRunSteps({
+          threadId,
+          runId,
+          params,
+        });
+        return {
+          options: data?.map(({ id }) => id) || [],
+          context: {
+            after,
+          },
+        };
+      },
     },
     instructions: {
       type: "string",
       label: "Instructions",
       description: "The system instructions that the assistant uses.",
-      optional: true,
-    },
-    tools: {
-      type: "string[]",
-      label: "Tools",
-      description: "Each tool should be a valid JSON object. [See the documentation](https://platform.openai.com/docs/api-reference/assistants/createAssistant#assistants-createassistant-tools) for more information. Examples of function tools [can be found here](https://cookbook.openai.com/examples/how_to_call_functions_with_chat_models#basic-concepts).",
-      optional: true,
-    },
-    file_ids: {
-      type: "string[]",
-      label: "File IDs",
-      description: "A list of [file](https://platform.openai.com/docs/api-reference/files) IDs attached to this assistant.",
       optional: true,
     },
     metadata: {
@@ -131,11 +157,6 @@ export default {
       label: "Messages",
       description: "An array of messages to start the thread with.",
     },
-    messageId: {
-      type: "string",
-      label: "Message ID",
-      description: "The ID of the message to modify",
-    },
     content: {
       type: "string",
       label: "Content",
@@ -145,24 +166,13 @@ export default {
       type: "string",
       label: "Role",
       description: "The role of the entity creating the message",
-      options: [
-        {
-          label: "User",
-          value: "user",
-        },
-      ],
+      options: constants.USER_OPTIONS,
       default: "user",
-    },
-    fileIds: {
-      type: "string[]",
-      label: "File IDs",
-      description: "List of file IDs to attach to the message",
-      optional: true,
     },
     toolOutputs: {
       type: "string[]",
       label: "Tool Outputs",
-      description: "The outputs from the tool calls.",
+      description: "The outputs from the tool calls. Each object in the array should contain properties `tool_call_id` and `output`.",
     },
     limit: {
       type: "integer",
@@ -174,44 +184,21 @@ export default {
       type: "string",
       label: "Order",
       description: "Sort order by the created_at timestamp of the objects.",
-      options: [
-        {
-          label: "Ascending",
-          value: "asc",
-        },
-        {
-          label: "Descending",
-          value: "desc",
-        },
-      ],
+      options: constants.ORDER_OPTIONS,
       optional: true,
     },
-    after: {
-      type: "string",
-      label: "After",
-      description: "A cursor for use in pagination to fetch the next set of items.",
-      optional: true,
-    },
-    before: {
-      type: "string",
-      label: "Before",
-      description: "A cursor for use in pagination, identifying the message ID to end the list before",
-      optional: true,
-    },
-    file_id: {
+    fileId: {
       type: "string",
       label: "File ID",
       description: "The ID of the file to use for this request.",
-      async options({ prevContext }) {
-        const files = await this.listFiles({
-          purpose: prevContext
-            ? prevContext.purpose
-            : undefined,
+      async options({ purpose }) {
+        const { data: files } = await this.listFiles({
+          purpose: purpose || undefined,
         });
-        return files.map((file) => ({
+        return files?.map((file) => ({
           label: file.filename,
           value: file.id,
-        }));
+        })) || [];
       },
     },
     file: {
@@ -223,25 +210,19 @@ export default {
       type: "string",
       label: "Purpose",
       description: "The intended purpose of the uploaded file. Use 'fine-tune' for fine-tuning and 'assistants' for assistants and messages.",
-      options: [
-        "fine-tune",
-        "assistants",
-      ],
+      options: constants.PURPOSES,
     },
     ttsModel: {
       type: "string",
       label: "Model",
       description: "One of the available [TTS models](https://platform.openai.com/docs/models/tts). `tts-1` is optimized for speed, while `tts-1-hd` is optimized for quality.",
-      options: [
-        "tts-1",
-        "tts-1-hd",
-      ],
+      options: constants.TTS_MODELS,
     },
     fineTuningModel: {
       type: "string",
       label: "Fine Tuning Model",
       description: "The name of the model to fine-tune. [See the supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).",
-      options: FINE_TUNING_MODEL_OPTIONS,
+      options: constants.FINE_TUNING_MODEL_OPTIONS,
     },
     input: {
       type: "string",
@@ -252,25 +233,13 @@ export default {
       type: "string",
       label: "Voice",
       description: "The voice to use when generating the audio.",
-      options: [
-        "alloy",
-        "echo",
-        "fable",
-        "onyx",
-        "nova",
-        "shimmer",
-      ],
+      options: constants.VOICES,
     },
     responseFormat: {
       type: "string",
       label: "Response Format",
-      description: "The format to audio in.",
-      options: [
-        "mp3",
-        "opus",
-        "aac",
-        "flac",
-      ],
+      description: "The format to generate audio in. Supported formats are mp3, opus, aac, flac, wav, and pcm.",
+      options: constants.AUDIO_RESPONSE_FORMATS,
       optional: true,
     },
     speed: {
@@ -279,11 +248,6 @@ export default {
       description: "The speed of the generated audio. Provide a value from 0.25 to 4.0.",
       default: "1.0",
       optional: true,
-    },
-    trainingFile: {
-      type: "string",
-      label: "Training File",
-      description: "The ID of an uploaded file that contains training data. You can use the **Upload File** action and reference the returned ID here.",
     },
   },
   methods: {
@@ -300,22 +264,23 @@ export default {
         "User-Agent": "@PipedreamHQ/pipedream v1.0",
       };
     },
-    _betaHeaders() {
+    _betaHeaders(version = "v1") {
       return {
         ...this._commonHeaders(),
-        "OpenAI-Beta": "assistants=v1",
+        "OpenAI-Beta": `assistants=${version}`,
       };
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this,
       path,
+      headers,
       ...args
     } = {}) {
       return axios($, {
         ...args,
         url: `${this._baseApiUrl()}${path}`,
         headers: {
-          ...args.headers,
+          ...headers,
           ...this._commonHeaders(),
         },
         maxBodyLength: Infinity,
@@ -352,18 +317,17 @@ export default {
       return models.filter((model) => {
         const { id } = model;
         return (
-          id.match(/^(text-embedding-ada-002|.*-(davinci|curie|babbage|ada)-.*-001)$/gm)
+          id.match(/^(text-embedding-ada-002|text-embedding-3.*|.*-(davinci|curie|babbage|ada)-.*-001)$/gm)
         );
       });
     },
     async _makeCompletion({
-      $, path, args,
+      path, ...args
     }) {
       const data = await this._makeRequest({
-        $,
         path,
         method: "POST",
-        data: args,
+        ...args,
       });
 
       // For completions, return the text of the first choice at the top-level
@@ -385,45 +349,33 @@ export default {
         ...data,
       };
     },
-    async createCompletion({
-      $, args,
-    }) {
+    createCompletion(args = {}) {
       return this._makeCompletion({
-        $,
         path: "/completions",
-        args,
+        ...args,
       });
     },
-    async createChatCompletion({
-      $, args,
-    }) {
+    createChatCompletion(args = {}) {
       return this._makeCompletion({
-        $,
         path: "/chat/completions",
-        args,
+        ...args,
       });
     },
-    async createImage({
-      $, args,
-    }) {
+    createImage(args = {}) {
       return this._makeRequest({
-        $,
         path: "/images/generations",
-        data: args,
         method: "POST",
+        ...args,
       });
     },
-    async createEmbeddings({
-      $, args,
-    }) {
+    createEmbeddings(args = {}) {
       return this._makeRequest({
-        $,
         path: "/embeddings",
-        data: args,
         method: "POST",
+        ...args,
       });
     },
-    async createTranscription({
+    createTranscription({
       $, form,
     }) {
       return this._makeRequest({
@@ -437,85 +389,41 @@ export default {
         data: form,
       });
     },
-    async listAssistants({ $ }) {
-      const { data: assistants } = await this._makeRequest({
-        $,
+    listAssistants(args = {}) {
+      return this._makeRequest({
         path: "/assistants",
         headers: this._betaHeaders(),
+        ...args,
       });
-      return assistants;
     },
-    async createAssistant({
-      $,
-      model,
-      name,
-      description,
-      instructions,
-      tools,
-      file_ids,
-      metadata,
-    }) {
+    createAssistant(args = {}) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: "/assistants",
-        headers: this._betaHeaders(),
-        data: {
-          model,
-          name,
-          description,
-          instructions,
-          tools,
-          file_ids,
-          metadata,
-        },
+        headers: this._betaHeaders("v2"),
+        ...args,
       });
     },
-    async modifyAssistant({
-      $,
-      assistant,
-      model,
-      name,
-      description,
-      instructions,
-      tools,
-      file_ids,
-      metadata,
+    modifyAssistant({
+      assistant, ...args
     }) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: `/assistants/${assistant}`,
-        headers: this._betaHeaders(),
-        data: {
-          model,
-          name,
-          description,
-          instructions,
-          tools,
-          file_ids,
-          metadata,
-        },
+        headers: this._betaHeaders("v2"),
+        ...args,
       });
     },
-    async createThread({
-      $,
-      messages,
-      metadata,
-    }) {
+    createThread(args = {}) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: "/threads",
-        headers: this._betaHeaders(),
-        data: {
-          messages,
-          metadata,
-        },
+        headers: this._betaHeaders("v2"),
+        ...args,
       });
     },
-    async createMessage({
-      threadId, content, role, fileIds, metadata,
+    createMessage({
+      threadId, metadata, ...args
     }) {
       const parsedMetadata = metadata
         ? JSON.parse(metadata)
@@ -525,29 +433,23 @@ export default {
         path: `/threads/${threadId}/messages`,
         headers: this._betaHeaders(),
         data: {
-          role,
-          content,
-          file_ids: fileIds,
+          ...args.data,
           metadata: parsedMetadata,
         },
+        ...args,
       });
     },
-    async listMessages({
-      threadId, limit, order, after, before,
+    listMessages({
+      threadId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/messages`,
-        headers: this._betaHeaders(),
-        params: {
-          limit,
-          order,
-          after,
-          before,
-        },
+        headers: this._betaHeaders("v2"),
+        ...args,
       });
     },
-    async modifyMessage({
-      threadId, messageId, metadata,
+    modifyMessage({
+      threadId, messageId, metadata, ...args
     }) {
       const parsedMetadata = metadata
         ? JSON.parse(metadata)
@@ -559,111 +461,107 @@ export default {
         data: {
           metadata: parsedMetadata,
         },
+        ...args,
       });
     },
-    async createRun({
-      threadId, assistantId, ...opts
+    createRun({
+      threadId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs`,
         method: "POST",
-        headers: this._betaHeaders(),
-        data: {
-          assistant_id: assistantId,
-          ...opts,
-        },
+        headers: this._betaHeaders("v2"),
+        ...args,
       });
     },
-    async retrieveRun({
-      threadId, runId,
+    retrieveRun({
+      threadId, runId, ...args
     }) {
       return this._makeRequest({
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         path: `/threads/${threadId}/runs/${runId}`,
+        ...args,
       });
     },
-    async modifyRun({
-      threadId, runId, ...opts
+    modifyRun({
+      threadId, runId, data, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}`,
         headers: this._betaHeaders(),
         method: "POST",
-        data: opts,
+        data,
+        ...args,
       });
     },
-    async listRuns({
-      threadId, ...opts
+    listRuns({
+      threadId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs`,
         headers: this._betaHeaders(),
-        params: opts,
+        ...args,
       });
     },
-    async submitToolOutputs({
-      threadId, runId, toolOutputs,
+    submitToolOutputs({
+      threadId, runId, ...args
     }) {
-      // Assuming toolOutputs should be parsed as JSON objects
-      const parsedToolOutputs = toolOutputs.map(JSON.parse);
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}/submit_tool_outputs`,
         headers: this._betaHeaders(),
         method: "POST",
-        data: {
-          tool_outputs: parsedToolOutputs,
-        },
+        ...args,
       });
     },
-    async cancelRun({
-      threadId, runId,
+    cancelRun({
+      threadId, runId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}/cancel`,
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         method: "POST",
+        ...args,
       });
     },
-    async createThreadAndRun({
-      assistantId, ...opts
-    }) {
+    createThreadAndRun(args = {}) {
       return this._makeRequest({
         path: "/threads/runs",
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         method: "POST",
-        data: {
-          assistant_id: assistantId,
-          ...opts,
-        },
+        ...args,
       });
     },
-    async retrieveRunStep({
-      threadId, runId, stepId,
+    retrieveRunStep({
+      threadId, runId, stepId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}/steps/${stepId}`,
         headers: this._betaHeaders(),
+        ...args,
       });
     },
-    async listRunSteps({
-      threadId, runId, ...opts
+    listRunSteps({
+      threadId, runId, ...args
     }) {
       return this._makeRequest({
         path: `/threads/${threadId}/runs/${runId}/steps`,
         headers: this._betaHeaders(),
-        params: opts,
+        ...args,
       });
     },
-    async listFiles({ purpose } = {}) {
+    listFiles({
+      purpose, ...args
+    } = {}) {
       return this._makeRequest({
         path: "/files",
         headers: this._betaHeaders(),
         params: {
           purpose,
         },
+        ...args,
       });
     },
-    async uploadFile(args) {
+    uploadFile(args) {
       return this._makeRequest({
         method: "POST",
         path: "/files",
@@ -674,44 +572,107 @@ export default {
         },
       });
     },
-    async deleteFile({ file_id }) {
+    deleteFile({
+      file_id, ...args
+    }) {
       return this._makeRequest({
         method: "DELETE",
         headers: this._betaHeaders(),
         path: `/files/${file_id}`,
+        ...args,
       });
     },
-    async retrieveFile({ file_id }) {
+    retrieveFile({
+      file_id, ...args
+    }) {
       return this._makeRequest({
         headers: this._betaHeaders(),
         path: `/files/${file_id}`,
+        ...args,
       });
     },
-    async retrieveFileContent({ file_id }) {
+    retrieveFileContent({
+      file_id, ...args
+    }) {
       return this._makeRequest({
-        headers: this._betaHeaders(),
+        headers: this._betaHeaders("v2"),
         path: `/files/${file_id}/content`,
+        ...args,
       });
     },
-    async listFineTuningJobs(args) {
+    listFineTuningJobs(args = {}) {
       return this._makeRequest({
         path: "/fine_tuning/jobs",
         ...args,
       });
     },
-    async createSpeech(args) {
+    createSpeech(args = {}) {
       return this._makeRequest({
         path: "/audio/speech",
         method: "POST",
         ...args,
       });
     },
-    async createFineTuningJob(args) {
+    createFineTuningJob(args = {}) {
       return this._makeRequest({
         path: "/fine_tuning/jobs",
         method: "POST",
         ...args,
       });
+    },
+    listVectorStores(args = {}) {
+      return this._makeRequest({
+        path: "/vector_stores",
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    createModeration(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/moderations",
+        ...args,
+      });
+    },
+    createBatch(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/batches",
+        ...args,
+      });
+    },
+    listBatches(args = {}) {
+      return this._makeRequest({
+        path: "/batches",
+        ...args,
+      });
+    },
+    async *paginate({
+      resourceFn,
+      args = {},
+      max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args.params,
+        },
+      };
+      let hasMore, count = 0;
+      do {
+        const {
+          data, last_id: after,
+        } = await resourceFn(args);
+        for (const item of data) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        hasMore = data?.length;
+        args.params.after = after;
+      } while (hasMore);
     },
   },
 };

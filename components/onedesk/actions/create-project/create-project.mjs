@@ -1,50 +1,68 @@
-import onedesk from "../../onedesk.app.mjs";
+import app from "../../onedesk.app.mjs";
 
 export default {
   key: "onedesk-create-project",
   name: "Create Project",
-  description: "Creates a project/space. [See the docs](https://www.onedesk.com/developers/#_create_space)",
-  version: "0.0.1",
+  description: "Creates a project/space. [See the documentation](https://www.onedesk.com/dev/).",
+  version: "0.0.2",
   type: "action",
   props: {
-    onedesk,
-    type: {
-      propDefinition: [
-        onedesk,
-        "containerType",
-      ],
-    },
+    app,
     name: {
       type: "string",
       label: "Name",
-      description: "Name of the project/space",
+      description: "Name of the project.",
+    },
+    type: {
+      label: "Project Type",
+      description: "Type of the project.",
+      propDefinition: [
+        app,
+        "containerType",
+      ],
     },
     description: {
       type: "string",
       label: "Description",
-      description: "Description of the project/space",
+      description: "Description of the project",
       optional: true,
     },
-    parentIds: {
+    parentPortfolioExternalIds: {
       propDefinition: [
-        onedesk,
-        "parentIds",
+        app,
+        "parentPortfolioExternalIds",
       ],
     },
   },
+  methods: {
+    createProject(args = {}) {
+      return this.app.post({
+        path: "/projects/",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const { data } = await this.onedesk.createSpace({
-      data: {
-        containerType: this.type,
-        name: this.name,
-        description: this.description,
-        parentIds: this.parentIds,
-      },
+    const {
+      createProject,
+      type,
+      name,
+      description,
+      parentPortfolioExternalIds,
+    } = this;
+
+    const response = await createProject({
       $,
+      data: {
+        type,
+        name,
+        description,
+        parentPortfolioExternalIds,
+      },
     });
 
-    $.export("$summary", `Successfully created project with ID ${data.id}.`);
+    $.export("$summary", `Successfully created project with ID \`${response.data}\`.`);
 
-    return data;
+    return response;
   },
 };

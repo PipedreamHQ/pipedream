@@ -1,9 +1,10 @@
 import analytics from "../../google_analytics.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "google_analytics-page-opened",
-  version: "0.0.4",
+  version: "0.1.0",
   name: "New Page Opened",
   description: "Emit new event when a page is viewed",
   type: "source",
@@ -26,7 +27,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      const startDate = this.analytics.monthAgo();
+      const startDate = utils.monthAgo();
       this._setStartDate(startDate);
       await this.processEvent();
     },

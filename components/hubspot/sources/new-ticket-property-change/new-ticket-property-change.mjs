@@ -1,12 +1,14 @@
 import common from "../common/common.mjs";
-import { API_PATH } from "../../common/constants.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-ticket-property-change",
   name: "New Ticket Property Change",
   description: "Emit new event when a specified property is provided or updated on a ticket. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
-  version: "0.0.6",
+  //version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   props: {
@@ -48,50 +50,48 @@ export default {
     getParams(after) {
       return {
         object: "tickets",
-        limit: 50,
-        properties: [
-          this.property,
-        ],
-        sorts: [
-          {
-            propertyName: "hs_lastmodifieddate",
-            direction: "DESCENDING",
-          },
-        ],
-        filterGroups: [
-          {
-            filters: [
-              {
-                propertyName: this.property,
-                operator: "HAS_PROPERTY",
-              },
-              {
-                propertyName: "hs_lastmodifieddate",
-                operator: "GTE",
-                value: after,
-              },
-            ],
-          },
-        ],
+        data: {
+          limit: DEFAULT_LIMIT,
+          properties: [
+            this.property,
+          ],
+          sorts: [
+            {
+              propertyName: "hs_lastmodifieddate",
+              direction: "DESCENDING",
+            },
+          ],
+          filterGroups: [
+            {
+              filters: [
+                {
+                  propertyName: this.property,
+                  operator: "HAS_PROPERTY",
+                },
+                {
+                  propertyName: "hs_lastmodifieddate",
+                  operator: "GTE",
+                  value: after,
+                },
+              ],
+            },
+          ],
+        },
       };
     },
-    async batchGetTickets(inputs) {
-      return this.hubspot.makeRequest(
-        API_PATH.CRMV3,
-        "/objects/tickets/batch/read",
-        {
-          method: "POST",
-          data: {
-            properties: [
-              this.property,
-            ],
-            propertiesWithHistory: [
-              this.property,
-            ],
-            inputs,
-          },
+    batchGetTickets(inputs) {
+      return this.hubspot.batchGetObjects({
+        objectType: "tickets",
+        data: {
+          properties: [
+            this.property,
+          ],
+          propertiesWithHistory: [
+            this.property,
+          ],
+          inputs,
         },
-      );
+      });
     },
     async processResults(after, params) {
       const properties = await this.getWriteOnlyProperties("tickets");
@@ -115,4 +115,5 @@ export default {
       this.processEvents(results, after);
     },
   },
+  sampleEmit,
 };

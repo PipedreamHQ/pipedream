@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/eagle_doc",
+  "version": "0.0.1",
+  "description": "Pipedream Eagle Doc Components",
+  "main": "eagle_doc.app.mjs",
+  "keywords": [
+    "pipedream",
+    "eagle_doc"
+  ],
+  "homepage": "https://pipedream.com/apps/eagle_doc",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

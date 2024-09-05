@@ -1,13 +1,14 @@
 import queries from "../../common/queries.mjs";
 import common from "../common/common-webhook-orgs.mjs";
 import constants from "../common/constants.mjs";
+import { getRelevantHeaders } from "../common/utils.mjs";
 
 export default {
   ...common,
   key: "github-new-issue-with-status",
-  name: "New Issue with Status (Projects V2)",
-  description: "Emit new event when a project issue is tagged with a specific status. Currently supports Organization Projects only. [More information here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project)",
-  version: "0.0.17",
+  name: "Project Item Status Changed",
+  description: "Emit new event when a project item is tagged with a specific status. Currently supports Organization Projects only. [More information here](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project)",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -38,6 +39,14 @@ export default {
           project: c.project,
         }),
       ],
+      optional: true,
+    },
+    itemType: {
+      type: "string[]",
+      label: "Filter Item Type",
+      description: "The item type(s) to emit events or. If not specified, events will be emitted for all item types.",
+      optional: true,
+      options: constants.PROJECT_ITEM_TYPES,
     },
   },
   methods: {
@@ -47,32 +56,33 @@ export default {
         "projects_v2_item",
       ];
     },
-    generateMeta(issue, statusName) {
-      const { number } = issue;
-      const ts = Date.parse(issue.updated_at);
+    generateMeta(item, statusName) {
+      const { id } = item;
+      const ts = Date.parse(item.updated_at);
       return {
-        id: `${number}-${ts}`,
-        summary: `Issue #${number} in ${statusName} status`,
+        id: `${id}-${ts}`,
+        summary: `Item #${id} to status "${statusName}"`,
         ts,
       };
     },
-    isRelevant(item, issueNumber, statusName) {
+    isRelevant(event) {
+      const fieldChanged = event.changes?.field_value?.field_name;
+      if (fieldChanged !== "Status") {
+        return;
+      }
+
       let isRelevant = true;
       let message = "";
-      const {
-        type,
-        isArchived,
-        fieldValueByName: { optionId },
-      } = item;
 
-      if (type !== constants.ISSUE_TYPE) {
-        message = `Not an issue: ${type}. Skipping...`;
+      const statusId = event.changes.field_value.to.id;
+      const itemType = event.projects_v2_item.content_type;
+
+      if (this.status?.length && !this.status.includes(statusId)) {
+        const statusName = event.changes.field_value.to.name;
+        message = `Status "${statusName}". Skipping...`;
         isRelevant = false;
-      } else if (isArchived) {
-        message = "Issue is archived. Skipping...";
-        isRelevant = false;
-      } else if (optionId !== this.status) {
-        message = `Issue #${issueNumber} in ${statusName} status. Skipping...`;
+      } else if (this.itemType?.length && !this.itemType.includes(itemType)) {
+        message = `Item type "${itemType}". Skipping...`;
         isRelevant = false;
       }
 
@@ -85,61 +95,36 @@ export default {
       });
       return node;
     },
-    async processEvent(event) {
-      const item = await this.getProjectItem({
-        nodeId: event.projects_v2_item.node_id,
-      });
+    async processEvent({
+      event, headers,
+    }) {
+      const item = event.projects_v2_item;
 
-      const issueNumber = item.content.number;
-      const statusName = item.fieldValueByName.name;
-
-      if (!this.isRelevant(item, issueNumber, statusName)) {
+      if (!this.isRelevant(event)) {
         return;
       }
 
-      const repoName = this.repo ?? item.content.repository.name;
+      console.log(`Emitting item #${item.id}`);
 
-      const issue = await this.github.getIssue({
-        repoFullname: `${this.org}/${repoName}`,
-        issueNumber,
-      });
-
-      console.log(`Emitting issue #${issueNumber}`);
-      const meta = this.generateMeta(issue, statusName);
-      this.$emit(issue, meta);
-    },
-    async loadHistoricalEvents() {
-      const response = await this.github.graphql(this.repo ?
-        queries.projectItemsQuery :
-        queries.organizationProjectItemsQuery,
-      {
-        repoOwner: this.org,
-        repoName: this.repo,
-        project: this.project,
-        historicalEventsNumber: constants.HISTORICAL_EVENTS,
-      });
-
-      const items = response?.repository?.projectV2?.items?.nodes ??
-        response?.organization?.projectV2?.items?.nodes;
-
-      for (const node of items) {
-        if (node.type === constants.ISSUE_TYPE) {
-          const event = {
-            projects_v2_item: {
-              node_id: node.id,
-            },
-          };
-          await this.processEvent(event);
-        }
-      }
+      const statusName = event.changes.field_value.to.name;
+      const meta = this.generateMeta(item, statusName);
+      this.$emit({
+        ...event,
+        ...getRelevantHeaders(headers),
+      }, meta);
     },
   },
-  async run({ body: event }) {
+  async run({
+    body: event, headers,
+  }) {
     if (event.zen) {
       console.log(event.zen);
       return;
     }
 
-    await this.processEvent(event);
+    await this.processEvent({
+      event,
+      headers,
+    });
   },
 };

@@ -3,9 +3,9 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   key: "hostaway-reservation-created",
-  name: "Reservation Created",
+  name: "New Reservation Created",
   description: "Emit new event when a new reservation is created in Hostaway.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

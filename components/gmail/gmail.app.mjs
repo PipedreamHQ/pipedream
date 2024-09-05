@@ -4,9 +4,10 @@ import {
   ConfigurationError,
 } from "@pipedream/platform";
 import { convert } from "html-to-text";
-import mime from "mime";
+import mime from "mime/types/standard.js";
 import MailComposer from "nodemailer/lib/mail-composer/index.js";
 import constants from "./common/constants.mjs";
+import { google } from "googleapis";
 
 export default {
   type: "app",
@@ -41,7 +42,6 @@ export default {
         };
       },
     },
-
     label: {
       type: "string",
       label: "Label",
@@ -81,6 +81,18 @@ export default {
         } catch (e) {
           throw new ConfigurationError(e);
         }
+      },
+    },
+    attachmentId: {
+      type: "string",
+      label: "Attachment",
+      description: "Identifier of the attachment to download",
+      async options({ messageId }) {
+        const { payload: { parts } } = await this.getMessage({
+          id: messageId,
+        });
+        return parts?.filter(({ body }) => body.attachmentId )
+          ?.map(({ body }) => body.attachmentId ) || [];
       },
     },
     q: {
@@ -140,7 +152,7 @@ export default {
     attachments: {
       type: "object",
       label: "Attachments",
-      description: "Add any attachments you'd like to include as objects. The `key` should be the **filename** and the `value` should be the **url** for the attachment. The **filename** must contain the file extension (i.e. `.jpeg`, `.txt`) and the **url** is the download link for the file.",
+      description: "Add any attachments you'd like to include as objects.\n- The `key` should be the filename and must contain the file extension (e.g. `.jpeg`, `.txt`).\n- The `value` should be a URL of the download link for the file, or the local path (e.g. `/tmp/my-file.txt`).",
       optional: true,
     },
     inReplyTo: {
@@ -155,7 +167,7 @@ export default {
       description: "Mime Type of attachments. Setting the mime-type will override using the filename extension to determine attachment's content type.",
       optional: true,
       options() {
-        return Object.values(mime._types);
+        return Object.keys(mime);
       },
     },
   },
@@ -373,6 +385,61 @@ export default {
           throw err;
         }
       }
+    },
+    _serviceAccountAuth(credentials, impersonatedUser) {
+      const scopes = [
+        "https://www.googleapis.com/auth/gmail.settings.basic",
+      ];
+      return new google.auth.JWT(
+        credentials.client_email,
+        null,
+        credentials.private_key,
+        scopes,
+        impersonatedUser,
+      );
+    },
+    async updateSignature({
+      signature, email, credentials,
+    }) {
+      const opts = {
+        userId: "me",
+        sendAsEmail: email,
+        requestBody: {
+          signature,
+        },
+      };
+      if (credentials) opts.auth = this._serviceAccountAuth(credentials, email);
+      return this._client().users.settings.sendAs.patch(opts);
+    },
+    async getAttachment({
+      messageId, attachmentId,
+    }) {
+      const { data } = await this._client().users.messages.attachments.get({
+        userId: "me",
+        messageId,
+        id: attachmentId,
+      });
+      return data;
+    },
+    getMessagesWithRetry(ids = [], maxRetries = 3) {
+      const getMessageWithRetry = async (id, retryCount = 0) => {
+        try {
+          return await this.getMessage({
+            id,
+          });
+        } catch (err) {
+          console.error(`Failed to get message with id ${id}:`, err);
+          if (retryCount < maxRetries) {
+            console.log("Retrying...");
+            return await getMessageWithRetry(id, retryCount + 1);
+          }
+          console.error("Failed after 3 attempts.");
+          return null;
+        }
+      };
+
+      const promises = ids.map((id) => getMessageWithRetry(id));
+      return Promise.all(promises);
     },
   },
 };

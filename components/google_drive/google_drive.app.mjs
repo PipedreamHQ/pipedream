@@ -10,12 +10,10 @@ import {
   MY_DRIVE_VALUE,
   WEBHOOK_SUBSCRIPTION_EXPIRATION_TIME_MILLISECONDS,
   GOOGLE_DRIVE_FOLDER_MIME_TYPE,
-  GOOGLE_DRIVE_ROLES,
   GOOGLE_DRIVE_GRANTEE_TYPES,
-  GOOGLE_DRIVE_GRANTEE_ANYONE,
-  GOOGLE_DRIVE_ROLE_READER,
-  GOOGLE_DRIVE_UPLOAD_TYPES,
-} from "./constants.mjs";
+  GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS,
+  GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
+} from "./common/constants.mjs";
 import googleMimeTypes from "./actions/google-mime-types.mjs";
 
 import {
@@ -40,6 +38,31 @@ export default {
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         return this._listDriveOptions(nextPageToken);
+      },
+    },
+    sharedDrive: {
+      type: "string",
+      label: "Shared Drive",
+      description: "Select a [Shared Drive](https://support.google.com/a/users/answer/9310351) or leave blank to retrieve all available shared drives.",
+      optional: true,
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        return this._listDriveOptions(nextPageToken, false);
+      },
+    },
+    themeId: {
+      type: "string",
+      label: "Theme ID",
+      description: "The theme from which the background image and color will be set. Cannot be set if `Color` or `Background Image Link` are used.",
+      optional: true,
+      async options() {
+        const { driveThemes } = await this.getAbout("driveThemes");
+        return driveThemes?.map(({
+          id, colorRgb,
+        }) => ({
+          label: `${id} (${colorRgb})`,
+          value: id,
+        }));
       },
     },
     folderId: {
@@ -117,16 +140,15 @@ export default {
       type: "string[]",
       label: "Types of updates",
       description: `The types of updates you want to watch for on these files.
-        [See Google's docs]
-        (https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
+        [See Google's docs](https://developers.google.com/drive/api/v3/push#understanding-drive-api-notification-events).`,
       default: GOOGLE_DRIVE_UPDATE_TYPES,
-      options: GOOGLE_DRIVE_UPDATE_TYPES,
+      options: GOOGLE_DRIVE_UPDATE_TYPE_OPTIONS,
     },
     watchForPropertiesChanges: {
       type: "boolean",
       label: "Watch for changes to file properties",
-      description: `Watch for changes to [file properties](https://developers.google.com/drive/api/v3/properties)
-        in addition to changes to content. **Defaults to \`false\`, watching for only changes to content**.`,
+      description: `Watch for changes to [custom file properties](https://developers.google.com/drive/api/v3/properties)
+        in addition to changes to content. **Defaults to \`false\`, watching only for changes to content**.`,
       optional: true,
       default: false,
     },
@@ -158,7 +180,13 @@ export default {
     fileNameSearchTerm: {
       type: "string",
       label: "Search Name",
-      description: "Enter the name of a file to search for.",
+      description: "Search for a file by name (equivalent to the query `name contains [value]`).",
+      optional: true,
+    },
+    searchQuery: {
+      type: "string",
+      label: "Search Query",
+      description: "Search for a file with a query. [See the documentation](https://developers.google.com/drive/api/guides/ref-search-terms) for more information. If specified, `Search Name` will be ignored.",
       optional: true,
     },
     mimeType: {
@@ -182,14 +210,8 @@ export default {
     uploadType: {
       type: "string",
       label: "Upload Type",
-      description: `The type of upload request to the /upload URI. If you are uploading data
-        (using an /upload URI), this field is required. If you are creating a metadata-only file,
-        this field is not required.
-        media - Simple upload. Upload the media only, without any metadata.
-        multipart - Multipart upload. Upload both the media and its metadata, in a single request.
-        resumable - Resumable upload. Upload the file in a resumable fashion, using a series of
-        at least two requests where the first request includes the metadata.`,
-      options: GOOGLE_DRIVE_UPLOAD_TYPES,
+      description: "The type of upload request to the /upload URI. Required if you are uploading data, but not if are creating a metadata-only file. [See the documentation](https://developers.google.com/drive/api/reference/rest/v2/files/update#path-parameters) for more information.",
+      options: GOOGLE_DRIVE_UPLOAD_TYPE_OPTIONS,
     },
     useDomainAdminAccess: {
       type: "boolean",
@@ -198,36 +220,12 @@ export default {
       optional: true,
       default: false,
     },
-    role: {
-      type: "string",
-      label: "Role",
-      description: "The role granted by this permission",
-      optional: true,
-      default: GOOGLE_DRIVE_ROLE_READER,
-      options: GOOGLE_DRIVE_ROLES,
-    },
     type: {
       type: "string",
       label: "Type",
       description:
-        "The type of the grantee. If **Type** is `user` or `group`, you must provide an **Email Address** for the user or group. When **Type** is `domain`, you must provide a `Domain`. Sharing with a domain is only valid for G Suite users.",
-      optional: true,
-      default: GOOGLE_DRIVE_GRANTEE_ANYONE,
+        "The type of the grantee. Sharing with a domain is only valid for G Suite users.",
       options: GOOGLE_DRIVE_GRANTEE_TYPES,
-    },
-    domain: {
-      type: "string",
-      label: "Domain",
-      description:
-        "The domain of the G Suite organization to which this permission refers if **Type** is `domain` (e.g., `yourcomapany.com`)",
-      optional: true,
-    },
-    emailAddress: {
-      type: "string",
-      label: "Email Address",
-      description:
-        "The email address of the user or group to which this permission refers if **Type** is `user` or `group`",
-      optional: true,
     },
     ocrLanguage: {
       type: "string",
@@ -456,7 +454,7 @@ export default {
         pageToken = nextPageToken;
       }
     },
-    async _listDriveOptions(pageToken) {
+    async _listDriveOptions(pageToken, myDrive = true) {
       const {
         drives,
         nextPageToken,
@@ -467,14 +465,14 @@ export default {
       // only do this during the first page of options (i.e. when `pageToken` is
       // undefined).
       const options =
-        pageToken !== undefined
-          ? []
-          : [
+        myDrive && pageToken === undefined
+          ? [
             {
               label: "My Drive",
               value: MY_DRIVE_VALUE,
             },
-          ];
+          ]
+          : [];
       for (const d of drives) {
         options.push({
           label: d.name,
@@ -1266,7 +1264,7 @@ export default {
      */
     async createPermission(fileId, opts = {}) {
       const {
-        role = "reader",
+        role,
         type,
         domain,
         emailAddress,

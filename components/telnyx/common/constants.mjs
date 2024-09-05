@@ -21,8 +21,18 @@ const sortPhoneNumbers = {
   "CONNECTION NAME": "connection_name",
   "USAGE PAYMENT METHOD": "usage_payment_method",
 };
+
+const faxQualities = {
+  "NORMAL": "normal",
+  "HIGH": "high",
+  "VERY_HIGH": "very_high",
+  "ULTRA_LIGHT": "ultra_light",
+  "ULTRA_DARK": "ultra_dark",
+};
+
 export default {
   phoneNumberStatus,
   paymentMethods,
   sortPhoneNumbers,
+  faxQualities,
 };

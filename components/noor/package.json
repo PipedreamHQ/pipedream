@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/noor",
+  "version": "0.1.0",
+  "description": "Pipedream Noor Components",
+  "main": "noor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "noor"
+  ],
+  "homepage": "https://pipedream.com/apps/noor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

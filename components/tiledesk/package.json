@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/tiledesk",
+  "version": "0.0.1",
+  "description": "Pipedream Tiledesk Components",
+  "main": "tiledesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tiledesk"
+  ],
+  "homepage": "https://pipedream.com/apps/tiledesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

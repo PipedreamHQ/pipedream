@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/baserow",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Pipedream Baserow Components",
   "main": "dist/app/baserow.app.mjs",
   "keywords": [

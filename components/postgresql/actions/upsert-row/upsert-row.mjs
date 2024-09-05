@@ -5,7 +5,7 @@ export default {
   name: "Upsert Row",
   key: "postgresql-upsert-row",
   description: "Adds a new row or updates an existing row. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.5",
+  version: "2.0.6",
   type: "action",
   props: {
     postgresql,

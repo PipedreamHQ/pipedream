@@ -40,7 +40,7 @@ export default {
         start,
       } = event;
       return {
-        summary,
+        summary: summary || `Event ID: ${id}`,
         id,
         ts: +new Date(start.dateTime),
       };
@@ -48,9 +48,9 @@ export default {
     async processEvents(event) {
       const intervalData = this.getIntervalData(event);
       const config = this.getConfig(intervalData);
-      const resp = await this.googleCalendar.getEvents(config);
+      const resp = await this.googleCalendar.listEvents(config);
 
-      const events = resp?.data?.items;
+      const events = resp?.data?.items || resp?.items;
       if (!Array.isArray(events)) {
         console.log("nothing to emit");
         return;

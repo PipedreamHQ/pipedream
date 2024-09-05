@@ -19,16 +19,15 @@ export default {
     },
   },
   methods: {
-    getMeta(spreadsheet, worksheet, rowNumber, row) {
-      const { sheetId: worksheetId } = worksheet;
-      const { spreadsheetId: sheetId } = spreadsheet;
+    _getRowHashes() {
+      return this.db.get("rowHashes") || {};
+    },
+    _setRowHashes(rowHashes) {
+      this.db.set("rowHashes", rowHashes);
+    },
+    getMeta(worksheet, rowNumber) {
       const ts = Date.now();
-      const rowHash = crypto
-        .createHash("md5")
-        .update(JSON.stringify(row))
-        .digest("base64");
-      // Include a hash of the row data in id to dedupe events for the same new row
-      const id = `${sheetId}${worksheetId}${rowNumber}${rowHash}`;
+      const id = `${worksheet.properties.sheetId}${rowNumber}${ts}`;
       const summary = `New row #${rowNumber} in ${worksheet.properties.title}`;
       return {
         id,
@@ -154,11 +153,21 @@ export default {
             : newRowCount,
         );
 
+        const rowHashes = this._getRowHashes();
         for (const [
           index,
           newRow,
         ] of newRowValues.values.entries()) {
           const rowNumber = lowerBound + index;
+          const rowHash = crypto
+            .createHash("md5")
+            .update(JSON.stringify(newRow))
+            .digest("base64");
+          const rowHashString = `${worksheet.properties.sheetId}${rowNumber}${rowHash}`;
+          if (rowHashes[rowHashString]) {
+            continue;
+          }
+          rowHashes[rowHashString] = true;
           this.$emit(
             {
               newRow,
@@ -166,9 +175,10 @@ export default {
               worksheet,
               rowNumber,
             },
-            this.getMeta(spreadsheet, worksheet, rowNumber, newRow),
+            this.getMeta(worksheet, rowNumber),
           );
         }
+        this._setRowHashes(rowHashes);
       }
     },
   },

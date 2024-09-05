@@ -232,6 +232,8 @@ export interface UserProp extends BasePropInterface {
   secret?: boolean;
   min?: number;
   max?: number;
+  disabled?: boolean;
+  hidden?: boolean;
 }
 
 // https://pipedream.com/docs/components/api/#interface-props
@@ -310,15 +312,23 @@ export interface EmitMetadata {
   ts?: number;
 }
 
+export interface IdEmitMetadata extends EmitMetadata {
+  id: string | number;
+}
+
 type EmitFunction = {
   $emit: (event: JSONValue, metadata?: EmitMetadata) => Promise<void>;
+};
+
+type IdEmitFunction = {
+  $emit: (event: JSONValue, metadata: IdEmitMetadata) => Promise<void>;
 };
 
 type PropThis<Props> = {
   [Prop in keyof Props]: Props[Prop] extends App<Methods, AppPropDefinitions> ? any : any
 };
 
-export interface Source<
+interface BaseSource<
   Methods,
   SourcePropDefinitions
 > {
@@ -336,6 +346,24 @@ export interface Source<
   ) => Promise<SourcePropDefinitions>;
   run: (this: PropThis<SourcePropDefinitions> & Methods & EmitFunction, options?: SourceRunOptions) => void | Promise<void>;
 }
+
+export interface DedupedSource<Methods, SourcePropDefinitions>
+  extends BaseSource<Methods, SourcePropDefinitions> {
+  dedupe: "last" | "greatest" | "unique";
+  run: (
+    this: PropThis<SourcePropDefinitions> & Methods & IdEmitFunction,
+    options?: SourceRunOptions
+  ) => void | Promise<void>;
+}
+
+export interface NonDedupedSource<Methods, SourcePropDefinitions>
+  extends BaseSource<Methods, SourcePropDefinitions> {
+  dedupe?: never;
+}
+
+export type Source<Methods, SourcePropDefinitions> =
+  | DedupedSource<Methods, SourcePropDefinitions>
+  | NonDedupedSource<Methods, SourcePropDefinitions>;
 
 export function defineSource<
   Methods,

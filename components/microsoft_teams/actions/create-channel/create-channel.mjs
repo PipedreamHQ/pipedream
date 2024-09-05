@@ -5,7 +5,7 @@ export default {
   name: "Create Channel",
   description: "Create a new channel in Microsoft Teams. [See the docs here](https://docs.microsoft.com/en-us/graph/api/channel-post?view=graph-rest-1.0&tabs=http)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     microsoftTeams,
     teamId: {

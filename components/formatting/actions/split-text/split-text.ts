@@ -10,7 +10,7 @@ export default defineAction({
   description:
     "Split the text on a character or word and return one or all segments",
   key: "formatting-split-text",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     app,
@@ -52,22 +52,22 @@ export default defineAction({
       summary = `Successfully split text into ${length} segments`;
 
       switch (segmentIndex) {
-        case INDEX_ALL_SEGMENTS:
-          result = arrResults;
-          break;
+      case INDEX_ALL_SEGMENTS:
+        result = arrResults;
+        break;
 
         // this case would not be needed if 0 was accepted as an option
         // see issue #5429
-        case INDEX_ALL_SEGMENTS * -1:
-          result = arrResults[0];
-          break;
+      case INDEX_ALL_SEGMENTS * -1:
+        result = arrResults[0];
+        break;
 
-        default:
-          result =
-            arrResults[segmentIndex < 0
-              ? length + segmentIndex
-              : segmentIndex];
-          break;
+      default:
+        result =
+          arrResults[segmentIndex < 0
+            ? length + segmentIndex
+            : segmentIndex];
+        break;
       }
     }
 

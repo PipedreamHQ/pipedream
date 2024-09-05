@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gmail",
-  "version": "0.0.12",
+  "version": "0.1.1",
   "description": "Pipedream Gmail Components",
   "main": "gmail.app.mjs",
   "keywords": [

@@ -10,6 +10,6 @@ export default {
     component,
   }),
   key: "slack_bot-set-channel-topic",
-  description: "Set the topic on a selected channel (Bot). [See docs here](https://api.slack.com/methods/conversations.setTopic)",
-  version: "0.0.2",
+  description: "Set the topic on a selected channel (Bot). [See the documentation](https://api.slack.com/methods/conversations.setTopic)",
+  version: "0.0.3",
 };

@@ -3,14 +3,14 @@ import { ConfigurationError } from "@pipedream/platform";
 import { DATE_FORMAT_PARSE_MAP } from "../../common/date-time/dateFormats";
 import commonDateTime from "../../common/date-time/commonDateTime";
 import app from "../../app/formatting.app";
-import moment from "moment";
+import sugar from "sugar";
 
 export default defineAction({
   ...commonDateTime,
   name: "[Date/Time] Format",
-  description: "Format a date string to another date string",
+  description: "Format a date string to another date string. For more examples on formatting, see the [Sugar Date Format](https://sugarjs.com/dates/#/Formatting) documentation.",
   key: "formatting-date-time-format",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     ...commonDateTime.props,
@@ -19,7 +19,7 @@ export default defineAction({
         app,
         "outputFormat",
       ],
-      description: "The format to convert the date to.",
+      description: "The format to convert the date to. For more examples on formatting, see the [Sugar Date Format](https://sugarjs.com/dates/#/Formatting) documentation.",
       optional: false,
     },
   },
@@ -32,7 +32,7 @@ export default defineAction({
       const response = DATE_FORMAT_PARSE_MAP.get(outputFormat);
       const output = response
         ? response.outputFn(dateObj)
-        : moment(dateObj).format(outputFormat);
+        : sugar.Date.format(dateObj, outputFormat);
 
       $.export("$summary", "Successfully formatted date/time");
       return output;

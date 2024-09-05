@@ -1,13 +1,10 @@
 import common from "./send-message.mjs";
 
-/* eslint-disable pipedream/required-properties-key, pipedream/required-properties-name,
-  pipedream/required-properties-version, pipedream/required-properties-description */
 export default {
-  type: "action",
   props: {
     passArrayOrConfigure: {
       type: "string",
-      label: "Reference Existing Blocks Array or Configure Manually?",
+      label: "Add Blocks - Reference Existing Blocks Array or Configure Manually?",
       description: "Would you like to reference an array of blocks from a previous step (for example, `{{steps.blocks.$return_value}}`), or configure them in this action?",
       options: [
         {
@@ -19,6 +16,7 @@ export default {
           value: "configure",
         },
       ],
+      optional: true,
       reloadProps: true,
     },
   },
@@ -83,7 +81,8 @@ export default {
       }
     },
   },
-  async additionalProps() {
+  async additionalProps(existingProps) {
+    await common.additionalProps.call(this, existingProps);
     const props = {};
     const sectionDescription = "Add a **section** block to your message and configure with plain text or mrkdwn. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#section) for more info.";
     const contextDescription = "Add a **context** block to your message and configure with plain text or mrkdwn. Define multiple items if you'd like multiple elements in the context block. See [Slack's docs](https://api.slack.com/reference/block-kit/blocks?ref=bk#context) for more info.";
@@ -92,6 +91,9 @@ export default {
     const propsContext = this.createBlockProp("string[]", "Context Block Text", contextDescription);
     const propsLinkButton = this.createBlockProp("object", "Link Button", linkButtonDescription);
 
+    if (!this.passArrayOrConfigure) {
+      return props;
+    }
     if (this.passArrayOrConfigure == "array") {
       props.blocks = {
         type: common.props.slack.propDefinitions.blocks.type,
