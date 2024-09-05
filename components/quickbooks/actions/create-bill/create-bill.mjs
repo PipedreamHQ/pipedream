@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-create-bill",
   name: "Create Bill",
   description: "Creates a bill. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/bill#create-a-bill)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     quickbooks,
