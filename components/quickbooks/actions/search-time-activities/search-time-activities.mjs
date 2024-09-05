@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-search-time-activities",
   name: "Search Time Activities",
   description: "Searches for time activities. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#query-a-timeactivity-object)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     quickbooks,
