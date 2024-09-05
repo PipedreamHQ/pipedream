@@ -4,7 +4,7 @@ export default {
   key: "slack-list-replies",
   name: "List Replies",
   description: "Retrieve a thread of messages posted to a conversation. [See the documentation](https://api.slack.com/methods/conversations.replies)",
-  version: "0.0.18",
+  version: "0.0.19",
   type: "action",
   props: {
     slack,
@@ -18,9 +18,6 @@ export default {
       propDefinition: [
         slack,
         "messageTs",
-        (c) => ({
-          channel: c.conversation,
-        }),
       ],
     },
   },
