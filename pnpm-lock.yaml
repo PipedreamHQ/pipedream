@@ -413,6 +413,9 @@ importers:
   components/akismet:
     specifiers: {}
 
+  components/akkio:
+    specifiers: {}
+
   components/albus:
     specifiers:
       '@pipedream/platform': ^2.0.0
