@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-search-purchases",
   name: "Search Purchases",
   description: "Searches for purchases. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#query-a-purchase)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     quickbooks,

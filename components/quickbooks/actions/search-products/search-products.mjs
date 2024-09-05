@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-search-products",
   name: "Search Products",
   description: "Search for products. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#query-an-item)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     quickbooks,

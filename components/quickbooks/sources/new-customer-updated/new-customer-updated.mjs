@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-new-customer-updated",
   name: "New Customer Updated",
   description: "Emit new event when a customer is updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
