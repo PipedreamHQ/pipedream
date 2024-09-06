@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import { LIMIT } from "./common/constants.mjs";
+import { retryWithExponentialBackoff } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -206,14 +207,17 @@ export default {
       return "https://quickbooks.api.intuit.com/v3";
     },
     async _makeRequest(path, options = {}, $ = this) {
-      return axios($, {
-        url: `${this._apiUrl()}/${path}`,
-        headers: {
-          Authorization: `Bearer ${this._accessToken()}`,
-          accept: "application/json",
-        },
-        ...options,
-      });
+      const requestFn = async () => {
+        return await axios($, {
+          url: `${this._apiUrl()}/${path}`,
+          headers: {
+            Authorization: `Bearer ${this._accessToken()}`,
+            accept: "application/json",
+          },
+          ...options,
+        });
+      };
+      return await retryWithExponentialBackoff(requestFn);
     },
     async createPayment({
       $, data,
