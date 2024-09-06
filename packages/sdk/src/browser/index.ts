@@ -63,6 +63,7 @@ type StartConnectOpts = {
    */
   app: AppId | StartConnectApp;
 
+  oauthAppId: string;
   /**
    * Callback function to be called upon successful connection.
    *
@@ -205,6 +206,7 @@ class BrowserClient {
    * @throws {ConnectError} If the app option is not a string.
    */
   private createIframe(opts: StartConnectOpts) {
+    console.log(opts)
     const qp = new URLSearchParams({
       token: opts.token,
     });
@@ -215,6 +217,11 @@ class BrowserClient {
 
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
+    } else {
+      throw new ConnectError("Object app not yet supported");
+    }
+    if (typeof opts.oauthAppId === "string") {
+      qp.set("oauthAppId", opts.oauthAppId);
     } else {
       throw new ConnectError("Object app not yet supported");
     }

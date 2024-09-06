@@ -3,7 +3,8 @@
 import CodePanel from "./CodePanel";
 import { useEffect, useState } from "react";
 import { serverConnectTokenCreate } from "./server"
-import { createClient } from "@pipedream/sdk/browser"
+//import { createClient } from "@pipedream/sdk/browser"
+import { createClient } from "../../../../sdk/src/browser"
 
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST || "pipedream.com"
 const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG // required
@@ -28,6 +29,7 @@ export default function Home() {
     setApp(app)
     pd.connectAccount({
       app,
+      oauthAppId,
       token,
       onSuccess: ({ id: authProvisionId }) => {
         setAuthProvisionId(authProvisionId as string)
@@ -53,8 +55,8 @@ export default function Home() {
       (async () => {
         try {
           const { token, expires_at } = await serverConnectTokenCreate({
-            app_slug: appSlug,
-            oauth_app_id: oauthAppId,
+            //app_slug: appSlug,
+            //oauth_app_id: oauthAppId,
             external_user_id: externalUserId
           })
           setToken(token)

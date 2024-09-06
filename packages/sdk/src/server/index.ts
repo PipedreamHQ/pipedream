@@ -33,16 +33,6 @@ export type CreateServerClientOpts = {
  */
 export type ConnectTokenCreateOpts = {
   /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
-   */
-  app_slug: string;
-
-  /**
-   * Pass for OAuth apps. See https://pipedream.com/docs/connect/quickstart#creating-a-custom-oauth-client
-   */
-  oauth_app_id?: string;
-
-  /**
    * An external user ID associated with the token.
    */
   external_user_id: string;
