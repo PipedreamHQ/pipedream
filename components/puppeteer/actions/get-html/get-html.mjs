@@ -6,21 +6,22 @@ export default {
   name: "Get HTML",
   description:
     "Get the HTML of a webpage using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.content) for details.",
-  version: "1.0.{{ts}}",
+  version: "1.0.2",
   type: "action",
   props: {
     puppeteer,
     ...common.props,
   },
   async run({ $ }) {
+    const url = await common.methods.run.call(this, { $ });
     const browser = await this.puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto(common.props.url);
+    await page.goto(url);
     const html = await page.content();
     await browser.close();
 
     if (html) {
-      $.export("$summary", "Successfully retrieved HTML from page.");
+      $.export("$summary", `Successfully retrieved HTML from ${url}`);
     }
 
     return html;
