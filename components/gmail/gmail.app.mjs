@@ -195,6 +195,18 @@ export default {
       description: "Specify the name that will be displayed in the \"From\" section of the email.",
       optional: true,
     },
+    fromEmail: {
+      type: "string",
+      label: "From Email",
+      description: "Specify the email address that will be displayed in the \"From\" section of the email.",
+      optional: true,
+      async options() {
+        const { sendAs } = await this.listSignatures();
+        return sendAs
+          .filter(({ sendAsEmail }) => sendAsEmail)
+          .map(({ sendAsEmail }) => sendAsEmail);
+      },
+    },
     replyTo: {
       type: "string",
       label: "Reply To",
@@ -219,10 +231,16 @@ export default {
       default: "plaintext",
       options: Object.values(constants.BODY_TYPES),
     },
-    attachments: {
-      type: "object",
-      label: "Attachments",
-      description: "Add any attachments you'd like to include as objects.\n- The `key` should be the filename and must contain the file extension (e.g. `.jpeg`, `.txt`).\n- The `value` should be a URL of the download link for the file, or the local path (e.g. `/tmp/my-file.txt`).",
+    attachmentFilename: {
+      type: "string",
+      label: "Attachment Filename",
+      description: "The name of the file to attach. Must contain the file extension (e.g. `.jpeg`, `.txt`)",
+      optional: true,
+    },
+    attachmentUrlOrPath: {
+      type: "string",
+      label: "Attachment URL or Path",
+      description: "The URL of the download link for the file, or the local path (e.g. `/tmp/my-file.txt`).",
       optional: true,
     },
     inReplyTo: {
@@ -260,11 +278,12 @@ export default {
         name: fromName,
         email,
       } = await this.userInfo();
+      const fromEmail = props.fromEmail || email;
 
       const opts = {
         from: props.fromName
-          ? `${props.fromName} <${email}>`
-          : `${fromName} <${email}>`,
+          ? `${props.fromName} <${fromEmail}>`
+          : `${fromName} <${fromEmail}>`,
         to: props.to,
         cc: props.cc,
         bcc: props.bcc,
@@ -289,18 +308,13 @@ export default {
         }
       }
 
-      if (props.attachments) {
-        if (typeof props.attachments === "string") {
-          props.attachments = JSON.parse(props.attachments);
-        }
-        opts.attachments = Object.entries(props.attachments)
-          .map(([
-            filename,
-            path,
-          ]) => ({
-            filename,
-            path,
-          }));
+      if (props.attachmentFilename && props.attachmentUrlOrPath) {
+        opts.attachments = [
+          {
+            filename: props.attachmentFilename,
+            path: props.attachmentUrlOrPath,
+          },
+        ];
       }
 
       if (props.bodyType === constants.BODY_TYPES.HTML) {
