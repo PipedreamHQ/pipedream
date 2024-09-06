@@ -400,6 +400,9 @@ importers:
       lodash.isempty: 4.4.0
       moment: 2.30.1
 
+  components/aitable_ai:
+    specifiers: {}
+
   components/aivoov:
     specifiers:
       axios: ^1.5.1
