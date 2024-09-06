@@ -1,11 +1,10 @@
 import krispcall from "../../krispcall.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "krispcall-new-sms",
   name: "Send New SMS",
-  description: "Send a new SMS to a number. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Send a new SMS to a number. [See the documentation](https://documenter.getpostman.com/view/32476792/2sa3dxfcal)",
+  version: "0.0.1",
   type: "action",
   props: {
     krispcall,
@@ -30,12 +29,14 @@ export default {
   },
   async run({ $ }) {
     const response = await this.krispcall.sendSMS({
-      fromNumber: this.fromNumber,
-      toNumber: this.toNumber,
-      content: this.content,
+      $,
+      data: {
+        from_number: this.fromNumber,
+        to_number: this.toNumber,
+        content: this.content,
+      },
     });
-
-    $.export("$summary", `SMS sent successfully to ${this.toNumber}`);
+    $.export("$summary", `Successfully sent SMS to ${this.toNumber}`);
     return response;
   },
 };

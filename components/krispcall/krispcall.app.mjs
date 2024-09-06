@@ -38,17 +38,14 @@ export default {
       label: "From Number",
       description: "The number from which the SMS/MMS is sent",
       async options() {
-        const numbers = await this.getNumbers();
-        return numbers.map((number) => ({
-          label: number,
-          value: number,
-        }));
+        const numbers = await this.listNumbers();
+        return numbers.map(({ number }) => number);
       },
     },
     toNumber: {
       type: "string",
       label: "To Number",
-      description: "The number to which the SMS/MMS is sent",
+      description: "The recipient's phone number",
     },
     content: {
       type: "string",
@@ -58,126 +55,91 @@ export default {
     medias: {
       type: "string[]",
       label: "Medias",
-      description: "The media URLs for the MMS",
+      description: "The media files for MMS. It should be a valid url field and size should not be greater than 5mb. Upto 5 media lists are supported. Media url should be starting from https. Media url should be public accessible and content-type should be supported by KrispCall app.",
     },
     contactIds: {
       type: "string[]",
-      label: "Contact IDs",
-      description: "The IDs of the contacts to delete",
+      label: "Contact Numbers",
+      description: "The phone numbers of the contacts to delete",
       async options() {
-        const contacts = await this.getContacts();
-        return contacts.map((contact) => ({
-          label: contact.name,
-          value: contact.id,
+        const contacts = await this.listContacts();
+        return contacts.map(({
+          name, contact_number: number,
+        }) => ({
+          label: `${name} ${number}`,
+          value: number,
         }));
       },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.krispcall.com";
+      return `${this.$auth.url}/api/v1/platform/pipedream`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "X-API-Key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async getNumbers() {
+    listNumbers() {
       return this._makeRequest({
-        path: "/numbers",
+        path: "/get-numbers",
       });
     },
-    async getContacts() {
+    listContacts() {
       return this._makeRequest({
-        path: "/contacts",
+        path: "/get-contacts",
       });
     },
-    async createContact(opts = {}) {
-      const {
-        number, name, email, company, address,
-      } = opts;
-      const response = await this._makeRequest({
+    createContact(opts = {}) {
+      return this._makeRequest({
         method: "POST",
-        path: "/contacts",
-        data: {
-          number,
-          name,
-          email,
-          company,
-          address,
-        },
+        path: "/add-contact",
+        ...opts,
       });
-      this.emitNewContact();
-      return response;
     },
-    async sendSMS(opts = {}) {
-      const {
-        fromNumber, toNumber, content,
-      } = opts;
-      const response = await this._makeRequest({
+    sendSMS(opts = {}) {
+      return this._makeRequest({
         method: "POST",
-        path: "/sms",
-        data: {
-          fromNumber,
-          toNumber,
-          content,
-        },
+        path: "/send-sms",
+        ...opts,
       });
-      this.emitNewSMSorMMS();
-      return response;
     },
-    async sendMMS(opts = {}) {
-      const {
-        fromNumber, toNumber, content, medias,
-      } = opts;
-      const response = await this._makeRequest({
+    sendMMS(opts = {}) {
+      return this._makeRequest({
         method: "POST",
-        path: "/mms",
-        data: {
-          fromNumber,
-          toNumber,
-          content,
-          medias,
-        },
+        path: "/send-mms",
+        ...opts,
       });
-      this.emitNewSMSorMMS();
-      return response;
     },
-    async deleteContacts(opts = {}) {
-      const { contactIds } = opts;
+    deleteContacts(opts = {}) {
       return this._makeRequest({
         method: "DELETE",
-        path: "/contacts",
-        data: {
-          contactIds,
-        },
+        path: "/delete-contacts",
+        ...opts,
       });
     },
-    emitNewContact() {
-      this.$emit("new_contact", {
-        summary: "New Contact Created",
-        ts: Date.now(),
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/subscribe",
+        ...opts,
       });
     },
-    emitNewSMSorMMS() {
-      this.$emit("new_sms_or_mms", {
-        summary: "New SMS or MMS Sent",
-        ts: Date.now(),
-      });
-    },
-    emitNewVoicemail() {
-      this.$emit("new_voicemail", {
-        summary: "New Voicemail Sent",
-        ts: Date.now(),
+    deleteWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: "/unsubscribe",
+        ...opts,
       });
     },
   },

@@ -1,11 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import krispcall from "../../krispcall.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "krispcall-delete-contact",
-  name: "Delete Contacts",
+  name: "Delete Contact",
   description: "Deletes a list of contacts. [See the documentation](https://documenter.getpostman.com/view/32476792/2sa3dxfcal)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     krispcall,
@@ -17,10 +17,14 @@ export default {
     },
   },
   async run({ $ }) {
+    const parsedContacts = parseObject(this.contactIds);
     const response = await this.krispcall.deleteContacts({
-      contactIds: this.contactIds,
+      $,
+      data: {
+        contacts: parsedContacts,
+      },
     });
-    $.export("$summary", `Deleted ${this.contactIds.length} contact(s) successfully`);
+    $.export("$summary", `Successfully deleted ${parsedContacts.length} contact(s)`);
     return response;
   },
 };
