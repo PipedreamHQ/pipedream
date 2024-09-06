@@ -3240,6 +3240,9 @@ importers:
   components/finerworks:
     specifiers: {}
 
+  components/fingertip:
+    specifiers: {}
+
   components/finmei:
     specifiers:
       '@pipedream/platform': ^1.6.1
