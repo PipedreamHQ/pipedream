@@ -38,12 +38,12 @@ export default {
     },
   },
   methods: {
-     _getWebhookId() {
-        return this.db.get("webhookId");
-     },
-     _setWebhookId(webhookId) {
-        this.db.set("webhookId", webhookId);
-     },
+    _getWebhookId() {
+      return this.db.get("webhookId");
+    },
+    _setWebhookId(webhookId) {
+      this.db.set("webhookId", webhookId);
+    },
   },
   async run({ body }) {
     const ts = Date.parse(body.model.updated_at);
