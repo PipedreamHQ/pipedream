@@ -11,7 +11,7 @@ export default {
     async run({ $ }) {
       let url = this.url;
       if (!url.startsWith("http")) {
-        url = `http://${url}`;
+        url = `https://${url}`;
       }
       return url;
     },
