@@ -25,6 +25,11 @@ type CreateBrowserClientOpts = {
 type AppId = string;
 
 /**
+ * A unique identifier for an oauth app.
+ */
+type OauthAppId = string;
+
+/**
  * Object representing an app to start connecting with.
  */
 type StartConnectApp = {
@@ -63,7 +68,10 @@ type StartConnectOpts = {
    */
   app: AppId | StartConnectApp;
 
-  oauthAppId: string;
+  /**
+   * The ID of the OAuth Client to connect.
+   */
+  oauthAppId: OauthAppId;
   /**
    * Callback function to be called upon successful connection.
    *
@@ -206,7 +214,6 @@ class BrowserClient {
    * @throws {ConnectError} If the app option is not a string.
    */
   private createIframe(opts: StartConnectOpts) {
-    console.log(opts)
     const qp = new URLSearchParams({
       token: opts.token,
     });

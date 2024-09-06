@@ -55,8 +55,8 @@ export default function Home() {
       (async () => {
         try {
           const { token, expires_at } = await serverConnectTokenCreate({
-            //app_slug: appSlug,
-            //oauth_app_id: oauthAppId,
+            app_slug: appSlug,
+            oauth_app_id: oauthAppId,
             external_user_id: externalUserId
           })
           setToken(token)
