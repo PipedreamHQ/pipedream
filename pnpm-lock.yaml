@@ -306,6 +306,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/agiliron:
+    specifiers: {}
+
   components/agility_cms:
     specifiers: {}
 
@@ -3238,6 +3241,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/finerworks:
+    specifiers: {}
+
+  components/fingertip:
     specifiers: {}
 
   components/finmei:
