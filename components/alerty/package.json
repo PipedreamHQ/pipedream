@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/alerty",
+  "version": "0.0.1",
+  "description": "Pipedream Alerty Components",
+  "main": "alerty.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alerty"
+  ],
+  "homepage": "https://pipedream.com/apps/alerty",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

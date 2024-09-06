@@ -4,7 +4,7 @@ export default {
   key: "slack-delete-message",
   name: "Delete Message",
   description: "Delete a message. [See the documentation](https://api.slack.com/methods/chat.delete)",
-  version: "0.0.18",
+  version: "0.0.19",
   type: "action",
   props: {
     slack,
@@ -18,9 +18,6 @@ export default {
       propDefinition: [
         slack,
         "messageTs",
-        (c) => ({
-          channel: c.conversation,
-        }),
       ],
     },
     as_user: {

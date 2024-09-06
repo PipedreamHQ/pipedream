@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/liveswitch",
+  "version": "0.0.1",
+  "description": "Pipedream LiveSwitch Components",
+  "main": "liveswitch.app.mjs",
+  "keywords": [
+    "pipedream",
+    "liveswitch"
+  ],
+  "homepage": "https://pipedream.com/apps/liveswitch",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

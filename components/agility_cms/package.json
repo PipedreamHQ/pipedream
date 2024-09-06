@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/agility_cms",
+  "version": "0.0.1",
+  "description": "Pipedream Agility CMS Components",
+  "main": "agility_cms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "agility_cms"
+  ],
+  "homepage": "https://pipedream.com/apps/agility_cms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
