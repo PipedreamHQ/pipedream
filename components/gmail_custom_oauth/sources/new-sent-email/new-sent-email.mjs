@@ -8,7 +8,7 @@ export default {
   key: "gmail_custom_oauth-new-sent-email",
   name: "New Sent Email",
   description: "Emit new event for each new email sent. (Maximum of 100 events emitted per execution)",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
 };

@@ -9,6 +9,6 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.0.13",
+  version: "0.0.14",
   dedupe: "unique",
 };
