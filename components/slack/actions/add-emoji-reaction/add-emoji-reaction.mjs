@@ -4,7 +4,7 @@ export default {
   key: "slack-add-emoji-reaction",
   name: "Add Emoji Reaction",
   description: "Add an emoji reaction to a message. [See the documentation](https://api.slack.com/methods/reactions.add)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     slack,
@@ -19,11 +19,8 @@ export default {
       propDefinition: [
         slack,
         "messageTs",
-        (c) => ({
-          channel: c.conversation,
-        }),
       ],
-      description: "Timestamp of the message to add reaction to.",
+      description: "Timestamp of the message to add reaction to. e.g. `1403051575.000407`.",
     },
     icon_emoji: {
       propDefinition: [

@@ -7,12 +7,15 @@ export default {
   app: "gmail_custom_oauth",
   methods: {
     ...base.methods,
+    getToken() {
+      return this.$auth.oauth_access_token;
+    },
     _apiUrl() {
       return "https://www.googleapis.com/gmail/v1/users/me";
     },
     _getHeaders() {
       return {
-        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        "Authorization": `Bearer ${this.getToken()}`,
       };
     },
     async _makeRequest({

@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-new-item-updated",
   name: "New Item Updated",
   description: "Emit new event when an item is updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

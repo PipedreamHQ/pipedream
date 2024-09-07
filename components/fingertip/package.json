@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fingertip",
+  "version": "0.0.1",
+  "description": "Pipedream Fingertip Components",
+  "main": "fingertip.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fingertip"
+  ],
+  "homepage": "https://pipedream.com/apps/fingertip",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

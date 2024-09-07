@@ -1,14 +1,13 @@
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
-  ...common,
   key: "gmail-update-primary-signature",
   name: "Update Signature for Primary Email Address",
   description: "Update the signature for the primary email address. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.settings.sendAs/update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
-    ...common.props,
+    gmail,
     signature: {
       type: "string",
       label: "Signature",
@@ -16,7 +15,6 @@ export default {
     },
   },
   methods: {
-    ...common.methods,
     async createOpts() {
       const { email } = await this.gmail.userInfo();
       return {

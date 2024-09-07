@@ -45,10 +45,20 @@ const AUDIO_RESPONSE_FORMATS = [
   "pcm",
 ];
 
-const CHAT_RESPONSE_FORMATS = [
-  "text",
-  "json_object",
-];
+const CHAT_RESPONSE_FORMAT = {
+  TEXT: {
+    label: "Text",
+    value: "text",
+  },
+  JSON_OBJECT: {
+    label: "JSON Object",
+    value: "json_object",
+  },
+  JSON_SCHEMA: {
+    label: "JSON Schema",
+    value: "json_schema",
+  },
+};
 
 const IMAGE_RESPONSE_FORMATS = [
   {
@@ -162,7 +172,7 @@ export default {
   IMAGE_MODELS,
   MODERATION_MODELS,
   AUDIO_RESPONSE_FORMATS,
-  CHAT_RESPONSE_FORMATS,
+  CHAT_RESPONSE_FORMAT,
   IMAGE_RESPONSE_FORMATS,
   USER_OPTIONS,
   ORDER_OPTIONS,

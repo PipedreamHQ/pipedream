@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js@2.39.0";
+import { createClient } from "@supabase/supabase-js@2.39.8";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -44,6 +44,11 @@ export default {
     },
   },
   methods: {
+    verifyForErrors(resp) {
+      if (resp.error) {
+        throw new Error(JSON.stringify(resp, null, 2));
+      }
+    },
     async _client() {
       return createClient(`https://${this.$auth.subdomain}.supabase.co`, this.$auth.service_key);
     },
@@ -64,10 +69,8 @@ export default {
         filterMethod(query, column, value);
       }
       const resp = await query;
-      if (resp.error) {
-        throw new Error(JSON.stringify(resp.error, null, 2));
-      }
-      return resp.data;
+      this.verifyForErrors(resp);
+      return resp;
     },
     baseFilter(client, table, orderBy, ascending, max) {
       return client
@@ -112,42 +115,47 @@ export default {
     },
     async insertRow(table, rowData = {}) {
       const client = await this._client();
-      const { data } = await client
+      const resp = await client
         .from(table)
         .insert(rowData)
         .select();
-      return data;
+      this.verifyForErrors(resp);
+      return resp;
     },
     async updateRow(table, column, value, rowData = {}) {
       const client = await this._client();
-      const { data } = await client
+      const resp = await client
         .from(table)
         .update(rowData)
         .eq(column, value)
         .select();
-      return data;
+      this.verifyForErrors(resp);
+      return resp;
     },
     async upsertRow(table, rowData = {}) {
       const client = await this._client();
-      const { data } = await client
+      const resp = await client
         .from(table)
         .upsert(rowData)
         .select();
-      return data;
+      this.verifyForErrors(resp);
+      return resp;
     },
     async deleteRow(table, column, value) {
       const client = await this._client();
-      const { data } = await client
+      const resp = await client
         .from(table)
         .delete()
         .eq(column, value)
         .select();
-      return data;
+      this.verifyForErrors(resp);
+      return resp;
     },
     async remoteProcedureCall(functionName, args = {}) {
       const client = await this._client();
-      const { data } = await client.rpc(functionName, args);
-      return data;
+      const resp = await client.rpc(functionName, args);
+      this.verifyForErrors(resp);
+      return resp;
     },
   },
 };
