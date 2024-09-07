@@ -5,7 +5,7 @@ export default {
   key: "supabase-select-row",
   name: "Select Row",
   type: "action",
-  version: "0.0.6",
+  version: "0.1.1",
   description: "Selects row(s) in a database. [See the docs here](https://supabase.com/docs/reference/javascript/select)",
   props: {
     supabase,
@@ -81,9 +81,7 @@ export default {
       sortOrder,
       max,
     });
-    if (response) {
-      $.export("$summary", `Successfully retrieved ${response.length} rows from table ${table}`);
-    }
+    $.export("$summary", `Successfully retrieved ${response.length} rows from table ${table}`);
     return response;
   },
 };

@@ -227,6 +227,10 @@
       "destination": "/docs/components/sources-quickstart"
     },
     {
+      "source": "/docs/v3/components/quickstart/nodejs/sources",
+      "destination": "/docs/components/sources-quickstart"
+    },
+    {
       "source": "/docs/github-sync",
       "destination": "/docs/quickstart/github-sync"
     },
@@ -269,6 +273,26 @@
     {
       "source": "/docs/workspaces-and-credits-faq",
       "destination": "https://pipedream.com/pricing"
+    },
+    {
+      "source": "/docs/quickstart/run-workflow-on-a-schedule",
+      "destination": "/docs/quickstart"
+    },
+    {
+      "source": "/docs/apps/guide/requesting-additional-oauth-scopes",
+      "destination": "/docs/connected-accounts/oauth-clients"
+    },
+    {
+      "source": "/docs/workflows/networking",
+      "destination": "/docs/databases#connecting-to-restricted-databases"
+    },
+    {
+      "source": "/docs/errors/",
+      "destination": "/docs/workflows/errors"
+    },
+    {
+      "source": "/docs/v3/api/sse",
+      "destination": "/docs/destinations/sse"
     }
   ]
 }

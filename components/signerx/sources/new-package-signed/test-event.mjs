@@ -1,0 +1,92 @@
+export default {
+  "id": "cm06zfbgibqo8i5",
+  "name": "file test 03",
+  "status": {
+    "id": "cm06zfbgibqo8i5",
+    "name": "Draft",
+    "classification": "draft"
+  },
+  "type": {
+    "id": "cm06zfbgibqo8i5",
+    "name": "Recipients",
+    "classification": "recipients"
+  },
+  "created_by": {
+    "id": "cm06zfbgibqo8i5",
+    "first_name": "User",
+    "middle_name": null,
+    "last_name": "Surname",
+    "email": "user@email.com",
+    "email_domain": "",
+    "is_free_mail": false,
+    "timezone": "America/Mazatlan",
+    "phone_number": null,
+    "phone_number_confirmed": false,
+    "image_url": "https://preview-api.s3.us-west-1.wasabisys.com/users/clwplsuru0002hzpb7zt7rkuh/.png?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=XQR26WRFPGQK9RCPFILH%2F20240823%2Fus-west-1%2Fs3%2Faws4_request&X-Amz-Date=20240823T194726Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Signature=d4c66141f31edc343e246176ff7fc47be246a1e3f36fccfd3631bb1cf416547c",
+    "user_image_preference": "uploaded",
+    "image_color": "#02D163",
+    "role": null,
+    "email_confirmed": true,
+    "created_at": "2024-05-27T23:32:33.000000Z",
+    "updated_at": "2024-08-23T17:25:27.000000Z",
+    "provider": null,
+    "meta": {
+      "current_signing_platform": "scanner-and-email",
+      "current_signing_platform_name": null,
+      "current_signing_platform_explanation": null,
+      "challenge_solving_with_approveme": null,
+      "signed_up_for_template": 0,
+      "seen_fieldmapping_intro_at": null,
+      "seen_fieldmapping_label_hint_at": null
+    },
+    "last_login": "2024-08-23T16:44:35.000000Z",
+    "has_password": true,
+    "has_created_package": true,
+    "inbox_count": 0,
+    "total_packages_received": 0,
+    "total_packages_created": 3,
+    "total_templates_created": 0
+  },
+  "cancelled_at": null,
+  "account_name": "AccountName",
+  "recipients": [
+    {
+      "id": "cm06zgpb04s52x5s",
+      "first_name": "Recipient",
+      "middle_name": "",
+      "last_name": "Surname",
+      "full_name": "Recipient Surname",
+      "email": "recipient@email.com",
+      "send_order": null,
+      "status": "not-viewed"
+    }
+  ],
+  "fields_preview": [],
+  "parent_id": null,
+  "sender_name": "Sender @ Name",
+  "published_at": "2024-08-23T17:25:23.000000Z",
+  "created_at": "2024-08-23T17:25:23.000000Z",
+  "published_at": "2024-08-23T17:25:23.000000Z",
+  "account_id": "clwplsuryzpb8ldnczoq",
+  "folder_id": null,
+  "account_type": {
+    "name": "lite",
+    "packages_limit": 3,
+    "packages_count": 3,
+    "block_package_creation_until": "2024-08-31T00:00:00+00:00",
+    "templates_limit": 0,
+    "templates_count": 0,
+    "user_limit": 1,
+    "price_monthly": null,
+    "discounted_monthly": 0,
+    "price_yearly": null,
+    "discounted_yearly": 0,
+    "add_branding_template_cost": null,
+    "user_cost": null,
+    "template_cost": null,
+    "is_active": true,
+    "is_featured": true
+  },
+  "account_color": "#00a9ff",
+  "account_image_url": null
+}

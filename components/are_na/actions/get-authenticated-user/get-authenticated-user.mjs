@@ -4,7 +4,7 @@ export default {
   key: "are_na-get-authenticated-user",
   name: "Get Authenticated User",
   description: "Returns the currently authenticated user",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     are_na,

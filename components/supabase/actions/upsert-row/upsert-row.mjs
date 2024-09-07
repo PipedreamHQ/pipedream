@@ -4,7 +4,7 @@ export default {
   key: "supabase-upsert-row",
   name: "Upsert Row",
   type: "action",
-  version: "0.0.3",
+  version: "0.1.1",
   description: "Updates a row in a database or inserts new row if not found. [See the docs here](https://supabase.com/docs/reference/javascript/upsert)",
   props: {
     supabase,
@@ -24,9 +24,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.supabase.upsertRow(this.table, this.data);
-    if (response) {
-      $.export("$summary", `Successfully upserted row into table ${this.table}`);
-    }
+    $.export("$summary", `Successfully upserted row into table ${this.table}`);
     return response;
   },
 };

@@ -5,7 +5,7 @@ export default {
   key: "zoho_inventory-new-contact",
   name: "New Contact",
   description: "Emit new event each time a new contact is created in Zoho Inventory",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

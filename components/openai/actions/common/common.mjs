@@ -1,4 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
+import { parse } from "../../common/helpers.mjs";
 
 const CHAT_DOCS_MESSAGE_FORMAT_URL = "https://platform.openai.com/docs/guides/chat/introduction";
 
@@ -148,9 +150,17 @@ export default {
 
       const responseFormat = {};
 
+      const jsonSchemaObj =
+        this.responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value
+          ? {
+            json_schema: parse(this.jsonSchema),
+          }
+          : {};
+
       if (this.modelId != "gpt-4-vision-preview") {
         responseFormat["response_format"] = {
           type: this.responseFormat,
+          ...jsonSchemaObj,
         };
       }
 

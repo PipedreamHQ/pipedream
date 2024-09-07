@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/akkio",
+  "version": "0.0.1",
+  "description": "Pipedream Akkio Components",
+  "main": "akkio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "akkio"
+  ],
+  "homepage": "https://pipedream.com/apps/akkio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

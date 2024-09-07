@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/supabase",
-  "version": "0.1.3",
+  "version": "0.2.1",
   "description": "Pipedream Supabase Components",
   "main": "supabase.app.mjs",
   "keywords": [

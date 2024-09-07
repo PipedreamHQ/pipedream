@@ -1,6 +1,5 @@
 import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -238,31 +237,7 @@ export default {
     messageTs: {
       type: "string",
       label: "Message Timestamp",
-      description: "Timestamp of a message",
-      async options({
-        channel, prevContext,
-      }) {
-        if (!channel) {
-          throw new ConfigurationError("Provide a Channel ID in order to retrieve Messages.");
-        }
-        const {
-          messages, response_metadata: { next_cursor: cursor },
-        } = await this.conversationsHistory({
-          channel,
-          cursor: prevContext?.cursor,
-        });
-        return {
-          options: messages.map(({
-            ts: value, text: label,
-          }) => ({
-            value,
-            label,
-          })),
-          context: {
-            cursor,
-          },
-        };
-      },
+      description: "Timestamp of a message. e.g. `1403051575.000407`.",
     },
     text: {
       type: "string",
