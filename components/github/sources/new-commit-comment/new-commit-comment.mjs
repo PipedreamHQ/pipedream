@@ -3,14 +3,11 @@ import {
   getSampleTimerEvent, getSampleWebhookEvent,
 } from "./common-sample-events.mjs";
 
-const DOCS_LINK =
-  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#commit_comment";
-
 export default {
   ...common,
   key: "github-new-commit-comment",
   name: "New Commit Comment",
-  description: `Emit new event when a commit comment is created [See the documentation](${DOCS_LINK})`,
+  description: "Emit new event when a commit comment is created",
   version: "1.0.4",
   type: "source",
   dedupe: "unique",
@@ -34,6 +31,12 @@ export default {
     },
     getPollingData(args) {
       return this.github.getRepositoryLatestCommitComments(args);
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads#commit_comment";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/rest/commits/comments?apiVersion=2022-11-28#list-commit-comments-for-a-repository";
     },
   },
 };

@@ -3,14 +3,11 @@ import {
   getSampleTimerEvent, getSampleWebhookEvent,
 } from "./common-sample-events.mjs";
 
-const DOCS_LINK =
-  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#push";
-
 export default {
   ...common,
   key: "github-new-commit",
   name: "New Commit",
-  description: `Emit new event when commits are pushed to a branch [See the documentation](${DOCS_LINK})`,
+  description: "Emit new event when commits are pushed to a branch",
   version: "1.0.5",
   type: "source",
   dedupe: "unique",
@@ -94,6 +91,12 @@ export default {
 
       this._setSavedItems(savedItems);
       this._setLastTimestamp(Date.now());
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads#push";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits";
     },
   },
 };
