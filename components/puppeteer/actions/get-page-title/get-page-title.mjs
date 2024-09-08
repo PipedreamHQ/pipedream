@@ -2,6 +2,7 @@ import puppeteer from "../../puppeteer.app.mjs";
 import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "puppeteer-get-page-title",
   name: "Get Page Title",
   description:
@@ -13,7 +14,7 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
-    const url = await common.methods.run.call(this, { $ });
+    const url = this.normalizeUrl();
     const browser = await this.puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);

@@ -5,6 +5,7 @@ import fs from "fs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
+  ...common,
   key: "puppeteer-screenshot-page",
   name: "Screenshot a Page",
   description:
@@ -155,7 +156,7 @@ export default {
       type: this.type,
     };
 
-    const url = await common.methods.run.call(this, { $ });
+    const url = this.normalizeUrl();
     const browser = await this.puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);

@@ -4,6 +4,7 @@ import common from "../common/common.mjs";
 import fs from "fs";
 
 export default {
+  ...common,
   key: "puppeteer-get-pdf",
   name: "Get PDF",
   description:
@@ -168,7 +169,7 @@ export default {
       width: this.width,
     };
 
-    const url = await common.methods.run.call(this, { $ });
+    const url = this.normalizeUrl();
     const browser = await this.puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);

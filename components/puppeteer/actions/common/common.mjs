@@ -8,7 +8,7 @@ export default {
     },
   },
   methods: {
-    async run({ $ }) {
+    normalizeUrl() {
       let url = this.url;
       if (!url.startsWith("http")) {
         url = `https://${url}`;
