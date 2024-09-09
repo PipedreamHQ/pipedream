@@ -164,7 +164,9 @@ export default {
       pageRanges: this.pageRanges,
       preferCSSPageSize: this.preferCSSPageSize,
       printBackground: this.printBackground,
-      scale: this.scale ? parseFloat(this.scale) : undefined,
+      scale: this.scale
+        ? parseFloat(this.scale)
+        : undefined,
       timeout: this.timeout,
       width: this.width,
     };
@@ -177,7 +179,9 @@ export default {
     await browser.close();
 
     const filePath =
-      pdf && this.downloadPath ? await this.downloadToTMP(pdf) : undefined;
+      pdf && this.downloadPath
+        ? await this.downloadToTMP(pdf)
+        : undefined;
 
     if (pdf) {
       $.export("$summary", `Successfully generated PDF from ${url}`);
@@ -185,9 +189,9 @@ export default {
 
     return filePath
       ? {
-          pdf,
-          filePath,
-        }
+        pdf,
+        filePath,
+      }
       : pdf;
   },
 };

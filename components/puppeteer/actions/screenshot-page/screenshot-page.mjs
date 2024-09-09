@@ -129,19 +129,19 @@ export default {
       !(this.clipHeight && this.clipWidth && this.clipX && this.clipY)
     ) {
       throw new ConfigurationError(
-        "Clip height, width, X, and Y must be specified to create clip."
+        "Clip height, width, X, and Y must be specified to create clip.",
       );
     }
 
     const clip =
       this.clipHeight || this.clipWidth || this.clipX || this.clipY
         ? {
-            height: parseFloat(this.clipHeight),
-            scale: parseFloat(this.clipScale),
-            width: parseFloat(this.clipWidth),
-            x: parseFloat(this.clipX),
-            y: parseFloat(this.clipY),
-          }
+          height: parseFloat(this.clipHeight),
+          scale: parseFloat(this.clipScale),
+          width: parseFloat(this.clipWidth),
+          x: parseFloat(this.clipX),
+          y: parseFloat(this.clipY),
+        }
         : undefined;
 
     const options = {
@@ -174,9 +174,9 @@ export default {
 
     return filePath
       ? {
-          screenshot: screenshot.toString("base64"),
-          filePath,
-        }
+        screenshot: screenshot.toString("base64"),
+        filePath,
+      }
       : screenshot.toString("base64");
   },
 };

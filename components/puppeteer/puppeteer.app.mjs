@@ -73,7 +73,9 @@ export default {
      * @returns { page, browser }
      */
     async goto() {
-      const { page, browser } = this.newPage();
+      const {
+        page, browser,
+      } = this.newPage();
 
       return {
         page,
