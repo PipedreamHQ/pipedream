@@ -293,6 +293,35 @@
     {
       "source": "/docs/v3/api/sse",
       "destination": "/docs/destinations/sse"
+    },
+    {
+      "source": "/docs/api/sse/",
+      "destination": "/docs/destinations/sse"
+    },
+    {
+      "source": "/docs/workflows/steps/params/",
+      "destination": "/docs/workflows/using-props"
+    },
+    {
+      "source": "/docs/sources/logs/",
+      "destination": "/docs/sources"
+    },
+    {
+      "source": "/docs/workflows/steps/using-props/",
+      "destination": "/docs/workflows/using-props"
+    },
+    {
+      "source": "/docs/connect@pipedream.com",
+      "destination": "/docs/connect"
+    },
+    {
+      "source": "/docs/errors/",
+      "destination": "/docs/workflows/errors"
+    }
+    ,
+    {
+      "source": "/docs/v3/quickstart/nodejs/sources",
+      "destination": "/docs/components/sources-quickstart"
     }
   ]
 }
