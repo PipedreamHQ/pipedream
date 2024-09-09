@@ -8,177 +8,137 @@ export default {
       type: "string",
       label: "Folder ID",
       description: "The ID of the folder",
-      async options() {
-        const folders = await this.listFolders();
-        return folders.map((folder) => ({
-          label: folder.name,
-          value: folder.id,
-        }));
+      async options({ page }) {
+        return await this.listFolders({
+          params: {
+            page,
+          },
+        });
       },
     },
     documentId: {
       type: "string",
       label: "Document ID",
       description: "The ID of the document",
-      async options() {
-        const documents = await this.listDocuments();
-        return documents.map((document) => ({
-          label: document.name,
-          value: document.id,
+      async options({
+        folderId, page,
+      }) {
+        const { content } = await this.listDocuments({
+          folderId,
+          params: {
+            page,
+          },
+        });
+        return content.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
-    },
-    templateId: {
-      type: "string",
-      label: "Template ID",
-      description: "The ID of the template",
-      optional: true,
-      async options() {
-        const templates = await this.listTemplates();
-        return templates.map((template) => ({
-          label: template.name,
-          value: template.id,
-        }));
-      },
-    },
-    file: {
-      type: "string",
-      label: "File",
-      description: "The file to upload",
-    },
-    name: {
-      type: "string",
-      label: "Document Name",
-      description: "The name of the document",
-    },
-    outputType: {
-      type: "string",
-      label: "Output Type",
-      description: "The output type of the document",
-      options: [
-        "pdf",
-        "asice",
-        "zip",
-      ],
-    },
-    variables: {
-      type: "object",
-      label: "Variables",
-      description: "The variables for the document",
-    },
-    signers: {
-      type: "string[]",
-      label: "Signers",
-      description: "The signers of the document",
-    },
-    viewers: {
-      type: "string[]",
-      label: "Viewers",
-      description: "The viewers of the document",
-    },
-    immediatePublish: {
-      type: "boolean",
-      label: "Immediate Publish",
-      description: "Whether to publish the document immediately",
-    },
-    metadata: {
-      type: "object",
-      label: "Metadata",
-      description: "The metadata for the document",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.agrello.io";
+      return "https://api.agrello.io/public/v3";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers(headers = {}) {
+      return {
+        ...headers,
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(headers),
+        ...opts,
       });
     },
     async listFolders() {
-      return this._makeRequest({
-        path: "/v3/folders",
+      const { content } = await this._makeRequest({
+        path: "/folders",
       });
+
+      const folders = [];
+      for (const parent of content) {
+        folders.push({
+          label: `${parent.name}`,
+          value: parent.id,
+        });
+        folders.push(...await this.getSubFolders(parent.name, parent.id));
+      }
+
+      return folders;
+
     },
-    async listDocuments() {
-      return this._makeRequest({
-        path: "/v3/documents",
+    async getSubFolders(parentName, parentId) {
+      const folders = [];
+      const { subspaces } = await this._makeRequest({
+        path: `/folders/${parentId}/folders`,
       });
+      for (const folder of subspaces) {
+        const label = `${parentName} - ${folder.name}`;
+        folders.push({
+          label,
+          value: folder.id,
+        });
+        folders.push(...await this.getSubFolders(label, folder.id));
+      }
+      return folders;
     },
-    async listTemplates() {
-      return this._makeRequest({
-        path: "/v3/templates",
-      });
-    },
-    async uploadDocument({
-      folderId, file,
+    listDocuments({
+      folderId, ...opts
     }) {
-      const formData = new FormData();
-      formData.append("file", file);
+      return this._makeRequest({
+        path: `/folders/${folderId}/containers`,
+        ...opts,
+      });
+    },
+    getDocument({ documentId }) {
+      return this._makeRequest({
+        path: `/containers/${documentId}`,
+      });
+    },
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/folders/${folderId}/documents`,
-        data: formData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        path: "/webhooks",
+        ...opts,
       });
     },
-    async getDocument({ documentId }) {
+    deleteWebhook(hookId) {
       return this._makeRequest({
-        path: `/documents/${documentId}`,
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
       });
     },
-    async createDocument({
-      folderId,
-      name,
-      outputType,
-      variables,
-      signers,
-      viewers,
-      immediatePublish,
-      metadata,
-      templateId,
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
     }) {
-      const data = {
-        folderId,
-        name,
-        outputType,
-        variables,
-        signers,
-        viewers,
-        immediatePublish,
-        metadata,
-        templateId,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: "/documents",
-        data,
-      });
-    },
-    async emitDocumentSignatureAdded() {
-      // Implementation to emit event when a signature is added to a document
-    },
-    async emitDocumentSigned() {
-      // Implementation to emit event when a document is signed by all parties
-    },
-    async emitUserAddedDocumentToFolder({ folderId }) {
-      // Implementation to emit event when a user adds a document to a specific folder
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = page++;
+        const { content } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of content) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = content.length;
+
+      } while (hasMore);
     },
   },
 };

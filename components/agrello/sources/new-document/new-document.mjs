@@ -1,5 +1,6 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import agrello from "../../agrello.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "agrello-new-document",
@@ -14,7 +15,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // Default to 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     folderId: {
@@ -25,49 +26,53 @@ export default {
     },
   },
   methods: {
-    _getLastDocumentId() {
-      return this.db.get("lastDocumentId");
+    _getLastDate() {
+      return this.db.get("lastDate") || 0;
     },
-    _setLastDocumentId(id) {
-      return this.db.set("lastDocumentId", id);
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
     },
-    async _getDocumentsInFolder(folderId) {
-      const documents = await this.agrello.listDocuments();
-      return documents.filter((doc) => doc.folderId === folderId);
+    async emitEvent(maxResults = false) {
+      const lastDate = this._getLastDate();
+
+      const response = this.agrello.paginate({
+        fn: this.agrello.listDocuments,
+        folderId: this.folderId,
+        params: {
+          sort: "createdAt,DESC",
+        },
+        maxResults,
+      });
+
+      let responseArray = [];
+      for await (const item of response) {
+        if (Date.parse(item.createdAt) <= lastDate) break;
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) {
+        if (maxResults && (responseArray.length > maxResults)) {
+          responseArray.length = maxResults;
+        }
+        this._setLastDate(Date.parse(responseArray[0].createdAt));
+      }
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, {
+          id: item.id,
+          summary: `New Document: ${item.name}`,
+          ts: Date.parse(item.createdAt),
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      const documents = await this._getDocumentsInFolder(this.folderId);
-      documents.slice(0, 50).forEach((doc) => this.$emit(doc, {
-        id: doc.id,
-        summary: `New Document: ${doc.name}`,
-        ts: Date.parse(doc.createdAt),
-      }));
-      if (documents.length > 0) {
-        this._setLastDocumentId(documents[0].id);
-      }
-    },
-    async activate() {
-      // Add any activation logic here if needed
-    },
-    async deactivate() {
-      // Add any deactivation logic here if needed
+      await this.emitEvent(25);
     },
   },
   async run() {
-    const lastDocumentId = this._getLastDocumentId();
-    const documents = await this._getDocumentsInFolder(this.folderId);
-    const newDocuments = documents.filter((doc) => doc.id > lastDocumentId);
-
-    newDocuments.forEach((doc) => this.$emit(doc, {
-      id: doc.id,
-      summary: `New Document: ${doc.name}`,
-      ts: Date.parse(doc.createdAt),
-    }));
-
-    if (newDocuments.length > 0) {
-      this._setLastDocumentId(newDocuments[0].id);
-    }
+    await this.emitEvent();
   },
+  sampleEmit,
 };
