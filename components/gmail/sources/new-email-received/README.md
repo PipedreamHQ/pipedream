@@ -116,7 +116,7 @@ For detailed instructions, follow the steps below.
 #### 5. Connect your Gmail account in Pipedream
 
 1. From the Pipedream Accounts page, click **OAuth Clients**. Next to your newly created Gmail client, click the three-dot menu on the righthand side and click **Connect Account**. Or you can also connect your account from the workflow builder, when configuring the Gmail trigger.
-2. While configuring the New Email Received trigger, you should be promped to input your Service Account Key JSON.
+2. While configuring the New Email Received trigger, you should be prompted to input your Service Account Key JSON.
 
 #### 6. Publish your custom Gmail app (required for External app type only)
 

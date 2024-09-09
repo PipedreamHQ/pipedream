@@ -18,11 +18,6 @@ export default {
   props: {
     gmail,
     db: "$.service.db",
-    instructionsAlert: {
-      type: "alert",
-      alertType: "info",
-      content: "Using a trigger type of `webhook` requires users to configure a Custom OAuth client for Gmail, which is available on Pipedream's **Advanced** plan or higher. Please see the setup instructions [here](https://pipedream.com/apps/gmail/triggers/new-email-received).",
-    },
     triggerType: {
       type: "string",
       label: "Trigger Type",
@@ -30,7 +25,7 @@ export default {
         "webhook",
         "polling",
       ],
-      description: "Configuring this trigger as a `webhook` requires users to set up a Custom OAuth client for Gmail, which is available on Pipedream's Advanced plan or higher. Please see the instructions [here](https://pipedream.com/apps/gmail/triggers/new-email-received).",
+      description: "Configuring this trigger as a `webhook` requires a Custom OAuth client, which is available on Pipedream's [Advanced plan or higher](https://pipedream.com/pricing?plan=Advanced). Refer to the getting started guide [here](https://pipedream.com/apps/gmail/triggers/new-email-received#getting-started).",
       reloadProps: true,
     },
     serviceAccountKeyJson: {
@@ -105,7 +100,6 @@ export default {
   async additionalProps(props) {
     const newProps = {};
     if (this.triggerType === "polling") {
-      props.instructionsAlert.hidden = true;
       newProps.timer = {
         type: "$.interface.timer",
         default: {
