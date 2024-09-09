@@ -1,0 +1,8 @@
+{
+  "http": "HTTP / Webhook",
+  "schedule": "Schedule",
+  "email": "Email",
+  "rss": "RSS",
+  "app_events": "App Events",
+  "database": "Database"
+}

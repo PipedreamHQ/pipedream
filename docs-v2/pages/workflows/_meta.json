@@ -1,15 +1,14 @@
 {
-  "index": "Overview",
   "steps": "Steps",
-  "control-flow": "Control Flow",
+  "control-flow": "Orchestration",
   "build": "Build, Test & Deploy",
   "inspect": "Run and Monitor",
   "errors": "Handle Errors",
   "concurrency-and-throttling": "Manage Execution Rate",
   "settings": "Settings",
-  "vpc": "Virtual Private Clouds (VPCs)",
-  "domains": "Custom Domains",
   "sharing": "Share Templates",
+  "domains": "Custom Trigger Domains",
+  "vpc": "Virtual Private Clouds (VPCs)",
   "draft_content": {
     "display": "hidden"
   },

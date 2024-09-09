@@ -1,5 +1,7 @@
 {
-  "index": "Projects",
+  "managing": "Create and Manage",
   "git": "GitHub Sync",
+  "access_controls": "Access Controls",
+  "project-variables": "Project Variables and Secrets",
   "file-stores": "File Stores"
 }

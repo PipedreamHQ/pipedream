@@ -9,13 +9,19 @@
   "projects": "Projects",
   "workflows": "Workflows",
   "connected-accounts": "Connect Apps & Databases",
-  "code": "Serverless Runtimes",
-  "connect": {
-    "title": "Pipedream Connect"
-  },
   "data-stores": "Data Stores",
   "event-history": "Event History",
   "sources": "Sources",
+  "--- API": {
+    "type": "separator",
+    "title": "API Reference"
+  },
+  "connect": {
+    "title": "Pipedream Connect"
+  },
+  "components": "Component API Reference",
+  "rest-api": "REST API Reference",
+  "cli": "CLI Reference",
   "-- Themes": {
     "type": "separator",
     "title": "More"
@@ -24,12 +30,9 @@
   "http": {
     "display": "hidden"
   },
-  "components": "Component API Reference",
-  "rest-api": "REST API Reference",
-  "cli": "CLI Reference",
-  "destinations": "Destinations",
   "user-settings": "User and Billing Settings",
   "troubleshooting": "Troubleshooting",
+  "destinations": "Destinations",
   "pricing": "Pricing FAQ",
   "privacy-and-security": "Security",
   "limits": "Limits",

@@ -1,8 +1,7 @@
 {
-  "index": "Overview",
   "triggers": "Pre-Built Triggers",
   "actions": "Pre-Built Actions",
-  "code": "Custom Code",
-  "http-request-builder": "API Request",
-  "working-with-sql": "Database Query"
+  "code": "Run Custom Code",
+  "http-request-builder": "Make an API Request",
+  "working-with-sql": "Query a Database"
 }

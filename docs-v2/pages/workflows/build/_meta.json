@@ -1,6 +1,10 @@
 {
-  "index": "Overview",
-  "events": "Generate a Test Event",
-  "using-props": "Pass Data Between Steps"
+  "builder": "Builder Overview",
+  "step-exports": "Step Exports",
+  "using-props": "Reference Data from Prior Steps",
+  "events": "Generate Test Events",
+  "test": "Test",
+  "deploy": "Deploy"
 }
+
   

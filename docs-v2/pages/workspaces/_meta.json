@@ -1,5 +1,7 @@
 {
-  "index": "Managing workspaces",
+  "managing": "Create and Manage",
+  "team": "Invite Team Members",
+  "environment-variables": "Environment Variables",
   "sso": "Single-Sign On",
   "domain-verification": "Domain Verification"
 }

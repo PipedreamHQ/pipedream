@@ -1,0 +1,45 @@
+import icons from '@/utils/icons'
+import LanguageLink from "@/components/LanguageLink";
+import VideoPlayer from "@/components/VideoPlayer";
+
+# Overview
+
+Pipedream provides first-class support for writing and running code. 
+
+- Access OAuth tokens and keys for any of Pipedream's 2,200+ integrated apps to authenticate API requests in code
+- Use most npm packages with no npm install or package.json required
+
+Pre-built actions are code steps that use props to generate forms to capture user input and are published to hide the code. However, you can view the code for all registry actions in Pipedream's GitHub repo. See the reference for your preferred runtime to learn more.
+
+## Importing and Exporting Data
+
+You can reference data exported by any prior steps of your workflow by referencing the `steps` object, and you can export any JSON-serializable data by returning it or using an export function.
+
+## Runtimes
+
+Learn about writing code for the supported runtimes:
+
+- Node
+- Python
+- Go
+- Bash
+
+<VideoPlayer src="https://www.youtube.com/embed/2mQgJbl8FMA" title="Creating a code step in your Pipedream workflows" />
+
+Pipedream comes with thousands of prebuilt [triggers](/workflows/steps/triggers/) and [actions](/components#actions) for [hundreds of apps](https://pipedream.com/apps). Often, these will be sufficient for building simple workflows.
+
+But sometimes you need to run your own custom logic. You may need to make an API request to fetch additional metadata about the event, transform data into a custom format, or end the execution of a workflow early under some conditions. **Code steps let you do this and more**.
+
+Code steps let you execute [Node.js v{process.env.PIPEDREAM_NODE_VERSION}](https://nodejs.org/) (JavaScript) code, Python, Go or even Bash right in a workflow.
+
+Choose a language to get started:
+
+<div class="grid grid-cols-2">
+<LanguageLink name="Node.js" link="/docs/code/nodejs/" icon={icons.nodejs.with_title} />
+<LanguageLink name="Python" link="/docs/code/python/" icon={icons.python.with_title} />
+<LanguageLink name="Go" link="/docs/code/go/" icon={icons.go.with_title} />
+<LanguageLink name="Bash" link="/docs/code/bash/" icon={icons.bash.with_title} />
+</div>
+
+If you'd like to see another, specific language supported, please [let us know](https://pipedream.com/community).
+
