@@ -25,6 +25,11 @@ type CreateBrowserClientOpts = {
 type AppId = string;
 
 /**
+ * A unique identifier for an oauth app.
+ */
+type OauthAppId = string;
+
+/**
  * Object representing an app to start connecting with.
  */
 type StartConnectApp = {
@@ -63,6 +68,10 @@ type StartConnectOpts = {
    */
   app: AppId | StartConnectApp;
 
+  /**
+   * The ID of the OAuth Client to connect.
+   */
+  oauthAppId: OauthAppId;
   /**
    * Callback function to be called upon successful connection.
    *
@@ -215,6 +224,11 @@ class BrowserClient {
 
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
+    } else {
+      throw new ConnectError("Object app not yet supported");
+    }
+    if (typeof opts.oauthAppId === "string") {
+      qp.set("oauthAppId", opts.oauthAppId);
     } else {
       throw new ConnectError("Object app not yet supported");
     }
