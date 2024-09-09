@@ -144,6 +144,12 @@ export default {
       description: "Document IDs of uploaded draft documents.",
       optional: true,
     },
+    draftDocumentsFile: {
+      type: "string[]",
+      label: "Draft Documents File ",
+      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      optional: true,
+    },
     resolvers: {
       propDefinition: [
         securityReporter,
@@ -230,6 +236,11 @@ export default {
     return props;
   },
   async run({ $ }) {
+    const fileIds = await this.securityReporter.prepareFiles({
+      draftDocumentsFile: this.draftDocumentsFile,
+      draftDocuments: this.draftDocuments,
+    });
+
     const response = await this.securityReporter.updateSecurityFinding({
       $,
       findingId: this.findingId,
@@ -257,7 +268,7 @@ export default {
         recommendation: this.recommendation,
         proof: this.proof,
         references: this.references,
-        draft_documents: parseObject(this.draftDocuments),
+        draft_documents: fileIds,
         resolvers: parseObject(this.resolvers),
         user_groups: parseObject(this.userGroups),
         classifications: parseObject(this.classifications),

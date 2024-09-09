@@ -1,4 +1,10 @@
 import { axios } from "@pipedream/platform";
+import FormData from "form-data";
+import fs from "fs";
+import {
+  checkTmp,
+  parseObject,
+} from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -252,19 +258,20 @@ export default {
     _baseUrl() {
       return `${this.$auth.base_url}/api/v1`;
     },
-    _headers() {
+    _headers(headers = {}) {
       return {
         "Authorization": `Bearer ${this.$auth.api_token}`,
         "Content-Type": "application/json",
         "Accept": "application/json",
+        ...headers,
       };
     },
     _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, headers, ...opts
     }) {
       return axios($, {
         url: this._baseUrl() + path,
-        headers: this._headers(),
+        headers: this._headers(headers),
         ...opts,
       });
     },
@@ -375,6 +382,40 @@ export default {
         method: "DELETE",
         path: `/webhooks/${webhookId}`,
       });
+    },
+    uploadFile(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/documents",
+        ...opts,
+      });
+    },
+    async prepareFiles({
+      draftDocumentsFile = null, draftDocuments = null,
+    }) {
+      const fileIds = [];
+      if (draftDocumentsFile) {
+        const files = parseObject(draftDocumentsFile);
+        for (const path of files) {
+          const data = new FormData();
+          const file = fs.createReadStream(checkTmp(path));
+          data.append("file", file);
+          data.append("documentable_type", "Finding");
+          data.append("section", "description");
+          const { id } = await this.uploadFile({
+            data,
+            headers: data.getHeaders(),
+          });
+          fileIds.push(id);
+        }
+      }
+
+      if (draftDocuments) {
+        for (const document of parseObject(draftDocuments)) {
+          fileIds.push(document);
+        }
+      }
+      return fileIds;
     },
   },
 };
