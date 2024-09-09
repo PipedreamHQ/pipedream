@@ -9,6 +9,6 @@ overrideApp(base);
 export default {
   ...base,
   key: "gmail_custom_oauth-create-draft",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
 };
