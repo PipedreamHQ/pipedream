@@ -55,17 +55,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.updateCustomer({
+    const { app, customerId, ...data } = this;
+    const response = await app.updateCustomer({
       $,
-      customerId: this.customerId,
-      data: {
-        slackChannelId: this.slackChannelId,
-        name: this.name,
-        emailDomains: this.emailDomains,
-        disableAutomatedTicketing: this.disableAutomatedTicketing,
-        slackTeamId: this.slackTeamId,
-        defaultTriageChannelId: this.defaultTriageChannelId,
-      },
+      customerId,
+      data,
     });
 
     $.export("$summary", `Successfully updated Customer with ID '${response.id}'`);
