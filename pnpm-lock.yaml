@@ -8424,6 +8424,9 @@ importers:
       '@pipedream/platform': 1.5.1
       sendbird-platform-sdk: 0.0.14_@babel+core@7.23.0
 
+  components/sendbird_ai_chabot:
+    specifiers: {}
+
   components/sendblue:
     specifiers: {}
 
