@@ -306,6 +306,15 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/agiliron:
+    specifiers: {}
+
+  components/agility_cms:
+    specifiers: {}
+
+  components/agrello:
+    specifiers: {}
+
   components/ahrefs:
     specifiers: {}
 
@@ -393,6 +402,9 @@ importers:
       lodash.chunk: 4.2.0
       lodash.isempty: 4.4.0
       moment: 2.30.1
+
+  components/aitable_ai:
+    specifiers: {}
 
   components/aivoov:
     specifiers:
@@ -3229,6 +3241,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/finerworks:
+    specifiers: {}
+
+  components/fingertip:
     specifiers: {}
 
   components/finmei:
@@ -6468,6 +6483,9 @@ importers:
       '@pipedream/platform': 1.6.0
       uuid: 9.0.1
 
+  components/onbee_app:
+    specifiers: {}
+
   components/oncehub:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -9261,7 +9279,10 @@ importers:
     specifiers: {}
 
   components/storeganise:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/stormboard:
     specifiers: {}
