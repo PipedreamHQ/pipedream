@@ -10,6 +10,11 @@ export default {
   type: "source",
   version: "1.0.4",
   props: {
+    docsInfo: {
+      type: "alert",
+      alertType: "info",
+      content: "[See the GitHub documentation](https://docs.github.com/en/webhooks/webhook-events-and-payloads) for more information on available events.",
+    },
     ...common.props,
     events: {
       label: "Webhook Events",

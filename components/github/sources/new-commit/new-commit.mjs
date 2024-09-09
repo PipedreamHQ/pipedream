@@ -12,6 +12,11 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
+    eventTypeInfo: {
+      type: "alert",
+      alertType: "info",
+      content: "**Note:** one event is emitted for each individual commit, even if they are received at the same time.",
+    },
     ...common.props,
     branch: {
       propDefinition: [

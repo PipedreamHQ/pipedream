@@ -11,6 +11,14 @@ export default {
   version: "1.0.4",
   type: "source",
   dedupe: "unique",
+  props: {
+    eventTypeInfo: {
+      type: "alert",
+      alertType: "info",
+      content: "**Note:** commit comments are not the same as pull request comments. [See the GitHub documentation](https://docs.github.com/en/rest/guides/working-with-comments?apiVersion=2022-11-28) for more information.",
+    },
+    ...common.props,
+  },
   methods: {
     ...common.methods,
     getSampleTimerEvent,
