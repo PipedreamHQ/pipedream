@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/opsgenie",
   "version": "0.1.0",
-  "description": "Pipedream opsgenie Components",
+  "description": "Pipedream Opsgenie Components",
   "main": "opsgenie.app.mjs",
   "keywords": [
     "pipedream",
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.6"
+    "@pipedream/platform": "^3.0.1"
   }
 }
