@@ -6043,10 +6043,10 @@ importers:
 
   components/mongodb:
     specifiers:
-      '@pipedream/platform': ^1.6.5
+      '@pipedream/platform': ^3.0.1
       mongodb: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.6.5
+      '@pipedream/platform': 3.0.1
       mongodb: 4.17.1_dseaa2p5u2yk67qiepewcq3hkq
 
   components/monkeylearn:
@@ -17598,9 +17598,9 @@ packages:
   /@pipedream/platform/1.6.5:
     resolution: {integrity: sha512-h7afdBjRtptMKvejOhAYbhV3b+Kmy1jq7vETMBFLLnOfeXUbtbRX0sm1cdR96lbU1xw5EA5R0uaCB9l7+AUwPA==}
     dependencies:
-      axios: 1.6.5
-      fp-ts: 2.16.1
-      io-ts: 2.2.20_fp-ts@2.16.1
+      axios: 1.7.5
+      fp-ts: 2.16.9
+      io-ts: 2.2.21_fp-ts@2.16.9
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
