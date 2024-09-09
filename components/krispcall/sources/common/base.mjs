@@ -28,7 +28,7 @@ export default {
       this._setHookId(data.id);
     },
     async deactivate() {
-      const hookId = this._getHookId("hookId");
+      const hookId = this._getHookId();
       await this.krispcall.deleteWebhook({
         data: {
           hookUrl: hookId,
