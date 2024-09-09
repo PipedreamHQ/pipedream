@@ -27,8 +27,11 @@ export default {
       const items = await this.getItems();
 
       items?.filter?.((item) => !savedIds.includes(this.getItemId(item))).forEach((item, index) => {
-        if (maxEmits && index < maxEmits) {
-          this.$emit(item, this.getItemMetadata(item));
+        if ((!maxEmits) || (index < maxEmits)) {
+          this.$emit(item, {
+            id: this.getItemId(item),
+            ...this.getItemMetadata(item),
+          });
         }
         savedIds.push(this.getItemId(item));
       });
