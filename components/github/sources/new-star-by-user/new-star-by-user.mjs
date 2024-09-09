@@ -27,9 +27,9 @@ export default {
       const user = this.user ?? (await this.github.getAuthenticatedUser()).login;
       return this.getUserStars(user);
     },
-    getItemMetadata(star) {
+    getItemMetadata(item) {
       return {
-        summary: `New star: ${star.full_name}`,
+        summary: `New star: ${item.full_name}`,
         ts: Date.now(),
       };
     },

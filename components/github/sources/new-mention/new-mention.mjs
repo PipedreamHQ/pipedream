@@ -4,10 +4,11 @@ export default {
   ...common,
   key: "github-new-mention",
   name: "New Mention",
-  description: "Emit new events when you are @mentioned in a new commit, comment, issue or pull request",
+  description: "Emit new event when you are @mentioned in a new commit, comment, issue or pull request. [See the documentation](https://docs.github.com/en/rest/activity/notifications?apiVersion=2022-11-28#list-notifications-for-the-authenticated-user)",
   version: "0.1.18",
   type: "source",
   hooks: {
+    ...common.hooks,
     async activate() {
       const user = await this.github.getAuthenticatedUser();
       this._setUserLogin(user.login);
