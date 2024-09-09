@@ -37,7 +37,8 @@ export default {
       database: this.database,
     });
 
-    $.export("$summary", `Successfully retrieved '${response.branchse.length}' branches`);
+    $.export("$summary", `Successfully retrieved '${response.branches.length}' branches`);
+
 
     return response;
   },
