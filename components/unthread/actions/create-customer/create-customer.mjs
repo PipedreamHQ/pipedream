@@ -28,13 +28,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.createCustomer({
+    const { app, ...data } = this;
+    const response = await app.createCustomer({
       $,
-      data: {
-        slackChannelId: this.slackChannelId,
-        name: this.name,
-        emailDomains: this.emailDomains,
-      },
+      data,
     });
 
     $.export("$summary", `Successfully created Customer with ID '${response.id}'`);
