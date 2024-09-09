@@ -3,7 +3,7 @@ import krispcall from "../../krispcall.app.mjs";
 export default {
   key: "krispcall-new-mms",
   name: "Send New MMS",
-  description: "Send a new MMS to a contact. [See the documentation](https://documenter.getpostman.com/view/32476792/2sa3dxfcal)",
+  description: "Send a new MMS to a contact. [See the documentation](https://documenter.getpostman.com/view/32476792/2sA3dxFCaL)",
   version: "0.0.1",
   type: "action",
   props: {
