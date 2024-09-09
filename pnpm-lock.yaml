@@ -440,6 +440,9 @@ importers:
   components/alerty:
     specifiers: {}
 
+  components/algodocs:
+    specifiers: {}
+
   components/algolia:
     specifiers:
       algoliasearch: ^4.13.1
