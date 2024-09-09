@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-get-time-activity",
   name: "Get Time Activity",
   description: "Returns info about an activity. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#read-a-timeactivity-object)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     quickbooks,

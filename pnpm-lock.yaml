@@ -173,6 +173,12 @@ importers:
   components/action_network:
     specifiers: {}
 
+  components/actitime:
+    specifiers:
+      '@pipedream/platform': 3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
+
   components/activecalculator:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -228,6 +234,9 @@ importers:
       '@pipedream/platform': ^3.0.0
     dependencies:
       '@pipedream/platform': 3.0.0
+
+  components/adhook:
+    specifiers: {}
 
   components/adobe_pdf_services:
     specifiers:
@@ -296,6 +305,15 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/agiliron:
+    specifiers: {}
+
+  components/agility_cms:
+    specifiers: {}
+
+  components/agrello:
+    specifiers: {}
 
   components/ahrefs:
     specifiers: {}
@@ -385,6 +403,9 @@ importers:
       lodash.isempty: 4.4.0
       moment: 2.30.1
 
+  components/aitable_ai:
+    specifiers: {}
+
   components/aivoov:
     specifiers:
       axios: ^1.5.1
@@ -404,6 +425,9 @@ importers:
   components/akismet:
     specifiers: {}
 
+  components/akkio:
+    specifiers: {}
+
   components/albus:
     specifiers:
       '@pipedream/platform': ^2.0.0
@@ -411,6 +435,9 @@ importers:
       '@pipedream/platform': 2.0.0
 
   components/alchemy:
+    specifiers: {}
+
+  components/alerty:
     specifiers: {}
 
   components/algolia:
@@ -592,6 +619,9 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/apilio:
+    specifiers: {}
+
+  components/apipie_ai:
     specifiers: {}
 
   components/apitemplate_io:
@@ -1431,6 +1461,12 @@ importers:
   components/cflow:
     specifiers: {}
 
+  components/chainaware_ai:
+    specifiers:
+      '@pipedream/platform': 3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
+
   components/chaindesk:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2086,6 +2122,12 @@ importers:
   components/crowdpower:
     specifiers: {}
 
+  components/crunchbase:
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
+
   components/cufinder:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -2307,6 +2349,12 @@ importers:
 
   components/deployhq:
     specifiers: {}
+
+  components/deputy:
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/desktime:
     specifiers:
@@ -2534,7 +2582,10 @@ importers:
     specifiers: {}
 
   components/documenso:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/document360:
     specifiers:
@@ -3102,6 +3153,9 @@ importers:
       '@pipedream/platform': 1.6.2
       fs: 0.0.1-security
 
+  components/fakturoid:
+    specifiers: {}
+
   components/faraday:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -3189,6 +3243,9 @@ importers:
   components/finerworks:
     specifiers: {}
 
+  components/fingertip:
+    specifiers: {}
+
   components/finmei:
     specifiers:
       '@pipedream/platform': ^1.6.1
@@ -3226,6 +3283,9 @@ importers:
       '@pipedream/platform': ^3.0.0
     dependencies:
       '@pipedream/platform': 3.0.0
+
+  components/firefish:
+    specifiers: {}
 
   components/fireflies:
     specifiers:
@@ -3707,36 +3767,44 @@ importers:
   components/gmail:
     specifiers:
       '@google-cloud/local-auth': ^2.1.0
+      '@google-cloud/pubsub': ^4.7.0
       '@googleapis/gmail': ^0.3.4
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^3.0.0
       google-auth-library: ^8.7.0
       googleapis: ^105.0.0
       html-to-text: ^8.2.1
       mime: ^3.0.0
       nodemailer: ^6.7.8
+      uuid: ^10.0.0
     dependencies:
       '@google-cloud/local-auth': 2.1.1
+      '@google-cloud/pubsub': 4.7.0
       '@googleapis/gmail': 0.3.4
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.1
       google-auth-library: 8.9.0
       googleapis: 105.0.0
       html-to-text: 8.2.1
       mime: 3.0.0
       nodemailer: 6.9.5
+      uuid: 10.0.0
 
   components/gmail_custom_oauth:
     specifiers:
+      '@google-cloud/pubsub': ^4.7.0
       '@googleapis/gmail': ^0.3.4
-      '@pipedream/platform': ^1.1.1
+      '@pipedream/platform': ^3.0.0
       googleapis: ^109.0.1
       html-to-text: ^8.2.1
       nodemailer: ^6.7.8
+      uuid: ^10.0.0
     dependencies:
+      '@google-cloud/pubsub': 4.7.0
       '@googleapis/gmail': 0.3.4
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.1
       googleapis: 109.0.1
       html-to-text: 8.2.1
       nodemailer: 6.9.5
+      uuid: 10.0.0
 
   components/gmodstore:
     specifiers: {}
@@ -4614,6 +4682,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.4
 
+  components/infolobby:
+    specifiers: {}
+
   components/infusionsoft:
     specifiers:
       '@pipedream/platform': ^1.1.0
@@ -5057,7 +5128,10 @@ importers:
       crypto: 1.0.1
 
   components/krispcall:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/kucoin_futures:
     specifiers: {}
@@ -5111,7 +5185,10 @@ importers:
     specifiers: {}
 
   components/launchnotes:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/leadboxer:
     specifiers: {}
@@ -5325,6 +5402,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/liveswitch:
+    specifiers: {}
 
   components/llama_ai:
     specifiers:
@@ -6406,6 +6486,9 @@ importers:
       '@pipedream/platform': 1.6.0
       uuid: 9.0.1
 
+  components/onbee_app:
+    specifiers: {}
+
   components/oncehub:
     specifiers:
       '@pipedream/platform': ^1.3.0
@@ -6528,6 +6611,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       opengraph-io: 2.0.0
+
+  components/openperplex:
+    specifiers: {}
 
   components/opensea:
     specifiers:
@@ -6657,6 +6743,12 @@ importers:
 
   components/paddle:
     specifiers: {}
+
+  components/page_x:
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/pagerduty:
     specifiers:
@@ -8224,7 +8316,10 @@ importers:
     specifiers: {}
 
   components/scrapfly:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/scrapingant:
     specifiers: {}
@@ -8276,6 +8371,12 @@ importers:
 
   components/security_reporter:
     specifiers: {}
+
+  components/securitytrails:
+    specifiers:
+      '@pipedream/platform': 3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/segment:
     specifiers:
@@ -9184,7 +9285,10 @@ importers:
     specifiers: {}
 
   components/storeganise:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/stormboard:
     specifiers: {}
@@ -10262,7 +10366,10 @@ importers:
     specifiers: {}
 
   components/v7_darwin:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.0
 
   components/v7_go:
     specifiers:
@@ -11015,7 +11122,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/zip_archive_api:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.5
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 1.6.5
+      form-data: 4.0.0
 
   components/zixflow:
     specifiers:
@@ -12577,6 +12689,55 @@ packages:
       - aws-crt
     dev: false
 
+  /@aws-sdk/client-sso-oidc/3.600.0_tdq3komn4zwyd65w7klbptsu34:
+    resolution: {integrity: sha512-7+I8RWURGfzvChyNQSyj5/tKrqRbzRl7H+BnTOf/4Vsw1nFOi5ROhlhD4X/Y0QCTacxnaoNcIrqnY7uGGvVRzw==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@aws-crypto/sha256-browser': 5.2.0
+      '@aws-crypto/sha256-js': 5.2.0
+      '@aws-sdk/client-sts': 3.600.0
+      '@aws-sdk/core': 3.598.0
+      '@aws-sdk/credential-provider-node': 3.600.0_f7n47caigsrjd2lr2szmwfuee4
+      '@aws-sdk/middleware-host-header': 3.598.0
+      '@aws-sdk/middleware-logger': 3.598.0
+      '@aws-sdk/middleware-recursion-detection': 3.598.0
+      '@aws-sdk/middleware-user-agent': 3.598.0
+      '@aws-sdk/region-config-resolver': 3.598.0
+      '@aws-sdk/types': 3.598.0
+      '@aws-sdk/util-endpoints': 3.598.0
+      '@aws-sdk/util-user-agent-browser': 3.598.0
+      '@aws-sdk/util-user-agent-node': 3.598.0
+      '@smithy/config-resolver': 3.0.3
+      '@smithy/core': 2.2.3
+      '@smithy/fetch-http-handler': 3.2.1
+      '@smithy/hash-node': 3.0.2
+      '@smithy/invalid-dependency': 3.0.2
+      '@smithy/middleware-content-length': 3.0.2
+      '@smithy/middleware-endpoint': 3.0.4
+      '@smithy/middleware-retry': 3.0.6
+      '@smithy/middleware-serde': 3.0.3
+      '@smithy/middleware-stack': 3.0.3
+      '@smithy/node-config-provider': 3.1.3
+      '@smithy/node-http-handler': 3.1.2
+      '@smithy/protocol-http': 4.0.3
+      '@smithy/smithy-client': 3.1.6
+      '@smithy/types': 3.3.0
+      '@smithy/url-parser': 3.0.3
+      '@smithy/util-base64': 3.0.0
+      '@smithy/util-body-length-browser': 3.0.0
+      '@smithy/util-body-length-node': 3.0.0
+      '@smithy/util-defaults-mode-browser': 3.0.6
+      '@smithy/util-defaults-mode-node': 3.0.6
+      '@smithy/util-endpoints': 2.0.3
+      '@smithy/util-middleware': 3.0.3
+      '@smithy/util-retry': 3.0.2
+      '@smithy/util-utf8': 3.0.0
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - '@aws-sdk/client-sts'
+      - aws-crt
+    dev: false
+
   /@aws-sdk/client-sso/3.423.0:
     resolution: {integrity: sha512-znIufHkwhCIePgaYciIs3x/+BpzR57CZzbCKHR9+oOvGyufEPPpUT5bFLvbwTgfiVkTjuk6sG/ES3U5Bc+xtrA==}
     engines: {node: '>=14.0.0'}
@@ -12812,7 +12973,7 @@ packages:
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-sso-oidc': 3.600.0
+      '@aws-sdk/client-sso-oidc': 3.600.0_tdq3komn4zwyd65w7klbptsu34
       '@aws-sdk/core': 3.598.0
       '@aws-sdk/credential-provider-node': 3.600.0_f7n47caigsrjd2lr2szmwfuee4
       '@aws-sdk/middleware-host-header': 3.598.0
@@ -12851,55 +13012,6 @@ packages:
       '@smithy/util-utf8': 3.0.0
       tslib: 2.6.3
     transitivePeerDependencies:
-      - aws-crt
-    dev: false
-
-  /@aws-sdk/client-sts/3.600.0_dseaa2p5u2yk67qiepewcq3hkq:
-    resolution: {integrity: sha512-KQG97B7LvTtTiGmjlrG1LRAY8wUvCQzrmZVV5bjrJ/1oXAU7DITYwVbSJeX9NWg6hDuSk0VE3MFwIXS2SvfLIA==}
-    engines: {node: '>=16.0.0'}
-    dependencies:
-      '@aws-crypto/sha256-browser': 5.2.0
-      '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-sso-oidc': 3.600.0
-      '@aws-sdk/core': 3.598.0
-      '@aws-sdk/credential-provider-node': 3.600.0_f7n47caigsrjd2lr2szmwfuee4
-      '@aws-sdk/middleware-host-header': 3.598.0
-      '@aws-sdk/middleware-logger': 3.598.0
-      '@aws-sdk/middleware-recursion-detection': 3.598.0
-      '@aws-sdk/middleware-user-agent': 3.598.0
-      '@aws-sdk/region-config-resolver': 3.598.0
-      '@aws-sdk/types': 3.598.0
-      '@aws-sdk/util-endpoints': 3.598.0
-      '@aws-sdk/util-user-agent-browser': 3.598.0
-      '@aws-sdk/util-user-agent-node': 3.598.0
-      '@smithy/config-resolver': 3.0.3
-      '@smithy/core': 2.2.3
-      '@smithy/fetch-http-handler': 3.2.1
-      '@smithy/hash-node': 3.0.2
-      '@smithy/invalid-dependency': 3.0.2
-      '@smithy/middleware-content-length': 3.0.2
-      '@smithy/middleware-endpoint': 3.0.4
-      '@smithy/middleware-retry': 3.0.6
-      '@smithy/middleware-serde': 3.0.3
-      '@smithy/middleware-stack': 3.0.3
-      '@smithy/node-config-provider': 3.1.3
-      '@smithy/node-http-handler': 3.1.2
-      '@smithy/protocol-http': 4.0.3
-      '@smithy/smithy-client': 3.1.6
-      '@smithy/types': 3.3.0
-      '@smithy/url-parser': 3.0.3
-      '@smithy/util-base64': 3.0.0
-      '@smithy/util-body-length-browser': 3.0.0
-      '@smithy/util-body-length-node': 3.0.0
-      '@smithy/util-defaults-mode-browser': 3.0.6
-      '@smithy/util-defaults-mode-node': 3.0.6
-      '@smithy/util-endpoints': 2.0.3
-      '@smithy/util-middleware': 3.0.3
-      '@smithy/util-retry': 3.0.2
-      '@smithy/util-utf8': 3.0.0
-      tslib: 2.6.3
-    transitivePeerDependencies:
-      - '@aws-sdk/client-sso-oidc'
       - aws-crt
     dev: false
 
@@ -16090,9 +16202,22 @@ packages:
       extend: 3.0.2
     dev: false
 
+  /@google-cloud/paginator/5.0.2:
+    resolution: {integrity: sha512-DJS3s0OVH4zFDB1PzjxAsHqJT6sKVbRwwML0ZBP9PbU7Yebtu/7SWMRzvO2J3nUi9pRNITCfu4LJeooM2w4pjg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      arrify: 2.0.1
+      extend: 3.0.2
+    dev: false
+
   /@google-cloud/precise-date/3.0.1:
     resolution: {integrity: sha512-crK2rgNFfvLoSgcKJY7ZBOLW91IimVNmPfi1CL+kMTf78pTJYd29XqEVedAeBu4DwCJc0EDIp1MpctLgoPq+Uw==}
     engines: {node: '>=12.0.0'}
+    dev: false
+
+  /@google-cloud/precise-date/4.0.0:
+    resolution: {integrity: sha512-1TUx3KdaU3cN7nfCdNf+UVqA/PSX29Cjcox3fZZBtINlRrXVTmUkQnCKv2MbBUbCopbK4olAT1IHl76uZyCiVA==}
+    engines: {node: '>=14.0.0'}
     dev: false
 
   /@google-cloud/projectify/2.1.1:
@@ -16106,6 +16231,11 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: false
 
+  /@google-cloud/projectify/4.0.0:
+    resolution: {integrity: sha512-MmaX6HeSvyPbWGwFq7mXdo0uQZLGBYCwziiLIGq5JVX+/bdI3SAq6bP98trV5eTWfLuvsMcIC1YJOF2vfteLFA==}
+    engines: {node: '>=14.0.0'}
+    dev: false
+
   /@google-cloud/promisify/2.0.4:
     resolution: {integrity: sha512-j8yRSSqswWi1QqUGKVEKOG03Q7qOoZP6/h2zN2YO+F5h2+DHU0bSrHCK9Y7lo2DI9fBd8qGAw795sf+3Jva4yA==}
     engines: {node: '>=10'}
@@ -16114,6 +16244,11 @@ packages:
   /@google-cloud/promisify/3.0.1:
     resolution: {integrity: sha512-z1CjRjtQyBOYL+5Qr9DdYIfrdLBe746jRTYfaYU6MeXkqp7UfYs/jX16lFFVzZ7PGEJvqZNqYUEtb1mvDww4pA==}
     engines: {node: '>=12'}
+    dev: false
+
+  /@google-cloud/promisify/4.0.0:
+    resolution: {integrity: sha512-Orxzlfb9c67A15cq2JQEyVc7wEsmFBmHjZWZYQMUyJ1qivXyMwdyNOs9odi79hze+2zqdTtu1E19IM/FtqZ10g==}
+    engines: {node: '>=14'}
     dev: false
 
   /@google-cloud/pubsub/3.7.5:
@@ -16132,6 +16267,29 @@ packages:
       extend: 3.0.2
       google-auth-library: 8.9.0
       google-gax: 3.6.1
+      heap-js: 2.3.0
+      is-stream-ended: 0.1.4
+      lodash.snakecase: 4.1.1
+      p-defer: 3.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /@google-cloud/pubsub/4.7.0:
+    resolution: {integrity: sha512-HLqErqFbCA3oh9RC33Ek73MlqK5v3O1uY2Umsd9/jcuZYCYZ/b/PPX3+Xs4v8Swx8wIkkcKGtYbQSRAGnjXs1A==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@google-cloud/paginator': 5.0.2
+      '@google-cloud/precise-date': 4.0.0
+      '@google-cloud/projectify': 4.0.0
+      '@google-cloud/promisify': 4.0.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/semantic-conventions': 1.25.1
+      arrify: 2.0.1
+      extend: 3.0.2
+      google-auth-library: 9.14.0
+      google-gax: 4.4.0
       heap-js: 2.3.0
       is-stream-ended: 0.1.4
       lodash.snakecase: 4.1.1
@@ -16318,6 +16476,14 @@ packages:
       graphql: 16.8.1
     dev: false
 
+  /@grpc/grpc-js/1.11.1:
+    resolution: {integrity: sha512-gyt/WayZrVPH2w/UTLansS7F9Nwld472JxxaETamrM8HNlsa+jSLNyKAZmhxI2Me4c3mQHFiS1wWHDY1g1Kthw==}
+    engines: {node: '>=12.10.0'}
+    dependencies:
+      '@grpc/proto-loader': 0.7.13
+      '@js-sdsl/ordered-map': 4.4.2
+    dev: false
+
   /@grpc/grpc-js/1.6.12:
     resolution: {integrity: sha512-JmvQ03OTSpVd9JTlj/K3IWHSz4Gk/JMLUTtW7Zb0KvO1LcOYGATh5cNuRYzCAeDR3O8wq+q8FZe97eO9MBrkUw==}
     engines: {node: ^8.13.0 || >=10.10.0}
@@ -16364,6 +16530,17 @@ packages:
       lodash.camelcase: 4.3.0
       long: 5.2.3
       protobufjs: 7.2.5
+      yargs: 17.7.2
+    dev: false
+
+  /@grpc/proto-loader/0.7.13:
+    resolution: {integrity: sha512-AiXO/bfe9bmxBjxxtYxFAXGZvMaN5s8kO+jBHAJCON8rJoB5YS/D6X7ZNc6XQkuHNmyl4CYaMI1fJ/Gn27RGGw==}
+    engines: {node: '>=6'}
+    hasBin: true
+    dependencies:
+      lodash.camelcase: 4.3.0
+      long: 5.2.3
+      protobufjs: 7.4.0
       yargs: 17.7.2
     dev: false
 
@@ -16694,6 +16871,10 @@ packages:
 
   /@js-joda/core/5.5.3:
     resolution: {integrity: sha512-7dqNYwG8gCt4hfg5PKgM7xLEcgSBcx/UgC92OMnhMmvAnq11QzDFPrxUkNR/u5kn17WWLZ8beZ4A3Qrz4pZcmQ==}
+    dev: false
+
+  /@js-sdsl/ordered-map/4.4.2:
+    resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
     dev: false
 
   /@jsdevtools/ono/7.1.3:
@@ -17245,6 +17426,16 @@ packages:
     engines: {node: '>=8.0.0'}
     dev: false
 
+  /@opentelemetry/api/1.9.0:
+    resolution: {integrity: sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg==}
+    engines: {node: '>=8.0.0'}
+    dev: false
+
+  /@opentelemetry/semantic-conventions/1.25.1:
+    resolution: {integrity: sha512-ZDjMJJQRlyk8A1KZFCc+bCbsyrn1wTwdNt56F7twdfUfnHUZUq77/WfONCj8p72NZOyP7pNTdUWSTYC3GTbuuQ==}
+    engines: {node: '>=14'}
+    dev: false
+
   /@opentelemetry/semantic-conventions/1.3.1:
     resolution: {integrity: sha512-wU5J8rUoo32oSef/rFpOT1HIjLjAv3qIDHkw1QIhODV3OpAVHi5oVzlouozg9obUmZKtbZ0qUe/m7FP0y0yBzA==}
     engines: {node: '>=8.12.0'}
@@ -17284,7 +17475,7 @@ packages:
       '@aws-sdk/client-sns': 3.423.0
       '@aws-sdk/client-sqs': 3.423.0
       '@aws-sdk/client-ssm': 3.423.0
-      '@aws-sdk/client-sts': 3.600.0_dseaa2p5u2yk67qiepewcq3hkq
+      '@aws-sdk/client-sts': 3.600.0
       '@aws-sdk/s3-request-presigner': 3.609.0
       '@pipedream/helper_functions': 0.3.12
       '@pipedream/platform': 1.6.5
@@ -17454,9 +17645,9 @@ packages:
   /@pipedream/platform/3.0.1:
     resolution: {integrity: sha512-xja1ZHUR/DpOQZZJY39daml8q1ZMzg8wKYwYbyxVPs7MiMqneHM7Bz+Lgj/QrjbNissIKsRSGXmkXbT+Y10L0w==}
     dependencies:
-      axios: 1.7.4
-      fp-ts: 2.16.1
-      io-ts: 2.2.20_fp-ts@2.16.1
+      axios: 1.7.5
+      fp-ts: 2.16.9
+      io-ts: 2.2.21_fp-ts@2.16.9
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
@@ -22713,7 +22904,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -25480,7 +25671,7 @@ packages:
     engines: {node: '>= 10.17.0'}
     hasBin: true
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.6
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -26220,6 +26411,17 @@ packages:
       - supports-color
     dev: false
 
+  /gcp-metadata/6.1.0:
+    resolution: {integrity: sha512-Jh/AIwwgaxan+7ZUUmRLCjtchyDiqh4KjBJ5tW3plBZb5iL/BPcso8A5DlzeD9qlw0duCamnNdpFjxwaT0KyKg==}
+    engines: {node: '>=14'}
+    dependencies:
+      gaxios: 6.1.1
+      json-bigint: 1.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /gdata-vaas/2.4.1:
     resolution: {integrity: sha512-G7Rn3jJ1QtMfr4fxtJ9ZwA2UikE1CAd9fAjc/HxeELJ+FwtqiTORSFdyE7boZsyCYzp5PcQ/69W8zSvz8xytUg==}
     dependencies:
@@ -26559,6 +26761,21 @@ packages:
       - supports-color
     dev: false
 
+  /google-auth-library/9.14.0:
+    resolution: {integrity: sha512-Y/eq+RWVs55Io/anIsm24sDS8X79Tq948zVLGaa7+KlJYYqaGwp1YI37w48nzrNi12RgnzMrQD4NzdmCowT90g==}
+    engines: {node: '>=14'}
+    dependencies:
+      base64-js: 1.5.1
+      ecdsa-sig-formatter: 1.0.11
+      gaxios: 6.1.1
+      gcp-metadata: 6.1.0
+      gtoken: 7.0.1
+      jws: 4.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /google-docs-mustaches/1.2.2:
     resolution: {integrity: sha512-RkV/3468jlT6TNOiPKVIPS+Q+P7OFffTkrW/z5s9u7GO/aad9tIT2XTmHwpAgXvT8Lekf/bNOjeKMWIuRtlXdg==}
     dependencies:
@@ -26632,6 +26849,27 @@ packages:
       proto3-json-serializer: 2.0.0
       protobufjs: 7.2.5
       retry-request: 7.0.1
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  /google-gax/4.4.0:
+    resolution: {integrity: sha512-4fkXSbNy85ikO7mkD5lChLL5UfLnRBvg6z3s3THUJKI6OSbISbufMDE4S/ZH+J3mB9A2FdMXBT/hh7wTvpGAow==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@grpc/grpc-js': 1.11.1
+      '@grpc/proto-loader': 0.7.13
+      '@types/long': 4.0.2
+      abort-controller: 3.0.0
+      duplexify: 4.1.2
+      google-auth-library: 9.14.0
+      node-fetch: 2.7.0
+      object-hash: 3.0.0
+      proto3-json-serializer: 2.0.2
+      protobufjs: 7.4.0
+      retry-request: 7.0.1
+      uuid: 9.0.1
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -27265,7 +27503,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4
+      debug: 4.3.6
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -32281,6 +32519,13 @@ packages:
       protobufjs: 7.2.5
     dev: false
 
+  /proto3-json-serializer/2.0.2:
+    resolution: {integrity: sha512-SAzp/O4Yh02jGdRc+uIrGoe87dkN/XtwxfZ4ZyafJHymd79ozp5VG5nyZ7ygqPM5+cpLDjjGnYFUkngonyDPOQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      protobufjs: 7.4.0
+    dev: false
+
   /protobufjs-cli/1.1.1_protobufjs@7.2.4:
     resolution: {integrity: sha512-VPWMgIcRNyQwWUv8OLPyGQ/0lQY/QTQAVN5fh+XzfDwsVw1FZ2L3DM/bcBf8WPiRz2tNpaov9lPZfNcmNo6LXA==}
     engines: {node: '>=12.0.0'}
@@ -32364,6 +32609,25 @@ packages:
 
   /protobufjs/7.2.5:
     resolution: {integrity: sha512-gGXRSXvxQ7UiPgfw8gevrfRWcTlSbOFg+p/N+JVJEK5VhueL2miT6qTymqAmjr1Q5WbOCyJbyrk6JfWKwlFn6A==}
+    engines: {node: '>=12.0.0'}
+    requiresBuild: true
+    dependencies:
+      '@protobufjs/aspromise': 1.1.2
+      '@protobufjs/base64': 1.1.2
+      '@protobufjs/codegen': 2.0.4
+      '@protobufjs/eventemitter': 1.1.0
+      '@protobufjs/fetch': 1.1.0
+      '@protobufjs/float': 1.0.2
+      '@protobufjs/inquire': 1.1.0
+      '@protobufjs/path': 1.1.2
+      '@protobufjs/pool': 1.1.0
+      '@protobufjs/utf8': 1.1.0
+      '@types/node': 20.16.1
+      long: 5.2.3
+    dev: false
+
+  /protobufjs/7.4.0:
+    resolution: {integrity: sha512-mRUWCc3KUU4w1jU8sGxICXH/gNS94DvI1gxqDvBzhj1JpcsimQkYiOJfwsPUykUI5ZaspFbSgmBLER8IrQ3tqw==}
     engines: {node: '>=12.0.0'}
     requiresBuild: true
     dependencies:

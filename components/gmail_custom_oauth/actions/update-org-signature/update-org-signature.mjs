@@ -9,6 +9,6 @@ overrideApp(base);
 export default {
   ...base,
   key: "gmail_custom_oauth-update-org-signature",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
 };

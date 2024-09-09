@@ -99,6 +99,23 @@ Clients like `cURL` will often make this easy. For example, here's how you list 
 curl 'https://api.pipedream.com/v1/connect/accounts' -u public_key:secret_key
 ```
 
+## External users
+
+When you use the Connect API, you'll pass an `external_id` parameter when initiating account connections and retrieving credentials. This is your user's ID, in your system — whatever you use to uniquely identify them. 
+
+Pipedream associates this ID with user accounts, so you can retrieve credentials for a specific user, and invoke workflows on their behalf.
+
+External IDs are limited to 250 characters.
+
+## Rate limits
+
+| API Endpoint               | Rate Limit                                           |
+|----------------------------|------------------------------------------------------|
+| `POST /tokens`   | 100 requests per minute per `external_id`            |
+| `GET */accounts/*`| The sum of requests across all `*/accounts/*` endpoints must not exceed 100 requests per minute. This includes requests to `/accounts`, `/apps/:app_id/accounts`, `/accounts/:account_id`, and more — any request for account metadata and credentials is counted towards this total. |
+
+If you need higher rate limits, please [reach out](https://pipedream.com/support).
+
 ## API Reference
 
 ### Tokens
@@ -115,7 +132,7 @@ POST /tokens
 
 - `app_slug` - [The app's name slug](/quickstart#find-your-apps-name-slug)
 - `oauth_app_id` - [The OAuth app ID](/quickstart#creating-a-custom-oauth-client), if you're connecting an OAuth app — keep this in config / a DB, pass here
-- `external_id` - The end user's ID in your system
+- `external_id` - [The external user ID](#external-users) in your system
 
 ##### Examples
 
@@ -1945,7 +1962,7 @@ GET /users/:external_id/accounts
 
 ##### Parameters
 
-- `external_id` — the end user's ID in the Connect Partner's system
+- `external_id` — [The external user ID](#external-users) in your system
 - `include_credentials` — _Optional_. Pass `?include_credentials=1` as a query-string parameter to include the account credentials in the response
 
 ##### Examples
@@ -3175,7 +3192,7 @@ DELETE /users/:external_id
 
 ##### Parameters
 
-- `external_id` refers to the end user's ID in your system — whatever unique identifer you assign to your customers.
+- `external_id` — [The external user ID](#external-users) in your system
 
 ##### Examples
 

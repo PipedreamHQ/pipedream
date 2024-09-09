@@ -4,7 +4,7 @@ export default {
   key: "slack-get-file",
   name: "Get File",
   description: "Return information about a file. [See the documentation](https://api.slack.com/methods/files.info)",
-  version: "0.0.18",
+  version: "0.0.19",
   type: "action",
   props: {
     slack,

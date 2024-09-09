@@ -28,6 +28,7 @@ export default function Home() {
     setApp(app)
     pd.connectAccount({
       app,
+      oauthAppId,
       token,
       onSuccess: ({ id: authProvisionId }) => {
         setAuthProvisionId(authProvisionId as string)
