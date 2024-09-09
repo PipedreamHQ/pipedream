@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/agiliron",
+  "version": "0.0.1",
+  "description": "Pipedream Agiliron Components",
+  "main": "agiliron.app.mjs",
+  "keywords": [
+    "pipedream",
+    "agiliron"
+  ],
+  "homepage": "https://pipedream.com/apps/agiliron",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
