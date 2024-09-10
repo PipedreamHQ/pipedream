@@ -231,16 +231,16 @@ export default {
       default: "plaintext",
       options: Object.values(constants.BODY_TYPES),
     },
-    attachmentFilename: {
-      type: "string",
-      label: "Attachment Filename",
-      description: "The name of the file to attach. Must contain the file extension (e.g. `.jpeg`, `.txt`)",
+    attachmentFilenames: {
+      type: "string[]",
+      label: "Attachment Filenames",
+      description: "Array of the names of the files to attach. Must contain the file extension (e.g. `.jpeg`, `.txt`). Use in conjuction with `Attachment URLs or Paths`.",
       optional: true,
     },
-    attachmentUrlOrPath: {
-      type: "string",
-      label: "Attachment URL or Path",
-      description: "The URL of the download link for the file, or the local path (e.g. `/tmp/my-file.txt`).",
+    attachmentUrlsOrPaths: {
+      type: "string[]",
+      label: "Attachment URLs or Paths",
+      description: "Array of the URLs of the download links for the files, or the local paths (e.g. `/tmp/my-file.txt`). Use in conjuction with `Attachment Filenames`.",
       optional: true,
     },
     inReplyTo: {
@@ -308,13 +308,14 @@ export default {
         }
       }
 
-      if (props.attachmentFilename && props.attachmentUrlOrPath) {
-        opts.attachments = [
-          {
-            filename: props.attachmentFilename,
-            path: props.attachmentUrlOrPath,
-          },
-        ];
+      if (props.attachmentFilenames?.length && props.attachmentUrlsOrPaths?.length) {
+        opts.attachments = [];
+        for (let i = 0; i < props.attachmentFilenames.length; i++) {
+          opts.attachments.push({
+            filename: props.attachmentFilenames[i],
+            path: props.attachmentUrlsOrPaths[i],
+          });
+        }
       }
 
       if (props.bodyType === constants.BODY_TYPES.HTML) {

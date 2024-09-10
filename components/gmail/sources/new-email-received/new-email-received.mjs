@@ -394,7 +394,6 @@ export default {
     }
 
     if (this.triggerType === "webhook") {
-      this._setLastProcessedHistoryId(this.initialHistoryId);
       if (event.timestamp) {
         // event was triggered by timer
         const topicName = this._getTopicName();
@@ -405,6 +404,7 @@ export default {
         } else {
           // first run, no need to renew push notifications
           this._setTopicName(this.topic);
+          this._setLastProcessedHistoryId(this.initialHistoryId);
           return;
         }
       }

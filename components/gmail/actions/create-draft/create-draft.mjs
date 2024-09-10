@@ -1,5 +1,6 @@
 import gmail from "../../gmail.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "gmail-create-draft",
@@ -45,16 +46,16 @@ export default {
         "bodyType",
       ],
     },
-    attachmentFilename: {
+    attachmentFilenames: {
       propDefinition: [
         gmail,
-        "attachmentFilename",
+        "attachmentFilenames",
       ],
     },
-    attachmentUrlOrPath: {
+    attachmentUrlsOrPaths: {
       propDefinition: [
         gmail,
-        "attachmentUrlOrPath",
+        "attachmentUrlsOrPaths",
       ],
     },
     inReplyTo: {
@@ -74,9 +75,10 @@ export default {
     },
   },
   async run({ $ }) {
-    if ((this.attachmentFilename && ! this.attachmentUrlOrPath)
-      || (!this.attachmentFilename && this.attachmentUrlOrPath)) {
-      throw new ConfigurationError("Must specify both `Attachment Filename` and `Attachment URL or Path`");
+    this.attachmentFilenames = utils.parseArray(this.attachmentFilenames);
+    this.attachmentUrlsOrPaths = utils.parseArray(this.attachmentUrlsOrPaths);
+    if (this.attachmentFilenames?.length !== this.attachmentUrlsOrPaths?.length) {
+      throw new ConfigurationError("Must specify the same number of `Attachment Filenames` and `Attachment URLs or Paths`");
     }
     const opts = await this.gmail.getOptionsToSendEmail($, this);
     const response = await this.gmail.createDraft(opts);
