@@ -1,34 +1,29 @@
-import common from "../common/common-polling.mjs";
+import common from "../common/common-polling-pr-notifications.mjs";
 
 export default {
   ...common,
   key: "github-new-review-request",
   name: "New Review Request",
-  description: "Emit new events when you or a team you're a member of are requested to review a pull request",
+  description: "Emit new event for new review request notifications. [See the documentation](https://docs.github.com/en/rest/activity/notifications?apiVersion=2022-11-28#list-notifications-for-the-authenticated-user)",
   version: "0.1.17",
   type: "source",
   dedupe: "unique",
-  async run() {
-    const notifications = await this.github.getFilteredNotifications({
-      reason: "review_requested",
-      data: {
-        participating: true,
-        all: true,
-      },
-    });
-
-    for (const notification of notifications) {
-      if (notification.subject.notification === null) continue;
-
-      const pullRequest = await this.github.getFromUrl({
-        url: notification.subject.url,
+  methods: {
+    ...common.methods,
+    async getItems() {
+      return this.github.getFilteredNotifications({
+        reason: "review_requested",
+        data: {
+          participating: true,
+          all: true,
+        },
       });
-
-      this.$emit(pullRequest, {
-        id: pullRequest.id,
-        summary: `New notification ${pullRequest.id}`,
-        ts: Date.parse(pullRequest.created_at),
-      });
-    }
+    },
+    getItemMetadata(item) {
+      return {
+        summary: `New review request: ${item.title ?? item.id}`,
+        ts: Date.now(),
+      };
+    },
   },
 };

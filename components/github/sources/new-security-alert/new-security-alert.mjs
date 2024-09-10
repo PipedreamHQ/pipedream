@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "github-new-security-alert",
   name: "New Security Alert",
-  description: "Emit new events when GitHub discovers a security vulnerability in one of your repositories",
+  description: "Emit new event for security alert notifications. [See the documentation](https://docs.github.com/en/rest/activity/notifications?apiVersion=2022-11-28#list-notifications-for-the-authenticated-user)",
   version: "0.1.19",
   type: "source",
   dedupe: "unique",
