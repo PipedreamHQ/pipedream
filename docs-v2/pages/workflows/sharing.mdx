@@ -1,8 +1,13 @@
-import { Cards, Card } from 'nextra/components'
+import { Cards, Card, Steps } from 'nextra/components'
 import Callout from '@/components/Callout'
 import RocketShip from '@/components/RocketShip'
+import Image from 'next/image'
 
 # Sharing Workflows
+
+Pipedream provides a few ways to share your workflow:
+1. [Share a workflow as a link with anyone](#creating-a-share-link-for-a-workflow)
+2. [Publish as a public template](#publish-to-the-templates-gallery)
 
 You can share your workflows as templates with other Pipedream accounts with a unique shareable link.
 
@@ -22,13 +27,13 @@ The copied workflow includes the same trigger, steps, and connected account conf
 
 ## Creating a share link for a workflow
 
-To share a workflow, open the **Builder** for the workflow. Then in the top right menu, select **Create Share Link**.
+To share a workflow, open the workflow in your browser. Then in the top right menu, select **Create Share Link**.
 
-![Click "Create Share Link" in the workflow's settings within the builder to generate a sharable link](pages/workflows/images/sharing/sharing-workflow-button.png)
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1725925756/create-share-link_ekm2gy.png" alt="Click Create Share Link" width={500} height={529} />
 
 Now you can define which prop values should be included in this shareable link.
 
-## Including props
+### Including props
 
 Optionally, you can include the actual individual prop configurations as well. This helps speed up workflow development if the workflow relies on specific prop values to function properly.
 
@@ -36,29 +41,61 @@ You can choose to **Include all** prop values if you'd like, or only select spec
 
 For the daily schedule reminder workflow, we included the props for filtering Google Calendar events, but we did _not_ include the SMS number to send the message to. This is because the end user of this workflow will use their own phone number instead:
 
-![Sharing a workflow that will send a daily SMS message of your Google Calendar schedule for today](https://res.cloudinary.com/pipedreamin/image/upload/v1685113542/docs/docs/share%20workflows/CleanShot_2023-05-26_at_11.05.16_hebqpl.png)
+<br />
+
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1725926251/create-share-link-configure_qn4z60.png" alt="Sharing a workflow that will send a daily SMS message of your Google Calendar schedule for today" width={500} height={529} />
 
 <Callout type="info">
-Connected Accounts are not shared
-
-Shared workflow links do not include your own connected accounts. Instead, in this new workflow, the user of your workflow link is prompted to connect their own accounts.
+**Your connected accounts are not shared.** When other users configure your workflow from the shared link they'll be prompted to connect their own accounts.
 </Callout>
 
-## Versioning
+### Versioning
 
-When you create a shared link for your workflow, that link is frozen to the version of your workflow at the time the link was created.
-
-If changes are made to the original workflow, the changes will _not_ be included in the shared workflow link, nor in any workflows copied from the original shared link.
-
-[Generate a new share link](#creating-a-share-link-for-a-workflow) to include new changes to a workflow.
+- When you create a shared link for your workflow, that link is frozen to the version of your workflow at the time the link was created
+- If you make changes to the original workflow, those changes will _not_ be included in the shared workflow link, nor in any workflows copied from the original shared link
+- To push out new changes to a workflow, you'll need to generate a new share link
 
 <Callout type="info">
-**Share links persist**
-
-You can create multiple share links for the same workflow with different prop configurations, or even different steps.
-
-Share links will not expire or be overridden.
+**Share links persist**. You can create multiple share links for the same workflow with different prop configurations, or even different steps. Share links do not expire, nor do newly created link overwrite existing ones.
 </Callout>
+
+## Publish to the templates gallery
+
+We're excited to highlight the various use cases our community and partners have enabled using Pipedream. To do this, we've created a [Templates Gallery](https://pipedream.com/templates/) with a growing number of high-quality templates to help you discover your next workflow.
+
+The process to publish your own workflow to the Templates Gallery is similar to [creating a share link](#creating-a-share-link-for-a-workflow):
+
+<Steps>
+
+### Open the workflow you'd like to share
+
+To get started, open the workflow in your browser. Then in the top right menu, select **Publish as a template**.
+
+<br />
+
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1725925756/publish-as-template_tbetej.png" alt="Click Publish as a template" width={500} height={529} />
+
+### Configure which prop values to include in the template
+
+Follow the same steps as above to select the prop input values you'd like to include in the template, then click **Continue**
+
+### Enter the required information for the template title, description, and tags
+
+On the next screen, you'll be prompted for additional information about your template:
+
+- **Developer name**: This is probably you — this name will be displayed as the author of the template.
+- **Template name**: The name of the template.
+- **Brief description**: A short description of the template, which will be displayed on the listing page (maximum 256 characters). [See here](https://pipedream.com/templates) for examples.
+- **Longer description**: Use Markdown to create a more in-depth description. We recommend including distinct sections as H2s, for you to provide an **Overview**, **Steps**, and **Use Cases**. This will be displayed on the details page for the template. Here's an example: [Notion Voice Notes (Google Drive)](https://pipedream.com/templates/notion-voice-notes-google-drive-mpt_VdXF5V).
+- **Use cases**: Select one or more categories that align with the use cases for your template to help users discover it.
+- **Affiliate token**: If you're a [Pipedream affiliate](https://pipedream.com/affiliates), you can enter your unique token here to earn commissions on any users who sign up for Pipedream after using your template.
+
+### Click **Submit**
+
+- Once you've filled out the required information, click **Submit**.
+- We'll review your template and will email you once it goes live!
+
+</Steps>
 
 ## Frequently Asked Questions
 
@@ -101,10 +138,6 @@ No. Copied workflows have entirely separate versioning, connected accounts, and 
 It's only possible to share a single workflow at time with a link at this time.
 
 If you're trying to migrate all resources from one workspace to another [please contact us for help](mailto:support@pipedream.com).
-
-### Can I share my v1 workflows?
-
-No, v1 workflows are not shareable. If you need to share a v1 workflow, please see our [migration guide](/migrate-from-v1/) to convert it into a modern v2 workflow.
 
 ### Are step notes included when I share a workflow?
 
