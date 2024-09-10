@@ -8,27 +8,22 @@ export default {
   version: "0.1.19",
   type: "source",
   dedupe: "unique",
-  async run() {
-    const notifications = await this.github.getFilteredNotifications({
-      reason: "security_alert",
-      data: {
-        participating: true,
-        all: true,
-      },
-    });
-
-    for (const notification of notifications) {
-      if (notification.subject.notification === null) continue;
-
-      const pullRequest = await this.github.getFromUrl({
-        url: notification.subject.url,
+  methods: {
+    ...common.methods,
+    async getItems() {
+      return this.github.getFilteredNotifications({
+        reason: "security_alert",
+        data: {
+          participating: true,
+          all: true,
+        },
       });
-
-      this.$emit(pullRequest, {
-        id: pullRequest.id,
-        summary: `New notification ${pullRequest.id}`,
-        ts: Date.parse(pullRequest.created_at),
-      });
-    }
+    },
+    getItemMetadata(item) {
+      return {
+        summary: `New security alert: ${item.title ?? item.id}`,
+        ts: Date.now(),
+      };
+    },
   },
 };
