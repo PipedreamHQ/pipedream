@@ -1,14 +1,13 @@
-import base from "../common/base.mjs";
+import adalo from "../../adalo.app.mjs";
 
 export default {
-  ...base,
   key: "adalo-create-record",
   name: "Create Record",
   description: "Create a new record. [See docs here](https://help.adalo.com/integrations/the-adalo-api/collections)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
-    ...base.props,
+    adalo,
     data: {
       label: "Data",
       description: "The data to create record. E.g. `{ \"Email\": \"string\", \"Username\": \"string\", \"Full Name\": \"string\" }`",
@@ -18,7 +17,6 @@ export default {
   async run({ $ }) {
     const response = await this.adalo.createRecord({
       $,
-      collectionId: this.collectionId,
       data: JSON.parse(this.data),
     });
 

@@ -1,14 +1,13 @@
-import base from "../common/base.mjs";
+import adalo from "../../adalo.app.mjs";
 
 export default {
-  ...base,
   key: "adalo-update-record",
   name: "Update Record",
   description: "Update a record. [See docs here](https://help.adalo.com/integrations/the-adalo-api/collections)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
-    ...base.props,
+    adalo,
     recordId: {
       label: "Record ID",
       description: "The ID of a record",
@@ -23,7 +22,6 @@ export default {
   async run({ $ }) {
     const response = await this.adalo.updateRecord({
       $,
-      collectionId: this.collectionId,
       recordId: this.recordId,
       data: JSON.parse(this.data),
     });

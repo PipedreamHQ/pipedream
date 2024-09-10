@@ -213,9 +213,9 @@ importers:
 
   components/adalo:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.1
 
   components/addevent:
     specifiers:
