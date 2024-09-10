@@ -28,7 +28,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const { app, ...data } = this;
+    const {
+      app, ...data
+    } = this;
     const response = await app.createCustomer({
       $,
       data,

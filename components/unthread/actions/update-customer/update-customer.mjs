@@ -55,7 +55,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const { app, customerId, ...data } = this;
+    const {
+      app, customerId, ...data
+    } = this;
     const response = await app.updateCustomer({
       $,
       customerId,
