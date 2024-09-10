@@ -8,15 +8,16 @@ export default {
   version: "0.1.17",
   type: "source",
   dedupe: "unique",
-  async run() {
-    const repositories = await this.github.getRepos();
-
-    repositories.map((repository) => {
-      this.$emit(repository, {
-        id: repository.id,
-        summary: `New repository ${repository.id}`,
-        ts: Date.parse(repository.created_at),
-      });
-    });
+  methods: {
+    ...common.methods,
+    async getItems() {
+      return this.github.getRepos();
+    },
+    getItemMetadata(item) {
+      return {
+        summary: `New repository: "${item.full_name}"`,
+        ts: Date.now(),
+      };
+    },
   },
 };
