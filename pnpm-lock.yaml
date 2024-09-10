@@ -213,9 +213,9 @@ importers:
 
   components/adalo:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.1
 
   components/addevent:
     specifiers:
@@ -6046,10 +6046,10 @@ importers:
 
   components/mongodb:
     specifiers:
-      '@pipedream/platform': ^1.6.5
+      '@pipedream/platform': ^3.0.1
       mongodb: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.6.5
+      '@pipedream/platform': 3.0.1
       mongodb: 4.17.1_dseaa2p5u2yk67qiepewcq3hkq
 
   components/monkeylearn:
@@ -6616,7 +6616,10 @@ importers:
       opengraph-io: 2.0.0
 
   components/openperplex:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/opensea:
     specifiers:
@@ -8423,6 +8426,9 @@ importers:
       '@babel/core': 7.23.0
       '@pipedream/platform': 1.5.1
       sendbird-platform-sdk: 0.0.14_@babel+core@7.23.0
+
+  components/sendbird_ai_chabot:
+    specifiers: {}
 
   components/sendblue:
     specifiers: {}
@@ -17601,9 +17607,9 @@ packages:
   /@pipedream/platform/1.6.5:
     resolution: {integrity: sha512-h7afdBjRtptMKvejOhAYbhV3b+Kmy1jq7vETMBFLLnOfeXUbtbRX0sm1cdR96lbU1xw5EA5R0uaCB9l7+AUwPA==}
     dependencies:
-      axios: 1.6.5
-      fp-ts: 2.16.1
-      io-ts: 2.2.20_fp-ts@2.16.1
+      axios: 1.7.5
+      fp-ts: 2.16.9
+      io-ts: 2.2.21_fp-ts@2.16.9
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
