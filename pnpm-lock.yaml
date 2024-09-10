@@ -440,6 +440,9 @@ importers:
   components/alerty:
     specifiers: {}
 
+  components/algodocs:
+    specifiers: {}
+
   components/algolia:
     specifiers:
       algoliasearch: ^4.13.1
@@ -5128,7 +5131,10 @@ importers:
       crypto: 1.0.1
 
   components/krispcall:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/kucoin_futures:
     specifiers: {}
@@ -8422,6 +8428,9 @@ importers:
       '@babel/core': 7.23.0
       '@pipedream/platform': 1.5.1
       sendbird-platform-sdk: 0.0.14_@babel+core@7.23.0
+
+  components/sendbird_ai_chabot:
+    specifiers: {}
 
   components/sendblue:
     specifiers: {}

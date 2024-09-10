@@ -1,25 +1,25 @@
 import puppeteer from "../../puppeteer.app.mjs";
 import constants from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import fs from "fs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
+  ...common,
   key: "puppeteer-screenshot-page",
   name: "Screenshot a Page",
-  description: "Captures a screenshot of a page using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.screenshot)",
-  version: "1.0.1",
+  description:
+    "Captures a screenshot of a page using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.screenshot)",
+  version: "1.0.2",
   type: "action",
   props: {
     puppeteer,
-    url: {
-      type: "string",
-      label: "URL",
-      description: "The URL of the page to scrape.",
-    },
+    ...common.props,
     downloadPath: {
       type: "string",
       label: "Download Path",
-      description: "Download the screenshot to the `/tmp` directory with the specified filename",
+      description:
+        "Download the screenshot to the `/tmp` directory with the specified filename",
       optional: true,
     },
     captureBeyondViewport: {
@@ -71,7 +71,8 @@ export default {
     fromSurface: {
       type: "boolean",
       label: "From Surface",
-      description: "Capture the screenshot from the surface, rather than the view.",
+      description:
+        "Capture the screenshot from the surface, rather than the view.",
       optional: true,
       default: false,
     },
@@ -85,7 +86,8 @@ export default {
     omitBackground: {
       type: "boolean",
       label: "Omit Background",
-      description: "Hides default white background and allows capturing screenshots with transparency.",
+      description:
+        "Hides default white background and allows capturing screenshots with transparency.",
       optional: true,
       default: false,
     },
@@ -99,7 +101,8 @@ export default {
     quality: {
       type: "integer",
       label: "Quality",
-      description: "Quality of the image, between 0-100. Not applicable to png images.",
+      description:
+        "Quality of the image, between 0-100. Not applicable to png images.",
       optional: true,
     },
     type: {
@@ -121,20 +124,25 @@ export default {
     },
   },
   async run({ $ }) {
-    if ((this.clipHeight || this.clipWidth || this.clipX || this.clipY)
-      && !(this.clipHeight && this.clipWidth && this.clipX && this.clipY)) {
-      throw new ConfigurationError("Clip height, width, X, and Y must be specified to create clip.");
+    if (
+      (this.clipHeight || this.clipWidth || this.clipX || this.clipY) &&
+      !(this.clipHeight && this.clipWidth && this.clipX && this.clipY)
+    ) {
+      throw new ConfigurationError(
+        "Clip height, width, X, and Y must be specified to create clip.",
+      );
     }
 
-    const clip = this.clipHeight || this.clipWidth || this.clipX || this.clipY
-      ? {
-        height: parseFloat(this.clipHeight),
-        scale: parseFloat(this.clipScale),
-        width: parseFloat(this.clipWidth),
-        x: parseFloat(this.clipX),
-        y: parseFloat(this.clipY),
-      }
-      : undefined;
+    const clip =
+      this.clipHeight || this.clipWidth || this.clipX || this.clipY
+        ? {
+          height: parseFloat(this.clipHeight),
+          scale: parseFloat(this.clipScale),
+          width: parseFloat(this.clipWidth),
+          x: parseFloat(this.clipX),
+          y: parseFloat(this.clipY),
+        }
+        : undefined;
 
     const options = {
       captureBeyondViewport: this.captureBeyondViewport,
@@ -148,18 +156,20 @@ export default {
       type: this.type,
     };
 
+    const url = this.normalizeUrl();
     const browser = await this.puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto(this.url);
+    await page.goto(url);
     const screenshot = await page.screenshot(options);
     await browser.close();
 
-    const filePath = screenshot && this.downloadPath
-      ? await this.downloadToTMP(screenshot)
-      : undefined;
+    const filePath =
+      screenshot && this.downloadPath
+        ? await this.downloadToTMP(screenshot)
+        : undefined;
 
     if (screenshot) {
-      $.export("$summary", "Successfully captured screenshot from page.");
+      $.export("$summary", `Successfully captured screenshot from ${url}`);
     }
 
     return filePath

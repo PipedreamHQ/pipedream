@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/algodocs",
+  "version": "0.0.1",
+  "description": "Pipedream AlgoDocs Components",
+  "main": "algodocs.app.mjs",
+  "keywords": [
+    "pipedream",
+    "algodocs"
+  ],
+  "homepage": "https://pipedream.com/apps/algodocs",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
