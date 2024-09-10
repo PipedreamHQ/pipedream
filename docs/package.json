@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "sass": "^1.66.1",
     "sass-loader": "^13.3.2",
     "vuepress": "^1.9.10",
