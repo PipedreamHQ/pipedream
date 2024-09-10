@@ -3,7 +3,8 @@
 import CodePanel from "./CodePanel";
 import { useEffect, useState } from "react";
 import { serverConnectTokenCreate } from "./server"
-import { createClient } from "@pipedream/sdk/browser"
+//import { createClient } from "@pipedream/sdk/browser"
+import { createClient } from "../../../src/browser"
 
 const frontendHost = process.env.NEXT_PUBLIC_PIPEDREAM_FRONTEND_HOST || "pipedream.com"
 const appSlug = process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG // required

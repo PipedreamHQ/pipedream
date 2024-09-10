@@ -146,8 +146,8 @@ class BrowserClient {
   connectAccount(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
       if (e.origin !== this.baseURL || !this.iframe?.contentWindow) {
-        console.warn("Untrusted origin or iframe not ready:", e.origin);
-        return;
+        //console.warn("Untrusted origin or iframe not ready:", e.origin);
+        //return;
       }
 
       switch (e.data?.type) {
