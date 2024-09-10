@@ -6616,7 +6616,10 @@ importers:
       opengraph-io: 2.0.0
 
   components/openperplex:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/opensea:
     specifiers:
