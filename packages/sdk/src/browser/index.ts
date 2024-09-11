@@ -25,11 +25,6 @@ type CreateBrowserClientOpts = {
 type AppId = string;
 
 /**
- * A unique identifier for an oauth app.
- */
-type OauthAppId = string;
-
-/**
  * Object representing an app to start connecting with.
  */
 type StartConnectApp = {
@@ -69,9 +64,10 @@ type StartConnectOpts = {
   app: AppId | StartConnectApp;
 
   /**
-   * The ID of the OAuth Client to connect.
+   * The OAuth app ID to connect to.
    */
-  oauthAppId: OauthAppId;
+  oauthAppId?: string;
+
   /**
    * Callback function to be called upon successful connection.
    *
@@ -145,15 +141,7 @@ class BrowserClient {
    */
   connectAccount(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
-      if (e.origin !== this.baseURL || !this.iframe?.contentWindow) {
-        console.warn("Untrusted origin or iframe not ready:", e.origin);
-        return;
-      }
-
       switch (e.data?.type) {
-      case "verify-domain":
-        this.handleVerifyDomain(e);
-        break;
       case "success":
         opts.onSuccess?.({
           id: e.data?.authProvisionId,
@@ -176,23 +164,6 @@ class BrowserClient {
       this.createIframe(opts);
     } catch (err) {
       opts.onError?.(err as ConnectError);
-    }
-  }
-
-  /**
-   * Handles the verification of the domain from the iframe.
-   *
-   * @param e - The message event containing the verification request.
-   */
-  private handleVerifyDomain(e: MessageEvent) {
-    if (this.iframe?.contentWindow) {
-      this.iframe.contentWindow.postMessage(
-        {
-          type: "domain-response",
-          origin: window.origin,
-        },
-        e.origin,
-      );
     }
   }
 
@@ -227,10 +198,9 @@ class BrowserClient {
     } else {
       throw new ConnectError("Object app not yet supported");
     }
-    if (typeof opts.oauthAppId === "string") {
+
+    if (opts.oauthAppId) {
       qp.set("oauthAppId", opts.oauthAppId);
-    } else {
-      throw new ConnectError("Object app not yet supported");
     }
 
     const iframe = document.createElement("iframe");

@@ -15,3 +15,7 @@ The [quickstart](https://pipedream.com/docs/connect/quickstart) is the easiest w
 ## Usage
 
 [See the SDK docs](https://pipedream.com/docs/connect) for full usage instructions and examples for each method.
+
+## Example app
+
+Clone and run the [example app](https://github.com/PipedreamHQ/pipedream-connect-examples/) to get started.

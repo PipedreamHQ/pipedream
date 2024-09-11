@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nioleads",
+  "version": "0.0.1",
+  "description": "Pipedream NioLeads Components",
+  "main": "nioleads.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nioleads"
+  ],
+  "homepage": "https://pipedream.com/apps/nioleads",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
