@@ -8,7 +8,7 @@ export default {
   key: "github-new-commit",
   name: "New Commit",
   description: "Emit new event when commits are pushed to a branch",
-  version: "1.0.5",
+  version: "1.0.6",
   type: "source",
   dedupe: "unique",
   props: {
