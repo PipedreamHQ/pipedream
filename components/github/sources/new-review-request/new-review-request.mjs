@@ -10,12 +10,23 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    _getLastDate() {
+      return this.db.get("lastDate");
+    },
+    _setLastDate(value) {
+      this.db.set("lastDate", value);
+    },
     async getItems() {
+      const date = this._getLastDate();
+      this._setLastDate(new Date().toISOString());
       return this.github.getFilteredNotifications({
         reason: "review_requested",
         data: {
           participating: true,
           all: true,
+          ...(date && {
+            since: date,
+          }),
         },
       });
     },

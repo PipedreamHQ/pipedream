@@ -16,11 +16,11 @@ export default {
     _setUserLogin(userLogin) {
       this.db.set("userLogin", userLogin);
     },
-    _getEmittedIds() {
-      return this.db.get("emittedIds") ?? [];
+    _getLastDate() {
+      return this.db.get("lastDate");
     },
-    _setEmittedIds(value) {
-      this.db.set("emittedIds", value);
+    _setLastDate(value) {
+      this.db.set("lastDate", value);
     },
     async retrieveUserLogin() {
       let login = this._getUserLogin();
@@ -32,27 +32,28 @@ export default {
       return login;
     },
     async getItems() {
+      const date = this._getLastDate();
+      this._setLastDate(new Date().toISOString());
       return this.github.getFilteredNotifications({
         reason: "mention",
         data: {
           participating: true,
           all: true,
+          ...(date && {
+            since: date,
+          }),
         },
       });
     },
-  },
-  async run(maxEmits = 0) {
-    const login = this.retrieveUserLogin();
-    const savedIds = this._getSavedIds();
-    const emittedIds = this._getEmittedIds();
-    const items = await this.getItems();
+    async getAndProcessData(maxEmits = 0) {
+      const login = await this.retrieveUserLogin();
+      const savedIds = this._getSavedIds();
+      const items = await this.getItems();
 
-    const urlData = new Map();
-    let amountEmits = 0;
+      const urlData = new Map();
+      let amountEmits = 0;
 
-    items?.
-      filter?.(({ id }) => !savedIds.includes(id))
-      .forEach(async (item) => {
+      const promises = items?.map((item) => (async () => {
         const url = item?.subject?.url;
         if (!urlData.has(url)) {
           urlData.set(url, await this.github.getFromUrl({
@@ -70,7 +71,7 @@ export default {
         }
         const comments = urlData.get(commentsUrl);
         comments?.filter?.((comment) => {
-          return !emittedIds.includes(comment.id) && comment.body?.includes(`@${login}`);
+          return !savedIds.includes(comment.id) && comment.body?.includes(`@${login}`);
         }).forEach((comment) => {
           if (!maxEmits || (amountEmits < maxEmits)) {
             this.$emit(comment, {
@@ -80,12 +81,13 @@ export default {
             });
             amountEmits++;
           }
-          emittedIds.push(comment.id);
+          savedIds.push(comment.id);
         });
-        savedIds.push(this.getItemId(item));
-      });
+      })());
 
-    this._setEmittedIds(emittedIds);
-    this._setSavedIds(savedIds);
+      if (promises?.length) await Promise.allSettled(promises);
+
+      this._setSavedIds(savedIds);
+    },
   },
 };
