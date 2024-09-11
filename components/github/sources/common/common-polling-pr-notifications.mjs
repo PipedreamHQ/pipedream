@@ -6,23 +6,27 @@ export default {
     const savedIds = this._getSavedIds();
     const items = await this.getItems();
 
-    const allPrData = new Map();
+    const urlData = new Map();
+    let amountEmits = 0;
 
     items?.
       filter?.((item) => !savedIds.includes(this.getItemId(item)))
-      .forEach(async (item, index) => {
-        if (item?.subject?.notification !== null && ((!maxEmits) || (index < maxEmits))) {
+      .forEach(async (item) => {
+        if (item?.subject?.notification !== null) {
           const url = item.subject.url;
-          if (!allPrData.has(url)) {
-            allPrData.set(url, await this.github.getFromUrl({
+          if (!urlData.has(url)) {
+            urlData.set(url, await this.github.getFromUrl({
               url: item.subject.url,
             }));
           }
-          const pullRequest = allPrData.get(url);
-          this.$emit(pullRequest, {
-            id: pullRequest.id,
-            ...this.getItemMetadata(item),
-          });
+          const pullRequest = urlData.get(url);
+          if (!maxEmits || (amountEmits < maxEmits)) {
+            this.$emit(pullRequest, {
+              id: pullRequest.id,
+              ...this.getItemMetadata(item),
+            });
+            amountEmits++;
+          }
         }
         savedIds.push(this.getItemId(item));
       });
