@@ -47,6 +47,11 @@ export interface SendConfigEmail {
 export interface SendConfigEmit {
   raw_event: SendPayload;
 }
+
+const testConst: string = {
+  t: 50
+};
+testConst = 5;
 export interface SendConfigSSE {
   channel: string;
   payload: SendPayload;
