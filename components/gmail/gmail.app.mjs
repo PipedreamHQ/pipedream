@@ -195,6 +195,18 @@ export default {
       description: "Specify the name that will be displayed in the \"From\" section of the email.",
       optional: true,
     },
+    fromEmail: {
+      type: "string",
+      label: "From Email",
+      description: "Specify the email address that will be displayed in the \"From\" section of the email.",
+      optional: true,
+      async options() {
+        const { sendAs } = await this.listSignatures();
+        return sendAs
+          .filter(({ sendAsEmail }) => sendAsEmail)
+          .map(({ sendAsEmail }) => sendAsEmail);
+      },
+    },
     replyTo: {
       type: "string",
       label: "Reply To",
@@ -219,10 +231,16 @@ export default {
       default: "plaintext",
       options: Object.values(constants.BODY_TYPES),
     },
-    attachments: {
-      type: "object",
-      label: "Attachments",
-      description: "Add any attachments you'd like to include as objects.\n- The `key` should be the filename and must contain the file extension (e.g. `.jpeg`, `.txt`).\n- The `value` should be a URL of the download link for the file, or the local path (e.g. `/tmp/my-file.txt`).",
+    attachmentFilenames: {
+      type: "string[]",
+      label: "Attachment Filenames",
+      description: "Array of the names of the files to attach. Must contain the file extension (e.g. `.jpeg`, `.txt`). Use in conjuction with `Attachment URLs or Paths`.",
+      optional: true,
+    },
+    attachmentUrlsOrPaths: {
+      type: "string[]",
+      label: "Attachment URLs or Paths",
+      description: "Array of the URLs of the download links for the files, or the local paths (e.g. `/tmp/my-file.txt`). Use in conjuction with `Attachment Filenames`.",
       optional: true,
     },
     inReplyTo: {
@@ -260,11 +278,12 @@ export default {
         name: fromName,
         email,
       } = await this.userInfo();
+      const fromEmail = props.fromEmail || email;
 
       const opts = {
         from: props.fromName
-          ? `${props.fromName} <${email}>`
-          : `${fromName} <${email}>`,
+          ? `${props.fromName} <${fromEmail}>`
+          : `${fromName} <${fromEmail}>`,
         to: props.to,
         cc: props.cc,
         bcc: props.bcc,
@@ -289,18 +308,14 @@ export default {
         }
       }
 
-      if (props.attachments) {
-        if (typeof props.attachments === "string") {
-          props.attachments = JSON.parse(props.attachments);
+      if (props.attachmentFilenames?.length && props.attachmentUrlsOrPaths?.length) {
+        opts.attachments = [];
+        for (let i = 0; i < props.attachmentFilenames.length; i++) {
+          opts.attachments.push({
+            filename: props.attachmentFilenames[i],
+            path: props.attachmentUrlsOrPaths[i],
+          });
         }
-        opts.attachments = Object.entries(props.attachments)
-          .map(([
-            filename,
-            path,
-          ]) => ({
-            filename,
-            path,
-          }));
       }
 
       if (props.bodyType === constants.BODY_TYPES.HTML) {
