@@ -4846,6 +4846,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/jigsawstack:
+    specifiers: {}
+
   components/jira:
     specifiers:
       '@pipedream/platform': ^3.0.1
