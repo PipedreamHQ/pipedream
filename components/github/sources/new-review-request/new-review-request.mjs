@@ -21,7 +21,7 @@ export default {
     },
     getItemMetadata(item) {
       return {
-        summary: `New review request: ${item.title ?? item.id}`,
+        summary: `New review request: "${item.title ?? item.id}"`,
         ts: Date.now(),
       };
     },

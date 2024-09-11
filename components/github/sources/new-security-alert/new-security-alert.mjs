@@ -21,7 +21,7 @@ export default {
     },
     getItemMetadata(item) {
       return {
-        summary: `New security alert: ${item.title ?? item.id}`,
+        summary: `New security alert: "${item.title ?? item.id}"`,
         ts: Date.now(),
       };
     },
