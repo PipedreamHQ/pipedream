@@ -1,0 +1,58 @@
+export default {
+  "ContactId": "123",
+  "Salutation": "--None--",
+  "FirstName": "Test",
+  "LastName": "New Contact",
+  "OfficePhone": "56412356",
+  "Mobile": "7412536589",
+  "HomePhone": "56412356",
+  "OtherPhone": "",
+  "Fax": "5689746",
+  "AccountName": "Account1",
+  "AccountID": "234",
+  "VendorName": "Vendor1",
+  "VendorID": "30",
+  "ContactType": "Competitor",
+  "Title": "Test Title",
+  "Department": "Test Department",
+  "Email": "abctest123@gmail.com",
+  "ReportsTo": "",
+  "ReportsToID": "",
+  "Assistant": "",
+  "YahooID": "abc@yahoo.com",
+  "AssistantPhone": "5989654",
+  "DoNotCall": "No",
+  "EmailOptOut": "No",
+  "AssignedToUser": "Administrator",
+  "LeadSource": "Self Generated",
+  "Birthday": "01-21-2020",
+  "ContactProfile": "Buyer",
+  "MailingStreet": "1515 Clay Street",
+  "MailingCity": "Oakland",
+  "MailingState": "CA",
+  "MailingZip": "94624",
+  "MailingCountry": "United States",
+  "OtherStreet": "1515 Clay Street",
+  "OtherCity": "Oakland",
+  "OtherState": "CA",
+  "OtherZip": "94624",
+  "OtherCountry": "United States",
+  "CreatedTime": "01-24-2020 05:32:01",
+  "CreatedTimeUTC": "01-24-2020 15:01:35",
+  "ModifiedTime": "01-24-2020 05:32:01",
+  "ModifiedTimeUTC": "01-24-2020 15:05:56",
+  "Description": "The Description Goes here.",
+  "B2BCustomer": "Yes",
+  "B2BChannels": "Ebay",
+  "CustomFields": {
+    "CustomField": [{
+        "Name": "CustomFied1",
+        "Value": "Custom info 1"
+      },
+      {
+        "Name": "CustomFied2",
+        "Value": "Custom info 2"
+      }
+    ]
+  }
+}
