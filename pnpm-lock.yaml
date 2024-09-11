@@ -3794,24 +3794,6 @@ importers:
       nodemailer: 6.9.5
       uuid: 10.0.0
 
-  components/gmail_custom_oauth:
-    specifiers:
-      '@google-cloud/pubsub': ^4.7.0
-      '@googleapis/gmail': ^0.3.4
-      '@pipedream/platform': ^3.0.0
-      googleapis: ^109.0.1
-      html-to-text: ^8.2.1
-      nodemailer: ^6.7.8
-      uuid: ^10.0.0
-    dependencies:
-      '@google-cloud/pubsub': 4.7.0
-      '@googleapis/gmail': 0.3.4
-      '@pipedream/platform': 3.0.1
-      googleapis: 109.0.1
-      html-to-text: 8.2.1
-      nodemailer: 6.9.5
-      uuid: 10.0.0
-
   components/gmodstore:
     specifiers: {}
 
@@ -26087,17 +26069,6 @@ packages:
 
   /googleapis/108.0.1:
     resolution: {integrity: sha512-NKYTMfQH1xVl38Efj4UAwYq/9j+vc/iaqULfG3dSBK4vQHhsYKgKN6agMrgzlWo3NA8ivwb/0bToxZxnhxj7Bg==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      google-auth-library: 8.9.0
-      googleapis-common: 6.0.4
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-
-  /googleapis/109.0.1:
-    resolution: {integrity: sha512-x286OtNu0ngzxfGz2XgRs4aMhrwutRCkCE12dh2M1jIZOpOndB7ELFXEhmtxaJ7z3257flKIbiiCJZeBO+ze/Q==}
     engines: {node: '>=12.0.0'}
     dependencies:
       google-auth-library: 8.9.0
