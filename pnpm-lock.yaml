@@ -473,6 +473,9 @@ importers:
   components/alphamoon:
     specifiers: {}
 
+  components/altiria:
+    specifiers: {}
+
   components/altoviz:
     specifiers:
       '@pipedream/platform': ^1.6.0
