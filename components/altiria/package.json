@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/altiria",
+  "version": "0.0.1",
+  "description": "Pipedream Altiria Components",
+  "main": "altiria.app.mjs",
+  "keywords": [
+    "pipedream",
+    "altiria"
+  ],
+  "homepage": "https://pipedream.com/apps/altiria",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
