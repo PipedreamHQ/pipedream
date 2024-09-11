@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/agrello",
+  "version": "0.0.1",
+  "description": "Pipedream Agrello Components",
+  "main": "agrello.app.mjs",
+  "keywords": [
+    "pipedream",
+    "agrello"
+  ],
+  "homepage": "https://pipedream.com/apps/agrello",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -15,5 +15,8 @@
   "sharing": "Sharing workflows",
   "build-and-run": {
     "display": "hidden"
+  },
+  "switch-to-v2": {
+    "display": "hidden"
   }
 }
