@@ -10481,6 +10481,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/virifi:
+    specifiers: {}
+
   components/virustotal:
     specifiers: {}
 
