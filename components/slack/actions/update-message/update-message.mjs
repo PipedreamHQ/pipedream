@@ -4,7 +4,7 @@ export default {
   key: "slack-update-message",
   name: "Update Message",
   description: "Update a message. [See the documentation](https://api.slack.com/methods/chat.update)",
-  version: "0.1.18",
+  version: "0.1.19",
   type: "action",
   props: {
     slack,
@@ -18,9 +18,6 @@ export default {
       propDefinition: [
         slack,
         "messageTs",
-        (c) => ({
-          channel: c.conversation,
-        }),
       ],
     },
     text: {

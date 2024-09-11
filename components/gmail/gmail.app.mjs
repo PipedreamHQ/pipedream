@@ -16,12 +16,17 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      async options({ prevContext }) {
+      description: "The identifier of a message",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
         const {
           messages,
           nextPageToken,
         } = await this.listMessages({
           pageToken: prevContext?.nextPageToken,
+          q: query,
         });
 
         const options = await Promise.all(messages.map(async (message) => {
@@ -42,6 +47,41 @@ export default {
         };
       },
     },
+    messageWithAttachments: {
+      type: "string",
+      label: "Message",
+      description: "The identifier of a message",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
+        const {
+          messages,
+          nextPageToken,
+        } = await this.listMessages({
+          pageToken: prevContext?.nextPageToken,
+          q: query,
+        });
+        const options = await Promise.all(messages.map(async (message) => {
+          const { payload } = await this.getMessage({
+            id: message.id,
+          });
+          const { value: subject } = payload.headers.find(({ name }) => name === "Subject");
+          const hasAttachments = payload?.parts?.filter(({ body }) => body.attachmentId );
+          return {
+            label: subject,
+            value: message.id,
+            hasAttachments: !!hasAttachments?.length,
+          };
+        }));
+        return {
+          options: options?.filter(({ hasAttachments }) => hasAttachments) || [],
+          context: {
+            nextPageToken,
+          },
+        };
+      },
+    },
     label: {
       type: "string",
       label: "Label",
@@ -52,6 +92,27 @@ export default {
           label: label.name,
           value: label.id,
         }));
+      },
+    },
+    messageLabels: {
+      type: "string[]",
+      label: "Message Labels",
+      description: "Labels are used to categorize messages and threads within the user's mailbox",
+      async options({
+        messageId, type = "add",
+      }) {
+        const { labels } = await this.listLabels();
+        const { labelIds } = await this.getMessage({
+          id: messageId,
+        });
+        return labels
+          .filter(({ id }) => type === "add"
+            ? !labelIds.includes(id)
+            : labelIds.includes(id))
+          .map((label) => ({
+            label: label.name,
+            value: label.id,
+          }));
       },
     },
     signature: {
@@ -88,11 +149,20 @@ export default {
       label: "Attachment",
       description: "Identifier of the attachment to download",
       async options({ messageId }) {
-        const { payload: { parts } } = await this.getMessage({
-          id: messageId,
-        });
-        return parts?.filter(({ body }) => body.attachmentId )
-          ?.map(({ body }) => body.attachmentId ) || [];
+        try {
+          const { payload: { parts } } = await this.getMessage({
+            id: messageId,
+          });
+          return parts?.filter(({ body }) => body.attachmentId )
+            ?.map(({
+              body, filename,
+            }) => ({
+              value: body.attachmentId,
+              label: filename,
+            })) || [];
+        } catch {
+          return [];
+        }
       },
     },
     q: {
@@ -172,10 +242,13 @@ export default {
     },
   },
   methods: {
+    getToken() {
+      return this.$auth.oauth_access_token;
+    },
     _client() {
       const auth = new gmail.auth.OAuth2();
       auth.setCredentials({
-        access_token: this.$auth.oauth_access_token,
+        access_token: this.getToken(),
       });
       return gmail.gmail({
         version: "v1",
@@ -217,6 +290,9 @@ export default {
       }
 
       if (props.attachments) {
+        if (typeof props.attachments === "string") {
+          props.attachments = JSON.parse(props.attachments);
+        }
         opts.attachments = Object.entries(props.attachments)
           .map(([
             filename,
@@ -259,10 +335,11 @@ export default {
       return data;
     },
     async getMessage({ id }) {
-      const { data } = await this._client().users.messages.get({
+      const fn = () => this._client().users.messages.get({
         userId: constants.USER_ID,
         id,
       });
+      const { data } = await this.retryWithExponentialBackoff(fn);
       return data;
     },
     async listHistory(opts = {}) {
@@ -284,6 +361,14 @@ export default {
         id,
       }));
       return Promise.all(promises);
+    },
+    async *getAllMessages(ids = []) {
+      for (const id of ids) {
+        const message = await this.getMessage({
+          id,
+        });
+        yield message;
+      }
     },
     async listSignatures() {
       const { data } = await this._client().users.settings.sendAs.list({
@@ -345,16 +430,15 @@ export default {
         }
       }
     },
-    async addLabelToEmail({
-      message, label,
+    async updateLabels({
+      message, addLabelIds = [], removeLabelIds = [],
     }) {
       const response = await this._client().users.messages.modify({
         userId: constants.USER_ID,
         id: message,
         requestBody: {
-          addLabelIds: [
-            label,
-          ],
+          addLabelIds,
+          removeLabelIds,
         },
       });
       return response.data;
@@ -421,25 +505,26 @@ export default {
       });
       return data;
     },
-    getMessagesWithRetry(ids = [], maxRetries = 3) {
-      const getMessageWithRetry = async (id, retryCount = 0) => {
+    retryWithExponentialBackoff(func, maxAttempts = 3, baseDelayS = 2) {
+      let attempt = 0;
+
+      const execute = async () => {
         try {
-          return await this.getMessage({
-            id,
-          });
-        } catch (err) {
-          console.error(`Failed to get message with id ${id}:`, err);
-          if (retryCount < maxRetries) {
-            console.log("Retrying...");
-            return await getMessageWithRetry(id, retryCount + 1);
+          return await func();
+        } catch (error) {
+          if (attempt >= maxAttempts) {
+            throw error;
           }
-          console.error("Failed after 3 attempts.");
-          return null;
+
+          const delayMs = Math.pow(baseDelayS, attempt) * 1000;
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+
+          attempt++;
+          return execute();
         }
       };
 
-      const promises = ids.map((id) => getMessageWithRetry(id));
-      return Promise.all(promises);
+      return execute();
     },
   },
 };

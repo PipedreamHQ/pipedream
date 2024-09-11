@@ -32,9 +32,6 @@ export default {
         propDefinition: [
           undefined,
           "messageTs",
-          (c) => ({
-            channel: c.conversation,
-          }),
         ],
         optional: false,
       },
@@ -42,5 +39,5 @@ export default {
   }),
   key: "slack_bot-list-replies",
   description: "Retrieve a thread of messages posted to a conversation (Bot). [See the documentation](https://api.slack.com/methods/conversations.replies)",
-  version: "0.0.3",
+  version: "0.0.4",
 };

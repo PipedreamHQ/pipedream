@@ -5,7 +5,7 @@ export default {
   key: "adalo-new-record",
   name: "New Record",
   description: "Emit new event when is created a record.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,11 +15,6 @@ export default {
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
-    },
-    collectionId: {
-      label: "Collection ID",
-      description: "The ID the collection",
-      type: "string",
     },
   },
   methods: {
@@ -33,8 +28,7 @@ export default {
   },
   hooks: {
     async deploy() {
-      const records = await this.adalo.getRecords({
-        collectionId: this.collectionId,
+      const { records } = await this.adalo.getRecords({
         params: {
           limit: 10,
         },
@@ -47,9 +41,8 @@ export default {
     let offset = 0;
 
     while (offset >= 0) {
-      const records = await this.adalo.getRecords({
+      const { records } = await this.adalo.getRecords({
         $,
-        collectionId: this.collectionId,
         params: {
           offset,
         },

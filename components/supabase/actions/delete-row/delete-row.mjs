@@ -4,7 +4,7 @@ export default {
   key: "supabase-delete-row",
   name: "Delete Row",
   type: "action",
-  version: "0.0.3",
+  version: "0.1.1",
   description: "Deletes row(s) in a database. [See the docs here](https://supabase.com/docs/reference/javascript/delete)",
   props: {
     supabase,
@@ -32,9 +32,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.supabase.deleteRow(this.table, this.column, this.value);
-    if (response) {
-      $.export("$summary", `Successfully deleted ${response.length} row(s) from table ${this.table}`);
-    }
+    $.export("$summary", `Successfully deleted ${response.length} row(s) from table ${this.table}`);
     return response;
   },
 };

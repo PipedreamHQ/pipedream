@@ -4,7 +4,7 @@ export default {
   key: "supabase-remote-procedure-call",
   name: "Remote Procedure Call",
   type: "action",
-  version: "0.0.3",
+  version: "0.1.1",
   description: "Call a Postgres function in a database. [See the docs here](https://supabase.com/docs/reference/javascript/rpc)",
   props: {
     supabase,
@@ -22,9 +22,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.supabase.remoteProcedureCall(this.functionName, this.args);
-    if (response) {
-      $.export("$summary", `Successfully executed remote procedure call ${this.functionName}`);
-    }
+    $.export("$summary", `Successfully executed remote procedure call ${this.functionName}`);
     return response;
   },
 };

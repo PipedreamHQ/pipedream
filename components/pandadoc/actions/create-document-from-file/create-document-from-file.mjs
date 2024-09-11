@@ -5,9 +5,9 @@ import createDocumentAttachment from "../create-document-attachment/create-docum
 export default {
   key: "pandadoc-create-document-from-file",
   name: "Create Document From File",
-  description: "Create a document from a file or public file URL. [See the docs here](https://developers.pandadoc.com/reference/create-document-from-pdf)",
+  description: "Create a document from a file or public file URL. [See the documentation here](https://developers.pandadoc.com/reference/create-document-from-pdf)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   props: {
     app,
     name: {
