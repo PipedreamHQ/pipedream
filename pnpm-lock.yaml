@@ -307,7 +307,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/agiliron:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/agility_cms:
     specifiers: {}
