@@ -444,7 +444,10 @@ importers:
     specifiers: {}
 
   components/alerty:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/algodocs:
     specifiers: {}
