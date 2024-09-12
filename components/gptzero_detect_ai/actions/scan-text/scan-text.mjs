@@ -11,7 +11,7 @@ export default {
     document: {
       type: "string",
       label: "Document",
-      description: "The single document you want to analyze. The document will be truncated to 50,000 characters.",
+      description: "The text you want to analyze. The text will be truncated to 50,000 characters.",
     },
     multilingual: {
       type: "boolean",
