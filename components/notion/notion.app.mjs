@@ -287,10 +287,11 @@ export default {
         cursor = nextCursor;
       } while (cursor);
     },
-    async appendBlock(parentId, blocks) {
+    async appendBlock(parentId, blocks, after) {
       return this._getNotionClient().blocks.children.append({
         block_id: parentId,
         children: blocks,
+        after,
       });
     },
     async retrieveBlock(blockId) {

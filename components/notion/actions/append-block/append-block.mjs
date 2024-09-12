@@ -1,12 +1,13 @@
 import notion from "../../notion.app.mjs";
 import base from "../common/base-page-builder.mjs";
+import { POSITION_OPTION } from "../../common/constants.mjs";
 
 export default {
   ...base,
   key: "notion-append-block",
-  name: "Append Block to Parent",
+  name: "Add Block to Parent",
   description: "Creates and appends blocks to the specified parent. [See the documentation](https://developers.notion.com/reference/patch-block-children)",
-  version: "0.2.13",
+  version: "0.2.14",
   type: "action",
   props: {
     notion,
@@ -45,6 +46,13 @@ export default {
       label: "Image URLs",
       description: "List of URLs to append as image blocks",
       optional: true,
+    },
+    position: {
+      type: "string",
+      label: "Position",
+      description: "The position to prepend/append the block relative to the parent block.",
+      default: POSITION_OPTION.APPEND_TO_BOTTOM.value,
+      options: Object.values(POSITION_OPTION),
     },
   },
   async run({ $ }) {
@@ -97,8 +105,17 @@ export default {
       return;
     }
 
-    const { results } = await this.notion.appendBlock(this.pageId, children);
-    $.export("$summary", `Appended ${results.length} block(s) successfully`);
-    return results;
+    let after;
+    if (this.position === POSITION_OPTION.PREPEND_TO_TOP.value) {
+      const block = await this.notion.retrieveBlock(this.pageId);
+      const children = await this.notion.retrieveBlockChildren(block);
+      if (children.length > 0) {
+        after = children[0].id;
+      }
+    }
+
+    const response = await this.notion.appendBlock(this.pageId, children, after);
+    $.export("$summary", `Appended ${children.length} block(s) successfully`);
+    return response;
   },
 };
