@@ -22,7 +22,7 @@ config = {
     "openai_embeddings_model": openai_embeddings_model,
     "openai": {
         "api_key": get_env_var("OPENAI_API_KEY", required=openai_api_type == "openai"),
-        "model": get_env_var("OPENAI_MODEL", default="o1-preview"),
+        "model": get_env_var("OPENAI_MODEL", default="o1-mini"),
     },
     "browserless": {
         "api_key": get_env_var("BROWSERLESS_API_KEY"),
