@@ -3,8 +3,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-append-text",
   name: "Append Text",
-  description: "Append text to an existing document. [See the docs](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTextRequest)",
-  version: "0.1.2",
+  description: "Append text to an existing document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTextRequest)",
+  version: "0.1.3",
   type: "action",
   props: {
     googleDocs,
@@ -32,7 +32,7 @@ export default {
       text: this.text,
     };
     await this.googleDocs.insertText(this.docId, text, this.appendAtBeginning);
-    $.export("$summary", "Successfully appended text to doc");
+    $.export("$summary", `Successfully appended text to document with ID: ${this.docId}`);
     return {
       documentId: this.docId,
     };
