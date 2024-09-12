@@ -7555,9 +7555,9 @@ importers:
 
   components/qdrant:
     specifiers:
-      '@qdrant/js-client-rest': ^1.9.0
+      '@qdrant/js-client-rest': ^1.11.0
     dependencies:
-      '@qdrant/js-client-rest': 1.9.0_typescript@5.5.4
+      '@qdrant/js-client-rest': 1.11.0_typescript@5.5.4
 
   components/qntrl:
     specifiers:
@@ -18838,8 +18838,8 @@ packages:
       - supports-color
     dev: true
 
-  /@qdrant/js-client-rest/1.9.0_typescript@5.5.4:
-    resolution: {integrity: sha512-YiX/IskbRCoAY2ujyPDI6FBcO0ygAS4pgkGaJ7DcrJFh4SZV2XHs+u0KM7mO72RWJn1eJQFF2PQwxG+401xxJg==}
+  /@qdrant/js-client-rest/1.11.0_typescript@5.5.4:
+    resolution: {integrity: sha512-RzF+HxL8A7bb/uaxU1jVS1a919bb3FCo1giB/D19UT3d50AYl4+4AyklbsjlXpWEHekbNocQAQ016fqT9hSRtQ==}
     engines: {node: '>=18.0.0', pnpm: '>=8'}
     peerDependencies:
       typescript: '>=4.7'
