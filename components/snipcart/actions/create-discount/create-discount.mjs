@@ -67,35 +67,23 @@ export default {
       hidden: true,
     },
   },
-  async additionalProps() {
+  async additionalProps(existingProps) {
     const props = {};
     if (this.trigger === "Code") {
-      props.code = {
-        type: "string",
-        label: "Code",
-        description: "Code for the discount",
-      };
+      existingProps.code.hidden = false;
+      existingProps.code.disabled: false,
     }
     if (this.trigger === "Total") {
-      props.totalToReach = {
-        type: "string",
-        label: "Total to Reach",
-        description: "Minimum amount required to activate the discount",
-      };
+      existingProps.totalToReach.hidden = false;
+      existingProps.totalToReach.disabled = false;
     }
     if (this.type === "FixedAmount") {
-      props.amount = {
-        type: "string",
-        label: "Amount",
-        description: "Discount amount. Required when discount type is `FixedAmount`",
-      };
+      existingProps.amount.hidden = false;
+      existingProps.amount.disabled = false;
     }
     if (this.type === "Rate") {
-      props.rate = {
-        type: "string",
-        label: "Rate",
-        description: "Discount percentage, i.e.: `10`. Required when discount type is `Rate`",
-      };
+      existingProps.rate.hidden = false;
+      existingProps.rate.disabled = false;
     }
     return props;
   },
