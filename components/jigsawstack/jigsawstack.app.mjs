@@ -3,86 +3,52 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "jigsawstack",
-  propDefinitions: {
-    email: {
-      type: "string",
-      label: "Email Address",
-      description: "The email address to validate.",
-    },
-    imageUrl: {
-      type: "string",
-      label: "Image URL",
-      description: "The URL of the image to process.",
-    },
-    text: {
-      type: "string",
-      label: "Text",
-      description: "The text to analyze for sentiment.",
-    },
-  },
   methods: {
     _baseUrl() {
-      return "https://api.jigsawstack.com";
+      return "https://api.jigsawstack.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers(headers = {}) {
+      return {
+        "x-api-key": this.$auth.api_key,
+        ...headers,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "x-api-key": this.$auth.api_key,
-        },
+        headers: this._headers(headers),
+        ...opts,
       });
     },
-    async validateEmail(opts = {}) {
-      const {
-        email, ...otherOpts
-      } = opts;
+    validateEmail(opts = {}) {
       return this._makeRequest({
         method: "GET",
-        path: "/v1/validate/email",
-        params: {
-          email,
-        },
-        ...otherOpts,
+        path: "/validate/email",
+        ...opts,
       });
     },
-    async detectObjectsInImage(opts = {}) {
-      const {
-        imageUrl, ...otherOpts
-      } = opts;
+    detectObjectsInImage(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/ai/object_detection",
-        data: {
-          url: imageUrl,
-        },
-        ...otherOpts,
+        path: "/ai/object_detection",
+        ...opts,
       });
     },
-    async analyzeSentiment(opts = {}) {
-      const {
-        text, ...otherOpts
-      } = opts;
+    analyzeSentiment(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/ai/sentiment",
-        data: {
-          text,
-        },
-        ...otherOpts,
+        path: "/ai/sentiment",
+        ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    uploadFile(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/store/file",
+        ...opts,
+      });
     },
   },
 };
