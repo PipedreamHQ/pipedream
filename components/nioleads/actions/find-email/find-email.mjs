@@ -1,30 +1,35 @@
 import nioleads from "../../nioleads.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "nioleads-find-email",
   name: "Find Email",
-  description: "Finds a business email address using a full name and a website domain.",
-  version: "0.0.{{ts}}",
+  description: "Finds a business email address using a full name and a website domain. [See the documentation](https://apidoc.nioleads.com/?_gl=1*1288vdg*_ga*MTY1NzE1MjMzOC4xNzI1OTM5Njk1*_ga_ZVT2YHDDZG*MTcyNTk0Mzk5NC4yLjAuMTcyNTk0NDAyMy4wLjAuMA..#email-finder)",
+  version: "0.0.1",
   type: "action",
   props: {
     nioleads,
-    fullName: {
-      propDefinition: [
-        nioleads,
-        "fullName",
-      ],
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Full name of the person",
     },
-    websiteDomain: {
-      propDefinition: [
-        nioleads,
-        "websiteDomain",
-      ],
+    domain: {
+      type: "string",
+      label: "Domain",
+      description: "The company domain name. (e.g. `example.com`)",
     },
   },
   async run({ $ }) {
-    const response = await this.nioleads.findEmail(this.fullName, this.websiteDomain);
-    $.export("$summary", `Found email: ${response.email}`);
+    const response = await this.nioleads.findEmail({
+      $,
+      data: {
+        name: this.name,
+        domain: this.domain,
+      },
+    });
+    if (response?.email) {
+      $.export("$summary", `Found email: ${response.email}`);
+    }
     return response;
   },
 };
