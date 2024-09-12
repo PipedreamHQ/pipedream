@@ -1,7 +1,7 @@
 import seven from "../../seven.app.mjs";
 
 export default {
-  key: "seven-lookup-cname",
+  key: "seven-lookup-cnam",
   name: "Lookup CNAM",
   description: "Look up caller name information via Seven. [See the documentation](https://docs.seven.io/en/rest-api/endpoints/lookup#cnam)",
   version: "0.0.1",
