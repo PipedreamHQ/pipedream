@@ -4859,7 +4859,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/jigsawstack:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+      form-data: ^4.0.0
+      mime: ^4.0.4
+    dependencies:
+      '@pipedream/platform': 3.0.1
+      form-data: 4.0.0
+      mime: 4.0.4
 
   components/jira:
     specifiers:
@@ -29758,6 +29765,12 @@ packages:
   /mime/3.0.0:
     resolution: {integrity: sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==}
     engines: {node: '>=10.0.0'}
+    hasBin: true
+    dev: false
+
+  /mime/4.0.4:
+    resolution: {integrity: sha512-v8yqInVjhXyqP6+Kw4fV3ZzeMRqEW6FotRsKXjRS5VMTNIuXsdRoAvklpoRgSqXm6o9VNH4/C0mgedko9DdLsQ==}
+    engines: {node: '>=16'}
     hasBin: true
     dev: false
 
