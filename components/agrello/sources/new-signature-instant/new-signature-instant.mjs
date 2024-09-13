@@ -15,7 +15,7 @@ export default {
       return "DOCUMENT_SIGNATURE_ADDED";
     },
     getSummary(event) {
-      return `New signature added to container with Id: ${event.containerId}`;
+      return `New signature added to container: ${event.containerId}`;
     },
   },
   sampleEmit,
