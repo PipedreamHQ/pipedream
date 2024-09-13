@@ -44,7 +44,7 @@ export default {
     const { id: assistantId } = await this.openai.createAssistant({
       $,
       data: {
-        model: "gpt-4-vision-preview",
+        model: "gpt-4o", // replaced from "gpt-4-vision-preview" - see https://platform.openai.com/docs/deprecations
       },
     });
 
