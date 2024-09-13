@@ -4145,7 +4145,12 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/gptzero_detect_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.1
+      form-data: 4.0.0
 
   components/grab_your_reviews:
     specifiers: {}
