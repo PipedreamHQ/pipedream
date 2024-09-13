@@ -16,7 +16,7 @@ export default {
     msg: {
       type: "string",
       label: "Message",
-      description: "Message to send. The list of valid characters and the maximum allowed length is detailed in section 2.4 of the documentation. It cannot be empty (empty string). Mobile web identifiers can be added to generate unique shortened links in the message body. See section 2.5 for more details on mobile webs.",
+      description: "Message to send. The list of valid characters and the maximum allowed length is detailed in section 2.4 of the [documentation](https://static.altiria.com/especificaciones/altiria_push_rest.pdf). It cannot be empty (empty string). Mobile web identifiers can be added to generate unique shortened links in the message body. See section 2.5 for more details on mobile webs.",
     },
   },
   methods: {
