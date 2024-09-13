@@ -8,7 +8,7 @@ export default {
   key: "openai-analyze-image-content",
   name: "Analyze Image Content",
   description: "Send a message or question about an image and receive a response. [See the documentation](https://platform.openai.com/docs/api-reference/runs/createThreadAndRun)",
-  version: "0.0.3",
+  version: "0.1.0",
   type: "action",
   props: {
     openai,
@@ -44,7 +44,7 @@ export default {
     const { id: assistantId } = await this.openai.createAssistant({
       $,
       data: {
-        model: "gpt-4-vision-preview",
+        model: "gpt-4o", // replaced from "gpt-4-vision-preview" - see https://platform.openai.com/docs/deprecations
       },
     });
 
