@@ -473,6 +473,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/allocadence:
+    specifiers: {}
+
   components/alpaca:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -11139,6 +11142,9 @@ importers:
     specifiers: {}
 
   components/zenserp:
+    specifiers: {}
+
+  components/zenventory:
     specifiers: {}
 
   components/zerobounce:
