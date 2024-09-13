@@ -117,6 +117,6 @@ export default {
     const totalAppended = results.reduce((sum, res) => sum + res.length, 0);
 
     $.export("$summary", `Appended ${totalAppended} block(s) successfully`);
-    return results;
+    return results.flat();
   },
 };
