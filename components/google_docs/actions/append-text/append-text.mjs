@@ -28,13 +28,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const text = {
+    await this.googleDocs.insertText(this.docId, {
       text: this.text,
-    };
-    await this.googleDocs.insertText(this.docId, text, this.appendAtBeginning);
+    }, this.appendAtBeginning);
+    const doc = this.googleDocs.getDocument(this.docId);
     $.export("$summary", `Successfully appended text to document with ID: ${this.docId}`);
-    return {
-      documentId: this.docId,
-    };
+    return doc;
   },
 };

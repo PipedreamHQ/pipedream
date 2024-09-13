@@ -37,9 +37,8 @@ export default {
       uri: this.imageUri,
     };
     await this.googleDocs.replaceImage(this.docId, image);
+    const doc = this.googleDocs.getDocument(this.docId);
     $.export("$summary", `Successfully replaced image in doc with ID: ${this.docId}`);
-    return {
-      documentId: this.docId,
-    };
+    return doc;
   },
 };

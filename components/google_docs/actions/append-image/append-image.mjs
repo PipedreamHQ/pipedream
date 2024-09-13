@@ -28,13 +28,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const image = {
+    await this.googleDocs.appendImage(this.docId, {
       uri: this.imageUri,
-    };
-    const { data } = await this.googleDocs.appendImage(this.docId, image, this.appendAtBeginning);
+    }, this.appendAtBeginning);
+    const doc = this.googleDocs.getDocument(this.docId);
     $.export("$summary", `Successfully appended image to document with ID: ${this.docId}`);
-    return {
-      documentId: data.documentId,
-    };
+    return doc;
   },
 };

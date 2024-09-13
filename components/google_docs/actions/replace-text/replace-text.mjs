@@ -45,9 +45,8 @@ export default {
       },
     };
     await this.googleDocs.replaceText(this.docId, text);
+    const doc = this.googleDocs.getDocument(this.docId);
     $.export("$summary", `Successfully replaced text in doc with ID: ${this.docId}`);
-    return {
-      documentId: this.docId,
-    };
+    return doc;
   },
 };
