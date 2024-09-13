@@ -4680,7 +4680,10 @@ importers:
       '@pipedream/platform': 1.6.4
 
   components/infolobby:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^1.6.6
+    dependencies:
+      '@pipedream/platform': 1.6.6
 
   components/infusionsoft:
     specifiers:
@@ -17423,7 +17426,7 @@ packages:
   /@pipedream/platform/1.6.6:
     resolution: {integrity: sha512-YRkPVn3tiE3xywOO+dtrseo6eNepJrWKiPG8ejTww7KRRNzJNRIYeJyqTqLMxyG2da+wLHvVABZb+kKS6XzD+A==}
     dependencies:
-      axios: 1.7.5
+      axios: 1.7.7
       fp-ts: 2.16.9
       io-ts: 2.2.21_fp-ts@2.16.9
       querystring: 0.2.1
