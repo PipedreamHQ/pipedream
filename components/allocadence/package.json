@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/allocadence",
+  "version": "0.0.1",
+  "description": "Pipedream Allocadence Components",
+  "main": "allocadence.app.mjs",
+  "keywords": [
+    "pipedream",
+    "allocadence"
+  ],
+  "homepage": "https://pipedream.com/apps/allocadence",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
