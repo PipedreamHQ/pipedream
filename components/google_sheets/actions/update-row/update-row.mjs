@@ -9,7 +9,7 @@ export default {
   key: "google_sheets-update-row",
   name: "Update Row",
   description: "Update a row in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     googleSheets,
@@ -47,20 +47,74 @@ export default {
         "row",
       ],
     },
-    cells: {
-      propDefinition: [
-        googleSheets,
-        "rows",
-      ],
-      description: "Enter an array, with each element of the array representing a cell/column value (e.g. `[\"Foo\",1,2]`). You may reference an arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will JSON.parse() to an array.",
+    hasHeaders: {
+      type: "boolean",
+      label: "Does the first row of the sheet have headers?",
+      description: "If the first row of your document has headers, we'll retrieve them to make it easy to enter the value for each column. Please note, that if you are referencing a worksheet using a custom expression referencing data from another step, e.g. `{{steps.my_step.$return_value}}` this prop cannot be used. If you want to retrieve the header row, select both **Spreadsheet** and **Worksheet ID** from the dropdowns above.",
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const {
+      sheetId,
+      worksheetId,
+      row,
+      hasHeaders,
+    } = this;
+
+    const props = {};
+    if (hasHeaders && row) {
+      const worksheet = await this.getWorksheetById(sheetId, worksheetId);
+
+      const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheet?.properties?.title}!1:1`);
+      if (!values[0]?.length) {
+        throw new ConfigurationError("Could not find a header row. Please either add headers and click \"Refresh fields\" or adjust the action configuration to continue.");
+      }
+      const { values: rowValues } = !isNaN(row)
+        ? await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheet?.properties?.title}!${row}:${row}`)
+        : {};
+      for (let i = 0; i < values[0]?.length; i++) {
+        props[`col_${i.toString().padStart(4, "0")}`] = {
+          type: "string",
+          label: values[0][i],
+          optional: true,
+          default: rowValues?.[0]?.[i],
+        };
+      }
+      props.allColumns = {
+        type: "string",
+        hidden: true,
+        default: JSON.stringify(values),
+      };
+    }
+    if (hasHeaders === false) {
+      props.myColumnData = {
+        type: "string[]",
+        label: "Values",
+        description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+      };
+    }
+    return props;
+  },
   async run() {
+    let cells;
+    if (this.hasHeaders) {
+      const rows = JSON.parse(this.allColumns);
+      const [
+        headers,
+      ] = rows;
+      cells = headers
+        .map((_, i) => `col_${i.toString().padStart(4, "0")}`)
+        .map((column) => this[column] ?? "");
+    } else {
+      cells = this.googleSheets.sanitizedArray(this.myColumnData);
+    }
+
     // validate input
-    if (!this.cells || !this.cells.length) {
+    if (!cells || !cells.length) {
       throw new ConfigurationError("Please enter an array of elements in `Row Values`.");
     }
-    const cells = parseArray(this.cells);
+    cells = parseArray(cells);
     if (!cells) {
       throw new ConfigurationError("Row Values is not an array. Please enter an array of elements in `Row Values`.");
     }

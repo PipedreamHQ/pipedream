@@ -1,11 +1,12 @@
 import common from "../common/base.mjs";
+import { Timestamp } from "mongodb";
 
 export default {
   ...common,
   key: "mongodb-new-document",
   name: "New Document",
   description: "Emit new an event when a new document is added to a collection",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   dedupe: "unique",
   props: {
@@ -53,6 +54,15 @@ export default {
         return doc[this.timestampField];
       }
     },
+    convertToTimestamp(timestampStr) {
+      const bigIntValue = BigInt(timestampStr);
+      const seconds = Number(bigIntValue >> 32n);
+      const increment = Number(bigIntValue & 0xFFFFFFFFn);
+      return new Timestamp({
+        t: seconds,
+        i: increment,
+      });
+    },
     async processEvent(client, eventTs, max) {
       const lastTs = this._getLastTs() || 0;
       let maxTs = lastTs;
@@ -61,7 +71,12 @@ export default {
       const sort = {
         [this.timestampField]: -1,
       };
-      const documents = await collection.find().sort(sort)
+      const query = {
+        [this.timestampField]: {
+          $gt: this.convertToTimestamp(lastTs),
+        },
+      };
+      const documents = await collection.find(query).sort(sort)
         .toArray();
       const docs = [];
       for (const doc of documents) {

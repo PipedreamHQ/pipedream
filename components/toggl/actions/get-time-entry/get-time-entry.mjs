@@ -2,7 +2,7 @@ import toggl from "../../toggl.app.mjs";
 
 export default {
   name: "Get Time Entry",
-  version: "0.0.5",
+  version: "0.0.6",
   key: "toggl-get-time-entry",
   description: "Get details about a specific time entry. [See docs here](https://developers.track.toggl.com/docs/api/time_entries)",
   type: "action",

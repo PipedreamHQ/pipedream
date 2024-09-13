@@ -3,15 +3,12 @@ import {
   getSampleTimerEvent, getSampleWebhookEvent,
 } from "./common-sample-events.mjs";
 
-const DOCS_LINK =
-  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#create";
-
 export default {
   ...common,
   key: "github-new-branch",
-  name: "New Branch",
-  description: `Emit new event when a branch is created [See the documentation](${DOCS_LINK})`,
-  version: "1.0.4",
+  name: "New Branch Created",
+  description: "Emit new event when a branch is created.",
+  version: "1.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -34,6 +31,12 @@ export default {
     },
     getPollingData(args) {
       return this.github.getBranches(args);
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads#create";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/rest/branches/branches?apiVersion=2022-11-28#list-branches";
     },
   },
 };

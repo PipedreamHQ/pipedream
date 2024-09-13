@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jira",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Jira Components",
   "main": "jira.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/jira",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^0.10.0",
+    "@pipedream/platform": "^3.0.1",
     "form-data": "^4.0.0"
   },
   "publishConfig": {

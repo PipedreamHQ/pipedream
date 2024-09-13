@@ -4,15 +4,12 @@ import {
   getSampleTimerEvent, getSampleWebhookEvent,
 } from "./common-sample-events.mjs";
 
-const DOCS_LINK =
-  "https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request";
-
 export default {
   ...common,
   key: "github-new-or-updated-pull-request",
   name: "New or Updated Pull Request",
-  description: `Emit new events when a pull request is opened or updated [See the documentation](${DOCS_LINK})`,
-  version: "1.2.1",
+  description: "Emit new event when a pull request is opened or updated",
+  version: "1.2.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -23,7 +20,7 @@ export default {
           type: "string[]",
           label: "Filter Event Types",
           optional: true,
-          description: `Specify the type(s) of activity that should emit events. [See the documentation](${DOCS_LINK}) for more information on each type. By default, events will be emitted for all activity.`,
+          description: "Specify the type(s) of activity that should emit events. By default, events will be emitted for all activity.",
           options: constants.EVENT_TYPES_PULL_REQUEST,
         },
       };
@@ -48,6 +45,12 @@ export default {
         repoFullname,
         sort,
       });
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads#pull_request";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28";
     },
   },
 };

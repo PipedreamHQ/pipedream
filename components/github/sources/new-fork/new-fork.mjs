@@ -3,15 +3,12 @@ import {
   getSampleTimerEvent, getSampleWebhookEvent,
 } from "./common-sample-events.mjs";
 
-const DOCS_LINK =
-  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#fork";
-
 export default {
   ...common,
   key: "github-new-fork",
   name: "New Fork",
-  description: `Emit new event when a repository is forked [See the documentation](${DOCS_LINK})`,
-  version: "1.0.4",
+  description: "Emit new event when a repository is forked",
+  version: "1.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -34,6 +31,12 @@ export default {
     },
     getPollingData(args) {
       return this.github.getRepositoryForks(args);
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads#fork";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/rest/repos/forks?apiVersion=2022-11-28#list-forks";
     },
   },
 };
