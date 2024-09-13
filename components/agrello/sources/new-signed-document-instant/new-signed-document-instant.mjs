@@ -15,7 +15,7 @@ export default {
       return "DOCUMENT_SIGNED";
     },
     getSummary(event) {
-      return `Document signed: ${event.name}`;
+      return `Document signed: ${event.containerId}`;
     },
   },
   sampleEmit,
