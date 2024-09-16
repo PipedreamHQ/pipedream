@@ -10939,7 +10939,10 @@ importers:
       qs: 6.11.2
 
   components/xata:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.2
+    dependencies:
+      '@pipedream/platform': 3.0.2
 
   components/xeggex:
     specifiers: {}
@@ -17627,6 +17630,17 @@ packages:
 
   /@pipedream/platform/3.0.1:
     resolution: {integrity: sha512-xja1ZHUR/DpOQZZJY39daml8q1ZMzg8wKYwYbyxVPs7MiMqneHM7Bz+Lgj/QrjbNissIKsRSGXmkXbT+Y10L0w==}
+    dependencies:
+      axios: 1.7.5
+      fp-ts: 2.16.9
+      io-ts: 2.2.21_fp-ts@2.16.9
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/3.0.2:
+    resolution: {integrity: sha512-q/BYGJoNXOVaRlNTDWD7Gjgkcu114gbPrxQ5KCOFbuYfqnJu8AeDGMyMvEPaGPbrWUVwgxjvOnxw4EWqce8ZNQ==}
     dependencies:
       axios: 1.7.5
       fp-ts: 2.16.9

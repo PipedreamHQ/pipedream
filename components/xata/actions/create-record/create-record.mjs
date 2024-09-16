@@ -61,9 +61,7 @@ export default {
       table: this.table,
       data: this.recordData,
     });
-
     $.export("$summary", `Successfully created Record with ID: '${response.id}'`);
-
     return response;
   },
 };

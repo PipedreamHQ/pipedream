@@ -36,10 +36,7 @@ export default {
       endpoint: this.endpoint,
       database: this.database,
     });
-
     $.export("$summary", `Successfully retrieved '${response.branches.length}' branches`);
-
-
     return response;
   },
 };

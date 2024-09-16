@@ -8,6 +8,20 @@ export default {
       type: "string",
       label: "Record ID",
       description: "ID of the record to create or update",
+      async options({
+        endpoint, database, branch, table,
+      }) {
+        const response = await this.listRecords({
+          endpoint,
+          database,
+          branch,
+          table,
+        });
+        const recordIds = response.records;
+        return recordIds.map(({ id }) => ({
+          value: id,
+        }));
+      },
     },
     table: {
       type: "string",
@@ -119,6 +133,15 @@ export default {
       return this._makeRequest({
         method: "post",
         url: `${endpoint}/db/${database}:${branch}/tables/${table}/data/${recordId}`,
+        ...args,
+      });
+    },
+    async listRecords({
+      endpoint, database, branch, table, ...args
+    }) {
+      return this._makeRequest({
+        method: "post",
+        url: `${endpoint}/db/${database}:${branch}/tables/${table}/query`,
         ...args,
       });
     },

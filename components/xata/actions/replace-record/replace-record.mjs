@@ -49,6 +49,12 @@ export default {
       propDefinition: [
         app,
         "recordId",
+        (c) => ({
+          endpoint: c.endpoint,
+          database: c.database,
+          table: c.table,
+          branch: c.branch,
+        }),
       ],
     },
     recordData: {
@@ -68,9 +74,7 @@ export default {
       recordId: this.recordId,
       data: this.recordData,
     });
-
     $.export("$summary", `Successfully replaced Record with ID: '${response.id}'`);
-
     return response;
   },
 };
