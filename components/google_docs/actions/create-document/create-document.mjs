@@ -24,9 +24,6 @@ export default {
       propDefinition: [
         googleDocs,
         "folderId",
-        (c) => ({
-          drive: c.drive,
-        }),
       ],
       optional: true,
     },
