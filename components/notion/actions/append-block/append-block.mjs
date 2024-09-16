@@ -6,7 +6,7 @@ export default {
   key: "notion-append-block",
   name: "Append Block to Parent",
   description: "Creates and appends blocks to the specified parent. [See the documentation](https://developers.notion.com/reference/patch-block-children)",
-  version: "0.2.13",
+  version: "0.2.14",
   type: "action",
   props: {
     notion,
@@ -45,6 +45,15 @@ export default {
       label: "Image URLs",
       description: "List of URLs to append as image blocks",
       optional: true,
+    },
+  },
+  methods: {
+    chunkArray(array, chunkSize = 100) {
+      const chunks = [];
+      for (let i = 0; i < array.length; i += chunkSize) {
+        chunks.push(array.slice(i, i + chunkSize));
+      }
+      return chunks;
     },
   },
   async run({ $ }) {
@@ -97,8 +106,17 @@ export default {
       return;
     }
 
-    const { results } = await this.notion.appendBlock(this.pageId, children);
-    $.export("$summary", `Appended ${results.length} block(s) successfully`);
-    return results;
+    const results = [];
+    const chunks = this.chunkArray(children);
+
+    for (const chunk of chunks) {
+      const { results: payload } = await this.notion.appendBlock(this.pageId, chunk);
+      results.push(payload);
+    }
+
+    const totalAppended = results.reduce((sum, res) => sum + res.length, 0);
+
+    $.export("$summary", `Appended ${totalAppended} block(s) successfully`);
+    return results.flat();
   },
 };

@@ -17,18 +17,24 @@ export default {
     db: "$.service.db",
   },
   async additionalProps() {
+    const getDocsInfo = (docsLink) => ({
+      type: "alert",
+      alertType: "info",
+      content: `[See the GitHub documentation](${docsLink}) for more information on the event format.`,
+    });
     if (await this.checkAdminPermission()) {
       return {
         http: {
           type: "$.interface.http",
         },
         ...this.getHttpAdditionalProps(),
+        docsInfo: getDocsInfo(this.getHttpDocsLink()),
       };
     } else {
       return {
         info: {
           type: "alert",
-          alertType: "info",
+          alertType: "warning",
           content: "Admin rights on the repo are required in order to register webhooks. In order to continue setting up your source, configure a polling interval below to check for new events.",
         },
         timer: {
@@ -38,6 +44,7 @@ export default {
           },
         },
         ...this.getTimerAdditionalProps(),
+        docsInfo: getDocsInfo(this.getTimerDocsLink()),
       };
     }
   },
@@ -195,6 +202,12 @@ export default {
         });
 
       this._setSavedItems(savedItems);
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/rest?apiVersion=2022-11-28";
     },
   },
   hooks: {

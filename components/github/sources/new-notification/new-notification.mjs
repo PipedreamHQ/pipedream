@@ -4,24 +4,25 @@ export default {
   ...common,
   key: "github-new-notification",
   name: "New Notification",
-  description: "Emit new events when you received a new notification",
-  version: "0.1.17",
+  description: "Emit new event when the authenticated user receives a new notification. [See the documentation](https://docs.github.com/en/rest/activity/notifications?apiVersion=2022-11-28#list-notifications-for-the-authenticated-user)",
+  version: "0.2.0",
   type: "source",
   dedupe: "unique",
-  async run() {
-    const notifications = await this.github.getFilteredNotifications({
-      data: {
-        participating: true,
-        all: true,
-      },
-    });
-
-    notifications.map((notification) => {
-      this.$emit(notification, {
-        id: notification.id,
-        summary: `New notification ${notification.id}`,
-        ts: Date.parse(notification.created_at),
+  methods: {
+    ...common.methods,
+    async getItems() {
+      return this.github.getFilteredNotifications({
+        data: {
+          participating: true,
+          all: true,
+        },
       });
-    });
+    },
+    getItemMetadata(item) {
+      return {
+        summary: `New notification: ${item.id}`,
+        ts: Date.parse(item.created_at),
+      };
+    },
   },
 };

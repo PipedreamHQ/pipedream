@@ -1,11 +1,26 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "alerty",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return `${this.$auth.notification_url}`;
+    },
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    makeRequest({
+      $ = this, ...opts
+    }) {
+      return axios($, {
+        method: "POST",
+        url: this._baseUrl(),
+        headers: this._headers(),
+        ...opts,
+      });
     },
   },
 };
