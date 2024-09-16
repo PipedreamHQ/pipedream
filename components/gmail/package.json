@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gmail",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Pipedream Gmail Components",
   "main": "gmail.app.mjs",
   "keywords": [
@@ -16,7 +16,7 @@
     "@google-cloud/local-auth": "^2.1.0",
     "@google-cloud/pubsub": "^4.7.0",
     "@googleapis/gmail": "^0.3.4",
-    "@pipedream/platform": "^3.0.0",
+    "@pipedream/platform": "^3.0.3",
     "google-auth-library": "^8.7.0",
     "googleapis": "^105.0.0",
     "html-to-text": "^8.2.1",
