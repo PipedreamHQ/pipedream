@@ -5,6 +5,21 @@ export default {
   type: "app",
   app: "remote_retrieval",
   propDefinitions: {
+    orderId: {
+      type: "string",
+      label: "Order ID",
+      description: "ID of the Order",
+      async options() {
+        const response = await this.getOrders();
+        const orderIds = response.results;
+        return orderIds.map(({
+          order_id, employee_info,
+        }) => ({
+          value: order_id,
+          label: employee_info.name,
+        }));
+      },
+    },
     typeOfEquipment: {
       type: "string",
       label: "Type of Equipment",
@@ -114,12 +129,6 @@ export default {
       label: "Company Phone",
       description: "Company phone",
     },
-    page: {
-      type: "string",
-      label: "Page",
-      description: "Results are paginated up to 25 per page",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {
@@ -148,15 +157,15 @@ export default {
         ...args,
       });
     },
-    async getNewOrders(args = {}) {
+    async getOrders(args = {}) {
       return this._makeRequest({
-        path: "/new-orders",
+        path: "/orders",
         ...args,
       });
     },
-    async getCompletedOrders(args = {}) {
+    async getOrderDetails(args = {}) {
       return this._makeRequest({
-        path: "/completed-orders",
+        path: "/device_returns",
         ...args,
       });
     },

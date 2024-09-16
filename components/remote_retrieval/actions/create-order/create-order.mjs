@@ -137,6 +137,29 @@ export default {
   },
 
   async run({ $ }) {
+    console.log({
+      typeOfEquipment: this.typeOfEquipment,
+      orderType: this.orderType,
+      email: this.email,
+      name: this.name,
+      addressLine1: this.addressLine1,
+      addressLine2: this.addressLine2,
+      addressCity: this.addressCity,
+      addressState: this.addressState,
+      addressCountry: this.addressCountry,
+      addressZip: this.addressZip,
+      phone: this.phone,
+      returnPersonName: this.returnPersonName,
+      returnCompanyName: this.returnCompanyName,
+      returnAddressLine1: this.returnAddressLine1,
+      returnAddressLine2: this.returnAddressLine2,
+      returnAddressCity: this.returnAddressCity,
+      returnAddressState: this.returnAddressState,
+      returnAddressCountry: this.returnAddressCountry,
+      returnAddressZip: this.returnAddressZip,
+      companyEmail: this.companyEmail,
+      companyPhone: this.companyPhone,
+    });
     const response = await this.app.createOrder({
       $,
       data: {
@@ -148,7 +171,7 @@ export default {
               email: this.email,
               name: this.name,
               address_line_1: this.addressLine1,
-              address_line_2: this.addressLine2,
+              address_line_2: this.addressLine2 || "",
               address_city: this.addressCity,
               address_state: this.addressState,
               address_country: this.addressCountry,
@@ -159,7 +182,7 @@ export default {
               return_person_name: this.returnPersonName,
               return_company_name: this.returnCompanyName,
               return_address_line_1: this.returnAddressLine1,
-              return_address_line_2: this.returnAddressLine2,
+              return_address_line_2: this.returnAddressLine2 || "",
               return_address_city: this.returnAddressCity,
               return_address_state: this.returnAddressState,
               return_address_country: this.returnAddressCountry,
