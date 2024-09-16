@@ -6,9 +6,9 @@ import {
 
 export default {
   ...common,
-  key: "google_docs-new-document-updated",
-  name: "Document Updated (Instant)",
-  description: "Emit new event when an existing document is updated in Google Docs",
+  key: "google_docs-new-or-updated-document",
+  name: "New or Updated Document (Instant)",
+  description: "Emit new event when a document is created or updated in Google Docs",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
