@@ -8463,7 +8463,10 @@ importers:
       sendbird-platform-sdk: 0.0.14_@babel+core@7.23.0
 
   components/sendbird_ai_chabot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/sendblue:
     specifiers: {}
