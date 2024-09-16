@@ -16,6 +16,7 @@ var sql_proxy_1 = require("./sql-proxy");
 Object.defineProperty(exports, "sqlProxy", { enumerable: true, get: function () { return sql_proxy_1.default; } });
 var constants_1 = require("./constants");
 Object.defineProperty(exports, "DEFAULT_POLLING_SOURCE_TIMER_INTERVAL", { enumerable: true, get: function () { return constants_1.DEFAULT_POLLING_SOURCE_TIMER_INTERVAL; } });
+Object.defineProperty(exports, "PD_OFFICIAL_GMAIL_OAUTH_CLIENT_ID", { enumerable: true, get: function () { return constants_1.PD_OFFICIAL_GMAIL_OAUTH_CLIENT_ID; } });
 const SendPayload = t.union([
     t.string,
     t.object,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sdk",
-  "version": "0.0.8",
+  "version": "0.0.12",
   "description": "Pipedream SDK",
   "type": "module",
   "main": "dist/server/index.js",

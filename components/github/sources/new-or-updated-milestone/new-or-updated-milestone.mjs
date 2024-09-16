@@ -4,15 +4,12 @@ import {
   getSampleTimerEvent, getSampleWebhookEvent,
 } from "./common-sample-events.mjs";
 
-const DOCS_LINK =
-  "https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads#milestone";
-
 export default {
   ...common,
   key: "github-new-or-updated-milestone",
   name: "New or Updated Milestone",
-  description: `Emit new events when a milestone is created or updated [See the documentation](${DOCS_LINK})`,
-  version: "1.1.1",
+  description: "Emit new event when a milestone is created or updated",
+  version: "1.1.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -23,7 +20,7 @@ export default {
           type: "string[]",
           label: "Filter Event Types",
           optional: true,
-          description: `Specify the type(s) of activity that should emit events. [See the documentation](${DOCS_LINK}) for more information on each type. By default, events will be emitted for all activity.`,
+          description: "Specify the type(s) of activity that should emit events. By default, events will be emitted for all activity.",
           options: constants.EVENT_TYPES_MILESTONES,
         },
       };
@@ -45,6 +42,12 @@ export default {
       return this.github.getRepositoryMilestones({
         repoFullname,
       });
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads#milestone";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/rest/issues/milestones?apiVersion=2022-11-28#list-milestones";
     },
   },
 };

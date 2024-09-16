@@ -3,15 +3,12 @@ import {
   getSampleTimerEvent, getSampleWebhookEvent,
 } from "./common-sample-events.mjs";
 
-const DOCS_LINK =
-  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#discussion";
-
 export default {
   ...common,
   key: "github-new-discussion",
   name: "New Discussion",
-  description: `Emit new event when a discussion is created [See the documentation](${DOCS_LINK})`,
-  version: "1.0.4",
+  description: "Emit new event when a discussion is created",
+  version: "1.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -41,6 +38,12 @@ export default {
         const dateB = new Date(b.createdAt).getTime();
         return dateA - dateB;
       });
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads#discussion";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/graphql/reference/objects#discussion";
     },
   },
 };

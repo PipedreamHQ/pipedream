@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ical",
+  "version": "0.0.1",
+  "description": "Pipedream iCal Components",
+  "main": "ical.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ical"
+  ],
+  "homepage": "https://pipedream.com/apps/ical",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
