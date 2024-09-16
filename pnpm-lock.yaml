@@ -6936,6 +6936,9 @@ importers:
   components/pdf_api_io:
     specifiers: {}
 
+  components/pdf_app_net:
+    specifiers: {}
+
   components/pdf_charts:
     specifiers:
       '@pipedream/platform': ^1.6.3
