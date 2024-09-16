@@ -1,186 +1,128 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "adhook",
   propDefinitions: {
-    postType: {
+    subtenantId: {
       type: "string",
-      label: "Post Type",
-      description: "The type of the post",
-      optional: true,
-    },
-    postAuthor: {
-      type: "string",
-      label: "Post Author",
-      description: "The author of the post",
-      optional: true,
-    },
-    postTags: {
-      type: "string[]",
-      label: "Post Tags",
-      description: "Tags associated with the post",
-      optional: true,
+      label: "Subtenant Id",
+      description: "The id of the subtenant.",
+      async options() {
+        const data = await this.listSubtenants();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     postId: {
       type: "string",
       label: "Post ID",
       description: "The ID of the post",
+      async options({ page }) {
+        const data = await this.listPosts({
+          params: {
+            limit: constants.LIMIT,
+            skip: constants.LIMIT * page,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    isNew: {
-      type: "boolean",
-      label: "Is New",
-      description: "Indicates if the post is new",
-      optional: true,
-    },
-    updateType: {
-      type: "string",
-      label: "Update Type",
-      description: "Type of update made to the post",
-      optional: true,
-    },
-    eventName: {
-      type: "string",
-      label: "Event Name",
-      description: "Name of the calendar event",
-    },
-    startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date of the event",
-    },
-    endDate: {
-      type: "string",
-      label: "End Date",
-      description: "End date of the event",
-    },
-    eventDescription: {
-      type: "string",
-      label: "Event Description",
-      description: "Description of the event",
-      optional: true,
-    },
-    attendees: {
+    tags: {
       type: "string[]",
-      label: "Attendees",
-      description: "List of attendees for the event",
-      optional: true,
+      label: "Tags",
+      description: "A list of tags.",
     },
-    attachments: {
+    topics: {
       type: "string[]",
-      label: "Attachments",
-      description: "Attachments for the event",
-      optional: true,
+      label: "Topics",
+      description: "A list of topics.",
     },
-    postContent: {
+    externalId: {
       type: "string",
-      label: "Post Content",
-      description: "Content of the post",
-    },
-    visibility: {
-      type: "string",
-      label: "Visibility",
-      description: "Visibility setting of the post",
-    },
-    postAttachments: {
-      type: "string[]",
-      label: "Post Attachments",
-      description: "Attachments for the post",
-      optional: true,
-    },
-    mentionUsers: {
-      type: "string[]",
-      label: "Mention Users",
-      description: "Users to mention in the post",
-      optional: true,
+      label: "External Id",
+      description: "An external Id to the event",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://app.adhook.io/api";
+      return "https://app.adhook.io/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
-    },
-    async emitNewPostEvent(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/events/new_post",
-        data: {
-          postType: this.postType,
-          postAuthor: this.postAuthor,
-          postTags: this.postTags,
-        },
+        headers: this._headers(),
         ...opts,
       });
     },
-    async emitPostCreatedOrUpdatedEvent(opts = {}) {
+    createCalendarEvent(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/events/post_created_or_updated",
-        data: {
-          postId: this.postId,
-          postAuthor: this.postAuthor,
-          postTags: this.postTags,
-          isNew: this.isNew,
-        },
+        path: "/customEvents",
         ...opts,
       });
     },
-    async emitPostUpdatedEvent(opts = {}) {
+    listPosts(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/events/post_updated",
-        data: {
-          postId: this.postId,
-          postAuthor: this.postAuthor,
-          postTags: this.postTags,
-          updateType: this.updateType,
-        },
+        path: "/posts",
         ...opts,
       });
     },
-    async createCalendarEvent(opts = {}) {
+    listSubtenants(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/events/calendar",
-        data: {
-          eventName: this.eventName,
-          startDate: this.startDate,
-          endDate: this.endDate,
-          eventDescription: this.eventDescription,
-          attendees: this.attendees,
-          attachments: this.attachments,
-        },
+        path: "/subtenants",
         ...opts,
       });
     },
-    async addOrUpdatePost(opts = {}) {
+    createPost(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/posts",
-        data: {
-          postContent: this.postContent,
-          visibility: this.visibility,
-          postAttachments: this.postAttachments,
-          mentionUsers: this.mentionUsers,
-        },
         ...opts,
       });
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    getPost({ postId }) {
+      return this._makeRequest({
+        path: `/posts/${postId}`,
+      });
+    },
+    updatePost({
+      postId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/posts/${postId}`,
+        ...opts,
+      });
+    },
+    listCreatedPosts() {
+      return this._makeRequest({
+        path: "/posts/recentlyCreated",
+      });
+    },
+    listUpdatedPosts() {
+      return this._makeRequest({
+        path: "/posts/recentlyUpdated",
+      });
     },
   },
 };
