@@ -236,7 +236,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/adhook:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/adobe_pdf_services:
     specifiers:
