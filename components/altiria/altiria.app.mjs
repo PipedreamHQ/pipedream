@@ -33,7 +33,6 @@ export default {
     } = {}) {
       return axios($, {
         ...args,
-        debug: true,
         url: this.getUrl(path),
         headers: this.getHeaders(headers),
         data: this.getDataAuth(data),
