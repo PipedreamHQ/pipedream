@@ -48,6 +48,28 @@ export type ConnectTokenCreateOpts = {
   external_user_id: string;
 };
 
+export type AppInfo = {
+  /**
+   * ID of the app. Only applies for Oauth apps.
+   */
+  id?: string;
+
+  /**
+   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
+   */
+  name_slug: string;
+}
+
+/**
+ * Response received after requesting project info.
+ */
+export type ProjectInfoResponse = {
+  /**
+   * An array of apps linked to the project.
+   */
+  apps: AppInfo[]
+}
+
 /**
  * Response received after creating a connect token.
  */
@@ -491,4 +513,11 @@ class ServerClient {
       method: "DELETE",
     });
   }
+
+  async getProjectInfo(): Promise<ProjectInfoResponse> {
+    return this._makeConnectRequest<ProjectInfoResponse>("/projects/info", {
+      method: "GET",
+    });
+  }
 }
+
