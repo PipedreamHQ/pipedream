@@ -131,6 +131,7 @@ export default {
 
  async run({ $: step }) {
     const {
+        createDeviceReturn,
         employeeInfoEmail,
         employeeInfoName,
         employeeInfoAdd_1,
