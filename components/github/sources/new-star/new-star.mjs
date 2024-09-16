@@ -3,14 +3,12 @@ import {
   getSampleTimerEvent, getSampleWebhookEvent,
 } from "./common-sample-events.mjs";
 
-const DOCS_LINK = "https://docs.github.com/en/webhooks/webhook-events-and-payloads#star";
-
 export default {
   ...common,
   key: "github-new-star",
   name: "New Stars",
-  description: `Emit new event when a repository is starred [See the documentation](${DOCS_LINK})`,
-  version: "1.0.4",
+  description: "Emit new event when a repository is starred",
+  version: "1.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -40,6 +38,12 @@ export default {
         ...args,
         per_page: 100,
       });
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads#star";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/rest/activity/starring?apiVersion=2022-11-28#list-stargazers";
     },
   },
 };

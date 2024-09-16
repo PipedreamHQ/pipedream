@@ -6,7 +6,7 @@ export default {
   key: "openai-new-batch-completed",
   name: "New Batch Completed",
   description: "Emit new event when a new batch is completed in OpenAI. [See the documentation](https://platform.openai.com/docs/api-reference/batch/list)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

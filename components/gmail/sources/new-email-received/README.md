@@ -1,16 +1,16 @@
-## Overview
+# Overview
 
 The Gmail - New Email Received (Instant) source enables you to trigger Pipedream workflows based on real-time changes to your Gmail inbox.
 
-## Getting Started
+# Getting Started
 
-### Prerequisites
+## Prerequisites
 
 - A Google Cloud account
 - A Pipedream account on the Advanced plan or higher
 - Basic familiarity with Google Cloud Console
 
-### Quickstart
+## Quickstart
 
 1. Create a custom Gmail client in Google Cloud Console
 2. Enable Gmail API and Pub/Sub API
@@ -20,9 +20,9 @@ The Gmail - New Email Received (Instant) source enables you to trigger Pipedream
 
 For detailed instructions, follow the steps below.
 
-### Detailed Setup Instructions
+## Detailed Setup Instructions
 
-#### 1. Create a Gmail app
+### 1. Create a Gmail app
 
 1. Sign in to the [Google Cloud Console](https://console.cloud.google.com/welcome)
 2. Select an existing project, or create a new one
@@ -46,13 +46,14 @@ For detailed instructions, follow the steps below.
 
 > **Note:** If you encounter issues with API enablement, ensure you have the necessary permissions in your Google Cloud project.
 
-#### 2. Set up the OAuth consent screen
+### 2. Set up the OAuth consent screen
 
 1. Click **OAuth consent screen** on the left side
 
    ![Click "OAuth consent screen" in the left navigation menu](https://res.cloudinary.com/pipedreamin/image/upload/v1663268506/docs/components/CleanShot_2022-09-15_at_15.01.24_wravfb.png)
 
 2. Set up the OAuth consent screen:
+
    - Select User Type (Internal for Google Workspace users, External for others)
    - Fill in required fields
    - Add scopes: `email`, `profile`, `https://www.googleapis.com/auth/gmail.modify`, `https://www.googleapis.com/auth/gmail.settings.basic`
@@ -61,7 +62,7 @@ For detailed instructions, follow the steps below.
 
    ![Select "External" in the OAuth Consent Screen](https://res.cloudinary.com/pipedreamin/image/upload/v1663268545/docs/components/CleanShot_2022-09-15_at_15.02.22_fiekq1.png)
 
-#### 3. Create OAuth Credentials in Google and Custom OAuth Client in Pipedream
+### 3. Create OAuth Credentials in Google and Custom OAuth Client in Pipedream
 
 1. Navigate to the **Credentials** section on the left side.
 
@@ -83,8 +84,8 @@ For detailed instructions, follow the steps below.
    ![Custom OAuth Client creation on Pipedream](https://res.cloudinary.com/dpenc2lit/image/upload/v1724882777/Screenshot_2024-08-28_at_2.53.15_PM_rxtusm.png)
 
 6. Click **New OAuth Client**, and search for Gmail.
-7. Name your OAuth Client, and click **Continue**. 
-8. Copy the **Redirect URI**, and return to your previous window. 
+7. Name your OAuth Client, and click **Continue**.
+8. Copy the **Redirect URI**, and return to your previous window.
 9. On your Google Cloud app configuration page, click **Add URI** and paste the Redirect URI from the previous step.
 
    ![Add the Pipedream URL to the Callback Redirect URL option](https://res.cloudinary.com/pipedreamin/image/upload/v1663270187/docs/components/CleanShot_2022-09-15_at_15.16.10_hvbocb.png)
@@ -99,7 +100,7 @@ For detailed instructions, follow the steps below.
 
 > **Important:** When creating the OAuth client ID, make sure to copy the Redirect URI from Pipedream exactly as shown to avoid authentication errors.
 
-#### 4. Create service account
+### 4. Create service account
 
 1. Navigate to **[Credentials](https://console.cloud.google.com/apis/credentials?)** under APIs & Services, and click **Create Credentials** > **Service Account**.
 
@@ -113,12 +114,12 @@ For detailed instructions, follow the steps below.
 
    ![Create private key](https://res.cloudinary.com/dpenc2lit/image/upload/v1724964634/Screenshot_2024-08-29_at_1.47.34_PM_tmalc7.png)
 
-#### 5. Connect your Gmail account in Pipedream
+### 5. Connect your Gmail account in Pipedream
 
 1. From the Pipedream Accounts page, click **OAuth Clients**. Next to your newly created Gmail client, click the three-dot menu on the righthand side and click **Connect Account**. Or you can also connect your account from the workflow builder, when configuring the Gmail trigger.
 2. While configuring the New Email Received trigger, you should be prompted to input your Service Account Key JSON.
 
-#### 6. Publish your custom Gmail app (required for External app type only)
+### 6. Publish your custom Gmail app (required for External app type only)
 
 Google has a [7 day expiration window](https://developers.google.com/identity/protocols/oauth2#:~:text=A%20Google%20Cloud,Connect%20equivalents) on refresh tokens for **External** applications with a publishing status of "Testing", so you will need to **Publish** your application in order to maintain your account connection.
 
@@ -131,7 +132,7 @@ Google has a [7 day expiration window](https://developers.google.com/identity/pr
 
 ![Confirmation of changes](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.18_AM_mndtyc.png)
 
-## Troubleshooting
+# Troubleshooting
 
 - **Authentication Failed**: Double-check that your Redirect URI is correct and that you've added your email as a test user in the OAuth consent screen.
 - **API Not Enabled**: Ensure both Gmail API and Pub/Sub API are enabled in your Google Cloud project.

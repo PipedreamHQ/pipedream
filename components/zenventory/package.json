@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zenventory",
+  "version": "0.0.1",
+  "description": "Pipedream Zenventory Components",
+  "main": "zenventory.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zenventory"
+  ],
+  "homepage": "https://pipedream.com/apps/zenventory",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -3,15 +3,12 @@ import {
   getSampleTimerEvent, getSampleWebhookEvent,
 } from "./common-sample-events.mjs";
 
-const DOCS_LINK =
-  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#fork";
-
 export default {
   ...common,
   key: "github-new-release",
   name: "New release",
-  description: `Emit new event when a new release is created [See the documentation](${DOCS_LINK})`,
-  version: "1.0.4",
+  description: "Emit new event when a new release is created",
+  version: "1.0.5",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -37,6 +34,12 @@ export default {
         ...args,
         per_page: 100,
       });
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads#release";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28";
     },
   },
 };
