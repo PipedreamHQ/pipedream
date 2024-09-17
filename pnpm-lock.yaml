@@ -3240,6 +3240,9 @@ importers:
   components/file_store:
     specifiers: {}
 
+  components/fileforge:
+    specifiers: {}
+
   components/filestack:
     specifiers:
       '@pipedream/platform': ^1.6.0
