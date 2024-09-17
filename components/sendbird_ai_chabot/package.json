@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendbird_ai_chabot",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Sendbird AI chabot Components",
   "main": "sendbird_ai_chabot.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1"
   }
 }

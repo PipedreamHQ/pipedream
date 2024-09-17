@@ -316,7 +316,10 @@ importers:
     specifiers: {}
 
   components/agrello:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/ahrefs:
     specifiers: {}
@@ -483,7 +486,10 @@ importers:
     specifiers: {}
 
   components/altiria:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/altoviz:
     specifiers:
@@ -3303,7 +3309,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/firefish:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/fireflies:
     specifiers:
@@ -3787,7 +3796,7 @@ importers:
       '@google-cloud/local-auth': ^2.1.0
       '@google-cloud/pubsub': ^4.7.0
       '@googleapis/gmail': ^0.3.4
-      '@pipedream/platform': ^3.0.0
+      '@pipedream/platform': ^3.0.3
       google-auth-library: ^8.7.0
       googleapis: ^105.0.0
       html-to-text: ^8.2.1
@@ -3798,7 +3807,7 @@ importers:
       '@google-cloud/local-auth': 2.1.1
       '@google-cloud/pubsub': 4.7.0
       '@googleapis/gmail': 0.3.4
-      '@pipedream/platform': 3.0.1
+      '@pipedream/platform': 3.0.3
       google-auth-library: 8.9.0
       googleapis: 105.0.0
       html-to-text: 8.2.1
@@ -6927,6 +6936,9 @@ importers:
   components/pdf_api_io:
     specifiers: {}
 
+  components/pdf_app_net:
+    specifiers: {}
+
   components/pdf_charts:
     specifiers:
       '@pipedream/platform': ^1.6.3
@@ -8454,7 +8466,10 @@ importers:
       sendbird-platform-sdk: 0.0.14_@babel+core@7.23.0
 
   components/sendbird_ai_chabot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/sendblue:
     specifiers: {}
@@ -17479,6 +17494,17 @@ packages:
 
   /@pipedream/platform/3.0.1:
     resolution: {integrity: sha512-xja1ZHUR/DpOQZZJY39daml8q1ZMzg8wKYwYbyxVPs7MiMqneHM7Bz+Lgj/QrjbNissIKsRSGXmkXbT+Y10L0w==}
+    dependencies:
+      axios: 1.7.7
+      fp-ts: 2.16.9
+      io-ts: 2.2.21_fp-ts@2.16.9
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /@pipedream/platform/3.0.3:
+    resolution: {integrity: sha512-7elalas41lnT8i6EAFkqB7fT/+hkLGEQ1njS6A7CVguTrEswaIYk/seKmkfkRY7+O6qncgnXswYIKCBML9Co7w==}
     dependencies:
       axios: 1.7.7
       fp-ts: 2.16.9
@@ -33740,7 +33766,7 @@ packages:
       mime: 2.6.0
       qs: 6.12.0
       readable-stream: 3.6.2
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
     dev: false
