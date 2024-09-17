@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/clarify",
+  "version": "0.0.1",
+  "description": "Pipedream Clarify Components",
+  "main": "clarify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clarify"
+  ],
+  "homepage": "https://pipedream.com/apps/clarify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
