@@ -1,49 +1,79 @@
-// legacy_hash_id: a_EViowW
-import { axios } from "@pipedream/platform";
+import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-complete-checklist-item",
   name: "Complete a Checklist Item",
-  description: "Completes an existing checklist item in a card.",
-  version: "0.1.3",
+  description: "Completes an existing checklist item in a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checkitem-idcheckitem-put).",
+  version: "0.2.0",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    app,
+    board: {
+      propDefinition: [
+        app,
+        "board",
+      ],
     },
-    id: {
+    cardId: {
+      propDefinition: [
+        app,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
+      label: "Card ID",
       description: "The ID of the card.",
+      optional: false,
     },
-    idCheckItem: {
-      type: "string",
-      description: "The ID of the checklist item to complete.",
+    checklistId: {
+      propDefinition: [
+        app,
+        "checklist",
+        ({ cardId }) => ({
+          card: cardId,
+        }),
+      ],
+    },
+    checklistItemId: {
+      propDefinition: [
+        app,
+        "checklistItemId",
+        ({ checklistId }) => ({
+          checklistId,
+        }),
+      ],
+    },
+  },
+  methods: {
+    completeChecklistItem({
+      cardId, checklistItemId, ...args
+    } = {}) {
+      return this.app.put({
+        path: `/cards/${cardId}/checkItem/${checklistItemId}`,
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const oauthSignerUri = this.trello.$auth.oauth_signer_uri;
+    const {
+      completeChecklistItem,
+      cardId,
+      checklistItemId,
+    } = this;
 
-    let id = this.id;
-    let idCheckItem = this.idCheckItem;
+    const response = await completeChecklistItem({
+      $,
+      cardId,
+      checklistItemId,
+      params: {
+        state: "complete",
+      },
+    });
 
-    const config = {
-      url: `https://api.trello.com/1/cards/${id}/checkItem/${idCheckItem}?state=complete`,
-      method: "PUT",
-      data: "",
-    };
+    $.export("$summary", "Successfully completed checklist item.");
 
-    const token = {
-      key: this.trello.$auth.oauth_access_token,
-      secret: this.trello.$auth.oauth_refresh_token,
-    };
-
-    const signConfig = {
-      token,
-      oauthSignerUri,
-    };
-
-    const resp = await axios($, config, signConfig);
-    return resp;
+    return response;
   },
 };

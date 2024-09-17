@@ -5,19 +5,20 @@ export default {
   key: "trello-card-archived",
   name: "Card Archived (Instant)",
   description: "Emit new event for each card archived.",
-  version: "0.0.13",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
     lists: {
+      optional: true,
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "lists",
         (c) => ({
           board: c.board,
@@ -27,8 +28,21 @@ export default {
   },
   methods: {
     ...common.methods,
+    getFilteredCards({
+      boardId, ...args
+    } = {}) {
+      return this.app._makeRequest({
+        path: `/boards/${boardId}/cards`,
+        ...args,
+      });
+    },
     async getSampleEvents() {
-      const cards = await this.trello.getFilteredCards(this.board, "closed");
+      const cards = await this.getFilteredCards({
+        boardId: this.board,
+        params: {
+          filter: "closed",
+        },
+      });
       return {
         sampleEvents: cards,
         sortField: "dateLastActivity",
@@ -40,7 +54,9 @@ export default {
     },
     async getResult(event) {
       const cardId = event.body?.action?.data?.card?.id;
-      return this.trello.getCard(cardId);
+      return this.app.getCard({
+        cardId,
+      });
     },
     isRelevant({ result: card }) {
       return (

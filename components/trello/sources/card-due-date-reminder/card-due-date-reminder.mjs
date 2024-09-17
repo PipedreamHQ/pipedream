@@ -1,3 +1,4 @@
+import ms from "ms";
 import common from "../common/common-polling.mjs";
 
 export default {
@@ -5,46 +6,37 @@ export default {
   key: "trello-card-due-date-reminder",
   name: "Card Due Date Reminder",
   description: "Emit new event at a specified time before a card is due.",
-  version: "0.0.10",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
     timeBefore: {
-      type: "integer",
+      type: "string",
       label: "Time Before",
-      description: "How far before the due time the event should trigger.",
-      default: 5,
-    },
-    timeBeforeUnit: {
-      type: "integer",
-      label: "Time Before (Unit)",
-      description: "Unit of time for Time Before.",
+      description: "How far before the due time the event should trigger. For example, `5 minutes`, `10 minutes`, `1 hour`.",
+      default: "5 minutes",
       options: [
-        {
-          label: "Minutes",
-          value: 60000,
-        },
-        {
-          label: "Hours",
-          value: 3600000,
-        },
-        {
-          label: "Days",
-          value: 86400000,
-        },
-        {
-          label: "Weeks",
-          value: 604800000,
-        },
+        "5 minutes",
+        "10 minutes",
+        "15 minutes",
+        "30 minutes",
+        "1 hour",
+        "2 hours",
+        "3 hours",
+        "6 hours",
+        "12 hours",
+        "1 day",
+        "2 days",
+        "3 days",
+        "1 week",
       ],
-      default: 60000,
     },
   },
   methods: {
@@ -67,11 +59,20 @@ export default {
     const boardId = this.board;
     const now = event.timestamp * 1000;
 
-    const cards = await this.trello.getCards(boardId);
+    const timeBeforeMs = ms(this.timeBefore);
+    if (!timeBeforeMs) {
+      throw new Error(`Invalid timeBefore value: ${this.timeBefore}`);
+    }
+
+    const cards = await this.app.getCards({
+      boardId,
+    });
     for (const card of cards) {
-      if (!card.due) continue;
+      if (!card.due) {
+        continue;
+      }
       const due = Date.parse(card.due);
-      const notifyAt = due - this.timeBefore * this.timeBeforeUnit;
+      const notifyAt = due - timeBeforeMs;
       if (notifyAt <= now) {
         this.emitEvent(card, now);
       }
