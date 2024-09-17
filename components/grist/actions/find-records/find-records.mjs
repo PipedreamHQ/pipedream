@@ -5,7 +5,7 @@ export default {
   key: "grist-find-records",
   name: "Find Records",
   description: "Searches for records in a specified table. [See the documentation](https://support.getgrist.com/api/#tag/records/operation/listRecords)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
