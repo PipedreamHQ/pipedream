@@ -4,10 +4,64 @@ export default {
   type: "app",
   app: "fakturoid",
   propDefinitions: {
+    accountSlug: {
+      type: "string",
+      label: "Account",
+      description: "The account you want to use",
+      async options() {
+        const { accounts } = await this.getLoggedUser();
+
+        return accounts.map(({
+          slug: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    subjectId: {
+      type: "string",
+      label: "Subject Id",
+      description: "The id of the subject",
+      async options({
+        page, accountSlug,
+      }) {
+        const data = await this.listSubjects({
+          accountSlug,
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name, full_name: fName,
+        }) => ({
+          label: fName || name,
+          value,
+        }));
+      },
+    },
     invoiceId: {
       type: "string",
       label: "Invoice ID",
       description: "Unique identifier for the invoice",
+      async options({
+        page, accountSlug,
+      }) {
+        const data = await this.listInvoices({
+          accountSlug,
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, client_name: cName, due_on: due, currency, total,
+        }) => ({
+          label: `${cName} - ${currency} ${total} - Due On: ${due}`,
+          value,
+        }));
+      },
     },
     newStatus: {
       type: "string",
@@ -35,27 +89,10 @@ export default {
       label: "Contact ID",
       description: "Identifier for the contact related to the invoice",
     },
-    lines: {
-      type: "string[]",
-      label: "Lines",
-      description: "Lines that describe the items in the invoice, as a JSON array",
-    },
     number: {
       type: "string",
       label: "Number",
       description: "The invoice number (optional)",
-      optional: true,
-    },
-    due: {
-      type: "string",
-      label: "Due",
-      description: "The due date of the invoice (optional)",
-      optional: true,
-    },
-    note: {
-      type: "string",
-      label: "Note",
-      description: "Additional notes for the invoice (optional)",
       optional: true,
     },
     paymentValue: {
@@ -66,114 +103,101 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl(accountSlug) {
+      return `https://app.fakturoid.cz/api/v3${accountSlug
+        ? `/accounts/${accountSlug}`
+        : ""}`;
     },
-    _baseUrl() {
-      return "https://app.fakturoid.cz/api/v3";
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
-
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "User-Agent": "YourApp (yourname@example.com)",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+    _makeRequest({
+      $ = this, accountSlug, path, ...opts
+    }) {
+      const config = {
+        url: this._baseUrl(accountSlug) + path,
+        headers: this._headers(),
+        ...opts,
+      };
+      console.log("config: ", config);
+      return axios($, config);
+    },
+    getLoggedUser() {
+      return this._makeRequest({
+        path: "/user.json",
       });
     },
-    async createInvoice({
-      contactId, lines, number, due, note, ...opts
+    getInvoice({
+      invoiceId, ...opts
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: `/accounts/${this.$auth.account_slug}/invoices.json`,
-        data: {
-          subject_id: contactId,
-          lines: lines.map(JSON.parse),
-          custom_id: number,
-          due,
-          note,
-        },
+        path: `/invoices/${invoiceId}.json`,
         ...opts,
       });
     },
-    async cancelInvoice({
+    listSubjects(opts = {}) {
+      return this._makeRequest({
+        path: "/subjects.json",
+        ...opts,
+      });
+    },
+    listInvoices(opts = {}) {
+      return this._makeRequest({
+        path: "/invoices.json",
+        ...opts,
+      });
+    },
+    createInvoice(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/invoices.json",
+        ...opts,
+      });
+    },
+    fireInvoice({
       invoiceId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/accounts/${this.$auth.account_slug}/invoices/${invoiceId}/fire.json`,
-        params: {
-          event: "cancel",
-        },
+        path: `/invoices/${invoiceId}/fire.json`,
         ...opts,
       });
     },
-    async undoCancelInvoice({
+    payInvoice({
       invoiceId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/accounts/${this.$auth.account_slug}/invoices/${invoiceId}/fire.json`,
-        params: {
-          event: "undo_cancel",
-        },
+        path: `/invoices/${invoiceId}/payments.json`,
         ...opts,
       });
     },
-    async payInvoice({
-      invoiceId, paymentValue, ...opts
-    }) {
-      const data = paymentValue
-        ? {
-          amount: paymentValue,
-        }
-        : {};
-      return this._makeRequest({
-        method: "POST",
-        path: `/accounts/${this.$auth.account_slug}/invoices/${invoiceId}/payments.json`,
-        data,
-        ...opts,
-      });
-    },
-    async removePayment({
+    removePayment({
       invoiceId, paymentId, ...opts
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/accounts/${this.$auth.account_slug}/invoices/${invoiceId}/payments/${paymentId}.json`,
+        path: `/invoices/${invoiceId}/payments/${paymentId}.json`,
         ...opts,
       });
     },
-    async watchInvoiceStatusChange({
-      invoiceId, newStatus,
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks.json",
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      webhookId, ...opts
     }) {
-      return {
-        event_name: `invoice_${newStatus}`,
-        invoice_id: invoiceId,
-      };
-    },
-    async watchContactsAdded() {
-      return {
-        event_name: "subject_created",
-      };
-    },
-    async watchNewInvoiceCreated({ customerId }) {
-      return {
-        event_name: "invoice_created",
-        customer_id: customerId,
-      };
+      return this._makeRequest({
+        method: "POST",
+        path: `/webhooks${webhookId}.json`,
+        ...opts,
+      });
     },
   },
 };
