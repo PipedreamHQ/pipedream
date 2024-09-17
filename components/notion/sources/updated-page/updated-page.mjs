@@ -89,7 +89,7 @@ export default {
     const properties = await this.getProperties();
     const pagesStream = this.notion.getPages(this.databaseId, params);
 
-    for await (const page of pagesStream) { console.log(page);
+    for await (const page of pagesStream) {
       newLastUpdatedTimestamp = Math.max(
         newLastUpdatedTimestamp,
         Date.parse(page?.last_edited_time),
