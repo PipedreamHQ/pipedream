@@ -3,9 +3,9 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "mailerlite-subscriber-created",
-  name: "New Subscriber Created (Instant)",
-  description: "Emit new event when a new subscriber is created.",
+  key: "mailerlite-subscriber-added-to-group",
+  name: "New Subscriber Added To Group (Instant)",
+  description: "Emit new event when a new subscriber is added to a group.",
   version: "0.0.2",
   type: "source",
   props: {
@@ -17,17 +17,17 @@ export default {
     ...common.methods,
     getEvents() {
       return [
-        "subscriber.created",
+        "subscriber.added_to_group",
       ];
     },
     getDataToEmit({
-      id,
-      created_at: createdAt,
+      subscriber,
+      group,
     }) {
       return {
-        id,
-        summary: `A new subscriber with Id: ${id} has been created!`,
-        ts: new Date(createdAt),
+        id: `${subscriber.id}-${group.id}`,
+        summary: `A new subscriber with Id: ${subscriber.id} has been added to a group`,
+        ts: Date.now(),
       };
     },
   },
