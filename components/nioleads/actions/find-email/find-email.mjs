@@ -27,9 +27,10 @@ export default {
         domain: this.domain,
       },
     });
-    if (response?.email) {
-      $.export("$summary", `Found email: ${response.email}`);
+    if (response?.code) {
+      throw new Error(`${response.msg}`);
     }
+    $.export("$summary", `Found email: ${response.email}`);
     return response;
   },
 };

@@ -21,6 +21,9 @@ export default {
         email: this.email,
       },
     });
+    if (response?.code) {
+      throw new Error(`${response.msg}`);
+    }
     $.export("$summary", `Verified email ${this.email}`);
     return response;
   },
