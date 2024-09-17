@@ -8,7 +8,7 @@ packages = [{include = "public_q_and_a"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-langchain = "^0.1.11"
+langchain = "^0.2.10"
 openai = "^0.27.2"
 jupyter = "^1.0.0"
 pathlib = "^1.0.1"
