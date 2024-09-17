@@ -9809,6 +9809,9 @@ importers:
   components/thankster:
     specifiers: {}
 
+  components/the_bookie:
+    specifiers: {}
+
   components/the_odds_api:
     specifiers:
       '@pipedream/platform': ^1.5.1
