@@ -58,7 +58,7 @@ export type AppInfo = {
    * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
    */
   name_slug: string;
-}
+};
 
 /**
  * Response received after requesting project info.
@@ -67,8 +67,8 @@ export type ProjectInfoResponse = {
   /**
    * An array of apps linked to the project.
    */
-  apps: AppInfo[]
-}
+  apps: AppInfo[];
+};
 
 /**
  * Response received after creating a connect token.
