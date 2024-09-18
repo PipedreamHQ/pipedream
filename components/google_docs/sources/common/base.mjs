@@ -57,7 +57,7 @@ export default {
     async getDocuments(limit) {
       const foldersIds = this.folders;
 
-      if (!foldersIds.length) {
+      if (!foldersIds?.length) {
         const opts = this.getDocumentsFromFolderOpts("root");
         const { files } = await this.googleDrive.listFilesInPage(null, opts);
         return this.getDocumentsFromFiles(files, limit);
