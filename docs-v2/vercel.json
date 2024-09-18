@@ -1,5 +1,5 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/docs/v3",
       "destination": "/docs"
@@ -7,9 +7,7 @@
     {
       "source": "/docs/v3/(.*)",
       "destination": "/docs/$1"
-    }
-  ],
-  "redirects": [
+    },
     {
       "source": "/docs/notebook/actions/",
       "destination": "/workflows/steps/actions/"
@@ -223,14 +221,6 @@
       "destination": "/docs/components/actions-quickstart"
     },
     {
-      "source": "/docs/components/quickstart/nodejs/sources",
-      "destination": "/docs/components/sources-quickstart"
-    },
-    {
-      "source": "/docs/v3/components/quickstart/nodejs/sources",
-      "destination": "/docs/components/sources-quickstart"
-    },
-    {
       "source": "/docs/github-sync",
       "destination": "/docs/quickstart/github-sync"
     },
@@ -285,14 +275,6 @@
     {
       "source": "/docs/workflows/networking",
       "destination": "/docs/databases#connecting-to-restricted-databases"
-    },
-    {
-      "source": "/docs/errors/",
-      "destination": "/docs/workflows/errors"
-    },
-    {
-      "source": "/docs/v3/api/sse",
-      "destination": "/docs/destinations/sse"
     }
   ]
 }

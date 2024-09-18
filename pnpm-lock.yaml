@@ -1162,6 +1162,9 @@ importers:
   components/botbaba:
     specifiers: {}
 
+  components/botcake:
+    specifiers: {}
+
   components/botconversa:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -1655,6 +1658,9 @@ importers:
       form-data: 4.0.0
       fs: 0.0.1-security
       url-exist: 3.0.1
+
+  components/clarify:
+    specifiers: {}
 
   components/clearbit:
     specifiers:
@@ -3238,6 +3244,9 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/file_store:
+    specifiers: {}
+
+  components/fileforge:
     specifiers: {}
 
   components/filestack:
@@ -9807,6 +9816,9 @@ importers:
       date-fns: 2.30.0
 
   components/thankster:
+    specifiers: {}
+
+  components/the_bookie:
     specifiers: {}
 
   components/the_odds_api:
