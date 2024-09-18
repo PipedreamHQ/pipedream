@@ -1162,6 +1162,9 @@ importers:
   components/botbaba:
     specifiers: {}
 
+  components/botcake:
+    specifiers: {}
+
   components/botconversa:
     specifiers:
       '@pipedream/platform': ^1.5.1
