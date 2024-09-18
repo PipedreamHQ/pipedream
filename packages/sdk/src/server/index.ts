@@ -2,7 +2,10 @@
 // Pipedream project's public and secret keys and access customer credentials.
 // See the browser/ directory for the browser client.
 
-import { ClientCredentials } from "simple-oauth2";
+import {
+  AccessToken,
+  ClientCredentials,
+} from "simple-oauth2";
 
 /**
  * Options for creating a server-side client.
@@ -282,6 +285,7 @@ class ServerClient {
   secretKey: string;
   publicKey: string;
   oauthClient: ClientCredentials;
+  oauthToken?: AccessToken;
   baseURL: string;
 
   /**
@@ -321,8 +325,11 @@ class ServerClient {
   }
 
   async _oauthAuthorizationHeader(): Promise<string> {
-    const { token: { access_token: accessToken } } = await this.oauthClient.getToken({});
-    return `Bearer ${accessToken}`;
+    if (!this.oauthToken || this.oauthToken.expired()) {
+      this.oauthToken = await this.oauthClient.getToken({});
+    }
+
+    return `Bearer ${this.oauthToken.token.access_token}`;
   }
 
   /**
