@@ -1,4 +1,4 @@
-import app from "../../error.app.mjs";
+import error from "../../error.app.mjs";
 
 export default {
   name: "Throw Error",
@@ -6,15 +6,22 @@ export default {
   key: "error-throw-error",
   description: "Quickly throw an error from your workflow.",
   props: {
-    app,
+    error,
+    name: {
+      propDefinition: [
+        error,
+        "name",
+      ],
+    },
     errorMessage: {
-      type: "string",
-      label: "Error Message",
-      description: "The error message to throw",
+      propDefinition: [
+        error,
+        "errorMessage",
+      ],
     },
   },
   type: "action",
   async run() {
-    throw new Error(this.errorMessage);
+    this.error.maybeCreateAndThrowError(this.name, this.errorMessage);
   },
 };
