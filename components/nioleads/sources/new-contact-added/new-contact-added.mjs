@@ -53,7 +53,6 @@ export default {
         const meta = this.generateMeta(contact);
         this.$emit(contact, meta);
       });
-
     },
   },
   async run() {

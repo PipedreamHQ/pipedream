@@ -12,14 +12,12 @@ export default {
       const {
         $ = this,
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
         url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "Authorization": `Bearer ${this.$auth.api_key}`,
           "Content-Type": "application/json",
           "Accept": "application/json",
