@@ -126,6 +126,10 @@ Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/trigg
 _Don't forget_ to [configure your workflow's HTTP trigger to allow a custom response](/workflows/steps/triggers/#http-responses). Otherwise your workflow will return the default response.
 </Callout>
 
+## Invoke another workflow
+
+This functionality is currently not supported in Python steps. However, you can invoke another workflow using Node.js steps. For more information, see [Invoke another workflow in Node.js](/code/nodejs#invoke-another-workflow).
+
 ## Sharing data between steps
 
 A step can accept data from other steps in the same workflow, or pass data downstream to others.
