@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   props: {
     gmail,
@@ -366,14 +366,14 @@ export default {
       return messageDetails.map((msg) => {
         const headers = msg.payload.headers;
         return {
-          id: msg.id,
-          threadId: msg.threadId,
-          subject: headers.find((h) => h.name.toLowerCase() === "subject")
-            ?.value,
-          from: headers.find((h) => h.name.toLowerCase() === "from")?.value,
-          to: headers.find((h) => h.name.toLowerCase() === "to")?.value,
-          date: headers.find((h) => h.name.toLowerCase() === "date")?.value,
-          snippet: msg.snippet,
+          "id": msg.id,
+          "threadId": msg.threadId,
+          "subject": headers.find((h) => h.name.toLowerCase() === "subject")?.value,
+          "from": headers.find((h) => h.name.toLowerCase() === "from")?.value,
+          "to": headers.find((h) => h.name.toLowerCase() === "to")?.value,
+          "reply-to": headers.find((h) => h.name.toLowerCase() === "reply-to")?.value,
+          "date": headers.find((h) => h.name.toLowerCase() === "date")?.value,
+          "snippet": msg.snippet,
         };
       });
     },
@@ -482,6 +482,10 @@ export default {
       const newMessageIds = newMessages?.map(({ id }) => id) || [];
       const messageDetails = await this.gmail.getMessages(newMessageIds);
 
+      if (!messageDetails?.length) {
+        return;
+      }
+
       console.log("Fetched message details count:", messageDetails.length);
 
       const processedEmails = this.processEmails(messageDetails);
@@ -491,19 +495,15 @@ export default {
       this._setLastProcessedHistoryId(latestHistoryId);
       console.log("Updated lastProcessedHistoryId:", latestHistoryId);
 
-      if (processedEmails?.length) {
-        this.$emit(
-          {
-            newEmailsCount: processedEmails.length,
-            emails: processedEmails,
-            lastProcessedHistoryId: latestHistoryId,
-          },
-          {
-            id: processedEmails[0].id,
-            summary: processedEmails[0].subject,
-            ts: Date.now(),
-          },
-        );
+      for (let i = 0; i < messageDetails.length; i++) {
+        this.$emit({
+          ...messageDetails[i],
+          "parsed-headers": processedEmails[i],
+        }, {
+          id: processedEmails[i].id,
+          summary: processedEmails[i].subject,
+          ts: Date.now(),
+        });
       }
     }
   },
