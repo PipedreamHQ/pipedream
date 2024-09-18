@@ -8,7 +8,7 @@ export default {
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.0.15",
+  version: "0.0.16",
   type: "source",
   dedupe: "unique",
   props: {
@@ -40,14 +40,12 @@ export default {
   },
   hooks: {
     async deploy() {
-      if (!this.properties?.length) {
-        return;
-      }
+      const properties = await this.getProperties();
       const propertyValues = {};
       const pagesStream = this.notion.getPages(this.databaseId);
       for await (const page of pagesStream) {
         propertyValues[page.id] = {};
-        for (const property of this.properties) {
+        for (const property of properties) {
           propertyValues[page.id][property] = JSON.stringify(page.properties[property]);
         }
       }
@@ -62,70 +60,61 @@ export default {
     _setPropertyValues(propertyValues) {
       this.db.set("propertyValues", propertyValues);
     },
+    async getProperties() {
+      if (this.properties?.length) {
+        return this.properties;
+      }
+      const { properties } = await this.notion.retrieveDatabase(this.databaseId);
+      return Object.keys(properties);
+    },
+    generateMeta(obj, summary) {
+      const { id } = obj;
+      const title = this.notion.extractPageTitle(obj);
+      const ts = Date.now();
+      return {
+        id: `${id}-${ts}`,
+        summary: `${summary}: ${title} - ${id}`,
+        ts,
+      };
+    },
   },
   async run() {
     const lastCheckedTimestamp = this.getLastUpdatedTimestamp();
-    const lastCheckedTimestampDate = new Date(lastCheckedTimestamp);
-    const lastCheckedTimestampISO = lastCheckedTimestampDate.toISOString();
     const propertyValues = this._getPropertyValues();
 
-    // Add a filter so that we only receive pages that have been updated since the last call.
     const params = {
       ...this.lastUpdatedSortParam(),
-      filter: {
-        timestamp: "last_edited_time",
-        last_edited_time: {
-          after: lastCheckedTimestampISO,
-        },
-      },
     };
     let newLastUpdatedTimestamp = lastCheckedTimestamp;
-
+    const properties = await this.getProperties();
     const pagesStream = this.notion.getPages(this.databaseId, params);
 
     for await (const page of pagesStream) {
-      if (!this.isResultNew(page.last_edited_time, lastCheckedTimestamp)) {
-        // The call to getPages() includes a descending sort by last_edited_time.
-        // As soon as one page !isResultNew(), all of the following ones will also.
-        // NOTE: the last_edited_filter means this will never be called,
-        // but it's worth keeping as future-proofing.
-        break;
-      }
-
       newLastUpdatedTimestamp = Math.max(
         newLastUpdatedTimestamp,
         Date.parse(page?.last_edited_time),
       );
 
-      if (this.properties?.length) {
-        let propertyChangeFound = false;
-        for (const property of this.properties) {
-          const currentProperty = JSON.stringify(page.properties[property]);
-          if (!propertyValues[page.id] || currentProperty !== propertyValues[page.id][property]) {
-            propertyChangeFound = true;
-            propertyValues[page.id] = {
-              ...propertyValues[page.id],
-              [property]: currentProperty,
-            };
-          }
+      let propertyChangeFound = false;
+      for (const property of properties) {
+        const currentProperty = JSON.stringify(page.properties[property]);
+        if (!propertyValues[page.id] || currentProperty !== propertyValues[page.id][property]) {
+          propertyChangeFound = true;
+          propertyValues[page.id] = {
+            ...propertyValues[page.id],
+            [property]: currentProperty,
+          };
         }
-        if (!propertyChangeFound) {
-          continue;
-        }
+      }
+      if (!propertyChangeFound && Date.parse(page?.last_edited_time) <= lastCheckedTimestamp) {
+        continue;
       }
 
       if (!this.includeNewPages && page?.last_edited_time === page?.created_time) {
         continue;
       }
 
-      const meta = this.generateMeta(
-        page,
-        constants.types.PAGE,
-        constants.timestamps.LAST_EDITED_TIME,
-        constants.summaries.PAGE_UPDATED,
-        true,
-      );
-
+      const meta = this.generateMeta(page, constants.summaries.PAGE_UPDATED);
       this.$emit(page, meta);
     }
 
