@@ -9,11 +9,10 @@ export default {
   props: {
     app,
   },
-  methods: {
-  },
+  methods: {},
   async run({ $: step }) {
         const response = await this.app.allOrders({
-      step,
+    step,
     });
 
     step.export("$summary", `Successfully retrieved ${response.results.length} order(s).`);

@@ -6,7 +6,6 @@ async function streamIterator(stream) {
   return resources;
 }
 
-
 function getParamFromUrl(url, key = "cursor") {
   if (!url) {
     return null;
