@@ -2205,6 +2205,9 @@ importers:
   components/customgpt:
     specifiers: {}
 
+  components/customjs:
+    specifiers: {}
+
   components/cutt_ly:
     specifiers:
       '@pipedream/platform': ^1.5.1
