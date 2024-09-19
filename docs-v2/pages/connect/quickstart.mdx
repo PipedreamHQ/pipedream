@@ -40,8 +40,8 @@ There are two types of apps in Pipedream:
 2. **OAuth**: These apps require OAuth authorization. Pipedream manages the OAuth flow for these apps, ensuring you always have a fresh access token for requests.
 
 **OAuth apps require you [create your own OAuth client](#creating-a-custom-oauth-client):**
-- First, [create an OAuth client](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) for the app you'd like to integrate.
-- Now when selecting an OAuth app in the **Apps** tab, you'll be prompted to select the OAuth client you've created.
+1. First, [create an OAuth client](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) for the app you'd like to integrate.
+2. Now when selecting an OAuth app in the **Apps** tab, you'll be prompted to select the OAuth client you've created.
 
 ### Get your project keys
 
@@ -85,6 +85,7 @@ If you're building your own app, you'll need to provide these values to the envi
 **Why do I need to talk to the Pipedream API from my server?**
 
 You need to secure specific operations, for example:
+
 - You need to initiate the account connection flow for your end users. In Pipedream Connect, **you exchange your project keys for a short-lived token that allows a specific user to connect a specific app**, and return that token to your frontend.
 - If you expose your Pipedream project keys directly to the frontend, anyone could initiate the account connection flow for any user, and you'd be charged for those accounts.
 - You need to retrieve account credentials for your end users. Again, this should happen securely on your server, not in the frontend, to protect your users' data.
