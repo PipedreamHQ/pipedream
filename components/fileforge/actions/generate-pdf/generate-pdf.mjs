@@ -28,7 +28,7 @@ export default {
     files: {
       type: "string[]",
       label: "HTML Files",
-      description: "The HTML files to convert to PDF. Each file should be a valid path to an HTML file.",
+      description: "The HTML files to convert to PDF. Each file should be a valid path to an HTML file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)..",
     },
     test: {
       type: "boolean",
@@ -69,7 +69,10 @@ export default {
       formData.append("files", fs.createReadStream(checkTmp(file)));
     }
 
-    formData.append("options", JSON.stringify(data), {
+    formData.append("options", JSON.stringify({
+      ...data,
+      host: true,
+    }), {
       contentType: "application/json",
     });
 
