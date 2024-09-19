@@ -2238,6 +2238,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/daktela:
+    specifiers: {}
+
   components/damstra_forms:
     specifiers: {}
 
