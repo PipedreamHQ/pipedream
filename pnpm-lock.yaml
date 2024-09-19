@@ -6083,6 +6083,9 @@ importers:
       lodash.uniqby: 4.7.0
       monday-sdk-js: 0.1.6
 
+  components/monday_oauth:
+    specifiers: {}
+
   components/moneybird:
     specifiers:
       '@pipedream/platform': ^0.10.0
