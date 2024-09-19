@@ -30,12 +30,12 @@ export type CreateServerClientOpts = {
   /**
    * The client ID of your workspace's OAuth application.
    */
-  oauthClientId: string;
+  oauthClientId?: string;
 
   /**
    * The client secret of your workspace's OAuth application.
    */
-  oauthClientSecret: string;
+  oauthClientSecret?: string;
 
   /**
    * The API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
@@ -246,7 +246,7 @@ export type ErrorResponse = {
 export type ConnectAPIResponse<T> = T | ErrorResponse;
 
 /**
- * Options for making a request to the Connect API.
+ * Options for making a request to the Pipedream API.
  */
 interface RequestOptions extends Omit<RequestInit, "headers"> {
   /**
@@ -301,13 +301,27 @@ class ServerClient {
     const { apiHost = "api.pipedream.com" } = opts;
     this.baseURL = `https://${apiHost}/v1`;
 
+    this._configureOauthClient(opts, this.baseURL);
+  }
+
+  private _configureOauthClient(
+    {
+      oauthClientId: id,
+      oauthClientSecret: secret,
+    }: CreateServerClientOpts,
+    tokenHost: string,
+  ) {
+    if (!id || !secret) {
+      return;
+    }
+
     this.oauthClient = new ClientCredentials({
       client: {
-        id: opts.oauthClientId,
-        secret: opts.oauthClientSecret,
+        id,
+        secret,
       },
       auth: {
-        tokenHost: this.baseURL,
+        tokenHost,
         tokenPath: "/v1/oauth/token",
       },
     });
@@ -395,7 +409,7 @@ class ServerClient {
   }
 
   /**
-   * Makes a request to the Connect API.
+   * Makes a request to the Pipedream API.
    *
    * @template T - The expected response type.
    * @param path - The API endpoint path.
