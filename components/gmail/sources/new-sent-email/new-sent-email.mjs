@@ -6,7 +6,7 @@ export default {
   key: "gmail-new-sent-email",
   name: "New Sent Email",
   description: "Emit new event for each new email sent. (Maximum of 100 events emited per execution)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -30,7 +30,7 @@ export default {
       return {
         id: message.id,
         summary: message.snippet,
-        ts: new Date(message.internalDate),
+        ts: +message.internalDate,
       };
     },
   },
