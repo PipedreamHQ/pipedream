@@ -258,6 +258,11 @@ interface RequestOptions extends Omit<RequestInit, "headers"> {
    * Headers to include in the request.
    */
   headers?: Record<string, string>;
+
+  /**
+   * The URL to make the request to.
+   */
+  baseURL?: string;
 }
 
 /**
@@ -364,9 +369,10 @@ class ServerClient {
       headers: customHeaders,
       body,
       method = "GET",
+      baseURL = this.baseURL,
       ...fetchOpts
     } = opts;
-    const url = new URL(`${this.baseURL}${path}`);
+    const url = new URL(`${baseURL}${path}`);
 
     if (params) {
       Object.entries(params).forEach(([
@@ -613,6 +619,36 @@ class ServerClient {
   async getProjectInfo(): Promise<ProjectInfoResponse> {
     return this._makeConnectRequest<ProjectInfoResponse>("/projects/info", {
       method: "GET",
+    });
+  }
+
+  /**
+   * Invokes a workflow using the URL of its HTTP interface(s), by sending an
+   * HTTP POST request with the provided body.
+   *
+   * @param url - The URL of the workflow's HTTP interface.
+   * @param body - The body to send with the request.
+   * @returns A promise resolving to the response from the workflow.
+   *
+   * @example
+   * ```typescript
+   * const response: JSON = await client.invokeWorkflow(
+   *   "https://eoy64t2rbte1u2p.m.pipedream.net",
+   *   {
+   *     foo: 123,
+   *     bar: "abc",
+   *     baz: null,
+   *   },
+   * );
+   */
+  async invokeWorkflow(url: string, body: unknown = null): Promise<unknown> {
+    return this._makeRequest("", {
+      baseURL: url,
+      method: "POST",
+      headers: {
+        "Authorization": await this._oauthAuthorizationHeader(),
+      },
+      body: JSON.stringify(body),
     });
   }
 }
