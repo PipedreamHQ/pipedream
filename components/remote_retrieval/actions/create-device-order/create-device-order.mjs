@@ -5,7 +5,7 @@ export default {
   name: "Create Device Order",
   description: "Creates a device return order. [See the documentation](https://www.remoteretrieval.com/api-documentation/#create-order)",
   type: "action",
-  version: "0.1.0",
+  version: "0.0.1",
   props: {
     app,
 
