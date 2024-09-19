@@ -17,10 +17,28 @@ https://api.pipedream.com/v1/connect
 
 ## Installing the TypeScript SDK
 
-Pipedream's SDK will work in any browser or server that can run JavaScript. To install [the SDK](https://www.npmjs.com/package/@pipedream/sdk), run:
+Pipedream's SDK will work in any browser or server that can run JavaScript. 
+
+### npm
+
+To install [the SDK](https://www.npmjs.com/package/@pipedream/sdk) from npm, run:
 
 ```bash
 npm i --save @pipedream/sdk
+```
+
+### `<script>` tag
+
+You can also load the client-side SDK via `<script>` tag. You can run the latest version:
+
+```html
+<script src="https://unpkg.com/@pipedream/sdk/dist/browser/index.js"></script>
+```
+
+or a specific version:
+
+```html
+<script src="https://unpkg.com/@pipedream/sdk@0.0.13/dist/browser/index.js"></script>
 ```
 
 ## Authentication
