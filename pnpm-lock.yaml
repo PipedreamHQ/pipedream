@@ -9618,6 +9618,9 @@ importers:
   components/talenox:
     specifiers: {}
 
+  components/talenthr:
+    specifiers: {}
+
   components/talentlms:
     specifiers: {}
 
