@@ -8,7 +8,7 @@ export default {
   name: "New Labeled Email",
   description: "Emit new event when a new email is labeled.",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -32,7 +32,7 @@ export default {
       return {
         id: `${message.id}-${this.label}`,
         summary: `A new message with ID: ${message.id} was labeled with "${this.label}"`,
-        ts: Date.now(),
+        ts: +message.internalDate,
       };
     },
     filterHistory(history) {
