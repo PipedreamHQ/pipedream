@@ -17,7 +17,7 @@ export default {
     ...common.methods,
     getEvents() {
       return [
-        "subscriber.added_to_group",
+        "subscriber.add_to_group",
       ];
     },
     getDataToEmit({
