@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/error",
+  "version": "0.0.2",
+  "description": "Pipedream Error Components",
+  "main": "error.app.mjs",
+  "keywords": [
+    "pipedream",
+    "error"
+  ],
+  "homepage": "https://pipedream.com/apps/error",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
