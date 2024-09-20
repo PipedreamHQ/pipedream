@@ -1535,6 +1535,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.4
 
+  components/chat_data:
+    specifiers: {}
+
   components/chatbot:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -2205,6 +2208,9 @@ importers:
   components/customgpt:
     specifiers: {}
 
+  components/customjs:
+    specifiers: {}
+
   components/cutt_ly:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -2234,6 +2240,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/daktela:
+    specifiers: {}
 
   components/damstra_forms:
     specifiers: {}
@@ -11500,9 +11509,14 @@ importers:
   packages/sdk:
     specifiers:
       '@types/node': ^20.14.9
+      '@types/simple-oauth2': ^5.0.7
+      simple-oauth2: ^5.1.0
       typescript: ^5.5.2
+    dependencies:
+      simple-oauth2: 5.1.0
     devDependencies:
       '@types/node': 20.16.1
+      '@types/simple-oauth2': 5.0.7
       typescript: 5.5.4
 
   packages/snowflake-sdk:
@@ -16549,6 +16563,20 @@ packages:
       yargs: 17.7.2
     dev: false
 
+  /@hapi/boom/10.0.1:
+    resolution: {integrity: sha512-ERcCZaEjdH3OgSJlyjVk8pHIFeus91CjKP3v+MpgBNp5IvGzP2l/bRiD78nqYcKPaZdbKkK5vDBVPd2ohHBlsA==}
+    dependencies:
+      '@hapi/hoek': 11.0.4
+    dev: false
+
+  /@hapi/bourne/3.0.0:
+    resolution: {integrity: sha512-Waj1cwPXJDucOib4a3bAISsKJVb15MKi9IvmTI/7ssVEm6sywXGjVJDhl6/umt1pK1ZS7PacXU3A1PmFKHEZ2w==}
+    dev: false
+
+  /@hapi/hoek/11.0.4:
+    resolution: {integrity: sha512-PnsP5d4q7289pS2T2EgGz147BFJ2Jpb4yrEdkpz2IhgEUzos1S7HTl7ezWh1yfYzYlj89KzLdCRkqsP6SIryeQ==}
+    dev: false
+
   /@hapi/hoek/9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
     dev: false
@@ -16557,6 +16585,14 @@ packages:
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
     dependencies:
       '@hapi/hoek': 9.3.0
+    dev: false
+
+  /@hapi/wreck/18.1.0:
+    resolution: {integrity: sha512-0z6ZRCmFEfV/MQqkQomJ7sl/hyxvcZM7LtuVqN3vdAO4vM9eBbowl0kaqQj9EJJQab+3Uuh1GxbGIBFy4NfJ4w==}
+    dependencies:
+      '@hapi/boom': 10.0.1
+      '@hapi/bourne': 3.0.0
+      '@hapi/hoek': 11.0.4
     dev: false
 
   /@huggingface/inference/1.8.0:
@@ -21121,6 +21157,10 @@ packages:
       '@types/mime': 3.0.2
       '@types/node': 20.16.1
     dev: false
+
+  /@types/simple-oauth2/5.0.7:
+    resolution: {integrity: sha512-8JbWVJbiTSBQP/7eiyGKyXWAqp3dKQZpaA+pdW16FCi32ujkzRMG8JfjoAzdWt6W8U591ZNdHcPtP2D7ILTKuA==}
+    dev: true
 
   /@types/source-map/0.5.7:
     resolution: {integrity: sha512-LrnsgZIfJaysFkv9rRJp4/uAyqw87oVed3s1hhF83nwbo9c7MG9g5DqR0seHP+lkX4ldmMrVolPjQSe2ZfD0yA==}
@@ -33041,6 +33081,17 @@ packages:
 
   /simple-lru-cache/0.0.2:
     resolution: {integrity: sha512-uEv/AFO0ADI7d99OHDmh1QfYzQk/izT1vCmu/riQfh7qjBVUUgRT87E5s5h7CxWCA/+YoZerykpEthzVrW3LIw==}
+    dev: false
+
+  /simple-oauth2/5.1.0:
+    resolution: {integrity: sha512-gWDa38Ccm4MwlG5U7AlcJxPv3lvr80dU7ARJWrGdgvOKyzSj1gr3GBPN1rABTedAYvC/LsGYoFuFxwDBPtGEbw==}
+    dependencies:
+      '@hapi/hoek': 11.0.4
+      '@hapi/wreck': 18.1.0
+      debug: 4.3.6
+      joi: 17.10.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /simple-swizzle/0.2.2:
