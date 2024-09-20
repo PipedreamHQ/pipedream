@@ -289,7 +289,7 @@ class ServerClient {
   environment?: string;
   secretKey: string;
   publicKey: string;
-  oauthClient: ClientCredentials;
+  oauthClient?: ClientCredentials;
   oauthToken?: AccessToken;
   baseURL: string;
 
@@ -344,6 +344,10 @@ class ServerClient {
   }
 
   async _oauthAuthorizationHeader(): Promise<string> {
+    if (!this.oauthClient) {
+      throw new Error("OAuth client not configured");
+    }
+
     if (!this.oauthToken || this.oauthToken.expired()) {
       this.oauthToken = await this.oauthClient.getToken({});
     }
