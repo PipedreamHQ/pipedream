@@ -627,7 +627,13 @@ class ServerClient {
    * HTTP POST request with the provided body.
    *
    * @param url - The URL of the workflow's HTTP interface.
-   * @param body - The body to send with the request.
+   * @param opts - The options for the request.
+   * @param opts.body - The body of the request. It must be a JSON-serializable
+   * value (e.g. an object, `null`, a string, etc.).
+   * @param opts.headers - The headers to include in the request. Note that the
+   * `Authorization` header will always be set with an OAuth access token
+   * retrieved by the client.
+   *
    * @returns A promise resolving to the response from the workflow.
    *
    * @example
@@ -635,17 +641,28 @@ class ServerClient {
    * const response: JSON = await client.invokeWorkflow(
    *   "https://eoy64t2rbte1u2p.m.pipedream.net",
    *   {
-   *     foo: 123,
-   *     bar: "abc",
-   *     baz: null,
+   *     body: {
+   *       foo: 123,
+   *       bar: "abc",
+   *       baz: null,
+   *     },
+   *     headers: {
+   *       "Accept": "application/json",
+   *     },
    *   },
    * );
    */
-  async invokeWorkflow(url: string, body: unknown = null): Promise<unknown> {
+  async invokeWorkflow(url: string, opts: RequestOptions = {}): Promise<unknown> {
+    const {
+      body = null,
+      headers = {},
+    } = opts;
+
     return this._makeRequest("", {
       baseURL: url,
       method: "POST",
       headers: {
+        ...headers,
         "Authorization": await this._oauthAuthorizationHeader(),
       },
       body: JSON.stringify(body),
