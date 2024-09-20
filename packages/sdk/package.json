@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sdk",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "description": "Pipedream SDK",
   "type": "module",
   "main": "dist/server/index.js",
@@ -40,6 +40,10 @@
   ],
   "devDependencies": {
     "@types/node": "^20.14.9",
+    "@types/simple-oauth2": "^5.0.7",
     "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "simple-oauth2": "^5.1.0"
   }
 }

@@ -3,8 +3,8 @@ import helperFunctions from "../../helper_functions.app.mjs";
 export default {
   key: "helper_functions-trigger-workflow",
   name: "Trigger Workflow",
-  description: "Invokes another workflow by its ID.",
-  version: "0.0.1",
+  description: "Trigger another Pipedream workflow in your workspace.",
+  version: "0.0.2",
   type: "action",
   props: {
     helperFunctions,
@@ -16,7 +16,7 @@ export default {
     event: {
       type: "object",
       label: "Event",
-      description: "The event to be sent to the triggered workflow as the triggering event. In the triggered workflow, you can refer to this event object using the Custom Expression `{{steps.trigger.event}}`",
+      description: "The event to be sent to the triggered workflow as the triggering event. In the triggered workflow, you can reference this event object with a custom expression (e.g., `{{steps.trigger.event}}`).",
       optional: true,
     },
   },
@@ -28,7 +28,7 @@ export default {
 
     const result = await $.flow.trigger(workflowId, event);
 
-    $.export("$summary", `Successfully triggered workflow with ID: ${workflowId}`);
+    $.export("$summary", `Successfully triggered workflow ID **${workflowId}**`);
 
     return result;
   },

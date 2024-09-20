@@ -2,6 +2,11 @@
 // Pipedream project's public and secret keys and access customer credentials.
 // See the browser/ directory for the browser client.
 
+import {
+  AccessToken,
+  ClientCredentials,
+} from "simple-oauth2";
+
 /**
  * Options for creating a server-side client.
  * This is used to configure the ServerClient instance.
@@ -21,6 +26,16 @@ export type CreateServerClientOpts = {
    * The secret API key for accessing the service. This key is required.
    */
   secretKey: string;
+
+  /**
+   * The client ID of your workspace's OAuth application.
+   */
+  oauthClientId?: string;
+
+  /**
+   * The client secret of your workspace's OAuth application.
+   */
+  oauthClientSecret?: string;
 
   /**
    * The API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
@@ -231,9 +246,9 @@ export type ErrorResponse = {
 export type ConnectAPIResponse<T> = T | ErrorResponse;
 
 /**
- * Options for making a request to the Connect API.
+ * Options for making a request to the Pipedream API.
  */
-interface ConnectRequestOptions extends Omit<RequestInit, "headers"> {
+interface RequestOptions extends Omit<RequestInit, "headers"> {
   /**
    * Query parameters to include in the request URL.
    */
@@ -269,6 +284,8 @@ class ServerClient {
   environment?: string;
   secretKey: string;
   publicKey: string;
+  oauthClient: ClientCredentials;
+  oauthToken?: AccessToken;
   baseURL: string;
 
   /**
@@ -283,20 +300,54 @@ class ServerClient {
 
     const { apiHost = "api.pipedream.com" } = opts;
     this.baseURL = `https://${apiHost}/v1`;
+
+    this._configureOauthClient(opts, this.baseURL);
+  }
+
+  private _configureOauthClient(
+    {
+      oauthClientId: id,
+      oauthClientSecret: secret,
+    }: CreateServerClientOpts,
+    tokenHost: string,
+  ) {
+    if (!id || !secret) {
+      return;
+    }
+
+    this.oauthClient = new ClientCredentials({
+      client: {
+        id,
+        secret,
+      },
+      auth: {
+        tokenHost,
+        tokenPath: "/v1/oauth/token",
+      },
+    });
   }
 
   /**
-   * Generates an Authorization header using the public and secret keys.
+   * Generates an Authorization header for Connect using the public and secret
+   * keys of the target project.
    *
    * @returns The authorization header as a string.
    */
-  private _authorizationHeader(): string {
+  private _connectAuthorizationHeader(): string {
     const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString("base64");
     return `Basic ${encoded}`;
   }
 
+  async _oauthAuthorizationHeader(): Promise<string> {
+    if (!this.oauthToken || this.oauthToken.expired()) {
+      this.oauthToken = await this.oauthClient.getToken({});
+    }
+
+    return `Bearer ${this.oauthToken.token.access_token}`;
+  }
+
   /**
-   * Makes a request to the Connect API.
+   * Makes an HTTP request
    *
    * @template T - The expected response type.
    * @param path - The API endpoint path.
@@ -304,9 +355,9 @@ class ServerClient {
    * @returns A promise resolving to the API response.
    * @throws Will throw an error if the response status is not OK.
    */
-  async _makeConnectRequest<T>(
+  async _makeRequest<T>(
     path: string,
-    opts: ConnectRequestOptions = {},
+    opts: RequestOptions = {},
   ): Promise<T> {
     const {
       params,
@@ -315,7 +366,7 @@ class ServerClient {
       method = "GET",
       ...fetchOpts
     } = opts;
-    const url = new URL(`${this.baseURL}/connect${path}`);
+    const url = new URL(`${this.baseURL}${path}`);
 
     if (params) {
       Object.entries(params).forEach(([
@@ -329,7 +380,6 @@ class ServerClient {
     }
 
     const headers = {
-      "Authorization": this._authorizationHeader(),
       "Content-Type": "application/json",
       ...customHeaders,
     };
@@ -356,6 +406,52 @@ class ServerClient {
 
     const result = await response.json() as unknown as T;
     return result;
+  }
+
+  /**
+   * Makes a request to the Pipedream API.
+   *
+   * @template T - The expected response type.
+   * @param path - The API endpoint path.
+   * @param opts - The options for the request.
+   * @returns A promise resolving to the API response.
+   * @throws Will throw an error if the response status is not OK.
+   */
+  async _makeApiRequest<T>(
+    path: string,
+    opts: RequestOptions = {},
+  ): Promise<T> {
+    const headers = {
+      ...opts.headers ?? {},
+      "Authorization": await this._oauthAuthorizationHeader(),
+    };
+    return this._makeRequest<T>(path, {
+      headers,
+      ...opts,
+    });
+  }
+
+  /**
+   * Makes a request to the Connect API.
+   *
+   * @template T - The expected response type.
+   * @param path - The API endpoint path.
+   * @param opts - The options for the request.
+   * @returns A promise resolving to the API response.
+   * @throws Will throw an error if the response status is not OK.
+   */
+  async _makeConnectRequest<T>(
+    path: string,
+    opts: RequestOptions = {},
+  ): Promise<T> {
+    const headers = {
+      ...opts.headers ?? {},
+      "Authorization": this._connectAuthorizationHeader(),
+    };
+    return this._makeRequest<T>(`/connect${path}`, {
+      headers,
+      ...opts,
+    });
   }
 
   /**
