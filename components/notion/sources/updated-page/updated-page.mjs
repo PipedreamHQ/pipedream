@@ -131,7 +131,7 @@ export default {
 
       this.emitEvent(page);
 
-      if (Date.parse(page?.last_edited_time < lastCheckedTimestamp)) {
+      if (Date.parse(page?.last_edited_time) < lastCheckedTimestamp) {
         break;
       }
     }
