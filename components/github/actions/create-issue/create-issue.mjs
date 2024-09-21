@@ -1,11 +1,12 @@
 import { checkPushPermission } from "../../common/utils.mjs";
 import github from "../../github.app.mjs";
+import asyncProps from "../common/asyncProps.mjs";
 
 export default {
   key: "github-create-issue",
   name: "Create Issue",
-  description: "Create a new issue in a Gihub repo. [See docs here](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
-  version: "0.2.16",
+  description: "Create a new issue in a Gihub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
+  version: "0.3.{{ts}}",
   type: "action",
   props: {
     github,
@@ -23,42 +24,9 @@ export default {
     },
     body: {
       label: "Body",
-      description: "The contents of the issue",
+      description: "The text body of the issue",
       type: "string",
       optional: true,
-    },
-    labels: {
-      label: "Labels",
-      description: "Labels to associate with this issue. NOTE: Only users with push access can set labels for new issues",
-      optional: true,
-      propDefinition: [
-        github,
-        "labels",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-    },
-    assignees: {
-      label: "Assignees",
-      description: "Logins for Users to assign to this issue. NOTE: Only users with push access can set assignees for new issues",
-      optional: true,
-      propDefinition: [
-        github,
-        "collaborators",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-    },
-    milestone: {
-      propDefinition: [
-        github,
-        "milestoneNumber",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
     },
   },
   methods: {
@@ -66,8 +34,13 @@ export default {
   },
   async additionalProps() {
     const canPush = await this.checkPushPermission();
+    console.log("canPush", canPush);
     return canPush
-      ? {}
+      ? {
+        assignees: asyncProps.assignees,
+        labels: asyncProps.labels,
+        milestoneNumber: asyncProps.milestoneNumber,
+      }
       : {
         infoBox: {
           type: "alert",
