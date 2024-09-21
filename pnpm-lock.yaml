@@ -6531,6 +6531,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/offlight:
+    specifiers: {}
+
   components/oksign:
     specifiers: {}
 
