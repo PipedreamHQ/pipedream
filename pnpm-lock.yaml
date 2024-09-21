@@ -4428,6 +4428,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.0
 
+  components/highergov:
+    specifiers: {}
+
   components/highlevel_oauth:
     specifiers:
       '@pipedream/platform': ^1.6.2
