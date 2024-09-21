@@ -1,3 +1,4 @@
+import { checkPushPermission } from "../../common/utils.mjs";
 import github from "../../github.app.mjs";
 
 export default {
@@ -13,6 +14,7 @@ export default {
         github,
         "repoFullname",
       ],
+      reloadProps: true,
     },
     title: {
       label: "Title",
@@ -49,19 +51,42 @@ export default {
         }),
       ],
     },
+    milestone: {
+      propDefinition: [
+        github,
+        "milestoneNumber",
+        (c) => ({
+          repoFullname: c.repoFullname,
+        }),
+      ],
+    },
+  },
+  methods: {
+    checkPushPermission,
+  },
+  async additionalProps() {
+    const canPush = await this.checkPushPermission();
+    return canPush
+      ? {}
+      : {
+        infoBox: {
+          type: "alert",
+          alertType: "info",
+          content: "Labels, assignees and milestones can only be set by users with push access to the repository.",
+        },
+      };
   },
   async run({ $ }) {
-    const response = await this.github.createIssue({
-      repoFullname: this.repoFullname,
-      data: {
-        title: this.title,
-        body: this.body,
-        labels: this.labels,
-        assignees: this.assignees,
-      },
+    const { // eslint-disable-next-line no-unused-vars
+      github, repoFullname, infoBox, ...data
+    } = this;
+
+    const response = await github.createIssue({
+      repoFullname,
+      data,
     });
 
-    $.export("$summary", "Successfully created issue.");
+    $.export("$summary", `Successfully created issue (ID: ${response.id})`);
 
     return response;
   },

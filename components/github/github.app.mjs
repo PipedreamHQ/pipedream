@@ -206,6 +206,21 @@ export default {
         }));
       },
     },
+    milestoneNumber: {
+      type: "integer",
+      label: "Milestone Number",
+      description: "The number of a milestone to associate this issue with.",
+      async options({ repoFullname }) {
+        const items = await this.getRepositoryMilestones({
+          repoFullname,
+        });
+
+        return items.map((item) => ({
+          label: item.title,
+          value: +item.number,
+        }));
+      },
+    },
     column: {
       label: "Column",
       description: "The column in a project board",
