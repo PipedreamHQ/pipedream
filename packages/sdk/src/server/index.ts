@@ -643,7 +643,7 @@ class ServerClient {
    * @example
    * ```typescript
    * const response: JSON = await client.invokeWorkflow(
-   *   "https://eoy64t2rbte1u2p.m.pipedream.net",
+   *   "https://en-your-endpoint.m.pipedream.net",
    *   {
    *     body: {
    *       foo: 123,
