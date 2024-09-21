@@ -295,6 +295,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/agentos:
+    specifiers: {}
+
   components/agile_crm:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3032,6 +3035,9 @@ importers:
   components/eodhd_apis:
     specifiers: {}
 
+  components/epsy:
+    specifiers: {}
+
   components/error:
     specifiers: {}
 
@@ -4424,6 +4430,9 @@ importers:
       '@pipedream/platform': ^3.0.0
     dependencies:
       '@pipedream/platform': 3.0.0
+
+  components/highergov:
+    specifiers: {}
 
   components/highlevel_oauth:
     specifiers:
@@ -6524,6 +6533,9 @@ importers:
       '@pipedream/platform': ^1.6.0
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/offlight:
+    specifiers: {}
 
   components/oksign:
     specifiers: {}
