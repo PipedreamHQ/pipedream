@@ -7,7 +7,7 @@ export default {
   name: "Create Pull Request",
   description: toSingleLineString(`
   Creates a new pull request for a specified repository.
-  [See docs here](https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request)
+  [See the documentation](https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request)
   `),
   version: "0.0.9",
   type: "action",

@@ -5,7 +5,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "github-update-gist",
   name: "Update Gist",
-  description: "Allows you to update a gist's description and to update, delete, or rename gist files. Files from the previous version of the gist that aren't explicitly changed during an edit are unchanged. At least one of description or files is required. [See docs here](https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#update-a-gist)",
+  description: "Allows you to update a gist's description and to update, delete, or rename gist files. Files from the previous version of the gist that aren't explicitly changed during an edit are unchanged. At least one of description or files is required. [See the documentation](https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#update-a-gist)",
   version: "0.0.6",
   type: "action",
   props: {
