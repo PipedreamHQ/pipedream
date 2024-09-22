@@ -13,19 +13,14 @@ import {
  */
 export type CreateServerClientOpts = {
   /**
-   * The environment in which the server is running (e.g., "production", "development").
+   * The public API key for accessing the service.
    */
-  environment?: string;
+  publicKey?: string;
 
   /**
-   * The public API key for accessing the service. This key is required.
+   * The secret API key for accessing the service.
    */
-  publicKey: string;
-
-  /**
-   * The secret API key for accessing the service. This key is required.
-   */
-  secretKey: string;
+  secretKey?: string;
 
   /**
    * The client ID of your workspace's OAuth application.
@@ -225,7 +220,7 @@ export type Account = {
   updated_at: string;
 
   /**
-   * The credentials associated with the account, if `include_credentials` was true.
+   * The credentials associated with the account, if include_credentials was true.
    */
   credentials?: Record<string, string>;
 };
@@ -248,7 +243,7 @@ export type ConnectAPIResponse<T> = T | ErrorResponse;
 /**
  * Options for making a request to the Pipedream API.
  */
-interface RequestOptions extends Omit<RequestInit, "headers"> {
+interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
   /**
    * Query parameters to include in the request URL.
    */
@@ -263,20 +258,27 @@ interface RequestOptions extends Omit<RequestInit, "headers"> {
    * The URL to make the request to.
    */
   baseURL?: string;
+
+  /**
+   * The body of the request.
+   */
+  body?: Record<string, unknown> | string | FormData | URLSearchParams | null;
 }
 
 /**
- * Creates a new instance of `ServerClient` with the provided options.
+ * Creates a new instance of ServerClient with the provided options.
  *
  * @example
- * ```typescript
+ *
+typescript
  * const client = createClient({
  *   publicKey: "your-public-key",
  *   secretKey: "your-secret-key",
  * });
- * ```
+ *
+
  * @param opts - The options for creating the server client.
- * @returns A new instance of `ServerClient`.
+ * @returns A new instance of ServerClient.
  */
 export function createClient(opts: CreateServerClientOpts) {
   return new ServerClient(opts);
@@ -286,20 +288,18 @@ export function createClient(opts: CreateServerClientOpts) {
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
 class ServerClient {
-  environment?: string;
-  secretKey: string;
-  publicKey: string;
+  secretKey?: string;
+  publicKey?: string;
   oauthClient?: ClientCredentials;
   oauthToken?: AccessToken;
   baseURL: string;
 
   /**
-   * Constructs a new `ServerClient` instance.
+   * Constructs a new ServerClient instance.
    *
    * @param opts - The options for configuring the server client.
    */
   constructor(opts: CreateServerClientOpts) {
-    this.environment = opts.environment;
     this.secretKey = opts.secretKey;
     this.publicKey = opts.publicKey;
 
@@ -376,6 +376,7 @@ class ServerClient {
       baseURL = this.baseURL,
       ...fetchOpts
     } = opts;
+
     const url = new URL(`${baseURL}${path}`);
 
     if (params) {
@@ -390,9 +391,22 @@ class ServerClient {
     }
 
     const headers = {
-      "Content-Type": "application/json",
       ...customHeaders,
     };
+
+    let processedBody: BodyInit | null = null;
+
+    if (body) {
+      if (body instanceof FormData || body instanceof URLSearchParams || typeof body === "string") {
+        // For FormData, URLSearchParams, or strings, pass the body as-is
+        processedBody = body;
+      } else {
+        // For objects, assume it's JSON and serialize it
+        processedBody = JSON.stringify(body);
+        // Set the Content-Type header to application/json if not already set
+        headers["Content-Type"] = headers["Content-Type"] || "application/json";
+      }
+    }
 
     const requestOptions: RequestInit = {
       method,
@@ -404,8 +418,8 @@ class ServerClient {
       "POST",
       "PUT",
       "PATCH",
-    ].includes(method.toUpperCase()) && body) {
-      requestOptions.body = body;
+    ].includes(method.toUpperCase()) && processedBody) {
+      requestOptions.body = processedBody;
     }
 
     const response: Response = await fetch(url.toString(), requestOptions);
@@ -414,8 +428,13 @@ class ServerClient {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const result = await response.json() as unknown as T;
-    return result;
+    // Attempt to parse JSON, fall back to raw text if it fails
+    const contentType = response.headers.get("Content-Type");
+    if (contentType && contentType.includes("application/json")) {
+      return await response.json() as T;
+    }
+
+    return await response.text() as unknown as T;
   }
 
   /**
@@ -432,6 +451,7 @@ class ServerClient {
     opts: RequestOptions = {},
   ): Promise<T> {
     const headers = {
+      "Content-Type": "application/json",
       ...opts.headers ?? {},
       "Authorization": await this._oauthAuthorizationHeader(),
     };
@@ -471,13 +491,15 @@ class ServerClient {
    * @returns A promise resolving to the connect token response.
    *
    * @example
-   * ```typescript
+   *
+typescript
    * const tokenResponse = await client.connectTokenCreate({
    *   app_slug: "your-app-slug",
    *   external_user_id: "external-user-id",
    * });
    * console.log(tokenResponse.token);
-   * ```
+   *
+
    */
   async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
     const body = {
@@ -498,10 +520,12 @@ class ServerClient {
    * @returns A promise resolving to a list of accounts.
    *
    * @example
-   * ```typescript
+   *
+typescript
    * const accounts = await client.getAccounts({ include_credentials: 1 });
    * console.log(accounts);
-   * ```
+   *
+
    */
   async getAccounts(params: ConnectParams = {}): Promise<Account[]> {
     return this._makeConnectRequest<Account[]>("/accounts", {
@@ -517,10 +541,12 @@ class ServerClient {
    * @returns A promise resolving to the account.
    *
    * @example
-   * ```typescript
+   *
+typescript
    * const account = await client.getAccount("account-id");
    * console.log(account);
-   * ```
+   *
+
    */
   async getAccount(accountId: string, params: ConnectParams = {}): Promise<Account> {
     return this._makeConnectRequest<Account>(`/accounts/${accountId}`, {
@@ -536,10 +562,12 @@ class ServerClient {
    * @returns A promise resolving to a list of accounts.
    *
    * @example
-   * ```typescript
+   *
+typescript
    * const accounts = await client.getAccountsByApp("app-id");
    * console.log(accounts);
-   * ```
+   *
+
    */
   async getAccountsByApp(appId: string, params: ConnectParams = {}): Promise<Account[]> {
     return this._makeConnectRequest<Account[]>(`/accounts/app/${appId}`, {
@@ -555,10 +583,12 @@ class ServerClient {
    * @returns A promise resolving to a list of accounts.
    *
    * @example
-   * ```typescript
+   *
+typescript
    * const accounts = await client.getAccountsByExternalId("external-id");
    * console.log(accounts);
-   * ```
+   *
+
    */
   async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<Account[]> {
     return this._makeConnectRequest<Account[]>(`/accounts/external_id/${externalId}`, {
@@ -573,10 +603,12 @@ class ServerClient {
    * @returns A promise resolving when the account is deleted.
    *
    * @example
-   * ```typescript
+   *
+typescript
    * await client.deleteAccount("account-id");
    * console.log("Account deleted");
-   * ```
+   *
+
    */
   async deleteAccount(accountId: string): Promise<void> {
     await this._makeConnectRequest(`/accounts/${accountId}`, {
@@ -591,10 +623,12 @@ class ServerClient {
    * @returns A promise resolving when all accounts are deleted.
    *
    * @example
-   * ```typescript
+   *
+typescript
    * await client.deleteAccountsByApp("app-id");
    * console.log("All accounts deleted");
-   * ```
+   *
+
    */
   async deleteAccountsByApp(appId: string): Promise<void> {
     await this._makeConnectRequest(`/accounts/app/${appId}`, {
@@ -609,10 +643,12 @@ class ServerClient {
    * @returns A promise resolving when all accounts are deleted.
    *
    * @example
-   * ```typescript
+   *
+typescript
    * await client.deleteExternalUser("external-id");
    * console.log("All accounts deleted");
-   * ```
+   *
+
    */
   async deleteExternalUser(externalId: string): Promise<void> {
     await this._makeConnectRequest(`/users/${externalId}`, {
@@ -633,15 +669,16 @@ class ServerClient {
    * @param url - The URL of the workflow's HTTP interface.
    * @param opts - The options for the request.
    * @param opts.body - The body of the request. It must be a JSON-serializable
-   * value (e.g. an object, `null`, a string, etc.).
+   * value (e.g. an object, null, a string, etc.).
    * @param opts.headers - The headers to include in the request. Note that the
-   * `Authorization` header will always be set with an OAuth access token
+   * Authorization header will always be set with an OAuth access token
    * retrieved by the client.
    *
    * @returns A promise resolving to the response from the workflow.
    *
    * @example
-   * ```typescript
+   *
+typescript
    * const response: JSON = await client.invokeWorkflow(
    *   "https://eoy64t2rbte1u2p.m.pipedream.net",
    *   {
@@ -658,18 +695,18 @@ class ServerClient {
    */
   async invokeWorkflow(url: string, opts: RequestOptions = {}): Promise<unknown> {
     const {
-      body = null,
+      body,
       headers = {},
     } = opts;
 
     return this._makeRequest("", {
+      ...opts,
       baseURL: url,
-      method: "POST",
       headers: {
         ...headers,
         "Authorization": await this._oauthAuthorizationHeader(),
       },
-      body: JSON.stringify(body),
+      body,
     });
   }
 }
