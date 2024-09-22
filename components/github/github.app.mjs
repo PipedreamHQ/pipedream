@@ -351,6 +351,7 @@ export default {
       repoFullname,
       path,
       mediaType,
+      ...args
     }) {
       return this._makeRequest({
         path: `/repos/${repoFullname}/contents/${path}`,
@@ -359,6 +360,7 @@ export default {
             Accept: mediaType,
           },
         }),
+        ...args,
       });
     },
     async getRepositoryLabels({ repoFullname }) {
