@@ -1,50 +1,55 @@
 import offlight from "../../offlight.app.mjs";
-import { axios } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "offlight-new-task-done-instant",
-  name: "New Task Done Instant",
-  description: "Emit new event when a task is marked as complete. [See the documentation](https://www.offlight.work/docs/zapeir-api)",
-  version: "0.0.{{ts}}",
+  name: "New Task Done (Instant)",
+  description: "Emit new event when a task is marked as complete.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    offlight: {
-      type: "app",
-      app: "offlight",
-    },
+    offlight,
     http: {
       type: "$.interface.http",
-      customResponse: false,
     },
     db: "$.service.db",
   },
+  methods: {
+    emitTask(task) {
+      this.$emit(task, {
+        id: task.id,
+        summary: `Task ${task.name} marked as done`,
+        ts: Date.parse(task.doneAt),
+      });
+    },
+  },
   hooks: {
     async deploy() {
-      const tasks = await this.offlight.getDoneTasks({
-        max: 50,
-      });
+      const tasks = await this.offlight.getDoneTasks();
       for (const task of tasks) {
-        this.$emit(task, {
-          id: task.id,
-          summary: `Task ${task.name} marked as done`,
-          ts: Date.parse(task.doneAt),
-        });
+        this.emitTask(task);
       }
     },
     async activate() {
-      // No specific activation for this component
+      await this.offlight.createWebhook({
+        data: {
+          purpose: "doneTask",
+          hookUrl: this.http.endpoint,
+        },
+      });
     },
     async deactivate() {
-      // No specific deactivation for this component
+      await this.offlight.deleteWebhook({
+        data: {
+          purpose: "doneTask",
+          hookUrl: this.http.endpoint,
+        },
+      });
     },
   },
-  async run(event) {
-    const { body: task } = event;
-    this.$emit(task, {
-      id: task.id,
-      summary: `Task ${task.name} marked as done`,
-      ts: Date.parse(task.doneAt),
-    });
+  async run({ body }) {
+    this.emitTask(body);
   },
+  sampleEmit,
 };
