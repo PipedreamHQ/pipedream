@@ -1,7 +1,6 @@
 import {
   ServerClient, createClient,
 } from "../index";
-import * as serverModule from "../index";
 import fetchMock from "jest-fetch-mock";
 import { ClientCredentials } from "simple-oauth2";
 
