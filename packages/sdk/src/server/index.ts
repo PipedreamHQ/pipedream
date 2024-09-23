@@ -396,7 +396,7 @@ export class ServerClient {
    * @returns A promise resolving to the API response.
    * @throws Will throw an error if the response status is not OK.
    */
-  private async makeRequest<T>(
+  public async makeRequest<T>(
     path: string,
     opts: RequestOptions = {},
   ): Promise<T> {

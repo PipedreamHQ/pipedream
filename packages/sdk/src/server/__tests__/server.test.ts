@@ -41,7 +41,7 @@ describe("ServerClient", () => {
         secretKey: "test-secret-key",
       });
 
-      const result = await client["makeRequest"]("/test-path", {
+      const result = await client.makeRequest("/test-path", {
         method: "GET",
       });
 
@@ -71,7 +71,7 @@ describe("ServerClient", () => {
         secretKey: "test-secret-key",
       });
 
-      const result = await client["makeRequest"]("/test-path", {
+      const result = await client.makeRequest("/test-path", {
         method: "POST",
         body: {
           key: "value",
@@ -108,7 +108,7 @@ describe("ServerClient", () => {
         secretKey: "test-secret-key",
       });
 
-      await expect(client["makeRequest"]("/bad-path")).rejects.toThrow("HTTP error! status: 404, body: Not Found");
+      await expect(client.makeRequest("/bad-path")).rejects.toThrow("HTTP error! status: 404, body: Not Found");
       expect(fetchMock).toHaveBeenCalledWith(
         "https://api.pipedream.com/v1/bad-path",
         expect.any(Object),
