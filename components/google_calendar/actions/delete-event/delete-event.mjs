@@ -4,7 +4,7 @@ export default {
   key: "google_calendar-delete-event",
   name: "Delete an Event",
   description: "Delete an event from a Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#delete)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     googleCalendar,
