@@ -33,7 +33,7 @@ export default {
     generateMeta(resource) {
       return {
         id: resource.id,
-        summary: `New Customer: ${resource.firstName || resource.site}`,
+        summary: `New Customer: ${resource.id}`,
         ts: Date.parse(resource.createdAt),
       };
     },
