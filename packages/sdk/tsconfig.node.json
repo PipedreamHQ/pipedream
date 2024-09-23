@@ -9,7 +9,6 @@
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
       "allowSyntheticDefaultImports": true,
-      "moduleResolution": "node",
       "skipLibCheck": true,
       "types": ["node", "jest", "jest-fetch-mock"]
     },
