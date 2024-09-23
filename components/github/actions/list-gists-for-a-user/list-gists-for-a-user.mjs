@@ -1,24 +1,34 @@
+import { ConfigurationError } from "@pipedream/platform";
 import github from "../../github.app.mjs";
 
 export default {
   key: "github-list-gists-for-a-user",
   name: "List Gists for a User",
   description: "Lists public gists for the specified user. [See the documentation](https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#list-gists-for-a-user)",
-  version: "0.0.6",
+  version: "0.1.{{ts}}",
   type: "action",
   props: {
-    github,
-    username: {
-      label: "Username",
-      description: "The username of the user whose gists you want to list",
-      type: "string",
+    github: {
+      ...github,
+      reloadProps: true,
     },
     since: {
-      label: "Since",
-      description: "Only show notifications updated after the given time. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.",
+      label: "Filter by Timestamp",
+      description: "Only show notifications updated since the given time. This should be a timestamp in ISO 8601 format, e.g. `2018-05-16T09:30:10Z` or [another standard date/time format](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format).",
       type: "string",
       optional: true,
     },
+  },
+  async additionalProps() {
+    const { login } = await this.github.getAuthenticatedUser();
+    return {
+      username: {
+        label: "Username",
+        description: "The username of the user whose gists you want to list",
+        type: "string",
+        default: login,
+      },
+    };
   },
   async run({ $ }) {
     const PER_PAGE = 100;
@@ -26,9 +36,16 @@ export default {
     let page = 1;
     const data = [];
 
+    const date = new Date(this.since);
+    if (isNaN(date.getTime())) {
+      throw new ConfigurationError("Invalid date string provided");
+    }
+
+    const since = date.toISOString();
+
     while (true) {
       const res = await this.github.listGistsFromUser(this.username, {
-        since: this.since,
+        since,
         per_page: PER_PAGE,
         page,
       });
