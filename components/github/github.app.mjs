@@ -162,8 +162,11 @@ export default {
       label: "Issue Number",
       description: "The issue number",
       type: "integer",
-      async options({ repoFullname }) {
+      async options({
+        repoFullname, page = 0,
+      }) {
         const issues = await this.getRepositoryIssues({
+          page: page + 1,
           repoFullname,
         });
 
@@ -369,10 +372,14 @@ export default {
     async getRepositoryCollaborators({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/collaborators`, {});
     },
-    async getRepositoryIssues({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/issues`, {
+    async getRepositoryIssues({
+      repoFullname, ...args
+    }) {
+      const results = await this._client().request(`GET /repos/${repoFullname}/issues`, {
         state: "all",
+        ...args,
       });
+      return results.data;
     },
     async getRepositoryProjects({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/projects`, {});
