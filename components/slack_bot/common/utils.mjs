@@ -23,6 +23,13 @@ function buildPropDefinitions({
         };
       }
 
+      if (key === "conversation") {
+        const message = "In order to list a Slack channel, **your bot must be a member of that channel**, and in order to list private channels, your bot must have the `groups:read` scope in the `OAuth & Permissions` settings in Slack for this bot.";
+        prop.description = prop.description
+          ? `${prop.description} ${message}`
+          : `Select a public or private channel, or a user or group. ${message}`;
+      }
+
       const [
         , ...propDefinitionItems
       ] = prop.propDefinition;
