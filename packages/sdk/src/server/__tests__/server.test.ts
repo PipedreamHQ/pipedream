@@ -9,7 +9,6 @@ describe("ServerClient", () => {
   let client: ServerClient;
 
   beforeEach(() => {
-    jest.clearAllMocks();
     fetchMock.resetMocks();
   });
 
