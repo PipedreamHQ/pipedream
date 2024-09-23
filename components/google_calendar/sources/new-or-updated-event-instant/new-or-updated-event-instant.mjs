@@ -265,6 +265,7 @@ export default {
           calendarId,
           syncToken,
           pageToken: nextPageToken,
+          maxResults: 2500,
         });
         if (syncStatus === 410) {
           console.log("Sync token invalid, resyncing");
