@@ -198,8 +198,11 @@ export default {
       type: "integer",
       label: "PR Number",
       description: "A pull request number",
-      async options({ repoFullname }) {
+      async options({
+        repoFullname, page = 0,
+      }) {
         const prs = await this.getRepositoryPullRequests({
+          page: page + 1,
           repoFullname,
         });
 
@@ -573,8 +576,11 @@ export default {
 
       return issues;
     },
-    async getRepositoryPullRequests({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/pulls`, {});
+    async getRepositoryPullRequests({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/pulls`, args ?? {});
+      return response.data;
     },
     async getPullRequestForCommit({
       repoFullname, sha,

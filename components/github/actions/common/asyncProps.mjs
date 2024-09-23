@@ -41,4 +41,20 @@ export default {
       }));
     },
   },
+  pullNumber: {
+    type: "integer",
+    label: "Pull Request Number",
+    description: "The pull request to get reviewers for",
+    options: async ({ page }) => {
+      const prs = await this.github.getRepositoryPullRequests({
+        page: page + 1,
+        repoFullname: this.repoFullname,
+      });
+
+      return prs.map((pr) => ({
+        label: pr.title,
+        value: +pr.number,
+      }));
+    },
+  },
 };
