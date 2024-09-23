@@ -8,9 +8,9 @@
       "strict": true,
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
-      "moduleResolution": "NodeNext",
+      "allowSyntheticDefaultImports": true,
       "skipLibCheck": true,
-      "types": ["node"]
+      "types": ["node", "jest", "jest-fetch-mock"]
     },
     "include": [
       "src/server/**/*"
