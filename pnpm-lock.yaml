@@ -5956,10 +5956,10 @@ importers:
 
   components/microsoft_excel:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.1
       moment: ^2.29.4
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.1
       moment: 2.29.4
 
   components/microsoft_onedrive:
