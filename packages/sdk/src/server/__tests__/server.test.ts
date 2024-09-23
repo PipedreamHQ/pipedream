@@ -3,21 +3,14 @@ import {
 } from "../index";
 import * as serverModule from "../index";
 import fetchMock from "jest-fetch-mock";
-import {
-  ClientCredentials, AccessToken,
-} from "simple-oauth2";
+import { ClientCredentials } from "simple-oauth2";
 
 describe("ServerClient", () => {
   let client: ServerClient;
 
   beforeEach(() => {
-    fetchMock.resetMocks(); // Reset fetch mocks before each test
-    client = new ServerClient({
-      publicKey: "test-public-key",
-      secretKey: "test-secret-key",
-      oauthClientId: "test-client-id",
-      oauthClientSecret: "test-client-secret",
-    });
+    jest.clearAllMocks();
+    fetchMock.resetMocks();
   });
 
   describe("createClient", () => {
@@ -48,8 +41,13 @@ describe("ServerClient", () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }, // Add Content-Type header
+        },
       );
+
+      client = new ServerClient({
+        publicKey: "test-public-key",
+        secretKey: "test-secret-key",
+      });
 
       const result = await client["_makeRequest"]("/test-path", {
         method: "GET",
@@ -73,8 +71,13 @@ describe("ServerClient", () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }, // Add Content-Type header
+        },
       );
+
+      client = new ServerClient({
+        publicKey: "test-public-key",
+        secretKey: "test-secret-key",
+      });
 
       const result = await client["_makeRequest"]("/test-path", {
         method: "POST",
@@ -108,6 +111,11 @@ describe("ServerClient", () => {
         },
       });
 
+      client = new ServerClient({
+        publicKey: "test-public-key",
+        secretKey: "test-secret-key",
+      });
+
       await expect(client["_makeRequest"]("/bad-path")).rejects.toThrow("HTTP error! status: 404");
       expect(fetchMock).toHaveBeenCalledWith(
         "https://api.pipedream.com/v1/bad-path",
@@ -118,18 +126,28 @@ describe("ServerClient", () => {
 
   describe("_makeApiRequest", () => {
     it("should include OAuth Authorization header and make an API request", async () => {
-      const oauthToken = {
+      // Create a mock oauthClient
+      const getTokenMock = jest.fn().mockResolvedValue({
         token: {
-          access_token: "oauth-token",
+          access_token: "mocked-oauth-token",
         },
         expired: jest.fn().mockReturnValue(false),
-      } as unknown as AccessToken;
+      });
 
-      client.oauthToken = oauthToken;
-
-      client.oauthClient = {
-        getToken: jest.fn().mockResolvedValue(oauthToken),
+      const oauthClientMock = {
+        getToken: getTokenMock,
       } as unknown as ClientCredentials;
+
+      // Inject the mock oauthClient into the ServerClient instance
+      client = new ServerClient(
+        {
+          publicKey: "test-public-key",
+          secretKey: "test-secret-key",
+          oauthClientId: "test-client-id",
+          oauthClientSecret: "test-client-secret",
+        },
+        oauthClientMock, // Inject mock oauthClient
+      );
 
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -139,7 +157,7 @@ describe("ServerClient", () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }, // Add Content-Type header
+        },
       );
 
       const result = await client["_makeApiRequest"]("/test-path");
@@ -151,7 +169,7 @@ describe("ServerClient", () => {
         "https://api.pipedream.com/v1/test-path",
         expect.objectContaining({
           headers: expect.objectContaining({
-            "Authorization": "Bearer oauth-token",
+            "Authorization": "Bearer mocked-oauth-token",
             "Content-Type": "application/json",
           }),
         }),
@@ -170,8 +188,13 @@ describe("ServerClient", () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }, // Add Content-Type header
+        },
       );
+
+      client = new ServerClient({
+        publicKey: "test-public-key",
+        secretKey: "test-secret-key",
+      });
 
       const result = await client.connectTokenCreate({
         app_slug: "test-app",
@@ -212,8 +235,13 @@ describe("ServerClient", () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }, // Add Content-Type header
+        },
       );
+
+      client = new ServerClient({
+        publicKey: "test-public-key",
+        secretKey: "test-secret-key",
+      });
 
       const result = await client.getAccounts({
         include_credentials: 1,
@@ -234,24 +262,28 @@ describe("ServerClient", () => {
 
   describe("invokeWorkflow", () => {
     it("should invoke a workflow with provided URL and body", async () => {
-      const oauthToken = "oauth-token";
-
-      // Mock the OAuth token and client
-      const oauthTokenObj = {
+      // Create a mock oauthClient
+      const getTokenMock = jest.fn().mockResolvedValue({
         token: {
-          access_token: oauthToken,
+          access_token: "mocked-oauth-token",
         },
         expired: jest.fn().mockReturnValue(false),
-      } as unknown as AccessToken;
+      });
 
-      client.oauthToken = oauthTokenObj;
-
-      client.oauthClient = {
-        getToken: jest.fn().mockResolvedValue(oauthTokenObj),
+      const oauthClientMock = {
+        getToken: getTokenMock,
       } as unknown as ClientCredentials;
 
-      // Optionally, spy on the _oauthAuthorizationHeader method
-      jest.spyOn(client, "_oauthAuthorizationHeader").mockResolvedValue(`Bearer ${oauthToken}`);
+      // Inject the mock oauthClient into the ServerClient instance
+      client = new ServerClient(
+        {
+          publicKey: "test-public-key",
+          secretKey: "test-secret-key",
+          oauthClientId: "test-client-id",
+          oauthClientSecret: "test-client-secret",
+        },
+        oauthClientMock, // Inject mock oauthClient
+      );
 
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -261,7 +293,7 @@ describe("ServerClient", () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }, // Add Content-Type header
+        },
       );
 
       const result = await client.invokeWorkflow("https://example.com/workflow", {
@@ -281,7 +313,7 @@ describe("ServerClient", () => {
             foo: "bar",
           }),
           headers: expect.objectContaining({
-            "Authorization": `Bearer ${oauthToken}`,
+            Authorization: "Bearer mocked-oauth-token",
           }),
         }),
       );

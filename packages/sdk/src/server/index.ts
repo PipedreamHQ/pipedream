@@ -288,25 +288,35 @@ export function createClient(opts: CreateServerClientOpts) {
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
 export class ServerClient {
-  secretKey?: string;
-  publicKey?: string;
-  oauthClient?: ClientCredentials;
-  oauthToken?: AccessToken;
-  baseURL: string;
+  private secretKey?: string;
+  private publicKey?: string;
+  private oauthClient?: ClientCredentials;
+  public oauthToken?: AccessToken;
+  private baseURL: string;
 
   /**
    * Constructs a new ServerClient instance.
    *
    * @param opts - The options for configuring the server client.
+   * @param oauthClient - An optional OAuth client to use for authentication in tests
    */
-  constructor(opts: CreateServerClientOpts) {
+  constructor(
+    opts: CreateServerClientOpts,
+    oauthClient?: ClientCredentials,
+  ) {
     this.secretKey = opts.secretKey;
     this.publicKey = opts.publicKey;
 
     const { apiHost = "api.pipedream.com" } = opts;
     this.baseURL = `https://${apiHost}/v1`;
 
-    this._configureOauthClient(opts, this.baseURL);
+    if (oauthClient) {
+      // Use the provided OAuth client (useful for testing)
+      this.oauthClient = oauthClient;
+    } else {
+      // Configure the OAuth client normally
+      this._configureOauthClient(opts, this.baseURL);
+    }
   }
 
   private _configureOauthClient(
@@ -343,7 +353,7 @@ export class ServerClient {
     return `Basic ${encoded}`;
   }
 
-  async _oauthAuthorizationHeader(): Promise<string> {
+  private async _oauthAuthorizationHeader(): Promise<string> {
     if (!this.oauthClient) {
       throw new Error("OAuth client not configured");
     }
@@ -364,7 +374,7 @@ export class ServerClient {
    * @returns A promise resolving to the API response.
    * @throws Will throw an error if the response status is not OK.
    */
-  async _makeRequest<T>(
+  private async _makeRequest<T>(
     path: string,
     opts: RequestOptions = {},
   ): Promise<T> {
@@ -446,7 +456,7 @@ export class ServerClient {
    * @returns A promise resolving to the API response.
    * @throws Will throw an error if the response status is not OK.
    */
-  async _makeApiRequest<T>(
+  private async _makeApiRequest<T>(
     path: string,
     opts: RequestOptions = {},
   ): Promise<T> {
@@ -470,7 +480,7 @@ export class ServerClient {
    * @returns A promise resolving to the API response.
    * @throws Will throw an error if the response status is not OK.
    */
-  async _makeConnectRequest<T>(
+  private async _makeConnectRequest<T>(
     path: string,
     opts: RequestOptions = {},
   ): Promise<T> {
@@ -501,7 +511,7 @@ typescript
    *
 
    */
-  async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
+  public async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
     const body = {
       external_id: opts.external_user_id,
       app_slug: opts.app_slug,
@@ -548,7 +558,7 @@ typescript
    *
 
    */
-  async getAccount(accountId: string, params: ConnectParams = {}): Promise<Account> {
+  public async getAccount(accountId: string, params: ConnectParams = {}): Promise<Account> {
     return this._makeConnectRequest<Account>(`/accounts/${accountId}`, {
       params,
     });
@@ -569,7 +579,7 @@ typescript
    *
 
    */
-  async getAccountsByApp(appId: string, params: ConnectParams = {}): Promise<Account[]> {
+  public async getAccountsByApp(appId: string, params: ConnectParams = {}): Promise<Account[]> {
     return this._makeConnectRequest<Account[]>(`/accounts/app/${appId}`, {
       params,
     });
@@ -590,7 +600,7 @@ typescript
    *
 
    */
-  async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<Account[]> {
+  public async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<Account[]> {
     return this._makeConnectRequest<Account[]>(`/accounts/external_id/${externalId}`, {
       params,
     });
@@ -610,7 +620,7 @@ typescript
    *
 
    */
-  async deleteAccount(accountId: string): Promise<void> {
+  public async deleteAccount(accountId: string): Promise<void> {
     await this._makeConnectRequest(`/accounts/${accountId}`, {
       method: "DELETE",
     });
@@ -630,7 +640,7 @@ typescript
    *
 
    */
-  async deleteAccountsByApp(appId: string): Promise<void> {
+  public async deleteAccountsByApp(appId: string): Promise<void> {
     await this._makeConnectRequest(`/accounts/app/${appId}`, {
       method: "DELETE",
     });
@@ -650,13 +660,13 @@ typescript
    *
 
    */
-  async deleteExternalUser(externalId: string): Promise<void> {
+  public async deleteExternalUser(externalId: string): Promise<void> {
     await this._makeConnectRequest(`/users/${externalId}`, {
       method: "DELETE",
     });
   }
 
-  async getProjectInfo(): Promise<ProjectInfoResponse> {
+  public async getProjectInfo(): Promise<ProjectInfoResponse> {
     return this._makeConnectRequest<ProjectInfoResponse>("/projects/info", {
       method: "GET",
     });
@@ -693,7 +703,7 @@ typescript
    *   },
    * );
    */
-  async invokeWorkflow(url: string, opts: RequestOptions = {}): Promise<unknown> {
+  public async invokeWorkflow(url: string, opts: RequestOptions = {}): Promise<unknown> {
     const {
       body,
       headers = {},
