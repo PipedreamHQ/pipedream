@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
-      "module": "esnext",
-      "target": "es2020",
-      "lib": ["esnext"],
+      "module": "NodeNext",
+      "target": "ES6",
+      "lib": ["ES6"],
       "declaration": true,
       "outDir": "dist/server",
       "strict": true,
