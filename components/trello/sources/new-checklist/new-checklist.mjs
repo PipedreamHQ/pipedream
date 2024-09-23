@@ -5,13 +5,23 @@ export default {
   key: "trello-new-checklist",
   name: "New Checklist (Instant)",
   description: "Emit new event for each new checklist added to a board.",
-  version: "0.0.14",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getChecklist({
+      checklistId, ...args
+    } = {}) {
+      return this.app._makeRequest({
+        path: `/checklists/${checklistId}`,
+        ...args,
+      });
+    },
     async getSampleEvents() {
-      const checklists = await this.trello.listBoardChecklists(this.board);
+      const checklists = await this.app.listBoardChecklists({
+        boardId: this.board,
+      });
       return {
         sampleEvents: checklists,
         sortField: "id",
@@ -23,7 +33,9 @@ export default {
     },
     async getResult(event) {
       const checklistId = event.body?.action?.data?.checklist?.id;
-      return this.trello.getChecklist(checklistId);
+      return this.getChecklist({
+        checklistId,
+      });
     },
   },
 };

@@ -4,20 +4,20 @@ export default {
   ...common,
   key: "trello-archive-card",
   name: "Archive Card",
-  description: "Archives a card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
-  version: "0.1.4",
+  description: "Archives a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put).",
+  version: "0.2.0",
   type: "action",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
-    idCard: {
+    cardId: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cards",
         (c) => ({
           board: c.board,
@@ -30,8 +30,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const res = await this.trello.archiveCard(this.idCard, $);
-    $.export("$summary", `Successfully archived card ${this.idCard}`);
+    const res = await this.app.updateCard({
+      $,
+      cardId: this.cardId,
+      data: {
+        closed: true,
+      },
+    });
+    $.export("$summary", `Successfully archived card ${this.cardId}`);
     return res;
   },
 };
