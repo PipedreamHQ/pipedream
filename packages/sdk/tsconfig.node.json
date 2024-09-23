@@ -1,16 +1,17 @@
 {
     "compilerOptions": {
-      "module": "NodeNext",
-      "target": "ES6",
-      "lib": ["ES6"],
+      "module": "esnext",
+      "target": "es2020",
+      "lib": ["esnext"],
       "declaration": true,
       "outDir": "dist/server",
       "strict": true,
       "esModuleInterop": true,
       "forceConsistentCasingInFileNames": true,
-      "moduleResolution": "NodeNext",
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "node",
       "skipLibCheck": true,
-      "types": ["node"]
+      "types": ["node", "jest", "jest-fetch-mock"]
     },
     "include": [
       "src/server/**/*"

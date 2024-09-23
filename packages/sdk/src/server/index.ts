@@ -287,7 +287,7 @@ export function createClient(opts: CreateServerClientOpts) {
 /**
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
-class ServerClient {
+export class ServerClient {
   secretKey?: string;
   publicKey?: string;
   oauthClient?: ClientCredentials;
@@ -394,7 +394,7 @@ class ServerClient {
       ...customHeaders,
     };
 
-    let processedBody: BodyInit | null = null;
+    let processedBody: string | Buffer | URLSearchParams | FormData | null = null;
 
     if (body) {
       if (body instanceof FormData || body instanceof URLSearchParams || typeof body === "string") {
@@ -503,13 +503,13 @@ typescript
    */
   async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
     const body = {
-      // Named external_id in the API, but from the developer's perspective, it's the user's ID
       external_id: opts.external_user_id,
-      ...opts,
+      app_slug: opts.app_slug,
+      oauth_app_id: opts.oauth_app_id,
     };
     return this._makeConnectRequest<ConnectTokenResponse>("/tokens", {
       method: "POST",
-      body: JSON.stringify(body),
+      body,
     });
   }
 
@@ -702,6 +702,7 @@ typescript
     return this._makeRequest("", {
       ...opts,
       baseURL: url,
+      method: opts.method || "POST", // Default to POST if not specified
       headers: {
         ...headers,
         "Authorization": await this._oauthAuthorizationHeader(),
@@ -709,4 +710,5 @@ typescript
       body,
     });
   }
+
 }
