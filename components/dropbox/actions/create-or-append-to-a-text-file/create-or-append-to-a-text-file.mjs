@@ -2,15 +2,15 @@ import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "Create or Append to a Text File",
-  description: "Adds a new line to an existing text file, or creates a file if it doesn't exist. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
+  description: "Adds a new line to an existing text file, or creates a file if it doesn't exist. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-create-or-append-to-a-text-file",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
     name: {
       type: "string",
-      label: "File name",
+      label: "File Name",
       description: "Your new file name",
     },
     path: {

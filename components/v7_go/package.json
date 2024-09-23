@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/v7_go",
+  "version": "0.1.0",
+  "description": "Pipedream V7 Go Components",
+  "main": "v7_go.app.mjs",
+  "keywords": [
+    "pipedream",
+    "v7_go"
+  ],
+  "homepage": "https://pipedream.com/apps/v7_go",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
+

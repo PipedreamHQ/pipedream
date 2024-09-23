@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/jigsawstack",
+  "version": "0.1.0",
+  "description": "Pipedream JigsawStack Components",
+  "main": "jigsawstack.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jigsawstack"
+  ],
+  "homepage": "https://pipedream.com/apps/jigsawstack",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1",
+    "form-data": "^4.0.0",
+    "mime": "^4.0.4"
+  }
+}

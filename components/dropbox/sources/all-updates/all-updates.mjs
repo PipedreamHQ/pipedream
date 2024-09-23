@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -6,7 +7,7 @@ export default {
   type: "source",
   key: "dropbox-all-updates",
   name: "New or Modified File or Folder",
-  version: "0.0.16",
+  version: "0.0.17",
   description: "Emit new event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     ...common.props,
@@ -25,12 +26,18 @@ export default {
   },
   hooks: {
     async activate() {
-      await this.getHistoricalEvents([
-        "file",
-        "folder",
-      ]);
+      await this.getHistoricalEvents(this.getFileTypes());
       const state = await this.dropbox.initState(this);
       this._setDropboxState(state);
+    },
+  },
+  methods: {
+    ...common.methods,
+    getFileTypes() {
+      return [
+        "file",
+        "folder",
+      ];
     },
   },
   async run() {
@@ -43,10 +50,14 @@ export default {
       let file = {
         ...update,
       };
-      if (this.includeMediaInfo) {
+      const fileTypes = this.getFileTypes();
+      if (!fileTypes.includes(file[".tag"])) {
+        continue;
+      }
+      if (this.includeMediaInfo && file[".tag"] === "file") {
         file = await this.getMediaInfo(update);
       }
-      if (this.includeLink) {
+      if (this.includeLink && file[".tag"] === "file") {
         file.link = await this.getTemporaryLink(update);
       }
       // new unique identification from merging the file id and the last file revision
@@ -56,4 +67,5 @@ export default {
       this.$emit(file, this.getMeta(id, file.path_display || file.id));
     }
   },
+  sampleEmit,
 };

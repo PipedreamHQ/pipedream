@@ -43,7 +43,7 @@ export default {
     phone: {
       type: "string",
       label: "Phone",
-      description: "Phone number of the contact",
+      description: "Phone number of the contact. Example: `+1 (954) 555-2399`",
       optional: true,
     },
   },
@@ -51,23 +51,21 @@ export default {
     _baseUrl() {
       return "https://events.regalvoice.com";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "Authorization": `${this.$auth.api_key}`,
         },
       });
     },
-    async customEvent(args = {}) {
+    customEvent(args = {}) {
       return this._makeRequest({
         method: "post",
         path: "/events",

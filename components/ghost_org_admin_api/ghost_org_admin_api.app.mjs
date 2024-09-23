@@ -51,12 +51,16 @@ export default {
   },
   methods: {
     getURL(path) {
-      return `${this.$auth.admin_api_url}${constants.VERSION_PATH}${path}`;
+      const { admin_api_url: domain } = this.$auth;
+      return `${domain.includes("https://")
+        ? ""
+        : "https://"}${domain}${constants.VERSION_PATH}${path}`;
     },
     getHeader() {
       const token = this.getToken();
       return {
-        Authorization: `Ghost ${token}`,
+        "Authorization": `Ghost ${token}`,
+        "Accept-Version": "v5.0",
       };
     },
     getToken() {

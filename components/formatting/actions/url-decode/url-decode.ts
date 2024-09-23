@@ -5,7 +5,7 @@ export default defineAction({
   name: "[Text] Decode URL",
   description: "Decode a URL string",
   key: "formatting-url-decode",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     app,

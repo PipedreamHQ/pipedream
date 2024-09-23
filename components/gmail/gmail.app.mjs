@@ -4,9 +4,10 @@ import {
   ConfigurationError,
 } from "@pipedream/platform";
 import { convert } from "html-to-text";
-import mime from "mime";
+import mime from "mime/types/standard.js";
 import MailComposer from "nodemailer/lib/mail-composer/index.js";
 import constants from "./common/constants.mjs";
+import { google } from "googleapis";
 
 export default {
   type: "app",
@@ -15,12 +16,17 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      async options({ prevContext }) {
+      description: "The identifier of a message",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
         const {
           messages,
           nextPageToken,
         } = await this.listMessages({
           pageToken: prevContext?.nextPageToken,
+          q: query,
         });
 
         const options = await Promise.all(messages.map(async (message) => {
@@ -41,7 +47,41 @@ export default {
         };
       },
     },
-
+    messageWithAttachments: {
+      type: "string",
+      label: "Message",
+      description: "The identifier of a message",
+      useQuery: true,
+      async options({
+        prevContext, query,
+      }) {
+        const {
+          messages,
+          nextPageToken,
+        } = await this.listMessages({
+          pageToken: prevContext?.nextPageToken,
+          q: query,
+        });
+        const options = await Promise.all(messages.map(async (message) => {
+          const { payload } = await this.getMessage({
+            id: message.id,
+          });
+          const { value: subject } = payload.headers.find(({ name }) => name === "Subject");
+          const hasAttachments = payload?.parts?.filter(({ body }) => body.attachmentId );
+          return {
+            label: subject,
+            value: message.id,
+            hasAttachments: !!hasAttachments?.length,
+          };
+        }));
+        return {
+          options: options?.filter(({ hasAttachments }) => hasAttachments) || [],
+          context: {
+            nextPageToken,
+          },
+        };
+      },
+    },
     label: {
       type: "string",
       label: "Label",
@@ -52,6 +92,27 @@ export default {
           label: label.name,
           value: label.id,
         }));
+      },
+    },
+    messageLabels: {
+      type: "string[]",
+      label: "Message Labels",
+      description: "Labels are used to categorize messages and threads within the user's mailbox",
+      async options({
+        messageId, type = "add",
+      }) {
+        const { labels } = await this.listLabels();
+        const { labelIds } = await this.getMessage({
+          id: messageId,
+        });
+        return labels
+          .filter(({ id }) => type === "add"
+            ? !labelIds.includes(id)
+            : labelIds.includes(id))
+          .map((label) => ({
+            label: label.name,
+            value: label.id,
+          }));
       },
     },
     signature: {
@@ -80,6 +141,27 @@ export default {
           return delegates.map(({ delegateEmail }) => delegateEmail);
         } catch (e) {
           throw new ConfigurationError(e);
+        }
+      },
+    },
+    attachmentId: {
+      type: "string",
+      label: "Attachment",
+      description: "Identifier of the attachment to download",
+      async options({ messageId }) {
+        try {
+          const { payload: { parts } } = await this.getMessage({
+            id: messageId,
+          });
+          return parts?.filter(({ body }) => body.attachmentId )
+            ?.map(({
+              body, filename,
+            }) => ({
+              value: body.attachmentId,
+              label: filename,
+            })) || [];
+        } catch {
+          return [];
         }
       },
     },
@@ -113,6 +195,18 @@ export default {
       description: "Specify the name that will be displayed in the \"From\" section of the email.",
       optional: true,
     },
+    fromEmail: {
+      type: "string",
+      label: "From Email",
+      description: "Specify the email address that will be displayed in the \"From\" section of the email.",
+      optional: true,
+      async options() {
+        const { sendAs } = await this.listSignatures();
+        return sendAs
+          .filter(({ sendAsEmail }) => sendAsEmail)
+          .map(({ sendAsEmail }) => sendAsEmail);
+      },
+    },
     replyTo: {
       type: "string",
       label: "Reply To",
@@ -137,10 +231,16 @@ export default {
       default: "plaintext",
       options: Object.values(constants.BODY_TYPES),
     },
-    attachments: {
-      type: "object",
-      label: "Attachments",
-      description: "Add any attachments you'd like to include as objects.\n- The `key` should be the filename and must contain the file extension (e.g. `.jpeg`, `.txt`).\n- The `value` should be a URL of the download link for the file, or the local path (e.g. `/tmp/my-file.txt`).",
+    attachmentFilenames: {
+      type: "string[]",
+      label: "Attachment Filenames",
+      description: "Array of the names of the files to attach. Must contain the file extension (e.g. `.jpeg`, `.txt`). Use in conjuction with `Attachment URLs or Paths`.",
+      optional: true,
+    },
+    attachmentUrlsOrPaths: {
+      type: "string[]",
+      label: "Attachment URLs or Paths",
+      description: "Array of the URLs of the download links for the files, or the local paths (e.g. `/tmp/my-file.txt`). Use in conjuction with `Attachment Filenames`.",
       optional: true,
     },
     inReplyTo: {
@@ -155,15 +255,18 @@ export default {
       description: "Mime Type of attachments. Setting the mime-type will override using the filename extension to determine attachment's content type.",
       optional: true,
       options() {
-        return Object.values(mime._types);
+        return Object.keys(mime);
       },
     },
   },
   methods: {
+    getToken() {
+      return this.$auth.oauth_access_token;
+    },
     _client() {
       const auth = new gmail.auth.OAuth2();
       auth.setCredentials({
-        access_token: this.$auth.oauth_access_token,
+        access_token: this.getToken(),
       });
       return gmail.gmail({
         version: "v1",
@@ -175,11 +278,12 @@ export default {
         name: fromName,
         email,
       } = await this.userInfo();
+      const fromEmail = props.fromEmail || email;
 
       const opts = {
         from: props.fromName
-          ? `${props.fromName} <${email}>`
-          : `${fromName} <${email}>`,
+          ? `${props.fromName} <${fromEmail}>`
+          : `${fromName} <${fromEmail}>`,
         to: props.to,
         cc: props.cc,
         bcc: props.bcc,
@@ -204,15 +308,14 @@ export default {
         }
       }
 
-      if (props.attachments) {
-        opts.attachments = Object.entries(props.attachments)
-          .map(([
-            filename,
-            path,
-          ]) => ({
-            filename,
-            path,
-          }));
+      if (props.attachmentFilenames?.length && props.attachmentUrlsOrPaths?.length) {
+        opts.attachments = [];
+        for (let i = 0; i < props.attachmentFilenames.length; i++) {
+          opts.attachments.push({
+            filename: props.attachmentFilenames[i],
+            path: props.attachmentUrlsOrPaths[i],
+          });
+        }
       }
 
       if (props.bodyType === constants.BODY_TYPES.HTML) {
@@ -247,10 +350,11 @@ export default {
       return data;
     },
     async getMessage({ id }) {
-      const { data } = await this._client().users.messages.get({
+      const fn = () => this._client().users.messages.get({
         userId: constants.USER_ID,
         id,
       });
+      const { data } = await this.retryWithExponentialBackoff(fn);
       return data;
     },
     async listHistory(opts = {}) {
@@ -272,6 +376,14 @@ export default {
         id,
       }));
       return Promise.all(promises);
+    },
+    async *getAllMessages(ids = []) {
+      for (const id of ids) {
+        const message = await this.getMessage({
+          id,
+        });
+        yield message;
+      }
     },
     async listSignatures() {
       const { data } = await this._client().users.settings.sendAs.list({
@@ -333,16 +445,15 @@ export default {
         }
       }
     },
-    async addLabelToEmail({
-      message, label,
+    async updateLabels({
+      message, addLabelIds = [], removeLabelIds = [],
     }) {
       const response = await this._client().users.messages.modify({
         userId: constants.USER_ID,
         id: message,
         requestBody: {
-          addLabelIds: [
-            label,
-          ],
+          addLabelIds,
+          removeLabelIds,
         },
       });
       return response.data;
@@ -373,6 +484,62 @@ export default {
           throw err;
         }
       }
+    },
+    _serviceAccountAuth(credentials, impersonatedUser) {
+      const scopes = [
+        "https://www.googleapis.com/auth/gmail.settings.basic",
+      ];
+      return new google.auth.JWT(
+        credentials.client_email,
+        null,
+        credentials.private_key,
+        scopes,
+        impersonatedUser,
+      );
+    },
+    async updateSignature({
+      signature, email, credentials,
+    }) {
+      const opts = {
+        userId: "me",
+        sendAsEmail: email,
+        requestBody: {
+          signature,
+        },
+      };
+      if (credentials) opts.auth = this._serviceAccountAuth(credentials, email);
+      return this._client().users.settings.sendAs.patch(opts);
+    },
+    async getAttachment({
+      messageId, attachmentId,
+    }) {
+      const { data } = await this._client().users.messages.attachments.get({
+        userId: "me",
+        messageId,
+        id: attachmentId,
+      });
+      return data;
+    },
+    retryWithExponentialBackoff(func, maxAttempts = 3, baseDelayS = 2) {
+      let attempt = 0;
+
+      const execute = async () => {
+        try {
+          return await func();
+        } catch (error) {
+          if (attempt >= maxAttempts) {
+            throw error;
+          }
+
+          const delayMs = Math.pow(baseDelayS, attempt) * 1000;
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+
+          attempt++;
+          return execute();
+        }
+      };
+
+      return execute();
     },
   },
 };

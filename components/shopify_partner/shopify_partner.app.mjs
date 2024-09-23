@@ -1,13 +1,16 @@
 import "graphql/language/index.js";
 import { GraphQLClient } from "graphql-request";
 
+export const PARTNER_API_VERSION = "2024-10";
+
 export default {
   type: "app",
   app: "shopify_partner",
   propDefinitions: {
     appId: {
       type: "string",
-      description: "Open your app in the partner portal, and look at the URL to find its ID. If your URL is *https://partners.shopify.com/3027494/apps/51358007297/overview*, enter `51358007297` here.",
+      description:
+        "Open your app in the partner portal, and look at the URL to find its ID. If your URL is *https://partners.shopify.com/3027494/apps/51358007297/overview*, enter `51358007297` here.",
       label: "Shopify App ID",
       reloadProps: true,
     },
@@ -45,7 +48,8 @@ export default {
           value: "backward",
         },
       ],
-      description: "Which direction to paginate through records. Forwards will only look into the future, whereas backwards will comb through all records.",
+      description:
+        "Which direction to paginate through records. Forwards will only look into the future, whereas backwards will comb through all records.",
       default: "forward",
     },
   },
@@ -74,7 +78,7 @@ export default {
       paginationDirection = "forward",
       recordsPerRun = 50,
     }) {
-      const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/2024-04/graphql.json`;
+      const endpoint = `https://partners.shopify.com/${this.$auth.organization_id}/api/${PARTNER_API_VERSION}/graphql.json`;
       const client = new GraphQLClient(endpoint, {
         headers: {
           "Content-Type": "application/json",

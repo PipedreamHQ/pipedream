@@ -30,7 +30,7 @@ If this returns a permissions error, you may need to run:
 curl https://cli.pipedream.com/install | sudo sh
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 If you encounter the error `bad CPU type in executable: pd`, you will need to install Rosetta 2 on your Mac by running the following command:
 
 ```bash
@@ -62,6 +62,18 @@ Pipedream publishes the following builds of the CLI. If you need to use the CLI 
 | Linux            | arm64        | [download](https://cli.pipedream.com/linux/arm64/latest/pd.zip)   |
 | macOS            | amd64        | [download](https://cli.pipedream.com/darwin/amd64/latest/pd.zip)  |
 | Windows          | amd64        | [download](https://cli.pipedream.com/windows/amd64/latest/pd.zip) |
+
+## Community Libraries
+
+<Callout type="warning">
+Please note that Pipedream does not verify the correctness or security of these community libraries. Use them at your own risk.
+</Callout>
+
+### [Nix](https://nixos.org/)
+
+The `pd` binary is available via Nix flake [here](https://github.com/planet-a-ventures/pipedream-cli)
+
+## Help
 
 Run `pd` to see a list of all commands, or `pd help <command>` to display help docs for a specific command.
 

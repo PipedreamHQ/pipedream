@@ -96,6 +96,17 @@ export default {
       label: "Message",
       description: "Message to be sent",
     },
+    contentType: {
+      type: "string",
+      label: "Content Type",
+      description: "Text message or HTML message",
+      optional: true,
+      default: "text",
+      options: [
+        "text",
+        "html",
+      ],
+    },
   },
   methods: {
     _accessToken() {

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/konfhub",
+  "version": "0.1.0",
+  "description": "Pipedream KonfHub Components",
+  "main": "konfhub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "konfhub"
+  ],
+  "homepage": "https://pipedream.com/apps/konfhub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1"
+  }
+}

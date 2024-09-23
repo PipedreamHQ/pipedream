@@ -29,7 +29,9 @@ export default {
       this.db.set("after", after);
     },
     async getWriteOnlyProperties(resourceName) {
-      const { results: properties } = await this.hubspot.getProperties(resourceName);
+      const { results: properties } = await this.hubspot.getProperties({
+        objectType: resourceName,
+      });
       return properties.filter(({ modificationMetadata }) => !modificationMetadata.readOnlyValue);
     },
     getChunks(items) {
@@ -58,10 +60,10 @@ export default {
       const results = await Promise.all(promises);
       return results.flat();
     },
-    processEvents(resources, after) {
+    async processEvents(resources, after) {
       let maxTs = after;
       for (const result of resources) {
-        if (this.isRelevant(result, after)) {
+        if (await this.isRelevant(result, after)) {
           this.emitEvent(result);
           const ts = this.getTs(result);
           if (ts > maxTs) {
@@ -126,7 +128,7 @@ export default {
           items = results;
         }
         for (const item of items) {
-          if (this.isRelevant(item, after)) {
+          if (await this.isRelevant(item, after)) {
             this.emitEvent(item);
             const ts = this.getTs(item);
             if (ts > maxTs) {

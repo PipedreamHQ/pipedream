@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/adobe_photoshop",
+  "version": "0.1.0",
+  "description": "Pipedream Adobe Photoshop Components",
+  "main": "adobe_photoshop.app.mjs",
+  "keywords": [
+    "pipedream",
+    "adobe_photoshop"
+  ],
+  "homepage": "https://pipedream.com/apps/adobe_photoshop",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
+

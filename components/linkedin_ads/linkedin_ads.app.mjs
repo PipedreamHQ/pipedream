@@ -123,6 +123,32 @@ export default {
         }));
       },
     },
+    leadFormId: {
+      type: "string",
+      label: "Lead Form ID",
+      description: "Select the lead form to retrieve responses for.",
+      async options({
+        page, adAccountId,
+      }) {
+        const count = 20;
+        const { elements } = await this.searchLeadForms({
+          debug: true,
+          params: {
+            q: "owner",
+            owner: `(sponsoredAccount:${this.getSponsoredAccountUrn(adAccountId)})`,
+            count,
+            start: page * count,
+          },
+        });
+        return elements.map(({
+          id,
+          name: label,
+        }) => ({
+          label,
+          value: String(id),
+        }));
+      },
+    },
   },
   methods: {
     ...app.methods,
@@ -141,6 +167,9 @@ export default {
     getEventUrn(id) {
       return `urn:li:event:${id}`;
     },
+    getVersionedLeadGenFormUrn(id, version = 1) {
+      return `urn:li:versionedLeadGenForm:(urn:li:leadGenForm:${id},${version})`;
+    },
     searchCampaigns({
       adAccountId, ...args
     } = {}) {
@@ -154,9 +183,17 @@ export default {
         "owner",
       ];
       return this._makeRequest({
-        debug: true,
         path: "/leadForms",
         paramsSerializer: utils.getParamsSerializer(utils.encodeParamKeys(keys)),
+        ...args,
+      });
+    },
+    getLeadForm({
+      leadFormId, ...args
+    } = {}) {
+      return this._makeRequest({
+        debug: true,
+        path: `/leadForms/${leadFormId}`,
         ...args,
       });
     },

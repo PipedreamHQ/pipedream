@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_sql_server",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "Pipedream Microsoft SQL Server Components",
   "main": "microsoft_sql_server.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/microsoft_sql_server",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.5.1",
+    "@pipedream/platform": "^3.0.0",
     "mssql": "^10.0.1"
   },
   "publishConfig": {

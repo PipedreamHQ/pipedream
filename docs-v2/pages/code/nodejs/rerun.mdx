@@ -67,7 +67,7 @@ Requests to the `resume_url` have [the same limits as any HTTP request to Pipedr
 
 ### Default timeout of 24 hours
 
-By default, `$.flow.suspend` will automatically resume the workflow after 24 hours. You can set your own timeout (in milliseconds) as the first argument:
+By default, `$.flow.suspend` will automatically cancel the workflow after 24 hours. You can set your own timeout (in milliseconds) as the first argument:
 
 ```javascript
 export default defineComponent({
@@ -258,7 +258,7 @@ These functions will only suspend and resume when run in production.
 
 You are not charged for the time your workflow is suspended during a `$.flow.rerun` or `$.flow.suspend`. Only when workflows are resumed will compute time count toward [credit usage](/pricing/#credits).
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 When a suspended workflow reawakens, it will reset the credit counter.
 
 Each rerun or reawakening from a suspension will count as a new fresh credit.

@@ -2,9 +2,9 @@ import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "Rename a File/Folder",
-  description: "Renames a file or folder in the user's Dropbox [See the docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesMoveV2__anchor)",
+  description: "Renames a file or folder in the user's Dropbox [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesMoveV2__anchor)",
   key: "dropbox-rename-file-folder",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,

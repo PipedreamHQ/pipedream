@@ -3,8 +3,10 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "adalo",
-  propDefinitions: {},
   methods: {
+    _collectionId() {
+      return this.$auth.collection_id;
+    },
     _apiKey() {
       return this.$auth.api_key;
     },
@@ -49,30 +51,24 @@ export default {
         },
       };
     },
-    async getRecords({
-      collectionId, ...args
-    } = {}) {
-      const response = await this._makeRequest({
-        path: `/collections/${collectionId}`,
+    getRecords(args = {}) {
+      return this._makeRequest({
+        path: `/collections/${this._collectionId()}`,
         ...args,
       });
-
-      return response.records;
     },
-    async createRecord({
-      collectionId, ...args
-    } = {}) {
+    createRecord(args = {}) {
       return this._makeRequest({
-        path: `/collections/${collectionId}`,
+        path: `/collections/${this._collectionId()}`,
         method: "post",
         ...args,
       });
     },
-    async updateRecord({
-      collectionId, recordId, ...args
+    updateRecord({
+      recordId, ...args
     } = {}) {
       return this._makeRequest({
-        path: `/collections/${collectionId}/${recordId}`,
+        path: `/collections/${this._collectionId()}/${recordId}`,
         method: "put",
         ...args,
       });

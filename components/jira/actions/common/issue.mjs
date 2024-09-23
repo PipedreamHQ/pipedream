@@ -43,56 +43,76 @@ export default {
         ...args,
       });
     },
-    getResourcesInfo(key) {
-      const {
-        app,
-        cloudId,
-      } = this;
+    getOptions(key) {
       switch (key) {
       case constants.FIELD_KEY.PARENT:
-        return {
-          fn: app.getIssues,
-          args: {
+        return async ({ prevContext: { startAt = 0 } }) => {
+          const {
+            app,
+            cloudId,
+          } = this;
+          const maxResults = 50;
+          const { issues } = await app.getIssues({
             cloudId,
             params: {
-              maxResults: 100,
+              maxResults,
+              startAt,
             },
-          },
-          map: ({ issues }) =>
-            issues?.map(({
+          });
+          return {
+            options: issues.map(({
               id: value, key: label,
             }) => ({
               value,
               label,
             })),
+            context: {
+              startAt: startAt + maxResults,
+            },
+          };
         };
       case constants.FIELD_KEY.LABELS:
-        return {
-          fn: app.getLabels,
-          args: {
+        return async ({ prevContext: { startAt = 0 } }) => {
+          const {
+            app,
+            cloudId,
+          } = this;
+          const maxResults = 50;
+          const { values } = await app.getLabels({
             cloudId,
             params: {
-              maxResults: 100,
+              maxResults,
+              startAt,
             },
-          },
-          map: ({ values }) => values,
+          });
+          return {
+            options: values,
+            context: {
+              startAt: startAt + maxResults,
+            },
+          };
         };
       case constants.FIELD_KEY.ISSUETYPE:
-        return {
-          fn: this.getIssueTypes,
-          args: {
+        return async () => {
+          const {
+            getIssueTypes,
             cloudId,
-          },
-          map: (issueTypes) =>
-            issueTypes?.map(({
+          } = this;
+
+          const issueTypes = await getIssueTypes({
+            cloudId,
+          });
+          return {
+            options: issueTypes.map(({
               id: value, name: label,
             }) => ({
               value,
               label,
             })),
+          };
         };
       default:
-        return {};
+        return [];
       }
     },
     async getDynamicFields({
@@ -153,19 +173,11 @@ export default {
 
           // Requests by Resource
           if (keysForResourceRequest.includes(key)) {
-            const {
-              fn: resourcesFn,
-              args: resourcesFnArgs,
-              map: resourcesFnMap,
-            } = this.getResourcesInfo(key);
-
-            const response = await resourcesFn(resourcesFnArgs);
-
             return Promise.resolve({
               ...reduction,
               [newKey]: {
                 ...value,
-                options: resourcesFnMap(response),
+                options: this.getOptions(key),
               },
             });
           }

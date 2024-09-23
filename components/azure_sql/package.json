@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/azure_sql",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "Pipedream Microsoft Azure SQL Database Components",
   "main": "azure_sql.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.5.1",
+    "@pipedream/platform": "^3.0.0",
     "mssql": "^10.0.1",
     "uuid": "^9.0.1"
   }

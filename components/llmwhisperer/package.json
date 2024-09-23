@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/llmwhisperer",
+  "version": "0.1.0",
+  "description": "Pipedream LLMWhisperer Components",
+  "main": "llmwhisperer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "llmwhisperer"
+  ],
+  "homepage": "https://pipedream.com/apps/llmwhisperer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0",
+    "fs": "^0.0.1-security"
+  }
+}

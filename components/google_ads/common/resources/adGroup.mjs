@@ -1,3 +1,5 @@
+import { getOption } from "../utils.mjs";
+
 const fields = [
   "ad_rotation_mode",
   "audience_setting.use_audience_grouped",
@@ -31,7 +33,7 @@ const fields = [
   "tracking_url_template",
   "type",
   "url_custom_parameters",
-];
+].map((f) => getOption(f, "ad_group"));
 
 const segments = [
   "ad_destination_type",
@@ -47,18 +49,12 @@ const segments = [
   "conversion_lag_bucket",
   "conversion_or_adjustment_lag_bucket",
   "date",
-  "day_of_week",
   "device",
   "external_conversion_source",
   "hour",
-  "month",
-  "month_of_year",
   "new_versus_returning_customers",
-  "quarter",
   "slot",
-  "week",
-  "year",
-];
+].map((f) => getOption(f, "segments"));
 
 const metrics = [
   "absolute_top_impression_percentage",
@@ -159,7 +155,7 @@ const metrics = [
   "video_view_rate",
   "video_views",
   "view_through_conversions",
-];
+].map((f) => getOption(f, "metrics"));
 
 const resourceOption = {
   label: "Ad Group",

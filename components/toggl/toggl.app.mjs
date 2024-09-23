@@ -39,6 +39,62 @@ export default {
         }));
       },
     },
+    clientId: {
+      label: "Client ID",
+      description: "The client ID",
+      type: "integer",
+      async options({ workspaceId }) {
+        const clients = await this.getClients({
+          workspaceId,
+        });
+
+        return clients?.map((client) => ({
+          label: client.name,
+          value: client.id,
+        })) || [];
+      },
+    },
+    projectId: {
+      label: "Project ID",
+      description: "The project ID",
+      type: "integer",
+      async options({ workspaceId }) {
+        const projects = await this.getProjects({
+          workspaceId,
+        });
+
+        return projects?.map((project) => ({
+          label: project.name,
+          value: project.id,
+        })) || [];
+      },
+    },
+    clientName: {
+      type: "string",
+      label: "Name",
+      description: "Name of the client",
+    },
+    notes: {
+      type: "string",
+      label: "Notes",
+      description: "Notes about the client",
+      optional: true,
+    },
+    projectName: {
+      type: "string",
+      label: "Name",
+      description: "Name of the project",
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "The start date of the project in `YYYY-MM-DD` format",
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description: "The end date of the project in `YYYY-MM-DD` format",
+    },
   },
   methods: {
     _apiToken() {
@@ -47,7 +103,7 @@ export default {
     _apiUrl(apiVersion) {
       return constants.API_BASE_URL_VERSIONS[apiVersion];
     },
-    async _makeRequest(apiVersion, path, options = {}, $ = this) {
+    _makeRequest(apiVersion, path, options = {}, $ = this) {
       return axios($, {
         url: `${this._apiUrl(apiVersion)}/${path}`,
         auth: {
@@ -57,7 +113,7 @@ export default {
         ...options,
       });
     },
-    async createWebhook({
+    createWebhook({
       workspaceId, data,
     }) {
       return this._makeRequest("v1", `subscriptions/${workspaceId}`, {
@@ -69,22 +125,30 @@ export default {
         },
       });
     },
-    async removeWebhook({
+    removeWebhook({
       workspaceId, webhookId,
     }) {
       return this._makeRequest("v1", `subscriptions/${workspaceId}/${webhookId}`, {
         method: "delete",
       });
     },
-    async getWorkspaces({
+    getWorkspaces({ $ }) {
+      return this._makeRequest("v9", "me/workspaces", {}, $);
+    },
+    getClients({
       workspaceId, $,
     }) {
-      return this._makeRequest("v9", `workspaces/${workspaceId}`, {}, $);
+      return this._makeRequest("v9", `workspaces/${workspaceId}/clients`, {}, $);
     },
-    async getCurrentTimeEntry({ $ } = {}) {
+    getProjects({
+      workspaceId, $,
+    }) {
+      return this._makeRequest("v9", `workspaces/${workspaceId}/projects`, {}, $);
+    },
+    getCurrentTimeEntry({ $ } = {}) {
       return this._makeRequest("v9", "me/time_entries/current", {}, $);
     },
-    async getTimeEntries({
+    getTimeEntries({
       params, $,
     } = {}) {
       return this._makeRequest("v9", "me/time_entries", {
@@ -94,12 +158,52 @@ export default {
         },
       }, $);
     },
-    async getTimeEntry({
+    getTimeEntry({
       timeEntryId, $,
     } = {}) {
-      const { data } = await this._makeRequest("v8", `time_entries/${timeEntryId}`, {}, $);
-
-      return data;
+      return this._makeRequest("v9", `me/time_entries/${timeEntryId}`, {}, $);
+    },
+    getClient({
+      workspaceId, clientId, $,
+    } = {}) {
+      return this._makeRequest("v9", `workspaces/${workspaceId}/clients/${clientId}`, {}, $);
+    },
+    getProject({
+      workspaceId, projectId, $,
+    } = {}) {
+      return this._makeRequest("v9", `workspaces/${workspaceId}/projects/${projectId}`, {}, $);
+    },
+    createClient({
+      workspaceId, data, $,
+    }) {
+      return this._makeRequest("v9", `workspaces/${workspaceId}/clients`, {
+        method: "post",
+        data,
+      }, $);
+    },
+    createProject({
+      workspaceId, data, $,
+    }) {
+      return this._makeRequest("v9", `workspaces/${workspaceId}/projects`, {
+        method: "post",
+        data,
+      }, $);
+    },
+    updateClient({
+      workspaceId, clientId, data, $,
+    }) {
+      return this._makeRequest("v9", `workspaces/${workspaceId}/clients/${clientId}`, {
+        method: "put",
+        data,
+      }, $);
+    },
+    updateProject({
+      workspaceId, projectId, data, $,
+    }) {
+      return this._makeRequest("v9", `workspaces/${workspaceId}/projects/${projectId}`, {
+        method: "put",
+        data,
+      }, $);
     },
   },
 };

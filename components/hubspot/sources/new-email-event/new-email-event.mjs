@@ -1,14 +1,26 @@
 import common from "../common/common.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import { EMAIL_EVENT_TYPES } from "../../common/object-types.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-email-event",
   name: "New Email Event",
   description: "Emit new event for each new Hubspot email event.",
-  version: "0.0.16",
+  version: "0.0.17",
   dedupe: "unique",
   type: "source",
-  hooks: {},
+  props: {
+    ...common.props,
+    type: {
+      type: "string",
+      label: "Event Type",
+      description: "Filter results by the email event type",
+      options: EMAIL_EVENT_TYPES,
+      optional: true,
+    },
+  },
   methods: {
     ...common.methods,
     getTs(emailEvent) {
@@ -27,11 +39,16 @@ export default {
         ts,
       };
     },
-    getParams() {
-      const startTimestamp = new Date();
+    getParams(after) {
+      const params = {
+        limit: DEFAULT_LIMIT,
+        startTimestamp: after,
+      };
+      if (this.type) {
+        params.eventType = this.type;
+      }
       return {
-        limit: 100,
-        startTimestamp,
+        params,
       };
     },
     async processResults(after, params) {
@@ -42,4 +59,5 @@ export default {
       );
     },
   },
+  sampleEmit,
 };

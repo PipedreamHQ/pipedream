@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/welcome",
+  "version": "0.1.0",
+  "description": "Pipedream Welcome Components",
+  "main": "welcome.app.mjs",
+  "keywords": [
+    "pipedream",
+    "welcome"
+  ],
+  "homepage": "https://pipedream.com/apps/welcome",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -6,6 +6,7 @@ import {
   DATE_FORMAT_PARSE_MAP, DEFAULT_FORMAT_VALUE,
 } from "../../common/date-time/dateFormats";
 import { DATE_TIME_UNITS } from "../../common/date-time/dateTimeUnits";
+import sugar from "sugar";
 
 const OPERATION_OPTIONS = {
   ADD: "Add",
@@ -17,7 +18,7 @@ export default defineAction({
   name: "[Date/Time] Add/Subtract Time",
   description: "Add or subtract time from a given input",
   key: "formatting-add-subtract-time",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...commonDateTime.props,
@@ -85,7 +86,7 @@ export default defineAction({
     const format = outputFormat ?? this.inputFormat ?? DEFAULT_FORMAT_VALUE;
     try {
       const { outputFn } = DATE_FORMAT_PARSE_MAP.get(format);
-      const output = outputFn(new Date(result));
+      const output = outputFn(sugar.Date.create(result));
 
       $.export(
         "$summary",
@@ -96,6 +97,7 @@ export default defineAction({
       );
       return output;
     } catch (err) {
+      console.log("Error parsing date", err);
       throw new ConfigurationError("**Parse error** - check your input and if the selected format is correct.");
     }
   },

@@ -28,13 +28,25 @@ export default {
       label: "Parent Id",
       description: "The unique ID of the folder where files are to be uploaded.",
       async options({
-        page, teamId,
+        page, teamId, folderType,
       }) {
         return await this.listRootFolders({
+          folderType,
           teamId,
           limit: LIMIT,
           offset: LIMIT * page,
         });
+      },
+    },
+    folderType: {
+      type: "string",
+      label: "Folder Type",
+      description: "Whether to retrieve team folders or privatespace folders",
+      async options() {
+        return [
+          "My Folders",
+          "Team Folders",
+        ];
       },
     },
   },
@@ -94,7 +106,7 @@ export default {
       });
     },
     async listRootFolders({
-      teamId, limit, offset, params = {}, ...args
+      teamId, folderType, limit, offset, params = {}, ...args
     }) {
       const { data: { id: teamCurrentUserId } } = await this.getTeamCurrentUser({
         teamId,
@@ -112,7 +124,9 @@ export default {
       params["sort"] = "name";
       const reponseArray = [];
       const { data: rootFolders } = await this._makeRequest({
-        path: `privatespace/${privateSpaceId}/folders`,
+        path: folderType === "Team Folders"
+          ? `/teams/${teamId}/teamfolders`
+          : `privatespace/${privateSpaceId}/folders`,
         params: new URLSearchParams(params).toString(),
         ...args,
       });

@@ -2,16 +2,16 @@ import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "Create a Text File",
-  description: "Creates a brand new text file from plain text content you specify. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
+  description: "Creates a brand new text file from plain text content you specify. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-create-a-text-file",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
     name: {
       type: "string",
-      label: "File name",
-      description: "Your new file name.",
+      label: "File Name",
+      description: "Your new file name. Example: `textfile.txt`",
     },
     path: {
       propDefinition: [
@@ -36,9 +36,13 @@ export default {
       path,
     } = this;
 
+    const filename = name.includes(".txt")
+      ? name
+      : `${name}.txt`;
+
     const res = await this.dropbox.uploadFile({
       contents: Buffer.from(content),
-      path: this.dropbox.getNormalizedPath(path, true) + name,
+      path: this.dropbox.getNormalizedPath(path, true) + filename,
       autorename: true,
     });
 

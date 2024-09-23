@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_ads",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Pipedream Google Ads Components",
   "main": "google_ads.app.mjs",
   "keywords": [

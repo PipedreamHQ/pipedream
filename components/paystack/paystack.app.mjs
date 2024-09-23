@@ -9,6 +9,25 @@ export default {
       type: "string",
       label: "Email",
       description: "Email address of the customer to charge",
+      async options({
+        page, query,
+      }) {
+        const { data } = await this.listCustomers({
+          params: {
+            page: page + 1,
+            email: query,
+          },
+        });
+        return (
+          data?.map(({
+            email: value, email: label,
+          }) => ({
+            label,
+            value,
+          })) || []
+        );
+      },
+      useQuery: true,
     },
     amount: {
       type: "string",
@@ -18,39 +37,46 @@ export default {
     currency: {
       type: "string",
       label: "Currency",
-      description: "Currency to use for the charge. Defaults to your integration currency",
+      description:
+        "Currency to use for the charge. Defaults to your integration currency",
       options: constants.CURRENCIES,
     },
     reference: {
       type: "string",
       label: "Reference",
-      description: "Unique transaction reference. Only alphanumeric characters and `-`, `.`, `=` are allowed",
+      description:
+        "Unique transaction reference. Only alphanumeric characters and `-`, `.`, `=` are allowed",
       async options({ page }) {
         const { data } = await this.listTransactions({
           params: {
             page: page + 1,
           },
         });
-        return data?.map(({ reference }) => ({
-          value: reference,
-          label: `${reference}`,
-        })) || [];
+        return (
+          data?.map(({ reference }) => ({
+            value: reference,
+            label: `${reference}`,
+          })) || []
+        );
       },
     },
     callbackUrl: {
       type: "string",
       label: "Callback URL",
-      description: "URL to redirect customers to after a successful transaction. Setting this overrides the callback URL set on the dashboard",
+      description:
+        "URL to redirect customers to after a successful transaction. Setting this overrides the callback URL set on the dashboard",
     },
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Stringified JSON object of custom data. Check the [Metadata docs](https://paystack.com/docs/payments/metadata/) for more information",
+      description:
+        "Stringified JSON object of custom data. Check the [Metadata docs](https://paystack.com/docs/payments/metadata/) for more information",
     },
     status: {
       type: "string",
       label: "Status",
-      description: "Status of a transaction. Possible values are success, failed, and abandoned.",
+      description:
+        "Status of a transaction. Possible values are success, failed, and abandoned.",
       options: constants.STATUS,
     },
     transactionID: {
@@ -63,10 +89,12 @@ export default {
             page: page + 1,
           },
         });
-        return data?.map(({ id }) => ({
-          value: id,
-          label: `${id}`,
-        })) || [];
+        return (
+          data?.map(({ id }) => ({
+            value: id,
+            label: `${id}`,
+          })) || []
+        );
       },
     },
     customerID: {
@@ -78,13 +106,51 @@ export default {
           params: {
             page: page + 1,
           },
-        }); console.log(data);
-        return data?.map(({
-          id: value, email: label,
-        }) => ({
-          label,
-          value,
-        })) || [];
+        });
+        return (
+          data?.map(({
+            id: value, email: label,
+          }) => ({
+            label,
+            value,
+          })) || []
+        );
+      },
+    },
+    authorization_code: {
+      type: "string",
+      label: "Authorization Code",
+      description:
+        "Authorization code to charge. This is created whenever a customer makes a payment on your integration",
+      async options({ customer }) {
+        const { data } = await this.fetchCustomer({
+          customer,
+        });
+        const authorizations = data?.authorizations || [];
+        return authorizations
+          .filter(({ reusable }) => reusable)
+          .map((authorization) => {
+            const {
+              bank,
+              channel,
+              card_type,
+              last4,
+              exp_month,
+              exp_year,
+              authorization_code,
+            } = authorization;
+            if (channel === "card") {
+              return {
+                label: ` ${bank} ${card_type} card ending in ${last4} (expires ${exp_month}/${exp_year})`,
+                value: authorization_code,
+              };
+            } else if (channel === "direct_debit") {
+              return {
+                label: `${bank} account ending in (${last4})`,
+                value: authorization_code,
+              };
+            }
+          });
       },
     },
     from: {
@@ -159,6 +225,21 @@ export default {
         ...args,
       });
     },
+    fetchCustomer({
+      customer, ...args
+    }) {
+      return this._makeRequest({
+        path: `/customer/${customer}`,
+        args,
+      });
+    },
+    chargeAuthorization(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/transaction/charge_authorization",
+        ...args,
+      });
+    },
     async *paginate({
       resourceFn, args, max,
     }) {
@@ -170,7 +251,8 @@ export default {
           page: 1,
         },
       };
-      let total, count = 0;
+      let total,
+        count = 0;
       do {
         const { data } = await resourceFn(args);
         for (const item of data) {

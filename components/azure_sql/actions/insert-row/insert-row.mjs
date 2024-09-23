@@ -4,7 +4,7 @@ export default {
   key: "azure_sql-insert-row",
   name: "Insert Row",
   description: "Inserts a new row in a table. [See the documentation](https://learn.microsoft.com/en-us/sql/t-sql/statements/insert-transact-sql?view=azuresqldb-current)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     app,

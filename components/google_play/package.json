@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_play",
+  "version": "0.0.1",
+  "description": "Pipedream Google Play Components",
+  "main": "google_play.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_play"
+  ],
+  "homepage": "https://pipedream.com/apps/google_play",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

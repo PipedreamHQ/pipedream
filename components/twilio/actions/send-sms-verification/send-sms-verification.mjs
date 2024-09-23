@@ -3,9 +3,9 @@ import app from "../../twilio.app.mjs";
 export default {
   key: "twilio-send-sms-verification",
   name: "Send SMS Verification",
-  description: "Send an SMS verification to a phone number. [See the documentation](https://www.twilio.com/docs/verify/api) for more information",
+  description: "Send an SMS verification to a phone number. [See the documentation](https://www.twilio.com/docs/verify/api)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     serviceSid: {

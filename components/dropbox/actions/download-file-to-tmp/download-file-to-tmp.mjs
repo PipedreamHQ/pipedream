@@ -6,7 +6,7 @@ export default {
   name: "Download File to TMP",
   description: "Download a specific file to the temporary directory. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDownload__anchor).",
   key: "dropbox-download-file-to-tmp",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     dropbox,
@@ -21,7 +21,7 @@ export default {
     },
     name: {
       type: "string",
-      label: "File name",
+      label: "File Name",
       description: "The new name of the file to be saved, including it's extension. e.g: `myFile.csv`",
       optional: true,
     },
@@ -35,16 +35,18 @@ export default {
       path, cleanup,
     } = await file();
 
+    const extension = result.name.split(".").pop();
+
     const tmpPath = this.name
       ? `/tmp/${this.name}`
-      : path;
+      : `${path}.${extension}`;
 
     await fs.promises.appendFile(tmpPath, Buffer.from(result.fileBinary));
     await cleanup();
 
     delete result.fileBinary;
 
-    $.export("$summary", `File successfully saved in "/tmp/${this.name}"`);
+    $.export("$summary", `File successfully saved in "${tmpPath}"`);
 
     return {
       tmpPath,

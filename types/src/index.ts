@@ -232,6 +232,8 @@ export interface UserProp extends BasePropInterface {
   secret?: boolean;
   min?: number;
   max?: number;
+  disabled?: boolean;
+  hidden?: boolean;
 }
 
 // https://pipedream.com/docs/components/api/#interface-props
@@ -326,8 +328,6 @@ type PropThis<Props> = {
   [Prop in keyof Props]: Props[Prop] extends App<Methods, AppPropDefinitions> ? any : any
 };
 
-type Modify<T, R> = Omit<T, keyof R> & R;
-
 interface BaseSource<
   Methods,
   SourcePropDefinitions
@@ -347,37 +347,23 @@ interface BaseSource<
   run: (this: PropThis<SourcePropDefinitions> & Methods & EmitFunction, options?: SourceRunOptions) => void | Promise<void>;
 }
 
-export interface LastSource<
-  Methods,
-  SourcePropDefinitions
-> extends BaseSource<
-  Methods,
-  SourcePropDefinitions
-> {
-  dedupe?: "last";
+export interface DedupedSource<Methods, SourcePropDefinitions>
+  extends BaseSource<Methods, SourcePropDefinitions> {
+  dedupe: "last" | "greatest" | "unique";
+  run: (
+    this: PropThis<SourcePropDefinitions> & Methods & IdEmitFunction,
+    options?: SourceRunOptions
+  ) => void | Promise<void>;
 }
 
-export type DedupedSource<
-  Methods,
-  SourcePropDefinitions
-> = Modify<BaseSource<
-  Methods,
-  SourcePropDefinitions
->, {
-  dedupe: "greatest" | "unique";
-  run: (this: PropThis<SourcePropDefinitions> & Methods & IdEmitFunction, options?: SourceRunOptions) => void | Promise<void>;
-}>;
+export interface NonDedupedSource<Methods, SourcePropDefinitions>
+  extends BaseSource<Methods, SourcePropDefinitions> {
+  dedupe?: never;
+}
 
-export type Source<
-  Methods,
-  SourcePropDefinitions
-> = LastSource<
-  Methods,
-  SourcePropDefinitions
-> | DedupedSource<
-  Methods,
-  SourcePropDefinitions
->;
+export type Source<Methods, SourcePropDefinitions> =
+  | DedupedSource<Methods, SourcePropDefinitions>
+  | NonDedupedSource<Methods, SourcePropDefinitions>;
 
 export function defineSource<
   Methods,

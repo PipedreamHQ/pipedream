@@ -5,7 +5,7 @@ export default defineAction({
   name: "[Text] Set Default Value",
   description: "Return a default value if the text is empty",
   key: "formatting-set-default-value",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     app,

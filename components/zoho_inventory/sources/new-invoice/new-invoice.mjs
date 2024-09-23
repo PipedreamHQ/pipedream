@@ -5,7 +5,7 @@ export default {
   key: "zoho_inventory-new-invoice",
   name: "New Invoice",
   description: "Emit new event each time a new invoice is created in Zoho Inventory",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

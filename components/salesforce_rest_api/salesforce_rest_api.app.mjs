@@ -4,19 +4,6 @@ export default {
   type: "app",
   app: "salesforce_rest_api",
   propDefinitions: {
-    sobjectId: {
-      type: "string",
-      label: "SObject ID",
-      description: "ID of the Standard object to get field values from",
-      async options(context) {
-        const { objectType } = context;
-        const { recentItems } = await this.listSObjectTypeIds(objectType);
-        return recentItems.map((item) => ({
-          label: item.Name,
-          value: item.Id,
-        }));
-      },
-    },
     objectType: {
       type: "string",
       label: "SObject Type",
@@ -38,6 +25,21 @@ export default {
         return sobjects.filter(filter).map(mapper);
       },
     },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "The ID of the record of the selected object type.",
+      async options({
+        objType,
+        nameField,
+      }) {
+        if (!nameField) nameField = await this.getNameFieldForObjectType(objType);
+        return this.listRecordOptions({
+          objType,
+          nameField,
+        });
+      },
+    },
     field: {
       type: "string",
       label: "Field",
@@ -53,37 +55,30 @@ export default {
         return fields.filter(filter).map(({ name }) => name);
       },
     },
-    fieldUpdatedTo: {
-      type: "string",
-      label: "Field Updated to",
-      description:
-        "If provided, the trigger will only fire when the updated field is an EXACT MATCH (including spacing and casing) to the value you provide in this field",
-      optional: true,
-    },
-    fieldSelector: {
+    fieldsToUpdate: {
       type: "string[]",
-      label: "Field Selector",
-      description: "Select fields for the Standard Object",
-      options: () => [], // override options for each object, e.g., () => Object.keys(account)
-    },
-    AcceptedEventInviteeIds: {
-      type: "string[]",
-      label: "Accepted Event Invitee IDs",
-      async options() {
-        const { recentItems: contacts } = await this.listSObjectTypeIds("Contact");
-        const { recentItems: leads } = await this.listSObjectTypeIds("Lead");
-        const allContacts = [
-          ...contacts,
-          ...leads,
-        ];
-        return allContacts.map(({
-          Name, Id,
-        }) => ({
-          label: Name,
-          value: Id,
-        }));
+      label: "Fields to Update",
+      description: "Select the field(s) you want to update for this record.",
+      async options({ objType }) {
+        const fields = await this.getFieldsForObjectType(objType);
+        return fields.filter((field) => field.updateable).map(({ name }) => name);
       },
-      description: "A string array of contact or lead IDs who accepted this event. This JunctionIdList is linked to the AcceptedEventRelation child relationship. Warning Adding a JunctionIdList field name to the fieldsToNull property deletes all related junction records. This action can't be undone.",
+    },
+    fieldsToObtain: {
+      type: "string[]",
+      label: "Fields to Obtain",
+      description: "Select the field(s) to obtain for the selected record(s) (or all records).",
+      async options({ objType }) {
+        const fields = await this.getFieldsForObjectType(objType);
+        return fields.map(({ name }) => name);
+      },
+    },
+    useAdvancedProps: {
+      type: "boolean",
+      label: "See All Props",
+      description: "Set to true to see all available props for this object.",
+      optional: true,
+      reloadProps: true,
     },
   },
   methods: {
@@ -137,10 +132,6 @@ export default {
     _sObjectTypeDescriptionApiUrl(sObjectType) {
       const baseUrl = this._sObjectTypeApiUrl(sObjectType);
       return `${baseUrl}/describe`;
-    },
-    _sObjectTypeUpdatedApiUrl(sObjectType) {
-      const baseUrl = this._sObjectTypeApiUrl(sObjectType);
-      return `${baseUrl}/updated`;
     },
     _sObjectTypeDeletedApiUrl(sObjectType) {
       const baseUrl = this._sObjectTypeApiUrl(sObjectType);
@@ -223,50 +214,36 @@ export default {
       });
       return data.fields;
     },
-    async getHistorySObjectForObjectType(objectType) {
-      const { sobjects } = await this.listSObjectTypes();
-      const historyObject = sobjects.find(
-        (sobject) =>
-          sobject.associateParentEntity === objectType &&
-          this.isHistorySObject(sobject),
-      );
-      return historyObject;
-    },
-    async createObject(objectType, data) {
-      const url = `${this._sObjectsApiUrl()}/${objectType}`;
+    async createObject({
+      objectType, ...args
+    }) {
       return this._makeRequest({
-        url,
-        data,
+        url: `${this._sObjectsApiUrl()}/${objectType}`,
         method: "POST",
+        ...args,
       });
     },
-    async deleteObject(objectType, sobjectId) {
-      const url = `${this._sObjectsApiUrl()}/${objectType}/${sobjectId}`;
+    async deleteRecord({
+      sobjectType, recordId, ...args
+    }) {
+      const url = `${this._sObjectsApiUrl()}/${sobjectType}/${recordId}`;
       return this._makeRequest({
         url,
         method: "DELETE",
+        ...args,
       });
     },
-    async getRecords(objectType, params) {
+    async getRecords({
+      objectType, ...args
+    }) {
       const url = `${this._sCompositeApiUrl()}/${objectType}`;
       return this._makeRequest({
         url,
-        params,
+        ...args,
       });
     },
     async getSObject(objectType, id, params = null) {
       const url = this._sObjectDetailsApiUrl(objectType, id);
-      return this._makeRequest({
-        url,
-        params,
-      });
-    },
-    async getUpdatedForObjectType(objectType, start, end) {
-      const url = this._sObjectTypeUpdatedApiUrl(objectType);
-      const params = {
-        start: this._formatDateString(start),
-        end: this._formatDateString(end),
-      };
       return this._makeRequest({
         url,
         params,
@@ -293,159 +270,6 @@ export default {
         },
       });
     },
-    async createAccount({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Account");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async updateAccount({
-      $, id, data,
-    }) {
-      const url = this._sObjectDetailsApiUrl("Account", id);
-      return this._makeRequest({
-        $,
-        url,
-        method: "PATCH",
-        data,
-      });
-    },
-    async createAttachment({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Attachment");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createCampaign({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Campaign");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createCase({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Case");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createCaseComment({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("CaseComment");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createContact({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Contact");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async updateContact({
-      $, id, data,
-    }) {
-      const url = this._sObjectDetailsApiUrl("Contact", id);
-      return this._makeRequest({
-        $,
-        url,
-        method: "PATCH",
-        data,
-      });
-    },
-    async createEvent({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Event");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createLead({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Lead");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createNote({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Note");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async createOpportunity({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Opportunity");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async updateOpportunity({
-      $, id, data,
-    }) {
-      const url = this._sObjectDetailsApiUrl("Opportunity", id);
-      return this._makeRequest({
-        $,
-        url,
-        method: "PATCH",
-        data,
-      });
-    },
-    async getRecordFieldValues(sobjectName, {
-      $, id, params,
-    }) {
-      const url = this._sObjectDetailsApiUrl(sobjectName, id);
-      return this._makeRequest({
-        $,
-        url,
-        params,
-      });
-    },
     async createRecord(sobjectName, {
       $, data,
     }) {
@@ -468,27 +292,6 @@ export default {
         data,
       });
     },
-    async createTask({
-      $, data,
-    }) {
-      const url = this._sObjectTypeApiUrl("Task");
-      return this._makeRequest({
-        $,
-        url,
-        method: "POST",
-        data,
-      });
-    },
-    async deleteOpportunity({
-      $, id,
-    }) {
-      const url = this._sObjectDetailsApiUrl("Opportunity", id);
-      return this._makeRequest({
-        $,
-        url,
-        method: "DELETE",
-      });
-    },
     async query({
       $, query,
     }) {
@@ -498,6 +301,26 @@ export default {
         $,
         url,
       });
+    },
+    async listRecordOptions({
+      objType,
+      nameField = "Id",
+    }) {
+      const fields = [
+        "Id",
+        ...nameField === "Id"
+          ? []
+          : [
+            nameField,
+          ],
+      ];
+      const { records } = await this.query({
+        query: `SELECT ${fields.join(", ")} FROM ${objType}`,
+      });
+      return records?.map?.((item) => ({
+        label: item[nameField],
+        value: item.Id,
+      })) ?? [];
     },
     async search({
       $, search,
@@ -509,14 +332,14 @@ export default {
         url,
       });
     },
-    async parameterizedSearch(params) {
+    async parameterizedSearch(args) {
       const baseUrl = this._baseApiVersionUrl();
       const url = `${baseUrl}/parameterizedSearch/`;
 
       return this._makeRequest({
         url,
         method: "GET",
-        params,
+        ...args,
       });
     },
     async insertBlobData(sobjectName, {
@@ -534,7 +357,7 @@ export default {
       };
       return axios($ ?? this, requestConfig);
     },
-    async postFeed(args = {}) {
+    async postFeed(args) {
       const baseUrl = this._baseApiVersionUrl();
       const url = `${baseUrl}/chatter/feed-elements`;
       return this._makeRequest({

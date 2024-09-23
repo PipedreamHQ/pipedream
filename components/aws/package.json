@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aws",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream Aws Components",
   "main": "aws.app.mjs",
   "keywords": [
@@ -25,6 +25,7 @@
     "@aws-sdk/client-sqs": "^3.58.0",
     "@aws-sdk/client-ssm": "^3.58.0",
     "@aws-sdk/client-sts": "^3.58.0",
+    "@aws-sdk/s3-request-presigner": "^3.609.0",
     "@pipedream/helper_functions": "^0.3.6",
     "@pipedream/platform": "^1.6.3",
     "adm-zip": "^0.5.10",

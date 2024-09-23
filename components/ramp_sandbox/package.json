@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/ramp_sandbox",
+  "version": "0.1.1",
+  "description": "Pipedream Ramp (Sandbox) Components",
+  "main": "ramp_sandbox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ramp_sandbox"
+  ],
+  "homepage": "https://pipedream.com/apps/ramp_sandbox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0",
+    "uuid": "^10.0.0"
+  }
+}

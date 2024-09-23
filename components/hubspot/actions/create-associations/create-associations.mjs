@@ -1,10 +1,12 @@
 import hubspot from "../../hubspot.app.mjs";
+import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "hubspot-create-associations",
   name: "Create Associations",
   description: "Create associations between objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/associations#endpoint?spec=POST-/crm/v3/associations/{fromObjectType}/{toObjectType}/batch/create)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     hubspot,
@@ -64,15 +66,38 @@ export default {
       fromObjectId,
       toObjectType,
       associationType,
-      toObjectIds,
     } = this;
-    const response = await this.hubspot.createAssociations(
+    let toObjectIds;
+    if (Array.isArray(this.toObjectIds)) {
+      toObjectIds = this.toObjectIds;
+    } else {
+      try {
+        toObjectIds = JSON.parse(this.toObjectIds);
+      } catch {
+        throw new ConfigurationError("Could not parse \"To Objects\" array.");
+      }
+    }
+    const response = await this.hubspot.createAssociations({
+      $,
       fromObjectType,
       toObjectType,
-      fromObjectId,
-      toObjectIds,
-      associationType,
-    );
+      data: {
+        inputs: toObjectIds.map((toId) => ({
+          from: {
+            id: fromObjectId,
+          },
+          to: {
+            id: toId,
+          },
+          types: [
+            {
+              associationCategory: ASSOCIATION_CATEGORY.HUBSPOT_DEFINED,
+              associationTypeId: associationType,
+            },
+          ],
+        })),
+      },
+    });
     const l = response.results.length;
     $.export("$summary", `Successfully created ${l} association${l === 1
       ? ""

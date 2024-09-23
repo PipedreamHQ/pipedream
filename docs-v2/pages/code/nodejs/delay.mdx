@@ -36,7 +36,7 @@ export default defineComponent({
 });
 ```
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Paused workflow state
 
 When `$.flow.delay` is executed in a Node.js step, the workflow itself will enter a **Paused** state.
@@ -52,7 +52,7 @@ However, using `$.flow.delay` in a workflow will incur two credits.
 
 One credit is used to initially start the workflow, then the second credit is used when the workflow resumes after its pause period has ended.
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Exact credit usage depends on duration and memory configuration
 
 If your workflow's [execution timeout limit](/workflows/settings/#execution-timeout-limit) is set to longer than [default limit](/limits/#time-per-execution), it may incur more than two [credits](/pricing/#credits) when using `pd.flow.delay`.

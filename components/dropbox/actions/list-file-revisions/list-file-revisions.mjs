@@ -3,9 +3,9 @@ import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "List File Revisions",
-  description: "Retrieves a list of file revisions needed to recover previous content. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesListRevisions__anchor)",
+  description: "Retrieves a list of file revisions needed to recover previous content. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesListRevisions__anchor)",
   key: "dropbox-list-file-revisions",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
@@ -21,7 +21,7 @@ export default {
     mode: {
       type: "string",
       label: "Mode",
-      description: "Determines the behavior of the API in listing the revisions for a given file path or id.",
+      description: "Determines the behavior of the API in listing the revisions for a given file path or id. In `path` (default) mode, all revisions at the same file path as the latest file entry are returned. If revisions with the same file id are desired, then mode must be set to `id`.",
       optional: true,
       options: consts.LIST_FILE_REVISIONS_OPTIONS,
     },

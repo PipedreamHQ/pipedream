@@ -1,5 +1,5 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/docs/v3",
       "destination": "/docs"
@@ -7,9 +7,7 @@
     {
       "source": "/docs/v3/(.*)",
       "destination": "/docs/$1"
-    }
-  ],
-  "redirects": [
+    },
     {
       "source": "/docs/notebook/actions/",
       "destination": "/workflows/steps/actions/"
@@ -223,10 +221,6 @@
       "destination": "/docs/components/actions-quickstart"
     },
     {
-      "source": "/docs/components/quickstart/nodejs/sources",
-      "destination": "/docs/components/sources-quickstart"
-    },
-    {
       "source": "/docs/github-sync",
       "destination": "/docs/quickstart/github-sync"
     },
@@ -241,6 +235,10 @@
     {
       "source": "/docs/workflows/steps/actions",
       "destination": "/docs/workflows/actions"
+    },
+    {
+      "source": "/docs/workflows/flow-control",
+      "destination": "/docs/workflows/control-flow"
     },
     {
       "source": "/docs/workspaces/okta",
@@ -265,6 +263,18 @@
     {
       "source": "/docs/workspaces-and-credits-faq",
       "destination": "https://pipedream.com/pricing"
+    },
+    {
+      "source": "/docs/quickstart/run-workflow-on-a-schedule",
+      "destination": "/docs/quickstart"
+    },
+    {
+      "source": "/docs/apps/guide/requesting-additional-oauth-scopes",
+      "destination": "/docs/connected-accounts/oauth-clients"
+    },
+    {
+      "source": "/docs/workflows/networking",
+      "destination": "/docs/databases#connecting-to-restricted-databases"
     }
   ]
 }

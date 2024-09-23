@@ -3,18 +3,20 @@ import {
   getSampleTimerEvent, getSampleWebhookEvent,
 } from "./common-sample-events.mjs";
 
-const DOCS_LINK =
-  "https://docs.github.com/en/webhooks/webhook-events-and-payloads#push";
-
 export default {
   ...common,
   key: "github-new-commit",
   name: "New Commit",
-  description: `Emit new event when commits are pushed to a branch [See the documentation](${DOCS_LINK})`,
-  version: "1.0.2",
+  description: "Emit new event when commits are pushed to a branch",
+  version: "1.0.6",
   type: "source",
   dedupe: "unique",
   props: {
+    eventTypeInfo: {
+      type: "alert",
+      alertType: "info",
+      content: "**Note:** one event is emitted for each individual commit, even if they are received at the same time.",
+    },
     ...common.props,
     branch: {
       propDefinition: [
@@ -45,12 +47,15 @@ export default {
       return `New commit: ${item.commit?.message ?? item.message}`;
     },
     async onWebhookTrigger(event) {
-      const { body } = event;
+      const {
+        body, headers,
+      } = event;
       if (body?.ref?.split?.("refs/heads/").pop() === this.branch.split("/").pop()) {
         body.commits.forEach((commit) => {
           const { id } = commit;
           this.emitEvent({
             id,
+            headers,
             item: commit,
           });
         });
@@ -91,6 +96,12 @@ export default {
 
       this._setSavedItems(savedItems);
       this._setLastTimestamp(Date.now());
+    },
+    getHttpDocsLink() {
+      return "https://docs.github.com/en/webhooks/webhook-events-and-payloads#push";
+    },
+    getTimerDocsLink() {
+      return "https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits";
     },
   },
 };

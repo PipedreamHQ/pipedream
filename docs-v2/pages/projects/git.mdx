@@ -15,7 +15,7 @@ Capabilities include:
 - Edit in Pipedream or use a local editor and synchronize via GitHub (e.g., edit code, find and replace across multiple steps or workflows)
 - Organize workflows into projects with support for nested folders
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Follow our [quickstart guide](/quickstart/github-sync/) to start building projects on Pipedream using GitHub Sync.
 </Callout>
 
@@ -40,7 +40,7 @@ A project may contain one or more workflows and may be further organized using n
 
 ### Create a branch to edit a project
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Branches are required to make changes
 
 All changes to resources in a project must be made in a development branch.
@@ -86,7 +86,7 @@ To create a pull request in GitHub, either choose Open GitHub pull request from 
 
 You can also review and merge changes directly from GitHub using the standard pull request process.
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 Pull request reviews cannot be required
 
 PR reviews cannot be required. That feature is on the roadmap for the Business tier.
@@ -114,7 +114,7 @@ Pipedream will attempt to automatically merge changes. If there are conflicts, y
 
 ### Move existing workflows to projects
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 Not available for v1 workflows
 
 Legacy (v1) workflows are not supported in projects. [Follow this guide to migrate your v1 workflows to v2 workflows](/migrate-from-v1/).
@@ -128,7 +128,7 @@ Then, select the project to move the selected workflows to:
 
 ![Select which project to move the selected workflows into in the dropdown in the top right of the screen](https://pipedream.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F5fcb3357-9957-4307-aac9-e28ed59f85b0%2FUntitled.png?id=7fca27aa-28ec-4bcc-940d-9b66d1d692be&table=block&spaceId=6e16aa4c-a31f-4db8-a947-0d80bcdcf984&width=2000&userId=&cache=v2)
 
-<Callout type="info" emoji="ℹ️">
+<Callout type="info">
 Undeployed changes are automatically assigned a development branch
 
 If any moved workflows have undeployed changes, those changes will staged in a branch prefixed with `undeployed-changes` (e.g., `undeployed-changes-27361`).
@@ -170,7 +170,7 @@ If your repository is hosted on an GitHub Enterprise account, you can allow Pipe
   {process.env.PD_EGRESS_IP_RANGE}
 </pre>
 
-<Callout type="warning" emoji="⚠">
+<Callout type="warning">
 GitHub Sync is available on Business plan
 
 To use this public IP address and connect to GitHub Enterprise Cloud hosted repositories, you'll need to have a Pipedream Business plan. [View our plans](https://pipedream.com/pricing).

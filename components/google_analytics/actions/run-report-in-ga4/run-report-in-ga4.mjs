@@ -2,7 +2,7 @@ import analytics from "../../google_analytics.app.mjs";
 
 export default {
   key: "google_analytics-run-report-in-ga4",
-  version: "0.0.3",
+  version: "0.1.0",
   name: "Run Report in GA4",
   description: "Returns a customized report of your Google Analytics event data. Reports contain statistics derived from data collected by the Google Analytics tracking code. [See the documentation here](https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/runReport)",
   type: "action",

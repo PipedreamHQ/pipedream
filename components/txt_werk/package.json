@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/txt_werk",
+  "version": "0.1.0",
+  "description": "Pipedream TXT Werk Components",
+  "main": "txt_werk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "txt_werk"
+  ],
+  "homepage": "https://pipedream.com/apps/txt_werk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

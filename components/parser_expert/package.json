@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/parser_expert",
+  "version": "0.0.1",
+  "description": "Pipedream Parser Expert Components",
+  "main": "parser_expert.app.mjs",
+  "keywords": [
+    "pipedream",
+    "parser_expert"
+  ],
+  "homepage": "https://pipedream.com/apps/parser_expert",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

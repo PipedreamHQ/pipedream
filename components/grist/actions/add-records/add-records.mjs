@@ -5,7 +5,7 @@ export default {
   key: "grist-add-records",
   name: "Add Records",
   description: "Appends new records to a chosen table in Grist. [See the documentation](https://support.getgrist.com/api/#tag/records/operation/addRecords)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

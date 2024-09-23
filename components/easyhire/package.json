@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/easyhire",
+  "version": "0.0.1",
+  "description": "Pipedream easyhire Components",
+  "main": "easyhire.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easyhire"
+  ],
+  "homepage": "https://pipedream.com/apps/easyhire",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

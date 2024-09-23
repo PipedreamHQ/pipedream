@@ -190,7 +190,7 @@ export default {
         const revisions = await dpx.filesListRevisions({
           path,
           mode: {
-            ".tag": "id",
+            ".tag": "path",
           },
         });
         return revisions.result?.entries?.map((revision) => ({

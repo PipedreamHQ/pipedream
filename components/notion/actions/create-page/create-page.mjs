@@ -7,7 +7,7 @@ export default {
   key: "notion-create-page",
   name: "Create Page",
   description: "Creates a page from a parent page. The only valid property is *title*. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.2.10",
+  version: "0.2.11",
   type: "action",
   props: {
     notion,
@@ -36,6 +36,7 @@ export default {
       type: "string",
       label: "Page Content",
       description: "Content of the page. You can use Markdown syntax [See docs](https://www.notion.so/help/writing-and-editing-basics#markdown-&-shortcuts)",
+      optional: true,
     },
   },
   async additionalProps() {

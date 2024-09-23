@@ -2,7 +2,7 @@
 name: OAuth Scopes Request
 about: Request to add a new scope to an OAuth integrated application
 title: "[OAUTH SCOPE]"
-labels: scope request
+labels: ''
 assignees: ''
 
 ---

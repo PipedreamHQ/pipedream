@@ -1,0 +1,21 @@
+export default {
+  "Id": 7,
+  "Status": "Active",
+  "LastCalibrationDate": "2024-03-14T00:00:00",
+  "CalibrationDueDate": "2024-03-14T00:00:00",
+  "MasterStandard": "No",
+  "Type": "Caliper",
+  "SerialNumber": "7",
+  "Years": 1,
+  "Months": 2,
+  "Days": 4,
+  "CreatedBy": "API Demo",
+  "UpdatedBy": "API Demo",
+  "IsDeleted": false,
+  "ControlNumber": "7",
+  "UpdatedDate": "2024-03-15T09:03:05Z",
+  "AssetNo": "7",
+  "PurchasePrice": 100,
+  "IntervalCategory": "_",
+  "CreatedDate": "2024-03-15T04:03:05-05:00"
+}

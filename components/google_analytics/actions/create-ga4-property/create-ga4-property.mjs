@@ -1,13 +1,11 @@
 import googleAnalytics from "../../google_analytics.app.mjs";
-import {
-  INDUSTRY_CATEGORY_OPTIONS, TIMEZONE_OPTIONS,
-} from "../../common/constants.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "google_analytics-create-ga4-property",
   name: "Create GA4 Property",
   description: "Creates a new GA4 property. [See the documentation](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1beta/properties/create)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     googleAnalytics,
@@ -26,14 +24,14 @@ export default {
       type: "string",
       label: "Time Zone",
       description: "The reporting time zone for the property. Must be a valid value from [the IANA timezone database](https://www.iana.org/time-zones).",
-      options: TIMEZONE_OPTIONS,
+      options: constants.TIMEZONE_OPTIONS,
     },
     industryCategory: {
       type: "string",
       label: "Industry Category",
       description: "The industry category associated with the property.",
       optional: true,
-      options: INDUSTRY_CATEGORY_OPTIONS,
+      options: constants.INDUSTRY_CATEGORY_OPTIONS,
     },
     currencyCode: {
       type: "string",
