@@ -99,7 +99,15 @@ export default {
     const lastCheckedTimestamp = this.getLastUpdatedTimestamp();
     const propertyValues = this._getPropertyValues();
 
-    const params = this.lastUpdatedSortParam();
+    const params = {
+      ...this.lastUpdatedSortParam(),
+      filter: {
+        timestamp: "last_edited_time",
+        last_edited_time: {
+          on_or_after: new Date(lastCheckedTimestamp).toISOString(),
+        },
+      },
+    };
     let newLastUpdatedTimestamp = lastCheckedTimestamp;
     const properties = await this.getProperties();
     const pagesStream = this.notion.getPages(this.databaseId, params);
