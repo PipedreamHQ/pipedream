@@ -19,13 +19,7 @@ describe("ServerClient", () => {
         secretKey: "test-secret-key",
       };
 
-      const mockClient = new ServerClient(params);
-
-      const createClientSpy = jest.spyOn(serverModule, "createClient").mockReturnValue(mockClient);
-
       const client = createClient(params);
-
-      expect(createClientSpy).toHaveBeenCalledWith(params);
       expect(client).toBeInstanceOf(ServerClient);
     });
   });
