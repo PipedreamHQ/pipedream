@@ -34,7 +34,6 @@ export default {
   },
   async additionalProps() {
     const canPush = await this.checkPushPermission();
-    console.log("canPush", canPush);
     return canPush
       ? {
         assignees: asyncProps.assignees,
