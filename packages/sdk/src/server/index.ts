@@ -60,7 +60,7 @@ export type ConnectTokenCreateOpts = {
 
 export type AppInfo = {
   /**
-   * ID of the app. Only applies for Oauth apps.
+   * ID of the app. Only applies for OAuth apps.
    */
   id?: string;
 
@@ -108,7 +108,11 @@ export type ConnectParams = {
 /**
  * The authentication type for the app.
  */
-export type AuthType = "oauth" | "keys" | "none";
+export enum AuthType {
+  OAuth = "oauth",
+  Keys = "keys",
+  None = "none",
+}
 
 /**
  * Response object for Pipedream app metadata
@@ -270,13 +274,13 @@ interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
  *
  * @example
  *
-typescript
+ * ```typescript
  * const client = createClient({
  *   publicKey: "your-public-key",
  *   secretKey: "your-secret-key",
  * });
+ * ```
  *
-
  * @param opts - The options for creating the server client.
  * @returns A new instance of ServerClient.
  */
@@ -291,8 +295,8 @@ export class ServerClient {
   private secretKey?: string;
   private publicKey?: string;
   private oauthClient?: ClientCredentials;
-  public oauthToken?: AccessToken;
-  private baseURL: string;
+  private oauthToken?: AccessToken;
+  private readonly baseURL: string;
 
   /**
    * Constructs a new ServerClient instance.
@@ -315,11 +319,11 @@ export class ServerClient {
       this.oauthClient = oauthClient;
     } else {
       // Configure the OAuth client normally
-      this._configureOauthClient(opts, this.baseURL);
+      this.configureOauthClient(opts, this.baseURL);
     }
   }
 
-  private _configureOauthClient(
+  private configureOauthClient(
     {
       oauthClientId: id,
       oauthClientSecret: secret,
@@ -348,18 +352,36 @@ export class ServerClient {
    *
    * @returns The authorization header as a string.
    */
-  private _connectAuthorizationHeader(): string {
+  private connectAuthorizationHeader(): string {
     const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString("base64");
     return `Basic ${encoded}`;
   }
 
-  private async _oauthAuthorizationHeader(): Promise<string> {
+  private async oauthAuthorizationHeader(): Promise<string> {
     if (!this.oauthClient) {
       throw new Error("OAuth client not configured");
     }
 
-    if (!this.oauthToken || this.oauthToken.expired()) {
-      this.oauthToken = await this.oauthClient.getToken({});
+    let attempts = 0;
+    const maxAttempts = 2; // Prevent potential infinite loops
+
+    do {
+      if (attempts > 0) {
+        // Wait for a short duration before retrying to avoid rapid retries
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+
+      try {
+        this.oauthToken = await this.oauthClient.getToken({});
+      } catch (error: any) {
+        throw new Error(`Failed to obtain OAuth token: ${error.message}`);
+      }
+
+      attempts++;
+    } while (this.oauthToken.expired() && attempts < maxAttempts);
+
+    if (this.oauthToken.expired()) {
+      throw new Error("Unable to obtain a valid (non-expired) OAuth token");
     }
 
     return `Bearer ${this.oauthToken.token.access_token}`;
@@ -374,7 +396,7 @@ export class ServerClient {
    * @returns A promise resolving to the API response.
    * @throws Will throw an error if the response status is not OK.
    */
-  private async _makeRequest<T>(
+  private async makeRequest<T>(
     path: string,
     opts: RequestOptions = {},
   ): Promise<T> {
@@ -390,14 +412,14 @@ export class ServerClient {
     const url = new URL(`${baseURL}${path}`);
 
     if (params) {
-      Object.entries(params).forEach(([
+      for (const [
         key,
         value,
-      ]) => {
-        if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
-          url.searchParams.append(key, value.toString());
+      ] of Object.entries(params)) {
+        if (value !== undefined && value !== null) {
+          url.searchParams.append(key, String(value));
         }
-      });
+      }
     }
 
     const headers = {
@@ -435,7 +457,8 @@ export class ServerClient {
     const response: Response = await fetch(url.toString(), requestOptions);
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorBody = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
     }
 
     // Attempt to parse JSON, fall back to raw text if it fails
@@ -448,50 +471,65 @@ export class ServerClient {
   }
 
   /**
-   * Makes a request to the Pipedream API.
+   * Makes a request to the Pipedream API with appropriate authorization.
    *
    * @template T - The expected response type.
    * @param path - The API endpoint path.
    * @param opts - The options for the request.
+   * @param authType - The type of authorization to use ("oauth" or "connect").
    * @returns A promise resolving to the API response.
    * @throws Will throw an error if the response status is not OK.
    */
-  private async _makeApiRequest<T>(
+  private async makeAuthorizedRequest<T>(
     path: string,
     opts: RequestOptions = {},
+    authType: "oauth" | "connect" = "oauth",
   ): Promise<T> {
-    const headers = {
+    const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      ...opts.headers ?? {},
-      "Authorization": await this._oauthAuthorizationHeader(),
+      ...opts.headers,
     };
-    return this._makeRequest<T>(path, {
+
+    if (authType === "oauth") {
+      headers["Authorization"] = await this.oauthAuthorizationHeader();
+    } else {
+      headers["Authorization"] = this.connectAuthorizationHeader();
+    }
+
+    return this.makeRequest<T>(path, {
       headers,
       ...opts,
     });
   }
 
   /**
-   * Makes a request to the Connect API.
+   * Makes a request to the Pipedream API using OAuth authorization.
    *
    * @template T - The expected response type.
    * @param path - The API endpoint path.
    * @param opts - The options for the request.
    * @returns A promise resolving to the API response.
-   * @throws Will throw an error if the response status is not OK.
    */
-  private async _makeConnectRequest<T>(
+  private async makeApiRequest<T>(
     path: string,
     opts: RequestOptions = {},
   ): Promise<T> {
-    const headers = {
-      ...opts.headers ?? {},
-      "Authorization": this._connectAuthorizationHeader(),
-    };
-    return this._makeRequest<T>(`/connect${path}`, {
-      headers,
-      ...opts,
-    });
+    return this.makeAuthorizedRequest<T>(path, opts, "oauth");
+  }
+
+  /**
+   * Makes a request to the Connect API using Connect authorization.
+   *
+   * @template T - The expected response type.
+   * @param path - The API endpoint path.
+   * @param opts - The options for the request.
+   * @returns A promise resolving to the API response.
+   */
+  private async makeConnectRequest<T>(
+    path: string,
+    opts: RequestOptions = {},
+  ): Promise<T> {
+    return this.makeAuthorizedRequest<T>(`/connect${path}`, opts, "connect");
   }
 
   /**
@@ -502,14 +540,13 @@ export class ServerClient {
    *
    * @example
    *
-typescript
+   * ```typescript
    * const tokenResponse = await client.connectTokenCreate({
    *   app_slug: "your-app-slug",
    *   external_user_id: "external-user-id",
    * });
    * console.log(tokenResponse.token);
-   *
-
+   * ```
    */
   public async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
     const body = {
@@ -517,7 +554,7 @@ typescript
       app_slug: opts.app_slug,
       oauth_app_id: opts.oauth_app_id,
     };
-    return this._makeConnectRequest<ConnectTokenResponse>("/tokens", {
+    return this.makeConnectRequest<ConnectTokenResponse>("/tokens", {
       method: "POST",
       body,
     });
@@ -531,14 +568,13 @@ typescript
    *
    * @example
    *
-typescript
+   * ```typescript
    * const accounts = await client.getAccounts({ include_credentials: 1 });
    * console.log(accounts);
-   *
-
+   * ```
    */
-  async getAccounts(params: ConnectParams = {}): Promise<Account[]> {
-    return this._makeConnectRequest<Account[]>("/accounts", {
+  public async getAccounts(params: ConnectParams = {}): Promise<Account[]> {
+    return this.makeConnectRequest<Account[]>("/accounts", {
       params,
     });
   }
@@ -552,14 +588,13 @@ typescript
    *
    * @example
    *
-typescript
+   * ```typescript
    * const account = await client.getAccount("account-id");
    * console.log(account);
-   *
-
+   * ```
    */
   public async getAccount(accountId: string, params: ConnectParams = {}): Promise<Account> {
-    return this._makeConnectRequest<Account>(`/accounts/${accountId}`, {
+    return this.makeConnectRequest<Account>(`/accounts/${accountId}`, {
       params,
     });
   }
@@ -573,14 +608,13 @@ typescript
    *
    * @example
    *
-typescript
+   * ```typescript
    * const accounts = await client.getAccountsByApp("app-id");
    * console.log(accounts);
-   *
-
+   * ```
    */
   public async getAccountsByApp(appId: string, params: ConnectParams = {}): Promise<Account[]> {
-    return this._makeConnectRequest<Account[]>(`/accounts/app/${appId}`, {
+    return this.makeConnectRequest<Account[]>(`/accounts/app/${appId}`, {
       params,
     });
   }
@@ -594,14 +628,13 @@ typescript
    *
    * @example
    *
-typescript
+   * ```typescript
    * const accounts = await client.getAccountsByExternalId("external-id");
    * console.log(accounts);
-   *
-
+   * ```
    */
   public async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<Account[]> {
-    return this._makeConnectRequest<Account[]>(`/accounts/external_id/${externalId}`, {
+    return this.makeConnectRequest<Account[]>(`/accounts/external_id/${externalId}`, {
       params,
     });
   }
@@ -614,14 +647,13 @@ typescript
    *
    * @example
    *
-typescript
+   * ```typescript
    * await client.deleteAccount("account-id");
    * console.log("Account deleted");
-   *
-
+   * ```
    */
   public async deleteAccount(accountId: string): Promise<void> {
-    await this._makeConnectRequest(`/accounts/${accountId}`, {
+    await this.makeConnectRequest(`/accounts/${accountId}`, {
       method: "DELETE",
     });
   }
@@ -634,14 +666,13 @@ typescript
    *
    * @example
    *
-typescript
+   * ```typescript
    * await client.deleteAccountsByApp("app-id");
    * console.log("All accounts deleted");
-   *
-
+   * ```
    */
   public async deleteAccountsByApp(appId: string): Promise<void> {
-    await this._makeConnectRequest(`/accounts/app/${appId}`, {
+    await this.makeConnectRequest(`/accounts/app/${appId}`, {
       method: "DELETE",
     });
   }
@@ -654,20 +685,31 @@ typescript
    *
    * @example
    *
-typescript
+   * ```typescript
    * await client.deleteExternalUser("external-id");
    * console.log("All accounts deleted");
-   *
-
+   * ```
    */
   public async deleteExternalUser(externalId: string): Promise<void> {
-    await this._makeConnectRequest(`/users/${externalId}`, {
+    await this.makeConnectRequest(`/users/${externalId}`, {
       method: "DELETE",
     });
   }
 
+  /**
+   * Retrieves project information.
+   *
+   * @returns A promise resolving to the project info response.
+   *
+   * @example
+   *
+   * ```typescript
+   * const projectInfo = await client.getProjectInfo();
+   * console.log(projectInfo);
+   * ```
+   */
   public async getProjectInfo(): Promise<ProjectInfoResponse> {
-    return this._makeConnectRequest<ProjectInfoResponse>("/projects/info", {
+    return this.makeConnectRequest<ProjectInfoResponse>("/projects/info", {
       method: "GET",
     });
   }
@@ -688,9 +730,9 @@ typescript
    *
    * @example
    *
-typescript
-   * const response: JSON = await client.invokeWorkflow(
-   *   "https://eoy64t2rbte1u2p.m.pipedream.net",
+   * ```typescript
+   * const response = await client.invokeWorkflow(
+   *   "https://your-workflow-url.m.pipedream.net",
    *   {
    *     body: {
    *       foo: 123,
@@ -702,6 +744,8 @@ typescript
    *     },
    *   },
    * );
+   * console.log(response);
+   * ```
    */
   public async invokeWorkflow(url: string, opts: RequestOptions = {}): Promise<unknown> {
     const {
@@ -709,16 +753,15 @@ typescript
       headers = {},
     } = opts;
 
-    return this._makeRequest("", {
+    return this.makeRequest("", {
       ...opts,
       baseURL: url,
       method: opts.method || "POST", // Default to POST if not specified
       headers: {
         ...headers,
-        "Authorization": await this._oauthAuthorizationHeader(),
+        "Authorization": await this.oauthAuthorizationHeader(),
       },
       body,
     });
   }
-
 }
