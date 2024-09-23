@@ -1,29 +1,31 @@
 import common from "../common/common-webhook.mjs";
+import events from "../common/events.mjs";
 
 export default {
   ...common,
   key: "trello-custom-webhook-events",
   name: "Custom Webhook Events (Instant)",
   description: "Emit new events for activity matching a board, event types, lists and/or cards.",
-  version: "0.0.11",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
     eventTypes: {
-      propDefinition: [
-        common.props.trello,
-        "eventTypes",
-      ],
+      type: "string[]",
+      label: "Event Types",
+      optional: true,
+      description: "Only emit events for the selected event types (e.g., `updateCard`).",
+      options: events,
     },
     lists: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "lists",
         (c) => ({
           board: c.board,
@@ -32,7 +34,7 @@ export default {
     },
     cards: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cards",
         (c) => ({
           board: c.board,
@@ -58,11 +60,24 @@ export default {
   },
   methods: {
     ...common.methods,
+    getCardList({
+      cardId, ...args
+    } = {}) {
+      return this.app._makeRequest({
+        path: `/cards/${cardId}/list`,
+        ...args,
+      });
+    },
     async getSampleEvents() {
       const eventTypes = this.eventTypes && this.eventTypes.length > 0
         ? this.eventTypes.join(",")
         : null;
-      const actions = await this.trello.getBoardActivity(this.board, eventTypes);
+      const actions = await this.app.getBoardActivity({
+        boardId: this.board,
+        params: {
+          filter: eventTypes,
+        },
+      });
       return {
         sampleEvents: actions,
         sortField: "date",
@@ -84,8 +99,12 @@ export default {
       let listId = body.action?.data?.list?.id;
       const cardId = body.action?.data?.card?.id;
       // If listId not returned, see if we can get it from the cardId
-      if (cardId && !listId)
-        listId = (await this.trello.getCardList(cardId)).id;
+      if (cardId && !listId) {
+        const res = await this.app.getCardList({
+          cardId,
+        });
+        listId = res.id;
+      }
       return (
         (!this.lists ||
           this.lists.length === 0 ||
