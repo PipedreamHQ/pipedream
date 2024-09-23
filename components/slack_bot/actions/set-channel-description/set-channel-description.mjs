@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-set-channel-description",
   description: "Change the description or purpose of a channel (Bot). [See the documentation](https://api.slack.com/methods/conversations.setPurpose)",
-  version: "0.0.1",
+  version: "0.0.2",
 };
