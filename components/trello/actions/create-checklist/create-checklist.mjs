@@ -4,20 +4,20 @@ export default {
   ...common,
   key: "trello-create-checklist",
   name: "Create Checklist",
-  description: "Creates a checklist on the specified card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post)",
-  version: "0.0.3",
+  description: "Creates a checklist on the specified card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post).",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
     idCard: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cards",
         (c) => ({
           board: c.board,
@@ -30,21 +30,22 @@ export default {
     },
     name: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "name",
       ],
       description: "The name of the checklist. Should be a string of length 1 to 16384.",
     },
     pos: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "pos",
       ],
       description: "The position of the new checklist. Valid values: `top`, `bottom`, or a positive float.",
     },
     idChecklistSource: {
+      optional: true,
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "checklist",
         (c) => ({
           board: c.board,
@@ -52,14 +53,25 @@ export default {
       ],
     },
   },
+  methods: {
+    ...common.methods,
+    createChecklist(args = {}) {
+      return this.app.post({
+        path: "/checklists",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const opts = {
-      idCard: this.idCard,
-      name: this.name,
-      pos: this.pos,
-      idChecklistSource: this.idChecklistSource,
-    };
-    const res = await this.trello.createChecklist(opts, $);
+    const res = await this.createChecklist({
+      $,
+      params: {
+        idCard: this.idCard,
+        name: this.name,
+        pos: this.pos,
+        idChecklistSource: this.idChecklistSource,
+      },
+    });
     $.export("$summary", `Successfully created checklist ${res.name}`);
     return res;
   },

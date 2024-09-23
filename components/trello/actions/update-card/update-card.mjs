@@ -6,20 +6,20 @@ export default {
   ...common,
   key: "trello-update-card",
   name: "Update Card",
-  description: "Updates a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
-  version: "0.1.5",
+  description: "Updates a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put).",
+  version: "0.2.0",
   type: "action",
   props: {
     ...common.props,
     idBoard: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
-    idCard: {
+    cardId: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cards",
         (c) => ({
           board: c.idBoard,
@@ -32,14 +32,14 @@ export default {
     },
     name: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "name",
       ],
       description: "The new name for the card.",
     },
     desc: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "desc",
       ],
       description: "The new description for the card.",
@@ -52,7 +52,7 @@ export default {
     },
     idMembers: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "member",
         (c) => ({
           board: c.idBoard,
@@ -64,15 +64,20 @@ export default {
       optional: true,
     },
     idAttachmentCover: {
-      type: "string",
-      label: "Cover",
-      description:
-        "Assign an attachment to be the cover image for the card",
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "cardAttachmentId",
+        ({ cardId }) => ({
+          cardId,
+          params: {
+            filter: "cover",
+          },
+        }),
+      ],
     },
     idList: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "lists",
         (c) => ({
           board: c.idBoard,
@@ -84,7 +89,7 @@ export default {
     },
     idLabels: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "label",
         (c) => ({
           board: c.idBoard,
@@ -97,19 +102,19 @@ export default {
     },
     pos: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "pos",
       ],
     },
     due: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "due",
       ],
     },
     dueComplete: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "dueComplete",
       ],
       description: "Whether the due date should be marked complete.",
@@ -123,25 +128,25 @@ export default {
     },
     address: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "address",
       ],
     },
     locationName: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "locationName",
       ],
     },
     coordinates: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "coordinates",
       ],
     },
     customFieldIds: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "customFieldIds",
         (c) => ({
           boardId: c.idBoard,
@@ -156,7 +161,9 @@ export default {
       return props;
     }
     for (const customFieldId of this.customFieldIds) {
-      const customField = await this.trello.getCustomField(customFieldId);
+      const customField = await this.app.getCustomField({
+        customFieldId,
+      });
       props[customFieldId] = {
         type: "string",
         label: `Value for Custom Field - ${customField.name}`,
@@ -175,7 +182,10 @@ export default {
     async getCustomFieldItems($) {
       const customFieldItems = [];
       for (const customFieldId of this.customFieldIds) {
-        const customField = await this.trello.getCustomField(customFieldId, $);
+        const customField = await this.app.getCustomField({
+          $,
+          customFieldId,
+        });
         const customFieldItem = {
           idCustomField: customFieldId,
         };
@@ -196,30 +206,37 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = pickBy(pick(this, [
-      "name",
-      "desc",
-      "closed",
-      "idMembers",
-      "idAttachmentCover",
-      "idList",
-      "idLabels",
-      "idBoard",
-      "pos",
-      "due",
-      "dueComplete",
-      "subscribed",
-      "address",
-      "locationName",
-      "coordinates",
-    ]));
-    const res = await this.trello.updateCard(this.idCard, opts, $);
+    const res = await this.app.updateCard({
+      $,
+      cardId: this.cardId,
+      data: pickBy(pick(this, [
+        "name",
+        "desc",
+        "closed",
+        "idMembers",
+        "idAttachmentCover",
+        "idList",
+        "idLabels",
+        "idBoard",
+        "pos",
+        "due",
+        "dueComplete",
+        "subscribed",
+        "address",
+        "locationName",
+        "coordinates",
+      ])),
+    });
 
     if (this.customFieldIds) {
       const customFieldItems = await this.getCustomFieldItems($);
-      const updatedCustomFields = await this.trello.updateCustomFields(this.idCard, {
-        customFieldItems,
-      }, $);
+      const updatedCustomFields = await this.app.updateCustomFields({
+        $,
+        cardId: this.cardId,
+        data: {
+          customFieldItems,
+        },
+      });
       res.updatedCustomFields = updatedCustomFields;
     }
 

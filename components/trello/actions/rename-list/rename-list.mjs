@@ -4,20 +4,20 @@ export default {
   ...common,
   key: "trello-rename-list",
   name: "Rename List",
-  description: "Renames an existing list. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-put)",
-  version: "0.0.3",
+  description: "Renames an existing list. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-id-put).",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
     listId: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "lists",
         (c) => ({
           board: c.board,
@@ -30,18 +30,32 @@ export default {
     },
     name: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "name",
       ],
       description: "The new name of the list",
       optional: false,
     },
   },
+  methods: {
+    renameList({
+      listId, ...args
+    } = {}) {
+      return this.app.put({
+        path: `/lists/${listId}`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const res = await this.trello.renameList(this.listId, {
-      name: this.name,
-    }, $);
-    $.export("$summary", `Successfully renamed list to ${this.name}`);
+    const res = await this.renameList({
+      $,
+      listId: this.listId,
+      data: {
+        name: this.name,
+      },
+    });
+    $.export("$summary", `Successfully renamed list to \`${this.name}\`.`);
     return res;
   },
 };
