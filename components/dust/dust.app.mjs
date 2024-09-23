@@ -4,79 +4,86 @@ export default {
   type: "app",
   app: "dust",
   propDefinitions: {
-    content: {
+    assistantId: {
       type: "string",
-      label: "Message Content",
-      description: "The content of the message to be sent to the assistant",
+      label: "Assistant ID",
+      description: "Select the name of your Assistant from the list. Your Dust Assistant must be a **Shared** or **Company** Assistant. Personal Assistants are not visible in this list.",
+      async options() {
+        const { agentConfigurations } = await this.listAssistants();
+
+        return agentConfigurations.map(({
+          description, name, sId: value,
+        }) => ({
+          label: `${name} - ${description}`,
+          value,
+        }));
+      },
+    },
+    dataSourceId: {
+      type: "string",
+      label: "Folder ID",
+      description: "ID of the data source.",
+      async options() {
+        const { data_sources: ds } = await this.listDataSources();
+
+        return ds.map(({
+          description, name, dustAPIDataSourceId: value,
+        }) => ({
+          label: `${name} - ${description}`,
+          value,
+        }));
+      },
     },
     document: {
       type: "string",
       label: "Document",
       description: "The content of the document to be uploaded",
     },
-    destination: {
-      type: "string",
-      label: "Destination",
-      description: "The destination data source or folder where the document will be uploaded",
-      async options() {
-        const dataSources = await this.listDataSources();
-        return dataSources.map((dataSource) => ({
-          label: dataSource.name,
-          value: dataSource.id,
-        }));
-      },
-    },
   },
   methods: {
     _baseUrl() {
-      return "https://dust.tt/api/v1";
+      return `https://dust.tt/api/v1/w/${this.$auth.workspace_id}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
-
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
-    },
-    async listDataSources(opts = {}) {
-      return this._makeRequest({
-        path: `/w/${this.$auth.workspace_id}/data_sources`,
+        headers: this._headers(),
         ...opts,
       });
     },
-    async sendMessageToAssistant({
-      content, assistantId, conversationId,
-    }) {
+    listAssistants(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: `/w/${this.$auth.workspace_id}/assistant/conversations/${conversationId}/messages`,
-        data: {
-          content,
-          assistantId,
-        },
+        path: "/assistant/agent_configurations",
+        ...opts,
       });
     },
-    async upsertDocument({
-      document, destination,
+    listDataSources(opts = {}) {
+      return this._makeRequest({
+        path: "/data_sources",
+        ...opts,
+      });
+    },
+    sendMessageToAssistant(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/assistant/conversations",
+        ...opts,
+      });
+    },
+    upsertDocument({
+      documentId, dataSourceId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/w/${this.$auth.workspace_id}/data_sources/${destination}/documents/${document.documentId}`,
-        data: {
-          text: document,
-        },
+        path: `/data_sources/${dataSourceId}/documents/${documentId}`,
+        ...opts,
       });
     },
   },
