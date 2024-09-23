@@ -83,7 +83,7 @@ export default {
     generateMeta(obj, summary) {
       const { id } = obj;
       const title = this.notion.extractPageTitle(obj);
-      const ts = Date.now();
+      const ts = Date.parse(obj.last_edited_time);
       return {
         id: `${id}-${ts}`,
         summary: `${summary}: ${title} - ${id}`,
