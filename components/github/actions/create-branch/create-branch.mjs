@@ -22,7 +22,7 @@ export default {
     },
     branchSha: {
       label: "Source Branch",
-      description: "The source branch that will be used to create the new branch. Defaults to the repository's default branch (usually `main` or `master`",
+      description: "The source branch that will be used to create the new branch. Defaults to the repository's default branch (usually `main` or `master`)",
       propDefinition: [
         github,
         "branch",
