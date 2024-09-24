@@ -3,57 +3,33 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "rasterwise",
-  version: "0.0.{ts}",
-  propDefinitions: {
-    websiteUrl: {
-      type: "string",
-      label: "Website URL",
-      description: "The URL of the website to capture a screenshot from.",
-    },
-    elementSelector: {
-      type: "string",
-      label: "Element Selector",
-      description: "CSS selector of the element to capture in the screenshot.",
-      optional: true,
-    },
-    emailAddress: {
-      type: "string",
-      label: "Email Address",
-      description: "The email address to send the screenshot to.",
-      optional: true,
-    },
-  },
+  propDefinitions: {},
   methods: {
     _baseUrl() {
       return "https://api.rasterwise.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $, method = "GET", path = "/", params = {}, headers, ...otherOpts
-      } = opts;
-      params.apikey = this.$auth.api_key;
+    async _makeRequest({
+      $, params, ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: `${this._baseUrl()}${path}`,
-        params,
-        headers: {
-          ...headers,
+        baseURL: this._baseUrl(),
+        params: {
+          ...params,
+          apikey: this.$auth.api_key,
         },
       });
     },
-    async getScreenshot() {
-      const {
-        websiteUrl, elementSelector, emailAddress,
-      } = this;
-      const params = {
-        url: websiteUrl,
-      };
-      if (elementSelector) params.element = elementSelector;
-      if (emailAddress) params.email = emailAddress;
+    async getScreenshot(args) {
       return this._makeRequest({
         path: "/get-screenshot",
-        params,
+        ...args,
+      });
+    },
+    async getApiUsage(args) {
+      return this._makeRequest({
+        path: "/usage",
+        ...args,
       });
     },
   },
