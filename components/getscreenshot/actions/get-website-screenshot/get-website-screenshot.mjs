@@ -46,7 +46,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      getscreenshot, format, ...params
+      getscreenshot, format, additionalParams, ...params
     } = this;
     const response = await getscreenshot.getScreenshot({
       $,
@@ -59,7 +59,7 @@ export default {
           : {
             format,
           }),
-        ...this.additionalParams,
+        ...additionalParams,
       },
     });
     $.export("$summary", `Successfully captured screenshot of "${this.url}"`);
