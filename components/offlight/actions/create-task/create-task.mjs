@@ -22,7 +22,7 @@ export default {
     taskDeadline: {
       type: "string",
       label: "Task Deadline",
-      description: "The deadline of the task. **In ISO 8601 format (YYY-MM-DD)**.",
+      description: "The deadline of the task. **In ISO 8601 format (YYYY-MM-DD)**.",
       optional: true,
     },
     identifier: {
