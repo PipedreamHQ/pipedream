@@ -5,20 +5,20 @@ export default {
   key: "trello-new-comment-added-to-card",
   name: "New Comment Added to Card (Instant)",
   description: "Emit new event for each new comment added to a card.",
-  version: "0.1.2",
+  version: "0.2.0",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
     cards: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cards",
         (c) => ({
           board: c.board,
@@ -42,13 +42,28 @@ export default {
   },
   methods: {
     ...common.methods,
+    getCardActivity({
+      cardId, ...args
+    } = {}) {
+      return this.app._makeRequest({
+        path: `/cards/${cardId}/actions`,
+        ...args,
+      });
+    },
     async getSampleEvents() {
       const cards = this.cards && this.cards.length > 0
         ? this.cards
-        : (await this.trello.getCards(this.board)).map((card) => card.id);
+        : (await this.app.getCards({
+          boardId: this.board,
+        })).map((card) => card.id);
       const actions = [];
       for (const card of cards) {
-        const activities = await this.trello.getCardActivity(card, "commentCard");
+        const activities = await this.getCardActivity({
+          cardId: card,
+          params: {
+            filter: "commentCard",
+          },
+        });
 
         for (const activity of activities) {
           actions.push(await this.getResult(activity));
@@ -64,10 +79,16 @@ export default {
       return eventType === "commentCard";
     },
     async getResult(event) {
-      const card = await this.trello.getCard(event?.body?.action?.data?.card?.id ??
-        event?.data?.card?.id);
-      const member = await this.trello.getMember(event?.body?.action?.idMemberCreator ??
-        event.idMemberCreator);
+      const cardId = event?.body?.action?.data?.card?.id ??
+      event?.data?.card?.id;
+      const card = await this.app.getCard({
+        cardId,
+      });
+      const memberId = event?.body?.action?.idMemberCreator ??
+      event.idMemberCreator;
+      const member = await this.app.getMember({
+        memberId,
+      });
 
       return {
         member,

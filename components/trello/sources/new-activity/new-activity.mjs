@@ -5,13 +5,13 @@ export default {
   key: "trello-new-activity",
   name: "New Activity (Instant)",
   description: "Emit new event for new activity on a board.",
-  version: "0.0.9",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
@@ -35,7 +35,9 @@ export default {
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      const actions = await this.trello.getBoardActivity(this.board);
+      const actions = await this.app.getBoardActivity({
+        boardId: this.board,
+      });
       return {
         sampleEvents: actions,
         sortField: "date",

@@ -4,23 +4,23 @@ export default {
   ...common,
   key: "trello-create-comment-on-card",
   name: "Create Comment on Card",
-  description: "Creates a new comment on a card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-comments-post)",
-  version: "0.0.3",
+  description: "Creates a new comment on a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-comments-post).",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
-    idCard: {
+    cardId: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cards",
-        (c) => ({
-          board: c.board,
+        ({ board }) => ({
+          board,
         }),
       ],
       type: "string",
@@ -34,9 +34,26 @@ export default {
       description: "Text for the comment to be created.",
     },
   },
+  methods: {
+    ...common.methods,
+    createCommentOnCard({
+      cardId, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/cards/${cardId}/actions/comments`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const res = await this.trello.createCommentOnCard(this.idCard, this.comment, $);
-    $.export("$summary", `Successfully added comment to card ${this.idCard}`);
+    const res = await this.createCommentOnCard({
+      $,
+      cardId: this.cardId,
+      params: {
+        text: this.comment,
+      },
+    });
+    $.export("$summary", `Successfully added comment to card ${this.cardId}`);
     return res;
   },
 };

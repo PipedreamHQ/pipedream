@@ -2,13 +2,14 @@ import notion from "../../notion.app.mjs";
 import sampleEmit from "./test-event.mjs";
 import base from "../common/base.mjs";
 import constants from "../common/constants.mjs";
+import md5 from "md5";
 
 export default {
   ...base,
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.0.16",
+  version: "0.0.17",
   type: "source",
   dedupe: "unique",
   props: {
@@ -42,14 +43,26 @@ export default {
     async deploy() {
       const properties = await this.getProperties();
       const propertyValues = {};
-      const pagesStream = this.notion.getPages(this.databaseId);
+      const params = this.lastUpdatedSortParam();
+      const pagesStream = this.notion.getPages(this.databaseId, params);
+      let count = 0;
+      let lastUpdatedTimestamp = 0;
       for await (const page of pagesStream) {
         propertyValues[page.id] = {};
         for (const property of properties) {
-          propertyValues[page.id][property] = JSON.stringify(page.properties[property]);
+          propertyValues[page.id][property] = md5(JSON.stringify(page.properties[property]));
         }
+        lastUpdatedTimestamp = Math.max(
+          lastUpdatedTimestamp,
+          Date.parse(page?.last_edited_time),
+        );
+        if (count < 25) {
+          this.emitEvent(page);
+        }
+        count++;
       }
       this._setPropertyValues(propertyValues);
+      this.setLastUpdatedTimestamp(lastUpdatedTimestamp);
     },
   },
   methods: {
@@ -77,6 +90,10 @@ export default {
         ts,
       };
     },
+    emitEvent(page) {
+      const meta = this.generateMeta(page, constants.summaries.PAGE_UPDATED);
+      this.$emit(page, meta);
+    },
   },
   async run() {
     const lastCheckedTimestamp = this.getLastUpdatedTimestamp();
@@ -84,6 +101,12 @@ export default {
 
     const params = {
       ...this.lastUpdatedSortParam(),
+      filter: {
+        timestamp: "last_edited_time",
+        last_edited_time: {
+          on_or_after: new Date(lastCheckedTimestamp).toISOString(),
+        },
+      },
     };
     let newLastUpdatedTimestamp = lastCheckedTimestamp;
     const properties = await this.getProperties();
@@ -97,7 +120,7 @@ export default {
 
       let propertyChangeFound = false;
       for (const property of properties) {
-        const currentProperty = JSON.stringify(page.properties[property]);
+        const currentProperty = md5(JSON.stringify(page.properties[property]));
         if (!propertyValues[page.id] || currentProperty !== propertyValues[page.id][property]) {
           propertyChangeFound = true;
           propertyValues[page.id] = {
@@ -114,8 +137,11 @@ export default {
         continue;
       }
 
-      const meta = this.generateMeta(page, constants.summaries.PAGE_UPDATED);
-      this.$emit(page, meta);
+      this.emitEvent(page);
+
+      if (Date.parse(page?.last_edited_time) < lastCheckedTimestamp) {
+        break;
+      }
     }
 
     this.setLastUpdatedTimestamp(newLastUpdatedTimestamp);

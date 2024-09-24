@@ -9,7 +9,7 @@ export default {
     ...base.props,
     board: {
       propDefinition: [
-        base.props.trello,
+        base.props.app,
         "board",
       ],
     },
@@ -32,7 +32,9 @@ export default {
         return false;
       }
 
-      const member = await this.trello.getMember("me");
+      const member = await this.app.getMember({
+        memberId: "me",
+      });
 
       if (
         this.onlyEventsRelatedWithAuthenticatedUser &&
