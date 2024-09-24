@@ -1,5 +1,6 @@
 import common from "../common/base.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -23,6 +24,7 @@ export default {
           ],
         }),
       ],
+      description: `Select the channel's ID. ${utils.CONVERSATION_PERMISSION_MESSAGE}`,
     },
   },
   methods: {

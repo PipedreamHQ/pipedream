@@ -1,5 +1,6 @@
 import common from "../common/base.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -22,7 +23,7 @@ export default {
         }),
       ],
       label: "User Channel",
-      description: "Events will only be emitted for direct messages between this user and the Bot.",
+      description: `Events will only be emitted for direct messages between this user and the Bot. ${utils.CONVERSATION_PERMISSION_MESSAGE}`,
     },
   },
   methods: {

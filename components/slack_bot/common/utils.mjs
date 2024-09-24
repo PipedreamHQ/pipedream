@@ -95,4 +95,5 @@ function buildAppProps({
 export default {
   streamIterator,
   buildAppProps,
+  CONVERSATION_PERMISSION_MESSAGE,
 };
