@@ -16,23 +16,13 @@ export default {
     },
     db: "$.service.db",
   },
-  methods: {
-    emitEvent(event) {
-      this.$emit(event, {
-        id: event.opp_key,
-        summary: `New pursuit added: ${event.title}`,
-        ts: Date.parse(event.current_datetime),
-      });
-    },
-  },
   hooks: {
     async activate() {
-      const hookId = await this.highergov.subscribeWebhook({
+      await this.highergov.subscribeWebhook({
         data: {
           target_url: this.http.endpoint,
         },
       });
-      console.log("hookId: ", hookId);
     },
     async deactivate() {
       await this.highergov.unsubscribeWebhook();
