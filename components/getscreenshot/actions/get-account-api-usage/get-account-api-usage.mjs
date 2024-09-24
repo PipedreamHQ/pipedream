@@ -1,11 +1,11 @@
-import rasterwise from "../../rasterwise.app.mjs";
+import rasterwise from "../../getscreenshot.app.mjs";
 
 export default {
-  key: "getscreenshot-capture-element-screenshot",
+  key: "getscreenshot-get-account-api-usage",
   name: "Get Account API Usage",
   description:
     "Retrieve your current API usage and available quota. [See the documentation](https://docs.rasterwise.com/docs/getscreenshot/api-reference-1/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     rasterwise,

@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "rasterwise",
+  app: "getscreenshot",
   propDefinitions: {},
   methods: {
     _baseUrl() {
