@@ -34,11 +34,6 @@ export default {
         }));
       },
     },
-    document: {
-      type: "string",
-      label: "Document",
-      description: "The content of the document to be uploaded",
-    },
   },
   methods: {
     _baseUrl() {

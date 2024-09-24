@@ -16,10 +16,9 @@ export default {
       ],
     },
     content: {
-      propDefinition: [
-        dust,
-        "content",
-      ],
+      type: "string",
+      label: "Message Content",
+      description: "The content of the message to be sent to the assistant",
     },
     timezone: {
       type: "string",
