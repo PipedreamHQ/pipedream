@@ -46,9 +46,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      github, ...data
+      github, branch, ...data
     } = this;
-    const response = await github.createOrUpdateFileContent(data);
+    const response = await github.createOrUpdateFileContent({
+      data: {
+        ...data,
+        branch: branch?.split?.("/")[0],
+      },
+    });
 
     $.export("$summary", `Successfully set contents of ${this.path}${this.branch
       ? ` on branch ${this.branch}`
