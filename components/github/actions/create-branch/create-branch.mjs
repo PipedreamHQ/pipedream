@@ -17,12 +17,12 @@ export default {
     },
     branchName: {
       label: "Branch Name",
-      description: "The name of the new branch that will be crated",
+      description: "The name of the new branch that will be created",
       type: "string",
     },
     branchSha: {
       label: "Source Branch",
-      description: "The source branch that will be used to create the new branch. Defaults to the repository's default branch (usually `main` or `master`",
+      description: "The source branch that will be used to create the new branch. Defaults to the repository's default branch (usually `main` or `master`)",
       propDefinition: [
         github,
         "branch",
