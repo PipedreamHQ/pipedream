@@ -113,8 +113,8 @@ export default {
       params,
       data: {
         fields: {
-          ...fields,
           ...utils.parseObject(additionalProperties),
+          ...fields,
         },
         historyMetadata: utils.parseObject(historyMetadata),
         properties: utils.parse(properties),
