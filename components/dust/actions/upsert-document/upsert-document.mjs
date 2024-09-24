@@ -43,7 +43,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully uploaded document to destination ${this.destination}`);
+    $.export("$summary", "Successfully uploaded document");
     return response;
   },
 };
