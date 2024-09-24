@@ -17,7 +17,7 @@ export default {
     },
     branchName: {
       label: "Branch Name",
-      description: "The name of the new branch that will be crated",
+      description: "The name of the new branch that will be created",
       type: "string",
     },
     branchSha: {
