@@ -10165,6 +10165,9 @@ importers:
   components/trestle:
     specifiers: {}
 
+  components/tricentis_qtest:
+    specifiers: {}
+
   components/triggercmd:
     specifiers: {}
 
