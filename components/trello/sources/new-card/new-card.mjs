@@ -5,20 +5,20 @@ export default {
   key: "trello-new-card",
   name: "New Card (Instant)",
   description: "Emit new event for each new Trello card on a board.",
-  version: "0.0.12",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
     lists: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "lists",
         (c) => ({
           board: c.board,
@@ -27,7 +27,7 @@ export default {
     },
     customFieldItems: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "customFieldItems",
       ],
     },
@@ -36,11 +36,17 @@ export default {
     ...common.methods,
     async getSampleEvents() {
       const cards = this.lists && this.lists.length > 0
-        ? await this.trello.getCardsInList(this.lists[0], {
-          customFieldItems: this.customFieldItems,
+        ? await this.app.getCardsInList({
+          listId: this.lists[0],
+          params: {
+            customFieldItems: this.customFieldItems,
+          },
         })
-        : await this.trello.getCards(this.board, {
-          customFieldItems: this.customFieldItems,
+        : await this.app.getCards({
+          boardId: this.board,
+          params: {
+            customFieldItems: this.customFieldItems,
+          },
         });
       return {
         sampleEvents: cards,
@@ -53,8 +59,11 @@ export default {
     },
     async getResult(event) {
       const cardId = event.body?.action?.data?.card?.id;
-      return this.trello.getCard(cardId, {
-        customFieldItems: this.customFieldItems,
+      return this.app.getCard({
+        cardId,
+        params: {
+          customFieldItems: this.customFieldItems,
+        },
       });
     },
     isRelevant({ result: card }) {

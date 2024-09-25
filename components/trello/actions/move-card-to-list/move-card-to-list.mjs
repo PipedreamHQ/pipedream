@@ -4,20 +4,20 @@ export default {
   ...common,
   key: "trello-move-card-to-list",
   name: "Move Card to List",
-  description: "Moves a card to the specified board/list pair. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put)",
-  version: "0.1.4",
+  description: "Moves a card to the specified board/list pair. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put).",
+  version: "0.2.0",
   type: "action",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
-    idCard: {
+    cardId: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cards",
         (c) => ({
           board: c.board,
@@ -28,9 +28,9 @@ export default {
       description: "The ID of the card to move",
       optional: false,
     },
-    toIdList: {
+    idList: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "lists",
         (c) => ({
           board: c.board,
@@ -43,11 +43,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const res = await this.trello.moveCardToList(this.idCard, {
-      idBoard: this.board,
-      idList: this.toIdList,
-    }, $);
-    $.export("$summary", `Successfully moved card ${this.idCard} to list ${this.toIdList}`);
+    const res = await this.app.updateCard({
+      $,
+      cardId: this.cardId,
+      data: {
+        idBoard: this.board,
+        idList: this.idList,
+      },
+    });
+    $.export("$summary", `Successfully moved card ${this.cardId} to list ${this.idList}`);
     return res;
   },
 };

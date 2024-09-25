@@ -5,13 +5,13 @@ export default {
   key: "trello-new-attachment",
   name: "New Attachment (Instant)",
   description: "Emit new event for new attachment on a board.",
-  version: "0.0.9",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
@@ -36,8 +36,21 @@ export default {
   },
   methods: {
     ...common.methods,
+    getAttachment({
+      cardId, attachmentId, ...args
+    } = {}) {
+      return this.app._makeRequest({
+        path: `/cards/${cardId}/attachments/${attachmentId}`,
+        ...args,
+      });
+    },
     async getSampleEvents() {
-      const actions = await this.trello.getBoardActivity(this.board, "addAttachmentToCard");
+      const actions = await this.app.getBoardActivity({
+        boardId: this.board,
+        params: {
+          filter: "addAttachmentToCard",
+        },
+      });
       return {
         sampleEvents: actions,
         sortField: "date",
@@ -50,7 +63,10 @@ export default {
     async getResult(event) {
       const cardId = event.body?.action?.data?.card?.id;
       const attachmentId = event.body?.action?.data?.attachment?.id;
-      return this.trello.getAttachment(cardId, attachmentId);
+      return this.getAttachment({
+        cardId,
+        attachmentId,
+      });
     },
     isRelevant({ event }) {
       const boardId = event.body?.action?.data?.board?.id;

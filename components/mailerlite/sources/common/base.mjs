@@ -10,15 +10,19 @@ export default {
   hooks: {
     async activate() {
       const { data } = await this.mailerlite.createHook({
-        url: this.http.endpoint,
-        events: this.getEvents(),
+        data: {
+          url: this.http.endpoint,
+          events: this.getEvents(),
+        },
       });
 
       this._setHookId(data.id);
     },
     async deactivate() {
-      const id = this._getHookId("hookId");
-      await this.mailerlite.removeHook(id);
+      const hookId = this._getHookId("hookId");
+      await this.mailerlite.removeHook({
+        hookId,
+      });
     },
   },
   methods: {
