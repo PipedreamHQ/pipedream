@@ -29,7 +29,7 @@ export default {
     reviewStates: {
       type: "string[]",
       label: "Review States",
-      description: "Filter by these review states. Default includes `APPROVED` and `CHANGES_REQUESTED` only",
+      description: "Filter by these review states",
       options: constants.PULL_REQUEST_STATES,
       optional: true,
     },
