@@ -122,19 +122,20 @@ export default {
       let lastPage, count = 0;
       args.params = {
         ...args.params,
-        page: 1,
+        offset: 0,
+        limit: 1000
       };
       do {
         const {
           list, pageInfo,
         } = await fn(args);
         for (const item of list) {
+          args.params.offset++;
           yield item;
           if (max && ++count === max) {
             return;
           }
         }
-        args.params.page++;
         lastPage = !pageInfo.isLastPage;
       } while (lastPage);
     },
