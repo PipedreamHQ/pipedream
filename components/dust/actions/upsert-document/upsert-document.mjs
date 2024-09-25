@@ -23,7 +23,6 @@ export default {
       type: "string",
       label: "Content",
       description: "The text content of the document to upsert.",
-      optional: true,
     },
     lightDocumentOutput: {
       type: "boolean",
