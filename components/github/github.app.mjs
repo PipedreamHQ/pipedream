@@ -170,7 +170,7 @@ export default {
           repoFullname,
         });
 
-        return issues.map((issue) => ({
+        return issues?.filter?.((issue) => !issue.pull_request).map((issue) => ({
           label: issue.title,
           value: +issue.number,
         }));
