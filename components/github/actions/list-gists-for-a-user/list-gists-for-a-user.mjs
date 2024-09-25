@@ -36,12 +36,12 @@ export default {
     let page = 1;
     const data = [];
 
-    const date = new Date(this.since);
-    if (isNaN(date.getTime())) {
+    const date = this.since && new Date(this.since);
+    if (date && isNaN(date.getTime())) {
       throw new ConfigurationError("Invalid date string provided");
     }
 
-    const since = date.toISOString();
+    const since = date?.toISOString();
 
     while (true) {
       const res = await this.github.listGistsFromUser(this.username, {
@@ -62,11 +62,11 @@ export default {
     }
 
     if (data.length === 0) {
-      $.export("$summary", `No gists found for user "${this.username}".`);
+      $.export("$summary", `No gists found for user "${this.username}"`);
       return;
     }
 
-    $.export("$summary", `Successfully fetched ${data.length} gist(s).`);
+    $.export("$summary", `Successfully fetched ${data.length} gist(s)`);
     return data;
   },
 };
