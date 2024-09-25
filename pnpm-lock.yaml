@@ -5246,6 +5246,9 @@ importers:
   components/lambdatest:
     specifiers: {}
 
+  components/langbase:
+    specifiers: {}
+
   components/laposta:
     specifiers:
       '@pipedream/platform': ^1.2.1
