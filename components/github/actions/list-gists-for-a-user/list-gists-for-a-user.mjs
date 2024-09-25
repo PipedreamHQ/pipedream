@@ -37,7 +37,7 @@ export default {
     const data = [];
 
     const date = this.since && new Date(this.since);
-    if (date && isNaN(date.getTime())) {
+    if (date && isNaN(date.valueOf())) {
       throw new ConfigurationError("Invalid date string provided");
     }
 
