@@ -54,10 +54,7 @@ export default {
           if (this.reviewStates?.length) {
             return this.reviewStates.includes(review.state); // user-defined states
           }
-          return [
-            "APPROVED",
-            "CHANGES_REQUESTED",
-          ].includes(review.state); // default states
+          return true; // default states: all
         })
         .map((review) => review.user.login);
       return this.uniqueReviewers(reviewers);
