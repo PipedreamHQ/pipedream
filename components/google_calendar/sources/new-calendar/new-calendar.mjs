@@ -5,7 +5,7 @@ export default {
   key: "google_calendar-new-calendar",
   name: "New Calendar Created",
   description: "Emit new event when a calendar is created.",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "source",
   dedupe: "unique",
   props: {
