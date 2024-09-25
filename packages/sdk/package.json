@@ -1,8 +1,7 @@
 {
   "name": "@pipedream/sdk",
-  "version": "0.1.0",
+  "version": "0.1.6",
   "description": "Pipedream SDK",
-  "type": "module",
   "main": "dist/server/index.js",
   "module": "dist/server/index.js",
   "types": "dist/server/index.d.ts",
@@ -22,6 +21,9 @@
       "types": "./dist/browser/index.d.ts"
     }
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "keywords": [
     "pipedream"
   ],
@@ -33,14 +35,20 @@
     "prepublish": "rm -rf dist && npm run build",
     "build": "npm run build:node && npm run build:browser",
     "build:node": "tsc -p tsconfig.node.json",
-    "build:browser": "tsc -p tsconfig.browser.json"
+    "build:browser": "tsc -p tsconfig.browser.json",
+    "test": "jest"
   },
   "files": [
     "dist"
   ],
   "devDependencies": {
+    "@types/fetch-mock": "^7.3.8",
+    "@types/jest": "^29.5.13",
     "@types/node": "^20.14.9",
     "@types/simple-oauth2": "^5.0.7",
+    "jest": "^29.7.0",
+    "jest-fetch-mock": "^3.0.3",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.5.2"
   },
   "dependencies": {

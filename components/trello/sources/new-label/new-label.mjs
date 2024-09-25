@@ -5,13 +5,15 @@ export default {
   key: "trello-new-label",
   name: "New Label (Instant)",
   description: "Emit new event for each new label added to a board.",
-  version: "0.0.14",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      const labels = await this.trello.findLabel(this.board);
+      const labels = await this.app.findLabel({
+        boardId: this.board,
+      });
       return {
         sampleEvents: labels,
         sortField: "id",
@@ -23,7 +25,9 @@ export default {
     },
     async getResult(event) {
       const labelId = event.body?.action?.data?.label?.id;
-      return this.trello.getLabel(labelId);
+      return this.app.getLabel({
+        labelId,
+      });
     },
     generateMeta({
       id, name, color: summary,
