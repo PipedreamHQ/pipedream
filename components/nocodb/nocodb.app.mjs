@@ -123,7 +123,7 @@ export default {
       args.params = {
         ...args.params,
         offset: 0,
-        limit: 1000
+        limit: 1000,
       };
       do {
         const {
