@@ -60,7 +60,7 @@ export default {
       path: this.path,
       mediaType: this.mediaType,
       params: {
-        ref: this.branch,
+        ref: this.branch?.split?.("/")[0],
       },
     });
 
