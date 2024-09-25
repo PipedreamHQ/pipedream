@@ -170,6 +170,7 @@ export default {
         ...args,
       });
     },
+    // List tables endpoint is not supported for personal accounts
     listTables({
       itemId, ...args
     }) {
