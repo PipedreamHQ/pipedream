@@ -2218,7 +2218,10 @@ importers:
     specifiers: {}
 
   components/customjs:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/cutt_ly:
     specifiers:
@@ -5225,6 +5228,9 @@ importers:
   components/kyvio:
     specifiers: {}
 
+  components/l2s:
+    specifiers: {}
+
   components/l3mbda:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5244,6 +5250,9 @@ importers:
     specifiers: {}
 
   components/lambdatest:
+    specifiers: {}
+
+  components/langbase:
     specifiers: {}
 
   components/laposta:
@@ -10163,6 +10172,9 @@ importers:
       crypto-js: 4.1.1
 
   components/trestle:
+    specifiers: {}
+
+  components/tricentis_qtest:
     specifiers: {}
 
   components/triggercmd:
