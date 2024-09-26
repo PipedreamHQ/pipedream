@@ -50,9 +50,8 @@ export default {
       for await (const page of pagesStream) {
         propertyValues[page.id] = {};
         for (const propertyName of properties) {
-          const pageProperty = page.properties[propertyName];
-          this.maybeRemoveFileSubItems(pageProperty);
-          propertyValues[page.id][propertyName] = md5(JSON.stringify(pageProperty));
+          const hash = this.calculateHash(page.properties[propertyName]);
+          propertyValues[page.id][propertyName] = hash;
         }
         lastUpdatedTimestamp = Math.max(
           lastUpdatedTimestamp,
@@ -81,6 +80,11 @@ export default {
       }
       const { properties } = await this.notion.retrieveDatabase(this.databaseId);
       return Object.keys(properties);
+    },
+    calculateHash(property) {
+      const clone = JSON.parse(JSON.stringify(property));
+      this.maybeRemoveFileSubItems(clone);
+      return md5(JSON.stringify(clone));
     },
     maybeRemoveFileSubItems(property) {
       // Files & Media type:
@@ -133,14 +137,13 @@ export default {
 
       let propertyChangeFound = false;
       for (const propertyName of properties) {
-        const pageProperty = JSON.parse(JSON.stringify(page.properties[propertyName]));
-        this.maybeRemoveFileSubItems(pageProperty);
-        const currentProperty = md5(JSON.stringify(pageProperty));
-        if (!propertyValues[page.id] || currentProperty !== propertyValues[page.id][propertyName]) {
+        const hash = this.calculateHash(page.properties[propertyName]);
+        const dbValue = propertyValues[page.id][propertyName];
+        if (!propertyValues[page.id] || hash !== dbValue) {
           propertyChangeFound = true;
           propertyValues[page.id] = {
             ...propertyValues[page.id],
-            [propertyName]: currentProperty,
+            [propertyName]: hash,
           };
         }
       }
