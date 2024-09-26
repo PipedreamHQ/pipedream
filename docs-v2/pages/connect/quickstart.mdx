@@ -28,47 +28,24 @@ And here's the technical flow between your frontend, backend, and Pipedream's AP
 
 <Steps>
 
-### Choose the apps you want to integrate
+### Add the apps you want to integrate
+
+1. Open an existing Pipedream project or create a new one at [https://pipedream.com/projects](https://pipedream.com/projects).
+2. Click the **Connect** tab, then select **Apps**.
+3. From here, you can add any app to your project that you want to integrate with your application.
 
 There are two types of apps in Pipedream:
 
 1. **Key-based**: These apps require static credentials, like API keys. Pipedream stores these credentials securely and exposes them via API.
 2. **OAuth**: These apps require OAuth authorization. Pipedream manages the OAuth flow for these apps, ensuring you always have a fresh access token for requests.
 
-Connecting Key-based apps with the Pipedream API requires only [the app's name slug](#find-your-apps-name-slug). OAuth apps require you to [create your own OAuth client](#creating-a-custom-oauth-client) and pass the OAuth app ID, as well.
-
-#### Find your app's name slug
-
-Typically, the name slug is the name of the app in lowercase, with spaces replaced by underscores. For example, the name slug for the GitHub app is `github`. The name slug for Google Sheets is `google_sheets`.
-
-To find the name slug for an app:
-
-1. Visit [https://pipedream.com/apps](https://pipedream.com/apps)
-2. Search and select the app you want to integrate
-3. In the **Authentication** section, copy the **Name slug**.
-
-<br />
-<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723760323/google-sheets-name-slug_gwa4rb.png" alt="Google Sheets name slug" width={550} height={300} />
-
-#### Creating a custom OAuth client
-
-First, [create an OAuth client](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) for the app you'd like to integrate.
-
-<Callout type="warning">
-Make sure to check the **Enable for Pipedream Connect** setting in the OAuth client configuration in Pipedream to allow your end users to connect their accounts. By default, OAuth clients are accessible only to members of your Pipedream workspace. Checking this box allows your end users to create accounts for this app, too.
-
-<br />
-<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723760958/enable-oauth-client-for-pd-connect_ipkzmo.png" alt="Enable OAuth client for Pipedream Connect" width={450} height={300} />
-</Callout>
-
-Once that's done, copy the **OAuth App ID** from the app configuration.
-
-<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723761240/copy-oauth-app-id_on6d8p.png" alt="Copy your OAuth app ID" width={550} height={300} />
+**OAuth apps require you [create your own OAuth client](#creating-a-custom-oauth-client):**
+1. First, [create an OAuth client](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) for the app you'd like to integrate.
+2. Now when selecting an OAuth app in the **Apps** tab, you'll be prompted to select the OAuth client you've created.
 
 ### Get your project keys
 
-1. Open an existing Pipedream project or create a new one at [https://pipedream.com/projects](https://pipedream.com/projects).
-2. Visit the **Connect** tab, then select **Configuration**.
+1. From within the the **Connect** tab in your project, select **Configuration**.
 3. Find your project's **Public Key** and **Secret Key**.
 
 You'll need these when configuring the SDK and making API requests.
@@ -77,7 +54,7 @@ You'll need these when configuring the SDK and making API requests.
 
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1724773559/connect-keys_cb4ujt.png" alt="Project keys in the Connect tab" width={650} height={300} />
 
-### Run the Pipedream demo app, or configure your own
+### Run the Pipedream demo app or configure your own
 
 You'll need to do two things to integrate Pipedream Connect into your app:
 
@@ -95,10 +72,6 @@ cp .env.example .env.local
 and fill the `.env.local` file with your project and app details:
 
 ```bash
-# Specific to Next.js — see `app/page.tsx` for how these are used
-NEXT_PUBLIC_PIPEDREAM_APP_SLUG=github
-NEXT_PUBLIC_PIPEDREAM_APP_ID=oa_abc123
-
 # Used by `app/server.ts` to authorize requests to the Pipedream API — see below
 PIPEDREAM_PROJECT_PUBLIC_KEY=pub_abc123
 PIPEDREAM_PROJECT_SECRET_KEY=sec_abc123
@@ -113,7 +86,8 @@ If you're building your own app, you'll need to provide these values to the envi
 
 You need to secure specific operations, for example:
 
-- You need to initiate the account connection flow for your end users. In Pipedream Connect, **you exchange your project keys for a short-lived token that allows a specific user to connect a specific app**, and return that token to your frontend. If you expose your Pipedream project keys directly to the frontend, anyone could initiate the account connection flow for any user, and you'd be charged for those accounts.
+- You need to initiate the account connection flow for your end users. In Pipedream Connect, **you exchange your project keys for a short-lived token that allows a specific user to connect a specific app**, and return that token to your frontend.
+- If you expose your Pipedream project keys directly to the frontend, anyone could initiate the account connection flow for any user, and you'd be charged for those accounts.
 - You need to retrieve account credentials for your end users. Again, this should happen securely on your server, not in the frontend, to protect your users' data.
 
 </Callout>

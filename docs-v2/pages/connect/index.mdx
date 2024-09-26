@@ -73,14 +73,6 @@ All credentials and tokens are sent to Pipedream securely over HTTPS, and encryp
 - **Use secure, session-based auth between your client and server** — authorize all requests from your client to your server using a secure, session-based auth mechanism. Use well-known identity providers with services like [Clerk](https://clerk.com/), [Firebase](https://firebase.google.com/), or [Auth0](https://auth0.com/) to securely generate and validate authentication tokens. The same follows for Pipedream workflows — if you trigger Pipedream workflows from your client or server, validate all requests in the workflow before executing workflow code.
 - **Secure your workflows** — See our [standard security practices](/privacy-and-security/best-practices) for recommendations on securing your Pipedream workflows.
 
-## Glossary of terms
-
-- **App**: GitHub, Notion, Slack, Google Sheets, and more. The app is the API you want your users to connect to in your product. See the [full list here](https://pipedream.com/apps).
-- **Developer**: This is probably you, the Pipedream customer who's developing an app and wants to use Connect to make API requests on behalf of your end users.
-- **End User**: Your customer or user, whose data you want to access on their behalf. End users are identifed via the `external_id` param in the Connect SDK and API.
-- **Connected Account**: The account your end user connects. [Read more about connected accounts](/connected-accounts).
-- **OAuth Client**: Custom OAuth clients you create in Pipedream. [Read more about OAuth clients](/connected-accounts/oauth-clients).
-
 ## Product roadmap for Connect
 
 - Address bugs and feedback during the preview phase
@@ -89,3 +81,11 @@ All credentials and tokens are sent to Pipedream securely over HTTPS, and encryp
 - Support hosted UIs for connecting accounts — native support for mobile environments that can't execute JavaScript or load iframes.
 - Improve error handling for Connect developers and end users
 - And more!
+
+## Glossary of terms
+
+- **App**: GitHub, Notion, Slack, Google Sheets, and more. The app is the API you want your users to connect to in your product. See the [full list here](https://pipedream.com/apps).
+- **Developer**: This is probably you, the Pipedream customer who's developing an app and wants to use Connect to make API requests on behalf of your end users.
+- **End User**: Your customer or user, whose data you want to access on their behalf. End users are identifed via the `external_id` param in the Connect SDK and API.
+- **Connected Account**: The account your end user connects. [Read more about connected accounts](/connected-accounts).
+- **OAuth Client**: Custom OAuth clients you create in Pipedream. [Read more about OAuth clients](/connected-accounts/oauth-clients).

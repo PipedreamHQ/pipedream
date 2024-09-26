@@ -1,67 +1,76 @@
-// legacy_hash_id: a_G1iBG7
-import { axios } from "@pipedream/platform";
+import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-create-list",
   name: "Create a List",
-  description: "Creates a new list on a board",
-  version: "0.1.3",
+  description: "Creates a new list. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-post).",
+  version: "0.2.0",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    app,
+    idBoard: {
+      type: "string",
+      label: "Board ID",
+      description: "The long ID of the board the list should be created on.",
+      propDefinition: [
+        app,
+        "board",
+      ],
     },
     name: {
       type: "string",
+      label: "Name",
       description: "Name for the list.",
-    },
-    idBoard: {
-      type: "string",
-      description: "The long ID of the board the list should be created on.",
     },
     idListSource: {
       type: "string",
+      label: "List Source ID",
       description: "ID of the list to copy into the new list.",
       optional: true,
+      propDefinition: [
+        app,
+        "lists",
+        ({ idBoard }) => ({
+          board: idBoard,
+        }),
+      ],
     },
     pos: {
-      type: "string",
-      description: "Position of the list. top, bottom, or a positive floating point number.",
-      optional: true,
+      propDefinition: [
+        app,
+        "pos",
+      ],
+    },
+  },
+  methods: {
+    createList(args = {}) {
+      return this.app.post({
+        path: "/lists",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const oauthSignerUri = this.trello.$auth.oauth_signer_uri;
+    const {
+      createList,
+      name,
+      idBoard,
+      idListSource,
+      pos,
+    } = this;
 
-    const trelloParams = [
-      "name",
-      "idBoard",
-      "idListSource",
-      "pos",
-    ];
-    let p = this;
+    const response = await createList({
+      $,
+      params: {
+        name,
+        idBoard,
+        idListSource,
+        pos,
+      },
+    });
 
-    const queryString = trelloParams.filter((param) => p[param]).map((param) => `${param}=${p[param]}`)
-      .join("&");
+    $.export("$summary", "Successfully created list.");
 
-    const config = {
-      url: `https://api.trello.com/1/lists?${queryString}`,
-      method: "POST",
-      data: "",
-    };
-
-    const token = {
-      key: this.trello.$auth.oauth_access_token,
-      secret: this.trello.$auth.oauth_refresh_token,
-    };
-
-    const signConfig = {
-      token,
-      oauthSignerUri,
-    };
-
-    const resp = await axios($, config, signConfig);
-    return resp;
+    return response;
   },
 };

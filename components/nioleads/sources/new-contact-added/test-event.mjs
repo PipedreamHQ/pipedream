@@ -1,0 +1,20 @@
+export default {
+  "id": 1,
+  "name": "Tom ********",
+  "company": "All We Have Is Now",
+  "domain": "allwehaveisnow.co",
+  "job_title": "Keynote Speaker",
+  "email": "********@allwehaveisnow.co",
+  "linkedin_url": "http://www.linkedin.com/in/tomfgoodwin",
+  "first_name": "Tom",
+  "last_name": "********",
+  "city": "New York",
+  "region": "New York",
+  "country": "United States",
+  "industry": "management consulting",
+  "company_city": "New York",
+  "company_region": "New York",
+  "company_country": "United States",
+  "company_linkedin_url": "http://www.linkedin.com/company/all-we-have-is-now",
+  "list": "Default list"  
+}

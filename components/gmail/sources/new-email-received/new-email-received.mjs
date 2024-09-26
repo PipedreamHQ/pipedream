@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   props: {
     gmail,
@@ -361,22 +361,6 @@ export default {
       }
       return topic;
     },
-    processEmails(messageDetails) {
-      // Process and structure the email data
-      return messageDetails.map((msg) => {
-        const headers = msg.payload.headers;
-        return {
-          id: msg.id,
-          threadId: msg.threadId,
-          subject: headers.find((h) => h.name.toLowerCase() === "subject")
-            ?.value,
-          from: headers.find((h) => h.name.toLowerCase() === "from")?.value,
-          to: headers.find((h) => h.name.toLowerCase() === "to")?.value,
-          date: headers.find((h) => h.name.toLowerCase() === "date")?.value,
-          snippet: msg.snippet,
-        };
-      });
-    },
     getHistoryTypes() {
       return [
         "messageAdded",
@@ -386,7 +370,7 @@ export default {
       return {
         id: message.id,
         summary: message.snippet,
-        ts: message.internalDate,
+        ts: +message.internalDate,
       };
     },
     filterHistory(history) {
@@ -482,29 +466,18 @@ export default {
       const newMessageIds = newMessages?.map(({ id }) => id) || [];
       const messageDetails = await this.gmail.getMessages(newMessageIds);
 
-      console.log("Fetched message details count:", messageDetails.length);
+      if (!messageDetails?.length) {
+        return;
+      }
 
-      const processedEmails = this.processEmails(messageDetails);
+      console.log("Fetched message details count:", messageDetails.length);
 
       // Store the latest historyId in the db
       const latestHistoryId = historyResponse.historyId || receivedHistoryId;
       this._setLastProcessedHistoryId(latestHistoryId);
       console.log("Updated lastProcessedHistoryId:", latestHistoryId);
 
-      if (processedEmails?.length) {
-        this.$emit(
-          {
-            newEmailsCount: processedEmails.length,
-            emails: processedEmails,
-            lastProcessedHistoryId: latestHistoryId,
-          },
-          {
-            id: processedEmails[0].id,
-            summary: processedEmails[0].subject,
-            ts: Date.now(),
-          },
-        );
-      }
+      messageDetails.forEach((message) => this.emitEvent(message));
     }
   },
 };

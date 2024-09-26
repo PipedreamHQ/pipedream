@@ -5,13 +5,23 @@ export default {
   key: "trello-new-member-on-card",
   name: "New Member on Card (Instant)",
   description: "Emit new event for each member that join in a card.",
-  version: "0.0.15",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getMemberCards({
+      userId, ...args
+    } = {}) {
+      return this.app._makeRequest({
+        path: `/members/${userId}/cards`,
+        ...args,
+      });
+    },
     async getSampleEvents() {
-      const cards = await this.trello.getMemberCards("me");
+      const cards = await this.getMemberCards({
+        userId: "me",
+      });
       return {
         sampleEvents: cards,
         sortField: "dateLastActivity",
@@ -23,7 +33,9 @@ export default {
     },
     async getResult(event) {
       const cardId = event.body?.action?.data?.card?.id;
-      return this.trello.getCard(cardId);
+      return this.app.getCard({
+        cardId,
+      });
     },
     generateMeta({
       id, name: summary, dateLastActivity,

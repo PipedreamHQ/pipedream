@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.url}/api/v1/platform/pipedream`;
+      return "https://automationapi.krispcall.com/api/v1/platform/pipedream";
     },
     _headers() {
       return {

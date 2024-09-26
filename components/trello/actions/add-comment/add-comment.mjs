@@ -1,55 +1,65 @@
-// legacy_hash_id: a_Xzi26w
-import { axios } from "@pipedream/platform";
+import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-add-comment",
   name: "Create a Comment",
-  description: "Create a new comment on a specific card.",
-  version: "0.1.3",
+  description: "Create a new comment on a specific card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-comments-post).",
+  version: "0.2.0",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    app,
+    boardId: {
+      propDefinition: [
+        app,
+        "board",
+      ],
     },
-    id: {
+    cardId: {
       type: "string",
+      label: "Card ID",
       description: "The ID of the card.",
+      optional: false,
+      propDefinition: [
+        app,
+        "cards",
+        ({ boardId }) => ({
+          board: boardId,
+        }),
+      ],
     },
     text: {
       type: "string",
+      label: "Comment",
       description: "The comment to add.",
     },
   },
+  methods: {
+    addComment({
+      cardId, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/cards/${cardId}/actions/comments`,
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const oauthSignerUri = this.trello.$auth.oauth_signer_uri;
+    const {
+      addComment,
+      cardId,
+      text,
+    } = this;
 
-    let id = this.id;
-    const trelloParams = [
-      "text",
-    ];
-    let p = this;
+    const response = await addComment({
+      $,
+      cardId,
+      params: {
+        text,
+      },
+    });
 
-    const queryString = trelloParams.filter((param) => p[param]).map((param) => `${param}=${p[param]}`)
-      .join("&");
+    $.export("$summary", "Successfully added comment.");
 
-    const config = {
-      url: `https://api.trello.com/1/cards/${id}/actions/comments?${queryString}`,
-      method: "POST",
-      data: "",
-    };
-
-    const token = {
-      key: this.trello.$auth.oauth_access_token,
-      secret: this.trello.$auth.oauth_refresh_token,
-    };
-
-    const signConfig = {
-      token,
-      oauthSignerUri,
-    };
-
-    const resp = await axios($, config, signConfig);
-    return resp;
+    return response;
   },
 };

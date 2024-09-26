@@ -7,7 +7,7 @@ export default {
   key: "jira-create-issue",
   name: "Create Issue",
   description: "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-issue-post)",
-  version: "0.1.18",
+  version: "0.1.19",
   type: "action",
   props: {
     ...common.props,
@@ -112,11 +112,13 @@ export default {
       cloudId,
       params,
       data: {
-        fields,
+        fields: {
+          ...utils.parseObject(additionalProperties),
+          ...fields,
+        },
         historyMetadata: utils.parseObject(historyMetadata),
         properties: utils.parse(properties),
         update: utils.parseObject(update),
-        ...utils.parseObject(additionalProperties),
       },
     });
 
