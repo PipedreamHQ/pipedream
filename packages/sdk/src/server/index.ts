@@ -830,10 +830,7 @@ export class ServerClient {
    * ```
    */
   public async invokeWorkflowForExternalUser(url: string, externalUserId: string, opts: RequestOptions = {}): Promise<unknown> {
-    const {
-      body,
-      headers = {},
-    } = opts;
+    const { headers = {} } = opts;
 
     if (!externalUserId) {
       throw new Error("External user ID is required");
@@ -843,15 +840,13 @@ export class ServerClient {
       throw new Error("Project public key is required to map the external user ID to the correct project");
     }
 
-    return this.makeRequest("", {
+    return this.invokeWorkflow(url, {
       ...opts,
-      baseURL: url,
       headers: {
         ...headers,
         "X-PD-External-User-ID": externalUserId,
         "X-PD-Project-Public-Key": this.publicKey,
       },
-      body,
     });
   }
 }
