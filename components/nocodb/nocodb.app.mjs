@@ -119,7 +119,8 @@ export default {
     async *paginate({
       fn, args = {}, max,
     }) {
-      let lastPage, count = 0;
+      let hasMore = false;
+      let count = 0;
       args.params = {
         ...args.params,
         offset: 0,
@@ -136,8 +137,8 @@ export default {
             return;
           }
         }
-        lastPage = !pageInfo.isLastPage;
-      } while (lastPage);
+        hasMore = !pageInfo.isLastPage;
+      } while (hasMore);
     },
     listWorkspaces(opts = {}) {
       return this._makeRequest({
