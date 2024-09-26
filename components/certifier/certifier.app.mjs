@@ -36,6 +36,12 @@ export default {
         ...args,
       });
     },
+    searchDesigns(args = {}) {
+      return this.callApi({
+        path: "/designs",
+        ...args,
+      });
+    },
     createCredential(args = {}) {
       return this.callApi({
         method: "POST",
@@ -54,6 +60,13 @@ export default {
       return this.callApi({
         method: "POST",
         path: `/credentials/${id}/send`,
+        ...args,
+      });
+    },
+    createGroup(args = {}) {
+      return this.callApi({
+        method: "POST",
+        path: "/groups",
         ...args,
       });
     },
@@ -120,6 +133,83 @@ export default {
       description:
         "The date (in `YYYY-MM-DD` format) of your credential's expiration. If not provided, expiry date from the group settings will be used (by default this field is empty).",
       optional: true,
+    },
+    groupName: {
+      type: "string",
+      label: "Group Name",
+      description:
+        "The group's name that is used as [group.name] attribute later on.",
+    },
+    certificateDesignId: {
+      type: "string",
+      label: "Certificate Design",
+      description: "The unique certificate design's name.",
+      optional: true,
+      async options({ prevContext } = {}) {
+        const response = await this.searchDesigns({
+          params: {
+            cursor: prevContext.cursor,
+          },
+        });
+        const designs = response.data;
+        const cursor = response.pagination.next;
+
+        return {
+          options: designs
+            .filter((design) => design.type === "certificate")
+            .map(({
+              id, name,
+            }) => ({
+              label: name,
+              value: id,
+            })),
+          context: {
+            cursor,
+          },
+        };
+      },
+    },
+    badgeDesignId: {
+      type: "string",
+      label: "Badge Design",
+      description: "The unique badge design's name.",
+      optional: true,
+      async options({ prevContext } = {}) {
+        const response = await this.searchDesigns({
+          params: {
+            cursor: prevContext.cursor,
+          },
+        });
+        const designs = response.data;
+        const cursor = response.pagination.next;
+
+        return {
+          options: designs
+            .filter((design) => design.type === "badge")
+            .map(({
+              id, name,
+            }) => ({
+              label: name,
+              value: id,
+            })),
+          context: {
+            cursor,
+          },
+        };
+      },
+    },
+    learningEventUrl: {
+      type: "string",
+      label: "Learning Event URL",
+      description:
+        "The learning event's URL that is shown in the digital wallet.",
+      optional: true,
+    },
+    credentialId: {
+      type: "string",
+      label: "Credential ID",
+      description:
+        "The credential's unique ID.",
     },
   },
 };

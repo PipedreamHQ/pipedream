@@ -56,6 +56,16 @@ export type ConnectTokenCreateOpts = {
    * An external user ID associated with the token.
    */
   external_user_id: string;
+
+  /**
+   * The optional url to redirect the user to upon successful connection.
+   */
+  success_redirect_uri?: string;
+
+  /**
+   * The optional url to redirect the user to upon failed connection.
+   */
+  error_redirect_uri?: string;
 };
 
 export type AppInfo = {
@@ -93,6 +103,10 @@ export type ConnectTokenResponse = {
    * The expiration time of the token in ISO 8601 format.
    */
   expires_at: string;
+  /**
+   * The Connect Link URL
+   */
+  connect_link_url: string;
 };
 
 /**
