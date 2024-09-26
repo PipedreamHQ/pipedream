@@ -49,8 +49,10 @@ export default {
       let lastUpdatedTimestamp = 0;
       for await (const page of pagesStream) {
         propertyValues[page.id] = {};
-        for (const property of properties) {
-          propertyValues[page.id][property] = md5(JSON.stringify(page.properties[property]));
+        for (const propertyName of properties) {
+          const pageProperty = page.properties[propertyName];
+          this.maybeRemoveFileSubItems(pageProperty);
+          propertyValues[page.id][propertyName] = md5(JSON.stringify(pageProperty));
         }
         lastUpdatedTimestamp = Math.max(
           lastUpdatedTimestamp,
@@ -79,6 +81,17 @@ export default {
       }
       const { properties } = await this.notion.retrieveDatabase(this.databaseId);
       return Object.keys(properties);
+    },
+    maybeRemoveFileSubItems(property) {
+      // Files & Media type:
+      // `url` and `expiry_time` are constantly updated by Notion, so ignore these fields
+      if (property.type === "files") {
+        for (const file of property.files) {
+          if (file.type === "file") {
+            delete file.file;
+          }
+        }
+      }
     },
     generateMeta(obj, summary) {
       const { id } = obj;
@@ -119,13 +132,15 @@ export default {
       );
 
       let propertyChangeFound = false;
-      for (const property of properties) {
-        const currentProperty = md5(JSON.stringify(page.properties[property]));
-        if (!propertyValues[page.id] || currentProperty !== propertyValues[page.id][property]) {
+      for (const propertyName of properties) {
+        const pageProperty = JSON.parse(JSON.stringify(page.properties[propertyName]));
+        this.maybeRemoveFileSubItems(pageProperty);
+        const currentProperty = md5(JSON.stringify(pageProperty));
+        if (!propertyValues[page.id] || currentProperty !== propertyValues[page.id][propertyName]) {
           propertyChangeFound = true;
           propertyValues[page.id] = {
             ...propertyValues[page.id],
-            [property]: currentProperty,
+            [propertyName]: currentProperty,
           };
         }
       }
