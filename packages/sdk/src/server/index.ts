@@ -812,7 +812,7 @@ export class ServerClient {
    * @example
    *
    * ```typescript
-   * const response = await client.invokeWorkflow(
+   * const response = await client.invokeWorkflowForExternalUser(
    *   "https://your-workflow-url.m.pipedream.net",
    *   "your-external-user-id",
    *   {
