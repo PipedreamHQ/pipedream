@@ -634,6 +634,11 @@ export default {
       const fileExists = await this._makeRequest({
         path: `/repos/${repoFullname}/contents/${path}`,
         validateStatus: () => true,
+        ...(branch && {
+          params: {
+            ref: branch,
+          },
+        }),
       });
       if (fileExists.sha) {
         console.log("File exists, overwriting.");
