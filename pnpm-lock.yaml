@@ -2882,6 +2882,9 @@ importers:
   components/eagle_doc:
     specifiers: {}
 
+  components/easy_peasy_ai:
+    specifiers: {}
+
   components/easy_project:
     specifiers: {}
 

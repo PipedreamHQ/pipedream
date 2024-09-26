@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/easy_peasy_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Easy-Peasy.AI Components",
+  "main": "easy_peasy_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easy_peasy_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/easy_peasy_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
