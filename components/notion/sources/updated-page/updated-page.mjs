@@ -9,7 +9,7 @@ export default {
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.0.17",
+  version: "0.0.18",
   type: "source",
   dedupe: "unique",
   props: {
@@ -49,8 +49,9 @@ export default {
       let lastUpdatedTimestamp = 0;
       for await (const page of pagesStream) {
         propertyValues[page.id] = {};
-        for (const property of properties) {
-          propertyValues[page.id][property] = md5(JSON.stringify(page.properties[property]));
+        for (const propertyName of properties) {
+          const hash = this.calculateHash(page.properties[propertyName]);
+          propertyValues[page.id][propertyName] = hash;
         }
         lastUpdatedTimestamp = Math.max(
           lastUpdatedTimestamp,
@@ -79,6 +80,22 @@ export default {
       }
       const { properties } = await this.notion.retrieveDatabase(this.databaseId);
       return Object.keys(properties);
+    },
+    calculateHash(property) {
+      const clone = structuredClone(property);
+      this.maybeRemoveFileSubItems(clone);
+      return md5(JSON.stringify(clone));
+    },
+    maybeRemoveFileSubItems(property) {
+      // Files & Media type:
+      // `url` and `expiry_time` are constantly updated by Notion, so ignore these fields
+      if (property.type === "files") {
+        for (const file of property.files) {
+          if (file.type === "file") {
+            delete file.file;
+          }
+        }
+      }
     },
     generateMeta(obj, summary) {
       const { id } = obj;
@@ -119,13 +136,14 @@ export default {
       );
 
       let propertyChangeFound = false;
-      for (const property of properties) {
-        const currentProperty = md5(JSON.stringify(page.properties[property]));
-        if (!propertyValues[page.id] || currentProperty !== propertyValues[page.id][property]) {
+      for (const propertyName of properties) {
+        const hash = this.calculateHash(page.properties[propertyName]);
+        const dbValue = propertyValues[page.id][propertyName];
+        if (!propertyValues[page.id] || hash !== dbValue) {
           propertyChangeFound = true;
           propertyValues[page.id] = {
             ...propertyValues[page.id],
-            [property]: currentProperty,
+            [propertyName]: hash,
           };
         }
       }
