@@ -35,7 +35,6 @@ export default {
       type: "string",
       label: "Email",
       description: "Put an email if needed.",
-      optional: true,
     },
   },
   async run({ $ }) {
