@@ -7,30 +7,54 @@ import {
   ClientCredentials,
 } from "simple-oauth2";
 
+export type ProjectKeys = {
+  publicKey: string;
+  secretKey: string;
+};
+
+export type PipedreamOAuthClient = {
+  clientId: string;
+  clientSecret: string;
+};
+
 /**
  * Options for creating a server-side client.
  * This is used to configure the ServerClient instance.
  */
 export type CreateServerClientOpts = {
   /**
+   * @deprecated Use the `project` object instead.
    * The public API key for accessing the service.
    */
   publicKey?: string;
 
   /**
+   * @deprecated Use the `project` object instead.
    * The secret API key for accessing the service.
    */
   secretKey?: string;
 
   /**
+   * @deprecated Use the `oauth` object instead.
    * The client ID of your workspace's OAuth application.
    */
   oauthClientId?: string;
 
   /**
+   * @deprecated Use the `oauth` object instead.
    * The client secret of your workspace's OAuth application.
    */
   oauthClientSecret?: string;
+
+  /**
+   * The project object, containing publicKey and secretKey.
+   */
+  project?: ProjectKeys;
+
+  /**
+   * The OAuth object, containing client ID and client secret.
+   */
+  oauth?: PipedreamOAuthClient;
 
   /**
    * The API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
@@ -310,6 +334,10 @@ export class ServerClient {
   ) {
     this.secretKey = opts.secretKey;
     this.publicKey = opts.publicKey;
+    if (opts.project) {
+      this.publicKey = opts.project.publicKey;
+      this.secretKey = opts.project.secretKey;
+    }
 
     const { apiHost = "api.pipedream.com" } = opts;
     this.baseURL = `https://${apiHost}/v1`;
@@ -327,18 +355,21 @@ export class ServerClient {
     {
       oauthClientId: id,
       oauthClientSecret: secret,
+      oauth,
     }: CreateServerClientOpts,
     tokenHost: string,
   ) {
-    if (!id || !secret) {
+    if (!oauth || !id || !secret) {
       return;
     }
 
+    const client = {
+      id: id ?? oauth.clientId,
+      secret: secret ?? oauth.clientSecret,
+    };
+
     this.oauthClient = new ClientCredentials({
-      client: {
-        id,
-        secret,
-      },
+      client,
       auth: {
         tokenHost,
         tokenPath: "/v1/oauth/token",
@@ -716,7 +747,6 @@ export class ServerClient {
 
   /**
    * Invokes a workflow using the URL of its HTTP interface(s), by sending an
-   * HTTP POST request with the provided body.
    *
    * @param url - The URL of the workflow's HTTP interface.
    * @param opts - The options for the request.
@@ -760,6 +790,68 @@ export class ServerClient {
       headers: {
         ...headers,
         "Authorization": await this.oauthAuthorizationHeader(),
+      },
+      body,
+    });
+  }
+
+  /**
+   * Invokes a workflow for a Pipedream Connect user in a project
+   *
+   * @param url - The URL of the workflow's HTTP interface.
+   * @param externalUserId — Your end user ID, for whom you're invoking the workflow.
+   * @param opts - The options for the request.
+   * @param opts.body - The body of the request. It must be a JSON-serializable
+   * value (e.g. an object, null, a string, etc.).
+   * @param opts.headers - The headers to include in the request. Note that the
+   * Authorization header will always be set with an OAuth access token
+   * retrieved by the client.
+   *
+   * @returns A promise resolving to the response from the workflow.
+   *
+   * @example
+   *
+   * ```typescript
+   * const response = await client.invokeWorkflow(
+   *   "https://your-workflow-url.m.pipedream.net",
+   *   "your-external-user-id",
+   *   {
+   *     body: {
+   *       foo: 123,
+   *       bar: "abc",
+   *       baz: null,
+   *     },
+   *     headers: {
+   *       "Accept": "application/json",
+   *     },
+   *   },
+   * );
+   * console.log(response);
+   * ```
+   */
+  public async invokeWorkflowForExternalUser(url: string, externalUserId: string, opts: RequestOptions = {}): Promise<unknown> {
+    const {
+      body,
+      headers = {},
+    } = opts;
+
+    if (!externalUserId) {
+      throw new Error("External user ID is required");
+    }
+
+    if (!this.publicKey) {
+      throw new Error("Project public key is required to map the external user ID to the correct project");
+    }
+
+    return this.makeRequest("", {
+      ...opts,
+      baseURL: url,
+      method: opts.method || "POST", // Default to POST if not specified
+      headers: {
+        ...headers,
+        "Authorization": await this.oauthAuthorizationHeader(),
+        "X-PD-External-User-ID": externalUserId,
+        "X-PD-Project-Public-Key": this.publicKey,
       },
       body,
     });
