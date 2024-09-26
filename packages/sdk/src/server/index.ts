@@ -359,13 +359,16 @@ export class ServerClient {
     }: CreateServerClientOpts,
     tokenHost: string,
   ) {
-    if (!oauth || !id || !secret) {
+    const clientId = oauth?.clientId ?? id;
+    const clientSecret = oauth?.clientSecret ?? secret;
+
+    if (!clientId || !clientSecret) {
       return;
     }
 
     const client = {
-      id: id ?? oauth.clientId,
-      secret: secret ?? oauth.clientSecret,
+      id: clientId,
+      secret: clientSecret,
     };
 
     this.oauthClient = new ClientCredentials({
