@@ -5225,6 +5225,9 @@ importers:
   components/kyvio:
     specifiers: {}
 
+  components/l2s:
+    specifiers: {}
+
   components/l3mbda:
     specifiers:
       '@pipedream/platform': ^1.5.1
