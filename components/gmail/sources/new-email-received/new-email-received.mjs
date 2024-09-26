@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.1.3",
+  version: "0.1.4",
   dedupe: "unique",
   props: {
     gmail,
@@ -28,7 +28,7 @@ export default {
         "polling",
       ],
       description:
-        "Configuring this source as a `webhook` (instant) trigger requires a custom OAuth client. [Refer to the guide here to get started](https://pipedream.com/apps/gmail/triggers/new-email-received#getting-started).",
+        "Configuring this source as a `webhook` (instant) trigger requires a custom OAuth client. [Refer to the guide here to get started](https://pipedream.com/apps/gmail/#getting-started).",
       reloadProps: true,
     },
     serviceAccountKeyJson: {
@@ -117,7 +117,7 @@ export default {
       const isValidClientId = await this.checkClientId();
       if (!isValidClientId) {
         throw new ConfigurationError(
-          "Configuring this source as a `webhook` (instant) trigger requires a custom OAuth client. [Refer to the guide here to get started](https://pipedream.com/apps/gmail/triggers/new-email-received#getting-started).",
+          "Configuring this source as a `webhook` (instant) trigger requires a custom OAuth client. [Refer to the guide here to get started](https://pipedream.com/apps/gmail/#getting-started).",
         );
       }
 
