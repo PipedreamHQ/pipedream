@@ -94,7 +94,7 @@ export type ConnectTokenResponse = {
    */
   expires_at: string;
   /**
-   * The Hosted Link URL
+   * The Connect Link URL
    */
   connect_link_url: string;
 };
