@@ -1,18 +1,42 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "talenthr",
   propDefinitions: {
-    jobPosition: {
+    firstName: {
       type: "string",
-      label: "Job Position",
-      description: "The job position for which the application has been submitted",
+      label: "First Name",
+      description: "The first name of the new employee",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the new employee",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the new employee",
+    },
+    hireDate: {
+      type: "string",
+      label: "Hire Date",
+      description: "The date of the new employee's hire. **Format YYYY-MM-DD**",
+    },
+    employmentStatusId: {
+      type: "string",
+      label: "Employment Status Id",
+      description: "The employment status Id",
       async options() {
-        const positions = await this.getJobPositions();
-        return positions.map((position) => ({
-          label: position.title,
-          value: position.id,
+        const { data } = await this.listEmploymentStatuses();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -20,16 +44,172 @@ export default {
       type: "string",
       label: "Employee ID",
       description: "The ID of the employee",
+      async options({ page }) {
+        const { data: { rows } } = await this.listEmployees({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return rows.map(({
+          id: value, first_name: fName, last_name: lName, email,
+        }) => ({
+          label: `${fName} ${lName} (${email})`,
+          value,
+        }));
+      },
     },
-    name: {
+    timeOffRequestId: {
       type: "string",
-      label: "Name",
-      description: "The name of the new employee",
+      label: "Time Off Request ID",
+      description: "The ID of the employee's time oof request",
+      async options({
+        page, employeeId,
+      }) {
+        const { data: { rows } } = await this.listTimeOffRequests({
+          employeeId,
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return rows.map(({
+          id: value, timeoff_type_name: tName, start_date: sDate, end_date: eDate,
+        }) => ({
+          label: `(${tName}) start: ${sDate} / end: ${eDate}`,
+          value,
+        }));
+      },
     },
-    role: {
+    jobTitleId: {
       type: "string",
-      label: "Role",
-      description: "The role of the new employee",
+      label: "Job Title Id",
+      description: "The Id of the job title.",
+      async options() {
+        const { data } = await this.listJobTitles();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    jobLocationId: {
+      type: "string",
+      label: "Job Location Id",
+      description: "The Id of the job location.",
+      async options() {
+        const { data } = await this.listJobLocations();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    divisionId: {
+      type: "string",
+      label: "Division Id",
+      description: "The division for which the application has been submitted",
+      async options() {
+        const { data } = await this.listDivisions();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    departmentId: {
+      type: "string",
+      label: "Department Id",
+      description: "The department for which the application has been submitted",
+      async options() {
+        const { data } = await this.listDepartments();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    address: {
+      type: "string",
+      label: "Address",
+      description: "The address where the meeting will take place. Required if **Who Id** and **When Time** is present.",
+    },
+    nationality: {
+      type: "string",
+      label: "Nationality",
+      description: "The nacionality of the employee",
+      async options() {
+        const { data } = await this.listNacionalities();
+        return data;
+      },
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "The county where the employee lives",
+      async options() {
+        const { data } = await this.listCountries();
+        return data;
+      },
+    },
+    emergencyContactRelationshipTypeId: {
+      type: "string",
+      label: "Emergency Contact Relationship Type",
+      description: "The type of the emergency contact's relationship",
+      async options() {
+        const { data } = await this.listRelationshipTypes();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    hrLanguages: {
+      type: "string[]",
+      label: "HR Languages",
+      description: "A list of language ids",
+      async options() {
+        const { data } = await this.listLanguages();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+
+    jobPositionId: {
+      type: "string",
+      label: "Job Position",
+      description: "The job position for which the application has been submitted",
+      async options() {
+        const { data } = await this.listJobPositions();
+        return data.map(({
+          job_position_title: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     dataFields: {
       type: "object",
@@ -53,83 +233,159 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.talenthr.io";
+      return "https://pubapi.talenthr.io/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _auth() {
+      return  {
+        username: `${this.$auth.api_key}`,
+        password: "c",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        auth: this._auth(),
+        ...opts,
       });
     },
-    async getJobPositions(opts = {}) {
+    listEmploymentStatuses(opts = {}) {
+      return this._makeRequest({
+        path: "/employment-statuses",
+        ...opts,
+      });
+    },
+    listJobTitles(opts = {}) {
+      return this._makeRequest({
+        path: "/job-titles",
+        ...opts,
+      });
+    },
+    listJobLocations(opts = {}) {
+      return this._makeRequest({
+        path: "/locations",
+        ...opts,
+      });
+    },
+    listDivisions(opts = {}) {
+      return this._makeRequest({
+        path: "/divisions",
+        ...opts,
+      });
+    },
+    listDepartments(opts = {}) {
+      return this._makeRequest({
+        path: "/departments",
+        ...opts,
+      });
+    },
+    listEmployees(opts = {}) {
+      return this._makeRequest({
+        path: "/directory",
+        ...opts,
+      });
+    },
+    listNacionalities(opts = {}) {
+      return this._makeRequest({
+        path: "/nacionalities",
+        ...opts,
+      });
+    },
+    listCountries(opts = {}) {
+      return this._makeRequest({
+        path: "/countries",
+        ...opts,
+      });
+    },
+    listRelationshipTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/relationship-types",
+        ...opts,
+      });
+    },
+    listLanguages(opts = {}) {
+      return this._makeRequest({
+        path: "/languages",
+        ...opts,
+      });
+    },
+    listJobPositions(opts = {}) {
       return this._makeRequest({
         path: "/job-positions",
         ...opts,
       });
     },
-    async listNewEmployees(opts = {}) {
+    listTimeOffRequests({
+      employeeId, ...opts
+    }) {
       return this._makeRequest({
-        path: "/employees",
+        path: `/employees/${employeeId}/time-off-requests`,
         ...opts,
       });
     },
-    async listNewJobApplications(opts = {}) {
+    listNewJobApplications(opts = {}) {
       const {
-        jobPosition, ...otherOpts
+        jobPositionId, ...otherOpts
       } = opts;
       return this._makeRequest({
-        path: jobPosition
-          ? `/job-applications?jobPosition=${jobPosition}`
-          : "/job-applications",
+        path: `${jobPositionId
+          ? `/job-positions/${jobPositionId}`
+          : ""}/ats-applicants`,
         ...otherOpts,
       });
     },
-    async createEmployee(opts = {}) {
+    createEmployee(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/employees",
-        data: {
-          name: this.name,
-          role: this.role,
-        },
+        path: "/employees/hire",
         ...opts,
       });
     },
-    async updateEmployee(opts = {}) {
-      const {
-        employeeId, dataFields, ...restOpts
-      } = opts;
+    updateEmployee({
+      employeeId, ...opts
+    }) {
       return this._makeRequest({
         method: "PUT",
         path: `/employees/${employeeId}`,
-        data: dataFields,
-        ...restOpts,
+        ...opts,
       });
     },
-    async respondToTimeOffRequest(opts = {}) {
-      const {
-        requestId, responseStatus, ...restOpts
-      } = opts;
+    respondToTimeOffRequest({
+      timeOffRequestId, employeeId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/time-off-requests/${requestId}/respond`,
-        data: {
-          status: responseStatus,
-        },
-        ...restOpts,
+        path: `/employees/${employeeId}/time-off-requests/${timeOffRequestId}/reply`,
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page++;
+        const { data: { rows } } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of rows) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = rows.length;
+
+      } while (hasMore);
     },
   },
 };
