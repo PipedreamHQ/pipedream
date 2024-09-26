@@ -82,7 +82,7 @@ export default {
       return Object.keys(properties);
     },
     calculateHash(property) {
-      const clone = JSON.parse(JSON.stringify(property));
+      const clone = structuredClone(property);
       this.maybeRemoveFileSubItems(clone);
       return md5(JSON.stringify(clone));
     },
