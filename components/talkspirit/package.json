@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/talkspirit",
+  "version": "0.0.2",
+  "description": "Pipedream talkSpirit Components",
+  "main": "dist/app/talkspirit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "talkspirit"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/talkspirit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/govee",
+  "version": "0.0.1",
+  "description": "Pipedream Govee Components",
+  "main": "govee.app.mjs",
+  "keywords": [
+    "pipedream",
+    "govee"
+  ],
+  "homepage": "https://pipedream.com/apps/govee",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/dynapictures",
+  "version": "0.1.0",
+  "description": "Pipedream DynaPictures Components",
+  "main": "dynapictures.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dynapictures"
+  ],
+  "homepage": "https://pipedream.com/apps/dynapictures",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

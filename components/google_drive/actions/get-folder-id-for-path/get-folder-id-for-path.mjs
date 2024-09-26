@@ -11,8 +11,8 @@ import googleDrive from "../../google_drive.app.mjs";
 export default {
   key: "google_drive-get-folder-id-for-path",
   name: "Get Folder ID for a Path",
-  description: "Retrieve a folderId for a path. [See the docs](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.0.3",
+  description: "Retrieve a folderId for a path. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
+  version: "0.1.7",
   type: "action",
   props: {
     googleDrive,

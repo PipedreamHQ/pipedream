@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/nutshell",
+  "version": "0.1.0",
+  "description": "Pipedream Nutshell Components",
+  "main": "nutshell.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nutshell"
+  ],
+  "homepage": "https://pipedream.com/apps/nutshell",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/booqable",
+  "version": "0.1.0",
+  "description": "Pipedream Booqable Components",
+  "main": "booqable.app.mjs",
+  "keywords": [
+    "pipedream",
+    "booqable"
+  ],
+  "homepage": "https://pipedream.com/apps/booqable",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/zoho_sign",
+  "version": "0.1.0",
+  "description": "Pipedream Zoho Sign Components",
+  "main": "zoho_sign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_sign"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_sign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

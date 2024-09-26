@@ -1,90 +1,89 @@
-// legacy_hash_id: a_elirrr
-import { axios } from "@pipedream/platform";
+import mautic from "../../mautic.app.mjs";
+import {
+  pick,
+  pickBy,
+} from "lodash-es";
 
 export default {
   key: "mautic-search-contacts",
   name: "Search Contacts",
-  description: "Gets a list of contacts by a search term.",
-  version: "0.1.1",
+  description: "Gets a list of contacts by a search term. [See docs](https://developer.mautic.org/#list-contacts)",
+  version: "0.2.0",
   type: "action",
   props: {
-    mautic: {
-      type: "app",
-      app: "mautic",
-    },
+    mautic,
     search: {
-      type: "string",
-      description: "String or search command to filter entities by.",
-    },
-    start: {
-      type: "string",
-      description: "Starting row for the entities returned. Defaults to 0.",
-      optional: true,
-    },
-    limit: {
-      type: "string",
-      description: "Limit number of entities to return. Defaults to the system configuration for pagination (30).",
-      optional: true,
+      propDefinition: [
+        mautic,
+        "search",
+      ],
     },
     orderBy: {
-      type: "string",
-      description: "Column to sort by. Can use any column listed in the response. However, all properties in the response that are written in camelCase need to be changed a bit. Before every capital add an underscore _ and then change the capital letters to non-capital letters. So `dateIdentified` becomes `date_identified`, `modifiedByUser` becomes `modified_by_user` etc.",
-      optional: true,
+      propDefinition: [
+        mautic,
+        "orderBy",
+      ],
     },
     orderByDir: {
-      type: "string",
-      description: "Sort direction: `asc` or `desc`.",
-      optional: true,
-      options: [
-        "asc",
-        "desc",
+      propDefinition: [
+        mautic,
+        "orderByDir",
       ],
     },
     publishedOnly: {
-      type: "boolean",
-      description: "Only return currently published entities.",
-      optional: true,
+      propDefinition: [
+        mautic,
+        "publishedOnly",
+      ],
     },
     minimal: {
-      type: "string",
-      description: "Return only array of entities without additional lists in it.",
-      optional: true,
+      propDefinition: [
+        mautic,
+        "minimal",
+      ],
     },
     where: {
-      type: "any",
-      description: "An array of advanced where conditions.",
-      optional: true,
+      propDefinition: [
+        mautic,
+        "where",
+      ],
     },
     order: {
-      type: "any",
-      description: "An array of advanced order statements.",
-      optional: true,
+      propDefinition: [
+        mautic,
+        "order",
+      ],
+    },
+    maxResults: {
+      propDefinition: [
+        mautic,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developer.mautic.org/#list-contacts
+    const params = pickBy(pick(this, [
+      "search",
+      "orderBy",
+      "orderByDir",
+      "publishedOnly",
+      "minimal",
+      "where",
+      "order",
+    ]));
 
-    if (!this.search) {
-      throw new Error("Must provide search parameter.");
-    }
-
-    return await axios($, {
-      method: "get",
-      url: `${this.mautic.$auth.mautic_url}/api/contacts`,
-      headers: {
-        Authorization: `Bearer ${this.mautic.$auth.oauth_access_token}`,
-      },
-      params: {
-        search: this.search,
-        start: this.start,
-        limit: this.limit,
-        orderBy: this.orderBy,
-        orderByDir: this.orderByDir,
-        publishedOnly: this.publishedOnly,
-        minimal: this.minimal,
-        where: this.where,
-        order: this.order,
-      },
+    const paginator = this.mautic.paginate({
+      $,
+      fn: this.mautic.listContacts,
+      maxResults: this.maxResults,
+      params,
     });
+
+    const results = this.mautic.listAll(paginator);
+    const suffix = results.length === 1
+      ? ""
+      : "s";
+    $.export("$summary", `Retrieved ${results.length} contact${suffix}`);
+    return results;
   },
 };

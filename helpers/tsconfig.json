@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+    "module": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist"
+	},
+	"include": [
+		"./lib/**/*"
+	]
+}

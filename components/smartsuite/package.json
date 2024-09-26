@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/smartsuite",
+  "version": "0.0.2",
+  "description": "Pipedream SmartSuite Components",
+  "main": "dist/app/smartsuite.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smartsuite"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/smartsuite",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

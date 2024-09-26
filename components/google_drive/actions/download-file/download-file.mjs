@@ -2,9 +2,9 @@ import googleDrive from "../../google_drive.app.mjs";
 import fs from "fs";
 import stream from "stream";
 import { promisify } from "util";
-import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../constants.mjs";
+import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
 import googleWorkspaceExportFormats from "../google-workspace-export-formats.mjs";
-import { toSingleLineString } from "../../utils.mjs";
+import { toSingleLineString } from "../../common/utils.mjs";
 
 /**
  * Uses Google Drive API to download files to a `filePath` in the /tmp
@@ -17,8 +17,8 @@ import { toSingleLineString } from "../../utils.mjs";
 export default {
   key: "google_drive-download-file",
   name: "Download File",
-  description: "Download a file. [See the docs](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
-  version: "0.0.3",
+  description: "Download a file. [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
+  version: "0.1.5",
   type: "action",
   props: {
     googleDrive,
@@ -27,7 +27,6 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
-
       optional: true,
     },
     fileId: {
@@ -44,7 +43,7 @@ export default {
       type: "string",
       label: "Destination File Path",
       description: toSingleLineString(`
-        The destination path for the file in the [\`/tmp\`
+        The destination file name or path [in the \`/tmp\`
         directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
         (e.g., \`/tmp/myFile.csv\`)
       `),
@@ -113,8 +112,14 @@ export default {
 
     // Stream file to `filePath`
     const pipeline = promisify(stream.pipeline);
-    await pipeline(file, fs.createWriteStream(this.filePath));
+    const filePath = this.filePath.includes("tmp/")
+      ? this.filePath
+      : `/tmp/${this.filePath}`;
+    await pipeline(file, fs.createWriteStream(filePath));
     $.export("$summary", `Successfully downloaded the file, "${fileMetadata.name}"`);
-    return fileMetadata;
+    return  {
+      fileMetadata,
+      filePath,
+    };
   },
 };

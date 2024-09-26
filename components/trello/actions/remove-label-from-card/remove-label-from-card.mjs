@@ -1,49 +1,63 @@
-// legacy_hash_id: a_k6iY7Q
-import { axios } from "@pipedream/platform";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "trello-remove-label-from-card",
-  name: "Remove Label From Card",
-  description: "Removes an existing label from a card.",
-  version: "0.1.1",
+  name: "Remove Card Label",
+  description: "Removes label from card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-idlabel-delete).",
+  version: "0.2.0",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    ...common.props,
+    board: {
+      propDefinition: [
+        common.props.app,
+        "board",
+      ],
     },
-    id: {
+    cardId: {
+      propDefinition: [
+        common.props.app,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      description: "The ID of the card.",
+      label: "Card",
+      description: "The ID of the Card to remove the Label from",
+      optional: false,
     },
-    idLabel: {
-      type: "string",
-      description: "The ID of the label to remove.",
+    labelId: {
+      propDefinition: [
+        common.props.app,
+        "label",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+      description: "The ID of the Label to be removed from the card.",
+    },
+  },
+  methods: {
+    removeLabelFromCard({
+      cardId, labelId, ...args
+    } = {}) {
+      return this.app.delete({
+        path: `/cards/${cardId}/idLabels/${labelId}`,
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const oauthSignerUri = this.trello.$auth.oauth_signer_uri;
-
-    let id = this.id;
-    let idLabel = this.idLabel;
-
-    const config = {
-      url: `https://api.trello.com/1/cards/${id}/idLabels/${idLabel}`,
-      method: "DELETE",
-      data: "",
+    await this.removeLabelFromCard({
+      $,
+      cardId: this.cardId,
+      labelId: this.labelId,
+    });
+    $.export("$summary", "Successfully sent request to remove label from card.");
+    return {
+      success: true,
     };
-
-    const token = {
-      key: this.trello.$auth.oauth_access_token,
-      secret: this.trello.$auth.oauth_refresh_token,
-    };
-
-    const signConfig = {
-      token,
-      oauthSignerUri,
-    };
-
-    const resp = await axios($, config, signConfig);
-    return resp;
   },
 };

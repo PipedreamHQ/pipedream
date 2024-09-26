@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/easycsv",
+  "version": "0.0.1",
+  "description": "Pipedream EasyCSV Components",
+  "main": "easycsv.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easycsv"
+  ],
+  "homepage": "https://pipedream.com/apps/easycsv",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

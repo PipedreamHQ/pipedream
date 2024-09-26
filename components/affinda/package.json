@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/affinda",
+  "version": "0.1.0",
+  "description": "Pipedream Affinda Components",
+  "main": "affinda.app.mjs",
+  "keywords": [
+    "pipedream",
+    "affinda"
+  ],
+  "homepage": "https://pipedream.com/apps/affinda",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

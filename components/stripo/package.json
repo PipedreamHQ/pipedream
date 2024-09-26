@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/stripo",
+  "version": "0.0.1",
+  "description": "Pipedream Stripo Components",
+  "main": "stripo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "stripo"
+  ],
+  "homepage": "https://pipedream.com/apps/stripo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

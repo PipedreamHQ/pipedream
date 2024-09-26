@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -66,10 +67,7 @@ export default {
       label: "Event Status",
       description: "Whether the scheduled event is `active` or `canceled`",
       optional: true,
-      options: [
-        "active",
-        "canceled",
-      ],
+      options: constants.statuses,
     },
     maxEventCount: {
       type: "integer",
@@ -88,6 +86,12 @@ export default {
       label: "Max Results",
       description: "The number of rows to return",
       optional: true,
+    },
+    scope: {
+      type: "string",
+      label: "Scope",
+      description: "Indicates if the webhook subscription scope will be `organization` or `user`",
+      options: constants.scopes,
     },
   },
   methods: {
@@ -158,6 +162,7 @@ export default {
         method,
         headers,
         params,
+        data: opts.data,
       };
     },
     async _makeAsyncOptionsRequest({
@@ -248,6 +253,16 @@ export default {
 
       return this._makeRequest(opts, $);
     },
+    async getEvent(uuid, $) {
+      const opts = {
+        path: `/scheduled_events/${uuid}`,
+      };
+
+      return axios(
+        $ ?? this,
+        this._makeRequestOpts(opts),
+      );
+    },
     async listEventInvitees(params, uuid, $) {
       const opts = {
         path: `/scheduled_events/${uuid}/invitees`,
@@ -278,6 +293,38 @@ export default {
 
       return axios(
         $ ?? this,
+        this._makeRequestOpts(opts),
+      );
+    },
+    async createWebhookSubscription(events, url, organization, user, signatureKey, scope) {
+      const data = {
+        url,
+        events,
+        organization,
+        user,
+        scope,
+        signing_key: signatureKey,
+      };
+
+      const opts = {
+        path: "/webhook_subscriptions",
+        method: "post",
+        data,
+      };
+
+      return axios(
+        this,
+        this._makeRequestOpts(opts),
+      );
+    },
+    async deleteWebhookSubscription(uuid) {
+      const opts = {
+        path: `/webhook_subscriptions/${uuid}`,
+        method: "delete",
+      };
+
+      return axios(
+        this,
         this._makeRequestOpts(opts),
       );
     },

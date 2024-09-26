@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/alphamoon",
+  "version": "0.0.1",
+  "description": "Pipedream Alphamoon Components",
+  "main": "alphamoon.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alphamoon"
+  ],
+  "homepage": "https://pipedream.com/apps/alphamoon",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

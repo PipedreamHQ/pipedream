@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/droxy",
+  "version": "0.0.1",
+  "description": "Pipedream Droxy Components",
+  "main": "droxy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "droxy"
+  ],
+  "homepage": "https://pipedream.com/apps/droxy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

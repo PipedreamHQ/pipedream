@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/eodhd_apis",
+  "version": "0.0.2",
+  "description": "Pipedream EODHD APIs Components",
+  "main": "eodhd_apis.app.mjs",
+  "keywords": [
+    "pipedream",
+    "eodhd_apis"
+  ],
+  "homepage": "https://pipedream.com/apps/eodhd_apis",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

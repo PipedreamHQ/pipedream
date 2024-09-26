@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/pikaso",
+  "version": "0.0.4",
+  "description": "Pipedream Pikaso Components",
+  "main": "dist/app/pikaso.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pikaso"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/pikaso",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1"
+  }
+}

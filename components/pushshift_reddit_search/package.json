@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/pushshift_reddit_search",
+  "version": "0.0.5",
+  "description": "Pipedream Pushshift Reddit Search Components",
+  "main": "pushshift_reddit_search.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pushshift_reddit_search",
+    "pushshift"
+  ],
+  "homepage": "https://pipedream.com/apps/pushshift_reddit_search",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

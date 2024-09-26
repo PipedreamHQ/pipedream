@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/recruitis",
+  "version": "0.1.0",
+  "description": "Pipedream Recruitis Components",
+  "main": "recruitis.app.mjs",
+  "keywords": [
+    "pipedream",
+    "recruitis"
+  ],
+  "homepage": "https://pipedream.com/apps/recruitis",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5"
+  }
+}

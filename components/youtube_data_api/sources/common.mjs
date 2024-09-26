@@ -1,15 +1,14 @@
-import youtubeDataApi from "../youtube_data_api.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
-    youtubeDataApi,
     db: "$.service.db",
     timer: {
       label: "Polling interval",
       description: "Pipedream will poll the YouTube API on this schedule",
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // every 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
@@ -90,6 +89,31 @@ export default {
         if (!results.items || results.items.length < 1) break;
         if (!results.nextPageToken) break;
         else params.pageToken = results.nextPageToken;
+      }
+      return lastPublished;
+    },
+    async paginatePlaylistItems(params, publishedAfter = null) {
+      let totalResults = 1;
+      let count = 0;
+      let countEmitted = 0;
+      let lastPublished;
+
+      while (count < totalResults && countEmitted < params.maxResults) {
+        const results = (await this.youtubeDataApi.getPlaylistItems(params)).data;
+        totalResults = results.pageInfo.totalResults;
+        for (const video of results.items) {
+          if (this.isRelevant(video, publishedAfter)) {
+            if (
+              !lastPublished ||
+              Date.parse(video.snippet.publishedAt) > Date.parse(lastPublished)
+            )
+              lastPublished = video.snippet.publishedAt;
+            this.emitEvent(video);
+            countEmitted++;
+          }
+          count++;
+        }
+        params.pageToken = results.nextPageToken;
       }
       return lastPublished;
     },

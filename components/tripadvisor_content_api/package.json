@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/tripadvisor_content_api",
+  "version": "0.1.0",
+  "description": "Pipedream Tripadvisor (Content API) Components",
+  "main": "tripadvisor_content_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tripadvisor_content_api"
+  ],
+  "homepage": "https://pipedream.com/apps/tripadvisor_content_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/endorsal",
+  "version": "0.1.0",
+  "description": "Pipedream Endorsal Components",
+  "main": "endorsal.app.mjs",
+  "keywords": [
+    "pipedream",
+    "endorsal"
+  ],
+  "homepage": "https://pipedream.com/apps/endorsal",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

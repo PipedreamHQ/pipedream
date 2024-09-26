@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/webinarfuel",
+  "version": "0.1.0",
+  "description": "Pipedream WebinarFuel Components",
+  "main": "webinarfuel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "webinarfuel"
+  ],
+  "homepage": "https://pipedream.com/apps/webinarfuel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

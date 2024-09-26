@@ -1,3 +1,12 @@
+import { ConfigurationError } from "@pipedream/platform";
+import {
+  GOOGLE_DRIVE_GRANTEE_DOMAIN,
+  GOOGLE_DRIVE_GRANTEE_GROUP,
+  GOOGLE_DRIVE_GRANTEE_USER,
+  GOOGLE_DRIVE_ROLE_OPTIONS,
+  GOOGLE_DRIVE_ROLE_OPTION_FILEORGANIZER,
+  GOOGLE_DRIVE_ROLE_WRITER,
+} from "../../common/constants.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 
 /**
@@ -8,10 +17,10 @@ import googleDrive from "../../google_drive.app.mjs";
  */
 export default {
   key: "google_drive-add-file-sharing-preference",
-  name: "Add File Sharing Preference",
+  name: "Share File or Folder",
   description:
-    "Add a [sharing](https://support.google.com/drive/answer/7166529) permission to the sharing preferences of a file and provide a sharing URL. [See the docs](https://developers.google.com/drive/api/v3/reference/permissions/create) for more information",
-  version: "0.0.3",
+    "Add a [sharing permission](https://support.google.com/drive/answer/7166529) to the sharing preferences of a file or folder and provide a sharing URL. [See the documentation](https://developers.google.com/drive/api/v3/reference/permissions/create)",
+  version: "0.1.7",
   type: "action",
   props: {
     googleDrive,
@@ -28,49 +37,96 @@ export default {
         "fileId",
         (c) => ({
           drive: c.drive,
-          baseOpts: {
-            q: "'me' in owners",
-          },
         }),
       ],
-      optional: false,
-      description: "The file to share",
+      optional: true,
+      description: "The file to share. You must specify either a file or a folder.",
     },
-    role: {
+    folderId: {
       propDefinition: [
         googleDrive,
-        "role",
+        "folderId",
+        (c) => ({
+          drive: c.drive,
+        }),
       ],
+      optional: true,
+      description: "The folder to share. You must specify either a file or a folder.",
     },
     type: {
       propDefinition: [
         googleDrive,
         "type",
       ],
+      reloadProps: true,
     },
-    domain: {
-      propDefinition: [
-        googleDrive,
-        "domain",
-      ],
-    },
-    emailAddress: {
-      propDefinition: [
-        googleDrive,
-        "emailAddress",
-      ],
-    },
+  },
+  async additionalProps() {
+    const obj = {};
+    const {
+      fileId, folderId, type,
+    } = this;
+    if (!(fileId || folderId) || !type) return obj;
+
+    const emailAddress = {
+      type: "string",
+      label: "Email Address",
+      description:
+        "Enter the email address of the user that you'd like to share the file or folder with (e.g. `alex@altostrat.com`).",
+    };
+
+    switch (type) {
+    case GOOGLE_DRIVE_GRANTEE_DOMAIN:
+      obj.domain = {
+        type: "string",
+        label: "Domain",
+        description:
+            "Enter the domain of the G Suite organization that you'd like to share the file or folder with (e.g. `altostrat.com`). All G Suite organization users under this domain will have access to the file you share.",
+      };
+      break;
+    case GOOGLE_DRIVE_GRANTEE_GROUP:
+      obj.emailAddress = {
+        ...emailAddress,
+        description:
+            "Enter the email address of the group that you'd like to share the file or folder with (e.g. `hiking-club@altostrat.com`)",
+      };
+      break;
+    case GOOGLE_DRIVE_GRANTEE_USER:
+      obj.emailAddress = emailAddress;
+      break;
+
+    default:
+      break;
+    }
+
+    const isFolder = !!folderId;
+    const options = GOOGLE_DRIVE_ROLE_OPTIONS;
+
+    if (isFolder) {
+      const writerOpt = options.find(({ value }) => value === GOOGLE_DRIVE_ROLE_WRITER);
+      writerOpt.label = writerOpt.label.replace(/Writer/, "Contributor");
+      options.push(GOOGLE_DRIVE_ROLE_OPTION_FILEORGANIZER);
+    }
+
+    return {
+      ...obj,
+      role: {
+        type: "string",
+        label: "Role",
+        description: "The role granted by this permission",
+        options,
+      },
+    };
   },
   async run({ $ }) {
     const {
-      fileId,
-      role,
-      type,
-      domain,
-      emailAddress,
+      fileId, folderId, role, type, domain, emailAddress,
     } = this;
+    if (!(fileId || folderId)) {
+      throw new ConfigurationError("You must specify either a file or a folder");
+    }
     // Create the permission for the file
-    await this.googleDrive.createPermission(fileId, {
+    await this.googleDrive.createPermission(folderId ?? fileId, {
       role,
       type,
       domain,
@@ -78,9 +134,16 @@ export default {
     });
 
     // Get the file to get the `webViewLink` sharing URL
-    const resp = await this.googleDrive.getFile(this.fileId);
+    const resp = await this.googleDrive.getFile(folderId ?? fileId);
     const webViewLink = resp.webViewLink;
-    $.export("$summary", `Successfully added a sharing permission to the file, "${resp.name}"`);
+    $.export(
+      "$summary",
+      `Successfully shared ${folderId
+        ? "folder"
+        : "file"} "${resp.name}" with ${type} "${
+        emailAddress ?? domain ?? ""
+      }" with role '${role}'`,
+    );
     return webViewLink;
   },
 };

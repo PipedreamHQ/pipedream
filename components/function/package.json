@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/function",
+  "version": "0.0.1",
+  "description": "Pipedream Function Components",
+  "main": "function.app.mjs",
+  "keywords": [
+    "pipedream",
+    "function"
+  ],
+  "homepage": "https://pipedream.com/apps/function",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

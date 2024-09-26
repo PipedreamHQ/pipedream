@@ -1,25 +1,40 @@
-// legacy_hash_id: a_Mdie0r
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-look-up-card-by-id",
   name: "Look up Card by ID",
-  description: "Looks up a card by its ID.",
-  version: "0.3.1",
+  description: "Looks up a card by its ID. [See the docs here](https://api-docs.pipefy.com/reference/queries/#card)",
+  version: "0.3.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_query: {
-      type: "object",
-      description: "A graphql query as per [Card](https://api-docs.pipefy.com/reference/queries/#card) specification.",
+    pipe: {
+      propDefinition: [
+        pipefy,
+        "pipe",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+    },
+    card: {
+      propDefinition: [
+        pipefy,
+        "card",
+        (c) => ({
+          pipeId: c.pipe,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/queries/#card
-
+  /*
   Example query:
 
   {
@@ -29,17 +44,8 @@ export default {
   }
   */
 
-    if (!this.graphql_query) {
-      throw new Error("Must provide graphql_query parameter.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_query,
-    });
+    const response = await this.pipefy.getCard(this.card);
+    $.export("$summary", "Successfully retrieved card");
+    return response;
   },
 };

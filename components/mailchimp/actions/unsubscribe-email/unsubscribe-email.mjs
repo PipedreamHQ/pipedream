@@ -1,36 +1,40 @@
-// legacy_hash_id: a_PNiwMj
-import { axios } from "@pipedream/platform";
+import mailchimp from "../../mailchimp.app.mjs";
 
 export default {
   key: "mailchimp-unsubscribe-email",
   name: "Unsubscribe Email",
-  description: "Unsubscribe an email address from an audience.",
-  version: "0.2.1",
+  description: "Unsubscribe an email address from an audience. [See docs here](https://mailchimp.com/developer/marketing/api/list-members/archive-list-member/)",
+  version: "0.2.2",
   type: "action",
   props: {
-    mailchimp: {
-      type: "app",
-      app: "mailchimp",
+    mailchimp,
+    listId: {
+      propDefinition: [
+        mailchimp,
+        "listId",
+      ],
+      label: "List Id",
+      description: "The unique ID of the list",
     },
-    list_id: {
-      type: "string",
-      description: "The unique ID for the list.",
-    },
-    subscriber_hash: {
-      type: "string",
-      description: "The MD5 hash of the lowercase version of the list member's email address.",
+    subscriberHash: {
+      propDefinition: [
+        mailchimp,
+        "subscriberHash",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-    let listId = this.list_id;
-    let subscriberHash = this.subscriber_hash;
-
-    return await axios($, {
-      url: `https://${this.mailchimp.$auth.dc}.api.mailchimp.com/3.0/lists/${listId}/members/${subscriberHash}`,
-      headers: {
-        Authorization: `Bearer ${this.mailchimp.$auth.oauth_access_token}`,
-      },
-      method: "DELETE",
+    const {
+      listId,
+      subscriberHash,
+    } = this;
+    return await this.mailchimp.archiveListMember($, {
+      listId,
+      subscriberHash,
     });
+
   },
 };

@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/convertapi",
+  "version": "0.0.2",
+  "description": "Pipedream ConvertAPI Components",
+  "main": "dist/app/convertapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "convertapi"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/convertapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

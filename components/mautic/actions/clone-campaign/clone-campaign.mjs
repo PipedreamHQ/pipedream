@@ -1,35 +1,26 @@
-// legacy_hash_id: a_bKirl1
-import { axios } from "@pipedream/platform";
+import mautic from "../../mautic.app.mjs";
 
 export default {
   key: "mautic-clone-campaign",
   name: "Clone Campaign",
-  description: "Clones an existing campaign.",
-  version: "0.1.1",
+  description: "Clones an existing campaign. [See docs](https://developer.mautic.org/#clone-a-campaign)",
+  version: "0.2.0",
   type: "action",
   props: {
-    mautic: {
-      type: "app",
-      app: "mautic",
-    },
-    campaign_id: {
-      type: "string",
-      description: "ID of the campaign to get details.",
+    mautic,
+    campaignId: {
+      propDefinition: [
+        mautic,
+        "campaignId",
+      ],
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developer.mautic.org/#clone-a-campaign
-
-    if (!this.campaign_id) {
-      throw new Error("Must provide campaign_id parameter.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: `${this.mautic.$auth.mautic_url}/api/campaigns/clone/${this.campaign_id}`,
-      headers: {
-        Authorization: `Bearer ${this.mautic.$auth.oauth_access_token}`,
-      },
+    const response = await this.mautic.cloneCampaign({
+      $,
+      campaignId: this.campaignId,
     });
+    $.export("$summary", "Successfully cloned campaign");
+    return response;
   },
 };

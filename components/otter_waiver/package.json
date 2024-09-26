@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/otter_waiver",
+  "version": "0.1.0",
+  "description": "Pipedream Otter Waiver Components",
+  "main": "otter_waiver.app.mjs",
+  "keywords": [
+    "pipedream",
+    "otter_waiver"
+  ],
+  "homepage": "https://pipedream.com/apps/otter_waiver",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
+

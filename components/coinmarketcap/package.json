@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/coinmarketcap",
+  "version": "0.0.1",
+  "description": "Pipedream CoinMarketCap Components",
+  "main": "coinmarketcap.app.mjs",
+  "keywords": [
+    "pipedream",
+    "coinmarketcap"
+  ],
+  "homepage": "https://pipedream.com/apps/college_football_data",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

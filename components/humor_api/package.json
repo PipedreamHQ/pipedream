@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/humor_api",
+  "version": "0.0.4",
+  "description": "Pipedream Humor API Components",
+  "main": "humor_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "humor_api"
+  ],
+  "homepage": "https://pipedream.com/apps/humor_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

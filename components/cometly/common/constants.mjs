@@ -1,0 +1,16 @@
+export const EVENT_TYPES = [
+  "lead_generated",
+  "view_content",
+  "schedule",
+  "purchase",
+  "subscribe",
+  "add_to_cart",
+  "contact",
+  "initiate_checkout",
+  "add_payment_info",
+  "complete_registration",
+  "start_trial",
+  "sign_up",
+  "submit_application",
+  "webinar_registration",
+];

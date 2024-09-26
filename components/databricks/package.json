@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/databricks",
+  "version": "0.1.0",
+  "description": "Pipedream Databricks Components",
+  "main": "databricks.app.mjs",
+  "keywords": [
+    "pipedream",
+    "databricks"
+  ],
+  "homepage": "https://pipedream.com/apps/databricks",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

@@ -1,0 +1,20 @@
+export default {
+  "eventName": "registrant.added",
+  "eventVersion": "1.0.0",
+  "product": "g2w",
+  "eventKey": "7fc43482-b239-45e2-a8f8-3ca2f1fbada8",
+  "firstName": "first name test",
+  "lastName": "last name test",
+  "email": "email@test.com",
+  "responses": [],
+  "registrationDate": "2020-05-10T14:32:34.837Z",
+  "status": "APPROVED",
+  "webinarKey": 4511665432126123456,
+  "webinarTitle": "subject test",
+  "experienceType": "BROADCAST",
+  "recurrenceType": "single_session",
+  "webinarCreatorKey": 7313424324482123456,
+  "registrantKey": 24576065432313123456,
+  "joinUrl": "https://global.gotowebinar.com/join/4511123456226725432/123456789",
+  "timestamp": "2020-05-10T14:32:34.837Z"
+}

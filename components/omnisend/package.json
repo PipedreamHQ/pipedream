@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/omnisend",
+  "version": "0.1.0",
+  "description": "Pipedream Omnisend Components",
+  "main": "omnisend.app.mjs",
+  "keywords": [
+    "pipedream",
+    "omnisend"
+  ],
+  "homepage": "https://pipedream.com/apps/omnisend",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

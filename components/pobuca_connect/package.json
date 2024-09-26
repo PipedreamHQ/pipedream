@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/pobuca_connect",
+  "version": "0.0.2",
+  "description": "Pipedream Pobuca Connect Components",
+  "main": "dist/app/pobuca_connect.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pobuca_connect"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/pobuca_connect",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

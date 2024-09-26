@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/ncscale",
+  "version": "0.1.0",
+  "description": "Pipedream ncScale Components",
+  "main": "ncscale.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ncscale"
+  ],
+  "homepage": "https://pipedream.com/apps/ncscale",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

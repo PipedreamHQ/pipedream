@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_address_validation",
+  "version": "0.0.1",
+  "description": "Pipedream Google Address Validation Components",
+  "main": "google_address_validation.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_address_validation"
+  ],
+  "homepage": "https://pipedream.com/apps/google_address_validation",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,68 +1,65 @@
-// legacy_hash_id: a_Jmi5vk
-import { axios } from "@pipedream/platform";
+import common from "../common/common-objects.mjs";
 
 export default {
+  ...common,
   key: "zoho_crm-create-object",
   name: "Create Object",
-  description: "Adds new object to a module.",
-  version: "0.2.1",
+  description: "Create a new object/module entry. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v2/insert-records.html)",
+  version: "0.3.2",
   type: "action",
-  props: {
-    zoho_crm: {
-      type: "app",
-      app: "zoho_crm",
-    },
-    module: {
-      type: "string",
-      description: "Module where the record will be created.",
-      options: [
-        "Leads",
-        "Accounts",
-        "Contacts",
-        "Deals",
-        "Campaigns",
-        "Tasks",
-        "Cases",
-        "Events",
-        "Calls",
-        "Solutions",
-        "Products",
-        "Vendors",
-        "Quotes",
-        "Price_Books",
-        "Quotes",
-        "Sales_Orders",
-        "Purchase_Orders",
-        "Invoices",
-        "Custom",
-        "Activities",
-      ],
-    },
-    object: {
-      type: "object",
-      description: "The new object data.",
-    },
+  async additionalProps() {
+    const requiredProps = this.getRequiredProps(this.moduleType);
+    const optionalProps = await this.getOptionalProps(this.moduleType);
+    return {
+      ...requiredProps,
+      ...optionalProps,
+      additionalData: {
+        type: "object",
+        label: "Additional Data",
+        description: "Additional values for new object",
+        optional: true,
+      },
+    };
   },
   async run({ $ }) {
-  //See Zoho CRM API docs at: https://www.zoho.com/crm/developer/docs/api/v2/insert-records.html
+    const {
+      zohoCrm,
+      moduleType,
+      lastName,
+      accountName,
+      dealName,
+      stage,
+      subject,
+      callType,
+      callStartTime,
+      callDuration,
+      campaignName,
+      additionalData,
+      ...otherProps
+    } = this;
 
-    if (!this.module || !this.object) {
-      throw new Error("Must provide module, and object parameters.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: `https://www.zohoapis.com/crm/v2/${this.module}`,
-      data: {
-        data: [
-          {
-            ...this.object,
-          },
-        ],
-      },
-      headers: {
-        "Authorization": `Zoho-oauthtoken ${this.zoho_crm.$auth.oauth_access_token}`,
-      },
+    const object = zohoCrm.omitEmptyStringValues({
+      Last_Name: lastName,
+      Account_Name: accountName,
+      Deal_Name: dealName,
+      Stage: stage,
+      Subject: subject,
+      Call_Type: callType,
+      Call_Start_Time: callStartTime,
+      Call_Duration: callDuration,
+      Campaign_Name: campaignName,
+      ...otherProps,
+      ...additionalData,
     });
+    const objectData = {
+      data: [
+        object,
+      ],
+    };
+    const res = await zohoCrm.createObject(moduleType, objectData, $);
+    if (res.data[0].details.id) {
+      $.export("$summary", `Successfully created new object with ID ${res.data[0].details.id}.`);
+    }
+    return res;
   },
 };

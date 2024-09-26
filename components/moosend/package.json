@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/moosend",
+  "version": "0.0.1",
+  "description": "Pipedream Moosend Components",
+  "main": "moosend.app.mjs",
+  "keywords": [
+    "pipedream",
+    "moosend"
+  ],
+  "homepage": "https://pipedream.com/apps/moosend",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  },
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  }
+}

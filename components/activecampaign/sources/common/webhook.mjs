@@ -22,7 +22,7 @@ export default {
   hooks: {
     async activate() {
       const sources =
-        this.sources.length > 0
+        this.sources?.length > 0
           ? this.sources
           : constants.ALL_SOURCES;
       const hookData = await this.activecampaign.createHook(

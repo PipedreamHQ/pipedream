@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/vendasta",
+  "version": "0.0.1",
+  "description": "Pipedream Vendasta Components",
+  "main": "vendasta.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vendasta"
+  ],
+  "homepage": "https://pipedream.com/apps/vendasta",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

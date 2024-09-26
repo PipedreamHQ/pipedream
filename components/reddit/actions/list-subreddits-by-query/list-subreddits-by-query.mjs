@@ -4,7 +4,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "action",
   key: "reddit-list-subreddits-by-query",
-  version: "0.0.1",
+  version: "0.1.0",
   name: "List Subreddits by Query",
   description: "List subreddits based on a search criteria. [See the docs here](https://www.reddit.com/dev/api/#GET_subreddits_search)",
   props: {

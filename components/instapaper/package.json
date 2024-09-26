@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/instapaper",
+  "version": "0.0.1",
+  "description": "Pipedream Instapaper Components",
+  "main": "instapaper.app.mjs",
+  "keywords": [
+    "pipedream",
+    "instapaper"
+  ],
+  "homepage": "https://pipedream.com/apps/instagram_business",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

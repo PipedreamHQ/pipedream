@@ -1,10 +1,12 @@
 // legacy_hash_id: a_Xzi2jX
+
 import { axios } from "@pipedream/platform";
 
 export default {
   key: "medium-create-post",
   name: "Create a post",
-  version: "0.1.1",
+  version: "0.1.3",
+  description: "Create a new Medium post.",
   type: "action",
   props: {
     medium: {
@@ -13,7 +15,7 @@ export default {
     },
     title: {
       type: "string",
-      description: "The title of the post. Note that this title is used for SEO and when rendering the post as a listing, but will not appear in the actual postfor that, the title must be specified in the content field as well. Titles longer than 100 characters will be ignored. In that case, a title will be synthesized from the first content in the post when it is published.",
+      description: "The title of the post. Note that this title is used for SEO and when rendering the post as a listing, but will not appear in the actual post for that, the title must be specified in the content field as well. Titles longer than 100 characters will be ignored. In that case, a title will be synthesized from the first content in the post when it is published.",
     },
     contentFormat: {
       type: "string",
@@ -39,7 +41,7 @@ export default {
     },
     publishStatus: {
       type: "string",
-      description: "The status of the post. Valid values are public, draft, or unlisted. The default is public.",
+      description: "The status of the post. Valid values are 'public', 'draft', or 'unlisted'. The default is 'public'.",
       optional: true,
       options: [
         "public",
@@ -49,7 +51,7 @@ export default {
     },
     license: {
       type: "string",
-      description: "The license of the post. Valid values are all-rights-reserved, cc-40-by, cc-40-by-sa, cc-40-by-nd, cc-40-by-nc, cc-40-by-nc-nd, cc-40-by-nc-sa, cc-40-zero, public-domain. The default is all-rights-reserved.",
+      description: "The license of the post. Valid values are 'all-rights-reserved', 'cc-40-by', 'cc-40-by-sa', 'cc-40-by-nd', 'cc-40-by-nc', 'cc-40-by-nc-nd', 'cc-40-by-nc-sa', 'cc-40-zero', 'public-domain'. The default is 'all-rights-reserved'.",
       optional: true,
       options: [
         "all-rights-reserved",

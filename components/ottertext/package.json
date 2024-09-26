@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ottertext",
+  "version": "0.0.1",
+  "description": "Pipedream OtterText Components",
+  "main": "ottertext.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ottertext"
+  ],
+  "homepage": "https://pipedream.com/apps/ottertext",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

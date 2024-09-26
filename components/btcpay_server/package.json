@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/btcpay_server",
+  "version": "0.1.0",
+  "description": "Pipedream BTCPay Server Components",
+  "main": "btcpay_server.app.mjs",
+  "keywords": [
+    "pipedream",
+    "btcpay_server"
+  ],
+  "homepage": "https://pipedream.com/apps/btcpay_server",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

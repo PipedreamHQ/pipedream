@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/hive",
+  "version": "0.1.0",
+  "description": "Pipedream Hive Components",
+  "main": "hive.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hive"
+  ],
+  "homepage": "https://pipedream.com/apps/hive",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "moment": "^2.29.4"
+  }
+}

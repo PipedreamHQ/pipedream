@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/formcan",
+  "version": "0.0.1",
+  "description": "Pipedream FormCan Components",
+  "main": "formcan.app.mjs",
+  "keywords": [
+    "pipedream",
+    "formcan"
+  ],
+  "homepage": "https://pipedream.com/apps/formcan",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

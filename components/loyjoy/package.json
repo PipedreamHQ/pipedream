@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/loyjoy",
+  "version": "0.0.1",
+  "description": "Pipedream LoyJoy Components",
+  "main": "loyjoy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "loyjoy"
+  ],
+  "homepage": "https://pipedream.com/apps/loyjoy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

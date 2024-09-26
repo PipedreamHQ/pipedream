@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/savvycal",
+  "version": "0.0.3",
+  "description": "Pipedream SavvyCal Components",
+  "main": "dist/app/savvycal.app.mjs",
+  "keywords": [
+    "pipedream",
+    "savvycal"
+  ],
+  "homepage": "https://pipedream.com/apps/savvycal",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1"
+  }
+}

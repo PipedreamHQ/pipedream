@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/annature",
+  "version": "0.0.1",
+  "description": "Pipedream Annature Components",
+  "main": "annature.app.mjs",
+  "keywords": [
+    "pipedream",
+    "annature"
+  ],
+  "homepage": "https://pipedream.com/apps/annature",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/white_swan",
+  "version": "0.1.0",
+  "description": "Pipedream White Swan Components",
+  "main": "white_swan.app.mjs",
+  "keywords": [
+    "pipedream",
+    "white_swan"
+  ],
+  "homepage": "https://pipedream.com/apps/white_swan",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0",
+    "md5": "^2.3.0"
+  }
+}

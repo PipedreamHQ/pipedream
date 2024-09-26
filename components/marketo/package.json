@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/marketo",
+  "version": "0.0.1",
+  "description": "Pipedream Marketo Components",
+  "main": "marketo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "marketo"
+  ],
+  "homepage": "https://pipedream.com/apps/marketo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

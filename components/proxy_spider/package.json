@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/proxy_spider",
+  "version": "0.0.1",
+  "description": "Pipedream Proxy Spider  Components",
+  "main": "proxy_spider.app.mjs",
+  "keywords": [
+    "pipedream",
+    "proxy_spider"
+  ],
+  "homepage": "https://pipedream.com/apps/proxy_spider",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

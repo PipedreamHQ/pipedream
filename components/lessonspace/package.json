@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/lessonspace",
+  "version": "0.0.2",
+  "description": "Pipedream Lessonspace Components",
+  "main": "dist/app/lessonspace.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lessonspace"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/lessonspace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

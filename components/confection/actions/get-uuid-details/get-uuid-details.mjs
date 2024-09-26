@@ -4,7 +4,7 @@ export default {
   key: "confection-get-uuid-details",
   name: "Get Full Details of UUID",
   type: "action",
-  version: "0.0.1",
+  version: "0.1.0",
   description:
     "This action will retrieve the full details of a specified UUID.",
   props: {

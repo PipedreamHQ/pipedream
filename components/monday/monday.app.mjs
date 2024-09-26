@@ -1,7 +1,7 @@
-import mondaySdk from "monday-sdk-js";
-import uniqBy from "lodash.uniqby";
-import map from "lodash.map";
 import flatMap from "lodash.flatmap";
+import map from "lodash.map";
+import uniqBy from "lodash.uniqby";
+import mondaySdk from "monday-sdk-js";
 import constants from "./common/constants.mjs";
 import mutations from "./common/mutations.mjs";
 import queries from "./common/queries.mjs";
@@ -11,7 +11,7 @@ export default {
   app: "monday",
   propDefinitions: {
     boardId: {
-      type: "integer",
+      type: "string",
       label: "Board ID",
       description: "The board's unique identifier",
       async options({ page }) {
@@ -36,6 +36,11 @@ export default {
       label: "Folder ID",
       description: "Board folder ID",
       optional: true,
+      async options({ workspaceId }) {
+        return this.listFolderOptions({
+          workspaceId,
+        });
+      },
     },
     workspaceId: {
       type: "integer",
@@ -91,18 +96,21 @@ export default {
       description: "The update text",
     },
     itemId: {
-      type: "integer",
+      type: "string",
       label: "Item ID",
       description: "The item's unique identifier",
       optional: true,
-      async options({ boardId }) {
+      async options({
+        boardId, prevContext,
+      }) {
         return this.listItemsOptions({
           boardId,
+          cursor: prevContext.cursor,
         });
       },
     },
     updateId: {
-      type: "integer",
+      type: "string",
       label: "Update ID",
       description: "The update's unique identifier",
       optional: true,
@@ -115,6 +123,22 @@ export default {
         });
       },
     },
+    column: {
+      type: "string",
+      label: "Column",
+      description: "Column to watch for changes",
+      async options({ boardId }) {
+        const columns = await this.listColumns({
+          boardId: +boardId,
+        });
+        return columns
+          .filter((column) => column.id !== "name")
+          .map((column) => ({
+            label: column.title,
+            value: column.id,
+          }));
+      },
+    },
   },
   methods: {
     async makeRequest({
@@ -123,6 +147,49 @@ export default {
       const monday = mondaySdk();
       monday.setToken(this.$auth.api_key);
       return monday.api(query, options);
+    },
+    async createWebhook(variables) {
+      return this.makeRequest({
+        query: mutations.createWebhook,
+        options: {
+          variables,
+        },
+      });
+    },
+    async deleteWebhook(variables) {
+      return this.makeRequest({
+        query: mutations.deleteWebhook,
+        options: {
+          variables,
+        },
+      });
+    },
+    async getItem(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getItem,
+        options: {
+          variables,
+        },
+      });
+      return data?.items[0];
+    },
+    async getBoard(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getBoard,
+        options: {
+          variables,
+        },
+      });
+      return data?.boards[0];
+    },
+    async getUser(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.getUser,
+        options: {
+          variables,
+        },
+      });
+      return data?.users[0];
     },
     async createBoard(variables) {
       return this.makeRequest({
@@ -143,6 +210,22 @@ export default {
     async createItem(variables) {
       return this.makeRequest({
         query: mutations.createItem,
+        options: {
+          variables,
+        },
+      });
+    },
+    async createColumn(variables) {
+      return this.makeRequest({
+        query: mutations.createColumn,
+        options: {
+          variables,
+        },
+      });
+    },
+    async createSubItem(variables) {
+      return this.makeRequest({
+        query: mutations.createSubItem,
         options: {
           variables,
         },
@@ -172,17 +255,40 @@ export default {
         },
       });
     },
-    async listItemsBoard(variables) {
-      return this.makeRequest({
-        query: queries.listItemsBoard,
-        options: {
+    async listItemsBoard({
+      cursor, ...variables
+    }) {
+      const query = cursor
+        ? queries.listItemsNextPage
+        : queries.listItemsBoard;
+      const options = cursor
+        ? {
+          variables: cursor,
+        }
+        : {
           variables,
-        },
+        };
+      return this.makeRequest({
+        query,
+        options,
       });
     },
     async listUpdatesBoard(variables) {
       return this.makeRequest({
         query: queries.listUpdatesBoard,
+        options: {
+          variables,
+        },
+      });
+    },
+    async listWorkspaces() {
+      return this.makeRequest({
+        query: queries.listWorkspaces,
+      });
+    },
+    async listFolders(variables) {
+      return this.makeRequest({
+        query: queries.listFolders,
         options: {
           variables,
         },
@@ -196,6 +302,58 @@ export default {
     async listGroupsBoards(variables) {
       return this.makeRequest({
         query: queries.listGroupsBoards,
+        options: {
+          variables,
+        },
+      });
+    },
+    async listColumns(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.listColumns,
+        options: {
+          variables,
+        },
+      });
+      return data?.boards[0]?.columns;
+    },
+    async listUsers(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.listUsers,
+        options: {
+          variables,
+        },
+      });
+      return data?.users;
+    },
+    async getColumnValues(variables) {
+      return this.makeRequest({
+        query: queries.getColumnValues,
+        options: {
+          variables,
+        },
+      });
+    },
+    async getItemsByColumnValue({
+      cursor, ...variables
+    }) {
+      const query = cursor
+        ? queries.listItemsNextPage
+        : queries.getItemsByColumnValue;
+      const options = cursor
+        ? {
+          variables: cursor,
+        }
+        : {
+          variables,
+        };
+      return this.makeRequest({
+        query,
+        options,
+      });
+    },
+    async updateColumnValues(variables) {
+      return this.makeRequest({
+        query: mutations.updateColumnValues,
         options: {
           variables,
         },
@@ -218,6 +376,7 @@ export default {
 
       const { boards } = data;
       return boards
+        .filter(({ type }) => type !== constants.BOARD_TYPE.SUB_ITEMS_BOARD)
         .map(({
           id, name,
         }) => ({
@@ -225,12 +384,34 @@ export default {
           value: id,
         }));
     },
+    async listFolderOptions(variables) {
+      const {
+        data, errors, error_message: errorMessage,
+      } = await this.listFolders(variables);
+
+      if (errors) {
+        throw new Error(`Error listing folders: ${errors[0].message}`);
+      }
+
+      if (errorMessage) {
+        throw new Error(`Failed to list folders: ${errorMessage}`);
+      }
+
+      const { folders } = data;
+      return folders
+        .map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: +id,
+        }));
+    },
     async listWorkspacesOptions() {
       const {
         data,
         errors,
         error_message: errorMessage,
-      } = await this.listWorkspacesBoards();
+      } = await this.listWorkspaces();
 
       if (errors) {
         throw new Error(`Error listing workspaces: ${errors[0].message}`);
@@ -240,13 +421,12 @@ export default {
         throw new Error(`Failed to list workspaces: ${errorMessage}`);
       }
 
-      const { boards } = data;
+      const { workspaces } = data;
       const options =
-        boards
-          .filter(({ workspace }) => workspace)
-          .map(({ workspace }) => ({
+        workspaces
+          .map((workspace) => ({
             label: workspace.name,
-            value: workspace.id,
+            value: +workspace.id,
           }));
       return uniqBy(options, "value");
     },
@@ -293,16 +473,20 @@ export default {
       }
 
       const { boards } = data;
-      const options =
-        flatMap(boards, ({ items }) =>
-          map(items, ({
-            id, name,
-          }) =>
-            ({
-              value: id,
-              label: name,
-            })));
-      return options;
+      const items = boards[0].items_page.items;
+      const cursor = boards[0].items_page.cursor;
+      const options = items.map(({
+        id, name,
+      }) => ({
+        value: id,
+        label: name,
+      }));
+      return {
+        options,
+        context: {
+          cursor,
+        },
+      };
     },
     async listUpdatesOptions(variables) {
       const {

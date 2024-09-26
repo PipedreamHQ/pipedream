@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/newsman",
+  "version": "0.0.1",
+  "description": "Pipedream Newsman Components",
+  "main": "newsman.app.mjs",
+  "keywords": [
+    "pipedream",
+    "newsman"
+  ],
+  "homepage": "https://pipedream.com/apps/newsman",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

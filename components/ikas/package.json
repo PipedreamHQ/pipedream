@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/ikas",
+  "version": "0.1.0",
+  "description": "Pipedream Ikas Components",
+  "main": "ikas.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ikas"
+  ],
+  "homepage": "https://pipedream.com/apps/ikas",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
+

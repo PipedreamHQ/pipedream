@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/mastodon",
+  "version": "0.1.2",
+  "description": "Pipedream Mastodon Components",
+  "main": "mastodon.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mastodon"
+  ],
+  "homepage": "https://pipedream.com/apps/mastodon",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1",
+    "axios": "^1.2.1"
+  }
+}

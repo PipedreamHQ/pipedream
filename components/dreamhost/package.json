@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dreamhost",
+  "version": "0.0.1",
+  "description": "Pipedream Dreamhost Components",
+  "main": "dreamhost.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dreamhost"
+  ],
+  "homepage": "https://pipedream.com/apps/dreamhost",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

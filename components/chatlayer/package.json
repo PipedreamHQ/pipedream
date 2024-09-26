@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chatlayer",
+  "version": "0.0.1",
+  "description": "Pipedream Chatlayer Components",
+  "main": "chatlayer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatlayer"
+  ],
+  "homepage": "https://pipedream.com/apps/chatlayer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

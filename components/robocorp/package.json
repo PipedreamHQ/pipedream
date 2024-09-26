@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/robocorp",
+  "version": "0.0.1",
+  "description": "Pipedream Robocorp Components",
+  "main": "robocorp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "robocorp"
+  ],
+  "homepage": "https://pipedream.com/apps/robocorp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

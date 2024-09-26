@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/parsio_io",
+  "version": "0.0.1",
+  "description": "Pipedream Parsio.io Components",
+  "main": "parsio_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "parsio_io"
+  ],
+  "homepage": "https://pipedream.com/apps/parsio_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

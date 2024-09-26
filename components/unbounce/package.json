@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/unbounce",
+  "version": "0.1.0",
+  "description": "Pipedream Unbounce Components",
+  "main": "unbounce.app.mjs",
+  "keywords": [
+    "pipedream",
+    "unbounce"
+  ],
+  "homepage": "https://pipedream.com/apps/unbounce",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "moment": "^2.29.4",
+    "@pipedream/platform": "^1.5.1"
+  }
+}

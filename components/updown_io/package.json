@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/updown_io",
+  "version": "0.1.0",
+  "description": "Pipedream Updown.io Components",
+  "main": "updown_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "updown_io"
+  ],
+  "homepage": "https://pipedream.com/apps/updown_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

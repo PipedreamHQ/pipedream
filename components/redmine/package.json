@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/redmine",
+  "version": "0.1.0",
+  "description": "Pipedream Redmine Components",
+  "main": "redmine.app.mjs",
+  "keywords": [
+    "pipedream",
+    "redmine"
+  ],
+  "homepage": "https://pipedream.com/apps/redmine",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

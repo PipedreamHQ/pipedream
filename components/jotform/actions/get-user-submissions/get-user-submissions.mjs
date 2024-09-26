@@ -5,7 +5,7 @@ export default {
   key: "jotform-get-user-submissions",
   name: "Get User Submissions",
   description: "Gets a list of all submissions for all forms on the account [See the docs here](https://api.jotform.com/docs/#user-submissions)",
-  version: "0.0.1",
+  version: "0.1.3",
   type: "action",
   props: {
     ...common.props,
@@ -15,7 +15,13 @@ export default {
         "max",
       ],
     },
-    http: "$.interface.http",
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.encrypted) {
+      props.privateKey = common.props.jotform.propDefinitions.privateKey;
+    }
+    return props;
   },
   async run({ $ }) {
     const params = {
@@ -27,7 +33,9 @@ export default {
     for await (const submission of submissions) {
       results.push(submission);
     }
-    $.export("$summary", "Successfully retrieved all form submissions");
+    $.export("$summary", `Successfully retrieved ${results.length} form submission${results.length === 1
+      ? "s"
+      : ""}`);
     return results;
   },
 };

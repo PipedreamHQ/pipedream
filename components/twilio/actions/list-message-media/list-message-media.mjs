@@ -1,11 +1,11 @@
 import twilio from "../../twilio.app.mjs";
-import { omitEmptyStringValues } from "../../utils.mjs";
+import { omitEmptyStringValues } from "../../common/utils.mjs";
 
 export default {
   key: "twilio-list-message-media",
   name: "List Message Media",
-  description: "Return a list of media associated with your message. [See the docs](https://www.twilio.com/docs/sms/api/media-resource#read-multiple-media-resources) for more information",
-  version: "0.0.1",
+  description: "Return a list of media associated with your message. [See the documentation](https://www.twilio.com/docs/sms/api/media-resource#read-multiple-media-resources)",
+  version: "0.1.3",
   type: "action",
   props: {
     twilio,
@@ -14,6 +14,7 @@ export default {
         twilio,
         "messageId",
       ],
+      optional: false,
     },
     limit: {
       propDefinition: [

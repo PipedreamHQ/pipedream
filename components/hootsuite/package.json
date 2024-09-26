@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/hootsuite",
+  "version": "0.1.0",
+  "description": "Pipedream Hootsuite Components",
+  "main": "hootsuite.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hootsuite"
+  ],
+  "homepage": "https://pipedream.com/apps/hootsuite",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "dayjs": "^1.11.7"
+  }
+}

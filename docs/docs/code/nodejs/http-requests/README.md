@@ -1,10 +1,15 @@
+---
+short_description: Make HTTP requests with Node.js in code steps.
+thumbnail: https://res.cloudinary.com/pipedreamin/image/upload/v1646761145/docs/icons/shrine20210108-1-qsuy1b_bhftb2.svg
+---
+
 # Make HTTP Requests with Node.js
 
 HTTP requests are fundamental to working with APIs or other web services. You can make HTTP requests to retrieve data from APIs, fetch HTML from websites, or do pretty much anything your web browser can do.
 
 **Below, we'll review how to make HTTP requests using Node.js code on Pipedream.**
 
-We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/workflows/steps/code/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
+We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/code/nodejs/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
 
 If you're developing Pipedream components, you may find the [`@pipedream/platform` version of `axios`](/pipedream-axios/) helpful for displaying error data clearly in the Pipedream UI.
 
@@ -25,18 +30,18 @@ You make HTTP requests by passing a [JavaScript object](https://developer.mozill
 ```javascript
 {
   method: "GET",
-  url: `https://swapi.co/api/films/`
+  url: `https://swapi.dev/api/films/`
 }
 ```
 
-`axios` returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises), which is just a fancy way of saying that it makes the HTTP request in the background (asynchronously) while the rest of your code runs. On Pipedream, [all asynchronous code must be run synchronously](/workflows/steps/code/async/), which means you'll need to wait for the HTTP request to finish before moving on to the next step. You do this by adding an `await` in front of the call to `axios`.
+`axios` returns a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises), which is just a fancy way of saying that it makes the HTTP request in the background (asynchronously) while the rest of your code runs. On Pipedream, [all asynchronous code must be run synchronously](/code/nodejs/async/), which means you'll need to wait for the HTTP request to finish before moving on to the next step. You do this by adding an `await` in front of the call to `axios`.
 
 **Putting all of this together, here's how to make a basic HTTP request on Pipedream:**
 
 ```javascript
 const resp = await axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`,
+  url: `https://swapi.dev/api/films/`,
 });
 ```
 
@@ -45,7 +50,7 @@ The response object `resp` contains a lot of information about the response: its
 ```javascript
 const resp = await axios({
   method: "GET",
-  url: `https://swapi.co/api/films/`,
+  url: `https://swapi.dev/api/films/`,
 });
 
 // HTTP response data is in the data property
@@ -62,18 +67,58 @@ const { data } = resp;
 
 Make a request to retrieve Star Wars films from the Star Wars API:
 
-```javascript
+:::: tabs :options="{ useUrlFragment: false }"
+ 
+::: tab Axios 
+``` javascript
 import axios from "axios";
 
-// Make an HTTP GET request using axios
-const resp = await axios({
-  method: "GET",
-  url: `https://swapi.co/api/films/`,
-});
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using axios
+    const res = await axios({
+      method: "GET",
+      url: `https://swapi.dev/api/films/`,
+    });
 
-// Retrieve just the data from the response
-const { data } = resp;
+    // Retrieve just the data from the response
+    const { data } = res;
+  })
+});
 ```
+:::
+ 
+ 
+::: tab "http-request prop"
+
+``` javascript
+export default defineComponent({
+  props: {
+    httpRequest: { 
+      type: "http_request",
+      label: "Star Wars API request",
+      default: {
+        method: "GET",
+        url: "https://swapi.dev/api/films/"
+      }
+    },
+  },
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using the http-request
+    const res = await this.httpRequest.execute();
+
+    // Retrieve just the data from the response
+    const { data } = res;
+  },
+})
+```
+**Produces**
+
+![With the http-request prop](https://res.cloudinary.com/pipedreamin/image/upload/v1649961271/docs/components/CleanShot_2022-04-14_at_14.34.16_2x_c0urph.png)
+:::
+ 
+::::
+ 
 
 [Copy this workflow to run this example on Pipedream](https://pipedream.com/@dylburger/make-an-http-get-request-to-the-star-wars-api-p_OKC2KA/edit).
 
@@ -81,21 +126,60 @@ const { data } = resp;
 
 POST sample JSON to [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free mock API service:
 
-```javascript
+:::: tabs :options="{ useUrlFragment: false }"
+ 
+::: tab Axios 
+``` javascript
 import axios from "axios";
 
-// Make an HTTP POST request using axios
-const resp = await axios({
-  method: "POST",
-  url: `https://jsonplaceholder.typicode.com/posts`,
-  data: {
-    name: "Luke",
-  },
-});
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Make an HTTP POST request using axios
+    const resp = await axios({
+      method: "POST",
+      url: `https://jsonplaceholder.typicode.com/posts`,
+      data: {
+        name: "Luke",
+      },
+    });
 
-// Retrieve just the data from the response
-const { data } = resp;
+    // Retrieve just the data from the response
+    const { data } = resp;
+  })
+});
 ```
+:::
+ 
+ 
+::: tab "http-request prop"
+``` javascript
+export default defineComponent({
+  props: {
+    httpRequest: { 
+      type: "http_request",
+      label: "JSON Placeholder API request",
+      default: {
+        method: "POST",
+        url: "https://jsonplaceholder.typicode.com/posts",
+        body: {
+          contentType: "application/json",
+          fields: [{ name: "Luke" }]
+        }
+      }
+    },
+  },
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using the http-request
+    const res = await this.httpRequest.execute();
+
+    // Retrieve just the data from the response
+    const { data } = res;
+  },
+})
+```
+:::
+ 
+::::
 
 When you make a `POST` request, you pass `POST` as the `method`, and include the data you'd like to send in the `data` object.
 
@@ -105,21 +189,59 @@ When you make a `POST` request, you pass `POST` as the `method`, and include the
 
 Retrieve fake comment data on a specific post using [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a free mock API service. Here, you fetch data from the `/comments` resource, retrieving data for a specific post by query string parameter: `/comments?postId=1`.
 
-```javascript
+:::: tabs :options="{ useUrlFragment: false }"
+ 
+::: tab Axios 
+``` javascript
 import axios from "axios";
 
-// Make an HTTP GET request using axios
-const resp = await axios({
-  method: "GET",
-  url: `https://jsonplaceholder.typicode.com/comments`,
-  params: {
-    postId: 1,
-  },
-});
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using axios
+    const resp = await axios({
+      method: "GET",
+      url: `https://jsonplaceholder.typicode.com/comments`,
+      params: {
+        postId: 1,
+      },
+    });
 
-// Retrieve just the data from the response
-const { data } = resp;
+    // Retrieve just the data from the response
+    const { data } = resp;
+  })
+});
 ```
+:::
+ 
+ 
+::: tab "http-request prop"
+``` javascript
+export default defineComponent({
+  props: {
+    httpRequest: { 
+      type: "http_request",
+      label: "JSON Placeholder API request",
+      default: {
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/comments",
+        params: {
+          fields: [{ postId: 1 }]
+        }
+      }
+    },
+  },
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using the http-request
+    const res = await this.httpRequest.execute();
+
+    // Retrieve just the data from the response
+    const { data } = res;
+  },
+})
+```
+:::
+ 
+::::
 
 You should pass query string parameters using the `params` object, like above. When you do, `axios` automatically [URL-encodes](https://www.w3schools.com/tags/ref_urlencode.ASP) the parameters for you, which you'd otherwise have to do manually.
 
@@ -182,7 +304,7 @@ export default defineComponent({
     // We'll store each response and return them in this array
     const responses = [];
 
-    for (const num of [1, 2, 3]) {
+    for await (const num of [1, 2, 3]) {
       const resp = await axios({
         method: "POST",
         url: "https://example.com",
@@ -252,52 +374,93 @@ The Mozilla docs expand on the difference between these methods, and when you ma
 
 ## Send a `multipart/form-data` request
 
-```javascript
+:::: tabs :options="{ useUrlFragment: false }"
+ 
+::: tab Axios 
+``` javascript
 import axios from "axios";
 import FormData from "form-data";
 
 export default defineComponent({
   async run({ steps, $ }) {
-    const formData = new FormData();
-    formData.append("name", "Luke Skywalker");
+    export default defineComponent({
+      async run({ steps, $ }) {
+        const formData = new FormData();
+        formData.append("name", "Luke Skywalker");
 
-    const headers = formData.getHeaders();
-    const config = {
-      method: "POST",
-      url: "https://example.com",
-      headers,
-      data: formData,
-    };
-    return await axios(config);
-  }
+        const headers = formData.getHeaders();
+        const config = {
+          method: "POST",
+          url: "https://example.com",
+          headers,
+          data: formData,
+        };
+        return await axios(config);
+      }
+    });
+  })
 });
 ```
+:::
+ 
+ 
+::: tab "http-request prop"
+``` javascript
+export default defineComponent({
+  props: {
+    httpRequest: { 
+      type: "http_request",
+      label: "Example Multipart Form Request",
+      default: {
+        method: "POST",
+        url: "https://example.com",
+        headers: {
+          contentType: "multipart/form-data",
+          fields: [{ name: "Luke Skywalker" }]
+        }
+      }
+    },
+  },
+  async run({ steps, $ }) {
+    // Make an HTTP GET request using the http-request
+    const res = await this.httpRequest.execute();
+
+    // Retrieve just the data from the response
+    const { data } = res;
+  },
+})
+```
+:::
+ 
+::::
 
 [Copy this workflow](https://pipedream.com/@dylburger/send-a-multipart-form-data-request-p_WxCQRyr/edit) to run this example.
 
 ## Download a file to the `/tmp` directory
 
-This example shows you how to download a file to a file in [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
+This example shows you how to download a file to a file in [the `/tmp` directory](/code/nodejs/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
 
 ```javascript
-import stream from "stream";
-import { promisify } from "util";
+import { pipeline } from "stream/promises";
 import fs from "fs";
 import got from "got";
 
-// DOWNLOAD
-const pipeline = promisify(stream.pipeline);
-await pipeline(
-  got.stream("https://example.com"),
-  fs.createWriteStream('/tmp/file.html')
-);
+export default defineComponent({
+  async run({ steps, $ }) {
+    // Download the webpage HTML file to /tmp
+    return await pipeline(
+      got.stream("https://example.com"),
+      fs.createWriteStream('/tmp/file.html')
+    );
+  }
+})
 ```
 
-[Copy this workflow](https://pipedream.com/@dylburger/download-a-file-from-a-url-to-tmp-p_pWCYA8y/edit) to run this example.
+[Copy this workflow](https://pipedream.com/new?h=tch_wqKfoW) to run this example.
 
 ## Upload a file from the `/tmp` directory
 
-This example shows you how to make a `multipart/form-data` request with a file as a form part. You can store and read any files from [the `/tmp` directory](/workflows/steps/code/nodejs/working-with-files/).
+This example shows you how to make a `multipart/form-data` request with a file as a form part. You can store and read any files from [the `/tmp` directory](/code/nodejs/working-with-files/#the-tmp-directory).
 
 This can be especially helpful for uploading large files: it streams the file from disk, minimizing the memory the workflow uses when uploading the file.
 
@@ -323,11 +486,17 @@ export default defineComponent({
 });
 ```
 
-[Copy this workflow](https://pipedream.com/@dylburger/stream-a-file-upload-p_6lC1d2Z/edit) to run this example.
+[Copy this workflow](https://pipedream.com/new?h=tch_Oknf4r) to run this example.
+
+## IP addresses for HTTP requests made from Pipedream workflows
+
+By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/privacy-and-security/#hosting-details). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
+
+- [Use a Pipedream VPC](/workflows/vpc/) to route all outbound HTTP requests through a single IP address
+- If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
+
 
 ## Use an HTTP proxy to proxy requests through another host
-
-When you make HTTP requests to certain services, they might require you whitelist a set of IP addresses those requests come from. Often, this is to improve the security of the target service.
 
 By default, HTTP requests made from Pipedream can come from a range of IP addresses. **If you need to make requests from a single IP address, you can route traffic through an HTTP proxy**:
 
@@ -336,12 +505,53 @@ import axios from "axios";
 import httpsProxyAgent from "https-proxy-agent";
 
 export default defineComponent({
+  props: {
+    user: {
+      type: 'string',
+      label: 'Username',
+      description: 'The username for the HTTP proxy authentication',
+    },
+    pass: {
+      type: 'string',
+      label: 'Password',
+      secret: true,
+      description: 'The password for the HTTP proxy authentication',
+    },
+    host: {
+      type: 'string',
+      label: "HTTP Proxy Host",
+      description: "The URL for the HTTP proxy",
+    },
+    port: {
+      type: "string",
+      label: "Port",
+      description: "The port the HTTP proxy is accepting requests at",
+    },
+    target_host: {
+      type: 'string',
+      label: "Target Host",
+      description: "The URL for the end target to reach through the proxy",
+    },
+    method: {
+      type: 'string',
+      default: 'GET',
+      label: "HTTP method",
+      description: "The HTTP method to use to reach the end target host"
+    },
+    body: {
+      type: 'object',
+      label: "HTTP body",
+      description: "The HTTP body payload to send to the end target host"
+    }
+  },
   async run({ steps, $ }) {
+    const { user, pass, host, port, target_host, method } = this;
     const agent = new httpsProxyAgent(`http://${user}:${pass}@${host}:${port}`);
 
     const config = {
-      method: "GET",
-      url: "https://example.com",
+      method,
+      url: target_host,
+      body,
       httpsAgent: agent,
     };
 
@@ -350,16 +560,7 @@ export default defineComponent({
 });
 ```
 
-**If you don't have access to an HTTP proxy, and you are a paying Pipedream customer, [reach out to our team](https://pipedream.com/support)**. We operate a proxy that you can use for HTTP requests made through Pipedream.
-
-[Copy this workflow to run this code on Pipedream](https://pipedream.com/@dylburger/make-an-http-request-through-a-proxy-p_ezC6RD/edit).
-
-## IP addresses for HTTP requests made from Pipedream workflows
-
-By default, [HTTP requests made from Pipedream can come from a large range of IP addresses](/workflows/networking/). **If you need to restrict the IP addresses HTTP requests come from, you have two options**:
-
-- [Use an HTTP proxy to proxy requests](#use-an-http-proxy-to-proxy-requests-through-another-host)
-- If you don't need to access the HTTP response data, you can [use `$send.http()`](/destinations/http/) to send requests from a [limited set of IP addresses](/destinations/http/#ip-addresses-for-pipedream-http-requests).
+[Copy this workflow to run this code on Pipedream](https://pipedream.com/new?h=tch_mypfby).
 
 ## Stream a downloaded file directly to another URL
 
@@ -367,7 +568,7 @@ Sometimes you need to upload a downloaded file directly to another service, with
 
 This method is especially effective for large files that exceed the [limits of the `/tmp` directory](/limits/#disk).
 
-[Copy this workflow](https://pipedream.com/@dylburger/stream-download-to-upload-p_5VCLoa1/edit) or paste this code into a [new Node.js code step](/workflows/steps/code/#adding-a-code-step):
+[Copy this workflow](https://pipedream.com/@dylburger/stream-download-to-upload-p_5VCLoa1/edit) or paste this code into a [new Node.js code step](/code/nodejs/):
 
 ```javascript
 import stream from "stream";
@@ -419,3 +620,76 @@ See [the `axios` docs](https://github.com/axios/axios#request-config) for more d
 When you fetch data from an API, the API may return records in "pages". For example, if you're trying to fetch a list of 1,000 records, the API might return those in groups of 100 items.
 
 Different APIs paginate data in different ways. You'll need to consult the docs of your API provider to see how they suggest you paginate through records.
+
+## Send GraphQL request
+
+Make a GraphQL request using the `graphql-request` NPM package:
+
+```javascript
+import { graphql } from  'graphql'
+import { request, gql } from 'graphql-request'
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    const document = gql`
+      query samplePokeAPIquery {
+        generations: pokemon_v2_generation {
+          name
+          pokemon_species: pokemon_v2_pokemonspecies_aggregate {
+            aggregate {
+              count
+            }
+          }
+        }
+      }
+    `
+    return await request('https://beta.pokeapi.co/graphql/v1beta', document)
+  },
+})
+```
+
+:::tip The graphql package is required
+
+The `graphql` package is required for popular GraphQL clients to function, like `graphql-request` and `urql`. 
+
+Even though you will not need to use the `graphql` code itself in your code step, it's required to import it in order for `graphql-request` to function.
+
+:::
+
+### Send an authenticated GraphQL request
+
+Authenticate your connected accounts in Pipedream with GraphQL requests using the `app` prop:
+
+```javascript
+import { graphql } from  'graphql'
+import { GraphQLClient, gql } from 'graphql-request'
+
+export default defineComponent({
+  props: {
+    github: {
+      type: 'app',
+      app: 'github'
+    }
+  },
+  async run({ steps, $ }) {
+    const me = gql`
+      query { 
+        viewer { 
+          login
+        }
+      }
+    `
+
+    const client = new GraphQLClient('https://api.github.com/graphql', {
+      headers: {
+        authorization: `Bearer ${this.github.$auth.oauth_access_token}`,
+      },
+    })
+
+    return await client.request(me)
+  },
+})
+
+```
+
+Alternatively, you can use Environment Variables as well for simple API key based GraphQL APIs.

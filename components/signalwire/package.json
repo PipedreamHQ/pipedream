@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/signalwire",
+  "version": "0.1.0",
+  "description": "Pipedream SignalWire Components",
+  "main": "signalwire.app.mjs",
+  "keywords": [
+    "pipedream",
+    "signalwire"
+  ],
+  "homepage": "https://pipedream.com/apps/signalwire",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

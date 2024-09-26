@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/segmetrics",
+  "version": "0.0.3",
+  "description": "Pipedream SegMetrics Components",
+  "main": "segmetrics.app.mjs",
+  "keywords": [
+    "pipedream",
+    "segmetrics"
+  ],
+  "homepage": "https://pipedream.com/apps/segmetrics",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/mctime",
+  "version": "0.1.0",
+  "description": "Pipedream McTime Components",
+  "main": "mctime.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mctime"
+  ],
+  "homepage": "https://pipedream.com/apps/mctime",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/formpress",
+  "version": "0.1.0",
+  "description": "Pipedream FormPress Components",
+  "main": "formpress.app.mjs",
+  "keywords": [
+    "pipedream",
+    "formpress"
+  ],
+  "homepage": "https://pipedream.com/apps/formpress",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

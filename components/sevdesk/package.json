@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/sevdesk",
+  "version": "0.1.0",
+  "description": "Pipedream sevDesk Components",
+  "main": "sevdesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sevdesk"
+  ],
+  "homepage": "https://pipedream.com/apps/sevdesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

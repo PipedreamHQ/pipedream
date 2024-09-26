@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/labsmobile",
+  "version": "0.1.0",
+  "description": "Pipedream LabsMobile Components",
+  "main": "labsmobile.app.mjs",
+  "keywords": [
+    "pipedream",
+    "labsmobile"
+  ],
+  "homepage": "https://pipedream.com/apps/labsmobile",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

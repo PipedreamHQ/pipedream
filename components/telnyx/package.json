@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/telnyx",
+  "version": "0.2.3",
+  "description": "Pipedream Telnyx Components",
+  "main": "telnyx.app.mjs",
+  "keywords": [
+    "pipedream",
+    "telnyx"
+  ],
+  "homepage": "https://pipedream.com/apps/telnyx",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

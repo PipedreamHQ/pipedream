@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/clockify",
+  "version": "0.0.1",
+  "description": "Pipedream Clockify Components",
+  "main": "clockify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clockify"
+  ],
+  "homepage": "https://pipedream.com/apps/clockify",
+  "author": "Pipedream <support@pipedeam.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

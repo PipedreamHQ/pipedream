@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/eventee",
+  "version": "0.0.1",
+  "description": "Pipedream Eventee Components",
+  "main": "eventee.app.mjs",
+  "keywords": [
+    "pipedream",
+    "eventee"
+  ],
+  "homepage": "https://pipedream.com/apps/eventee",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -17,7 +17,7 @@ const WEBHOOK_TYPE = {
   SALE_VOIDED: "Sale/Voided",
   SALE_BACKORDERED: "Sale/Backordered",
   SALE_SHIPMENT_AUTHORISED: "Sale/ShipmentAuthorised",
-  SALE_INVOICEA_UTHORISED: "Sale/InvoiceAuthorised",
+  SALE_INVOICE_AUTHORISED: "Sale/InvoiceAuthorised",
   SALE_PICK_AUTHORISED: "Sale/PickAuthorised",
   SALE_PACK_AUTHORISED: "Sale/PackAuthorised",
   SALE_CREDIT_NOTE_AUTHORISED: "Sale/CreditNoteAuthorised",
@@ -34,6 +34,8 @@ const WEBHOOK_TYPE = {
   STOCK_AVAILABLE_STOCK_LEVEL_CHANGE: "Stock/AvailableStockLevelChanged",
 };
 
+const PAGE_LIMIT = 100;
+
 export default {
   BASE_URL,
   VERSION_PATH,
@@ -44,4 +46,5 @@ export default {
   VERIFICATION_TOKEN_HEADER,
   WEBHOOK_TYPE,
   WEBHOOK_ID,
+  PAGE_LIMIT,
 };

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dust",
+  "version": "0.0.1",
+  "description": "Pipedream Dust Components",
+  "main": "dust.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dust"
+  ],
+  "homepage": "https://pipedream.com/apps/dust",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

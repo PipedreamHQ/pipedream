@@ -1,11 +1,11 @@
-import common from "../common-polling.mjs";
+import common from "../common/common-polling.mjs";
 
 export default {
   ...common,
-  key: "twilio-new-phone-recording",
+  key: "twilio-new-recording",
   name: "New Recording",
-  description: "Emits an event when a new call recording is created",
-  version: "0.0.3",
+  description: "Emit new event when a new call recording is created",
+  version: "0.1.5",
   type: "source",
   dedupe: "unique",
   methods: {

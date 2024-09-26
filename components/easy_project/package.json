@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/easy_project",
+  "version": "0.0.1",
+  "description": "Pipedream Easy Project Components",
+  "main": "easy_project.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easy_project"
+  ],
+  "homepage": "https://pipedream.com/apps/easy_project",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

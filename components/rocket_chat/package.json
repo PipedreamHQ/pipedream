@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/rocket_chat",
+  "version": "0.0.1",
+  "description": "Pipedream Rocket Chat Components",
+  "main": "rocket_chat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rocket_chat"
+  ],
+  "homepage": "https://pipedream.com/apps/roboflow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

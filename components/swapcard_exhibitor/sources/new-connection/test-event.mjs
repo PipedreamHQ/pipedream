@@ -1,0 +1,32 @@
+export default {
+  "id": "RXZlbnzI0OTkyMTQ=",
+  "userId": "RXZlbnzI0OTkyMTQ==",
+  "email": "lead@email.com",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "jobTitle": null,
+  "secondJobTitle": null,
+  "photoUrl": null,
+  "organization": null,
+  "websiteUrl": null,
+  "biography": null,
+  "tags": [],
+  "isVisible": true,
+  "source": "REGISTRATION",
+  "createdAt": "2010-08-26 19:06:20",
+  "updatedAt": "2010-08-26 19:06:21",
+  "communityProfileUpdatedAt": "2010-08-26 19:06:20",
+  "type": null,
+  "engagementScore": -1,
+  "clientIds": [],
+  "registration": {
+    "id": "RXZlbnzI0OTkyMTQ==",
+    "paymentStatus": "PAID",
+    "status": "REGISTERED",
+    "confirmationCode": "RYB9",
+    "registeredAt": "2010-08-26 19:06:20",
+    "canceledAt": null,
+    "checkIn": null,
+    "checkInSource": null
+  }
+}

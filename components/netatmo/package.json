@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/netatmo",
+  "version": "0.0.1",
+  "description": "Pipedream Netatmo Components",
+  "main": "netatmo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "netatmo"
+  ],
+  "homepage": "https://pipedream.com/apps/netatmo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

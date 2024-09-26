@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/bilflo",
+  "version": "0.1.0",
+  "description": "Pipedream Bilflo Components",
+  "main": "bilflo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bilflo"
+  ],
+  "homepage": "https://pipedream.com/apps/bilflo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5"
+  }
+}
+

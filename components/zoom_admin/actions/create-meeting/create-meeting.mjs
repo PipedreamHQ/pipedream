@@ -1,15 +1,15 @@
+import { axios } from "@pipedream/platform";
+import consts from "../../consts.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import tzs from "../../zoom_tzs.mjs";
-import consts from "../../consts.mjs";
-import { axios } from "@pipedream/platform";
 
 const { MEETING_TYPE_OPTIONS } = consts;
 
 export default {
   name: "Create a meeting",
   description: "Create a new room in zoom. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate)",
-  key: "zoom_admin-action-create-a-meeting",
-  version: "0.0.1",
+  key: "zoom_admin-create-meeting",
+  version: "0.1.5",
   type: "action",
   props: {
     zoomAdmin,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/usps",
+  "version": "0.0.1",
+  "description": "Pipedream USPS Components",
+  "main": "usps.app.mjs",
+  "keywords": [
+    "pipedream",
+    "usps"
+  ],
+  "homepage": "https://pipedream.com/apps/usps",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

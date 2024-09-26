@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/trestle",
+  "version": "0.0.1",
+  "description": "Pipedream Trestle Components",
+  "main": "trestle.app.mjs",
+  "keywords": [
+    "pipedream",
+    "trestle"
+  ],
+  "homepage": "https://pipedream.com/apps/trestle",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/docmosis",
+  "version": "0.1.0",
+  "description": "Pipedream Docmosis Components",
+  "main": "docmosis.app.mjs",
+  "keywords": [
+    "pipedream",
+    "docmosis"
+  ],
+  "homepage": "https://pipedream.com/apps/docmosis",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "1.6.2"
+  }
+}

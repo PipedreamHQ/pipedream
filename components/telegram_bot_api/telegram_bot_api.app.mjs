@@ -1,4 +1,4 @@
-import "./env.mjs";
+import "./common/env.mjs";
 import TelegramBot from "node-telegram-bot-api";
 import { axios } from "@pipedream/platform";
 import {
@@ -10,9 +10,9 @@ import {
   TELEGRAM_BOT_API_UI_MEDIA_STICKER,
   TELEGRAM_BOT_API_UI_MEDIA_VOICE,
   TELEGRAM_BOT_API_FORMATTING_MODES,
-} from "./constants.mjs";
-import updateTypes from "./update-types.mjs";
-import { toSingleLineString } from "./utils.mjs";
+} from "./common/constants.mjs";
+import updateTypes from "./common/update-types.mjs";
+import { toSingleLineString } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -62,10 +62,13 @@ export default {
       `),
       optional: true,
     },
-    disable_web_page_preview: {
-      type: "boolean",
-      label: "Disable Link Previews",
-      description: "Choose if to disable link previews for links in this message.",
+    link_preview_options: {
+      type: "string",
+      label: "Link Preview Options",
+      description: toSingleLineString(`
+        Link preview generation options for the message. Enter additional interface options that are a JSON-serialized object, 
+        e.g. \`{"is_disabled":false,"url":"https://botpress.org","prefer_small_media":true,"prefer_large_media":false,"show_above_text":false}\`
+      `),
       optional: true,
     },
     reply_to_message_id: {
@@ -217,6 +220,55 @@ export default {
       `),
       optional: true,
     },
+    link_name: {
+      type: "string",
+      label: "Invite link name",
+      description: toSingleLineString(`
+        Invite link name; 0-32 characters
+      `),
+      optional: true,
+    },
+    expire_date: {
+      type: "integer",
+      label: "Invite link expire date",
+      description: toSingleLineString(`
+        Point in time (Unix timestamp) when the link will expire, in [unix
+        time](https://en.wikipedia.org/wiki/Unix_time) (e.g. \`1567780450\`).
+      `),
+      optional: true,
+    },
+    member_limit: {
+      type: "integer",
+      label: "Maximum number of users",
+      description: toSingleLineString(`
+        Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+      `),
+      optional: true,
+    },
+    creates_join_request: {
+      type: "boolean",
+      label: "Creates join request",
+      description: toSingleLineString(`
+        True, if users joining the chat via the link need to be approved by chat administrators.
+        If True, member_limit can't be specified
+      `),
+      optional: true,
+    },
+    commands: {
+      label: "Commands",
+      description: "List of commands. E.g. `[\"/hi\", \"/hello\"]`",
+      type: "string[]",
+      async options() {
+        const commands = await this.getMyCommands();
+
+        return commands.map(({
+          command, description,
+        }) => ({
+          label: `${command} - ${description}`,
+          value: `/${command}`,
+        }));
+      },
+    },
   },
   methods: {
     _getBaseUrl() {
@@ -239,14 +291,15 @@ export default {
         polling: false,
       });
     },
-    async createHook(url, allowedUpdates) {
+    async createHook(url, allowedUpdates, secret) {
       const config = {
         method: "POST",
         url: `${this._getBaseUrl()}/setWebhook`,
         headers: this._getHeaders(),
         data: {
-          url: `${url}/${this.$auth.token}`,
+          url,
           allowed_updates: allowedUpdates,
+          secret_token: secret,
         },
       };
       return axios(this, config);
@@ -255,6 +308,14 @@ export default {
       const config = {
         method: "GET",
         url: `${await this._getBaseUrl()}/deleteWebhook`,
+        headers: await this._getHeaders(),
+      };
+      return axios(this, config);
+    },
+    async getWebhookInfo() {
+      const config = {
+        method: "GET",
+        url: `${await this._getBaseUrl()}/getWebhookInfo`,
         headers: await this._getHeaders(),
       };
       return axios(this, config);
@@ -373,6 +434,22 @@ export default {
       return this.sdk().unpinChatMessage(chatId, {
         message_id: messageId,
       });
+    },
+    /**
+     * Use this method to set default chat permissions for all members.
+     * The bot must be an administrator in the group or a supergroup for this
+     * to work and must have the can_restrict_members administrator rights.
+     * Returns True on success.
+     *
+     * @param {Number|String} chatId - Unique identifier for the message
+     * recipient
+     * @param {TelegramBot.ChatPermissions} [chatPermissions] -
+     * A JSON-serialized object for new default chat permissions
+     * [the API docs](https://core.telegram.org/bots/api#setchatpermissions)
+     * @return `True` on success
+     */
+    async setChatPermissions(chatId, chatPermissions) {
+      return this.sdk().setChatPermissions(chatId, chatPermissions);
     },
     /**
      * Send a file (Document/Image, Photo, Audio, Video, Video Note, Voice,
@@ -614,6 +691,38 @@ export default {
      */
     async restrictChatMember(chatId, userId, opts) {
       return this.sdk().restrictChatMember(chatId, userId, opts);
+    },
+    /**
+    * Use this method to export an invite link to a supergroup or a channel.
+    * The bot must be an administrator in the chat for this to work and must
+    * have the appropriate admin rights. Returns exported invite link as
+    * String on success.
+    *
+    * @param {Number|String} chatId - Unique identifier for the target chat or
+    * username of the target supergroup
+    * @returns the new invite link as String on success.
+    */
+    async exportChatInviteLink(chatId) {
+      return this.sdk().exportChatInviteLink(chatId);
+    },
+    /**
+    * Use this method to export an invite link to a supergroup or a channel.
+    * The bot must be an administrator in the chat for this to work and must
+    * have the appropriate admin rights. Returns exported invite link as
+    * String on success.
+    *
+    * @param {Number|String} chatId - Unique identifier for the target chat or
+    * username of the target supergroup
+    * @param {Object} [opts] - Additional Telegram query options to be fed to
+    * the Telegram Bot API call, as defined in [the API docs]
+    * (https://core.telegram.org/bots/api#createchatinvitelink)
+    * @returns the new invite link as ChatInviteLink object.
+    */
+    async createChatInviteLink(chatId, opts) {
+      return this.sdk().createChatInviteLink(chatId, opts);
+    },
+    async getMyCommands() {
+      return this.sdk().getMyCommands();
     },
   },
 };

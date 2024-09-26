@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/warpcast",
+  "version": "0.0.2",
+  "description": "Pipedream Warpcast Components",
+  "main": "dist/app/warpcast.app.mjs",
+  "keywords": [
+    "pipedream",
+    "warpcast"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/warpcast",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

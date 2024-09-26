@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/formstack_documents",
+  "version": "0.1.0",
+  "description": "Pipedream Formstack Documents Components",
+  "main": "formstack_documents.app.mjs",
+  "keywords": [
+    "pipedream",
+    "formstack_documents"
+  ],
+  "homepage": "https://pipedream.com/apps/formstack_documents",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

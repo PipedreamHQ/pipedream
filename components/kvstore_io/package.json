@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kvstore_io",
+  "version": "0.0.1",
+  "description": "Pipedream KVstore.io Components",
+  "main": "kvstore_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kvstore_io"
+  ],
+  "homepage": "https://pipedream.com/apps/kvstore_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

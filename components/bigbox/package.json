@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bigbox",
+  "version": "0.0.1",
+  "description": "Pipedream BigBox Components",
+  "main": "bigbox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bigbox"
+  ],
+  "homepage": "https://pipedream.com/apps/bigbox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

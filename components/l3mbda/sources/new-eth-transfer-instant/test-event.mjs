@@ -1,0 +1,13 @@
+export default {
+	schema: "eth",
+	timestamp: 1699268447,
+	hash: "0x8b8f908e63f04a22148ae0ef51e9ee7d9aa5827dec63c47af0d39672602957a1",
+	from: "0x2fb82d8685df39695B3b13269CDf2A4ed8831958",
+	to: "0xec554417Cb64C7433Bb2f84a46b9Ad633dD457c6",
+	decimals: 18,
+	quantity: "534789329758081000",
+	quantityPretty: "0.534789329758081",
+	tokenContract: "0x00000000000000000000000000000000000000",
+	blockNumber: 18512507,
+	blockHash: "0xf3ceecea34c273fbaa02a232034d7e4caea1dae3af2a0871139d574b5ffeb78d",
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/docker_hub",
+  "version": "0.0.1",
+  "description": "Pipedream Docker Hub Components",
+  "main": "docker_hub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "docker_hub"
+  ],
+  "homepage": "https://pipedream.com/apps/docker_hub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,46 +1,36 @@
-// legacy_hash_id: a_67ij1A
-import doWrapperModule from "do-wrapper";
+import digitalOceanApp from "../../digital_ocean.app.mjs";
+import digitalOceanConstants from "../../common/constants.mjs";
 
 export default {
   key: "digital_ocean-turnonoff-droplet",
   name: "Turn on/off Droplet",
-  description: "Turns a droplet on or off",
-  version: "0.1.1",
+  description: "Turns a droplet power status either on or off. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/post_droplet_action)",
+  version: "0.1.2",
   type: "action",
   props: {
-    digital_ocean: {
-      type: "app",
-      app: "digital_ocean",
-    },
-    page_size: {
-      type: "integer",
-      optional: true,
-    },
-    turn_onoff: {
+    digitalOceanApp,
+    turnOnOff: {
+      label: "Power status",
       type: "string",
-      description: "Must be \"power_on\" to turn on, or \"power_off\" to turn off.",
-      options: [
-        "power_off",
-        "power_on",
-      ],
+      description: "Must be `power_on` to turn on, or `power_off` to turn off.",
+      options: digitalOceanConstants.powerOptions,
     },
-    droplet_id: {
-      type: "integer",
-      description: "The unique identifier of Droplet to turn on/off.",
+    dropletId: {
+      label: "Droplet",
+      type: "string",
+      description: "The unique identifier of Droplet to snapshot.",
+      async options() {
+        return this.digitalOceanApp.fetchDropletOps();
+      },
     },
   },
   async run({ $ }) {
-    var DigitalOcean = doWrapperModule.default,
-      api = new DigitalOcean(this.digital_ocean.$auth.oauth_access_token, this.page_size);
-
-    try {
-      var action = {
-        "type": this.turn_onoff,
-      };
-      $.export("resp", await api.dropletsRequestAction(  this.droplet_id, action ));
-    } catch (err) {
-      $.export("err", err);
-
-    }
+    const api = this.digitalOceanApp.digitalOceanWrapper();
+    const powerOnOffData = {
+      type: this.turnOnOff,
+    };
+    const response = await api.droplets.requestAction(this.dropletId, powerOnOffData);
+    $.export("$summary", `Successfully enqueued action to ${response.action.type}.`);
+    return response;
   },
 };

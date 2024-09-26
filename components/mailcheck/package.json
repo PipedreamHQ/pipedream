@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/mailcheck",
+  "version": "0.1.0",
+  "description": "Pipedream Mailcheck Components",
+  "main": "mailcheck.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailcheck"
+  ],
+  "homepage": "https://pipedream.com/apps/mailcheck",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

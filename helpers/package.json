@@ -1,21 +1,38 @@
 {
   "name": "@pipedream/helpers",
-  "version": "0.0.1",
+  "version": "2.0.1",
   "description": "Pipedream Component Helpers",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": "./dist/index.js",
   "keywords": [
-    "pipedream"
+    "pipedream",
+    "component",
+    "helpers"
   ],
   "homepage": "https://pipedream.com/",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "publishConfig": {
     "access": "public"
   },
+  "scripts": {
+    "prepublish": "rm -rf dist && tsc",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.3.0",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^20.14.7",
+    "typescript": "^5.5.2"
+  },
   "dependencies": {
-    "lodash.get": "^4.4.2",
-    "lodash.isarray": "^4.0.0",
-    "lodash.isempty": "^4.4.0",
-    "lodash.isstring": "^4.0.1"
-  }
+    "lodash-es": "^4.17.21",
+    "sugar": "^2.0.6"
+  },
+  "files": [
+    "dist",
+    "lib"
+  ]
 }

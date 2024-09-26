@@ -9,21 +9,40 @@
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
 import common from "../common-webhook.mjs";
-import { GOOGLE_DRIVE_NOTIFICATION_CHANGE } from "../../constants.mjs";
+import { GOOGLE_DRIVE_NOTIFICATION_CHANGE } from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "google_drive-new-or-modified-comments",
-  name: "New or Modified Comments",
+  name: "New or Modified Comments (Instant)",
   description:
-    "Emits a new event any time a file comment is added, modified, or deleted in your linked Google Drive",
-  version: "0.0.8",
+    "Emit new event when a comment is created or modified in the selected file",
+  version: "1.0.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
+  props: {
+    ...common.props,
+    fileId: {
+      propDefinition: [
+        common.props.googleDrive,
+        "fileId",
+        (c) => ({
+          drive: c.drive,
+        }),
+      ],
+      description: "The file to watch for comments",
+    },
+  },
   hooks: {
-    ...common.hooks,
+    async deploy() {
+      await this.processChanges([
+        {
+          id: this.fileId,
+        },
+      ]);
+    },
     async activate() {
       await common.hooks.activate.bind(this)();
       this._setInitTime(Date.now());
@@ -58,14 +77,37 @@ export default {
         content: summary,
         modifiedTime: tsString,
       } = data;
-      const { "x-goog-message-number": eventId } = headers;
+      const ts = Date.parse(tsString);
+      const eventId = headers && headers["x-goog-message-number"];
+
       return {
-        id: `${commentId}-${eventId}`,
+        id: `${commentId}-${eventId || ts}`,
         summary,
-        ts: Date.parse(tsString),
+        ts,
+      };
+    },
+    getChanges(headers) {
+      if (!headers) {
+        return {
+          change: { },
+        };
+      }
+      return {
+        change: {
+          state: headers["x-goog-resource-state"],
+          resourceURI: headers["x-goog-resource-uri"],
+          // Additional details about the changes. Possible values: content,
+          // parents, children, permissions.
+          changed: headers["x-goog-changed"],
+        },
       };
     },
     async processChanges(changedFiles, headers) {
+      const changes = this.getChanges(headers);
+      if (changedFiles?.length) {
+        changedFiles = changedFiles.filter(({ id }) => id === this.fileId);
+      }
+
       for (const file of changedFiles) {
         const lastCommentTimeForFile = this._getLastCommentTimeForFile(file.id);
         let maxModifiedTime = lastCommentTimeForFile;
@@ -82,15 +124,7 @@ export default {
 
           const eventToEmit = {
             comment,
-            file,
-            change: {
-              state: headers["x-goog-resource-state"],
-              resourceURI: headers["x-goog-resource-uri"],
-
-              // Additional details about the changes. Possible values: content,
-              // parents, children, permissions.
-              changed: headers["x-goog-changed"],
-            },
+            ...changes,
           };
           const meta = this.generateMeta(comment, headers);
           this.$emit(eventToEmit, meta);

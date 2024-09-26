@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kommo",
+  "version": "0.0.1",
+  "description": "Pipedream Kommo Components",
+  "main": "kommo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kommo"
+  ],
+  "homepage": "https://pipedream.com/apps/kommo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

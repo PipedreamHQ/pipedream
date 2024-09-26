@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/venly",
+  "version": "0.1.0",
+  "description": "Pipedream Venly Components",
+  "main": "venly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "venly"
+  ],
+  "homepage": "https://pipedream.com/apps/venly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

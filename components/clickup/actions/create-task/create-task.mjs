@@ -1,198 +1,126 @@
-import common from "../common.mjs";
+import clickup from "../../clickup.app.mjs";
+import builder from "../../common/builder.mjs";
+import propsFragments from "../../common/props-fragments.mjs";
+import constants from "../common/constants.mjs";
+import common from "../common/list-props.mjs";
 
 export default {
   ...common,
   key: "clickup-create-task",
   name: "Create Task",
   description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks / Create Task** section.",
-  version: "0.0.3",
+  version: "0.0.14",
   type: "action",
   props: {
     ...common.props,
-    list: {
-      propDefinition: [
-        common.props.clickup,
-        "list",
-        (c) => ({
-          folder: c.folder,
-          space: c.space,
-        }),
-      ],
-    },
     name: {
-      propDefinition: [
-        common.props.clickup,
-        "name",
-      ],
-      description: "New task name",
+      label: "Name",
+      type: "string",
+      description: "The name of task",
     },
     description: {
-      type: "string",
       label: "Description",
-      description: "New task description",
+      type: "string",
+      description: "The description of task",
+      optional: true,
+    },
+    markdownDescription: {
+      label: "Markdown Description",
+      type: "string",
+      description: "The description of task with markdown formatting",
+      optional: true,
+    },
+    priority: {
+      propDefinition: [
+        clickup,
+        "priorities",
+      ],
       optional: true,
     },
     assignees: {
       propDefinition: [
-        common.props.clickup,
+        clickup,
         "assignees",
         (c) => ({
-          workspace: c.workspace,
+          workspaceId: c.workspaceId,
         }),
       ],
+      optional: true,
     },
     tags: {
       propDefinition: [
-        common.props.clickup,
+        clickup,
         "tags",
         (c) => ({
-          space: c.space,
+          spaceId: c.spaceId,
         }),
       ],
-    },
-    status: {
-      propDefinition: [
-        common.props.clickup,
-        "status",
-        (c) => ({
-          list: c.list,
-        }),
-      ],
+      optional: true,
     },
     dueDate: {
-      propDefinition: [
-        common.props.clickup,
-        "dueDate",
-      ],
-      description:
-        `The date by which you must complete the task. Use UTC time in 
-        milliseconds (ex. 1508369194377)`,
+      type: "string",
+      label: "Due Date",
+      description: "Due date of the task in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601). e.g. `2023-05-13T23:45:44Z`",
+      optional: true,
     },
     dueDateTime: {
+      type: "boolean",
+      label: "Due Date Time",
+      description: "If set `true`, due date will be given with time. If not it will only be the closest date",
+      optional: true,
+    },
+    listWithFolder: {
       propDefinition: [
         common.props.clickup,
-        "dueDateTime",
+        "listWithFolder",
       ],
-      description:
-        "Set to true if you want to enable the due date time for the task",
-    },
-    timeEstimate: {
-      type: "integer",
-      label: "Time Estimate",
-      description: "Use milliseconds",
-      optional: true,
-    },
-    startDate: {
-      type: "integer",
-      label: "Start Date",
-      description:
-        "The start date of the task. Use UTC time in milliseconds (ex. 1567780450202)",
-      optional: true,
-    },
-    startDateTime: {
-      type: "boolean",
-      label: "Start Date Time",
-      description: "Select true if you want to enable the start date time",
-      optional: true,
-    },
-    notifyAll: {
-      type: "boolean",
-      label: "Notify All",
-      description:
-        `If Notify All is true, creation notifications will be sent to everyone including the 
-        creator of the task.`,
-      optional: true,
-    },
-    parent: {
-      propDefinition: [
-        common.props.clickup,
-        "parent",
-        (c) => ({
-          list: c.list,
-        }),
-      ],
-      optional: true,
-    },
-    linksTo: {
-      propDefinition: [
-        common.props.clickup,
-        "task",
-        (c) => ({
-          list: c.list,
-        }),
-      ],
-      label: "Links To",
-      description:
-        "Accepts a task ID to create a linked dependency on the new task",
-      optional: true,
-    },
-    checkRequiredCustomFields: {
-      type: "boolean",
-      label: "Check Required Custom Fields",
-      description:
-        `Indicates whether or not your new task will include data for required 
-        Custom Fields (true) or not (false). The default is false. If you set this option to true, 
-        and do not include information for required Custom Fields, then you will receive an error 
-        that 'One or more required fields is missing'.`,
-      optional: true,
-    },
-    customFields: {
-      type: "string[]",
-      label: "Custom Fields",
-      description: `An array of objects containing 'id' and 'value' keys.
-        Example:
-        {
-          "id": "0a52c486-5f05-403b-b4fd-c512ff05131c",
-          "value": 23
-        },
-      `,
-      optional: true,
     },
   },
+  additionalProps: builder.buildListProps({
+    tailProps: {
+      status: propsFragments.status,
+      parent: {
+        ...propsFragments.taskId,
+        label: "Parent Task",
+        optional: true,
+      },
+    },
+  }),
   async run({ $ }) {
     const {
-      priority,
-      list,
+      listId,
       name,
       description,
+      markdownDescription,
+      priority,
       assignees,
       tags,
       status,
+      parent,
       dueDate,
-      dueDateTime,
-      timeEstimate,
-      startDate,
-      startDateTime,
-      notifyAll,
-      parent,
-      linksTo,
-      checkRequiredCustomFields,
-      customFields,
+      dueDateTime: due_date_time,
     } = this;
-    const data = {
-      name,
-      description,
-      assignees,
-      tags,
-      status,
-      priority,
-      due_date: dueDate,
-      due_date_time: dueDateTime,
-      time_estimate: timeEstimate,
-      start_date: startDate,
-      start_date_time: startDateTime,
-      notify_all: notifyAll,
-      parent,
-      links_to: linksTo,
-      check_required_custom_fields: checkRequiredCustomFields,
-      custom_fields: customFields,
-    };
-    const res = await this.clickup.createTask({
-      list,
-      data,
+    const due_date = (new Date(dueDate)).getTime();
+
+    const response = await this.clickup.createTask({
       $,
+      listId,
+      data: {
+        name,
+        description,
+        markdown_description: markdownDescription,
+        priority: constants.PRIORITIES[priority] || constants.PRIORITIES["Normal"],
+        assignees,
+        tags,
+        status,
+        parent,
+        due_date,
+        due_date_time,
+      },
     });
-    $.export("$summary", `Successfully created task ${name}`);
-    return res;
+
+    $.export("$summary", "Successfully created task");
+
+    return response;
   },
 };

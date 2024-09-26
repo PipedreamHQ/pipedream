@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/cinc",
+  "version": "0.1.0",
+  "description": "Pipedream CINC Components",
+  "main": "cinc.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cinc"
+  ],
+  "homepage": "https://pipedream.com/apps/cinc",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

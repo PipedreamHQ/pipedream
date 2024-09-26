@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sifter",
+  "version": "0.0.3",
+  "description": "Pipedream Sifter Components",
+  "main": "sifter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sifter"
+  ],
+  "homepage": "https://pipedream.com/apps/sifter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^0.10.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

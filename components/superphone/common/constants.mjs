@@ -1,0 +1,17 @@
+const ENVIRONMENT_PLACEHOLDER = "{ENVIRONMENT_PLACEHOLDER}";
+const BASE_URL = `https://api.${ENVIRONMENT_PLACEHOLDER}`;
+const VERSION_PATH = "/graphql";
+const LAST_CREATED_AT = "lastCreatedAt";
+const DEFAULT_MAX = 600;
+const DEFAULT_LIMIT = 50;
+const WEBHOOK_DATA = "webhookData";
+
+export default {
+  ENVIRONMENT_PLACEHOLDER,
+  BASE_URL,
+  VERSION_PATH,
+  DEFAULT_MAX,
+  LAST_CREATED_AT,
+  DEFAULT_LIMIT,
+  WEBHOOK_DATA,
+};

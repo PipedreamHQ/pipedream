@@ -1,0 +1,14 @@
+{
+  "name": "@pipedream/zoho_people",
+  "version": "0.1.0",
+  "description": "Pipedream Zoho People Components",
+  "keywords": [
+    "pipedream",
+    "zoho_people"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_people",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

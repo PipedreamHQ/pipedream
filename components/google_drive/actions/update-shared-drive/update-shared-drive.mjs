@@ -3,8 +3,8 @@ import googleDrive from "../../google_drive.app.mjs";
 export default {
   key: "google_drive-update-shared-drive",
   name: "Update Shared Drive",
-  description: "Update an existing shared drive. [See the docs](https://developers.google.com/drive/api/v3/reference/drives/update) for more information",
-  version: "0.0.3",
+  description: "Update an existing shared drive. [See the documentation](https://developers.google.com/drive/api/v3/reference/drives/update) for more information",
+  version: "0.1.5",
   type: "action",
   props: {
     googleDrive,
@@ -16,6 +16,7 @@ export default {
       description:
         "Select a [shared drive](https://support.google.com/a/users/answer/9310351) to update",
       default: "",
+      optional: false,
     },
     useDomainAdminAccess: {
       propDefinition: [
@@ -23,25 +24,24 @@ export default {
         "useDomainAdminAccess",
       ],
     },
+    themeId: {
+      propDefinition: [
+        googleDrive,
+        "themeId",
+      ],
+    },
     backgroundImageLink: {
       type: "string",
       label: "Background Image Link",
       description:
-        "A link to the new backround image for the shared drive. Cannot be set if `Theme ID` is set in the same request.",
+        "A link to the new background image for the shared drive. Cannot be set if `Theme ID` is used (it already sets the background image).",
       optional: true,
     },
     colorRgb: {
       type: "string",
       label: "Color",
       description:
-        "The new color of this shared drive as an RGB hex string. Cannot be set if `Theme ID` is set in the same request.",
-      optional: true,
-    },
-    themeId: {
-      type: "string",
-      label: "Theme ID",
-      description:
-        "The ID of the theme from which the background image and color will be set. Cannot be set if `Color` or `Background Image Link` is set in the same request.",
+        "The new color of this shared drive as an RGB hex string. Cannot be set if `Theme ID` is used (it already sets the color).",
       optional: true,
     },
     restrictions: {

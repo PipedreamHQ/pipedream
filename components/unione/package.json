@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/unione",
+  "version": "0.0.1",
+  "description": "Pipedream UniOne Components",
+  "main": "unione.app.mjs",
+  "keywords": [
+    "pipedream",
+    "unione"
+  ],
+  "homepage": "https://pipedream.com/apps/unione",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

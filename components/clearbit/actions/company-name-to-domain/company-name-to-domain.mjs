@@ -1,29 +1,37 @@
-// legacy_hash_id: a_8Ki7wk
-import { axios } from "@pipedream/platform";
+import app from "../../clearbit.app.mjs";
 
 export default {
   key: "clearbit-company-name-to-domain",
   name: "Company Name to Domain",
-  description: "The Company Name to Domain action lets you convert the exact name of a company to a website domain, and a logo.",
-  version: "0.1.1",
+  description: "The Company Name to Domain action lets you convert the exact name of a company to a website domain, and a logo. [See the docs here](https://dashboard.clearbit.com/docs?javascript#name-to-domain-api).",
+  version: "0.2.0",
   type: "action",
   props: {
-    clearbit: {
-      type: "app",
-      app: "clearbit",
+    app,
+    companyName: {
+      propDefinition: [
+        app,
+        "companyName",
+      ],
     },
-    company_name: {
-      type: "string",
-      description: "The name of the company.",
+    errorIfNoRecords: {
+      propDefinition: [
+        app,
+        "errorIfNoRecords",
+      ],
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: `https://company.clearbit.com/v1/domains/find?name=${this.company_name}`,
-      headers: {
-        Authorization: `Bearer ${this.clearbit.$auth.api_key}`,
-      },
-
-    });
+    try {
+      const res = await this.app.companyNameToDomain($, this.companyName);
+      $.export("$summary", "Successfully converted company name to domain.");
+      return res;
+    } catch (err) {
+      if (!this.errorIfNoRecords && err.response?.status == 404) {
+        $.export("$summary", "No domain found.");
+      } else {
+        throw err;
+      }
+    }
   },
 };

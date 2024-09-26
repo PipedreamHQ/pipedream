@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sms_alert",
+  "version": "0.2.0",
+  "description": "Pipedream SMS Alert  Components",
+  "main": "sms_alert.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sms_alert"
+  ],
+  "homepage": "https://pipedream.com/apps/sms_alert",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

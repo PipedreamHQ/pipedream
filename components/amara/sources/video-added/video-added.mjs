@@ -7,7 +7,7 @@ export default {
   name: "Video Added",
   description: "Emit new event when a video is added. [See the docs here](https://apidocs.amara.org/#team-activity)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,

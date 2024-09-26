@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/placetel",
+  "version": "0.0.1",
+  "description": "Pipedream Placetel Components",
+  "main": "dist/app/placetel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "placetel"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/placetel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

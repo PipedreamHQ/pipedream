@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/partnerize",
+  "version": "0.0.1",
+  "description": "Pipedream Partnerize Components",
+  "main": "partnerize.app.mjs",
+  "keywords": [
+    "pipedream",
+    "partnerize"
+  ],
+  "homepage": "https://pipedream.com/apps/partnerize",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

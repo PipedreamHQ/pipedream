@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sheetdb",
+  "version": "0.1.0",
+  "description": "Pipedream SheetDB Components",
+  "main": "sheetdb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sheetdb"
+  ],
+  "homepage": "https://pipedream.com/apps/sheetdb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

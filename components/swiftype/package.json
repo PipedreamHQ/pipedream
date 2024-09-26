@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/swiftype",
+  "version": "0.0.2",
+  "description": "Pipedream Swiftype Components",
+  "main": "dist/app/swiftype.app.mjs",
+  "keywords": [
+    "pipedream",
+    "swiftype"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/swiftype",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

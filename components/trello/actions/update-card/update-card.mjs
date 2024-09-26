@@ -1,140 +1,246 @@
-// legacy_hash_id: a_2wimVb
-import { axios } from "@pipedream/platform";
+import common from "../common.mjs";
+import pickBy from "lodash-es/pickBy.js";
+import pick from "lodash-es/pick.js";
 
 export default {
+  ...common,
   key: "trello-update-card",
   name: "Update Card",
-  description: "Updates the specified card.",
-  version: "0.1.1",
+  description: "Updates a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put).",
+  version: "0.2.0",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    ...common.props,
+    idBoard: {
+      propDefinition: [
+        common.props.app,
+        "board",
+      ],
     },
-    id: {
+    cardId: {
+      propDefinition: [
+        common.props.app,
+        "cards",
+        (c) => ({
+          board: c.idBoard,
+        }),
+      ],
       type: "string",
-      description: "The ID of the card to update.",
+      label: "Card",
+      description: "Specify the card to update",
+      optional: false,
     },
     name: {
-      type: "string",
+      propDefinition: [
+        common.props.app,
+        "name",
+      ],
       description: "The new name for the card.",
-      optional: true,
     },
     desc: {
-      type: "string",
+      propDefinition: [
+        common.props.app,
+        "desc",
+      ],
       description: "The new description for the card.",
-      optional: true,
     },
     closed: {
       type: "boolean",
-      description: "Whether the card should be archived (closed: true).",
-      optional: true,
+      label: "Archived",
+      description: "Whether to archive the card",
+      default: false,
     },
     idMembers: {
-      type: "string",
-      description: "Comma-separated list of member IDs.",
+      propDefinition: [
+        common.props.app,
+        "member",
+        (c) => ({
+          board: c.idBoard,
+        }),
+      ],
+      type: "string[]",
+      label: "Members",
+      description: "Change the members that are assigned to the card",
       optional: true,
     },
     idAttachmentCover: {
-      type: "string",
-      description: "The ID of the image attachment the card should use as its cover, or null for none.",
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "cardAttachmentId",
+        ({ cardId }) => ({
+          cardId,
+          params: {
+            filter: "cover",
+          },
+        }),
+      ],
     },
     idList: {
+      propDefinition: [
+        common.props.app,
+        "lists",
+        (c) => ({
+          board: c.idBoard,
+        }),
+      ],
       type: "string",
-      description: "The ID of the list the card should be in.",
-      optional: true,
+      label: "List",
+      description: "Move the card to a particular list",
     },
     idLabels: {
-      type: "string",
-      description: "Comma-separated list of label IDs.",
-      optional: true,
-    },
-    idBoard: {
-      type: "string",
-      description: "The ID of the board the card should be on.",
+      propDefinition: [
+        common.props.app,
+        "label",
+        (c) => ({
+          board: c.idBoard,
+        }),
+      ],
+      type: "string[]",
+      label: "Labels",
+      description: "Array of labelIDs to add to the card",
       optional: true,
     },
     pos: {
-      type: "string",
-      description: "The position of the card in its list. top, bottom, or a positive float.",
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "pos",
+      ],
     },
     due: {
-      type: "string",
-      description: "When the card is due, or null.",
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "due",
+      ],
     },
     dueComplete: {
-      type: "boolean",
+      propDefinition: [
+        common.props.app,
+        "dueComplete",
+      ],
       description: "Whether the due date should be marked complete.",
-      optional: true,
+      default: false,
     },
     subscribed: {
       type: "boolean",
+      label: "Subscribed",
       description: "Whether the member is should be subscribed to the card.",
-      optional: true,
+      default: false,
     },
     address: {
-      type: "string",
-      description: "For use with/by the Map Power-Up,",
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "address",
+      ],
     },
     locationName: {
-      type: "string",
-      description: "For use with/by the Map Power-Up.",
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "locationName",
+      ],
     },
     coordinates: {
-      type: "string",
-      description: "For use with/by the Map Power-Up. Should be latitude, longitude.",
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "coordinates",
+      ],
+    },
+    customFieldIds: {
+      propDefinition: [
+        common.props.app,
+        "customFieldIds",
+        (c) => ({
+          boardId: c.idBoard,
+        }),
+      ],
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (!this.customFieldIds?.length) {
+      return props;
+    }
+    for (const customFieldId of this.customFieldIds) {
+      const customField = await this.app.getCustomField({
+        customFieldId,
+      });
+      props[customFieldId] = {
+        type: "string",
+        label: `Value for Custom Field - ${customField.name}`,
+      };
+      if (customField.type === "list") {
+        props[customFieldId].options = customField.options?.map((option) => ({
+          value: option.id,
+          label: option.value.text,
+        })) || [];
+      }
+    }
+    return props;
+  },
+  methods: {
+    ...common.methods,
+    async getCustomFieldItems($) {
+      const customFieldItems = [];
+      for (const customFieldId of this.customFieldIds) {
+        const customField = await this.app.getCustomField({
+          $,
+          customFieldId,
+        });
+        const customFieldItem = {
+          idCustomField: customFieldId,
+        };
+        if (customField.type === "list") {
+          customFieldItem.idValue = this[customFieldId];
+        } else if (customField.type === "checkbox") {
+          customFieldItem.value = {
+            checked: this[customFieldId],
+          };
+        } else {
+          customFieldItem.value = {
+            [customField.type]: this[customFieldId],
+          };
+        }
+        customFieldItems.push(customFieldItem);
+      }
+      return customFieldItems;
     },
   },
   async run({ $ }) {
-    const oauthSignerUri = this.trello.$auth.oauth_signer_uri;
+    const res = await this.app.updateCard({
+      $,
+      cardId: this.cardId,
+      data: pickBy(pick(this, [
+        "name",
+        "desc",
+        "closed",
+        "idMembers",
+        "idAttachmentCover",
+        "idList",
+        "idLabels",
+        "idBoard",
+        "pos",
+        "due",
+        "dueComplete",
+        "subscribed",
+        "address",
+        "locationName",
+        "coordinates",
+      ])),
+    });
 
-    let id = this.id;
-    const trelloParams = [
-      "name",
-      "desc",
-      "closed",
-      "idMembers",
-      "idAttachmentCover",
-      "idList",
-      "idLabels",
-      "idBoard",
-      "pos",
-      "due",
-      "dueComplete",
-      "subscribed",
-      "address",
-      "locationName",
-      "coordinates",
-    ];
-    let p = this;
+    if (this.customFieldIds) {
+      const customFieldItems = await this.getCustomFieldItems($);
+      const updatedCustomFields = await this.app.updateCustomFields({
+        $,
+        cardId: this.cardId,
+        data: {
+          customFieldItems,
+        },
+      });
+      res.updatedCustomFields = updatedCustomFields;
+    }
 
-    const queryString = trelloParams.filter((param) => p[param]).map((param) => `${param}=${p[param]}`)
-      .join("&");
-
-    const config = {
-      url: `https://api.trello.com/1/cards/${id}?${queryString}`,
-      method: "PUT",
-      data: "",
-    };
-
-    const token = {
-      key: this.trello.$auth.oauth_access_token,
-      secret: this.trello.$auth.oauth_refresh_token,
-    };
-
-    const signConfig = {
-      token,
-      oauthSignerUri,
-    };
-
-    const resp = await axios($, config, signConfig);
-    return resp;
+    $.export("$summary", `Successfully updated card ${res.name}`);
+    return res;
   },
 };

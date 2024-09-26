@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/webvizio",
+  "version": "0.1.0",
+  "description": "Pipedream Webvizio Components",
+  "main": "webvizio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "webvizio"
+  ],
+  "homepage": "https://pipedream.com/apps/webvizio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

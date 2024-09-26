@@ -1,56 +1,93 @@
-// legacy_hash_id: a_OOiaG4
-import { axios } from "@pipedream/platform";
+import webflow from "../../webflow.app.mjs";
 
 export default {
   key: "webflow-update-collection-item",
-  name: "Update Item",
-  description: "Update collection item",
-  version: "0.1.1",
+  name: "Update Collection Item",
+  description: "Update collection item. [See the documentation](https://developers.webflow.com/#update-collection-item)",
+  version: "0.1.7",
   type: "action",
   props: {
-    webflow: {
-      type: "app",
-      app: "webflow",
+    webflow,
+    siteId: {
+      propDefinition: [
+        webflow,
+        "sites",
+      ],
     },
-    collection_id: {
-      type: "string",
+    collectionId: {
+      propDefinition: [
+        webflow,
+        "collections",
+        (c) => ({
+          siteId: c.siteId,
+        }),
+      ],
+      reloadProps: true,
     },
-    item_id: {
-      type: "string",
-    },
-    name: {
-      type: "string",
-    },
-    slug: {
-      type: "string",
-    },
-    _archived: {
-      type: "boolean",
-    },
-    _draft: {
-      type: "boolean",
+    itemId: {
+      propDefinition: [
+        webflow,
+        "items",
+        (c) => ({
+          collectionId: c.collectionId,
+        }),
+      ],
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (!this.collectionId) {
+      return props;
+    }
+    const { fields } = await this.webflow.getCollection(this.collectionId);
+    for (const field of fields) {
+      if (field.editable && field.slug !== "_archived" && field.slug !== "_draft") {
+        props[field.slug] = {
+          type: "string",
+          label: field.name,
+          description: field.slug === "name"
+            ? "Name given to the Item."
+            : field.slug === "slug"
+              ? "URL structure of the Item in your site. Note: Updates to an item slug will break all links referencing the old slug."
+              : "See the documentation for additional information about [Field Types & Item Values](https://developers.webflow.com/reference/field-types-item-values).",
+          optional: true,
+        };
+      }
+    }
+
+    return props;
+  },
   async run({ $ }) {
+    const {
+      webflow,
+      // eslint-disable-next-line no-unused-vars
+      siteId,
+      collectionId,
+      itemId,
+      name,
+      slug,
+      ...customFields
+    } = this;
 
-    return await axios($, {
-      method: "put",
-      url: `https://api.webflow.com/collections/${this.collection_id}/items/${this.item_id}`,
+    const webflowClient = webflow._createApiClient();
 
-      headers: {
-        "Authorization": `Bearer ${this.webflow.$auth.oauth_access_token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "accept-version": "1.0.0",
-      },
-      data: {
-        fields: {
-          name: this.name,
-          slug: this.slug,
-          _archived: this._archived,
-          _draft: this._draft,
-        },
-      },
+    const item = await webflowClient.item({
+      collectionId,
+      itemId,
     });
+
+    const response = await webflowClient.updateItem({
+      collectionId,
+      itemId,
+      name: name || item.name,
+      slug: slug || item.slug,
+      _archived: false,
+      _draft: false,
+      ...customFields,
+    });
+
+    $.export("$summary", "Successfully updated collection item");
+
+    return response;
   },
 };

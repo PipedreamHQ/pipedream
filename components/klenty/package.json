@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/klenty",
+  "version": "0.1.0",
+  "description": "Pipedream Klenty Components",
+  "main": "klenty.app.mjs",
+  "keywords": [
+    "pipedream",
+    "klenty"
+  ],
+  "homepage": "https://pipedream.com/apps/klenty",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

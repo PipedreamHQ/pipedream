@@ -1,20 +1,43 @@
-import ghost from "../ghost_org_admin_api.app.mjs";
+import ghostAdminApi from "../ghost_org_admin_api.app.mjs";
 
 export default {
   props: {
-    ghost,
+    ghostAdminApi,
     db: "$.service.db",
     http: "$.interface.http",
   },
   hooks: {
     async activate() {
       const event = this.getEvent();
-      const hookId = await this.ghost.createHook(event, this.http.endpoint);
-      this._setHookId(hookId);
+      const { webhooks = [] } = await this.ghostAdminApi.createHook({
+        data: {
+          webhooks: [
+            {
+              event,
+              target_url: this.http.endpoint,
+            },
+          ],
+        },
+      });
+
+      const [
+        webhook,
+      ] = webhooks;
+
+      if (!webhook) {
+        throw new Error("No webhook was returned by Ghost. Please try again.");
+      }
+
+      this._setHookId(webhook.id);
     },
     async deactivate() {
       const hookId = this._getHookId();
-      await this.ghost.deleteHook(hookId);
+      if (!hookId) {
+        console.warn("No hookId provided. No webhook deleted");
+      }
+      await this.ghostAdminApi.deleteHook({
+        hookId,
+      });
     },
   },
   methods: {

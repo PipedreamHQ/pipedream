@@ -2,24 +2,31 @@ import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "Delete a File/Folder",
-  description: "Permanently removes a file/folder from the server. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDeleteV2__anchor)",
-  key: "dropbox-delete-a-file-folder",
-  version: "0.0.1",
+  description: "Permanently removes a file/folder from the server. [See documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDeleteV2__anchor)",
+  key: "dropbox-delete-file-folder",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
     path: {
       propDefinition: [
         dropbox,
-        "pathFileFolder",
+        "path",
+        () => ({
+          initialOptions: [],
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => [
+            "file",
+            "folder",
+          ].includes(type),
+        }),
       ],
-      description: "Path in the user's Dropbox to delete.",
+      description: "Type the file or folder name to search for it in the user's Dropbox.",
     },
   },
   async run({ $ }) {
     const { path } = this;
     const res = await this.dropbox.deleteFileFolder({
-      path: path?.value || path,
+      path: this.dropbox.getPath(path),
     });
     $.export("$summary", `"${path?.label || path}" successfully deleted`);
     return res;

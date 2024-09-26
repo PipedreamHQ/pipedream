@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/microsofttodo",
+  "version": "0.2.0",
+  "description": "Pipedream Microsoft To Do Components",
+  "main": "microsofttodo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsofttodo"
+  ],
+  "homepage": "https://pipedream.com/apps/microsofttodo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

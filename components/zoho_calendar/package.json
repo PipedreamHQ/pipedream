@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/zoho_calendar",
+  "version": "0.1.2",
+  "description": "Pipedream Zoho Calendar Components",
+  "main": "zoho_calendar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_calendar"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_calendar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

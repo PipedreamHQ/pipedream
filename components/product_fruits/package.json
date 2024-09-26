@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/product_fruits",
+  "version": "0.0.1",
+  "description": "Pipedream Product Fruits Components",
+  "main": "product_fruits.app.mjs",
+  "keywords": [
+    "pipedream",
+    "product_fruits"
+  ],
+  "homepage": "https://pipedream.com/apps/product_fruits",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

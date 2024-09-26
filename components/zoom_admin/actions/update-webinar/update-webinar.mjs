@@ -1,8 +1,8 @@
-import zoomAdmin from "../../zoom_admin.app.mjs";
-import tzs from "../../zoom_tzs.mjs";
+import { axios } from "@pipedream/platform";
 import get from "lodash/get.js";
 import consts from "../../consts.mjs";
-import { axios } from "@pipedream/platform";
+import zoomAdmin from "../../zoom_admin.app.mjs";
+import tzs from "../../zoom_tzs.mjs";
 
 const {
   RECURRENCE_TYPE_OPTIONS,
@@ -12,8 +12,8 @@ const {
 export default {
   name: "Update Webinar",
   description: "Update the details of a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarupdate)",
-  key: "zoom_admin-action-update-a-webinar",
-  version: "0.0.1",
+  key: "zoom_admin-update-webinar",
+  version: "0.1.5",
   type: "action",
   props: {
     zoomAdmin,

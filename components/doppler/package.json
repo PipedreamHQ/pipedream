@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/doppler",
+  "version": "0.0.1",
+  "description": "Pipedream Doppler Components",
+  "main": "doppler.app.mjs",
+  "keywords": [
+    "pipedream",
+    "doppler"
+  ],
+  "homepage": "https://pipedream.com/apps/doppler",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

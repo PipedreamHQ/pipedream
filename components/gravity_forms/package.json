@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/gravity_forms",
+  "version": "0.1.0",
+  "description": "Pipedream Gravity Forms Components",
+  "main": "gravity_forms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gravity_forms"
+  ],
+  "homepage": "https://pipedream.com/apps/gravity_forms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

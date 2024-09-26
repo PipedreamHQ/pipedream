@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/holded",
+  "version": "0.0.3",
+  "description": "Pipedream Holded Components",
+  "main": "holded.app.mjs",
+  "keywords": [
+    "pipedream",
+    "holded"
+  ],
+  "homepage": "https://pipedream.com/apps/holded",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

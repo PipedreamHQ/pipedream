@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cardinal",
+  "version": "0.0.1",
+  "description": "Pipedream Cardinal Components",
+  "main": "cardinal.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cardinal"
+  ],
+  "homepage": "https://pipedream.com/apps/cardinal",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

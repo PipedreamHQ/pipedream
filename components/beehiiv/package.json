@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/beehiiv",
+  "version": "0.0.5",
+  "description": "Pipedream Beehiiv Components",
+  "main": "dist/app/beehiiv.app.mjs",
+  "keywords": [
+    "pipedream",
+    "beehiiv"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/beehiiv",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "@pipedream/types": "^0.1.4"
+  }
+}

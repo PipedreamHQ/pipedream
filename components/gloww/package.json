@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/gloww",
+  "version": "0.1.0",
+  "description": "Pipedream Gloww Components",
+  "main": "gloww.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gloww"
+  ],
+  "homepage": "https://pipedream.com/apps/gloww",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^2.0.0"
+  }
+}

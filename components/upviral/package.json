@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/upviral",
+  "version": "0.1.0",
+  "description": "Pipedream UpViral Components",
+  "main": "upviral.app.mjs",
+  "keywords": [
+    "pipedream",
+    "upviral"
+  ],
+  "homepage": "https://pipedream.com/apps/upviral",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "form-data": "^4.0.0"
+  }
+}

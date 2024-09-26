@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/getemails",
+  "version": "0.1.0",
+  "description": "Pipedream GetEmails Components",
+  "main": "getemails.app.mjs",
+  "keywords": [
+    "pipedream",
+    "getemails"
+  ],
+  "homepage": "https://pipedream.com/apps/getemails",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

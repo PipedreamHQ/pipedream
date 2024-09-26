@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/bigcommerce",
+  "version": "0.0.1",
+  "description": "Pipedream BigCommerce Components",
+  "main": "bigcommerce.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bigcommerce"
+  ],
+  "homepage": "https://pipedream.com/apps/bigcommerce",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2",
+    "form-data": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

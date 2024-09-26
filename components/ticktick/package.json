@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/ticktick",
+  "version": "0.1.0",
+  "description": "Pipedream Ticktick Components",
+  "main": "ticktick.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ticktick"
+  ],
+  "homepage": "https://pipedream.com/apps/ticktick",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

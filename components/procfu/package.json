@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/procfu",
+  "version": "0.0.1",
+  "description": "Pipedream ProcFu Components",
+  "main": "procfu.app.mjs",
+  "keywords": [
+    "pipedream",
+    "procfu"
+  ],
+  "homepage": "https://pipedream.com/apps/procfu",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

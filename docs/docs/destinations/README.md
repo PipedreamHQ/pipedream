@@ -1,6 +1,6 @@
 # Destinations
 
-**Destinations**, like [actions](/components/actions/), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
+**Destinations**, like [actions](/components#actions), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
 
 However, Destinations are different than actions in two ways:
 
@@ -16,23 +16,23 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 - [HTTP](/destinations/http/)
 - [Email](/destinations/email/)
 - [S3](/destinations/s3/)
-- [Pipedream Data Warehouse](/destinations/sql/)
 - [SSE](/destinations/sse/)
+- [Emit to another listener](/destinations/emit/)
 
 ## Using destinations
 
 ### Using destinations in workflows
 
-You can send data to Destinations in [Node.js code steps](/workflows/steps/code/), too, using `$.send` functions.
+You can send data to Destinations in [Node.js code steps](/code/nodejs/), too, using `$.send` functions.
 
 `$.send` is an object provided by Pipedream that exposes destination-specific functions like `$.send.http()`, `$.send.s3()`, and more. **This allows you to send data to destinations programmatically, if you need more control than the default actions provide**.
 
-Let's use `$.send.http()` to send an HTTP POST request like we did in the Action example above. [Add a new Action](/components/actions/#adding-a-new-action), then search for "**Run Node.js code**":
+Let's use `$.send.http()` to send an HTTP POST request like we did in the Action example above. [Add a new action](/workflows/steps/actions), then search for "**Run custom code**":
 
-[Create an endpoint URL](https://requestbin.com), adding the code below to your code step, with the URL you created:
+Create a new HTTP endpoint URL (try creating a new Pipedream workflow and adding an HTTP trigger), and add the code below to your code step, with the URL you created:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $}) {
     $.send.http({
       method: "POST",
@@ -50,7 +50,7 @@ See the docs for the [HTTP destination](/destinations/http/) to learn more about
 Again, it's important to remember that **Destination delivery is asynchronous**. If you iterate over an array of values and send an HTTP request for each:
 
 ```javascript
-defineComponent({
+export default defineComponent({
   async run({ steps, $}) {
     const names = ["Luke", "Han", "Leia", "Obi Wan"];
     for (const name of names) {
@@ -70,7 +70,7 @@ you won't have to `await` the execution of the HTTP requests in your workflow. W
 
 ### Using destinations in actions
 
-If you're authoring a [component action](/components/actions/), you can deliver data to destinations, too. `$.send` isn't directly available to actions like it is for workflow code steps. **Instead, you use `$.send` to access the destination-specific functions**:
+If you're authoring a [component action](/components#actions), you can deliver data to destinations, too. `$.send` isn't directly available to actions like it is for workflow code steps. **Instead, you use `$.send` to access the destination-specific functions**:
 
 ```javascript
 export default {

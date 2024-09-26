@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/acelle_mail",
+  "version": "0.1.0",
+  "description": "Pipedream Acelle Mail Components",
+  "main": "acelle_mail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "acelle_mail"
+  ],
+  "homepage": "https://pipedream.com/apps/acelle_mail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

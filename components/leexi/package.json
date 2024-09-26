@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/leexi",
+  "version": "0.1.0",
+  "description": "Pipedream Leexi Components",
+  "main": "leexi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "leexi"
+  ],
+  "homepage": "https://pipedream.com/apps/leexi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5"
+  }
+}

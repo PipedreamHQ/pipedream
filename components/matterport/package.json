@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/matterport",
+  "version": "0.0.1",
+  "description": "Pipedream Matterport Components",
+  "main": "matterport.app.mjs",
+  "keywords": [
+    "pipedream",
+    "matterport"
+  ],
+  "homepage": "https://pipedream.com/apps/matterport",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

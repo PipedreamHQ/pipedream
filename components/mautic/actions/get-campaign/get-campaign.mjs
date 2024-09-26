@@ -1,35 +1,27 @@
-// legacy_hash_id: a_vgipdq
-import { axios } from "@pipedream/platform";
+import mautic from "../../mautic.app.mjs";
 
 export default {
   key: "mautic-get-campaign",
   name: "Get Campaign",
-  description: "Gets an individual campaign by ID.",
-  version: "0.1.1",
+  description: "Gets an individual campaign by ID. [See docs](https://developer.mautic.org/#get-campaign)",
+  version: "0.2.0",
   type: "action",
   props: {
-    mautic: {
-      type: "app",
-      app: "mautic",
-    },
-    campaign_id: {
-      type: "string",
+    mautic,
+    campaignId: {
+      propDefinition: [
+        mautic,
+        "campaignId",
+      ],
       description: "ID of the campaign to get details.",
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developer.mautic.org/#get-campaign
-
-    if (!this.campaign_id) {
-      throw new Error("Must provide campaign_id parameter.");
-    }
-
-    return await axios($, {
-      method: "get",
-      url: `${this.mautic.$auth.mautic_url}/api/campaigns/${this.campaign_id}`,
-      headers: {
-        Authorization: `Bearer ${this.mautic.$auth.oauth_access_token}`,
-      },
+    const response = await this.mautic.getCampaign({
+      $,
+      campaignId: this.campaignId,
     });
+    $.export("$summary", "Successfully retrieved campaign");
+    return response;
   },
 };

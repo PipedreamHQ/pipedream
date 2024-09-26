@@ -1,4 +1,5 @@
 import confection from "../confection.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -6,7 +7,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 15 * 60,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     db: "$.service.db",
@@ -47,7 +48,7 @@ export default {
     },
   },
   async run(event) {
-    const intervalSeconds = event.interval_seconds || 15 * 60;
+    const intervalSeconds = event.interval_seconds || DEFAULT_POLLING_SOURCE_TIMER_INTERVAL;
     const timestamp = event.timestamp || Math.round(Date.now() / 1000);
     const lastTimestamp =
       this.getLastTimestamp() || timestamp - intervalSeconds;

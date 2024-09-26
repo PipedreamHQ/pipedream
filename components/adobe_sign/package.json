@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/adobe_sign",
+  "version": "0.0.1",
+  "description": "Pipedream Adobe Acrobat Sign Components",
+  "main": "adobe_sign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "adobe_sign"
+  ],
+  "homepage": "https://pipedream.com/apps/adobe_sign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

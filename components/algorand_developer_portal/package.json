@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/algorand_developer_portal",
+  "version": "0.0.1",
+  "description": "Pipedream Algorand Developer Portal Components",
+  "main": "algorand_developer_portal.app.mjs",
+  "keywords": [
+    "pipedream",
+    "algorand_developer_portal"
+  ],
+  "homepage": "https://pipedream.com/apps/algorand_developer_portal",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

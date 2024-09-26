@@ -1,34 +1,56 @@
-// legacy_hash_id: a_poiwMj
-import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
+import { URL } from "url";
+import calendly from "../../calendly_v2.app.mjs";
 
 export default {
   key: "calendly_v2-get-event",
   name: "Get Event",
-  description: "Gets information about an Event associated with a URI.",
-  version: "0.1.1",
+  description: "Gets information about an Event associated with a URI. [See docs here](https://developer.calendly.com/api-docs/e2f95ebd44914-get-event).",
+  version: "0.1.3",
   type: "action",
   props: {
-    calendly_v2: {
-      type: "app",
-      app: "calendly_v2",
+    calendly,
+    eventId: {
+      propDefinition: [
+        calendly,
+        "eventId",
+      ],
+      optional: true,
     },
-    event_uuid: {
+    eventUrl: {
       type: "string",
-      description: "The event's unique identifier.",
+      label: "Event URL",
+      description: "The URL of the event to retrieve information about. If you are using a Calendly Source in the same workflow, you would use ``{{steps.trigger.event.payload.event}}``.",
+      optional: true,
     },
   },
-  async run({ $ }) {
-  //See the API docs: https://developer.calendly.com/docs/api-docs/reference/calendly-api/openapi.yaml/paths/~1scheduled_events~1%7Buuid%7D/get
 
-    if (!this.event_uuid) {
-      throw new Error("Must provide event_uuid parameter.");
+  methods: {
+    getEventUuidFromUrl(eventUrl) {
+      if (!eventUrl) {
+        return null;
+      }
+
+      const url = new URL(eventUrl);
+      return url.pathname.split("/").pop();
+    },
+  },
+
+  async run({ $ }) {
+    if (!this.eventId && !this.eventUrl) {
+      throw new ConfigurationError(
+        "Please provide either the Event UUID or Event URL, then try again.",
+      );
     }
 
-    return await axios($, {
-      url: `https://api.calendly.com/scheduled_events/${this.event_uuid}`,
-      headers: {
-        Authorization: `Bearer ${this.calendly_v2.$auth.oauth_access_token}`,
-      },
-    });
+    const eventUuid = this.eventId || this.getEventUuidFromUrl(this.eventUrl);
+
+    const response = await this.calendly.getEvent(eventUuid, $);
+
+    const eventName = response.resource.name;
+
+    $.export("$summary", `Retrieved the event, "${eventName}"`);
+
+    return response;
   },
 };

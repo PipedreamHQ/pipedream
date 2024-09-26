@@ -1,102 +1,127 @@
-// legacy_hash_id: a_Xzi2O8
-import doWrapperModule from "do-wrapper";
+import digitalOceanApp from "../../digital_ocean.app.mjs";
 
 export default {
   key: "digital_ocean-create-droplet",
   name: "Create Droplet",
-  description: "Creates a droplet",
-  version: "0.1.1",
+  description: "Creates a droplet. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/create_droplet)",
+  version: "0.1.2",
   type: "action",
   props: {
-    digital_ocean: {
-      type: "app",
-      app: "digital_ocean",
-    },
-    page_size: {
-      type: "integer",
-      description: "Desired pagination size when pulling results",
-      optional: true,
-    },
+    digitalOceanApp,
     name: {
+      label: "Name",
       type: "string",
       description: "Human-readable string to use when displaying the Droplet name.",
     },
     region: {
+      label: "Region",
       type: "string",
       description: "Unique slug identifier for the region to deploy this Droplet in.",
-    },
-    size: {
-      type: "string",
-      description: "Unique slug identifier for the size to select for this Droplet.",
-    },
-    image: {
-      type: "string",
-      description: "The image ID of a public or private image, or the unique slug identifier for a public image. This image will be the base image for this Droplet.",
-    },
-    ssh_keys: {
-      type: "any",
-      description: "An array containing the IDs or fingerprints of the SSH keys that you wish to embed in the Droplet's root account upon creation.",
-      optional: true,
-    },
-    backups: {
-      type: "boolean",
-      description: "A boolean indicating whether automated backups should be enabled for the Droplet. Automated backups can only be enabled when the Droplet is created.",
-      optional: true,
-    },
-    ipv6: {
-      type: "boolean",
-      description: "A boolean indicating whether IPv6 is enabled on the Droplet.",
-      optional: true,
-    },
-    user_data: {
-      type: "string",
-      description: "A string containing 'user data' which may be used to configure the Droplet on first boot, often a 'cloud-config' file or Bash script. It must be plain text and may not exceed 64 KiB in size.",
-      optional: true,
-    },
-    private_networking: {
-      type: "boolean",
-      description: "A boolean indicating whether private networking is enabled for the Droplet. Private networking is currently only available in certain regions.",
-      optional: true,
-    },
-    volumes: {
-      type: "any",
-      description: "A flat array including the unique string identifier for each Block Storage volume to be attached to the Droplet. At the moment a volume can only be attached to a single Droplet.",
-      optional: true,
-    },
-    tags: {
-      type: "any",
-      description: "A flat array of tag names as strings to apply to the Droplet after it is created. Tag names can either be existing or new tags.",
-      optional: true,
-    },
-    monitoring: {
-      type: "boolean",
-      description: "A boolean indicating whether to install the DigitalOcean agent for monitoring.",
-      optional: true,
+      reloadProps: true,
+      async options() {
+        return this.digitalOceanApp.fetchRegionsOpts();
+      },
     },
   },
-  async run({ $ }) {
-    var DigitalOcean = doWrapperModule.default,
-      api = new DigitalOcean(this.digital_ocean.$auth.oauth_access_token, this.page_size);
-
-    try {
-      var data = {
-        name: this.name,
-        region: this.region,
-        size: this.size,
-        image: this.image,
-        ssh_keys: this.ssh_keys,
-        backups: this.backups,
-        ipv6: this.ipv6,
-        user_data: this.user_data,
-        private_networking: this.private_networking,
-        volumes: this.volumes,
-        tags: this.tags,
-        monitoring: this.monitoring,
-      };
-      $.export("resp", await api.dropletsCreate(data));
-    } catch (err) {
-      $.export("err", err);
-
+  async additionalProps() {
+    if (!this.region) {
+      return {};
     }
+    return {
+      image: {
+        label: "Image",
+        type: "string",
+        description: "The image ID of a public or private image, or the unique slug identifier for a public image. This image will be the base image for this Droplet.",
+        reloadProps: false,
+        options: async () => {
+          return this.digitalOceanApp.fetchImageOpts(this.region);
+        },
+      },
+      size: {
+        label: "Size",
+        type: "string",
+        description: "Unique slug identifier for the size to select for this Droplet.",
+        reloadProps: false,
+        options: async () => {
+          return this.digitalOceanApp.fetchSizeOpts(this.region);
+        },
+      },
+      volumes: {
+        label: "Volumes",
+        type: "string[]",
+        description: "A flat array including the unique string identifier for each Block Storage volume to be attached to the Droplet. At the moment a volume can only be attached to a single Droplet.",
+        optional: true,
+        reloadProps: false,
+        options: async () => {
+          return this.digitalOceanApp.fetchVolumeOpts(this.region);
+        },
+      },
+      sshKeys: {
+        label: "SSH keys",
+        type: "string[]",
+        description: "An array containing the IDs or fingerprints of the SSH keys that you wish to embed in the Droplet's root account upon creation.",
+        optional: true,
+        reloadProps: false,
+        options: async () => {
+          return this.digitalOceanApp.fetchSshKeys();
+        },
+      },
+      backups: {
+        label: "Enable Automated Backup",
+        type: "boolean",
+        description: "A boolean indicating whether automated backups should be enabled for the Droplet. Automated backups can only be enabled when the Droplet is created.",
+        optional: true,
+      },
+      ipv6: {
+        label: "Enable IPv6",
+        type: "boolean",
+        description: "A boolean indicating whether IPv6 is enabled on the Droplet.",
+        optional: true,
+      },
+      userData: {
+        label: "User Data",
+        type: "string",
+        description: "A string containing 'user data' which may be used to configure the Droplet on first boot, often a 'cloud-config' file or Bash script. It must be plain text and may not exceed 64 KiB in size.",
+        optional: true,
+      },
+      privateNetworking: {
+        label: "Enable Private Networking",
+        type: "boolean",
+        description: "A boolean indicating whether private networking is enabled for the Droplet. Private networking is currently only available in certain regions.",
+        optional: true,
+      },
+      monitoring: {
+        label: "Enable Monitoring",
+        type: "boolean",
+        description: "A boolean indicating whether to install the DigitalOcean agent for monitoring.",
+        optional: true,
+      },
+      tags: {
+        label: "Tags",
+        type: "string[]",
+        description: "A flat array of tag names as strings to apply to the Droplet after it is created. Tag names can either be existing or new tags.",
+        optional: true,
+      },
+    };
+  },
+  async run({ $ }) {
+    const api = this.digitalOceanApp.digitalOceanWrapper();
+    const newDropletData = {
+      name: this.name,
+      region: this.region,
+      size: this.size,
+      image: this.image,
+      ssh_keys: this.sshKeys,
+      backups: this.backups,
+      ipv6: this.ipv6,
+      user_data: this.userData,
+      private_networking: this.privateNetworking,
+      volumes: this.volumes,
+      tags: this.tags,
+      monitoring: this.monitoring,
+    };
+    const response = await api.droplets.create(newDropletData);
+    $.export("$summary", `Successfully created droplet ${response.droplet.name}.`);
+    return response;
   },
 };

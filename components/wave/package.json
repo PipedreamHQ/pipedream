@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/wave",
+  "version": "0.1.0",
+  "description": "Pipedream Wave Components",
+  "main": "dist/app/wave.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wave"
+  ],
+  "homepage": "https://pipedream.com/apps/wave",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

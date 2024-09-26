@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/scrapingant",
+  "version": "0.0.1",
+  "description": "Pipedream ScrapingAnt Components",
+  "main": "scrapingant.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scrapingant"
+  ],
+  "homepage": "https://pipedream.com/apps/scrapingant",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

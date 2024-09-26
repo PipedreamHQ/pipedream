@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/api_bible",
+  "version": "0.0.1",
+  "description": "Pipedream API.Bible Components",
+  "main": "api_bible.app.mjs",
+  "keywords": [
+    "pipedream",
+    "api_bible"
+  ],
+  "homepage": "https://pipedream.com/apps/api_bible",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

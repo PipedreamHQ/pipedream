@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/modelry",
+  "version": "0.0.1",
+  "description": "Pipedream Modelry Components",
+  "main": "modelry.app.mjs",
+  "keywords": [
+    "pipedream",
+    "modelry"
+  ],
+  "homepage": "https://pipedream.com/apps/modelry",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

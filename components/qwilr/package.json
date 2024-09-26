@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/qwilr",
+  "version": "0.0.4",
+  "description": "Pipedream Qwilr Components",
+  "main": "dist/app/qwilr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "qwilr"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/qwilr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

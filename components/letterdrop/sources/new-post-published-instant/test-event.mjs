@@ -1,0 +1,33 @@
+export default {
+  "id": "6030dc61a21da91db1d593c0",
+  "title": "Title",
+  "subtitle": "Subtitle",
+  "text": "Lorem ipsum dolor sit amet...",
+  "textPreview": "Lorem ipsum dolor sit amet",
+  "body": "<p>Lorem ipsum dolor sit amet,</p>",
+  "slug": "my-new-post",
+  "url": "https://letterdop.com/blog/my-new-post",
+  "publishedOn": "2020-10-20T12:18:13.095Z",
+  "coverImage": "https://cdn.letterdrop.co/images/2022/11/24/hir0hq8n.jpeg",
+  "thumbnail": "https://cdn.letterdrop.co/images/2022/11/24/hir0hq8n.jpeg",
+  "metaTitle": "Meta Title",
+  "metaDescription": "This is a post via Letterdrop",
+  "status": "published",
+  "tags": ["chocolate", "food", "restaurant"],
+  "updated": "2020-10-20T12:18:13.095Z",
+  "publication": "piedpiper",
+  "readTime": 3,
+  "wordCount": 1565,
+  "featured": false,
+  "markdown": "Lorem ipsum dolor sit amet",
+  "customFields": [
+    {
+      "name": "Related Posts",
+      "type": "Multi-Select List",
+      "value": "",
+      "allowedValues": [
+        "Post 1", "Post 2",
+      ],
+    },
+  ],
+};

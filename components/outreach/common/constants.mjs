@@ -1,0 +1,123 @@
+export const LIMIT = 50;
+export const customProps = {
+  custom1: {
+    type: "string",
+    label: "Custom 1",
+    description: "The value of the first custom field.",
+    optional: true,
+  },
+  custom2: {
+    type: "string",
+    label: "Custom 2",
+    description: "The value of the second custom field.",
+    optional: true,
+  },
+  custom3: {
+    type: "string",
+    label: "Custom 3",
+    description: "The value of the third custom field.",
+    optional: true,
+  },
+  custom4: {
+    type: "string",
+    label: "Custom 4",
+    description: "The value of the fourth custom field.",
+    optional: true,
+  },
+  custom5: {
+    type: "string",
+    label: "Custom 5",
+    description: "The value of the fifth custom field.",
+    optional: true,
+  },
+  custom6: {
+    type: "string",
+    label: "Custom 6",
+    description: "The value of the sixth custom field.",
+    optional: true,
+  },
+  custom7: {
+    type: "string",
+    label: "Custom 7",
+    description: "The value of the seventh custom field.",
+    optional: true,
+  },
+  custom8: {
+    type: "string",
+    label: "Custom 8",
+    description: "The value of the eight custom field.",
+    optional: true,
+  },
+  custom9: {
+    type: "string",
+    label: "Custom 9",
+    description: "The value of the ninth custom field.",
+    optional: true,
+  },
+  custom10: {
+    type: "string",
+    label: "Custom 10",
+    description: "The value of the 10th custom field.",
+    optional: true,
+  },
+  custom11: {
+    type: "string",
+    label: "Custom 11",
+    description: "The value of the 11th custom field.",
+    optional: true,
+  },
+  custom12: {
+    type: "string",
+    label: "Custom 12",
+    description: "The value of the 12th custom field.",
+    optional: true,
+  },
+  custom13: {
+    type: "string",
+    label: "Custom 13",
+    description: "The value of the 13th custom field.",
+    optional: true,
+  },
+  custom14: {
+    type: "string",
+    label: "Custom 14",
+    description: "The value of the 14th custom field.",
+    optional: true,
+  },
+  custom15: {
+    type: "string",
+    label: "Custom 15",
+    description: "The value of the 15th custom field.",
+    optional: true,
+  },
+  custom16: {
+    type: "string",
+    label: "Custom 16",
+    description: "The value of the 16th custom field.",
+    optional: true,
+  },
+  custom17: {
+    type: "string",
+    label: "Custom 17",
+    description: "The value of the 17th custom field.",
+    optional: true,
+  },
+  custom18: {
+    type: "string",
+    label: "Custom 18",
+    description: "The value of the 18th custom field.",
+    optional: true,
+  },
+  custom19: {
+    type: "string",
+    label: "Custom 19",
+    description: "The value of the 19th custom field.",
+    optional: true,
+  },
+  custom20: {
+    type: "string",
+    label: "Custom 20",
+    description: "The value of the 20th custom field.",
+    optional: true,
+  },
+};

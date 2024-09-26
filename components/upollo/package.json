@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/upollo",
+  "version": "0.0.1",
+  "description": "Pipedream Upollo Components",
+  "main": "upollo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "upollo"
+  ],
+  "homepage": "https://pipedream.com/apps/upollo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

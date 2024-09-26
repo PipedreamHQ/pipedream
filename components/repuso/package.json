@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/repuso",
+  "version": "0.0.4",
+  "description": "Pipedream Repuso Components",
+  "main": "dist/app/repuso.app.mjs",
+  "keywords": [
+    "pipedream",
+    "repuso"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/repuso",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.0",
+    "@pipedream/types": "^0.1.4"
+  }
+}

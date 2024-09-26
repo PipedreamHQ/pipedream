@@ -1,6 +1,10 @@
 # Component API Reference
 
-This document was created to help developers author and use [Pipedream components](/components/). Not only can you develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using the component API, but you can also develop [Node.js steps](/code/nodejs/) right in your workflows - without leaving your browser! You can publish components to your account for private use, or [contribute them to the Pipedream registry](/components/guidelines/) for anyone to run.
+::: tip
+Our TypeScript component API is in **beta**. If you're interested in developing TypeScript components and providing feedback, [see our TypeScript docs](/components/typescript/).
+:::
+
+This document was created to help developers author and use [Pipedream components](/components/). Not only can you develop [sources](/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/components/quickstart/nodejs/actions/) using the component API, but you can also develop [Node.js steps](/code/nodejs/) right in your workflows - without leaving your browser! You can publish components to your account for private use, or [contribute them to the Pipedream registry](/apps/contributing/) for anyone to run.
 
 While sources and actions share the same core component API, they differ in both how they're used and written, so certain parts of the component API apply only to one or the other. [This section of the docs](#differences-between-sources-and-actions) explains the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
@@ -12,12 +16,12 @@ If you have any questions about component development, please reach out [in our 
 
 ### What is a component?
 
-Components are Node.js [CommonJS modules](https://flaviocopes.com/commonjs/) that run on Pipedream's serverless infrastructure.
+Components are Node.js modules that run on Pipedream's serverless infrastructure.
 
 - Trigger Node.js code on HTTP requests, timers, cron schedules, or manually
 - Emit data on each event to inspect it. Trigger Pipedream hosted workflows or access it outside of Pipedream via API
 - Accept user input on deploy via [CLI](/cli/reference/#pd-deploy), [API](/api/rest/#overview), or [UI](https://pipedream.com/sources)
-- Connect to [400+ apps](https://pipedream.com/apps) using Pipedream managed auth
+- Connect to [{{$site.themeConfig.PUBLIC_APPS}}+ apps](https://pipedream.com/apps) using Pipedream managed auth
 - Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
 
@@ -102,7 +106,10 @@ Props are custom attributes you can register on a component. When a value is pas
 | [User Input](#user-input-props) | Enable components to accept input on deploy                                                   |
 | [Interface](#interface-props)   | Attaches a Pipedream interface to your component (e.g., an HTTP interface or timer)           |
 | [Service](#service-props)       | Attaches a Pipedream service to your component (e.g., a key-value database to maintain state) |
-| [App](#user-input-props)        | Enables managed auth for a component                                                          |
+| [App](#app-props)               | Enables managed auth for a component                                                          |
+| [Data Store](/data-stores/#using-data-stores-in-code-steps) | Provides access to a Pipedream [data store](/data-stores/)        |
+| [HTTP Request](#http-request-prop)| Enables components to execute HTTP requests based on user input                             |
+| [Alert](#alert-prop)| Renders an informational alert in the prop form to help users configure the source or action                             |
 
 #### User Input Props
 
@@ -124,7 +131,9 @@ props: {
     default: "",
     secret: true || false,
     min: <integer>,
-    max: <integer>
+    max: <integer>,
+    disabled: true || false,
+    hidden: true || false
   },
 },
 ```
@@ -135,16 +144,19 @@ props: {
 | `label`          | `string`                             | optional  | A friendly label to show to user for this prop. If a label is not provided, the `propName` is displayed to the user.                                                                                                                                                                                                                                                                                                                                                           |
 | `description`    | `string`                             | optional  | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported.                                                                                                                                                                                                                                                                                                                  |
 | `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu.<br>&nbsp;<br>**`[]` Basic usage**<br>Array of strings. E.g.,<br>`['option 1', 'option 2']`<br>&nbsp;<br>**`object[]` Define Label and Value**<br>`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br>&nbsp;<br>**`method` Dynamic Options**<br>You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
+| `useQuery`       | `boolean`                            | optional  | Use in conjunction with **Dynamic Options**. If set to `true`, the prop accepts a real-time query that can be used by the `options` method to obtain results according to that query.                                                                                                                                                                                                                                                                                          |
 | `optional`       | `boolean`                            | optional  | Set to `true` to make this prop optional. Defaults to `false`.                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `propDefinition` | `[]`                                 | optional  | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage.                                                                                                                                                                                                       |
 | `default`        | `string`                             | optional  | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input).                                                                                                                                                                                                                                                                                                                                   |
-| `secret`         | `boolean`                            | optional  | If set to `true`, this field will hide your input in the browser like a password field, and its value will be encrypted in Pipedream's database. The value will be decrypted when the component is run in [the execution environment](/privacy-and-security/#execution-environment). Defaults to `false`.     Only allowed for `string` props.                                                                                                                                 |
+| `secret`         | `boolean`                            | optional  | If set to `true`, this field will hide your input in the browser like a password field, and its value will be encrypted in Pipedream's database. The value will be decrypted when the component is run in [the execution environment](/privacy-and-security/#execution-environment). Defaults to `false`. Only allowed for `string` props.                                                                                                                                     |
 | `min`            | `integer`                            | optional  | Minimum allowed integer value. Only allowed for `integer` props..                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `max`            | `integer`                            | optional  | Maximum allowed integer value . Only allowed for `integer` props.                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `disabled`       | `boolean`                            | optional  | Set to `true` to disable usage of this prop. Defaults to `false`.   |
+| `hidden`         | `boolean`                            | optional  | Set to `true` to hide this field. Defaults to `false`.              |
 
-**`PropType`s**
+**Prop Types**
 
-| `PropType`          | Array Supported | Supported in Sources? | Supported in Actions? | Custom properties                                                                                           |
+| Prop Type          | Array Supported | Supported in Sources? | Supported in Actions? | Custom properties                                                                                           |
 | ------------------- | --------------- | --------------------- | --------------------- | :---------------------------------------------------------------------------------------------------------- |
 | `app`               |                 | ✓                     | ✓                     | See [App Props](#app-props) below                                                                           |
 | `boolean`           | ✓               | ✓                     | ✓                     |
@@ -154,7 +166,10 @@ props: {
 | `any`               |                 |                       | ✓                     |
 | `$.interface.http`  |                 | ✓                     |                       |
 | `$.interface.timer` |                 | ✓                     |                       |
-| `$.service.db`      |                 | ✓                     | ✓                     |
+| `$.service.db`      |                 | ✓                     |                       |
+| `data_store`        |                 |                       | ✓                     |
+| `http_request`      |                 |                       | ✓                     |
+| `alert`      |                 | ✓                     | ✓                     | See [Alert Prop](#alert-prop) below
 
 **Usage**
 
@@ -187,7 +202,7 @@ To see more examples, explore the [curated components in Pipedream's GitHub repo
 
 ##### Advanced Configuration
 
-##### Async Options ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/github.app.js))
+##### Async Options ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/github.app.mjs))
 
 Async options allow users to select prop values that can be programmatically-generated (e.g., based on a real-time API response).
 
@@ -195,14 +210,16 @@ Async options allow users to select prop values that can be programmatically-gen
 async options({
   page,
   prevContext,
+  query,
 }) {},
 ```
 
 | Property      | Type      | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ------------- | --------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `options()`   | `method`  | optional  | Typically returns an array of values matching the prop type (e.g., `string`) or an array of object that define the `label` and `value` for each option. The `page` and `prevContext` input parameter names are reserved for pagination (see below).<br>&nbsp;<br>When using `prevContext` for pagination, it must return an object with an `options` array and a `context` object with a `nextPageToken` key. E.g., `{ options, context: { nextPageToken }, }` |
-| `page`        | `integer` | optional  | Returns a `0` indexed page number. For use with APIs that accept a numeric page number for pagination.                                                                                                                                                                                                                                                                                                                                                         |
-| `prevContext` | `string`  | optional  | Return a string representing the context for the previous `options` invocation. For use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                             |
+| `page`        | `integer` | optional  | Returns a `0` indexed page number. Use with APIs that accept a numeric page number for pagination.                                                                                                                                                                                                                                                                                                                                                             |
+| `prevContext` | `string`  | optional  | Returns a string representing the context for the previous `options` execution. Use with APIs that accept a token representing the last record for pagination.                                                                                                                                                                                                                                                                                                 |
+| `query`       | `string`  | optional  | Returns a string with the user input if the prop has the `useQuery` property set to `true`. Use with APIs that return items based on a query or search parameter.                                                                                                                                                                                                                                                                                              |
 
 Following is an example source demonstrating the usage of async options:
 
@@ -227,7 +244,7 @@ export default {
 };
 ```
 
-##### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.js))
+##### Prop Definitions ([example](https://github.com/PipedreamHQ/pipedream/blob/master/components/github/sources/new-commit/new-commit.mjs))
 
 Prop definitions enable you to reuse props that are defined in another object. A common use case is to enable re-use of props that are defined for a specific app.
 
@@ -338,6 +355,96 @@ lists: {
 
 `configuredProps` contains the props the user previously configured (the board). This allows the `lists` prop to use it in the `options` method.
 
+##### Dynamic props
+
+Some prop definitions must be computed dynamically, after the user configures another prop. We call these **dynamic props**, since they are rendered on-the-fly. This technique is used in [the Google Sheets **Add Single Row** action](https://github.com/PipedreamHQ/pipedream/blob/master/components/google_sheets/actions/add-single-row/add-single-row.mjs), which we'll use as an example below.
+
+First, determine the prop whose selection should render dynamic props. In the Google Sheets example, we ask the user whether their sheet contains a header row. If it does, we display header fields as individual props:
+
+<div>
+<img alt="Google Sheets Additional props example - header columns loading as props" src="https://res.cloudinary.com/pipedreamin/image/upload/v1654129371/docs/additional-props_lx5jtv.gif">
+</div>
+
+To load dynamic props, the header prop must have the `reloadProps` field set to `true`:
+
+```javascript
+hasHeaders: {
+  type: "string",
+  label: "Does the first row of the sheet have headers?",
+  description: "If the first row of your document has headers we'll retrieve them to make it easy to enter the value for each column.",
+  options: [
+    "Yes",
+    "No",
+  ],
+  reloadProps: true,
+},
+```
+
+When a user chooses a value for this prop, Pipedream runs the `additionalProps` component method to render props:
+
+```javascript
+async additionalProps() {
+  const sheetId = this.sheetId?.value || this.sheetId;
+  const props = {};
+  if (this.hasHeaders === "Yes") {
+    const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${this.sheetName}!1:1`);
+    if (!values[0]?.length) {
+      throw new ConfigurationError("Cound not find a header row. Please either add headers and click \"Refresh fields\" or adjust the action configuration to continue.");
+    }
+    for (let i = 0; i < values[0]?.length; i++) {
+      props[`col_${i.toString().padStart(4, "0")}`] = {
+        type: "string",
+        label: values[0][i],
+        optional: true,
+      };
+    }
+  } else if (this.hasHeaders === "No") {
+    props.myColumnData = {
+      type: "string[]",
+      label: "Values",
+      description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+    };
+  }
+  return props;
+},
+```
+
+The signature of this function is:
+
+```javascript
+async additionalProps(previousPropDefs)
+```
+
+where `previousPropDefs` are the full set of props (props merged with the previous `additionalProps`). When the function is executed, `this` is bound similar to when the `run` function is called, where you can access the values of the props as currently configured, and call any `methods`. The return value of `additionalProps` will replace any previous call, and that return value will be merged with props to define the final set of props.
+
+Following is an example that demonstrates how to use `additionalProps` to dynamically change a prop's `disabled` and `hidden` properties:
+
+```javascript
+async additionalProps(previousPropDefs) {
+  if (this.myCondition === "Yes") {
+    previousPropDefs.myPropName.disabled = true;
+    previousPropDefs.myPropName.hidden = true;
+  } else {
+    previousPropDefs.myPropName.disabled = false;
+    previousPropDefs.myPropName.hidden = false;
+  }
+  return previousPropDefs;
+},
+```
+
+Dynamic props can have any one of the following prop types:
+
+- `app`
+- `boolean`
+- `integer`
+- `string`
+- `object`
+- `any`
+- `$.interface.http`
+- `$.interface.timer`
+- `data_store`
+- `http_request`
+
 #### Interface Props
 
 Interface props are infrastructure abstractions provided by the Pipedream platform. They declare how a source is invoked — via HTTP request, run on a schedule, etc. — and therefore define the shape of the events it processes.
@@ -365,14 +472,14 @@ props: {
 | Property  | Type     | Required? | Description                                                                                                                                  |
 | --------- | -------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`    | `string` | required  | Must be set to `$.interface.timer`                                                                                                           |
-| `default` | `object` | optional  | **Define a default interval**<br>`{ intervalSeconds: 60, },`<br>&nbsp;<br>**Define a default cron expression**<br>` { cron: "0 0 * * *", },` |
+| `default` | `object` | optional  | **Define a default interval**<br>`{ intervalSeconds: 60, },`<br>&nbsp;<br>**Define a default cron expression**<br>`{ cron: "0 0 * * *", },` |
 
 **Usage**
 
-| Code              | Description                                                                                                                                 | Read Scope                | Write Scope                                                                                 |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------- |
-| `this.myPropName` | Returns the type of interface configured (e.g., `{ type: '$.interface.timer' }`)                                                            | `run()` `hooks` `methods` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
-| `event`           | Returns an object with the invocation timestamp and interface configuration (e.g., `{ "timestamp": 1593937896, "interval_seconds": 3600 }`) | `run(event)`              | n/a (interface props may only be modified on source deploy or update via UI, CLI or API)    |
+| Code              | Description                                                                                                                                | Read Scope                | Write Scope                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------- | ------------------------------------------------------------------------------------------- |
+| `this.myPropName` | Returns the type of interface configured (e.g., `{ type: '$.interface.timer' }`)                                                           | `run()` `hooks` `methods` | n/a (interface props may only be modified on component deploy or update via UI, CLI or API) |
+| `event`           | Returns an object with the execution timestamp and interface configuration (e.g., `{ "timestamp": 1593937896, "interval_seconds": 3600 }`) | `run(event)`              | n/a (interface props may only be modified on source deploy or update via UI, CLI or API)    |
 
 **Example**
 
@@ -446,7 +553,7 @@ props: {
 
 ###### Responding to HTTP requests
 
-The HTTP interface exposes a `respond()` method that lets your source issue HTTP responses. You may run `this.http.respond()` to respond to the client from the `run()` method of a source.  In this case you should also pass the `customResponse: true` parameter to the prop.
+The HTTP interface exposes a `respond()` method that lets your source issue HTTP responses. You may run `this.http.respond()` to respond to the client from the `run()` method of a source. In this case you should also pass the `customResponse: true` parameter to the prop.
 
 | Property  | Type                       | Required? | Description                                                                                                                    |
 | --------- | -------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -500,9 +607,9 @@ export default {
 
 #### Service Props
 
-| Service | Description                                                                                           |
-| ------- | ----------------------------------------------------------------------------------------------------- |
-| _DB_    | Provides access to a simple, component-specific key-value store to maintain state across invocations. |
+| Service | Description                                                                                          |
+| ------- | ---------------------------------------------------------------------------------------------------- |
+| _DB_    | Provides access to a simple, component-specific key-value store to maintain state across executions. |
 
 ##### DB
 
@@ -556,11 +663,75 @@ props: {
 
 > **Note:** The specific `$auth` keys supported for each app will be published in the near future.
 
+#### HTTP Request Prop
+
+**Usage**
+
+| Code                              | Description                                                                                      | Read Scope                                      | Write Scope |
+| --------------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------- | ----------- |
+| `this.myPropName.execute()`       | Execute an HTTP request as configured                                                            | n/a                                             | `run()` `methods` |
+
+**Example**
+
+Following is an example action that demonstrates how to accept an HTTP request configuration as input and execute the request when the component is run:
+
+```javascript
+export default {
+  name: "HTTP Request Example",
+  version: "0.0.1",
+  props: {
+    httpRequest: {
+      type: "http_request",
+      label: "API Request",
+      default: {
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/posts",
+      }
+    },
+  },
+  async run() {
+    const { data } = await this.httpRequest.execute();
+    return data;
+  },
+};
+```
+
+For more examples, see the [docs on making HTTP requests with Node.js](/code/nodejs/http-requests/#send-a-get-request-to-fetch-data).
+
+
+#### Alert Prop
+
+Sometimes you may need to surface contextual information to users within the prop form. This might be information that's not directly related to a specific prop, so it doesn't make sense to include in a prop description, but rather, it may be related to the overall configuration of the prop form.
+
+**Usage**
+
+| Property | Type | Required? | Description |
+| - | - | - | - |
+| `type` | `string` | required | Set to `alert` |
+| `alertType` | `string` | required | Determines the color and UI presentation of the alert prop. Can be one of `info`, `neutral`, `warning`, `error`. |
+| `content` | `string` | required | Determines the text that is rendered in the alert. Both plain text and markdown are supported. |
+
+```javascript
+export default defineComponent({
+  props: {
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Admin rights on the repo are required in order to register webhooks. In order to continue setting up your source, configure a polling interval below to check for new events.",
+    }
+  },
+})
+```
+
+Refer to GitHub's component sources in the `pipedream` repo for an [example implementation](https://github.com/PipedreamHQ/pipedream/blob/b447d71f658d10d6a7432e8f5153bbda56ba9810/components/github/sources/common/common-flex.mjs#L27).
+
+![Info alert prop in GitHub source](./images/info-alert-prop-github.png)
+
 #### Limits on props
 
 When a user configures a prop with a value, it can hold at most `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` data. Consider this when accepting large input in these fields (such as a base64 string).
 
-The `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example <code v-pre>{{steps.nodejs.$return_value}}</code>, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits/).
+The `{{$site.themeConfig.CONFIGURED_PROPS_SIZE_LIMIT}}` limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example <ClientOnly><code v-pre>{{steps.nodejs.$return_value}}</code></ClientOnly>, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/limits/).
 
 ### Methods
 
@@ -612,7 +783,7 @@ hooks: {
 
 Each time a component is invoked, its `run` method is called. Sources are invoked by their [interface](#interface-props) (for example, via HTTP request). Actions are run when their parent workflow is triggered.
 
-You can reference [`this`](#referencing-this) within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and more.
+You can reference `this` within the `run` method. `this` refers to the component, and provides access to [props](#props), [methods](#methods), and more.
 
 #### Sources
 
@@ -643,7 +814,7 @@ this.$emit(event, {
 | `id`      | `string` or `number`   | Required if a dedupe strategy is applied | A value to uniquely identify this event. Common `id` values may be a 3rd party ID, a timestamp, or a data hash                                                                                                                                                                                          |
 | `name`    | `string`               | optional                                 | The name of the "channel" you'd like to emit the event to. By default, events are emitted to the `default` channel. If you set a different channel here, listening sources or workflows can subscribe to events on this channel, running the source or workflow only on events emitted to that channel. |
 | `summary` | `string`               | optional                                 | Define a summary to customize the data displayed in the events list to help differentiate events at a glance                                                                                                                                                                                            |
-| `ts`      | `integer`              | optional                                 | Accepts an epoch timestamp in **milliseconds**. If you submit a timestamp, events will automatically be ordered and emitted from oldest to newest. If using the `last` dedupe strategy, the value cached as the `last` event for an invocation will correspond to the event with the newest timestamp.  |
+| `ts`      | `integer`              | optional                                 | Accepts an epoch timestamp in **milliseconds**. If you submit a timestamp, events will automatically be ordered and emitted from oldest to newest. If using the `last` dedupe strategy, the value cached as the `last` event for an execution will correspond to the event with the newest timestamp.   |
 
 Following is a basic example that emits an event on each component execution.
 
@@ -711,9 +882,9 @@ async run({ $ }) {
 
 When your workflow runs, you'll see the named exports appear below your step, with the data you exported. You can reference these exports in other steps using `steps.[STEP NAME].[EXPORT NAME]`.
 
-**`$.respond`**
+##### Returning HTTP responses with `$.respond`
 
-`$.respond` functions the same way as `$respond` in workflow code steps. [See the `$respond` docs for more information](/workflows/steps/triggers/#customizing-the-http-response).
+`$.respond` lets you issue HTTP responses from your workflow. [See the full `$.respond` docs for more information](/workflows/steps/triggers/#customizing-the-http-response).
 
 ```javascript
 async run({ $ }) {
@@ -724,7 +895,7 @@ async run({ $ }) {
 }
 ```
 
-**`return $.flow.exit`**
+##### Ending steps early with `return $.flow.exit`
 
 `return $.flow.exit` terminates the entire workflow. It accepts a single argument: a string that tells the workflow why the workflow terminated, which is displayed in the Pipedream UI.
 
@@ -734,23 +905,28 @@ async run({ $ }) {
 }
 ```
 
-It functions the same way as [`$end` in workflow code steps](/workflows/steps/code/#end).
-
-**`$.summary`**
+##### `$.summary`
 
 `$.summary` is used to surface brief, user-friendly summaries about what happened when an action step succeeds. For example, when [adding items to a Spotify playlist](https://github.com/PipedreamHQ/pipedream/blob/master/components/spotify/actions/add-items-to-playlist/add-items-to-playlist.mjs#L51):
+
 <div>
 <img alt="Spotify example with $summary" src="./images/spotify-$summary-example.png">
 </div>
 
 Example implementation:
+
 ```javascript
-const data = [1, 2]
-const playlistName = "Cool jams"
-$.export("$summary", `Successfully added ${data.length} ${data.length == 1 ? "item" : "items"} to "${playlistName}"`);
+const data = [1, 2];
+const playlistName = "Cool jams";
+$.export(
+  "$summary",
+  `Successfully added ${data.length} ${
+    data.length == 1 ? "item" : "items"
+  } to "${playlistName}"`
+);
 ```
 
-**`$.send`**
+##### `$.send`
 
 `$.send` allows you to send data to [Pipedream destinations](/destinations/).
 
@@ -774,25 +950,37 @@ $.export("$summary", `Successfully added ${data.length} ${data.length == 1 ? "it
 
 [See the SSE destination docs](/destinations/sse/#using-send-sse-in-component-actions).
 
+##### `$.context`
+
+`$.context` exposes [the same properties as `steps.trigger.context`](/workflows/events/#steps-trigger-context), and more. Action authors can use it to get context about the calling workflow and the execution.
+
+All properties from [`steps.trigger.context`](/workflows/events/#steps-trigger-context) are exposed, as well as:
+
+| Property   |                                                                       Description                                                                       |
+| ---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------: |
+| `deadline` |               An epoch millisecond timestamp marking the point when the workflow is configured to [timeout](/limits/#time-per-execution).               |
+| `JIT`      |             Stands for "just in time" (environment). `true` if the user is testing the step, `false` if the step is running in production.              |
+| `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/workflows/events/#steps-trigger-context) for more detail. |
+
 ### Environment variables
 
 [Environment variables](/environment-variables/) are not accessible within sources or actions directly. Since components can be used by anyone, you cannot guarantee that a user will have a specific variable set in their environment.
 
-For sources, you can use [`secret` props](#props) to reference sensitive data.
+In sources, you can use [`secret` props](#props) to reference sensitive data.
 
-For actions, you can pass environment variables as the values of props using the [object explorer](/workflows/steps/params/#use-the-object-explorer) within your workflow.
+In actions, you'll see a list of your environment variables in the object explorer when selecting a variable to pass to a step:
 
 ### Using npm packages
 
 To use an npm package in a component, just require it. There is no `package.json` or `npm install` required.
 
 ```javascript
-import axios from "axios"
+import axios from "axios";
 ```
 
 When you deploy a component, Pipedream downloads the latest versions of these packages and bundles them with your deployment.
 
-Some packages — for example, packages like [Puppeteer](https://pptr.dev/), which includes large dependencies like Chromium — may not work on Pipedream. Please [reach out](https://pipedream.com/community) if you encounter a specific issue.
+Some packages that rely on large dependencies or on unbundled binaries — may not work on Pipedream. Please [reach out](https://pipedream.com/support) if you encounter a specific issue.
 
 #### Referencing a specific version of a package
 
@@ -916,7 +1104,7 @@ You can delete a component via the UI at [https://pipedream.com/sources](https:/
 
 #### API
 
-See the [REST API docs](/api/rest/#operations).
+See the [REST API docs](/api/rest/)).
 
 ### Managing Actions
 
@@ -972,7 +1160,7 @@ On delete, Pipedream invokes the `deactivate()` hook and then deletes the deploy
 
 On deploy, Pipedream creates an instance of a saved component and invokes the optional `deploy()` and `activate()` hooks. A unique deployed component ID is generated for the component.
 
-You can deploy a component via the [CLI, UI or API](#management).
+You can deploy a component via the CLI, UI or API.
 
 #### Update
 
@@ -988,7 +1176,7 @@ The event lifecycle applies to deployed sources. Learn about the [source lifecyc
 
 ### Diagram
 
-![image-20200819210516311](./images/image-20200819210516311.png)
+![Pipedream Components Event Lifecycle Diagram](https://res.cloudinary.com/pipedreamin/image/upload/v1683089643/d0iiggokfkwnmt4kckb5.png)
 
 ### Triggering Sources
 
@@ -1017,7 +1205,7 @@ When you navigate to your source [in the UI](https://pipedream.com/sources), you
 
 #### Workflows
 
-[Trigger hosted Node.js workflows](/workflows/) on each event. Integrate with 300+ apps including Google Sheets, Discord, Slack, AWS, and more!
+[Trigger hosted Node.js workflows](/workflows/) on each event. Integrate with {{$site.themeConfig.PUBLIC_APPS}}+ apps including Google Sheets, Discord, Slack, AWS, and more!
 
 #### API
 

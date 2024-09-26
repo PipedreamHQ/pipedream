@@ -1,5 +1,6 @@
 import zohoCreator from "../zoho_creator.app.mjs";
 import constants from "../constants.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
@@ -10,7 +11,7 @@ export default {
       label: "Polling interval",
       description: "How often to poll the Zoho Creator API for resources",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     appLinkName: {
@@ -18,6 +19,20 @@ export default {
         zohoCreator,
         "appLinkName",
       ],
+    },
+  },
+  hooks: {
+    async deploy() {
+      const { data } = await this.zohoCreator.getRecords({
+        appLinkName: this.appLinkName,
+        reportLinkName: this.reportLinkName,
+        params: {
+          limit: 1,
+        },
+      });
+      if (data?.length) {
+        this.validateRecord(data[0]);
+      }
     },
   },
   methods: {

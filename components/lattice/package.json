@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lattice",
+  "version": "0.0.1",
+  "description": "Pipedream Lattice Components",
+  "main": "lattice.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lattice"
+  ],
+  "homepage": "https://pipedream.com/apps/lattice",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

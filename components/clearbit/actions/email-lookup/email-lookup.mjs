@@ -1,78 +1,112 @@
-// legacy_hash_id: a_vgi4Qv
-import { axios } from "@pipedream/platform";
+import app from "../../clearbit.app.mjs";
 
 export default {
   key: "clearbit-email-lookup",
   name: "Email lookup",
-  description: "This endpoint retrieves a person by email address",
-  version: "0.3.1",
+  description: "This endpoint retrieves a person by email address. [See the docs here](https://dashboard.clearbit.com/docs#enrichment-api-person-api-email-lookup)",
+  version: "0.4.0",
   type: "action",
   props: {
-    clearbit: {
-      type: "app",
-      app: "clearbit",
-    },
+    app,
     email: {
-      type: "string",
-      description: "The email address to look up.",
+      propDefinition: [
+        app,
+        "email",
+      ],
     },
-    webhook_url: {
-      type: "string",
-      description: "A webhook URL that results will be sent to.",
-      optional: true,
+    webhookUrl: {
+      propDefinition: [
+        app,
+        "webhookUrl",
+      ],
     },
-    given_name: {
+    givenName: {
+      label: "Given Name",
       type: "string",
       description: "First name of person.",
       optional: true,
     },
-    family_name: {
+    familyName: {
+      label: "Family Name",
       type: "string",
       description: "Last name of person. If you have this, passing this is strongly recommended to improve match rates.",
       optional: true,
     },
-    ip_address: {
+    ipAddress: {
+      label: "IP Address",
       type: "string",
       description: "IP address of the person. If you have this, passing this is strongly recommended to improve match rates.",
       optional: true,
     },
     location: {
+      label: "Location",
       type: "string",
       description: "The city or country where the person resides.",
       optional: true,
     },
     company: {
+      label: "Company",
       type: "string",
       description: "The name of the person's employer.",
       optional: true,
     },
-    company_domain: {
+    companyDomain: {
+      label: "Company Domain",
       type: "string",
       description: "The domain for the person's employer.",
       optional: true,
     },
     linkedin: {
-      type: "string",
+      propDefinition: [
+        app,
+        "linkedin",
+      ],
       description: "The LinkedIn URL for the person.",
-      optional: true,
     },
     twitter: {
-      type: "string",
+      propDefinition: [
+        app,
+        "twitter",
+      ],
       description: "The Twitter handle for the person.",
-      optional: true,
     },
     facebook: {
-      type: "string",
+      propDefinition: [
+        app,
+        "facebook",
+      ],
       description: "The Facebook URL for the person.",
-      optional: true,
+    },
+    errorIfNoRecords: {
+      propDefinition: [
+        app,
+        "errorIfNoRecords",
+      ],
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: `https://person.clearbit.com/v2/people/find?email=${this.email}&webhook_url=${this.webhook_url}&given_name=${this.given_name}&family_name=${this.family_name}&ip_address=${this.ip_address}&location=${this.location}&company=${this.company}&company_domain=${this.company_domain}&linkedin=${this.linkedin}&twitter=${this.twitter}&facebook=${this.facebook}`,
-      headers: {
-        Authorization: `Bearer ${this.clearbit.$auth.api_key}`,
-      },
-    });
+    try {
+      const res = await this.app.emailLookup($, {
+        email: this.email,
+        webhook_url: this.webhookUrl,
+        given_name: this.givenName,
+        family_name: this.familyName,
+        ip_address: this.ipAddress,
+        location: this.location,
+        company: this.company,
+        company_domain: this.companyDomain,
+        linkedin: this.linkedin,
+        twitter: this.twitter,
+        facebook: this.facebook,
+      });
+      $.export("$summary", "Successfully looked up email.");
+      return res;
+    } catch (err) {
+      if (!this.errorIfNoRecords && err.response?.status == 404) {
+        $.export("$summary", "No person found.");
+      } else {
+        throw err;
+      }
+    }
   },
 };

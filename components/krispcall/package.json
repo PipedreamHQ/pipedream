@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/krispcall",
+  "version": "0.1.1",
+  "description": "Pipedream KrispCall Components",
+  "main": "krispcall.app.mjs",
+  "keywords": [
+    "pipedream",
+    "krispcall"
+  ],
+  "homepage": "https://pipedream.com/apps/krispcall",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1"
+  }
+}

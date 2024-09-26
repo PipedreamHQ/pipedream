@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/whoisfreaks",
+  "version": "0.0.1",
+  "description": "Pipedream WhoisFreaks Components",
+  "main": "whoisfreaks.app.mjs",
+  "keywords": [
+    "pipedream",
+    "whoisfreaks"
+  ],
+  "homepage": "https://pipedream.com/apps/whoisfreaks",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

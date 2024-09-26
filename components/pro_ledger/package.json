@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/pro_ledger",
+  "version": "0.1.0",
+  "description": "Pipedream Pro-Ledger Components",
+  "main": "pro_ledger.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pro_ledger"
+  ],
+  "homepage": "https://pipedream.com/apps/pro_ledger",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5"
+  }
+}

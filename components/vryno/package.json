@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/vryno",
+  "version": "0.1.0",
+  "description": "Pipedream Vryno Components",
+  "main": "vryno.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vryno"
+  ],
+  "homepage": "https://pipedream.com/apps/vryno",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}
+

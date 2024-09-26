@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/codemagic",
+  "version": "0.1.0",
+  "description": "Pipedream Codemagic Components",
+  "main": "codemagic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "codemagic"
+  ],
+  "homepage": "https://pipedream.com/apps/codemagic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nasa",
+  "version": "0.0.1",
+  "description": "Pipedream Nasa Components",
+  "main": "nasa.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nasa"
+  ],
+  "homepage": "https://pipedream.com/apps/nasa",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

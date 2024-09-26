@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/twitter_ads",
+  "version": "0.0.1",
+  "description": "Pipedream Twitter Ads Components",
+  "main": "twitter_ads.app.mjs",
+  "keywords": [
+    "pipedream",
+    "twitter_ads"
+  ],
+  "homepage": "https://pipedream.com/apps/twitter_ads",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

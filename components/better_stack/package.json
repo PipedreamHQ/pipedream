@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/better_stack",
+  "version": "0.1.0",
+  "description": "Pipedream Better Stack Components",
+  "main": "better_stack.app.mjs",
+  "keywords": [
+    "pipedream",
+    "better_stack"
+  ],
+  "homepage": "https://pipedream.com/apps/better_stack",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

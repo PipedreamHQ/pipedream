@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/relevance_ai",
+  "version": "0.1.0",
+  "description": "Pipedream Relevance AI Components",
+  "main": "relevance_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "relevance_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/relevance_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

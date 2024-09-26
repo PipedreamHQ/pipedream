@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/hubstaff",
+  "version": "0.1.0",
+  "description": "Pipedream Hubstaff Components",
+  "main": "hubstaff.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hubstaff"
+  ],
+  "homepage": "https://pipedream.com/apps/hubstaff",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
+

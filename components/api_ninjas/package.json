@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/api_ninjas",
+  "version": "0.0.1",
+  "description": "Pipedream API Ninjas Components",
+  "main": "api_ninjas.app.mjs",
+  "keywords": [
+    "pipedream",
+    "api_ninjas"
+  ],
+  "homepage": "https://pipedream.com/apps/api_ninjas",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

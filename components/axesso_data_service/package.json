@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/axesso_data_service",
+  "version": "0.0.1",
+  "description": "Pipedream Axesso Data Service - Amazon Components",
+  "main": "axesso_data_service.app.mjs",
+  "keywords": [
+    "pipedream",
+    "axesso_data_service"
+  ],
+  "homepage": "https://pipedream.com/apps/axesso_data_service",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

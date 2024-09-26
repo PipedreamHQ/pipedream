@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/_2chat",
+  "version": "0.1.0",
+  "description": "Pipedream _2chat Components",
+  "main": "_2chat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "_2chat"
+  ],
+  "homepage": "https://pipedream.com/apps/_2chat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

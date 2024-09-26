@@ -1,0 +1,28 @@
+const BASE_URL = "https://api.zamzar.com";
+const VERSION_PATH = "/v1";
+const DEFAULT_LIMIT = 50;
+const DEFAULT_MAX = 600;
+const CURSOR = "cursor";
+
+const FILE_PROP_NAMES = [
+  "source_file",
+  "content",
+];
+
+const CONTENT_TYPE_KEY_HEADER = "Content-Type";
+const MULTIPART_FORM_DATA_VALUE_HEADER = "multipart/form-data";
+const MULTIPART_FORM_DATA_HEADERS = {
+  [CONTENT_TYPE_KEY_HEADER]: MULTIPART_FORM_DATA_VALUE_HEADER,
+};
+
+export default {
+  BASE_URL,
+  VERSION_PATH,
+  DEFAULT_LIMIT,
+  DEFAULT_MAX,
+  CURSOR,
+  FILE_PROP_NAMES,
+  CONTENT_TYPE_KEY_HEADER,
+  MULTIPART_FORM_DATA_VALUE_HEADER,
+  MULTIPART_FORM_DATA_HEADERS,
+};

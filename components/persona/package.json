@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/persona",
+  "version": "0.0.1",
+  "description": "Pipedream Persona Components",
+  "main": "persona.app.mjs",
+  "keywords": [
+    "pipedream",
+    "persona"
+  ],
+  "homepage": "https://pipedream.com/apps/persona",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

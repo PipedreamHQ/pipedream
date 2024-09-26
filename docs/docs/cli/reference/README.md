@@ -40,7 +40,7 @@ Searching for sources matching http
 Deletes an event source. Run:
 
 ```
-pd describe <source-id-or-name>
+pd delete <source-id-or-name>
 ```
 
 Run `pd list so` to display a list of your event sources.
@@ -89,7 +89,6 @@ If you quit `pd dev` and want to link the same deployed source to your local fil
 pd dev --dc <existing-deployed-component-id> <file-or-name>
 ```
 
-
 ### `pd events`
 
 Returns historical events sent to a source, and streams emitted events directly to the CLI.
@@ -137,7 +136,7 @@ pd init app google_calendar
 
 #### `pd init action`
 
-Creates a new directory and [a component action](/components/actions/) from a template.
+Creates a new directory and [a component action](/components#actions) from a template.
 
 ```
 # Creates add-new-event/ directory and add-new-event.mjs file
@@ -146,7 +145,7 @@ pd init action add-new-event
 
 #### `pd init source`
 
-Creates a new directory and [an event source](/event-sources/) from a template.
+Creates a new directory and [an event source](/sources/) from a template.
 
 ```
 # Creates cancelled-event/ directory and cancelled_event.mjs file
@@ -155,11 +154,11 @@ pd init source cancelled-event
 
 You can attach [database](/components/api/#db), [HTTP](/components/api/#http), or [Timer](/components/api/#timer) props to your template using the following flags:
 
-| Prop type        | Flag           |
-| ------------- |-------------|
-| Database      | `--db` |
-| HTTP      | `--http`      |
-| Timer | `--timer`      |
+| Prop type | Flag      |
+| --------- | --------- |
+| Database  | `--db`    |
+| HTTP      | `--http`  |
+| Timer     | `--timer` |
 
 For example, running:
 
@@ -221,7 +220,7 @@ pd logout -p <profile>
 
 Event sources produce logs that can be useful for troubleshooting issues with that source. `pd logs` displays logs for a source.
 
-Running `pd logs <source-id-or-name>` connects to the [SSE logs stream tied to your source](/event-sources/logs/), displaying new logs as the source produces them.
+Running `pd logs <source-id-or-name>` connects to the [SSE logs stream tied to your source](/sources/logs/), displaying new logs as the source produces them.
 
 Any errors thrown by the source will also appear here.
 
@@ -242,6 +241,14 @@ pd publish my-action.js
 ### `pd signup`
 
 Sign up for Pipedream via the CLI and persist your API key locally. See the docs on [Signing up for Pipedream via the CLI](/cli/login/#signing-up-for-pipedream-via-the-cli) for more information.
+
+### `pd unpublish`
+
+Unpublish a component you've published to your account. If you publish a source or action that you no longer need, you can unpublish it by component `key`:
+
+```
+pd unpublish component <component-key>
+```
 
 ### `pd update`
 
@@ -298,23 +305,23 @@ api_key = def456
 
 You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pipedream account via the CLI and set a named profile for that account.
 
-### Creating a profile for an organization
+### Creating a profile for a workspace
 
-If you're working with resources in an [organization](/orgs/), you'll need to add an `org_id` to your profile.
+If you're working with resources in an [workspace](/workspaces/), you'll need to add an `org_id` to your profile.
 
-1. [Retrieve your organization's ID](/orgs/#finding-your-organization-s-id)
+1. [Retrieve your workspaces's ID](/workspaces/#finding-your-workspace-s-id)
 2. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
 
 ```
 [profile_name]
-api_key = <API Key from org settings>
-org_id = <Org ID from org settings>
+api_key = <API Key from user settings>
+org_id = <Workspace ID from workspace settings>
 ```
 
-When using the CLI, pass `--profile <profile_name>` when running any command. For example, if you named your profile `my_org`, you'd run this command to publish a component:
+When using the CLI, pass `--profile <profile_name>` when running any command. For example, if you named your profile `workspace`, you'd run this command to publish a component:
 
 ```bash
-pd publish file.js --profile my_org
+pd publish file.js --profile workspace
 ```
 
 ### Using profiles

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/doppler_marketing_automation",
+  "version": "0.1.0",
+  "description": "Pipedream Doppler Marketing Automation Components",
+  "main": "doppler_marketing_automation.app.mjs",
+  "keywords": [
+    "pipedream",
+    "doppler_marketing_automation"
+  ],
+  "homepage": "https://pipedream.com/apps/doppler_marketing_automation",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

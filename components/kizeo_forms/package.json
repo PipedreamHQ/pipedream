@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/kizeo_forms",
+  "version": "0.1.0",
+  "description": "Pipedream Kizeo Forms Components",
+  "main": "kizeo_forms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kizeo_forms"
+  ],
+  "homepage": "https://pipedream.com/apps/kizeo_forms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

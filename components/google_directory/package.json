@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_directory",
+  "version": "0.1.0",
+  "description": "Pipedream Google Directory Components",
+  "main": "google_directory.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_directory"
+  ],
+  "homepage": "https://pipedream.com/apps/google_directory",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/icypeas",
+  "version": "0.1.0",
+  "description": "Pipedream Icypeas Components",
+  "main": "icypeas.app.mjs",
+  "keywords": [
+    "pipedream",
+    "icypeas"
+  ],
+  "homepage": "https://pipedream.com/apps/icypeas",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

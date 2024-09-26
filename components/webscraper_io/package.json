@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/webscraper_io",
+  "version": "0.0.2",
+  "description": "Pipedream WebScraper.IO Components",
+  "main": "webscraper_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "webscraper_io"
+  ],
+  "homepage": "https://pipedream.com/apps/webscraper_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/suitedash",
+  "version": "0.0.2",
+  "description": "Pipedream SuiteDash Components",
+  "main": "dist/app/suitedash.app.mjs",
+  "keywords": [
+    "pipedream",
+    "suitedash"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/suitedash",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

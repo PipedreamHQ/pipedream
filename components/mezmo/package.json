@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mezmo",
+  "version": "0.0.1",
+  "description": "Pipedream Mezmo Components",
+  "main": "mezmo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mezmo"
+  ],
+  "homepage": "https://pipedream.com/apps/mezmo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

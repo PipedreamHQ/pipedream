@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/swaggerhub",
+  "version": "0.0.3",
+  "description": "Pipedream SwaggerHub Components",
+  "main": "swaggerhub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "swaggerhub"
+  ],
+  "homepage": "https://pipedream.com/apps/swaggerhub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.3.0"
+  }
+}

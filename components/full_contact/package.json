@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/full_contact",
+  "version": "0.1.0",
+  "description": "Pipedream Full Contact Components",
+  "main": "full_contact.app.mjs",
+  "keywords": [
+    "pipedream",
+    "full_contact"
+  ],
+  "homepage": "https://pipedream.com/apps/full_contact",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

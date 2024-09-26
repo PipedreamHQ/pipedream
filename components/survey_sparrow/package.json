@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/survey_sparrow",
+  "version": "0.0.1",
+  "description": "Pipedream Survey Sparrow Components",
+  "main": "survey_sparrow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "survey_sparrow"
+  ],
+  "homepage": "https://pipedream.com/apps/survey_sparrow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

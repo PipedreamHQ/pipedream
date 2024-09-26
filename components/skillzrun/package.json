@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/skillzrun",
+  "version": "0.1.0",
+  "description": "Pipedream SkillzRun Components",
+  "main": "skillzrun.app.mjs",
+  "keywords": [
+    "pipedream",
+    "skillzrun"
+  ],
+  "homepage": "https://pipedream.com/apps/skillzrun",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.4"
+  }
+}

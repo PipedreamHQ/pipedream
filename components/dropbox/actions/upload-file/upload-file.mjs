@@ -1,29 +1,31 @@
 import dropbox from "../../dropbox.app.mjs";
-import consts from "../../consts.mjs";
+import consts from "../../common/consts.mjs";
 import fs from "fs";
 import got from "got";
-import common from "../common.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  ...common,
   name: "Upload a File",
-  description: "Uploads a file to a selected folder. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
-  key: "dropbox-upload-a-file",
-  version: "0.0.1",
+  description: "Uploads a file to a selected folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
+  key: "dropbox-upload-file",
+  version: "0.0.13",
   type: "action",
   props: {
     dropbox,
     path: {
       propDefinition: [
         dropbox,
-        "pathFolder",
+        "path",
+        () => ({
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => type === "folder",
+        }),
       ],
-      description: "The file path in the user's Dropbox to create the file. If not filled, it will be created in the root folder.",
+      description: "Type the folder name to search for it in the user's Dropbox. If not filled, it will be created in the root folder.",
     },
     name: {
       type: "string",
-      label: "Folder name",
-      description: "The name of your new file.",
+      label: "File Name",
+      description: "The name of your new file (make sure to include the file extension).",
     },
     fileUrl: {
       type: "string",
@@ -51,7 +53,7 @@ export default {
     },
     strictConflict: {
       type: "boolean",
-      label: "Strict Ccnflict",
+      label: "Strict Conflict",
       description: "Be more strict about how each WriteMode detects conflict. For example, always return a conflict error when mode = WriteMode.update and the given \"rev\" doesn't match the existing file's \"rev\", even if the existing file has been deleted. This also forces a conflict even when the target path refers to a file with identical contents.",
       optional: true,
     },
@@ -76,11 +78,15 @@ export default {
       clientModified,
     } = this;
 
+    if (!fileUrl && !filePath) {
+      throw new ConfigurationError("Must specify either File URL or File Path.");
+    }
+
     const contents = fileUrl
       ? await got.stream(fileUrl)
       : fs.createReadStream(filePath);
 
-    let normalizedPath = this.getNormalizedPath(path, true);
+    let normalizedPath = this.dropbox.getNormalizedPath(path, true);
 
     const res = await this.dropbox.uploadFile({
       contents,

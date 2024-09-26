@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/vk",
+  "version": "0.0.4",
+  "description": "Pipedream vk Components",
+  "main": "dist/app/vk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vk"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/vk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

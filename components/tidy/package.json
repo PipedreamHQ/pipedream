@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/tidy",
+  "version": "0.1.0",
+  "description": "Pipedream Tidy Components",
+  "main": "tidy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tidy"
+  ],
+  "homepage": "https://pipedream.com/apps/tidy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

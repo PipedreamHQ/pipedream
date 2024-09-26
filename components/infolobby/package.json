@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/infolobby",
+  "version": "0.1.0",
+  "description": "Pipedream InfoLobby Components",
+  "main": "infolobby.app.mjs",
+  "keywords": [
+    "pipedream",
+    "infolobby"
+  ],
+  "homepage": "https://pipedream.com/apps/infolobby",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.6"
+  }
+}

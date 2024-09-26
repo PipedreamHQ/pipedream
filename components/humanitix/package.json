@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/humanitix",
+  "version": "0.0.2",
+  "description": "Pipedream Humanitix Components",
+  "main": "dist/app/humanitix.app.mjs",
+  "keywords": [
+    "pipedream",
+    "humanitix"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/humanitix",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

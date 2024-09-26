@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/automatic_data_extraction",
+  "version": "0.0.2",
+  "description": "Pipedream Automatic Data Extraction Components",
+  "main": "automatic_data_extraction.app.mjs",
+  "keywords": [
+    "pipedream",
+    "automatic_data_extraction"
+  ],
+  "homepage": "https://pipedream.com/apps/automatic_data_extraction",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.4.1"
+  }
+}

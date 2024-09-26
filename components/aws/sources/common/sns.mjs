@@ -1,9 +1,9 @@
-import axios from "axios";
-import aws from "../../aws.app.mjs";
+import { axios } from "@pipedream/platform";
+import common from "../../common/common-sns.mjs";
 
 export default {
   props: {
-    aws,
+    aws: common.props.aws,
     db: "$.service.db",
     http: {
       label: "SNS HTTP endpoint",
@@ -11,31 +11,28 @@ export default {
       type: "$.interface.http",
       customResponse: true,
     },
-    region: {
-      propDefinition: [
-        aws,
-        "region",
-      ],
-    },
+    region: common.props.region,
   },
   hooks: {
-    async activate() {
-      const topicName = this.getTopicName();
-      const topicArn = await this._createTopic(topicName);
+    async deploy() {
+      let topicArn = this.topicArn;
+      if (!this.topicArn) {
+        const topicName = this.getTopicName();
+        topicArn = await this._createTopic(topicName);
+      }
       this._setTopicArn(topicArn);
-
+    },
+    async activate() {
+      const topicArn = this.getTopicArn();
       await this._subscribeToTopic(topicArn);
     },
     async deactivate() {
       const subscriptionArn = this._getSubscriptionArn();
       await this._unsubscribeFromTopic(subscriptionArn);
-
-      const topicArn = this.getTopicArn();
-      await this._deleteTopic(topicArn);
-      this._setTopicArn(null);
     },
   },
   methods: {
+    ...common.methods,
     _isSubscriptionConfirmationEvent({ body = {} }) {
       const { Type: type } = body;
       return type === "SubscriptionConfirmation";
@@ -49,21 +46,13 @@ export default {
     _setSubscriptionArn(subscriptionArn) {
       return this.db.set("subscriptionArn", subscriptionArn);
     },
-    _getSnsClient() {
-      const region = this.getRegion();
-      const AWS = this.aws.sdk(region);
-      return new AWS.SNS();
-    },
     async _createTopic(topicName) {
       const params = {
         Name: topicName,
       };
 
       console.log(`Creating SNS topic '${topicName}'`);
-      const { TopicArn: topicArn } = await this
-        ._getSnsClient()
-        .createTopic(params)
-        .promise();
+      const { TopicArn: topicArn } = await this.createTopic(params);
       return topicArn;
     },
     async _deleteTopic(topicArn) {
@@ -72,10 +61,7 @@ export default {
       };
 
       console.log(`Deleting SNS topic '${topicArn}'`);
-      await this
-        ._getSnsClient()
-        .deleteTopic(params)
-        .promise();
+      await this.deleteTopic(params);
     },
     async _subscribeToTopic(topicArn) {
       const params = {
@@ -88,17 +74,16 @@ export default {
         Subscribing this source's URL (${this.http.endpoint})
         to SNS topic '${topicArn}'
       `);
-      await this
-        ._getSnsClient()
-        .subscribe(params)
-        .promise();
+      await this.subscribeToTopic(params);
     },
     async _confirmSubscription({
       SubscribeURL: callbackUrl,
       TopicArn: topicArn,
     }) {
       console.log(`Confirming subscription to SNS topic '${topicArn}'`);
-      const { data } = await axios.get(callbackUrl);
+      const data = await axios(this, {
+        url: callbackUrl,
+      });
       const subscriptionArn = data
         .ConfirmSubscriptionResponse
         .ConfirmSubscriptionResult
@@ -117,10 +102,7 @@ export default {
         Unsubscribing this source's URL (${this.http.endpoint})
         from SNS topic '${topicArn}'
       `);
-      await this
-        ._getSnsClient()
-        .unsubscribe(params)
-        .promise();
+      await this.unsubscribeFromTopic(params);
     },
     /**
      * This is a utility method that takes a string to be used as the name for
@@ -195,10 +177,7 @@ export default {
         AttributeName: attributeName,
         AttributeValue: attributeValue,
       };
-      await this
-        ._getSnsClient()
-        .setTopicAttributes(params)
-        .promise();
+      await this.setTopicAttributes(params);
     },
     /**
      * This method generates the metadata needed to emit an event using the

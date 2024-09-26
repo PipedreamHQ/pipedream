@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/handwrytten",
+  "version": "0.0.1",
+  "description": "Pipedream Handwrytten Components",
+  "main": "dist/app/handwrytten.app.mjs",
+  "keywords": [
+    "pipedream",
+    "handwrytten"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/handwrytten",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

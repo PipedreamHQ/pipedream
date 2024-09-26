@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/seven",
+  "version": "0.1.0",
+  "description": "Pipedream Seven Components",
+  "main": "seven.app.mjs",
+  "keywords": [
+    "pipedream",
+    "seven"
+  ],
+  "homepage": "https://pipedream.com/apps/seven",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1"
+  }
+}

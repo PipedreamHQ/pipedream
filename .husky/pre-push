@@ -1,0 +1,9 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npx pnpm install -r
+
+if ! (git diff HEAD --quiet pnpm-lock.yaml); then
+    echo "modified pnpm-lock.yaml - please commit the file"
+    exit 1
+fi

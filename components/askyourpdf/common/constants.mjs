@@ -1,0 +1,23 @@
+const SUMMARY_LABEL = "$summary";
+const BASE_URL = "https://api.askyourpdf.com";
+const VERSION_PATH = "/v1";
+
+const FILE_PROP_NAMES = [
+  "file",
+];
+
+const CONTENT_TYPE_KEY_HEADER = "Content-Type";
+const MULTIPART_FORM_DATA_VALUE_HEADER = "multipart/form-data";
+const MULTIPART_FORM_DATA_HEADERS = {
+  [CONTENT_TYPE_KEY_HEADER]: MULTIPART_FORM_DATA_VALUE_HEADER,
+};
+
+export default {
+  SUMMARY_LABEL,
+  BASE_URL,
+  VERSION_PATH,
+  FILE_PROP_NAMES,
+  CONTENT_TYPE_KEY_HEADER,
+  MULTIPART_FORM_DATA_VALUE_HEADER,
+  MULTIPART_FORM_DATA_HEADERS,
+};

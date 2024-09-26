@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/jobber_developer_app",
+  "version": "0.0.1",
+  "description": "Pipedream Jobber (Developer App) Components",
+  "main": "jobber_developer_app.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jobber_developer_app"
+  ],
+  "homepage": "https://pipedream.com/apps/jobber_developer_app",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/overloop",
+  "version": "0.0.1",
+  "description": "Pipedream Overloop Components",
+  "main": "overloop.app.mjs",
+  "keywords": [
+    "pipedream",
+    "overloop"
+  ],
+  "homepage": "https://pipedream.com/apps/overloop",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.3.0",
+    "lodash.pickby": "^4.6.0"
+  }
+}

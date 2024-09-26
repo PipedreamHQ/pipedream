@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/hub_planner",
+  "version": "0.0.2",
+  "description": "Pipedream HUB Planner Components",
+  "main": "dist/app/hub_planner.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hub_planner"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/hub_planner",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

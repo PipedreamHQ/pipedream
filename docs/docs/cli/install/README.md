@@ -1,8 +1,18 @@
 # Installing the CLI
 
+<VideoPlayer src="https://www.youtube.com/embed/CelgPjcB2nU" title="Installing the CLI"/>
+
 [[toc]]
 
 ## macOS
+
+### Homebrew
+
+```bash
+brew install pipedreamhq/pd-cli/pipedream
+```
+
+### From source
 
 Run the following command:
 
@@ -17,6 +27,16 @@ If this returns a permissions error, you may need to run:
 ```bash
 curl https://cli.pipedream.com/install | sudo sh
 ```
+
+::: tip
+
+If you encounter the error `bad CPU type in executable: pd`, you will need to install Rosetta 2 on your Mac by running the following command:
+
+```bash
+softwareupdate --install-rosetta
+```
+
+:::
 
 ## Linux
 
@@ -34,8 +54,8 @@ Download the appropriate [Linux CLI build](#cli-builds) for your architecture. U
 
 Pipedream publishes the following builds of the CLI. If you need to use the CLI on another OS or architecture, [please reach out](https://docs.pipedream.com/support/).
 
-| Operating System | Architecture | link                                                             |
-| ---------------- | ------------ | ---------------------------------------------------------------- |
+| Operating System | Architecture | link                                                              |
+| ---------------- | ------------ | ----------------------------------------------------------------- |
 | Linux            | amd64        | [download](https://cli.pipedream.com/linux/amd64/latest/pd.zip)   |
 | Linux            | 386          | [download](https://cli.pipedream.com/linux/386/latest/pd.zip)     |
 | Linux            | arm          | [download](https://cli.pipedream.com/linux/arm/latest/pd.zip)     |

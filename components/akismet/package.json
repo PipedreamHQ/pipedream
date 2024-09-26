@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/akismet",
+  "version": "0.0.1",
+  "description": "Pipedream Akismet Components",
+  "main": "akismet.app.mjs",
+  "keywords": [
+    "pipedream",
+    "akismet"
+  ],
+  "homepage": "https://pipedream.com/apps/akismet",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

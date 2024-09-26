@@ -1,9 +1,9 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import sheets from "@googleapis/sheets";
 import googleDrive from "../google_drive/google_drive.app.mjs";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
-} from "./constants.mjs";
+} from "./common/constants.mjs";
 import isArray from "lodash/isArray.js";
 import get from "lodash/get.js";
 import isString from "lodash/isString.js";
@@ -22,8 +22,7 @@ export default {
     cells: {
       type: "string[]",
       label: "Cells / Column Values",
-      description:
-        "Enter individual cell values or a custom expression to pass an array with each element representing a cell/column value.",
+      description: "Enter individual cell values or a custom expression to pass an array with each element representing a cell/column value.",
     },
     range: {
       type: "string",
@@ -43,31 +42,33 @@ export default {
     rows: {
       type: "string",
       label: "Row Values",
-      description:
-        "Provide an array of arrays. Each nested array should represent a row, with each element of the nested array representing a cell/column value (e.g., passing `[[\"Foo\",1,2],[\"Bar\",3,4]]` will insert two rows of data with three columns each). The most common pattern is to reference an array of arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of arrays.",
+      description: "Provide an array of arrays",
+    },
+    rowsDescription: {
+      type: "alert",
+      alertType: "neutral",
+      content: "Each nested array should represent a row, with each element of the nested array representing a cell/column value (e.g., passing `[[\"Foo\",1,2],[\"Bar\",3,4]]` will insert two rows of data with three columns each). The most common pattern is to reference an array of arrays exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of arrays.",
+    },
+    headersDisplay: {
+      type: "alert",
+      alertType: "info",
+      content: "",
+      hidden: true,
     },
     sheetID: {
       type: "string",
       label: "Spreadsheet",
       description: "The Spreadsheet ID",
+      useQuery: true,
       options({
+        query,
         prevContext,
         driveId,
       }) {
         const { nextPageToken } = prevContext;
-        return this.listSheetsOptions(driveId, nextPageToken);
+        return this.listSheetsOptions(driveId, nextPageToken, query);
       },
     },
-    sheetName: {
-      type: "string",
-      label: "Sheet Name",
-      description: "Your sheet name",
-      async options({ sheetId }) {
-        const { sheets } = await this.getSpreadsheet(sheetId);
-        return sheets.map((sheet) => sheet.properties.title);
-      },
-    },
-    // TODO: is this a duplicate of the prop above?
     worksheetIDs: {
       type: "string[]",
       label: "Worksheet(s)",
@@ -93,6 +94,64 @@ export default {
   },
   methods: {
     ...googleDrive.methods,
+
+    /**
+     * Retrieves the sheet ID corresponding to the provided sheet name from a spreadsheet.
+     *
+     * @async
+     * @param {string} spreadsheetId - The ID of the target spreadsheet.
+     * @param {string} sheetName - The name of the sheet to retrieve the ID for.
+     * @returns {Promise<number>} The ID of the sheet matching the provided name.
+     * @throws Will throw an error if the sheet name is not found.
+     */
+    async _getSheetIdFromName(spreadsheetId, sheetName) {
+      const { sheets } = await this.getSpreadsheet(spreadsheetId);
+      for (let sheet of sheets) {
+        if (sheet.properties.title === sheetName) {
+          return sheet.properties.sheetId;
+        }
+      }
+      throw new Error("Sheet name not found");
+    },
+
+    /**
+     * Parses a range string into its components:
+     * sheet name, start column, end column, start row, and end row.
+     *
+     * @param {string} rangeStr - The range string in the format "SheetName!A1:B10".
+     * @returns {Object} An object with parsed components:
+     * { sheetName, startCol, endCol, startRow, endRow }.
+     */
+    _parseRangeString(rangeStr) {
+      // Remove any single quotes
+      const sanitizedRangeStr = rangeStr.replace(/'/g, "");
+
+      const [
+        sheetName,
+        range,
+      ] = sanitizedRangeStr.split("!");
+      const [
+        startCoord,
+        endCoord,
+      ] = range.split(":");
+      const startCol = startCoord.replace(/\d/g, "");
+      const endCol = endCoord
+        ? endCoord.replace(/\d/g, "")
+        : startCol;
+      const startRow = parseInt(startCoord.replace(/\D/g, ""), 10) - 1; // 0-based index
+      const endRow = endCoord
+        ? parseInt(endCoord.replace(/\D/g, ""), 10)
+        : startRow;
+
+      return {
+        sheetName,
+        startCol,
+        endCol,
+        startRow,
+        endRow,
+      };
+    },
+
     sanitizedArray(value) {
       if (isArray(value)) {
         return value.map((item) => get(item, "value", item));
@@ -121,7 +180,11 @@ export default {
       const convertedIndexes = [];
 
       const res = arr.map((val, i) => {
-        if (typeof val !== "string") {
+        if (![
+          "string",
+          "number",
+          "boolean",
+        ].includes(typeof val)) {
           convertedIndexes.push(i) ;
           return JSON.stringify(val);
         }
@@ -189,8 +252,11 @@ export default {
       }
       return sum;
     },
-    async listSheetsOptions(driveId, pageToken = null) {
-      const q = "mimeType='application/vnd.google-apps.spreadsheet'";
+    async listSheetsOptions(driveId, pageToken = null, query) {
+      const searchQuery = query
+        ? ` and name contains '${query}'`
+        : "";
+      const q = `mimeType='application/vnd.google-apps.spreadsheet'${searchQuery}`;
       let request = {
         q,
       };
@@ -254,10 +320,11 @@ export default {
       ];
       const { sheets } = await this.getSpreadsheet(spreadsheetId, fields);
       return sheets
-        .map(({ properties }) => properties)
         .map(({
-          sheetId,
-          gridProperties: { rowCount },
+          properties: {
+            sheetId,
+            gridProperties: { rowCount = 0 } = {},
+          } = {},
         }) => ({
           spreadsheetId,
           worksheetId: sheetId,
@@ -384,11 +451,11 @@ export default {
       return (await sheets.spreadsheets.values.clear(request)).data;
     },
     async addRowsToSheet({
-      spreadsheetId, range, rows, params,
+      $ = this, spreadsheetId, range, rows, params,
     }) {
-      const resp = await axios({
+      const resp = await axios($, {
         method: "POST",
-        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURI(range)}:append`,
+        url: `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(`${range}!A:A`)}:append`,
         headers: {
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
@@ -401,6 +468,7 @@ export default {
         data: {
           values: rows,
         },
+        returnFullResponse: true,
       });
       if (resp.status >= 400) {
         throw new Error(JSON.stringify(resp.data));
@@ -534,6 +602,103 @@ export default {
           valueInputOption: VALUE_INPUT_OPTION.USER_ENTERED,
         },
       );
+    },
+
+    /**
+     * https://developers.google.com/sheets/api/samples/formatting
+     *
+     * Resets the format
+     * (line style, background, foreground color, font size,
+     * bold, italic, strikethrough, horizontalAlignment)
+     * of a specified range in a spreadsheet.
+     *
+     * @async
+     * @param {string} spreadsheetId - The ID of the target spreadsheet.
+     * @param {string} rangeStr - The range string in the format "SheetName!A1:B10".
+     * @param {Object} [opts={}] - Optional additional configurations for the batchUpdate request.
+     * @returns {Promise<Object>} The response data from the batchUpdate request.
+     */
+    async resetRowFormat(spreadsheetId, rangeStr, opts = {}) {
+      const ASCII_A = 65;    // Unicode (UTF-16) value for the character 'A'
+      const OFFSET_INCLUSIVE = -1;  // For making the end column index inclusive
+
+      const {
+        sheetName,
+        startCol,
+        endCol,
+        startRow,
+        endRow,
+      } = this._parseRangeString(rangeStr);
+
+      // Get the sheetId using the parsed sheetName
+      const sheetId = await this._getSheetIdFromName(spreadsheetId, sheetName);
+      const sheets = this.sheets();
+
+      const range = {
+        sheetId: sheetId,
+        startRowIndex: startRow,
+        endRowIndex: endRow,
+        startColumnIndex: startCol.charCodeAt(0) - ASCII_A,
+        endColumnIndex: endCol.charCodeAt(0) - (ASCII_A + OFFSET_INCLUSIVE),
+      };
+      return (await sheets.spreadsheets.batchUpdate({
+        spreadsheetId,
+        requestBody: {
+          requests: [
+            {
+              updateBorders: {
+                range,
+                top: {
+                  style: "NONE",
+                },
+                bottom: {
+                  style: "NONE",
+                },
+                left: {
+                  style: "NONE",
+                },
+                right: {
+                  style: "NONE",
+                },
+                innerHorizontal: {
+                  style: "NONE",
+                },
+                innerVertical: {
+                  style: "NONE",
+                },
+              },
+            },
+            {
+              repeatCell: {
+                range,
+                cell: {
+                  userEnteredFormat: {
+                    backgroundColor: { // assuming white as the default background color
+                      red: 1,
+                      green: 1,
+                      blue: 1,
+                    },
+                    textFormat: {
+                      foregroundColor: { // assuming black as the default foreground color
+                        red: 0,
+                        green: 0,
+                        blue: 0,
+                      },
+                      fontSize: 10,  // Assuming 10 as the default font size
+                      bold: false,
+                      italic: false,
+                      strikethrough: false,
+                    },
+                    horizontalAlignment: "LEFT",  // Assuming LEFT as the default horizontal alignment
+                  },
+                },
+                fields: "userEnteredFormat(backgroundColor,textFormat.foregroundColor,textFormat.bold,textFormat.italic,textFormat.strikethrough,textFormat.fontSize,horizontalAlignment)",
+              },
+            },
+          ],
+          ...opts,
+        },
+      })).data;
     },
   },
 };

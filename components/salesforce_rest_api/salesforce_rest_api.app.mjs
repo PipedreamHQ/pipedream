@@ -1,6 +1,4 @@
 import { axios } from "@pipedream/platform";
-import salesforceWebhooks from "salesforce-webhooks";
-const { SalesforceClient } = salesforceWebhooks;
 
 export default {
   type: "app",
@@ -8,53 +6,79 @@ export default {
   propDefinitions: {
     objectType: {
       type: "string",
-      label: "Object Type",
-      description: "The type of object for which to monitor events",
-      async options(context) {
-        const {
-          page,
-          eventType,
-        } = context;
+      label: "SObject Type",
+      description: "Standard object type of the record to get field values from",
+      async options({
+        page,
+        filter = this.isValidSObject,
+        mapper =  ({
+          label, name: value,
+        }) => ({
+          label,
+          value,
+        }),
+      }) {
         if (page !== 0) {
-          // The list of allowed SObject types is static and exhaustively
-          // provided through a single method call
           return [];
         }
-
-        const supportedObjectTypes = this.listAllowedSObjectTypes(eventType);
-        const options = supportedObjectTypes.map((i) => ({
-          label: i.label,
-          value: i.name,
-        }));
-        return {
-          options,
-        };
+        const { sobjects } = await this.listSObjectTypes();
+        return sobjects.filter(filter).map(mapper);
+      },
+    },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "The ID of the record of the selected object type.",
+      async options({
+        objType,
+        nameField,
+      }) {
+        if (!nameField) nameField = await this.getNameFieldForObjectType(objType);
+        return this.listRecordOptions({
+          objType,
+          nameField,
+        });
       },
     },
     field: {
       type: "string",
       label: "Field",
       description: "The object field to watch for changes",
-      async options(context) {
-        const {
-          page,
-          objectType,
-        } = context;
+      async options({
+        page, objectType, filter = () => true,
+      }) {
         if (page !== 0) {
-          return {
-            options: [],
-          };
+          return [];
         }
 
         const fields = await this.getFieldsForObjectType(objectType);
-        return fields.map((field) => field.name);
+        return fields.filter(filter).map(({ name }) => name);
       },
     },
-    fieldUpdatedTo: {
-      type: "string",
-      label: "Field Updated to",
-      description: "If provided, the trigger will only fire when the updated field is an EXACT MATCH (including spacing and casing) to the value you provide in this field",
+    fieldsToUpdate: {
+      type: "string[]",
+      label: "Fields to Update",
+      description: "Select the field(s) you want to update for this record.",
+      async options({ objType }) {
+        const fields = await this.getFieldsForObjectType(objType);
+        return fields.filter((field) => field.updateable).map(({ name }) => name);
+      },
+    },
+    fieldsToObtain: {
+      type: "string[]",
+      label: "Fields to Obtain",
+      description: "Select the field(s) to obtain for the selected record(s) (or all records).",
+      async options({ objType }) {
+        const fields = await this.getFieldsForObjectType(objType);
+        return fields.map(({ name }) => name);
+      },
+    },
+    useAdvancedProps: {
+      type: "boolean",
+      label: "See All Props",
+      description: "Set to true to see all available props for this object.",
       optional: true,
+      reloadProps: true,
     },
   },
   methods: {
@@ -80,34 +104,42 @@ export default {
     },
     _baseApiUrl() {
       return (
-        this._instanceUrl() ||
-        `https://${this._subdomain()}.salesforce.com`
+        this._instanceUrl() || `https://${this._subdomain()}.salesforce.com`
       );
     },
     _userApiUrl() {
       const baseUrl = this._baseApiUrl();
       return `${baseUrl}/services/oauth2/userinfo`;
     },
-    _sObjectsApiUrl() {
+    _baseApiVersionUrl() {
       const baseUrl = this._baseApiUrl();
       const apiVersion = this._apiVersion();
-      return `${baseUrl}/services/data/v${apiVersion}/sobjects`;
+      return `${baseUrl}/services/data/v${apiVersion}`;
+    },
+    _sObjectsApiUrl() {
+      const baseUrl = this._baseApiVersionUrl();
+      return `${baseUrl}/sobjects`;
+    },
+    _sCompositeApiUrl() {
+      const baseUrl = this._baseApiUrl();
+      const apiVersion = this._apiVersion();
+      return `${baseUrl}/services/data/v${apiVersion}/composite/sobjects`;
+    },
+    _sObjectTypeApiUrl(sObjectType) {
+      const baseUrl = this._sObjectsApiUrl();
+      return `${baseUrl}/${sObjectType}`;
     },
     _sObjectTypeDescriptionApiUrl(sObjectType) {
-      const baseUrl = this._sObjectsApiUrl();
-      return `${baseUrl}/${sObjectType}/describe`;
-    },
-    _sObjectTypeUpdatedApiUrl(sObjectType) {
-      const baseUrl = this._sObjectsApiUrl();
-      return `${baseUrl}/${sObjectType}/updated`;
+      const baseUrl = this._sObjectTypeApiUrl(sObjectType);
+      return `${baseUrl}/describe`;
     },
     _sObjectTypeDeletedApiUrl(sObjectType) {
-      const baseUrl = this._sObjectsApiUrl();
-      return `${baseUrl}/${sObjectType}/deleted`;
+      const baseUrl = this._sObjectTypeApiUrl(sObjectType);
+      return `${baseUrl}/deleted`;
     },
     _sObjectDetailsApiUrl(sObjectType, id) {
-      const baseUrl = this._sObjectsApiUrl();
-      return `${baseUrl}/${sObjectType}/${id}`;
+      const baseUrl = this._sObjectTypeApiUrl(sObjectType);
+      return `${baseUrl}/${id}`;
     },
     _makeRequestHeaders() {
       const authToken = this._authToken();
@@ -139,40 +171,18 @@ export default {
       // Remove milliseconds from date ISO string
       return dateString.replace(/\.[0-9]{3}/, "");
     },
-    _getSalesforceClient() {
-      const clientOpts = {
-        apiVersion: this._apiVersion(),
-        authToken: this._authToken(),
-        instance: this._subdomain(),
-      };
-      return new SalesforceClient(clientOpts);
+    isValidSObject(sobject) {
+      // Only the activity of those SObject types that have the `replicateable`
+      // flag set is published via the `getUpdated` API.
+      //
+      // See the API docs here: https://sforce.co/3gDy3uP
+      return sobject.replicateable;
     },
     isHistorySObject(sobject) {
-      return sobject.associateEntityType === "History" && sobject.name.includes("History");
-    },
-    listAllowedSObjectTypes(eventType) {
-      const verbose = true;
-      return SalesforceClient.getAllowedSObjects(eventType, verbose);
-    },
-    async createWebhook(endpointUrl, sObjectType, event, secretToken, opts) {
-      const {
-        fieldsToCheck,
-        fieldsToCheckMode,
-      } = opts;
-      const client = this._getSalesforceClient();
-      const webhookOpts = {
-        endpointUrl,
-        sObjectType,
-        event,
-        secretToken,
-        fieldsToCheck,
-        fieldsToCheckMode,
-      };
-      return client.createWebhook(webhookOpts);
-    },
-    async deleteWebhook(webhookData) {
-      const client = this._getSalesforceClient();
-      return client.deleteWebhook(webhookData);
+      return (
+        sobject.associateEntityType === "History" &&
+        sobject.name.includes("History")
+      );
     },
     async listSObjectTypes() {
       const url = this._sObjectsApiUrl();
@@ -180,9 +190,16 @@ export default {
         url,
       });
     },
+    async listSObjectTypeIds(objectType) {
+      const url = this._sObjectTypeApiUrl(objectType);
+      return this._makeRequest({
+        url,
+      });
+    },
     async getNameFieldForObjectType(objectType) {
       const url = this._sObjectTypeDescriptionApiUrl(objectType);
       const data = await this._makeRequest({
+        debug: true,
         url,
       });
       const nameField = data.fields.find((f) => f.nameField);
@@ -197,26 +214,36 @@ export default {
       });
       return data.fields;
     },
-    async getHistorySObjectForObjectType(objectType) {
-      const { sobjects } = await this.listSObjectTypes();
-      const historyObject = sobjects.find(
-        (sobject) => sobject.associateParentEntity === objectType
-            && this.isHistorySObject(sobject),
-      );
-      return historyObject;
-    },
-    async getSObject(objectType, id) {
-      const url = this._sObjectDetailsApiUrl(objectType, id);
+    async createObject({
+      objectType, ...args
+    }) {
       return this._makeRequest({
-        url,
+        url: `${this._sObjectsApiUrl()}/${objectType}`,
+        method: "POST",
+        ...args,
       });
     },
-    async getUpdatedForObjectType(objectType, start, end) {
-      const url = this._sObjectTypeUpdatedApiUrl(objectType);
-      const params = {
-        start: this._formatDateString(start),
-        end: this._formatDateString(end),
-      };
+    async deleteRecord({
+      sobjectType, recordId, ...args
+    }) {
+      const url = `${this._sObjectsApiUrl()}/${sobjectType}/${recordId}`;
+      return this._makeRequest({
+        url,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    async getRecords({
+      objectType, ...args
+    }) {
+      const url = `${this._sCompositeApiUrl()}/${objectType}`;
+      return this._makeRequest({
+        url,
+        ...args,
+      });
+    },
+    async getSObject(objectType, id, params = null) {
+      const url = this._sObjectDetailsApiUrl(objectType, id);
       return this._makeRequest({
         url,
         params,
@@ -239,8 +266,104 @@ export default {
         url,
         headers: {
           ...this._makeRequestHeaders(),
-          "Authorization": `Bearer ${authToken}`,
+          Authorization: `Bearer ${authToken}`,
         },
+      });
+    },
+    async createRecord(sobjectName, {
+      $, data,
+    }) {
+      const url = this._sObjectTypeApiUrl(sobjectName);
+      return this._makeRequest({
+        $,
+        url,
+        method: "POST",
+        data,
+      });
+    },
+    async updateRecord(sobjectName, {
+      $, id, data,
+    }) {
+      const url = this._sObjectDetailsApiUrl(sobjectName, id);
+      return this._makeRequest({
+        $,
+        url,
+        method: "PATCH",
+        data,
+      });
+    },
+    async query({
+      $, query,
+    }) {
+      const baseUrl = this._baseApiVersionUrl();
+      const url = `${baseUrl}/query/?q=${encodeURIComponent(query)}`;
+      return this._makeRequest({
+        $,
+        url,
+      });
+    },
+    async listRecordOptions({
+      objType,
+      nameField = "Id",
+    }) {
+      const fields = [
+        "Id",
+        ...nameField === "Id"
+          ? []
+          : [
+            nameField,
+          ],
+      ];
+      const { records } = await this.query({
+        query: `SELECT ${fields.join(", ")} FROM ${objType}`,
+      });
+      return records?.map?.((item) => ({
+        label: item[nameField],
+        value: item.Id,
+      })) ?? [];
+    },
+    async search({
+      $, search,
+    }) {
+      const baseUrl = this._baseApiVersionUrl();
+      const url = `${baseUrl}/search/?q=${encodeURIComponent(search)}`;
+      return this._makeRequest({
+        $,
+        url,
+      });
+    },
+    async parameterizedSearch(args) {
+      const baseUrl = this._baseApiVersionUrl();
+      const url = `${baseUrl}/parameterizedSearch/`;
+
+      return this._makeRequest({
+        url,
+        method: "GET",
+        ...args,
+      });
+    },
+    async insertBlobData(sobjectName, {
+      $, headers, data,
+    }) {
+      const url = this._sObjectTypeApiUrl(sobjectName);
+      const requestConfig = {
+        url,
+        method: "POST",
+        data,
+        headers: {
+          ...this._makeRequestHeaders(),
+          ...headers,
+        },
+      };
+      return axios($ ?? this, requestConfig);
+    },
+    async postFeed(args) {
+      const baseUrl = this._baseApiVersionUrl();
+      const url = `${baseUrl}/chatter/feed-elements`;
+      return this._makeRequest({
+        url,
+        method: "POST",
+        ...args,
       });
     },
   },

@@ -3,8 +3,8 @@ import googleSheets from "../../google_sheets.app.mjs";
 export default {
   key: "google_sheets-create-spreadsheet",
   name: "Create Spreadsheet",
-  description: "Create a blank spreadsheet or duplicate an existing spreadsheet",
-  version: "0.0.4",
+  description: "Create a blank spreadsheet or duplicate an existing spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/create)",
+  version: "0.1.7",
   type: "action",
   props: {
     googleSheets,
@@ -33,16 +33,41 @@ export default {
     },
   },
   async run() {
-    if (this.sheetId) {
-      return await this.googleSheets.copySpreadsheet(this.sheetId, this.title);
+    const {
+      googleSheets,
+      sheetId,
+      title,
+      drive,
+    } = this;
+
+    const {
+      copySpreadsheet,
+      createSpreadsheet,
+      getSpreadsheet,
+      updateFile,
+      isMyDrive,
+    } = googleSheets;
+
+    if (sheetId) {
+      return copySpreadsheet(sheetId, title);
     }
-    const request = {
+
+    const response = await createSpreadsheet({
       resource: {
         properties: {
-          title: this.title,
+          title,
         },
       },
-    };
-    return await this.googleSheets.createSpreadsheet(request);
+    });
+
+    if (isMyDrive(drive)) {
+      return response;
+    }
+
+    const spreadsheet = await updateFile(response.spreadsheetId, {
+      addParents: drive,
+    });
+
+    return getSpreadsheet(spreadsheet.id);
   },
 };

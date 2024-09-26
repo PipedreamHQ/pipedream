@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/efinder",
+  "version": "0.0.1",
+  "description": "Pipedream efinder Components",
+  "main": "efinder.app.mjs",
+  "keywords": [
+    "pipedream",
+    "efinder"
+  ],
+  "homepage": "https://pipedream.com/apps/efinder",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

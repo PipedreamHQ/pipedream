@@ -1,26 +1,28 @@
 import dropbox from "../../dropbox.app.mjs";
-import common from "../common.mjs";
 
 export default {
   name: "Create or Append to a Text File",
-  description: "Adds a new line to an existing text file, or creates a file if it doesn't exist. [See docs here](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
+  description: "Adds a new line to an existing text file, or creates a file if it doesn't exist. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-create-or-append-to-a-text-file",
-  version: "0.0.1",
+  version: "0.0.10",
   type: "action",
   props: {
     dropbox,
     name: {
       type: "string",
-      label: "File name",
+      label: "File Name",
       description: "Your new file name",
     },
     path: {
       propDefinition: [
         dropbox,
-        "pathFolder",
+        "path",
+        () => ({
+          filter: ({ metadata: { metadata: { [".tag"]: type } } }) => type === "folder",
+        }),
       ],
       optional: true,
-      description: "The file path in the user's Dropbox to create the file. If not filled, it will be created in the root folder.",
+      description: "Type the folder name to search for it in the user's Dropbox. If not filled, it will be created in the root folder.",
     },
     content: {
       type: "string",
@@ -29,7 +31,6 @@ export default {
     },
   },
   methods: {
-    ...common.methods,
     async getFileInfo(path, content) {
       let file;
       try {
@@ -67,7 +68,7 @@ export default {
       path,
     } = this;
 
-    const normalizedPath = this.getNormalizedPath(path, true) + name;
+    const normalizedPath = this.dropbox.getNormalizedPath(path, true) + name;
     const {
       fileExists,
       content: normalizedContent,

@@ -1,0 +1,20 @@
+export const ORIGIN_OPTIONS = [
+  "INAPP",
+  "PORTAL",
+  "API",
+  "SLACK",
+  "INTERCOM",
+  "INTERCOM_ATTACHMENT",
+  "ZENDESK_ATTACHMENT",
+  "FRONT_ATTACHMENT",
+  "EMAIL",
+  "ZAPIER",
+  "HUBSPOT",
+];
+
+export const PAIN_LEVEL_OPTIONS = [
+  "UNKNOWN",
+  "LOW",
+  "MEDIUM",
+  "HIGH",
+];

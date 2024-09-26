@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/doppler_ops",
+  "version": "0.0.3",
+  "description": "Pipedream Doppler Secrets Manager Components",
+  "main": "doppler_ops.app.js",
+  "keywords": [
+    "pipedream",
+    "doppler_ops"
+  ],
+  "homepage": "https://pipedream.com/apps/doppler_ops",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

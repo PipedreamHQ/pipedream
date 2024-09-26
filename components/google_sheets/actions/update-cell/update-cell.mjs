@@ -1,10 +1,13 @@
-import googleSheets from "../../google_sheets.app.mjs";
+import common from "../common/worksheet.mjs";
+
+const { googleSheets } = common.props;
 
 export default {
+  ...common,
   key: "google_sheets-update-cell",
   name: "Update Cell",
-  description: "Update a cell in a spreadsheet",
-  version: "0.0.4",
+  description: "Update a cell in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
+  version: "0.1.7",
   type: "action",
   props: {
     googleSheets,
@@ -25,14 +28,16 @@ export default {
       ],
       description: "The spreadsheet containing the worksheet to update",
     },
-    sheetName: {
+    worksheetId: {
       propDefinition: [
         googleSheets,
-        "sheetName",
+        "worksheetIDs",
         (c) => ({
           sheetId: c.sheetId,
         }),
       ],
+      type: "string",
+      label: "Worksheet Id",
     },
     cell: {
       propDefinition: [
@@ -46,13 +51,15 @@ export default {
         googleSheets,
         "cell",
       ],
+      label: "Cell Value",
       description: "The new cell value",
     },
   },
   async run() {
+    const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${this.sheetName}!${this.cell}:${this.cell}`,
+      range: `${worksheet?.properties?.title}!${this.cell}:${this.cell}`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [

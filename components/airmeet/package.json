@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/airmeet",
+  "version": "0.1.0",
+  "description": "Pipedream Airmeet Components",
+  "main": "airmeet.app.mjs",
+  "keywords": [
+    "pipedream",
+    "airmeet"
+  ],
+  "homepage": "https://pipedream.com/apps/airmeet",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1",
+    "dayjs": "^1.11.10"
+  }
+}

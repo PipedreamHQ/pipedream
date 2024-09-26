@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/mixmax",
+  "version": "0.0.4",
+  "description": "Pipedream MixMax Components",
+  "main": "mixmax.app.js",
+  "keywords": [
+    "pipedream",
+    "mixmax"
+  ],
+  "homepage": "https://pipedream.com/apps/mixmax",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.1"
+  }
+}

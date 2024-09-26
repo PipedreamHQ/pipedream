@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/sare",
+  "version": "0.1.0",
+  "description": "Pipedream SARE Components",
+  "main": "sare.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sare"
+  ],
+  "homepage": "https://pipedream.com/apps/sare",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}
+

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/tento8",
+  "version": "0.0.1",
+  "description": "Pipedream 10to8 Components",
+  "main": "tento8.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tento8"
+  ],
+  "homepage": "https://pipedream.com/apps/tento8",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -3,8 +3,8 @@ import todoist from "../../todoist.app.mjs";
 export default {
   key: "todoist-create-task",
   name: "Create Task",
-  description: "Creates a task. [See the docs here](https://developer.todoist.com/rest/v1/#create-a-new-task)",
-  version: "0.0.1",
+  description: "Creates a task. [See the docs here](https://developer.todoist.com/rest/v2/#create-a-new-task)",
+  version: "0.0.4",
   type: "action",
   props: {
     todoist,
@@ -63,11 +63,8 @@ export default {
     labels: {
       propDefinition: [
         todoist,
-        "label",
+        "labelString",
       ],
-      type: "string[]",
-      description: "Labels associated with the task",
-      optional: true,
     },
     priority: {
       propDefinition: [
@@ -132,13 +129,13 @@ export default {
       section_id: section,
       parent_id: parent,
       order,
-      label_ids: labels,
+      labels,
       priority,
       due_string: dueString,
       due_date: dueDate,
       due_datetime: dueDatetime,
       due_lang: dueLang,
-      assignee,
+      assignee_id: assignee,
     };
     const resp = await this.todoist.createTask({
       $,

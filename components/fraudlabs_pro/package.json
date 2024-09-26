@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fraudlabs_pro",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Pipedream Fraudlabs_pro Components",
   "main": "fraudlabs_pro.app.mjs",
   "keywords": [
@@ -9,9 +9,8 @@
   ],
   "homepage": "https://pipedream.com/apps/fraudlabs_pro",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "license": "MIT",
   "dependencies": {
-    "fraudlabspro-nodejs": "^2.1.0"
+    "fraudlabspro-nodejs": "^3.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

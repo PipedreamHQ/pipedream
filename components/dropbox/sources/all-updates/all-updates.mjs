@@ -1,4 +1,5 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -6,7 +7,7 @@ export default {
   type: "source",
   key: "dropbox-all-updates",
   name: "New or Modified File or Folder",
-  version: "0.0.5",
+  version: "0.0.17",
   description: "Emit new event when a file or folder is added or modified. Make sure the number of files/folders in the watched folder does not exceed 4000.",
   props: {
     ...common.props,
@@ -23,33 +24,48 @@ export default {
       default: false,
     },
   },
+  hooks: {
+    async activate() {
+      await this.getHistoricalEvents(this.getFileTypes());
+      const state = await this.dropbox.initState(this);
+      this._setDropboxState(state);
+    },
+  },
+  methods: {
+    ...common.methods,
+    getFileTypes() {
+      return [
+        "file",
+        "folder",
+      ];
+    },
+  },
   async run() {
-    const updates = await this.dropbox.getUpdates(this);
+    const state = this._getDropboxState();
+    const {
+      ret: updates, state: newState,
+    } = await this.dropbox.getUpdates(this, state);
+    this._setDropboxState(newState);
     for (let update of updates) {
-      if (update[".tag"] == "file") {
-        if (this.includeMediaInfo) {
-          const dpx = await this.dropbox.sdk();
-          update = await dpx.filesGetMetadata({
-            path: update.path_lower,
-            include_media_info: true,
-          });
-          if (update.result) {
-            update = update.result;
-          }
-        }
-        if (this.includeLink) {
-          const dpx = await this.dropbox.sdk();
-          let response = await dpx.filesGetTemporaryLink({
-            path: update.path_lower,
-          });
-          if (response.result) {
-            response = response.result;
-          }
-          const { link } = response;
-          update.link = link;
-        }
+      let file = {
+        ...update,
+      };
+      const fileTypes = this.getFileTypes();
+      if (!fileTypes.includes(file[".tag"])) {
+        continue;
       }
-      this.$emit(update, this.getMeta(update.id, update.path_display || update.id));
+      if (this.includeMediaInfo && file[".tag"] === "file") {
+        file = await this.getMediaInfo(update);
+      }
+      if (this.includeLink && file[".tag"] === "file") {
+        file.link = await this.getTemporaryLink(update);
+      }
+      // new unique identification from merging the file id and the last file revision
+      const id = update[".tag"] === "file"
+        ? `${file.id}-${file.rev}`
+        : `${file.id}-${newState.cursor}`;
+      this.$emit(file, this.getMeta(id, file.path_display || file.id));
     }
   },
+  sampleEmit,
 };

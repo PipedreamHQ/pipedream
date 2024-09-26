@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/chatfai",
+  "version": "0.1.0",
+  "description": "Pipedream ChatFAI Components",
+  "main": "chatfai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatfai"
+  ],
+  "homepage": "https://pipedream.com/apps/chatfai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

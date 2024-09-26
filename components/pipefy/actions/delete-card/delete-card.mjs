@@ -1,25 +1,40 @@
-// legacy_hash_id: a_m8ijLV
-import { axios } from "@pipedream/platform";
+import pipefy from "../../pipefy.app.mjs";
 
 export default {
   key: "pipefy-delete-card",
   name: "Delete Card",
-  description: "Deletes a card.",
-  version: "0.1.1",
+  description: "Deletes a card. [See the docs here](https://api-docs.pipefy.com/reference/mutations/deleteCard/)",
+  version: "0.1.2",
   type: "action",
   props: {
-    pipefy: {
-      type: "app",
-      app: "pipefy",
+    pipefy,
+    organization: {
+      propDefinition: [
+        pipefy,
+        "organization",
+      ],
     },
-    graphql_mutation: {
-      type: "object",
-      description: "A graphql mutation as per [DeleteCard](https://api-docs.pipefy.com/reference/mutations/deleteCard/) specification.",
+    pipe: {
+      propDefinition: [
+        pipefy,
+        "pipe",
+        (c) => ({
+          orgId: c.organization,
+        }),
+      ],
+    },
+    card: {
+      propDefinition: [
+        pipefy,
+        "card",
+        (c) => ({
+          pipeId: c.pipe,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-  /* See the API docs: https://api-docs.pipefy.com/reference/mutations/deleteCard/
-
+  /*
   Example query:
 
   mutation deleteExistingCard{
@@ -28,20 +43,14 @@ export default {
               success
           }
       }
-
   */
 
-    if (!this.graphql_mutation) {
-      throw new Error("Must provide graphql_mutation parameter.");
-    }
+    const variables = {
+      id: this.card,
+    };
 
-    return await axios($, {
-      method: "post",
-      url: "https://api.pipefy.com/graphql",
-      headers: {
-        Authorization: `Bearer ${this.pipefy.$auth.token}`,
-      },
-      data: this.graphql_mutation,
-    });
+    const response = await this.pipefy.deleteCard(variables);
+    $.export("$summary", "Successfully deleted card");
+    return response;
   },
 };

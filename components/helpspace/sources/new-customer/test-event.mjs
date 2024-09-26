@@ -1,0 +1,17 @@
+export default {
+  "id": 1,
+  "id_link": "https:\/\/api.helpspace.com\/api\/v1\/customer\/1",
+  "name": "New Customer",
+  "email": "some@email.de",
+  "job_title": "Master of ...",
+  "address": "Some Address",
+  "city": "Boston",
+  "state": "Massachusetts",
+  "postal_code": "02135",
+  "timezone": "America/New_York",
+  "country": "America",
+  "note": "Some Text",
+  "locale": "en-US",
+  "created_at": "2021-09-03T12:40:43+00:00",
+  "updated_at": "2021-09-03T12:40:43+00:00",
+};

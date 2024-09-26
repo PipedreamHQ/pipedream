@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/vivocalendar",
+  "version": "0.1.0",
+  "description": "Pipedream Vivocalendar Components",
+  "main": "vivocalendar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vivocalendar"
+  ],
+  "homepage": "https://pipedream.com/apps/vivocalendar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

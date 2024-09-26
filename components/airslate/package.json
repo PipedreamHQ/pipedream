@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/airslate",
+  "version": "0.1.1",
+  "description": "Pipedream Airslate Components",
+  "main": "airslate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "airslate"
+  ],
+  "homepage": "https://pipedream.com/apps/airslate",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/calendarhero",
+  "version": "0.0.3",
+  "description": "Pipedream CalendarHero Components",
+  "main": "dist/app/calendarhero.app.mjs",
+  "keywords": [
+    "pipedream",
+    "calendarhero"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/calendarhero",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

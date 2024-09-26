@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/papertrail",
+  "version": "0.0.1",
+  "description": "Pipedream Papertrail Components",
+  "main": "papertrail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "papertrail"
+  ],
+  "homepage": "https://pipedream.com/apps/papertrail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

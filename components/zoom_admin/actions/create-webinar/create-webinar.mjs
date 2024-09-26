@@ -1,15 +1,15 @@
+import { axios } from "@pipedream/platform";
+import consts from "../../consts.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 import tzs from "../../zoom_tzs.mjs";
-import consts from "../../consts.mjs";
-import { axios } from "@pipedream/platform";
 
 const { RECURRENCE_TYPE_OPTIONS } = consts;
 
 export default {
   name: "Create Webinar",
   description: "Create a webinar for an user. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarcreate)",
-  key: "zoom_admin-action-create-a-webinar",
-  version: "0.0.1",
+  key: "zoom_admin-create-webinar",
+  version: "0.1.5",
   type: "action",
   props: {
     zoomAdmin,

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/vext",
+  "version": "0.1.0",
+  "description": "Pipedream Vext Components",
+  "main": "vext.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vext"
+  ],
+  "homepage": "https://pipedream.com/apps/vext",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^2.0.0"
+  }
+}

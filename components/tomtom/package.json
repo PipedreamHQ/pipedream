@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/tomtom",
+  "version": "0.0.1",
+  "description": "Pipedream TomTom Components",
+  "main": "tomtom.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tomtom"
+  ],
+  "homepage": "https://pipedream.com/apps/tomtom",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

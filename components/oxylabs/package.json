@@ -1,0 +1,16 @@
+{
+  "name": "@pipedream/oxylabs",
+  "version": "0.0.2",
+  "description": "Pipedream Oxylabs Components",
+  "main": "dist/app/oxylabs.app.mjs",
+  "keywords": [
+    "pipedream",
+    "oxylabs"
+  ],
+  "files": ["dist"],
+  "homepage": "https://pipedream.com/apps/oxylabs",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

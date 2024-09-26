@@ -3,8 +3,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-append-text",
   name: "Append Text",
-  description: "Append text to an existing document",
-  version: "0.0.16",
+  description: "Append text to an existing document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#InsertTextRequest)",
+  version: "0.1.3",
   type: "action",
   props: {
     googleDocs,
@@ -15,28 +15,24 @@ export default {
       ],
     },
     text: {
-      type: "string",
-      label: "Text",
-      description: "Enter static text (e.g., `hello world`) or a reference to a string exported by a previous step (e.g., `{{steps.foo.$return_value}}`).",
-
+      propDefinition: [
+        googleDocs,
+        "text",
+      ],
+    },
+    appendAtBeginning: {
+      propDefinition: [
+        googleDocs,
+        "appendAtBeginning",
+      ],
     },
   },
-  async run() {
-    const docs = this.googleDocs.docs();
-    return (await docs.documents.batchUpdate({
-      documentId: this.docId,
-      requestBody: {
-        requests: [
-          {
-            insertText: {
-              location: {
-                index: 1,
-              },
-              text: this.text,
-            },
-          },
-        ],
-      },
-    })).data;
+  async run({ $ }) {
+    await this.googleDocs.insertText(this.docId, {
+      text: this.text,
+    }, this.appendAtBeginning);
+    const doc = this.googleDocs.getDocument(this.docId);
+    $.export("$summary", `Successfully appended text to document with ID: ${this.docId}`);
+    return doc;
   },
 };

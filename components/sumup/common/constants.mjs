@@ -1,0 +1,17 @@
+const TRANSACTION_STATUSES = [
+  "SUCCESSFUL",
+  "CANCELLED",
+  "FAILED",
+  "PENDING",
+];
+
+const PAYMENT_TYPES = [
+  "ECOM",
+  "RECURRING",
+  "BOLETO",
+];
+
+export default {
+  TRANSACTION_STATUSES,
+  PAYMENT_TYPES,
+};

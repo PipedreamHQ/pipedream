@@ -2,11 +2,7 @@
 
 Pipedream supports [Node.js v{{$site.themeConfig.NODE_VERSION}}](https://nodejs.org/).
 
-
-
 **Anything you can do with Node.js, you can do in a workflow**. This includes using most of [npm's 400,000+ packages](#using-npm-packages).
-
-
 
 JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2019#technology-_-programming-scripting-and-markup-languages) [languages](https://github.blog/2018-11-15-state-of-the-octoverse-top-programming-languages/) in the world, with a thriving community and [extensive package ecosystem](https://www.npmjs.com). If you work on websites and know JavaScript well, Pipedream makes you a full stack engineer. If you've never used JavaScript, see the [resources below](#new-to-javascript).
 
@@ -14,27 +10,119 @@ JavaScript is one of the [most used](https://insights.stackoverflow.com/survey/2
 It's important to understand the core difference between Node.js and the JavaScript that runs in your web browser: **Node doesn't have access to some of the things a browser expects, like the HTML on the page, or its URL**. If you haven't used Node before, be aware of this limitation as you search for JavaScript examples on the web.
 :::
 
+[[toc]]
+
 ## Adding a code step
 
 1. Click the **+** button below any step of your workflow.
 2. Select the option to **Run custom code**.
-3. Select the `nodejs14.x` runtime.
 
-You can add any Node.js code in the editor that appears. For example, try:
+Note that new code steps will default to Node.js v{{$site.themeConfig.NODE_VERSION}}. You can add any Node.js code in the editor that appears. For example, try:
 
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
-    console.log('This is Node.js code');
-    $.export('test', 'Some test data');
-    return 'Test data';
-  }
+    console.log("This is Node.js code");
+    $.export("test", "Some test data");
+    return "Test data";
+  },
 });
 ```
 
 Code steps use the same editor ([Monaco](https://microsoft.github.io/monaco-editor/)) used in Microsoft's [VS Code](https://code.visualstudio.com/), which supports syntax highlighting, automatic indentation, and more.
 
+## Sharing data between steps
+
+A Node.js step can use data from other steps using [step exports](/workflows/steps/#step-exports), it can also export data for other steps to use.
+
+### Using data from another step
+
+In Node.js steps, data from the initial workflow trigger and other steps are available in the `steps` argument passed to the `run({ steps, $ })` function.
+
+In this example, we'll pretend this data is coming into our HTTP trigger via POST request.
+
+```json
+{
+  "id": 1,
+  "name": "Bulbasaur",
+  "type": "plant"
+}
+```
+
+In our Node.js step, we can access this data in the `steps` variable Specifically, this data from the POST request into our workflow is available in the `trigger` property.
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    const pokemonName = steps.trigger.event.name;
+    const pokemonType = steps.trigger.event.type;
+
+    console.log(`${pokemonName} is a ${pokemonType} type Pokemon`);
+  },
+});
+```
+
+### Sending data downstream to other steps
+
+To share data created, retrieved, transformed or manipulated by a step to others downstream you can simply `return` it.
+
+```javascript
+// This step is named "code" in the workflow
+import axios from "axios";
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    const response = await axios.get(
+      "https://pokeapi.co/api/v2/pokemon/charizard"
+    );
+    // Store the response's JSON contents into a variable called "pokemon"
+    const pokemon = response.data;
+
+    // Expose the pokemon data downstream to other steps in the $return_value from this step
+    return pokemon;
+  },
+});
+```
+
+### Using $.export
+
+<VideoPlayer src="https://www.youtube.com/embed/9xW5UX0Zxok?t=72" title="Exporting data from a Node.js code step" />
+
+Alternatively, use the built in `$.export` helper instead of returning data. The `$.export` creates a _named_ export with the given value.
+
+```javascript
+// This step is named "code" in the workflow
+import axios from "axios";
+
+export default defineComponent({
+  async run({ steps, $ }) {
+    const response = await axios.get(
+      "https://pokeapi.co/api/v2/pokemon/charizard"
+    );
+    // Store the response's JSON contents into a variable called "pokemon"
+    const pokemon = response.data;
+
+    // Expose the pokemon data downstream to other steps in the pokemon export from this step
+    $.export("pokemon", pokemon);
+  },
+});
+```
+
+Now this `pokemon` data is accessible to downstream steps within `steps.code.pokemon`
+
+::: warning
+You can only export JSON-serializable data from steps. Things like:
+
+- strings
+- numbers
+- objects
+
+You cannot export functions or other complex objects that don't serialize to JSON. [You can save that data to a file in the `/tmp` directory](/code/nodejs/working-with-files/).
+:::
+
 ## Passing props to code steps
+
+<VideoPlayer src="https://www.youtube.com/embed/CxOdfgjThjg" title="Passing props to code steps" />
 
 You can make code steps reusable by allowing them to accept props. Instead of hard-coding the values of variables within the code itself, you can pass them to the code step as arguments or parameters _entered in the workflow builder_.
 
@@ -44,14 +132,16 @@ For example, let's define a `firstName` prop. This will allow us to freely enter
 export default defineComponent({
   props: {
     firstName: {
-      type: 'string',
-      label: 'Your first name',
-      default: 'Dylan',
-    }
+      type: "string",
+      label: "Your first name",
+      default: "Dylan",
+    },
   },
   async run({ steps, $ }) {
-    console.log(`Hello ${this.firstName}, congrats on crafting your first prop!`);
-  }
+    console.log(
+      `Hello ${this.firstName}, congrats on crafting your first prop!`
+    );
+  },
 });
 ```
 
@@ -67,13 +157,15 @@ Accepting a single string is just one example, you can build a step to accept ar
 
 ## How Pipedream Node.js components work
 
+<VideoPlayer src="https://www.youtube.com/embed/8nnL9sIRGvk" title="Structure of a Node.js Code Step"/>
+
 When you add a new Node.js code step or use the examples in this doc, you'll notice a common structure to the code:
 
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
-      // this Node.js code will execute when the step runs
-  }
+    // this Node.js code will execute when the step runs
+  },
 });
 ```
 
@@ -81,12 +173,12 @@ This defines [a Node.js component](/components/api/). Components let you:
 
 - Pass input to steps using [props](/code/nodejs/#passing-props-to-code-steps)
 - [Connect an account to a step](/connected-accounts/#from-a-code-step)
-- [Issue HTTP responses](/workflows/steps/triggers/#customizing-the-http-response)
+- [Issue HTTP responses](/workflows/steps/triggers/#http-responses)
 - Perform workflow-level flow control, like [ending a workflow early](#ending-a-workflow-early)
 
 When the step runs, Pipedream executes the `run` method:
 
-- Any asynchronous code within a code step [**must** be run synchronously](/workflows/steps/code/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
+- Any asynchronous code within a code step [**must** be run synchronously](/code/nodejs/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
 - Pipedream passes the `steps` variable to the run method. `steps` is also an object, and contains the [data exported from previous steps](/workflows/steps/#step-exports) in your workflow.
 - You also have access to the `$` variable, which gives you access to methods like `$.respond`, `$.export`, [and more](/components/api/#actions).
 
@@ -96,16 +188,16 @@ If you're using [props](/code/nodejs/#passing-props-to-code-steps) or [connect a
 export default defineComponent({
   async run({ steps, $ }) {
     // `this` refers to the running component. Props, connected accounts, etc. are exposed here
-    console.log(this)
-  }
+    console.log(this);
+  },
 });
 ```
 
-When you [connect an account to a step](/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/workflows/steps/code/auth/#the-auths-object).
+When you [connect an account to a step](/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/code/nodejs/auth/#accessing-connected-account-data-with-this-appname-auth).
 
 ## Logs
 
-You can call `console.log` or `console.error` to add logs to the execution of a code step. 
+You can call `console.log` or `console.error` to add logs to the execution of a code step.
 
 These logs will appear just below the associated step. `console.log` messages appear in black, `console.error` in red.
 
@@ -117,9 +209,9 @@ If you need to print the contents of JavaScript objects, use `console.dir`:
 export default defineComponent({
   async run({ steps, $ }) {
     console.dir({
-      name: "Luke"
-    })
-  }
+      name: "Luke",
+    });
+  },
 });
 ```
 
@@ -133,15 +225,19 @@ While you can save a workflow with syntax errors, it's unlikely to run correctly
 
 ## Using `npm` packages
 
-[npm](https://www.npmjs.com/) hosts JavaScript packages: bits of code someone else has written and packaged for others to use. npm has over 400,000 packages and counting. You can use most of those on Pipedream.
+<VideoPlayer src="https://www.youtube.com/embed/lvTWnSAwEa8" title="Use NPM packages in code steps" />
+
+[npm](https://www.npmjs.com/) hosts JavaScript packages: libraries of code someone else wrote and packaged for others to use. npm has over 400,000 packages and counting.
 
 ### Just `import` it
 
-To use an npm package in a code step, simply `import` it:
+To use an npm package on Pipedream, simply `import` it:
 
 ```javascript
 import axios from "axios";
 ```
+
+By default, workflows don't have any packages installed. Just import any package in this manner to make it available in the step.
 
 If a package only supports the [CommonJS module format](https://nodejs.org/api/modules.html), you may have to `require` it:
 
@@ -155,9 +251,41 @@ When Pipedream runs your workflow, we download the associated npm package for yo
 
 If you've used Node before, you'll notice there's no `package.json` file to upload or edit. We want to make package management simple, so just `import` or `require` the module like you would in your code, after package installation, and get to work.
 
-The core limitation of packages is one we described above: some packages require access to a web browser to run, and don't work with Node. Often this limitation is documented on the package `README`, but often it's not. If you're not sure and need to use it, we recommend just trying to `import` or `require` it.
+### Third-party package limitations
 
-Moreover, packages that require access to large binaries — for example, how [Puppeteer](https://pptr.dev) requires Chromium — may not work on Pipedream. If you're seeing any issues with a specific package, please [let us know](https://pipedream.com/support/).
+Some packages require access to a web browser to run, and don't work with Node.js. Often this limitation is documented on the package `README`, but often it's not. If you're not sure and need to use it, we recommend just trying to `import` or `require` it.
+
+Other packages require access to binaries or system libraries that aren't installed in the Pipedream execution environment.
+
+If you're seeing any issues with a specific package, please [let us know](https://pipedream.com/support/) and we'll try to help you make it work.
+
+### Pinning package versions
+
+Each time you deploy a workflow with Node.js code, Pipedream downloads the npm packages you `import` in your step. **By default, Pipedream deploys the latest version of the npm package each time you deploy a change**.
+
+There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a workflow, you can add that version in the `import` string, for example:
+
+```javascript
+import axios from "axios@0.19.2";
+```
+
+You can also pass the version specifiers used by npm to support [semantic version](https://semver.org/) upgrades. For example, to allow for future patch version upgrades:
+
+```javascript
+import axios from "axios@~0.20.0";
+```
+
+To allow for patch and minor version upgrades, use:
+
+```javascript
+import got from "got@^11.0.0";
+```
+
+::: warning
+The behavior of the caret (`^`) operator is different for 0.x versions, for which it will only match patch versions, and not minor versions.
+:::
+
+You can also specify different versions of the same package in different steps. Each step will used the associated version. Note that this also increases the size of your deployment, which can affect cold start times.
 
 ### CommonJS vs. ESM imports
 
@@ -176,7 +304,7 @@ But you may encounter this error in workflows:
 This means that the package you're trying to `require` uses a different format to export their code, called [ECMAScript modules](https://nodejs.org/api/esm.html#esm_modules_ecmascript_modules) (**ESM**, or **ES modules**, for short). With ES modules, you instead need to `import` the package:
 
 ```javascript
-import got from 'got';
+import got from "got";
 ```
 
 Most package publish both CommonJS and ESM versions, so **if you always use `import`, you're less likely to have problems**. In general, refer to the documentation for your package for instructions on importing it correctly.
@@ -186,8 +314,8 @@ Most package publish both CommonJS and ESM versions, so **if you always use `imp
 This error means that you cannot use CommonJS and ESM imports in the same step. For example, if you run code like this:
 
 ```javascript
-import fetch from 'node-fetch';
-const axios = require("axios")
+import fetch from "node-fetch";
+const axios = require("axios");
 ```
 
 your workflow will throw a `require is not defined` error. There are two solutions:
@@ -195,13 +323,13 @@ your workflow will throw a `require is not defined` error. There are two solutio
 1. Try converting your CommonJS `require` statement into an ESM `import` statement. For example, convert this:
 
 ```javascript
-const axios = require("axios")
+const axios = require("axios");
 ```
 
 to this:
 
 ```javascript
-import axios from "axios"
+import axios from "axios";
 ```
 
 2. If the `import` syntax fails to work, separate your imports into different steps, using only CommonJS requires in one step, and only ESM imports in another.
@@ -218,160 +346,43 @@ Within a step, the [normal rules of JavaScript variable scope](https://developer
 
 There are two ways to make HTTP requests in code steps:
 
-- Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/workflows/steps/code/nodejs/http-requests/).
-- [Use `$send.http()`](/destinations/http/#using-send-http-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
+- Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/code/nodejs/http-requests/).
+- [Use `$.send.http()`](/destinations/http/#using-send-http-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
 
-In general, if you just need to make an HTTP request but don't care about the response, [use `$send.http()`](/destinations/http/#using-send-http-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/workflows/steps/code/nodejs/http-requests/).
+In general, if you just need to make an HTTP request but don't care about the response, [use `$.send.http()`](/destinations/http/#using-send-http-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/code/nodejs/http-requests/).
 
 ## Returning HTTP responses
 
-You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the [`$.respond()` function](/workflows/steps/triggers/#customizing-the-http-response).
-
-## Managing state
-
-In Node.js (Javascript) code steps, you can also store and retrieve data in code steps.
-
-This is very useful for tracking data between runs of a particular workflow.
-
-:::warning
-This functionality (`$.service.db`) is limited to only Node.js code steps at this time.
-
-Other step languages like [Python](/code/python/), [Bash](/code/bash/) and [Go](/code/go/) do not have this feature available yet.
-
-For more information on what functionality is available for those languages, please refer to their documentation.
-:::
-
-### Injecting the database
-
-By default, Node.js steps don't have access to the database service. It needs to be injected by defining it as a `prop`. 
-
-```javascript
-export default defineComponent({
-  props: {
-    // Define that the "db" variable in our component is a database
-    db: "$.service.db",
-  },
-  async run({ steps, $ }) {
-    // Now we can access the database at "this.db"
-    this.db.set("name", "Dylan")
-  }
-});
-```
-
-:::tip
-`props` injects variables under `this` scope in components.
-
-In the above example we essentially instructed that this step needs the database injected into the `this.db` prop. 
-:::
-
-### Using the database
-
-Once you inject the database into the component, you can use it to both store (`set`) and retrieve (`get`) data.
-
-### Saving data
-
-You can save data with the in-step database using the `set` method.
-
-```javascript
-export default defineComponent({
-  props: {
-    "db": "$.service.db",
-  },
-  async run({ steps, $ }) {
-    // Store a timestamp each time this step is executed in the workflow
-    this.db.set('lastRanAt', new Date());
-  },
-})
-```
-
-### Retrieving data
-
-You can retrieve data with the in-step database using the `get` method.
-
-```javascript
-export default defineComponent({
-  props: {
-    "db": "$.service.db",
-  },
-  async run({ steps, $ }) {
-    // Retrieve the timestamp representing last time this step executed
-    const lastRanAt = this.db.get('lastRanAt'); 
-  },
-})
-```
-
-### Workflow counter example
-
-For example, if you'd like to set up a counter to count the number of times the workflow executes.
-
-```javascript
-export default defineComponent({
-  props: {
-    "db": "$.service.db",
-  },
-  async run({ steps, $ }) {
-    // By default, all database entries are undefined.
-    // It's wise to set a default value so our code as an initial value to work with
-    const counter = this.db.get('counter') ?? 0;
-    
-    // On the first run "counter" will be 0 and we'll increment it to 1
-    // The next run will increment the counter to 2, and so forth
-    this.db.set('counter', counter + 1);
-  },
-})
-```
-
-### Dedupe data example
-
-This database is also useful for storing data from prior runs to prevent acting on duplicate data, or data that's been seen before.
-
-For example, this workflow's trigger contains an email address from a potential new customer. But we want to track all emails collected so we don't send a welcome email twice:
-
-```javascript
-export default defineComponent({
-  props: {
-    "db": "$.service.db",
-  },
-  async run({ steps, $ }) {
-    const email = steps.trigger.body.new_customer_email;
-    // Retrieve the past recorded emails from other runs
-    const emails = this.db.get('emails') ?? [];
-
-    // If the current email being passed from our webhook is already in our list, exit early
-    if(emails.includes(email)) {
-      return $.flow.exit('Already welcomed this user');
-    }
-
-    // Add the current email to the list of past emails so we can detect it in the future runs
-    this.db.set('emails', [...emails, email]);
-  },
-})
-```
-
-### `$.service.db` limitations
-
-The `$.service.db` is only currently available in Node.js code steps. It is not yet available in other languages like Go, bash or Python.
-
-In addition, `$.service.db` can hold up to {{ $site.themeConfig.SERVICE_DB_SIZE_LIMIT }} per step.
-
+You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the [`$.respond()` function](/workflows/steps/triggers/#http-responses).
 
 ## Ending a workflow early
+
+<VideoPlayer title="Conditionally run Workflows" url="https://www.youtube.com/embed/sajgIH3dG58" startAt="205" />
 
 Sometimes you want to end your workflow early, or otherwise stop or cancel the execution or a workflow under certain conditions. For example:
 
 - You may want to end your workflow early if you don't receive all the fields you expect in the event data.
-- You only want to run your workflow for 5% of all events sent to your source.
+- You only want to run your workflow for 5% of all events sent from your source.
 - You only want to run your workflow for users in the United States. If you receive a request from outside the U.S., you don't want the rest of the code in your workflow to run.
 - You may use the `user_id` contained in the event to look up information in an external API. If you can't find data in the API tied to that user, you don't want to proceed.
 
 **In any code step, calling `return $.flow.exit()` will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
 
+::: tip
+
+It's a good practice to use `return $.flow.exit()` to immediately exit the workflow.
+In contrast, `$.flow.exit()` on its own will end the workflow only after executing all remaining code in the step.
+
+:::
+
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
     return $.flow.exit();
-    console.log("This code will not run, since $.flow.exit() was called above it");
-  }
+    console.log(
+      "This code will not run, since $.flow.exit() was called above it"
+    );
+  },
 });
 ```
 
@@ -381,9 +392,11 @@ You can pass any string as an argument to `$.flow.exit()`:
 export default defineComponent({
   async run({ steps, $ }) {
     return $.flow.exit("End message");
-  }
+  },
 });
 ```
+
+Or exit the workflow early within a conditional:
 
 ```javascript
 export default defineComponent({
@@ -393,13 +406,39 @@ export default defineComponent({
       return $.flow.exit();
     }
     console.log("This code will only run 50% of the time");
-  }
+  },
 });
 ```
 
 ## Errors
 
 [Errors](https://nodejs.org/dist/latest-v10.x/docs/api/errors.html#errors_errors) raised in a code step will stop the execution of code or destinations that follow.
+
+### Configuration Error
+
+Throwing a `ConfigurationError` in a Node.js step will display the error message in a dedicated area.
+
+This is useful for providing feedback during validation of `props`. In the example below, a required Header value is missing from the Google Sheets action:
+
+![Example of an ConfigurationError](https://res.cloudinary.com/pipedreamin/image/upload/v1651680315/docs/components/CleanShot_2022-05-04_at_12.04.38_2x_vf8jny.png)
+
+Or you can use it for validating the format of a given `email` prop:
+
+```javascript
+import { ConfigurationError } from "@pipedream/platform";
+
+export default defineComponent({
+  props: {
+    email: { type: "string" },
+  },
+  async run({ steps, $ }) {
+    // if the email address doesn't include a @, it's not valid
+    if (!this.email.includes("@")) {
+      throw new ConfigurationError("Provide a valid email address");
+    }
+  },
+});
+```
 
 ## Using secrets in code
 

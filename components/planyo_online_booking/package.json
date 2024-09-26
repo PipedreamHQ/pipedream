@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/planyo_online_booking",
+  "version": "0.0.1",
+  "description": "Pipedream Planyo Online Booking Components",
+  "main": "planyo_online_booking.app.mjs",
+  "keywords": [
+    "pipedream",
+    "planyo_online_booking"
+  ],
+  "homepage": "https://pipedream.com/apps/planyo_online_booking",
+  "author": "Pipedream <support@pipedeam.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.3.0"
+  }
+}

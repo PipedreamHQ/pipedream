@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/mailblaze",
+  "version": "0.1.0",
+  "description": "Pipedream MailBlaze Components",
+  "main": "mailblaze.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailblaze"
+  ],
+  "homepage": "https://pipedream.com/apps/mailblaze",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
+

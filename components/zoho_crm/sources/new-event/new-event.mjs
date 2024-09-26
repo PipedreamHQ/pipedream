@@ -1,20 +1,20 @@
-import sortBy from "lodash/sortBy.js";
-import common from "../common/http-based/base.js";
-import crudOps from "../common/http-based/crud-operations.mjs";
+import sortBy from "lodash.sortby";
+import common from "../common/http-based/base.mjs";
+import crudOps from "../common/http-based/common-crud-operations.mjs";
 
 export default {
   ...common,
   key: "zoho_crm-new-event",
   name: "New Event (Instant)",
   description: "Emit new custom events from Zoho CRM",
-  version: "0.0.9",
+  version: "0.0.15",
   type: "source",
   props: {
     ...common.props,
     events: {
       type: "string[]",
       label: "Events",
-      description: "List of CRUD events that will trigger this event source",
+      description: "Choose one or more module events to trigger this event source.",
       async options({ page = 0 }) {
         if (page !== 0) {
           return [];

@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import querystring from "querystring";
+import querystring from "query-string";
 
 export default {
   type: "app",
@@ -9,16 +9,41 @@ export default {
       type: "string",
       label: "Form",
       description: "The form to watch for new submissions",
+      async options({
+        page = 0, teamId, excludeDeleted = false,
+      }) {
+        const limit = 20;
+        const offset = page * limit;
+        let { content: forms } = await this.getForms({
+          offset,
+          limit,
+        }, teamId);
+        if (excludeDeleted) {
+          forms = forms.filter(({ status }) => status !== "DELETED");
+        }
+        return forms.map((form) => ({
+          label: form.title,
+          value: form.id,
+        }));
+      },
+    },
+    teamId: {
+      type: "string",
+      label: "Team",
+      description: "The identifier of a team. Note: Teams is a Jotform Enterprise feature.",
+      optional: true,
       async options({ page = 0 }) {
         const limit = 20;
         const offset = page * limit;
-        const forms = await this.getForms({
+        const { content } = await this.listTeams({
           offset,
           limit,
         });
-        return forms.content.map((form) => ({
-          label: form.title,
-          value: form.id,
+        return content.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -75,21 +100,37 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      return `https://${this.$auth.region}.jotform.com/`;
+      let baseUrl = `https://${this.$auth.region}.jotform.com/`;
+      const standardSubdomains = [
+        "api",
+        "eu-api",
+        "hipaa-api",
+      ];
+      if (!standardSubdomains.includes(this.$auth.region)) {
+        baseUrl += "API/";
+      }
+      return baseUrl;
     },
     _ensureTrailingSlash(str) {
       return (str.endsWith("/"))
         ? str
         : `${str}/`;
     },
+    _headers(teamId) {
+      const headers = {
+        "APIKEY": this.$auth.api_key,
+      };
+      if (teamId) {
+        headers["jf-team-id"] = teamId;
+      }
+      return headers;
+    },
     async _makeRequest({
-      $, endpoint, method = "GET", params = null,
+      $, endpoint, method = "GET", params = null, teamId,
     }) {
       const config = {
         url: `${this._getBaseUrl()}${endpoint}`,
-        headers: {
-          "APIKEY": this.$auth.api_key,
-        },
+        headers: this._headers(teamId),
         method,
       };
       if (params) {
@@ -106,6 +147,7 @@ export default {
       const {
         formId,
         endpoint,
+        teamId,
       } = opts;
       return this._makeRequest({
         endpoint: `form/${encodeURIComponent(formId)}/webhooks`,
@@ -113,15 +155,18 @@ export default {
         params: {
           webhookURL: this._ensureTrailingSlash(endpoint),
         },
+        teamId,
       });
     },
     async deleteHook(opts = {}) {
       const {
         formId,
         endpoint,
+        teamId,
       } = opts;
       const result = await this.getWebhooks({
         formId,
+        teamId,
       });
       let webhooks = Object.values(result && result.content || {});
       let webhookIdx = -1;
@@ -138,43 +183,66 @@ export default {
       return this._makeRequest({
         endpoint: `form/${encodeURIComponent(formId)}/webhooks/${encodeURIComponent(webhookIdx)}`,
         method: "DELETE",
+        teamId,
       });
     },
-    async getForms(params) {
+    async getForm(formId, teamId) {
+      return this._makeRequest({
+        endpoint: `form/${formId}`,
+        teamId,
+      });
+    },
+    async getForms(params, teamId) {
       return this._makeRequest({
         endpoint: "user/forms",
-        method: "GET",
         params,
+        teamId,
+      });
+    },
+    getFormSubmission({
+      $, submissionId, teamId,
+    }) {
+      return this._makeRequest({
+        $,
+        endpoint: `submission/${submissionId}`,
+        teamId,
       });
     },
     async getFormSubmissions({
-      $, formId,
+      $, formId, teamId, params = null,
     }) {
       return this._makeRequest({
         $,
         endpoint: `form/${formId}/submissions`,
-        method: "GET",
+        params,
+        teamId,
       });
     },
     async getUserSubmissions({ $ }) {
       return this._makeRequest({
         $,
         endpoint: "user/submissions",
-        method: "GET",
       });
     },
     async getUserUsage({ $ }) {
       return this._makeRequest({
         $,
         endpoint: "user/usage",
-        method: "GET",
       });
     },
     async getWebhooks(opts = {}) {
-      const { formId } = opts;
+      const {
+        formId, teamId,
+      } = opts;
       return this._makeRequest({
         endpoint: `form/${encodeURIComponent(formId)}/webhooks`,
-        method: "GET",
+        teamId,
+      });
+    },
+    listTeams(opts = {}) {
+      return this._makeRequest({
+        endpoint: "/team/user/me",
+        ...opts,
       });
     },
   },

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/trakt",
+  "version": "0.1.1",
+  "description": "Pipedream Trakt Components",
+  "main": "trakt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "trakt"
+  ],
+  "homepage": "https://pipedream.com/apps/trakt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

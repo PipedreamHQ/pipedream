@@ -1,45 +1,36 @@
-// legacy_hash_id: a_0Mi864
-import doWrapperModule from "do-wrapper";
+import digitalOceanApp from "../../digital_ocean.app.mjs";
 
 export default {
   key: "digital_ocean-create-snapshot",
   name: "Create Snapshot",
-  description: "Creates an snapshot from a droplet",
-  version: "0.2.1",
+  description: "Creates a snapshot from a droplet. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/post_droplet_action)",
+  version: "0.2.2",
   type: "action",
   props: {
-    digital_ocean: {
-      type: "app",
-      app: "digital_ocean",
-    },
-    page_size: {
-      type: "integer",
-      description: "Desired pagination size when pulling results",
-      optional: true,
-    },
-    snapshot_name: {
+    digitalOceanApp,
+    snapshotName: {
+      label: "Snapshot name",
       type: "string",
       description: "The name to give the new snapshot",
       optional: true,
     },
-    droplet_id: {
-      type: "integer",
+    dropletId: {
+      label: "Droplet",
+      type: "string",
       description: "The unique identifier of Droplet to snapshot.",
+      async options() {
+        return this.digitalOceanApp.fetchDropletOps();
+      },
     },
   },
   async run({ $ }) {
-    var DigitalOcean = doWrapperModule.default,
-      api = new DigitalOcean(this.digital_ocean.$auth.oauth_access_token, this.page_size);
-
-    try {
-      var action = {
-        "type": "snapshot",
-        "name": this.snapshot_name,
-      };
-      $.export("resp", await api.dropletsRequestAction(  this.droplet_id, action ));
-    } catch (err) {
-      $.export("err", err);
-
-    }
+    const api = this.digitalOceanApp.digitalOceanWrapper();
+    const newSnapshotData = {
+      type: "snapshot",
+      name: this.snapshotName,
+    };
+    const response = await api.droplets.requestAction(this.dropletId, newSnapshotData);
+    $.export("$summary", `Successfully enqueued action to ${response.action.type}.`);
+    return response;
   },
 };

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/abstract",
+  "version": "0.1.0",
+  "description": "Pipedream Abstract - Email Verification API Components",
+  "main": "abstract.app.mjs",
+  "keywords": [
+    "pipedream",
+    "abstract"
+  ],
+  "homepage": "https://pipedream.com/apps/abstract",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

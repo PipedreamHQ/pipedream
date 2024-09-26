@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/streamwish",
+  "version": "0.0.1",
+  "description": "Pipedream StreamWish Components",
+  "main": "streamwish.app.mjs",
+  "keywords": [
+    "pipedream",
+    "streamwish"
+  ],
+  "homepage": "https://pipedream.com/apps/streamwish",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

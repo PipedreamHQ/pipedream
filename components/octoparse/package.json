@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/octoparse",
+  "version": "0.0.1",
+  "description": "Pipedream Octoparse Components",
+  "main": "octoparse.app.mjs",
+  "keywords": [
+    "pipedream",
+    "octoparse"
+  ],
+  "homepage": "https://pipedream.com/apps/octoparse",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

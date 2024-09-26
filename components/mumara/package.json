@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mumara",
+  "version": "0.0.1",
+  "description": "Pipedream Mumara Components",
+  "main": "mumara.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mumara"
+  ],
+  "homepage": "https://pipedream.com/apps/mumara",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,38 @@
+import common from "../common.mjs";
+import nexweave from "../../nexweave.app.mjs";
+
+export default {
+  key: "nexweave-create-video-experience-from-template",
+  name: "Create Video Experience from Template",
+  description: "Creates a video experience from a template. [See the documentation](https://documentation.nexweave.com/nexweave-api#4OZFt)",
+  version: "0.0.1",
+  type: "action",
+  ...common,
+  props: {
+    nexweave,
+    templateId: {
+      propDefinition: [
+        nexweave,
+        "videoTemplateId",
+      ],
+    },
+  },
+  methods: {
+    getSummary() {
+      return "Successfully created video experience";
+    },
+    async getItemDetails() {
+      return this.nexweave.getTemplateDetails(this.templateId);
+    },
+    getData() {
+      const { // eslint-disable-next-line no-unused-vars
+        nexweave, templateId, ...data
+      } = this;
+
+      return {
+        template_id: templateId,
+        data,
+      };
+    },
+  },
+};

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/oyster",
+  "version": "0.1.0",
+  "description": "Pipedream Oyster Components",
+  "main": "oyster.app.mjs",
+  "keywords": [
+    "pipedream",
+    "oyster"
+  ],
+  "homepage": "https://pipedream.com/apps/oyster",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

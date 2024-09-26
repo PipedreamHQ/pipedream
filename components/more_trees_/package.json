@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/more_trees_",
+  "version": "0.1.0",
+  "description": "Pipedream More Trees Components",
+  "main": "more_trees_.app.mjs",
+  "keywords": [
+    "pipedream",
+    "more_trees_"
+  ],
+  "homepage": "https://pipedream.com/apps/more_trees_",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

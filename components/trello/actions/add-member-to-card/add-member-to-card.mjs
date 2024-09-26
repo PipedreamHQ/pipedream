@@ -1,56 +1,63 @@
-// legacy_hash_id: a_poikVg
-import { axios } from "@pipedream/platform";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "trello-add-member-to-card",
-  name: "Add a Member to a Card",
-  description: "Adds a member to a particular card.",
-  version: "0.1.1",
+  name: "Add Member to Card",
+  description: "Adds a member to the specified card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idmembers-post).",
+  version: "0.2.0",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    ...common.props,
+    board: {
+      propDefinition: [
+        common.props.app,
+        "board",
+      ],
     },
-    id: {
+    cardId: {
+      propDefinition: [
+        common.props.app,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      description: "The ID of the card.",
+      label: "Card",
+      description: "The ID of the Card to add the Member to",
+      optional: false,
     },
     value: {
-      type: "string",
-      description: "The ID of the member to add to the card.",
-      optional: true,
+      propDefinition: [
+        common.props.app,
+        "member",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+    },
+  },
+  methods: {
+    ...common.methods,
+    addMemberToCard({
+      cardId, ...args
+    } = {}) {
+      return this.app.post({
+        path: `/cards/${cardId}/idMembers`,
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    const oauthSignerUri = this.trello.$auth.oauth_signer_uri;
-
-    let id = this.id;
-    const trelloParams = [
-      "value",
-    ];
-    let p = this;
-
-    const queryString = trelloParams.filter((param) => p[param]).map((param) => `${param}=${p[param]}`)
-      .join("&");
-
-    const config = {
-      url: `https://api.trello.com/1/cards/${id}/idMembers?${queryString}`,
-      method: "POST",
-      data: "",
-    };
-
-    const token = {
-      key: this.trello.$auth.oauth_access_token,
-      secret: this.trello.$auth.oauth_refresh_token,
-    };
-
-    const signConfig = {
-      token,
-      oauthSignerUri,
-    };
-
-    const resp = await axios($, config, signConfig);
-    return resp;
+    const res = await this.addMemberToCard({
+      $,
+      cardId: this.cardId,
+      params: {
+        value: this.value,
+      },
+    });
+    $.export("$summary", `Successfully added member ${res[0].fullName} to card ${this.cardId}`);
+    return res;
   },
 };

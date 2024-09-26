@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fluxguard",
+  "version": "0.0.1",
+  "description": "Pipedream Fluxguard Components",
+  "main": "fluxguard.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fluxguard"
+  ],
+  "homepage": "https://pipedream.com/apps/fluxguard",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

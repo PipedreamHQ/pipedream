@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/clearly_defined",
+  "version": "0.0.1",
+  "description": "Pipedream Clearly Defined Components",
+  "main": "clearly_defined.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clearly_defined"
+  ],
+  "homepage": "https://pipedream.com/apps/clearly_defined",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

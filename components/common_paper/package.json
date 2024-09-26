@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/common_paper",
+  "version": "0.0.1",
+  "description": "Pipedream Common Paper Components",
+  "main": "common_paper.app.mjs",
+  "keywords": [
+    "pipedream",
+    "common_paper"
+  ],
+  "homepage": "https://pipedream.com/apps/common_paper",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

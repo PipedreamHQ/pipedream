@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fixer_io",
+  "version": "0.0.1",
+  "description": "Pipedream Fixer Components",
+  "main": "fixer_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fixer_io"
+  ],
+  "homepage": "https://pipedream.com/apps/fixer_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

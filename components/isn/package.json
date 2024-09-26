@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/isn",
+  "version": "0.0.3",
+  "description": "Pipedream ISN Components",
+  "main": "dist/app/isn.app.mjs",
+  "keywords": [
+    "pipedream",
+    "isn"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/isn",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

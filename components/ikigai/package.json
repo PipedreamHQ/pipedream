@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ikigai",
+  "version": "0.0.1",
+  "description": "Pipedream Ikigai Components",
+  "main": "ikigai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ikigai"
+  ],
+  "homepage": "https://pipedream.com/apps/ikigai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

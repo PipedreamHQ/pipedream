@@ -1,0 +1,22 @@
+{
+  "name": "@pipedream/practitest",
+  "version": "0.0.2",
+  "description": "Pipedream PractiTest Components",
+  "main": "dist/app/practitest.app.mjs",
+  "keywords": [
+    "pipedream",
+    "practitest"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/practitest",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.1.1",
+    "@pipedream/types": "^0.1.4"
+  }
+}

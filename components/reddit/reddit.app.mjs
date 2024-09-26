@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 import qs from "qs";
 import isNil from "lodash/isNil.js";
 import retry from "async-retry";
@@ -28,19 +28,34 @@ export default {
       label: "Post",
       description: "Select a subreddit post or enter a custom expression to reference a specific Post ID in [base36](http://en.wikipedia.org/wiki/Base36) (for example, `15bfi0`).",
       optional: false,
+      useQuery: true,
       withLabel: true,
       async options({
         subreddit,
+        query,
         prevContext,
       }) {
         const params = {
           limit: 50,
           after: prevContext?.after,
         };
-        const links = await this.getNewSubredditLinks(
-          get(subreddit, "value", subreddit),
-          params,
-        );
+        let links = [];
+
+        if (query) {
+          links = await this.searchSubredditLinks(
+            get(subreddit, "value", subreddit),
+            {
+              ...params,
+              q: query,
+            },
+          );
+        } else {
+          links = await this.getNewSubredditLinks(
+            get(subreddit, "value", subreddit),
+            params,
+          );
+        }
+
         const posts = get(links, "data.children", []);
         const options = posts.map((item) => ({
           label: item.data.title,
@@ -205,7 +220,9 @@ export default {
         )));
       }
     },
-    async _makeRequest(opts) {
+    async _makeRequest({
+      $ = this, ...opts
+    }) {
       if (!opts.headers) opts.headers = {};
       opts.headers.authorization = `Bearer ${this._accessToken()}`;
       opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
@@ -214,13 +231,14 @@ export default {
       opts.url = `${this._apiUrl()}${path[0] === "/" ?
         "" :
         "/"}${path}`;
-      return (await axios(opts)).data;
+      return axios($, opts);
     },
-    _isRetriableStatusCode(statusCode) {[
-      408,
-      429,
-      500,
-    ].includes(statusCode);
+    _isRetriableStatusCode(statusCode) {
+      return [
+        408,
+        429,
+        500,
+      ].includes(statusCode);
     },
     async _withRetries(apiCall) {
       const retryOpts = {
@@ -238,7 +256,7 @@ export default {
           if (!this._isRetriableStatusCode(statusCode)) {
             bail(`
               Unexpected error (status code: ${statusCode}):
-              ${err.response}
+              ${err.response.statusText}
             `);
           }
           console.warn(`Temporary error: ${err.message}`);
@@ -280,6 +298,21 @@ export default {
         this._makeRequest({
           path: `/r/${subreddit}/hot`,
           params,
+        }));
+    },
+    async searchSubredditLinks(subreddit, opts) {
+      const params = {
+        limit: 100,
+        ...opts,
+      };
+
+      return await this._withRetries(() =>
+        this._makeRequest({
+          path: `/r/${subreddit}/search`,
+          params: {
+            ...params,
+            restrict_sr: true,
+          },
         }));
     },
     async getNewSubredditLinks(subreddit, opts) {
@@ -371,6 +404,27 @@ export default {
           params,
         }));
     },
+    async getNewSavedPosts(
+      before,
+      username,
+      timeFilter,
+      includeSubredditDetails,
+      limit = 100,
+    ) {
+      const params = {
+        before,
+        show: "given",
+        sort: "new",
+        t: timeFilter,
+        sr_detail: includeSubredditDetails,
+        limit,
+      };
+      return await this._withRetries(() =>
+        this._makeRequest({
+          path: `/user/${username}/saved`,
+          params,
+        }));
+    },
     async searchSubreddits(params) {
       const redditCommunities = await this._withRetries(() =>
         this._makeRequest({
@@ -414,6 +468,26 @@ export default {
         });
       } while (after);
       return results;
+    },
+    async getSubredditByName(name) {
+      return this._withRetries(() =>
+        this._makeRequest({
+          path: "/api/info",
+          params: {
+            id: name,
+          },
+        }));
+    },
+    async getComment({
+      id: comment, article, subreddit,
+    }) {
+      return this._withRetries(() =>
+        this._makeRequest({
+          path: `/r/${subreddit}/comments/${article}`,
+          params: {
+            comment,
+          },
+        }));
     },
   },
 };

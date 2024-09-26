@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/northflank",
+  "version": "0.1.0",
+  "description": "Pipedream Northflank Components",
+  "main": "northflank.app.mjs",
+  "keywords": [
+    "pipedream",
+    "northflank"
+  ],
+  "homepage": "https://pipedream.com/apps/northflank",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
+  }
+}

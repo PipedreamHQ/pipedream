@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/knowbe4",
+  "version": "0.0.3",
+  "description": "Pipedream KnowBe4 Components",
+  "main": "dist/app/knowbe4.app.mjs",
+  "keywords": [
+    "pipedream",
+    "knowbe4"
+  ],
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://pipedream.com/apps/knowbe4",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

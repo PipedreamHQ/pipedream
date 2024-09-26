@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/infobip",
+  "version": "0.1.0",
+  "description": "Pipedream Infobip Components",
+  "main": "infobip.app.mjs",
+  "keywords": [
+    "pipedream",
+    "infobip"
+  ],
+  "homepage": "https://pipedream.com/apps/infobip",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/paymo",
+  "version": "0.0.2",
+  "description": "Pipedream Paymo Components",
+  "main": "paymo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "paymo"
+  ],
+  "homepage": "https://pipedream.com/apps/paymo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.3.0",
+    "crypto": "^1.0.1",
+    "uuid": "^9.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

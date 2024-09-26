@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/datagma",
+  "version": "0.0.1",
+  "description": "Pipedream Datagma Components",
+  "main": "datagma.app.mjs",
+  "keywords": [
+    "pipedream",
+    "datagma"
+  ],
+  "homepage": "https://pipedream.com/apps/datagma",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,16 +1,8 @@
 # Bash
 
-Prefer to write quick scripts in Bash? We've got you covered.
+Prefer to write quick scripts in Bash? We've got you covered. You can run any Bash in a Pipedream step within your workflows.
 
-You can run any Bash in a Pipedream step within your workflows.
-
-::: warning
-Bash steps are available in a limited alpha release.
-
-You can still run arbitrary Bash scripts, including [sharing data between steps](/code/bash/#sharing-data-between-steps) as well as [accessing environment variables](/code/bash/#using-environment-variables).
-
-However, you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time. If you have any questions, find bugs or have feedback please [contact support](https://pipedream.com/support).
-:::
+Within a Bash step, you can [share data between steps](/code/bash/#sharing-data-between-steps) and [access environment variables](/code/bash/#using-environment-variables). But you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/code/nodejs/) environment at this time.
 
 ## Adding a Bash code step
 
@@ -35,67 +27,15 @@ echo $MESSAGE
 
 Bash steps come with many common and useful binaries preinstalled and available in `$PATH` for you to use out of the box. These binaries include but aren't limited to:
 
-* `curl` for making HTTP requests
-* `jq` for manipulating and viewing JSON data
-* `git` for interacting with remote repositories
+- `curl` for making HTTP requests
+- `jq` for manipulating and viewing JSON data
+- `git` for interacting with remote repositories
 
 Unfortunately it is not possible to install packages from a package manager like `apt` or `yum`.
 
 If you need a package pre-installed in your Bash steps, [just ask us](https://pipedream.com/support).
 
 Otherwise, you can use the `/tmp` directory to download and install software from source.
-
-## Making an HTTP request
-
-`curl` is already preinstalled in Bash steps, we recommend using it for making HTTP requests in your code for sending or requesting data from APIs or webpages.
-
-### Making a `GET` request
-
-You can use `curl` to perform `GET` requests from websites or APIs directly.
-
-```bash
-# Get the current weather in San Francisco
-WEATHER=`curl --silent https://wttr.in/San\ Francisco\?format=3`
-
-echo $WEATHER
-# Produces:
-# San Francisco: 🌫  +48°F
-```
-
-::: tip
-Use the `--silent` flag with `curl` to suppress extra extra diagnostic information that `curl` produces when making requests.
-
-This enables you to only worry about the body of the response so you can visualize it with tools like `echo` or `jq`. 
-:::
-
-### Making a `POST` request
-
-`curl` can also make `POST`s requests as well. The `-X` flag allow you to specify the HTTP method you'd like to use for an HTTP request.
-
-The `-d` flag is for passing data in the `POST` request.
-
-```bash
-curl --silent -X POST https://postman-echo.com/post -d 'name=Bulbasaur&id=1'
-
-# To store the API response in a variable, interpolate the response into a string and store it in variable
-RESPONSE=`curl --silent -X POST https://postman-echo.com/post -d 'name=Bulbasaur&id=1'`
-
-# Now the response is stored as a variable
-echo $RESPONSE
-```
-
-### Using API key authentication
-
-Some APIs require you to authenticate with a secret API key.
-
-`curl` has an `-h` flag where you can pass your API key as a token.
-
-For example, here's how to retrieve mentions from the Twitter API:
-
-```bash
-# Define the "Authorization" header to include your Twitter API key
-curl --silent -X POST -h "Authorization: Bearer $(<your api key here>)" https://api.twitter.com/2/users/@pipedream/mentions
-```
 
 ## Sharing data between steps
 
@@ -118,7 +58,7 @@ In this example, we'll pretend this data is coming into our HTTP trigger via a P
 In our Bash script, we can access this data via the `$PIPEDREAM_STEPS` file. Specifically, this data from the POST request into our workflow is available in the `trigger` object.
 
 ```bash
-echo $PIPEDREAM_STEPS | jq .trigger.event
+cat $PIPEDREAM_STEPS | jq .trigger.event
 
 # Results in { id: 1, name: "Bulbasaur", type: "plant" }
 ```
@@ -143,9 +83,7 @@ echo $EXPORT >> $PIPEDREAM_EXPORTS
 ::: warning
 Not all data types can be stored in the `$PIPEDREAM_EXPORTS` data shared between workflow steps.
 
-For the best experience, we recommend only exporting strings from Bash steps that can be serialized to JSON. 
-
-[Read more details on step limitations here.](/workflows/steps/#limitations-on-step-exports)
+You can only export JSON-serializable data from Bash steps.
 :::
 
 ## Using environment variables
@@ -172,6 +110,7 @@ You may need to stop your step immediately. You can use the normal `exit` functi
 echo "Exiting now!" 1>&2
 exit 1
 ```
+
 :::warning
 Using `exit` to quit a Bash step early _won't_ stop the execution of the rest of the workflow.
 

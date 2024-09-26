@@ -1,0 +1,36 @@
+{
+  "name": "@pipedream/api4ai",
+  "version": "0.1.0",
+  "description": "Pipedream API4AI Components",
+  "main": "api4ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "api4ai",
+    "AI",
+    "computer vision",
+    "API",
+    "image",
+    "analysis",
+    "background",
+    "removal",
+    "car",
+    "nsfw",
+    "sfw",
+    "face",
+    "anonymization",
+    "brand",
+    "wine",
+    "alcohol",
+    "furniture",
+    "household"
+  ],
+  "homepage": "https://pipedream.com/apps/api4ai",
+  "author": "API4AI Team <hello@api4.ai> (https://api4.ai/)",
+  "dependencies": {
+    "@pipedream/platform": "^1.6.2",
+    "form-data": "^4.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

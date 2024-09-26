@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/vimeo",
+  "version": "0.0.1",
+  "description": "Pipedream Vimeo Components",
+  "main": "vimeo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vimeo"
+  ],
+  "homepage": "https://pipedream.com/apps/vestaboard",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedreamhq/platform": "^0.8.1"
+  }
+}

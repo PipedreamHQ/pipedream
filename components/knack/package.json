@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/knack",
+  "version": "0.0.4",
+  "description": "Pipedream Knack Components",
+  "main": "knack.app.js",
+  "keywords": [
+    "pipedream",
+    "knack"
+  ],
+  "homepage": "https://pipedream.com/apps/knack",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.2.0"
+  }
+}

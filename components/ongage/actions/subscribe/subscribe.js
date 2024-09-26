@@ -4,7 +4,7 @@ module.exports = {
   key: "ongage-subscribe",
   name: "Ongage Subscribe",
   description: "Subscribe to a list in Ongage.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ongage,

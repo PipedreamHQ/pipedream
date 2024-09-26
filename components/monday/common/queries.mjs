@@ -10,6 +10,23 @@ export default {
       ) {
         id
         name
+        type
+      }
+    }
+  `,
+  listWorkspaces: `
+    query { 
+      workspaces {
+        id
+        name
+      }
+    }
+  `,
+  listFolders: `
+    query ($workspaceId: [ID]) { 
+      folders (workspace_ids: $workspaceId) {
+        id
+        name
       }
     }
   `,
@@ -28,7 +45,7 @@ export default {
     }
   `,
   listGroupsBoards: `
-    query listGroups ($boardId: Int!) {
+    query listGroups ($boardId: ID!) {
       boards (ids: [$boardId]) {
         groups {
           id
@@ -38,8 +55,22 @@ export default {
     }
   `,
   listItemsBoard: `
-    query listItems ($boardId: Int!) {
+    query listItems ($boardId: ID!) {
       boards (ids: [$boardId]) {
+        items_page (query_params: {order_by:[{ column_id: "__creation_log__", direction: desc }]}) {
+          cursor
+          items {
+            id
+            name
+          }
+        }
+      }
+    }
+  `,
+  listItemsNextPage: `
+    query listItems ($cursor: String!) {
+      next_items_page (cursor: $cursor) {
+        cursor
         items {
           id
           name
@@ -49,7 +80,7 @@ export default {
   `,
   listUpdatesBoard: `
     query listUpdates (
-      $boardId: Int!,
+      $boardId: ID!,
       $page: Int = 1
     ) {
       boards (ids: [$boardId]) {
@@ -58,6 +89,150 @@ export default {
         ) {
           id
           body
+        }
+      }
+    }
+  `,
+  listColumns: `
+    query listColumns ($boardId: ID!) {
+      boards (ids: [$boardId]) {
+        columns {
+          id
+          title
+          type
+        }
+      }
+    }
+  `,
+  listUsers: `
+    query {
+      users (
+        newest_first: true
+      ) {
+        id
+        name
+        created_at
+      }
+    }
+  `,
+  getItem: `
+    query getItem ($id: ID!) {
+      items (ids: [$id]) {
+        id
+        name
+        board {
+          id
+        }
+        group {
+          id
+        }
+        created_at
+        creator_id
+        updated_at
+        parent_item {
+          id
+        }
+        column_values {
+          id
+          value
+        }
+        email
+      }
+    }
+  `,
+  getBoard: `
+    query getBoard($id: ID!) {
+      boards (ids: [$id]) {
+        id
+        name
+        board_folder_id
+        columns {
+          id
+        }
+        description
+        groups {
+          id
+        }
+        items_page {
+          items {
+            id
+          }
+        }
+        owner {
+          id
+        }
+        permissions
+        tags {
+          id
+        }
+        type
+        updated_at
+        workspace_id
+      }
+    }
+  `,
+  getUser: `
+    query getUser($id: ID!) {
+      users (ids: [$id]) {
+        id
+        name
+        account {
+          id
+        }
+        birthday
+        country_code
+        created_at
+        join_date
+        email
+        is_admin
+        is_guest
+        is_pending
+        is_view_only
+        is_verified
+        location
+        mobile_phone
+        phone
+        photo_original
+        photo_small
+        photo_thumb
+        photo_thumb_small
+        photo_tiny
+        teams {
+          id
+        }
+        time_zone_identifier
+        title
+        url
+        utc_hours_diff
+        current_language
+      }
+    }
+  `,
+  getColumnValues: `
+    query getItem ($itemId: ID!, $columnIds: [String!]) {
+      items (ids: [$itemId]){
+        id
+        name
+        column_values (ids: $columnIds){
+          id
+          value
+          text
+        }
+      }
+    }
+  `,
+  getItemsByColumnValue: `
+    query ($boardId: ID!, $columnId: String!, $columnValue: String!){
+      items_page_by_column_values (board_id: $boardId, columns: [{column_id: $columnId, column_values: [$columnValue]}]) {
+        cursor
+        items {
+          id
+          name
+          column_values {
+            id
+            value
+            text
+          }
         }
       }
     }

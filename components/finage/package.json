@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/finage",
+  "version": "0.0.1",
+  "description": "Pipedream Finage Components",
+  "main": "finage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "finage"
+  ],
+  "homepage": "https://pipedream.com/apps/finage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

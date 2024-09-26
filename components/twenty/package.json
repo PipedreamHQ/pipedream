@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/twenty",
+  "version": "0.1.0",
+  "description": "Pipedream Twenty Components",
+  "main": "twenty.app.mjs",
+  "keywords": [
+    "pipedream",
+    "twenty"
+  ],
+  "homepage": "https://pipedream.com/apps/twenty",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5"
+  }
+}
+

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/giantcampaign",
+  "version": "0.1.0",
+  "description": "Pipedream GiantCampaign Components",
+  "main": "giantcampaign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "giantcampaign"
+  ],
+  "homepage": "https://pipedream.com/apps/giantcampaign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

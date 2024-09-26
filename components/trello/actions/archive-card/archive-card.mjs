@@ -1,44 +1,43 @@
-// legacy_hash_id: a_njiaR8
-import { axios } from "@pipedream/platform";
+import common from "../common.mjs";
 
 export default {
+  ...common,
   key: "trello-archive-card",
   name: "Archive Card",
-  description: "Archives the specified card.",
-  version: "0.1.1",
+  description: "Archives a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put).",
+  version: "0.2.0",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
+    ...common.props,
+    board: {
+      propDefinition: [
+        common.props.app,
+        "board",
+      ],
     },
-    id: {
+    cardId: {
+      propDefinition: [
+        common.props.app,
+        "cards",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
       type: "string",
-      description: "The ID of the card to archive.",
+      label: "Card",
+      description: "The ID of the Card to archive",
+      optional: false,
     },
   },
   async run({ $ }) {
-    const oauthSignerUri = this.trello.$auth.oauth_signer_uri;
-
-    let id = this.id;
-
-    const config = {
-      url: `https://api.trello.com/1/cards/${id}?closed=true`,
-      method: "PUT",
-      data: "",
-    };
-
-    const token = {
-      key: this.trello.$auth.oauth_access_token,
-      secret: this.trello.$auth.oauth_refresh_token,
-    };
-
-    const signConfig = {
-      token,
-      oauthSignerUri,
-    };
-
-    const resp = await axios($, config, signConfig);
-    return resp;
+    const res = await this.app.updateCard({
+      $,
+      cardId: this.cardId,
+      data: {
+        closed: true,
+      },
+    });
+    $.export("$summary", `Successfully archived card ${this.cardId}`);
+    return res;
   },
 };

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/air",
+  "version": "0.0.1",
+  "description": "Pipedream Air Components",
+  "main": "air.app.mjs",
+  "keywords": [
+    "pipedream",
+    "air"
+  ],
+  "homepage": "https://pipedream.com/apps/air",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

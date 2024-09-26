@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/easysendy",
+  "version": "0.1.0",
+  "description": "Pipedream EasySendy Components",
+  "main": "easysendy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easysendy"
+  ],
+  "homepage": "https://pipedream.com/apps/easysendy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}

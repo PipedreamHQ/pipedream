@@ -36,8 +36,12 @@ export default {
     },
   },
   methods: {
-    getAccount() {
-      return this.$auth.oauth_uid;
+    async getAccount(appLinkName) {
+      const { applications = [] } = await this.getApplications();
+      const { workspace_name: account } = applications.find(
+        ({ link_name: link }) => link === appLinkName,
+      );
+      return account;
     },
     isRetriableStatusCode(statusCode) {
       return constants.RETRIABLE_STATUS_CODE.includes(statusCode);
@@ -114,7 +118,7 @@ export default {
     }) {
       return this.makeRequest({
         $,
-        path: `/${this.getAccount()}/${appLinkName}/reports`,
+        path: `/${await this.getAccount(appLinkName)}/${appLinkName}/reports`,
         params,
       });
     },
@@ -123,7 +127,7 @@ export default {
     }) {
       return this.makeRequest({
         $,
-        path: `/${this.getAccount()}/${appLinkName}/report/${reportLinkName}`,
+        path: `/${await this.getAccount(appLinkName)}/${appLinkName}/report/${reportLinkName}`,
         params,
       });
     },
@@ -194,8 +198,8 @@ export default {
       addedTime, modifiedTime,
     }) {
       return [
-        addedTime && `${constants.ADDED_TIME_FIELD} > '${addedTime}'`,
-        modifiedTime && `${constants.MODIFIED_TIME_FIELD} > '${modifiedTime}'`,
+        addedTime && `${constants.ADDED_TIME_FIELD} >= '${addedTime}'`,
+        modifiedTime && `${constants.MODIFIED_TIME_FIELD} >= '${modifiedTime}'`,
       ].reduce(
         (reduction, criteria) =>
           (criteria && reduction.concat(criteria) || reduction),

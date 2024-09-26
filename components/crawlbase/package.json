@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/crawlbase",
+  "version": "0.0.1",
+  "description": "Pipedream Crawlbase Components",
+  "main": "crawlbase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "crawlbase"
+  ],
+  "homepage": "https://pipedream.com/apps/crawlbase",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

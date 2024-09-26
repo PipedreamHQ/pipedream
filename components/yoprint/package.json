@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/yoprint",
+  "version": "0.0.1",
+  "description": "Pipedream YoPrint Components",
+  "main": "yoprint.app.mjs",
+  "keywords": [
+    "pipedream",
+    "yoprint"
+  ],
+  "homepage": "https://pipedream.com/apps/yoprint",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

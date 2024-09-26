@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/scrapein_",
+  "version": "0.0.1",
+  "description": "Pipedream Soax Components",
+  "main": "scrapein_.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scrapein_"
+  ],
+  "homepage": "https://pipedream.com/apps/scrapein_",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

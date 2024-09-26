@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/meteomatics_weather_api",
+  "version": "0.1.1",
+  "description": "Pipedream Meteomatics Weather API Components",
+  "main": "meteomatics_weather_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "meteomatics_weather_api"
+  ],
+  "homepage": "https://pipedream.com/apps/meteomatics_weather_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

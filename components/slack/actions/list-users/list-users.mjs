@@ -3,20 +3,26 @@ import slack from "../../slack.app.mjs";
 export default {
   key: "slack-list-users",
   name: "List Users",
-  description: "Return a list of all users in a workspace",
-  version: "0.0.2",
+  description: "Return a list of all users in a workspace. [See the documentation](https://api.slack.com/methods/users.list)",
+  version: "0.0.19",
   type: "action",
   props: {
     slack,
-    team_id: {
+    teamId: {
       propDefinition: [
         slack,
-        "team_id",
+        "team",
       ],
       optional: true,
     },
   },
-  async run() {
-    return await this.slack.sdk().users.list();
+  async run({ $ }) {
+    const response = await this.slack.usersList({
+      team_id: this.teamId,
+    });
+    $.export("$summary", `Successfully retrieved ${response.members.length} user${response.members.length === 1
+      ? ""
+      : "s"}`);
+    return response;
   },
 };

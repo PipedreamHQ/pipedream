@@ -1,30 +1,31 @@
 import constants from "../../common/constants.mjs";
-import common from "../common.mjs";
+import base from "../common/webhooks.mjs";
 
 export default {
-  ...common,
+  ...base,
   name: "New Authorized Sale Order",
   key: "dear-new-authorized-sale-order",
   type: "source",
   description: "Emit new event when a sale order is created and authorized",
-  version: "0.0.1",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
-    ...common.methods,
+    ...base.methods,
     getWebhookType() {
       return constants.WEBHOOK_TYPE.SALE_ORDER_AUTHORISED;
     },
     getMetadata(payload) {
       const {
         amznTraceId,
-        ...summary
+        SaleID,
+        SaleOrderNumber,
       } = payload;
 
-      const compositeId = `${payload.SaleID}-${amznTraceId}`;
+      const compositeId = `${SaleID}-${amznTraceId}`;
 
       return {
         id: compositeId,
-        summary: JSON.stringify(summary),
+        summary: `A new sale order with OrderNumber: ${SaleOrderNumber} was successfully authorized!`,
         ts: Date.now(),
       };
     },

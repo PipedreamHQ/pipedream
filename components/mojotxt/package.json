@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mojotxt",
+  "version": "0.0.1",
+  "description": "Pipedream MojoTxt Components",
+  "main": "mojotxt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mojotxt"
+  ],
+  "homepage": "https://pipedream.com/apps/mojotxt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

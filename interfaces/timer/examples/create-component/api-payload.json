@@ -1,4 +1,0 @@
-{
-  "component_code": "module.exports = { name: 'cronjob', version: '0.0.1', props: { timer: { type: '$.interface.timer', default: { intervalSeconds: 60, } }, }, run() { console.log('Run any Node.js code here'); }, };",
-  "name": "cronjob-api-test"
-}

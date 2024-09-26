@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/blogify",
+  "version": "0.1.0",
+  "description": "Pipedream Blogify Components",
+  "main": "blogify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "blogify"
+  ],
+  "homepage": "https://pipedream.com/apps/blogify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/y_gy",
+  "version": "0.1.0",
+  "description": "Pipedream y.gy Components",
+  "main": "y_gy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "y_gy"
+  ],
+  "homepage": "https://pipedream.com/apps/y_gy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5"
+  }
+}

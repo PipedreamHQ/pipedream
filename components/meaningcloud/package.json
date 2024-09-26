@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/meaningcloud",
+  "version": "0.0.1",
+  "description": "Pipedream MeaningCloud Components",
+  "main": "meaningcloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "meaningcloud"
+  ],
+  "homepage": "https://pipedream.com/apps/meaningcloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

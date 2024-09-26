@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/zoho_subscriptions",
+  "version": "0.1.0",
+  "description": "Pipedream Zoho Subscriptions Components",
+  "main": "zoho_subscriptions.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_subscriptions"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_subscriptions",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "moment": "^2.29.4"
+  }
+}

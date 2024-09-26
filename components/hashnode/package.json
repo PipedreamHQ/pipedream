@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hashnode",
+  "version": "0.0.1",
+  "description": "Pipedream Hashnode Components",
+  "main": "hashnode.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hashnode"
+  ],
+  "homepage": "https://pipedream.com/apps/hashnode",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

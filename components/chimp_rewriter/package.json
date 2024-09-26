@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chimp_rewriter",
+  "version": "0.0.1",
+  "description": "Pipedream Chimp Rewriter Components",
+  "main": "chimp_rewriter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chimp_rewriter"
+  ],
+  "homepage": "https://pipedream.com/apps/chimp_rewriter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

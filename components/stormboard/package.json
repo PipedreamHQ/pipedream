@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/stormboard",
+  "version": "0.0.2",
+  "description": "Pipedream Stormboard Components",
+  "main": "stormboard.app.js",
+  "keywords": [
+    "pipedream",
+    "stormboard"
+  ],
+  "homepage": "https://pipedream.com/apps/stormboard",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

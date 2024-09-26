@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/device_magic",
+  "version": "0.0.1",
+  "description": "Pipedream Device Magic Components",
+  "main": "device_magic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "device_magic"
+  ],
+  "homepage": "https://pipedream.com/apps/device_magic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

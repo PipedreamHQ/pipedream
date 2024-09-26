@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/orca_scan",
+  "version": "0.1.0",
+  "description": "Pipedream Orca Scan Components",
+  "main": "orca_scan.app.mjs",
+  "keywords": [
+    "pipedream",
+    "orca_scan"
+  ],
+  "homepage": "https://pipedream.com/apps/orca_scan",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.5.1"
+  }
+}
+

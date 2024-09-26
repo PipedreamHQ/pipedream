@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/getaccept",
+  "version": "0.1.0",
+  "description": "Pipedream GetAccept Components",
+  "main": "getaccept.app.mjs",
+  "keywords": [
+    "pipedream",
+    "getaccept"
+  ],
+  "homepage": "https://pipedream.com/apps/getaccept",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+	},
+	"dependencies": {
+		"@pipedream/platform": "^1.5.1"
+	}
+}

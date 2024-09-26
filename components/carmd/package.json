@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/carmd",
+  "version": "0.0.1",
+  "description": "Pipedream CarMD Components",
+  "main": "carmd.app.mjs",
+  "keywords": [
+    "pipedream",
+    "carmd"
+  ],
+  "homepage": "https://pipedream.com/apps/carmd",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

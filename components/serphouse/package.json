@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/serphouse",
+  "version": "0.0.1",
+  "description": "Pipedream SERPhouse Components",
+  "main": "serphouse.app.mjs",
+  "keywords": [
+    "pipedream",
+    "serphouse"
+  ],
+  "homepage": "https://pipedream.com/apps/serphouse",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

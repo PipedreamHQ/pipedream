@@ -4,8 +4,8 @@ import { Readable } from "stream";
 export default {
   key: "google_drive-create-file-from-text",
   name: "Create New File From Text",
-  description: "Create a new file from plain text. [See the docs](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.0.3",
+  description: "Create a new file from plain text. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
+  version: "0.1.5",
   type: "action",
   props: {
     googleDrive,
@@ -25,7 +25,7 @@ export default {
         }),
       ],
       description:
-        "The folder you want to add the file to. If not specified, the file will be placed directly in the user's My Drive folder.",
+        "The folder you want to add the file to. If not specified, the file will be placed directly in the drive's top-level folder.",
       optional: true,
     },
     name: {
@@ -33,6 +33,7 @@ export default {
         googleDrive,
         "fileName",
       ],
+      label: "File Name",
       description:
         "The name of the file you want to create (e.g., `myFile.txt`)",
     },
@@ -53,11 +54,13 @@ export default {
     const file = Readable.from([
       content,
     ]);
-    const resp = await this.googleDrive.createFileFromOpts({
+    const driveId = this.googleDrive.getDriveId(this.drive);
+    const resp = await this.googleDrive.createFile({
       mimeType: "text/plain",
       file,
       name,
       parentId,
+      driveId,
     });
     $.export("$summary", `Successfully created a new file, "${resp.name}"`);
     return resp;
