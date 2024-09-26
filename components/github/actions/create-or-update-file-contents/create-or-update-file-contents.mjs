@@ -50,7 +50,7 @@ export default {
     } = this;
     const response = await github.createOrUpdateFileContent({
       ...data,
-      branch: branch && branch.split("/")[0],
+      branch: branch && branch.split("/")[1],
     });
 
     $.export("$summary", `Successfully set contents of ${this.path}${this.branch
