@@ -846,10 +846,8 @@ export class ServerClient {
     return this.makeRequest("", {
       ...opts,
       baseURL: url,
-      method: opts.method || "POST", // Default to POST if not specified
       headers: {
         ...headers,
-        "Authorization": await this.oauthAuthorizationHeader(),
         "X-PD-External-User-ID": externalUserId,
         "X-PD-Project-Public-Key": this.publicKey,
       },
