@@ -77,9 +77,7 @@ import { createClient } from "@pipedream/sdk/browser"
 import { serverConnectTokenCreate } from "./server"
  
 const { token, expires_at } = await serverConnectTokenCreate({
-  app_slug: appSlug,  // The app's name slug — see the quickstart
-  oauth_app_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
-  external_id: externalUserId  // The end user's ID in your system
+  external_user_id: externalUserId  // The end user's ID in your system
 });
 
 export default function Home() {
@@ -148,9 +146,9 @@ POST /tokens
 
 ##### Parameters
 
-- `app_slug` - [The app's name slug](/quickstart#find-your-apps-name-slug)
-- `oauth_app_id` - [The OAuth app ID](/quickstart#creating-a-custom-oauth-client), if you're connecting an OAuth app — keep this in config / a DB, pass here
 - `external_id` - [The external user ID](#external-users) in your system
+- `success_redirect_uri` — _Optional_. The URL to redirect the user to after they successfully connect an account
+- `error_redirect_uri` — _Optional_. The URL to redirect the user to if they encounter an error during the connection flow
 
 ##### Examples
 
@@ -180,9 +178,7 @@ export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Pr
 }
 
 const { token, expires_at } = await serverConnectTokenCreate({
-  app_slug: appSlug,  // The app's name slug
-  oauth_app_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
-  external_id: externalUserId  // The end user's ID in your system
+  external_user_id: externalUserId  // The end user's ID in your system
 });
 ```
 </Tabs.Tab>
@@ -225,8 +221,6 @@ const client = new Client({
 });
 
 const connectTokenOpts = {
-  app_slug: "YOUR_APP_SLUG",  // The app's name slug
-  oauth_app_id: "o_abc123",  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
   external_id: "USER_ID"  // The end user's ID in your system
 }
 
@@ -272,14 +266,12 @@ class Client:
 
 # Usage example
 client = Client({
-    'public_key': 'YOUR_PUBLIC_KEY',
-    'secret_key': 'YOUR_SECRET_KEY',
+  'public_key': 'YOUR_PUBLIC_KEY',
+  'secret_key': 'YOUR_SECRET_KEY',
 })
 
 connect_token_opts = {
-    'app_slug': "YOUR_APP_SLUG",
-    'oauth_app_id': "o_abc123",
-    'external_id': "USER_ID"
+  'external_id': "USER_ID"
 }
 
 # Expose this code as an API endpoint in your server to fetch the token from the frontend
@@ -313,7 +305,7 @@ public class Client {
         return "Basic " + encoded;
     }
 
-    public String connectTokenCreate(String appSlug, String oauthClientId, String externalId) throws Exception {
+    public String connectTokenCreate(String externalId) throws Exception {
         String auth = authorizationHeader();
         URL url = new URL(baseURL + "/v1/connect/tokens");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -322,7 +314,7 @@ public class Client {
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setDoOutput(true);
 
-        String jsonInputString = String.format("{\"app_slug\":\"%s\",\"oauth_app_id\":\"%s\",\"external_id\":\"%s\"}", appSlug, oauthClientId, externalId);
+        String jsonInputString = String.format("{\"external_id\":\"%s\"}", externalId);
 
         try (OutputStream os = conn.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
@@ -336,7 +328,7 @@ public class Client {
         Client client = new Client("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY");
 
         // Expose this code as an API endpoint in your server to fetch the token from the frontend
-        String response = client.connectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID");
+        String response = client.connectTokenCreate("USER_ID");
     }
 }
 
@@ -367,13 +359,13 @@ public class Client {
         return $"Basic {encoded}";
     }
 
-    public async Task<string> ConnectTokenCreate(string appSlug, string oauthClientId, string externalId) {
+    public async Task<string> ConnectTokenCreate(string externalId) {
         string auth = AuthorizationHeader();
         using (HttpClient client = new HttpClient()) {
             client.DefaultRequestHeaders.Add("Authorization", auth);
             client.DefaultRequestHeaders.Add("Content-Type", "application/json");
 
-            var content = new StringContent($"{{\"app_slug\":\"{appSlug}\",\"oauth_app_id\":\"{oauthClientId}\",\"external_id\":\"{externalId}\"}}", Encoding.UTF8, "application/json");
+            var content = new StringContent($"{{\"external_id\":\"{externalId}\"}}", Encoding.UTF8, "application/json");
             var response = await client.PostAsync($"{baseURL}/v1/connect/tokens", content);
 
             return await response.Content.ReadAsStringAsync();
@@ -384,7 +376,7 @@ public class Client {
         var client = new Client("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY");
 
         // Expose this code as an API endpoint in your server to fetch the token from the frontend
-        string response = await client.ConnectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID");
+        string response = await client.ConnectTokenCreate("USER_ID");
     }
 }
 
@@ -424,13 +416,11 @@ func (c *Client) authorizationHeader() string {
 	return fmt.Sprintf("Basic %s", encoded)
 }
 
-func (c *Client) ConnectTokenCreate(appSlug, oauthClientId, externalId string) (map[string]interface{}, error) {
+func (c *Client) ConnectTokenCreate(externalId string) (map[string]interface{}, error) {
 	auth := c.authorizationHeader()
 	url := fmt.Sprintf("%s/v1/connect/tokens", c.BaseURL)
 
 	opts := map[string]string{
-		"app_slug":       appSlug,
-		"oauth_app_id": oauthClientId,
 		"external_id":    externalId,
 	}
 
@@ -465,7 +455,7 @@ func main() {
 	client := NewClient("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY")
 
   // Expose this code as an API endpoint in your server to fetch the token from the frontend
-	response, err := client.ConnectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID")
+	response, err := client.ConnectTokenCreate( "USER_ID")
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
@@ -496,13 +486,11 @@ class Client {
         return "Basic $encoded";
     }
 
-    public function connectTokenCreate($appSlug, $oauthClientId, $externalId) {
+    public function connectTokenCreate($externalId) {
         $auth = $this->authorizationHeader();
         $url = "$this->baseURL/v1/connect/tokens";
 
         $data = json_encode([
-            'app_slug' => $appSlug,
-            'oauth_app_id' => $oauthClientId,
             'external_id' => $externalId
         ]);
 
@@ -528,13 +516,11 @@ class Client {
 $client = new Client('YOUR_SECRET_KEY', 'YOUR_PUBLIC_KEY');
 
 $connectTokenOpts = [
-    'app_slug' => "YOUR_APP_SLUG",
-    'oauth_app_id' => "o_abc123",
     'external_id' => "USER_ID"
 ];
 
 // Expose this code as an API endpoint in your server to fetch the token from the frontend
-$response = $client->connectTokenCreate($connectTokenOpts['app_slug'], $connectTokenOpts['oauth_app_id'], $connectTokenOpts['external_id']);
+$response = $client->connectTokenCreate($connectTokenOpts['external_id']);
 ?>
 ```
 </Tabs.Tab>
@@ -564,7 +550,7 @@ class Client
     req = Net::HTTP::Post.new(uri)
     req['Authorization'] = authorization_header
     req['Content-Type'] = 'application/json'
-    req.body = { app_slug: app_slug, oauth_app_id: oauth_app_id, external_id: external_id }.to_json
+    req.body = { external_id: external_id }.to_json
 
     res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
       http.request(req)
@@ -577,13 +563,11 @@ end
 client = Client.new('YOUR_SECRET_KEY', 'YOUR_PUBLIC_KEY')
 
 connect_token_opts = {
-  app_slug: "YOUR_APP_SLUG",
-  oauth_app_id: "o_abc123",
   external_id: "USER_ID"
 }
 
 # Expose this code as an API endpoint in your server to fetch the token from the frontend
-response = client.connect_token_create(connect_token_opts[:app_slug], connect_token_opts[:oauth_app_id], connect_token_opts[:external_id])
+response = client.connect_token_create(connect_token_opts[:external_id])
 ```
 </Tabs.Tab>
 </Tabs>

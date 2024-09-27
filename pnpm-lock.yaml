@@ -2218,7 +2218,10 @@ importers:
     specifiers: {}
 
   components/customjs:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/cutt_ly:
     specifiers:
@@ -2842,7 +2845,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dust:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/dux_soup:
     specifiers:
@@ -2877,6 +2883,9 @@ importers:
     specifiers: {}
 
   components/eagle_doc:
+    specifiers: {}
+
+  components/easy_peasy_ai:
     specifiers: {}
 
   components/easy_project:
@@ -5225,6 +5234,9 @@ importers:
   components/kyvio:
     specifiers: {}
 
+  components/l2s:
+    specifiers: {}
+
   components/l3mbda:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -5244,6 +5256,9 @@ importers:
     specifiers: {}
 
   components/lambdatest:
+    specifiers: {}
+
+  components/langbase:
     specifiers: {}
 
   components/laposta:
@@ -5950,10 +5965,10 @@ importers:
 
   components/microsoft_excel:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.1
       moment: ^2.29.4
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.1
       moment: 2.29.4
 
   components/microsoft_onedrive:
@@ -6546,7 +6561,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/offlight:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/oksign:
     specifiers: {}
@@ -7236,6 +7254,9 @@ importers:
       '@pipedream/platform': ^1.3.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/pixelbin:
+    specifiers: {}
 
   components/pixiebrix:
     specifiers:
@@ -9128,6 +9149,9 @@ importers:
       '@pipedream/platform': 1.5.1
       query-string: 8.1.0
 
+  components/smslink_nc:
+    specifiers: {}
+
   components/smtp2go:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -9880,7 +9904,10 @@ importers:
     specifiers: {}
 
   components/the_bookie:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/the_odds_api:
     specifiers:
@@ -10157,6 +10184,9 @@ importers:
       crypto-js: 4.1.1
 
   components/trestle:
+    specifiers: {}
+
+  components/tricentis_qtest:
     specifiers: {}
 
   components/triggercmd:
@@ -10583,6 +10613,9 @@ importers:
       '@pipedream/platform': ^2.0.0
     dependencies:
       '@pipedream/platform': 2.0.0
+
+  components/vida:
+    specifiers: {}
 
   components/videoask:
     specifiers: {}
@@ -17627,8 +17660,8 @@ packages:
       - debug
     dev: false
 
-  /@pipedream/platform/3.0.3:
-    resolution: {integrity: sha512-7elalas41lnT8i6EAFkqB7fT/+hkLGEQ1njS6A7CVguTrEswaIYk/seKmkfkRY7+O6qncgnXswYIKCBML9Co7w==}
+  /@pipedream/platform/3.0.2:
+    resolution: {integrity: sha512-q/BYGJoNXOVaRlNTDWD7Gjgkcu114gbPrxQ5KCOFbuYfqnJu8AeDGMyMvEPaGPbrWUVwgxjvOnxw4EWqce8ZNQ==}
     dependencies:
       axios: 1.7.7
       fp-ts: 2.16.9
@@ -17638,8 +17671,8 @@ packages:
       - debug
     dev: false
 
-  /@pipedream/platform/3.0.2:
-    resolution: {integrity: sha512-q/BYGJoNXOVaRlNTDWD7Gjgkcu114gbPrxQ5KCOFbuYfqnJu8AeDGMyMvEPaGPbrWUVwgxjvOnxw4EWqce8ZNQ==}
+  /@pipedream/platform/3.0.3:
+    resolution: {integrity: sha512-7elalas41lnT8i6EAFkqB7fT/+hkLGEQ1njS6A7CVguTrEswaIYk/seKmkfkRY7+O6qncgnXswYIKCBML9Co7w==}
     dependencies:
       axios: 1.7.7
       fp-ts: 2.16.9
@@ -23301,7 +23334,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   /concat-stream/2.0.0:
     resolution: {integrity: sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==}
@@ -35381,7 +35414,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
