@@ -63,7 +63,7 @@ export default {
     timeOffRequestId: {
       type: "string",
       label: "Time Off Request ID",
-      description: "The ID of the employee's time oof request",
+      description: "The ID of the employee's time off request",
       async options({
         page, employeeId,
       }) {
@@ -151,7 +151,7 @@ export default {
     nationality: {
       type: "string",
       label: "Nationality",
-      description: "The nacionality of the employee",
+      description: "The nationality of the employee",
       async options() {
         const { data } = await this.listNationalities();
         return data;
@@ -160,7 +160,7 @@ export default {
     country: {
       type: "string",
       label: "Country",
-      description: "The county where the employee lives",
+      description: "The country where the employee lives",
       async options() {
         const { data } = await this.listCountries();
         return data;

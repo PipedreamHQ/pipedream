@@ -363,7 +363,7 @@ export default {
         phone: this.phone,
         address: this.address,
         country: this.country,
-        postal_code: this.postal_code,
+        postal_code: this.postalCode,
         city: this.city,
         reports_to_employee_id: this.reportsToEmployeeId,
         emergency_contact: {
