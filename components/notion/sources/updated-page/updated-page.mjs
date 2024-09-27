@@ -60,7 +60,7 @@ export default {
           Date.parse(page.last_edited_time),
         );
         if (count++ < 25) {
-          this.emitEvent(page, []);
+          this.emitEvent(page, [], true);
         }
       }
       this._setPropertyValues(propertyValues);
@@ -109,8 +109,10 @@ export default {
         ts,
       };
     },
-    emitEvent(page, changes) {
-      const meta = this.generateMeta(page, constants.summaries.PAGE_UPDATED);
+    emitEvent(page, changes, isNewPage) {
+      const meta = isNewPage
+        ? this.generateMeta(page, constants.summaries.PAGE_ADDED)
+        : this.generateMeta(page, constants.summaries.PAGE_UPDATED);
       const event = {
         page,
         changes,
@@ -137,6 +139,7 @@ export default {
 
     for await (const page of pagesStream) {
       const changes = [];
+      let isNewPage = false;
       let propertyHasChanged = false;
       newLastUpdatedTimestamp = Math.max(
         newLastUpdatedTimestamp,
@@ -144,6 +147,10 @@ export default {
       );
 
       for (const propertyName of propertiesToCheck) {
+        if (lastCheckedTimestamp > Date.parse(page.last_edited_time)) {
+          break;
+        }
+
         const previousValue = structuredClone(propertyValues[page.id]?.[propertyName]);
         const currentValue = this.maybeRemoveFileSubItems(page.properties[propertyName]);
 
@@ -163,6 +170,7 @@ export default {
         }
 
         if (!pageExistsInDB && this.includeNewPages) {
+          isNewPage = true;
           propertyHasChanged = true;
           propertyValues[page.id] = {
             [propertyName]: currentValue,
@@ -174,12 +182,8 @@ export default {
         }
       }
 
-      if (propertyHasChanged && lastCheckedTimestamp <= Date.parse(page.last_edited_time)) {
-        this.emitEvent(page, changes);
-      }
-
-      if (Date.parse(page.last_edited_time) < lastCheckedTimestamp) {
-        break;
+      if (propertyHasChanged) {
+        this.emitEvent(page, changes, isNewPage);
       }
     }
 
