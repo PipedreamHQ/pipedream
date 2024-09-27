@@ -522,7 +522,7 @@ In our Next.js app, we call the `serverConnectTokenCreate` method from the front
 import { serverConnectTokenCreate } from "./server"
 
 const { token, expires_at } = await serverConnectTokenCreate({
-  external_id: externalUserId  // The end user's ID in your system
+  external_user_id: externalUserId  // The end user's ID in your system
 });
 ```
 

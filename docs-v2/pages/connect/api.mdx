@@ -77,7 +77,7 @@ import { createClient } from "@pipedream/sdk/browser"
 import { serverConnectTokenCreate } from "./server"
  
 const { token, expires_at } = await serverConnectTokenCreate({
-  external_id: externalUserId  // The end user's ID in your system
+  external_user_id: externalUserId  // The end user's ID in your system
 });
 
 export default function Home() {
@@ -178,7 +178,7 @@ export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Pr
 }
 
 const { token, expires_at } = await serverConnectTokenCreate({
-  external_id: externalUserId  // The end user's ID in your system
+  external_user_id: externalUserId  // The end user's ID in your system
 });
 ```
 </Tabs.Tab>
@@ -266,12 +266,12 @@ class Client:
 
 # Usage example
 client = Client({
-    'public_key': 'YOUR_PUBLIC_KEY',
-    'secret_key': 'YOUR_SECRET_KEY',
+  'public_key': 'YOUR_PUBLIC_KEY',
+  'secret_key': 'YOUR_SECRET_KEY',
 })
 
 connect_token_opts = {
-    'external_id': "USER_ID"
+  'external_id': "USER_ID"
 }
 
 # Expose this code as an API endpoint in your server to fetch the token from the frontend
