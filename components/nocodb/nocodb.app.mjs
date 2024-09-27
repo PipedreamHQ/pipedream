@@ -119,24 +119,26 @@ export default {
     async *paginate({
       fn, args = {}, max,
     }) {
-      let lastPage, count = 0;
+      let hasMore = false;
+      let count = 0;
       args.params = {
         ...args.params,
-        page: 1,
+        offset: 0,
+        limit: 1000,
       };
       do {
         const {
           list, pageInfo,
         } = await fn(args);
         for (const item of list) {
+          args.params.offset++;
           yield item;
           if (max && ++count === max) {
             return;
           }
         }
-        args.params.page++;
-        lastPage = !pageInfo.isLastPage;
-      } while (lastPage);
+        hasMore = !pageInfo.isLastPage;
+      } while (hasMore);
     },
     listWorkspaces(opts = {}) {
       return this._makeRequest({

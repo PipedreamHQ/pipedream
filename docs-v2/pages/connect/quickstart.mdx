@@ -185,37 +185,37 @@ import json
 import requests
 
 class Client:
-    def __init__(self, opts):
-        self.secret_key = opts['secret_key']
-        self.public_key = opts['public_key']
+  def __init__(self, opts):
+    self.secret_key = opts['secret_key']
+    self.public_key = opts['public_key']
 
-        api_host = 'api.pipedream.com'
-        self.base_url = f"https://{api_host}"
+    api_host = 'api.pipedream.com'
+    self.base_url = f"https://{api_host}"
 
-    def _authorization_header(self):
-        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
-        return f"Basic {encoded}"
+  def _authorization_header(self):
+    encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
+    return f"Basic {encoded}"
 
-    def connect_token_create(self, opts):
-        auth = self._authorization_header()
-        response = requests.post(
-            f"{self.base_url}/v1/connect/tokens",
-            headers={
-                "Authorization": auth,
-                "Content-Type": "application/json",
-            },
-            data=json.dumps(opts)
-        )
-        return response.json()
+  def connect_token_create(self, opts):
+    auth = self._authorization_header()
+    response = requests.post(
+      f"{self.base_url}/v1/connect/tokens",
+      headers={
+        "Authorization": auth,
+        "Content-Type": "application/json",
+      },
+      data=json.dumps(opts)
+    )
+    return response.json()
 
 # Usage example
 client = Client({
-    'public_key': 'YOUR_PUBLIC_KEY',
-    'secret_key': 'YOUR_SECRET_KEY',
+  'public_key': 'YOUR_PUBLIC_KEY',
+  'secret_key': 'YOUR_SECRET_KEY',
 })
 
 connect_token_opts = {
-    'external_id': "USER_ID"
+  'external_id': "USER_ID"
 }
 
 # Expose this code as an API endpoint in your server to fetch the token from the frontend
@@ -249,7 +249,7 @@ public class Client {
         return "Basic " + encoded;
     }
 
-    public String connectTokenCreate(String appSlug, String oauthClientId, String externalId) throws Exception {
+    public String connectTokenCreate(String externalId) throws Exception {
         String auth = authorizationHeader();
         URL url = new URL(baseURL + "/v1/connect/tokens");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -303,7 +303,7 @@ public class Client {
         return $"Basic {encoded}";
     }
 
-    public async Task<string> ConnectTokenCreate(string appSlug, string oauthClientId, string externalId) {
+    public async Task<string> ConnectTokenCreate(string externalId) {
         string auth = AuthorizationHeader();
         using (HttpClient client = new HttpClient()) {
             client.DefaultRequestHeaders.Add("Authorization", auth);
@@ -430,7 +430,7 @@ class Client {
         return "Basic $encoded";
     }
 
-    public function connectTokenCreate($appSlug, $oauthClientId, $externalId) {
+    public function connectTokenCreate($externalId) {
         $auth = $this->authorizationHeader();
         $url = "$this->baseURL/v1/connect/tokens";
 
@@ -464,7 +464,7 @@ $connectTokenOpts = [
 ];
 
 // Expose this code as an API endpoint in your server to fetch the token from the frontend
-$response = $client->connectTokenCreate($connectTokenOpts['app_slug'], $connectTokenOpts['oauth_app_id'], $connectTokenOpts['external_id']);
+$response = $client->connectTokenCreate($connectTokenOpts['external_id']);
 ?>
 ```
 </Tabs.Tab>
@@ -522,7 +522,7 @@ In our Next.js app, we call the `serverConnectTokenCreate` method from the front
 import { serverConnectTokenCreate } from "./server"
 
 const { token, expires_at } = await serverConnectTokenCreate({
-  external_id: externalUserId  // The end user's ID in your system
+  external_user_id: externalUserId  // The end user's ID in your system
 });
 ```
 
