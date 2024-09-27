@@ -1,6 +1,7 @@
 import {
   CITIZENSHIP_OPTIONS,
   GENDER_OPTIONS,
+  LANGUAGE_OPTIONS,
   MARITAL_STATUS_OPTIONS,
 } from "../../common/constants.mjs";
 import {
@@ -92,8 +93,8 @@ export default {
     },
     citizenship: {
       type: "string",
-      label: "citizenship",
-      description: "citizenship",
+      label: "Citizenship",
+      description: "The citizenship of the employee",
       options: CITIZENSHIP_OPTIONS,
       optional: true,
     },
@@ -115,7 +116,6 @@ export default {
       description: "The phone numbe of the employee",
       optional: true,
     },
-
     address: {
       propDefinition: [
         talenthr,
@@ -123,7 +123,6 @@ export default {
       ],
       optional: true,
     },
-
     country: {
       propDefinition: [
         talenthr,
@@ -325,10 +324,10 @@ export default {
       optional: true,
     },
     hrLanguages: {
-      propDefinition: [
-        talenthr,
-        "hrLanguages",
-      ],
+      type: "integer[]",
+      label: "HR Languages",
+      description: "A list of language ids",
+      options: LANGUAGE_OPTIONS,
       optional: true,
     },
     hrFamily: {

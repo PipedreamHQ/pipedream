@@ -229,3 +229,446 @@ export const CITIZENSHIP_OPTIONS = [
   "Zambian",
   "Zimbabwean",
 ];
+
+export const LANGUAGE_OPTIONS = [
+  {
+    label: "Akan",
+    value: 123,
+  },
+  {
+    label: "Amharic",
+    value: 50,
+  },
+  {
+    label: "Arabic",
+    value: 22,
+  },
+  {
+    label: "Arabic, Algerian",
+    value: 60,
+  },
+  {
+    label: "Arabic, Egyptian",
+    value: 42,
+  },
+  {
+    label: "Arabic, Moroccan",
+    value: 77,
+  },
+  {
+    label: "Arabic, Najdi",
+    value: 101,
+  },
+  {
+    label: "Arabic, Saidi",
+    value: 78,
+  },
+  {
+    label: "Arabic, Sanaani",
+    value: 116,
+  },
+  {
+    label: "Arabic, Sudanese",
+    value: 58,
+  },
+  {
+    label: "Arabic, Tunisian",
+    value: 105,
+  },
+  {
+    label: "Assamese",
+    value: 86,
+  },
+  {
+    label: "Awadhi",
+    value: 74,
+  },
+  {
+    label: "Azerbaijani, North",
+    value: 119,
+  },
+  {
+    label: "Azerbaijani, South",
+    value: 68,
+  },
+  {
+    label: "Belarusan",
+    value: 99,
+  },
+  {
+    label: "Bengali",
+    value: 23,
+  },
+  {
+    label: "Bhojpuri",
+    value: 51,
+  },
+  {
+    label: "Bulgarian",
+    value: 108,
+  },
+  {
+    label: "Burmese",
+    value: 57,
+  },
+  {
+    label: "Cebuano",
+    value: 84,
+  },
+  {
+    label: "Chhattisgarhi",
+    value: 96,
+  },
+  {
+    label: "Chinese, Gan",
+    value: 73,
+  },
+  {
+    label: "Chinese, Hakka",
+    value: 56,
+  },
+  {
+    label: "Chinese, Jin",
+    value: 54,
+  },
+  {
+    label: "Chinese, Mandarin",
+    value: 19,
+  },
+  {
+    label: "Chinese, Min Bei",
+    value: 98,
+  },
+  {
+    label: "Chinese, Min Nan",
+    value: 53,
+  },
+  {
+    label: "Chinese, Wu",
+    value: 38,
+  },
+  {
+    label: "Chinese, Xiang",
+    value: 63,
+  },
+  {
+    label: "Chinese, Yue",
+    value: 35,
+  },
+  {
+    label: "Chittagonian",
+    value: 88,
+  },
+  {
+    label: "Croatian",
+    value: 72,
+  },
+  {
+    label: "Czech",
+    value: 93,
+  },
+  {
+    label: "Deccan",
+    value: 97,
+  },
+  {
+    label: "Dutch",
+    value: 75,
+  },
+  {
+    label: "English",
+    value: 17,
+  },
+  {
+    label: "Farsi",
+    value: 69,
+  },
+  {
+    label: "Farsi, Eastern",
+    value: 122,
+  },
+  {
+    label: "French",
+    value: 21,
+  },
+  {
+    label: "German",
+    value: 28,
+  },
+  {
+    label: "Greek",
+    value: 94,
+  },
+  {
+    label: "Gujarati",
+    value: 48,
+  },
+  {
+    label: "Haitian Creole French",
+    value: 118,
+  },
+  {
+    label: "Haryanvi",
+    value: 91,
+  },
+  {
+    label: "Hausa",
+    value: 41,
+  },
+  {
+    label: "Hiligaynon",
+    value: 124,
+  },
+  {
+    label: "Hindi",
+    value: 20,
+  },
+  {
+    label: "Hungarian",
+    value: 87,
+  },
+  {
+    label: "Igbo",
+    value: 81,
+  },
+  {
+    label: "Ilocano",
+    value: 114,
+  },
+  {
+    label: "Indonesian",
+    value: 27,
+  },
+  {
+    label: "Iranian Persian",
+    value: 40,
+  },
+  {
+    label: "Italian",
+    value: 45,
+  },
+  {
+    label: "Japanese",
+    value: 29,
+  },
+  {
+    label: "Javanese",
+    value: 44,
+  },
+  {
+    label: "Kannada",
+    value: 47,
+  },
+  {
+    label: "Kazakh",
+    value: 113,
+  },
+  {
+    label: "Khmer, Central",
+    value: 121,
+  },
+  {
+    label: "Korean",
+    value: 39,
+  },
+  {
+    label: "Kurmanji",
+    value: 125,
+  },
+  {
+    label: "Lingala",
+    value: 61,
+  },
+  {
+    label: "Lombard",
+    value: 110,
+  },
+  {
+    label: "Madura",
+    value: 89,
+  },
+  {
+    label: "Magahi",
+    value: 95,
+  },
+  {
+    label: "Maithili",
+    value: 70,
+  },
+  {
+    label: "Malagasy",
+    value: 104,
+  },
+  {
+    label: "Malay",
+    value: 80,
+  },
+  {
+    label: "Malayalam",
+    value: 64,
+  },
+  {
+    label: "Marathi",
+    value: 31,
+  },
+  {
+    label: "Marwari",
+    value: 92,
+  },
+  {
+    label: "Napoletano-Calabrese",
+    value: 120,
+  },
+  {
+    label: "Nepali",
+    value: 82,
+  },
+  {
+    label: "Nigerian",
+    value: 30,
+  },
+  {
+    label: "Oriya",
+    value: 65,
+  },
+  {
+    label: "Oromo, West-Central",
+    value: 111,
+  },
+  {
+    label: "Pashto, Northern",
+    value: 102,
+  },
+  {
+    label: "Pashto, Southern",
+    value: 112,
+  },
+  {
+    label: "Polish",
+    value: 59,
+  },
+  {
+    label: "Portuguese",
+    value: 25,
+  },
+  {
+    label: "Punjabi, Eastern",
+    value: 52,
+  },
+  {
+    label: "Punjabi, Western",
+    value: 46,
+  },
+  {
+    label: "Romanian",
+    value: 67,
+  },
+  {
+    label: "Russian",
+    value: 24,
+  },
+  {
+    label: "Rwanda",
+    value: 106,
+  },
+  {
+    label: "Saraiki",
+    value: 83,
+  },
+  {
+    label: "Serbian",
+    value: 71,
+  },
+  {
+    label: "Shonda",
+    value: 126,
+  },
+  {
+    label: "Sindhi",
+    value: 76,
+  },
+  {
+    label: "Sinhala",
+    value: 90,
+  },
+  {
+    label: "Somali",
+    value: 103,
+  },
+  {
+    label: "Spanish",
+    value: 18,
+  },
+  {
+    label: "Sunda",
+    value: 66,
+  },
+  {
+    label: "Swahili",
+    value: 43,
+  },
+  {
+    label: "Swedish",
+    value: 109,
+  },
+  {
+    label: "Tagalog",
+    value: 37,
+  },
+  {
+    label: "Tamil",
+    value: 34,
+  },
+  {
+    label: "Tatar",
+    value: 115,
+  },
+  {
+    label: "Telugu",
+    value: 32,
+  },
+  {
+    label: "Thai",
+    value: 49,
+  },
+  {
+    label: "Thai, Northeastern",
+    value: 85,
+  },
+  {
+    label: "Turkish",
+    value: 33,
+  },
+  {
+    label: "Ukrainian",
+    value: 62,
+  },
+  {
+    label: "Urdu",
+    value: 26,
+  },
+  {
+    label: "Uyghur",
+    value: 117,
+  },
+  {
+    label: "Uzbek, Northern",
+    value: 79,
+  },
+  {
+    label: "Vietnamese",
+    value: 36,
+  },
+  {
+    label: "Yoruba",
+    value: 55,
+  },
+  {
+    label: "Zhuang, Northern",
+    value: 100,
+  },
+  {
+    label: "Zulu",
+    value: 107,
+  },
+];

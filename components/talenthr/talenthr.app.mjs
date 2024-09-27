@@ -153,7 +153,7 @@ export default {
       label: "Nationality",
       description: "The nacionality of the employee",
       async options() {
-        const { data } = await this.listNacionalities();
+        const { data } = await this.listNationalities();
         return data;
       },
     },
@@ -181,22 +181,6 @@ export default {
         }));
       },
     },
-    hrLanguages: {
-      type: "string[]",
-      label: "HR Languages",
-      description: "A list of language ids",
-      async options() {
-        const { data } = await this.listLanguages();
-
-        return data.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
-    },
-
     jobPositionId: {
       type: "string",
       label: "Job Position",
@@ -287,9 +271,9 @@ export default {
         ...opts,
       });
     },
-    listNacionalities(opts = {}) {
+    listNationalities(opts = {}) {
       return this._makeRequest({
-        path: "/nacionalities",
+        path: "/nationalities",
         ...opts,
       });
     },
