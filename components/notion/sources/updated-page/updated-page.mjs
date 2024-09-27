@@ -2,6 +2,7 @@ import notion from "../../notion.app.mjs";
 import sampleEmit from "./test-event.mjs";
 import base from "../common/base.mjs";
 import constants from "../common/constants.mjs";
+import zlib from "zlib";
 
 export default {
   ...base,
@@ -69,10 +70,15 @@ export default {
   methods: {
     ...base.methods,
     _getPropertyValues() {
-      return this.db.get("propertyValues");
+      const compressed = this.db.get("propertyValues");
+      const buffer = Buffer.from(compressed, "base64");
+      const decompressed = zlib.inflateSync(buffer).toString();
+      return JSON.parse(decompressed);
     },
     _setPropertyValues(propertyValues) {
-      this.db.set("propertyValues", propertyValues);
+      const string = JSON.stringify(propertyValues);
+      const compressed = zlib.deflateSync(string).toString("base64");
+      this.db.set("propertyValues", compressed);
     },
     async getPropertiesToCheck() {
       if (this.properties?.length) {
