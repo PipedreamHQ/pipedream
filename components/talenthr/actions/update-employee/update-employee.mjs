@@ -7,7 +7,7 @@ import {
 import {
   clearObj,
   parseObject,
-} from "../../common/utlis.mjs";
+} from "../../common/utils.mjs";
 import talenthr from "../../talenthr.app.mjs";
 
 export default {
