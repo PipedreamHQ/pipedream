@@ -2,7 +2,6 @@ import notion from "../../notion.app.mjs";
 import sampleEmit from "./test-event.mjs";
 import base from "../common/base.mjs";
 import constants from "../common/constants.mjs";
-import md5 from "md5";
 
 export default {
   ...base,
@@ -41,26 +40,27 @@ export default {
   },
   hooks: {
     async deploy() {
-      const properties = await this.getProperties();
+      const propertiesToCheck = await this.getPropertiesToCheck();
       const propertyValues = {};
       const params = this.lastUpdatedSortParam();
       const pagesStream = this.notion.getPages(this.databaseId, params);
       let count = 0;
       let lastUpdatedTimestamp = 0;
       for await (const page of pagesStream) {
-        propertyValues[page.id] = {};
-        for (const propertyName of properties) {
-          const hash = this.calculateHash(page.properties[propertyName]);
-          propertyValues[page.id][propertyName] = hash;
+        for (const propertyName of propertiesToCheck) {
+          const currentValue = this.maybeRemoveFileSubItems(page.properties[propertyName]);
+          propertyValues[page.id] = {
+            ...propertyValues[page.id],
+            [propertyName]: currentValue,
+          };
         }
         lastUpdatedTimestamp = Math.max(
           lastUpdatedTimestamp,
-          Date.parse(page?.last_edited_time),
+          Date.parse(page.last_edited_time),
         );
-        if (count < 25) {
-          this.emitEvent(page);
+        if (count++ < 25) {
+          this.emitEvent(page, []);
         }
-        count++;
       }
       this._setPropertyValues(propertyValues);
       this.setLastUpdatedTimestamp(lastUpdatedTimestamp);
@@ -74,17 +74,12 @@ export default {
     _setPropertyValues(propertyValues) {
       this.db.set("propertyValues", propertyValues);
     },
-    async getProperties() {
+    async getPropertiesToCheck() {
       if (this.properties?.length) {
         return this.properties;
       }
       const { properties } = await this.notion.retrieveDatabase(this.databaseId);
       return Object.keys(properties);
-    },
-    calculateHash(property) {
-      const clone = structuredClone(property);
-      this.maybeRemoveFileSubItems(clone);
-      return md5(JSON.stringify(clone));
     },
     maybeRemoveFileSubItems(property) {
       // Files & Media type:
@@ -96,6 +91,7 @@ export default {
           }
         }
       }
+      return property;
     },
     generateMeta(obj, summary) {
       const { id } = obj;
@@ -107,9 +103,13 @@ export default {
         ts,
       };
     },
-    emitEvent(page) {
+    emitEvent(page, changes) {
       const meta = this.generateMeta(page, constants.summaries.PAGE_UPDATED);
-      this.$emit(page, meta);
+      const event = {
+        page,
+        changes,
+      };
+      this.$emit(event, meta);
     },
   },
   async run() {
@@ -126,38 +126,53 @@ export default {
       },
     };
     let newLastUpdatedTimestamp = lastCheckedTimestamp;
-    const properties = await this.getProperties();
+    const propertiesToCheck = await this.getPropertiesToCheck();
     const pagesStream = this.notion.getPages(this.databaseId, params);
 
     for await (const page of pagesStream) {
+      const changes = [];
+      let propertyHasChanged = false;
       newLastUpdatedTimestamp = Math.max(
         newLastUpdatedTimestamp,
-        Date.parse(page?.last_edited_time),
+        Date.parse(page.last_edited_time),
       );
 
-      let propertyChangeFound = false;
-      for (const propertyName of properties) {
-        const hash = this.calculateHash(page.properties[propertyName]);
-        const dbValue = propertyValues[page.id]?.[propertyName];
-        if (!propertyValues[page.id] || hash !== dbValue) {
-          propertyChangeFound = true;
+      for (const propertyName of propertiesToCheck) {
+        const previousValue = structuredClone(propertyValues[page.id]?.[propertyName]);
+        const currentValue = this.maybeRemoveFileSubItems(page.properties[propertyName]);
+
+        const pageExistsInDB = propertyValues[page.id] != null;
+        const propertyChanged = JSON.stringify(previousValue) !== JSON.stringify(currentValue);
+
+        if (pageExistsInDB && propertyChanged) {
+          propertyHasChanged = true;
           propertyValues[page.id] = {
             ...propertyValues[page.id],
-            [propertyName]: hash,
+            [propertyName]: currentValue,
           };
+          changes.push({
+            previousValue,
+            currentValue,
+          });
+        }
+
+        if (!pageExistsInDB && this.includeNewPages) {
+          propertyHasChanged = true;
+          propertyValues[page.id] = {
+            [propertyName]: currentValue,
+          };
+          changes.push({
+            previousValue,
+            currentValue,
+          });
         }
       }
-      if (!propertyChangeFound && Date.parse(page?.last_edited_time) <= lastCheckedTimestamp) {
-        continue;
+
+      if (propertyHasChanged && lastCheckedTimestamp <= Date.parse(page.last_edited_time)) {
+        this.emitEvent(page, changes);
       }
 
-      if (!this.includeNewPages && page?.last_edited_time === page?.created_time) {
-        continue;
-      }
-
-      this.emitEvent(page);
-
-      if (Date.parse(page?.last_edited_time) < lastCheckedTimestamp) {
+      if (Date.parse(page.last_edited_time) < lastCheckedTimestamp) {
         break;
       }
     }
