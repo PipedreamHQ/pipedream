@@ -2,14 +2,14 @@ import notion from "../../notion.app.mjs";
 import sampleEmit from "./test-event.mjs";
 import base from "../common/base.mjs";
 import constants from "../common/constants.mjs";
-import md5 from "md5";
+import zlib from "zlib";
 
 export default {
   ...base,
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.0.17",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,6 +19,12 @@ export default {
         notion,
         "databaseId",
       ],
+    },
+    includeNewPages: {
+      type: "boolean",
+      label: "Include New Pages",
+      description: "Set to `true` to emit events when pages are created. Set to `false` to ignore new pages.",
+      default: true,
     },
     properties: {
       propDefinition: [
@@ -32,34 +38,30 @@ export default {
       description: "Only emit events when one or more of the selected properties have changed",
       optional: true,
     },
-    includeNewPages: {
-      type: "boolean",
-      label: "Include New Pages",
-      description: "Emit events when pages are created or updated. Set to `true` to include newly created pages. Set to `false` to only emit updated pages. Defaults to `false`.",
-      default: false,
-    },
   },
   hooks: {
     async deploy() {
-      const properties = await this.getProperties();
+      const propertiesToCheck = await this.getPropertiesToCheck();
       const propertyValues = {};
       const params = this.lastUpdatedSortParam();
       const pagesStream = this.notion.getPages(this.databaseId, params);
       let count = 0;
       let lastUpdatedTimestamp = 0;
       for await (const page of pagesStream) {
-        propertyValues[page.id] = {};
-        for (const property of properties) {
-          propertyValues[page.id][property] = md5(JSON.stringify(page.properties[property]));
+        for (const propertyName of propertiesToCheck) {
+          const currentValue = this.maybeRemoveFileSubItems(page.properties[propertyName]);
+          propertyValues[page.id] = {
+            ...propertyValues[page.id],
+            [propertyName]: currentValue,
+          };
         }
         lastUpdatedTimestamp = Math.max(
           lastUpdatedTimestamp,
-          Date.parse(page?.last_edited_time),
+          Date.parse(page.last_edited_time),
         );
-        if (count < 25) {
+        if (count++ < 25) {
           this.emitEvent(page);
         }
-        count++;
       }
       this._setPropertyValues(propertyValues);
       this.setLastUpdatedTimestamp(lastUpdatedTimestamp);
@@ -68,17 +70,34 @@ export default {
   methods: {
     ...base.methods,
     _getPropertyValues() {
-      return this.db.get("propertyValues");
+      const compressed = this.db.get("propertyValues");
+      const buffer = Buffer.from(compressed, "base64");
+      const decompressed = zlib.inflateSync(buffer).toString();
+      return JSON.parse(decompressed);
     },
     _setPropertyValues(propertyValues) {
-      this.db.set("propertyValues", propertyValues);
+      const string = JSON.stringify(propertyValues);
+      const compressed = zlib.deflateSync(string).toString("base64");
+      this.db.set("propertyValues", compressed);
     },
-    async getProperties() {
+    async getPropertiesToCheck() {
       if (this.properties?.length) {
         return this.properties;
       }
       const { properties } = await this.notion.retrieveDatabase(this.databaseId);
       return Object.keys(properties);
+    },
+    maybeRemoveFileSubItems(property) {
+      // Files & Media type:
+      // `url` and `expiry_time` are constantly updated by Notion, so ignore these fields
+      if (property.type === "files") {
+        for (const file of property.files) {
+          if (file.type === "file") {
+            delete file.file;
+          }
+        }
+      }
+      return property;
     },
     generateMeta(obj, summary) {
       const { id } = obj;
@@ -86,13 +105,19 @@ export default {
       const ts = Date.now();
       return {
         id: `${id}-${ts}`,
-        summary: `${summary}: ${title} - ${id}`,
+        summary: `${summary}: ${title}`,
         ts,
       };
     },
-    emitEvent(page) {
-      const meta = this.generateMeta(page, constants.summaries.PAGE_UPDATED);
-      this.$emit(page, meta);
+    emitEvent(page, changes = [], isNewPage = true) {
+      const meta = isNewPage
+        ? this.generateMeta(page, constants.summaries.PAGE_ADDED)
+        : this.generateMeta(page, constants.summaries.PAGE_UPDATED);
+      const event = {
+        page,
+        changes,
+      };
+      this.$emit(event, meta);
     },
   },
   async run() {
@@ -109,38 +134,59 @@ export default {
       },
     };
     let newLastUpdatedTimestamp = lastCheckedTimestamp;
-    const properties = await this.getProperties();
+    const propertiesToCheck = await this.getPropertiesToCheck();
     const pagesStream = this.notion.getPages(this.databaseId, params);
 
     for await (const page of pagesStream) {
+      const changes = [];
+      let isNewPage = false;
+      let propertyHasChanged = false;
+
       newLastUpdatedTimestamp = Math.max(
         newLastUpdatedTimestamp,
-        Date.parse(page?.last_edited_time),
+        Date.parse(page.last_edited_time),
       );
 
-      let propertyChangeFound = false;
-      for (const property of properties) {
-        const currentProperty = md5(JSON.stringify(page.properties[property]));
-        if (!propertyValues[page.id] || currentProperty !== propertyValues[page.id][property]) {
-          propertyChangeFound = true;
+      if (lastCheckedTimestamp > Date.parse(page.last_edited_time)) {
+        break;
+      }
+
+      for (const propertyName of propertiesToCheck) {
+        const previousValue = structuredClone(propertyValues[page.id]?.[propertyName]);
+        const currentValue = this.maybeRemoveFileSubItems(page.properties[propertyName]);
+
+        const pageExistsInDB = propertyValues[page.id] != null;
+        const propertyChanged = JSON.stringify(previousValue) !== JSON.stringify(currentValue);
+
+        if (pageExistsInDB && propertyChanged) {
+          propertyHasChanged = true;
           propertyValues[page.id] = {
             ...propertyValues[page.id],
-            [property]: currentProperty,
+            [propertyName]: currentValue,
           };
+          changes.push({
+            property: propertyName,
+            previousValue,
+            currentValue,
+          });
+        }
+
+        if (!pageExistsInDB && this.includeNewPages) {
+          isNewPage = true;
+          propertyHasChanged = true;
+          propertyValues[page.id] = {
+            [propertyName]: currentValue,
+          };
+          changes.push({
+            property: propertyName,
+            previousValue,
+            currentValue,
+          });
         }
       }
-      if (!propertyChangeFound && Date.parse(page?.last_edited_time) <= lastCheckedTimestamp) {
-        continue;
-      }
 
-      if (!this.includeNewPages && page?.last_edited_time === page?.created_time) {
-        continue;
-      }
-
-      this.emitEvent(page);
-
-      if (Date.parse(page?.last_edited_time) < lastCheckedTimestamp) {
-        break;
+      if (propertyHasChanged) {
+        this.emitEvent(page, changes, isNewPage);
       }
     }
 

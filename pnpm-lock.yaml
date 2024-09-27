@@ -2845,7 +2845,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dust:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/dux_soup:
     specifiers:
@@ -2880,6 +2883,9 @@ importers:
     specifiers: {}
 
   components/eagle_doc:
+    specifiers: {}
+
+  components/easy_peasy_ai:
     specifiers: {}
 
   components/easy_project:
@@ -6060,6 +6066,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/moaform:
+    specifiers: {}
+
   components/mobile_text_alerts:
     specifiers: {}
 
@@ -7248,6 +7257,9 @@ importers:
       '@pipedream/platform': ^1.3.0
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/pixelbin:
+    specifiers: {}
 
   components/pixiebrix:
     specifiers:
@@ -9140,6 +9152,9 @@ importers:
       '@pipedream/platform': 1.5.1
       query-string: 8.1.0
 
+  components/smslink_nc:
+    specifiers: {}
+
   components/smtp2go:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -10601,6 +10616,9 @@ importers:
       '@pipedream/platform': ^2.0.0
     dependencies:
       '@pipedream/platform': 2.0.0
+
+  components/vida:
+    specifiers: {}
 
   components/videoask:
     specifiers: {}
