@@ -8,74 +8,60 @@ export default {
       type: "string",
       label: "Form ID",
       description: "The ID of the form to monitor for new submissions",
-      async options() {
-        const forms = await this.getForms();
-        return forms.map((form) => ({
-          label: form.name,
-          value: form.id,
+      async options({ page }) {
+        const { items } = await this.getForms({
+          params: {
+            page: page + 1,
+          },
+        });
+        return items.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    fields: {
-      type: "string[]",
-      label: "Fields to Capture",
-      description: "Optional fields to capture from the submission",
-      optional: true,
-    },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.moaform.com";
+      return "https://api.moaform.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async getForms(opts = {}) {
+    getForms(opts = {}) {
       return this._makeRequest({
         ...opts,
         path: "/forms",
       });
     },
-    async createWebhook(opts = {}) {
-      const {
-        formId, url, fields,
-      } = opts;
+    createWebhook({
+      formId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/forms/${formId}/webhooks`,
-        data: {
-          url,
-          fields,
-        },
+        ...opts,
       });
     },
-    async deleteWebhook(opts = {}) {
-      const {
-        formId, webhookId,
-      } = opts;
+    deleteWebhook({
+      formId, webhookId,
+    }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/forms/${formId}/webhooks/${webhookId}`,
-      });
-    },
-    async getWebhooks(opts = {}) {
-      const { formId } = opts;
-      return this._makeRequest({
-        path: `/forms/${formId}/webhooks`,
       });
     },
   },

@@ -1,15 +1,20 @@
-import { axios } from "@pipedream/platform";
+import crypto from "crypto";
 import moaform from "../../moaform.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "moaform-new-submission-instant",
-  name: "New Submission Instant",
-  description: "Emit new event every time a new form submission is received. [See the documentation](https://help.moaform.com)",
+  name: "New Submission (Instant)",
+  description: "Emit new event every time a new form submission is received.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
     moaform,
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     db: "$.service.db",
     formId: {
       propDefinition: [
@@ -17,44 +22,50 @@ export default {
         "formId",
       ],
     },
-    fields: {
-      propDefinition: [
-        moaform,
-        "fields",
+    retentionDays: {
+      type: "integer",
+      label: "Retention Days",
+      description: "Resend restriction days",
+      options: [
+        1,
+        3,
+        5,
+        7,
+        10,
+        15,
+        30,
       ],
+      optional: true,
     },
-    httpSource: {
-      type: "$.interface.http",
-      label: "HTTP Source",
-      description: "HTTP source to set up webhooks",
+    secret: {
+      type: "string",
+      label: "Secret Code",
+      description: "This code is used to verify that the data received at the specified endpoint has indeed been sent from Moaform and has not been tampered with.",
+      secret: true,
+      optional: true,
+    },
+  },
+  methods: {
+    _getWebhookId() {
+      return this.db.get("webhookId");
+    },
+    _setWebhookId(id) {
+      this.db.set("webhookId", id);
     },
   },
   hooks: {
-    async deploy() {
-      const webhooks = await this.moaform.getWebhooks({
-        formId: this.formId,
-      });
-
-      for (const webhook of webhooks) {
-        this.$emit(webhook, {
-          id: webhook.id,
-          summary: `Existing webhook: ${webhook.id}`,
-          ts: Date.now(),
-        });
-      }
-    },
     async activate() {
-      const {
-        formId, fields,
-      } = this;
-      const url = this.httpSource.url;
-      const webhook = await this.moaform.createWebhook({
-        formId,
-        url,
-        fields,
+      const response = await this.moaform.createWebhook({
+        formId: this.formId,
+        data: {
+          endpoint: this.http.endpoint,
+          enabled: true,
+          secret: this.secret,
+          verify_ssl: true,
+          retention_days: this.retentionDays,
+        },
       });
-
-      this.db.set("webhookId", webhook.id);
+      this._setWebhookId(response.id);
     },
     async deactivate() {
       const webhookId = this.db.get("webhookId");
@@ -64,28 +75,33 @@ export default {
       });
     },
   },
-  async run(event) {
-    const {
-      headers, body,
-    } = event;
-    const id = headers["x-moaform-submission-id"];
-    const formId = body.formId;
-    const submissionFields = this.fields.length ?
-      this.fields.reduce((acc, field) => ({
-        ...acc,
-        [field]: body.fields[field],
-      }), {})
-      : body.fields;
+  async run({
+    bodyRaw, body, headers,
+  }) {
 
-    const eventToEmit = {
-      formId,
-      ...submissionFields,
-    };
+    if (this.secret) {
+      const signature = headers["moaform-signature"];
+      const receivedSig = signature.split("sha256=")[1];
 
-    this.$emit(eventToEmit, {
-      id,
-      summary: `New submission received for form ${formId}`,
-      ts: Date.now(),
+      const calculatedSig = crypto
+        .createHmac("sha256", this.secret)
+        .update(bodyRaw)
+        .digest("base64");
+
+      if (receivedSig !== calculatedSig) {
+        return this.http.respond({
+          status: 401,
+          body: "Unauthorized",
+        });
+      }
+    }
+
+    const ts = Date.parse(body.submitted_at);
+    this.$emit(body, {
+      id: body.event_id,
+      summary: `New submission received for form ${this.formId}`,
+      ts: ts,
     });
   },
+  sampleEmit,
 };
