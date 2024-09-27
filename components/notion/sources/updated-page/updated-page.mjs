@@ -141,16 +141,17 @@ export default {
       const changes = [];
       let isNewPage = false;
       let propertyHasChanged = false;
+
       newLastUpdatedTimestamp = Math.max(
         newLastUpdatedTimestamp,
         Date.parse(page.last_edited_time),
       );
 
-      for (const propertyName of propertiesToCheck) {
-        if (lastCheckedTimestamp > Date.parse(page.last_edited_time)) {
-          break;
-        }
+      if (lastCheckedTimestamp > Date.parse(page.last_edited_time)) {
+        break;
+      }
 
+      for (const propertyName of propertiesToCheck) {
         const previousValue = structuredClone(propertyValues[page.id]?.[propertyName]);
         const currentValue = this.maybeRemoveFileSubItems(page.properties[propertyName]);
 
