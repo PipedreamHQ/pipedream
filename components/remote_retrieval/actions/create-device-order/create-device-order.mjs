@@ -151,7 +151,7 @@ export default {
       orderType
     } = this;
 
-    const response = await createDeviceReturn({
+    const response = await this.createDeviceReturn({
       step,
       data: {
         type_of_equipment: typeOfEquipment,
