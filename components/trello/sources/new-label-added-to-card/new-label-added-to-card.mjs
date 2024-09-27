@@ -37,11 +37,11 @@ export default {
   hooks: {
     ...common.hooks,
     async deploy() {
-      if (this.cards && this.cards.length > 0) {
+      if (this.cards?.length > 0) {
         await this.emitLabelsFromCardIds(this.cards);
         return;
       }
-      if (this.lists && this.lists.length > 0) {
+      if (this.lists?.length > 0) {
         for (const listId of this.lists) {
           const cards = await this.app.getCardsInList({
             listId,

@@ -10,14 +10,6 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getChecklist({
-      checklistId, ...args
-    } = {}) {
-      return this.app._makeRequest({
-        path: `/checklists/${checklistId}`,
-        ...args,
-      });
-    },
     async getSampleEvents() {
       const checklists = await this.app.listBoardChecklists({
         boardId: this.board,
@@ -33,7 +25,7 @@ export default {
     },
     async getResult(event) {
       const checklistId = event.body?.action?.data?.checklist?.id;
-      return this.getChecklist({
+      return this.app.getChecklist({
         checklistId,
       });
     },

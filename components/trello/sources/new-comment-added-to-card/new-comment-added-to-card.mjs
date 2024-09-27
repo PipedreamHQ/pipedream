@@ -51,7 +51,7 @@ export default {
       });
     },
     async getSampleEvents() {
-      const cards = this.cards && this.cards.length > 0
+      const cards = this.cards?.length > 0
         ? this.cards
         : (await this.app.getCards({
           boardId: this.board,
@@ -99,7 +99,7 @@ export default {
     isRelevant({ result: { card } }) {
       return (
         (!this.board || this.board === card.idBoard) &&
-        (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
+        (!this.cards?.length || this.cards.includes(card.id))
       );
     },
     generateMeta({ event }) {

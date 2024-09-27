@@ -28,17 +28,25 @@ export default {
           callbackURL: this.http.endpoint,
         },
       });
-      this.db.set("hookId", id);
+      this._setHookId(id);
     },
     async deactivate() {
-      const hookId = this.db.get("hookId");
-      await this.deleteHook({
-        hookId,
-      });
+      const hookId = this._getHookId();
+      if (hookId) {
+        await this.deleteHook({
+          hookId,
+        });
+      }
     },
   },
   methods: {
     ...common.methods,
+    _getHookId() {
+      return this.db.get("hookId");
+    },
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
+    },
     getBase64Digest(data) {
       const { secret } = this.app.getToken();
       return createHmac("sha1", secret)
@@ -57,7 +65,6 @@ export default {
     createHook(args = {}) {
       return this.app.post({
         ...args,
-        debug: true,
         path: "/webhooks/",
       });
     },
@@ -66,7 +73,6 @@ export default {
     } = {}) {
       return this.app.delete({
         ...args,
-        debug: true,
         path: `/webhooks/${hookId}`,
       });
     },

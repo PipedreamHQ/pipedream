@@ -433,6 +433,30 @@ export default {
         ...args,
       });
     },
+    getChecklist({
+      checklistId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/checklists/${checklistId}`,
+        ...args,
+      });
+    },
+    getFilteredCards({
+      boardId, filter, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/boards/${boardId}/cards/${filter}`,
+        ...args,
+      });
+    },
+    getCardList({
+      cardId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/cards/${cardId}/list`,
+        ...args,
+      });
+    },
     getCardsInList({
       listId, ...args
     } = {}) {

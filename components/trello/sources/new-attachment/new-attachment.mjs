@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "trello-new-attachment",
   name: "New Attachment (Instant)",
-  description: "Emit new event for new attachment on a board.",
+  description: "Emit new event when a new attachment is added on a board.",
   version: "0.1.0",
   type: "source",
   props: {

@@ -13,11 +13,11 @@ export default {
      * @param {string} name - The name of the item of the book.
      */
     generateMeta({
-      id, name: summary,
+      id, name,
     }) {
       return {
         id,
-        summary,
+        summary: name || `${id}`,
         ts: Date.now(),
       };
     },

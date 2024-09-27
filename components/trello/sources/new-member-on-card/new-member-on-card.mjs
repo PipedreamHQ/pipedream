@@ -38,13 +38,13 @@ export default {
       });
     },
     generateMeta({
-      id, name: summary, dateLastActivity,
+      id, name, dateLastActivity,
     }) {
       return {
-        id: this.onlyEventsRelatedWithAuthenticatedUser ?
-          id :
-          `${id}${dateLastActivity}`,
-        summary,
+        id: this.onlyEventsRelatedWithAuthenticatedUser
+          ? id
+          : `${id}${dateLastActivity}`,
+        summary: name || id,
         ts: Date.now(),
       };
     },

@@ -3,7 +3,7 @@ import common from "../common/common-webhook.mjs";
 export default {
   ...common,
   key: "trello-card-archived",
-  name: "Card Archived (Instant)",
+  name: "Card Archived (Instant)", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event for each card archived.",
   version: "0.1.0",
   type: "source",
@@ -28,20 +28,10 @@ export default {
   },
   methods: {
     ...common.methods,
-    getFilteredCards({
-      boardId, ...args
-    } = {}) {
-      return this.app._makeRequest({
-        path: `/boards/${boardId}/cards`,
-        ...args,
-      });
-    },
     async getSampleEvents() {
-      const cards = await this.getFilteredCards({
+      const cards = await this.app.getFilteredCards({
         boardId: this.board,
-        params: {
-          filter: "closed",
-        },
+        filter: "closed",
       });
       return {
         sampleEvents: cards,
@@ -61,8 +51,7 @@ export default {
     isRelevant({ result: card }) {
       return (
         (!this.board || this.board === card.idBoard) &&
-        (!this.lists ||
-          this.lists.length === 0 ||
+        (!this.lists?.length ||
           this.lists.includes(card.idList))
       );
     },

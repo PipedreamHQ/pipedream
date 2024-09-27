@@ -53,12 +53,12 @@ export default {
     generateMeta({ action }) {
       const {
         id,
-        type: summary,
+        type,
         date,
       } = action;
       return {
         id,
-        summary,
+        summary: `New ${type} activity`,
         ts: Date.parse(date),
       };
     },

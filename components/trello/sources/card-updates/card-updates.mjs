@@ -3,7 +3,7 @@ import common from "../common/common-webhook.mjs";
 export default {
   ...common,
   key: "trello-card-updates",
-  name: "Card Updates (Instant)",
+  name: "Card Updates (Instant)", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event for each update to a Trello card.",
   version: "0.1.0",
   type: "source",
@@ -35,7 +35,7 @@ export default {
     ...common.methods,
     async getSampleEvents() {
       let cards = [];
-      if (this.cards && this.cards.length > 0) {
+      if (this.cards?.length > 0) {
         for (const cardId of this.cards) {
           const card = await this.app.getCard({
             cardId,
@@ -74,7 +74,7 @@ export default {
     isRelevant({ result: card }) {
       return (
         (!this.board || this.board === card.idBoard) &&
-        (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
+        (!this.cards?.length || this.cards.includes(card.id))
       );
     },
   },

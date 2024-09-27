@@ -35,7 +35,7 @@ export default {
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      const cards = this.lists && this.lists.length > 0
+      const cards = this.lists?.length > 0
         ? await this.app.getCardsInList({
           listId: this.lists[0],
           params: {
@@ -70,8 +70,7 @@ export default {
       if (this.board && this.board !== card.idBoard) return false;
       return (
         (!this.board || this.board === card.idBoard) &&
-        (!this.lists ||
-          this.lists.length === 0 ||
+        (!this.lists?.length ||
           this.lists.includes(card.idList))
       );
     },
