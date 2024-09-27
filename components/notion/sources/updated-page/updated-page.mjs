@@ -35,8 +35,8 @@ export default {
     includeNewPages: {
       type: "boolean",
       label: "Include New Pages",
-      description: "Emit events when pages are created or updated. Set to `true` to include newly created pages. Set to `false` to only emit updated pages. Defaults to `false`.",
-      default: false,
+      description: "Set to `true` to emit events when pages are created. Set to `false` to ignore new pages.",
+      default: true,
     },
   },
   hooks: {
@@ -138,7 +138,7 @@ export default {
       let propertyChangeFound = false;
       for (const propertyName of properties) {
         const hash = this.calculateHash(page.properties[propertyName]);
-        const dbValue = propertyValues[page.id][propertyName];
+        const dbValue = propertyValues[page.id]?.[propertyName];
         if (!propertyValues[page.id] || hash !== dbValue) {
           propertyChangeFound = true;
           propertyValues[page.id] = {
