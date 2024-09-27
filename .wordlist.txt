@@ -153,7 +153,6 @@ CSVs
 Ctrl
 Cuep
 customizable
-CustomJS
 customResponse
 cvIZPg
 DaData
@@ -688,7 +687,6 @@ PropType
 proto
 PRs
 Psw
-Puppoteer
 Pushbullet
 Pushsafer
 Pushshift

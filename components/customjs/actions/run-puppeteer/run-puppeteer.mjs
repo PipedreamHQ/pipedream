@@ -3,9 +3,9 @@ import fs from "fs";
 import { normalizeFilepath } from "../common/utils.mjs";
 
 export default {
-  key: "customjs-run-puppoteer",
-  name: "Run Puppoteer",
-  description: "run-puppoteer. [See the documentation](https://www.customjs.space/api/docs#_5-run-puppoteer)",
+  key: "customjs-run-puppeteer",
+  name: "Run Puppeteer",
+  description: "run-puppeteer. [See the documentation](https://www.customjs.space/api/docs#_5-run-puppeteer)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -23,7 +23,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const fileContent = await this.customjs.runPuppoteer({
+    const fileContent = await this.customjs.runPuppeteer({
       $,
       data: {
         input: this.code,
@@ -35,7 +35,7 @@ export default {
     const filepath = normalizeFilepath(this.filename);
     fs.writeFileSync(filepath, Buffer.from(fileContent));
 
-    $.export("$summary", "Successfully run the puppoteer code.");
+    $.export("$summary", "Successfully run the puppeteer code.");
     return {
       filename: this.filename,
       filepath,
