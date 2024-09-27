@@ -19,6 +19,12 @@ export default {
         "databaseId",
       ],
     },
+    includeNewPages: {
+      type: "boolean",
+      label: "Include New Pages",
+      description: "Set to `true` to emit events when pages are created. Set to `false` to ignore new pages.",
+      default: true,
+    },
     properties: {
       propDefinition: [
         notion,
@@ -30,12 +36,6 @@ export default {
       ],
       description: "Only emit events when one or more of the selected properties have changed",
       optional: true,
-    },
-    includeNewPages: {
-      type: "boolean",
-      label: "Include New Pages",
-      description: "Set to `true` to emit events when pages are created. Set to `false` to ignore new pages.",
-      default: true,
     },
   },
   hooks: {
