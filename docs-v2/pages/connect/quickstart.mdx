@@ -59,7 +59,7 @@ You'll need these when configuring the SDK and making API requests.
 You'll need to do two things to integrate Pipedream Connect into your app:
 
 1. [Connect to the Pipedream API from your server](#connect-to-the-pipedream-api-from-your-server-and-create-a-token). This lets you make secure calls to the Pipedream API to initiate the account connection flow and retrieve account credentials. If you're running a JavaScript framework like Node.js on the server, you can use the Pipedream SDK.
-2. [Add the Pipedream SDK to your frontend](#connect-your-account-from-the-frontend). This lets you start the account connection flow for your end users.
+2. [Add the Pipedream SDK to your frontend](#connect-your-account-from-the-frontend) or deliver a URL to your users to start the account connection flow.
 
 We'll walk through these steps below, using [an example Next.js app](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/next-app/). To follow along, clone [the repo](https://github.com/PipedreamHQ/pipedream-connect-examples/) and follow the instructions in [the app's `README`](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/next-app/). That will run the app on `localhost:3000`.
 
@@ -86,8 +86,8 @@ If you're building your own app, you'll need to provide these values to the envi
 
 You need to secure specific operations, for example:
 
-- You need to initiate the account connection flow for your end users. In Pipedream Connect, **you exchange your project keys for a short-lived token that allows a specific user to connect a specific app**, and return that token to your frontend.
-- If you expose your Pipedream project keys directly to the frontend, anyone could initiate the account connection flow for any user, and you'd be charged for those accounts.
+- You need to initiate the account connection flow for your end users. In Pipedream Connect, **you exchange your project keys for a short-lived token that allows a specific user to connect a specific app**, and return either that token or the `connect_link_url` to your frontend.
+- If you expose your Pipedream project keys directly to the frontend, anyone could initiate the account connection flow for any user.
 - You need to retrieve account credentials for your end users. Again, this should happen securely on your server, not in the frontend, to protect your users' data.
 
 </Callout>
@@ -165,8 +165,6 @@ const client = new Client({
 });
 
 const connectTokenOpts = {
-  app_slug: "YOUR_APP_SLUG",  // The app's name slug
-  oauth_app_id: "o_abc123",  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
   external_id: "USER_ID"  // The end user's ID in your system
 }
 
@@ -187,39 +185,37 @@ import json
 import requests
 
 class Client:
-    def __init__(self, opts):
-        self.secret_key = opts['secret_key']
-        self.public_key = opts['public_key']
+  def __init__(self, opts):
+    self.secret_key = opts['secret_key']
+    self.public_key = opts['public_key']
 
-        api_host = 'api.pipedream.com'
-        self.base_url = f"https://{api_host}"
+    api_host = 'api.pipedream.com'
+    self.base_url = f"https://{api_host}"
 
-    def _authorization_header(self):
-        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
-        return f"Basic {encoded}"
+  def _authorization_header(self):
+    encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
+    return f"Basic {encoded}"
 
-    def connect_token_create(self, opts):
-        auth = self._authorization_header()
-        response = requests.post(
-            f"{self.base_url}/v1/connect/tokens",
-            headers={
-                "Authorization": auth,
-                "Content-Type": "application/json",
-            },
-            data=json.dumps(opts)
-        )
-        return response.json()
+  def connect_token_create(self, opts):
+    auth = self._authorization_header()
+    response = requests.post(
+      f"{self.base_url}/v1/connect/tokens",
+      headers={
+        "Authorization": auth,
+        "Content-Type": "application/json",
+      },
+      data=json.dumps(opts)
+    )
+    return response.json()
 
 # Usage example
 client = Client({
-    'public_key': 'YOUR_PUBLIC_KEY',
-    'secret_key': 'YOUR_SECRET_KEY',
+  'public_key': 'YOUR_PUBLIC_KEY',
+  'secret_key': 'YOUR_SECRET_KEY',
 })
 
 connect_token_opts = {
-    'app_slug': "YOUR_APP_SLUG",
-    'oauth_app_id': "o_abc123",
-    'external_id': "USER_ID"
+  'external_id': "USER_ID"
 }
 
 # Expose this code as an API endpoint in your server to fetch the token from the frontend
@@ -253,7 +249,7 @@ public class Client {
         return "Basic " + encoded;
     }
 
-    public String connectTokenCreate(String appSlug, String oauthClientId, String externalId) throws Exception {
+    public String connectTokenCreate(String externalId) throws Exception {
         String auth = authorizationHeader();
         URL url = new URL(baseURL + "/v1/connect/tokens");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -262,7 +258,7 @@ public class Client {
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setDoOutput(true);
 
-        String jsonInputString = String.format("{\"app_slug\":\"%s\",\"oauth_app_id\":\"%s\",\"external_id\":\"%s\"}", appSlug, oauthClientId, externalId);
+        String jsonInputString = String.format("{\"external_id\":\"%s\"}", externalId);
 
         try (OutputStream os = conn.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
@@ -276,7 +272,7 @@ public class Client {
         Client client = new Client("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY");
 
         // Expose this code as an API endpoint in your server to fetch the token from the frontend
-        String response = client.connectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID");
+        String response = client.connectTokenCreate("USER_ID");
     }
 }
 
@@ -307,13 +303,13 @@ public class Client {
         return $"Basic {encoded}";
     }
 
-    public async Task<string> ConnectTokenCreate(string appSlug, string oauthClientId, string externalId) {
+    public async Task<string> ConnectTokenCreate(string externalId) {
         string auth = AuthorizationHeader();
         using (HttpClient client = new HttpClient()) {
             client.DefaultRequestHeaders.Add("Authorization", auth);
             client.DefaultRequestHeaders.Add("Content-Type", "application/json");
 
-            var content = new StringContent($"{{\"app_slug\":\"{appSlug}\",\"oauth_app_id\":\"{oauthClientId}\",\"external_id\":\"{externalId}\"}}", Encoding.UTF8, "application/json");
+            var content = new StringContent($"{{\"external_id\":\"{externalId}\"}}", Encoding.UTF8, "application/json");
             var response = await client.PostAsync($"{baseURL}/v1/connect/tokens", content);
 
             return await response.Content.ReadAsStringAsync();
@@ -324,7 +320,7 @@ public class Client {
         var client = new Client("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY");
 
         // Expose this code as an API endpoint in your server to fetch the token from the frontend
-        string response = await client.ConnectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID");
+        string response = await client.ConnectTokenCreate("USER_ID");
     }
 }
 
@@ -364,13 +360,11 @@ func (c *Client) authorizationHeader() string {
 	return fmt.Sprintf("Basic %s", encoded)
 }
 
-func (c *Client) ConnectTokenCreate(appSlug, oauthClientId, externalId string) (map[string]interface{}, error) {
+func (c *Client) ConnectTokenCreate(externalId string) (map[string]interface{}, error) {
 	auth := c.authorizationHeader()
 	url := fmt.Sprintf("%s/v1/connect/tokens", c.BaseURL)
 
 	opts := map[string]string{
-		"app_slug":       appSlug,
-		"oauth_app_id": oauthClientId,
 		"external_id":    externalId,
 	}
 
@@ -405,7 +399,7 @@ func main() {
 	client := NewClient("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY")
 
   // Expose this code as an API endpoint in your server to fetch the token from the frontend
-	response, err := client.ConnectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID")
+	response, err := client.ConnectTokenCreate("USER_ID")
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
@@ -436,13 +430,11 @@ class Client {
         return "Basic $encoded";
     }
 
-    public function connectTokenCreate($appSlug, $oauthClientId, $externalId) {
+    public function connectTokenCreate($externalId) {
         $auth = $this->authorizationHeader();
         $url = "$this->baseURL/v1/connect/tokens";
 
         $data = json_encode([
-            'app_slug' => $appSlug,
-            'oauth_app_id' => $oauthClientId,
             'external_id' => $externalId
         ]);
 
@@ -468,13 +460,11 @@ class Client {
 $client = new Client('YOUR_SECRET_KEY', 'YOUR_PUBLIC_KEY');
 
 $connectTokenOpts = [
-    'app_slug' => "YOUR_APP_SLUG",
-    'oauth_app_id' => "o_abc123",
     'external_id' => "USER_ID"
 ];
 
 // Expose this code as an API endpoint in your server to fetch the token from the frontend
-$response = $client->connectTokenCreate($connectTokenOpts['app_slug'], $connectTokenOpts['oauth_app_id'], $connectTokenOpts['external_id']);
+$response = $client->connectTokenCreate($connectTokenOpts['external_id']);
 ?>
 ```
 </Tabs.Tab>
@@ -499,12 +489,12 @@ class Client
     "Basic #{encoded}"
   end
 
-  def connect_token_create(app_slug, oauth_app_id, external_id)
+  def connect_token_create(external_id)
     uri = URI("#{@base_url}/v1/connect/tokens")
     req = Net::HTTP::Post.new(uri)
     req['Authorization'] = authorization_header
     req['Content-Type'] = 'application/json'
-    req.body = { app_slug: app_slug, oauth_app_id: oauth_app_id, external_id: external_id }.to_json
+    req.body = { external_id: external_id }.to_json
 
     res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
       http.request(req)
@@ -517,40 +507,41 @@ end
 client = Client.new('YOUR_SECRET_KEY', 'YOUR_PUBLIC_KEY')
 
 connect_token_opts = {
-  app_slug: "YOUR_APP_SLUG",
-  oauth_app_id: "o_abc123",
   external_id: "USER_ID"
 }
 
 # Expose this code as an API endpoint in your server to fetch the token from the frontend
-response = client.connect_token_create(connect_token_opts[:app_slug], connect_token_opts[:oauth_app_id], connect_token_opts[:external_id])
+response = client.connect_token_create(connect_token_opts[:external_id])
 ```
 </Tabs.Tab>
 </Tabs>
 
-In our Next.js app, we call the `serverConnectTokenCreate` method from the frontend to retrieve a token **for a specific user, and a specific app**.
+In our Next.js app, we call the `serverConnectTokenCreate` method from the frontend to retrieve a token **for a specific user**.
 
 ```typescript
 import { serverConnectTokenCreate } from "./server"
 
 const { token, expires_at } = await serverConnectTokenCreate({
-  app_slug: appSlug,  // The app's name slug, passed from the frontend
-  oauth_app_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
-  external_id: externalUserId  // The end user's ID in your system
+  external_user_id: externalUserId  // The end user's ID in your system
 });
 ```
 
 If you're using a different server / API framework, you'll need to make secure calls to that API to create a new token for your users. For example, you might validate a user's session, then call the Pipedream API to create a new token for that user.
 
-### Connect your account from the frontend
+### Connect your account
 
+To actually connect an account, you have two options:
+1. [Use the Pipedream SDK](#use-the-pipedream-sdk-in-your-frontend) in your frontend
+2. [Use Connect Link](#use-connect-link) to deliver a hosted URL to your user
+
+#### Use the Pipedream SDK in your frontend
 First, install the [Pipedream SDK](https://www.npmjs.com/package/@pipedream/sdk) in your frontend:
 
 ```bash
 npm i --save @pipedream/sdk
 ```
 
-When the user connects an account in your product, [fetch a token from your backend](#connect-to-the-pipedream-api-from-your-server-and-create-a-token) and call `connectAccount`. This opens a Pipedream iframe that guides the user through the account connection.
+When the user connects an account in your product, [fetch a token from your backend](#connect-to-the-pipedream-api-from-your-server-and-create-a-token) and call `connectAccount`. This opens a Pipedream iFrame that guides the user through the account connection.
 
 In our example, `app/page.tsx` calls the `connectAccount` method from the Pipedream SDK when the user clicks the **Connect your account** button.
 
@@ -582,6 +573,19 @@ export default function Home() {
 ```
 
 Press that button to connect an account for the app you configured.
+
+#### Use Connect Link
+- Avoid any frontend implementation
+- If you aren't able to execute JavaScript or open an iFrame in your frontend, you can use the `connect_link_url` that's returned from the `connectTokenCreate` method to deliver a URL to your users.
+- Before returning the URL to your user, you'll need to include the `app` on the URL. For example, see below.
+- Users can open this URL in a browser window to connect their account.
+
+```
+https://pipedream.com/_static/connect.html?token={token}&connectLink=true&app={appSlug}
+```
+
+**To test this code, check out this workflow:**
+[https://pipedream.com/new?h=tch_EvfbvQ](https://pipedream.com/new?h=tch_EvfbvQ)
 
 ### Retrieve the credentials from the backend
 

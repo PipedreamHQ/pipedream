@@ -43,19 +43,19 @@ export type CreateServerClientOpts = {
  */
 export type ConnectTokenCreateOpts = {
   /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
-   */
-  app_slug: string;
-
-  /**
-   * Pass for OAuth apps. See https://pipedream.com/docs/connect/quickstart#creating-a-custom-oauth-client
-   */
-  oauth_app_id?: string;
-
-  /**
    * An external user ID associated with the token.
    */
   external_user_id: string;
+
+  /**
+   * The optional url to redirect the user to upon successful connection.
+   */
+  success_redirect_uri?: string;
+
+  /**
+   * The optional url to redirect the user to upon failed connection.
+   */
+  error_redirect_uri?: string;
 };
 
 export type AppInfo = {
@@ -93,6 +93,10 @@ export type ConnectTokenResponse = {
    * The expiration time of the token in ISO 8601 format.
    */
   expires_at: string;
+  /**
+   * The Connect Link URL
+   */
+  connect_link_url: string;
 };
 
 /**
@@ -542,7 +546,6 @@ export class ServerClient {
    *
    * ```typescript
    * const tokenResponse = await client.connectTokenCreate({
-   *   app_slug: "your-app-slug",
    *   external_user_id: "external-user-id",
    * });
    * console.log(tokenResponse.token);
@@ -550,9 +553,8 @@ export class ServerClient {
    */
   public async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
     const body = {
+      ...opts,
       external_id: opts.external_user_id,
-      app_slug: opts.app_slug,
-      oauth_app_id: opts.oauth_app_id,
     };
     return this.makeConnectRequest<ConnectTokenResponse>("/tokens", {
       method: "POST",

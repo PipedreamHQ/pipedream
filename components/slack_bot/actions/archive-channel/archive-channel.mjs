@@ -27,5 +27,5 @@ export default {
   }),
   key: "slack_bot-archive-channel",
   description: "Archive a channel (Bot). [See the documentation](https://api.slack.com/methods/conversations.archive)",
-  version: "0.0.3",
+  version: "0.0.4",
 };

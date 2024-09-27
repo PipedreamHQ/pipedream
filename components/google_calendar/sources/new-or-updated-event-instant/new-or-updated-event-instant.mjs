@@ -8,7 +8,7 @@ export default {
   type: "source",
   name: "New Created or Updated Event (Instant)",
   description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
-  version: "0.1.12",
+  version: "0.1.13",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -265,6 +265,7 @@ export default {
           calendarId,
           syncToken,
           pageToken: nextPageToken,
+          maxResults: 2500,
         });
         if (syncStatus === 410) {
           console.log("Sync token invalid, resyncing");

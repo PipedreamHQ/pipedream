@@ -14,5 +14,5 @@ export default {
   }),
   key: "slack_bot-update-message",
   description: "Update a message (Bot). [See the documentation](https://api.slack.com/methods/chat.update)",
-  version: "0.0.3",
+  version: "0.0.4",
 };
