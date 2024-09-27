@@ -1,83 +1,89 @@
+import { parseObject } from "../../common/utils.mjs";
 import l2s from "../../l2s.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "l2s-create-shortened-url",
   name: "Create Shortened URL",
   description: "Generates a shortened URL utilizing L2S capabilities. [See the documentation](https://docs.l2s.is/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     l2s,
     url: {
-      propDefinition: [
-        l2s,
-        "url",
-      ],
+      type: "string",
+      label: "URL",
+      description: "The URL to be shortened",
     },
     customKey: {
-      propDefinition: [
-        l2s,
-        "customKey",
-      ],
+      type: "string",
+      label: "Custom Key",
+      description: "Custom key for the shortened URL",
+      optional: true,
     },
     utmSource: {
-      propDefinition: [
-        l2s,
-        "utmSource",
-      ],
+      type: "string",
+      label: "UTM Source",
+      description: "UTM source parameter",
+      optional: true,
     },
     utmMedium: {
-      propDefinition: [
-        l2s,
-        "utmMedium",
-      ],
+      type: "string",
+      label: "UTM Medium",
+      description: "UTM medium parameter",
+      optional: true,
     },
     utmCampaign: {
-      propDefinition: [
-        l2s,
-        "utmCampaign",
-      ],
+      type: "string",
+      label: "UTM Campaign",
+      description: "UTM campaign parameter",
+      optional: true,
     },
     utmTerm: {
-      propDefinition: [
-        l2s,
-        "utmTerm",
-      ],
+      type: "string",
+      label: "UTM Term",
+      description: "UTM term parameter",
+      optional: true,
     },
     utmContent: {
-      propDefinition: [
-        l2s,
-        "utmContent",
-      ],
+      type: "string",
+      label: "UTM Content",
+      description: "UTM content parameter",
+      optional: true,
     },
     title: {
-      propDefinition: [
-        l2s,
-        "title",
-      ],
+      type: "string",
+      label: "Title",
+      description: "Title for the shortened URL",
+      optional: true,
     },
     tags: {
-      propDefinition: [
-        l2s,
-        "tags",
-      ],
+      type: "string[]",
+      label: "Tags",
+      description: "Tags associated with the URL",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.l2s.shortenUrl({
-      url: this.url,
-      customKey: this.customKey,
-      utmSource: this.utmSource,
-      utmMedium: this.utmMedium,
-      utmCampaign: this.utmCampaign,
-      utmTerm: this.utmTerm,
-      utmContent: this.utmContent,
-      title: this.title,
-      tags: this.tags,
+    const {
+      l2s,
+      tags,
+      ...data
+    } = this;
+
+    if (tags) {
+      data.tags = parseObject(tags);
+    }
+
+    const { response: { data: response } } = await l2s.shortenUrl({
+      $,
+      data,
     });
 
+    const shortUrl = `https://l2s.is/${response.key}`;
     $.export("$summary", "URL shortened successfully");
-    return response;
+    return {
+      short_url: shortUrl,
+      ...response,
+    };
   },
 };
