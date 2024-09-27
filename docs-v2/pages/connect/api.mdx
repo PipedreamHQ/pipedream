@@ -77,8 +77,6 @@ import { createClient } from "@pipedream/sdk/browser"
 import { serverConnectTokenCreate } from "./server"
  
 const { token, expires_at } = await serverConnectTokenCreate({
-  app_slug: appSlug,  // The app's name slug — see the quickstart
-  oauth_app_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
   external_id: externalUserId  // The end user's ID in your system
 });
 
