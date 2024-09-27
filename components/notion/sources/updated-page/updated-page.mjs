@@ -105,7 +105,7 @@ export default {
       const ts = Date.now();
       return {
         id: `${id}-${ts}`,
-        summary: `${summary}: ${title} - ${id}`,
+        summary: `${summary}: ${title}`,
         ts,
       };
     },
