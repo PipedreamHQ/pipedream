@@ -243,7 +243,6 @@ describe("ServerClient", () => {
       });
 
       const result = await client.connectTokenCreate({
-        app_slug: "test-app",
         external_user_id: "user-id",
       });
 
@@ -256,9 +255,8 @@ describe("ServerClient", () => {
         expect.objectContaining({
           method: "POST",
           body: JSON.stringify({
+            external_user_id: "user-id",
             external_id: "user-id",
-            app_slug: "test-app",
-            oauth_app_id: undefined,
           }),
           headers: expect.objectContaining({
             "Authorization": expect.any(String),
