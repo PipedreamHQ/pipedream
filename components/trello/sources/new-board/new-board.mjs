@@ -5,13 +5,13 @@ export default {
   key: "trello-new-board",
   name: "New Board (Instant)",
   description: "Emit new event for each new board added.",
-  version: "0.0.13",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      const boards = await this.trello.getBoards();
+      const boards = await this.app.getBoards();
       return {
         sampleEvents: boards,
         sortField: "dateLastView",
@@ -23,7 +23,9 @@ export default {
     },
     async getResult(event) {
       const boardId = event.body?.action?.data?.board?.id;
-      return this.trello.getBoard(boardId);
+      return this.app.getBoard({
+        boardId,
+      });
     },
   },
 };

@@ -4,7 +4,7 @@ import metafieldActions from "../../../shopify/actions/common/metafield-actions.
 export default {
   ...metafieldActions,
   props: {
-    ...metafieldActions.props,
     shopify,
+    ...metafieldActions.props,
   },
 };

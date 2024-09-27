@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/onlinecheckwriter",
+  "version": "0.0.1",
+  "description": "Pipedream OnlineCheckWriter Components",
+  "main": "onlinecheckwriter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "onlinecheckwriter"
+  ],
+  "homepage": "https://pipedream.com/apps/onlinecheckwriter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

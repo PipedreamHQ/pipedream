@@ -5,19 +5,19 @@ export default {
   key: "trello-new-label-added-to-card",
   name: "New Label Added To Card (Instant)",
   description: "Emit new event for each label added to a card.",
-  version: "0.0.12",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
     lists: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "lists",
         (c) => ({
           board: c.board,
@@ -26,7 +26,7 @@ export default {
     },
     cards: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cards",
         (c) => ({
           board: c.board,
@@ -43,12 +43,16 @@ export default {
       }
       if (this.lists && this.lists.length > 0) {
         for (const listId of this.lists) {
-          const cards = await this.trello.getCardsInList(listId);
+          const cards = await this.app.getCardsInList({
+            listId,
+          });
           await this.emitLabelsFromCards(cards);
         }
         return;
       }
-      const cards = await this.trello.getCards(this.board);
+      const cards = await this.app.getCards({
+        boardId: this.board,
+      });
       await this.emitLabelsFromCards(cards);
     },
   },
@@ -58,7 +62,9 @@ export default {
       for (const card of cards) {
         const labelIds = card.idLabels;
         for (const labelId of labelIds) {
-          const label = await this.trello.getLabel(labelId);
+          const label = await this.app.getLabel({
+            labelId,
+          });
           let summary = label.color;
           summary += label.name
             ? ` - ${label.name}`
@@ -74,8 +80,10 @@ export default {
     },
     async emitLabelsFromCardIds(cardIds) {
       const cards = [];
-      for (const id of cardIds) {
-        const card = await this.trello.getCard(id);
+      for (const cardId of cardIds) {
+        const card = await this.app.getCard({
+          cardId,
+        });
         cards.push(card);
       }
       await this.emitLabelsFromCards(cards);
@@ -103,7 +111,9 @@ export default {
       /** Record labelName & labelColor to use in generateMeta() */
       this._setLabelName(labelName);
       this._setLabelColor(labelColor);
-      return this.trello.getCard(cardId);
+      return this.app.getCard({
+        cardId,
+      });
     },
     isRelevant({ result: card }) {
       return (

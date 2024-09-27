@@ -44,7 +44,25 @@ export default {
           decodedContent: Buffer.from(firstPart.body.data, "base64").toString(),
         };
     },
+    processEmail(msg) {
+      // Process and structure the email data
+      const headers = msg.payload.headers;
+      return {
+        "id": msg.id,
+        "threadId": msg.threadId,
+        "subject": headers.find((h) => h.name.toLowerCase() === "subject")?.value,
+        "from": headers.find((h) => h.name.toLowerCase() === "from")?.value,
+        "to": headers.find((h) => h.name.toLowerCase() === "to")?.value,
+        "reply-to": headers.find((h) => h.name.toLowerCase() === "reply-to")?.value,
+        "date": headers.find((h) => h.name.toLowerCase() === "date")?.value,
+        "snippet": msg.snippet,
+      };
+    },
     emitEvent(message) {
+      message = {
+        ...message,
+        parsedHeaders: this.processEmail(message),
+      };
       const meta = this.generateMeta(message);
       this.$emit(this.decodeContent(message), meta);
     },

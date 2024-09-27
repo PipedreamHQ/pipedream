@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/smslink_nc",
+  "version": "0.0.1",
+  "description": "Pipedream SMSlink nc Components",
+  "main": "smslink_nc.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smslink_nc"
+  ],
+  "homepage": "https://pipedream.com/apps/smslink_nc",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

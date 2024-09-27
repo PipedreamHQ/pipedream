@@ -5,19 +5,19 @@ export default {
   key: "trello-card-updates",
   name: "Card Updates (Instant)",
   description: "Emit new event for each update to a Trello card.",
-  version: "0.0.12",
+  version: "0.1.0",
   type: "source",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
     cards: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cards",
         (c) => ({
           board: c.board,
@@ -26,7 +26,7 @@ export default {
     },
     customFieldItems: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "customFieldItems",
       ],
     },
@@ -37,14 +37,20 @@ export default {
       let cards = [];
       if (this.cards && this.cards.length > 0) {
         for (const cardId of this.cards) {
-          const card = await this.trello.getCard(cardId, {
-            customFieldItems: this.customFieldItems,
+          const card = await this.app.getCard({
+            cardId,
+            params: {
+              customFieldItems: this.customFieldItems,
+            },
           });
           cards.push(card);
         }
       } else {
-        cards = await this.trello.getCards(this.board, {
-          customFieldItems: this.customFieldItems,
+        cards = await this.app.getCards({
+          boardId: this.board,
+          params: {
+            customFieldItems: this.customFieldItems,
+          },
         });
       }
       return {
@@ -58,8 +64,11 @@ export default {
     },
     async getResult(event) {
       const cardId = event.body?.action?.data?.card?.id;
-      return this.trello.getCard(cardId, {
-        customFieldItems: this.customFieldItems,
+      return this.app.getCard({
+        cardId,
+        params: {
+          customFieldItems: this.customFieldItems,
+        },
       });
     },
     isRelevant({ result: card }) {

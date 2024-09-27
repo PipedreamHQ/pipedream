@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/offlight",
+  "version": "0.1.0",
+  "description": "Pipedream OFFLIGHT Components",
+  "main": "offlight.app.mjs",
+  "keywords": [
+    "pipedream",
+    "offlight"
+  ],
+  "homepage": "https://pipedream.com/apps/offlight",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1"
+  }
+}
+

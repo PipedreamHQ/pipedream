@@ -6,7 +6,7 @@ export default {
   key: "mailerlite-subscriber-created",
   name: "New Subscriber Created (Instant)",
   description: "Emit new event when a new subscriber is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...common.props,
@@ -25,7 +25,7 @@ export default {
       created_at: createdAt,
     }) {
       return {
-        id: id,
+        id,
         summary: `A new subscriber with Id: ${id} has been created!`,
         ts: new Date(createdAt),
       };
