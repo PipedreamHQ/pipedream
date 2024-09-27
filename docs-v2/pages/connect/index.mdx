@@ -8,10 +8,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 <Callout type="info">
 **Pipedream Connect is currently in preview, and we're looking for feedback!**
 
-In the preview phase, 
-
-- **Connect is free to use for any workspace**. [Pricing will come later](#plans-and-pricing), likely at a per-user or per-account charge.
-- **The API will change without notice, which may cause breaking changes**. We'll do our best to communicate these changes.
+**During the preview phase, Connect is free to use for any workspace. The API may change without notice, which may cause breaking changes**. We'll do our best to communicate these changes.
 
 Please reach out at `connect@pipedream.com` or our [Slack community](https://pipedream.com/support) to let us know how you're using it, what's not working, and what else you'd like to see.
 </Callout>
@@ -27,7 +24,7 @@ Connect lets your users authorize access to any API, directly in your app. You c
 
 You have full, code-level control over how these integrations work. You handle the product, Pipedream takes care of the auth. Connect provides:
 
-1. A [Client SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) to initiate authorization or accept API keys on behalf of your users, for any of the [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps) available on Pipedream
+1. A [Client SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) or [Connect Link](/connect/quickstart#use-connect-link) to initiate authorization or accept API keys on behalf of your users, for any of the [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps) available on Pipedream
 2. A [REST API](/connect/api) to retrieve credentials for your end users — OAuth access tokens, API keys, and other credentials stored for them
 3. The Pipedream platform and its [workflow builder](/workflows), [serverless runtime](/), and thousands of no-code [triggers](/workflows/triggers) and [actions](/workflows/actions)
 
@@ -54,8 +51,6 @@ Watch [the demo](https://www.youtube.com/embed/xhUagMsogkQ) or visit [the quicks
 
 During the preview phase, **Connect is free to use for any workspace**.
 
-After the preview phase, Pipedream is likely to charge on the number of end users who have active accounts in your workspace's projects. Any pricing changes will be clearly communicated, and you can delete unused end user accounts at any time.
-
 Please let us know if you have any feedback on the value of Connect and how you'd like to see it priced.
 
 ## Security
@@ -76,9 +71,8 @@ All credentials and tokens are sent to Pipedream securely over HTTPS, and encryp
 ## Product roadmap for Connect
 
 - Address bugs and feedback during the preview phase
-- Simplify the developer experience and SDK integration
-- Invoke Pipedream workflows on behalf of end users
-- Support hosted UIs for connecting accounts — native support for mobile environments that can't execute JavaScript or load iframes.
+- Use Pipedream OAuth clients while in development, to make it easier to get started
+- Invoke Pipedream workflows on behalf of your end users
 - Improve error handling for Connect developers and end users
 - And more!
 
