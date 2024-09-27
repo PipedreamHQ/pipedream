@@ -9143,6 +9143,9 @@ importers:
       '@pipedream/platform': 1.5.1
       query-string: 8.1.0
 
+  components/smslink_nc:
+    specifiers: {}
+
   components/smtp2go:
     specifiers:
       '@pipedream/platform': ^1.1.1
