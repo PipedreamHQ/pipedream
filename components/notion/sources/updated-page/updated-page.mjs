@@ -60,7 +60,7 @@ export default {
           Date.parse(page.last_edited_time),
         );
         if (count++ < 25) {
-          this.emitEvent(page, [], true);
+          this.emitEvent(page);
         }
       }
       this._setPropertyValues(propertyValues);
@@ -109,7 +109,7 @@ export default {
         ts,
       };
     },
-    emitEvent(page, changes, isNewPage) {
+    emitEvent(page, changes = [], isNewPage = true) {
       const meta = isNewPage
         ? this.generateMeta(page, constants.summaries.PAGE_ADDED)
         : this.generateMeta(page, constants.summaries.PAGE_UPDATED);
@@ -165,6 +165,7 @@ export default {
             [propertyName]: currentValue,
           };
           changes.push({
+            property: propertyName,
             previousValue,
             currentValue,
           });
@@ -177,6 +178,7 @@ export default {
             [propertyName]: currentValue,
           };
           changes.push({
+            property: propertyName,
             previousValue,
             currentValue,
           });
