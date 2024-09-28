@@ -1,11 +1,24 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "tricentis_qtest",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return `${this.$auth.qtest_base_uri}/api/v3`;
+    },
+    async _makeRequest({
+      $ = this, headers, ...otherOpts
+    }) {
+      return axios($, {
+        ...otherOpts,
+        baseURL: this._baseUrl(),
+        headers: {
+          ...headers,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+      });
     },
   },
 };
