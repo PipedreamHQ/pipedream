@@ -1,12 +1,10 @@
-// Import necessary modules
 import github from "../../github.app.mjs";
 
-// Define the action
 export default {
   key: "github-list-releases",
   name: "List Releases",
   description: "List releases for a repository [See the documentation](https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#list-releases)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     github,
