@@ -32,6 +32,25 @@ export default {
         }));
       },
     },
+    requirementId: {
+      type: "string",
+      label: "Requirement ID",
+      description: "The ID of a requirement",
+      async options({
+        page, projectId,
+      }) {
+        const requirements = await this.listRequirements({
+          page,
+          projectId,
+        });
+        return (requirements ?? []).map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -58,6 +77,14 @@ export default {
         ...args,
       });
     },
+    getRequirement({
+      projectId, requirementId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/projects/${projectId}/requirements/${requirementId}`,
+        ...args,
+      });
+    },
     listModules(projectId) {
       return this._makeRequest({
         url: `/projects/${projectId}/modules`,
@@ -66,6 +93,14 @@ export default {
     listProjects() {
       return this._makeRequest({
         url: "/projects",
+      });
+    },
+    listRequirements({
+      projectId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/projects/${projectId}/requirements`,
+        ...args,
       });
     },
   },
