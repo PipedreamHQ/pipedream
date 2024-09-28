@@ -1,10 +1,11 @@
+import { getRequirementFieldProps as additionalProps } from "../../common/utils.mjs";
 import tricentisQtest from "../../tricentis_qtest.app.mjs";
 
 export default {
   key: "tricentis_qtest-create-requirement",
   name: "Create Requirement",
   description: "Create a new requirement. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm#CreateARequirement)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     tricentisQtest,
@@ -28,16 +29,17 @@ export default {
       label: "Name",
       description: "Requirement name",
     },
-    properties: {
-      type: "object",
-      label: "Properties",
-      description: "Requirement properties, with each key being the field id and its value being the field value. Example: `{ \"870001\": \"913\" }` sets the value of field 870001 to 913.",
-      optional: true,
+    useFields: {
+      propDefinition: [
+        tricentisQtest,
+        "useFields",
+      ],
     },
   },
+  additionalProps,
   async run({ $ }) {
-    const {
-      tricentisQtest, projectId, parentId, ...data
+    const { // eslint-disable-next-line no-unused-vars
+      tricentisQtest, projectId, parentId, useFields, name, ...fields
     } = this;
     const response = await tricentisQtest.createRequirement({
       $,
@@ -45,7 +47,16 @@ export default {
       params: {
         parentId,
       },
-      data,
+      data: {
+        name,
+        properties: fields && Object.entries(fields).map(([
+          id,
+          value,
+        ]) => ({
+          field_id: id.split("_").pop(),
+          field_value: value,
+        })),
+      },
     });
     $.export("$summary", `Successfully created requirement (ID: ${response.id})`);
     return response;

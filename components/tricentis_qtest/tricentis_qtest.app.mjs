@@ -9,7 +9,7 @@ export default {
       label: "Project ID",
       description: "The ID of a project",
       async options() {
-        const projects = await this.listProjects();
+        const projects = await this.getProjects();
         return (projects ?? []).map(({
           id, name,
         }) => ({
@@ -23,7 +23,7 @@ export default {
       label: "Parent ID",
       description: "The parent module which will contain the newly created requirement",
       async options({ projectId }) {
-        const modules = await this.listModules(projectId);
+        const modules = await this.getModules(projectId);
         return (modules ?? []).map(({
           id, name,
         }) => ({
@@ -39,7 +39,7 @@ export default {
       async options({
         page, projectId,
       }) {
-        const requirements = await this.listRequirements({
+        const requirements = await this.getRequirements({
           page,
           projectId,
         });
@@ -50,6 +50,12 @@ export default {
           value: id,
         }));
       },
+    },
+    useFields: {
+      type: "boolean",
+      label: "Set Field Values",
+      description: "Set to `true` to see available fields.",
+      reloadProps: true,
     },
   },
   methods: {
@@ -85,17 +91,22 @@ export default {
         ...args,
       });
     },
-    listModules(projectId) {
+    getRequirementFields(projectId) {
+      return this._makeRequest({
+        url: `/projects/${projectId}/settings/requirements/fields`,
+      });
+    },
+    getModules(projectId) {
       return this._makeRequest({
         url: `/projects/${projectId}/modules`,
       });
     },
-    listProjects() {
+    getProjects() {
       return this._makeRequest({
         url: "/projects",
       });
     },
-    listRequirements({
+    getRequirements({
       projectId, ...args
     }) {
       return this._makeRequest({
