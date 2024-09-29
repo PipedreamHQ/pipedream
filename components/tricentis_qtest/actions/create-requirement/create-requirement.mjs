@@ -7,7 +7,7 @@ export default {
   key: "tricentis_qtest-create-requirement",
   name: "Create Requirement",
   description: "Create a new requirement. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm#CreateARequirement)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     tricentisQtest,

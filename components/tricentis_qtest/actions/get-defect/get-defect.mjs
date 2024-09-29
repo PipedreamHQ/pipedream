@@ -4,7 +4,7 @@ export default {
   key: "tricentis_qtest-get-defect",
   name: "Get Defect",
   description: "Get details of a defect. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/defect_apis.htm#GetRecentlyUpdatedDefects)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     tricentisQtest,
