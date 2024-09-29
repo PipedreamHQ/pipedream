@@ -15,8 +15,6 @@ export async function getFieldProps() {
     }
   }
 
-  console.log(fields);
-
   const result = {};
   const isUpdate = !!(this.requirementId || this.defectId);
 

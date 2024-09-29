@@ -37,12 +37,12 @@ export default {
       label: "Requirement ID",
       description: "The ID of a requirement",
       async options({
-        page, projectId,
+        page = 0, projectId,
       }) {
         const requirements = await this.getRequirements({
           projectId,
           params: {
-            page,
+            page: page + 1,
           },
         });
         return (requirements ?? []).map(({
@@ -58,7 +58,7 @@ export default {
       label: "Defect ID",
       description: "The ID of a defect. The listed options are defects that have been updated in the last 30 days.",
       async options({
-        page, projectId, prevContext: { startTime },
+        page = 0, projectId, prevContext: { startTime },
       }) {
         if (!startTime) {
           const date = new Date();
@@ -70,7 +70,7 @@ export default {
         const defects = await this.getDefects({
           projectId,
           params: {
-            page,
+            page: page + 1,
             startTime,
           },
         });
