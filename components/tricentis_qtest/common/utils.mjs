@@ -1,7 +1,7 @@
-export async function getRequirementFieldProps() {
-  if (!this.useFields) return {};
+export async function getFieldProps() {
+  if (this.useFields === false) return {};
 
-  const fields = await this.tricentisQtest.getRequirementFields(this.projectId);
+  const fields = await this.getDataFields();
 
   function getFieldType(type) {
     switch (type) {
@@ -15,22 +15,28 @@ export async function getRequirementFieldProps() {
     }
   }
 
+  console.log(fields);
+
   const result = {};
+  const isUpdate = this.requirementId || this.defectId;
 
   fields?.forEach(({
-    id, label, attribute_type: type, allowed_values: options,
+    id, label, attribute_type: fieldType, allowed_values: options, required,
   }) => {
+    const type = getFieldType(fieldType);
     result[`field_${id}`] = {
       label,
-      type: getFieldType(type),
+      type,
       description: `Field ID: ${id}`,
-      optional: true,
+      optional: isUpdate || !required,
       ...(options && {
         options: options.map(({
           label, value,
         }) => ({
           label,
-          value,
+          value: (type === "string" && typeof value !== "string")
+            ? value.toString()
+            : value,
         })),
       }),
     };
