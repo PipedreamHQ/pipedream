@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "pixelbin",
+  app: "parsera",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
