@@ -74,6 +74,16 @@ export default {
         },
       });
     },
+    getProjects() {
+      return this._makeRequest({
+        url: "/projects",
+      });
+    },
+    getModules(projectId) {
+      return this._makeRequest({
+        url: `/projects/${projectId}/modules`,
+      });
+    },
     createRequirement({
       projectId, ...args
     }) {
@@ -91,21 +101,6 @@ export default {
         ...args,
       });
     },
-    getRequirementFields(projectId) {
-      return this._makeRequest({
-        url: `/projects/${projectId}/settings/requirements/fields`,
-      });
-    },
-    getModules(projectId) {
-      return this._makeRequest({
-        url: `/projects/${projectId}/modules`,
-      });
-    },
-    getProjects() {
-      return this._makeRequest({
-        url: "/projects",
-      });
-    },
     getRequirements({
       projectId, ...args
     }) {
@@ -121,6 +116,50 @@ export default {
         method: "PUT",
         url: `/projects/${projectId}/requirements/${requirementId}`,
         ...args,
+      });
+    },
+    getRequirementFields(projectId) {
+      return this._makeRequest({
+        url: `/projects/${projectId}/settings/requirements/fields`,
+      });
+    },
+    createDefect({
+      projectId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/projects/${projectId}/defects`,
+        ...args,
+      });
+    },
+    getDefect({
+      projectId, defectId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/projects/${projectId}/defects/${defectId}`,
+        ...args,
+      });
+    },
+    getDefects({
+      projectId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/projects/${projectId}/defects/last-change`,
+        ...args,
+      });
+    },
+    updateDefect({
+      projectId, defectId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/projects/${projectId}/defects/${defectId}`,
+        ...args,
+      });
+    },
+    getDefectFields(projectId) {
+      return this._makeRequest({
+        url: `/projects/${projectId}/settings/defects/fields`,
       });
     },
   },
