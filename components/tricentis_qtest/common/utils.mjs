@@ -5,13 +5,12 @@ export async function getFieldProps() {
 
   function getFieldType(type) {
     switch (type) {
-    case "LongText":
-    default:
-      return "string";
     case "Number":
       return "integer";
     case "ArrayNumber":
       return "integer[]";
+    default:
+      return "string";
     }
   }
 
