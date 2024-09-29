@@ -4,9 +4,9 @@ import {
 import tricentisQtest from "../../tricentis_qtest.app.mjs";
 
 export default {
-  key: "tricentis_qtest-create-requirement",
-  name: "Create Requirement",
-  description: "Create a new requirement. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm#CreateARequirement)",
+  key: "tricentis_qtest-update-defect",
+  name: "Update Defect",
+  description: "Update a defect. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/defect_apis.htm#UpdateADefect)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
@@ -17,45 +17,37 @@ export default {
         "projectId",
       ],
     },
-    parentId: {
+    defectId: {
       propDefinition: [
         tricentisQtest,
-        "parentId",
+        "defectId",
         ({ projectId }) => ({
           projectId,
         }),
       ],
       reloadProps: true,
     },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "Requirement name",
-    },
   },
   additionalProps,
   methods: {
     getDataFields() {
-      return this.tricentisQtest.getRequirementFields(this.projectId);
+      return this.tricentisQtest.getDefectFields(this.projectId);
     },
     getProperties,
   },
   async run({ $ }) {
     const { // eslint-disable-next-line no-unused-vars
-      tricentisQtest, projectId, parentId, name, getProperties, getDataFields, ...fields
+      tricentisQtest, projectId, defectId, getProperties, getDataFields, ...fields
     } = this;
-    const response = await tricentisQtest.createRequirement({
+    const response = await tricentisQtest.updateDefect({
       $,
       projectId,
-      params: {
-        parentId,
-      },
+      defectId,
       data: {
-        name,
         properties: getProperties(fields),
       },
     });
-    $.export("$summary", `Successfully created requirement (ID: ${response.id})`);
+    $.export("$summary", `Successfully updated defect (ID: ${defectId})`);
     return response;
   },
 };

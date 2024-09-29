@@ -25,17 +25,12 @@ export default {
           projectId,
         }),
       ],
+      reloadProps: true,
     },
     name: {
       type: "string",
       label: "Name",
       description: "Requirement name",
-    },
-    useFields: {
-      propDefinition: [
-        tricentisQtest,
-        "useFields",
-      ],
     },
   },
   additionalProps,
@@ -50,7 +45,6 @@ export default {
       tricentisQtest,
       projectId,
       requirementId,
-      useFields,
       name,
       getProperties,
       getDataFields,

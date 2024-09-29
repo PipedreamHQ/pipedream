@@ -18,7 +18,7 @@ export async function getFieldProps() {
   console.log(fields);
 
   const result = {};
-  const isUpdate = this.requirementId || this.defectId;
+  const isUpdate = !!(this.requirementId || this.defectId);
 
   fields?.forEach(({
     id, label, attribute_type: fieldType, allowed_values: options, required,

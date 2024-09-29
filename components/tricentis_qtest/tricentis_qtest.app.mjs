@@ -40,8 +40,10 @@ export default {
         page, projectId,
       }) {
         const requirements = await this.getRequirements({
-          page,
           projectId,
+          params: {
+            page,
+          },
         });
         return (requirements ?? []).map(({
           id, name,
@@ -51,11 +53,39 @@ export default {
         }));
       },
     },
-    useFields: {
-      type: "boolean",
-      label: "Set Field Values",
-      description: "Set to `true` to see available fields.",
-      reloadProps: true,
+    defectId: {
+      type: "string",
+      label: "Defect ID",
+      description: "The ID of a defect. The listed options are defects that have been updated in the last 30 days.",
+      async options({
+        page, projectId, prevContext: { startTime },
+      }) {
+        if (!startTime) {
+          const date = new Date();
+          date.setDate(date.getDate() - 30);
+          startTime = date.toISOString();
+        }
+        const fields = await this.getDefectFields(projectId);
+        const summaryId = fields.find(({ label }) => label === "Summary")?.id;
+        const defects = await this.getDefects({
+          projectId,
+          params: {
+            page,
+            startTime,
+          },
+        });
+        return {
+          options: (defects ?? []).map(({
+            id, properties,
+          }) => ({
+            label: properties.find((f) => f.field_id === summaryId)?.field_value ?? id,
+            value: id,
+          })),
+          context: {
+            startTime,
+          },
+        };
+      },
     },
   },
   methods: {
