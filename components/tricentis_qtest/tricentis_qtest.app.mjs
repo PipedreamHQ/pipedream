@@ -114,5 +114,14 @@ export default {
         ...args,
       });
     },
+    updateRequirement({
+      projectId, requirementId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/projects/${projectId}/requirements/${requirementId}`,
+        ...args,
+      });
+    },
   },
 };

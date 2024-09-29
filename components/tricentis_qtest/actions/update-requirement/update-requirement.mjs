@@ -4,9 +4,9 @@ import {
 import tricentisQtest from "../../tricentis_qtest.app.mjs";
 
 export default {
-  key: "tricentis_qtest-create-requirement",
-  name: "Create Requirement",
-  description: "Create a new requirement. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm#CreateARequirement)",
+  key: "tricentis_qtest-update-requirement",
+  name: "Update Requirement",
+  description: "Update a requirement. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm#UpdateARequirement)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
@@ -17,10 +17,10 @@ export default {
         "projectId",
       ],
     },
-    parentId: {
+    requirementId: {
       propDefinition: [
         tricentisQtest,
-        "parentId",
+        "requirementId",
         ({ projectId }) => ({
           projectId,
         }),
@@ -44,20 +44,18 @@ export default {
   },
   async run({ $ }) {
     const { // eslint-disable-next-line no-unused-vars
-      tricentisQtest, projectId, parentId, useFields, name, getProperties, ...fields
+      tricentisQtest, projectId, requirementId, useFields, name, getProperties, ...fields
     } = this;
-    const response = await tricentisQtest.createRequirement({
+    const response = await tricentisQtest.updateRequirement({
       $,
       projectId,
-      params: {
-        parentId,
-      },
+      requirementId,
       data: {
         name,
         properties: getProperties(fields),
       },
     });
-    $.export("$summary", `Successfully created requirement (ID: ${response.id})`);
+    $.export("$summary", `Successfully updated requirement (ID: ${requirementId})`);
     return response;
   },
 };

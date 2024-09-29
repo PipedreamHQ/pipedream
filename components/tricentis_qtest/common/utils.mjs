@@ -38,3 +38,13 @@ export async function getRequirementFieldProps() {
 
   return result;
 }
+
+export function getProperties(fields) {
+  return fields && Object.entries(fields).map(([
+    id,
+    value,
+  ]) => ({
+    field_id: id.split("_").pop(),
+    field_value: value,
+  }));
+}
