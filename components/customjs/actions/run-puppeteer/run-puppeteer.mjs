@@ -13,7 +13,7 @@ export default {
     code: {
       type: "string",
       label: "Code",
-      description: "Enter the code you want to run on puppeteer.",
+      description: "Enter the code you want to run on puppeteer. For example: `await page.goto(\"https://example.com\");` will return a screenshot of https://example.com.",
     },
     filename: {
       propDefinition: [
