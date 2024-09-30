@@ -9686,7 +9686,10 @@ importers:
     specifiers: {}
 
   components/talenthr:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/talentlms:
     specifiers: {}
