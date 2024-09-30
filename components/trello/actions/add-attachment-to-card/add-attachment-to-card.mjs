@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import FormData from "form-data";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -62,20 +62,8 @@ export default {
       default: false,
     },
   },
-  methods: {
-    ...common.methods,
-    addAttachmentToCard({
-      cardId, ...args
-    } = {}) {
-      return this.app.post({
-        path: `/cards/${cardId}/attachments`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
     const {
-      addAttachmentToCard,
       cardId,
       name,
       url,
@@ -99,7 +87,7 @@ export default {
       const form = new FormData();
       form.append("file", fs.createReadStream(file));
 
-      response = await addAttachmentToCard({
+      response = await this.app.addAttachmentToCard({
         $,
         cardId,
         params,
@@ -108,7 +96,7 @@ export default {
       });
 
     } else {
-      response = await addAttachmentToCard({
+      response = await this.app.addAttachmentToCard({
         $,
         cardId,
         params: {

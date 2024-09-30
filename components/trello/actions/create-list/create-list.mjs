@@ -42,24 +42,15 @@ export default {
       ],
     },
   },
-  methods: {
-    createList(args = {}) {
-      return this.app.post({
-        path: "/lists",
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
     const {
-      createList,
       name,
       idBoard,
       idListSource,
       pos,
     } = this;
 
-    const response = await createList({
+    const response = await this.app.createList({
       $,
       params: {
         name,
@@ -69,7 +60,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully created list.");
+    $.export("$summary", `Successfully created list ${this.name}`);
 
     return response;
   },

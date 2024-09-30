@@ -1,4 +1,5 @@
 import app from "../../trello.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "trello-create-board",
@@ -22,7 +23,7 @@ export default {
     defaultLists: {
       type: "boolean",
       label: "Default Lists",
-      description: "Determines whether to add the default set of lists to a board (To Do, Doing, Done). It is ignored if idBoardSource is provided.",
+      description: "Determines whether to add the default set of lists to a board (To Do, Doing, Done). It is ignored if ***Board Source ID*** is provided.",
       optional: true,
     },
     desc: {
@@ -53,7 +54,7 @@ export default {
     keepFromSource: {
       type: "string",
       label: "Keep From Source",
-      description: "To keep cards from the original board pass in the value `cards`.",
+      description: "To keep cards from the original board, pass in the value `cards`.",
       optional: true,
       options: [
         "none",
@@ -65,60 +66,35 @@ export default {
       label: "Power-Ups",
       description: "The Power-Ups that should be enabled on the new board. One of: `all`, `calendar`, `cardAging`, `recap`, `voting`.",
       optional: true,
-      options: [
-        "all",
-        "calendar",
-        "cardAging",
-        "recap",
-        "voting",
-      ],
+      options: constants.POWER_UPS,
     },
     prefsPermissionLevel: {
       type: "string",
       description: "The permissions level of the board. One of: org, private, public.",
       label: "Prefs Permission Level",
       optional: true,
-      options: [
-        "org",
-        "private",
-        "public",
-      ],
+      options: constants.PREFS_PERMISSION_LEVELS,
     },
     prefsVoting: {
       type: "string",
       label: "Prefs Voting",
       description: "Who can vote on this board. One of disabled, members, observers, org, public.",
       optional: true,
-      options: [
-        "disabled",
-        "members",
-        "observers",
-        "org",
-        "public",
-      ],
+      options: constants.PREFS_VOTING,
     },
     prefsComments: {
       type: "string",
       label: "Prefs Comments",
       description: "Who can comment on cards on this board. One of: disabled, members, observers, org, public.",
       optional: true,
-      options: [
-        "disabled",
-        "members",
-        "observers",
-        "org",
-        "public",
-      ],
+      options: constants.PREFS_COMMENTS,
     },
     prefsInvitations: {
       type: "string",
       label: "Prefs Invitations",
       description: "Determines what types of members can invite users to join. One of: admins, members.",
       optional: true,
-      options: [
-        "admins",
-        "members",
-      ],
+      options: constants.PREFS_INVITATIONS,
     },
     prefsSelfJoin: {
       type: "boolean",
@@ -137,27 +113,14 @@ export default {
       label: "Prefs Background",
       description: "The id of a custom background or one of: `blue`, `orange`, `green`, `red`, `purple`, `pink`, `lime`, `sky`, `grey`.",
       optional: true,
-      options: [
-        "blue",
-        "orange",
-        "green",
-        "red",
-        "purple",
-        "pink",
-        "lime",
-        "sky",
-        "grey",
-      ],
+      options: constants.PREFS_BACKGROUNDS,
     },
     prefsCardAging: {
       type: "string",
       label: "Prefs Card Aging",
       description: "Determines the type of card aging that should take place on the board if card aging is enabled. One of: pirate, regular.",
       optional: true,
-      options: [
-        "pirate",
-        "regular",
-      ],
+      options: constants.PREFS_CARD_AGING,
     },
   },
   async run({ $ }) {

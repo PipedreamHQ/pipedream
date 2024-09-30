@@ -46,24 +46,13 @@ export default {
       ],
     },
   },
-  methods: {
-    completeChecklistItem({
-      cardId, checklistItemId, ...args
-    } = {}) {
-      return this.app.put({
-        path: `/cards/${cardId}/checkItem/${checklistItemId}`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
     const {
-      completeChecklistItem,
       cardId,
       checklistItemId,
     } = this;
 
-    const response = await completeChecklistItem({
+    const response = await this.app.completeChecklistItem({
       $,
       cardId,
       checklistItemId,
@@ -72,7 +61,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully completed checklist item.");
+    $.export("$summary", `Successfully completed checklist item with ID: ${checklistItemId}`);
 
     return response;
   },

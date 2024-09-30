@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -38,19 +38,8 @@ export default {
       ],
     },
   },
-  methods: {
-    ...common.methods,
-    addExistingLabelToCard({
-      cardId, ...args
-    } = {}) {
-      return this.app.post({
-        path: `/cards/${cardId}/idLabels`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
-    const res = await this.addExistingLabelToCard({
+    const res = await this.app.addExistingLabelToCard({
       $,
       cardId: this.cardId,
       params: {

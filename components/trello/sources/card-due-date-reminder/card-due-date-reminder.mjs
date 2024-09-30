@@ -4,7 +4,7 @@ import common from "../common/common-polling.mjs";
 export default {
   ...common,
   key: "trello-card-due-date-reminder",
-  name: "Card Due Date Reminder",
+  name: "Card Due Date Reminder", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event at a specified time before a card is due.",
   version: "0.1.0",
   type: "source",

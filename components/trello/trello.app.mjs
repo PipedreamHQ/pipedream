@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import fields from "./common/fields.mjs";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -207,11 +208,8 @@ export default {
     pos: {
       type: "string",
       label: "Position",
-      description: "The position of the new card, can be `top`, `bottom`, or a positive number",
-      options: [
-        "top",
-        "bottom",
-      ],
+      description: "The position of the checklist on the card. One of: top, bottom, or a positive number.",
+      options: constants.POSITIONS,
       optional: true,
     },
     due: {
@@ -248,25 +246,14 @@ export default {
       type: "string",
       label: "Card Filter",
       description: "Filter to apply to Cards. Valid values: `all`, `closed`, `none`, `open`, `visible`",
-      options: [
-        "all",
-        "closed",
-        "none",
-        "open",
-        "visible",
-      ],
+      options: constants.CARD_FILTERS,
       default: "all",
     },
     listFilter: {
       type: "string",
       label: "List Filter",
       description: "Type of list to search for",
-      options: [
-        "all",
-        "closed",
-        "none",
-        "open",
-      ],
+      options: constants.LIST_FILTERS,
       default: "all",
     },
     customFieldItems: {
@@ -581,6 +568,96 @@ export default {
     } = {}) {
       return this._makeRequest({
         path: `/cards/${cardId}/attachments`,
+        ...args,
+      });
+    },
+    addAttachmentToCard({
+      cardId, ...args
+    } = {}) {
+      return this.post({
+        path: `/cards/${cardId}/attachments`,
+        ...args,
+      });
+    },
+    addChecklist({
+      cardId, ...args
+    } = {}) {
+      return this.post({
+        path: `/cards/${cardId}/checklists`,
+        ...args,
+      });
+    },
+    addComment({
+      cardId, ...args
+    } = {}) {
+      return this.post({
+        path: `/cards/${cardId}/actions/comments`,
+        ...args,
+      });
+    },
+    addExistingLabelToCard({
+      cardId, ...args
+    } = {}) {
+      return this.post({
+        path: `/cards/${cardId}/idLabels`,
+        ...args,
+      });
+    },
+    removeLabelFromCard({
+      cardId, labelId, ...args
+    } = {}) {
+      return this.delete({
+        path: `/cards/${cardId}/idLabels/${labelId}`,
+        ...args,
+      });
+    },
+    addMemberToCard({
+      cardId, ...args
+    } = {}) {
+      return this.post({
+        path: `/cards/${cardId}/idMembers`,
+        ...args,
+      });
+    },
+    completeChecklistItem({
+      cardId, checklistItemId, ...args
+    } = {}) {
+      return this.put({
+        path: `/cards/${cardId}/checkItem/${checklistItemId}`,
+        ...args,
+      });
+    },
+    createChecklistItem({
+      checklistId, ...args
+    } = {}) {
+      return this.post({
+        path: `/checklists/${checklistId}/checkItems`,
+        ...args,
+      });
+    },
+    createLabel(args = {}) {
+      return this.post({
+        path: "/labels",
+        ...args,
+      });
+    },
+    createList(args = {}) {
+      return this.post({
+        path: "/lists",
+        ...args,
+      });
+    },
+    deleteChecklist({
+      checklistId, ...args
+    } = {}) {
+      return this.delete({
+        path: `/checklists/${checklistId}`,
+        ...args,
+      });
+    },
+    searchMembers(args = {}) {
+      return this._makeRequest({
+        path: "/search/members",
         ...args,
       });
     },

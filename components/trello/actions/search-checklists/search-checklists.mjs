@@ -161,6 +161,11 @@ export default {
       });
     }
 
+    if (matches?.length) {
+      $.export("$summary", `Found ${matches.length} matching checklist${matches.length === 1
+        ? ""
+        : "s"}`);
+    }
     return matches;
   },
 };

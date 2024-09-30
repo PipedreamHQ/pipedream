@@ -56,26 +56,15 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    createChecklistItem({
-      checklistId, ...args
-    } = {}) {
-      return this.app.post({
-        path: `/checklists/${checklistId}/checkItems`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
     const {
-      createChecklistItem,
       checklistId,
       name,
       pos,
       checked,
     } = this;
 
-    const response = await createChecklistItem({
+    const response = await this.app.createChecklistItem({
       $,
       checklistId,
       params: {
@@ -85,7 +74,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully created a checklist item");
+    $.export("$summary", `Successfully created a checklist item with ID: ${response.id}`);
 
     return response;
   },

@@ -45,17 +45,8 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    searchMembers(args = {}) {
-      return this.app._makeRequest({
-        path: "/search/members",
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
     const {
-      searchMembers,
       query,
       limit,
       idBoard,
@@ -63,7 +54,7 @@ export default {
       onlyOrgMembers,
     } = this;
 
-    const response = await searchMembers({
+    const response = await this.app.searchMembers({
       $,
       params: {
         query,
@@ -74,7 +65,11 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully searched for members.");
+    if (response?.length) {
+      $.export("$summary", `Successfully found ${response.length} member${response.length === 1
+        ? ""
+        : "s"}`);
+    }
 
     return response;
   },

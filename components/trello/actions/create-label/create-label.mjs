@@ -1,4 +1,5 @@
 import app from "../../trello.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "trello-create-label",
@@ -26,19 +27,7 @@ export default {
       type: "string",
       label: "Color",
       description: "The color for the label. One of: yellow, purple, blue, red, green, orange, black, sky, pink, lime, null (null means no color, and the label will not show on the front of cards)",
-      options: [
-        "yellow",
-        "purple",
-        "blue",
-        "red",
-        "green",
-        "orange",
-        "black",
-        "sky",
-        "pink",
-        "lime",
-        "null",
-      ],
+      options: constants.LABEL_COLORS,
     },
   },
   methods: {
@@ -50,15 +39,13 @@ export default {
     },
   },
   async run({ $ }) {
-
     const {
-      createLabel,
       idBoard,
       name,
       color,
     } = this;
 
-    const response = await createLabel({
+    const response = await this.app.createLabel({
       $,
       params: {
         idBoard,
@@ -67,7 +54,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully created a label");
+    $.export("$summary", `Successfully created label ${this.name}`);
 
     return response;
   },

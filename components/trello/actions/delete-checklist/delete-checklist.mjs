@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -39,18 +39,8 @@ export default {
       description: "The ID of the checklist to delete",
     },
   },
-  methods: {
-    deleteChecklist({
-      checklistId, ...args
-    } = {}) {
-      return this.app.delete({
-        path: `/checklists/${checklistId}`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
-    await this.deleteChecklist({
+    await this.app.deleteChecklist({
       $,
       checklistId: this.checklistId,
     });

@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -39,18 +39,8 @@ export default {
       description: "The ID of the Label to be removed from the card.",
     },
   },
-  methods: {
-    removeLabelFromCard({
-      cardId, labelId, ...args
-    } = {}) {
-      return this.app.delete({
-        path: `/cards/${cardId}/idLabels/${labelId}`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
-    await this.removeLabelFromCard({
+    await this.app.removeLabelFromCard({
       $,
       cardId: this.cardId,
       labelId: this.labelId,

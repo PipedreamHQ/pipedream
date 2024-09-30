@@ -1,7 +1,7 @@
 import fs from "fs";
 import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,

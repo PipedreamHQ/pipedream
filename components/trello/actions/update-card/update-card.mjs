@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import pickBy from "lodash-es/pickBy.js";
 import pick from "lodash-es/pick.js";
 
@@ -123,7 +123,7 @@ export default {
     subscribed: {
       type: "boolean",
       label: "Subscribed",
-      description: "Whether the member is should be subscribed to the card.",
+      description: "Whether the member should be subscribed to the card.",
       default: false,
     },
     address: {
