@@ -9,10 +9,24 @@ export default {
   type: "action",
   props: {
     app,
+    folderId: {
+      propDefinition: [
+        app,
+        "parentId",
+      ],
+      label: "Parent Folder",
+      description: "Use this option to select your File ID from a dropdown list.",
+    },
     fileId: {
-      type: "integer",
+      propDefinition: [
+        app,
+        "fileId",
+        (c) => ({
+          folderId: c.folderId,
+        }),
+      ],
       label: "File ID",
-      description: "The file ID to get comments from. Use a custom expression to reference a file from your workflow",
+      description: "The file ID to get comments from. Use a custom expression to reference a file from your workflow or select it from the dropdown list.",
     },
   },
   async run({ $ }) {
