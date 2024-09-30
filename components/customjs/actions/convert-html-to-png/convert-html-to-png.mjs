@@ -32,7 +32,7 @@ export default {
       },
     });
 
-    const filepath = normalizeFilepath(this.filename);
+    const filepath = normalizeFilepath(this.filename, "png");
     fs.writeFileSync(filepath, Buffer.from(fileContent));
 
     $.export("$summary", "Successfully converted HTML to PNG");

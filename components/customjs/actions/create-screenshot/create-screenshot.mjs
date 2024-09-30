@@ -20,6 +20,7 @@ export default {
         customjs,
         "filename",
       ],
+      description: "Download the PNG file to the `/tmp` directory with the specified filename.",
     },
   },
   async run({ $ }) {

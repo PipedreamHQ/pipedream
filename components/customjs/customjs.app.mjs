@@ -60,7 +60,7 @@ export default {
         ...opts,
       });
     },
-    runPuppeteer(opts = {}) {
+    runPuppeteer(opts = {}) { console.log(opts.data);
       return this._makeRequest({
         headers: {
           "customjs-origin": "pipedream/puppeteer",

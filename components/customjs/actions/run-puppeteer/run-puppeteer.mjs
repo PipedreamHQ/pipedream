@@ -5,7 +5,7 @@ import { normalizeFilepath } from "../common/utils.mjs";
 export default {
   key: "customjs-run-puppeteer",
   name: "Run Puppeteer",
-  description: "run-puppeteer. [See the documentation](https://www.customjs.space/api/docs#_5-run-puppeteer)",
+  description: "Run Puppeteer. [See the documentation](https://www.customjs.space/api/docs#_5-run-puppeteer)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -13,13 +13,14 @@ export default {
     code: {
       type: "string",
       label: "Code",
-      description: "Enter code you want to run on puppeteer.",
+      description: "Enter the code you want to run on puppeteer.",
     },
     filename: {
       propDefinition: [
         customjs,
         "filename",
       ],
+      description: "Download the PNG file to the `/tmp` directory with the specified filename.",
     },
   },
   async run({ $ }) {
@@ -32,10 +33,10 @@ export default {
       },
     });
 
-    const filepath = normalizeFilepath(this.filename);
+    const filepath = normalizeFilepath(this.filename, "png");
     fs.writeFileSync(filepath, Buffer.from(fileContent));
 
-    $.export("$summary", "Successfully run the puppeteer code.");
+    $.export("$summary", "Successfully ran the puppeteer code.");
     return {
       filename: this.filename,
       filepath,
