@@ -7267,7 +7267,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/pixelbin:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      form-data: 4.0.0
 
   components/pixiebrix:
     specifiers:
