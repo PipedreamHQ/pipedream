@@ -310,5 +310,14 @@ export default {
         ...args,
       });
     },
+    async getComments({
+      fileId, ...args
+    } = {}) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/files/${fileId}/comments`,
+        ...args,
+      });
+    },
   },
 };

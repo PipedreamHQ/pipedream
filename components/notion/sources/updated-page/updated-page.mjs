@@ -9,7 +9,7 @@ export default {
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -171,7 +171,7 @@ export default {
           });
         }
 
-        if (!pageExistsInDB && this.includeNewPages) {
+        if (!pageExistsInDB) {
           isNewPage = true;
           propertyHasChanged = true;
           propertyValues[page.id] = {
@@ -183,6 +183,11 @@ export default {
             currentValue,
           });
         }
+      }
+
+      if (isNewPage && !this.includeNewPages) {
+        console.log(`Ignoring new page: ${page.id}`);
+        continue;
       }
 
       if (propertyHasChanged) {
