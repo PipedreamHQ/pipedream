@@ -8,7 +8,7 @@ export default {
   key: "github-new-commit-comment",
   name: "New Commit Comment",
   description: "Emit new event when a commit comment is created",
-  version: "1.0.5",
+  version: "1.0.7",
   type: "source",
   dedupe: "unique",
   props: {

@@ -2845,7 +2845,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dust:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/dux_soup:
     specifiers:
@@ -6063,6 +6066,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/moaform:
+    specifiers: {}
+
   components/mobile_text_alerts:
     specifiers: {}
 
@@ -6915,6 +6921,9 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/parser_expert:
+    specifiers: {}
+
+  components/parsera:
     specifiers: {}
 
   components/parseur:

@@ -1,19 +1,20 @@
-import github from "../../github.app.mjs";
+import createIssue from "../create-issue/create-issue.mjs";
+
+const {
+  props: {
+    github, repoFullname, ...props
+  }, additionalProps, methods,
+} = createIssue;
 
 export default {
   key: "github-update-issue",
   name: "Update Issue",
-  description: "Update a new issue in a Gihub repo. [See docs here](https://docs.github.com/en/rest/issues/issues#update-an-issue)",
-  version: "0.1.16",
+  description: "Update a new issue in a Gihub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#update-an-issue)",
+  version: "0.2.0",
   type: "action",
   props: {
     github,
-    repoFullname: {
-      propDefinition: [
-        github,
-        "repoFullname",
-      ],
-    },
+    repoFullname,
     issueNumber: {
       label: "Issue Number",
       description: "The number that identifies the issue.",
@@ -26,55 +27,21 @@ export default {
         }),
       ],
     },
-    title: {
-      label: "Title",
-      description: "The title of the issue",
-      type: "string",
-    },
-    body: {
-      label: "Body",
-      description: "The contents of the issue",
-      type: "string",
-      optional: true,
-    },
-    labels: {
-      label: "Labels",
-      description: "Labels to associate with this issue. NOTE: Only users with push access can set labels for new issues",
-      optional: true,
-      propDefinition: [
-        github,
-        "labels",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-    },
-    assignees: {
-      label: "Assignees",
-      description: "Logins for Users to assign to this issue. NOTE: Only users with push access can set assignees for new issues",
-      optional: true,
-      propDefinition: [
-        github,
-        "collaborators",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-    },
+    ...props,
   },
+  additionalProps,
+  methods,
   async run({ $ }) {
+    const { // eslint-disable-next-line no-unused-vars
+      github, repoFullname, issueNumber, infoBox, ...data
+    } = this;
     const response = await this.github.updateIssue({
-      repoFullname: this.repoFullname,
-      issueNumber: this.issueNumber,
-      data: {
-        title: this.title,
-        body: this.body,
-        labels: this.labels,
-        assignees: this.assignees,
-      },
+      repoFullname,
+      issueNumber,
+      data,
     });
 
-    $.export("$summary", "Successfully created issue.");
+    $.export("$summary", `Successfully updated issue #${issueNumber}`);
 
     return response;
   },
