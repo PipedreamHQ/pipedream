@@ -171,7 +171,7 @@ export default {
           });
         }
 
-        if (!pageExistsInDB && this.includeNewPages) {
+        if (!pageExistsInDB) {
           isNewPage = true;
           propertyHasChanged = true;
           propertyValues[page.id] = {
@@ -183,6 +183,11 @@ export default {
             currentValue,
           });
         }
+      }
+
+      if (isNewPage && !this.includeNewPages) {
+        console.log(`Ignoring new page: ${page.id}`);
+        continue;
       }
 
       if (propertyHasChanged) {
