@@ -31,7 +31,15 @@ export default {
     convertHtmlToPdf(opts = {}) {
       return this._makeRequest({
         headers: {
-          "customjs-origin": "zapier/generatePDF",
+          "customjs-origin": "pipedream/generatePDF",
+        },
+        ...opts,
+      });
+    },
+    convertHtmlToPng(opts = {}) {
+      return this._makeRequest({
+        headers: {
+          "customjs-origin": "pipedream/generatePNG",
         },
         ...opts,
       });
@@ -39,7 +47,7 @@ export default {
     createScreenshot(opts = {}) {
       return this._makeRequest({
         headers: {
-          "customjs-origin": "zapier/screenshot",
+          "customjs-origin": "pipedream/screenshot",
         },
         ...opts,
       });
@@ -47,7 +55,15 @@ export default {
     mergePdfs(opts = {}) {
       return this._makeRequest({
         headers: {
-          "customjs-origin": "zapier/mergePDFs",
+          "customjs-origin": "pipedream/mergePDFs",
+        },
+        ...opts,
+      });
+    },
+    runPuppeteer(opts = {}) {
+      return this._makeRequest({
+        headers: {
+          "customjs-origin": "pipedream/puppeteer",
         },
         ...opts,
       });

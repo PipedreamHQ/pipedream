@@ -3,17 +3,17 @@ import fs from "fs";
 import { normalizeFilepath } from "../common/utils.mjs";
 
 export default {
-  key: "customjs-create-screenshot",
-  name: "Create Screenshot",
-  description: "Create a screenshot of a website. [See the documentation](https://www.customjs.space/api/docs#_3-create-screenshot)",
-  version: "0.0.2",
+  key: "customjs-run-puppeteer",
+  name: "Run Puppeteer",
+  description: "Run Puppeteer. [See the documentation](https://www.customjs.space/api/docs#_5-run-puppeteer)",
+  version: "0.0.1",
   type: "action",
   props: {
     customjs,
-    url: {
+    code: {
       type: "string",
-      label: "URL",
-      description: "The URL of the website to take a screenshot of",
+      label: "Code",
+      description: "Enter the code you want to run on puppeteer. For example: `await page.goto(\"https://example.com\");` will return a screenshot of https://example.com.",
     },
     filename: {
       propDefinition: [
@@ -24,11 +24,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const fileContent = await this.customjs.createScreenshot({
+    const fileContent = await this.customjs.runPuppeteer({
       $,
       data: {
-        input: this.url,
-        code: "const { SCREENSHOT } = require(\"./utils\"); return SCREENSHOT(input);",
+        input: this.code,
+        code: "const { PUPPETEER } = require('./utils'); return PUPPETEER(input);",
         returnBinary: "true",
       },
     });
@@ -36,7 +36,7 @@ export default {
     const filepath = normalizeFilepath(this.filename, "png");
     fs.writeFileSync(filepath, Buffer.from(fileContent));
 
-    $.export("$summary", `Successfully created screenshot of ${this.url}`);
+    $.export("$summary", "Successfully ran the puppeteer code.");
     return {
       filename: this.filename,
       filepath,
