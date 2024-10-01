@@ -1,5 +1,6 @@
 import ms from "ms";
 import common from "../common/common-polling.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -22,21 +23,7 @@ export default {
       label: "Time Before",
       description: "How far before the due time the event should trigger. For example, `5 minutes`, `10 minutes`, `1 hour`.",
       default: "5 minutes",
-      options: [
-        "5 minutes",
-        "10 minutes",
-        "15 minutes",
-        "30 minutes",
-        "1 hour",
-        "2 hours",
-        "3 hours",
-        "6 hours",
-        "12 hours",
-        "1 day",
-        "2 days",
-        "3 days",
-        "1 week",
-      ],
+      options: constants.NOTIFICATION_TIMES,
     },
   },
   methods: {

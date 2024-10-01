@@ -27,10 +27,15 @@ export default {
       label: "Cards",
       description: "The Trello cards you wish to select",
       optional: true,
-      async options({ board }) {
-        const cards = await this.getCards({
+      async options({
+        board, list,
+      }) {
+        let cards = await this.getCards({
           boardId: board,
         });
+        if (list) {
+          cards = cards.filter(({ idList }) => idList === list);
+        }
         return cards.map(({
           id: value, name: label,
         }) => ({
@@ -380,6 +385,14 @@ export default {
         ...args,
       });
     },
+    getCardActivity({
+      cardId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/cards/${cardId}/actions`,
+        ...args,
+      });
+    },
     getBoardActivity({
       boardId, ...args
     } = {}) {
@@ -481,6 +494,30 @@ export default {
     } = {}) {
       return this._makeRequest({
         path: `/members/${memberId}`,
+        ...args,
+      });
+    },
+    getMemberCards({
+      userId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/members/${userId}/cards`,
+        ...args,
+      });
+    },
+    getAttachment({
+      cardId, attachmentId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/cards/${cardId}/attachments/${attachmentId}`,
+        ...args,
+      });
+    },
+    getNotifications({
+      notificationId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/members/${notificationId}/notifications`,
         ...args,
       });
     },

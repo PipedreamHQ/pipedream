@@ -12,19 +12,24 @@ export default {
     ...common.methods,
     async getSampleEvents() {
       const boards = await this.app.getBoards();
-      return {
-        sampleEvents: boards,
-        sortField: "dateLastView",
-      };
+      const allBoards = [];
+      for (const board of boards) {
+        const b = await this.app.getBoard({
+          boardId: board.id,
+        });
+        allBoards.push(b);
+      }
+      return allBoards;
+    },
+    getSortField() {
+      return "dateLastView";
     },
     isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "createBoard";
+      return event.body?.action?.type === "createBoard";
     },
-    async getResult(event) {
-      const boardId = event.body?.action?.data?.board?.id;
+    getResult(event) {
       return this.app.getBoard({
-        boardId,
+        boardId: event.body?.action?.data?.board?.id,
       });
     },
   },

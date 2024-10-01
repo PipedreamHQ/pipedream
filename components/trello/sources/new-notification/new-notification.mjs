@@ -11,14 +11,6 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getNotifications({
-      notificationId, ...args
-    } = {}) {
-      return this.app._makeRequest({
-        path: `/members/${notificationId}/notifications`,
-        ...args,
-      });
-    },
     _getLastNotificationId() {
       return this.db.get("lastNotificationId") || null;
     },
@@ -38,7 +30,7 @@ export default {
   async run() {
     const since = this._getLastNotificationId();
 
-    const notifications = await this.getNotifications({
+    const notifications = await this.app.getNotifications({
       notificationId: "me",
       params: {
         since,

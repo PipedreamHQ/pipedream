@@ -30,5 +30,8 @@ export default {
       const meta = this.generateMeta(result);
       this.$emit(result, meta);
     },
+    sortItemsByDate(items, sortField) {
+      return items.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField])));
+    },
   },
 };

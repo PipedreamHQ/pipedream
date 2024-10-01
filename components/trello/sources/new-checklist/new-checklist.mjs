@@ -8,25 +8,47 @@ export default {
   version: "0.1.0",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    board: {
+      propDefinition: [
+        common.props.app,
+        "board",
+      ],
+    },
+    lists: {
+      propDefinition: [
+        common.props.app,
+        "lists",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+    },
+    onlyEventsRelatedWithAuthenticatedUser: {
+      label: "Only Events Related To Me",
+      description: "Only will emit events from the cards related with the authenticated user",
+      type: "boolean",
+      default: false,
+      optional: true,
+    },
+  },
   methods: {
     ...common.methods,
-    async getSampleEvents() {
-      const checklists = await this.app.listBoardChecklists({
+    getSampleEvents() {
+      return this.app.listBoardChecklists({
         boardId: this.board,
       });
-      return {
-        sampleEvents: checklists,
-        sortField: "id",
-      };
+    },
+    getSortField() {
+      return "id";
     },
     isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "addChecklistToCard";
+      return event.body?.action?.type === "addChecklistToCard";
     },
-    async getResult(event) {
-      const checklistId = event.body?.action?.data?.checklist?.id;
+    getResult(event) {
       return this.app.getChecklist({
-        checklistId,
+        checklistId: event.body?.action?.data?.checklist?.id,
       });
     },
   },

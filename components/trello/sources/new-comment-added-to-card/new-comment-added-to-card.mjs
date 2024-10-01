@@ -16,49 +16,44 @@ export default {
         "board",
       ],
     },
+    list: {
+      propDefinition: [
+        common.props.app,
+        "lists",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+      type: "string",
+      label: "List",
+      description: "Filter events by list",
+    },
     cards: {
       propDefinition: [
         common.props.app,
         "cards",
         (c) => ({
           board: c.board,
+          list: c.list,
         }),
       ],
     },
   },
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      const {
-        sampleEvents, sortField,
-      } = await this.getSampleEvents();
-      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
-        ? 1
-        : -1);
-      for (const action of sampleEvents.slice(-25)) {
-        this.emitEvent(action);
-      }
-    },
-  },
   methods: {
     ...common.methods,
-    getCardActivity({
-      cardId, ...args
-    } = {}) {
-      return this.app._makeRequest({
-        path: `/cards/${cardId}/actions`,
-        ...args,
-      });
-    },
     async getSampleEvents() {
-      const cards = this.cards?.length > 0
+      const cards = this.cards?.length
         ? this.cards
-        : (await this.app.getCards({
-          boardId: this.board,
-        })).map((card) => card.id);
+        : this.list
+          ? (await this.app.getCardsInList({
+            listId: this.list,
+          })).map((card) => card.id)
+          : (await this.app.getCards({
+            boardId: this.board,
+          })).map((card) => card.id);
       const actions = [];
       for (const card of cards) {
-        const activities = await this.getCardActivity({
+        const activities = await this.app.getCardActivity({
           cardId: card,
           params: {
             filter: "commentCard",
@@ -69,18 +64,16 @@ export default {
           actions.push(await this.getResult(activity));
         }
       }
-      return {
-        sampleEvents: actions,
-        sortField: "date",
-      };
+      return actions;
+    },
+    getSortField() {
+      return "date";
     },
     isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "commentCard";
+      return event.body?.action?.type === "commentCard";
     },
     async getResult(event) {
-      const cardId = event?.body?.action?.data?.card?.id ??
-      event?.data?.card?.id;
+      const cardId = event?.body?.action?.data?.card?.id ?? event?.data?.card?.id;
       const card = await this.app.getCard({
         cardId,
       });
@@ -93,12 +86,13 @@ export default {
       return {
         member,
         card,
-        event: event?.body ?? event,
+        event: event?.body?.action ?? event,
       };
     },
     isRelevant({ result: { card } }) {
       return (
         (!this.board || this.board === card.idBoard) &&
+        (!this.list || this.list === card.idList) &&
         (!this.cards?.length || this.cards.includes(card.id))
       );
     },

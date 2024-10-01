@@ -35,10 +35,10 @@ export default {
         : await this.app.getCards({
           boardId: this.board,
         });
-      return {
-        sampleEvents: cards,
-        sortFilter: "dateLastActivity",
-      };
+      return cards;
+    },
+    getSortField() {
+      return "dateLastActivity";
     },
     _getListAfter() {
       return this.db.get("listAfter");
@@ -47,10 +47,9 @@ export default {
       this.db.set("listAfter", listAfter);
     },
     isCorrectEventType(event) {
-      const eventTranslationKey = event.body?.action?.display?.translationKey;
-      return eventTranslationKey === "action_move_card_from_list_to_list";
+      return event.body?.action?.display?.translationKey === "action_move_card_from_list_to_list";
     },
-    async getResult(event) {
+    getResult(event) {
       const cardId = event.body?.action?.data?.card?.id;
       const listAfter = event.body?.action?.data?.listAfter?.name;
       /** Record listAfter to use in generateMeta() */

@@ -42,38 +42,21 @@ export default {
       ],
     },
   },
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      const {
-        sampleEvents, sortField,
-      } = await this.getSampleEvents();
-      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
-        ? 1
-        : -1);
-      for (const action of sampleEvents.slice(-25)) {
-        this.emitEvent({
-          action,
-        });
-      }
-    },
-  },
   methods: {
     ...common.methods,
-    async getSampleEvents() {
-      const eventTypes = this.eventTypes?.length > 0
+    getSampleEvents() {
+      const eventTypes = this.eventTypes?.length
         ? this.eventTypes.join(",")
         : null;
-      const actions = await this.app.getBoardActivity({
+      return this.app.getBoardActivity({
         boardId: this.board,
         params: {
           filter: eventTypes,
         },
       });
-      return {
-        sampleEvents: actions,
-        sortField: "date",
-      };
+    },
+    getSortField() {
+      return "date";
     },
     isCorrectEventType(event) {
       const eventType = event.body?.action?.type;
@@ -83,8 +66,8 @@ export default {
         this.eventTypes.includes(eventType))
       );
     },
-    async getResult(event) {
-      return event.body;
+    getResult(event) {
+      return event.body.action;
     },
     async isRelevant({ result: body }) {
       let listId = body.action?.data?.list?.id;
@@ -103,7 +86,7 @@ export default {
         (!this.cards?.length || !cardId || this.cards.includes(cardId))
       );
     },
-    generateMeta({ action }) {
+    generateMeta(action) {
       const {
         id,
         type,

@@ -1,4 +1,5 @@
 import common from "../common/common-webhook.mjs";
+import actions from "../common/actions.mjs";
 
 export default {
   ...common,
@@ -15,42 +16,35 @@ export default {
         "board",
       ],
     },
-  },
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      const {
-        sampleEvents, sortField,
-      } = await this.getSampleEvents();
-      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
-        ? 1
-        : -1);
-      for (const action of sampleEvents.slice(-25)) {
-        this.emitEvent({
-          action,
-        });
-      }
+    activityTypes: {
+      type: "string[]",
+      label: "Activity Types",
+      description: "Filter incoming events by the activity type",
+      options: actions,
+      optional: true,
     },
   },
   methods: {
     ...common.methods,
-    async getSampleEvents() {
-      const actions = await this.app.getBoardActivity({
+    getSampleEvents() {
+      return this.app.getBoardActivity({
         boardId: this.board,
       });
-      return {
-        sampleEvents: actions,
-        sortField: "date",
-      };
     },
-    async getResult(event) {
-      return event.body;
+    getSortField() {
+      return "date";
+    },
+    getResult(event) {
+      return event.body.action;
     },
     isRelevant({ event }) {
-      const boardId = event.body?.action?.data?.board?.id;
-      return !this.board || this.board === boardId;
+      const {
+        data, type,
+      } = event.body.action;
+      return ((!this.board || this.board === data?.board?.id)
+        && (!this.activityTypes?.length || this.activityTypes.includes(type)));
     },
-    generateMeta({ action }) {
+    generateMeta(action) {
       const {
         id,
         type,

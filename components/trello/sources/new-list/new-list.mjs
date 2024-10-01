@@ -10,23 +10,20 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    async getSampleEvents() {
-      const lists = await this.app.getLists({
+    getSampleEvents() {
+      return this.app.getLists({
         boardId: this.board,
       });
-      return {
-        sampleEvents: lists,
-        sortField: "id",
-      };
+    },
+    getSortField() {
+      return "id";
     },
     isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "createList";
+      return event.body?.action?.type === "createList";
     },
-    async getResult(event) {
-      const listId = event.body?.action?.data?.list?.id;
-      return await this.app.getList({
-        listId,
+    getResult(event) {
+      return this.app.getList({
+        listId: event.body?.action?.data?.list?.id,
       });
     },
   },

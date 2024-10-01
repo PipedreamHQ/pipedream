@@ -35,39 +35,37 @@ export default {
     ...common.methods,
     async getSampleEvents() {
       let cards = [];
+      const params = {
+        customFieldItems: true,
+      };
       if (this.cards?.length > 0) {
         for (const cardId of this.cards) {
           const card = await this.app.getCard({
             cardId,
-            params: {
-              customFieldItems: this.customFieldItems,
-            },
+            params,
           });
           cards.push(card);
         }
       } else {
         cards = await this.app.getCards({
           boardId: this.board,
-          params: {
-            customFieldItems: this.customFieldItems,
-          },
+          params,
         });
       }
-      return {
-        sampleEvents: cards,
-        sortField: "dateLastActivity",
-      };
+      return cards;
+    },
+    getSortField() {
+      return "dateLastActivity";
     },
     isCorrectEventType(event) {
       const eventType = event.body?.action?.type;
       return eventType === "updateCard";
     },
-    async getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
+    getResult(event) {
       return this.app.getCard({
-        cardId,
+        cardId: event.body?.action?.data?.card?.id,
         params: {
-          customFieldItems: this.customFieldItems,
+          customFieldItems: true,
         },
       });
     },

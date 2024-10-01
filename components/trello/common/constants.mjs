@@ -84,6 +84,22 @@ const LABEL_COLORS = [
   "null",
 ];
 
+const NOTIFICATION_TIMES = [
+  "5 minutes",
+  "10 minutes",
+  "15 minutes",
+  "30 minutes",
+  "1 hour",
+  "2 hours",
+  "3 hours",
+  "6 hours",
+  "12 hours",
+  "1 day",
+  "2 days",
+  "3 days",
+  "1 week",
+];
+
 export default {
   POSITIONS,
   CARD_FILTERS,
@@ -96,4 +112,5 @@ export default {
   PREFS_BACKGROUNDS,
   PREFS_CARD_AGING,
   LABEL_COLORS,
+  NOTIFICATION_TIMES,
 };

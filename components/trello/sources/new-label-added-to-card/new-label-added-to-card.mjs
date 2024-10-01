@@ -37,11 +37,11 @@ export default {
   hooks: {
     ...common.hooks,
     async deploy() {
-      if (this.cards?.length > 0) {
+      if (this.cards?.length) {
         await this.emitLabelsFromCardIds(this.cards);
         return;
       }
-      if (this.lists?.length > 0) {
+      if (this.lists?.length) {
         for (const listId of this.lists) {
           const cards = await this.app.getCardsInList({
             listId,
@@ -101,10 +101,9 @@ export default {
       this.db.set("labelColor", labelColor);
     },
     isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "addLabelToCard";
+      return event.body?.action?.type === "addLabelToCard";
     },
-    async getResult(event) {
+    getResult(event) {
       const cardId = event.body?.action?.data?.card?.id;
       const labelName = event.body?.action?.data?.label?.name;
       const labelColor = event.body?.action?.data?.label?.color;

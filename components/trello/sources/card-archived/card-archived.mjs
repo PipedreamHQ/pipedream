@@ -28,24 +28,21 @@ export default {
   },
   methods: {
     ...common.methods,
-    async getSampleEvents() {
-      const cards = await this.app.getFilteredCards({
+    getSampleEvents() {
+      return this.app.getFilteredCards({
         boardId: this.board,
         filter: "closed",
       });
-      return {
-        sampleEvents: cards,
-        sortField: "dateLastActivity",
-      };
+    },
+    getSortField() {
+      return "dateLastActivity";
     },
     isCorrectEventType(event) {
-      const eventTranslationKey = event.body?.action?.display?.translationKey;
-      return eventTranslationKey === "action_archived_card";
+      return event.body?.action?.display?.translationKey === "action_archived_card";
     },
-    async getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
+    getResult(event) {
       return this.app.getCard({
-        cardId,
+        cardId: event.body?.action?.data?.card?.id,
       });
     },
     isRelevant({ result: card }) {

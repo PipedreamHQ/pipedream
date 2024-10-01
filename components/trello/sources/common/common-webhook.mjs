@@ -9,12 +9,9 @@ export default {
   },
   hooks: {
     async deploy() {
-      const {
-        sampleEvents, sortField,
-      } = await this.getSampleEvents();
-      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
-        ? 1
-        : -1);
+      let sampleEvents = await this.getSampleEvents();
+      const sortField = this.getSortField();
+      sampleEvents = this.sortItemsByDate(sampleEvents, sortField);
       for (const event of sampleEvents.slice(-25)) {
         this.emitEvent(event);
       }
@@ -105,6 +102,9 @@ export default {
     },
     getSampleEvents() {
       throw new Error("getSampleEvents not implemented");
+    },
+    getSortField() {
+      throw new Error("getSortField is not implemented");
     },
   },
   async run(event) {

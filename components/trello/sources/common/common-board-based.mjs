@@ -32,6 +32,15 @@ export default {
         return false;
       }
 
+      if (this.lists?.length) {
+        const list = await this.app.getCardList({
+          cardId: result.idCard,
+        });
+        if (!this.lists.includes(list.id)) {
+          return false;
+        }
+      }
+
       const member = await this.app.getMember({
         memberId: "me",
       });

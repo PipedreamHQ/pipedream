@@ -25,44 +25,35 @@ export default {
         }),
       ],
     },
-    customFieldItems: {
-      propDefinition: [
-        common.props.app,
-        "customFieldItems",
-      ],
-    },
   },
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      const cards = this.lists?.length > 0
+      const params = {
+        customFieldItems: true,
+      };
+      const cards = this.lists?.length
         ? await this.app.getCardsInList({
           listId: this.lists[0],
-          params: {
-            customFieldItems: this.customFieldItems,
-          },
+          params,
         })
         : await this.app.getCards({
           boardId: this.board,
-          params: {
-            customFieldItems: this.customFieldItems,
-          },
+          params,
         });
-      return {
-        sampleEvents: cards,
-        sortField: "dateLastActivity",
-      };
+      return cards;
+    },
+    getSortField() {
+      return "dateLastActivity";
     },
     isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "createCard";
+      return event.body?.action?.type === "createCard";
     },
-    async getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
+    getResult(event) {
       return this.app.getCard({
-        cardId,
+        cardId: event.body?.action?.data?.card?.id,
         params: {
-          customFieldItems: this.customFieldItems,
+          customFieldItems: true,
         },
       });
     },

@@ -10,31 +10,20 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getMemberCards({
-      userId, ...args
-    } = {}) {
-      return this.app._makeRequest({
-        path: `/members/${userId}/cards`,
-        ...args,
-      });
-    },
-    async getSampleEvents() {
-      const cards = await this.getMemberCards({
+    getSampleEvents() {
+      return this.app.getMemberCards({
         userId: "me",
       });
-      return {
-        sampleEvents: cards,
-        sortField: "dateLastActivity",
-      };
+    },
+    getSortField() {
+      return "dateLastActivity";
     },
     isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "addMemberToCard";
+      return event.body?.action?.type === "addMemberToCard";
     },
-    async getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
+    getResult(event) {
       return this.app.getCard({
-        cardId,
+        cardId: event.body?.action?.data?.card?.id,
       });
     },
     generateMeta({
