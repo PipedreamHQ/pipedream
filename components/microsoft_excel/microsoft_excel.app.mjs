@@ -99,11 +99,11 @@ export default {
       return axios($, config);
     },
     addRow({
-      itemId, tableId, ...args
+      itemId, tableId, tableName, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `me/drive/items/${itemId}/workbook/tables/${tableId}/rows`,
+        path: `me/drive/items/${itemId}/workbook/tables/${tableId || tableName}/rows/add`,
         ...args,
       });
     },
@@ -138,6 +138,7 @@ export default {
         ...args,
       });
     },
+    // List tables endpoint is not supported for personal accounts
     listTables({
       itemId, ...args
     }) {

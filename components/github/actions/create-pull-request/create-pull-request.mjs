@@ -1,15 +1,11 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { toSingleLineString } from "../../common/utils.mjs";
 import github from "../../github.app.mjs";
 
 export default {
   key: "github-create-pull-request",
   name: "Create Pull Request",
-  description: toSingleLineString(`
-  Creates a new pull request for a specified repository.
-  [See docs here](https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request)
-  `),
-  version: "0.0.9",
+  description: "Creates a new pull request for a specified repository. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request)",
+  version: "0.1.0",
   type: "action",
   props: {
     github,
@@ -18,20 +14,8 @@ export default {
         github,
         "repoFullname",
       ],
-    },
-    head: {
-      propDefinition: [
-        github,
-        "branch",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-      label: "Head Branch",
-      description: toSingleLineString(`
-      The name of the branch where your changes are implemented.
-      For cross-repository pull requests in the same network, \`namespace\` head with a user like this: \`username:branch\`.
-      `),
+      label: "Base Repository",
+      description: "The base repository, where the pull request will be created.",
     },
     base: {
       propDefinition: [
@@ -42,58 +26,48 @@ export default {
         }),
       ],
       label: "Base Branch",
-      description: toSingleLineString(`
-      The name of the branch you want the changes pulled into.
-      This should be an existing branch on the current repository.
-      You cannot submit a pull request to one repository that requests a merge to a base of another repository.
-      `),
-    },
-    org: {
-      propDefinition: [
-        github,
-        "orgName",
-      ],
-      optional: true,
+      description: "The base branch, where the changes will be received.",
     },
     headRepo: {
       propDefinition: [
         github,
-        "repoOrg",
+        "repoFullname",
+      ],
+      label: "Head Repository",
+      description: "The head repository, where the changes originate from. This can, but does not have to, be the same repository.",
+    },
+    head: {
+      propDefinition: [
+        github,
+        "branch",
         (c) => ({
-          org: c.org,
+          repoFullname: c.headRepo,
         }),
       ],
-      label: "Head Repository's Name",
-      description: toSingleLineString(`
-      The name of the repository where the changes in the pull request were made.
-      This field is required for cross-repository pull requests if both repositories are owned by the same organization.
-      `),
-      optional: true,
+      label: "Head Branch",
+      description: "The head branch, where the changes originate from",
     },
     body: {
       label: "Body",
-      description: "The contents of the pull request.",
+      description: "The text description of the pull request.",
       type: "string",
       optional: true,
     },
     maintainerCanModify: {
-      label: "Maintainer Can Modify",
+      label: "Maintainers Can Modify",
       description: "Indicates whether [maintainers can modify](https://docs.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
       type: "boolean",
       optional: true,
     },
     draft: {
       label: "Is Draft",
-      description: toSingleLineString(`
-      Indicates whether the pull request is a draft.
-      See "[Draft Pull Requests](https://docs.github.com/articles/about-pull-requests#draft-pull-requests)" in the GitHub Help documentation to learn more.
-      `),
+      description: "Indicates whether the pull request is a draft. See \"[Draft Pull Requests](https://docs.github.com/articles/about-pull-requests#draft-pull-requests)\" in the GitHub Help documentation to learn more.",
       type: "boolean",
       optional: true,
     },
     title: {
       label: "Title",
-      description: "The title of the new pull request.",
+      description: "The title of the pull request.",
       type: "string",
       optional: true,
     },
@@ -106,10 +80,7 @@ export default {
         }),
       ],
       label: "Issue",
-      description: toSingleLineString(`
-        An issue in the repository to convert to a pull request.
-        The issue title, body, and comments will become the title, body, and comments on the new pull request.
-        `),
+      description: "An issue in the repository to convert to a pull request. The issue title, body, and comments will become the title, body, and comments on the new pull request.",
       min: 1,
       optional: true,
     },
@@ -117,10 +88,7 @@ export default {
   async run({ $ }) {
 
     if (!this.issue && !this.title) {
-      throw new ConfigurationError(toSingleLineString(`
-      Title is required if Issue is unspecified.
-      You can either specify a new pull request with Title or convert an existing issue to a pull request with Issue.
-      `));
+      throw new ConfigurationError("Title is required if Issue is unspecified. You can either specify a new pull request with Title or convert an existing issue to a pull request with Issue.");
     }
 
     if (this.issue && this.title) {

@@ -4411,6 +4411,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/helpspot:
+    specifiers: {}
+
   components/helpwise:
     specifiers: {}
 
@@ -5965,10 +5968,10 @@ importers:
 
   components/microsoft_excel:
     specifiers:
-      '@pipedream/platform': ^3.0.1
+      '@pipedream/platform': ^3.0.3
       moment: ^2.29.4
     dependencies:
-      '@pipedream/platform': 3.0.1
+      '@pipedream/platform': 3.0.3
       moment: 2.29.4
 
   components/microsoft_onedrive:
@@ -6674,7 +6677,12 @@ importers:
       ongage: 1.1.7_node-fetch@2.7.0
 
   components/onlinecheckwriter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      form-data: 4.0.0
 
   components/onlyoffice_docspace:
     specifiers:
@@ -6924,6 +6932,9 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/parser_expert:
+    specifiers: {}
+
+  components/parsera:
     specifiers: {}
 
   components/parseur:
@@ -9681,7 +9692,10 @@ importers:
     specifiers: {}
 
   components/talenthr:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/talentlms:
     specifiers: {}

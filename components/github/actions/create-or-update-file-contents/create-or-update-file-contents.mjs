@@ -2,9 +2,9 @@ import github from "../../github.app.mjs";
 
 export default {
   key: "github-create-or-update-file-contents",
-  name: "Create or update file contents",
-  description: "Create or update a file in a repository. This will replace an existing file. [See docs here](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)",
-  version: "0.0.13",
+  name: "Create or Update File Contents",
+  description: "Create or update a file in a repository. [See the documentation](https://docs.github.com/en/rest/repos/contents#create-or-update-file-contents)",
+  version: "0.1.0",
   type: "action",
   props: {
     github,
@@ -32,21 +32,25 @@ export default {
       default: "Pipedream - {{steps.trigger.context.workflow_name}} ({{steps.trigger.context.workflow_id}})",
     },
     branch: {
-      label: "Branch",
+      propDefinition: [
+        github,
+        "branch",
+        (c) => ({
+          repoFullname: c.repoFullname,
+        }),
+      ],
       description:
-        "The branch name. Defaults to the repository’s default branch (usually `master`)",
-      type: "string",
+        "The branch to use. Defaults to the repository's default branch (usually `main` or `master`)",
       optional: true,
     },
   },
   async run({ $ }) {
-
-    const response = await this.github.createOrUpdateFileContent({
-      repoFullname: this.repoFullname,
-      path: this.path,
-      commitMessage: this.commitMessage,
-      fileContent: this.fileContent,
-      branch: this.branch,
+    const {
+      github, branch, ...data
+    } = this;
+    const response = await github.createOrUpdateFileContent({
+      ...data,
+      branch: branch && branch.split("/")[1],
     });
 
     $.export("$summary", `Successfully set contents of ${this.path}${this.branch

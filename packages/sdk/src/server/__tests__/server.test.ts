@@ -449,7 +449,7 @@ describe("ServerClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/external_id/external-id-1",
+        "https://api.pipedream.com/v1/connect/users/external-id-1/accounts",
         expect.any(Object),
       );
     });
