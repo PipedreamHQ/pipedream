@@ -5238,7 +5238,10 @@ importers:
     specifiers: {}
 
   components/l2s:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/l3mbda:
     specifiers:
