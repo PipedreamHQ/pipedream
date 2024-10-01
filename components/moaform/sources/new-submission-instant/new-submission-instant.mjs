@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { RETENTION_DAYS_OPTIONS } from "../../common/constants.mjs";
 import moaform from "../../moaform.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -26,15 +27,7 @@ export default {
       type: "integer",
       label: "Retention Days",
       description: "Resend restriction days",
-      options: [
-        { label: "1", value: 1 },
-        { label: "3", value: 3 },
-        { label: "5", value: 5 },
-        { label: "7", value: 7 },
-        { label: "10", value: 10 },
-        { label: "15", value: 15 },
-        { label: "30", value: 30 },
-      ],
+      options: RETENTION_DAYS_OPTIONS,
       optional: true,
     },
     secret: {
