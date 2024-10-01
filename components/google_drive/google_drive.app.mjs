@@ -74,6 +74,7 @@ export default {
         drive,
         baseOpts = {
           q: `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}'`,
+          sharedWithMe: true,
         },
       }) {
         const { nextPageToken } = prevContext;
