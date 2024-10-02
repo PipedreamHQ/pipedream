@@ -9453,6 +9453,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/stealthgpt:
+    specifiers: {}
+
   components/stealthseminar:
     specifiers: {}
 
