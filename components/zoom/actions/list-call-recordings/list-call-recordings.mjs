@@ -22,7 +22,7 @@ export default {
     endDate: {
       type: "string",
       label: "End Date",
-      description: "The end date/time in `yyyy-mm-dd` or `yyyy-MM-ddTHH:mm:ssZ` format. Calls made after `Start Date` and before `End Date` will be retrieved.",
+      description: "The end date/time in `yyyy-mm-dd` or `yyyy-MM-ddTHH:mm:ssZ` format. Calls made after `Start Date` and before `End Date` will be retrieved. Date range should be a maximum of 30 days.",
       optional: true,
     },
     max: {
@@ -47,7 +47,7 @@ export default {
       }
       date.setDate(date.getDate() - 30);
       to = date.toISOString();
-      if (startDate.split("T")[1]) {
+      if (!startDate.split("T")[1]) {
         to = to.split("T")[0];
       }
     }
