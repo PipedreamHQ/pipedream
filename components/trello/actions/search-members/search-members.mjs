@@ -13,12 +13,6 @@ export default {
       label: "Search Query",
       description: "Search query 1 to 16384 characters long",
     },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The maximum number of results to return. Maximum of 20.",
-      optional: true,
-    },
     idBoard: {
       label: "Board ID",
       description: "The ID of the board to search for members.",
@@ -38,10 +32,10 @@ export default {
         "idOrganizations",
       ],
     },
-    onlyOrgMembers: {
-      type: "boolean",
-      label: "Only Organization Members",
-      description: "If true, only members of the organization will be returned.",
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of results to return. Maximum of 20.",
       optional: true,
     },
   },
@@ -51,8 +45,9 @@ export default {
       limit,
       idBoard,
       idOrganization,
-      onlyOrgMembers,
     } = this;
+
+    const onlyOrgMembers = idBoard || idOrganization;
 
     const response = await this.app.searchMembers({
       $,

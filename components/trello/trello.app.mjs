@@ -1,6 +1,7 @@
 import { axios } from "@pipedream/platform";
 import fields from "./common/fields.mjs";
 import constants from "./common/constants.mjs";
+import mime from "mime/types/standard.js";
 
 export default {
   type: "app",
@@ -28,13 +29,16 @@ export default {
       description: "The Trello cards you wish to select",
       optional: true,
       async options({
-        board, list,
+        board, list, checklistCardsOnly,
       }) {
         let cards = await this.getCards({
           boardId: board,
         });
         if (list) {
           cards = cards.filter(({ idList }) => idList === list);
+        }
+        if (checklistCardsOnly) {
+          cards = cards.filter(({ idChecklists }) => idChecklists?.length);
         }
         return cards.map(({
           id: value, name: label,
@@ -47,7 +51,7 @@ export default {
     boardFields: {
       type: "string[]",
       label: "Boards Fields",
-      description: "`all` or a list of board [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#board-object)",
+      description: "`all` or a list of board [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#board-object) to be returned in the results",
       options: fields.board,
       default: [
         "name",
@@ -57,7 +61,7 @@ export default {
     cardFields: {
       type: "string[]",
       label: "Cards Fields",
-      description: "`all` or a list of card [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#card-object)",
+      description: "`all` or a list of card [fields](https://developer.atlassian.com/cloud/trello/guides/rest-api/object-definitions/#card-object) to be returned in the results",
       options: fields.card,
       default: [
         "all",
@@ -117,10 +121,23 @@ export default {
       type: "string",
       label: "Label",
       description: "The ID of the Label to be added to the card",
-      async options({ board }) {
-        const labels = await this.findLabel({
+      async options({
+        board, card, excludeCardLabels, cardLabelsOnly,
+      }) {
+        let labels = await this.findLabel({
           boardId: board,
         });
+        if (card) {
+          const { idLabels } = await this.getCard({
+            cardId: card,
+          });
+          if (excludeCardLabels) {
+            labels = labels.filter(({ id }) => !idLabels.includes(id));
+          }
+          if (cardLabelsOnly) {
+            labels = labels.filter(({ id }) => idLabels.includes(id));
+          }
+        }
         return labels.map(({
           name, color, id: value,
         }) => ({
@@ -133,10 +150,18 @@ export default {
       type: "string",
       label: "Member",
       description: "The ID of the Member to be added to the card",
-      async options(opts) {
-        const members = await this.listMembers({
-          boardId: opts.board,
+      async options({
+        board, card, excludeCardMembers,
+      }) {
+        let members = await this.listMembers({
+          boardId: board,
         });
+        if (card && excludeCardMembers) {
+          const { idMembers } = await this.getCard({
+            cardId: card,
+          });
+          members = members.filter(({ id }) => !idMembers.includes(id));
+        }
         return members.map((member) => ({
           label: member.fullName,
           value: member.id,
@@ -190,19 +215,19 @@ export default {
       type: "string",
       label: "File Attachment URL",
       description: "URL must start with `http://` or `https://`",
-      optional: true,
     },
     mimeType: {
       type: "string",
-      label: "File Attachment Type",
-      description: "Not required for **File Attachment URL** property. Eg. `application/pdf`",
-      optional: true,
+      label: "Mime Type",
+      description: "Mime type of the attached file. Eg. `application/pdf`",
+      options() {
+        return Object.keys(mime);
+      },
     },
     file: {
       type: "string",
       label: "File Attachment Path",
-      description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory). If you provide a file path, the **File Attachment URL** field will be ignored.",
-      optional: true,
+      description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)",
     },
     desc: {
       type: "string",
@@ -304,6 +329,15 @@ export default {
         }));
       },
     },
+    fileType: {
+      type: "string",
+      label: "File Attachment Type",
+      description: "Select whether to attach file from a path or URL",
+      options: [
+        "path",
+        "url",
+      ],
+    },
   },
   methods: {
     getSignerUri() {
@@ -366,6 +400,12 @@ export default {
     } = {}) {
       return this.put({
         path: `/boards/${boardId}`,
+        ...args,
+      });
+    },
+    createCard(args = {}) {
+      return this.post({
+        path: "/cards",
         ...args,
       });
     },

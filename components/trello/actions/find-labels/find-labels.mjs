@@ -23,7 +23,6 @@ export default {
       ],
       label: "Label Name",
       description: "Name of the label to find.",
-      optional: false,
     },
     limit: {
       type: "integer",

@@ -100,6 +100,17 @@ const NOTIFICATION_TIMES = [
   "1 week",
 ];
 
+const CARD_KEEP_FROM_SOURCE_PROPERTIES = [
+  "all",
+  "attachments",
+  "checklists",
+  "comments",
+  "due",
+  "labels",
+  "members",
+  "stickers",
+];
+
 export default {
   POSITIONS,
   CARD_FILTERS,
@@ -113,4 +124,5 @@ export default {
   PREFS_CARD_AGING,
   LABEL_COLORS,
   NOTIFICATION_TIMES,
+  CARD_KEEP_FROM_SOURCE_PROPERTIES,
 };

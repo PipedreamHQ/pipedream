@@ -1,23 +1,22 @@
-import common from "../common/common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-add-existing-label-to-card",
   name: "Add Existing Label to Card",
   description: "Adds an existing label to the specified card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post).",
   version: "0.1.0",
   type: "action",
   props: {
-    ...common.props,
+    app,
     board: {
       propDefinition: [
-        common.props.app,
+        app,
         "board",
       ],
     },
     cardId: {
       propDefinition: [
-        common.props.app,
+        app,
         "cards",
         (c) => ({
           board: c.board,
@@ -30,10 +29,12 @@ export default {
     },
     value: {
       propDefinition: [
-        common.props.app,
+        app,
         "label",
         (c) => ({
           board: c.board,
+          card: c.cardId,
+          excludeCardLabels: true,
         }),
       ],
     },

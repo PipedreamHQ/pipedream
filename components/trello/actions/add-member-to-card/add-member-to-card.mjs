@@ -1,23 +1,21 @@
-import common from "../common/common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-add-member-to-card",
   name: "Add Member to Card",
   description: "Adds a member to the specified card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idmembers-post).",
   version: "0.2.0",
   type: "action",
   props: {
-    ...common.props,
     board: {
       propDefinition: [
-        common.props.app,
+        app,
         "board",
       ],
     },
     cardId: {
       propDefinition: [
-        common.props.app,
+        app,
         "cards",
         (c) => ({
           board: c.board,
@@ -30,10 +28,12 @@ export default {
     },
     value: {
       propDefinition: [
-        common.props.app,
+        app,
         "member",
         (c) => ({
           board: c.board,
+          card: c.cardId,
+          excludeCardMembers: true,
         }),
       ],
     },

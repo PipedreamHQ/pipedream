@@ -1,5 +1,6 @@
 export default {
   board: [
+    "all",
     "closed",
     "dateLastActivity",
     "dateLastView",

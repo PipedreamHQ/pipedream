@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "trello-create-board",
   name: "Create a Board",
-  description: "Creates a new Trello board. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-post).",
+  description: "Create a new Trello board or copy from an existing one. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-post).",
   version: "0.2.0",
   type: "action",
   props: {
@@ -23,7 +23,7 @@ export default {
     defaultLists: {
       type: "boolean",
       label: "Default Lists",
-      description: "Determines whether to add the default set of lists to a board (To Do, Doing, Done). It is ignored if ***Board Source ID*** is provided.",
+      description: "Determines whether to add the default set of lists to a board (To Do, Doing, Done). It is ignored if idBoardSource is provided.",
       optional: true,
     },
     desc: {
@@ -54,7 +54,7 @@ export default {
     keepFromSource: {
       type: "string",
       label: "Keep From Source",
-      description: "To keep cards from the original board, pass in the value `cards`.",
+      description: "To keep cards from the original board pass in the value `cards`.",
       optional: true,
       options: [
         "none",

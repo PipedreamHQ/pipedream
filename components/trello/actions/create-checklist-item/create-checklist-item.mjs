@@ -20,6 +20,7 @@ export default {
         "cards",
         ({ board }) => ({
           board,
+          checklistCardsOnly: true,
         }),
       ],
       type: "string",

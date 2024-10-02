@@ -42,6 +42,7 @@ export default {
           board: boardId,
         }),
       ],
+      label: "Copy from Checklist",
     },
     pos: {
       propDefinition: [

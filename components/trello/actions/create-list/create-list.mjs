@@ -40,6 +40,7 @@ export default {
         app,
         "pos",
       ],
+      description: "Position of the list. `top`, `bottom`, or a positive floating point number",
     },
   },
   async run({ $ }) {
