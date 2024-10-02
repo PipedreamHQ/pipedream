@@ -7,6 +7,7 @@ export default {
   version: "0.2.1",
   type: "action",
   props: {
+    app,
     board: {
       propDefinition: [
         app,
