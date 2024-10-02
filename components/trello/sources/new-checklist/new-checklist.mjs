@@ -1,4 +1,5 @@
 import common from "../common/common-board-based.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -24,6 +25,7 @@ export default {
           board: c.board,
         }),
       ],
+      description: "If specified, events will only be emitted when a checklist is added to a card in one of the specified lists",
     },
     onlyEventsRelatedWithAuthenticatedUser: {
       label: "Only Events Related To Me",
@@ -43,13 +45,14 @@ export default {
     getSortField() {
       return "id";
     },
-    isCorrectEventType(event) {
-      return event.body?.action?.type === "addChecklistToCard";
+    isCorrectEventType({ type }) {
+      return type === "addChecklistToCard";
     },
-    getResult(event) {
+    getResult({ data }) {
       return this.app.getChecklist({
-        checklistId: event.body?.action?.data?.checklist?.id,
+        checklistId: data?.checklist?.id,
       });
     },
   },
+  sampleEmit,
 };

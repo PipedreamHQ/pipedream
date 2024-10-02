@@ -1,4 +1,5 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -24,13 +25,14 @@ export default {
     getSortField() {
       return "dateLastView";
     },
-    isCorrectEventType(event) {
-      return event.body?.action?.type === "createBoard";
+    isCorrectEventType({ type }) {
+      return type === "createBoard";
     },
-    getResult(event) {
+    getResult({ data }) {
       return this.app.getBoard({
-        boardId: event.body?.action?.data?.board?.id,
+        boardId: data?.board?.id,
       });
     },
   },
+  sampleEmit,
 };

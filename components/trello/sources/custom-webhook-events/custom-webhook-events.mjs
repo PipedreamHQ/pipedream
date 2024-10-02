@@ -58,16 +58,12 @@ export default {
     getSortField() {
       return "date";
     },
-    isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
+    isCorrectEventType({ type }) {
       return (
-        (eventType) &&
+        (type) &&
         (!this.eventTypes?.length ||
-        this.eventTypes.includes(eventType))
+        this.eventTypes.includes(type))
       );
-    },
-    getResult(event) {
-      return event.body.action;
     },
     async isRelevant({ result: body }) {
       let listId = body.action?.data?.list?.id;

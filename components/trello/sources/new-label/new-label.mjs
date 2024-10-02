@@ -1,4 +1,5 @@
 import common from "../common/common-board-based.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -18,12 +19,12 @@ export default {
     getSortField() {
       return "id";
     },
-    isCorrectEventType(event) {
-      return event.body?.action?.type === "createLabel";
+    isCorrectEventType({ type }) {
+      return type === "createLabel";
     },
-    getResult(event) {
+    getResult({ data }) {
       return this.app.getLabel({
-        labelId: event.body?.action?.data?.label?.id,
+        labelId: data?.label?.id,
       });
     },
     generateMeta({
@@ -39,4 +40,5 @@ export default {
       };
     },
   },
+  sampleEmit,
 };

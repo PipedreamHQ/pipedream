@@ -1,4 +1,5 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -24,6 +25,7 @@ export default {
           board: c.board,
         }),
       ],
+      description: "If specified, events will only be emitted when a card is created in one of the specified lists",
     },
   },
   methods: {
@@ -46,12 +48,12 @@ export default {
     getSortField() {
       return "dateLastActivity";
     },
-    isCorrectEventType(event) {
-      return event.body?.action?.type === "createCard";
+    isCorrectEventType({ type }) {
+      return type === "createCard";
     },
-    getResult(event) {
+    getResult({ data }) {
       return this.app.getCard({
-        cardId: event.body?.action?.data?.card?.id,
+        cardId: data?.card?.id,
         params: {
           customFieldItems: true,
         },
@@ -66,4 +68,5 @@ export default {
       );
     },
   },
+  sampleEmit,
 };

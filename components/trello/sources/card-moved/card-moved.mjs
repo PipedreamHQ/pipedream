@@ -1,4 +1,5 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -23,6 +24,7 @@ export default {
           board: c.board,
         }),
       ],
+      description: "If specified, events will only be emitted if a card is moved to or from one of the selected lists",
     },
   },
   methods: {
@@ -46,29 +48,24 @@ export default {
     _setListAfter(listAfter) {
       this.db.set("listAfter", listAfter);
     },
-    isCorrectEventType(event) {
-      return event.body?.action?.display?.translationKey === "action_move_card_from_list_to_list";
+    isCorrectEventType({ display }) {
+      return display?.translationKey === "action_move_card_from_list_to_list";
     },
-    getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
-      const listAfter = event.body?.action?.data?.listAfter?.name;
+    getResult({ data }) {
       /** Record listAfter to use in generateMeta() */
-      this._setListAfter(listAfter);
+      this._setListAfter(data?.listAfter?.name);
       return this.app.getCard({
-        cardId,
+        cardId: data?.card?.id,
       });
     },
     isRelevant({
-      result: card, event,
+      result: card, action,
     }) {
-      const listIdAfter = event.body?.action?.data?.listAfter?.id;
-      const listIdBefore = event.body?.action?.data?.listBefore?.id;
-
       return (
         (!this.board || this.board === card.idBoard) &&
         (!this.lists?.length ||
-          this.lists.includes(listIdAfter) ||
-          this.lists.includes(listIdBefore))
+          this.lists.includes(action?.data?.listAfter?.id) ||
+          this.lists.includes(action?.data?.listBefore?.id))
       );
     },
     generateMeta({
@@ -86,4 +83,5 @@ export default {
       };
     },
   },
+  sampleEmit,
 };

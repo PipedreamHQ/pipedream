@@ -1,4 +1,5 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -26,7 +27,7 @@ export default {
       ],
       type: "string",
       label: "List",
-      description: "Filter events by list",
+      description: "If specified, events will only be emitted when a comment is added to a card in the specified list",
     },
     cards: {
       propDefinition: [
@@ -37,6 +38,7 @@ export default {
           list: c.list,
         }),
       ],
+      description: "If specified, events will only be emitted when a comment is added to one of the specified cards",
     },
   },
   methods: {
@@ -69,30 +71,27 @@ export default {
     getSortField() {
       return "date";
     },
-    isCorrectEventType(event) {
-      return event.body?.action?.type === "commentCard";
+    isCorrectEventType({ type }) {
+      return type === "commentCard";
     },
-    async getResult(event) {
-      const cardId = event?.body?.action?.data?.card?.id ?? event?.data?.card?.id;
+    async getResult(action) {
       const card = await this.app.getCard({
-        cardId,
+        cardId: action?.data?.card?.id,
       });
-      const memberId = event?.body?.action?.idMemberCreator ??
-      event.idMemberCreator;
       const member = await this.app.getMember({
-        memberId,
+        memberId: action?.idMemberCreator,
       });
 
       return {
         member,
         card,
-        event: event?.body?.action ?? event,
+        event: action,
       };
     },
     isRelevant({ result: { card } }) {
       return (
         (!this.board || this.board === card.idBoard) &&
-        (!this.list || this.list === card.idList) &&
+        (!this.lists || this.list === card.idList) &&
         (!this.cards?.length || this.cards.includes(card.id))
       );
     },
@@ -104,4 +103,5 @@ export default {
       };
     },
   },
+  sampleEmit,
 };

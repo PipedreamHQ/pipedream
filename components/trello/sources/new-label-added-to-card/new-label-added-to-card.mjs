@@ -1,4 +1,5 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -15,7 +16,7 @@ export default {
         "board",
       ],
     },
-    lists: {
+    list: {
       propDefinition: [
         common.props.app,
         "lists",
@@ -23,6 +24,9 @@ export default {
           board: c.board,
         }),
       ],
+      type: "string",
+      label: "List",
+      description: "If specified, events will only be emitted when a label is added to a card in the specified lists",
     },
     cards: {
       propDefinition: [
@@ -30,8 +34,10 @@ export default {
         "cards",
         (c) => ({
           board: c.board,
+          list: c.list,
         }),
       ],
+      description: "If specified, events will only be emitted when a label is added to one of the specified cards",
     },
   },
   hooks: {
@@ -41,13 +47,11 @@ export default {
         await this.emitLabelsFromCardIds(this.cards);
         return;
       }
-      if (this.lists?.length) {
-        for (const listId of this.lists) {
-          const cards = await this.app.getCardsInList({
-            listId,
-          });
-          await this.emitLabelsFromCards(cards);
-        }
+      if (this.list) {
+        const cards = await this.app.getCardsInList({
+          listId: this.list,
+        });
+        await this.emitLabelsFromCards(cards);
         return;
       }
       const cards = await this.app.getCards({
@@ -100,27 +104,22 @@ export default {
     _setLabelColor(labelColor) {
       this.db.set("labelColor", labelColor);
     },
-    isCorrectEventType(event) {
-      return event.body?.action?.type === "addLabelToCard";
+    isCorrectEventType({ type }) {
+      return type === "addLabelToCard";
     },
-    getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
-      const labelName = event.body?.action?.data?.label?.name;
-      const labelColor = event.body?.action?.data?.label?.color;
+    getResult({ data }) {
       /** Record labelName & labelColor to use in generateMeta() */
-      this._setLabelName(labelName);
-      this._setLabelColor(labelColor);
+      this._setLabelName(data?.label?.name);
+      this._setLabelColor(data?.label?.color);
       return this.app.getCard({
-        cardId,
+        cardId: data?.card?.id,
       });
     },
     isRelevant({ result: card }) {
       return (
         (!this.board || this.board === card.idBoard) &&
-        (!this.lists ||
-          this.lists.length === 0 ||
-          this.lists.includes(card.idList)) &&
-        (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
+        (!this.list || this.list === card.idList) &&
+        (!this.cards?.length || this.cards.includes(card.id))
       );
     },
     generateMeta({
@@ -144,4 +143,5 @@ export default {
       this.$emit(card, meta);
     },
   },
+  sampleEmit,
 };

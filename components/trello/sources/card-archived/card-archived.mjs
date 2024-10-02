@@ -1,4 +1,5 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -16,7 +17,6 @@ export default {
       ],
     },
     lists: {
-      optional: true,
       propDefinition: [
         common.props.app,
         "lists",
@@ -24,6 +24,7 @@ export default {
           board: c.board,
         }),
       ],
+      description: "If specified, events will only be emitted when a card in one of the selected lists is archived",
     },
   },
   methods: {
@@ -37,12 +38,12 @@ export default {
     getSortField() {
       return "dateLastActivity";
     },
-    isCorrectEventType(event) {
-      return event.body?.action?.display?.translationKey === "action_archived_card";
+    isCorrectEventType({ display }) {
+      return display?.translationKey === "action_archived_card";
     },
-    getResult(event) {
+    getResult({ data }) {
       return this.app.getCard({
-        cardId: event.body?.action?.data?.card?.id,
+        cardId: data?.card?.id,
       });
     },
     isRelevant({ result: card }) {
@@ -53,4 +54,5 @@ export default {
       );
     },
   },
+  sampleEmit,
 };

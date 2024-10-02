@@ -1,4 +1,5 @@
 import common from "../common/common-board-based.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -18,12 +19,12 @@ export default {
     getSortField() {
       return "dateLastActivity";
     },
-    isCorrectEventType(event) {
-      return event.body?.action?.type === "addMemberToCard";
+    isCorrectEventType({ type }) {
+      return type === "addMemberToCard";
     },
-    getResult(event) {
+    getResult({ data }) {
       return this.app.getCard({
-        cardId: event.body?.action?.data?.card?.id,
+        cardId: data?.card?.id,
       });
     },
     generateMeta({
@@ -38,4 +39,5 @@ export default {
       };
     },
   },
+  sampleEmit,
 };

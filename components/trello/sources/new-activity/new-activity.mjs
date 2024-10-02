@@ -4,7 +4,7 @@ import actions from "../common/actions.mjs";
 export default {
   ...common,
   key: "trello-new-activity",
-  name: "New Activity (Instant)",
+  name: "New Board Activity (Instant)",
   description: "Emit new event for new activity on a board.",
   version: "0.1.0",
   type: "source",
@@ -34,13 +34,10 @@ export default {
     getSortField() {
       return "date";
     },
-    getResult(event) {
-      return event.body.action;
-    },
-    isRelevant({ event }) {
+    isRelevant({ action }) {
       const {
         data, type,
-      } = event.body.action;
+      } = action;
       return ((!this.board || this.board === data?.board?.id)
         && (!this.activityTypes?.length || this.activityTypes.includes(type)));
     },

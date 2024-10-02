@@ -1,4 +1,5 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -23,6 +24,7 @@ export default {
           board: c.board,
         }),
       ],
+      description: "If specified, events will only be emitted when an attachment is added to a card in one of the specified lists",
     },
   },
   methods: {
@@ -47,20 +49,19 @@ export default {
     getSortField() {
       return "date";
     },
-    isCorrectEventType(event) {
-      return event.body?.action?.type === "addAttachmentToCard";
+    isCorrectEventType({ type }) {
+      return type === "addAttachmentToCard";
     },
-    getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
-      const attachmentId = event.body?.action?.data?.attachment?.id;
+    getResult({ data }) {
       return this.app.getAttachment({
-        cardId,
-        attachmentId,
+        cardId: data?.card?.id,
+        attachmentId: data?.attachment?.id,
       });
     },
-    isRelevant({ event }) {
-      return (!this.board || this.board === event.body?.action?.data?.board?.id)
-        && (!this.lists || this.lists.includes(event.body?.action?.data?.list?.id));
+    isRelevant({ action }) {
+      return (!this.board || this.board === action?.data?.board?.id)
+        && (!this.lists?.length || this.lists.includes(action?.data?.list?.id));
     },
   },
+  sampleEmit,
 };

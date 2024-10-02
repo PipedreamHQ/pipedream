@@ -1,9 +1,10 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "trello-card-updates",
-  name: "Card Updates (Instant)", /* eslint-disable-line pipedream/source-name */
+  name: "Card Updated (Instant)", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event for each update to a Trello card.",
   version: "0.1.0",
   type: "source",
@@ -22,12 +23,6 @@ export default {
         (c) => ({
           board: c.board,
         }),
-      ],
-    },
-    customFieldItems: {
-      propDefinition: [
-        common.props.app,
-        "customFieldItems",
       ],
     },
   },
@@ -57,13 +52,12 @@ export default {
     getSortField() {
       return "dateLastActivity";
     },
-    isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "updateCard";
+    isCorrectEventType({ type }) {
+      return type === "updateCard";
     },
-    getResult(event) {
+    getResult({ data }) {
       return this.app.getCard({
-        cardId: event.body?.action?.data?.card?.id,
+        cardId: data?.card?.id,
         params: {
           customFieldItems: true,
         },
@@ -76,4 +70,5 @@ export default {
       );
     },
   },
+  sampleEmit,
 };

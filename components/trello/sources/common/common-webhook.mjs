@@ -100,6 +100,9 @@ export default {
     isRelevant() {
       return true;
     },
+    getResult(action) {
+      return action;
+    },
     getSampleEvents() {
       throw new Error("getSampleEvents not implemented");
     },
@@ -118,15 +121,17 @@ export default {
       return;
     }
 
-    if (!this.isCorrectEventType(event)) {
+    const { action } = event.body;
+
+    if (!this.isCorrectEventType(action)) {
       console.log("The event is not of the correct type. Skipping...");
       return;
     }
 
-    const result = await this.getResult(event);
+    const result = await this.getResult(action);
     const isRelevant = await this.isRelevant({
       result,
-      event,
+      action,
     });
 
     if (!isRelevant) {
