@@ -4411,6 +4411,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/helpspot:
+    specifiers: {}
+
   components/helpwise:
     specifiers: {}
 
@@ -5235,7 +5238,10 @@ importers:
     specifiers: {}
 
   components/l2s:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/l3mbda:
     specifiers:
@@ -6067,7 +6073,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/moaform:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/mobile_text_alerts:
     specifiers: {}
