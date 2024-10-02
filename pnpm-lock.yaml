@@ -6425,6 +6425,9 @@ importers:
   components/nightfall_ai:
     specifiers: {}
 
+  components/nile_database:
+    specifiers: {}
+
   components/nimble:
     specifiers:
       '@pipedream/platform': ^1.5.1
