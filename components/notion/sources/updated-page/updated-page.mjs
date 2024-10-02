@@ -91,11 +91,13 @@ export default {
       // Files & Media type:
       // `url` and `expiry_time` are constantly updated by Notion, so ignore these fields
       if (property.type === "files") {
-        for (const file of property.files) {
+        const modified = structuredClone(property);
+        for (const file of modified.files) {
           if (file.type === "file") {
             delete file.file;
           }
         }
+        return modified;
       }
       return property;
     },
@@ -153,21 +155,25 @@ export default {
 
       for (const propertyName of propertiesToCheck) {
         const previousValue = structuredClone(propertyValues[page.id]?.[propertyName]);
-        const currentValue = this.maybeRemoveFileSubItems(page.properties[propertyName]);
+        // value used to compare and to save to this.db
+        const currentValueToSave = this.maybeRemoveFileSubItems(page.properties[propertyName]);
+        // (unmodified) value that should be emitted
+        const currentValueToEmit = page.properties[propertyName];
 
         const pageExistsInDB = propertyValues[page.id] != null;
-        const propertyChanged = JSON.stringify(previousValue) !== JSON.stringify(currentValue);
+        const propertyChanged =
+          JSON.stringify(previousValue) !== JSON.stringify(currentValueToSave);
 
         if (pageExistsInDB && propertyChanged) {
           propertyHasChanged = true;
           propertyValues[page.id] = {
             ...propertyValues[page.id],
-            [propertyName]: currentValue,
+            [propertyName]: currentValueToSave,
           };
           changes.push({
             property: propertyName,
             previousValue,
-            currentValue,
+            currentValue: currentValueToEmit,
           });
         }
 
@@ -175,12 +181,12 @@ export default {
           isNewPage = true;
           propertyHasChanged = true;
           propertyValues[page.id] = {
-            [propertyName]: currentValue,
+            [propertyName]: currentValueToSave,
           };
           changes.push({
             property: propertyName,
             previousValue,
-            currentValue,
+            currentValue: currentValueToEmit,
           });
         }
       }
