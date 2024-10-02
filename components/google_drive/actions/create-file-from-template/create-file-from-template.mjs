@@ -8,7 +8,7 @@ export default {
   key: "google_drive-create-file-from-template",
   name: "Create New File From Template",
   description: "Create a new Google Docs file from a template. Optionally include placeholders in the template document that will get replaced from this action. [See documentation](https://www.npmjs.com/package/google-docs-mustaches)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     googleDrive,
@@ -74,6 +74,7 @@ export default {
         data: this.replaceValues,
       });
     } catch (e) {
+      console.log("Interpolate error:", e);
       const {
         code, message,
       } = e.error.error;
@@ -88,13 +89,19 @@ export default {
     /* CREATE THE PDF */
 
     if (this.mode.includes(MODE_PDF)) {
-      const pdfId = await client.export({
-        file: googleDocId,
-        mimeType: "application/pdf",
-        name: this.name,
-        destination: this.folderId,
-      });
-      result["pdfId"] = pdfId;
+      try {
+        const pdfId = await client.export({
+          file: googleDocId,
+          mimeType: "application/pdf",
+          name: this.name,
+          destination: this.folderId,
+        });
+        result["pdfId"] = pdfId;
+
+      } catch (error) {
+        console.log("Export error:", error);
+        throw error;
+      }
     }
 
     /* REMOVE THE GOOGLE DOC */
