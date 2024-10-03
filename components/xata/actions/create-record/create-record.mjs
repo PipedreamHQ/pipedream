@@ -1,53 +1,17 @@
-import app from "../../xata.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "xata-create-record",
   name: "Create Record",
   description: "Create a new Record in the specified database. [See the documentation](https://xata.io/docs/api-reference/db/db_branch_name/tables/table_name/data#insert-record)",
   version: "0.0.1",
   type: "action",
   props: {
-    app,
-    endpoint: {
-      propDefinition: [
-        app,
-        "endpoint",
-      ],
-    },
-    workspace: {
-      propDefinition: [
-        app,
-        "workspace",
-      ],
-    },
-    database: {
-      propDefinition: [
-        app,
-        "database",
-        (c) => ({
-          workspace: c.workspace,
-        }),
-      ],
-    },
-    branch: {
-      propDefinition: [
-        app,
-        "branch",
-        (c) => ({
-          endpoint: c.endpoint,
-          database: c.database,
-        }),
-      ],
-    },
-    table: {
-      propDefinition: [
-        app,
-        "table",
-      ],
-    },
+    ...common.props,
     recordData: {
       propDefinition: [
-        app,
+        common.props.app,
         "recordData",
       ],
     },

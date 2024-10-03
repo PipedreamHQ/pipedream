@@ -1,53 +1,17 @@
-import app from "../../xata.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
+  ...common,
   key: "xata-update-record",
   name: "Update Record",
   description: "Update or create a record with the specified ID. [See the documentation](https://xata.io/docs/api-reference/db/db_branch_name/tables/table_name/data/record_id#upsert-record-with-id)",
   version: "0.0.1",
   type: "action",
   props: {
-    app,
-    endpoint: {
-      propDefinition: [
-        app,
-        "endpoint",
-      ],
-    },
-    workspace: {
-      propDefinition: [
-        app,
-        "workspace",
-      ],
-    },
-    database: {
-      propDefinition: [
-        app,
-        "database",
-        (c) => ({
-          workspace: c.workspace,
-        }),
-      ],
-    },
-    branch: {
-      propDefinition: [
-        app,
-        "branch",
-        (c) => ({
-          endpoint: c.endpoint,
-          database: c.database,
-        }),
-      ],
-    },
-    table: {
-      propDefinition: [
-        app,
-        "table",
-      ],
-    },
+    ...common.props,
     recordId: {
       propDefinition: [
-        app,
+        common.props.app,
         "recordId",
         (c) => ({
           endpoint: c.endpoint,
@@ -59,7 +23,7 @@ export default {
     },
     recordData: {
       propDefinition: [
-        app,
+        common.props.app,
         "recordData",
       ],
     },

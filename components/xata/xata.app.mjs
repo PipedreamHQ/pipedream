@@ -36,7 +36,7 @@ export default {
     recordData: {
       type: "object",
       label: "Record Data",
-      description: "The key and value of the data that will be recorded in the database",
+      description: "The keys and values of the data that will be recorded in the database",
     },
     workspace: {
       type: "string",
@@ -56,7 +56,7 @@ export default {
     database: {
       type: "string",
       label: "Database Name",
-      description: "Name of the database",
+      description: "Name of the database. Must be **non postgres enabled**.",
       async options({ workspace }) {
         const response = await this.listDatabases({
           workspace,
@@ -99,7 +99,7 @@ export default {
         headers,
         ...otherOpts
       } = opts;
-      const finalUrl = url || (this._baseUrl() + path);
+      const finalUrl = url || `${this._baseUrl()}${path}`;
       return axios($, {
         ...otherOpts,
         url: finalUrl,
@@ -109,7 +109,7 @@ export default {
         },
       });
     },
-    async createRecord({
+    createRecord({
       endpoint, database, branch, table, ...args
     }) {
       return this._makeRequest({
@@ -118,7 +118,7 @@ export default {
         ...args,
       });
     },
-    async replaceRecord({
+    replaceRecord({
       endpoint, database, branch, table, recordId, ...args
     }) {
       return this._makeRequest({
@@ -127,7 +127,7 @@ export default {
         ...args,
       });
     },
-    async updateRecord({
+    updateRecord({
       endpoint, database, branch, table, recordId, ...args
     }) {
       return this._makeRequest({
@@ -136,7 +136,7 @@ export default {
         ...args,
       });
     },
-    async listRecords({
+    listRecords({
       endpoint, database, branch, table, ...args
     }) {
       return this._makeRequest({
@@ -145,13 +145,13 @@ export default {
         ...args,
       });
     },
-    async listWorkspaces(args = {}) {
+    listWorkspaces(args = {}) {
       return this._makeRequest({
         path: "/workspaces",
         ...args,
       });
     },
-    async listDatabases({
+    listDatabases({
       workspace, ...args
     }) {
       return this._makeRequest({
@@ -159,11 +159,19 @@ export default {
         ...args,
       });
     },
-    async listBranches({
+    listBranches({
       endpoint, database, ...args
     }) {
       return this._makeRequest({
         url: `${endpoint}/dbs/${database}`,
+        ...args,
+      });
+    },
+    listColumns({
+      endpoint, database, branch, table, ...args
+    }) {
+      return this._makeRequest({
+        url: `${endpoint}/db/${database}:${branch}/tables/${table}/columns`,
         ...args,
       });
     },
