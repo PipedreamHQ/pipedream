@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/docnify",
+  "version": "0.0.1",
+  "description": "Pipedream Docnify Components",
+  "main": "docnify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "docnify"
+  ],
+  "homepage": "https://pipedream.com/apps/docnify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
