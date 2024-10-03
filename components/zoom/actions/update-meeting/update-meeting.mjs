@@ -5,7 +5,7 @@ export default {
   key: "zoom-update-meeting",
   name: "Update Meeting",
   description: "Updates an existing Zoom meeting",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     zoom: {
