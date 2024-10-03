@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/fileforge",
+  "version": "0.1.0",
+  "description": "Pipedream Fileforge Components",
+  "main": "fileforge.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fileforge"
+  ],
+  "homepage": "https://pipedream.com/apps/fileforge",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1",
+    "form-data": "^4.0.0"
+  }
+}

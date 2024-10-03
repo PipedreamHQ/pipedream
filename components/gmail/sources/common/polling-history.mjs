@@ -6,9 +6,6 @@ export default {
   hooks: {
     ...common.hooks,
     async deploy() {
-      if (this.triggerType === "webhook") {
-        return;
-      }
       const historyId = await this.getHistoryId();
       if (!historyId) {
         return;

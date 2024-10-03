@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pdf_app_net",
+  "version": "0.0.1",
+  "description": "Pipedream PDF-app.net Components",
+  "main": "pdf_app_net.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pdf_app_net"
+  ],
+  "homepage": "https://pipedream.com/apps/pdf_app_net",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

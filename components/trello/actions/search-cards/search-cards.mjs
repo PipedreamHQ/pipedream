@@ -4,20 +4,20 @@ export default {
   ...common,
   key: "trello-search-cards",
   name: "Search Cards",
-  description: "Searches for cards matching the specified query. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get)",
-  version: "0.1.4",
+  description: "Searches for cards matching the specified query. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get).",
+  version: "0.2.0",
   type: "action",
   props: {
     ...common.props,
     query: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "query",
       ],
     },
     idBoards: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
       type: "string[]",
@@ -26,13 +26,13 @@ export default {
     },
     partial: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "partial",
       ],
     },
     cardFields: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cardFields",
       ],
     },
@@ -44,15 +44,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const opts = {
-      query: this.query,
-      idBoards: this.idBoards,
-      modelTypes: "cards",
-      card_fields: this.cardFields,
-      cards_limit: this.cardsLimit,
-      partial: this.partial,
-    };
-    const { cards } = await this.trello.searchCards(opts, $);
+    const { cards } = await this.app.search({
+      $,
+      params: {
+        query: this.query,
+        idBoards: this.idBoards,
+        modelTypes: "cards",
+        card_fields: this.cardFields,
+        cards_limit: this.cardsLimit,
+        partial: this.partial,
+      },
+    });
     $.export("$summary", `Successfully retrieved ${cards.length} card(s)`);
     return cards;
   },

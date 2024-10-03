@@ -30,5 +30,5 @@ export default {
   }),
   key: "slack_bot-list-files",
   description: "Return a list of files within a team (Bot). [See the documentation](https://api.slack.com/methods/files.list)",
-  version: "0.0.3",
+  version: "0.0.4",
 };

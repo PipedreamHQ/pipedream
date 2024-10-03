@@ -151,7 +151,9 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://cloud.getdbt.com/api";
+      return this.$auth.access_url
+        ? `${this.$auth.access_url}api`
+        : `https://${this.$auth.region}.com/api`;
     },
     _headers() {
       return {

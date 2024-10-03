@@ -8,7 +8,7 @@ export default {
   key: "github-new-collaborator",
   name: "New Collaborator",
   description: "Emit new event when a collaborator is added",
-  version: "1.0.5",
+  version: "1.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -3,8 +3,8 @@ import github from "../../github.app.mjs";
 export default {
   key: "github-create-issue-comment",
   name: "Create Issue Comment",
-  description: "Create a new comment in a issue. [See docs here](https://docs.github.com/en/rest/issues/comments#create-an-issue-comment)",
-  version: "0.0.17",
+  description: "Create a new comment in a issue. [See the documentation](https://docs.github.com/en/rest/issues/comments#create-an-issue-comment)",
+  version: "0.0.18",
   type: "action",
   props: {
     github,
