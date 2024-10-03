@@ -545,6 +545,9 @@ importers:
       '@aws-sdk/client-sesv2': 3.423.0
       '@pipedream/platform': 0.10.0
 
+  components/ambee:
+    specifiers: {}
+
   components/ambient_weather:
     specifiers: {}
 
