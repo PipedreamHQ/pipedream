@@ -6959,7 +6959,10 @@ importers:
     specifiers: {}
 
   components/parsera:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/parseur:
     specifiers:
