@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/twin",
+  "version": "0.0.1",
+  "description": "Pipedream Twin Components",
+  "main": "twin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "twin"
+  ],
+  "homepage": "https://pipedream.com/apps/twin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
