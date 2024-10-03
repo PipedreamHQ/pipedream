@@ -9690,6 +9690,9 @@ importers:
   components/swiftype:
     specifiers: {}
 
+  components/switch:
+    specifiers: {}
+
   components/switchboard:
     specifiers: {}
 
