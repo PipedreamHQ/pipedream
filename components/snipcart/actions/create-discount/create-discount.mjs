@@ -14,12 +14,6 @@ export default {
         "name",
       ],
     },
-    maxNumberOfUsages: {
-      propDefinition: [
-        app,
-        "maxNumberOfUsages",
-      ],
-    },
     trigger: {
       propDefinition: [
         app,
@@ -32,7 +26,7 @@ export default {
         app,
         "code",
       ],
-      disabled: true,
+      optional: true,
       hidden: true,
     },
     totalToReach: {
@@ -40,7 +34,7 @@ export default {
         app,
         "totalToReach",
       ],
-      disabled: true,
+      optional: true,
       hidden: true,
     },
     type: {
@@ -55,7 +49,7 @@ export default {
         app,
         "amount",
       ],
-      disabled: true,
+      optional: true,
       hidden: true,
     },
     rate: {
@@ -63,29 +57,34 @@ export default {
         app,
         "rate",
       ],
-      disabled: true,
+      optional: true,
       hidden: true,
     },
+    maxNumberOfUsages: {
+      propDefinition: [
+        app,
+        "maxNumberOfUsages",
+      ],
+    },
   },
-  async additionalProps(existingProps) {
-    const props = {};
-    if (this.trigger === "Code") {
-      existingProps.code.hidden = false;
-      existingProps.code.disabled: false,
-    }
-    if (this.trigger === "Total") {
-      existingProps.totalToReach.hidden = false;
-      existingProps.totalToReach.disabled = false;
-    }
-    if (this.type === "FixedAmount") {
-      existingProps.amount.hidden = false;
-      existingProps.amount.disabled = false;
-    }
-    if (this.type === "Rate") {
-      existingProps.rate.hidden = false;
-      existingProps.rate.disabled = false;
-    }
-    return props;
+  async additionalProps(props) {
+    const triggerIsCode = this.trigger === "Code";
+    const triggerIsTotal = this.trigger === "Total";
+
+    props.code.hidden = !triggerIsCode;
+    props.code.optional = !triggerIsCode;
+    props.totalToReach.hidden = !triggerIsTotal;
+    props.totalToReach.optional = !triggerIsTotal;
+
+    const typeIsFixedAmount = this.type === "FixedAmount";
+    const typeIsRate = this.type === "Rate";
+
+    props.amount.hidden = !typeIsFixedAmount;
+    props.amount.optional = !typeIsFixedAmount;
+    props.rate.hidden = !typeIsRate;
+    props.rate.optional = !typeIsRate;
+
+    return {};
   },
   async run({ $ }) {
     const response = await this.app.createDiscount({
@@ -99,7 +98,6 @@ export default {
         type: this.type,
         amount: this.amount,
         rate: this.rate,
-        discount: this.discount,
       },
     });
 

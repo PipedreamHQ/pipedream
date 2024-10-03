@@ -19,18 +19,14 @@ export default {
         app,
         "name",
       ],
-    },
-    maxNumberOfUsages: {
-      propDefinition: [
-        app,
-        "maxNumberOfUsages",
-      ],
+      optional: true,
     },
     trigger: {
       propDefinition: [
         app,
         "trigger",
       ],
+      optional: true,
       reloadProps: true,
     },
     code: {
@@ -38,7 +34,7 @@ export default {
         app,
         "code",
       ],
-      disabled: true,
+      optional: true,
       hidden: true,
     },
     totalToReach: {
@@ -46,7 +42,7 @@ export default {
         app,
         "totalToReach",
       ],
-      disabled: true,
+      optional: true,
       hidden: true,
     },
     type: {
@@ -54,6 +50,7 @@ export default {
         app,
         "type",
       ],
+      optional: true,
       reloadProps: true,
     },
     amount: {
@@ -61,7 +58,7 @@ export default {
         app,
         "amount",
       ],
-      disabled: true,
+      optional: true,
       hidden: true,
     },
     rate: {
@@ -69,56 +66,52 @@ export default {
         app,
         "rate",
       ],
-      disabled: true,
+      optional: true,
       hidden: true,
     },
+    maxNumberOfUsages: {
+      propDefinition: [
+        app,
+        "maxNumberOfUsages",
+      ],
+    },
   },
-  async additionalProps() {
-    const props = {};
-    if (this.trigger === "Code") {
-      props.code = {
-        type: "string",
-        label: "Code",
-        description: "Code for the discount",
-      };
-    }
-    if (this.trigger === "Total") {
-      props.totalToReach = {
-        type: "string",
-        label: "Total to Reach",
-        description: "Minimum amount required to activate the discount",
-      };
-    }
-    if (this.type === "FixedAmount") {
-      props.amount = {
-        type: "string",
-        label: "Amount",
-        description: "Discount amount. Required when discount type is `FixedAmount`",
-      };
-    }
-    if (this.type === "Rate") {
-      props.rate = {
-        type: "string",
-        label: "Rate",
-        description: "Discount percentage, i.e.: `10`. Required when discount type is `Rate`",
-      };
-    }
-    return props;
+  async additionalProps(props) {
+    const triggerIsCode = this.trigger === "Code";
+    const triggerIsTotal = this.trigger === "Total";
+
+    props.code.hidden = !triggerIsCode;
+    props.code.optional = !triggerIsCode;
+    props.totalToReach.hidden = !triggerIsTotal;
+    props.totalToReach.optional = !triggerIsTotal;
+
+    const typeIsFixedAmount = this.type === "FixedAmount";
+    const typeIsRate = this.type === "Rate";
+
+    props.amount.hidden = !typeIsFixedAmount;
+    props.amount.optional = !typeIsFixedAmount;
+    props.rate.hidden = !typeIsRate;
+    props.rate.optional = !typeIsRate;
+
+    return {};
   },
   async run({ $ }) {
+    const discount = await this.app.getDiscount({
+      $,
+      id: this.discountId,
+    });
     const response = await this.app.updateDiscount({
       $,
       id: this.discountId,
       data: {
-        name: this.name,
-        maxNumberOfUsages: this.maxNumberOfUsages,
-        trigger: this.trigger,
-        code: this.code,
-        totalToReach: this.totalToReach,
-        type: this.type,
-        amount: this.amount,
-        rate: this.rate,
-        discount: this.discount,
+        name: this.name || discount.name,
+        maxNumberOfUsages: this.maxNumberOfUsages || discount.maxNumberOfUsages,
+        trigger: this.trigger || discount.trigger,
+        code: this.code || discount.code,
+        totalToReach: this.totalToReach || discount.totalToReach,
+        type: this.type || discount.type,
+        amount: this.amount || discount.amount,
+        rate: this.rate || discount.rate,
       },
     });
 

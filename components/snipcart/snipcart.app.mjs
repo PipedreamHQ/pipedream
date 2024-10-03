@@ -26,14 +26,15 @@ export default {
       description: "Name of the discount",
     },
     maxNumberOfUsages: {
-      type: "string",
+      type: "integer",
       label: "Max Number of Usages",
-      description: "Maximum number of times the discount can be used",
+      description: "The maximum number of usage for the discount. If not specified, customers will be able to use this discount indefinitely.",
+      optional: true,
     },
     trigger: {
       type: "string",
       label: "Trigger",
-      description: "Trigger condition for the discount",
+      description: "Condition that will trigger the discount",
       options: constants.TRIGGER_OPTIONS,
     },
     code: {
@@ -49,7 +50,7 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "The type of action that the discount will apply",
+      description: "The type of action that the discount will apply to",
       options: constants.TYPE_OPTIONS,
     },
     amount: {
@@ -67,7 +68,7 @@ export default {
     _baseUrl() {
       return "https://app.snipcart.com/api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
         path,
@@ -75,21 +76,29 @@ export default {
       } = opts;
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         auth: {
           username: `${this.$auth.api_key}`,
           password: "",
         },
       });
     },
-    async createDiscount(args = {}) {
+    getDiscount({
+      id, ...args
+    }) {
+      return this._makeRequest({
+        path: `/discounts/${id}`,
+        ...args,
+      });
+    },
+    createDiscount(args = {}) {
       return this._makeRequest({
         method: "post",
         path: "/discounts",
         ...args,
       });
     },
-    async updateDiscount({
+    updateDiscount({
       id, ...args
     }) {
       return this._makeRequest({
@@ -98,7 +107,7 @@ export default {
         ...args,
       });
     },
-    async deleteDiscount({
+    deleteDiscount({
       id, ...args
     }) {
       return this._makeRequest({
@@ -107,15 +116,9 @@ export default {
         ...args,
       });
     },
-    async listDiscounts(args = {}) {
+    listDiscounts(args = {}) {
       return this._makeRequest({
         path: "/discounts",
-        ...args,
-      });
-    },
-    async listProducts(args = {}) {
-      return this._makeRequest({
-        path: "/products",
         ...args,
       });
     },
