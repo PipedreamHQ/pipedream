@@ -1,34 +1,53 @@
-import helpspot from "../../helpspot.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
+import common from "../common/request-base.mjs";
 
 export default {
+  ...common,
   key: "helpspot-update-request",
   name: "Update Request",
-  description: "Updates an existing user request. [See the documentation](https://support.helpspot.com/index.php?pg=kb.page&id=163)",
-  version: "0.0.{{ts}}",
+  description: "Updates an existing user request. [See the documentation](https://support.helpspot.com/index.php?pg=kb.page&id=164#private.request.update)",
+  version: "0.0.1",
   type: "action",
   props: {
-    helpspot,
-    xRequestId: {
+    ...common.props,
+    xRequest: {
       propDefinition: [
-        helpspot,
-        "xRequestId",
-      ],
-    },
-    note: {
-      propDefinition: [
-        helpspot,
-        "note",
+        common.props.helpspot,
+        "xRequest",
       ],
     },
   },
-  async run({ $ }) {
-    const params = {
-      xRequestId: this.xRequestId,
-      note: this.note,
-    };
-    const response = await this.helpspot.updateRequest(params);
-    $.export("$summary", `Successfully updated request with ID ${this.xRequestId}`);
-    return response;
+  methods: {
+    getValidation() {
+      return true;
+    },
+    getFunction() {
+      return this.helpspot.updateRequest;
+    },
+    getData() {
+      return {
+        xRequest: this.xRequest,
+        tNote: this.tNote,
+        xCategory: this.xCategory,
+        fNoteType: this.fNoteType && parseInt(this.fNoteType),
+        fNoteIsHTML: this.fNoteIsHTML && parseInt(this.fNoteIsHTML),
+        sTitle: this.sTitle,
+        xStatus: this.xStatus,
+        sUserId: this.sUserId,
+        sFirstName: this.sFirstName,
+        sLastName: this.sLastName,
+        sEmail: this.sEmail,
+        sPhone: this.sPhone,
+        fUrgent: +this.fUrgent,
+        fOpenedVia: this.fOpenedVia,
+        email_from: this.emailFrom,
+        email_cc: parseObject(this.emailCC)?.join(),
+        email_bcc: parseObject(this.emailBCC)?.join(),
+        email_staff: parseObject(this.emailStaff)?.join(),
+      };
+    },
+    getSummary() {
+      return `Successfully updated request with ID ${this.xRequest}`;
+    },
   },
 };

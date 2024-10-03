@@ -1,65 +1,37 @@
-import helpspot from "../../helpspot.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "helpspot-new-request",
   name: "New Request Created",
-  description: "Emit new event when a new request is created. [See the documentation](https://support.helpspot.com/index.php?pg=kb.page&id=163)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new request is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    helpspot,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-  },
   methods: {
-    _getLastRequestId() {
-      return this.db.get("lastRequestId") || null;
+    ...common.methods,
+    getSummary({ xRequest }) {
+      return `New Request: ${xRequest}`;
     },
-    _setLastRequestId(id) {
-      this.db.set("lastRequestId", id);
-    },
-    async emitNewRequests() {
-      const lastRequestId = this._getLastRequestId();
-      const searchQuery = lastRequestId
-        ? `xRequest>${lastRequestId}`
-        : "Date_Created:[* TO NOW]";
+    async getItems(maxResults, lastDate) {
+      const responseArray = [];
 
-      const newRequests = await this.helpspot.searchRequests({
-        searchQuery,
+      const response = this.helpspot.paginate({
+        fn: this.helpspot.listRequests,
+        field: "request",
+        params: {
+          afterDate: lastDate,
+        },
+        maxResults,
       });
 
-      for (const request of newRequests) {
-        this.$emit(request, {
-          id: request.xRequest,
-          summary: `New Request: ${request.xRequest}`,
-          ts: Date.parse(request.dtGMTOpened),
-        });
+      for await (const item of response) {
+        item.lastDate = Date.parse(item.dtGMTOpened) / 100;
+        responseArray.push(item);
       }
-
-      if (newRequests.length) {
-        this._setLastRequestId(newRequests[newRequests.length - 1].xRequest);
-      }
+      return responseArray;
     },
   },
-  hooks: {
-    async deploy() {
-      await this.emitNewRequests();
-    },
-    async activate() {
-      await this.emitNewRequests();
-    },
-    async deactivate() {
-      // Clean up any resources if needed
-    },
-  },
-  async run() {
-    await this.emitNewRequests();
-  },
+  sampleEmit,
 };

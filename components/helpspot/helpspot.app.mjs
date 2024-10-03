@@ -1,133 +1,224 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "helpspot",
   propDefinitions: {
-    searchQuery: {
+    xCategory: {
       type: "string",
-      label: "Search Query",
-      description: "The search query to search for requests",
+      label: "Category",
+      description: "The category id of the request.",
+      async options({ page }) {
+        const { category } = await this.listCategories({
+          params: {
+            page,
+          },
+        });
+
+        return Object.entries(category).map(([
+          , {
+            xCategory: value, sCategory: label,
+          },
+        ]) => ({
+          label,
+          value,
+        }));
+      },
     },
-    requestId: {
+    emailFrom: {
       type: "string",
-      label: "Request ID",
-      description: "The ID of the request to update",
+      label: "Send Email From",
+      description: "The ID of the mailbox to send emails from",
+      async options({ page }) {
+        const { mailbox } = await this.listMailboxes({
+          params: {
+            page,
+          },
+        });
+
+        return mailbox.map(({
+          xMailbox: value, sReplyName, sReplyEmail,
+        }) => ({
+          label: `${sReplyName} - ${sReplyEmail}`,
+          value,
+        }));
+      },
     },
-    xRequestId: {
-      type: "string",
-      label: "XRequest ID",
-      description: "The XRequest ID needed to identify the specific request that needs to be updated",
+    emailStaff: {
+      type: "string[]",
+      label: "Email Staff",
+      description: "List of staff to email",
+      async options({ page }) {
+        const { person } = await this.listActiveStaff({
+          params: {
+            page,
+          },
+        });
+
+        return person.map(({
+          xPerson: value, sFname, sLname, sEmail,
+        }) => ({
+          label: `${sFname} ${sLname} - ${sEmail}`,
+          value,
+        }));
+      },
     },
-    firstName: {
+    xStatus: {
       type: "string",
-      label: "First Name",
-      description: "The first name of the user. Required if no other identification details are provided",
-      optional: true,
+      label: "Status",
+      description: "Select a status of the request",
+      async options({ page }) {
+        const { status } = await this.listStatuses({
+          params: {
+            page,
+          },
+        });
+
+        return status.map(({
+          xStatus: value, sStatus: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    lastName: {
+    xRequest: {
       type: "string",
-      label: "Last Name",
-      description: "The last name of the user. Required if no other identification details are provided",
-      optional: true,
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The user ID of the user. Required if no other identification details are provided",
-      optional: true,
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email of the user. Required if no other identification details are provided",
-      optional: true,
-    },
-    phone: {
-      type: "string",
-      label: "Phone",
-      description: "The phone number of the user. Required if no other identification details are provided",
-      optional: true,
-    },
-    note: {
-      type: "string",
-      label: "Note",
-      description: "The note content for the request",
-    },
-    accessKey: {
-      type: "string",
-      label: "Access Key",
-      description: "The access key for the specific request",
+      label: "Request Id",
+      description: "The Id of the request",
+      async options({ page }) {
+        const { request } = await this.listRequests({
+          params: {
+            page,
+          },
+        });
+
+        return request.map(({
+          xRequest: value, sTitle: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://yourdomain.helpspot.com/api/index.php";
+      return `https://${this.$auth.subdomain}.helpspot.com/api/index.php`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_token}`,
+        "content-type": "multipart/form-data",
+      };
+    },
+    _makeRequest({
+      $ = this, methodParam, params, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
+        url: this._baseUrl(),
+        headers: this._headers(),
+        params: {
+          ...params,
+          method: methodParam,
+          output: "json",
         },
+        ...opts,
       });
     },
-    async createRequest({
-      note, firstName, lastName, userId, email, phone,
+    createRequest(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        methodParam: "private.request.create",
+        ...opts,
+      });
+    },
+    getRequest(opts = {}) {
+      return this._makeRequest({
+        methodParam: "private.request.get",
+        ...opts,
+      });
+    },
+    listCategories(opts = {}) {
+      return this._makeRequest({
+        methodParam: "private.request.getCategories",
+        ...opts,
+      });
+    },
+    listMailboxes(opts = {}) {
+      return this._makeRequest({
+        methodParam: "private.request.getMailboxes",
+        ...opts,
+      });
+    },
+    listActiveStaff(opts = {}) {
+      return this._makeRequest({
+        methodParam: "private.util.getActiveStaff",
+        ...opts,
+      });
+    },
+    listStatuses(opts = {}) {
+      return this._makeRequest({
+        methodParam: "private.request.getStatusTypes",
+        ...opts,
+      });
+    },
+    listRequests(opts = {}) {
+      return this._makeRequest({
+        methodParam: "private.request.search",
+        ...opts,
+      });
+    },
+    listChanges(opts = {}) {
+      return this._makeRequest({
+        methodParam: "private.request.getChanged",
+        ...opts,
+      });
+    },
+    multiGet(opts = {}) {
+      return this._makeRequest({
+        methodParam: "private.request.multiGet",
+        ...opts,
+      });
+    },
+    updateRequest(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        methodParam: "private.request.update",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, field, ...opts
     }) {
-      const params = new URLSearchParams();
-      params.append("method", "request.create");
-      params.append("tNote", note);
-      if (firstName) params.append("sFirstName", firstName);
-      if (lastName) params.append("sLastName", lastName);
-      if (userId) params.append("sUserId", userId);
-      if (email) params.append("sEmail", email);
-      if (phone) params.append("sPhone", phone);
-      return this._makeRequest({
-        method: "POST",
-        data: params,
-      });
-    },
-    async updateRequest({
-      xRequestId, note,
-    }) {
-      const params = new URLSearchParams();
-      params.append("method", "request.update");
-      params.append("accesskey", xRequestId);
-      params.append("tNote", note);
-      return this._makeRequest({
-        method: "POST",
-        data: params,
-      });
-    },
-    async searchRequests({ searchQuery }) {
-      const params = new URLSearchParams();
-      params.append("method", "request.search");
-      params.append("query", searchQuery);
-      return this._makeRequest({
-        method: "POST",
-        data: params,
-      });
-    },
-    async getRequest({ requestId }) {
-      const params = new URLSearchParams();
-      params.append("method", "request.get");
-      params.append("accesskey", requestId);
-      return this._makeRequest({
-        method: "GET",
-        params,
-      });
-    },
-    async emitNewRequest() {
-      // Implementation to poll for new requests or subscribe to webhooks if supported.
-    },
-    async emitUpdatedRequest({ requestId }) {
-      // Implementation to poll for updated requests or subscribe to webhooks if supported.
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.length = LIMIT;
+        params.start = LIMIT * page++;
+        const response = await fn({
+          params,
+          ...opts,
+        });
+
+        for (const d of response[field]) {
+          yield await this.getRequest({
+            params: {
+              xRequest: d.xRequest || d,
+            },
+          });
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = response[field].length;
+
+      } while (hasMore);
     },
   },
 };
