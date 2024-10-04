@@ -2621,7 +2621,10 @@ importers:
       '@pipedream/platform': 1.6.2
 
   components/docnify:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/docraptor:
     specifiers: {}
