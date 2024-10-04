@@ -76,4 +76,27 @@ export default {
     props.recordData.description = description;
     return {};
   },
+  methods: {
+    async formatRecordData() {
+      const recordData = this.recordData;
+      const { columns } = await this.app.listColumns({
+        endpoint: this.endpoint,
+        database: this.database,
+        branch: this.branch,
+        table: this.table,
+      });
+      if (!columns?.length) {
+        return this.recordData;
+      }
+      for (const column of columns) {
+        if (recordData[column.name] && (column.type === "int" || column.type === "float")) {
+          recordData[column.name] = +recordData[column.name];
+        }
+        if (recordData[column.name] && column.type === "bool") {
+          recordData[column.name] = !(recordData[column.name] === "false" || recordData[column.name === "0"]);
+        }
+      }
+      return recordData;
+    },
+  },
 };

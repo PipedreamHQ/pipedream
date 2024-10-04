@@ -36,7 +36,7 @@ export default {
       branch: this.branch,
       table: this.table,
       recordId: this.recordId,
-      data: this.recordData,
+      data: await this.formatRecordData(),
     });
     $.export("$summary", `Successfully updated/created Record with ID: '${response.id}'`);
     return response;

@@ -23,7 +23,7 @@ export default {
       database: this.database,
       branch: this.branch,
       table: this.table,
-      data: this.recordData,
+      data: await this.formatRecordData(),
     });
     $.export("$summary", `Successfully created Record with ID: '${response.id}'`);
     return response;
