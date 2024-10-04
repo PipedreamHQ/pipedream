@@ -1348,6 +1348,9 @@ importers:
   components/burst_sms:
     specifiers: {}
 
+  components/burstyai:
+    specifiers: {}
+
   components/businesslogic:
     specifiers:
       '@pipedream/platform': ^1.4.1
