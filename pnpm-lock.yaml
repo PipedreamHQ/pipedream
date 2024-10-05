@@ -1777,6 +1777,9 @@ importers:
   components/clientify:
     specifiers: {}
 
+  components/cliento:
+    specifiers: {}
+
   components/clinchpad:
     specifiers:
       '@pipedream/platform': ^1.2.1
