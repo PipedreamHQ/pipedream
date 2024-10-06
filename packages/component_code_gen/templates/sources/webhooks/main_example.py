@@ -1,8 +1,8 @@
-main_example = """## Example component
+main_example = """<Example>
 
-Here's an example component:
+Here's an example webhook source that emits an event when a notification is received from GitHub:
 
-```
+```javascript
 import github from "../../github.app.mjs"
 import crypto from "crypto"
 import { axios } from "@pipedream/platform"
@@ -66,4 +66,5 @@ export default {
     })
   },
 };
-```"""
+```
+</Example>"""

@@ -3,7 +3,6 @@ from templates.sources.polling.additional_rules import additional_rules
 from templates.sources.polling.hooks import hooks
 from templates.sources.polling.introduction import introduction
 from templates.sources.polling.main_example import main_example
-from templates.common.app_prop import app_prop
 from templates.common.auth import auth
 from templates.common.common_files import common_files
 from templates.common.component_metadata import source_metadata
@@ -14,7 +13,7 @@ from templates.common.async_options import async_options
 from templates.common.typescript_definitions import typescript_definitions
 from templates.common.end import end
 
-checks = [app_prop, auth, props, hooks, db, platform_axios, async_options,
+checks = [auth, props, hooks, db, platform_axios, async_options,
           source_metadata, rules, additional_rules, typescript_definitions, end]
 
 always_include = [introduction, typescript_definitions,
@@ -31,8 +30,6 @@ def system_instructions(auth_details="", parsed_common_files=""):
 {additional_rules}
 
 {main_example}
-
-{app_prop}
 
 {auth}
 

@@ -1,8 +1,8 @@
-app_prop = """## App props
+app_prop = """<AppProp>
 
 The props object must contain a `props` property, which defines a single prop of type "app":
 
-```
+```javascript
 export default {
   props: {
     the_app_name: {
@@ -14,4 +14,6 @@ export default {
 }
 ```
 
-This lets the user connect their app account to the step, authorizing requests to the app API."""
+This lets the user connect their app account to the step, authorizing requests to the app API.
+
+</AppProp>"""

@@ -1,8 +1,10 @@
-platform_axios = """## Pipedream Platform Axios
+platform_axios = """<PipedreamPlatformAxios>
 
 If you need to make an HTTP request, use the `axios` constructor from the `@pipedream/platform` package, and include the following import at the top of your Node.js code, above the component, in this exact format:
 
+```javascript
 import { axios } from "@pipedream/platform";
+```
 
 You MUST use that import format when importing axios. Do NOT attempt to import any other package like `import axios from "@pipedream/platform/axios"`.
 
@@ -13,7 +15,7 @@ The `axios` constructor takes two arguments:
 
 For example:
 
-```
+```javascript
 import { axios } from "@pipedream/platform";
 
 // Note that we do not export a data property and return the response directly — see below
@@ -23,6 +25,7 @@ const models = await axios($, {
     Authorization: `Bearer ${this.openai.$auth.api_key}`,
   },
 })
+```
 
 ### axios responses
 
@@ -32,7 +35,7 @@ Ignore everything you know about responses from `axios` requests. `@pipedream/pl
 
 For example, assume you have the following methods defined:
 
-```
+```javascript
 _baseUrl() {
   return "https://app.saleslens.io/api";
 },
@@ -66,16 +69,16 @@ async getCategories() {
 },
 ```
 
-You should call the getEmployees and getCategories like this:
+You should call the `getEmployees` and `getCategories` method like this:
 
-```
+```javascript
 const employees = await this.getEmployees();
 const categories = await this.getCategories();
 ```
 
 NOT this:
 
-```
+```javascript
 // data is undefined here
 const { data } = await this.getEmployees();
 const { data } = await this.getCategories();
@@ -88,4 +91,5 @@ const { data } = await this.getCategories();
 ```
 
 Do not destructure any properties from the response. The response is returned directly, not in a `data`, `items`, or any other property.
+</PipedreamPlatformAxios>
 """

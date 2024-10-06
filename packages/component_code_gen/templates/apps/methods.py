@@ -1,10 +1,14 @@
-methods = """## Methods
+methods = """<Methods>
 
-The `methods` property contains helper methods. These methods can be called by other files.
+The `methods` property contains helper methods that compnents can use. These methods can be called by components that include the app file.
 
-A `_baseUrl` method is always required. It should return the base URL endpoint for the API.
+### _baseUrl method
 
-A `async _makeRequest` method is always required. It contains the code that makes the API request. It takes one argument, a single object named `opts`. 
+Always include a `_baseUrl` method. It should return the base URL endpoint for the API, defined by the OpenAPI spec or the API documentation.
+
+### _makeRequest method
+
+Always include an `async _makeRequest` method. It contains the code that makes the API request. It takes one argument, a single object named `opts`. 
 
 `opts` is an object that contains the parameters of the API request. When calling a component method with multiple parameters, you should pass them as a single object, using the Javascript spread syntax and destructuring when able to. 
 
@@ -32,7 +36,7 @@ The axios request uses the authentication method defined by the app. Different a
 
 An example `_makeRequest` method is shown below. It is a simple GET request that returns the data from the response.
 
-```
+```javascript
 async _makeRequest(opts = {}) {
   const { $ = this, method = "GET", path = "/", headers, ...otherOpts } = opts;
   return axios($, {
@@ -48,7 +52,7 @@ async _makeRequest(opts = {}) {
 
 Auxiliary methods, usually for CRUD operations call `_makeRequest` with the appropriate parameters. Please add a few methods for common operations, e.g. get and list. You can also add other methods that you think are useful. Similar to the `_makeRequest` method, these auxiliary methods should have only one parameter, an object, `opts`. It should always destructure `...otherOpts`. Be sure to always add this parameter. `return` directly when calling the `_makeRequest` method. Here's an example:
 
-```
+```javascript
 async listObjects(opts = {}) {
   return this._makeRequest({
     path: "/objects",
@@ -70,4 +74,6 @@ The method must define an empty array and call the listing method with the param
 
 If we find more data, the method should call itself with the listing method and the parameters for fetching the next set of data. 
 
-If we don't find more data, you should return the array of results."""
+If we don't find more data, you should return the array of results.
+
+</Methods>"""

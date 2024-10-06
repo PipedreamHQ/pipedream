@@ -1,4 +1,5 @@
-main_example = """## Example app file for Raindrop
+main_example = """<Examples>
+<Raindrop>
 
 Here's an example Pipedream app for Raindrop:
 
@@ -87,15 +88,17 @@ export default {
   },
 };
 ```
+</Raindrop>
+<GeneralExample>
+App files contain a `propDefinitions` property, which contains the definitions for the props of the app.
 
-This object contains a `propDefinitions` property, which contains the definitions for the props of the app.
-
-The propDefinitions object contains two props: collectionId and raindropId. The collectionId prop is a string prop. The raindropId prop is also a string prop. The propDefinitions object also contains an `options` method. The `options` method is an optional method that can be defined on a prop. It is used to dynamically generate the options for a prop and can return a static array of options or a Promise that resolves to an array of options.
+The `propDefinitions` object contains two props: `collectionId` and `raindropId`. The `collectionId` prop is a string prop. The `raindropId` prop is also a string prop. The `propDefinitions` object also contains an `options` method. The `options` method is an optional method that can be defined on a prop. It is used to dynamically generate the options for a prop and can return a static array of options or a Promise that resolves to an array of options.
 
 This object contains a `props` property, which defines a single prop of type "app":
 
 ```
 import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "the_app_name",
@@ -141,4 +144,7 @@ export default {
     },
   },
 }
-```"""
+```
+</GeneralExample>
+</Examples>
+"""

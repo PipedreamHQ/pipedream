@@ -26,7 +26,7 @@ export default {
 
 
 # ---------------------------- component metadata ---------------------------- #
-component_metadata = """## Component Metadata
+component_metadata = """<ComponentMetadata>
 
 Registry components require a unique key and version, and a friendly name and description, e.g.
 
@@ -44,7 +44,9 @@ Always add a version of "0.0.{{ts}}".
 
 Always put {component_type}.
 
-You MUST add this metadata to the component code you generate."""
+You MUST add this metadata to the component code you generate.
+
+</ComponentMetadata>"""
 
 
 # ---------------------------- action metadata ---------------------------- #
