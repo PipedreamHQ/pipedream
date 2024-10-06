@@ -22,24 +22,42 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, path, ...otherOpts
+      $ = this, baseUrl, path, ...otherOpts
     }) {
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: baseUrl + path,
         headers: this._headers(),
       });
     },
     prepareSmartContractTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
+        baseUrl: this._baseUrl(),
         path: "/api/preparations/transactions/smart-contracts/write",
+        ...opts,
+      });
+    },
+    readFromSmartContract(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        baseUrl: this._baseUrl(),
+        path: "/api/smart-contracts/read",
+        ...opts,
+      });
+    },
+    signTransaction(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        baseUrl: "https://api.sandbox.overledger.io",
+        path: "/api/transaction-signing-sandbox",
         ...opts,
       });
     },
     executeSignedTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
+        baseUrl: this._baseUrl(),
         path: "/api/executions/transactions",
         ...opts,
       });
@@ -49,6 +67,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
+        baseUrl: this._baseUrl(),
         path: `/api/webhooks/${path}`,
         ...opts,
       });
@@ -58,6 +77,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "DELETE",
+        baseUrl: this._baseUrl(),
         path: `/api/webhooks/${path}/${webhookId}`,
       });
     },
