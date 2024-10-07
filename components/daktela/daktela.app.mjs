@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,8 +9,13 @@ export default {
       type: "string",
       label: "User",
       description: "The user associated with the account",
-      async options() {
-        const users = await this.getUsers();
+      async options({ page }) {
+        const users = await this.getUsers({
+          params: {
+            take: LIMIT,
+            skip: LIMIT * page,
+          },
+        });
         return users.map((user) => ({
           label: user.name,
           value: user.id,
@@ -20,31 +26,26 @@ export default {
       type: "integer",
       label: "SLA",
       description: "The SLA ID for the account",
-      optional: true,
     },
     survey: {
       type: "boolean",
       label: "Survey",
       description: "Indicate if a survey should be sent",
-      optional: true,
     },
     name: {
       type: "string",
       label: "Name",
       description: "Unique identification for the account",
-      optional: true,
     },
     title: {
       type: "string",
       label: "Title",
       description: "Display name for the account",
-      optional: true,
     },
     description: {
       type: "string",
       label: "Description",
       description: "Optional description for the account",
-      optional: true,
     },
     receiverNumber: {
       type: "string",
@@ -60,7 +61,6 @@ export default {
       type: "string",
       label: "Sender's Name",
       description: "Optional sender's name for the SMS",
-      optional: true,
     },
     phoneNumber: {
       type: "string",
@@ -69,60 +69,60 @@ export default {
     },
     callerNumber: {
       type: "string",
-      label: "Caller’s Number",
+      label: "Caller's Number",
       description: "The number being used to make the call",
-      optional: true,
     },
     callingTime: {
       type: "string",
       label: "Calling Time",
       description: "Time to initiate the call",
-      optional: true,
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://customer.daktela.com/api/v6";
+    _baseUrl(version = "v5.0") {
+      return `${this.$auth.instance_url}/api/${version}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.access_token}`,
-        },
-      });
+    _params(params = {}) {
+      return {
+        ...params,
+        "Authorization": `Bearer ${this.$auth.access_token}`,
+      };
     },
-    async createAccount(params) {
+    _makeRequest({
+      $ = this, path, version, params, ...opts
+    }) {
+      const config = {
+        url: this._baseUrl(version) + path,
+        params: this._params(params),
+        ...opts,
+      };
+      console.log("config: ", config);
+      return axios($, config);
+    },
+    createAccount(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/accounts",
-        data: params,
+        path: "/accounts.json",
+        ...opts,
       });
     },
-    async sendSms(params) {
+    sendSms(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/sms_activities",
-        data: params,
+        ...opts,
       });
     },
-    async initiateCall(params) {
+    initiateCall(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/call_activities",
-        data: params,
+        ...opts,
       });
     },
-    async getUsers(opts = {}) {
+    getUsers(opts = {}) {
       return this._makeRequest({
-        path: "/users",
+        path: "/users.json",
         ...opts,
       });
     },

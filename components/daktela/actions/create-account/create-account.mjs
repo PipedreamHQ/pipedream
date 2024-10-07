@@ -1,5 +1,4 @@
 import daktela from "../../daktela.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "daktela-create-account",
@@ -53,16 +52,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      user: this.user,
-      sla: this.sla,
-      survey: this.survey,
-      name: this.name,
-      title: this.title,
-      description: this.description,
-    };
-
-    const response = await this.daktela.createAccount(params);
+    const response = await this.daktela.createAccount({
+      $,
+      data: {
+        user: this.user,
+        sla: this.sla,
+        survey: this.survey,
+        name: this.name,
+        title: this.title,
+        description: this.description,
+      },
+    });
 
     $.export("$summary", `Successfully created account: ${response.title}`);
     return response;
