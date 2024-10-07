@@ -10341,7 +10341,10 @@ importers:
       twilio: 3.84.1
 
   components/twin:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/twist:
     specifiers:
