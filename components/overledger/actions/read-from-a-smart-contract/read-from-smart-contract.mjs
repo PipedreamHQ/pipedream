@@ -59,7 +59,7 @@ export default {
         },
         functionName: this.functionName,
         smartContractId: this.smartContractId,
-        inputParameters: this.inputParameters && parseObject(this.inputParameters),
+        inputParameters: this.inputParameters,
       },
     });
 
