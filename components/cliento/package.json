@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cliento",
+  "version": "0.0.1",
+  "description": "Pipedream Cliento Components",
+  "main": "cliento.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cliento"
+  ],
+  "homepage": "https://pipedream.com/apps/cliento",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
