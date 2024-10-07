@@ -63,7 +63,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully read from contract: ${this.contractAddress}`);
+    $.export("$summary", `Successfully read from contract: ${this.smartContractId}`);
     return response;
   },
 };
