@@ -8,7 +8,8 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event type",
   type: "source",
-  version: "1.0.5",
+  version: "1.0.7",
+  dedupe: "unique",
   props: {
     docsInfo: {
       type: "alert",
@@ -21,9 +22,23 @@ export default {
       description: "The event types to be emitted",
       type: "string[]",
       options: constants.REPOSITORY_WEBHOOK_EVENTS,
+      reloadProps: true,
     },
   },
-  dedupe: "unique",
+  async additionalProps() {
+    await this.requireAdminPermission();
+    const props = {};
+    if (this.events?.length && this.events.includes("pull_request_review")) {
+      props.reviewState = {
+        type: "string",
+        label: "Review State",
+        description: "Filter `pull_request_review` events by review state",
+        options: constants.PULL_REQUEST_REVIEW_STATES,
+        optional: true,
+      };
+    }
+    return props;
+  },
   methods: {
     ...common.methods,
     getWebhookEvents() {
@@ -39,6 +54,10 @@ export default {
     // skip initial response from Github
     if (body?.zen) {
       console.log(body.zen);
+      return;
+    }
+
+    if (headers["x-github-event"] === "pull_request_review" && this.reviewState && body.review.state !== this.reviewState) {
       return;
     }
 

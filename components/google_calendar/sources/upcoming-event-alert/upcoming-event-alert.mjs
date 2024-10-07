@@ -8,7 +8,7 @@ export default {
   description: `Emit new event based on a time interval before an upcoming event in the calendar. This source uses Pipedream's Task Scheduler.
     [See the documentation](https://pipedream.com/docs/examples/waiting-to-execute-next-step-of-workflow/#step-1-create-a-task-scheduler-event-source) 
     for more information and instructions for connecting your Pipedream account.`,
-  version: "0.0.8",
+  version: "0.0.9",
   type: "source",
   props: {
     pipedream: taskScheduler.props.pipedream,
@@ -91,6 +91,7 @@ export default {
     async getCalendarEvents() {
       const calendarEvents = [];
       const params = {
+        returnOnlyData: false,
         calendarId: this.calendarId,
         eventTypes: this.eventTypes,
       };
