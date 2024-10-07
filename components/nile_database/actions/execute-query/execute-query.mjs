@@ -4,7 +4,7 @@ export default {
   name: "Execute Query",
   key: "nile_database-execute-query",
   description: "Execute a custom PostgreSQL query. See [our docs](https://pipedream.com/docs/databases/working-with-sql) to learn more about working with SQL in Pipedream.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     nile,

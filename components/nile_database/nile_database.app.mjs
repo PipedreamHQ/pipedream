@@ -1,84 +1,9 @@
-import { axios } from "@pipedream/platform";
 import pg from "pg";
 
 export default {
   type: "app",
   app: "nile_database",
-  propDefinitions: {
-    workspace: {
-      type: "string",
-      label: "Workspace",
-      description: "Your workspace slug",
-    },
-  },
   methods: {
-    _baseUrl(workspace) {
-      return `https://api.thenile.dev/workspaces/${workspace}/databases/${this.$auth.database}`;
-    },
-    async _getHeaders($, useToken, workspace, email, password) {
-      const headers = {
-        "Content-Type": "application/json",
-      };
-      if (useToken) {
-        headers.Authorization = `Bearer ${await this.getToken({
-          $,
-          workspace,
-          email,
-          password,
-        })}`;
-      }
-      return headers;
-    },
-    async getToken({
-      $, workspace, email, password,
-    }) {
-      const { token: { jwt } } = await axios($, {
-        method: "POST",
-        url: `${this._baseUrl(workspace)}/users/login`,
-        data: {
-          email,
-          password,
-        },
-      });
-      return jwt;
-    },
-    async _makeRequest({
-      $ = this,
-      path,
-      workspace,
-      email,
-      password,
-      useToken = false,
-      ...args
-    }) {
-      return axios($, {
-        url: `${this._baseUrl(workspace)}${path}`,
-        headers: await this._getHeaders($, useToken, workspace, email, password),
-        ...args,
-      });
-    },
-    listUsers({
-      workspace, email, password, ...args
-    }) {
-      return this._makeRequest({
-        path: "/users",
-        workspace,
-        useToken: true,
-        email,
-        password,
-        ...args,
-      });
-    },
-    createUser({
-      workspace, ...args
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/users",
-        workspace,
-        ...args,
-      });
-    },
     getClientConfiguration() {
       const {
         username,
