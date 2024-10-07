@@ -7,9 +7,13 @@ import {
   ClientCredentials,
 } from "simple-oauth2";
 
-export type ProjectKeys = {
-  publicKey: string;
-  secretKey: string;
+export type Project = {
+  id: string;
+};
+
+export type ProjectEnvironment = {
+  project: Project;
+  environment: string;
 };
 
 export type PipedreamOAuthClient = {
@@ -35,6 +39,11 @@ export type CreateServerClientOpts = {
   secretKey?: string;
 
   /**
+   * The environment in which the server client is running (e.g., "production", "development").
+   */
+  environment?: string;
+
+  /**
    * @deprecated Use the `oauth` object instead.
    * The client ID of your workspace's OAuth application.
    */
@@ -47,11 +56,6 @@ export type CreateServerClientOpts = {
   oauthClientSecret?: string;
 
   /**
-   * The project object, containing publicKey and secretKey.
-   */
-  project?: ProjectKeys;
-
-  /**
    * The OAuth object, containing client ID and client secret.
    */
   oauth?: PipedreamOAuthClient;
@@ -61,6 +65,15 @@ export type CreateServerClientOpts = {
    */
   apiHost?: string;
 };
+
+/**
+ * Different types of ways customers can authorize requests to HTTP endpoints
+ */
+export enum HTTPAuthType {
+  None = "none",
+  StaticBearer = "static-bearer",
+  OAuth = "oauth"
+}
 
 /**
  * Options for creating a Connect token.
@@ -136,7 +149,7 @@ export type ConnectParams = {
 /**
  * The authentication type for the app.
  */
-export enum AuthType {
+export enum AppAuthType {
   OAuth = "oauth",
   Keys = "keys",
   None = "none",
@@ -164,7 +177,7 @@ export type AppResponse = {
   /**
    * The authentication type used by the app.
    */
-  auth_type: AuthType;
+  auth_type: AppAuthType;
 
   /**
    * The URL to the app's logo.
@@ -322,6 +335,7 @@ export function createClient(opts: CreateServerClientOpts) {
 export class ServerClient {
   private secretKey?: string;
   private publicKey?: string;
+  private environment: string;
   private oauthClient?: ClientCredentials;
   private oauthToken?: AccessToken;
   private readonly baseURL: string;
@@ -336,12 +350,9 @@ export class ServerClient {
     opts: CreateServerClientOpts,
     oauthClient?: ClientCredentials,
   ) {
+    this.environment = opts.environment ?? "production";
     this.secretKey = opts.secretKey;
     this.publicKey = opts.publicKey;
-    if (opts.project) {
-      this.publicKey = opts.project.publicKey;
-      this.secretKey = opts.project.secretKey;
-    }
 
     const { apiHost = "api.pipedream.com" } = opts;
     this.baseURL = `https://${apiHost}/v1`;
@@ -460,8 +471,9 @@ export class ServerClient {
       }
     }
 
-    const headers = {
+    const headers: Record<string, string> = {
       ...customHeaders,
+      "X-PD-Environment": this.environment,
     };
 
     let processedBody: string | Buffer | URLSearchParams | FormData | null = null;
@@ -571,7 +583,8 @@ export class ServerClient {
   }
 
   /**
-   * Creates a new connect token.
+   * Creates a new Pipedream Connect token.
+   * See https://pipedream.com/docs/connect/quickstart#connect-to-the-pipedream-api-from-your-server-and-create-a-token
    *
    * @param opts - The options for creating the connect token.
    * @returns A promise resolving to the connect token response.
@@ -782,20 +795,35 @@ export class ServerClient {
    * console.log(response);
    * ```
    */
-  public async invokeWorkflow(url: string, opts: RequestOptions = {}): Promise<unknown> {
+  public async invokeWorkflow(url: string, opts: RequestOptions = {}, authType: HTTPAuthType = HTTPAuthType.None): Promise<unknown> {
     const {
       body,
       headers = {},
     } = opts;
 
+    let authHeader: string | undefined;
+    switch (authType) {
+    // It's expected that users will pass their own Authorization header in the static bearer case
+    case HTTPAuthType.StaticBearer:
+      authHeader = headers["Authorization"];
+      break;
+    case HTTPAuthType.OAuth:
+      authHeader = await this.oauthAuthorizationHeader();
+      break;
+    default:
+      break;
+    }
+
     return this.makeRequest("", {
       ...opts,
       baseURL: url,
       method: opts.method || "POST", // Default to POST if not specified
-      headers: {
-        ...headers,
-        "Authorization": await this.oauthAuthorizationHeader(),
-      },
+      headers: authHeader
+        ? {
+          ...headers,
+          "Authorization": authHeader,
+        }
+        : headers,
       body,
     });
   }
@@ -850,7 +878,6 @@ export class ServerClient {
       headers: {
         ...headers,
         "X-PD-External-User-ID": externalUserId,
-        "X-PD-Project-Public-Key": this.publicKey,
       },
     });
   }

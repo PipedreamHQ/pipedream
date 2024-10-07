@@ -21,18 +21,6 @@ describe("ServerClient", () => {
       const client = createClient(params);
       expect(client).toBeInstanceOf(ServerClient);
     });
-
-    it("should mock the createClient method with a project object and return a ServerClient instance", () => {
-      const params = {
-        project: {
-          publicKey: "test-public-key",
-          secretKey: "test-secret",
-        },
-      };
-
-      const client = createClient(params);
-      expect(client).toBeInstanceOf(ServerClient);
-    });
   });
 
   describe("makeRequest", () => {
@@ -576,7 +564,7 @@ describe("ServerClient", () => {
   });
 
   describe("invokeWorkflow", () => {
-    it("should invoke a workflow with provided URL and body", async () => {
+    it("should invoke a workflow with provided URL and body, with no auth type", async () => {
       // Create a mock oauthClient
       const getTokenMock = jest.fn().mockResolvedValue({
         token: {
@@ -592,10 +580,8 @@ describe("ServerClient", () => {
       // Inject the mock oauthClient into the ServerClient instance
       const client = new ServerClient(
         {
-          project: {
-            publicKey: "test-public-key",
-            secretKey: "test",
-          },
+          publicKey: "test-public-key",
+          secretKey: "test",
           oauth: {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
@@ -632,7 +618,8 @@ describe("ServerClient", () => {
             foo: "bar",
           }),
           headers: expect.objectContaining({
-            Authorization: "Bearer mocked-oauth-token",
+            "Content-Type": "application/json",
+            "X-PD-Environment": "production",
           }),
         }),
       );
@@ -667,10 +654,8 @@ describe("ServerClient", () => {
 
       const client = new ServerClient(
         {
-          project: {
-            publicKey: "test-public-key",
-            secretKey: "test",
-          },
+          publicKey: "test-public-key",
+          secretKey: "test",
           oauth: {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
@@ -738,10 +723,8 @@ describe("ServerClient", () => {
       } as unknown as ClientCredentials;
       client = new ServerClient(
         {
-          project: {
-            publicKey: "test-public-key",
-            secretKey: "test",
-          },
+          publicKey: "test-public-key",
+          secretKey: "test",
           oauth: {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
@@ -751,7 +734,7 @@ describe("ServerClient", () => {
       );
     });
 
-    it("should include externalUserId and publicKey headers", async () => {
+    it("should include externalUserId and environment headers", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
           result: "workflow-response",
@@ -778,7 +761,7 @@ describe("ServerClient", () => {
         expect.objectContaining({
           headers: expect.objectContaining({
             "X-PD-External-User-ID": "external-user-id",
-            "X-PD-Project-Public-Key": "test-public-key",
+            "X-PD-Environment": "production",
           }),
         }),
       );
@@ -790,18 +773,6 @@ describe("ServerClient", () => {
           foo: "bar",
         },
       })).rejects.toThrow("External user ID is required");
-    });
-
-    it("should throw error when publicKey is missing", async () => {
-      const clientWithoutPublicKey = new ServerClient({
-        secretKey: "test-secret-key",
-      });
-
-      await expect(clientWithoutPublicKey.invokeWorkflowForExternalUser("https://example.com/workflow", "external-user-id", {
-        body: {
-          foo: "bar",
-        },
-      })).rejects.toThrow("Project public key is required to map the external user ID to the correct project");
     });
   });
 

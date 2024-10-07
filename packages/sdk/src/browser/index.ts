@@ -20,19 +20,10 @@ type CreateBrowserClientOpts = {
 };
 
 /**
- * A unique identifier for an app.
+ * The name slug for an app, a unique, human-readable identifier like "github" or "google_sheets".
+ * Find this in the Authentication section for any app's page at https://pipedream.com/apps
  */
-type AppId = string;
-
-/**
- * Object representing an app to start connecting with.
- */
-type StartConnectApp = {
-  /**
-   * The unique identifier of the app.
-   */
-  id: AppId;
-};
+type AppNameSlug = string;
 
 /**
  * The result of a successful connection.
@@ -61,7 +52,7 @@ type StartConnectOpts = {
   /**
    * The app to connect to, either as an ID or an object containing the ID.
    */
-  app: AppId | StartConnectApp;
+  app: AppNameSlug;
 
   /**
    * The OAuth app ID to connect to.
