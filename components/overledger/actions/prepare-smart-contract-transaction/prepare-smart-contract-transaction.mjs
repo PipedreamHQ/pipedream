@@ -30,10 +30,10 @@ export default {
       description: "The name of the function to call on the smart contract.",
     },
     smartContractId: {
-      propDefinition: [
-        overledger,
-        "smartContractId",
-      ],
+      type: "string",
+      label: "Smart Contract ID",
+      description: "The ID/address of the smart contract to interact with.",
+
     },
     inputParameters: {
       type: "string[]",

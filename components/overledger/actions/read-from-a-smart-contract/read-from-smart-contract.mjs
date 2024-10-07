@@ -24,17 +24,21 @@ export default {
       label: "Function Name",
       description: "The name of the function to call on the smart contract.",
     },
-    inptParameters: {
+    inputParameters: {
       type: "string[]",
-      label: "Input Parameters",
-      description: "The input parameters for the smart contract function, in JSON format.",
+      label: "Input Parameters - Stringified Objects",
+      description: "The input parameters for the smart contract function, in JSON string format. Example: `['{\"type\":\"string\",\"value\":\"param1\"}', '{\"type\":\"uint256\",\"value\":\"param2\"}']`",
       optional: true,
     },
     smartContractId: {
-      propDefinition: [
-        overledger,
-        "smartContractId",
-      ],
+      type: "string",
+      label: "Smart Contract ID",
+      description: "The ID/address of the smart contract to interact with.",
+    },
+    outputParameters: {
+      type: "string[]",
+      label: "Output Parameters",
+      description: "The type of output parameter required e.g., address, string",
     },
   },
   async additionalProps() {
@@ -50,20 +54,28 @@ export default {
     return props;
   },
   async run({ $ }) {
-    const response = await this.overledger.readFromSmartContract({
-      $,
-      data: {
-        location: {
-          technology: this.locationTechnology,
-          network: this.locationNetwork,
-        },
-        functionName: this.functionName,
-        smartContractId: this.smartContractId,
-        inputParameters: this.inputParameters,
-      },
-    });
 
-    $.export("$summary", `Successfully read from contract: ${this.smartContractId}`);
-    return response;
+    const requestBody = {
+      location: {
+        technology: this.locationTechnology,
+        network: this.locationNetwork,
+      },
+      functionName: this.functionName,
+      inputParameters: parseObject(this.inputParameters),
+      smartContractId: this.smartContractId,
+      outputParameters: parseObject(this.outputParameters),
+    };
+
+    try {
+      // Make the API call to Overledger
+      const response = await this.overledger.readFromSmartContract({
+        $,
+        data: requestBody,
+      });
+      $.export("$summary", `Successfully read from contract: ${this.smartContractId}`);
+      return response;
+    } catch (error) {
+      throw new Error(`Failed to read from smart contract: ${error.message}`);
+    }
   },
 };
