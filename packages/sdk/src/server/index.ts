@@ -773,6 +773,7 @@ export class ServerClient {
    * @param opts.headers - The headers to include in the request. Note that the
    * Authorization header will always be set with an OAuth access token
    * retrieved by the client.
+   * @param authType - The type of authorization to use for the request.
    *
    * @returns A promise resolving to the response from the workflow.
    *
@@ -869,8 +870,8 @@ export class ServerClient {
       throw new Error("External user ID is required");
     }
 
-    if (!this.publicKey) {
-      throw new Error("Project public key is required to map the external user ID to the correct project");
+    if (!this.oauthClient) {
+      throw new Error("OAuth is required for invoking workflows for external users. Please pass credentials for a valid OAuth client");
     }
 
     return this.invokeWorkflow(url, {
@@ -879,6 +880,6 @@ export class ServerClient {
         ...headers,
         "X-PD-External-User-ID": externalUserId,
       },
-    });
+    }, HTTPAuthType.OAuth); // OAuth auth is required for invoking workflows for external users
   }
 }
