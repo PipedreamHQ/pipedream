@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nile_database",
+  "version": "0.0.1",
+  "description": "Pipedream Nile Database Components",
+  "main": "nile_database.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nile_database"
+  ],
+  "homepage": "https://pipedream.com/apps/nile_database",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
