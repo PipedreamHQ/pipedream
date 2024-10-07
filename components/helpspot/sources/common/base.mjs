@@ -34,7 +34,7 @@ export default {
       }
 
       for (const item of responseArray.reverse()) {
-        const ts = Date.parse(new Date());
+        const ts = item.lastDate;
 
         this.$emit(item, {
           id: `${item.xRequest}-${ts}`,
