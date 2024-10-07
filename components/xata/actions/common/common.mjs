@@ -38,6 +38,11 @@ export default {
       propDefinition: [
         app,
         "table",
+        (c) => ({
+          endpoint: c.endpoint,
+          database: c.database,
+          branch: c.branch,
+        }),
       ],
       reloadProps: true,
     },
@@ -53,24 +58,19 @@ export default {
     const description = "The keys and values of the data that will be recorded in the database.";
 
     if (endpoint && database && branch && table) {
-      try {
-        const { columns } = await this.app.listColumns({
-          endpoint,
-          database,
-          branch,
-          table,
-        });
-        if (columns?.length) {
-          let descriptionWithColumns = `${description} Available Columns:`;
-          for (const column of columns) {
-            descriptionWithColumns += ` \`${column.name}\``;
-          }
-          props.recordData.description = descriptionWithColumns;
-          return {};
+      const { columns } = await this.app.listColumns({
+        endpoint,
+        database,
+        branch,
+        table,
+      });
+      if (columns?.length) {
+        let descriptionWithColumns = `${description} Available Columns:`;
+        for (const column of columns) {
+          descriptionWithColumns += ` \`${column.name}\``;
         }
-      } catch (e) {
-        props.recordData.description = description;
-        // Columns not found. Occurs when the user hasn't finished entering the table name
+        props.recordData.description = descriptionWithColumns;
+        return {};
       }
     }
     props.recordData.description = description;
@@ -89,11 +89,17 @@ export default {
         return this.recordData;
       }
       for (const column of columns) {
-        if (recordData[column.name] && (column.type === "int" || column.type === "float")) {
+        if (!recordData[column.name] || typeof recordData[column.name] !== "string") {
+          continue;
+        }
+        if ((column.type === "int" || column.type === "float")) {
           recordData[column.name] = +recordData[column.name];
         }
-        if (recordData[column.name] && column.type === "bool") {
+        if (column.type === "bool") {
           recordData[column.name] = !(recordData[column.name] === "false" || recordData[column.name === "0"]);
+        }
+        if (column.type === "multiple" || column.type === "vector") {
+          recordData[column.name] = JSON.parse(recordData[column.name]);
         }
       }
       return recordData;

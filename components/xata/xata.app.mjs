@@ -27,6 +27,16 @@ export default {
       type: "string",
       label: "Table Name",
       description: "Name of the table",
+      async options({
+        endpoint, database, branch,
+      }) {
+        const { schema: { tables } } = await this.getBranchSchema({
+          endpoint,
+          database,
+          branch,
+        });
+        return tables?.map(({ name }) => name ) || [];
+      },
     },
     endpoint: {
       type: "string",
@@ -172,6 +182,14 @@ export default {
     }) {
       return this._makeRequest({
         url: `${endpoint}/db/${database}:${branch}/tables/${table}/columns`,
+        ...args,
+      });
+    },
+    getBranchSchema({
+      endpoint, database, branch, ...args
+    }) {
+      return this._makeRequest({
+        url: `${endpoint}/db/${database}:${branch}`,
         ...args,
       });
     },
