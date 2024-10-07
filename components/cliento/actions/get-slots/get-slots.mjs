@@ -3,36 +3,51 @@ import cliento from "../../cliento.app.mjs";
 export default {
   key: "cliento-get-slots",
   name: "Get Slots",
-  description: "Fetch available slots for the given service, resource and dates",
-  version: "0.0.{{ts}}",
+  description: "Fetch available slots for the given service, resource and dates. [See the documentation](https://developers.cliento.com/docs/rest-api#fetch-slots)",
+  version: "0.0.1",
   type: "action",
   props: {
     cliento,
     fromDate: {
-      ...cliento.propDefinitions.fromDate,
-      description: "The start date for the booking period (format: YYYY-MM-DD)",
+      propDefinition: [
+        cliento,
+        "fromDate",
+      ],
     },
     toDate: {
-      ...cliento.propDefinitions.toDate,
-      description: "The end date for the booking period (format: YYYY-MM-DD)",
+      propDefinition: [
+        cliento,
+        "toDate",
+      ],
     },
     resourceIds: {
-      ...cliento.propDefinitions.resourceIds,
-      description: "The IDs of the resources for the booking",
+      propDefinition: [
+        cliento,
+        "resourceIds",
+      ],
     },
     serviceIds: {
-      ...cliento.propDefinitions.serviceIds,
-      description: "The IDs of the services for the booking",
+      propDefinition: [
+        cliento,
+        "serviceIds",
+      ],
     },
   },
   async run({ $ }) {
-    const slots = await this.cliento.fetchSlots({
-      fromDate: this.fromDate,
-      toDate: this.toDate,
-      resourceIds: this.resourceIds,
-      serviceIds: this.serviceIds,
+    const response = await this.cliento.fetchSlots({
+      $,
+      params: {
+        fromDate: this.fromDate,
+        toDate: this.toDate,
+        resIds: this.resourceIds.join(),
+        srvIds: this.serviceIds.join(),
+      },
     });
-    $.export("$summary", `Successfully fetched ${slots.length} slots`);
-    return slots;
+    if (response?.length) {
+      $.export("$summary", `Successfully fetched ${response.length} slot${response.length === 1
+        ? ""
+        : "s"}`);
+    }
+    return response;
   },
 };

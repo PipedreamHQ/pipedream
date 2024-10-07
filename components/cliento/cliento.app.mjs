@@ -18,57 +18,65 @@ export default {
       type: "string[]",
       label: "Resource IDs",
       description: "The IDs of the resources for the booking",
+      async options() {
+        const { resources } = await this.fetchRefData();
+        return resources?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     serviceIds: {
       type: "string[]",
       label: "Service IDs",
       description: "The IDs of the services for the booking",
+      async options() {
+        const { services } = await this.fetchRefData();
+        return services?.map(({
+          serviceId: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.cliento.com";
+      return `https://cliento.com/api/v2/partner/cliento/${this.$auth.account_id}`;
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          Accept: "application/json",
         },
       });
     },
-    async fetchSettings() {
+    fetchSettings(opts = {}) {
       return this._makeRequest({
         path: "/settings/",
+        ...opts,
       });
     },
-    async fetchRefData() {
+    fetchRefData(opts = {}) {
       return this._makeRequest({
         path: "/ref-data/",
+        ...opts,
       });
     },
-    async fetchSlots({
-      fromDate, toDate, resourceIds, serviceIds,
-    }) {
-      const params = {
-        fromDate,
-        toDate,
-        resIds: resourceIds.join(","),
-        srvIds: serviceIds.join(","),
-      };
+    fetchSlots(opts = {}) {
       return this._makeRequest({
         path: "/resources/slots",
-        params,
+        ...opts,
       });
     },
   },
