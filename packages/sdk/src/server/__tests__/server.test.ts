@@ -651,7 +651,9 @@ describe("ServerClient", () => {
 
     beforeEach(() => {
       fetchMock.resetMocks();
-      // Create mock AccessToken objects
+      // These mocks are distinct from the ones in the outer beforeEach
+      // We need to test the behavior of the client when the OAuth token
+      // is expired or invalid
       const expiredTokenMock = {
         token: {
           access_token: "expired-oauth-token",
