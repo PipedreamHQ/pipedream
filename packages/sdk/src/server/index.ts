@@ -835,6 +835,7 @@ export class ServerClient {
    *       "Accept": "application/json",
    *     },
    *   },
+   *   "oauth",
    * );
    * console.log(response);
    * ```
