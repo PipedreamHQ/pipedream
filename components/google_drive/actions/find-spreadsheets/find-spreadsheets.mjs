@@ -6,7 +6,7 @@ export default {
   key: "google_drive-find-spreadsheets",
   name: "Find Spreadsheets",
   description: "Search for a specific spreadsheet by name. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.1.5",
+  version: "0.1.7",
   type: "action",
   props: {
     googleDrive,

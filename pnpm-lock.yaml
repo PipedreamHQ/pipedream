@@ -545,6 +545,9 @@ importers:
       '@aws-sdk/client-sesv2': 3.423.0
       '@pipedream/platform': 0.10.0
 
+  components/ambee:
+    specifiers: {}
+
   components/ambient_weather:
     specifiers: {}
 
@@ -558,6 +561,9 @@ importers:
     specifiers: {}
 
   components/amentum_aerospace:
+    specifiers: {}
+
+  components/americommerce:
     specifiers: {}
 
   components/amilia:
@@ -773,6 +779,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.6.0
+
+  components/attio:
+    specifiers: {}
 
   components/autobound:
     specifiers: {}
@@ -1069,6 +1078,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/bitbadges:
+    specifiers: {}
+
   components/bitbucket:
     specifiers:
       '@pipedream/platform': ^0.10.0
@@ -1334,6 +1346,9 @@ importers:
       '@pipedream/platform': 1.6.5
 
   components/burst_sms:
+    specifiers: {}
+
+  components/burstyai:
     specifiers: {}
 
   components/businesslogic:
@@ -1760,6 +1775,9 @@ importers:
       '@pipedream/types': 0.1.6
 
   components/clientify:
+    specifiers: {}
+
+  components/cliento:
     specifiers: {}
 
   components/clinchpad:
@@ -2608,6 +2626,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.2
 
+  components/docnify:
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
+
   components/docraptor:
     specifiers: {}
 
@@ -2886,7 +2910,10 @@ importers:
     specifiers: {}
 
   components/easy_peasy_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/easy_project:
     specifiers: {}
@@ -3557,6 +3584,9 @@ importers:
       '@pipedream/platform': ^1.6.1
     dependencies:
       '@pipedream/platform': 1.6.2
+
+  components/franconnect:
+    specifiers: {}
 
   components/fraudlabs_pro:
     specifiers:
@@ -4411,6 +4441,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/helpspot:
+    specifiers: {}
+
   components/helpwise:
     specifiers: {}
 
@@ -4668,6 +4701,9 @@ importers:
       '@pipedream/platform': 2.0.0
 
   components/idx_broker:
+    specifiers: {}
+
+  components/if_else:
     specifiers: {}
 
   components/ifttt:
@@ -5235,7 +5271,10 @@ importers:
     specifiers: {}
 
   components/l2s:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/l3mbda:
     specifiers:
@@ -5965,10 +6004,10 @@ importers:
 
   components/microsoft_excel:
     specifiers:
-      '@pipedream/platform': ^3.0.1
+      '@pipedream/platform': ^3.0.3
       moment: ^2.29.4
     dependencies:
-      '@pipedream/platform': 3.0.1
+      '@pipedream/platform': 3.0.3
       moment: 2.29.4
 
   components/microsoft_onedrive:
@@ -6067,7 +6106,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/moaform:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/mobile_text_alerts:
     specifiers: {}
@@ -6416,6 +6458,9 @@ importers:
   components/nightfall_ai:
     specifiers: {}
 
+  components/nile_database:
+    specifiers: {}
+
   components/nimble:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -6671,7 +6716,12 @@ importers:
       ongage: 1.1.7_node-fetch@2.7.0
 
   components/onlinecheckwriter:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      form-data: 4.0.0
 
   components/onlyoffice_docspace:
     specifiers:
@@ -6924,7 +6974,10 @@ importers:
     specifiers: {}
 
   components/parsera:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/parseur:
     specifiers:
@@ -7262,7 +7315,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/pixelbin:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+      form-data: ^4.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      form-data: 4.0.0
 
   components/pixiebrix:
     specifiers:
@@ -9431,6 +9489,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/stealthgpt:
+    specifiers: {}
+
   components/stealthseminar:
     specifiers: {}
 
@@ -9644,6 +9705,9 @@ importers:
   components/swiftype:
     specifiers: {}
 
+  components/switch:
+    specifiers: {}
+
   components/switchboard:
     specifiers: {}
 
@@ -9681,7 +9745,10 @@ importers:
     specifiers: {}
 
   components/talenthr:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/talentlms:
     specifiers: {}
@@ -9914,6 +9981,9 @@ importers:
       '@pipedream/platform': ^3.0.1
     dependencies:
       '@pipedream/platform': 3.0.3
+
+  components/the_magic_drip:
+    specifiers: {}
 
   components/the_odds_api:
     specifiers:
@@ -10275,6 +10345,12 @@ importers:
       phone: 3.1.49
       stream: 0.0.3
       twilio: 3.84.1
+
+  components/twin:
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/twist:
     specifiers:

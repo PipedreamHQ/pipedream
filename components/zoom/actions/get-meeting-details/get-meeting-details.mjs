@@ -5,7 +5,7 @@ export default {
   key: "zoom-get-meeting-details",
   name: "Get Meeting Details",
   description: "Retrieves the details of a meeting.",
-  version: "0.3.3",
+  version: "0.3.4",
   type: "action",
   props: {
     zoom: {
