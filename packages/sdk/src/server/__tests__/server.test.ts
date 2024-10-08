@@ -1,5 +1,5 @@
 import {
-  ServerClient, createClient,
+  ServerClient, createClient, HTTPAuthType,
 } from "../index";
 import fetchMock from "jest-fetch-mock";
 import { ClientCredentials } from "simple-oauth2";
@@ -517,6 +517,66 @@ describe("ServerClient", () => {
         }),
       );
     });
+
+    it("should invoke a workflow with OAuth auth type", async () => {
+      fetchMock.mockResponseOnce(
+        JSON.stringify({
+          result: "workflow-response",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const result = await client.invokeWorkflow("https://example.com/workflow", {}, HTTPAuthType.OAuth);
+
+      expect(result).toEqual({
+        result: "workflow-response",
+      });
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "https://example.com/workflow",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            "Authorization": "Bearer mocked-oauth-token",
+          }),
+        }),
+      );
+    });
+
+    it("should invoke a workflow with static bearer auth type", async () => {
+      fetchMock.mockResponseOnce(
+        JSON.stringify({
+          result: "workflow-response",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const result = await client.invokeWorkflow("https://example.com/workflow", {
+        headers: {
+          "Authorization": "Bearer static-token",
+        },
+      }, HTTPAuthType.StaticBearer);
+
+      expect(result).toEqual({
+        result: "workflow-response",
+      });
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "https://example.com/workflow",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            "Authorization": "Bearer static-token",
+          }),
+        }),
+      );
+    });
   });
 
   describe("OAuth Token Handling", () => {
@@ -668,5 +728,4 @@ describe("ServerClient", () => {
       })).rejects.toThrow("External user ID is required");
     });
   });
-
 });
