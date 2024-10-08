@@ -3,6 +3,24 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "overledger",
+  props: { //Options to allow for instance selection of Overledger environment - Sanbox or Live Overledger ro determine BaseURL
+    environment: {
+      type: "string",
+      label: "Overledger Instance",
+      description: "Select the Overledger environment.",
+      options: [
+        {
+          label: "Sandbox",
+          value: "sandbox",
+        },
+        {
+          label: "Overledger",
+          value: "overledger",
+        },
+      ],
+      optional: false,
+    },
+  },
   propDefinitions: {
     smartContractId: {
       type: "string",
@@ -11,19 +29,17 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.overledger.io";
-    },
-    //Sandbox base URL - allows for use on Sandbox environments
-    _sandboxBaseUrl() {
-      return "https://api.sandbox.overledger.io";
-    },
     _headers() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
         "API-Version": "3.0.0",
       };
+    },
+    _getBaseUrl() { //conditional to for environment selection.
+      return this.environment === "sandbox"
+        ? "https://api.sandbox.overledger.io"
+        : "https://api.overledger.io";
     },
     _makeRequest({
       $ = this, baseUrl, path, ...otherOpts
@@ -37,7 +53,7 @@ export default {
     prepareSmartContractTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: this._sandboxBaseUrl(),
+        baseUrl: this._getBaseUrl(),
         path: "/api/preparations/transactions/smart-contracts/write",
         ...opts,
       });
@@ -45,7 +61,7 @@ export default {
     readFromSmartContract(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: this._sanboxBaseUrl(),
+        baseUrl: this._getBaseUrl(),
         path: "/api/smart-contracts/read",
         ...opts,
       });
@@ -53,7 +69,7 @@ export default {
     signTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: this._sandboxBaseUrl(),
+        baseUrl: this._getBaseUrl(),
         path: "/api/transaction-signing-sandbox",
         ...opts,
       });
@@ -61,7 +77,7 @@ export default {
     executeSignedTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: this._sandboxBaseUrl(),
+        baseUrl: this._getBaseUrl(),
         path: "/api/executions/transactions",
         ...opts,
       });
