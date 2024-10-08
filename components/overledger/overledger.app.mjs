@@ -87,7 +87,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: this._baseUrl(),
+        baseUrl: this._getBaseUrl(),
         path: `/api/webhooks/${path}`,
         ...opts,
       });
@@ -97,7 +97,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "DELETE",
-        baseUrl: this._baseUrl(),
+        baseUrl: this._getBaseUrl(),
         path: `/api/webhooks/${path}/${webhookId}`,
       });
     },
