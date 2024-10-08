@@ -1,113 +1,46 @@
-import allocadence from "../../allocadence.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "allocadence-new-customer-order",
   name: "New Customer Order Created",
-  description: "Emit new event when a new customer order is created. [See the documentation](https://docs.allocadence.com/)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new customer order is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    allocadence,
-    db: "$.service.db",
-    customerId: {
-      propDefinition: [
-        allocadence,
-        "customerId",
-      ],
-    },
-    productId: {
-      propDefinition: [
-        allocadence,
-        "productId",
-      ],
-    },
-    orderDetails: {
-      propDefinition: [
-        allocadence,
-        "orderDetails",
-      ],
-      optional: true,
-    },
-    deliveryMode: {
-      propDefinition: [
-        allocadence,
-        "deliveryMode",
-      ],
-      optional: true,
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-  },
   methods: {
-    _getLastOrderCreatedTime() {
-      return this.db.get("lastOrderCreatedTime") || 0;
+    ...common.methods,
+    prepareData({
+      responseArray, fieldDate, maxResults,
+    }) {
+      responseArray.reverse();
+      if (responseArray.length) {
+        if (maxResults && responseArray.length > maxResults) {
+          responseArray.length = maxResults;
+        }
+        this._setLastDate(responseArray[0][fieldDate]);
+      }
+      return responseArray;
     },
-    _setLastOrderCreatedTime(time) {
-      this.db.set("lastOrderCreatedTime", time);
+    getParams(orderedDate) {
+      return {
+        orderedDate,
+        orderedDateConditional: "on_or_after",
+      };
     },
-    async _getNewCustomerOrders() {
-      const lastOrderCreatedTime = this._getLastOrderCreatedTime();
-      const orders = await this.allocadence.createCustomerOrder({
-        customerInformation: this.customerId,
-        productDetails: this.productId,
-        specialInstructions: this.orderDetails,
-        deliveryMode: this.deliveryMode,
-      });
-
-      const newOrders = orders.filter((order) => new Date(order.createdDate).getTime() > lastOrderCreatedTime);
-      return newOrders;
+    getFunction() {
+      return this.allocadence.listCustomerOrder;
+    },
+    getDataField() {
+      return "customerOrders";
+    },
+    getFieldDate() {
+      return "orderedDate";
+    },
+    getSummary(item) {
+      return `New Customer Order: ${item.orderNumber}`;
     },
   },
-  hooks: {
-    async deploy() {
-      const newOrders = await this._getNewCustomerOrders();
-
-      for (const order of newOrders.slice(-50)) {
-        this.$emit(order, {
-          id: order.id,
-          summary: `New Customer Order: ${order.orderNumber}`,
-          ts: new Date(order.createdDate).getTime(),
-        });
-      }
-
-      if (newOrders.length) {
-        const latestOrderDate = newOrders[newOrders.length - 1].createdDate;
-        this._setLastOrderCreatedTime(new Date(latestOrderDate).getTime());
-      }
-    },
-    async activate() {
-      const orders = await this._getNewCustomerOrders();
-      if (orders.length) {
-        const latestOrderDate = orders[orders.length - 1].createdDate;
-        this._setLastOrderCreatedTime(new Date(latestOrderDate).getTime());
-      }
-    },
-    async deactivate() {
-      this.db.set("lastOrderCreatedTime", null);
-    },
-  },
-  async run() {
-    const newOrders = await this._getNewCustomerOrders();
-
-    for (const order of newOrders) {
-      this.$emit(order, {
-        id: order.id,
-        summary: `New Customer Order: ${order.orderNumber}`,
-        ts: new Date(order.createdDate).getTime(),
-      });
-    }
-
-    if (newOrders.length) {
-      const latestOrderDate = newOrders[newOrders.length - 1].createdDate;
-      this._setLastOrderCreatedTime(new Date(latestOrderDate).getTime());
-    }
-  },
+  sampleEmit,
 };

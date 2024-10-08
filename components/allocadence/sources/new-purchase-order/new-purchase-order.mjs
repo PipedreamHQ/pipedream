@@ -1,105 +1,35 @@
-import { axios } from "@pipedream/platform";
-import allocadence from "../../allocadence.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "allocadence-new-purchase-order",
   name: "New Purchase Order Created",
-  description: "Emit new event when a new purchase order is created. [See the documentation](https://docs.allocadence.com/)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new purchase order is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    allocadence,
-    db: "$.service.db",
-    supplierId: {
-      propDefinition: [
-        allocadence,
-        "supplierId",
-      ],
-    },
-    productId: {
-      propDefinition: [
-        allocadence,
-        "productId",
-      ],
-    },
-    quantity: {
-      propDefinition: [
-        allocadence,
-        "quantity",
-      ],
-      optional: true,
-    },
-    deliveryDate: {
-      propDefinition: [
-        allocadence,
-        "deliveryDate",
-      ],
-      optional: true,
-    },
-  },
   methods: {
-    _getLastTimestamp() {
-      return this.db.get("lastTimestamp") || 0;
+    ...common.methods,
+    getParams(lastDate) {
+      return {
+        createdFrom: lastDate,
+        orderBy: "createdDate",
+        orderDir: "desc",
+      };
     },
-    _setLastTimestamp(timestamp) {
-      this.db.set("lastTimestamp", timestamp);
+    getFunction() {
+      return this.allocadence.listPurchaseOrder;
     },
-    async fetchNewPurchaseOrders(since) {
-      return this.allocadence._makeRequest({
-        path: "/purchase-orders",
-        params: {
-          since: since,
-        },
-      });
+    getDataField() {
+      return "purchaseOrders";
     },
-    async createPurchaseOrder() {
-      return this.allocadence.createPurchaseOrder({
-        supplierId: this.supplierId,
-        productId: this.productId,
-        quantity: this.quantity,
-        deliveryDate: this.deliveryDate,
-      });
+    getFieldDate() {
+      return "createdDate";
+    },
+    getSummary(item) {
+      return `New Purchase Order: ${item.orderNumber}`;
     },
   },
-  hooks: {
-    async deploy() {
-      const lastTimestamp = this._getLastTimestamp();
-      const newOrders = await this.fetchNewPurchaseOrders(lastTimestamp);
-
-      newOrders.slice(0, 50).forEach((order) => {
-        this.$emit(order, {
-          id: order.id,
-          summary: `New Purchase Order: ${order.orderNumber}`,
-          ts: new Date(order.createdDate).getTime(),
-        });
-      });
-
-      if (newOrders.length > 0) {
-        this._setLastTimestamp(new Date(newOrders[0].createdDate).getTime());
-      }
-    },
-    async activate() {
-      // Code to create webhook or other setup tasks
-    },
-    async deactivate() {
-      // Code to remove webhook or other cleanup tasks
-    },
-  },
-  async run() {
-    const lastTimestamp = this._getLastTimestamp();
-    const newOrders = await this.fetchNewPurchaseOrders(lastTimestamp);
-
-    newOrders.forEach((order) => {
-      this.$emit(order, {
-        id: order.id,
-        summary: `New Purchase Order: ${order.orderNumber}`,
-        ts: new Date(order.createdDate).getTime(),
-      });
-    });
-
-    if (newOrders.length > 0) {
-      this._setLastTimestamp(new Date(newOrders[0].createdDate).getTime());
-    }
-  },
+  sampleEmit,
 };
