@@ -6632,6 +6632,9 @@ importers:
     dependencies:
       '@pipedream/platform': 2.0.0
 
+  components/ollama:
+    specifiers: {}
+
   components/omise:
     specifiers:
       '@pipedream/platform': ^1.5.1
