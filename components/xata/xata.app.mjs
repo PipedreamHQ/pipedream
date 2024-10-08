@@ -66,12 +66,12 @@ export default {
     database: {
       type: "string",
       label: "Database Name",
-      description: "Name of the database. Must be **non postgres enabled**.",
+      description: "Name of the database. Must be **NON POSTGRES ENABLED**.",
       async options({ workspace }) {
         const response = await this.listDatabases({
           workspace,
         });
-        const databaseNames = response.databases;
+        const databaseNames = response.databases.filter(({ postgresEnabled }) => !postgresEnabled);
         return databaseNames.map(({ name }) => ({
           value: name,
           label: name,
