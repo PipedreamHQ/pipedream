@@ -1,5 +1,5 @@
 import common from "../common/base.mjs";
-import sampleEmit from "./test-event";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,

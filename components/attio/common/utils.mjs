@@ -14,7 +14,7 @@ async function *paginate({
   args = {
     ...args,
     params: {
-      ...args.params,
+      ...args.params ?? {},
       limit: 500,
       offset: 0,
     },
@@ -33,7 +33,7 @@ async function *paginate({
   } while (total === args.params.limit);
 }
 
-function parseValues(attributes, values) { console.log(attributes);
+function parseValues(attributes, values) {
   for (const [
     key,
     value,
