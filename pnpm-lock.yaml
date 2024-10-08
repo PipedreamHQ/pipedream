@@ -1990,6 +1990,9 @@ importers:
   components/college_football_data:
     specifiers: {}
 
+  components/columns_ai:
+    specifiers: {}
+
   components/cometly:
     specifiers:
       '@pipedream/platform': ^1.5.1
