@@ -85,6 +85,13 @@ export default {
         ...args,
       });
     },
+    deleteContact(args = {}) {
+      return this._makeRequest({
+        path: "/contacts/delete",
+        method: "POST",
+        ...args,
+      });
+    },
     sendEvent(args = {}) {
       return this._makeRequest({
         path: "/events/send",
