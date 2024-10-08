@@ -4480,7 +4480,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/highergov:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/highlevel_oauth:
     specifiers:
