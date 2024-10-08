@@ -5,6 +5,7 @@ import fetchMock from "jest-fetch-mock";
 import { ClientCredentials } from "simple-oauth2";
 
 let client: ServerClient;
+let customDomainClient: ServerClient;
 let oauthClientMock: ClientCredentials;
 
 beforeEach(() => {
@@ -30,6 +31,16 @@ beforeEach(() => {
     },
     oauthClientMock,
   );
+
+  customDomainClient = new ServerClient({
+    publicKey: "test-public-key",
+    secretKey: "test-secret-key",
+    oauth: {
+      clientId: "test-client-id",
+      clientSecret: "test-client-secret",
+    },
+    baseWorkflowDomain: "example.com",
+  });
 });
 
 describe("ServerClient", () => {
@@ -728,6 +739,72 @@ describe("ServerClient", () => {
           foo: "bar",
         },
       })).rejects.toThrow("External user ID is required");
+    });
+  });
+
+  describe("ServerClient - buildWorkflowUrl", () => {
+    describe("Default domain (m.pipedream.net)", () => {
+      it("should return full URL if input is a full URL with protocol", () => {
+        const input = "https://en123.m.pipedream.net";
+        const expected = "https://en123.m.pipedream.net/";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should return full URL if input is a URL without protocol", () => {
+        const input = "en123.m.pipedream.net";
+        const expected = "https://en123.m.pipedream.net/";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should construct URL with 'm.pipedream.net' if input is an endpoint ID", () => {
+        const input = "en123";
+        const expected = "https://en123.m.pipedream.net";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path in full URL with protocol", () => {
+        const input = "https://en123.m.pipedream.net/foo";
+        const expected = "https://en123.m.pipedream.net/foo";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path when no protocol is provided", () => {
+        const input = "en123.m.pipedream.net/foo";
+        const expected = "https://en123.m.pipedream.net/foo";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+    });
+
+    describe("Custom domain (example.com)", () => {
+      it("should return full URL if input is a full URL with protocol", () => {
+        const input = "https://en123.example.com";
+        const expected = "https://en123.example.com/";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should return full URL if input is a URL without protocol", () => {
+        const input = "en123.example.com";
+        const expected = "https://en123.example.com/";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should construct URL with 'example.com' if input is an endpoint ID", () => {
+        const input = "en123";
+        const expected = "https://en123.example.com";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path in full URL with protocol", () => {
+        const input = "https://en123.example.com/foo";
+        const expected = "https://en123.example.com/foo";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path when no protocol is provided", () => {
+        const input = "en123.example.com/foo";
+        const expected = "https://en123.example.com/foo";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
     });
   });
 });

@@ -55,6 +55,11 @@ export type CreateServerClientOpts = {
    * The API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
    */
   apiHost?: string;
+
+  /**
+   * Base domain for workflows. Used for custom domains: https://pipedream.com/docs/workflows/domains
+   */
+  baseWorkflowDomain?: string;
 };
 
 /**
@@ -329,7 +334,8 @@ export class ServerClient {
   private environment: string;
   private oauthClient?: ClientCredentials;
   private oauthToken?: AccessToken;
-  private readonly baseURL: string;
+  private readonly baseAPIURL: string;
+  private readonly baseWorkflowDomain: string;
 
   /**
    * Constructs a new ServerClient instance.
@@ -345,15 +351,18 @@ export class ServerClient {
     this.secretKey = opts.secretKey;
     this.publicKey = opts.publicKey;
 
-    const { apiHost = "api.pipedream.com" } = opts;
-    this.baseURL = `https://${apiHost}/v1`;
+    const {
+      apiHost = "api.pipedream.com", baseWorkflowDomain = "m.pipedream.net",
+    } = opts;
+    this.baseAPIURL = `https://${apiHost}/v1`;
+    this.baseWorkflowDomain = baseWorkflowDomain;
 
     if (oauthClient) {
       // Use the provided OAuth client (useful for testing)
       this.oauthClient = oauthClient;
     } else {
       // Configure the OAuth client normally
-      this.configureOauthClient(opts, this.baseURL);
+      this.configureOauthClient(opts, this.baseAPIURL);
     }
   }
 
@@ -445,7 +454,7 @@ export class ServerClient {
       headers: customHeaders,
       body,
       method = "GET",
-      baseURL = this.baseURL,
+      baseURL = this.baseAPIURL,
       ...fetchOpts
     } = opts;
 
@@ -755,9 +764,52 @@ export class ServerClient {
   }
 
   /**
+   * Builds a full workflow URL based on the input.
+   *
+   * @param input - Either a full URL (with or without protocol) or just an endpoint ID.
+   *
+   * @returns The fully constructed URL.
+   *
+   * @throws If the input is not a valid URL and not an ID, the function assumes it's an endpoint ID.
+   *
+   * @example
+   * // Full URL input
+   * this.buildWorkflowUrl("https://en123.m.pipedream.net");
+   * // Returns: "https://en123.m.pipedream.net"
+   *
+   * @example
+   * // Partial URL (without protocol)
+   * this.buildWorkflowUrl("en123.m.pipedream.net");
+   * // Returns: "https://en123.m.pipedream.net"
+   *
+   * @example
+   * // ID only input
+   * this.buildWorkflowUrl("en123");
+   * // Returns: "https://en123.yourdomain.com" (where `yourdomain.com` is set in `baseWorkflowDomain`)
+   */
+  private buildWorkflowUrl(input: string): string {
+    let url: string;
+
+    const isUrl = input.includes(".") || input.startsWith("http");
+
+    if (isUrl) {
+    // Try to parse the input as a URL
+      const parsedUrl = new URL(input.startsWith("http")
+        ? input
+        : `https://${input}`);
+      url = parsedUrl.href;
+    } else {
+    // If the input is an ID, construct the full URL using the base domain
+      url = `https://${input}.${this.baseWorkflowDomain}`;
+    }
+
+    return url;
+  }
+
+  /**
    * Invokes a workflow using the URL of its HTTP interface(s), by sending an
    *
-   * @param url - The URL of the workflow's HTTP interface.
+   * @param urlOrEndpoint - The URL of the workflow's HTTP interface, or the ID of the endpoint
    * @param opts - The options for the request.
    * @param opts.body - The body of the request. It must be a JSON-serializable
    * value (e.g. an object, null, a string, etc.).
@@ -787,11 +839,13 @@ export class ServerClient {
    * console.log(response);
    * ```
    */
-  public async invokeWorkflow(url: string, opts: RequestOptions = {}, authType: HTTPAuthType = HTTPAuthType.None): Promise<unknown> {
+  public async invokeWorkflow(urlOrEndpoint: string, opts: RequestOptions = {}, authType: HTTPAuthType = HTTPAuthType.None): Promise<unknown> {
     const {
       body,
       headers = {},
     } = opts;
+
+    const url = this.buildWorkflowUrl(urlOrEndpoint);
 
     let authHeader: string | undefined;
     switch (authType) {
