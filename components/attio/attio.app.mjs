@@ -67,6 +67,30 @@ export default {
         return data?.map(({ id }) => id.record_id) || [];
       },
     },
+    attributeId: {
+      type: "string",
+      label: "Attribute ID",
+      description: "The ID or slug of the attribute to use to check if a record already exists. The attribute must be unique.",
+      async options({
+        objectId, page,
+      }) {
+        const { data } = await this.listAttributes({
+          objectId,
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
+        return data
+          ?.filter((attribute) => attribute.is_unique)
+          ?.map(({
+            id, title: label,
+          }) => ({
+            value: id.attribute_id,
+            label,
+          })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -82,6 +106,22 @@ export default {
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      hookId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
         ...opts,
       });
     },
@@ -115,6 +155,14 @@ export default {
         ...opts,
       });
     },
+    listAttributes({
+      objectId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/objects/${objectId}/attributes`,
+        ...opts,
+      });
+    },
     createNote(opts = {}) {
       return this._makeRequest({
         method: "POST",
@@ -123,11 +171,11 @@ export default {
       });
     },
     upsertRecord({
-      objectType, ...opts
+      objectId, ...opts
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/objects/${objectType}/records`,
+        path: `/objects/${objectId}/records`,
         ...opts,
       });
     },
