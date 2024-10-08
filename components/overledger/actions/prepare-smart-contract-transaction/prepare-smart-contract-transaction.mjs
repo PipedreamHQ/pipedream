@@ -1,5 +1,5 @@
 import {
-  NETWORK_OPTIONS, TECHNOLOGY_OPTIONS,
+  NETWORK_OPTIONS, TECHNOLOGY_OPTIONS
 } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import overledger from "../../overledger.app.mjs";
@@ -22,18 +22,18 @@ export default {
     signingAccountId: {
       type: "string",
       label: "Signing Account ID",
-      description: "The blockchain account that will sign the transaction.",
-    },
-    functionName: {
-      type: "string",
-      label: "Function Name",
-      description: "The name of the function to call on the smart contract.",
+      description: "The blockchain account (address) that you will be sending this transaction",
     },
     smartContractId: {
       type: "string",
       label: "Smart Contract ID",
       description: "The ID/address of the smart contract to interact with.",
 
+    },
+    functionName: {
+      type: "string",
+      label: "Function Name",
+      description: "The name of the function to call on the smart contract.",
     },
     inputParameters: {
       type: "string[]",
@@ -55,18 +55,20 @@ export default {
     return props;
   },
   async run({ $ }) {
+    const requestBody = {
+      location: {
+        technology: this.locationTechnology,
+        network: this.locationNetwork,
+      },
+      signingAccountId: this.signingAccountId,
+      functionName: this.functionName,
+      smartContractId: this.smartContractId,
+      inputParameters: parseObject(this.inputParameters),
+    }
+
     const response = await this.overledger.prepareSmartContractTransaction({
       $,
-      data: {
-        location: {
-          technology: this.locationTechnology,
-          network: this.locationNetwork,
-        },
-        signingAccountId: this.signingAccountId,
-        functionName: this.functionName,
-        smartContractId: this.smartContractId,
-        inputParameters: this.inputParameters && parseObject(this.inputParameters),
-      },
+      data: requestBody,
     });
     $.export("$summary", "Smart contract transaction prepared successfully");
     return response;

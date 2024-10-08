@@ -50,3 +50,11 @@ export const NETWORK_OPTIONS = {
     "Sandbox",
   ],
 };
+
+export const UNIT_OPTIONS = {
+  "ethereum": "ETH",               // Ethereum's token symbol is ETH
+  "substrate": "DOT",              // Polkadot's token symbol is DOT
+  "xrp ledger": "XRP",             // XRP Ledger's token symbol is XRP
+  "bitcoin": "BTC",                // Bitcoin's token symbol is BTC
+  "hyperledger fabric": "FAB",     // Placeholder for Hyperledger Fabric's token symbol
+};

@@ -14,6 +14,9 @@ export default {
     _baseUrl() {
       return "https://api.overledger.io";
     },
+    _sanboxBaseUrl(){
+      return "https://api.sandbox.overledger.io";
+    },
     _headers() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
@@ -33,7 +36,7 @@ export default {
     prepareSmartContractTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: this._baseUrl(),
+        baseUrl: this._sanboxBaseUrl(),
         path: "/api/preparations/transactions/smart-contracts/write",
         ...opts,
       });
@@ -41,7 +44,7 @@ export default {
     readFromSmartContract(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: this._baseUrl(),
+        baseUrl: this._sanboxBaseUrl(),
         path: "/api/smart-contracts/read",
         ...opts,
       });
@@ -49,7 +52,7 @@ export default {
     signTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: "https://api.sandbox.overledger.io",
+        baseUrl: this._sanboxBaseUrl(),
         path: "/api/transaction-signing-sandbox",
         ...opts,
       });

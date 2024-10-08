@@ -11,12 +11,12 @@ export default {
     requestId: {
       type: "string",
       label: "Request ID",
-      description: "The ID of the request for executing a signed transaction.",
+      description: "The Overledger identifier assigned to the related transaction preparation request. This should be set to the requestId parameter found in the response object of the 'Prepare a Smart Contract Transaction' Overledger action.",
     },
     signedTransaction: {
       type: "string",
       label: "Signed Transaction",
-      description: "The signed transaction data.",
+      description: "The raw transaction bytecode after signing. This should be set to the signed parameter found in the response object of the 'Sign a Transaction' Overledger action.",
       optional: true,
     },
   },

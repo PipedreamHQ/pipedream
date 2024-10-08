@@ -65,8 +65,6 @@ export default {
       smartContractId: this.smartContractId,
       outputParameters: parseObject(this.outputParameters),
     };
-
-    try {
       // Make the API call to Overledger
       const response = await this.overledger.readFromSmartContract({
         $,
@@ -74,8 +72,5 @@ export default {
       });
       $.export("$summary", `Successfully read from contract: ${this.smartContractId}`);
       return response;
-    } catch (error) {
-      throw new Error(`Failed to read from smart contract: ${error.message}`);
-    }
   },
 };
