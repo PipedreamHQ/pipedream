@@ -112,5 +112,11 @@ export default {
         ...args,
       });
     },
+    listMailingLists(args = {}) {
+      return this._makeRequest({
+        path: "/lists",
+        ...args,
+      });
+    },
   },
 };

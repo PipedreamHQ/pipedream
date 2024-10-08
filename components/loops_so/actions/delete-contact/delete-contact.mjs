@@ -4,7 +4,7 @@ import loops from "../../loops_so.app.mjs";
 export default {
   key: "loops_so-delete-contact",
   name: "Delete Contact",
-  description: "Updates an existing contact by email. If email not found, a new contact will be created. [See the Documentation](https://loops.so/docs/add-users/api-reference#update)",
+  description: "Delete an existing contact. [See the documentation](https://loops.so/docs/api-reference/delete-contact)",
   version: "0.1.0",
   type: "action",
   props: {
