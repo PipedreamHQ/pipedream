@@ -27,7 +27,7 @@ export default {
       };
     },
     getSummary(body) {
-      return `New asccount event with transaction Id: ${body.transactionId}`;
+      return `New account event with transaction Id: ${body.transactionId}`;
     },
   },
   sampleEmit,

@@ -14,8 +14,8 @@ export default {
     _baseUrl() {
       return "https://api.overledger.io";
     },
-    //Sanbox base URL signing - allows for use on non
-    _sanboxBaseUrl() {
+    //Sandbox base URL - allows for use on Sandbox environments
+    _sandboxBaseUrl() {
       return "https://api.sandbox.overledger.io";
     },
     _headers() {
@@ -37,7 +37,7 @@ export default {
     prepareSmartContractTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: this._sanboxBaseUrl(),
+        baseUrl: this._sandboxBaseUrl(),
         path: "/api/preparations/transactions/smart-contracts/write",
         ...opts,
       });
@@ -53,7 +53,7 @@ export default {
     signTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: this._sanboxBaseUrl(),
+        baseUrl: this._sandboxBaseUrl(),
         path: "/api/transaction-signing-sandbox",
         ...opts,
       });
@@ -61,7 +61,7 @@ export default {
     executeSignedTransaction(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        baseUrl: this._baseUrl(),
+        baseUrl: this._sandboxBaseUrl(),
         path: "/api/executions/transactions",
         ...opts,
       });
