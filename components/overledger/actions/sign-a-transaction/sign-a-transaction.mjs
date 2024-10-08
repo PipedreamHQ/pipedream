@@ -26,27 +26,31 @@ export default {
     },
     nativeData: {
       type: "object",
-      label: "the transaction data required to be signed",
+      label: "Native Data",
       description: "A JSON object representing the transaction required to be signed.",
-    },
-    locationTechnology: {
-      type: "string",
-      label: "Location Technology",
-      description: "The blockchain technology used for this transaction, e.g., ethereum, substrate.",
       optional: true,
       // Reference the output of the previous step
-      default: ({ steps }) => steps.prepare_smart_contract_transaction?.locationTechnology,
+      default: ({ steps }) => steps.prepare_smart_contract_transaction?.nativeData,
     },
   },
+  locationTechnology: {
+    type: "string",
+    label: "Location Technology",
+    description: "The blockchain technology used for this transaction, e.g., ethereum, substrate.",
+    optional: true,
+    // Reference the output of the previous step
+    default: ({ steps }) => steps.prepare_smart_contract_transaction?.locationTechnology,
+  },
   async run({ $ }) {
+    //default values of gatewayFee and dltfee hard coded into params.
     const gatewayFee = {
-      amount: "100",
+      amount: "0",
       unit: "QNT",
     };
-    // Define DLT Fee and dynamically set the 'unit' from UNIT_OPTIONS
+    // Define DLT Fee and dynamically set the 'unit/symbol' from UNIT_OPTIONS
     const dltFee = {
       amount: "0.000019897764079968",
-      unit: UNIT_OPTIONS[this.locationTechnology] || "ETH" // Use default if not found
+      unit: UNIT_OPTIONS[this.locationTechnology] || "ETH", // Use default if not found
     };
     // Sign the transaction
     const requestBody = {
@@ -56,7 +60,7 @@ export default {
       dltFee: dltFee,
       nativeData: this.nativeData,
       transactionSigningResponderName: this.transactionSigningResponderName,
-    }
+    };
 
     const response = await this.overledger.signTransaction({
       $,

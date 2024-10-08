@@ -1,5 +1,5 @@
 import {
-  NETWORK_OPTIONS, TECHNOLOGY_OPTIONS
+  NETWORK_OPTIONS, TECHNOLOGY_OPTIONS,
 } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import overledger from "../../overledger.app.mjs";
@@ -64,7 +64,7 @@ export default {
       functionName: this.functionName,
       smartContractId: this.smartContractId,
       inputParameters: parseObject(this.inputParameters),
-    }
+    };
 
     const response = await this.overledger.prepareSmartContractTransaction({
       $,

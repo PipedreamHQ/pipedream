@@ -66,11 +66,11 @@ export default {
       outputParameters: parseObject(this.outputParameters),
     };
       // Make the API call to Overledger
-      const response = await this.overledger.readFromSmartContract({
-        $,
-        data: requestBody,
-      });
-      $.export("$summary", `Successfully read from contract: ${this.smartContractId}`);
-      return response;
+    const response = await this.overledger.readFromSmartContract({
+      $,
+      data: requestBody,
+    });
+    $.export("$summary", `Successfully read from contract: ${this.smartContractId}`);
+    return response;
   },
 };

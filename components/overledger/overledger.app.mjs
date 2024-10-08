@@ -14,7 +14,8 @@ export default {
     _baseUrl() {
       return "https://api.overledger.io";
     },
-    _sanboxBaseUrl(){
+    //Sanbox base URL
+    _sanboxBaseUrl() {
       return "https://api.sandbox.overledger.io";
     },
     _headers() {
