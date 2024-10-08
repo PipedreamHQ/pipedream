@@ -14,7 +14,7 @@ export default {
     _baseUrl() {
       return "https://api.overledger.io";
     },
-    //Sanbox base URL
+    //Sanbox base URL signing - allows for use on non
     _sanboxBaseUrl() {
       return "https://api.sandbox.overledger.io";
     },

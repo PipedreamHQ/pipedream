@@ -50,7 +50,7 @@ export const NETWORK_OPTIONS = {
     "Sandbox",
   ],
 };
-
+///unit options to allow for the correct selection based on the location network
 export const UNIT_OPTIONS = {
   "ethereum": "ETH",               // Ethereum's token symbol is ETH
   "substrate": "DOT",              // Polkadot's token symbol is DOT
