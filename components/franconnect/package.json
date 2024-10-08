@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/franconnect",
+  "version": "0.0.1",
+  "description": "Pipedream FranConnect Components",
+  "main": "franconnect.app.mjs",
+  "keywords": [
+    "pipedream",
+    "franconnect"
+  ],
+  "homepage": "https://pipedream.com/apps/franconnect",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

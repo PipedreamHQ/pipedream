@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/if_else",
+  "version": "0.0.1",
+  "description": "Pipedream If/Else Components",
+  "main": "if_else.app.mjs",
+  "keywords": [
+    "pipedream",
+    "if_else"
+  ],
+  "homepage": "https://pipedream.com/apps/if_else",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
