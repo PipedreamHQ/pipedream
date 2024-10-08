@@ -7,15 +7,6 @@ import {
   ClientCredentials,
 } from "simple-oauth2";
 
-export type Project = {
-  id: string;
-};
-
-export type ProjectEnvironment = {
-  project: Project;
-  environment: string;
-};
-
 export type PipedreamOAuthClient = {
   clientId: string;
   clientSecret: string;
@@ -27,13 +18,13 @@ export type PipedreamOAuthClient = {
  */
 export type CreateServerClientOpts = {
   /**
-   * @deprecated Use the `project` object instead.
+   * @deprecated Use the `oauth` object instead.
    * The public API key for accessing the service.
    */
   publicKey?: string;
 
   /**
-   * @deprecated Use the `project` object instead.
+   * @deprecated Use the `oauth` object instead.
    * The secret API key for accessing the service.
    */
   secretKey?: string;
