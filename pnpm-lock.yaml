@@ -5615,10 +5615,10 @@ importers:
 
   components/loops_so:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.3
       lodash.pickby: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.3
       lodash.pickby: 4.6.0
 
   components/loqate:
