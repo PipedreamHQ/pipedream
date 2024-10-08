@@ -62,6 +62,12 @@ https://pipedream.com/@dylburger/p_abc123/edit
 
 Your workflow's ID is the value that starts with `p_`. In this example: `p_abc123`.
 
+## How do I invoke another workflow?
+
+We provide a [Trigger Workflow](https://pipedream.com/apps/helper-functions/actions/trigger-workflow) action in the [Helper Functions](https://pipedream.com/apps/helper-functions) app. [See more here](/code/nodejs#invoke-another-workflow).
+
+Another option is to make an HTTP request to a Pipedream HTTP webhook trigger.
+
 ## Where do I find my event source's ID?
 
 Open [https://pipedream.com/sources](https://pipedream.com/sources) and click on your event source. Copy the URL that appears in your browser's address bar. For example:
@@ -245,6 +251,18 @@ Pipedream also operates a [built-in key-value store](/data-stores/) that you can
 ### How do I delay the execution of a workflow?
 
 Use Pipedream's [built-in Delay actions](/workflows/flow-control/#delay) to delay a workflow at any step.
+
+### How can my workflow run faster?
+
+Here are a few things that can help your workflow execute faster:
+
+1. **Increase memory:** Increase your [workflow memory](/workflows/settings#memory) to at least 512 MB. Raising the memory limit will proportionally increase CPU resources, leading to improved performance and reduced latency.
+
+2. **Return static HTTP responses:** If your workflow is triggered by an HTTP source, return a [static HTTP response](/workflows/triggers#http-responses) directly from the trigger configuration. This ensures the HTTP response is sent to the caller immediately, before the rest of the workflow steps are executed.
+
+3. **Simplify your workflow:** Reduce the number of [steps](/workflows/steps#code-actions) and [segments](/workflows/control-flow#workflow-segments) in your workflow, combining multiple steps into one, if possible. This lowers the overhead involved in managing step execution and exports.
+
+4. **Activate warm workers:** Use [warm workers](/workflows/settings#eliminate-cold-starts) to reduce the startup time of workflows. Set [as many warm workers](/workflows/settings#how-many-workers-should-i-configure) as you want for high-volume traffic.
 
 ### How can I save common functions as steps?
 
