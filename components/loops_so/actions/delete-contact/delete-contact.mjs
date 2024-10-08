@@ -29,15 +29,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const { // eslint-disable-next-line no-unused-vars
-      loops, infoAlert, ...data
+    const {
+      loops, email, userId,
     } = this;
-    if (!data) {
+    if (!email && !userId) {
       throw new ConfigurationError("You must provide either the contact's email address or user ID.");
     }
     const response = await loops.deleteContact({
       $,
-      data,
+      data: {
+        email,
+        userId,
+      },
     });
 
     const summary = response?.success
