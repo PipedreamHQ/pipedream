@@ -3,7 +3,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "overledger",
-  props: { //Options to allow for instance selection of Overledger environment - Sanbox or Live Overledger ro determine BaseURL
+  props: { //Options to allow for instance selection of Overledger environment - Sandbox or Live Overledger to determine BaseURL
     environment: {
       type: "string",
       label: "Overledger Instance",
@@ -36,7 +36,7 @@ export default {
         "API-Version": "3.0.0",
       };
     },
-    _getBaseUrl() { //conditional to for environment selection.
+    _getBaseUrl() { //conditional for environment url selection.
       return this.environment === "sandbox"
         ? "https://api.sandbox.overledger.io"
         : "https://api.overledger.io";

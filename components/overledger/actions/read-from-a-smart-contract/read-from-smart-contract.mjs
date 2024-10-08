@@ -61,7 +61,7 @@ export default {
         network: this.locationNetwork,
       },
       functionName: this.functionName,
-      inputParameters: parseObject(this.inputParameters),
+      inputParameters: parseObject(this.inputParameters), //parse these values using the parseObject function at this shouls turn the JSON string into JSON objects to used in the request body.
       smartContractId: this.smartContractId,
       outputParameters: parseObject(this.outputParameters),
     };

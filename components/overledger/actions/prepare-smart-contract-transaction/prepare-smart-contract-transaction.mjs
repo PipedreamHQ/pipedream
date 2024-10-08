@@ -63,7 +63,7 @@ export default {
       signingAccountId: this.signingAccountId,
       functionName: this.functionName,
       smartContractId: this.smartContractId,
-      inputParameters: parseObject(this.inputParameters),
+      inputParameters: parseObject(this.inputParameters), //parse these values using the parseObject function at this shouls turn the JSON string into JSON objects to used in the request body.
     };
 
     const response = await this.overledger.prepareSmartContractTransaction({
