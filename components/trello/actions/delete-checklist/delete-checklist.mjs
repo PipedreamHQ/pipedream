@@ -1,26 +1,26 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-delete-checklist",
   name: "Delete Checklist",
   description: "Deletes the specified checklist. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-id-delete).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     board: {
       propDefinition: [
-        common.props.app,
+        app,
         "board",
       ],
     },
     carId: {
       propDefinition: [
-        common.props.app,
+        app,
         "cards",
         (c) => ({
           board: c.board,
+          checklistCardsOnly: true,
         }),
       ],
       type: "string",
@@ -30,7 +30,7 @@ export default {
     },
     checklistId: {
       propDefinition: [
-        common.props.app,
+        app,
         "checklist",
         ({ carId }) => ({
           card: carId,
@@ -39,18 +39,8 @@ export default {
       description: "The ID of the checklist to delete",
     },
   },
-  methods: {
-    deleteChecklist({
-      checklistId, ...args
-    } = {}) {
-      return this.app.delete({
-        path: `/checklists/${checklistId}`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
-    await this.deleteChecklist({
+    await this.app.deleteChecklist({
       $,
       checklistId: this.checklistId,
     });
