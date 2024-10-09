@@ -8,31 +8,27 @@ export default {
   type: "action",
   props: {
     nile,
-    user: {
-      type: "string",
-      label: "Username",
-      description: "The username of the database user",
-    },
-    password: {
-      type: "string",
-      label: "Password",
-      description: "The password of the database user",
-    },
-    host: {
-      type: "string",
-      label: "Host",
-      description: "The host of the database",
-    },
-    port: {
-      type: "string",
-      label: "Port",
-      description: "The port to connect to the database. Example: `5432`",
+    workspace: {
+      propDefinition: [
+        nile,
+        "workspace",
+      ],
     },
     database: {
       propDefinition: [
         nile,
         "database",
       ],
+    },
+    user: {
+      type: "string",
+      label: "Username",
+      description: "The username or userId of the database user. Note: Credentials are generated in the Nile Dashboard under Settings -> Credentials",
+    },
+    password: {
+      type: "string",
+      label: "Password",
+      description: "The password of the database user",
     },
     query: {
       type: "string",
@@ -44,8 +40,11 @@ export default {
     const config = {
       user: this.user,
       password: this.password,
-      host: this.host,
-      port: this.port,
+      host: await this.nile.getHost({
+        workspace: this.workspace,
+        database: this.database,
+      }),
+      port: "5432",
       database: this.database,
     };
     const data = await this.nile.executeQuery(config, this.query);

@@ -31,8 +31,7 @@ export default {
     async _getBaseUrl({
       workspace, database, ...opts
     }) {
-      const { apiHost } = await this._makeRequest({
-        url: `${this._globalBaseUrl()}/workspaces/${workspace}/databases/${database}`,
+      const { apiHost } = await this.getDatabase({
         workspace,
         database,
         ...opts,
@@ -59,11 +58,32 @@ export default {
         ...opts,
       });
     },
+    getDatabase({
+      workspace, database, ...opts
+    }) {
+      return this._makeRequest({
+        url: `${this._globalBaseUrl()}/workspaces/${workspace}/databases/${database}`,
+        workspace,
+        database,
+        ...opts,
+      });
+    },
     getAuthenticatedUser(opts = {}) {
       return this._makeRequest({
         url: `${this._globalBaseUrl()}/developers/me/full`,
         ...opts,
       });
+    },
+    async getHost({
+      workspace, database, ...opts
+    }) {
+      const { dbHost } = await this.getDatabase({
+        workspace,
+        database,
+        ...opts,
+      });
+      const host = dbHost.match(/postgres:\/\/([^/]+)\//);
+      return host[1];
     },
     listUsers({
       workspace, database, ...opts
