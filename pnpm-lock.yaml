@@ -9279,7 +9279,10 @@ importers:
       query-string: 8.1.0
 
   components/smslink_nc:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/smtp2go:
     specifiers:
