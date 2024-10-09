@@ -9,8 +9,7 @@ export default {
       description: "The list ID",
       type: "string",
       async options() {
-        const { items: resources } = await this.getLists();
-
+        const resources = await this.getLists();
         return resources.map((resource) => ({
           value: resource.listId,
           label: resource.name,
@@ -22,12 +21,35 @@ export default {
       description: "The subscriber email",
       type: "string",
       async options({ listId }) {
-        const { items: resources } = await this.getSubscribers({
+        const resources = await this.getSubscribers({
           listId,
         });
-
         return resources.map((resource) => resource.email);
       },
+    },
+    fields: {
+      label: "Fields",
+      description: "Optional fields for a subscriber in JSON format",
+      type: "string[]",
+      optional: true,
+    },
+    origin: {
+      label: "Origin Header",
+      description: "Value for the X-Doppler-Subscriber-Origin header",
+      type: "string",
+      optional: true,
+    },
+    name: {
+      label: "Subscriber Name",
+      description: "Optional name of the subscriber",
+      type: "string",
+      optional: true,
+    },
+    country: {
+      label: "Country",
+      description: "Optional country of the subscriber",
+      type: "string",
+      optional: true,
     },
   },
   methods: {
@@ -41,13 +63,16 @@ export default {
       return `https://restapi.fromdoppler.com/accounts/${this._accountName()}`;
     },
     async _makeRequest({
-      $ = this, path, ...args
+      $ = this, method = "GET", path = "/", data, params, headers, ...otherOpts
     }) {
       return axios($, {
+        ...otherOpts,
+        method,
         url: `${this._apiUrl()}${path}`,
-        ...args,
+        data,
+        params,
         headers: {
-          ...args.headers,
+          ...headers,
           "Authorization": `token ${this._apiKey()}`,
         },
       });
@@ -64,24 +89,47 @@ export default {
       const extraPath = listId
         ? `/lists/${listId}`
         : "";
-
       return this._makeRequest({
         path: `${extraPath}/subscribers`,
         ...args,
       });
     },
-    async getSubscriber({
-      email, ...args
+    async addOrUpdateSubscriber({
+      email, fields = [], name, country, origin, ...args
     }) {
+      const subscriberData = {
+        email,
+        fields: [
+          ...fields.map((field) => JSON.parse(field)),
+          {
+            name: fields.name || name,
+          },
+          {
+            country: fields.country || country,
+          },
+        ].filter((field) => Object.values(field).some((value) => value)),
+      };
       return this._makeRequest({
-        path: `/subscribers/${email}`,
+        path: "/subscribers",
+        method: "POST",
+        headers: {
+          "X-Doppler-Subscriber-Origin": origin,
+        },
+        data: subscriberData,
         ...args,
       });
     },
-    async addSubscriber(args = {}) {
+    async unsubscribeSubscriber({
+      email, ...args
+    }) {
       return this._makeRequest({
-        path: "/subscribers",
-        method: "post",
+        path: "/unsubscribed",
+        method: "POST",
+        data: {
+          subscriber: {
+            email,
+          },
+        },
         ...args,
       });
     },
@@ -90,7 +138,7 @@ export default {
     }) {
       return this._makeRequest({
         path: `/lists/${listId}/subscribers/${email}`,
-        method: "delete",
+        method: "DELETE",
         ...args,
       });
     },
