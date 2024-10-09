@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/platform": "^3.0.3",
     "pg": "^8.13.0"
   }
 }

@@ -29,9 +29,10 @@ export default {
       description: "The port to connect to the database. Example: `5432`",
     },
     database: {
-      type: "string",
-      label: "Database",
-      description: "The name of the database to connect to",
+      propDefinition: [
+        nile,
+        "database",
+      ],
     },
     query: {
       type: "string",
