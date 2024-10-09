@@ -486,7 +486,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/allocadence:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/alpaca:
     specifiers:
@@ -1988,6 +1991,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/college_football_data:
+    specifiers: {}
+
+  components/columns_ai:
     specifiers: {}
 
   components/cometly:
