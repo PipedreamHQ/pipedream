@@ -38,7 +38,7 @@ export default {
     const results = await resourceFn({
       workspace: this.workspace,
       database: this.database,
-    }); console.log(results);
+    });
 
     for (const item of results) {
       const meta = this.generateMeta(item);
