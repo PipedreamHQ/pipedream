@@ -9217,6 +9217,9 @@ importers:
     dependencies:
       '@pipedream/platform': 2.0.0
 
+  components/sms_fusion:
+    specifiers: {}
+
   components/sms_it:
     specifiers: {}
 
