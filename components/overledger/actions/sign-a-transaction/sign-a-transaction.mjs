@@ -2,9 +2,9 @@ import overledger from "../../overledger.app.mjs";
 import { UNIT_OPTIONS } from "../../common/constants.mjs";
 
 export default {
-  key: "overledger-sign-smart-contract-transaction",
-  name: "Sign Smart Contract Transaction",
-  description: "Sign and send a transaction to a smart contract using Overledger",
+  key: "overledger-sign-a-transaction",
+  name: "Sign a transaction",
+  description: "Sign a transaction using Overledger",
   version: "0.0.1",
   type: "action",
   props: {

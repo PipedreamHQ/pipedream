@@ -5,8 +5,8 @@ import { parseObject } from "../../common/utils.mjs";
 import overledger from "../../overledger.app.mjs";
 
 export default {
-  key: "overledger-read-from-smart-contract",
-  name: "Read from Smart Contract",
+  key: "overledger-read-from-a-smart-contract",
+  name: "Read from a smart contract",
   description: "Reads data from a specified smart contract on the Overledger network.",
   version: "0.0.1",
   type: "action",

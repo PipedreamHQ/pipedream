@@ -4,7 +4,7 @@ export default {
   key: "overledger-execute-signed-transaction",
   name: "Execute Signed Transaction",
   description: "Executes a signed transaction by sending it to a blockchain node via Overledger. [See the documentation](https://developers.quant.network/reference/executesignedrequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     overledger,

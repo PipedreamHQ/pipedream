@@ -6,7 +6,7 @@ export default {
   key: "overledger-watch-new-account-event-instant",
   name: "New Account Event (Instant)",
   description: "Emit new event for transactions to/from a specific account.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
