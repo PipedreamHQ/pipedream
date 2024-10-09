@@ -40,32 +40,6 @@ export default {
     },
   },
   hooks: {
-    async deploy() {
-      const propertiesToCheck = await this._getPropertiesToCheck();
-      const propertyValues = {};
-      const params = this.lastUpdatedSortParam();
-      const pagesStream = this.notion.getPages(this.databaseId, params);
-      let count = 0;
-      let lastUpdatedTimestamp = 0;
-      for await (const page of pagesStream) {
-        for (const propertyName of propertiesToCheck) {
-          const currentValue = this._maybeRemoveFileSubItems(page.properties[propertyName]);
-          propertyValues[page.id] = {
-            ...propertyValues[page.id],
-            [propertyName]: currentValue,
-          };
-        }
-        lastUpdatedTimestamp = Math.max(
-          lastUpdatedTimestamp,
-          Date.parse(page.last_edited_time),
-        );
-        if (count++ < 25) {
-          this._emitEvent(page);
-        }
-      }
-      this._setPropertyValues(propertyValues);
-      this.setLastUpdatedTimestamp(lastUpdatedTimestamp);
-    },
     async activate() {
       console.log("Restarting -- fetching all pages and properties");
       const now = new Date();
