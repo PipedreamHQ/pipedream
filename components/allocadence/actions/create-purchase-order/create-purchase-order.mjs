@@ -79,7 +79,7 @@ export default {
     items: {
       type: "string[]",
       label: "Items",
-      description: "A list of object of ordered items. **Example: {\"itemId\": 123, \"sku\": \"SKU123\", \"description\": \"description\", \"quantity\": 1}**. [See the documentation](https://docs.allocadence.com/#tag/purchase_order/paths/~1purchase-orders/post) fro further information.",
+      description: "A list of object of ordered items. **Example: {\"itemId\": 123, \"sku\": \"SKU123\", \"description\": \"description\", \"quantity\": 1}**. [See the documentation](https://docs.allocadence.com/#tag/purchase_order/paths/~1purchase-orders/post) for further information.",
       optional: true,
     },
   },
