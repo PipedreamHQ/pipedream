@@ -42,7 +42,7 @@ export default {
   hooks: {
     async activate() {
       console.log("Activating: fetching pages and properties");
-      this.setLastUpdatedTimestamp(new Date());
+      this._setLastUpdatedTimestamp(Date.now());
       const propertyValues = {};
       const propertiesToCheck = await this._getPropertiesToCheck();
       const params = this.lastUpdatedSortParam();
@@ -60,11 +60,17 @@ export default {
     },
     async deactivate() {
       console.log("Deactivating: clearing states");
-      this.setLastUpdatedTimestamp(null);
+      this._setLastUpdatedTimestamp(null);
     },
   },
   methods: {
     ...base.methods,
+    _getLastUpdatedTimestamp() {
+      return this.db.get(constants.timestamps.LAST_EDITED_TIME);
+    },
+    _setLastUpdatedTimestamp(ts) {
+      this.db.set(constants.timestamps.LAST_EDITED_TIME, ts);
+    },
     _getPropertyValues() {
       const compressed = this.db.get("propertyValues");
       const buffer = Buffer.from(compressed, "base64");
@@ -119,10 +125,10 @@ export default {
     },
   },
   async run() {
-    const lastCheckedTimestamp = this.getLastUpdatedTimestamp();
+    const lastCheckedTimestamp = this._getLastUpdatedTimestamp();
     const propertyValues = this._getPropertyValues();
 
-    if (lastCheckedTimestamp == null) {
+    if (!lastCheckedTimestamp) {
       // recently updated (deactivated / activated), skip execution
       console.log("Awaiting restart completion: skipping execution");
       return;
@@ -203,7 +209,7 @@ export default {
       }
     }
 
-    this.setLastUpdatedTimestamp(newLastUpdatedTimestamp);
+    this._setLastUpdatedTimestamp(newLastUpdatedTimestamp);
     this._setPropertyValues(propertyValues);
   },
   sampleEmit,
