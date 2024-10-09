@@ -41,10 +41,10 @@ export default {
   },
   hooks: {
     async activate() {
-      console.log("Restarting -- fetching all pages and properties");
-      const now = new Date();
-      const propertiesToCheck = await this._getPropertiesToCheck();
+      console.log("Activating: fetching pages and properties");
+      this.setLastUpdatedTimestamp(new Date());
       const propertyValues = {};
+      const propertiesToCheck = await this._getPropertiesToCheck();
       const params = this.lastUpdatedSortParam();
       const pagesStream = this.notion.getPages(this.databaseId, params);
       for await (const page of pagesStream) {
@@ -57,9 +57,9 @@ export default {
         }
       }
       this._setPropertyValues(propertyValues);
-      this.setLastUpdatedTimestamp(now);
     },
     async deactivate() {
+      console.log("Deactivating: clearing states");
       this.setLastUpdatedTimestamp(null);
     },
   },
@@ -124,6 +124,7 @@ export default {
 
     if (lastCheckedTimestamp == null) {
       // recently updated (deactivated / activated), skip execution
+      console.log("Awaiting restart completion: skipping execution");
       return;
     }
 
