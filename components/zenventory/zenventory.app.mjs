@@ -56,13 +56,13 @@ export default {
         ...opts,
       });
     },
-    listCustomerOrder(opts = {}) {
+    listCustomerOrders(opts = {}) {
       return this._makeRequest({
         path: "/customer-orders",
         ...opts,
       });
     },
-    listPurchaseOrder(opts = {}) {
+    listPurchaseOrders(opts = {}) {
       return this._makeRequest({
         path: "/purchase-orders",
         ...opts,
