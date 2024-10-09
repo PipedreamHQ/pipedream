@@ -1,7 +1,10 @@
-typescript_definitions = """## TypeScript Definitions
+typescript_definitions = """<TypeScriptDefinitions>
 
 Below, you'll find the TypeScript definitions for the component API. You'll see references to these in the instructions.
 
+Use these definitions to understand the structure of the component API. These will be very helpful for producing accurate code.
+
+```typescript
 export interface Methods {
   [key: string]: (...args: any) => unknown;
 }
@@ -131,4 +134,6 @@ export function defineAction<
 (component: Action<Methods, ActionPropDefinitions>): Action<Methods, ActionPropDefinitions> {
   return component;
 }
+```
+</TypeScriptDefinitions>
 """
