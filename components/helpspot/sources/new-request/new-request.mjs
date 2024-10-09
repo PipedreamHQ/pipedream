@@ -27,7 +27,7 @@ export default {
       });
 
       for await (const item of response) {
-        item.lastDate = Date.parse(item.dtGMTOpened) / 100;
+        item.lastDate = Date.parse(item.dtGMTOpened) / 1000;
         responseArray.push(item);
       }
       return responseArray;
