@@ -66,6 +66,28 @@ export default {
       this._setPropertyValues(propertyValues);
       this.setLastUpdatedTimestamp(lastUpdatedTimestamp);
     },
+    async activate() {
+      console.log("Restarting -- fetching all pages and properties");
+      const now = new Date();
+      const propertiesToCheck = await this._getPropertiesToCheck();
+      const propertyValues = {};
+      const params = this.lastUpdatedSortParam();
+      const pagesStream = this.notion.getPages(this.databaseId, params);
+      for await (const page of pagesStream) {
+        for (const propertyName of propertiesToCheck) {
+          const currentValue = this._maybeRemoveFileSubItems(page.properties[propertyName]);
+          propertyValues[page.id] = {
+            ...propertyValues[page.id],
+            [propertyName]: currentValue,
+          };
+        }
+      }
+      this._setPropertyValues(propertyValues);
+      this.setLastUpdatedTimestamp(now);
+    },
+    async deactivate() {
+      this.setLastUpdatedTimestamp(null);
+    },
   },
   methods: {
     ...base.methods,
@@ -125,6 +147,11 @@ export default {
   async run() {
     const lastCheckedTimestamp = this.getLastUpdatedTimestamp();
     const propertyValues = this._getPropertyValues();
+
+    if (lastCheckedTimestamp == null) {
+      // recently updated (deactivated / activated), skip execution
+      return;
+    }
 
     const params = {
       ...this.lastUpdatedSortParam(),
