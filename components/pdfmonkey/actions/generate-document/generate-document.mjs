@@ -1,10 +1,11 @@
+import { STATUS_OPTIONS } from "../../common/constants.mjs";
 import pdfmonkey from "../../pdfmonkey.app.mjs";
 
 export default {
   key: "pdfmonkey-generate-document",
   name: "Generate Document",
   description: "Generates a new document using a specified template. [See the documentation](https://docs.pdfmonkey.io/references/api/documents)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     pdfmonkey,
@@ -14,24 +15,37 @@ export default {
         "templateId",
       ],
     },
-    data: {
-      propDefinition: [
-        pdfmonkey,
-        "data",
-      ],
+    payload: {
+      type: "object",
+      label: "Payload",
+      description: "Data to use for the Document generation.",
+      optional: true,
     },
-    metadata: {
-      propDefinition: [
-        pdfmonkey,
-        "metadata",
-      ],
+    meta: {
+      type: "object",
+      label: "Meta",
+      description: "Meta-Data to attach to the Document.",
+      optional: true,
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "The status of the document",
+      options: STATUS_OPTIONS,
+      optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.pdfmonkey.createDocument({
-      templateId: this.templateId,
-      data: this.data,
-      metadata: this.metadata,
+      $,
+      data: {
+        document: {
+          document_template_id: this.templateId,
+          payload: this.payload,
+          meta: this.meta,
+          status: this.status,
+        },
+      },
     });
 
     $.export("$summary", `Successfully generated document with ID ${response.document.id}`);

@@ -1,13 +1,12 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import pdfmonkey from "../../pdfmonkey.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "pdfmonkey-new-document-generated",
   name: "New Document Generated",
-  description: "Emit new event when a document's generation is completed. [See the documentation](https://docs.pdfmonkey.io/references/api/documents)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a document's generation is completed.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,70 +18,50 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    documentId: {
-      propDefinition: [
-        pdfmonkey,
-        "documentId",
-      ],
-    },
-    documentName: {
-      propDefinition: [
-        pdfmonkey,
-        "documentName",
-      ],
-      optional: true,
-    },
-    additionalMetadata: {
-      propDefinition: [
-        pdfmonkey,
-        "additionalMetadata",
-      ],
-      optional: true,
-    },
   },
   methods: {
-    async checkDocumentStatus() {
-      return await this.pdfmonkey.findDocument(this.documentId);
+    _getLastDate() {
+      return this.db.get("lastDate") || 0;
     },
-    _getLastTimestamp() {
-      return this.db.get("lastTimestamp") || 0;
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
     },
-    _setLastTimestamp(timestamp) {
-      this.db.set("lastTimestamp", timestamp);
+    async emitEvent(maxResults = false) {
+      const lastDate = this._getLastDate();
+      const response = this.pdfmonkey.paginate({
+        fn: this.pdfmonkey.listDocuments,
+        maxResults,
+        params: {
+          "q[status]": "success",
+          "q[updated_since]": lastDate,
+        },
+      });
+
+      let responseArray = [];
+      for await (const item of response) {
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) {
+        this._setLastDate(Date.parse(responseArray[0].created_at));
+      }
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, {
+          id: item.id,
+          summary: `Document ${item.filename || item.id} Generation Completed`,
+          ts: Date.parse(item.created_at),
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      const document = await this.checkDocumentStatus();
-      if (document.status === "success") {
-        this.$emit(document, {
-          id: document.id,
-          summary: `Document ${this.documentName || document.filename} Generation Completed`,
-          ts: Date.parse(document.updated_at),
-          additionalMetadata: this.additionalMetadata,
-        });
-        this._setLastTimestamp(Date.parse(document.updated_at));
-      }
-    },
-    async activate() {
-      // No webhook subscription required
-    },
-    async deactivate() {
-      // No webhook unsubscription required
+      await this.emitEvent(25);
     },
   },
   async run() {
-    const lastTimestamp = this._getLastTimestamp();
-    const document = await this.checkDocumentStatus();
-
-    if (Date.parse(document.updated_at) > lastTimestamp && document.status === "success") {
-      this.$emit(document, {
-        id: document.id,
-        summary: `Document ${this.documentName || document.filename} Generation Completed`,
-        ts: Date.parse(document.updated_at),
-        additionalMetadata: this.additionalMetadata,
-      });
-      this._setLastTimestamp(Date.parse(document.updated_at));
-    }
+    await this.emitEvent();
   },
+  sampleEmit,
 };

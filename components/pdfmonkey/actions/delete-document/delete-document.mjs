@@ -1,11 +1,10 @@
 import pdfmonkey from "../../pdfmonkey.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "pdfmonkey-delete-document",
   name: "Delete Document",
   description: "Deletes a specific document using its ID. [See the documentation](https://docs.pdfmonkey.io/references/api/documents)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     pdfmonkey,
@@ -17,7 +16,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.pdfmonkey.deleteDocument(this.documentId);
+    const response = await this.pdfmonkey.deleteDocument({
+      $,
+      documentId: this.documentId,
+    });
     $.export("$summary", `Deleted document with ID ${this.documentId}`);
     return response;
   },
