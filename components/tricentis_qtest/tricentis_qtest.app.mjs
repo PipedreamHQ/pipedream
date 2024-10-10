@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.qtest_base_uri}/api/v3`;
+      return `https://${this.$auth.qtest_base_uri}/api/v3`;
     },
     async _makeRequest({
       $ = this, headers, ...otherOpts
