@@ -78,9 +78,17 @@ export default {
       } else {
         q += ` and '${driveId}' in parents`;
       }
-      const folders = (await this.googleDrive.listFilesInPage(null, getListFilesOpts(drive, {
+
+      const opts = getListFilesOpts(driveId, {
+        // Used for querying 'shared with me' folders that the user does not have direct access to
+        // within a shared drive (e.g., when the user can't select the driveId of the shared drive).
+        corpora: "user",
+        includeItemsFromAllDrives: true,
+        supportsAllDrives: true,
         q,
-      }))).files;
+      });
+
+      const folders = (await this.googleDrive.listFilesInPage(null, opts)).files;
 
       if (folders.length) {
         $.export("$summary", "Found existing folder, therefore not creating folder. Returning found folder.");
