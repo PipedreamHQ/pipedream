@@ -1,23 +1,22 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-remove-label-from-card",
   name: "Remove Card Label",
   description: "Removes label from card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-idlabel-delete).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     board: {
       propDefinition: [
-        common.props.app,
+        app,
         "board",
       ],
     },
     cardId: {
       propDefinition: [
-        common.props.app,
+        app,
         "cards",
         (c) => ({
           board: c.board,
@@ -30,27 +29,19 @@ export default {
     },
     labelId: {
       propDefinition: [
-        common.props.app,
+        app,
         "label",
         (c) => ({
           board: c.board,
+          card: c.cardId,
+          cardLabelsOnly: true,
         }),
       ],
       description: "The ID of the Label to be removed from the card.",
     },
   },
-  methods: {
-    removeLabelFromCard({
-      cardId, labelId, ...args
-    } = {}) {
-      return this.app.delete({
-        path: `/cards/${cardId}/idLabels/${labelId}`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
-    await this.removeLabelFromCard({
+    await this.app.removeLabelFromCard({
       $,
       cardId: this.cardId,
       labelId: this.labelId,

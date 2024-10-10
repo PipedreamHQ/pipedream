@@ -2,9 +2,9 @@ import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-search-checklists",
-  name: "Find Checklist",
+  name: "Search Checklists",
   description: "Find a checklist on a particular board or card by name. [See the documentation here](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-checklists-get) and [here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checklists-get).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     app,
@@ -19,102 +19,83 @@ export default {
       reloadProps: true,
     },
     boardId: {
-      type: "string",
-      label: "Board ID",
-      description: "The ID of the board.",
+      propDefinition: [
+        app,
+        "board",
+      ],
       hidden: true,
     },
     cardId: {
+      propDefinition: [
+        app,
+        "cards",
+        (c) => ({
+          board: c.boardId,
+        }),
+      ],
       type: "string",
       label: "Card ID",
-      description: "The ID of the card.",
+      description: "The ID of the card",
       hidden: true,
     },
     query: {
       type: "string",
       label: "Query",
-      description: "The query to search for.",
+      description: "The query to search for",
     },
     checkItems: {
       type: "string",
       label: "Check Items",
-      description: "all or none",
+      description: "Whether to display checklist items in the result. Select `all` or `none`.",
       optional: true,
       options: [
         "all",
         "none",
       ],
+      reloadProps: true,
+      hidden: true,
     },
     checkItemFields: {
-      type: "string",
+      type: "string[]",
       label: "CheckItem Fields",
-      description: "all or a comma-separated list of: name, nameData, pos, state, type",
-      optional: true,
-    },
-    filter: {
-      type: "string",
-      label: "Filter",
-      description: "all or none",
-      optional: true,
+      description: "Fields to include in the results. `all` or a list of: `name`, `nameData`, `pos`, `state`, `type`",
       options: [
         "all",
-        "none",
+        "name",
+        "nameData",
+        "pos",
+        "state",
+        "type",
       ],
+      optional: true,
+      hidden: true,
     },
     fields: {
-      type: "string",
+      type: "string[]",
       label: "Fields",
-      description: "`all` or a comma-separated list of: `idBoard`, `idCard`, `name`, `pos`. Eg: `idBoard,idCard,name,pos`. Eg: `all`.",
+      description: "Fields to include in the results. `all` or a list of: `idBoard`, `idCard`, `name`, `pos`. Eg: `idBoard,idCard,name,pos`. Eg: `all`.",
+      options: [
+        "all",
+        "idBoard",
+        "idCard",
+        "name",
+        "pos",
+      ],
       optional: true,
+      hidden: true,
     },
   },
-  additionalProps() {
-    const { type } = this;
+  additionalProps(props) {
+    const isCardSearch = this.type === "card";
+    props.boardId.hidden = false;
+    props.cardId.hidden = !isCardSearch;
+    props.checkItems.hidden = !isCardSearch;
+    props.checkItemFields.hidden = !isCardSearch;
+    props.fields.hidden = !isCardSearch;
 
-    const defaultProps = {
-      boardId: {
-        type: "string",
-        label: "Board ID",
-        description: "The ID of the board.",
-        hidden: false,
-        options: async () => {
-          const boards = await this.app.getBoards();
-          return boards
-            .filter(({ closed }) => closed === false)
-            .map(({
-              id: value, name: label,
-            }) => ({
-              label,
-              value,
-            }));
-        },
-      },
-    };
+    props.checkItemFields.hidden = !(this.checkItems === "all");
 
-    if (type === "card") {
-      return {
-        ...defaultProps,
-        cardId: {
-          type: "string",
-          label: "Card ID",
-          description: "The ID of the card.",
-          hidden: false,
-          options: async () => {
-            const cards = await this.app.getCards({
-              boardId: this.boardId,
-            });
-            return cards.map(({
-              id: value, name: label,
-            }) => ({
-              label,
-              value,
-            }));
-          },
-        },
-      };
-    }
-
-    return defaultProps;
+    return {};
   },
   async run({ $ }) {
     const {
@@ -125,32 +106,27 @@ export default {
       query,
       checkItems,
       checkItemFields,
-      filter,
       fields,
     } = this;
 
     let checklists = null;
     let matches = [];
 
-    const params = {
-      checkItems,
-      checkItem_fields: checkItemFields,
-      filter,
-      fields,
-    };
-
     if (type === "board") {
       checklists = await app.listBoardChecklists({
         $,
         boardId,
-        params,
       });
 
     } else if (type === "card") {
       checklists = await app.listCardChecklists({
         $,
         cardId,
-        params,
+        params: {
+          checkItems,
+          checkItem_fields: checkItemFields?.length && checkItemFields.join(),
+          fields: fields?.length && fields.join(),
+        },
       });
     }
 
@@ -161,6 +137,11 @@ export default {
       });
     }
 
+    if (matches?.length) {
+      $.export("$summary", `Found ${matches.length} matching checklist${matches.length === 1
+        ? ""
+        : "s"}`);
+    }
     return matches;
   },
 };
