@@ -10,7 +10,9 @@ export default {
     app,
   },
   async run({ $ }) {
-    const { campaigns } = await this.app.listCampaigns();
+    const { campaigns } = await this.app.listCampaigns({
+      $,
+    });
     $.export("$summary", `Sucessfully retrieved ${campaigns?.length ?? 0} campaigns`);
     return campaigns;
   },

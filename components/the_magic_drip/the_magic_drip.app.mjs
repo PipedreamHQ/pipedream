@@ -75,14 +75,13 @@ export default {
       });
     },
     async markCampaignActiveInactive({
-      campaignId, desiredState,
-    }, opts = {}) {
-      const path = desiredState
-        ? `/campaign/${campaignId}/active`
-        : `/campaign/${campaignId}/inactive`;
+      campaignId, activate, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path,
+        path: `/campaign/${campaignId}/${activate
+          ? "active"
+          : "inactive"}`,
         ...opts,
       });
     },
