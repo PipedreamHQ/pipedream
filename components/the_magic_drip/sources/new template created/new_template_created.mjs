@@ -1,5 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import the_magic_drip from "../../the_magic_drip.app.mjs";
+import app from "../../the_magic_drip.app.mjs";
 
 export default {
   key: "the_magic_drip-new-template-created",
@@ -9,7 +9,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    the_magic_drip,
+    app,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -29,7 +29,7 @@ export default {
   hooks: {
     async deploy() {
       const lastRunAt = new Date(0).toISOString();
-      const newTemplates = await this.the_magic_drip.pollNewTemplates(lastRunAt);
+      const newTemplates = await this.app.pollNewTemplates(lastRunAt);
       const sortedTemplates = newTemplates.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
@@ -56,7 +56,7 @@ export default {
   },
   async run() {
     const lastRunAt = await this._getLastRunAt();
-    const newTemplates = await this.the_magic_drip.pollNewTemplates(lastRunAt);
+    const newTemplates = await this.app.pollNewTemplates(lastRunAt);
     const sortedNewTemplates = newTemplates.sort(
       (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
     );

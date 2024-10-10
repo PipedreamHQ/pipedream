@@ -3,7 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "the_magic_drip",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     campaignId: {
       type: "string",

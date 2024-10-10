@@ -1,17 +1,17 @@
-import the_magic_drip from "../../the_magic_drip.app.mjs";
+import app from "../../the_magic_drip.app.mjs";
 
 export default {
   key: "the_magic_drip-list-templates",
   name: "List Templates",
-  description: "Lists all available templates. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Retrieve all available templates. [See the documentation](https://docs.themagicdrip.com/api-reference/endpoint/get-v1templates)",
+  version: "0.0.1",
   type: "action",
   props: {
-    the_magic_drip,
+    app,
   },
   async run({ $ }) {
-    const templates = await this.the_magic_drip.listTemplates();
-    $.export("$summary", `Listed ${templates.templates.length} templates`);
+    const { templates } = await this.app.listTemplates();
+    $.export("$summary", `Sucessfully retrieved ${templates?.length ?? 0} templates`);
     return templates;
   },
 };

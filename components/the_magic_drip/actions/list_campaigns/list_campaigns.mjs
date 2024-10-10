@@ -1,17 +1,17 @@
-import the_magic_drip from "../../the_magic_drip.app.mjs";
+import app from "../../the_magic_drip.app.mjs";
 
 export default {
   key: "the_magic_drip-list-campaigns",
   name: "List Campaigns",
-  description: "Lists all available campaigns. [See the documentation](https://docs.themagicdrip.com/api-reference/introduction)",
-  version: "0.0.{{ts}}",
+  description: "Retrieve all available campaigns. [See the documentation](https://docs.themagicdrip.com/api-reference/endpoint/get-v1campaign)",
+  version: "0.0.1",
   type: "action",
   props: {
-    the_magic_drip,
+    app,
   },
   async run({ $ }) {
-    const response = await this.the_magic_drip.listCampaigns();
-    $.export("$summary", `Listed ${response.campaigns.length} campaigns`);
-    return response.campaigns;
+    const { campaigns } = await this.app.listCampaigns();
+    $.export("$summary", `Sucessfully retrieved ${campaigns?.length ?? 0} campaigns`);
+    return campaigns;
   },
 };

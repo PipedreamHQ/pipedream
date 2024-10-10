@@ -1,4 +1,4 @@
-import the_magic_drip from "../../the_magic_drip.app.mjs";
+import app from "../../the_magic_drip.app.mjs";
 
 export default {
   key: "the_magic_drip-mark-campaign-active-inactive",
@@ -7,10 +7,10 @@ export default {
   version: "0.0.{{ts}}",
   type: "action",
   props: {
-    the_magic_drip,
+    app,
     campaignId: {
       propDefinition: [
-        the_magic_drip,
+        app,
         "campaignId",
       ],
     },
@@ -21,7 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.the_magic_drip.markCampaignActiveInactive({
+    const response = await this.app.markCampaignActiveInactive({
       campaignId: this.campaignId,
       desiredState: this.desiredState,
     });

@@ -1,4 +1,4 @@
-import the_magic_drip from "../../the_magic_drip.app.mjs";
+import app from "../../the_magic_drip.app.mjs";
 
 export default {
   key: "the_magic_drip-add-lead-to-campaign",
@@ -7,30 +7,30 @@ export default {
   version: "0.0.{{ts}}",
   type: "action",
   props: {
-    the_magic_drip,
+    app,
     campaignId: {
       propDefinition: [
-        the_magic_drip,
+        app,
         "campaignId",
       ],
     },
     company: {
       propDefinition: [
-        the_magic_drip,
+        app,
         "company",
       ],
       optional: true,
     },
     linkedinUrl: {
       propDefinition: [
-        the_magic_drip,
+        app,
         "linkedinUrl",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.the_magic_drip.addLeadToCampaign({
+    const response = await this.app.addLeadToCampaign({
       campaignId: this.campaignId,
       company: this.company,
       linkedinUrl: this.linkedinUrl,
