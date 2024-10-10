@@ -8,6 +8,12 @@ export default {
   type: "action",
   props: {
     overledger,
+    environment: {
+      propDefinition: [
+        overledger,
+        "environment",
+      ],
+    },
     requestId: {
       type: "string",
       label: "Request ID",
@@ -21,12 +27,16 @@ export default {
     },
   },
   async run({ $ }) {
+
+    const requestBody = {
+      requestId: this.requestId,
+      signedTransaction: this.signedTransaction,
+    };
+
     const response = await this.overledger.executeSignedTransaction({
       $,
-      data: {
-        requestId: this.requestId,
-        signedTransaction: this.signedTransaction,
-      },
+      environment: this.environment,
+      data: requestBody,
     });
 
     $.export("$summary", `Successfully executed signed transaction with Request ID ${this.requestId}`);

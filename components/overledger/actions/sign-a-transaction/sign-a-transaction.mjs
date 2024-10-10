@@ -9,6 +9,12 @@ export default {
   type: "action",
   props: {
     overledger,
+    environment: {
+      propDefinition: [
+        overledger,
+        "environment",
+      ],
+    },
     keyId: {
       type: "string",
       label: "Signing Account ID",
@@ -64,6 +70,7 @@ export default {
 
     const response = await this.overledger.signTransaction({
       $,
+      environment: this.environment,
       data: requestBody,
     });
     $.export("$summary", "Transaction signed successfully");

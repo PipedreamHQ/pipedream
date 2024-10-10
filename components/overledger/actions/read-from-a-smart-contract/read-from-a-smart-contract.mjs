@@ -12,6 +12,12 @@ export default {
   type: "action",
   props: {
     overledger,
+    environment: {
+      propDefinition: [
+        overledger,
+        "environment",
+      ],
+    },
     locationTechnology: {
       type: "string",
       label: "Location Technology",
@@ -68,6 +74,7 @@ export default {
       // Make the API call to Overledger
     const response = await this.overledger.readFromSmartContract({
       $,
+      environment: this.environment,
       data: requestBody,
     });
     $.export("$summary", `Successfully read from contract: ${this.smartContractId}`);

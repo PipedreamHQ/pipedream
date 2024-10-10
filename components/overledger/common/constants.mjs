@@ -50,6 +50,17 @@ export const NETWORK_OPTIONS = {
     "Sandbox",
   ],
 };
+//Overledger environment to be used - Test or Live
+export const OVERLEDGER_INSTANCE = [
+  {
+    label: "Sandbox",
+    value: "sandbox",
+  },
+  {
+    label: "Overledger",
+    value: "overledger",
+  },
+];
 ///unit options to allow for the correct selection based on the location network
 export const UNIT_OPTIONS = {
   "ethereum": "ETH",               // Ethereum's token symbol is ETH
