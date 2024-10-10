@@ -127,7 +127,7 @@ export default {
           }
         }
 
-        hasMore = !(current_page == total_pages);
+        hasMore = current_page < total_pages;
 
       } while (hasMore);
     },
