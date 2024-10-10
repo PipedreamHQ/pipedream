@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hullo",
+  "version": "0.0.1",
+  "description": "Pipedream Hullo Components",
+  "main": "hullo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hullo"
+  ],
+  "homepage": "https://pipedream.com/apps/hullo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
