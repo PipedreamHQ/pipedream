@@ -16,12 +16,6 @@ export default {
         }));
       },
     },
-    company: {
-      type: "string",
-      label: "Company",
-      description: "The company of the lead",
-      optional: true,
-    },
     linkedinUrl: {
       type: "string",
       label: "LinkedIn URL",
@@ -57,20 +51,11 @@ export default {
       });
     },
     async addLeadToCampaign({
-      campaignId, company, linkedinUrl,
-    }, opts = {}) {
-      const leadData = {};
-      if (company) leadData.company = company;
-      if (linkedinUrl) leadData.linkedinUrl = linkedinUrl;
-
+      campaignId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/campaign/leads/${campaignId}`,
-        data: {
-          leadsWithCustomVariables: [
-            leadData,
-          ],
-        },
         ...opts,
       });
     },

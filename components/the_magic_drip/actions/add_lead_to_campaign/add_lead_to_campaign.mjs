@@ -3,7 +3,7 @@ import app from "../../the_magic_drip.app.mjs";
 export default {
   key: "the_magic_drip-add-lead-to-campaign",
   name: "Add Lead to Campaign",
-  description: "Adds a single lead to a campaign. [See the documentation]()",
+  description: "Add a lead to a campaign. [See the documentation](https://docs.themagicdrip.com/api-reference/endpoint/post-v1campaignleads)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
@@ -14,30 +14,52 @@ export default {
         "campaignId",
       ],
     },
-    company: {
-      propDefinition: [
-        app,
-        "company",
-      ],
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of the lead",
       optional: true,
     },
-    linkedinUrl: {
-      propDefinition: [
-        app,
-        "linkedinUrl",
-      ],
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the lead",
+    },
+    linkedInPublicUrl: {
+      type: "string",
+      label: "LinkedIn Public URL",
+      description: "LinkedIn public URL of the lead",
+      optional: true,
+    },
+    company: {
+      type: "string",
+      label: "Company",
+      description: "Company of the lead",
+      optional: true,
+    },
+    companyLinkedInUrl: {
+      type: "string",
+      label: "Company LinkedIn URL",
+      description: "LinkedIn URL of the company",
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.app.addLeadToCampaign({
-      campaignId: this.campaignId,
-      company: this.company,
-      linkedinUrl: this.linkedinUrl,
+    const {
+      app, campaignId, ...lead
+    } = this;
+    const response = await app.addLeadToCampaign({
+      $,
+      campaignId,
+      data: {
+        leadsWithCustomVariables: [
+          lead,
+        ],
+      },
     });
     $.export(
       "$summary",
-      `Added ${response.totalLeadsAddedToWorkflow} lead(s) to campaign ${this.campaignId}`,
+      `Successfully added lead "${lead.lastName}" to campaign ${campaignId}`,
     );
     return response;
   },
