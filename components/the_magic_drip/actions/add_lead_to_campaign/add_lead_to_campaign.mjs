@@ -43,6 +43,12 @@ export default {
       description: "LinkedIn URL of the company",
       optional: true,
     },
+    customVariables: {
+      type: "object",
+      label: "Custom Variables",
+      description: "More information about the lead",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -59,7 +65,7 @@ export default {
     });
     $.export(
       "$summary",
-      `Successfully added lead "${lead.lastName}" to campaign ${campaignId}`,
+      `Successfully added lead "${lead.lastName}" to campaign`,
     );
     return response;
   },

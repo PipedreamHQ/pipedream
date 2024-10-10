@@ -32,7 +32,7 @@ export default {
 
     $.export("$summary", `Successfully ${activate
       ? ""
-      : "de"}activated campaign ${campaignId}`);
+      : "de"}activated campaign`);
 
     return response;
   },

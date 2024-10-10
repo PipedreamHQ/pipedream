@@ -9,10 +9,11 @@ export default {
       label: "Campaign ID",
       description: "Select a campaign",
       async options() {
-        const campaigns = await this.listCampaigns();
-        return campaigns.map((campaign) => ({
+        const { campaigns } = await this.listCampaigns();
+        console.log(campaigns);
+        return campaigns?.map((campaign) => ({
           label: campaign.name,
-          value: campaign.id,
+          value: campaign.workflowId,
         }));
       },
     },
@@ -75,18 +76,6 @@ export default {
         path: "/templates",
         ...opts,
       });
-    },
-    async pollNewCampaigns(lastRunAt) {
-      const campaigns = await this.listCampaigns();
-      return campaigns.filter(
-        (campaign) => new Date(campaign.createdAt) > new Date(lastRunAt),
-      );
-    },
-    async pollNewTemplates(lastRunAt) {
-      const templates = await this.listTemplates();
-      return templates.filter(
-        (template) => new Date(template.createdAt) > new Date(lastRunAt),
-      );
     },
   },
 };
