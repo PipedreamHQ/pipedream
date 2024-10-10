@@ -36,30 +36,23 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.themagicdrip.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $, method = "GET", path = "/", headers = {}, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $, path, headers, ...otherOpts
+    } = {}) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          "Content-Type": "application/json",
           "x-api-key": this.$auth.api_key,
         },
       });
     },
     async listCampaigns(opts = {}) {
       return this._makeRequest({
-        method: "GET",
         path: "/campaign",
         ...opts,
       });
@@ -96,7 +89,6 @@ export default {
     },
     async listTemplates(opts = {}) {
       return this._makeRequest({
-        method: "GET",
         path: "/templates",
         ...opts,
       });
