@@ -10778,7 +10778,14 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/virifi:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.1
+      form-data: ^4.0.0
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 3.0.1
+      form-data: 4.0.0
+      fs: 0.0.1-security
 
   components/virustotal:
     specifiers: {}
