@@ -8,12 +8,17 @@ export default {
       label: "List ID",
       description: "The list ID",
       type: "string",
-      async options() {
-        const { items: resources } = await this.getLists();
-
-        return resources.map((resource) => ({
-          value: resource.listId,
-          label: resource.name,
+      async options({ page }) {
+        const { items } = await this.listLists({
+          params: {
+            page: page + 1,
+          },
+        });
+        return items.map(({
+          listId: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -21,56 +26,66 @@ export default {
       label: "Subscriber Email",
       description: "The subscriber email",
       type: "string",
-      async options({ listId }) {
-        const { items: resources } = await this.getSubscribers({
+      async options({
+        page, listId, filter = () => true,
+      }) {
+        const { items } = await this.listSubscribers({
           listId,
+          params: {
+            page: page + 1,
+          },
         });
-
-        return resources.map((resource) => resource.email);
+        return items.filter(filter).map(({ email }) => email);
       },
+    },
+    fields: {
+      label: "Fields",
+      description: "Optional fields for a subscriber in JSON format",
+      type: "string[]",
+      optional: true,
+    },
+    origin: {
+      label: "Origin Header",
+      description: "Value for the X-Doppler-Subscriber-Origin header",
+      type: "string",
+      optional: true,
     },
   },
   methods: {
-    _apiKey() {
-      return this.$auth.api_key;
+    _baseUrl() {
+      return `https://restapi.fromdoppler.com/accounts/${this.$auth.account_name}`;
     },
-    _accountName() {
-      return this.$auth.account_name;
+    _headers() {
+      return {
+        "Authorization": `token ${this.$auth.api_key}`,
+      };
     },
-    _apiUrl() {
-      return `https://restapi.fromdoppler.com/accounts/${this._accountName()}`;
-    },
-    async _makeRequest({
-      $ = this, path, ...args
+    _makeRequest({
+      $ = this, path, ...opts
     }) {
       return axios($, {
-        url: `${this._apiUrl()}${path}`,
-        ...args,
-        headers: {
-          ...args.headers,
-          "Authorization": `token ${this._apiKey()}`,
-        },
+        url: this._baseUrl() + path,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async getLists(args = {}) {
+    listLists(args = {}) {
       return this._makeRequest({
         path: "/lists",
         ...args,
       });
     },
-    async getSubscribers({
-      listId, ...args
+    listSubscribers({
+      listId = null, ...opts
     }) {
-      const extraPath = listId
-        ? `/lists/${listId}`
-        : "";
-
       return this._makeRequest({
-        path: `${extraPath}/subscribers`,
-        ...args,
+        path: `${listId
+          ? `/lists/${listId}`
+          : ""}/subscribers`,
+        ...opts,
       });
     },
-    async getSubscriber({
+    getSubscriber({
       email, ...args
     }) {
       return this._makeRequest({
@@ -78,19 +93,28 @@ export default {
         ...args,
       });
     },
-    async addSubscriber(args = {}) {
+    addOrUpdateSubscriber({
+      listId, ...opts
+    }) {
       return this._makeRequest({
-        path: "/subscribers",
-        method: "post",
-        ...args,
+        method: "POST",
+        path: `/lists/${listId}/subscribers`,
+        ...opts,
       });
     },
-    async removeSubscriber({
+    unsubscribeSubscriber(opts = {}) {
+      return this._makeRequest({
+        path: "/unsubscribed",
+        method: "POST",
+        ...opts,
+      });
+    },
+    removeSubscriber({
       email, listId, ...args
     }) {
       return this._makeRequest({
         path: `/lists/${listId}/subscribers/${email}`,
-        method: "delete",
+        method: "DELETE",
         ...args,
       });
     },

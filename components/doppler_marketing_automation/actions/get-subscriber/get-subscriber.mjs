@@ -2,7 +2,7 @@ import app from "../../doppler_marketing_automation.app.mjs";
 
 export default {
   name: "Get Subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "doppler_marketing_automation-get-subscriber",
   description: "Get a subscriber. [See the documentation](https://restapi.fromdoppler.com/docs/resources#!/Subscribers/AccountsByAccountNameSubscribersByEmailGet)",
   type: "action",
