@@ -3672,6 +3672,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/fullenrich:
+    specifiers: {}
+
   components/fullstory:
     specifiers:
       '@pipedream/platform': ^1.1.1
