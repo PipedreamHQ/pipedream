@@ -4454,7 +4454,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/helpspot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/helpwise:
     specifiers: {}
