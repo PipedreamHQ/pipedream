@@ -8,19 +8,10 @@ export default {
   type: "action",
   props: {
     app,
-    listId: {
-      propDefinition: [
-        app,
-        "listId",
-      ],
-    },
     email: {
       propDefinition: [
         app,
         "subscriberEmail",
-        ({ listId }) => ({
-          listId,
-        }),
       ],
     },
   },
