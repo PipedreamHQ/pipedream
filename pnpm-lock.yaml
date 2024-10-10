@@ -11402,7 +11402,10 @@ importers:
     specifiers: {}
 
   components/zenventory:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/zerobounce:
     specifiers: {}
