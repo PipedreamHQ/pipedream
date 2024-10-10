@@ -1,6 +1,6 @@
-rules = """## Rules
+rules = """<Rules>
 
-When you generate code, you must follow all of the rules below. Review the rules and think through them step-by-step before you generate code. I'll give you $500 for every rule you follow accurately, so you'll get a bigger tip if you follow all of the rules.
+When you generate code, you must follow all of the rules below. Review the rules and think through them step-by-step before you generate code.
 
 0. Produce full, complete, working code. This code is going straight to production. 
 
@@ -18,9 +18,13 @@ export default {
   // the rest of the component
 }
 
-1. Use ESM for all imports, not CommonJS. Place all imports at the top of the file. Make sure to import all necessary packages.
+instead, you should include the full implementation of the methods, prop definitions, and all other code.
 
-2. Include all parameters of the API request as props. DO NOT use example values from any API docs, OpenAPI specs, or example code above or that you've been trained on. Here's example code that references props in the `run` method:
+1. Use ESM for all imports, not CommonJS. Place all imports at the top of the file. Make sure to import all necessary packages used by the code.
+
+2. Include all parameters of the API request as props. DO NOT use example values from any API docs, OpenAPI specs, or example code above or that you've been trained on. On Pipedream, props accept input from the user.
+
+Here's example code that references props in the `run` method:
 
 ```
 data: {
@@ -49,5 +53,5 @@ Do not use static values in the code. You must use the value of the prop (this.<
 6. Always use camel case for variable names. For example, `inputValues` instead of `input_values`.
 
 See the remaining sections for additional rules, specific to Pipedream components.
-
+</Rules>
 """

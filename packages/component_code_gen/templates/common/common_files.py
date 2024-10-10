@@ -1,9 +1,9 @@
 def common_files(parsed_common_files):
-  return """## Common Files
+    return """<CommonFiles>
 
 The user may include a code snippet that is contained in a common file, or a common app file. This code is part of the component, and you may call any method that is defined in it. The same applies for prop definitions. If the common file includes props that applies to the response code, you may just use it with the following syntax:
 
-```
+```javascript
 props: {
   the_prop_name: {
     propDefinition: [
@@ -25,7 +25,7 @@ You should use propDefinition whenever possible, in order to re-use props that a
 
 You may override any previously defined type, label, or description for the prop. To do that just re-define the property in the prop definition object. E.g.:
 
-```
+```javascript
 props: {
   the_prop_name: {
     propDefinition: [
@@ -43,4 +43,6 @@ props: {
 
 Below are the common files that are available for this component. Evaluate throughly each file's code to make sure if there are any props or methods that you can import and use in your code instead of writing the code yourself. You should ALWAYS call a common method that gets you the result you need. Even if it uses a SDK or a different library instead of axios. Only write the code if there isn't any method available. Think about it, we don't want to rewrite exisiting code, we want to re-use it. If you find yourself writing code that is already written, you are doing it wrong. Be sure to import the common file's path correctly in your code.
 
-""" + parsed_common_files
+""" + parsed_common_files + """
+
+</CommonFiles>"""

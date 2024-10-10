@@ -1,7 +1,8 @@
-other_example = """## Another example source
+other_example = """<AnotherExample>
 
 Here's an example Pipedream source component that receives a webhook from Tally for every new form response and processes the incoming event data:
 
+```javascript
 export default {
   key: "tally-new-response",
   name: "New Response",
@@ -41,9 +42,11 @@ export default {
     });
   },
 };
+```
 
 The code you generate should be placed within the `run` method of the Pipedream component:
 
+```javascript
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -58,4 +61,7 @@ export default {
   async run(event) {
     // your code here
   },
-};"""
+};
+```
+
+</AnotherExample>"""
