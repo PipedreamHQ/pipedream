@@ -24,7 +24,7 @@ export async function getFieldProps() {
     result[`field_${id}`] = {
       label,
       type,
-      description: `Field ID: ${id}`,
+      description: `Field ID: ${id} (type: ${fieldType})`,
       optional: isUpdate || !required,
       ...(options && {
         options: options.map(({
