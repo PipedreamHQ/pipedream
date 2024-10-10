@@ -4,58 +4,58 @@ export default {
   type: "app",
   app: "hullo",
   propDefinitions: {
-    memberId: {
-      type: "string",
-      label: "Member ID",
-      description: "The ID of the Hullo member",
+    attributes: {
+      type: "string[]",
+      label: "Attributes",
+      description: "The attributes that describe the member",
+      optional: true,
+      async options() {
+        const attributes = await this.listAttributes();
+        return attributes?.map(({ name }) => name ) || [];
+      },
     },
-    messageContent: {
+    phoneNumber: {
       type: "string",
-      label: "Message Content",
-      description: "The content of the message to send",
-    },
-    memberInfo: {
-      type: "object",
-      label: "Member Info",
-      description: "Details of the member such as name, email, etc.",
+      label: "Phone Number",
+      description: "The phone number of the member",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://app.hullo.me/api";
+      return "https://app.hullo.me/api/endpoints";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "X-API-KEY": `${this.$auth.api_key}`,
         },
       });
     },
-    async sendMessage(memberId, messageContent) {
+    listAttributes(opts = {}) {
+      return this._makeRequest({
+        path: "/attributes",
+        ...opts,
+      });
+    },
+    sendMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/members/${memberId}/messages`,
-        data: {
-          content: messageContent,
-        },
+        path: "/messages",
+        ...opts,
       });
     },
-    async addOrUpdateMember(memberId, memberInfo) {
+    addOrUpdateMember(opts = {}) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/members/${memberId}`,
-        data: memberInfo,
+        method: "POST",
+        path: "/members",
+        ...opts,
       });
     },
   },

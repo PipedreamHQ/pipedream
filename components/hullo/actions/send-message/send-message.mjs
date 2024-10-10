@@ -3,27 +3,32 @@ import hullo from "../../hullo.app.mjs";
 export default {
   key: "hullo-send-message",
   name: "Send Message",
-  description: "Sends a personalized message to a Hullo member.",
-  version: "0.0.{{ts}}",
+  description: "Sends a personalized message to a Hullo member. [See the documentation](https://app.hullo.me/docs/index.html#?route=post-/endpoints/messages)",
+  version: "0.0.1",
   type: "action",
   props: {
     hullo,
-    memberId: {
+    phoneNumber: {
       propDefinition: [
         hullo,
-        "memberId",
+        "phoneNumber",
       ],
     },
-    messageContent: {
-      propDefinition: [
-        hullo,
-        "messageContent",
-      ],
+    messageText: {
+      type: "string",
+      label: "Message Text",
+      description: "The message text to send. Min length: 1, Max length: 640",
     },
   },
   async run({ $ }) {
-    const response = await this.hullo.sendMessage(this.memberId, this.messageContent);
-    $.export("$summary", `Successfully sent message to member with ID: ${this.memberId}`);
+    const response = await this.hullo.sendMessage({
+      $,
+      data: {
+        phoneNumber: this.phoneNumber,
+        messageText: this.messageText,
+      },
+    });
+    $.export("$summary", `Successfully sent message to member with phone number: ${this.phoneNumber}`);
     return response;
   },
 };
