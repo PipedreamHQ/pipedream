@@ -1,23 +1,22 @@
-import dopplerMarketingAutomation from "../../doppler_marketing_automation.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../doppler_marketing_automation.app.mjs";
 
 export default {
   key: "doppler_marketing_automation-remove-subscriber",
   name: "Remove Subscriber",
-  description: "Removes a subscriber from a list completely. [See the documentation](https://restapi.fromdoppler.com/docs/resources)",
+  description: "Removes a subscriber from a list completely. [See the documentation](https://restapi.fromdoppler.com/docs/resources#!/Subscribers/AccountsByAccountNameListsByListIdSubscribersByEmailDelete)",
   version: "0.0.1",
   type: "action",
   props: {
-    dopplerMarketingAutomation,
+    app,
     listId: {
       propDefinition: [
-        dopplerMarketingAutomation,
+        app,
         "listId",
       ],
     },
-    subscriberEmail: {
+    email: {
       propDefinition: [
-        dopplerMarketingAutomation,
+        app,
         "subscriberEmail",
         ({ listId }) => ({
           listId,
@@ -26,11 +25,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.dopplerMarketingAutomation.removeSubscriber({
-      email: this.subscriberEmail,
+    const response = await this.app.removeSubscriber({
+      $,
+      email: this.email,
       listId: this.listId,
     });
-    $.export("$summary", `Successfully removed subscriber: ${this.subscriberEmail} from list: ${this.listId}`);
+    $.export("$summary", `Successfully removed subscriber: ${this.email} from list: ${this.listId}`);
     return response;
   },
 };

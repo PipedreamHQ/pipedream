@@ -1,26 +1,31 @@
-import dopplerMarketingAutomation from "../../doppler_marketing_automation.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../doppler_marketing_automation.app.mjs";
 
 export default {
   key: "doppler_marketing_automation-unsubscribe-email",
   name: "Unsubscribe Email",
-  description: "Unsubscribe an email address from the mailing list. Once unsubscribed, the user will not receive any more communication. [See the documentation](https://restapi.fromdoppler.com/docs/)",
+  description: "Unsubscribe an email address from the account. Once unsubscribed, the user will not receive any more communication. [See the documentation](https://restapi.fromdoppler.com/docs/resources#!/Subscribers/AccountsByAccountNameUnsubscribedPost)",
   version: "0.0.1",
   type: "action",
   props: {
-    dopplerMarketingAutomation,
-    subscriberEmail: {
+    app,
+    email: {
       propDefinition: [
-        dopplerMarketingAutomation,
+        app,
         "subscriberEmail",
+        () => ({
+          filter: ({ status }) => status != "unsubscribed",
+        }),
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.dopplerMarketingAutomation.unsubscribeSubscriber({
-      email: this.subscriberEmail,
+    const response = await this.app.unsubscribeSubscriber({
+      $,
+      data: {
+        email: this.email,
+      },
     });
-    $.export("$summary", `Successfully unsubscribed email: ${this.subscriberEmail}`);
+    $.export("$summary", `Successfully unsubscribed email: ${this.email}`);
     return response;
   },
 };
