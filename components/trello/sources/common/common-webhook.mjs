@@ -9,12 +9,9 @@ export default {
   },
   hooks: {
     async deploy() {
-      const {
-        sampleEvents, sortField,
-      } = await this.getSampleEvents();
-      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
-        ? 1
-        : -1);
+      let sampleEvents = await this.getSampleEvents();
+      const sortField = this.getSortField();
+      sampleEvents = this.sortItemsByDate(sampleEvents, sortField);
       for (const event of sampleEvents.slice(-25)) {
         this.emitEvent(event);
       }
@@ -28,17 +25,25 @@ export default {
           callbackURL: this.http.endpoint,
         },
       });
-      this.db.set("hookId", id);
+      this._setHookId(id);
     },
     async deactivate() {
-      const hookId = this.db.get("hookId");
-      await this.deleteHook({
-        hookId,
-      });
+      const hookId = this._getHookId();
+      if (hookId) {
+        await this.deleteHook({
+          hookId,
+        });
+      }
     },
   },
   methods: {
     ...common.methods,
+    _getHookId() {
+      return this.db.get("hookId");
+    },
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
+    },
     getBase64Digest(data) {
       const { secret } = this.app.getToken();
       return createHmac("sha1", secret)
@@ -57,7 +62,6 @@ export default {
     createHook(args = {}) {
       return this.app.post({
         ...args,
-        debug: true,
         path: "/webhooks/",
       });
     },
@@ -66,7 +70,6 @@ export default {
     } = {}) {
       return this.app.delete({
         ...args,
-        debug: true,
         path: `/webhooks/${hookId}`,
       });
     },
@@ -97,8 +100,14 @@ export default {
     isRelevant() {
       return true;
     },
+    getResult(action) {
+      return action;
+    },
     getSampleEvents() {
       throw new Error("getSampleEvents not implemented");
+    },
+    getSortField() {
+      throw new Error("getSortField is not implemented");
     },
   },
   async run(event) {
@@ -112,15 +121,17 @@ export default {
       return;
     }
 
-    if (!this.isCorrectEventType(event)) {
+    const { action } = event.body;
+
+    if (!this.isCorrectEventType(action)) {
       console.log("The event is not of the correct type. Skipping...");
       return;
     }
 
-    const result = await this.getResult(event);
+    const result = await this.getResult(action);
     const isRelevant = await this.isRelevant({
       result,
-      event,
+      action,
     });
 
     if (!isRelevant) {

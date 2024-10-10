@@ -1,12 +1,12 @@
 import github from "../../github.app.mjs";
+import asyncProps from "../common/asyncProps.mjs";
 import constants from "../common/constants.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "github-get-reviewers",
   name: "Get Reviewers",
-  description: "Get reviewers for a PR ([see docs](https://docs.github.com/en/rest/pulls/reviews#list-reviews-for-a-pull-request)) or Commit SHA ([see docs](https://docs.github.com/en/rest/commits/commits#list-pull-requests-associated-with-a-commit)).",
-  version: "0.0.17",
+  description: "Get reviewers for a PR ([see documentation](https://docs.github.com/en/rest/pulls/reviews#list-reviews-for-a-pull-request)) or Commit SHA ([see documentation](https://docs.github.com/en/rest/commits/commits#list-pull-requests-associated-with-a-commit)).",
+  version: "0.1.0",
   type: "action",
   props: {
     github,
@@ -16,29 +16,36 @@ export default {
         "repoFullname",
       ],
     },
-    pullNumber: {
-      propDefinition: [
-        github,
-        "pullNumber",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-      optional: true,
-    },
-    commitSha: {
+    prOrCommit: {
       type: "string",
-      label: "Commit SHA",
-      description: "A commit SHA. This field will have precendence over **PR Number**",
-      optional: true,
+      label: "PR or Commit",
+      description: "Whether to get reviewers for a [pull request](https://docs.github.com/en/rest/pulls/reviews#list-reviews-for-a-pull-request) or a [commit SHA](https://docs.github.com/en/rest/commits/commits#list-pull-requests-associated-with-a-commit).",
+      options: [
+        "Pull Request",
+        "Commit SHA",
+      ],
+      reloadProps: true,
     },
     reviewStates: {
       type: "string[]",
       label: "Review States",
-      description: "Filter by these review states. Default includes `APPROVED` and `CHANGES_REQUESTED` only",
+      description: "Filter by these review states",
       options: constants.PULL_REQUEST_STATES,
       optional: true,
     },
+  },
+  async additionalProps() {
+    return this.prOrCommit === "Pull Request"
+      ? {
+        pullNumber: asyncProps.pullNumber,
+      }
+      : {
+        commitSha: {
+          type: "string",
+          label: "Commit SHA",
+          description: "A commit SHA to get reviewers for",
+        },
+      };
   },
   methods: {
     getReviewers(reviews) {
@@ -47,10 +54,7 @@ export default {
           if (this.reviewStates?.length) {
             return this.reviewStates.includes(review.state); // user-defined states
           }
-          return [
-            "APPROVED",
-            "CHANGES_REQUESTED",
-          ].includes(review.state); // default states
+          return true; // default states: all
         })
         .map((review) => review.user.login);
       return this.uniqueReviewers(reviewers);
@@ -62,10 +66,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!(this.pullNumber || this.commitSha)) {
-      throw new ConfigurationError("Please provide a **PR Number** or a **Commit SHA**");
-    }
-
     let pullNumber = this.pullNumber;
 
     if (this.commitSha) {
@@ -89,7 +89,7 @@ export default {
 
     const reviewers = this.getReviewers(reviews);
 
-    $.export("$summary", "Successfully retrieved reviewers.");
+    $.export("$summary", "Successfully retrieved reviewers");
 
     return reviewers;
   },

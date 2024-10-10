@@ -7,7 +7,7 @@ export default {
   key: "gorgias_oauth-ticket-created",
   name: "New Ticket",
   description: "Emit new event when a ticket is created. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "source",
   props: {
     ...base.props,
@@ -33,6 +33,15 @@ export default {
         "userId",
       ],
     },
+    tagIds: {
+      type: "string[]",
+      label: "Tag IDs",
+      description: "The tag ids to filter tickets by.",
+      propDefinition: [
+        base.props.gorgias_oauth,
+        "tagId",
+      ],
+    },
   },
   methods: {
     ...base.methods,
@@ -40,9 +49,11 @@ export default {
       return eventTypes.TICKET_CREATED;
     },
     isRelevant(ticket) {
+      const tagIds = ticket.tags.map(({ id }) => id);
       return (!this.channel || ticket.channel === this.channel)
         && (!this.via || ticket.via === this.via)
-        && (!this.assigneeId || ticket?.assignee_user_id === this.assigneeId);
+        && (!this.assigneeId || ticket?.assignee_user_id === this.assigneeId)
+        && (!this.tagIds || this.tagIds.some((tagId) => tagIds.includes(tagId)));
     },
     async processHistoricalEvent(event) {
       const ticket = await this.retrieveTicket(event.object_id);

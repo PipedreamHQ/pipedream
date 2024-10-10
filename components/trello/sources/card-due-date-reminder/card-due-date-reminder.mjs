@@ -1,19 +1,24 @@
+import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
+import trello from "../../trello.app.mjs";
 import ms from "ms";
-import common from "../common/common-polling.mjs";
+import constants from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
-  ...common,
   key: "trello-card-due-date-reminder",
-  name: "Card Due Date Reminder",
+  name: "Card Due Date Reminder", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event at a specified time before a card is due.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   props: {
-    ...common.props,
+    pipedream: taskScheduler.props.pipedream,
+    trello,
+    db: "$.service.db",
+    http: "$.interface.http",
     board: {
       propDefinition: [
-        common.props.app,
+        trello,
         "board",
       ],
     },
@@ -22,25 +27,43 @@ export default {
       label: "Time Before",
       description: "How far before the due time the event should trigger. For example, `5 minutes`, `10 minutes`, `1 hour`.",
       default: "5 minutes",
-      options: [
-        "5 minutes",
-        "10 minutes",
-        "15 minutes",
-        "30 minutes",
-        "1 hour",
-        "2 hours",
-        "3 hours",
-        "6 hours",
-        "12 hours",
-        "1 day",
-        "2 days",
-        "3 days",
-        "1 week",
-      ],
+      options: constants.NOTIFICATION_TIMES,
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.timeBefore) {
+      props.timer = {
+        type: "$.interface.timer",
+        description: "Poll the API to schedule alerts for any newly created events",
+        default: {
+          intervalSeconds: ms(this.timeBefore) / 1000,
+        },
+      };
+    }
+    return props;
+  },
+  hooks: {
+    async deactivate() {
+      const ids = this._getScheduledEventIds();
+      if (!ids?.length) {
+        return;
+      }
+      for (const id of ids) {
+        if (await this.deleteEvent({
+          body: {
+            id,
+          },
+        })) {
+          console.log("Cancelled scheduled event");
+        }
+      }
+      this._setScheduledEventIds();
     },
   },
   methods: {
-    ...common.methods,
+    ...taskScheduler.methods,
     generateMeta({
       id, name: summary,
     }, now) {
@@ -50,32 +73,87 @@ export default {
         ts: now,
       };
     },
+    _getScheduledEventIds() {
+      return this.db.get("scheduledEventIds");
+    },
+    _setScheduledEventIds(ids) {
+      this.db.set("scheduledEventIds", ids);
+    },
+    _getScheduledCardIds() {
+      return this.db.get("scheduledCardIds");
+    },
+    _setScheduledCardIds(ids) {
+      this.db.set("scheduledCardIds", ids);
+    },
+    _hasDeployed() {
+      const result = this.db.get("hasDeployed");
+      this.db.set("hasDeployed", true);
+      return result;
+    },
     emitEvent(card, now) {
       const meta = this.generateMeta(card, now);
       this.$emit(card, meta);
     },
   },
   async run(event) {
-    const boardId = this.board;
     const now = event.timestamp * 1000;
 
-    const timeBeforeMs = ms(this.timeBefore);
-    if (!timeBeforeMs) {
-      throw new Error(`Invalid timeBefore value: ${this.timeBefore}`);
+    // self subscribe only on the first time
+    if (!this._hasDeployed()) {
+      await this.selfSubscribe();
     }
 
-    const cards = await this.app.getCards({
-      boardId,
+    let scheduledEventIds = this._getScheduledEventIds() || [];
+
+    // incoming scheduled event
+    if (event.$channel === this.selfChannel()) {
+      const remainingScheduledEventIds = scheduledEventIds.filter((id) => id !== event["$id"]);
+      this._setScheduledEventIds(remainingScheduledEventIds);
+      this.emitEvent(event, now);
+      return;
+    }
+
+    // schedule new events
+    const scheduledCardIds = this._getScheduledCardIds() || {};
+    const cards = await this.trello.getCards({
+      boardId: this.board,
     });
+
     for (const card of cards) {
-      if (!card.due) {
+      const dueDate = card.due
+        ? new Date(card.due)
+        : null;
+      if (!dueDate || dueDate.getTime() < Date.now()) {
+        delete scheduledCardIds[card.id];
         continue;
       }
-      const due = Date.parse(card.due);
-      const notifyAt = due - timeBeforeMs;
-      if (notifyAt <= now) {
-        this.emitEvent(card, now);
+
+      const later = new Date(dueDate.getTime() - ms(this.timeBefore));
+
+      if (scheduledCardIds[card.id]) {
+        // reschedule if card's due date has changed
+        if (card.due !== scheduledCardIds[card.id].dueDate) {
+          await this.deleteEvent({
+            body: {
+              id: scheduledCardIds[card.id].eventId,
+            },
+          });
+          scheduledEventIds = scheduledEventIds
+            .filter((id) => id !== scheduledCardIds[card.id].eventId);
+        } else {
+          continue;
+        }
       }
+
+      const scheduledEventId = this.emitScheduleEvent(card, later);
+      scheduledEventIds.push(scheduledEventId);
+      scheduledCardIds[card.id] = {
+        eventId: scheduledEventId,
+        dueDate: card.due,
+      };
     }
+    this._setScheduledEventIds(scheduledEventIds);
+    this._setScheduledCardIds(scheduledCardIds);
   },
+  sampleEmit,
 };

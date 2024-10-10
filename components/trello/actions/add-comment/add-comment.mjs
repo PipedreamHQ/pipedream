@@ -2,9 +2,9 @@ import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-add-comment",
-  name: "Create a Comment",
+  name: "Add Comment",
   description: "Create a new comment on a specific card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-actions-comments-post).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     app,
@@ -45,12 +45,11 @@ export default {
   },
   async run({ $ }) {
     const {
-      addComment,
       cardId,
       text,
     } = this;
 
-    const response = await addComment({
+    const response = await this.app.addComment({
       $,
       cardId,
       params: {
@@ -58,7 +57,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully added comment.");
+    $.export("$summary", `Successfully added comment with ID: ${response.id}`);
 
     return response;
   },

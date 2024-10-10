@@ -1,25 +1,24 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 import pickBy from "lodash-es/pickBy.js";
 import pick from "lodash-es/pick.js";
 
 export default {
-  ...common,
   key: "trello-update-card",
   name: "Update Card",
   description: "Updates a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     idBoard: {
       propDefinition: [
-        common.props.app,
+        app,
         "board",
       ],
     },
     cardId: {
       propDefinition: [
-        common.props.app,
+        app,
         "cards",
         (c) => ({
           board: c.idBoard,
@@ -32,14 +31,14 @@ export default {
     },
     name: {
       propDefinition: [
-        common.props.app,
+        app,
         "name",
       ],
       description: "The new name for the card.",
     },
     desc: {
       propDefinition: [
-        common.props.app,
+        app,
         "desc",
       ],
       description: "The new description for the card.",
@@ -49,10 +48,11 @@ export default {
       label: "Archived",
       description: "Whether to archive the card",
       default: false,
+      optional: true,
     },
     idMembers: {
       propDefinition: [
-        common.props.app,
+        app,
         "member",
         (c) => ({
           board: c.idBoard,
@@ -65,7 +65,7 @@ export default {
     },
     idAttachmentCover: {
       propDefinition: [
-        common.props.app,
+        app,
         "cardAttachmentId",
         ({ cardId }) => ({
           cardId,
@@ -77,7 +77,7 @@ export default {
     },
     idList: {
       propDefinition: [
-        common.props.app,
+        app,
         "lists",
         (c) => ({
           board: c.idBoard,
@@ -89,7 +89,7 @@ export default {
     },
     idLabels: {
       propDefinition: [
-        common.props.app,
+        app,
         "label",
         (c) => ({
           board: c.idBoard,
@@ -102,19 +102,20 @@ export default {
     },
     pos: {
       propDefinition: [
-        common.props.app,
+        app,
         "pos",
       ],
+      description: "The position of the new card. `top`, `bottom`, or a positive float",
     },
     due: {
       propDefinition: [
-        common.props.app,
+        app,
         "due",
       ],
     },
     dueComplete: {
       propDefinition: [
-        common.props.app,
+        app,
         "dueComplete",
       ],
       description: "Whether the due date should be marked complete.",
@@ -123,30 +124,31 @@ export default {
     subscribed: {
       type: "boolean",
       label: "Subscribed",
-      description: "Whether the member is should be subscribed to the card.",
+      description: "Whether the member should be subscribed to the card.",
       default: false,
+      optional: true,
     },
     address: {
       propDefinition: [
-        common.props.app,
+        app,
         "address",
       ],
     },
     locationName: {
       propDefinition: [
-        common.props.app,
+        app,
         "locationName",
       ],
     },
     coordinates: {
       propDefinition: [
-        common.props.app,
+        app,
         "coordinates",
       ],
     },
     customFieldIds: {
       propDefinition: [
-        common.props.app,
+        app,
         "customFieldIds",
         (c) => ({
           boardId: c.idBoard,
@@ -178,7 +180,6 @@ export default {
     return props;
   },
   methods: {
-    ...common.methods,
     async getCustomFieldItems($) {
       const customFieldItems = [];
       for (const customFieldId of this.customFieldIds) {

@@ -4,8 +4,8 @@ import utils from "../../actions/common/utils.mjs";
 export default {
   key: "github-create-gist",
   name: "Create Gist",
-  description: "Allows you to add a new gist with one or more files. [See docs here](https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#create-a-gist)",
-  version: "0.0.6",
+  description: "Allows you to add a new gist with one or more files. [See the documentation](https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#create-a-gist)",
+  version: "0.0.7",
   type: "action",
   props: {
     github,
