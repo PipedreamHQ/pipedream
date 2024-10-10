@@ -10,7 +10,6 @@ export default {
       description: "Select a campaign",
       async options() {
         const { campaigns } = await this.listCampaigns();
-        console.log(campaigns);
         return campaigns?.map((campaign) => ({
           label: campaign.name,
           value: campaign.workflowId,
