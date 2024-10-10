@@ -6,7 +6,7 @@ export default {
   key: "overledger-new-contract-event-instant",
   name: "New Smart Contract Event (Instant)",
   description: "Emit new event when a smart contract releases a new event.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
