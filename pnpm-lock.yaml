@@ -9983,6 +9983,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/tess_ai_by_pareto:
+    specifiers: {}
+
   components/test_app_for_oauth_bug:
     specifiers: {}
 
