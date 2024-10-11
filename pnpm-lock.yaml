@@ -792,6 +792,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.3
 
+  components/autoblogger:
+    specifiers: {}
+
   components/autobound:
     specifiers: {}
 
