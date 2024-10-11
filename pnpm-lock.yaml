@@ -486,7 +486,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/allocadence:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/alpaca:
     specifiers:
@@ -564,7 +567,10 @@ importers:
     specifiers: {}
 
   components/americommerce:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/amilia:
     specifiers:
@@ -781,7 +787,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/attio:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/autobound:
     specifiers: {}
@@ -1349,7 +1358,10 @@ importers:
     specifiers: {}
 
   components/burstyai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/businesslogic:
     specifiers:
@@ -1778,7 +1790,10 @@ importers:
     specifiers: {}
 
   components/cliento:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/clinchpad:
     specifiers:
@@ -1982,6 +1997,9 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/college_football_data:
+    specifiers: {}
+
+  components/columns_ai:
     specifiers: {}
 
   components/cometly:
@@ -3657,6 +3675,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/fullenrich:
+    specifiers: {}
+
   components/fullstory:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -4442,7 +4463,10 @@ importers:
       '@pipedream/platform': 1.6.0
 
   components/helpspot:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/helpwise:
     specifiers: {}
@@ -4480,7 +4504,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/highergov:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/highlevel_oauth:
     specifiers:
@@ -4628,6 +4655,9 @@ importers:
       '@huggingface/inference': 1.8.0
       '@pipedream/platform': 1.5.1
       node-fetch: 3.3.2
+
+  components/hullo:
+    specifiers: {}
 
   components/humanitix:
     specifiers: {}
@@ -5615,10 +5645,10 @@ importers:
 
   components/loops_so:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.3
       lodash.pickby: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.3
       lodash.pickby: 4.6.0
 
   components/loqate:
@@ -6099,6 +6129,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/mitra:
+    specifiers: {}
+
   components/mixmax:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -6426,6 +6459,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/ngrok:
+    specifiers: {}
+
   components/niceboard:
     specifiers: {}
 
@@ -6459,7 +6495,12 @@ importers:
     specifiers: {}
 
   components/nile_database:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+      pg: ^8.13.0
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      pg: 8.13.0
 
   components/nimble:
     specifiers:
@@ -6622,6 +6663,9 @@ importers:
       '@pipedream/platform': ^2.0.0
     dependencies:
       '@pipedream/platform': 2.0.0
+
+  components/ollama:
+    specifiers: {}
 
   components/omise:
     specifiers:
@@ -9196,6 +9240,9 @@ importers:
     dependencies:
       '@pipedream/platform': 2.0.0
 
+  components/sms_fusion:
+    specifiers: {}
+
   components/sms_it:
     specifiers: {}
 
@@ -9341,6 +9388,9 @@ importers:
     dependencies:
       '@pipedream/platform': 2.0.0
       form-data: 4.0.0
+
+  components/spider:
+    specifiers: {}
 
   components/spiritme:
     specifiers:
@@ -10243,12 +10293,14 @@ importers:
       crypto: ^1.0.1
       form-data: ^4.0.0
       lodash-es: ^4.17.21
+      mime: ^4.0.4
       ms: ^2.1.3
     dependencies:
       '@pipedream/platform': 3.0.1
       crypto: 1.0.1
       form-data: 4.0.0
       lodash-es: 4.17.21
+      mime: 4.0.4
       ms: 2.1.3
 
   components/trengo:
@@ -10303,6 +10355,9 @@ importers:
     specifiers: {}
 
   components/tubular:
+    specifiers: {}
+
+  components/tuesday:
     specifiers: {}
 
   components/turbohire:
@@ -12915,55 +12970,6 @@ packages:
       - aws-crt
     dev: false
 
-  /@aws-sdk/client-sso-oidc/3.600.0_tdq3komn4zwyd65w7klbptsu34:
-    resolution: {integrity: sha512-7+I8RWURGfzvChyNQSyj5/tKrqRbzRl7H+BnTOf/4Vsw1nFOi5ROhlhD4X/Y0QCTacxnaoNcIrqnY7uGGvVRzw==}
-    engines: {node: '>=16.0.0'}
-    dependencies:
-      '@aws-crypto/sha256-browser': 5.2.0
-      '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-sts': 3.600.0
-      '@aws-sdk/core': 3.598.0
-      '@aws-sdk/credential-provider-node': 3.600.0_f7n47caigsrjd2lr2szmwfuee4
-      '@aws-sdk/middleware-host-header': 3.598.0
-      '@aws-sdk/middleware-logger': 3.598.0
-      '@aws-sdk/middleware-recursion-detection': 3.598.0
-      '@aws-sdk/middleware-user-agent': 3.598.0
-      '@aws-sdk/region-config-resolver': 3.598.0
-      '@aws-sdk/types': 3.598.0
-      '@aws-sdk/util-endpoints': 3.598.0
-      '@aws-sdk/util-user-agent-browser': 3.598.0
-      '@aws-sdk/util-user-agent-node': 3.598.0
-      '@smithy/config-resolver': 3.0.3
-      '@smithy/core': 2.2.3
-      '@smithy/fetch-http-handler': 3.2.1
-      '@smithy/hash-node': 3.0.2
-      '@smithy/invalid-dependency': 3.0.2
-      '@smithy/middleware-content-length': 3.0.2
-      '@smithy/middleware-endpoint': 3.0.4
-      '@smithy/middleware-retry': 3.0.6
-      '@smithy/middleware-serde': 3.0.3
-      '@smithy/middleware-stack': 3.0.3
-      '@smithy/node-config-provider': 3.1.3
-      '@smithy/node-http-handler': 3.1.2
-      '@smithy/protocol-http': 4.0.3
-      '@smithy/smithy-client': 3.1.6
-      '@smithy/types': 3.3.0
-      '@smithy/url-parser': 3.0.3
-      '@smithy/util-base64': 3.0.0
-      '@smithy/util-body-length-browser': 3.0.0
-      '@smithy/util-body-length-node': 3.0.0
-      '@smithy/util-defaults-mode-browser': 3.0.6
-      '@smithy/util-defaults-mode-node': 3.0.6
-      '@smithy/util-endpoints': 2.0.3
-      '@smithy/util-middleware': 3.0.3
-      '@smithy/util-retry': 3.0.2
-      '@smithy/util-utf8': 3.0.0
-      tslib: 2.6.3
-    transitivePeerDependencies:
-      - '@aws-sdk/client-sts'
-      - aws-crt
-    dev: false
-
   /@aws-sdk/client-sso/3.423.0:
     resolution: {integrity: sha512-znIufHkwhCIePgaYciIs3x/+BpzR57CZzbCKHR9+oOvGyufEPPpUT5bFLvbwTgfiVkTjuk6sG/ES3U5Bc+xtrA==}
     engines: {node: '>=14.0.0'}
@@ -13199,7 +13205,7 @@ packages:
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
-      '@aws-sdk/client-sso-oidc': 3.600.0_tdq3komn4zwyd65w7klbptsu34
+      '@aws-sdk/client-sso-oidc': 3.600.0
       '@aws-sdk/core': 3.598.0
       '@aws-sdk/credential-provider-node': 3.600.0_f7n47caigsrjd2lr2szmwfuee4
       '@aws-sdk/middleware-host-header': 3.598.0
@@ -13238,6 +13244,55 @@ packages:
       '@smithy/util-utf8': 3.0.0
       tslib: 2.6.3
     transitivePeerDependencies:
+      - aws-crt
+    dev: false
+
+  /@aws-sdk/client-sts/3.600.0_dseaa2p5u2yk67qiepewcq3hkq:
+    resolution: {integrity: sha512-KQG97B7LvTtTiGmjlrG1LRAY8wUvCQzrmZVV5bjrJ/1oXAU7DITYwVbSJeX9NWg6hDuSk0VE3MFwIXS2SvfLIA==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@aws-crypto/sha256-browser': 5.2.0
+      '@aws-crypto/sha256-js': 5.2.0
+      '@aws-sdk/client-sso-oidc': 3.600.0
+      '@aws-sdk/core': 3.598.0
+      '@aws-sdk/credential-provider-node': 3.600.0_f7n47caigsrjd2lr2szmwfuee4
+      '@aws-sdk/middleware-host-header': 3.598.0
+      '@aws-sdk/middleware-logger': 3.598.0
+      '@aws-sdk/middleware-recursion-detection': 3.598.0
+      '@aws-sdk/middleware-user-agent': 3.598.0
+      '@aws-sdk/region-config-resolver': 3.598.0
+      '@aws-sdk/types': 3.598.0
+      '@aws-sdk/util-endpoints': 3.598.0
+      '@aws-sdk/util-user-agent-browser': 3.598.0
+      '@aws-sdk/util-user-agent-node': 3.598.0
+      '@smithy/config-resolver': 3.0.3
+      '@smithy/core': 2.2.3
+      '@smithy/fetch-http-handler': 3.2.1
+      '@smithy/hash-node': 3.0.2
+      '@smithy/invalid-dependency': 3.0.2
+      '@smithy/middleware-content-length': 3.0.2
+      '@smithy/middleware-endpoint': 3.0.4
+      '@smithy/middleware-retry': 3.0.6
+      '@smithy/middleware-serde': 3.0.3
+      '@smithy/middleware-stack': 3.0.3
+      '@smithy/node-config-provider': 3.1.3
+      '@smithy/node-http-handler': 3.1.2
+      '@smithy/protocol-http': 4.0.3
+      '@smithy/smithy-client': 3.1.6
+      '@smithy/types': 3.3.0
+      '@smithy/url-parser': 3.0.3
+      '@smithy/util-base64': 3.0.0
+      '@smithy/util-body-length-browser': 3.0.0
+      '@smithy/util-body-length-node': 3.0.0
+      '@smithy/util-defaults-mode-browser': 3.0.6
+      '@smithy/util-defaults-mode-node': 3.0.6
+      '@smithy/util-endpoints': 2.0.3
+      '@smithy/util-middleware': 3.0.3
+      '@smithy/util-retry': 3.0.2
+      '@smithy/util-utf8': 3.0.0
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - '@aws-sdk/client-sso-oidc'
       - aws-crt
     dev: false
 
@@ -17567,7 +17622,7 @@ packages:
       '@aws-sdk/client-sns': 3.423.0
       '@aws-sdk/client-sqs': 3.423.0
       '@aws-sdk/client-ssm': 3.423.0
-      '@aws-sdk/client-sts': 3.600.0
+      '@aws-sdk/client-sts': 3.600.0_dseaa2p5u2yk67qiepewcq3hkq
       '@aws-sdk/s3-request-presigner': 3.609.0
       '@pipedream/helper_functions': 0.3.12
       '@pipedream/platform': 1.6.6
@@ -31414,6 +31469,10 @@ packages:
     resolution: {integrity: sha512-ch6OwaeaPYcova4kKZ15sbJ2hKb/VP48ZD2gE7i1J+L4MspCtBMAx8nMgz7bksc7IojCIIWuEhHibSMFH8m8oA==}
     dev: false
 
+  /pg-connection-string/2.7.0:
+    resolution: {integrity: sha512-PI2W9mv53rXJQEOb8xNR8lH7Hr+EKa6oJa38zsK0S/ky2er16ios1wLKhZyxzD7jUReiWokc9WK5nxSnC7W1TA==}
+    dev: false
+
   /pg-format/1.0.4:
     resolution: {integrity: sha512-YyKEF78pEA6wwTAqOUaHIN/rWpfzzIuMh9KdAhc3rSLQ/7zkRFcCgYBAEGatDstLyZw4g0s9SNICmaTGnBVeyw==}
     engines: {node: '>=4.0'}
@@ -31432,8 +31491,20 @@ packages:
       pg: 8.11.3
     dev: false
 
+  /pg-pool/3.7.0_pg@8.13.0:
+    resolution: {integrity: sha512-ZOBQForurqh4zZWjrgSwwAtzJ7QiRX0ovFkZr2klsen3Nm0aoh33Ls0fzfv3imeH/nw/O27cjdz5kzYJfeGp/g==}
+    peerDependencies:
+      pg: '>=8.0'
+    dependencies:
+      pg: 8.13.0
+    dev: false
+
   /pg-protocol/1.6.0:
     resolution: {integrity: sha512-M+PDm637OY5WM307051+bsDia5Xej6d9IR4GwJse1qA1DIhiKlksvrneZOYQq42OM+spubpcNYEo2FcKQrDk+Q==}
+    dev: false
+
+  /pg-protocol/1.7.0:
+    resolution: {integrity: sha512-hTK/mE36i8fDDhgDFjy6xNOG+LCorxLG3WO17tku+ij6sVHXh1jQUJ8hYAnRhNla4QVD2H8er/FOjc/+EgC6yQ==}
     dev: false
 
   /pg-types/2.2.0:
@@ -31461,6 +31532,24 @@ packages:
       pg-connection-string: 2.6.2
       pg-pool: 3.6.1_pg@8.11.3
       pg-protocol: 1.6.0
+      pg-types: 2.2.0
+      pgpass: 1.0.5
+    optionalDependencies:
+      pg-cloudflare: 1.1.1
+    dev: false
+
+  /pg/8.13.0:
+    resolution: {integrity: sha512-34wkUTh3SxTClfoHB3pQ7bIMvw9dpFU1audQQeZG837fmHfHpr14n/AELVDoOYVDW2h5RDWU78tFjkD+erSBsw==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      pg-native: '>=3.0.1'
+    peerDependenciesMeta:
+      pg-native:
+        optional: true
+    dependencies:
+      pg-connection-string: 2.7.0
+      pg-pool: 3.7.0_pg@8.13.0
+      pg-protocol: 1.7.0
       pg-types: 2.2.0
       pgpass: 1.0.5
     optionalDependencies:

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ngrok",
+  "version": "0.0.1",
+  "description": "Pipedream ngrok Components",
+  "main": "ngrok.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ngrok"
+  ],
+  "homepage": "https://pipedream.com/apps/ngrok",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
