@@ -271,6 +271,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/adyen:
+    specifiers: {}
+
   components/aero_workflow:
     specifiers:
       '@pipedream/platform': ^1.4.1
