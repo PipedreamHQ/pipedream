@@ -77,11 +77,12 @@ export default {
       });
     },
     deleteHook({
-      path, webhookId,
+      path, webhookId, ...opts
     }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/api/webhooks/${path}/${webhookId}`,
+        ...opts,
       });
     },
   },
