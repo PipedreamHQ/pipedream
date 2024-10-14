@@ -1,8 +1,7 @@
 import github from "../../github.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import {
-  checkAdminPermission, getRelevantHeaders,
-} from "./utils.mjs";
+import { getRelevantHeaders } from "./utils.mjs";
+import { checkAdminPermission } from "../../common/utils.mjs";
 
 export default {
   props: {

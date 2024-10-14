@@ -162,12 +162,15 @@ export default {
       label: "Issue Number",
       description: "The issue number",
       type: "integer",
-      async options({ repoFullname }) {
+      async options({
+        repoFullname, page = 0,
+      }) {
         const issues = await this.getRepositoryIssues({
+          page: page + 1,
           repoFullname,
         });
 
-        return issues.map((issue) => ({
+        return issues?.filter?.((issue) => !issue.pull_request).map((issue) => ({
           label: issue.title,
           value: +issue.number,
         }));
@@ -195,14 +198,32 @@ export default {
       type: "integer",
       label: "PR Number",
       description: "A pull request number",
-      async options({ repoFullname }) {
+      async options({
+        repoFullname, page = 0,
+      }) {
         const prs = await this.getRepositoryPullRequests({
+          page: page + 1,
           repoFullname,
         });
 
         return prs.map((pr) => ({
           label: pr.title,
           value: +pr.number,
+        }));
+      },
+    },
+    milestoneNumber: {
+      type: "integer",
+      label: "Milestone Number",
+      description: "The number of a milestone to associate this issue with.",
+      async options({ repoFullname }) {
+        const items = await this.getRepositoryMilestones({
+          repoFullname,
+        });
+
+        return items.map((item) => ({
+          label: item.title,
+          value: +item.number,
         }));
       },
     },
@@ -336,6 +357,7 @@ export default {
       repoFullname,
       path,
       mediaType,
+      ...args
     }) {
       return this._makeRequest({
         path: `/repos/${repoFullname}/contents/${path}`,
@@ -344,6 +366,7 @@ export default {
             Accept: mediaType,
           },
         }),
+        ...args,
       });
     },
     async getRepositoryLabels({ repoFullname }) {
@@ -352,10 +375,14 @@ export default {
     async getRepositoryCollaborators({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/collaborators`, {});
     },
-    async getRepositoryIssues({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/issues`, {
+    async getRepositoryIssues({
+      repoFullname, ...args
+    }) {
+      const results = await this._client().request(`GET /repos/${repoFullname}/issues`, {
         state: "all",
+        ...args,
       });
+      return results.data;
     },
     async getRepositoryProjects({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/projects`, {});
@@ -549,8 +576,11 @@ export default {
 
       return issues;
     },
-    async getRepositoryPullRequests({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/pulls`, {});
+    async getRepositoryPullRequests({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/pulls`, args ?? {});
+      return response.data;
     },
     async getPullRequestForCommit({
       repoFullname, sha,
@@ -604,6 +634,11 @@ export default {
       const fileExists = await this._makeRequest({
         path: `/repos/${repoFullname}/contents/${path}`,
         validateStatus: () => true,
+        ...(branch && {
+          params: {
+            ref: branch,
+          },
+        }),
       });
       if (fileExists.sha) {
         console.log("File exists, overwriting.");

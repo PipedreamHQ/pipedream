@@ -6,7 +6,7 @@ export default {
   key: "mailerlite-subscriber-unsubscribed",
   name: "New Subscriber Unsubscribed (Instant)",
   description: "Emit new event when a subscriber is unsubscribed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     ...common.props,
@@ -25,7 +25,7 @@ export default {
       created_at: createdAt,
     }) {
       return {
-        id: id,
+        id,
         summary: `The subscriber with Id: ${id} has been unsubscribed!`,
         ts: new Date(createdAt),
       };

@@ -1,10 +1,12 @@
+import { checkPushPermission } from "../../common/utils.mjs";
 import github from "../../github.app.mjs";
+import asyncProps from "../common/asyncProps.mjs";
 
 export default {
   key: "github-create-issue",
   name: "Create Issue",
-  description: "Create a new issue in a Gihub repo. [See docs here](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
-  version: "0.2.16",
+  description: "Create a new issue in a Gihub repo. [See the documentation](https://docs.github.com/en/rest/issues/issues#create-an-issue)",
+  version: "0.3.0",
   type: "action",
   props: {
     github,
@@ -13,6 +15,7 @@ export default {
         github,
         "repoFullname",
       ],
+      reloadProps: true,
     },
     title: {
       label: "Title",
@@ -21,47 +24,41 @@ export default {
     },
     body: {
       label: "Body",
-      description: "The contents of the issue",
+      description: "The text body of the issue",
       type: "string",
       optional: true,
     },
-    labels: {
-      label: "Labels",
-      description: "Labels to associate with this issue. NOTE: Only users with push access can set labels for new issues",
-      optional: true,
-      propDefinition: [
-        github,
-        "labels",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-    },
-    assignees: {
-      label: "Assignees",
-      description: "Logins for Users to assign to this issue. NOTE: Only users with push access can set assignees for new issues",
-      optional: true,
-      propDefinition: [
-        github,
-        "collaborators",
-        (c) => ({
-          repoFullname: c.repoFullname,
-        }),
-      ],
-    },
+  },
+  methods: {
+    checkPushPermission,
+  },
+  async additionalProps() {
+    const canPush = await this.checkPushPermission();
+    return canPush
+      ? {
+        assignees: asyncProps.assignees,
+        labels: asyncProps.labels,
+        milestoneNumber: asyncProps.milestoneNumber,
+      }
+      : {
+        infoBox: {
+          type: "alert",
+          alertType: "info",
+          content: "Labels, assignees and milestones can only be set by users with push access to the repository.",
+        },
+      };
   },
   async run({ $ }) {
-    const response = await this.github.createIssue({
-      repoFullname: this.repoFullname,
-      data: {
-        title: this.title,
-        body: this.body,
-        labels: this.labels,
-        assignees: this.assignees,
-      },
+    const { // eslint-disable-next-line no-unused-vars
+      github, repoFullname, infoBox, ...data
+    } = this;
+
+    const response = await github.createIssue({
+      repoFullname,
+      data,
     });
 
-    $.export("$summary", "Successfully created issue.");
+    $.export("$summary", `Successfully created issue (ID: ${response.id})`);
 
     return response;
   },

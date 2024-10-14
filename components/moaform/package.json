@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/moaform",
+  "version": "0.1.0",
+  "description": "Pipedream Moaform Components",
+  "main": "moaform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "moaform"
+  ],
+  "homepage": "https://pipedream.com/apps/moaform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

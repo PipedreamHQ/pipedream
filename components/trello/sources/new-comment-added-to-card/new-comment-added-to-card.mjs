@@ -1,84 +1,98 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "trello-new-comment-added-to-card",
   name: "New Comment Added to Card (Instant)",
   description: "Emit new event for each new comment added to a card.",
-  version: "0.1.2",
+  version: "0.2.1",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
-    cards: {
+    list: {
       propDefinition: [
-        common.props.trello,
-        "cards",
+        common.props.app,
+        "lists",
         (c) => ({
           board: c.board,
         }),
       ],
+      type: "string",
+      label: "List",
+      description: "If specified, events will only be emitted when a comment is added to a card in the specified list",
     },
-  },
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      const {
-        sampleEvents, sortField,
-      } = await this.getSampleEvents();
-      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
-        ? 1
-        : -1);
-      for (const action of sampleEvents.slice(-25)) {
-        this.emitEvent(action);
-      }
+    cards: {
+      propDefinition: [
+        common.props.app,
+        "cards",
+        (c) => ({
+          board: c.board,
+          list: c.list,
+        }),
+      ],
+      description: "If specified, events will only be emitted when a comment is added to one of the specified cards",
     },
   },
   methods: {
     ...common.methods,
     async getSampleEvents() {
-      const cards = this.cards && this.cards.length > 0
+      const cards = this.cards?.length
         ? this.cards
-        : (await this.trello.getCards(this.board)).map((card) => card.id);
+        : this.list
+          ? (await this.app.getCardsInList({
+            listId: this.list,
+          })).map((card) => card.id)
+          : (await this.app.getCards({
+            boardId: this.board,
+          })).map((card) => card.id);
       const actions = [];
       for (const card of cards) {
-        const activities = await this.trello.getCardActivity(card, "commentCard");
+        const activities = await this.app.getCardActivity({
+          cardId: card,
+          params: {
+            filter: "commentCard",
+          },
+        });
 
         for (const activity of activities) {
           actions.push(await this.getResult(activity));
         }
       }
-      return {
-        sampleEvents: actions,
-        sortField: "date",
-      };
+      return actions;
     },
-    isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "commentCard";
+    getSortField() {
+      return "date";
     },
-    async getResult(event) {
-      const card = await this.trello.getCard(event?.body?.action?.data?.card?.id ??
-        event?.data?.card?.id);
-      const member = await this.trello.getMember(event?.body?.action?.idMemberCreator ??
-        event.idMemberCreator);
+    isCorrectEventType({ type }) {
+      return type === "commentCard";
+    },
+    async getResult(action) {
+      const card = await this.app.getCard({
+        cardId: action?.data?.card?.id,
+      });
+      const member = await this.app.getMember({
+        memberId: action?.idMemberCreator,
+      });
 
       return {
         member,
         card,
-        event: event?.body ?? event,
+        event: action,
       };
     },
     isRelevant({ result: { card } }) {
       return (
         (!this.board || this.board === card.idBoard) &&
-        (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
+        (!this.lists || this.list === card.idList) &&
+        (!this.cards?.length || this.cards.includes(card.id))
       );
     },
     generateMeta({ event }) {
@@ -89,4 +103,5 @@ export default {
       };
     },
   },
+  sampleEmit,
 };

@@ -4,7 +4,7 @@ export default {
   key: "linkedin-get-organization-access-control",
   name: "Gets Organization Access Control",
   description: "Gets an organization's access control information, given the organization urn. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-access-control?context=linkedin/compliance/context#find-access-control-information)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     linkedin,
@@ -21,24 +21,20 @@ export default {
     },
   },
   async run({ $ }) {
+    let start = 0;
     const count = 50;
     const results = [];
 
-    const params = {
-      q: "organization",
-      organization: encodeURI(this.organizationUrn),
-      start: 0,
-      count,
-    };
+    const params = `q=organization&organization=${this.organizationUrn.replace(/:/g, "%3A")}&count=${count}`;
 
     let done = false;
     do {
-      const { elements } = await this.linkedin.getAccessControl({
-        $,
-        params,
+      const { data: { elements } } = await this.linkedin.getAccessControl({
+        params: params + `&start=${start}`,
       });
+
       results.push(...elements);
-      params.start += count;
+      start += count;
       if (elements?.length < count) {
         done = true;
       }

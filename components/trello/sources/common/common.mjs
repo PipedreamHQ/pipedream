@@ -1,8 +1,8 @@
-import trello from "../../trello.app.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
   props: {
-    trello,
+    app,
     db: "$.service.db",
   },
   methods: {
@@ -13,11 +13,11 @@ export default {
      * @param {string} name - The name of the item of the book.
      */
     generateMeta({
-      id, name: summary,
+      id, name,
     }) {
       return {
         id,
-        summary,
+        summary: name || `${id}`,
         ts: Date.now(),
       };
     },
@@ -29,6 +29,9 @@ export default {
     emitEvent(result) {
       const meta = this.generateMeta(result);
       this.$emit(result, meta);
+    },
+    sortItemsByDate(items, sortField) {
+      return items.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField])));
     },
   },
 };

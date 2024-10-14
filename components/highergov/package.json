@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/highergov",
+  "version": "0.1.0",
+  "description": "Pipedream HigherGov Components",
+  "main": "highergov.app.mjs",
+  "keywords": [
+    "pipedream",
+    "highergov"
+  ],
+  "homepage": "https://pipedream.com/apps/highergov",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1"
+  }
+}
