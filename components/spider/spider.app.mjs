@@ -3,28 +3,16 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "spider",
-  propDefinitions: {
-    url: {
-      type: "string",
-      label: "URL to Scrape",
-      description: "The URL of the page to scrape.",
-    },
-  },
+  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.spider.cloud";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, path = "/", headers, ...otherOpts
+    } = {}) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -33,18 +21,12 @@ export default {
         },
       });
     },
-    async initiateCrawl() {
-      const response = await this._makeRequest({
+    async initiateCrawl(args) {
+      return this._makeRequest({
         method: "POST",
         path: "/crawl",
-        data: {
-          url: this.url,
-        },
+        ...args,
       });
-      if (Array.isArray(response) && response.length > 0) {
-        return response[0].content;
-      }
-      throw new Error("No content returned from crawl");
     },
   },
 };
