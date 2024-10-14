@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sms_fusion",
+  "version": "0.0.1",
+  "description": "Pipedream SMS Fusion Components",
+  "main": "sms_fusion.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sms_fusion"
+  ],
+  "homepage": "https://pipedream.com/apps/sms_fusion",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
