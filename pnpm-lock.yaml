@@ -6392,6 +6392,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/nerv:
+    specifiers: {}
+
   components/netatmo:
     specifiers: {}
 
