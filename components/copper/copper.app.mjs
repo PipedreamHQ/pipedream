@@ -4,88 +4,180 @@ export default {
   type: "app",
   app: "copper",
   propDefinitions: {
-    personData: {
-      type: "object",
-      label: "Person Data",
-      description: "Provide person data for creating or criteria for the update",
-    },
-    projectData: {
-      type: "object",
-      label: "Project Data",
-      description: "Provide project data for creating or criteria for the update",
-    },
-    crmId: {
+    objectId: {
       type: "string",
-      label: "CRM ID",
-      description: "The ID of the CRM record",
+      label: "Object ID",
+      description: "The ID of the CRM object",
+      async options({
+        objectType, page,
+      }) {
+        const objects = await this.listObjects({
+          objectType,
+          params: {
+            page_number: page + 1,
+          },
+        });
+        return objects?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    projectId: {
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "An array of the tags associated with the Project",
+      optional: true,
+      async options() {
+        const tags = await this.listTags();
+        return tags?.map(({ name }) => name) || [];
+      },
+    },
+    status: {
       type: "string",
-      label: "Project ID",
-      description: "The ID of the project you wish to relate",
+      label: "Status",
+      description: "The status of the Project",
+      optional: true,
+      options: [
+        "Open",
+        "Completed",
+      ],
+    },
+    objectType: {
+      type: "string",
+      label: "Object Type",
+      description: "The type of CRM object",
+      async options() {
+        return [
+          {
+            label: "Lead",
+            value: "leads",
+          },
+          {
+            label: "Person",
+            value: "people",
+          },
+          {
+            label: "Company",
+            value: "companies",
+          },
+          {
+            label: "Opportunity",
+            value: "opportunities",
+          },
+          {
+            label: "Project",
+            value: "projects",
+          },
+          {
+            label: "Task",
+            value: "tasks",
+          },
+        ];
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.copper.com";
+      return "https://api.copper.com/developer_api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "get",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "X-PW-AccessToken": this.$auth.api_key,
+          "X-PW-Application": "developer_api",
+          "X-PW-UserEmail": this.$auth.email,
+          "Content-Type": "application/json",
         },
       });
     },
-    async createOrUpdatePerson(personData) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
-        method: "post",
-        path: "/person",
-        data: personData,
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
       });
     },
-    async createOrUpdateProject(projectData) {
+    deleteWebhook({
+      hookId, ...opts
+    }) {
       return this._makeRequest({
-        method: "post",
-        path: "/project",
-        data: projectData,
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
+        ...opts,
       });
     },
-    async relateProjectToCrm(crmId, projectId) {
+    listObjects({
+      objectType, ...opts
+    }) {
       return this._makeRequest({
-        method: "post",
-        path: `/project/${projectId}/relate`,
-        data: {
-          crmId,
-        },
+        method: "POST",
+        path: `/${objectType}/search`,
+        ...opts,
       });
     },
-    async getNewPerson() {
+    listTags(opts = {}) {
       return this._makeRequest({
-        path: "/person/new",
+        path: "/tags",
+        ...opts,
       });
     },
-    async getNewLead() {
+    getObject({
+      objectType, objectId, ...opts
+    }) {
       return this._makeRequest({
-        path: "/lead/new",
+        path: `/${objectType}/${objectId}`,
+        ...opts,
       });
     },
-    async getNewOpportunity() {
+    createPerson(opts = {}) {
       return this._makeRequest({
-        path: "/opportunity/new",
+        method: "POST",
+        path: "/people",
+        ...opts,
+      });
+    },
+    updatePerson({
+      personId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/people/${personId}`,
+        ...opts,
+      });
+    },
+    createProject(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/projects",
+        ...opts,
+      });
+    },
+    updateProject({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/projects/${projectId}`,
+        ...opts,
+      });
+    },
+    relateProjectToCrmObject({
+      objectType, objectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/${objectType}/${objectId}/related`,
+        ...opts,
       });
     },
   },
