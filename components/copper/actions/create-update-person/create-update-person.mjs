@@ -76,7 +76,7 @@ export default {
         street: this.streetAddress,
         city: this.city,
         state: this.state,
-        postal_code: this.postalode,
+        postal_code: this.postalCode,
         country: this.country,
       },
       phone_numbers: this.phone && [
