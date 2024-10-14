@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/imagior",
+  "version": "0.0.1",
+  "description": "Pipedream Imagior Components",
+  "main": "imagior.app.mjs",
+  "keywords": [
+    "pipedream",
+    "imagior"
+  ],
+  "homepage": "https://pipedream.com/apps/imagior",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
