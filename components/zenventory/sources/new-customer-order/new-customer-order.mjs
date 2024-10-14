@@ -30,7 +30,7 @@ export default {
       };
     },
     getFunction() {
-      return this.zenventory.listCustomerOrder;
+      return this.zenventory.listCustomerOrders;
     },
     getDataField() {
       return "customerOrders";

@@ -19,7 +19,7 @@ export default {
       };
     },
     getFunction() {
-      return this.zenventory.listPurchaseOrder;
+      return this.zenventory.listPurchaseOrders;
     },
     getDataField() {
       return "purchaseOrders";
