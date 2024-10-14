@@ -134,7 +134,7 @@ export default {
           }
         }
 
-        hasMore = !data.length;
+        hasMore = data.length;
 
       } while (hasMore);
     },
