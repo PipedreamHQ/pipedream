@@ -4,143 +4,139 @@ export default {
   type: "app",
   app: "wati",
   propDefinitions: {
+    contactId: {
+      type: "string",
+      label: "Contact Id",
+      description: "The Id of the contact.",
+      async options({ page }) {
+        const { result } = await this.listContacts({
+          params: {
+            pageSize: page + 1,
+          },
+        });
+
+        return result.map(({ wAid }) => wAid);
+      },
+    },
     whatsappNumber: {
       type: "string",
       label: "WhatsApp Number",
       description: "Your WhatsApp number with country code.",
     },
-    messageContent: {
-      type: "string",
-      label: "Message Content",
-      description: "Content of the message.",
-      optional: true,
-    },
-    contactName: {
-      type: "string",
-      label: "Contact Name",
-      description: "Name of the contact.",
-      optional: true,
-    },
-    contactDetails: {
+    customParams: {
       type: "object",
-      label: "Contact Details",
-      description: "Contact details, including name and WhatsApp number.",
-      properties: {
-        name: {
-          type: "string",
-          label: "Name",
-        },
-        number: {
-          type: "string",
-          label: "Number",
-        },
-      },
+      label: "Custom Params",
+      description: "An object with contact's custom fields.",
     },
-    templateDetails: {
-      type: "object",
-      label: "Template Details",
-      description: "Details of the pre-approved template, including name and placeholders.",
-      properties: {
-        templateName: {
-          type: "string",
-          label: "Template Name",
-        },
-        placeholders: {
-          type: "string[]",
-          label: "Placeholders",
-          description: "Template placeholders as an array of objects.",
-        },
-      },
-    },
-    attributeDetails: {
-      type: "object",
-      label: "Attribute Details",
-      description: "Details of attributes to update.",
-      properties: {
-        attributeName: {
-          type: "string",
-          label: "Attribute Name",
-        },
-        attributeValue: {
-          type: "string",
-          label: "Attribute Value",
-        },
-      },
-    },
-    timestamp: {
+    templateName: {
       type: "string",
-      label: "Timestamp",
-      description: "The timestamp of the message.",
-      optional: true,
+      label: "Template Name",
+      description: "The name of template.",
+      async options({ page }) {
+        const { messageTemplates: data } = await this.listTemplates({
+          params: {
+            pageSize: page + 1,
+          },
+        });
+
+        return data.map(({ elementName }) => elementName);
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://your_wati_api_endpoint/api/v1";
+      return `${this.$auth.api_endpoint}/api/v1`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `${this.$auth.access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async emitContactCreatedEvent({
-      whatsappNumber, contactName, messageContent,
-    }) {
-      // Logic to emit event using given parameters
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
     },
-    async emitIncomingMessageEvent({
-      whatsappNumber, messageContent, timestamp,
+    listContactMessages({
+      whatsappNumber, ...opts
     }) {
-      // Logic to emit event using given parameters
+      return this._makeRequest({
+        path: `/getMessages/${whatsappNumber}`,
+        ...opts,
+      });
     },
-    async addContact(contactDetails) {
-      const {
-        number, name,
-      } = contactDetails;
+    listTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/getMessageTemplates",
+        ...opts,
+      });
+    },
+    addContact({
+      whatsappNumber, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/addContact/${number}`,
-        data: {
-          name,
-        },
+        path: `/addContact/${whatsappNumber}`,
+        ...opts,
       });
     },
-    async sendTemplateMessage({
-      contactDetails, templateDetails,
-    }) {
+    sendTemplateMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/sendTemplateMessage",
-        params: {
-          whatsappNumber: contactDetails.number,
-        },
-        data: templateDetails,
+        ...opts,
       });
     },
-    async updateContactAttributes({
-      contactDetails, attributeDetails,
+    updateContactAttributes({
+      whatsappNumber, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/updateContactAttributes/${contactDetails.number}`,
-        data: {
-          customParams: [
-            {
-              name: attributeDetails.attributeName,
-              value: attributeDetails.attributeValue,
-            },
-          ],
-        },
+        path: `/updateContactAttributes/${whatsappNumber}`,
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, itemsField, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.pageNumber = ++page;
+        const response = await fn({
+          params,
+          ...opts,
+        });
+
+        let data = response;
+
+        for (const field of itemsField) {
+          data = data[field];
+        }
+
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = !data.length;
+
+      } while (hasMore);
     },
   },
 };

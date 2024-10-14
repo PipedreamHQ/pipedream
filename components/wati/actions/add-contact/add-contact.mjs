@@ -1,5 +1,5 @@
+import { ConfigurationError } from "@pipedream/platform";
 import wati from "../../wati.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "wati-add-contact",
@@ -9,16 +9,45 @@ export default {
   type: "action",
   props: {
     wati,
-    contactDetails: {
+    whatsappNumber: {
       propDefinition: [
         wati,
-        "contactDetails",
+        "whatsappNumber",
       ],
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the contact",
+      optional: true,
+    },
+    customParams: {
+      propDefinition: [
+        wati,
+        "customParams",
+      ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.wati.addContact(this.contactDetails);
-    $.export("$summary", `Successfully added contact with name: ${this.contactDetails.name}`);
+    const response = await this.wati.addContact({
+      $,
+      whatsappNumber: this.whatsappNumber,
+      data: {
+        name: this.name,
+        customParams: this.customParams && Object.entries(this.customParams).map(([
+          key,
+          value,
+        ]) => ({
+          name: key,
+          value,
+        })),
+      },
+    });
+    if (!response.result) {
+      throw new ConfigurationError(response.info);
+    }
+    $.export("$summary", `Successfully added contact with phone number: ${this.whatsappNumber}`);
     return response;
   },
 };
