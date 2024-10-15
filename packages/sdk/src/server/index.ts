@@ -564,8 +564,8 @@ export class ServerClient {
   public async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
     const body = {
       ...opts,
+      external_id: opts.external_user_id,
     };
-
     return this.makeConnectRequest<ConnectTokenResponse>("/tokens", {
       method: "POST",
       body,
