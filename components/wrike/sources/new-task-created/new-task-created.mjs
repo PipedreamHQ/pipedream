@@ -7,7 +7,7 @@ export default {
   name: "New Task Created",
   description: "Emit new event when a task is created",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...base.props,
     folderId: {
