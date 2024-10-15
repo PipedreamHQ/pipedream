@@ -49,6 +49,7 @@ export default {
   async run({ $ }) {
     const elements = {};
     const { elements: allElements } = await this.imagior.listTemplateElements({
+      $,
       templateId: this.templateId,
     });
     for (const [
