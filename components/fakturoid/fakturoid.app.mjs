@@ -63,44 +63,6 @@ export default {
         }));
       },
     },
-    newStatus: {
-      type: "string",
-      label: "New Status",
-      description: "The new status of the invoice (overdue or paid)",
-      options: [
-        {
-          label: "Overdue",
-          value: "overdue",
-        },
-        {
-          label: "Paid",
-          value: "paid",
-        },
-      ],
-    },
-    customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: "Identifier for the customer (optional)",
-      optional: true,
-    },
-    contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "Identifier for the contact related to the invoice",
-    },
-    number: {
-      type: "string",
-      label: "Number",
-      description: "The invoice number (optional)",
-      optional: true,
-    },
-    paymentValue: {
-      type: "string",
-      label: "Payment Value",
-      description: "Amount of payment to be executed (optional)",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl(accountSlug) {
@@ -116,13 +78,11 @@ export default {
     _makeRequest({
       $ = this, accountSlug, path, ...opts
     }) {
-      const config = {
+      return axios($, {
         url: this._baseUrl(accountSlug) + path,
         headers: this._headers(),
         ...opts,
-      };
-      console.log("config: ", config);
-      return axios($, config);
+      });
     },
     getLoggedUser() {
       return this._makeRequest({
@@ -183,21 +143,25 @@ export default {
         ...opts,
       });
     },
-    createWebhook(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks.json",
-        ...opts,
-      });
-    },
-    deleteWebhook({
-      webhookId, ...opts
+    async *paginate({
+      fn, params = {}, ...opts
     }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/webhooks${webhookId}.json`,
-        ...opts,
-      });
+      let hasMore = false;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const data = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };
