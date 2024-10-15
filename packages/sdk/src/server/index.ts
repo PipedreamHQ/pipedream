@@ -562,17 +562,11 @@ export class ServerClient {
    * ```
    */
   public async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
-    console.log("sdk opts: ", opts)
     const body = {
       ...opts,
-      //external_id: opts.external_user_id,
     };
 
-    const projectId = "proj_kVbs1N"
-    const path = projectId ? `/${projectId}/tokens` : "/tokens"
-    console.log(path)
-    console.log(body)
-    return this.makeConnectRequest<ConnectTokenResponse>(path, {
+    return this.makeConnectRequest<ConnectTokenResponse>("/tokens", {
       method: "POST",
       body,
     });
