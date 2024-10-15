@@ -4,7 +4,7 @@ export default {
   key: "spider-scrape-new-page",
   name: "Scrape New Page",
   description: "Initiates a new page scrape (crawl). [See the documentation](https://spider.cloud/docs/api#crawl-website)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     spider,
