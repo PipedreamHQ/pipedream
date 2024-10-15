@@ -49,6 +49,10 @@ export default {
 
     const newTemplates = templates.filter(({ createdAt }) => Date.parse(createdAt) >= lastTs);
 
+    if (!newTemplates?.length) {
+      return;
+    }
+
     this._setLastTs(Date.parse(newTemplates[0].createdAt));
 
     newTemplates.forEach((template) => {
