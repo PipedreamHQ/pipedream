@@ -52,7 +52,7 @@ export default {
         },
       },
     });
-    $.export("$summary", `Successfully created subscription with ID: ${response.id}`);
+    $.export("$summary", `Successfully created subscription with ID: ${response.subscription.id}`);
     return response;
   },
 };
