@@ -15,6 +15,13 @@ export default {
         "environment",
       ],
     },
+    locationTechnology: {
+      type: "string",
+      label: "Location Technology",
+      description: "The blockchain technology used for this transaction, e.g., ethereum, substrate - required in order to set the dltfee",
+      //previous prep step output - reuired in this step in order to set the dltfee unit
+      default: ({ steps }) => steps.prepare_smart_contract_transaction?.locationTechnology || "ethereum",
+    },
     keyId: {
       type: "string",
       label: "Signing Account ID",
@@ -34,18 +41,9 @@ export default {
       type: "object",
       label: "Native Data",
       description: "A JSON object representing the transaction required to be signed.",
-      optional: true,
       // Reference the output of the previous step
-      default: ({ steps }) => steps.prepare_smart_contract_transaction?.nativeData,
+      default: ({ steps }) => steps.prepare_smart_contract_transaction?.nativeData || {},
     },
-  },
-  locationTechnology: {
-    type: "string",
-    label: "Location Technology",
-    description: "The blockchain technology used for this transaction, e.g., ethereum, substrate.",
-    optional: true,
-    // Reference the output of the previous step
-    default: ({ steps }) => steps.prepare_smart_contract_transaction?.locationTechnology,
   },
   async run({ $ }) {
     //default values of gatewayFee and dltfee hard coded into params.
