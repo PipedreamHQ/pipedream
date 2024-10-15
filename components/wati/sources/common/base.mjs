@@ -13,11 +13,8 @@ export default {
     },
   },
   methods: {
-    getOpts() {
-      return {};
-    },
-    filterItems() {
-      () => true;
+    prepareData(data) {
+      return data;
     },
     _getLastDate() {
       return this.db.get("lastDate") || 0;
@@ -29,20 +26,16 @@ export default {
       const lastDate = this._getLastDate();
       const dateField = this.getDateField();
 
-      const response = this.wati.paginate({
-        fn: this.getFunction(),
-        ...this.getOpts(),
-        itemsField: this.getItemsField(),
-        maxResults,
-      });
+      const response = this.wati.paginate(
+        this.getPaginateOpts(maxResults),
+      );
 
       let responseArray = [];
       for await (const item of response) {
-        if (this.checkBreak(item, lastDate)) break;
         responseArray.push(item);
       }
 
-      responseArray = responseArray.filter(this.filterItems);
+      responseArray = this.prepareData(responseArray, lastDate, maxResults);
 
       if (responseArray.length) {
         this._setLastDate(responseArray[0][dateField]);

@@ -11,19 +11,19 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    getPaginateOpts(maxResults) {
+      return {
+        fn: this.wati.listContacts,
+        itemsField: "result",
+        optsField: "data",
+        maxResults,
+      };
+    },
     getDateField() {
       return "created";
     },
-    getItemsField() {
-      return [
-        "result",
-      ];
-    },
     checkBreak(item, lastDate) {
       return Date.parse(item.created) < lastDate;
-    },
-    getFunction() {
-      return this.wati.listContacts;
     },
     getSummary(item) {
       return `New contact created: ${item.wAid}`;

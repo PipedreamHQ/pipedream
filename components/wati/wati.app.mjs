@@ -9,13 +9,14 @@ export default {
       label: "Contact Id",
       description: "The Id of the contact.",
       async options({ page }) {
-        const { result } = await this.listContacts({
-          params: {
-            pageSize: page + 1,
+        const { result: { items } } = await this.listContacts({
+          data: {
+            pageSize: 100,
+            pageNumber: page,
           },
         });
 
-        return result.map(({ wAid }) => wAid);
+        return items.map(({ wAid }) => wAid);
       },
     },
     whatsappNumber: {
@@ -63,6 +64,7 @@ export default {
     },
     listContacts(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/contacts",
         ...opts,
       });
@@ -107,26 +109,26 @@ export default {
       });
     },
     async *paginate({
-      fn, params = {}, itemsField, maxResults = null, ...opts
+      fn, itemsField, optsField, maxResults = null, data = {}, params = {}, ...otherOpts
     }) {
       let hasMore = false;
       let count = 0;
       let page = 0;
 
+      const opts = {
+        data,
+        params,
+        ...otherOpts,
+      };
+
+      opts[optsField].pageSize = 100;
+
       do {
-        params.pageNumber = ++page;
-        const response = await fn({
-          params,
-          ...opts,
-        });
+        opts[optsField].pageNumber = page++;
+        const response = await fn(opts);
+        const items = response[itemsField].items;
 
-        let data = response;
-
-        for (const field of itemsField) {
-          data = data[field];
-        }
-
-        for (const d of data) {
+        for (const d of items) {
           yield d;
 
           if (maxResults && ++count === maxResults) {
@@ -134,7 +136,7 @@ export default {
           }
         }
 
-        hasMore = data.length;
+        hasMore = items.length;
 
       } while (hasMore);
     },

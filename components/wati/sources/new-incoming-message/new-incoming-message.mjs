@@ -20,28 +20,29 @@ export default {
   },
   methods: {
     ...common.methods,
-    getOpts() {
+    getPaginateOpts() {
       return {
+        fn: this.wati.listContactMessages,
         whatsappNumber: `+${this.contactId}`,
+        itemsField: [
+          "messages",
+        ],
+        optsField: "params",
       };
     },
     getDateField() {
       return "timestamp";
     },
-    getItemsField() {
-      return [
-        "messages",
-        "items",
-      ];
-    },
-    filterItems(item) {
-      return item.statusString === "SENT";
+    prepareData(data, lastDate, maxResults) {
+      data = data
+        .filter((item) => item.statusString === "SENT" && Date.parse(item.created) > lastDate)
+        .sort((a, b) => Date.parse(b.created) - Date.parse(a.created));
+
+      if (maxResults && data.length > maxResults) data.length = maxResults;
+      return data;
     },
     checkBreak(item, lastDate) {
       return Date.parse(item.timestamp) < lastDate;
-    },
-    getFunction() {
-      return this.wati.listContactMessages;
     },
     getSummary(item) {
       return `New message: ${item.text || "No content"}`;
