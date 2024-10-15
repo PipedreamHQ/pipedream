@@ -60,7 +60,7 @@ importers:
       pnpm: 7.33.6
       putout: 32.2.0_typescript@5.2.2
       renamer: 4.0.0
-      ts-jest: 29.1.1_py5cyg2l76gggsf4xgc65fzuzq
+      ts-jest: 29.1.1_s6pp5jfszqvqftxetajx5tybba
       tsc-esm-fix: 2.20.17
       tsc-watch: 5.0.3_typescript@5.2.2
       typescript: 5.2.2
@@ -3278,9 +3278,9 @@ importers:
 
   components/fakturoid:
     specifiers:
-      '@pipedream/platform': ^3.0.1
+      '@pipedream/platform': ^3.0.3
     dependencies:
-      '@pipedream/platform': 3.0.1
+      '@pipedream/platform': 3.0.3
 
   components/faraday:
     specifiers:
@@ -34624,7 +34624,7 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /ts-jest/29.1.1_py5cyg2l76gggsf4xgc65fzuzq:
+  /ts-jest/29.1.1_s6pp5jfszqvqftxetajx5tybba:
     resolution: {integrity: sha512-D6xjnnbP17cC85nliwGiL+tpoKN0StpgE0TeOjXQTU6MVCfsB4v7aW05CgQ/1OywGb0x/oy9hHFnN+sczTiRaA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
@@ -34645,7 +34645,7 @@ packages:
       esbuild:
         optional: true
     dependencies:
-      '@babel/core': 7.23.0
+      '@babel/core': 7.25.2
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
       jest: 29.7.0_@types+node@20.9.2
