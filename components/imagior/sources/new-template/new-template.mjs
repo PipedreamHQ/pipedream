@@ -1,9 +1,10 @@
 import imagior from "../../imagior.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "imagior-new-template",
   name: "New Template Created",
-  description: "Emits a new event when a new template is created.",
+  description: "Emit new event when a new template is created.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -13,42 +14,46 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15, // 15 minutes
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
   },
   methods: {
-    _getPrevTemplateId() {
-      return this.db.get("prevTemplateId");
+    _getLastTs() {
+      return this.db.get("lastTs") || 0;
     },
-    _setPrevTemplateId(id) {
-      this.db.set("prevTemplateId", id);
+    _setLastTs(lastTs) {
+      this.db.set("lastTs", lastTs);
+    },
+    generateMeta(template) {
+      return {
+        id: template.id,
+        summary: `New Template: ${template.name}`,
+        ts: Date.parse(template.createdAt),
+      };
     },
   },
   async run() {
-    const { elements: templates } = await this.imagior._makeRequest({
-      path: "/templates/all",
+    const lastTs = this._getLastTs();
+
+    const templates = await this.imagior.listTemplates({
+      params: {
+        sort: "createdAt",
+        order: "desc",
+      },
     });
 
-    if (!templates.length) {
-      console.log("No templates found");
+    if (!templates?.length) {
       return;
     }
 
-    const sortedTemplates = templates.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-    const latestTemplate = sortedTemplates[0];
-    const prevTemplateId = this._getPrevTemplateId();
+    const newTemplates = templates.filter(({ createdAt }) => Date.parse(createdAt) >= lastTs);
 
-    if (prevTemplateId && latestTemplate.id === prevTemplateId) {
-      console.log("No new templates found");
-      return;
-    }
+    this._setLastTs(Date.parse(newTemplates[0].createdAt));
 
-    this._setPrevTemplateId(latestTemplate.id);
-    this.$emit(latestTemplate, {
-      id: latestTemplate.id,
-      summary: `New template: ${latestTemplate.name}`,
-      ts: Date.parse(latestTemplate.createdAt),
+    newTemplates.forEach((template) => {
+      const meta = this.generateMeta(template);
+      this.$emit(template, meta);
     });
   },
 };

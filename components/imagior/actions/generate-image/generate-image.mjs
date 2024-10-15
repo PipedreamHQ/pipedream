@@ -3,31 +3,77 @@ import imagior from "../../imagior.app.mjs";
 export default {
   key: "imagior-generate-image",
   name: "Generate Image",
-  description: "Generates a unique and robust image using a provided template.",
-  version: "0.0.{{ts}}",
+  description: "Generates a unique and robust image using a provided template. [See the documentation](https://docs.imagior.com/api-reference/image-generate)",
+  version: "0.0.1",
   type: "action",
   props: {
     imagior,
-    template_id: {
+    templateId: {
       propDefinition: [
         imagior,
-        "template_id",
+        "templateId",
       ],
-    },
-    image_parameters: {
-      propDefinition: [
-        imagior,
-        "image_parameters",
-      ],
-      optional: true,
+      reloadProps: true,
     },
   },
-  async run({ $ }) {
-    const response = await this.imagior.generateImage({
-      template_id: this.template_id,
-      image_parameters: this.image_parameters,
+  async additionalProps() {
+    const props = {};
+    if (!this.templateId) {
+      return props;
+    }
+    const { elements } = await this.imagior.listTemplateElements({
+      templateId: this.templateId,
     });
-    $.export("$summary", "Successfully generated image");
+    for (const [
+      key,
+      value,
+    ] of Object.entries(elements)) {
+      props[`customize_${key}`] = {
+        type: "boolean",
+        label: `Customize ${key}`,
+        optional: true,
+        reloadProps: true,
+      };
+      if (this[`customize_${key}`]) {
+        for (const elementKey of Object.keys(value)) {
+          props[elementKey] = {
+            type: "string",
+            label: `${elementKey}`,
+            optional: true,
+          };
+        }
+      }
+    }
+    return props;
+  },
+  async run({ $ }) {
+    const elements = {};
+    const { elements: allElements } = await this.imagior.listTemplateElements({
+      templateId: this.templateId,
+    });
+    for (const [
+      key,
+      value,
+    ] of Object.entries(allElements)) {
+      if (!this[`customize_${key}`]) {
+        continue;
+      }
+      elements[key] = {};
+      for (const elementKey of Object.keys(value)) {
+        if (this[elementKey]) {
+          elements[key][elementKey] = this[elementKey];
+        }
+      }
+    }
+
+    const response = await this.imagior.generateImage({
+      $,
+      data: {
+        templateId: this.templateId,
+        elements,
+      },
+    });
+    $.export("$summary", `${response.message}`);
     return response;
   },
 };

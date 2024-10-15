@@ -4,17 +4,19 @@ export default {
   type: "app",
   app: "imagior",
   propDefinitions: {
-    template_id: {
+    templateId: {
       type: "string",
       label: "Template ID",
-      description: "The unique ID of the design template you created",
-      required: true,
-    },
-    image_parameters: {
-      type: "object",
-      label: "Image Parameters",
-      description: "Optional parameters to customize the appearance of the image",
-      optional: true,
+      description: "The unique ID of the design template to use",
+      async options() {
+        const templates = await this.listTemplates();
+        return templates?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
@@ -23,35 +25,37 @@ export default {
     },
     async _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async createTemplate(opts = {}) {
+    listTemplates(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/templates",
+        path: "/template/all",
         ...opts,
       });
     },
-    async generateImage({
-      template_id, image_parameters,
+    listTemplateElements({
+      templateId, ...opts
     }) {
+      return this._makeRequest({
+        path: `/template/${templateId}/elements`,
+        ...opts,
+      });
+    },
+    generateImage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/image/generate",
-        data: {
-          templateId: template_id,
-          elements: image_parameters,
-        },
+        ...opts,
       });
     },
   },
