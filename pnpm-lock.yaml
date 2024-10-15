@@ -4798,6 +4798,9 @@ importers:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
 
+  components/imagior:
+    specifiers: {}
+
   components/imap:
     specifiers:
       '@pipedream/platform': ^1.2.0
@@ -6389,6 +6392,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/nerv:
+    specifiers: {}
+
   components/netatmo:
     specifiers: {}
 
@@ -6680,7 +6686,10 @@ importers:
       '@pipedream/platform': 2.0.0
 
   components/ollama:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/omise:
     specifiers:
