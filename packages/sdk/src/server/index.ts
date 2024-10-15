@@ -57,6 +57,14 @@ export type ConnectTokenCreateOpts = {
    */
   error_redirect_uri?: string;
 
+  /**
+   * An optional webhook uri that Pipedream can invoke on success or failure of connection requests.
+   */
+  webhook_uri?: string;
+
+  /**
+   * The optional Environment the connect flow will run through.  Defaults to production.
+   */
   project_environment?: string;
 };
 
