@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+const DEFAULT_LIMIT = 100;
 
 export default {
   type: "app",
@@ -8,12 +9,19 @@ export default {
       type: "string",
       label: "Form ID",
       description: "The ID of the form to monitor",
-      async options() {
-        const { results } = await this.listForms();
-        return results.map((form) => ({
-          label: form.name,
-          value: form.id,
-        }));
+      async options({ page }) {
+        const { results: { forms } } = await this.listForms({
+          params: {
+            limit: DEFAULT_LIMIT,
+            skip: page * DEFAULT_LIMIT,
+          },
+        });
+        return forms?.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
       },
     },
   },
@@ -21,35 +29,60 @@ export default {
     _baseUrl() {
       return "https://api.paperform.co/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async listForms(opts = {}) {
+    listForms(opts = {}) {
       return this._makeRequest({
         path: "/forms",
         ...opts,
       });
     },
-    async getFormSubmissions(formId, opts = {}) {
+    listSubmissions({
+      formId, ...opts
+    }) {
       return this._makeRequest({
         path: `/forms/${formId}/submissions`,
         ...opts,
       });
+    },
+    async *paginate({
+      fn, args, resourceKey, max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          limit: DEFAULT_LIMIT,
+          skip: 0,
+        },
+      };
+      let hasMore, count = 0;
+      do {
+        const {
+          results, has_more: more,
+        } = await fn(args);
+        const items = results[resourceKey];
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        hasMore = more;
+        args.params.skip += args.params.limit;
+      } while (hasMore);
     },
   },
 };
