@@ -1,0 +1,44 @@
+import everhour from "../../everhour.app.mjs";
+import { axios } from "@pipedream/platform";
+
+export default {
+  key: "everhour-start-timer",
+  name: "Start Timer",
+  description: "Begins a new timer for a task. [See the documentation](https://everhour.docs.apiary.io/#reference/0/timers/start-timer)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    everhour,
+    taskId: {
+      propDefinition: [
+        everhour,
+        "taskId",
+        (c) => ({
+          projectId: c.projectId,
+        }),
+      ],
+    },
+    userdate: {
+      type: "string",
+      label: "User Date",
+      description: "Date string to associate with the timer. Format as 'YYYY-MM-DD'. Optional",
+      optional: true,
+    },
+    comment: {
+      type: "string",
+      label: "Comment",
+      description: "An optional comment to associate with the timer",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const response = await this.everhour.startTimer({
+      taskId: this.taskId,
+      userdate: this.userdate,
+      comment: this.comment,
+    });
+
+    $.export("$summary", `Successfully started a timer for task ID: ${this.taskId}`);
+    return response;
+  },
+};
