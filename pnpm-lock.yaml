@@ -1565,6 +1565,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/chargify:
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
+
   components/chartmogul:
     specifiers:
       '@pipedream/platform': ^1.2.1
