@@ -1,12 +1,12 @@
-import linearApp from "../../linear_app.app.mjs";
 import utils from "../../common/utils.mjs";
+import linearApp from "../../linear_app.app.mjs";
 
 export default {
   key: "linear_app-search-issues",
   name: "Search Issues",
   description: "Search issues (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
   type: "action",
-  version: "0.2.5",
+  version: "0.2.6",
   props: {
     linearApp,
     query: {
