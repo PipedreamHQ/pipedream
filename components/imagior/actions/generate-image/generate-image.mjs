@@ -36,7 +36,7 @@ export default {
       };
       if (this[`customize_${key}`]) {
         for (const elementKey of Object.keys(value)) {
-          props[elementKey] = {
+          props[`${key}_${elementKey}`] = {
             type: "string",
             label: `${elementKey}`,
             optional: true,
@@ -61,8 +61,8 @@ export default {
       }
       elements[key] = {};
       for (const elementKey of Object.keys(value)) {
-        if (this[elementKey]) {
-          elements[key][elementKey] = this[elementKey];
+        if (this[`${key}_${elementKey}`]) {
+          elements[key][elementKey] = this[`${key}_${elementKey}`];
         }
       }
     }
