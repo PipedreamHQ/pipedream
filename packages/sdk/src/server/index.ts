@@ -61,6 +61,12 @@ export type ConnectTokenCreateOpts = {
    * An optional webhook uri that Pipedream can invoke on success or failure of connection requests.
    */
   webhook_uri?: string;
+
+  /**
+   * Specify the environment ('production' or 'development') to use for the account connection flow.
+   * Defaults to 'production'.
+   */
+  environment_name?: string;
 };
 
 export type AppInfo = {
