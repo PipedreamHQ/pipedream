@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "trello-find-labels",
   name: "Find a Label",
   description: "Finds a label on a specific board by name. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-labels-get)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     ...common.props,
@@ -23,7 +23,6 @@ export default {
       ],
       label: "Label Name",
       description: "Name of the label to find.",
-      optional: false,
     },
     limit: {
       type: "integer",

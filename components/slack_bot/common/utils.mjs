@@ -1,5 +1,7 @@
 import app from "../slack_bot.app.mjs";
 
+const CONVERSATION_PERMISSION_MESSAGE = "In order to list a Slack channel, **your bot must be a member of that channel**, and in order to list private channels, your bot must have the `groups:read` scope in the `OAuth & Permissions` settings in Slack for this bot.";
+
 async function streamIterator(stream) {
   let resources = [];
   for await (const resource of stream) {
@@ -21,6 +23,12 @@ function buildPropDefinitions({
           ...newProps,
           [key]: prop,
         };
+      }
+
+      if (key === "conversation") {
+        prop.description = prop.description
+          ? `${prop.description} ${CONVERSATION_PERMISSION_MESSAGE}`
+          : `Select a public or private channel, or a user or group. ${CONVERSATION_PERMISSION_MESSAGE}`;
       }
 
       const [
@@ -87,4 +95,5 @@ function buildAppProps({
 export default {
   streamIterator,
   buildAppProps,
+  CONVERSATION_PERMISSION_MESSAGE,
 };

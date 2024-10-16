@@ -352,6 +352,27 @@ In general, if you just need to make an HTTP request but don't care about the re
 
 You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the [`$.respond()` function](/workflows/steps/triggers/#http-responses).
 
+## Invoke another workflow
+
+<Callout type="warning">
+This is an alpha feature and is subject to change without prior notice.
+</Callout>
+
+You can invoke another workflow in your workspace with `$.flow.trigger`:
+
+```
+await $.flow.trigger(
+  workflowId, // your Pipedream workflow ID, e.g. p_abc123
+  payload, // any JSON-serializable data
+)
+```
+
+[Find your workflow's ID here.](/troubleshooting#where-do-i-find-my-workflows-id)
+
+This invokes the workflow directly -- you don't need to configure a trigger, and the request does not leave the platform.
+
+We also provide a [Trigger Workflow](https://pipedream.com/apps/helper-functions/actions/trigger-workflow) action in the [Helper Functions](https://pipedream.com/apps/helper-functions) app so you don't need to do it by code!
+
 ## Ending a workflow early
 
 <VideoPlayer title="Conditionally run Workflows" src="https://www.youtube.com/embed/sajgIH3dG58" startAt="205" />

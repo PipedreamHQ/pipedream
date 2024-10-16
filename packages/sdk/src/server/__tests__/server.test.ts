@@ -243,7 +243,6 @@ describe("ServerClient", () => {
       });
 
       const result = await client.connectTokenCreate({
-        app_slug: "test-app",
         external_user_id: "user-id",
       });
 
@@ -256,9 +255,54 @@ describe("ServerClient", () => {
         expect.objectContaining({
           method: "POST",
           body: JSON.stringify({
+            external_user_id: "user-id",
             external_id: "user-id",
-            app_slug: "test-app",
-            oauth_app_id: undefined,
+          }),
+          headers: expect.objectContaining({
+            "Authorization": expect.any(String),
+            "Content-Type": "application/json",
+          }),
+        }),
+      );
+    });
+
+    it("should create a connect token with optional redirect URIs", async () => {
+      fetchMock.mockResponseOnce(
+        JSON.stringify({
+          token: "connect-token-with-redirects",
+          expires_at: "2024-01-01T00:00:00Z",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      client = new ServerClient({
+        publicKey: "test-public-key",
+        secretKey: "test-secret-key",
+      });
+
+      const result = await client.connectTokenCreate({
+        external_user_id: "user-id",
+        success_redirect_uri: "https://example.com/success",
+        error_redirect_uri: "https://example.com/error",
+      });
+
+      expect(result).toEqual({
+        token: "connect-token-with-redirects",
+        expires_at: "2024-01-01T00:00:00Z",
+      });
+      expect(fetchMock).toHaveBeenCalledWith(
+        "https://api.pipedream.com/v1/connect/tokens",
+        expect.objectContaining({
+          method: "POST",
+          body: JSON.stringify({
+            external_user_id: "user-id",
+            success_redirect_uri: "https://example.com/success",
+            error_redirect_uri: "https://example.com/error",
+            external_id: "user-id",
           }),
           headers: expect.objectContaining({
             "Authorization": expect.any(String),
@@ -405,7 +449,7 @@ describe("ServerClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/external_id/external-id-1",
+        "https://api.pipedream.com/v1/connect/users/external-id-1/accounts",
         expect.any(Object),
       );
     });

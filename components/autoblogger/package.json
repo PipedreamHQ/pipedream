@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/autoblogger",
+  "version": "0.0.1",
+  "description": "Pipedream AutoBlogger Components",
+  "main": "autoblogger.app.mjs",
+  "keywords": [
+    "pipedream",
+    "autoblogger"
+  ],
+  "homepage": "https://pipedream.com/apps/autoblogger",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

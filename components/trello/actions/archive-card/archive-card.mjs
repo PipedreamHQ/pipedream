@@ -1,23 +1,22 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-archive-card",
   name: "Archive Card",
   description: "Archives a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     board: {
       propDefinition: [
-        common.props.app,
+        app,
         "board",
       ],
     },
     cardId: {
       propDefinition: [
-        common.props.app,
+        app,
         "cards",
         (c) => ({
           board: c.board,

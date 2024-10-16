@@ -51,6 +51,7 @@ export default {
         options: {
           encrypt: true,
           port: Number(port),
+          requestTimeout: 60000,
         },
       };
     },

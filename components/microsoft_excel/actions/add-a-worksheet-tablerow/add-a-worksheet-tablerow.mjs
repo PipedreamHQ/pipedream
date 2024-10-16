@@ -4,7 +4,7 @@ import microsoftExcel from "../../microsoft_excel.app.mjs";
 export default {
   key: "microsoft_excel-add-a-worksheet-tablerow",
   name: "Add A Worksheet Tablerow",
-  version: "0.0.2",
+  version: "0.0.4",
   description: "Adds rows to the end of specific table. [See the documentation](https://learn.microsoft.com/en-us/graph/api/tablerowcollection-add?view=graph-rest-1.0&tabs=http)",
   type: "action",
   props: {
@@ -23,6 +23,7 @@ export default {
           folderId,
         }),
       ],
+      reloadProps: true,
     },
     tableId: {
       propDefinition: [
@@ -32,6 +33,13 @@ export default {
           itemId,
         }),
       ],
+      hidden: true,
+    },
+    tableName: {
+      type: "string",
+      label: "Table Name",
+      description: "This is set in the **Table Design** tab of the ribbon.",
+      hidden: true,
     },
     values: {
       propDefinition: [
@@ -40,11 +48,26 @@ export default {
       ],
     },
   },
+  async additionalProps(props) {
+    if (this.itemId) {
+      try {
+        await this.microsoftExcel.listTables({
+          itemId: this.itemId,
+        });
+      } catch {
+        props.tableName.hidden = false;
+        return {};
+      }
+      props.tableId.hidden = false;
+      return {};
+    }
+  },
   async run({ $ }) {
     const {
       microsoftExcel,
       itemId,
       tableId,
+      tableName,
       values,
     } = this;
 
@@ -52,6 +75,7 @@ export default {
       $,
       itemId,
       tableId,
+      tableName,
       data: {
         values: parseObject(values),
       },

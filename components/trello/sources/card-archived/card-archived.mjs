@@ -1,11 +1,12 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "trello-card-archived",
-  name: "Card Archived (Instant)",
+  name: "Card Archived (Instant)", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event for each card archived.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,
@@ -16,7 +17,6 @@ export default {
       ],
     },
     lists: {
-      optional: true,
       propDefinition: [
         common.props.app,
         "lists",
@@ -24,47 +24,35 @@ export default {
           board: c.board,
         }),
       ],
+      description: "If specified, events will only be emitted when a card in one of the selected lists is archived",
     },
   },
   methods: {
     ...common.methods,
-    getFilteredCards({
-      boardId, ...args
-    } = {}) {
-      return this.app._makeRequest({
-        path: `/boards/${boardId}/cards`,
-        ...args,
-      });
-    },
-    async getSampleEvents() {
-      const cards = await this.getFilteredCards({
+    getSampleEvents() {
+      return this.app.getFilteredCards({
         boardId: this.board,
-        params: {
-          filter: "closed",
-        },
+        filter: "closed",
       });
-      return {
-        sampleEvents: cards,
-        sortField: "dateLastActivity",
-      };
     },
-    isCorrectEventType(event) {
-      const eventTranslationKey = event.body?.action?.display?.translationKey;
-      return eventTranslationKey === "action_archived_card";
+    getSortField() {
+      return "dateLastActivity";
     },
-    async getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
+    isCorrectEventType({ display }) {
+      return display?.translationKey === "action_archived_card";
+    },
+    getResult({ data }) {
       return this.app.getCard({
-        cardId,
+        cardId: data?.card?.id,
       });
     },
     isRelevant({ result: card }) {
       return (
         (!this.board || this.board === card.idBoard) &&
-        (!this.lists ||
-          this.lists.length === 0 ||
+        (!this.lists?.length ||
           this.lists.includes(card.idList))
       );
     },
   },
+  sampleEmit,
 };

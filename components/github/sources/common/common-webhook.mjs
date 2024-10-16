@@ -1,6 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import github from "../../github.app.mjs";
-import { checkAdminPermission } from "./utils.mjs";
+import { checkAdminPermission } from "../../common/utils.mjs";
 
 export default {
   props: {
