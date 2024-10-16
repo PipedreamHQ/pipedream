@@ -1565,6 +1565,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/chargify:
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
+
   components/chartmogul:
     specifiers:
       '@pipedream/platform': ^1.2.1
@@ -2135,6 +2141,12 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/copper:
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/copperx:
     specifiers:
@@ -3564,6 +3576,12 @@ importers:
   components/formcan:
     specifiers: {}
 
+  components/formcarry:
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
+
   components/formdesk:
     specifiers: {}
 
@@ -4800,6 +4818,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       form-data: 4.0.0
+
+  components/imagior:
+    specifiers: {}
 
   components/imap:
     specifiers:
@@ -6392,6 +6413,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/nerv:
+    specifiers: {}
+
   components/netatmo:
     specifiers: {}
 
@@ -6683,7 +6707,10 @@ importers:
       '@pipedream/platform': 2.0.0
 
   components/ollama:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/omise:
     specifiers:
@@ -7171,7 +7198,10 @@ importers:
       '@pdfless/pdfless-js': 1.0.510
 
   components/pdfmonkey:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/peach:
     specifiers:
@@ -8410,6 +8440,9 @@ importers:
   components/rumble:
     specifiers: {}
 
+  components/runpod:
+    specifiers: {}
+
   components/rytr:
     specifiers: {}
 
@@ -9282,7 +9315,10 @@ importers:
       query-string: 8.1.0
 
   components/smslink_nc:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/smtp2go:
     specifiers:
@@ -9873,6 +9909,9 @@ importers:
     specifiers: {}
 
   components/td_ameritrade:
+    specifiers: {}
+
+  components/teach_n_go:
     specifiers: {}
 
   components/teachable:
@@ -11450,7 +11489,10 @@ importers:
     specifiers: {}
 
   components/zenventory:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/zerobounce:
     specifiers: {}

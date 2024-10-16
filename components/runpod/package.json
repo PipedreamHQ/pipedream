@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/runpod",
+  "version": "0.0.1",
+  "description": "Pipedream RunPod Components",
+  "main": "runpod.app.mjs",
+  "keywords": [
+    "pipedream",
+    "runpod"
+  ],
+  "homepage": "https://pipedream.com/apps/runpod",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
