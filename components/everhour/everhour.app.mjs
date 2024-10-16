@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,11 +9,68 @@ export default {
       type: "string",
       label: "Project ID",
       description: "The ID of the project",
+      async options({ page }) {
+        const projects = await this.listProjects({
+          params: {
+            limit: LIMIT,
+            page: page + 1,
+          },
+        });
+
+        return projects.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    sectionId: {
+      type: "string",
+      label: "Section ID",
+      description: "The section id of the task",
+      async options({ projectId }) {
+        const sections = await this.listSections({
+          projectId,
+        });
+
+        return sections.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    tags: {
+      type: "string[]",
+      label: "Tag IDs",
+      description: "The tag ids of the task",
       async options() {
-        const projects = await this.listProjects();
-        return projects.map((project) => ({
-          label: project.name,
-          value: project.id,
+        const tags = await this.listTags();
+
+        return tags.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    labels: {
+      type: "string[]",
+      label: "Tags",
+      description: "An array of tags associated with the task",
+      async options({ projectId }) {
+        const sections = await this.listSections({
+          projectId,
+        });
+
+        return sections.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -20,11 +78,15 @@ export default {
       type: "string",
       label: "Task ID",
       description: "The ID of the task",
-      async options(opts) {
-        const tasks = await this.getProjectTasks(opts.projectId);
-        return tasks.map((task) => ({
-          label: task.name,
-          value: task.id,
+      async options({ projectId }) {
+        const tasks = await this.getProjectTasks({
+          projectId,
+        });
+        return tasks.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -33,105 +95,83 @@ export default {
     _baseUrl() {
       return "https://api.everhour.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
-      });
+    _headers() {
+      return {
+        "X-Api-Key": `${this.$auth.api_token}`,
+      };
     },
-    async listProjects(opts = {}) {
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      const config = {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
+        ...opts,
+      };
+      console.log("config: ", config);
+      return axios($, config);
+    },
+    listProjects(opts = {}) {
       return this._makeRequest({
         path: "/projects",
         ...opts,
       });
     },
-    async getProjectTasks(projectId, opts = {}) {
+    listSections({
+      projectId, opts,
+    }) {
+      return this._makeRequest({
+        path: `/projects/${projectId}/sections`,
+        ...opts,
+      });
+    },
+    listTags() {
+      return this._makeRequest({
+        path: "/tags",
+      });
+    },
+    getProjectTasks({
+      projectId, ...opts
+    }) {
       return this._makeRequest({
         path: `/projects/${projectId}/tasks`,
         ...opts,
       });
     },
-    async emitClientCreatedEvent(projectId, opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks",
-        data: {
-          event: "api:client:created",
-          target: "/your_webhook_url_for_client_created",
-          projectId,
-        },
-        ...opts,
-      });
-    },
-    async emitTaskCreatedEvent(projectId, opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks",
-        data: {
-          event: "api:task:created",
-          target: "/your_webhook_url_for_task_created",
-          projectId,
-        },
-        ...opts,
-      });
-    },
-    async emitTimeUpdatedEvent(projectId, opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks",
-        data: {
-          event: "api:time:updated",
-          target: "/your_webhook_url_for_time_updated",
-          projectId,
-        },
-        ...opts,
-      });
-    },
-    async createTask({
-      projectId, name, section, labels, position, description, dueon, status, ...opts
+    createTask({
+      projectId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/projects/${projectId}/tasks`,
-        data: {
-          name,
-          section,
-          labels,
-          position,
-          description,
-          dueon,
-          status,
-        },
         ...opts,
       });
     },
-    async startTimer({
-      taskId, userdate, comment, ...opts
-    }) {
+    startTimer(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/timers/start",
-        data: {
-          taskId,
-          userdate,
-          comment,
-        },
+        path: "/timers",
         ...opts,
       });
     },
-    async stopTimer(opts = {}) {
+    stopTimer(opts = {}) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: "/timers/current",
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/timers/stop",
+        path: "/hooks",
         ...opts,
+      });
+    },
+    deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/hooks/${webhookId}`,
       });
     },
   },

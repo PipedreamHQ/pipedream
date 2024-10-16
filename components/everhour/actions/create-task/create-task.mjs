@@ -1,5 +1,6 @@
+import { STATUS_OPTIONS } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import everhour from "../../everhour.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "everhour-create-task",
@@ -18,19 +19,22 @@ export default {
     name: {
       type: "string",
       label: "Task Name",
-      description: "The name of the task to be created",
-      optional: true,
+      description: "The name of the task to be created.",
     },
-    section: {
-      type: "string",
-      label: "Section",
-      description: "The section of the task",
-      optional: true,
+    sectionId: {
+      propDefinition: [
+        everhour,
+        "sectionId",
+        ({ projectId })  => ({
+          projectId,
+        }),
+      ],
     },
-    labels: {
-      type: "string[]",
-      label: "Labels",
-      description: "An array of labels associated with the task",
+    tags: {
+      propDefinition: [
+        everhour,
+        "tags",
+      ],
       optional: true,
     },
     position: {
@@ -45,29 +49,33 @@ export default {
       description: "A description of the task",
       optional: true,
     },
-    dueon: {
+    dueOn: {
       type: "string",
       label: "Due Date",
-      description: "The due date of the task (ISO 8601 format)",
+      description: "The due date of the task. **Format: YYYY-MM-DD**",
       optional: true,
     },
     status: {
       type: "string",
       label: "Status",
       description: "The status of the task",
+      options: STATUS_OPTIONS,
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.everhour.createTask({
+      $,
       projectId: this.projectId,
-      name: this.name,
-      section: this.section,
-      labels: this.labels,
-      position: this.position,
-      description: this.description,
-      dueon: this.dueon,
-      status: this.status,
+      data: {
+        name: this.name,
+        section: this.sectionId,
+        tags: this.tags && parseObject(this.tags),
+        position: this.position,
+        description: this.description,
+        dueOn: this.dueOn,
+        status: this.status,
+      },
     });
 
     $.export("$summary", `Successfully created task with ID: ${response.id}`);

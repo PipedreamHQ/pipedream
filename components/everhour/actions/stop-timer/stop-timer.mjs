@@ -4,7 +4,7 @@ export default {
   key: "everhour-stop-timer",
   name: "Stop Timer",
   description: "Halts the current running timer. [See the documentation](https://everhour.docs.apiary.io/#reference/timers/stop-timer)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     everhour,

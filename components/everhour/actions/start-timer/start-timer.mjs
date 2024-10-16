@@ -1,5 +1,4 @@
 import everhour from "../../everhour.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "everhour-start-timer",
@@ -9,19 +8,25 @@ export default {
   type: "action",
   props: {
     everhour,
+    projectId: {
+      propDefinition: [
+        everhour,
+        "projectId",
+      ],
+    },
     taskId: {
       propDefinition: [
         everhour,
         "taskId",
-        (c) => ({
-          projectId: c.projectId,
+        ({ projectId }) => ({
+          projectId,
         }),
       ],
     },
-    userdate: {
+    userDate: {
       type: "string",
       label: "User Date",
-      description: "Date string to associate with the timer. Format as 'YYYY-MM-DD'. Optional",
+      description: "Date string to associate with the timer. Format as 'YYYY-MM-DD'",
       optional: true,
     },
     comment: {
@@ -33,9 +38,12 @@ export default {
   },
   async run({ $ }) {
     const response = await this.everhour.startTimer({
-      taskId: this.taskId,
-      userdate: this.userdate,
-      comment: this.comment,
+      $,
+      data: {
+        task: this.taskId,
+        userDate: this.userDate,
+        comment: this.comment,
+      },
     });
 
     $.export("$summary", `Successfully started a timer for task ID: ${this.taskId}`);
