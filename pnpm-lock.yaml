@@ -339,6 +339,9 @@ importers:
   components/ai_ml_api:
     specifiers: {}
 
+  components/ai_textraction:
+    specifiers: {}
+
   components/aidbase:
     specifiers:
       '@pipedream/platform': ^3.0.0
