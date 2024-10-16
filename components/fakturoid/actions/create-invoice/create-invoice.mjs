@@ -76,7 +76,7 @@ export default {
     },
     roundTotal: {
       type: "boolean",
-      label: "Tound Total",
+      label: "Round Total",
       description: "Round total amount (VAT included)",
       optional: true,
     },
