@@ -7,102 +7,113 @@ export default {
     companyId: {
       type: "string",
       label: "Company ID",
-      description: "The ID of the company in SuiteDash.",
+      description: "The ID of the company",
+      async options({ page }) {
+        const { data } = await this.listCompanies({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          uid: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     companyName: {
       type: "string",
       label: "Company Name",
       description: "The name of the new company.",
     },
-    companyRole: {
+    role: {
       type: "string",
       label: "Company Role",
       description: "The role of the new company.",
-    },
-    companyWebsite: {
-      type: "string",
-      label: "Company Website",
-      description: "The website of the company.",
-      optional: true,
-    },
-    companyAddress: {
-      type: "string",
-      label: "Company Address",
-      description: "The address of the company.",
-      optional: true,
-    },
-    companyLogo: {
-      type: "string",
-      label: "Company Logo",
-      description: "The logo of the company.",
-      optional: true,
-    },
-    contactFirstName: {
-      type: "string",
-      label: "Contact First Name",
-      description: "The first name of the new contact.",
-    },
-    contactLastName: {
-      type: "string",
-      label: "Contact Last Name",
-      description: "The last name of the new contact.",
-    },
-    contactEmail: {
-      type: "string",
-      label: "Contact Email",
-      description: "The email of the new contact.",
-    },
-    contactRole: {
-      type: "string",
-      label: "Contact Role",
-      description: "The role of the new contact.",
-      optional: true,
-    },
-    sendWelcomeEmail: {
-      type: "boolean",
-      label: "Send Welcome Email",
-      description: "Whether to send a welcome email to the new contact.",
-      optional: true,
+      options: [
+        "Lead",
+        "Client",
+        "Prospect",
+      ],
     },
   },
   methods: {
     _baseUrl() {
       return "https://app.suitedash.com/secure-api";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
+          "Accept": "application/json",
+          "X-Public-ID": this.$auth.public_id,
+          "X-Secret-Key": this.$auth.secret_key,
         },
       });
     },
-    async createCompany(opts = {}) {
+    listCompanies(opts = {}) {
+      return this._makeRequest({
+        path: "/companies",
+        ...opts,
+      });
+    },
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    createCompany(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/company",
         ...opts,
       });
     },
-    async createContact(opts = {}) {
+    createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contact",
         ...opts,
       });
     },
-    async updateCompany(opts = {}) {
+    updateCompany({
+      companyId, ...opts
+    }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/company/${opts.companyId}`,
+        path: `/company/${companyId}`,
         ...opts,
       });
+    },
+    async *paginate({
+      fn,
+      params,
+    }) {
+      params = {
+        ...params,
+        page: 1,
+      };
+      let hasMore;
+      do {
+        const {
+          data, meta: { pagination },
+        } = await fn({
+          params,
+        });
+        for (const item of data) {
+          yield item;
+        }
+        hasMore = params.page === pagination.totalPages;
+        params.page++;
+      } while (hasMore);
     },
   },
 };

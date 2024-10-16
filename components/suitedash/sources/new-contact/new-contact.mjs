@@ -1,45 +1,20 @@
-import suitedash from "../../suitedash.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "suitedash-new-contact",
-  name: "New Contact",
+  name: "New Contact Created",
   description: "Emit new event when a new contact is created.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    suitedash,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-  },
   methods: {
-    _getContactId(contact) {
-      return contact.id;
+    ...common.methods,
+    getFn() {
+      return this.suitedash.listContacts;
     },
-    _getContactTimestamp(contact) {
-      return Date.parse(contact.created_at);
+    getSummary(contact) {
+      return `New Contact: ${contact.first_name} ${contact.last_name}`;
     },
-  },
-  async run() {
-    const lastRun = this.db.get("lastRun") || this.timer.timestamp;
-    const params = {
-      created_after: new Date(lastRun).toISOString(),
-    };
-    const contacts = await this.suitedash.getContacts(params);
-    for (const contact of contacts) {
-      const contactId = this._getContactId(contact);
-      const contactTimestamp = this._getContactTimestamp(contact);
-      this.$emit(contact, {
-        id: contactId,
-        summary: `New Contact: ${contact.first_name} ${contact.last_name}`,
-        ts: contactTimestamp,
-      });
-    }
-    this.db.set("lastRun", this.timer.timestamp);
   },
 };
