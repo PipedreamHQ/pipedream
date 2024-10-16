@@ -3289,7 +3289,10 @@ importers:
       fs: 0.0.1-security
 
   components/fakturoid:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/faraday:
     specifiers:
