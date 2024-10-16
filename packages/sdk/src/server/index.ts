@@ -744,8 +744,8 @@ export class ServerClient {
    * @example
    *
    * ```typescript
-   * const response = await client.invokeWorkflow(
-   *   "https://your-workflow-url.m.pipedream.net",
+   * const response: JSON = await client.invokeWorkflow(
+   *   "https://en-your-endpoint.m.pipedream.net",
    *   {
    *     body: {
    *       foo: 123,
