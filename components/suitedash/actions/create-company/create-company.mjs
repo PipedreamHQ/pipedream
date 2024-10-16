@@ -45,7 +45,7 @@ export default {
     createPrimaryContactIfNotExists: {
       type: "boolean",
       label: "Create Primary Contact If Not Exists",
-      description: "Create a Primary Contact with all provided data if the email does not exists. Default: `true`",
+      description: "Create a Primary Contact with all provided data if the email does not exist. Default: `true`",
       optional: true,
       default: true,
     },
@@ -67,7 +67,7 @@ export default {
           first_name: this.firstName,
           last_name: this.lastName,
           email: this.email,
-          send_welcome_email: this.send_welcome_email,
+          send_welcome_email: this.sendWelcomeEmail,
           create_primary_contact_if_not_exists: this.createPrimaryContactIfNotExists,
           prevent_individual_mode: this.preventIndividualMode,
         },

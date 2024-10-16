@@ -14,7 +14,13 @@ export default {
       return this.suitedash.listContacts;
     },
     getSummary(contact) {
-      return `New Contact: ${contact.first_name} ${contact.last_name}`;
+      const firstName = contact.first_name || "";
+      const lastName = contact.last_name || "";
+      const fullName = [
+        firstName,
+        lastName,
+      ].filter(Boolean).join(" ") || "Unknown";
+      return `New Contact: ${fullName}`;
     },
   },
 };

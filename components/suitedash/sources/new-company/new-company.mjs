@@ -14,7 +14,11 @@ export default {
       return this.suitedash.listCompanies;
     },
     getSummary(company) {
-      return `New Company: ${company.name}`;
+      if (!company || typeof company !== "object") {
+        return "New Company: Unknown";
+      }
+      const name = company.name || "Unnamed";
+      return `New Company: ${name}`;
     },
   },
 };

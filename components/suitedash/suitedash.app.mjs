@@ -111,7 +111,7 @@ export default {
         for (const item of data) {
           yield item;
         }
-        hasMore = params.page === pagination.totalPages;
+        hasMore = params.page < pagination.totalPages;
         params.page++;
       } while (hasMore);
     },
