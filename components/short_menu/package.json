@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/short_menu",
+  "version": "0.0.1",
+  "description": "Pipedream Short Menu Components",
+  "main": "short_menu.app.mjs",
+  "keywords": [
+    "pipedream",
+    "short_menu"
+  ],
+  "homepage": "https://pipedream.com/apps/short_menu",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
