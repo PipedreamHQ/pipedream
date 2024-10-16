@@ -39,7 +39,7 @@ export default {
     },
     listTemplates(opts = {}) {
       return this._makeRequest({
-        path: "/template/all",
+        path: "/templates/all",
         ...opts,
       });
     },
@@ -47,7 +47,7 @@ export default {
       templateId, ...opts
     }) {
       return this._makeRequest({
-        path: `/template/${templateId}/elements`,
+        path: `/templates/${templateId}/elements`,
         ...opts,
       });
     },
