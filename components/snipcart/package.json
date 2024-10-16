@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/snipcart",
+  "version": "0.1.0",
+  "description": "Pipedream Snipcart Components",
+  "main": "snipcart.app.mjs",
+  "keywords": [
+    "pipedream",
+    "snipcart"
+  ],
+  "homepage": "https://pipedream.com/apps/snipcart",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
