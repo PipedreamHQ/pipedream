@@ -9908,6 +9908,9 @@ importers:
   components/td_ameritrade:
     specifiers: {}
 
+  components/teach_n_go:
+    specifiers: {}
+
   components/teachable:
     specifiers:
       '@pipedream/platform': ^1.5.1
