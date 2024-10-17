@@ -28,6 +28,13 @@ export default {
         return recordset.map(({ COLUMN_NAME: columnName }) => columnName);
       },
     },
+    requestTimeout: {
+      type: "integer",
+      label: "Request Timeout",
+      description: "The timeout for query execution in seconds. Default is 60 seconds if not specified.",
+      optional: true,
+      default: 60,
+    },
   },
   methods: {
     ...sqlProxy.methods,
@@ -37,7 +44,7 @@ export default {
     },
     getConfig() {
       const {
-        host, username, password, port, database,
+        host, username, password, port, database, requestTimeout,
       } = this.$auth;
       return {
         user: username,
@@ -51,21 +58,13 @@ export default {
         options: {
           encrypt: true,
           port: Number(port),
-          requestTimeout: 60000,
+          requestTimeout: (requestTimeout || 60) * 1000, // Convert to milliseconds
         },
       };
     },
     getConnection() {
       return sql.connect(this.getConfig());
     },
-    /**
-     * A helper method to get the schema of the database. Used by other features
-     * (like the `sql` prop) to enrich the code editor and provide the user with
-     * auto-complete and fields suggestion.
-     *
-     * @returns {DbInfo} The schema of the database, which is a
-     * JSON-serializable object.
-     */
     async getSchema() {
       const sql = `
         SELECT t.TABLE_SCHEMA AS tableSchema,
@@ -98,15 +97,6 @@ export default {
         return acc;
       }, {});
     },
-    /**
-     * Adapts the arguments to `executeQuery` so that they can be consumed by
-     * the SQL proxy (when applicable). Note that this method is not intended to
-     * be used by the component directly.
-     * @param {object} preparedStatement The prepared statement to be sent to the DB.
-     * @param {string} preparedStatement.sql The prepared SQL query to be executed.
-     * @param {string[]} preparedStatement.values The values to replace in the SQL query.
-     * @returns {object} - The adapted query and parameters.
-     */
     proxyAdapter(preparedStatement = {}) {
       const { query } = preparedStatement;
       const inputs = preparedStatement?.inputs || {};
@@ -121,16 +111,6 @@ export default {
         params: [],
       };
     },
-    /**
-     * A method that performs the inverse transformation of `proxyAdapter`.
-     *
-     * @param {object} proxyArgs - The output of `proxyAdapter`.
-     * @param {string} proxyArgs.query - The SQL query to be executed.
-     * @param {string[]} proxyArgs.params - The values to replace in the SQL
-     * query.
-     * @returns {object} - The adapted query and parameters, compatible with
-     * `executeQuery`.
-     */
     executeQueryAdapter(proxyArgs = {}) {
       let { query } = proxyArgs;
       const params = proxyArgs?.params || [];
@@ -148,10 +128,16 @@ export default {
     },
     async executeQuery(preparedStatement = {}) {
       let connection;
-      const { query } = preparedStatement;
+      const {
+        query, requestTimeout,
+      } = preparedStatement;
       const inputs = preparedStatement?.inputs || {};
       try {
-        connection = await sql.connect(this.getClientConfiguration());
+        const config = this.getConfig();
+        if (requestTimeout) {
+          config.options.requestTimeout = requestTimeout * 1000; // Convert to milliseconds
+        }
+        connection = await sql.connect(config);
         const input =
           Object.entries(inputs)
             .reduce((req, inputArgs) =>
