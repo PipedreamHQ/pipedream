@@ -7,36 +7,69 @@ import {
   ClientCredentials,
 } from "simple-oauth2";
 
+export type PipedreamOAuthClient = {
+  clientId: string;
+  clientSecret: string;
+};
+
 /**
  * Options for creating a server-side client.
  * This is used to configure the ServerClient instance.
  */
 export type CreateServerClientOpts = {
   /**
+   * @deprecated Use the `oauth` object instead.
    * The public API key for accessing the service.
    */
   publicKey?: string;
 
   /**
+   * @deprecated Use the `oauth` object instead.
    * The secret API key for accessing the service.
    */
   secretKey?: string;
 
   /**
+   * The environment in which the server client is running (e.g., "production", "development").
+   */
+  environment?: string;
+
+  /**
+   * @deprecated Use the `oauth` object instead.
    * The client ID of your workspace's OAuth application.
    */
   oauthClientId?: string;
 
   /**
+   * @deprecated Use the `oauth` object instead.
    * The client secret of your workspace's OAuth application.
    */
   oauthClientSecret?: string;
 
   /**
+   * The OAuth object, containing client ID and client secret.
+   */
+  oauth?: PipedreamOAuthClient;
+
+  /**
    * The API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
    */
   apiHost?: string;
+
+  /**
+   * Base domain for workflows. Used for custom domains: https://pipedream.com/docs/workflows/domains
+   */
+  baseWorkflowDomain?: string;
 };
+
+/**
+ * Different types of ways customers can authorize requests to HTTP endpoints
+ */
+export enum HTTPAuthType {
+  None = "none",
+  StaticBearer = "static-bearer",
+  OAuth = "oauth"
+}
 
 /**
  * Options for creating a Connect token.
@@ -123,7 +156,7 @@ export type ConnectParams = {
 /**
  * The authentication type for the app.
  */
-export enum AuthType {
+export enum AppAuthType {
   OAuth = "oauth",
   Keys = "keys",
   None = "none",
@@ -151,7 +184,7 @@ export type AppResponse = {
   /**
    * The authentication type used by the app.
    */
-  auth_type: AuthType;
+  auth_type: AppAuthType;
 
   /**
    * The URL to the app's logo.
@@ -309,9 +342,11 @@ export function createClient(opts: CreateServerClientOpts) {
 export class ServerClient {
   private secretKey?: string;
   private publicKey?: string;
+  private environment: string;
   private oauthClient?: ClientCredentials;
   private oauthToken?: AccessToken;
-  private readonly baseURL: string;
+  private readonly baseAPIURL: string;
+  private readonly baseWorkflowDomain: string;
 
   /**
    * Constructs a new ServerClient instance.
@@ -323,18 +358,22 @@ export class ServerClient {
     opts: CreateServerClientOpts,
     oauthClient?: ClientCredentials,
   ) {
+    this.environment = opts.environment ?? "production";
     this.secretKey = opts.secretKey;
     this.publicKey = opts.publicKey;
 
-    const { apiHost = "api.pipedream.com" } = opts;
-    this.baseURL = `https://${apiHost}/v1`;
+    const {
+      apiHost = "api.pipedream.com", baseWorkflowDomain = "m.pipedream.net",
+    } = opts;
+    this.baseAPIURL = `https://${apiHost}/v1`;
+    this.baseWorkflowDomain = baseWorkflowDomain;
 
     if (oauthClient) {
       // Use the provided OAuth client (useful for testing)
       this.oauthClient = oauthClient;
     } else {
       // Configure the OAuth client normally
-      this.configureOauthClient(opts, this.baseURL);
+      this.configureOauthClient(opts, this.baseAPIURL);
     }
   }
 
@@ -342,18 +381,24 @@ export class ServerClient {
     {
       oauthClientId: id,
       oauthClientSecret: secret,
+      oauth,
     }: CreateServerClientOpts,
     tokenHost: string,
   ) {
-    if (!id || !secret) {
+    const clientId = oauth?.clientId ?? id;
+    const clientSecret = oauth?.clientSecret ?? secret;
+
+    if (!clientId || !clientSecret) {
       return;
     }
 
+    const client = {
+      id: clientId,
+      secret: clientSecret,
+    };
+
     this.oauthClient = new ClientCredentials({
-      client: {
-        id,
-        secret,
-      },
+      client,
       auth: {
         tokenHost,
         tokenPath: "/v1/oauth/token",
@@ -420,7 +465,7 @@ export class ServerClient {
       headers: customHeaders,
       body,
       method = "GET",
-      baseURL = this.baseURL,
+      baseURL = this.baseAPIURL,
       ...fetchOpts
     } = opts;
 
@@ -437,8 +482,9 @@ export class ServerClient {
       }
     }
 
-    const headers = {
+    const headers: Record<string, string> = {
       ...customHeaders,
+      "X-PD-Environment": this.environment,
     };
 
     let processedBody: string | Buffer | URLSearchParams | FormData | null = null;
@@ -548,7 +594,8 @@ export class ServerClient {
   }
 
   /**
-   * Creates a new connect token.
+   * Creates a new Pipedream Connect token.
+   * See https://pipedream.com/docs/connect/quickstart#connect-to-the-pipedream-api-from-your-server-and-create-a-token
    *
    * @param opts - The options for creating the connect token.
    * @returns A promise resolving to the connect token response.
@@ -728,16 +775,59 @@ export class ServerClient {
   }
 
   /**
-   * Invokes a workflow using the URL of its HTTP interface(s), by sending an
-   * HTTP POST request with the provided body.
+   * Builds a full workflow URL based on the input.
    *
-   * @param url - The URL of the workflow's HTTP interface.
+   * @param input - Either a full URL (with or without protocol) or just an endpoint ID.
+   *
+   * @returns The fully constructed URL.
+   *
+   * @throws If the input is not a valid URL and not an ID, the function assumes it's an endpoint ID.
+   *
+   * @example
+   * // Full URL input
+   * this.buildWorkflowUrl("https://en123.m.pipedream.net");
+   * // Returns: "https://en123.m.pipedream.net"
+   *
+   * @example
+   * // Partial URL (without protocol)
+   * this.buildWorkflowUrl("en123.m.pipedream.net");
+   * // Returns: "https://en123.m.pipedream.net"
+   *
+   * @example
+   * // ID only input
+   * this.buildWorkflowUrl("en123");
+   * // Returns: "https://en123.yourdomain.com" (where `yourdomain.com` is set in `baseWorkflowDomain`)
+   */
+  private buildWorkflowUrl(input: string): string {
+    let url: string;
+
+    const isUrl = input.includes(".") || input.startsWith("http");
+
+    if (isUrl) {
+    // Try to parse the input as a URL
+      const parsedUrl = new URL(input.startsWith("http")
+        ? input
+        : `https://${input}`);
+      url = parsedUrl.href;
+    } else {
+    // If the input is an ID, construct the full URL using the base domain
+      url = `https://${input}.${this.baseWorkflowDomain}`;
+    }
+
+    return url;
+  }
+
+  /**
+   * Invokes a workflow using the URL of its HTTP interface(s), by sending an
+   *
+   * @param urlOrEndpoint - The URL of the workflow's HTTP interface, or the ID of the endpoint
    * @param opts - The options for the request.
    * @param opts.body - The body of the request. It must be a JSON-serializable
    * value (e.g. an object, null, a string, etc.).
    * @param opts.headers - The headers to include in the request. Note that the
    * Authorization header will always be set with an OAuth access token
    * retrieved by the client.
+   * @param authType - The type of authorization to use for the request.
    *
    * @returns A promise resolving to the response from the workflow.
    *
@@ -756,25 +846,97 @@ export class ServerClient {
    *       "Accept": "application/json",
    *     },
    *   },
+   *   "oauth",
    * );
    * console.log(response);
    * ```
    */
-  public async invokeWorkflow(url: string, opts: RequestOptions = {}): Promise<unknown> {
+  public async invokeWorkflow(urlOrEndpoint: string, opts: RequestOptions = {}, authType: HTTPAuthType = HTTPAuthType.None): Promise<unknown> {
     const {
       body,
       headers = {},
     } = opts;
 
+    const url = this.buildWorkflowUrl(urlOrEndpoint);
+
+    let authHeader: string | undefined;
+    switch (authType) {
+    // It's expected that users will pass their own Authorization header in the static bearer case
+    case HTTPAuthType.StaticBearer:
+      authHeader = headers["Authorization"];
+      break;
+    case HTTPAuthType.OAuth:
+      authHeader = await this.oauthAuthorizationHeader();
+      break;
+    default:
+      break;
+    }
+
     return this.makeRequest("", {
       ...opts,
       baseURL: url,
       method: opts.method || "POST", // Default to POST if not specified
-      headers: {
-        ...headers,
-        "Authorization": await this.oauthAuthorizationHeader(),
-      },
+      headers: authHeader
+        ? {
+          ...headers,
+          "Authorization": authHeader,
+        }
+        : headers,
       body,
     });
+  }
+
+  /**
+   * Invokes a workflow for a Pipedream Connect user in a project
+   *
+   * @param url - The URL of the workflow's HTTP interface.
+   * @param externalUserId — Your end user ID, for whom you're invoking the workflow.
+   * @param opts - The options for the request.
+   * @param opts.body - The body of the request. It must be a JSON-serializable
+   * value (e.g. an object, null, a string, etc.).
+   * @param opts.headers - The headers to include in the request. Note that the
+   * Authorization header will always be set with an OAuth access token
+   * retrieved by the client.
+   *
+   * @returns A promise resolving to the response from the workflow.
+   *
+   * @example
+   *
+   * ```typescript
+   * const response = await client.invokeWorkflowForExternalUser(
+   *   "https://your-workflow-url.m.pipedream.net",
+   *   "your-external-user-id",
+   *   {
+   *     body: {
+   *       foo: 123,
+   *       bar: "abc",
+   *       baz: null,
+   *     },
+   *     headers: {
+   *       "Accept": "application/json",
+   *     },
+   *   },
+   * );
+   * console.log(response);
+   * ```
+   */
+  public async invokeWorkflowForExternalUser(url: string, externalUserId: string, opts: RequestOptions = {}): Promise<unknown> {
+    const { headers = {} } = opts;
+
+    if (!externalUserId) {
+      throw new Error("External user ID is required");
+    }
+
+    if (!this.oauthClient) {
+      throw new Error("OAuth is required for invoking workflows for external users. Please pass credentials for a valid OAuth client");
+    }
+
+    return this.invokeWorkflow(url, {
+      ...opts,
+      headers: {
+        ...headers,
+        "X-PD-External-User-ID": externalUserId,
+      },
+    }, HTTPAuthType.OAuth); // OAuth auth is required for invoking workflows for external users
   }
 }
