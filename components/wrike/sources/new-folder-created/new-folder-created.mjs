@@ -17,7 +17,6 @@ export default {
       ],
       description: "Receive notifications for folders in a folder and, optionally, in its subfolders. Leave blank to receive notifications for all folders in the account",
       optional: true,
-      reloadProps: true,
     },
     spaceId: {
       propDefinition: [
@@ -26,7 +25,6 @@ export default {
       ],
       description: "Receive notifications for changes to folders within a space. Leave blank to receive notifications for all folders in the account",
       optional: true,
-      reloadProps: true,
     },
     recursive: {
       type: "boolean",
