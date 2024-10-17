@@ -38,7 +38,7 @@ export default {
         for (const elementKey of Object.keys(value)) {
           props[`${key}_${elementKey}`] = {
             type: "string",
-            label: `${elementKey}`,
+            label: `${key} - ${elementKey}`,
             optional: true,
           };
         }
