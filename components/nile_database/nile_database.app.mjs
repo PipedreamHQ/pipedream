@@ -18,8 +18,13 @@ export default {
       type: "string",
       label: "Database",
       description: "The database name",
-      async options() {
-        const { databases } = await this.getAuthenticatedUser();
+      async options({ workspace }) {
+        if (!workspace) {
+          return [];
+        }
+        const databases = await this.listDatabases({
+          workspace,
+        });
         return databases?.map(({ name }) => name) || [];
       },
     },
@@ -65,6 +70,14 @@ export default {
         url: `${this._globalBaseUrl()}/workspaces/${workspace}/databases/${database}`,
         workspace,
         database,
+        ...opts,
+      });
+    },
+    listDatabases({
+      workspace, ...opts
+    }) {
+      return this._makeRequest({
+        url: `${this._globalBaseUrl()}/workspaces/${workspace}/databases`,
         ...opts,
       });
     },

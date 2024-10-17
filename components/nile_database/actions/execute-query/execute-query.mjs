@@ -4,7 +4,7 @@ export default {
   name: "Execute Query",
   key: "nile_database-execute-query",
   description: "Execute a custom PostgreSQL query.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     nile,
@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         nile,
         "database",
+        (c) => ({
+          workspace: c.workspace,
+        }),
       ],
     },
     user: {
