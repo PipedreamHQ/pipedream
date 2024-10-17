@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { OVERLEDGER_INSTANCE } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,11 +10,14 @@ export default {
       label: "Smart Contract ID",
       description: "The ID of the smart contract to interact with.",
     },
+    environment: {
+      type: "string",
+      label: "Overledger Instance",
+      description: "Select the Overledger instance to be used",
+      options: OVERLEDGER_INSTANCE,
+    },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.overledger.io";
-    },
     _headers() {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
@@ -21,12 +25,17 @@ export default {
         "API-Version": "3.0.0",
       };
     },
+    _getBaseUrl(environment) { //conditional for environment url selection.
+      return environment === "sandbox"
+        ? "https://api.sandbox.overledger.io"
+        : "https://api.overledger.io";
+    },
     _makeRequest({
-      $ = this, path, ...otherOpts
+      $ = this, environment, path, ...otherOpts
     }) {
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: this._getBaseUrl(environment) + path,
         headers: this._headers(),
       });
     },
@@ -34,6 +43,20 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/api/preparations/transactions/smart-contracts/write",
+        ...opts,
+      });
+    },
+    readFromSmartContract(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/smart-contracts/read",
+        ...opts,
+      });
+    },
+    signTransaction(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/api/transaction-signing-sandbox",
         ...opts,
       });
     },
@@ -54,11 +77,12 @@ export default {
       });
     },
     deleteHook({
-      path, webhookId,
+      path, webhookId, ...opts
     }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/api/webhooks/${path}/${webhookId}`,
+        ...opts,
       });
     },
   },
