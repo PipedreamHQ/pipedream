@@ -4823,7 +4823,10 @@ importers:
       form-data: 4.0.0
 
   components/imagior:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/imap:
     specifiers:
