@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         nile,
         "database",
+        (c) => ({
+          workspace: c.workspace,
+        }),
       ],
     },
     email: {
