@@ -4,7 +4,7 @@ import Callout from "@/components/Callout";
 
 ## Overview
 
-Use the REST API to create and manage sources, workflows, subscriptions, and more.
+Use the REST API to create workflows, manage event sources, handle subscriptions, and more.
 
 ## Base URL
 
@@ -12,27 +12,20 @@ The base URL for all requests is [https://api.pipedream.com/v1](https://api.pipe
 
 ## Authentication
 
-You authenticate to the REST API using your [Pipedream API
-key](/rest-api/auth/#pipedream-api-key). When you make API requests, pass an
-`Authorization` header of the following format:
+The Pipedream API supports two methods of authentication: [OAuth](/rest-api/auth#oauth) and [User API keys](/rest-api/auth#user-api-keys).
 
-```
-Authorization: Bearer <api key>
-```
-
-For example, here's how you can use `cURL` to fetch profile information for the
-authenticated user:
+All credentials are passed as a Bearer token in the `Authorization` header. For example:
 
 ```shell
-curl 'https://api.pipedream.com/v1/users/me' \
-  -H 'Authorization: Bearer <api_key>'
+curl https://api.pipedream.com/v1/accounts
+  -H "Authorization Bearer <token>"
 ```
 
-Learn more about [API authentication](/rest-api/auth/)
+Learn more in the [Authentication docs](/rest-api/auth/).
 
 ## Required headers
 
-The `Authorization` header is required on all endpoints for authentication.
+The `Authorization` header is required on all endpoints, to authenticate API requests.
 
 `POST` or `PUT` requests that accept JSON payloads also require a `Content-Type`
 header set to `application/json`. For example:
@@ -70,25 +63,18 @@ including all fields). Pass as a string of comma-separated values:
 
 ---
 
-`workspace_id` **string**
-
-Some endpoints require you to specify [your workspace ID](/workspaces/#finding-your-workspace-s-id) you want the operation to take effect in. For example, if you're creating a new event source in a specific workspace, you'll want to pass the workspace ID in the `workspace_id` query string parameter.
-
-[Find your workspace's ID here](/workspaces/#finding-your-workspace-s-id).
-
-<Callout type="info">
-  If your organization is on one of our legacy plans like the Free Teams or
-  Teams plan, the `workspace_id` is synonymous with your `org_id`. Just pass
-  your organization ID as the same parameter.
+<Callout>
+The `workspace_id` parameter is only required when using [User API keys](/rest-api/auth#user-api-keys). When authenticating with OAuth tokens, the API will automatically use the workspace associated with the token.
 </Callout>
 
-## Working with resources owned by a workspace
+`workspace_id` **string**
 
-If you're interacting with resources owned by a [workspace](/workspaces/), you may need to specify the workspace ID as a part of the request's query string parameter or route:
+When using [User API keys](/rest-api/auth#user-api-keys), some endpoints require you to specify [your workspace ID](/workspaces/#finding-your-workspace-s-id) you want the operation to take effect in:
 
-- When fetching specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), you should not need to pass your workspace's ID. If your user is a part of the workspace, you should have access to that resource, and the API will return the details of the resource.
-- When _creating_ new resources, you'll need to specify the `org_id` where you want the resource to live as a query string parameter (`?org_id=o_abc123`). Read more about the `org_id` parameter in the [Common Parameters section](#common-parameters).
-- When _listing_ resources, use [the workspace-specific endpoints here](#workspaces).
+- When _fetching_ specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), **you should not need to pass your workspace's ID**. If your user is a part of the workspace, and you have access to that resource, and the API will return the details of the resource.
+- When _creating_ new resources, you'll need to specify the `workspace_id` in which you want to create the resource.
+
+[Find your workspace's ID here](/workspaces/#finding-your-workspace-s-id).
 
 ## Pagination
 
@@ -165,9 +151,11 @@ The response from the request above will have a shape that looks like:
 ## Errors
 
 Pipedream uses conventional HTTP response codes to indicate the success or
-failure of an API request. Codes in the **2xx** range indicate success. Codes in
-the **4xx** range indicate an error that failed (e.g., a required parameter was
-omitted). Codes in the **5xx** range indicate an error with Pipedream’s server.
+failure of an API request:
+
+- Codes in the `2xx` range indicate success. 
+- Codes in the `4xx` range indicate an error that failed (e.g., a required parameter was omitted). 
+- Codes in the `5xx` range indicate an error with Pipedream's server.
 
 ## Accounts
 
@@ -491,6 +479,12 @@ curl https://api.pipedream.com/v1/components/registry/github-new-repository \
 }
 ```
 
+## Connect
+
+[Pipedream Connect](/connect) is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI-driven products, [and much more](/connect/use-cases), all in a few minutes. Visit [the quickstart](/connect/quickstart) to build your first integration.
+
+Read more about the Connect API in the [Connect API docs](/connect/api/).
+
 ## Events
 
 ### Get Source Events
@@ -608,41 +602,6 @@ curl -X DELETE \
 
 Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status
 code in response to any deletion requests.
-
-### List Projects
-
-Programmatically list the workspace's projects.
-
-#### Endpoint
-
-```
-GET /v1/workspaces/<workspace_id>/projects
-```
-
-#### Path Parameters
-
-`workspaces_id` **string**
-
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
-
-#### Example Responses
-
-```
-  "data": [
-    {
-      "id": "proj_kYRs18",
-      "hid": "proj_kYRs18",
-      "name": "Sample Project",
-      "repository_id": null,
-      "repository_path": null,
-      "created_at": "2024-02-05T21:47:24.000Z",
-      "updated_at": "2024-02-06T16:13:07.000Z",
-      "org_id": 1,
-      "exceptions": null,
-      "allow_support": false
-    }
-  ]
-```
 
 ## Sources
 

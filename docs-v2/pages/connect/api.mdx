@@ -47,21 +47,6 @@ or a specific version:
 
 TO DO
 
-### Project keys
-
-You authenticate to the Connect API using **Basic Auth**. Send your project public key as the username and the project secret key as the password. When you make API requests, pass an
-`Authorization` header of the following format:
-
-```shell
-Authorization: Basic base_64(public_key:secret_key)
-```
-
-Clients like `cURL` will often make this easy. For example, here's how you list all accounts on a project:
-
-```shell
-curl 'https://api.pipedream.com/v1/connect/accounts' -u public_key:secret_key
-```
-
 ### TypeScript SDK (Server)
 
 Most of your interactions with the Connect API will happen on the server, to protect API requests and user credentials. You'll use the SDK in [your frontend](#typescript-sdk-browser) to let users connect accounts. Once connected, you'll use the SDK on the server to retrieve credentials, invoke workflows on their behalf, and more.

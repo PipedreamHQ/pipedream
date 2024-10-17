@@ -1,16 +1,46 @@
 # Authentication
 
-## Pipedream API Key
+The Pipedream API supports two methods of authentication: [OAuth](#oauth) and [User API keys](#user-api-keys).
 
-When you sign up for Pipedream, an API key is automatically generated for your account. You can use this key to authorize requests to the API. 
+**We recommend OAuth** for a few reasons:
+
+✅ OAuth clients are tied to the workspace, administered by workspace admins <br />
+✅ Tokens are short-lived <br />
+✅ OAuth clients support scopes, limiting access to specific operations <br />
+
+When testing the API or using the CLI, you can use your user API key. This key is tied to your user account and provides full access to any resources your user has access to, across workspaces.
+
+## OAuth
+
+Workspace administrators can create OAuth applications in your workspace's [API settings](https://pipedream.com/settings/api). 
+
+Since API requests are meant to be made server-side, and since grants are not tied to individual end users, all OAuth clients are [**Client Credentials** applications](#how-client-credentials-apps-work).
+
+### Creating an OAuth application
+
+1. Visit your workspace's [API settings](https://pipedream.com/settings/api).
+2. Click the **New OAuth App** button.
+3. Name your app and click **Create**.
+4. Copy the app's client secret. **It will not be accessible again**. Click **Close**.
+5. Copy the app's client ID from the list of OAuth applications.
+
+### How client credentials apps work
+
+## User API keys
+
+When you sign up for Pipedream, an API key is automatically generated for your user account. You can use this key to authorize requests to the API. 
 
 You'll find this API key in your [User Settings](https://pipedream.com/user) (**My Account** -> **API Key**).
 
 ## Authorizing API requests
 
-Pipedream uses [Bearer Authentication](https://oauth.net/2/bearer-tokens/) to authorize your access to the API or SSE event streams. When you make API requests, pass an `Authorization` header of the following format:
+Whether you use OAuth access tokens or user API keys, Pipedream uses [Bearer Authentication](https://oauth.net/2/bearer-tokens/) to authorize your access to the API or SSE event streams. When you make API requests, pass an `Authorization` header of the following format:
 
 ```
+# OAuth access token
+Authorization: Bearer <access token>
+
+# User API key
 Authorization: Bearer <api key>
 ```
 
