@@ -4,8 +4,8 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "wrike-update-task-custom-fields",
   name: "Update Task Custom Fields",
-  description: "Update the custom fields for a task. [See the docs](https://developers.wrike.com/api/v4/tasks/#modify-tasks)",
-  version: "0.0.1",
+  description: "Update the custom fields for a task. [See the documentation](https://developers.wrike.com/api/v4/tasks/#modify-tasks)",
+  version: "0.0.2",
   type: "action",
   props: {
     wrike,
