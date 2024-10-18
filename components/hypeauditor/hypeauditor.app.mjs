@@ -3,7 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "hypeauditor",
-  version: "0.0.ts",
   propDefinitions: {
     youtubeChannel: {
       type: "string",
@@ -21,11 +20,6 @@ export default {
       label: "TikTok User Name or ID",
       description: "The TikTok username or ID for which to generate a report.",
     },
-    instagramUser: {
-      type: "string",
-      label: "Instagram User Name or ID",
-      description: "The Instagram username or ID for which to generate a report.",
-    },
     twitchChannel: {
       type: "string",
       label: "Twitch Channel Username",
@@ -33,67 +27,38 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://hypeauditor.com/api/method/auditor";
+      return "https://hypeauditor.com/api/method";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers = {}, ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, path, headers, ...otherOpts
+    } = {}) {
       return axios($, {
-        method,
         url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
-          "X-Auth-Token": this.$auth.token,
-          "X-Auth-Id": this.$auth.id,
+          "x-auth-token": this.$auth.token,
+          "x-auth-id": this.$auth.id,
         },
         ...otherOpts,
       });
     },
     async getYouTubeReport(opts = {}) {
-      const {
-        channel, features,
-      } = opts;
-      const params = {
-        channel,
-      };
-      if (features) {
-        params.features = features;
-      }
       return this._makeRequest({
-        path: "/youtube/",
-        params,
+        path: "/auditor.youtube/",
+        ...opts,
       });
     },
     async getTikTokReport(opts = {}) {
-      const { channel } = opts;
       return this._makeRequest({
-        path: "/tiktok/",
-        params: {
-          channel,
-        },
-      });
-    },
-    async getInstagramReport(opts = {}) {
-      const { channel } = opts;
-      return this._makeRequest({
-        path: "/instagram/",
-        params: {
-          channel,
-        },
+        path: "/auditor.tiktok/",
+        ...opts,
       });
     },
     async getTwitchReport(opts = {}) {
-      const { channel } = opts;
       return this._makeRequest({
-        path: "/twitch/",
-        params: {
-          channel,
-        },
+        path: "/auditor.twitch/",
+        ...opts,
       });
     },
   },
