@@ -1,94 +1,22 @@
-import { axios } from "@pipedream/platform";
-import teachNGo from "../../teach_n_go.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "teach_n_go-new-class",
   name: "New Class Created",
-  description: "Emit a new event when a class is created. [See the documentation](https://intercom.help/teach-n-go/en/articles/8727904-api-endpoints)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a class is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    teachNGo,
-    db: "$.service.db",
-    courseTitle: {
-      propDefinition: [
-        teachNGo,
-        "courseTitle",
-      ],
-    },
-    dateAndTime: {
-      propDefinition: [
-        teachNGo,
-        "dateAndTime",
-      ],
-    },
-    classDescription: {
-      propDefinition: [
-        teachNGo,
-        "classDescription",
-      ],
-      optional: true,
-    },
-    teacher: {
-      propDefinition: [
-        teachNGo,
-        "teacher",
-      ],
-      optional: true,
-    },
-  },
-  hooks: {
-    async deploy() {
-      const classes = await this.fetchClasses();
-      for (const classData of classes.slice(-50).reverse()) {
-        this.$emit(classData, {
-          id: classData.id,
-          summary: `New Class: ${classData.title}`,
-          ts: Date.parse(classData.dateAndTime),
-        });
-      }
-    },
-    async activate() {
-      // Activation logic if any
-    },
-    async deactivate() {
-      // Deactivation logic if any
-    },
-  },
   methods: {
-    async fetchClasses() {
-      return this.teachNGo._makeRequest({
-        path: "/classes",
-      });
+    ...common.methods,
+    getFunction() {
+      return this.app.listCourses;
     },
-    async emitNewClassEvent() {
-      const courseTitle = this.courseTitle;
-      const dateAndTime = this.dateAndTime;
-      const classDescription = this.classDescription || null;
-      const teacher = this.teacher || null;
-
-      const classData = {
-        courseTitle,
-        dateAndTime,
-        classDescription,
-        teacher,
-      };
-
-      this.$emit(classData, {
-        summary: `New Class: ${courseTitle}`,
-        ts: new Date().getTime(),
-      });
+    getSummary(item) {
+      return `New Class: ${item.course_full_title}`;
     },
   },
-  async run() {
-    const classes = await this.fetchClasses();
-    for (const classData of classes) {
-      this.$emit(classData, {
-        id: classData.id,
-        summary: `New Class: ${classData.title}`,
-        ts: Date.parse(classData.dateAndTime),
-      });
-    }
-  },
+  sampleEmit,
 };

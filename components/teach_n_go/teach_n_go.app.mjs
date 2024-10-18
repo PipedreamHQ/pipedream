@@ -1,162 +1,122 @@
 import { axios } from "@pipedream/platform";
+import { GENDER_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "teach_n_go",
   propDefinitions: {
-    courseTitle: {
+    firstName: {
       type: "string",
-      label: "Course Title",
-      description: "The title of the course for the class.",
+      label: "First Name",
+      description: "The prospect's first name.",
     },
-    dateAndTime: {
+    lastName: {
       type: "string",
-      label: "Date and Time",
-      description: "The date and time when the class is scheduled.",
+      label: "Last Name",
+      description: "The prospect's surname.",
     },
-    classDescription: {
+    gender: {
       type: "string",
-      label: "Class Description",
-      description: "The optional description of the class.",
-      optional: true,
-    },
-    teacher: {
-      type: "string",
-      label: "Teacher",
-      description: "The optional teacher for the class.",
-      optional: true,
-    },
-    studentName: {
-      type: "string",
-      label: "Student Name",
-      description: "The name of the student involved.",
-    },
-    amount: {
-      type: "number",
-      label: "Amount",
-      description: "The amount of the payment.",
-    },
-    paymentMethod: {
-      type: "string",
-      label: "Payment Method",
-      description: "The optional payment method used.",
-      optional: true,
-    },
-    paymentDate: {
-      type: "string",
-      label: "Payment Date",
-      description: "The optional payment date.",
-      optional: true,
+      label: "Gender",
+      description: "The prospect's gender.",
+      options: GENDER_OPTIONS,
     },
     dateOfBirth: {
       type: "string",
-      label: "Date of Birth",
-      description: "The date of birth of the student.",
+      label: "Date Of Birth",
+      description: "The prospect's date of birth. **Format: YYYY-MM-DD**",
     },
-    contactNumber: {
+    emailAddress: {
       type: "string",
-      label: "Contact Number",
-      description: "The optional contact number of the student.",
-      optional: true,
+      label: "Email Address",
+      description: "The prospect's email address.",
     },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The optional email of the student.",
-      optional: true,
-    },
-    prospectDetails: {
-      type: "object",
-      label: "Prospect Details",
-      description: "The details of the new prospect.",
-    },
-    invoiceId: {
-      type: "string",
-      label: "Invoice ID",
-      description: "The ID of the invoice to be marked as paid.",
-    },
-    paidDate: {
-      type: "string",
-      label: "Paid Date",
-      description: "The optional date when the invoice was paid.",
-      optional: true,
-    },
-    personalDetails: {
-      type: "object",
-      label: "Personal Details",
-      description: "The personal details of the new student.",
-    },
-    academicDetails: {
-      type: "object",
-      label: "Academic Details",
-      description: "The academic details of the new student.",
+    courses: {
+      type: "integer[]",
+      label: "Courses",
+      description: "The student's course Ids.",
+      async options() {
+        const { data } = await this.listCourses();
+
+        return data.map(({
+          course_full_title: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://app.teachngo.com/api";
+      return "https://app.teachngo.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers(headers = {}) {
+      return {
+        "X-API-KEY": `${this.$auth.api_key}`,
+        ...headers,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "X-API-KEY": this.$auth.api_key,
-        },
+        headers: this._headers(headers),
+        ...opts,
       });
     },
-    async emitNewClassEvent({
-      courseTitle, dateAndTime, classDescription, teacher,
-    }) {
-      // Logic to emit new class created event based on input parameters
-    },
-    async emitNewPaymentEvent({
-      studentName, amount, paymentMethod, paymentDate,
-    }) {
-      // Logic to emit new payment made event based on input parameters
-    },
-    async emitNewStudentRegistrationEvent({
-      studentName, dateOfBirth, contactNumber, email,
-    }) {
-      // Logic to emit new student registration event based on input parameters
-    },
-    async createProspect({ prospectDetails }) {
+    createProspect(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/prospect",
-        data: prospectDetails,
+        path: "/LeadsApi/add",
+        ...opts,
       });
     },
-    async markInvoiceAsPaid({
-      invoiceId, paidDate,
-    }) {
+    registerStudent(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/invoice/${invoiceId}/paid`,
-        data: {
-          paid_date: paidDate,
-        },
+        path: "/api/student",
+        ...opts,
       });
     },
-    async registerStudent({
-      personalDetails, academicDetails,
-    }) {
+    listCourses(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/student",
-        data: {
-          personalDetails,
-          academicDetails,
-        },
+        path: "/globalApis/course_list",
+        ...opts,
       });
+    },
+    listStudents(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/globalApis/student_list",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, ...opts
+    }) {
+      let hasMore = false;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          data,
+          next,
+        } = await fn({
+          params,
+          ...opts,
+        });
+
+        for (const d of data) {
+          yield d;
+        }
+
+        hasMore = next;
+
+      } while (hasMore);
     },
   },
 };
