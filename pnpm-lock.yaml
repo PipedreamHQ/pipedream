@@ -4714,7 +4714,10 @@ importers:
     specifiers: {}
 
   components/hypeauditor:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/hyperise:
     specifiers:
