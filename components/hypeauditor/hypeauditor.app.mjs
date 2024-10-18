@@ -6,19 +6,19 @@ export default {
   propDefinitions: {
     youtubeChannel: {
       type: "string",
-      label: "YouTube Channel ID or Username",
+      label: "Channel ID or Username",
       description: "The YouTube channel ID or username for which to generate a report.",
     },
     youtubeFeatures: {
       type: "string",
       label: "Features List",
-      description: "Optional list of features to include in the YouTube report.",
+      description: "Optional list of features to include in the YouTube report. [See the documentation](https://hypeauditor.readme.io/reference/get_report_youtube) for more information.",
       optional: true,
     },
-    tiktokUser: {
+    tiktokChannel: {
       type: "string",
-      label: "TikTok User Name or ID",
-      description: "The TikTok username or ID for which to generate a report.",
+      label: "TikTok Channel",
+      description: "The TikTok account channel username for which to generate a report.",
     },
     twitchChannel: {
       type: "string",
