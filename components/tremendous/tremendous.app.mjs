@@ -1,11 +1,21 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "tremendous",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseRequest({
+      $, headers, ...args
+    }) {
+      return axios($, {
+        headers: {
+          ...headers,
+          Authorization: `Bearer ${this.$auth.api_key}`,
+        },
+        baseURL: "https://testflight.tremendous.com/api/v2",
+        ...args,
+      });
     },
   },
 };
