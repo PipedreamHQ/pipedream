@@ -44,11 +44,11 @@ export default {
   }) {
     console.log("headers: ", headers);
 
-    if (headers["X-Hook-Secret"]) {
+    if (headers["x-hook-secret"]) {
       return this.http.respond({
         status: 200,
         headers: {
-          "X-Hook-Secret": headers["X-Hook-Secret"],
+          "X-Hook-Secret": headers["x-hook-secret"],
         },
       });
     }

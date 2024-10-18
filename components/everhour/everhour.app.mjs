@@ -103,13 +103,11 @@ export default {
     _makeRequest({
       $ = this, path, ...opts
     }) {
-      const config = {
+      return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(),
         ...opts,
-      };
-      console.log("config: ", config);
-      return axios($, config);
+      });
     },
     listProjects(opts = {}) {
       return this._makeRequest({
