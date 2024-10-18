@@ -12,7 +12,7 @@ export default {
     youtubeFeatures: {
       type: "string",
       label: "Features List",
-      description: "Optional list of features to include in the YouTube report. [See the documentation](https://hypeauditor.readme.io/reference/get_report_youtube) for more information.",
+      description: "Optional list of features to include in the YouTube report. [See the documentation](https://hypeauditor.readme.io/reference/report_youtube) for more information.",
       optional: true,
     },
     tiktokChannel: {
