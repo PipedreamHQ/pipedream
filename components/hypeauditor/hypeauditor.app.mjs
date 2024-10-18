@@ -18,12 +18,12 @@ export default {
     tiktokChannel: {
       type: "string",
       label: "TikTok Channel Username",
-      description: "A TikTok username (e.g. `littlebig`) from the TikTok channel URL (in this example, `https://www.tiktok.com/@littlebig`).",
+      description: "The TikTok username (e.g. `littlebig`) from a TikTok channel URL (in this example, `https://www.tiktok.com/@littlebig`).",
     },
     twitchChannel: {
       type: "string",
       label: "Twitch Channel Username",
-      description: "The Twitch channel username for which to generate a report.",
+      description: "The Twitch username (e.g. `nasa`) from a Twitch channel URL (in this example, `https://www.twitch.tv/nasa`).",
     },
   },
   methods: {
