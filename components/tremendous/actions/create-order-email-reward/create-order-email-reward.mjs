@@ -14,12 +14,14 @@ export default {
         app,
         "campaignId",
       ],
+      optional: true,
     },
     products: {
       propDefinition: [
         app,
         "products",
       ],
+      optional: true,
     },
     infoBox: {
       type: "alert",
