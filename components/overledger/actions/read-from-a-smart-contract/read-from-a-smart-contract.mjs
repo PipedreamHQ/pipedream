@@ -5,10 +5,10 @@ import { parseObject } from "../../common/utils.mjs";
 import overledger from "../../overledger.app.mjs";
 
 export default {
-  key: "overledger-prepare-smart-contract-transaction",
-  name: "Prepare Smart Contract Transaction",
-  description: "Prepares a smart contract transaction for signing on the Overledger platform. [See the documentation](https://developers.quant.network/reference/preparesmartcontractwrite)",
-  version: "0.0.2",
+  key: "overledger-read-from-a-smart-contract",
+  name: "Read from a smart contract",
+  description: "Reads data from a specified smart contract on the Overledger network.",
+  version: "0.0.1",
   type: "action",
   props: {
     overledger,
@@ -25,17 +25,6 @@ export default {
       options: TECHNOLOGY_OPTIONS,
       reloadProps: true,
     },
-    signingAccountId: {
-      type: "string",
-      label: "Signing Account ID",
-      description: "The blockchain account (address) that you will be sending this transaction",
-    },
-    smartContractId: {
-      type: "string",
-      label: "Smart Contract ID",
-      description: "The ID/address of the smart contract to interact with.",
-
-    },
     functionName: {
       type: "string",
       label: "Function Name",
@@ -43,9 +32,19 @@ export default {
     },
     inputParameters: {
       type: "string[]",
-      label: "Input Parameters",
-      description: "The input parameters for the smart contract function, in JSON format.",
+      label: "Input Parameters - Stringified Objects",
+      description: "The input parameters for the smart contract function, in JSON string format. Example: `['{\"type\":\"string\",\"value\":\"param1\"}', '{\"type\":\"uint256\",\"value\":\"param2\"}']`",
       optional: true,
+    },
+    smartContractId: {
+      type: "string",
+      label: "Smart Contract ID",
+      description: "The ID/address of the smart contract to interact with.",
+    },
+    outputParameters: {
+      type: "string[]",
+      label: "Output Parameters",
+      description: "The type of output parameter required e.g., address, string",
     },
   },
   async additionalProps() {
@@ -61,23 +60,24 @@ export default {
     return props;
   },
   async run({ $ }) {
+
     const requestBody = {
       location: {
         technology: this.locationTechnology,
         network: this.locationNetwork,
       },
-      signingAccountId: this.signingAccountId,
       functionName: this.functionName,
-      smartContractId: this.smartContractId,
       inputParameters: parseObject(this.inputParameters), //parse these values using the parseObject function at this shouls turn the JSON string into JSON objects to used in the request body.
+      smartContractId: this.smartContractId,
+      outputParameters: parseObject(this.outputParameters),
     };
-
-    const response = await this.overledger.prepareSmartContractTransaction({
+      // Make the API call to Overledger
+    const response = await this.overledger.readFromSmartContract({
       $,
       environment: this.environment,
       data: requestBody,
     });
-    $.export("$summary", "Smart contract transaction prepared successfully");
+    $.export("$summary", `Successfully read from contract: ${this.smartContractId}`);
     return response;
   },
 };
