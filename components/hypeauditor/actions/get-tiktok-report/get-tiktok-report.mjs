@@ -19,7 +19,7 @@ export default {
     const {
       hypeauditor, ...params
     } = this;
-    const response = await hypeauditor.getTiktokReport({
+    const response = await hypeauditor.getTikTokReport({
       $,
       params,
     });
