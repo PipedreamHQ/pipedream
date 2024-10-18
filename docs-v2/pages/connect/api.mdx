@@ -591,11 +591,7 @@ response = client.connect_token_create(connect_token_opts[:external_id])
 
 #### List all accounts
 
-List all connected accounts for all end users within your project
-
-<Callout type="warning">
-This endpoint is not currently paginated, so we'll attempt to return all connected accounts for all users within your project. We intend to add pagination soon.
-</Callout>
+List all connected accounts for all end users within a project.
 
 ```
 GET /accounts/

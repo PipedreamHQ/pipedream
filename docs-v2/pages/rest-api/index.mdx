@@ -12,12 +12,12 @@ The base URL for all requests is [https://api.pipedream.com/v1](https://api.pipe
 
 ## Authentication
 
-The Pipedream API supports two methods of authentication: [OAuth](/rest-api/auth#oauth) and [User API keys](/rest-api/auth#user-api-keys).
+The Pipedream API supports two methods of authentication: [OAuth](/rest-api/auth#oauth) and [User API keys](/rest-api/auth#user-api-keys). **Pipedream recommends using OAuth for most use cases**.
 
 All credentials are passed as a Bearer token in the `Authorization` header. For example:
 
 ```shell
-curl https://api.pipedream.com/v1/accounts
+curl https://api.pipedream.com/v1/accounts \
   -H "Authorization Bearer <token>"
 ```
 
@@ -32,7 +32,7 @@ header set to `application/json`. For example:
 
 ```shell
 curl https://api.pipedream.com/v1/components \
-  -H "Authorization: Bearer <api_key>" \
+  -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
   -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
 ```
@@ -110,8 +110,6 @@ A cursor, specifying you'd like to retrieve items _before_ this cursor.
 
 Cursor strings are returned with all paginated responses.
 
----
-
 ### Example Paginated Request
 
 This request fetches a page of 5 sources in the authenticated account, after a
@@ -161,9 +159,47 @@ failure of an API request:
 
 [Connected accounts](/connected-accounts/) let you manage credentials for integrated APIs.
 
-### Get account
+### List all accounts
 
----
+List all connected accounts accessible by the authenticated user or workspace.
+
+```
+GET /accounts/
+```
+
+#### Parameters
+
+- `include_credentials` — _Optional_. Pass `include_credentials=1` as a query-string parameter to include the account credentials in the response
+
+#### Example Request — Get account metadata
+
+```bash
+curl 'https://api.pipedream.com/v1/accounts' \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json"
+```
+
+#### Example Response — Get account metadata
+
+```json
+{
+  "data": [
+    {
+      "id": "apn_abc123",
+      "created_at": "2022-07-27T20:37:52.000Z",
+      "updated_at": "2024-02-11T04:18:46.000Z",
+      "name": "Google Sheets — pipedream.com", // account nickname, if set
+      "app": {
+        "id": "app_abc123",
+        "name": "Google Sheets"
+      },
+      "healthy": true // true if Pipedream can make a successful test request
+    }
+  ]
+}
+```
+
+### Get account
 
 By default, this route returns metadata for a specific connected account. Set `include_credentials=1` to return credentials that you can use in any app where you need auth. [See this guide](/connected-accounts/api/) to learn more.
 
@@ -174,8 +210,6 @@ GET /accounts/{account_id}
 ```
 
 #### Parameters
-
----
 
 `account_id` **string**
 
@@ -193,17 +227,15 @@ To retrieve your account ID:
 
 Default `0`: Response only contains account metadata, no credentials. Pass `1` to include `credentials`.
 
----
-
-#### Example Request — Get account metadata
+#### Example Request — Get account metadata
 
 ```bash
 curl 'https://api.pipedream.com/v1/accounts/<account_id>' \
-  -H "Authorization: Bearer <api_key>" \
+  -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json"
 ```
 
-#### Example Response — Get account metadata
+#### Example Response — Get account metadata
 
 ```json
 {
@@ -225,7 +257,7 @@ curl 'https://api.pipedream.com/v1/accounts/<account_id>' \
 
 ```bash
 curl 'https://api.pipedream.com/v1/accounts/<account_id>?include_credentials=1' \
-  -H "Authorization: Bearer <api_key>" \
+  -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json"
 ```
 
@@ -256,10 +288,10 @@ The properties of the `credentials` object are specific to the app.
 
 All OAuth apps expose the following properties:
 
-- `oauth_access_token` — A fresh OAuth access token
-- `oauth_client_id` — The client ID of the OAuth app
-- `oauth_refresh_token` — The latest OAuth refresh token for your grant
-- `oauth_uid` — A unique identifier in the third party API's system, typically a user ID or email address
+- `oauth_access_token` — A fresh OAuth access token
+- `oauth_client_id` — The client ID of the OAuth app
+- `oauth_refresh_token` — The latest OAuth refresh token for your grant
+- `oauth_uid` — A unique identifier in the third party API's system, typically a user ID or email address
 
 Apps with static credentials expose fields specific to the API, e.g. `api_key`. Review the response for specific apps to see the app-specific response.
 
@@ -268,8 +300,6 @@ Apps with static credentials expose fields specific to the API, e.g. `api_key`. 
 Components are objects that represent the code for an [event source](#sources).
 
 ### Create a component
-
----
 
 Before you can create a source using the REST API, you must first create a
 **component** - the code for the source.
@@ -284,8 +314,6 @@ POST /components
 ```
 
 #### Parameters
-
----
 
 `component_code` **string** (_optional_)
 
@@ -312,7 +340,7 @@ Here's an example of how to create an RSS component from a Github URL:
 
 ```shell
 curl https://api.pipedream.com/v1/components \
-  -H "Authorization: Bearer <api_key>" \
+  -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
   -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
 ```
@@ -363,8 +391,6 @@ GET /components/{key|id}
 
 #### Parameters
 
----
-
 `key` **string**
 
 The component key (identified by the `key` property within the component's
@@ -376,13 +402,11 @@ source code) you'd like to fetch metadata for (example: `my-component`)
 
 The saved component ID you'd like to fetch metadata for (example: `sc_JDi8EB`)
 
----
-
 #### Example Request
 
 ```shell
 curl https://api.pipedream.com/v1/components/my-component \
-  -H "Authorization: Bearer <api_key>"
+  -H "Authorization: Bearer <token>"
 ```
 
 #### Example Response
@@ -432,20 +456,16 @@ GET /components/registry/{key}
 
 #### Parameters
 
----
-
 `key` **string**
 
 The component key (identified by the `key` property within the component's
 source code) you'd like to fetch metadata for (example: `my-component`)
 
----
-
 #### Example Request
 
 ```shell
 curl https://api.pipedream.com/v1/components/registry/github-new-repository \
-  -H "Authorization: Bearer <api_key>"
+  -H "Authorization: Bearer <token>"
 ```
 
 #### Example Response
@@ -489,8 +509,6 @@ Read more about the Connect API in the [Connect API docs](/connect/api/).
 
 ### Get Source Events
 
----
-
 Retrieve up to the last 100 events emitted by a source.
 
 #### Endpoint
@@ -517,8 +535,6 @@ GET /sources/{id}/event_summaries?limit=10
 
 ### Delete source events
 
----
-
 Deletes all events, or a specific set of events, tied to a source.
 
 By default, making a `DELETE` request to this endpoint deletes **all** events
@@ -537,8 +553,6 @@ DELETE /sources/{id}/events
 ```
 
 #### Parameters
-
----
 
 `start_id` **string**
 
@@ -585,8 +599,6 @@ curl -X DELETE \
 
 The request will delete the **first two events**.
 
----
-
 #### Example Request
 
 You can delete a single event by passing its event ID in both the value of the
@@ -603,6 +615,101 @@ curl -X DELETE \
 Deletion happens asynchronously, so you'll receive a `202 Accepted` HTTP status
 code in response to any deletion requests.
 
+## OAuth
+
+### Get a new access token
+
+Exchanges a client ID and client secret for a new access token.
+
+#### Endpoint
+
+```
+POST /oauth/token
+```
+
+#### Parameters
+
+`grant_type` **string**
+
+The OAuth grant type. For Pipedream, this is always `client_credentials`.
+
+---
+
+`client_id` **string**
+
+The client ID of the OAuth app.
+
+---
+
+`client_secret` **string**
+
+The client secret of the OAuth app.
+
+#### Example Request
+
+```bash
+curl https://api.pipedream.com/v1/oauth/token \
+  -H 'Content-Type: application/json' \
+  -d '{ "grant_type": "client_credentials", "client_id": "<client_id>", "client_secret": "<client secret>" }'
+```
+
+#### Example Response
+
+```json
+{
+  "access_token": "<access token (a JWT)>",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "created_at": 1645142400
+}
+```
+
+### Revoke an access token
+
+Revokes an access token, rendering it invalid for future requests.
+
+#### Endpoint
+
+```
+POST /oauth/revoke
+```
+
+#### Parameters
+
+`token` **string**
+
+The access token to revoke.
+
+---
+
+`client_id` **string**
+
+The client ID of the OAuth app.
+
+---
+
+`client_secret` **string**
+
+The client secret of the OAuth app.
+
+---
+
+#### Example Request
+
+```bash
+curl https://api.pipedream.com/v1/oauth/revoke \
+  -H 'Content-Type: application/json' \
+  -d '{ "token": "<access token>", "client_id": "<client_id>", "client_secret": "<client secret>" }'
+```
+
+#### Example Response
+
+This endpoint will return a `200 OK` response with an empty body if the token was successfully revoked:
+
+```json
+{}
+```
+
 ## Sources
 
 Event sources run code to collect events from an API, or receive events via
@@ -610,8 +717,6 @@ webhooks, emitting those events for use on Pipedream. Event sources can function
 as workflow triggers. [Read more here](/sources/).
 
 ### List Current User Sources
-
----
 
 #### Endpoint
 
@@ -627,7 +732,7 @@ _No parameters_
 
 ```shell
 curl 'https://api.pipedream.com/v1/users/me/sources' \
-  -H 'Authorization: Bearer <api_key>'
+  -H 'Authorization: Bearer <token>'
 ```
 
 #### Example Response
@@ -661,8 +766,6 @@ curl 'https://api.pipedream.com/v1/users/me/sources' \
 
 ### Create a Source
 
----
-
 #### Endpoint
 
 ```
@@ -670,8 +773,6 @@ POST /sources/
 ```
 
 #### Parameters
-
----
 
 `component_id` **string** (_optional_)
 
@@ -713,7 +814,7 @@ of the component used to create the source.
 
 ```shell
 curl https://api.pipedream.com/v1/sources \
-  -H "Authorization: Bearer <api_key>" \
+  -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
   -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
 ```
@@ -744,11 +845,7 @@ Example response from creating an RSS source that runs once a minute:
 }
 ```
 
----
-
 ### Update a source
-
----
 
 #### Endpoint
 
@@ -757,8 +854,6 @@ PUT /sources/{id}
 ```
 
 #### Parameters
-
----
 
 `component_id` **string** (_optional_)
 
@@ -807,8 +902,6 @@ Default: `true`.
 
 ### Delete a source
 
----
-
 #### Endpoint
 
 ```
@@ -819,14 +912,10 @@ DELETE /sources/{id}
 
 ### Listen for events from another source or workflow
 
----
-
 You can configure a source or workflow to receive events from any number of
 other workflows or sources. For example, if you want a single workflow to run on
 10 different RSS sources, you can configure the workflow to _listen_ for events
 from those 10 sources.
-
----
 
 #### Endpoint
 
@@ -835,8 +924,6 @@ POST /subscriptions?emitter_id={emitting_component_id}&event_name={event_name}&l
 ```
 
 #### Parameters
-
----
 
 `emitter_id` **string**
 
@@ -883,8 +970,6 @@ retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
 
----
-
 #### Example Request
 
 You can configure workflow `p_abc123` to listen to events from the source
@@ -893,13 +978,11 @@ You can configure workflow `p_abc123` to listen to events from the source
 ```shell
 curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_id=p_abc123" \
   -X POST \
-  -H "Authorization: Bearer <api_key>" \
+  -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json"
 ```
 
 ### Automatically subscribe a listener to events from new workflows / sources
-
----
 
 You can use this endpoint to automatically receive events, like workflow errors,
 in another listening workflow or event source. Once you setup the
@@ -914,8 +997,6 @@ endpoint](#listen-for-events-from-another-source-or-workflow).
 **Currently, this feature is enabled only on the API. The Pipedream UI will not
 display the sources configured as listeners using this API**.
 
----
-
 #### Endpoint
 
 ```
@@ -923,8 +1004,6 @@ POST /auto_subscriptions?event_name={event_name}&listener_id={receiving_source_i
 ```
 
 #### Parameters
-
----
 
 `event_name` **string**
 
@@ -945,8 +1024,6 @@ retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
 
----
-
 #### Example Request
 
 You can configure workflow `p_abc123` to listen to events from the source
@@ -955,20 +1032,16 @@ You can configure workflow `p_abc123` to listen to events from the source
 ```shell
 curl "https://api.pipedream.com/v1/auto_subscriptions?event_name=$errors&listener_id=p_abc123" \
   -X POST \
-  -H "Authorization: Bearer <api_key>" \
+  -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json"
 ```
 
 ### Delete a subscription
 
----
-
 Use this endpoint to delete an existing subscription. This endpoint accepts the
 same parameters as the [`POST /subscriptions`
 endpoint](#listen-for-events-from-another-source-or-workflow) for creating
 subscriptions.
-
----
 
 #### Endpoint
 
@@ -977,8 +1050,6 @@ DELETE /subscriptions?emitter_id={emitting_component_id}&listener_id={receiving_
 ```
 
 #### Parameters
-
----
 
 `emitter_id` **string**
 
@@ -1032,8 +1103,6 @@ subscriptions](#get-current-user-s-subscriptions):
 }
 ```
 
----
-
 #### Example Request
 
 You can delete a subscription you configured for workflow `p_abc123` to listen
@@ -1042,15 +1111,13 @@ to events from the source `dc_def456` using the following command:
 ```shell
 curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_id=p_abc123" \
   -X DELETE \
-  -H "Authorization: Bearer <api_key>" \
+  -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json"
 ```
 
 ## Users
 
 ### Get Current User Info
-
----
 
 Retrieve information on the authenticated user.
 
@@ -1068,7 +1135,7 @@ _No parameters_
 
 ```bash
 curl 'https://api.pipedream.com/v1/users/me' \
-  -H 'Authorization: Bearer <api_key>'
+  -H 'Authorization: Bearer <token>'
 ```
 
 #### Example Response
@@ -1129,8 +1196,6 @@ Paid user:
 
 ### Get Current User's Subscriptions
 
----
-
 Retrieve all the [subscriptions](#subscriptions) configured for the
 authenticated user.
 
@@ -1148,7 +1213,7 @@ _No parameters_
 
 ```shell
 curl 'https://api.pipedream.com/v1/users/me/subscriptions' \
-  -H 'Authorization: Bearer <api_key>'
+  -H 'Authorization: Bearer <token>'
 ```
 
 #### Example Response
@@ -1174,8 +1239,6 @@ curl 'https://api.pipedream.com/v1/users/me/subscriptions' \
 
 ### Get Current User's Webhooks
 
----
-
 Retrieve all the [webhooks](#webhooks) configured for the authenticated user.
 
 #### Endpoint
@@ -1192,7 +1255,7 @@ _No parameters_
 
 ```shell
 curl 'https://api.pipedream.com/v1/users/me/webhooks' \
-  -H 'Authorization: Bearer <api_key>'
+  -H 'Authorization: Bearer <token>'
 ```
 
 #### Example Response
@@ -1254,8 +1317,6 @@ POST /webhooks?url={your_endpoint_url}&name={name}&description={description}
 
 #### Parameters
 
----
-
 `url` **string**
 
 The endpoint URL where you'd like to deliver events. Any events sent to this
@@ -1302,7 +1363,7 @@ You can create a webhook that delivers events to
 ```shell
 curl "https://api.pipedream.com/v1/webhooks?url=https://endpoint.m.pipedream.net&name=name&description=description" \
   -X POST \
-  -H "Authorization: Bearer <api_key>" \
+  -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json"
 ```
 
@@ -1334,8 +1395,6 @@ You can list webhooks you've created in your account using the
 
 ### Delete a webhook
 
----
-
 Use this endpoint to delete a webhook in your account.
 
 #### Endpoint
@@ -1345,8 +1404,6 @@ DELETE /webhooks/{id}
 ```
 
 #### Path Parameters
-
----
 
 `id` **string**
 
@@ -1359,15 +1416,13 @@ The ID of a webhook in your account.
 ```shell
 curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
   -X DELETE \
-  -H "Authorization: Bearer <api_key>" \
+  -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json"
 ```
 
 ## Workflows
 
 ### Create a Workflow
-
----
 
 Creates a new workflow within an organization's project. This endpoint allows defining workflow steps, triggers, and settings, based on a supplied template.
 
@@ -1633,8 +1688,6 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
 
 ### Update a Workflow
 
----
-
 Updates the workflow's activation status. If you need to modify the workflow's steps, triggers, or connected accounts [consider making a new workflow](#create-a-workflow).
 
 #### Endpoint
@@ -1664,14 +1717,12 @@ The activation status of a workflow. Set to `true` to activate the workflow, or 
 
 ```bash
 curl -X PUT 'https://api.pipedream.com/v1/workflows/p_abc123' \
-  -H 'Authorization: Bearer <api_key>' \
+  -H 'Authorization: Bearer <token>' \
   -H 'Content-Type: application/json' \
   -d '{"active": false, "org_id": "o_BYDI5y"}'
 ```
 
 ### Get a Workflow's details
-
----
 
 Retrieves the details of a specific workflow within an organization's project.
 
@@ -1689,7 +1740,7 @@ GET /workflows/{workflow_id}
 
 ```bash
 curl 'https://api.pipedream.com/v1/workflows/p_abc123?org_id=o_abc123' \
-  -H 'Authorization: Bearer <api_key>'
+  -H 'Authorization: Bearer <token>'
 ```
 
 #### Example Response
@@ -1742,8 +1793,6 @@ curl 'https://api.pipedream.com/v1/workflows/p_abc123?org_id=o_abc123' \
 
 ### Get Workflow Emits
 
----
-
 Retrieve up to the last 100 events emitted from a workflow using
 [`$send.emit()`](/destinations/emit/#emit-events).
 
@@ -1773,7 +1822,7 @@ GET /v1/workflows/{workflow_id}/event_summaries?expand=event&limit=1
 
 ```shell
 curl 'https://api.pipedream.com/v1/workflows/p_abc123/event_summaries?expand=event&limit=1' \
-  -H 'Authorization: Bearer <api_key>'
+  -H 'Authorization: Bearer <token>'
 ```
 
 #### Example Response
@@ -1806,11 +1855,7 @@ curl 'https://api.pipedream.com/v1/workflows/p_abc123/event_summaries?expand=eve
 }
 ```
 
----
-
 ### Get Workflow Errors
-
----
 
 Retrieve up to the last 100 events for a workflow that threw an error. The
 details of the error, along with the original event data, will be included
@@ -1841,7 +1886,7 @@ GET /v1/workflows/{workflow_id}/$errors/event_summaries?expand=event&limit=1
 
 ```shell
 curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?expand=event&limit=1' \
-  -H 'Authorization: Bearer <api_key>'
+  -H 'Authorization: Bearer <token>'
 ```
 
 #### Example Response
@@ -1927,8 +1972,6 @@ GET /v1/workspaces/<workspace_id>
 
 ### Get Workspaces's Connected Accounts
 
----
-
 Retrieve all the connected accounts for a specific workspace.
 
 #### Endpoint
@@ -1953,7 +1996,7 @@ To look up the connected account information for a specific app, use the `query`
 
 ```shell
 curl 'https://api.pipedream.com/v1/workspaces/o_abc123/accounts?query=google_sheets' \
-  -H 'Authorization: Bearer <api_key>'
+  -H 'Authorization: Bearer <token>'
 ```
 
 #### Example Response
@@ -1977,8 +2020,6 @@ curl 'https://api.pipedream.com/v1/workspaces/o_abc123/accounts?query=google_she
 
 ### Get Workspaces's Subscriptions
 
----
-
 Retrieve all the [subscriptions](#subscriptions) configured for a specific workspace.
 
 #### Endpoint
@@ -1997,7 +2038,7 @@ GET /workspaces/<workspace_id>/subscriptions
 
 ```shell
 curl 'https://api.pipedream.com/v1/workspaces/o_abc123/subscriptions' \
-  -H 'Authorization: Bearer <api_key>'
+  -H 'Authorization: Bearer <token>'
 ```
 
 #### Example Response
@@ -2023,8 +2064,6 @@ curl 'https://api.pipedream.com/v1/workspaces/o_abc123/subscriptions' \
 
 ### Get Workspaces's Sources
 
----
-
 Retrieve all the [event sources](#sources) configured for a specific workspace.
 
 #### Endpoint
@@ -2043,7 +2082,7 @@ GET /orgs/<workspace_id>/sources
 
 ```shell
 curl 'https://api.pipedream.com/v1/orgs/o_abc123/sources' \
-  -H 'Authorization: Bearer <api_key>'
+  -H 'Authorization: Bearer <token>'
 ```
 
 #### Example Response
