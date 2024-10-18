@@ -195,7 +195,6 @@ import got from "got";
 export default defineComponent({
   async run({ steps, $ }) {
     const pipeline = promisify(stream.pipeline);
-    
     await pipeline(
       got.stream(steps.trigger.event.body.raw_body_url),
       fs.createWriteStream(`/tmp/raw_body`)
@@ -294,6 +293,13 @@ By default, when you send a [valid HTTP request](#valid-requests) to your endpoi
 ```
 
 When you're processing HTTP requests, you often don't need to issue any special response to the client. We issue this default response so you don't have to write any code to do it yourself.
+
+
+<Callout type="info">
+**How can my workflow run faster?**
+
+See [our guide on running workflows faster](/troubleshooting#how-can-my-workflow-run-faster).
+</Callout>
 
 #### Customizing the HTTP response
 

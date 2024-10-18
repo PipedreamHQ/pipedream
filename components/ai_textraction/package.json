@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ai_textraction",
+  "version": "0.0.1",
+  "description": "Pipedream AI Textraction Components",
+  "main": "ai_textraction.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ai_textraction"
+  ],
+  "homepage": "https://pipedream.com/apps/ai_textraction",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
