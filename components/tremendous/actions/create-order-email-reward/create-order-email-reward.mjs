@@ -1,4 +1,4 @@
-import app from "../../trackingtime.app.mjs";
+import app from "../../tremendous.app.mjs";
 import { FUNDING_SOURCE_OPTIONS } from "../../common/constants.mjs";
 
 export default {
