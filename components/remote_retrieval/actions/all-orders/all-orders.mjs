@@ -11,8 +11,8 @@ export default {
   },
   methods: {},
   async run({ $: step }) {
-        const response = await this.app.allOrders({
-    step,
+    const response = await this.app.allOrders({
+      step,
     });
 
     step.export("$summary", `Successfully retrieved ${response.results.length} order(s).`);

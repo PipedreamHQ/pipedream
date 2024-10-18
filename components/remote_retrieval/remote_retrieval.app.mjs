@@ -44,7 +44,7 @@ export default {
         ...args,
       });
     },
-  
+
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,

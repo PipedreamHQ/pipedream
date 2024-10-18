@@ -14,5 +14,8 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.12.0"
   }
 }

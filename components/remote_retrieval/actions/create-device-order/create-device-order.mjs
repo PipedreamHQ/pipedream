@@ -12,23 +12,23 @@ export default {
     employeeInfoEmail: {
       type: "string",
       label: "Employee Info Email",
-      description: "Used in email communications with the employee."
+      description: "Used in email communications with the employee.",
     },
     employeeInfoName: {
       type: "string",
       label: "Employee Info Name",
-      description: "Employee full name to print on the shipping label."
+      description: "Employee full name to print on the shipping label.",
     },
     employeeInfoAdd_1: {
       type: "string",
       label: "Employee Info Address Line 1",
-      description: "The first line of the employee address"
+      description: "The first line of the employee address",
     },
     employeeInfoAdd_2: {
       type: "string",
       label: "Employee Info Address Line 2",
       description: "The second line is optional for employee address",
-      optional: true ,
+      optional: true,
     },
     employeeInfoCity: {
       type: "string",
@@ -54,23 +54,25 @@ export default {
       type: "string",
       label: "Employee Info Country",
       description: "This service is only for USA",
-      options: ["US"],
-      default:  "US",
-    },    
+      options: [
+        "US",
+      ],
+      default: "US",
+    },
     companyInfoPerson: {
       type: "string",
       label: "Company Info Person Name",
-      description: "Receipient Name"
+      description: "Receipient Name",
     },
     companyInfoCompanyName: {
       type: "string",
       label: "Company Info Company Name",
-      description: "Company Name"        
+      description: "Company Name",
     },
     companyInfoAdd_1: {
       type: "string",
       label: "Company Info Address Line 1",
-      description: "The first line of the company address"
+      description: "The first line of the company address",
     },
     companyInfoAdd_2: {
       type: "string",
@@ -80,41 +82,47 @@ export default {
     companyInfoCity: {
       type: "string",
       label: "Company Info City",
-      description: "Company city",        
+      description: "Company city",
     },
     companyInfoState: {
       type: "string",
       label: "Company Info State",
-      description: "Company State(Example: TX,AL,NJ)",        
+      description: "Company State(Example: TX,AL,NJ)",
     },
     companyInfoZip: {
       type: "string",
       label: "Company Info Zip",
-      description: "Company Zip",        
+      description: "Company Zip",
     },
     companyInfoPhone: {
       type: "string",
       label: "Company Info Phone",
-      description: "Company Phone",                
-    },   
+      description: "Company Phone",
+    },
     companyInfoEmail: {
       type: "string",
       label: "Company Info Email",
-      description: "Company Email",                        
+      description: "Company Email",
     },
     typeOfEquipment: {
       type: "string",
       label: "Type of Equipment",
       description: "You can choose 'Laptop' or 'Monitor'",
-      options: ['Laptop','Monitor'],
-      default: "Laptop"
-    },      
+      options: [
+        "Laptop",
+        "Monitor",
+      ],
+      default: "Laptop",
+    },
     orderType: {
       type: "string",
       label: "Order Type",
       description: "You can choose 'Return to Company' or 'Sell this Equipment'",
-      options: ['Return to Company','Sell this Equipment'],
-      default: "Return to Company"
+      options: [
+        "Return to Company",
+        "Sell this Equipment",
+      ],
+      default: "Return to Company",
     },
   },
 
@@ -127,7 +135,7 @@ export default {
     },
   },
 
- async run({ $: step }) {
+  async run({ $: step }) {
     const {
       createDeviceReturn,
       employeeInfoEmail,
@@ -148,7 +156,7 @@ export default {
       companyInfoPhone,
       companyInfoEmail,
       typeOfEquipment,
-      orderType
+      orderType,
     } = this;
 
     const response = await this.createDeviceReturn({
