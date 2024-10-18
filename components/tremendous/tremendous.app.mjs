@@ -19,7 +19,7 @@ export default {
       },
     },
     products: {
-      type: "string",
+      type: "string[]",
       label: "Products",
       description: "IDs of products (different gift cards, charity, etc.) that will be available to the recipient to choose from. If this and `Campaign ID` are specified, this will override the products made available by the campaign. It will not override other campaign attributes, like the message and customization of the look and feel.",
       async options() {
