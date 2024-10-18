@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fluxguard",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Fluxguard Components",
   "main": "fluxguard.app.mjs",
   "keywords": [
