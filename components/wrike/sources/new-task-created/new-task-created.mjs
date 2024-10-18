@@ -7,7 +7,7 @@ export default {
   name: "New Task Created",
   description: "Emit new event when a task is created",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...base.props,
     folderId: {
@@ -17,7 +17,6 @@ export default {
       ],
       description: "Receive notifications for tasks in a folder and, optionally, in its subfolders. Leave blank to receive notifications for all tasks in the account",
       optional: true,
-      reloadProps: true,
     },
     spaceId: {
       propDefinition: [
@@ -26,7 +25,6 @@ export default {
       ],
       description: "Receive notifications for changes to tasks, folders, and projects within a space. Leave blank to receive notifications for all tasks in the account",
       optional: true,
-      reloadProps: true,
     },
     recursive: {
       type: "boolean",
