@@ -63,18 +63,18 @@ including all fields). Pass as a string of comma-separated values:
 
 ---
 
-<Callout>
-The `workspace_id` parameter is only required when using [User API keys](/rest-api/auth#user-api-keys). When authenticating with OAuth tokens, the API will automatically use the workspace associated with the token.
-</Callout>
+`org_id` **string**
 
-`workspace_id` **string**
+<Callout>
+The `org_id` parameter is only required when using [User API keys](/rest-api/auth#user-api-keys). When authenticating with OAuth tokens, the API will automatically use the workspace associated with the token.
+</Callout>
 
 When using [User API keys](/rest-api/auth#user-api-keys), some endpoints require you to specify [your workspace ID](/workspaces/#finding-your-workspace-s-id) you want the operation to take effect in:
 
-- When _fetching_ specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), **you should not need to pass your workspace's ID**. If your user is a part of the workspace, and you have access to that resource, and the API will return the details of the resource.
-- When _creating_ new resources, you'll need to specify the `workspace_id` in which you want to create the resource.
+- When _fetching_ specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), **you should not need to pass `org_id`**. If your user is a part of the workspace, and you have access to that resource, and the API will return the details of the resource.
+- When _creating_ new resources, you'll need to specify the `org_id` in which you want to create the resource.
 
-[Find your workspace's ID here](/workspaces/#finding-your-workspace-s-id).
+[Find your workspace / org ID here](/workspaces/#finding-your-workspace-s-id).
 
 ## Pagination
 
@@ -1117,6 +1117,10 @@ curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_i
 
 ## Users
 
+<Callout>
+These endpoints only work when using [user API keys](/rest-api/auth#user-api-keys), and will not work with workspace-level OAuth clients.
+</Callout>
+
 ### Get Current User Info
 
 Retrieve information on the authenticated user.
@@ -1191,103 +1195,6 @@ Paid user:
     "billing_period_end_ts": 1612833378,
     "billing_period_credits": 12345
   }
-}
-```
-
-### Get Current User's Subscriptions
-
-Retrieve all the [subscriptions](#subscriptions) configured for the
-authenticated user.
-
-#### Endpoint
-
-```
-GET /users/me/subscriptions
-```
-
-#### Parameters
-
-_No parameters_
-
-#### Example Request
-
-```shell
-curl 'https://api.pipedream.com/v1/users/me/subscriptions' \
-  -H 'Authorization: Bearer <token>'
-```
-
-#### Example Response
-
-```json
-{
-  "data": [
-    {
-      "id": "sub_abc123",
-      "emitter_id": "dc_abc123",
-      "listener_id": "p_abc123",
-      "event_name": ""
-    },
-    {
-      "id": "sub_def456",
-      "emitter_id": "dc_def456",
-      "listener_id": "p_def456",
-      "event_name": ""
-    }
-  ]
-}
-```
-
-### Get Current User's Webhooks
-
-Retrieve all the [webhooks](#webhooks) configured for the authenticated user.
-
-#### Endpoint
-
-```
-GET /users/me/webhooks
-```
-
-#### Parameters
-
-_No parameters_
-
-#### Example Request
-
-```shell
-curl 'https://api.pipedream.com/v1/users/me/webhooks' \
-  -H 'Authorization: Bearer <token>'
-```
-
-#### Example Response
-
-```json
-{
-  "page_info": {
-    "total_count": 2,
-    "count": 2,
-    "start_cursor": "d2hfMjlsdUd6",
-    "end_cursor": "d2hfb3dHdWVv"
-  },
-  "data": [
-    {
-      "id": "wh_abc123",
-      "name": null,
-      "description": null,
-      "url": "https://endpoint.m.pipedream.net",
-      "active": true,
-      "created_at": 1611964025,
-      "updated_at": 1611964025
-    },
-    {
-      "id": "wh_def456",
-      "name": "Test webhook",
-      "description": "just a test",
-      "url": "https://endpoint2.m.pipedream.net",
-      "active": true,
-      "created_at": 1605835136,
-      "updated_at": 1605835136
-    }
-  ]
 }
 ```
 
@@ -1946,7 +1853,7 @@ Programmatically view your workspace's current credit usage for the billing peri
 #### Endpoint
 
 ```
-GET /v1/workspaces/<workspace_id>
+GET /v1/workspaces/<org_id>
 ```
 
 #### Path Parameters
@@ -1977,12 +1884,12 @@ Retrieve all the connected accounts for a specific workspace.
 #### Endpoint
 
 ```
-GET /workspaces/<workspace_id>/accounts
+GET /workspaces/<org_id>/accounts
 ```
 
 #### Path Parameters
 
-`workspace_id` **string**
+`org_id` **string**
 
 [Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
 
@@ -2025,7 +1932,7 @@ Retrieve all the [subscriptions](#subscriptions) configured for a specific works
 #### Endpoint
 
 ```
-GET /workspaces/<workspace_id>/subscriptions
+GET /workspaces/<org_id>/subscriptions
 ```
 
 #### Path Parameters
@@ -2069,7 +1976,7 @@ Retrieve all the [event sources](#sources) configured for a specific workspace.
 #### Endpoint
 
 ```
-GET /orgs/<workspace_id>/sources
+GET /orgs/<org_id>/sources
 ```
 
 #### Path Parameters
