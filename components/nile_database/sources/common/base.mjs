@@ -1,5 +1,7 @@
 import nile from "../../nile_database.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   props: {
@@ -21,7 +23,22 @@ export default {
       propDefinition: [
         nile,
         "database",
+        (c) => ({
+          workspace: c.workspace,
+        }),
       ],
+    },
+  },
+  hooks: {
+    async deploy() {
+      try {
+        await this.nile.getDatabase({
+          workspace: this.workspace,
+          database: this.database,
+        });
+      } catch {
+        throw new ConfigurationError(`Database "${this.database}" with workspace "${this.workspace}" not found`);
+      }
     },
   },
   methods: {
