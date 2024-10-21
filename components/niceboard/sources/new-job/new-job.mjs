@@ -1,75 +1,42 @@
-import niceboard from "../../niceboard.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "niceboard-new-job",
   name: "New Job Published",
-  description: "Emits an event each time a new job is published in Niceboard",
-  version: "0.0.{{ts}}",
+  description: "Emit new event each time a new job is published in Niceboard",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    niceboard,
-    jobId: {
-      propDefinition: [
-        niceboard,
-        "jobId",
-      ],
-    },
-    employerId: {
-      propDefinition: [
-        niceboard,
-        "employerId",
-      ],
-    },
-    jobDetails: {
-      propDefinition: [
-        niceboard,
-        "jobDetails",
-      ],
-    },
-    employerDetails: {
-      propDefinition: [
-        niceboard,
-        "employerDetails",
-      ],
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-    db: "$.service.db",
-  },
   methods: {
-    _getJobId() {
-      return this.db.get("jobId") || null;
-    },
-    _setJobId(jobId) {
-      this.db.set("jobId", jobId);
-    },
-  },
-  async run() {
-    let lastJobId = this._getJobId();
-    let hasMore = true;
-    while (hasMore) {
-      const jobs = await this.niceboard.getJobs({
-        jobId: lastJobId,
+    ...common.methods,
+    async processEvent(max) {
+      const jobs = [];
+      const newJobs = this.paginate({
+        fn: this.niceboard.listJobs,
+        max,
       });
-      hasMore = jobs.length > 0;
-      for (const job of jobs) {
-        if (job.id !== lastJobId) {
-          this.$emit(job, {
-            id: job.id,
-            summary: job.title,
-            ts: Date.now(),
-          });
-        } else {
-          hasMore = false;
-        }
-        lastJobId = job.id;
+      for await (const job of newJobs) {
+        jobs.push(job);
       }
-    }
-    this._setJobId(lastJobId);
+      if (!jobs?.length) {
+        return;
+      }
+      this._setLastId(+jobs[0].id);
+      this.emitEvents(jobs);
+    },
+    getResults({ results }) {
+      return results.jobs;
+    },
+    getTotalPages({ results }) {
+      return results.pages.total;
+    },
+    generateMeta(job) {
+      return {
+        id: job.id,
+        summary: `New Job: ${job.title}`,
+        ts: Date.parse(job.published_at),
+      };
+    },
   },
 };

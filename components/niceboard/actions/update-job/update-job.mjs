@@ -1,10 +1,9 @@
 import niceboard from "../../niceboard.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "niceboard-create-job",
-  name: "Create Job",
-  description: "Creates a new job posting within the Niceboard app.",
+  key: "niceboard-update-job",
+  name: "Update Job",
+  description: "Updaets an existing job posting within the Niceboard app.",
   version: "0.0.1",
   type: "action",
   props: {
@@ -15,17 +14,28 @@ export default {
         "niceboardUrl",
       ],
     },
+    jobId: {
+      propDefinition: [
+        niceboard,
+        "jobId",
+        (c) => ({
+          niceboardUrl: c.niceboardUrl,
+        }),
+      ],
+    },
     title: {
       propDefinition: [
         niceboard,
         "title",
       ],
+      optional: true,
     },
     description: {
       propDefinition: [
         niceboard,
         "description",
       ],
+      optional: true,
     },
     companyId: {
       propDefinition: [
@@ -35,6 +45,7 @@ export default {
           niceboardUrl: c.niceboardUrl,
         }),
       ],
+      optional: true,
     },
     jobTypeId: {
       propDefinition: [
@@ -44,6 +55,7 @@ export default {
           niceboardUrl: c.niceboardUrl,
         }),
       ],
+      optional: true,
     },
     categoryId: {
       propDefinition: [
@@ -85,13 +97,10 @@ export default {
     },
   },
   async run({ $ }) {
-    if ((this.minSalary || this.maxSalary) && !this.salaryTimeframe) {
-      throw new ConfigurationError("Salary Timeframe is required if Minimum Salary or Maximum Salary is entered");
-    }
-
-    const response = await this.niceboard.createJob({
+    const response = await this.niceboard.updateJob({
       $,
       niceboardUrl: this.niceboardUrl,
+      jobId: this.jobId,
       data: {
         title: this.title,
         description_html: this.description,
@@ -102,12 +111,11 @@ export default {
         salary_min: this.minSalary,
         salary_max: this.maxSalary,
         salary_timeframe: this.salaryTimeframe,
-        apply_by_form: true,
       },
     });
 
     if (response?.job?.id) {
-      $.export("$summary", `Successfully created job with ID: ${response.job.id}`);
+      $.export("$summary", `Successfully updated job with ID: ${response.job.id}`);
     }
     return response;
   },
