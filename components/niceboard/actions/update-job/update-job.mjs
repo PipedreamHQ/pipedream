@@ -3,7 +3,7 @@ import niceboard from "../../niceboard.app.mjs";
 export default {
   key: "niceboard-update-job",
   name: "Update Job",
-  description: "Updaets an existing job posting within the Niceboard app.",
+  description: "Updates an existing job posting within the Niceboard app.",
   version: "0.0.1",
   type: "action",
   props: {
