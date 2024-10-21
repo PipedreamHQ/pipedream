@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.1.5",
+  version: "0.1.6",
   dedupe: "unique",
   props: {
     gmail,
@@ -383,6 +383,20 @@ export default {
         )
         : history.filter((item) => item.messagesAdded?.length);
     },
+    async getMessageDetails(ids) {
+      const messages = await Promise.all(ids.map(async (id) => {
+        try {
+          const message = await this.gmail.getMessage({
+            id,
+          });
+          return message;
+        } catch {
+          console.log(`Could not find message ${id}`);
+          return null;
+        }
+      }));
+      return messages;
+    },
   },
   async run(event) {
     if (this.triggerType === "polling") {
@@ -464,7 +478,7 @@ export default {
 
       // Fetch full message details for new messages
       const newMessageIds = newMessages?.map(({ id }) => id) || [];
-      const messageDetails = await this.gmail.getMessages(newMessageIds);
+      const messageDetails = await this.getMessageDetails(newMessageIds);
 
       if (!messageDetails?.length) {
         return;
@@ -477,7 +491,11 @@ export default {
       this._setLastProcessedHistoryId(latestHistoryId);
       console.log("Updated lastProcessedHistoryId:", latestHistoryId);
 
-      messageDetails.forEach((message) => this.emitEvent(message));
+      messageDetails.forEach((message) => {
+        if (message?.id) {
+          this.emitEvent(message);
+        }
+      });
     }
   },
 };

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/attractwell",
+  "version": "0.0.1",
+  "description": "Pipedream AttractWell Components",
+  "main": "attractwell.app.mjs",
+  "keywords": [
+    "pipedream",
+    "attractwell"
+  ],
+  "homepage": "https://pipedream.com/apps/attractwell",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

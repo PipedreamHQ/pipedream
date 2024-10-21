@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/runware",
+  "version": "0.0.1",
+  "description": "Pipedream Runware Components",
+  "main": "runware.app.mjs",
+  "keywords": [
+    "pipedream",
+    "runware"
+  ],
+  "homepage": "https://pipedream.com/apps/runware",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

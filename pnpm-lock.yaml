@@ -798,6 +798,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.3
 
+  components/attractwell:
+    specifiers: {}
+
   components/autoblogger:
     specifiers: {}
 
@@ -2423,6 +2426,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/deepimage:
+    specifiers: {}
+
   components/deepl:
     specifiers: {}
 
@@ -3505,6 +3511,9 @@ importers:
   components/fluent_support:
     specifiers: {}
 
+  components/fluidforms:
+    specifiers: {}
+
   components/flutterwave:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -3733,6 +3742,12 @@ importers:
       '@pipedream/platform': ^3.0.0
     dependencies:
       '@pipedream/platform': 3.0.0
+
+  components/gainsight_nxt:
+    specifiers: {}
+
+  components/gainsight_px:
+    specifiers: {}
 
   components/gami5d:
     specifiers:
@@ -4823,7 +4838,10 @@ importers:
       form-data: 4.0.0
 
   components/imagior:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/imap:
     specifiers:
@@ -6293,9 +6311,9 @@ importers:
 
   components/motion:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.3
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.3
 
   components/moxie:
     specifiers:
@@ -8452,6 +8470,9 @@ importers:
   components/runpod:
     specifiers: {}
 
+  components/runware:
+    specifiers: {}
+
   components/rytr:
     specifiers: {}
 
@@ -9030,7 +9051,10 @@ importers:
       lodash: 4.17.21
 
   components/short_menu:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/shortcut:
     specifiers:
@@ -9465,7 +9489,10 @@ importers:
       form-data: 4.0.0
 
   components/spider:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/spiritme:
     specifiers:
@@ -9682,7 +9709,10 @@ importers:
     specifiers: {}
 
   components/suitedash:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/summit:
     specifiers:
@@ -11312,10 +11342,10 @@ importers:
 
   components/wrike:
     specifiers:
-      '@pipedream/platform': ^1.3.0
+      '@pipedream/platform': ^3.0.3
       lodash: ^4.17.21
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.3
       lodash: 4.17.21
 
   components/writer:
