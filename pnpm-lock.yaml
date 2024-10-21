@@ -9359,6 +9359,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.3
 
+  components/smstools:
+    specifiers: {}
+
   components/smtp2go:
     specifiers:
       '@pipedream/platform': ^1.1.1
