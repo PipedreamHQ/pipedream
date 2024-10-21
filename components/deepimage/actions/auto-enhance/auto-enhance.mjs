@@ -1,11 +1,11 @@
+import { getUrlOrFile } from "../../common/utils.mjs";
 import deepimage from "../../deepimage.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "deepimage-auto-enhance",
   name: "Auto Enhance Image",
   description: "Improves the provided image. [See the documentation](https://documentation.deep-image.ai/image-processing/auto-enhance)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     deepimage,
@@ -17,8 +17,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.deepimage.improveImage({
-      image: this.image,
+    const response = await this.deepimage.makeRequest({
+      data: {
+        url: getUrlOrFile(this.image),
+        preset: "auto_enhance",
+      },
     });
 
     $.export("$summary", "Successfully enhanced the image.");
