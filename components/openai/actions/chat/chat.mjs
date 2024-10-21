@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat",
-  version: "0.2.0",
+  version: "0.2.1",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
@@ -38,7 +38,13 @@ export default {
     images: {
       label: "Images",
       type: "string[]",
-      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview model`",
+      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview` model",
+      optional: true,
+    },
+    audio: {
+      type: "string",
+      label: "Audio",
+      description: "Provide the file path to an audio file in the `/tmp` directory. Compatible with the `gpt-4o-audio-preview` model. Currently supports `wav` and `mp3` files.",
       optional: true,
     },
     responseFormat: {
