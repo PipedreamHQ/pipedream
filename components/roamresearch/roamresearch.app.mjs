@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "nerv",
+  app: "roamresearch",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

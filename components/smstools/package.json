@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/smstools",
+  "version": "0.0.1",
+  "description": "Pipedream SMSTools Components",
+  "main": "smstools.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smstools"
+  ],
+  "homepage": "https://pipedream.com/apps/smstools",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "nerv",
+  app: "fluidforms",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
