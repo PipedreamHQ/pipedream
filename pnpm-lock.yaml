@@ -8512,7 +8512,12 @@ importers:
     specifiers: {}
 
   components/runware:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+      uuid: ^10.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      uuid: 10.0.0
 
   components/rytr:
     specifiers: {}
