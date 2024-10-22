@@ -24,18 +24,6 @@ export default {
         }));
       },
     },
-    executionId: {
-      type: "string",
-      label: "AI Execution ID",
-      description: "The ID of the AI template execution to retrieve the result for.",
-      async options() {
-        const executions = await this.listExecutions();
-        return executions.executions.map((execution) => ({
-          label: execution.id,
-          value: execution.id,
-        }));
-      },
-    },
   },
   methods: {
     _baseUrl() {
@@ -73,17 +61,12 @@ export default {
         ...args,
       });
     },
-    async getAiTemplateResult({ executionId }) {
+    async getTemplateResponse({
+      executionId, ...args
+    }) {
       return this._makeRequest({
-        method: "GET",
-        path: `/ai-executions/${executionId}/result`,
-      });
-    },
-    async listExecutions(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/ai-executions",
-        ...opts,
+        path: `/template-responses/${executionId}`,
+        ...args,
       });
     },
   },
