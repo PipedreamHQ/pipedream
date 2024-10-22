@@ -14,6 +14,7 @@ export default {
       label: "Search Query",
       description:
         "Search agents (templates) by title, description and long description.",
+      optional: true,
     },
     type: {
       type: "string",

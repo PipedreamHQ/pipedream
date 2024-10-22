@@ -6,14 +6,20 @@ export default {
   propDefinitions: {
     templateId: {
       type: "string",
-      label: "AI Template ID",
-      description: "The ID of the AI template to execute or retrieve details for.",
-      async options() {
-        const templates = await this.searchAiTemplates({
-          query: "",
+      label: "AI Agent ID",
+      description: "The ID of the AI Agent (template) to execute.",
+      useQuery: true,
+      async options({
+        page = 0, query,
+      }) {
+        const response = await this.searchTemplates({
+          params: {
+            page: page + 1,
+            q: query || undefined,
+          },
         });
-        return templates.templates.map((template) => ({
-          label: template.name,
+        return response?.data?.map((template) => ({
+          label: template.title,
           value: template.id,
         }));
       },
@@ -29,32 +35,6 @@ export default {
           value: execution.id,
         }));
       },
-    },
-    typeFilter: {
-      type: "string",
-      label: "Template Type",
-      description: "Filter templates by type (image, text, video).",
-      optional: true,
-      options: [
-        {
-          label: "Image",
-          value: "image",
-        },
-        {
-          label: "Text",
-          value: "text",
-        },
-        {
-          label: "Video",
-          value: "video",
-        },
-      ],
-    },
-    inputs: {
-      type: "string[]",
-      label: "Inputs",
-      description: "An array of JSON strings representing inputs for the template execution.",
-      optional: true,
     },
   },
   methods: {
@@ -73,28 +53,22 @@ export default {
         ...otherOpts,
       });
     },
-    async executeAiTemplate({
-      templateId, inputs,
+    async executeTemplate({
+      templateId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/ai-templates/${templateId}/execute`,
-        data: {
-          inputs: inputs
-            ? inputs.map((input) => JSON.parse(input))
-            : [],
-        },
+        path: `/templates/${templateId}/execute`,
+        ...args,
       });
     },
-    async getAiTemplateDetails({ templateId }) {
+    async getTemplate(templateId) {
       return this._makeRequest({
-        method: "GET",
-        path: `/ai-templates/${templateId}`,
+        path: `/templates/${templateId}`,
       });
     },
     async searchTemplates(args) {
       return this._makeRequest({
-        method: "GET",
         path: "/templates",
         ...args,
       });
