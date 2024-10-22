@@ -30,11 +30,6 @@ export default {
         }));
       },
     },
-    query: {
-      type: "string",
-      label: "Search Query",
-      description: "The search query to find AI templates based on specific criteria.",
-    },
     typeFilter: {
       type: "string",
       label: "Template Type",
@@ -97,19 +92,11 @@ export default {
         path: `/ai-templates/${templateId}`,
       });
     },
-    async searchAiTemplates({
-      query, typeFilter,
-    }) {
-      const params = {
-        query,
-      };
-      if (typeFilter) {
-        params.type = typeFilter;
-      }
+    async searchTemplates(args) {
       return this._makeRequest({
         method: "GET",
-        path: "/ai-templates/search",
-        params,
+        path: "/templates",
+        ...args,
       });
     },
     async getAiTemplateResult({ executionId }) {
@@ -124,27 +111,6 @@ export default {
         path: "/ai-executions",
         ...opts,
       });
-    },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let hasMore = true;
-      let page = 1;
-
-      while (hasMore) {
-        const response = await fn({
-          ...opts,
-          page,
-        });
-        if (response.items && response.items.length > 0) {
-          results.push(...response.items);
-          hasMore = response.hasMore;
-          page += 1;
-        } else {
-          hasMore = false;
-        }
-      }
-
-      return results;
     },
   },
 };
