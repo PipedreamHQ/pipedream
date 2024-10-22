@@ -8,12 +8,6 @@ export default {
       customResponse: true,
     },
     db: "$.service.db",
-    projectId: {
-      propDefinition: [
-        everhour,
-        "projectId",
-      ],
-    },
   },
   methods: {
     _getHookId() {
@@ -22,6 +16,9 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
+    getExtraData() {
+      return {};
+    },
   },
   hooks: {
     async activate() {
@@ -29,7 +26,7 @@ export default {
         data: {
           targetUrl: this.http.endpoint,
           events: this.getEventType(),
-          project: this.projectId,
+          ...this.getExtraData(),
         },
       });
       this._setHookId(response.id);
@@ -42,8 +39,6 @@ export default {
   async run({
     body, headers,
   }) {
-    console.log("headers: ", headers);
-
     if (headers["x-hook-secret"]) {
       return this.http.respond({
         status: 200,

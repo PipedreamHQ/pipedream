@@ -9,8 +9,22 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    projectId: {
+      propDefinition: [
+        common.props.everhour,
+        "projectId",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
+    getExtraData() {
+      return {
+        project: this.projectId,
+      };
+    },
     getEventType() {
       return [
         "api:time:updated",

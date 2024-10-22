@@ -17,7 +17,7 @@ export default {
       ];
     },
     getSummary(body) {
-      return `New Client: ${body.name}`;
+      return `New Client: ${body.payload.data.name}`;
     },
   },
   sampleEmit,
