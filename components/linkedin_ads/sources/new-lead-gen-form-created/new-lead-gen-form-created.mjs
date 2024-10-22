@@ -6,7 +6,7 @@ export default {
   key: "linkedin_ads-new-lead-gen-form-created",
   name: "New Lead Gen Form Created",
   description: "Emit new event when a new lead is captured through a form. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/lead-sync/leadsync?view=li-lms-2023-07&tabs=http#find-lead-form-responses-by-owner)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
