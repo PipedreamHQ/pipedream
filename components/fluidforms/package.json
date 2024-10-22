@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fluidforms",
+  "version": "0.0.1",
+  "description": "Pipedream FluidForms Components",
+  "main": "fluidforms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fluidforms"
+  ],
+  "homepage": "https://pipedream.com/apps/fluidforms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/deepimage",
+  "version": "0.0.1",
+  "description": "Pipedream DeepImage Components",
+  "main": "deepimage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "deepimage"
+  ],
+  "homepage": "https://pipedream.com/apps/deepimage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
