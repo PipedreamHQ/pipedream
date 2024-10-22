@@ -23,6 +23,12 @@ curl https://api.pipedream.com/v1/accounts \
 
 Learn more in the [Authentication docs](/rest-api/auth/).
 
+### Authenticating as a workspace vs. a user
+
+Pipedream recommends using [OAuth](/rest-api/auth#oauth) to auth against the Pipedream API. OAuth tokens are associated with a workspace, and the API will automatically use the workspace associated with the token.
+
+When you authenticate with a user API key, you must [specify the workspace ID in the `org_id` parameter](#common-parameters) when making requests to specific endpoints.
+
 ## Required headers
 
 The `Authorization` header is required on all endpoints, to authenticate API requests.
@@ -300,6 +306,10 @@ Apps with static credentials expose fields specific to the API, e.g. `api_key`. 
 Components are objects that represent the code for an [event source](#sources).
 
 ### Create a component
+
+<Callout>
+`/components` endpoints are only available when using [user API keys](/rest-api/auth#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth#oauth).
+</Callout>
 
 Before you can create a source using the REST API, you must first create a
 **component** - the code for the source.
@@ -716,55 +726,11 @@ Event sources run code to collect events from an API, or receive events via
 webhooks, emitting those events for use on Pipedream. Event sources can function
 as workflow triggers. [Read more here](/sources/).
 
-### List Current User Sources
-
-#### Endpoint
-
-```
-GET /users/me/sources/
-```
-
-#### Parameters
-
-_No parameters_
-
-#### Example Request
-
-```shell
-curl 'https://api.pipedream.com/v1/users/me/sources' \
-  -H 'Authorization: Bearer <token>'
-```
-
-#### Example Response
-
-```json
-{
-  "page_info": {
-    "total_count": 19,
-    "count": 10,
-    "start_cursor": "ZGNfSzB1QWVl",
-    "end_cursor": "ZGNfeUx1alJx"
-  },
-  "data": [
-    {
-      "id": "dc_abc123",
-      "component_id": "sc_def456",
-      "configured_props": {
-        "http": {
-          "endpoint_url": "https://myendpoint.m.pipedream.net"
-        }
-      },
-      "active": true,
-      "created_at": 1587679599,
-      "updated_at": 1587764467,
-      "name": "test",
-      "name_slug": "test"
-    }
-  ]
-}
-```
-
 ### Create a Source
+
+<Callout>
+This endpoint is only available when using [user API keys](/rest-api/auth#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth#oauth).
+</Callout>
 
 #### Endpoint
 
@@ -1329,7 +1295,15 @@ curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
 
 ## Workflows
 
+### Invoke workflow
+
+You can invoke workflows by making an HTTP request to a workflow's HTTP trigger. [See the docs on authorizing requests and invoking workflows](/workflows/triggers#authorizing-http-requests) for more detail.
+
 ### Create a Workflow
+
+<Callout>
+This endpoint is only available when using [user API keys](/rest-api/auth#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth#oauth).
+</Callout>
 
 Creates a new workflow within an organization's project. This endpoint allows defining workflow steps, triggers, and settings, based on a supplied template.
 
@@ -1594,6 +1568,10 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
 ```
 
 ### Update a Workflow
+
+<Callout>
+This endpoint is only available when using [user API keys](/rest-api/auth#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth#oauth).
+</Callout>
 
 Updates the workflow's activation status. If you need to modify the workflow's steps, triggers, or connected accounts [consider making a new workflow](#create-a-workflow).
 
