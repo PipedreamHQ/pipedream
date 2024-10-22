@@ -19,12 +19,14 @@ export default {
         app,
         "firstname",
       ],
+      optional: true,
     },
     surname: {
       propDefinition: [
         app,
         "surname",
       ],
+      optional: true,
     },
     privateEmail: {
       propDefinition: [
