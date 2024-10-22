@@ -3,7 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "tess_ai_by_pareto",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     templateId: {
       type: "string",
@@ -64,23 +63,17 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://tess.pareto.io/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($ || this, {
-        method,
+    async _makeRequest({
+      $ = this, path = "/", headers, ...otherOpts
+    } = {}) {
+      return axios($, {
         url: this._baseUrl() + path,
         headers: {
           ...headers,
           "Authorization": `Bearer ${this.$auth.api_token}`,
-          "Content-Type": "application/json",
         },
         ...otherOpts,
       });
