@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/heyy",
+  "version": "0.0.1",
+  "description": "Pipedream Heyy Components",
+  "main": "heyy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "heyy"
+  ],
+  "homepage": "https://pipedream.com/apps/heyy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
