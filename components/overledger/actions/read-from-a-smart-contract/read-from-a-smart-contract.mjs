@@ -32,9 +32,10 @@ export default {
     },
     inputParameters: {
       type: "string[]",
-      label: "Input Parameters - Stringified Objects",
-      description: "The input parameters for the smart contract function, in JSON string format. Example: `['{\"type\":\"string\",\"value\":\"param1\"}', '{\"type\":\"uint256\",\"value\":\"param2\"}']`",
+      label: "Input Parameters",
+      description: "The input parameters for the smart contract function, provide both type and value in object format. Example: {\"type\":\"uint256\",\"value\":\"5\"} or {\"type\":\"address\",\"value\":\"0x3....ed8\"}",
       optional: true,
+      default: [],
     },
     smartContractId: {
       type: "string",
@@ -44,7 +45,9 @@ export default {
     outputParameters: {
       type: "string[]",
       label: "Output Parameters",
-      description: "The type of output parameter required e.g., address, string",
+      description: "Each output parameter expected, provide just the type in object format. Example - 1) function returns one uint256 value: {\"type\": \"uint256\"} or 2) function returns two address values: {\"type\": \"address\"},{\"type\": \"address\"}",
+      optional: true,
+      default: [],
     },
   },
   async additionalProps() {

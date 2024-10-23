@@ -28,7 +28,7 @@ export default {
     signingAccountId: {
       type: "string",
       label: "Signing Account ID",
-      description: "The blockchain account (address) that you will be sending this transaction",
+      description: "The blockchain account ID/address that will be sending this transaction",
     },
     smartContractId: {
       type: "string",

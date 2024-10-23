@@ -1,10 +1,10 @@
 import overledger from "../../overledger.app.mjs";
-import { UNIT_OPTIONS } from "../../common/constants.mjs";
+import { TECHNOLOGY_OPTIONS, UNIT_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "overledger-sign-a-transaction",
   name: "Sign a transaction",
-  description: "Sign a transaction using Overledger",
+  description: "Sign a transaction using Overledger - Part 2 of [Overledger Pattern](https://developers.quant.network/reference/overledger-pattern). [See documentation](https://developers.quant.network/reference/sandboxsigning)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -19,16 +19,18 @@ export default {
       type: "string",
       label: "Location Technology",
       description: "The blockchain technology used for this transaction, e.g., ethereum, substrate - required in order to set the dltfee",
+      options: TECHNOLOGY_OPTIONS,
+      reloadProps: true,
     },
     keyId: {
       type: "string",
       label: "Signing Account ID",
-      description: "The blockchain account that will sign the transaction.",
+      description: "The ID/address of the blockchain account that will sign the transaction.",
     },
     requestId: {
       type: "string",
-      label: "requestId",
-      description: "The ID assigned to a preparation request in Overledger. This should be set to the requestId parameter found in the response object of the 'Prepare Smart Contract Transaction' Overledger action.",
+      label: "Request ID",
+      description: "The Request ID assigned to a preparation request in Overledger. This should be set to the requestId parameter found in the response object of the 'Prepare Transaction' Overledger action.",
     },
     transactionSigningResponderName: {
       type: "string",
@@ -38,7 +40,7 @@ export default {
     nativeData: {
       type: "object",
       label: "Native Data",
-      description: "A JSON object representing the transaction required to be signed.",
+      description: "An object representing the transaction required to be signed - This should be set to the nativeData object of the 'Prepare Transaction' Overledger action.",
     },
   },
   async run({ $ }) {
