@@ -343,7 +343,10 @@ importers:
     specifiers: {}
 
   components/ai_textraction:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/aidbase:
     specifiers:
