@@ -6777,7 +6777,10 @@ importers:
       uuid: 9.0.1
 
   components/onbee_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/oncehub:
     specifiers:
