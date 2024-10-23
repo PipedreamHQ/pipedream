@@ -7086,6 +7086,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.3
 
+  components/papersign:
+    specifiers: {}
+
   components/papertrail:
     specifiers: {}
 
