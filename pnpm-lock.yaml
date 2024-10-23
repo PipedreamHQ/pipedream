@@ -4763,6 +4763,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/hystruct:
+    specifiers: {}
+
   components/iauditor_by_safetyculture:
     specifiers:
       '@pipedream/platform': ^1.5.1
