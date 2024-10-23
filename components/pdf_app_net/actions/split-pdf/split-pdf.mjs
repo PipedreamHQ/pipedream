@@ -35,7 +35,7 @@ export default {
         fileName: this.fileName,
       },
     });
-    $.export("$summary", "Successfully converted image to PDF File");
+    $.export("$summary", "Successfully split PDF File");
     return response;
   },
 };
