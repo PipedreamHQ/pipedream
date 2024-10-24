@@ -1,21 +1,20 @@
+import { ConfigurationError } from "@pipedream/platform";
 import smstools from "../../smstools.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "smstools-add-contact",
   name: "Add Contact to Group",
   description: "Adds a new contact to an existing contact list. [See the documentation](https://www.smstools.com/en/sms-gateway-api/add_contact)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     smstools,
     phone: {
-      propDefinition: [
-        smstools,
-        "phone",
-      ],
+      type: "string",
+      label: "Phone Number",
+      description: "The phone number of the contact.",
     },
-    groupId: {
+    groupid: {
       propDefinition: [
         smstools,
         "groupId",
@@ -36,7 +35,7 @@ export default {
     birthday: {
       type: "string",
       label: "Birthday",
-      description: "Birthday of the contact.",
+      description: "Birthday of the contact. **Format: YYYY-MM-DD**.",
       optional: true,
     },
     extra1: {
@@ -95,24 +94,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.smstools.addContactToGroup({
-      phone: this.phone,
-      groupId: this.groupId,
-      firstname: this.firstName,
-      lastname: this.lastName,
-      birthday: this.birthday,
-      extra1: this.extra1,
-      extra2: this.extra2,
-      extra3: this.extra3,
-      extra4: this.extra4,
-      extra5: this.extra5,
-      extra6: this.extra6,
-      extra7: this.extra7,
-      extra8: this.extra8,
-      unsubscribed: this.unsubscribed,
-    });
+    try {
+      const {
+        smstools,
+        ...data
+      } = this;
 
-    $.export("$summary", `Successfully added contact with phone number ${this.phone}`);
-    return response;
+      const response = await smstools.addContact({
+        $,
+        data,
+      });
+
+      $.export("$summary", `Successfully added contact with ID: ${response.ID}`);
+      return response;
+    } catch (e) {
+      throw new ConfigurationError(e.response.data.errorMsg);
+    }
   },
 };

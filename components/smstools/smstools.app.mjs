@@ -16,50 +16,35 @@ export default {
         }));
       },
     },
-    phone: {
-      type: "string",
-      label: "Phone Number",
-      description: "The phone number of the contact.",
-    },
     groupId: {
       type: "string",
       label: "Group ID",
       description: "The group ID where the contact should be added.",
-      async options() {
-        const groups = await this.getGroups();
-        return groups.map((group) => ({
-          label: group.name,
-          value: group.id,
+      async options({ page }) {
+        const groups = await this.getGroups({
+          params: {
+            page: page + 1,
+          },
+        });
+        return groups.map(({
+          ID: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    contact: {
+    contactNumber: {
       type: "string",
-      label: "Contact",
-      description: "Select a contact to add to the opt-out list.",
-      async options() {
-        const contacts = await this.getContacts();
-        return contacts.map((contact) => ({
-          label: contact.name,
-          value: contact.id,
-        }));
-      },
-    },
-    message: {
-      type: "string",
-      label: "Message",
-      description: "The message to be sent.",
-    },
-    to: {
-      type: "string",
-      label: "Recipient",
-      description: "The contact to send the message to.",
-      async options() {
-        const contacts = await this.getContacts();
-        return contacts.map((contact) => ({
-          label: contact.name,
-          value: contact.phone,
-        }));
+      label: "Contact Number",
+      description: "Select a contact number to add to the opt-out list.",
+      async options({ page }) {
+        const { contacts } = await this.getContactNumbers({
+          params: {
+            page: page + 1,
+          },
+        });
+        return contacts.map(({ phone }) => phone);
       },
     },
     sender: {
@@ -68,9 +53,11 @@ export default {
       description: "The sender ID for the message.",
       async options() {
         const senders = await this.getSenderIds();
-        return senders.map((sender) => ({
-          label: sender.name,
-          value: sender.id,
+        return senders.map(({
+          ID: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -80,101 +67,13 @@ export default {
       description: "Subaccount ID from which the message is sent.",
       async options() {
         const subaccounts = await this.getSubAccounts();
-        return subaccounts.map((subaccount) => ({
-          label: subaccount.name,
-          value: subaccount.id,
+        return subaccounts.map(({
+          ID: value, username: label,
+        }) => ({
+          label,
+          value,
         }));
       },
-      optional: true,
-    },
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "First name of the contact.",
-      optional: true,
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "Last name of the contact.",
-      optional: true,
-    },
-    birthday: {
-      type: "string",
-      label: "Birthday",
-      description: "Birthday of the contact.",
-      optional: true,
-    },
-    extra1: {
-      type: "string",
-      label: "Extra 1",
-      description: "Extra field 1 for the contact.",
-      optional: true,
-    },
-    extra2: {
-      type: "string",
-      label: "Extra 2",
-      description: "Extra field 2 for the contact.",
-      optional: true,
-    },
-    extra3: {
-      type: "string",
-      label: "Extra 3",
-      description: "Extra field 3 for the contact.",
-      optional: true,
-    },
-    extra4: {
-      type: "string",
-      label: "Extra 4",
-      description: "Extra field 4 for the contact.",
-      optional: true,
-    },
-    extra5: {
-      type: "string",
-      label: "Extra 5",
-      description: "Extra field 5 for the contact.",
-      optional: true,
-    },
-    extra6: {
-      type: "string",
-      label: "Extra 6",
-      description: "Extra field 6 for the contact.",
-      optional: true,
-    },
-    extra7: {
-      type: "string",
-      label: "Extra 7",
-      description: "Extra field 7 for the contact.",
-      optional: true,
-    },
-    extra8: {
-      type: "string",
-      label: "Extra 8",
-      description: "Extra field 8 for the contact.",
-      optional: true,
-    },
-    unsubscribed: {
-      type: "boolean",
-      label: "Unsubscribed",
-      description: "Indicates if the contact is unsubscribed.",
-      optional: true,
-    },
-    date: {
-      type: "string",
-      label: "Scheduled Date",
-      description: "The date to send the message.",
-      optional: true,
-    },
-    reference: {
-      type: "string",
-      label: "Reference",
-      description: "Reference for the message.",
-      optional: true,
-    },
-    test: {
-      type: "boolean",
-      label: "Test",
-      description: "Test mode for the message.",
       optional: true,
     },
   },
@@ -182,88 +81,97 @@ export default {
     _baseUrl() {
       return "https://api.smsgatewayapi.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _params(params = {}) {
+      return {
+        client_id: `${this.$auth.client_id}`,
+        client_secret: `${this.$auth.client_secret}`,
+        ...params,
+      };
+    },
+    _makeRequest({
+      $ = this, path, params, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "X-Client-Id": this.$auth.client_id,
-          "X-Client-Secret": this.$auth.client_secret,
-          "Content-Type": "application/json",
-        },
+        params: this._params(params),
+        ...opts,
       });
     },
-    async getInboxMessages(opts = {}) {
+    getInboxMessages(opts = {}) {
       return this._makeRequest({
         path: "/message/inbox",
         ...opts,
       });
     },
-    async getContacts(opts = {}) {
+    getContactNumbers(opts = {}) {
       return this._makeRequest({
-        path: "/contacts",
+        path: "/contact",
         ...opts,
       });
     },
-    async getGroups(opts = {}) {
+    getGroups(opts = {}) {
       return this._makeRequest({
         path: "/groups",
         ...opts,
       });
     },
-    async getSenderIds(opts = {}) {
+    getSenderIds(opts = {}) {
       return this._makeRequest({
         path: "/senderids",
         ...opts,
       });
     },
-    async getSubAccounts(opts = {}) {
+    getSubAccounts(opts = {}) {
       return this._makeRequest({
-        path: "/subaccounts",
+        path: "/subaccount",
         ...opts,
       });
     },
-    async addContactToGroup({
-      phone, groupId, ...otherData
-    }) {
+    addContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contact",
-        data: {
-          phone,
-          groupid: groupId,
-          ...otherData,
-        },
+        ...opts,
       });
     },
-    async addOptOut(data = {}) {
+    addOptOut(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/optout",
-        data,
+        path: "/optouts",
+        ...opts,
       });
     },
-    async sendMessage({
-      message, to, sender, date, reference, test, subId,
-    }) {
+    sendMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/message/send",
-        data: {
-          message,
-          to,
-          sender,
-          date,
-          reference,
-          test,
-          subid: subId,
-        },
+        ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const { messages } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of messages) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = messages.length;
+
+      } while (hasMore);
     },
   },
 };

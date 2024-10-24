@@ -1,27 +1,34 @@
+import { ConfigurationError } from "@pipedream/platform";
 import smstools from "../../smstools.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "smstools-add-contact-opt-out",
   name: "Add Contact to Opt-Out List",
   description: "Adds a selected contact to the opt-out list, stopping further communications. [See the documentation](https://www.smstools.com/en/sms-gateway-api/add_optout)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     smstools,
-    contact: {
+    contactNumber: {
       propDefinition: [
         smstools,
-        "contact",
+        "contactNumber",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.smstools.addOptOut({
-      contactid: this.contact,
-    });
+    try {
+      const response = await this.smstools.addOptOut({
+        $,
+        data: {
+          number: this.contactNumber,
+        },
+      });
 
-    $.export("$summary", `Successfully added contact with ID ${this.contact} to the opt-out list.`);
-    return response;
+      $.export("$summary", `Successfully added contact number ${this.contactNumber} to the opt-out list.`);
+      return response;
+    } catch (e) {
+      throw new ConfigurationError("The number is already opted-out or does not exist in the database.");
+    }
   },
 };

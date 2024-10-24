@@ -1,5 +1,4 @@
 import smstools from "../../smstools.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "smstools-send-sms",
@@ -17,8 +16,10 @@ export default {
     to: {
       propDefinition: [
         smstools,
-        "to",
+        "contactNumber",
       ],
+      type: "string[]",
+      description: "The contact(s) to send the message to.",
     },
     sender: {
       propDefinition: [
@@ -27,24 +28,21 @@ export default {
       ],
     },
     date: {
-      propDefinition: [
-        smstools,
-        "date",
-      ],
+      type: "string",
+      label: "Scheduled Date",
+      description: "The date to send the message. **Format: yyyy-MM-dd HH:mm**. If not provided, the message will be sent as soon as possible.",
       optional: true,
     },
     reference: {
-      propDefinition: [
-        smstools,
-        "reference",
-      ],
+      type: "string",
+      label: "Reference",
+      description: "Reference for the message.",
       optional: true,
     },
     test: {
-      propDefinition: [
-        smstools,
-        "test",
-      ],
+      type: "boolean",
+      label: "Test",
+      description: "Test mode for the message.",
       optional: true,
     },
     subId: {
@@ -57,13 +55,16 @@ export default {
   },
   async run({ $ }) {
     const response = await this.smstools.sendMessage({
-      message: this.message,
-      to: this.to,
-      sender: this.sender,
-      date: this.date,
-      reference: this.reference,
-      test: this.test,
-      subId: this.subId,
+      $,
+      data: {
+        message: this.message,
+        to: this.to,
+        sender: this.sender,
+        date: this.date,
+        reference: this.reference,
+        test: this.test,
+        subId: this.subId,
+      },
     });
     $.export("$summary", `Message sent successfully with ID: ${response.messageid}`);
     return response;
