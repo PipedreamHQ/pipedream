@@ -8,7 +8,7 @@ export default {
     chatbotId: {
       type: "string",
       label: "Employee ID",
-      description: "ID of the Employee",
+      description: "The employee ID",
       async options() {
         const response = await this.getChatbots();
 
