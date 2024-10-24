@@ -48,7 +48,7 @@
     },
     {
       "query": "Send new Snowflake query results to PowerBI",
-      "triggers": [],
+      "triggers": ["snowflake-query-results"],
       "actions": [],
       "persona": "no-component"
     },

@@ -30,7 +30,7 @@
     {
       "query": "when new emails arrive in Gmail, use OpenAI to summarize them and post to Slack",
       "triggers": [
-        "gmail-new-email"
+        "gmail-new-email-received"
       ],
       "actions": [
         "openai-chat",

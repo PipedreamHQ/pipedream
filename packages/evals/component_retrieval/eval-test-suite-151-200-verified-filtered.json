@@ -21,7 +21,7 @@
     {
       "query": "I would like to forward all my Gmail attachments to Telegram",
       "triggers": [
-        "gmail-new-email"
+        "gmail-new-email-received"
       ],
       "actions": [
         "telegram_bot_api-send-text-message-or-reply"
@@ -165,7 +165,7 @@
     {
       "query": "forward email to telegram",
       "triggers": [
-        "gmail-new-email"
+        "gmail-new-email-received"
       ],
       "actions": [
         "telegram_bot_api-send-text-message-or-reply"
@@ -201,7 +201,7 @@
     {
       "query": "I would like my Gmail messages to be summarized by GPT",
       "triggers": [
-        "gmail-new-email"
+        "gmail-new-email-received"
       ],
       "actions": [
         "openai-chat"

@@ -1,0 +1,707 @@
+{
+  "evaluationTests": [
+    {
+      "query": "add new row in google spreadsheet",
+      "triggers": [],
+      "actions": [
+        "google_sheets-add-single-row"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When someone books through Calendly, add event to Google Calendar",
+      "triggers": [
+        "calendly_v2-new-event-scheduled"
+      ],
+      "actions": [
+        "google_calendar-create-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create new task in microsoft todo",
+      "triggers": [],
+      "actions": [
+        "microsofttodo-create-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When files are uploaded to Box, create Google Doc",
+      "triggers": [
+        "box-new-file"
+      ],
+      "actions": [
+        "google_docs-create-document"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send message using Discord bot",
+      "triggers": [],
+      "actions": [
+        "discord_bot-send-message"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When TidyCal appointment is booked, create Google Calendar event",
+      "triggers": [
+        "tidycal-new-appointment-booked"
+      ],
+      "actions": [
+        "google_calendar-create-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "analyze text with Azure OpenAI",
+      "triggers": [],
+      "actions": [
+        "azure_openai_service-chat"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When new email in Gmail, forward to Outlook",
+      "triggers": [
+        "gmail-new-email-received"
+      ],
+      "actions": [
+        "microsoft_outlook-send-email"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Box gets new file, copy to Dropbox",
+      "triggers": [
+        "box-new-file"
+      ],
+      "actions": [
+        "dropbox-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send message through Discord webhook",
+      "triggers": [],
+      "actions": [
+        "discord-send-message"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When files are added to OneDrive folder, save to Google Drive",
+      "triggers": [
+        "microsoft_onedrive-new-file-in-folder"
+      ],
+      "actions": [
+        "google_drive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create new task in Google Tasks when Todoist task is created",
+      "triggers": [
+        "todoist-new-task"
+      ],
+      "actions": [
+        "google_tasks-create-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When new Outlook calendar event created, add to Google Calendar",
+      "triggers": [
+        "microsoft_outlook_calendar-new-calendar-event"
+      ],
+      "actions": [
+        "google_calendar-create-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "use GPT-4 to analyze text with OpenAI",
+      "triggers": [],
+      "actions": [
+        "openai-chat"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Dropbox file is modified, upload to OneDrive",
+      "triggers": [
+        "dropbox-new-file"
+      ],
+      "actions": [
+        "microsoft_onedrive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send email through Gmail when Zoho Mail receives new message",
+      "triggers": [
+        "zoho_mail-new-email"
+      ],
+      "actions": [
+        "gmail-send-email"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Google Calendar event starts, create Zoom meeting",
+      "triggers": [
+        "google_calendar-upcoming-event-alert"
+      ],
+      "actions": [
+        "zoom-create-meeting"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "use Claude to analyze text",
+      "triggers": [],
+      "actions": [
+        "anthropic-chat"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Microsoft Todo task is created, add to Todoist",
+      "triggers": [
+        "microsofttodo-new-task-created"
+      ],
+      "actions": [
+        "todoist-create-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create new task in Asana when ClickUp task is created",
+      "triggers": [
+        "clickup-new-task"
+      ],
+      "actions": [
+        "asana-create-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send transactional email through Mailgun",
+      "triggers": [],
+      "actions": [
+        "mailgun-send-email"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When new subscriber in Mailchimp, add contact to Mailerlite",
+      "triggers": [
+        "mailchimp-new-subscriber"
+      ],
+      "actions": [
+        "mailerlite-subscribe-to-group"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create document in Microsoft OneDrive when Google Drive gets new file",
+      "triggers": [
+        "google_drive-new-files-instant"
+      ],
+      "actions": [
+        "microsoft_onedrive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "use Palm API to analyze text",
+      "triggers": [],
+      "actions": [
+        "google_palm_api-chat"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Zoom recording completes, save to Google Drive and create Box folder",
+      "triggers": [
+        "zoom-recording-completed"
+      ],
+      "actions": [
+        "google_drive-upload-file",
+        "box-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "add new row in google spreadsheet",
+      "triggers": [],
+      "actions": [
+        "google_sheets-add-single-row"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When someone books through Calendly, add event to Google Calendar",
+      "triggers": [
+        "calendly_v2-new-event-scheduled"
+      ],
+      "actions": [
+        "google_calendar-create-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create new task in microsoft todo",
+      "triggers": [],
+      "actions": [
+        "microsofttodo-create-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When files are uploaded to Box, create Google Doc",
+      "triggers": [
+        "box-new-file"
+      ],
+      "actions": [
+        "google_docs-create-document"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send message using Discord bot",
+      "triggers": [],
+      "actions": [
+        "discord_bot-send-message"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When TidyCal appointment is booked, create Google Calendar event",
+      "triggers": [
+        "tidycal-new-appointment-booked"
+      ],
+      "actions": [
+        "google_calendar-create-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "analyze text with Azure OpenAI",
+      "triggers": [],
+      "actions": [
+        "azure_openai_service-chat"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When new email in Gmail, forward to Outlook",
+      "triggers": [
+        "gmail-new-email"
+      ],
+      "actions": [
+        "microsoft_outlook-send-email"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Box gets new file, copy to Dropbox",
+      "triggers": [
+        "box-new-file"
+      ],
+      "actions": [
+        "dropbox-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send message through Discord webhook",
+      "triggers": [],
+      "actions": [
+        "discord-send-message"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When files are added to OneDrive folder, save to Google Drive",
+      "triggers": [
+        "microsoft_onedrive-new-file-in-folder"
+      ],
+      "actions": [
+        "google_drive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create new task in Google Tasks when Todoist task is created",
+      "triggers": [
+        "todoist-new-task"
+      ],
+      "actions": [
+        "google_tasks-create-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When new Outlook calendar event created, add to Google Calendar",
+      "triggers": [
+        "microsoft_outlook_calendar-new-calendar-event"
+      ],
+      "actions": [
+        "google_calendar-create-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "use GPT-4 to analyze text with OpenAI",
+      "triggers": [],
+      "actions": [
+        "openai-chat"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Dropbox file is modified, upload to OneDrive",
+      "triggers": [
+        "dropbox-new-file"
+      ],
+      "actions": [
+        "microsoft_onedrive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send email through Gmail when Zoho Mail receives new message",
+      "triggers": [
+        "zoho_mail-new-email"
+      ],
+      "actions": [
+        "gmail-send-email"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Google Calendar event starts, create Zoom meeting",
+      "triggers": [
+        "google_calendar-upcoming-event-alert"
+      ],
+      "actions": [
+        "zoom-create-meeting"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "use Claude to analyze text",
+      "triggers": [],
+      "actions": [
+        "anthropic-chat"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Microsoft Todo task is created, add to Todoist",
+      "triggers": [
+        "microsofttodo-new-task-created"
+      ],
+      "actions": [
+        "todoist-create-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create new task in Asana when ClickUp task is created",
+      "triggers": [
+        "clickup-new-task"
+      ],
+      "actions": [
+        "asana-create-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send transactional email through Mailgun",
+      "triggers": [],
+      "actions": [
+        "mailgun-send-email"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When new subscriber in Mailchimp, add contact to Mailerlite",
+      "triggers": [
+        "mailchimp-new-subscriber"
+      ],
+      "actions": [
+        "mailerlite-subscribe-to-group"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create document in Microsoft OneDrive when Google Drive gets new file",
+      "triggers": [
+        "google_drive-new-files-instant"
+      ],
+      "actions": [
+        "microsoft_onedrive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "use Palm API to analyze text",
+      "triggers": [],
+      "actions": [
+        "google_palm_api-chat"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Zoom recording completes, save to Google Drive and create Box folder",
+      "triggers": [
+        "zoom-recording-completed"
+      ],
+      "actions": [
+        "google_drive-upload-file",
+        "box-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Google Forms gets new response, add to Typeform analytics",
+      "triggers": [
+        "google_forms-new-form-answer"
+      ],
+      "actions": [
+        "typeform-list-responses"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create new presentation in Google Slides when Dropbox gets new file",
+      "triggers": [
+        "dropbox-new-file"
+      ],
+      "actions": [
+        "google_slides-create-presentation"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send message on Microsoft Teams channel",
+      "triggers": [],
+      "actions": [
+        "microsoft_teams-send-channel-message"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When new Gmail attachment arrives, save to Box",
+      "triggers": [
+        "gmail-new-attachment-received"
+      ],
+      "actions": [
+        "box-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "use Azure OpenAI to translate text",
+      "triggers": [],
+      "actions": [
+        "azure_openai_service-translate-text"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Microsoft Outlook gets email with label, create Google Calendar event",
+      "triggers": [
+        "microsoft_outlook-new-email"
+      ],
+      "actions": [
+        "google_calendar-create-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send notifications through MailerLite",
+      "triggers": [],
+      "actions": [
+        "mailerlite-subscribe-to-group"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When task is completed in Todoist, update Microsoft Todo",
+      "triggers": [
+        "todoist-completed-task"
+      ],
+      "actions": [
+        "microsofttodo-update-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "use Cohere to analyze sentiment",
+      "triggers": [],
+      "actions": [
+        "cohere_platform-chat"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When someone books through TidyCal, add to Calendly availability",
+      "triggers": [
+        "tidycal-new-appointment-booked"
+      ],
+      "actions": [],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send chat message through Discord bot when Slack gets message",
+      "triggers": [
+        "slack-new-message-in-channels"
+      ],
+      "actions": [
+        "discord_bot-send-message"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When file changes in OneDrive, sync to Google Drive and Box",
+      "triggers": [
+        "microsoft_onedrive-new-file-created"
+      ],
+      "actions": [
+        "google_drive-upload-file",
+        "box-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create task in Google Tasks when Microsoft Todo list is created",
+      "triggers": [
+        "microsofttodo-new-list-created"
+      ],
+      "actions": [
+        "google_tasks-create-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "use Mailgun to send transactional emails when Mailchimp campaign is sent",
+      "triggers": [
+        "mailchimp-new-campaign"
+      ],
+      "actions": [
+        "mailgun-send-email"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Google Calendar event ends, update Outlook Calendar",
+      "triggers": [
+        "google_calendar-event-cancelled"
+      ],
+      "actions": [
+        "microsoft_outlook_calendar-update-calendar-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "summarize text with OpenAI GPT-4",
+      "triggers": [],
+      "actions": [
+        "openai-summarize"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Zoho Mail gets new email, forward through Microsoft Outlook",
+      "triggers": [
+        "zoho_mail-new-email"
+      ],
+      "actions": [
+        "microsoft_outlook-send-email"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create new worksheet in Google Sheets when Smartsheet updates row",
+      "triggers": [
+        "smartsheet-new-row-updated"
+      ],
+      "actions": [
+        "google_sheets-create-worksheet"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "use Anthropic Claude to generate email content",
+      "triggers": [],
+      "actions": [
+        "anthropic-chat"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Box gets new file, upload to OneDrive and Google Drive",
+      "triggers": [
+        "box-new-file"
+      ],
+      "actions": [
+        "microsoft_onedrive-upload-file",
+        "google_drive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "analyze text with Google Palm API",
+      "triggers": [],
+      "actions": [
+        "google_palm_api-generate-text"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Dropbox folder changes, sync to Box and OneDrive",
+      "triggers": [
+        "dropbox-all-updates"
+      ],
+      "actions": [
+        "box-upload-file",
+        "microsoft_onedrive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create event in Zoho Calendar when Google Calendar event is updated",
+      "triggers": [
+        "google_calendar-new-or-updated-event-instant"
+      ],
+      "actions": [
+        "zoho_calendar-create-or-update-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Discord gets reaction, notify through Microsoft Teams",
+      "triggers": [
+        "discord-reaction-added"
+      ],
+      "actions": [
+        "microsoft_teams-send-channel-message"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send Mailjet msg when MailerLite subscriber is added",
+      "triggers": [
+        "mailerlite-subscriber-added-from-form"
+      ],
+      "actions": [
+        "mailjet-send-message"
+      ],
+      "persona": "similar-app"
+    }
+  ]
+}
