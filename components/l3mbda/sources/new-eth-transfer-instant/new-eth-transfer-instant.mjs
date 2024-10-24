@@ -6,7 +6,7 @@ export default {
   key: "l3mbda-new-eth-transfer-instant",
   name: "New ETH Transfer (Instant)",
   description: "Emit new event when a new ETH transfer is detected by [l3mbda.](https://l3mbda.com/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
