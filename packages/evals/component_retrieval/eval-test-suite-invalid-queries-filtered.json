@@ -1,0 +1,310 @@
+{
+  "evaluationTests": [
+    {
+      "query": "sync my data between systems",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "send notifications when something important happens",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "create a daily report",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "automate my sales process",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "connect my database",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "help me with customer support",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "track user activity",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "move files automatically",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "update my calendar",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "make my workflow more efficient",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "integrate with my existing tools",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "analyze my customer feedback",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "automate document creation",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "send reminders to my team",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "track project progress",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "monitor system performance",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "backup my important files",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "generate custom reports",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "create new users",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "manage my contacts",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "update status automatically",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "help me with social media",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "organize my documents",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "sync my calendars",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "manage my team better",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "automate invoice processing",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "track employee time",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "monitor website changes",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "schedule my posts",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "manage my inventory",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "sync my contact lists",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "automate email responses",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "create task assignments",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "track project deadlines",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "manage my subscriptions",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "update my database",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "automate customer onboarding",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "sync team communications",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "manage project resources",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "track sales performance",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "automate data entry",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "generate reports weekly",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "manage my workflows",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "integrate payment processing",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "automate file transfers",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "sync my documents",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "manage customer relationships",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "track employee performance",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "automate marketing campaigns",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "manage my leads",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "sync my apps",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    }
+  ]
+}

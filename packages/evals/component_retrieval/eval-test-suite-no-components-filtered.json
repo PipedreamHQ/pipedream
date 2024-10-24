@@ -1,0 +1,276 @@
+{
+  "evaluationTests": [
+    {
+      "query": "When someone books a demo in Chili Piper, create a contact in Apollo",
+      "triggers": [],
+      "actions": [
+        "apollo_io-create-contact"
+      ],
+      "persona": "no-component"
+    },
+    {
+      "query": "When we get a new review on G2, post it to Slack",
+      "triggers": [],
+      "actions": [
+        "slack-send-message"
+      ],
+      "persona": "no-component"
+    },
+    {
+      "query": "Add new Gong calls to my Guru knowledge base",
+      "triggers": [
+        "gong-new-call"
+      ],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When someone signs our DocuSign NDA, grant access in Okta",
+      "triggers": [
+        "docusign-envelope-sent-or-complete"
+      ],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Create a new project in Wrike when Typeform is submitted",
+      "triggers": [
+        "typeform-new-submission"
+      ],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When customer churns in Chargebee, remove access in Auth0 and revoke Workato license",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Send new Snowflake query results to PowerBI",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new issue is created in Azure DevOps, create ticket in ServiceNow",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Add rowing sessions from Hydrow to my Apple Health",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When someone mentions us on Blind, send to Discord",
+      "triggers": [],
+      "actions": [
+        "discord-send-message"
+      ],
+      "persona": "no-component"
+    },
+    {
+      "query": "Create tasks in Monday.com from Shortcut stories",
+      "triggers": [],
+      "actions": [
+        "monday-create-item"
+      ],
+      "persona": "no-component"
+    },
+    {
+      "query": "When a new invoice is created in NetSuite, sync to Sage Intacct",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Create Lattice goals from Asana projects",
+      "triggers": [
+        "asana-new-project"
+      ],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new candidate appears in Lever, create user in JumpCloud",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Add new LeanIX components to our Architecture Handbook in Confluence",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When a deal closes in Close.com, create project in TeamGantt",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Create Coda doc from new Pitch presentation",
+      "triggers": [],
+      "actions": [
+        "coda-create-rows"
+      ],
+      "persona": "no-component"
+    },
+    {
+      "query": "When contract is approved in Ironclad, create workspace in Retool",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Add new Gong snippets to Chorus.ai library",
+      "triggers": [
+        "gong-new-call"
+      ],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When employee is terminated in Namely, revoke access in Rippling",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Sync product specs from Productboard to Aha!",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Create Metabase dashboard when new Amplitude cohort is created",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new report runs in Looker, send to Tableau",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Add new Greenhouse candidates to iCIMS",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When feature is deployed in LaunchDarkly, update status in StatusPage",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Create Lucidchart diagram from Miro board",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new user signs up in Mixpanel, create profile in Pendo",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Add new 6sense accounts to RollWorks",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new survey response in Qualtrics, add to Gainsight",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Create tasks in Wrike from Clubhouse stories",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When customer submits proof in Filestage, add to Bynder",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Create Qatalog process from new Notion template",
+      "triggers": [
+        "notion-new-page"
+      ],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When user requests access in Mesh Directory, create ticket in Jira Service Management",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Add new candidates from SmartRecruiters to Workday",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new post is created in Discourse, share on Yammer",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Create monday.com pulse from Range check-in",
+      "triggers": [],
+      "actions": [
+        "monday-create-item"
+      ],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new task is created in Process Street, add to Teamwork",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Add new Demodesk recordings to Gong",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new article is published on Dev.to, cross-post to Hashnode",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Create UserPilot experience from new Pendo guide",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new document is uploaded to Box, scan with Nightfall",
+      "triggers": [
+        "box-new-file"
+      ],
+      "actions": [],
+      "persona": "no-component"
+    }
+  ]
+}

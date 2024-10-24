@@ -1,0 +1,187 @@
+{
+  "evaluationTests": [
+    {
+      "query": "send slack message",
+      "triggers": [],
+      "actions": [
+        "slack-send-message"
+      ],
+      "persona": "succinct"
+    },
+    {
+      "query": "create issue in linear",
+      "triggers": [],
+      "actions": [
+        "linear-create-issue"
+      ],
+      "persona": "succinct"
+    },
+    {
+      "query": "sync my contacts",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "When new emails arrive in Gmail, save attachments to Google Drive",
+      "triggers": [
+        "gmail-new-email"
+      ],
+      "actions": [
+        "google_drive-upload-file"
+      ],
+      "persona": "verbose"
+    },
+    {
+      "query": "add roblox purchases to quickbooks",
+      "triggers": [],
+      "actions": [
+        "quickbooks-create-invoice"
+      ],
+      "persona": "no-component"
+    },
+    {
+      "query": "When someone fills out my Typeform, notify me in Slack",
+      "triggers": [
+        "typeform-new-submission"
+      ],
+      "actions": [
+        "slack-send-message"
+      ],
+      "persona": "verbose"
+    },
+    {
+      "query": "automate my business processes",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "When new videos are uploaded to YouTube, transcribe with OpenAI and post summary to Discord",
+      "triggers": [
+        "youtube_data_api-new-videos"
+      ],
+      "actions": [
+        "openai-create-transcription",
+        "openai-chat",
+        "discord-send-message"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When customer submits form in AirKit, create contact in HubSpot",
+      "triggers": [],
+      "actions": [
+        "hubspot-create-or-update-contact"
+      ],
+      "persona": "no-component"
+    },
+    {
+      "query": "When a deal closes in Salesforce, generate invoice in QuickBooks and notify accounting in Slack",
+      "triggers": [],
+      "actions": [
+        "quickbooks-create-invoice",
+        "slack-send-message"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "make my team more productive",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "When new support tickets come in through Zendesk, analyze sentiment with GPT and create tasks in Linear",
+      "triggers": [
+        "zendesk-new-ticket"
+      ],
+      "actions": [
+        "openai-chat",
+        "linear-create-issue"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When deals update in Copper CRM, sync to Oracle NetSuite",
+      "triggers": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When files are added to Dropbox, use GPT to analyze content, create summaries in Notion, and notify relevant teams in Slack",
+      "triggers": [
+        "dropbox-new-file"
+      ],
+      "actions": [
+        "openai-chat",
+        "notion-create-page-from-database",
+        "slack-send-message"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "help me with reporting",
+      "triggers": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "When a customer books through Calendly, add to HubSpot, create Asana task, and start onboarding sequence",
+      "triggers": [
+        "calendly_v2-new-event-scheduled"
+      ],
+      "actions": [
+        "hubspot-create-or-update-contact",
+        "asana-create-task"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When feedback is submitted in UserVoice, analyze with GPT and create ticket in Jira",
+      "triggers": [],
+      "actions": [
+        "openai-chat",
+        "jira-create-issue"
+      ],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new recordings appear in Gong, transcribe with OpenAI, analyze for key insights, update deal notes in Salesforce, and notify sales team in Slack",
+      "triggers": [
+        "gong-new-call"
+      ],
+      "actions": [
+        "openai-create-transcription",
+        "openai-chat",
+        "salesforce_rest_api-update-contact",
+        "slack-send-message"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When customer reaches usage threshold in Stripe, check status in ChargeBee, update account in HubSpot, and trigger customer success workflow",
+      "triggers": [
+        "stripe-subscription-updated"
+      ],
+      "actions": [
+        "hubspot-create-or-update-contact"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When new document is uploaded to Google Drive, use GPT for content analysis, create summaries in Notion, add action items in Linear, notify teams in Slack, and schedule follow-up in Google Calendar",
+      "triggers": [
+        "google_drive-new-files-instant"
+      ],
+      "actions": [
+        "openai-chat",
+        "notion-create-page-from-database",
+        "linear-create-issue",
+        "slack-send-message",
+        "google_calendar-create-event"
+      ],
+      "persona": "complex-workflow"
+    }
+  ]
+}
