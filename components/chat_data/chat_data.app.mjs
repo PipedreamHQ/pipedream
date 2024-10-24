@@ -49,7 +49,6 @@ export default {
       type: "string",
       label: "Model",
       description: "The chatbot defaults to `custom-data-upload` if the model parameter is not provided",
-      optional: true,
       options: constants.CHATBOT_MODELS,
     },
   },
