@@ -104,7 +104,7 @@ export default function Home() {
 
 ## External users
 
-When you use the Connect API, you'll pass an `external_id` parameter when initiating account connections and retrieving credentials. This is your user's ID, in your system — whatever you use to uniquely identify them. 
+When you use the Connect API, you'll pass an `external_user_id` parameter when initiating account connections and retrieving credentials. This is your user's ID, in your system — whatever you use to uniquely identify them. 
 
 Pipedream associates this ID with user accounts, so you can retrieve credentials for a specific user, and invoke workflows on their behalf.
 
@@ -114,7 +114,7 @@ External IDs are limited to 250 characters.
 
 | API Endpoint               | Rate Limit                                           |
 |----------------------------|------------------------------------------------------|
-| `POST /tokens`   | 100 requests per minute per `external_id`            |
+| `POST /tokens`   | 100 requests per minute per `external_user_id`            |
 | `GET */accounts/*`| The sum of requests across all `*/accounts/*` endpoints must not exceed 100 requests per minute. This includes requests to `/accounts`, `/apps/:app_id/accounts`, `/accounts/:account_id`, and more — any request for account metadata and credentials is counted towards this total. |
 
 If you need higher rate limits, please [reach out](https://pipedream.com/support).
@@ -722,7 +722,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{project_id}/accounts/{account
 Retrieve the account details for a specific account based on the external user ID
 
 ```
-GET /{project_id}/users/{external_id}/accounts
+GET /{project_id}/users/{external_user_id}/accounts
 ```
 
 ##### Path parameters
@@ -733,7 +733,7 @@ GET /{project_id}/users/{external_id}/accounts
 
 ---
 
-`external_id` **string**
+`external_user_id` **string**
 
 [The external user ID](#external-users) in your system that you want to retrieve accounts for.
 
@@ -1095,7 +1095,7 @@ Pipedream returns a `204 No Content` response on successful account deletion
 Delete an end user and all their connected accounts
 
 ```
-DELETE /{project_id}/users/{external_id}
+DELETE /{project_id}/users/{external_user_id}
 ```
 
 ##### Path parameters
@@ -1106,7 +1106,7 @@ DELETE /{project_id}/users/{external_id}
 
 ---
 
-`external_id` **string**
+`external_user_id` **string**
 
 [The external user ID](#external-users) in your system
 
@@ -1162,7 +1162,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 # The response will include an access_token. Use it in the Authorization header below.
 
-curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/users/{external_id}" \
+curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/users/{external_user_id}" \
   -H "Authorization: Bearer {access_token}"
 ```
 </Tabs.Tab>
