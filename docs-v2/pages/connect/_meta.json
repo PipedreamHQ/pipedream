@@ -10,5 +10,17 @@
   },
   "api": {
     "title": "API & SDK Reference"
+  },
+  "tokens": {
+    "title": "Connect tokens"
+  },
+  "environments": {
+    "title": "Environments"
+  },
+  "webhooks": {
+    "title": "Webhooks"
+  },
+  "connect-link": {
+    "title": "Connect Link"
   }
 }

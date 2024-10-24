@@ -22,7 +22,7 @@ If you suspect Pipedream resources are being used for illegal purposes, or other
 
 ### SOC 2
 
-Pipedream undergoes regular third-party audits. We have demonstrated SOC 2 compliance and can provide a SOC 2 Type 2 report upon request. Please reach out to <span className="font-bold">support@pipedream.com</span> to request the latest report.
+Pipedream undergoes annual third-party audits. We have demonstrated SOC 2 compliance and can provide a SOC 2 Type 2 report upon request. Please reach out to <span className="font-bold">support@pipedream.com</span> to request the latest report.
 
 We use [Drata](https://drata.com) to continuosly monitor our infrastructure's compliance with standards like SOC 2, and you can visit our [Security Report](https://app.drata.com/security-report/b45c2f79-1968-496b-8a10-321115b55845/27f61ebf-57e1-4917-9536-780faed1f236) to see a list of policies and processes we implement and track within Drata.
 
@@ -85,6 +85,61 @@ When you link credentials to a specific source or workflow, the credentials are 
 No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/workflows/steps/#step-exports), you can always delete the data for that execution from your source or workflow. These logs will also be deleted automatically based on the [event retention](https://pipedream.com/docs/limits/#event-execution-history) for your account.
 
 You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account. You must revoke that access wherever you manage OAuth grants in your third party application.
+
+## Pipedream REST API security, OAuth clients
+
+The Pipedream API supports two methods of authentication: [OAuth](/rest-api/auth#oauth) and [User API keys](/rest-api/auth#user-api-keys). **We recommend using OAuth clients** for a few reasons:
+
+✅ OAuth clients are tied to the workspace, administered by workspace admins <br />
+✅ Tokens are short-lived <br />
+✅ OAuth clients support scopes, limiting access to specific operations <br />
+
+When testing the API or using the CLI, you can use your user API key. This key is tied to your user account and provides full access to any resources your user has access to, across workspaces.
+
+### OAuth clients
+
+Pipedream supports client credentials OAuth clients, which exchange a client ID and client secret for a short-lived access token. These clients are not tied to individual end users, and are meant to be used server-side. You must store these credentials securely on your server, never allowing them to be exposed in client-side code.
+
+Client secrets are salted and hashed before being saved to the database. The hashed secret is encrypted at rest. Pipedream does not store the client secret in plaintext.
+
+You can revoke a specific client secret at any time by visiting [https://pipedream.com/settings/api](https://pipedream.com/settings/api).
+
+### OAuth tokens
+
+Since Pipedream uses client credentials grants, access tokens must not be shared with end users or stored anywhere outside of your server environment.
+
+Access tokens are issued as JWTs, signed with an ED25519 private key. The public key used to verify these tokens is available at [https:/api.pipedream.com/.well-known/jwks.json](https://pipedream.com/.well-known/jwks.json). See [this workflow template](https://pipedream.com/new?h=tch_rBf76M) for example code you can use to validate these tokens.
+
+Access tokens are hashed before being saved in the Pipedream database, and are encrypted at rest.
+
+Access tokens expire after 1 hour. Tokens can be revoked at any time.
+
+## Pipedream Connect
+
+[Pipedream Connect](/connect) is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**.
+
+### Client-side SDK
+
+Pipedream provides a [client-side SDK](/connect/api#typescript-sdk-browser) to initiate authorization or accept API keys on behalf of your users in environments that can run JavaScript. You can see the code for that SDK [here](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk).
+
+When you initiate authorization, you must:
+
+1. [Create a server-side token for a specific end user](/connect/api#create-a-new-token)
+2. Initiate auth with that token, connecting an account for a specific user
+
+These tokens can only initiate the auth connection flow. They have no permissions to access credentials or perform other operations against the REST API. They are meant to be scoped to a specific user, for use in clients that need to initiate auth flows.
+
+Tokens expire after 4 hours, at which point you must create a new token for that specific user.
+
+### Connect Link
+
+You can also use [Connect Link](/connect/quickstart#use-connect-link) to generate a URL that initiates the authorization flow for a specific user. This is useful when you want to initiate the auth flow from a client-side environment that can't run JavaScript, or include the link in an email, chat message, etc.
+
+Like tokens, Connect Links are coupled to specific users, and expire after 4 hours.
+
+### REST API
+
+The Pipedream Connect API is a subset of the [Pipedream REST API](/rest-api/). See the [REST API Security](#pipedream-rest-api-security-oauth-clients) section for more information on how we secure the API.
 
 ## Execution environment
 
