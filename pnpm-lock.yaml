@@ -1599,7 +1599,10 @@ importers:
       '@pipedream/platform': 1.6.4
 
   components/chat_data:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/chatbot:
     specifiers:
