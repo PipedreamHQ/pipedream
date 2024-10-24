@@ -4,18 +4,6 @@ export default {
   type: "app",
   app: "smstools",
   propDefinitions: {
-    inboundMessage: {
-      type: "string",
-      label: "Inbound Message",
-      description: "Emits new event when a new inbound message is received.",
-      async options() {
-        const messages = await this.getInboxMessages();
-        return messages.map((msg) => ({
-          label: msg.message,
-          value: msg.ID,
-        }));
-      },
-    },
     groupId: {
       type: "string",
       label: "Group ID",
