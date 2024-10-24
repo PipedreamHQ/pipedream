@@ -35,7 +35,11 @@ There are two types of apps in Pipedream:
 1. **Key-based**: These apps require static credentials, like API keys. Pipedream stores these credentials securely and exposes them via API.
 2. **OAuth**: These apps require OAuth authorization. Pipedream manages the OAuth flow for these apps, ensuring you always have a fresh access token for requests.
 
-**OAuth apps require you [create your own OAuth client](#creating-a-custom-oauth-client):**
+**OAuth apps require you create your own OAuth client to [deploy to production](/connect/environments):**
+
+<Callout type="info">
+To get started in [development mode](/connect/environments), you can skip these steps. To deploy your app to production, you'll need to create an OAuth client for the app you're integrating.
+</Callout>
 
 1. First, [create an OAuth client](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) for the app you'd like to integrate.
 2. Now when selecting an OAuth app in the **Apps** tab, you'll be prompted to select the OAuth client you've created.
@@ -44,7 +48,7 @@ There are two types of apps in Pipedream:
 
 Pipedream uses OAuth to authorize requests to the REST API. To create an OAuth application:
 
-1. Visit your workspace's [API settings](https://pipedream.com/settings/api).
+1. Visit the [API settings](https://pipedream.com/settings/api) for your workspace.
 2. Click the **New OAuth App** button.
 3. Name your app and click **Create**.
 4. Copy the app's client secret. **It will not be accessible again**. Click **Close**.
@@ -61,7 +65,7 @@ You'll need to do two things to add Pipedream Connect to your app:
 
 We'll walk through these steps below, using [an example Next.js app](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/next-app/). To follow along, clone [the repo](https://github.com/PipedreamHQ/pipedream-connect-examples/) and follow the instructions in [the app's `README`](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/next-app/). That will run the app on `localhost:3000`.
 
-<Callout>
+<Callout type="info">
 The Next.js app is just an example. You can build Connect apps in any framework, using any language. We've provided examples in Python, Ruby, and others below.
 </Callout>
 
@@ -81,16 +85,9 @@ PIPEDREAM_OAUTH_CLIENT_SECRET=your_client_secret
 
 If you're building your own app, you'll need to provide these values to the environment, or retrieve them from your secrets store.
 
-### Generate a token or Connect Link URL for your end users
+### Generate a short-lived token
 
-To securely initiate account connections for your users, you'll need to either:
-
-1. [Generate a short-lived token](#generate-a-token) for your users and return that to your frontend, passing that to the account connection flow. Use this method when you want to handle the account connection flow yourself, in your app. For example, you might want to show a **Connect Slack** button in your app that triggers the account connection flow.
-2. Redirect your users to [a Pipedream-hosted URL](#use-connect-link), which handles the account connection flow for you. Use this option when you can't execute JavaScript in your environment (e.g. mobile apps), or when you want to offload the account connection flow to Pipedream. You can also send these links in email or SMS.
-
-#### Generate a token
-
-See [the docs on Connect tokens](/connect/tokens) for a general overview of why we need to create tokens and scope them to end users.
+To securely initiate account connections for your users, you'll need generate a short-lived token for your users and use that in the [account connection flow](#connect-a-users-account). See [the docs on Connect tokens](/connect/tokens) for a general overview of why we need to create tokens and scope them to end users.
 
 In the Next.js example here, we're running [Next server components](https://nextjs.org/docs/app/building-your-application/rendering/server-components) in `app/server.ts`. We call the `serverConnectTokenCreate` method from the frontend to retrieve a token **for a specific user**.
 
@@ -104,26 +101,7 @@ const { token, expires_at } = await serverConnectTokenCreate({
 
 If you're using a different server / API framework, you'll need to make secure calls to that API to create a new token for your users.
 
-Once you have a token, return it to your frontend to start the account connection flow for the user, or redirect them to a Pipedream-hosted URL with [Connect Link](#using-connect-link).
-
-#### Use Connect Link
-
-Connect Link lets you connect third-party accounts without any frontend implementation in your app.
-
-If you aren't able to execute JavaScript or open an iFrame in your frontend, or you want to send users a URL to connect accounts via email or SMS, use Connect Link. That URL opens a Pipedream-hosted page that guides the user through the account connection flow. The URL is scoped to the specific end user, and expires after 4 hours.
-
-1. First, [generate a token](#generate-a-token) for your users.
-2. Extract the `connect_link_url` from the token response.
-3. Before returning the URL to your user, add an `app` parameter to the end of the query string:
-
-```
-https://pipedream.com/_static/connect.html?token={token}&connectLink=true&app={appSlug}
-```
-
-4. Redirect your users to this URL, or send it to them via email, SMS, and more.
-
-**To test this code, check out this workflow:**
-[https://pipedream.com/new?h=tch_EvfbvQ](https://pipedream.com/new?h=tch_EvfbvQ)
+Once you have a token, return it to your frontend to start the account connection flow for the user, or redirect them to a Pipedream-hosted URL with [Connect Link](#use-connect-link).
 
 ### Connect a user's account
 
@@ -133,6 +111,8 @@ To connect a third-party account for a user, you have two options:
 2. [Use Connect Link](#use-connect-link) to deliver a hosted URL to your user (see above).
 
 #### Use the Pipedream SDK in your frontend
+
+Use this method when you want to handle the account connection flow yourself, in your app. For example, you might want to show a **Connect Slack** button in your app that triggers the account connection flow.
 
 First, install the [Pipedream SDK](https://www.npmjs.com/package/@pipedream/sdk) in your frontend:
 
@@ -172,6 +152,22 @@ export default function Home() {
 ```
 
 Press that button to connect an account for the app you configured.
+
+#### Use Connect Link
+
+Use this option when you can't execute JavaScript or open an iFrame in your environment (e.g. mobile apps), or when you want to offload the account connection flow to Pipedream and avoid frontend work. You can also send these links via email or SMS.
+
+The Connect Link opens a Pipedream-hosted page, guiding users through the account connection process. The URL is specific to the user and expires after 4 hours.
+
+1. First, [generate a token](#generate-a-token) for your users.
+2. Extract the `connect_link_url` from the token response.
+3. Before returning the URL to your user, add an `app` parameter to the end of the query string:
+
+```
+https://pipedream.com/_static/connect.html?token={token}&connectLink=true&app={appSlug}
+```
+
+4. Redirect your users to this URL, or send it to them via email, SMS, and more.
 
 ### Retrieve the credentials from the backend
 
