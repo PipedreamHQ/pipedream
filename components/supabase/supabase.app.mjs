@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js@2.39.8";
+import { createClient } from "@supabase/supabase-js";
 import constants from "./common/constants.mjs";
 
 export default {
