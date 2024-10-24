@@ -8036,6 +8036,9 @@ importers:
   components/rapid7_insight_platform:
     specifiers: {}
 
+  components/rapid_url_indexer:
+    specifiers: {}
+
   components/rat_genome_database:
     specifiers: {}
 
