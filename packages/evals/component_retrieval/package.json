@@ -1,0 +1,10 @@
+{
+  "name": "@pipedream/evals-component_retrieval",
+  "version": "0.0.1",
+  "description": "Eval for Pipedream AI component retrieval API",
+  "main": "evaluator.mjs",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "json-diff": "^1.0.6"
+  }
+}
