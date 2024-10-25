@@ -6,7 +6,7 @@ export default {
   key: "smartsuite-record-updated-instant",
   name: "Record Updated (Instant)",
   description: "Emit new event when an existing record is updated",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
