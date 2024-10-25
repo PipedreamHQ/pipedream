@@ -5,6 +5,14 @@ export default {
     smartsuite,
     db: "$.service.db",
     http: "$.interface.http",
+    timer: {
+      label: "Webhook renewal schedule",
+      description: "The SmartSuite API requires occasional renewal of webhooks. **This runs in the background, so you should not need to modify this schedule**.",
+      type: "$.interface.timer",
+      static: {
+        intervalSeconds: 24 * 60 * 60, // once per day
+      },
+    },
     solutionId: {
       propDefinition: [
         smartsuite,
