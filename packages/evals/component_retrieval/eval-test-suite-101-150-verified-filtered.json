@@ -1,0 +1,304 @@
+{
+  "evaluationTests": [
+    {
+      "query": "When a deal closes in Salesforce, create invoice in QuickBooks",
+      "sources": [],
+      "actions": ["quickbooks-create-invoice"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "add new subscriber to mailchimp",
+      "sources": [],
+      "actions": ["mailchimp-add-subscriber-to-tag"],
+      "persona": "succinct"
+    },
+    {
+      "query": "I would like GPT to analyze new Typeform responses",
+      "sources": ["typeform-new-submission"],
+      "actions": ["openai-chat"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When a new row appears in Google Sheets, create a Notion page",
+      "sources": ["google_sheets-new-row-added"],
+      "actions": ["notion-create-page-from-database"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "salesfrce contact update",
+      "sources": [],
+      "actions": ["salesforce_rest_api-update-contact"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "create task in linear",
+      "sources": [],
+      "actions": ["linear-create-issue"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When new Jira issues are created, post them to Slack",
+      "sources": ["jira-issue-created"],
+      "actions": ["slack-send-message"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create trello card",
+      "sources": [],
+      "actions": ["trello-create-card"],
+      "persona": "succinct"
+    },
+    {
+      "query": "I need all new Calendly bookings to be added to Google Calendar",
+      "sources": ["calendly_v2-new-event-scheduled"],
+      "actions": ["google_calendar-create-event"],
+      "persona": "verbose"
+    },
+    {
+      "query": "update deal in hubspt",
+      "sources": [],
+      "actions": ["hubspot-create-or-update-contact"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When a video is uploaded to YouTube, transcribe it with OpenAI",
+      "sources": ["youtube_data_api-new-videos"],
+      "actions": ["openai-create-transcription"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "send gmail message",
+      "sources": [],
+      "actions": ["gmail-send-email"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When files are added to Dropbox, create a Notion page",
+      "sources": ["dropbox-new-file"],
+      "actions": ["notion-create-page-from-database"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "use gpt for email",
+      "sources": [],
+      "actions": ["openai-chat"],
+      "persona": "succinct"
+    },
+    {
+      "query": "I would like new Twitter mentions to create Zendesk tickets",
+      "sources": ["twitter-new-mention-received-by-user"],
+      "actions": ["zendesk-create-ticket"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When a new form submission happens in Typeform, add to Airtable",
+      "sources": ["typeform-new-submission"],
+      "actions": ["airtable_oauth-create-single-record"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "add row 2 sheets",
+      "sources": [],
+      "actions": ["google_sheets-add-single-row"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "create discord message",
+      "sources": [],
+      "actions": ["discord-send-message"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When new records appear in Airtable, send them to Slack",
+      "sources": ["airtable_oauth-new-records"],
+      "actions": ["slack-send-message"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "update cell in googel sheets",
+      "sources": [],
+      "actions": ["google_sheets-update-cell"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When a payment happens in Stripe, update HubSpot contact",
+      "sources": ["stripe-new-payment"],
+      "actions": ["hubspot-create-or-update-contact"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "make asana task",
+      "sources": [],
+      "actions": ["asana-create-task"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I want GPT to analyze my Gmail messages",
+      "sources": ["gmail-new-email"],
+      "actions": ["openai-chat"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When new issues are created in Linear, post to Discord",
+      "sources": ["linear-issue-created-instant"],
+      "actions": ["discord-send-message"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create notion database",
+      "sources": [],
+      "actions": ["notion-create-page"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When GitHub issues are created, create Linear tickets",
+      "sources": [],
+      "actions": ["linear-create-issue"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "make fresh ticket",
+      "sources": [],
+      "actions": ["freshdesk-create-ticket"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I would like to send Telegram messages when Jira tickets update",
+      "sources": ["jira-issue-updated"],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When deals change stage in HubSpot, update records in Salesforce",
+      "sources": ["hubspot-deal-updated"],
+      "actions": ["salesforce_rest_api-update-contact"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create new doc",
+      "sources": [],
+      "actions": ["google_docs-create-document"],
+      "persona": "succinct"
+    },
+    {
+      "query": "send telgram msg",
+      "sources": [],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When RSS feed updates, post to Discord",
+      "sources": ["rss-new-item-in-feed"],
+      "actions": ["discord-send-message"],
+      "persona": "task-oriented"
+    },
+    {
+      "query": "I need form submissions from JotForm in Google Sheets",
+      "sources": ["jotform-new-submission"],
+      "actions": ["google_sheets-add-single-row"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When calendar events start in Google Calendar, send Slack message",
+      "sources": ["google_calendar-upcoming-event-alert"],
+      "actions": ["slack-send-message"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "update zendesk ticket",
+      "sources": [],
+      "actions": ["zendesk-update-ticket"],
+      "persona": "succinct"
+    },
+    {
+      "query": "send campayn email",
+      "sources": [],
+      "actions": ["gmail-send-email"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When tasks are completed in Todoist, update Trello",
+      "sources": ["todoist-completed-task"],
+      "actions": [],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "add row to airtble",
+      "sources": [],
+      "actions": ["airtable_oauth-create-single-record"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I want new Slack messages to be analyzed by GPT",
+      "sources": ["slack-new-message-in-channels"],
+      "actions": ["openai-chat"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When new files are added to Google Drive, create Notion pages",
+      "sources": ["google_drive-new-files-instant"],
+      "actions": ["notion-create-page-from-database"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create monday item",
+      "sources": [],
+      "actions": ["monday-create-item"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When email attachments arrive in Gmail, use OpenAI to analyze them",
+      "sources": ["gmail-new-email"],
+      "actions": ["openai-chat"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "add subscriber mailchmp",
+      "sources": [],
+      "actions": ["mailchimp-add-subscriber-to-tag"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I want to be notified in Telegram about new Twitter mentions",
+      "sources": ["twitter-new-mention-received-by-user"],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When Zoom meetings end, send recordings to Slack",
+      "sources": ["zoom-recording-completed"],
+      "actions": ["slack-send-message"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "make noshan page",
+      "sources": [],
+      "actions": ["notion-create-page"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When new comments appear in Discord, use GPT to moderate them",
+      "sources": ["discord-new-message"],
+      "actions": ["openai-chat"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create gsheet row",
+      "sources": [],
+      "actions": ["google_sheets-add-single-row"],
+      "persona": "succinct"
+    },
+    {
+      "query": "I need Typeform responses to be analyzed by GPT and stored in Airtable",
+      "sources": ["typeform-new-submission"],
+      "actions": ["openai-chat", "airtable_oauth-create-single-record"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When new starred messages in Slack, create tasks in Linear",
+      "sources": ["slack-new-reaction-added"],
+      "actions": ["linear-create-issue"],
+      "persona": "complex-workflow"
+    }
+  ]
+}

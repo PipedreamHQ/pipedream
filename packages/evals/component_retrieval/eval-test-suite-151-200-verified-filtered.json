@@ -1,0 +1,310 @@
+{
+  "evaluationTests": [
+    {
+      "query": "When a row is added to Google Sheets in a shared drive, create a Linear ticket",
+      "sources": ["google_sheets-new-row-added"],
+      "actions": ["linear-create-issue"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "update airtable record",
+      "sources": [],
+      "actions": ["airtable_oauth-update-record"],
+      "persona": "succinct"
+    },
+    {
+      "query": "I would like to forward all my Gmail attachments to Telegram",
+      "sources": ["gmail-new-email-received"],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
+      "persona": "verbose"
+    },
+    {
+      "query": "send msg in slck",
+      "sources": [],
+      "actions": ["slack-send-message"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When a message is posted to Discord, analyze with OpenAI",
+      "sources": ["discord-new-message"],
+      "actions": ["openai-chat"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "add new google calendar event",
+      "sources": [],
+      "actions": ["google_calendar-create-event"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When a new tweet mentions our company, send to Slack channel",
+      "sources": ["twitter-new-mention-received-by-user"],
+      "actions": ["slack-send-message"],
+      "persona": "task-oriented"
+    },
+    {
+      "query": "create nw spreadsheet",
+      "sources": [],
+      "actions": ["google_sheets-create-spreadsheet"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I want my Typeform submissions to be saved in Notion databases",
+      "sources": ["typeform-new-submission"],
+      "actions": ["notion-create-page-from-database"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When a Notion page updates, send a message to Telegram",
+      "sources": ["notion-updated-page"],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "post 2 discord",
+      "sources": [],
+      "actions": ["discord-send-message"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When files are uploaded to Dropbox, copy them to Google Drive",
+      "sources": ["dropbox-new-file"],
+      "actions": ["google_drive-upload-file"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create trello board",
+      "sources": [],
+      "actions": [],
+      "persona": "succinct"
+    },
+    {
+      "query": "I need new RSS items to be posted to Discord",
+      "sources": ["rss-new-item-in-feed"],
+      "actions": ["discord-send-message"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When a form is submitted in JotForm, use GPT to analyze it",
+      "sources": ["jotform-new-submission"],
+      "actions": ["openai-chat"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "make linear issue",
+      "sources": [],
+      "actions": ["linear-create-issue"],
+      "persona": "succinct"
+    },
+    {
+      "query": "add row 2 googlesheets",
+      "sources": [],
+      "actions": ["google_sheets-add-single-row"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When a YouTube video is posted, share it on Twitter",
+      "sources": ["youtube_data_api-new-videos"],
+      "actions": ["twitter-create-tweet"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "forward email to telegram",
+      "sources": ["gmail-new-email-received"],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
+      "persona": "task-oriented"
+    },
+    {
+      "query": "When new Slack messages contain specific keywords, create Linear issues",
+      "sources": ["slack-new-message-in-channels"],
+      "actions": ["linear-create-issue"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "updaet notion page",
+      "sources": [],
+      "actions": ["notion-update-page"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "create google doc",
+      "sources": [],
+      "actions": ["google_docs-create-document"],
+      "persona": "succinct"
+    },
+    {
+      "query": "I would like my Gmail messages to be summarized by GPT",
+      "sources": ["gmail-new-email-received"],
+      "actions": ["openai-chat"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When calendar events are updated, post to Slack",
+      "sources": ["google_calendar-new-or-updated-event-instant"],
+      "actions": ["slack-send-message"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "download gdrive file",
+      "sources": [],
+      "actions": ["google_drive-download-file"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When a new page is created in Notion, use GPT to summarize it",
+      "sources": ["notion-new-page"],
+      "actions": ["openai-chat"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "send telagrem message",
+      "sources": [],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I want to track my liked tweets in a spreadsheet",
+      "sources": ["twitter-my-tweets"],
+      "actions": ["google_sheets-add-single-row"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When files are modified in Google Drive, update Notion",
+      "sources": ["google_drive-new-or-modified-files"],
+      "actions": ["notion-update-page"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "analyze text gpt",
+      "sources": [],
+      "actions": ["openai-chat"],
+      "persona": "succinct"
+    },
+    {
+      "query": "update row in sheets",
+      "sources": [],
+      "actions": ["google_sheets-update-row"],
+      "persona": "task-oriented"
+    },
+    {
+      "query": "When Zoom recordings complete, transcribe with OpenAI",
+      "sources": ["zoom-recording-completed"],
+      "actions": ["openai-create-transcription"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "make asana projct",
+      "sources": [],
+      "actions": ["asana-create-project"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I would like to receive Discord messages in Telegram",
+      "sources": ["discord-new-message"],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When Slack reactions are added, create Trello cards",
+      "sources": ["slack-new-reaction-added"],
+      "actions": ["trello-create-card"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "download dropbox file",
+      "sources": [],
+      "actions": ["dropbox-download-file-to-tmp"],
+      "persona": "succinct"
+    },
+    {
+      "query": "get cell from sheet",
+      "sources": [],
+      "actions": ["google_sheets-get-cell"],
+      "persona": "task-oriented"
+    },
+    {
+      "query": "When new Airtable records are created, use GPT to classify them",
+      "sources": ["airtable_oauth-new-records"],
+      "actions": ["openai-chat"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "reply 2 slack thread",
+      "sources": [],
+      "actions": ["slack-reply-to-a-message"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I need new Twitter mentions to create Linear issues",
+      "sources": ["twitter-new-mention-received-by-user"],
+      "actions": ["linear-create-issue"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When files change in shared Google Drive, notify in Slack",
+      "sources": ["google_drive-changes-to-specific-files-shared-drive"],
+      "actions": ["slack-send-message"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create gmail draft",
+      "sources": [],
+      "actions": ["gmail-create-draft"],
+      "persona": "succinct"
+    },
+    {
+      "query": "move file in gdrive",
+      "sources": [],
+      "actions": ["google_drive-move-file"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When new Direct Messages arrive in Slack, forward to email",
+      "sources": ["slack-new-direct-message"],
+      "actions": ["gmail-send-email"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "I want my Google Calendar events to show in Slack",
+      "sources": ["google_calendar-new-event"],
+      "actions": ["slack-send-message"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When Discord reactions are added, update Notion",
+      "sources": ["discord-reaction-added"],
+      "actions": ["notion-update-page"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "post direct msg slack",
+      "sources": [],
+      "actions": ["slack-send-message"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "create new worksheet",
+      "sources": [],
+      "actions": ["google_sheets-create-worksheet"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When RSS feed updates, let GPT analyze the content",
+      "sources": ["rss-new-item-in-feed"],
+      "actions": ["openai-chat"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "send message to discord channel",
+      "sources": [],
+      "actions": ["discord-send-message"],
+      "persona": "task-oriented"
+    },
+    {
+      "query": "When worksheets are added to Google Sheets, create Notion pages",
+      "sources": ["google_sheets-new-worksheet"],
+      "actions": ["notion-create-page-from-database"],
+      "persona": "complex-workflow"
+    }
+  ]
+}

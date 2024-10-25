@@ -1,0 +1,313 @@
+{
+  "evaluationTests": [
+    {
+      "query": "When a Webflow form is submitted, create contact in Mailchimp and send PagerDuty alert",
+      "sources": ["webflow-new-form-submission"],
+      "actions": [
+        "mailchimp-add-subscriber-to-tag",
+        "pagerduty-trigger-incident"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create medium blog post",
+      "sources": [],
+      "actions": ["medium-create-post"],
+      "persona": "succinct"
+    },
+    {
+      "query": "send push notification using pushover",
+      "sources": [],
+      "actions": ["pushover-push-notification"],
+      "persona": "task-oriented"
+    },
+    {
+      "query": "When there's a new hot post on Reddit subreddit, send to Telegram",
+      "sources": ["reddit-new-hot-posts-on-a-subreddit"],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "mkae pushbullet notifcation",
+      "sources": [],
+      "actions": ["pushbullet-send-push"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I would like to be notified when someone completes their Calendly booking",
+      "sources": ["calendly_v2-invitee-created"],
+      "actions": [],
+      "persona": "verbose"
+    },
+    {
+      "query": "When new Spotify playlist is created, post to Discord",
+      "sources": ["spotify-new-playlist"],
+      "actions": ["discord-send-message"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "upload file 2 imgbb",
+      "sources": [],
+      "actions": ["imgbb-upload-picture"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "create postmark email",
+      "sources": [],
+      "actions": ["postmark-send-single-email"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When a new story mentions our keyword on Hacker News, create Linear ticket",
+      "sources": ["hacker_news-new-stories-by-keyword"],
+      "actions": ["linear-create-issue"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "I need my WordPress posts to be automatically shared on LinkedIn",
+      "sources": [],
+      "actions": ["linkedin-create-text-post-user"],
+      "persona": "verbose"
+    },
+    {
+      "query": "make aws lambda functon",
+      "sources": [],
+      "actions": ["aws-lambda-invoke-function"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When a new video is added to my YouTube playlist, add to Spotify",
+      "sources": ["youtube_data_api-new-videos-in-playlist"],
+      "actions": ["spotify-add-items-to-playlist"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create coda row",
+      "sources": [],
+      "actions": ["coda-create-rows"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When my Strava activity is created, post to Facebook Page",
+      "sources": ["strava-activity-created"],
+      "actions": ["facebook_pages-create-post"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "send emergency pushover alert",
+      "sources": [],
+      "actions": ["pushover-emergency-push-notification"],
+      "persona": "task-oriented"
+    },
+    {
+      "query": "I would like to sync my Google Tasks with Microsoft To Do",
+      "sources": ["google_tasks-new-task-added"],
+      "actions": ["microsofttodo-create-task"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When someone comments on Figma, create Motion task",
+      "sources": ["figma-new-comment"],
+      "actions": ["motion-create-task"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "creat cloudinary upload",
+      "sources": [],
+      "actions": ["cloudinary-upload-media-asset"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When there's a new commit in Bitbucket, post to Microsoft Teams",
+      "sources": ["bitbucket-new-commit"],
+      "actions": ["microsoft_teams-send-channel-message"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "send line notification",
+      "sources": [],
+      "actions": ["line-send-notification-message"],
+      "persona": "succinct"
+    },
+    {
+      "query": "I need all my Raindrop bookmarks to be saved in Notion",
+      "sources": ["raindrop-new-bookmark"],
+      "actions": ["notion-create-page-from-database"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When a new highlight is made in Readwise, create Google Doc",
+      "sources": ["readwise-new-highlights"],
+      "actions": ["google_docs-create-document"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "add contact 2 mautic",
+      "sources": [],
+      "actions": ["mautic-create-contact"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When a new form is answered in Google Forms, add to Airtable",
+      "sources": ["google_forms-new-form-answer"],
+      "actions": ["airtable_oauth-create-single-record"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create onenote page",
+      "sources": [],
+      "actions": ["onenote-create-page"],
+      "persona": "succinct"
+    },
+    {
+      "query": "I want my Mastodon posts to be automatically shared on Twitter",
+      "sources": ["mastodon-new-status"],
+      "actions": ["twitter-create-tweet"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When a WhatsApp message is received, analyze with GPT and send to Telegram",
+      "sources": ["whatsapp_business-new-message-sent"],
+      "actions": ["openai-chat", "telegram_bot_api-send-text-message-or-reply"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create algolia objct",
+      "sources": [],
+      "actions": ["algolia-create-objects"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When files are added to Box, backup to S3",
+      "sources": ["box-new-file"],
+      "actions": ["aws-s3-upload-file"],
+      "persona": "task-oriented"
+    },
+    {
+      "query": "make cisco webex msg",
+      "sources": [],
+      "actions": ["cisco_webex-create-message"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I need my Google Classroom assignments to be tracked in Todoist",
+      "sources": ["google_classroom-new-assignment"],
+      "actions": ["todoist-create-task"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When new contacts are added to ActiveCampaign, sync to Klaviyo",
+      "sources": ["activecampaign-new-or-updated-contact"],
+      "actions": ["klaviyo-add-member-to-list"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "send chat_api whatsapp",
+      "sources": [],
+      "actions": ["chat_api_for_whatsapp-send-message"],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When someone reacts to a Discord message, create Trello card",
+      "sources": ["discord-reaction-added"],
+      "actions": ["trello-create-card"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "post giphy to discord",
+      "sources": [],
+      "actions": ["discord-send-message"],
+      "persona": "succinct"
+    },
+    {
+      "query": "I would like new Pocket items to be saved to Instapaper",
+      "sources": ["pocket-new-item"],
+      "actions": ["instapaper-add-url"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When Twitch stream starts, post to social media",
+      "sources": ["twitch-streams-by-streamer"],
+      "actions": ["twitter-create-tweet", "facebook_pages-create-post"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "make freshsales contact",
+      "sources": [],
+      "actions": [],
+      "persona": "sloppy"
+    },
+    {
+      "query": "When new article appears in Inoreader folder, save to Notion",
+      "sources": ["inoreader-new-article-in-folder"],
+      "actions": ["notion-create-page-from-database"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create servicenow incident",
+      "sources": [],
+      "actions": [],
+      "persona": "succinct"
+    },
+    {
+      "query": "I want to receive Bandwidth SMS messages in Telegram",
+      "sources": ["bandwidth-new-incoming-sms"],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When a new comment is posted on WordPress, analyze with GPT",
+      "sources": [],
+      "actions": ["openai-chat"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "send mailgun email",
+      "sources": [],
+      "actions": ["mailgun-send-email"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When RingCentral records a call, transcribe with OpenAI",
+      "sources": ["ringcentral-new-call-recording"],
+      "actions": ["openai-create-transcription"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create shipstation evnt",
+      "sources": [],
+      "actions": [],
+      "persona": "sloppy"
+    },
+    {
+      "query": "I need my Google Contacts to sync with Microsoft Outlook",
+      "sources": ["google_contacts-contact-created"],
+      "actions": ["microsoft_outlook-create-contact"],
+      "persona": "verbose"
+    },
+    {
+      "query": "When new Squarespace transaction occurs, update Quickbooks",
+      "sources": ["squarespace-new-create-transaction"],
+      "actions": ["quickbooks-create-invoice"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "create zoho mail",
+      "sources": [],
+      "actions": ["zoho_mail-send-email"],
+      "persona": "succinct"
+    },
+    {
+      "query": "When Firebase document changes, send Line notification",
+      "sources": ["firebase_admin_sdk-new-doc-in-firestore-collection"],
+      "actions": ["line-send-notification-message"],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "add pinterest pin",
+      "sources": [],
+      "actions": ["pinterest-create-pin"],
+      "persona": "succinct"
+    }
+  ]
+}
