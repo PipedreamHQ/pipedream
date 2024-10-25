@@ -1,11 +1,10 @@
 import papersign from "../../papersign.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "papersign-copy-document",
   name: "Copy Document",
   description: "Duplicates a given document. [See the documentation](https://paperform.readme.io/reference/papersigncopydocument)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     papersign,
@@ -31,27 +30,33 @@ export default {
     path: {
       type: "string",
       label: "Path",
-      description: "The path to copy the document to. Maximum depth is 4 levels.",
+      description: "The path to copy the document to. Maximum depth is 4 levels. Any missing folders will be created.",
       optional: true,
     },
     folderId: {
       propDefinition: [
         papersign,
         "folderId",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
       ],
       optional: true,
     },
   },
   async run({ $ }) {
+    const data = {};
+    if (this.folderId) {
+      data.folder_id = this.folderId;
+    } else {
+      data.space_id = this.spaceId;
+      data.path = this.path;
+    }
+
     const response = await this.papersign.duplicateDocument({
+      $,
       documentId: this.documentId,
-      name: this.name,
-      spaceId: this.spaceId,
-      path: this.path,
-      folderId: this.folderId,
+      data: {
+        ...data,
+        name: this.name,
+      },
     });
 
     $.export("$summary", `Successfully copied document: ${response.results.document.name}`);

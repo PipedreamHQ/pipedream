@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,36 +9,33 @@ export default {
       type: "string",
       label: "Document ID",
       description: "Enter the ID of the Papersign document",
-      async options() {
-        const documents = await this.listDocuments();
-        return documents.map((doc) => ({
-          value: doc.id,
-          label: doc.name,
-        }));
+      async options({ page }) {
+        return await this.list({
+          module: "documents",
+          page,
+        });
       },
     },
     spaceId: {
       type: "string",
       label: "Space ID",
       description: "Enter the ID of the Papersign space",
-      async options() {
-        const spaces = await this.listSpaces();
-        return spaces.map((space) => ({
-          value: space.id,
-          label: space.name,
-        }));
+      async options({ page }) {
+        return await this.list({
+          module: "spaces",
+          page,
+        });
       },
     },
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "Enter the ID of the Papersign folder",
-      async options() {
-        const folders = await this.listFolders();
-        return folders.map((folder) => ({
-          value: folder.id,
-          label: folder.name,
-        }));
+      description: "Enter the ID of the Papersign folder. `If folder id is present, Space Id and Path will be ignored`.",
+      async options({ page }) {
+        return await this.list({
+          module: "folders",
+          page,
+        });
       },
     },
   },
@@ -45,79 +43,79 @@ export default {
     _baseUrl() {
       return "https://api.paperform.co/v1/papersign";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.access_token}`,
+        "accept": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
+        headers: this._headers(),
+        ...opts,
+      });
+    },
+    async list({
+      module, page, ...opts
+    }) {
+      const { results } = await this._makeRequest({
+        path: `/${module}`,
+        params: {
+          limit: LIMIT,
+          skip: LIMIT * page,
         },
-      });
-    },
-    async listDocuments(opts = {}) {
-      return this._makeRequest({
-        path: "/documents",
         ...opts,
       });
+
+      return results[module].map(({
+        id: value, name: label,
+      }) => ({
+        value,
+        label,
+      }));
     },
-    async listSpaces(opts = {}) {
-      return this._makeRequest({
-        path: "/spaces",
-        ...opts,
-      });
-    },
-    async listFolders(opts = {}) {
-      const { spaceId } = opts;
-      return this._makeRequest({
-        path: "/folders",
-        params: spaceId
-          ? {
-            space_id: spaceId,
-          }
-          : {},
-        ...opts,
-      });
-    },
-    async duplicateDocument({
-      documentId, name, spaceId, path, folderId,
+    duplicateDocument({
+      documentId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/documents/${documentId}/copy`,
-        data: {
-          name,
-          space_id: spaceId,
-          path,
-          folder_id: folderId,
-        },
+        ...opts,
       });
     },
-    async getDocument({ documentId }) {
+    getDocument({
+      documentId, ...opts
+    }) {
       return this._makeRequest({
         path: `/documents/${documentId}`,
+        ...opts,
       });
     },
-    async sendDocument({
-      documentId, expiration, inviteMessage, fromUserEmail, documentRecipientEmails, automaticReminders, signers, variables, copy,
+    sendDocument({
+      documentId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/documents/${documentId}/send`,
-        data: {
-          expiration,
-          invite_message: inviteMessage,
-          from_user_email: fromUserEmail,
-          document_recipient_emails: documentRecipientEmails,
-          automatic_reminders: automaticReminders,
-          signers,
-          variables,
-          copy,
-        },
+        ...opts,
+      });
+    },
+    createWebhook({
+      folderId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/folders/${folderId}/webhooks`,
+        ...opts,
+      });
+    },
+    deleteWebhook(hookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${hookId}`,
       });
     },
   },

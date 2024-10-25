@@ -1,5 +1,6 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 import papersign from "../../papersign.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "papersign-send-document",
@@ -18,7 +19,7 @@ export default {
     expiration: {
       type: "string",
       label: "Expiration",
-      description: "The expiration date of the document. Must be at least 30 minutes in the future.",
+      description: "The expiration date of the document. Must be at least 30 minutes in the future. **Format: YYYY-MM-DDTHH:MM:SS.SSSZ**",
       optional: true,
     },
     inviteMessage: {
@@ -39,22 +40,28 @@ export default {
       description: "An array of recipient emails for the document.",
       optional: true,
     },
-    automaticReminders: {
-      type: "object",
-      label: "Automatic Reminders",
-      description: "An object for setting automatic reminders.",
+    firstAfterDays: {
+      type: "integer",
+      label: "Automatic Reminder - First After Days",
+      description: "The number of days after the document is sent to send the reminder.",
+      optional: true,
+    },
+    followUpEveryDays: {
+      type: "integer",
+      label: "Automatic Reminder - Follow Up Every Days",
+      description: "The number of days to wait between reminders.",
       optional: true,
     },
     signers: {
       type: "string[]",
       label: "Signers",
-      description: "An array of signer objects.",
+      description: "An array of objects of signers. **Object format: {\"key\": \"123\",\"name\": \"Jack Smith\",\"email\": \"signer@example.com\",\"phone\": \"123 456 7899\",\"job_title\": \"Account Manager\",\"company\": \"Explosive Startup\",\"custom_attributes\": [{\"key\": \"Relationship\",\"label\": \"Relationship to the company\",\"value\": \"CEO\"}]}**",
       optional: true,
     },
     variables: {
-      type: "string[]",
+      type: "object",
       label: "Variables",
-      description: "An array of variable objects.",
+      description: "The key: value of the document variables.",
       optional: true,
     },
     copy: {
@@ -65,16 +72,42 @@ export default {
     },
   },
   async run({ $ }) {
+    if (
+      (this.firstAfterDays && !this.followUpEveryDays) ||
+      (!this.firstAfterDays && this.followUpEveryDays)
+    ) {
+      throw new ConfigurationError("You must fill in the fields 'First After Days' and 'Follow Up Every Days' or none of them");
+    }
+
+    const automaticReminders = {};
+    if (this.firstAfterDays) {
+      automaticReminders.first_after_days = this.firstAfterDays;
+      automaticReminders.follow_up_every_days = this.followUpEveryDays;
+    }
+
+    const variables = [];
+    if (this.variables) {
+      for (const key of Object.keys(parseObject(this.variables))) {
+        variables.push({
+          key,
+          value: this.variables[key],
+        });
+      }
+    }
+
     const response = await this.papersign.sendDocument({
+      $,
       documentId: this.documentId,
-      expiration: this.expiration,
-      inviteMessage: this.inviteMessage,
-      fromUserEmail: this.fromUserEmail,
-      documentRecipientEmails: this.documentRecipientEmails,
-      automaticReminders: this.automaticReminders,
-      signers: this.signers,
-      variables: this.variables,
-      copy: this.copy,
+      data: {
+        expiration: this.expiration,
+        inviteMessage: this.inviteMessage,
+        fromUserEmail: this.fromUserEmail,
+        documentRecipientEmails: parseObject(this.documentRecipientEmails),
+        automaticReminders,
+        signers: parseObject(this.signers),
+        variables,
+        copy: this.copy,
+      },
     });
     $.export("$summary", `Document sent successfully with ID ${this.documentId}`);
     return response;
