@@ -11899,10 +11899,12 @@ importers:
 
   packages/evals/component_retrieval:
     specifiers:
+      commander: ^12.1.0
       dotenv: ^16.4.5
       json-2-csv: ^5.5.6
       json-diff: ^1.0.6
     dependencies:
+      commander: 12.1.0
       dotenv: 16.4.5
       json-2-csv: 5.5.6
       json-diff: 1.0.6
@@ -23569,6 +23571,11 @@ packages:
   /commander/11.0.0:
     resolution: {integrity: sha512-9HMlXtt/BNoYr8ooyjjNRdIilOTkVJXB+GhxMTtOKwk0R4j4lS4NpjuqmRxroBfnfTSHQIHQB7wryHhXarNjmQ==}
     engines: {node: '>=16'}
+    dev: false
+
+  /commander/12.1.0:
+    resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
+    engines: {node: '>=18'}
     dev: false
 
   /commander/2.20.3:
