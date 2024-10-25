@@ -5099,6 +5099,9 @@ importers:
       form-data: 4.0.0
       mime: 4.0.4
 
+  components/jina_reader:
+    specifiers: {}
+
   components/jira:
     specifiers:
       '@pipedream/platform': ^3.0.1
