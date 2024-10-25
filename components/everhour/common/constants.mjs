@@ -6,7 +6,7 @@ export const STATUS_OPTIONS = [
     value: "open",
   },
   {
-    label: "Close",
-    value: "close",
+    label: "Closed",
+    value: "closed",
   },
 ];
