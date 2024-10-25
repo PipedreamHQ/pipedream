@@ -51,7 +51,7 @@ export default {
       this._setHookId(webhook.id);
     },
     async deactivate() {
-      const webhookId = this._getHookId("webhookId");
+      const webhookId = this._getHookId();
       await this.papersign.deleteWebhook(webhookId);
     },
   },
