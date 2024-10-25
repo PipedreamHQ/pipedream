@@ -2,153 +2,103 @@
   "evaluationTests": [
     {
       "query": "When a lead is created in Salesforce, create a task in Asana and send a message in Slack",
-      "triggers": [
-        "salesforce_rest_api-new-record-instant"
-      ],
-      "actions": [
-        "asana-create-task",
-        "slack-send-message"
-      ],
+      "sources": ["salesforce_rest_api-new-record-instant"],
+      "actions": ["asana-create-task", "slack-send-message"],
       "persona": "complex-workflow"
     },
     {
       "query": "add new hubspot contacts to mailchimp",
-      "triggers": [
-        "hubspot-new-contact"
-      ],
-      "actions": [
-        "mailchimp-add-or-update-subscriber"
-      ],
+      "sources": ["hubspot-new-contact"],
+      "actions": ["mailchimp-add-or-update-subscriber"],
       "persona": "succinct"
     },
     {
       "query": "how do I get a phone number",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "when new emails arrive in Gmail, use OpenAI to summarize them and post to Slack",
-      "triggers": [
-        "gmail-new-email-received"
-      ],
-      "actions": [
-        "openai-chat",
-        "slack-send-message"
-      ],
+      "sources": ["gmail-new-email-received"],
+      "actions": ["openai-chat", "slack-send-message"],
       "persona": "complex-workflow"
     },
     {
       "query": "watch airtable for new records",
-      "triggers": [
-        "airtable_oauth-new-records"
-      ],
+      "sources": ["airtable_oauth-new-records"],
       "actions": [],
       "persona": "succinct"
     },
     {
       "query": "create jira ticket",
-      "triggers": [],
-      "actions": [
-        "jira-create-issue"
-      ],
+      "sources": [],
+      "actions": ["jira-create-issue"],
       "persona": "succinct"
     },
     {
       "query": "When new Zendesk tickets arrive, analyze sentiment with OpenAI and prioritize in Linear",
-      "triggers": [
-        "zendesk-new-ticket"
-      ],
-      "actions": [
-        "openai-chat",
-        "linear-create-issue"
-      ],
+      "sources": ["zendesk-new-ticket"],
+      "actions": ["openai-chat", "linear-create-issue"],
       "persona": "complex-workflow"
     },
     {
       "query": "how to make database connection",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "When someone mentions our company on Twitter, create a Zendesk ticket",
-      "triggers": [
-        "twitter-new-mention-received-by-user"
-      ],
-      "actions": [
-        "zendesk-create-ticket"
-      ],
+      "sources": ["twitter-new-mention-received-by-user"],
+      "actions": ["zendesk-create-ticket"],
       "persona": "complex-workflow"
     },
     {
       "query": "use gpt to answer intercom messages",
-      "triggers": [
-        "intercom-new-conversation"
-      ],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": ["intercom-new-conversation"],
+      "actions": ["openai-chat"],
       "persona": "task-oriented"
     },
     {
       "query": "I would like to automatically add my Calendly meetings to Google Calendar",
-      "triggers": [
-        "calendly_v2-new-event-scheduled"
-      ],
-      "actions": [
-        "google_calendar-create-event"
-      ],
+      "sources": ["calendly_v2-new-event-scheduled"],
+      "actions": ["google_calendar-create-event"],
       "persona": "verbose"
     },
     {
       "query": "noshan page updated",
-      "triggers": [
-        "notion-updated-page"
-      ],
+      "sources": ["notion-updated-page"],
       "actions": [],
       "persona": "sloppy"
     },
     {
       "query": "create new linear issue",
-      "triggers": [],
-      "actions": [
-        "linear-create-issue"
-      ],
+      "sources": [],
+      "actions": ["linear-create-issue"],
       "persona": "succinct"
     },
     {
       "query": "When a customer submits a response in Typeform, send it through GPT for analysis and create a Notion page",
-      "triggers": [
-        "typeform-new-submission"
-      ],
-      "actions": [
-        "openai-chat",
-        "notion-create-page-from-database"
-      ],
+      "sources": ["typeform-new-submission"],
+      "actions": ["openai-chat", "notion-create-page-from-database"],
       "persona": "complex-workflow"
     },
     {
       "query": "new row in googel sheet",
-      "triggers": [
-        "google_sheets-new-row-added"
-      ],
+      "sources": ["google_sheets-new-row-added"],
       "actions": [],
       "persona": "sloppy"
     },
     {
       "query": "create task in monday",
-      "triggers": [],
-      "actions": [
-        "monday-create-item"
-      ],
+      "sources": [],
+      "actions": ["monday-create-item"],
       "persona": "succinct"
     },
     {
       "query": "When a new deal is created in HubSpot, transcribe the discovery call with OpenAI and update the contact",
-      "triggers": [
-        "hubspot-new-deal"
-      ],
+      "sources": ["hubspot-new-deal"],
       "actions": [
         "openai-create-transcription",
         "hubspot-create-or-update-contact"
@@ -157,309 +107,217 @@
     },
     {
       "query": "what is the weather today",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "send gong recordings to slack",
-      "triggers": [
-        "gong-new-call"
-      ],
-      "actions": [
-        "slack-send-message"
-      ],
+      "sources": ["gong-new-call"],
+      "actions": ["slack-send-message"],
       "persona": "task-oriented"
     },
     {
       "query": "When a new customer is added in Stripe, create their account in Notion",
-      "triggers": [
-        "stripe-new-customer"
-      ],
-      "actions": [
-        "notion-create-page-from-database"
-      ],
+      "sources": ["stripe-new-customer"],
+      "actions": ["notion-create-page-from-database"],
       "persona": "complex-workflow"
     },
     {
       "query": "update asana task status",
-      "triggers": [],
-      "actions": [
-        "asana-update-task"
-      ],
+      "sources": [],
+      "actions": ["asana-update-task"],
       "persona": "succinct"
     },
     {
       "query": "When Sentry reports an error, create an issue in Linear",
-      "triggers": [
-        "sentry-issue-event"
-      ],
-      "actions": [
-        "linear-create-issue"
-      ],
+      "sources": ["sentry-issue-event"],
+      "actions": ["linear-create-issue"],
       "persona": "verbose"
     },
     {
       "query": "convert file to pdf",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "When a form is submitted on Webflow, create contact in HubSpot",
-      "triggers": [
-        "webflow-new-form-submission"
-      ],
-      "actions": [
-        "hubspot-create-or-update-contact"
-      ],
+      "sources": ["webflow-new-form-submission"],
+      "actions": ["hubspot-create-or-update-contact"],
       "persona": "complex-workflow"
     },
     {
       "query": "watch 4 new stripe payments",
-      "triggers": [
-        "stripe-new-payment"
-      ],
+      "sources": ["stripe-new-payment"],
       "actions": [],
       "persona": "sloppy"
     },
     {
       "query": "When support tickets come in after hours, use GPT to draft a response and send it through Gmail",
-      "triggers": [
-        "zendesk-new-ticket"
-      ],
-      "actions": [
-        "openai-chat",
-        "gmail-send-email"
-      ],
+      "sources": ["zendesk-new-ticket"],
+      "actions": ["openai-chat", "gmail-send-email"],
       "persona": "complex-workflow"
     },
     {
       "query": "When customer feedback arrives in Delighted, analyze sentiment with AI and update Salesforce",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "salesforce_rest_api-update-contact"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "salesforce_rest_api-update-contact"],
       "persona": "complex-workflow"
     },
     {
       "query": "upload file to dropbox",
-      "triggers": [],
-      "actions": [
-        "dropbox-upload-file"
-      ],
+      "sources": [],
+      "actions": ["dropbox-upload-file"],
       "persona": "succinct"
     },
     {
       "query": "I need new Linear issues to be automatically added to our Notion database",
-      "triggers": [
-        "linear-issue-created-instant"
-      ],
-      "actions": [
-        "notion-create-page-from-database"
-      ],
+      "sources": ["linear-issue-created-instant"],
+      "actions": ["notion-create-page-from-database"],
       "persona": "verbose"
     },
     {
       "query": "why is my code not working",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "When an opportunity changes in Salesforce, update the record in HubSpot",
-      "triggers": [],
-      "actions": [
-        "hubspot-create-or-update-contact"
-      ],
+      "sources": [],
+      "actions": ["hubspot-create-or-update-contact"],
       "persona": "complex-workflow"
     },
     {
       "query": "create new document in Google Docs",
-      "triggers": [],
-      "actions": [
-        "google_docs-create-document"
-      ],
+      "sources": [],
+      "actions": ["google_docs-create-document"],
       "persona": "succinct"
     },
     {
       "query": "update zendesk ticket",
-      "triggers": [],
-      "actions": [
-        "zendesk-update-ticket"
-      ],
+      "sources": [],
+      "actions": ["zendesk-update-ticket"],
       "persona": "succinct"
     },
     {
       "query": "analyze customer support tickets with GPT",
-      "triggers": [],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": [],
+      "actions": ["openai-chat"],
       "persona": "task-oriented"
     },
     {
       "query": "When a deal closes in Pipedrive, generate an invoice in QuickBooks",
-      "triggers": [
-        "pipedrive-updated-deal"
-      ],
-      "actions": [
-        "quickbooks-create-invoice"
-      ],
+      "sources": ["pipedrive-updated-deal"],
+      "actions": ["quickbooks-create-invoice"],
       "persona": "complex-workflow"
     },
     {
       "query": "add contact to salesforce",
-      "triggers": [],
-      "actions": [
-        "salesforce_rest_api-create-contact"
-      ],
+      "sources": [],
+      "actions": ["salesforce_rest_api-create-contact"],
       "persona": "succinct"
     },
     {
       "query": "When a customer replies to our survey, use AI to analyze it and update their profile in HubSpot",
-      "triggers": [
-        "survey_monkey-new-survey-response"
-      ],
-      "actions": [
-        "openai-chat",
-        "hubspot-create-or-update-contact"
-      ],
+      "sources": ["survey_monkey-new-survey-response"],
+      "actions": ["openai-chat", "hubspot-create-or-update-contact"],
       "persona": "complex-workflow"
     },
     {
       "query": "cant find my data",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "send Linear issues to Slack",
-      "triggers": [
-        "linear-issue-created-instant"
-      ],
-      "actions": [
-        "slack-send-message"
-      ],
+      "sources": ["linear-issue-created-instant"],
+      "actions": ["slack-send-message"],
       "persona": "verbose"
     },
     {
       "query": "create new noshun page",
-      "triggers": [],
-      "actions": [
-        "notion-create-page"
-      ],
+      "sources": [],
+      "actions": ["notion-create-page"],
       "persona": "sloppy"
     },
     {
       "query": "When a customer signs up, add them to Mailchimp",
-      "triggers": [],
-      "actions": [
-        "mailchimp-add-or-update-subscriber"
-      ],
+      "sources": [],
+      "actions": ["mailchimp-add-or-update-subscriber"],
       "persona": "task-oriented"
     },
     {
       "query": "create basecamp project",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "succinct"
     },
     {
       "query": "translate new Notion pages with GPT",
-      "triggers": [
-        "notion-new-page"
-      ],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": ["notion-new-page"],
+      "actions": ["openai-chat"],
       "persona": "task-oriented"
     },
     {
       "query": "When a critical error occurs in Sentry, create PagerDuty incident",
-      "triggers": [
-        "sentry-issue-event"
-      ],
-      "actions": [
-        "pagerduty-trigger-incident"
-      ],
+      "sources": ["sentry-issue-event"],
+      "actions": ["pagerduty-trigger-incident"],
       "persona": "complex-workflow"
     },
     {
       "query": "add row 2 spreadsheet",
-      "triggers": [],
-      "actions": [
-        "google_sheets-add-single-row"
-      ],
+      "sources": [],
+      "actions": ["google_sheets-add-single-row"],
       "persona": "sloppy"
     },
     {
       "query": "I would like to be notified in Slack when new issues are created in Linear",
-      "triggers": [
-        "linear-issue-created-instant"
-      ],
-      "actions": [
-        "slack-send-message"
-      ],
+      "sources": ["linear-issue-created-instant"],
+      "actions": ["slack-send-message"],
       "persona": "verbose"
     },
     {
       "query": "create task in asna",
-      "triggers": [],
-      "actions": [
-        "asana-create-task"
-      ],
+      "sources": [],
+      "actions": ["asana-create-task"],
       "persona": "sloppy"
     },
     {
       "query": "When a large transaction occurs in Stripe, notify me in Slack",
-      "triggers": [
-        "stripe-new-payment"
-      ],
-      "actions": [
-        "slack-send-message"
-      ],
+      "sources": ["stripe-new-payment"],
+      "actions": ["slack-send-message"],
       "persona": "task-oriented"
     },
     {
       "query": "post message in discord",
-      "triggers": [],
-      "actions": [
-        "discord-send-message"
-      ],
+      "sources": [],
+      "actions": ["discord-send-message"],
       "persona": "succinct"
     },
     {
       "query": "When someone fills out our Typeform, use GPT to qualify the lead and add to HubSpot",
-      "triggers": [
-        "typeform-new-submission"
-      ],
-      "actions": [
-        "openai-chat",
-        "hubspot-create-or-update-contact"
-      ],
+      "sources": ["typeform-new-submission"],
+      "actions": ["openai-chat", "hubspot-create-or-update-contact"],
       "persona": "complex-workflow"
     },
     {
       "query": "how to center text",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "create new page in Confluence",
-      "triggers": [],
-      "actions": [
-        "onenote-create-page"
-      ],
+      "sources": [],
+      "actions": ["onenote-create-page"],
       "persona": "succinct"
     },
     {
       "query": "When a meeting ends in Zoom, transcribe it with OpenAI and save to Notion",
-      "triggers": [
-        "zoom-meeting-ended"
-      ],
+      "sources": ["zoom-meeting-ended"],
       "actions": [
         "openai-create-transcription",
         "notion-create-page-from-database"
@@ -468,43 +326,31 @@
     },
     {
       "query": "update clickup task",
-      "triggers": [],
-      "actions": [
-        "clickup-update-task"
-      ],
+      "sources": [],
+      "actions": ["clickup-update-task"],
       "persona": "succinct"
     },
     {
       "query": "I need all my Gmail attachments to be analyzed by GPT",
-      "triggers": [
-        "gmail-new-email"
-      ],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": ["gmail-new-email"],
+      "actions": ["openai-chat"],
       "persona": "verbose"
     },
     {
       "query": "create quickboks invoice",
-      "triggers": [],
-      "actions": [
-        "quickbooks-create-invoice"
-      ],
+      "sources": [],
+      "actions": ["quickbooks-create-invoice"],
       "persona": "sloppy"
     },
     {
       "query": "When a deal updates in Close.com, sync it to HubSpot",
-      "triggers": [],
-      "actions": [
-        "hubspot-create-or-update-contact"
-      ],
+      "sources": [],
+      "actions": ["hubspot-create-or-update-contact"],
       "persona": "task-oriented"
     },
     {
       "query": "When a sales call is recorded in Gong, transcribe with OpenAI and update the deal in Salesforce",
-      "triggers": [
-        "gong-new-call"
-      ],
+      "sources": ["gong-new-call"],
       "actions": [
         "openai-create-transcription",
         "salesforce_rest_api-update-opportunity"
@@ -513,192 +359,139 @@
     },
     {
       "query": "generate email content with GPT",
-      "triggers": [],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": [],
+      "actions": ["openai-chat"],
       "persona": "succinct"
     },
     {
       "query": "I would like all new Airtable records to be enriched using OpenAI",
-      "triggers": [
-        "airtable_oauth-new-records"
-      ],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": ["airtable_oauth-new-records"],
+      "actions": ["openai-chat"],
       "persona": "verbose"
     },
     {
       "query": "make chatgpt write emails",
-      "triggers": [],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": [],
+      "actions": ["openai-chat"],
       "persona": "sloppy"
     },
     {
       "query": "When customers respond in Help Scout, analyze sentiment with GPT and update their status in HubSpot",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "hubspot-create-or-update-contact"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "hubspot-create-or-update-contact"],
       "persona": "complex-workflow"
     },
     {
       "query": "sync my google drive",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "create new event in google calendar",
-      "triggers": [],
-      "actions": [
-        "google_calendar-create-event"
-      ],
+      "sources": [],
+      "actions": ["google_calendar-create-event"],
       "persona": "succinct"
     },
     {
       "query": "When a customer's subscription changes in Chargebee, update their record in Salesforce",
-      "triggers": [],
-      "actions": [
-        "salesforce_rest_api-update-contact"
-      ],
+      "sources": [],
+      "actions": ["salesforce_rest_api-update-contact"],
       "persona": "complex-workflow"
     },
     {
       "query": "post 2 twiter",
-      "triggers": [],
-      "actions": [
-        "twitter-create-tweet"
-      ],
+      "sources": [],
+      "actions": ["twitter-create-tweet"],
       "persona": "sloppy"
     },
     {
       "query": "I need all Salesforce opportunities to be automatically added to our Monday.com board",
-      "triggers": [
-        "salesforce_rest_api-new-record-instant"
-      ],
-      "actions": [
-        "monday-create-item"
-      ],
+      "sources": ["salesforce_rest_api-new-record-instant"],
+      "actions": ["monday-create-item"],
       "persona": "verbose"
     },
     {
       "query": "When new issues are created in GitHub, use GPT to analyze severity and create PagerDuty incidents",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "pagerduty-trigger-incident"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "pagerduty-trigger-incident"],
       "persona": "complex-workflow"
     },
     {
       "query": "make new asana project",
-      "triggers": [],
-      "actions": [
-        "asana-create-project"
-      ],
+      "sources": [],
+      "actions": ["asana-create-project"],
       "persona": "succinct"
     },
     {
       "query": "When customer reviews come in through Trustpilot, analyze them with AI and notify in Slack",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "slack-send-message"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "slack-send-message"],
       "persona": "complex-workflow"
     },
     {
       "query": "upload files to dropbox",
-      "triggers": [],
-      "actions": [
-        "dropbox-upload-file"
-      ],
+      "sources": [],
+      "actions": ["dropbox-upload-file"],
       "persona": "succinct"
     },
     {
       "query": "where is my data stored",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "send mailchmp campaign",
-      "triggers": [],
-      "actions": [
-        "mailchimp-create-campaign"
-      ],
+      "sources": [],
+      "actions": ["mailchimp-create-campaign"],
       "persona": "sloppy"
     },
     {
       "query": "I want new Shopify orders to be automatically processed in NetSuite",
-      "triggers": [
-        "shopify_developer_app-new-order-created"
-      ],
+      "sources": ["shopify_developer_app-new-order-created"],
       "actions": [],
       "persona": "verbose"
     },
     {
       "query": "When a document is uploaded to Google Drive, use GPT to summarize it and post in Slack",
-      "triggers": [
-        "google_drive-new-files-instant"
-      ],
-      "actions": [
-        "openai-chat",
-        "slack-send-message"
-      ],
+      "sources": ["google_drive-new-files-instant"],
+      "actions": ["openai-chat", "slack-send-message"],
       "persona": "complex-workflow"
     },
     {
       "query": "create linear ticket",
-      "triggers": [],
-      "actions": [
-        "linear-create-issue"
-      ],
+      "sources": [],
+      "actions": ["linear-create-issue"],
       "persona": "succinct"
     },
     {
       "query": "When a user submits feedback in Canny, analyze it with AI and create tasks in ClickUp",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "clickup-create-task"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "clickup-create-task"],
       "persona": "complex-workflow"
     },
     {
       "query": "send invoice via xero",
-      "triggers": [],
-      "actions": [
-        "xero_accounting_api-email-an-invoice"
-      ],
+      "sources": [],
+      "actions": ["xero_accounting_api-email-an-invoice"],
       "persona": "task-oriented"
     },
     {
       "query": "hubspt deal updated",
-      "triggers": [
-        "hubspot-deal-updated"
-      ],
+      "sources": ["hubspot-deal-updated"],
       "actions": [],
       "persona": "sloppy"
     },
     {
       "query": "I would like to automatically generate reports when new data appears in Amplitude",
-      "triggers": [],
-      "actions": [
-        "google_sheets-add-single-row"
-      ],
+      "sources": [],
+      "actions": ["google_sheets-add-single-row"],
       "persona": "verbose"
     },
     {
       "query": "When a new video is uploaded to Vimeo, transcribe it with OpenAI and create a Notion page",
-      "triggers": [
-        "vimeo-new-video-of-mine"
-      ],
+      "sources": ["vimeo-new-video-of-mine"],
       "actions": [
         "openai-create-transcription",
         "notion-create-page-from-database"
@@ -707,170 +500,122 @@
     },
     {
       "query": "analyze text with gpt",
-      "triggers": [],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": [],
+      "actions": ["openai-chat"],
       "persona": "succinct"
     },
     {
       "query": "When a trial user signs up in Stripe, add them to HubSpot and start onboarding sequence in Customer.io",
-      "triggers": [
-        "stripe-new-customer"
-      ],
-      "actions": [
-        "hubspot-create-or-update-contact"
-      ],
+      "sources": ["stripe-new-customer"],
+      "actions": ["hubspot-create-or-update-contact"],
       "persona": "complex-workflow"
     },
     {
       "query": "create new folder in gdrive",
-      "triggers": [],
-      "actions": [
-        "google_drive-create-folder"
-      ],
+      "sources": [],
+      "actions": ["google_drive-create-folder"],
       "persona": "succinct"
     },
     {
       "query": "update record in airetable",
-      "triggers": [],
-      "actions": [
-        "airtable_oauth-update-record"
-      ],
+      "sources": [],
+      "actions": ["airtable_oauth-update-record"],
       "persona": "sloppy"
     },
     {
       "query": "help me configure postgres",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "When an event starts in Google Calendar, send a message in Telegram",
-      "triggers": [
-        "google_calendar-upcoming-event-alert"
-      ],
-      "actions": [
-        "telegram_bot_api-send-text-message-or-reply"
-      ],
+      "sources": ["google_calendar-upcoming-event-alert"],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
       "persona": "complex-workflow"
     },
     {
       "query": "create task in todoist",
-      "triggers": [],
-      "actions": [
-        "todoist-create-task"
-      ],
+      "sources": [],
+      "actions": ["todoist-create-task"],
       "persona": "succinct"
     },
     {
       "query": "I want to automatically catalog all my Loom videos in Notion",
-      "triggers": [],
-      "actions": [
-        "notion-create-page-from-database"
-      ],
+      "sources": [],
+      "actions": ["notion-create-page-from-database"],
       "persona": "verbose"
     },
     {
       "query": "When a form is submitted in Reform, analyze responses with GPT and update Airtable",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "airtable_oauth-update-record"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "airtable_oauth-update-record"],
       "persona": "complex-workflow"
     },
     {
       "query": "make new trello board",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "succinct"
     },
     {
       "query": "sync contacts between platforms",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "When a product is updated in Productboard, notify stakeholders in Slack",
-      "triggers": [
-        "productboard-new-feature"
-      ],
-      "actions": [
-        "slack-send-message"
-      ],
+      "sources": ["productboard-new-feature"],
+      "actions": ["slack-send-message"],
       "persona": "task-oriented"
     },
     {
       "query": "genrate presentation with ai",
-      "triggers": [],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": [],
+      "actions": ["openai-chat"],
       "persona": "sloppy"
     },
     {
       "query": "I need all customer conversations from Front to be analyzed by GPT",
-      "triggers": [
-        "frontapp-new-conversation-state-change"
-      ],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": ["frontapp-new-conversation-state-change"],
+      "actions": ["openai-chat"],
       "persona": "verbose"
     },
     {
       "query": "When someone stars our GitHub repo, send a thank you email with GPT",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "gmail-send-email"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "gmail-send-email"],
       "persona": "complex-workflow"
     },
     {
       "query": "create new card trelo",
-      "triggers": [],
-      "actions": [
-        "trello-create-card"
-      ],
+      "sources": [],
+      "actions": ["trello-create-card"],
       "persona": "sloppy"
     },
     {
       "query": "track time in toggl",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "succinct"
     },
     {
       "query": "I would like to be notified in Slack when new videos are posted to YouTube",
-      "triggers": [
-        "youtube_data_api-new-videos-in-channel"
-      ],
-      "actions": [
-        "slack-send-message"
-      ],
+      "sources": ["youtube_data_api-new-videos-in-channel"],
+      "actions": ["slack-send-message"],
       "persona": "verbose"
     },
     {
       "query": "When a customer reaches a usage threshold in Stripe, notify the success team in Slack",
-      "triggers": [
-        "stripe-subscription-updated"
-      ],
-      "actions": [
-        "slack-send-message"
-      ],
+      "sources": ["stripe-subscription-updated"],
+      "actions": ["slack-send-message"],
       "persona": "task-oriented"
     },
     {
       "query": "forward emails to telegram",
-      "triggers": [
-        "gmail-new-email"
-      ],
-      "actions": [
-        "telegram_bot_api-send-text-message-or-reply"
-      ],
+      "sources": ["gmail-new-email"],
+      "actions": ["telegram_bot_api-send-text-message-or-reply"],
       "persona": "task-oriented"
     }
   ]

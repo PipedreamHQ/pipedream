@@ -4,6 +4,7 @@
   "description": "Eval for Pipedream AI component retrieval API",
   "main": "evaluator.mjs",
   "dependencies": {
+    "commander": "^12.1.0",
     "dotenv": "^16.4.5",
     "json-2-csv": "^5.5.6",
     "json-diff": "^1.0.6"

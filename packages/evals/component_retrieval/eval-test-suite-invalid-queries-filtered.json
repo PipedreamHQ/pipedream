@@ -2,307 +2,307 @@
   "evaluationTests": [
     {
       "query": "sync my data between systems",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "send notifications when something important happens",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "create a daily report",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "automate my sales process",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "connect my database",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "help me with customer support",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "track user activity",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "move files automatically",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "update my calendar",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "make my workflow more efficient",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "integrate with my existing tools",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "analyze my customer feedback",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "automate document creation",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "send reminders to my team",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "track project progress",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "monitor system performance",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "backup my important files",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "generate custom reports",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "create new users",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "manage my contacts",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "update status automatically",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "help me with social media",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "organize my documents",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "sync my calendars",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "manage my team better",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "automate invoice processing",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "track employee time",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "monitor website changes",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "schedule my posts",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "manage my inventory",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "sync my contact lists",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "automate email responses",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "create task assignments",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "track project deadlines",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "manage my subscriptions",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "update my database",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "automate customer onboarding",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "sync team communications",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "manage project resources",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "track sales performance",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "automate data entry",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "generate reports weekly",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "manage my workflows",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "integrate payment processing",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "automate file transfers",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "sync my documents",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "manage customer relationships",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "track employee performance",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "automate marketing campaigns",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "manage my leads",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     },
     {
       "query": "sync my apps",
-      "triggers": [],
+      "sources": [],
       "actions": [],
       "persona": "invalid-query"
     }

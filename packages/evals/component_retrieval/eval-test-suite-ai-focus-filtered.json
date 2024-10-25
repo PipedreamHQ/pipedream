@@ -2,20 +2,13 @@
   "evaluationTests": [
     {
       "query": "When new support tickets come in through Zendesk, analyze sentiment with GPT and prioritize in Linear based on urgency",
-      "triggers": [
-        "zendesk-new-ticket"
-      ],
-      "actions": [
-        "openai-chat",
-        "linear-create-issue"
-      ],
+      "sources": ["zendesk-new-ticket"],
+      "actions": ["openai-chat", "linear-create-issue"],
       "persona": "complex-workflow"
     },
     {
       "query": "I need sales calls recorded in Gong to be transcribed and summarized for the team in Slack",
-      "triggers": [
-        "gong-new-call"
-      ],
+      "sources": ["gong-new-call"],
       "actions": [
         "openai-create-transcription",
         "openai-chat",
@@ -25,51 +18,31 @@
     },
     {
       "query": "When leads submit Typeform responses, use GPT to qualify them and update their status in HubSpot",
-      "triggers": [
-        "typeform-new-submission"
-      ],
-      "actions": [
-        "openai-chat",
-        "hubspot-create-or-update-contact"
-      ],
+      "sources": ["typeform-new-submission"],
+      "actions": ["openai-chat", "hubspot-create-or-update-contact"],
       "persona": "complex-workflow"
     },
     {
       "query": "Get help from AI to classify and organize our Notion knowledge base",
-      "triggers": [
-        "notion-new-page"
-      ],
-      "actions": [
-        "openai-chat",
-        "notion-create-page-from-database"
-      ],
+      "sources": ["notion-new-page"],
+      "actions": ["openai-chat", "notion-create-page-from-database"],
       "persona": "task-oriented"
     },
     {
       "query": "When customers message us on Intercom, analyze intent with GPT before creating tickets",
-      "triggers": [
-        "intercom-new-conversation"
-      ],
-      "actions": [
-        "openai-chat",
-        "linear-create-issue"
-      ],
+      "sources": ["intercom-new-conversation"],
+      "actions": ["openai-chat", "linear-create-issue"],
       "persona": "complex-workflow"
     },
     {
       "query": "Analyze customer feedback from Delighted with AI and update account health in Salesforce",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "salesforce_rest_api-update-contact"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "salesforce_rest_api-update-contact"],
       "persona": "task-oriented"
     },
     {
       "query": "When new videos are uploaded to Zoom, I want them transcribed and summarized for the team",
-      "triggers": [
-        "zoom-recording-completed"
-      ],
+      "sources": ["zoom-recording-completed"],
       "actions": [
         "openai-create-transcription",
         "openai-chat",
@@ -79,135 +52,80 @@
     },
     {
       "query": "Use AI to analyze Github issues and suggest priority levels in Linear",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "linear-create-issue"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "linear-create-issue"],
       "persona": "task-oriented"
     },
     {
       "query": "When documents are uploaded to Google Drive, use GPT to generate summaries in Notion",
-      "triggers": [
-        "google_drive-new-files-instant"
-      ],
-      "actions": [
-        "openai-chat",
-        "notion-create-page-from-database"
-      ],
+      "sources": ["google_drive-new-files-instant"],
+      "actions": ["openai-chat", "notion-create-page-from-database"],
       "persona": "complex-workflow"
     },
     {
       "query": "Analyze customer churn risk based on Intercom conversations using GPT",
-      "triggers": [
-        "intercom-new-conversation"
-      ],
-      "actions": [
-        "openai-chat",
-        "hubspot-create-or-update-contact"
-      ],
+      "sources": ["intercom-new-conversation"],
+      "actions": ["openai-chat", "hubspot-create-or-update-contact"],
       "persona": "task-oriented"
     },
     {
       "query": "When new RSS articles mention our company, use AI to analyze sentiment and alert team",
-      "triggers": [
-        "rss-new-item-in-feed"
-      ],
-      "actions": [
-        "openai-chat",
-        "slack-send-message"
-      ],
+      "sources": ["rss-new-item-in-feed"],
+      "actions": ["openai-chat", "slack-send-message"],
       "persona": "complex-workflow"
     },
     {
       "query": "I need GPT to help categorize incoming feature requests from Canny into our product roadmap",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "notion-create-page-from-database"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "notion-create-page-from-database"],
       "persona": "verbose"
     },
     {
       "query": "When customers respond to our Typeform survey, analyze trends with AI and update dashboards",
-      "triggers": [
-        "typeform-new-submission"
-      ],
-      "actions": [
-        "openai-chat",
-        "google_sheets-add-single-row"
-      ],
+      "sources": ["typeform-new-submission"],
+      "actions": ["openai-chat", "google_sheets-add-single-row"],
       "persona": "complex-workflow"
     },
     {
       "query": "Use GPT to analyze Calendly meeting notes and create action items in Asana",
-      "triggers": [
-        "calendly_v2-new-event-scheduled"
-      ],
-      "actions": [
-        "openai-chat",
-        "asana-create-task"
-      ],
+      "sources": ["calendly_v2-new-event-scheduled"],
+      "actions": ["openai-chat", "asana-create-task"],
       "persona": "task-oriented"
     },
     {
       "query": "When support team sends emails in Gmail, let AI check tone and suggest improvements",
-      "triggers": [
-        "gmail-new-email"
-      ],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": ["gmail-new-email"],
+      "actions": ["openai-chat"],
       "persona": "complex-workflow"
     },
     {
       "query": "I need customer conversations from Help Scout to be analyzed for product feedback",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "notion-create-page-from-database"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "notion-create-page-from-database"],
       "persona": "verbose"
     },
     {
       "query": "When new comments appear on our YouTube videos, use AI to moderate and flag issues",
-      "triggers": [
-        "youtube_data_api-new-comment-posted"
-      ],
-      "actions": [
-        "openai-chat",
-        "slack-send-message"
-      ],
+      "sources": ["youtube_data_api-new-comment-posted"],
+      "actions": ["openai-chat", "slack-send-message"],
       "persona": "complex-workflow"
     },
     {
       "query": "Use GPT to analyze Twitter mentions and create support tickets when needed",
-      "triggers": [
-        "twitter-new-mention-received-by-user"
-      ],
-      "actions": [
-        "openai-chat",
-        "linear-create-issue"
-      ],
+      "sources": ["twitter-new-mention-received-by-user"],
+      "actions": ["openai-chat", "linear-create-issue"],
       "persona": "task-oriented"
     },
     {
       "query": "When deals close in Salesforce, use AI to generate personalized onboarding docs",
-      "triggers": [],
-      "actions": [
-        "openai-chat",
-        "google_docs-create-document"
-      ],
+      "sources": [],
+      "actions": ["openai-chat", "google_docs-create-document"],
       "persona": "complex-workflow"
     },
     {
       "query": "I want GPT to help write better commit messages for our Github repos",
-      "triggers": [
-        "github-new-commit"
-      ],
-      "actions": [
-        "openai-chat"
-      ],
+      "sources": ["github-new-commit"],
+      "actions": ["openai-chat"],
       "persona": "verbose"
     }
   ]

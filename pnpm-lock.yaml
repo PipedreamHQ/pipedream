@@ -11900,9 +11900,11 @@ importers:
   packages/evals/component_retrieval:
     specifiers:
       dotenv: ^16.4.5
+      json-2-csv: ^5.5.6
       json-diff: ^1.0.6
     dependencies:
       dotenv: 16.4.5
+      json-2-csv: 5.5.6
       json-diff: 1.0.6
 
   packages/prompts:
@@ -24232,6 +24234,11 @@ packages:
     engines: {node: '>= 12'}
     dev: false
 
+  /deeks/3.1.0:
+    resolution: {integrity: sha512-e7oWH1LzIdv/prMQ7pmlDlaVoL64glqzvNgkgQNgyec9ORPHrT2jaOqMtRyqJuwWjtfb6v+2rk9pmaHj+F137A==}
+    engines: {node: '>= 16'}
+    dev: false
+
   /deep-assign/3.0.0:
     resolution: {integrity: sha512-YX2i9XjJ7h5q/aQ/IM9PEwEnDqETAIYbggmdDB3HLTlSgo1CxPsj6pvhPG68rq6SVE0+p+6Ywsm5fTYNrYtBWw==}
     engines: {node: '>=0.10.0'}
@@ -24512,6 +24519,11 @@ packages:
   /doc-path/3.1.0:
     resolution: {integrity: sha512-Pv2hLQbUM8du5681lTWIYk0OtVBmNhMAeZNGeFhMMJBIR89Nw4XesBwee1Xtlfk83n71tn0Y6VsJOn4d3qIiTw==}
     engines: {node: '>=12'}
+    dev: false
+
+  /doc-path/4.1.1:
+    resolution: {integrity: sha512-h1ErTglQAVv2gCnOpD3sFS6uolDbOKHDU1BZq+Kl3npPqroU3dYL42lUgMfd5UimlwtRgp7C9dLGwqQ5D2HYgQ==}
+    engines: {node: '>=16'}
     dev: false
 
   /doctrine/3.0.0:
@@ -28668,6 +28680,14 @@ packages:
     dependencies:
       deeks: 2.6.1
       doc-path: 3.1.0
+    dev: false
+
+  /json-2-csv/5.5.6:
+    resolution: {integrity: sha512-N673XbJgHwUq9JreKpk530jSywPF/rEAQ08dV99QQpkluP/4HTwshpoP9hmDz26iSFqu7eNAPgyJfu/77HvPGA==}
+    engines: {node: '>= 16'}
+    dependencies:
+      deeks: 3.1.0
+      doc-path: 4.1.1
     dev: false
 
   /json-bigint/1.0.0:
