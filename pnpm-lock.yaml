@@ -1434,10 +1434,10 @@ importers:
 
   components/calendly_v2:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.3
       url: ^0.11.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.3
       url: 0.11.3
 
   components/call_fire:
@@ -2791,6 +2791,9 @@ importers:
   components/donedone:
     specifiers: {}
 
+  components/donorbox:
+    specifiers: {}
+
   components/doppler:
     specifiers: {}
 
@@ -3478,6 +3481,9 @@ importers:
     specifiers: {}
 
   components/fixer_io:
+    specifiers: {}
+
+  components/flash_by_velora_ai:
     specifiers: {}
 
   components/flexmail:
@@ -4762,6 +4768,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/hystruct:
+    specifiers: {}
 
   components/iauditor_by_safetyculture:
     specifiers:
@@ -7086,6 +7095,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.3
 
+  components/papersign:
+    specifiers: {}
+
   components/papertrail:
     specifiers: {}
 
@@ -8028,6 +8040,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/rapid7_insight_platform:
+    specifiers: {}
+
+  components/rapid_url_indexer:
     specifiers: {}
 
   components/rat_genome_database:
@@ -9363,7 +9378,10 @@ importers:
       '@pipedream/platform': 2.0.0
 
   components/sms_fusion:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/sms_it:
     specifiers: {}
