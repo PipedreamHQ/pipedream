@@ -1,11 +1,12 @@
 import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
 import constants from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
   name: "Chat",
-  version: "0.2.0",
+  version: "0.2.1",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
@@ -38,7 +39,13 @@ export default {
     images: {
       label: "Images",
       type: "string[]",
-      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview model`",
+      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview` model",
+      optional: true,
+    },
+    audio: {
+      type: "string",
+      label: "Audio",
+      description: "Provide the file path to an audio file in the `/tmp` directory. For use with the `gpt-4o-audio-preview` model. Currently supports `wav` and `mp3` files.",
       optional: true,
     },
     responseFormat: {
@@ -65,6 +72,10 @@ export default {
     };
   },
   async run({ $ }) {
+    if (this.audio && !this.modelId.includes("gpt-4o-audio-preview")) {
+      throw new ConfigurationError("Use of audio files requires using the `gpt-4o-audio-preview` model.");
+    }
+
     const args = this._getChatArgs();
 
     const response = await this.openai.createChatCompletion({
