@@ -2,7 +2,7 @@ import rapidUrlIndexer from "../../rapid_url_indexer.app.mjs";
 
 export default {
   key: "rapid_url_indexer-submit-project",
-  name: "Submit Poject",
+  name: "Submit Project",
   description: "Submit a new project for indexing. [See the documentation](https://rapidurlindexer.com/indexing-api/).",
   type: "action",
   version: "0.0.1",
@@ -19,7 +19,7 @@ export default {
       description: "An array of URLs to index. URLs must start with either “http://” or “https://”.",
     },
     notifyOnStatusChange: {
-      type: "string",
+      type: "boolean",
       label: "Notify on Status Change",
       description: "If set to `true`, you will receive email notifications when the project status changes",
       optional: true,
