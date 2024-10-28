@@ -67,7 +67,7 @@ export type CreateServerClientOpts = {
  */
 export enum HTTPAuthType {
   None = "none",
-  StaticBearer = "static-bearer",
+  StaticBearer = "static_bearer_token",
   OAuth = "oauth"
 }
 
@@ -775,29 +775,29 @@ export class ServerClient {
   }
 
   /**
-   * Builds a full workflow URL based on the input.
-   *
-   * @param input - Either a full URL (with or without protocol) or just an endpoint ID.
-   *
-   * @returns The fully constructed URL.
-   *
-   * @throws If the input is not a valid URL and not an ID, the function assumes it's an endpoint ID.
-   *
-   * @example
-   * // Full URL input
-   * this.buildWorkflowUrl("https://en123.m.pipedream.net");
-   * // Returns: "https://en123.m.pipedream.net"
-   *
-   * @example
-   * // Partial URL (without protocol)
-   * this.buildWorkflowUrl("en123.m.pipedream.net");
-   * // Returns: "https://en123.m.pipedream.net"
-   *
-   * @example
-   * // ID only input
-   * this.buildWorkflowUrl("en123");
-   * // Returns: "https://en123.yourdomain.com" (where `yourdomain.com` is set in `baseWorkflowDomain`)
-   */
+ * Builds a full workflow URL based on the input.
+ *
+ * @param input - Either a full URL (with or without protocol) or just an endpoint ID.
+ *
+ * @returns The fully constructed URL.
+ *
+ * @throws If the input is a malformed URL, throws an error with a clear message.
+ *
+ * @example
+ * // Full URL input
+ * this.buildWorkflowUrl("https://en123.m.pipedream.net");
+ * // Returns: "https://en123.m.pipedream.net"
+ *
+ * @example
+ * // Partial URL (without protocol)
+ * this.buildWorkflowUrl("en123.m.pipedream.net");
+ * // Returns: "https://en123.m.pipedream.net"
+ *
+ * @example
+ * // ID only input
+ * this.buildWorkflowUrl("en123");
+ * // Returns: "https://en123.yourdomain.com" (where `yourdomain.com` is set in `baseWorkflowDomain`)
+ */
   private buildWorkflowUrl(input: string): string {
     let url: string;
 
@@ -805,10 +805,15 @@ export class ServerClient {
 
     if (isUrl) {
     // Try to parse the input as a URL
-      const parsedUrl = new URL(input.startsWith("http")
-        ? input
-        : `https://${input}`);
-      url = parsedUrl.href;
+      try {
+        const urlString = input.startsWith("http")
+          ? input
+          : `https://${input}`;
+        const parsedUrl = new URL(urlString);
+        url = parsedUrl.href;
+      } catch (error) {
+        throw new Error(`The provided URL is malformed: "${input}". Please provide a valid URL.`);
+      }
     } else {
     // If the input is an ID, construct the full URL using the base domain
       url = `https://${input}.${this.baseWorkflowDomain}`;

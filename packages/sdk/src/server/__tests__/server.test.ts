@@ -43,6 +43,11 @@ beforeEach(() => {
   });
 });
 
+afterEach(() => {
+  fetchMock.resetMocks();
+  jest.clearAllMocks();
+});
+
 describe("ServerClient", () => {
   beforeEach(() => {
     fetchMock.resetMocks();
@@ -698,6 +703,11 @@ describe("ServerClient", () => {
         },
         oauthClientMock,
       );
+    });
+
+    afterEach(() => {
+      fetchMock.resetMocks();
+      jest.clearAllMocks();
     });
 
     it("should include externalUserId and environment headers", async () => {
