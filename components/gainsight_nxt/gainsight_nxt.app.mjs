@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.customer_domain}/v1/users/services/list`;
+      return `${this.$auth.customer_domain}/v1`;
     },
     async _makeRequest({
       $ = this,
@@ -44,54 +44,22 @@ export default {
         },
       });
     },
-    // Company Methods
-    async listCompanies(opts = {}) {
+    async updateCompany(args) {
       return this._makeRequest({
-        path: "/companies",
-        method: "GET",
-        params: opts.params,
-      });
-    },
-    async getCompany(opts = {}) {
-      return this._makeRequest({
-        path: `/companies/${opts.id}`,
-        method: "GET",
-      });
-    },
-    async createCompany(opts = {}) {
-      return this._makeRequest({
-        path: "/companies",
-        method: "POST",
-        data: opts.data,
-      });
-    },
-    async updateCompany(opts = {}) {
-      return this._makeRequest({
-        path: `/companies/${opts.id}`,
+        path: "/data/objects/Company",
         method: "PUT",
-        data: opts.data,
+        params: {
+          keys: "Name",
+        },
+        ...args,
       });
     },
-    async createOrUpdateCompany(fields = {}) {
-      const companyData = fields;
-      const companyName = companyData.name;
-      if (!companyName) {
-        throw new Error("Company 'name' field is required for createOrUpdate.");
-      }
-      const response = await this.paginate(this.listCompanies, {
-        name: companyName,
+    async createCompany(args) {
+      return this._makeRequest({
+        path: "/data/objects/Company",
+        method: "POST",
+        ...args,
       });
-      if (response.length > 0) {
-        const company = response[0];
-        return this.updateCompany({
-          id: company.id,
-          data: companyData,
-        });
-      } else {
-        return this.createCompany({
-          data: companyData,
-        });
-      }
     },
     // Custom Object Methods
     async listCustomObjects(opts = {}) {
