@@ -345,7 +345,10 @@ importers:
     specifiers: {}
 
   components/ai_textraction:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/aidbase:
     specifiers:
@@ -1104,6 +1107,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/bippybox:
+    specifiers: {}
+
   components/bitbadges:
     specifiers: {}
 
@@ -1430,10 +1436,10 @@ importers:
 
   components/calendly_v2:
     specifiers:
-      '@pipedream/platform': ^1.5.1
+      '@pipedream/platform': ^3.0.3
       url: ^0.11.0
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.3
       url: 0.11.3
 
   components/call_fire:
@@ -2432,7 +2438,12 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/deepimage:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      fs: 0.0.1-security
 
   components/deepl:
     specifiers: {}
@@ -2782,6 +2793,9 @@ importers:
   components/donedone:
     specifiers: {}
 
+  components/donorbox:
+    specifiers: {}
+
   components/doppler:
     specifiers: {}
 
@@ -3113,6 +3127,9 @@ importers:
     specifiers: {}
 
   components/enormail:
+    specifiers: {}
+
+  components/enrichley:
     specifiers: {}
 
   components/enrow:
@@ -3466,6 +3483,9 @@ importers:
     specifiers: {}
 
   components/fixer_io:
+    specifiers: {}
+
+  components/flash_by_velora_ai:
     specifiers: {}
 
   components/flexmail:
@@ -4553,6 +4573,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/heyy:
+    specifiers: {}
+
   components/heyzine:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -4747,6 +4770,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/hystruct:
+    specifiers: {}
 
   components/iauditor_by_safetyculture:
     specifiers:
@@ -5074,6 +5100,9 @@ importers:
       '@pipedream/platform': 3.0.1
       form-data: 4.0.0
       mime: 4.0.4
+
+  components/jina_reader:
+    specifiers: {}
 
   components/jira:
     specifiers:
@@ -5573,7 +5602,10 @@ importers:
       form-data: 4.0.0
 
   components/linkedin_ads:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/linkly:
     specifiers:
@@ -6534,7 +6566,10 @@ importers:
       '@pipedream/platform': 3.0.3
 
   components/niceboard:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/nicereply:
     specifiers:
@@ -6762,7 +6797,10 @@ importers:
       uuid: 9.0.1
 
   components/onbee_app:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/oncehub:
     specifiers:
@@ -7062,6 +7100,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.3
 
+  components/papersign:
+    specifiers: {}
+
   components/papertrail:
     specifiers: {}
 
@@ -7199,7 +7240,10 @@ importers:
     specifiers: {}
 
   components/pdf_app_net:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/pdf_charts:
     specifiers:
@@ -8006,6 +8050,9 @@ importers:
   components/rapid7_insight_platform:
     specifiers: {}
 
+  components/rapid_url_indexer:
+    specifiers: {}
+
   components/rat_genome_database:
     specifiers: {}
 
@@ -8479,7 +8526,12 @@ importers:
     specifiers: {}
 
   components/runware:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+      uuid: ^10.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      uuid: 10.0.0
 
   components/rytr:
     specifiers: {}
@@ -9339,7 +9391,10 @@ importers:
       '@pipedream/platform': 2.0.0
 
   components/sms_fusion:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/sms_it:
     specifiers: {}
@@ -9965,7 +10020,10 @@ importers:
     specifiers: {}
 
   components/teach_n_go:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/teachable:
     specifiers:

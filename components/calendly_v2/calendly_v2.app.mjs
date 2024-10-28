@@ -241,7 +241,9 @@ export default {
     async listEvents(params, uuid, $) {
       const user = uuid
         ? this._buildUserUri(uuid)
-        : await this.defaultUser($);
+        : !params?.organization
+          ? await this.defaultUser($)
+          : undefined;
 
       const opts = {
         path: "/scheduled_events",
