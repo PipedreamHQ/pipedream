@@ -4,15 +4,19 @@ export default {
   type: "app",
   app: "gainsight_nxt",
   propDefinitions: {
-    customObjectFields: {
-      type: "string[]",
-      label: "Custom Object Fields",
-      description: "An array of JSON strings representing custom object elements. Include a 'name' field to identify the custom object.",
-    },
-    personFields: {
-      type: "string[]",
-      label: "Person Fields",
-      description: "An array of JSON strings representing person information. Include an 'email' field to identify the person.",
+    objectName: {
+      type: "string",
+      label: "Custom Object",
+      description: "The name of the custom object.",
+      async options() {
+        const { data } = await this.listCustomObjects();
+        return data/*?.filter?.((obj) => obj.objectType === "CUSTOM")*/.map(( {
+          label, objectName,
+        }) => ({
+          label,
+          value: objectName,
+        }));
+      },
     },
   },
   methods: {
@@ -58,6 +62,29 @@ export default {
       return this._makeRequest({
         path: "/peoplemgmt/v1.0/people",
         method: "PUT",
+        ...args,
+      });
+    },
+    async listCustomObjects() {
+      return this._makeRequest({
+        path: "/meta/services/objects/list",
+      });
+    },
+    async updateCustomObject({
+      objectName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/data/objects/${objectName}`,
+        method: "PUT",
+        ...args,
+      });
+    },
+    async createCustomObject({
+      objectName, ...args
+    }) {
+      return this._makeRequest({
+        path: `/data/objects/${objectName}`,
+        method: "POST",
         ...args,
       });
     },

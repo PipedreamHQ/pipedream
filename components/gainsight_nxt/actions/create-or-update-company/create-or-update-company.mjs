@@ -133,7 +133,7 @@ export default {
       result = createReq;
       summary = createReq.result === true
         ? `Successfully created company '${this.name}'`
-        : `Error when creating company '${this.name}'`;
+        : `Error creating company '${this.name}'`;
     }
 
     $.export(

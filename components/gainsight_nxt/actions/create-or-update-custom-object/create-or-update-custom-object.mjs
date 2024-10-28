@@ -1,35 +1,68 @@
-import gainsight_nxt from "../../gainsight_nxt.app.mjs";
+import app from "../../gainsight_nxt.app.mjs";
 
 export default {
   key: "gainsight_nxt-create-or-update-custom-object",
   name: "Create or Update Custom Object",
-  description: "Creates or updates a custom object in Gainsight NXT. [See the documentation]()",
+  description: "Create or update a custom object record. [See the documentation](https://support.gainsight.com/gainsight_nxt/API_and_Developer_Docs/Custom_Object_API/Gainsight_Custom_Object_API_Documentation#Insert_API)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
-    gainsight_nxt,
-    customObjectFields: {
+    app,
+    objectName: {
       propDefinition: [
-        "gainsight_nxt",
-        "customObjectFields",
+        app,
+        "objectName",
       ],
+    },
+    fields: {
+      type: "string[]",
+      label: "Key Field(s)",
+      description: "The field(s) which identify this object (max 3), e.g. `fieldName1`. If a record with the same key field(s) exists, it will be updated, otherwise a new one will be created.",
+    },
+    fieldValues: {
+      type: "object",
+      label: "Field Values",
+      description: "The record data to create or update, as key-value pairs.",
     },
   },
   async run({ $ }) {
+    const { objectName } = this;
+    const data = {
+      records: [
+        this.fieldValues,
+      ],
+    };
+
+    let summary = "";
+    let result;
     try {
-      const customObjectData = this.customObjectFields.map(JSON.parse);
-      const results = [];
-
-      for (const fields of customObjectData) {
-        const result = await this.gainsight_nxt.createOrUpdateCustomObject(fields);
-        results.push(result);
-      }
-
-      $.export("$summary", `Processed ${results.length} custom object(s) successfully.`);
-      return results;
-    } catch (error) {
-      $.export("$summary", `Failed to create or update custom objects: ${error.message}`);
-      throw error;
+      result = await this.app.updateCustomObject({
+        $,
+        objectName,
+        data,
+        params: {
+          keys: this.fields.join?.() ?? this.fields,
+        },
+      });
+      summary = result.result === true
+        ? `Successfully updated custom object ${objectName}`
+        : `Error updating custom object ${objectName}`;
     }
+    catch (err) {
+      result = await this.app.createCustomObject({
+        $,
+        objectName,
+        data,
+      });
+      summary = result.result === true
+        ? `Successfully created custom object ${objectName}`
+        : `Error creating custom object ${objectName}`;
+    }
+
+    $.export(
+      "$summary",
+      summary,
+    );
+    return result;
   },
 };
