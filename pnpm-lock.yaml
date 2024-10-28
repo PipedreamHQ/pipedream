@@ -3490,7 +3490,10 @@ importers:
     specifiers: {}
 
   components/flash_by_velora_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/flexmail:
     specifiers:
