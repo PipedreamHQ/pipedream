@@ -54,124 +54,12 @@ export default {
         ...args,
       });
     },
-    // Custom Object Methods
-    async listCustomObjects(opts = {}) {
+    async createOrUpdatePerson(args) {
       return this._makeRequest({
-        path: "/custom_objects",
-        method: "GET",
-        params: opts.params,
-      });
-    },
-    async getCustomObject(opts = {}) {
-      return this._makeRequest({
-        path: `/custom_objects/${opts.id}`,
-        method: "GET",
-      });
-    },
-    async createCustomObject(opts = {}) {
-      return this._makeRequest({
-        path: "/custom_objects",
-        method: "POST",
-        data: opts.data,
-      });
-    },
-    async updateCustomObject(opts = {}) {
-      return this._makeRequest({
-        path: `/custom_objects/${opts.id}`,
+        path: "/peoplemgmt/v1.0/people",
         method: "PUT",
-        data: opts.data,
+        ...args,
       });
-    },
-    async createOrUpdateCustomObject(fields = {}) {
-      const customObjectData = fields;
-      const customObjectName = customObjectData.name;
-      if (!customObjectName) {
-        throw new Error("Custom Object 'name' field is required for createOrUpdate.");
-      }
-      const response = await this.paginate(this.listCustomObjects, {
-        name: customObjectName,
-      });
-      if (response.length > 0) {
-        const customObject = response[0];
-        return this.updateCustomObject({
-          id: customObject.id,
-          data: customObjectData,
-        });
-      } else {
-        return this.createCustomObject({
-          data: customObjectData,
-        });
-      }
-    },
-    // Person Methods
-    async listPersons(opts = {}) {
-      return this._makeRequest({
-        path: "/persons",
-        method: "GET",
-        params: opts.params,
-      });
-    },
-    async getPerson(opts = {}) {
-      return this._makeRequest({
-        path: `/persons/${opts.id}`,
-        method: "GET",
-      });
-    },
-    async createPerson(opts = {}) {
-      return this._makeRequest({
-        path: "/persons",
-        method: "POST",
-        data: opts.data,
-      });
-    },
-    async updatePerson(opts = {}) {
-      return this._makeRequest({
-        path: `/persons/${opts.id}`,
-        method: "PUT",
-        data: opts.data,
-      });
-    },
-    async createOrUpdatePerson(fields = {}) {
-      const personData = fields;
-      const personEmail = personData.email;
-      if (!personEmail) {
-        throw new Error("Person 'email' field is required for createOrUpdate.");
-      }
-      const response = await this.paginate(this.listPersons, {
-        email: personEmail,
-      });
-      if (response.length > 0) {
-        const person = response[0];
-        return this.updatePerson({
-          id: person.id,
-          data: personData,
-        });
-      } else {
-        return this.createPerson({
-          data: personData,
-        });
-      }
-    },
-    // Pagination Method
-    async paginate(fn, params = {}) {
-      let results = [];
-      let page = 1;
-      let hasMore = true;
-      while (hasMore) {
-        const response = await fn({
-          params: {
-            ...params,
-            page,
-          },
-        });
-        if (response.length > 0) {
-          results.push(...response);
-          page += 1;
-        } else {
-          hasMore = false;
-        }
-      }
-      return results;
     },
   },
 };
