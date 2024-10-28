@@ -21,32 +21,26 @@ export default {
     },
   },
   methods: {
-    // This method logs the authentication keys
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    // Returns the base URL for Gainsight NXT API
     _baseUrl() {
-      return "https://api.gainsight.com/gainsight_nxt";
+      return `${this.$auth.customer_domain}/v1/users/services/list`;
     },
-    // Makes an HTTP request using axios
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers = {},
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this,
+      path,
+      headers = {},
+      ...otherOpts
+    } = {}) {
       return axios($, {
         ...otherOpts,
-        method,
         url: this._baseUrl() + path,
         headers: {
-          ...headers,
-          "user-agent": "@PipedreamHQ/pipedream v0.1",
-          "Authorization": `Bearer ${this.$auth.api_token}`,
-          "Content-Type": "application/json",
+          headers: {
+            "content-type": "application/json",
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+            "accesskey": `${this.gainsight_nxt.$auth.access_key}`,
+            ...headers,
+          },
         },
       });
     },
