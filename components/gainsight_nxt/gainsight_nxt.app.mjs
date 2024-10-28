@@ -4,11 +4,6 @@ export default {
   type: "app",
   app: "gainsight_nxt",
   propDefinitions: {
-    companyFields: {
-      type: "string[]",
-      label: "Company Fields",
-      description: "An array of JSON strings representing company information. Include a 'name' field to identify the company.",
-    },
     customObjectFields: {
       type: "string[]",
       label: "Custom Object Fields",
@@ -34,13 +29,11 @@ export default {
         ...otherOpts,
         url: this._baseUrl() + path,
         headers: {
-          headers: {
-            "content-type": "application/json",
-            "accept": "application/json, text/plain, */*",
-            "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-            "accesskey": `${this.gainsight_nxt.$auth.access_key}`,
-            ...headers,
-          },
+          "content-type": "application/json",
+          "accept": "application/json, text/plain, */*",
+          "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+          "accesskey": `${this.$auth.access_key}`,
+          ...headers,
         },
       });
     },
@@ -181,5 +174,4 @@ export default {
       return results;
     },
   },
-  version: "0.0.{ts}",
 };

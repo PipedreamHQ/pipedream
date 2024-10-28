@@ -4,7 +4,7 @@ export default {
   key: "gainsight_nxt-create-or-update-company",
   name: "Create or Update Company",
   description: "Create or update a company record. [See the documentation](https://support.gainsight.com/gainsight_nxt/API_and_Developer_Docs/Company_and_Relationship_API/Company_API_Documentation#Parameters)",
-  version: "0.0.{ts}",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     app,
@@ -115,15 +115,17 @@ export default {
 
     let summary = "";
     let result;
-    const updateReq = await this.app.updateCompany({
-      $,
-      data,
-    });
-    if (updateReq.result === true) {
+    try {
+      const updateReq = await this.app.updateCompany({
+        $,
+        data,
+      });
       result = updateReq;
-      summary = `Successfully updated company '${this.name}'`;
+      summary = updateReq.result === true
+        ? `Successfully updated company '${this.name}'`
+        : `Error updating company '${this.name}'`;
     }
-    else {
+    catch (err) {
       const createReq = await this.app.createCompany({
         $,
         data,
