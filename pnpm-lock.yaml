@@ -5099,6 +5099,9 @@ importers:
       form-data: 4.0.0
       mime: 4.0.4
 
+  components/jina_reader:
+    specifiers: {}
+
   components/jira:
     specifiers:
       '@pipedream/platform': ^3.0.1
@@ -7238,7 +7241,10 @@ importers:
     specifiers: {}
 
   components/pdf_app_net:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/pdf_charts:
     specifiers:
@@ -8433,7 +8439,10 @@ importers:
     specifiers: {}
 
   components/roamresearch:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/robocorp:
     specifiers: {}
@@ -8521,7 +8530,12 @@ importers:
     specifiers: {}
 
   components/runware:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+      uuid: ^10.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      uuid: 10.0.0
 
   components/rytr:
     specifiers: {}
@@ -9410,7 +9424,10 @@ importers:
       '@pipedream/platform': 3.0.3
 
   components/smstools:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/smtp2go:
     specifiers:

@@ -24,7 +24,7 @@ const pipelineAsync = promisify(stream.pipeline);
 
 export default {
   name: "Create Transcription (Whisper)",
-  version: "0.1.12",
+  version: "0.1.13",
   key: "openai-create-transcription",
   description: "Transcribes audio into the input language. [See the documentation](https://platform.openai.com/docs/api-reference/audio/create).",
   type: "action",
