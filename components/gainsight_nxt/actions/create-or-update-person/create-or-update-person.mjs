@@ -4,7 +4,7 @@ export default {
   key: "gainsight_nxt-create-or-update-person",
   name: "Create or Update Person",
   description: "Create or update a person's record. [See the documentation](https://support.gainsight.com/gainsight_nxt/API_and_Developer_Docs/Person_API/People_API_Documentation#Person)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

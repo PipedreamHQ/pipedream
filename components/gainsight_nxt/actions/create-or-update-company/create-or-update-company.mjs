@@ -4,7 +4,7 @@ export default {
   key: "gainsight_nxt-create-or-update-company",
   name: "Create or Update Company",
   description: "Create or update a company record. [See the documentation](https://support.gainsight.com/gainsight_nxt/API_and_Developer_Docs/Company_and_Relationship_API/Company_API_Documentation#Parameters)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
