@@ -1,26 +1,26 @@
+import app from "../../trello.app.mjs";
 import fs from "fs";
 import FormData from "form-data";
 import { ConfigurationError } from "@pipedream/platform";
-import common from "../common.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
-  ...common,
   key: "trello-create-card",
   name: "Create Card",
   description: "Creates a new card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post).",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     board: {
       propDefinition: [
-        common.props.app,
+        app,
         "board",
       ],
     },
     name: {
       propDefinition: [
-        common.props.app,
+        app,
         "name",
       ],
       description: "The name of the card.",
@@ -28,31 +28,32 @@ export default {
     },
     desc: {
       propDefinition: [
-        common.props.app,
+        app,
         "desc",
       ],
     },
     pos: {
       propDefinition: [
-        common.props.app,
+        app,
         "pos",
       ],
+      description: "The position of the new card. `top`, `bottom`, or a positive float",
     },
     due: {
       propDefinition: [
-        common.props.app,
+        app,
         "due",
       ],
     },
     dueComplete: {
       propDefinition: [
-        common.props.app,
+        app,
         "dueComplete",
       ],
     },
     idList: {
       propDefinition: [
-        common.props.app,
+        app,
         "lists",
         (c) => ({
           board: c.board,
@@ -65,7 +66,7 @@ export default {
     },
     idMembers: {
       propDefinition: [
-        common.props.app,
+        app,
         "member",
         (c) => ({
           board: c.board,
@@ -78,7 +79,7 @@ export default {
     },
     idLabels: {
       propDefinition: [
-        common.props.app,
+        app,
         "label",
         (c) => ({
           board: c.board,
@@ -89,27 +90,38 @@ export default {
       description: "Array of labelIDs to add to the card",
       optional: true,
     },
+    fileType: {
+      propDefinition: [
+        app,
+        "fileType",
+      ],
+      optional: true,
+      reloadProps: true,
+    },
     urlSource: {
       propDefinition: [
-        common.props.app,
+        app,
         "url",
       ],
-    },
-    mimeType: {
-      propDefinition: [
-        common.props.app,
-        "mimeType",
-      ],
+      hidden: true,
     },
     file: {
       propDefinition: [
-        common.props.app,
+        app,
         "file",
       ],
+      hidden: true,
+    },
+    mimeType: {
+      propDefinition: [
+        app,
+        "mimeType",
+      ],
+      hidden: true,
     },
     idCardSource: {
       propDefinition: [
-        common.props.app,
+        app,
         "cards",
         (c) => ({
           board: c.board,
@@ -118,44 +130,37 @@ export default {
       type: "string",
       label: "Copy Card",
       description: "Specify an existing card to copy contents from. Keep in mind that if you copy a card, the **File Attachment Path**, **File Attachment URL** and **File Attachment Type** fields will be ignored.",
+      reloadProps: true,
     },
     keepFromSource: {
       type: "string[]",
       label: "Copy From Source",
       description: "Specify which properties to copy from the source card",
-      options: [
-        "all",
-        "attachments",
-        "checklists",
-        "comments",
-        "due",
-        "labels",
-        "members",
-        "stickers",
-      ],
+      options: constants.CARD_KEEP_FROM_SOURCE_PROPERTIES,
       optional: true,
+      hidden: true,
     },
     address: {
       propDefinition: [
-        common.props.app,
+        app,
         "address",
       ],
     },
     locationName: {
       propDefinition: [
-        common.props.app,
+        app,
         "locationName",
       ],
     },
     coordinates: {
       propDefinition: [
-        common.props.app,
+        app,
         "coordinates",
       ],
     },
     customFieldIds: {
       propDefinition: [
-        common.props.app,
+        app,
         "customFieldIds",
         (c) => ({
           boardId: c.board,
@@ -164,8 +169,17 @@ export default {
       reloadProps: true,
     },
   },
-  async additionalProps() {
+  async additionalProps(existingProps) {
     const props = {};
+
+    const attachmentIsPath = this.fileType === "path";
+    const attachmentIsUrl = this.fileType === "url";
+    existingProps.file.hidden = !attachmentIsPath;
+    existingProps.mimeType.hidden = !attachmentIsPath;
+    existingProps.urlSource.hidden = !attachmentIsUrl;
+
+    existingProps.keepFromSource.hidden = !this.idCardSource;
+
     if (!this.customFieldIds?.length) {
       return props;
     }
@@ -187,7 +201,6 @@ export default {
     return props;
   },
   methods: {
-    ...common.methods,
     async getCustomFieldItems($) {
       const customFieldItems = [];
       for (const customFieldId of this.customFieldIds) {
@@ -213,16 +226,9 @@ export default {
       }
       return customFieldItems;
     },
-    createCard(args = {}) {
-      return this.app.post({
-        path: "/cards",
-        ...args,
-      });
-    },
   },
   async run({ $ }) {
     const {
-      createCard,
       name,
       desc,
       pos,
@@ -268,15 +274,14 @@ export default {
       const form = new FormData();
       form.append("fileSource", fs.createReadStream(file));
 
-      response = await createCard({
+      response = await this.app.createCard({
         $,
         params,
         headers: form.getHeaders(),
         data: form,
       });
-
     } else {
-      response = await createCard({
+      response = await this.app.createCard({
         $,
         params: {
           ...params,

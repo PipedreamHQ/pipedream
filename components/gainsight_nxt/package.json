@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/gainsight_nxt",
+  "version": "0.0.1",
+  "description": "Pipedream Gainsight Components",
+  "main": "gainsight_nxt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gainsight_nxt"
+  ],
+  "homepage": "https://pipedream.com/apps/gainsight_nxt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

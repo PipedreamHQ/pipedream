@@ -4,21 +4,12 @@ export default {
   ...common,
   key: "trello-new-notification",
   name: "New Notification",
-  description:
-    "Emit new event for each new Trello notification for the authenticated user.",
-  version: "0.1.0",
+  description: "Emit new event for each new Trello notification for the authenticated user.",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getNotifications({
-      notificationId, ...args
-    } = {}) {
-      return this.app._makeRequest({
-        path: `/members/${notificationId}/notifications`,
-        ...args,
-      });
-    },
     _getLastNotificationId() {
       return this.db.get("lastNotificationId") || null;
     },
@@ -38,7 +29,7 @@ export default {
   async run() {
     const since = this._getLastNotificationId();
 
-    const notifications = await this.getNotifications({
+    const notifications = await this.app.getNotifications({
       notificationId: "me",
       params: {
         since,

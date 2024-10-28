@@ -1,46 +1,49 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-search-cards",
   name: "Search Cards",
   description: "Searches for cards matching the specified query. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     query: {
       propDefinition: [
-        common.props.app,
+        app,
         "query",
       ],
     },
     idBoards: {
       propDefinition: [
-        common.props.app,
+        app,
         "board",
       ],
       type: "string[]",
       label: "Boards",
       description: "The IDs of boards to search for cards in",
+      optional: true,
     },
     partial: {
       propDefinition: [
-        common.props.app,
+        app,
         "partial",
       ],
+      optional: true,
     },
     cardFields: {
       propDefinition: [
-        common.props.app,
+        app,
         "cardFields",
       ],
+      optional: true,
     },
     cardsLimit: {
       type: "integer",
       label: "Cards Limit",
       description: "The maximum number of cards to return.",
       default: 10,
+      optional: true,
     },
   },
   async run({ $ }) {

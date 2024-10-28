@@ -3,8 +3,8 @@ import calendly from "../../calendly_v2.app.mjs";
 export default {
   key: "calendly_v2-list-event-invitees",
   name: "List Event Invitees",
-  description: "List invitees for an event. [See the docs](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEx-list-event-invitees)",
-  version: "0.0.3",
+  description: "List invitees for an event. [See the documentation](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEx-list-event-invitees)",
+  version: "0.0.4",
   type: "action",
   props: {
     calendly,

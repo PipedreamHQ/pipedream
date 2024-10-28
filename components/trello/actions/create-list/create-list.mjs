@@ -4,7 +4,7 @@ export default {
   key: "trello-create-list",
   name: "Create a List",
   description: "Creates a new list. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-post).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     app,
@@ -40,26 +40,18 @@ export default {
         app,
         "pos",
       ],
-    },
-  },
-  methods: {
-    createList(args = {}) {
-      return this.app.post({
-        path: "/lists",
-        ...args,
-      });
+      description: "Position of the list. `top`, `bottom`, or a positive floating point number",
     },
   },
   async run({ $ }) {
     const {
-      createList,
       name,
       idBoard,
       idListSource,
       pos,
     } = this;
 
-    const response = await createList({
+    const response = await this.app.createList({
       $,
       params: {
         name,
@@ -69,7 +61,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully created list.");
+    $.export("$summary", `Successfully created list ${this.name}`);
 
     return response;
   },
