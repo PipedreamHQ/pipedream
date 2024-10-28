@@ -7130,6 +7130,9 @@ importers:
       '@pipedream/platform': 3.0.0
       crypto: 1.0.1
 
+  components/parallel:
+    specifiers: {}
+
   components/parma:
     specifiers:
       '@pipedream/platform': ^3.0.0
