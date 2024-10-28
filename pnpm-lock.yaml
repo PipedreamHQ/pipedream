@@ -5102,6 +5102,9 @@ importers:
       form-data: 4.0.0
       mime: 4.0.4
 
+  components/jina_reader:
+    specifiers: {}
+
   components/jira:
     specifiers:
       '@pipedream/platform': ^3.0.1
@@ -8524,7 +8527,12 @@ importers:
     specifiers: {}
 
   components/runware:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+      uuid: ^10.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      uuid: 10.0.0
 
   components/rytr:
     specifiers: {}
