@@ -165,9 +165,9 @@ export default {
         ...args,
       });
     },
-    listRuns(args = {}) {
+    listWorkflows(args = {}) {
       return this._makeRequest({
-        path: "/ga4gh/wes/v1/runs",
+        path: "/workflow?workspaceId=${workspaceId}",
         ...args,
       });
     },
