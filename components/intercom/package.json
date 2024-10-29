@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/intercom",
-  "version": "0.3.9",
+  "version": "0.4.0",
   "description": "Pipedream Intercom Components",
   "main": "intercom.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
+    "@pipedream/platform": "^3.0.3",
     "crypto": "^1.0.1"
   }
 }
