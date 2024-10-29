@@ -10,9 +10,9 @@ const {
 
 export default {
   key: "short-create-a-link",
-  name: "Create a Short Link",
-  description: "Create a Short Link. [See the docs](https://developers.short.io/reference/linkspost).",
-  version: "0.1.{{ts}}",
+  name: "Create Link",
+  description: "Create a Short Link. [See the documentation](https://developers.short.io/reference/linkspost).",
+  version: "0.2.0",
   type: "action",
   props: {
     shortApp,

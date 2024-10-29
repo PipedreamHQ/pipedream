@@ -3,8 +3,8 @@ import lodash from "lodash";
 
 export default {
   key: "short-expire-a-link",
-  name: "Expire a Link.",
-  description: "Expire a link by id. [See the docs](https://developers.short.io/reference/linksbylinkidpost).",
+  name: "Expire Link",
+  description: "Expire a short link by id. [See the documentation](https://developers.short.io/reference/linksbylinkidpost).",
   version: "0.0.1",
   type: "action",
   props: {

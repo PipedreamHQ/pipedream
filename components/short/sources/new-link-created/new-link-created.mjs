@@ -3,9 +3,9 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "short-new-link-created",
-  name: "New event for each link created.",
+  name: "New Link Created",
   description: "Emit new event when a link is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
