@@ -125,9 +125,23 @@ export type ConnectTokenResponse = {
 };
 
 /**
- * Parameters for the Connect API.
+ * Parameters for the Connect Accounts API
  */
-export type ConnectParams = {
+export type AccountsGetParams = {
+  /**
+   * The name slug of the app.
+   */
+  app?: string;
+
+  /**
+   * The external user ID associated with the account.
+   */
+  external_user_id?: string;
+
+  /**
+   * The name of the account.
+   */
+  oauth_app_id?: string;
   /**
    * Whether to include credentials in the request (1 to include, 0 to exclude).
    */
@@ -574,11 +588,11 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * const accounts = await client.getAccounts({ include_credentials: 1 });
+   * const accounts = await client.accountsGet({ include_credentials: 1 });
    * console.log(accounts);
    * ```
    */
-  public async getAccounts(params: ConnectParams = {}): Promise<Account[]> {
+  public async accountsGet(params: AccountsGetParams = {}): Promise<Account[]> {
     return this.makeConnectRequest<Account[]>("/accounts", {
       params,
     });
@@ -594,52 +608,12 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * const account = await client.getAccount("account-id");
+   * const account = await client.accountsGetById("account-id");
    * console.log(account);
    * ```
    */
-  public async getAccount(accountId: string, params: ConnectParams = {}): Promise<Account> {
+  public async accountsGetById(accountId: string, params: AccountsGetParams = {}): Promise<Account> {
     return this.makeConnectRequest<Account>(`/accounts/${accountId}`, {
-      params,
-    });
-  }
-
-  /**
-   * Retrieves accounts associated with a specific app.
-   *
-   * @param appId - The ID of the app.
-   * @param params - The query parameters for retrieving accounts.
-   * @returns A promise resolving to a list of accounts.
-   *
-   * @example
-   *
-   * ```typescript
-   * const accounts = await client.getAccountsByApp("app-id");
-   * console.log(accounts);
-   * ```
-   */
-  public async getAccountsByApp(appId: string, params: ConnectParams = {}): Promise<Account[]> {
-    return this.makeConnectRequest<Account[]>(`/accounts/app/${appId}`, {
-      params,
-    });
-  }
-
-  /**
-   * Retrieves accounts associated with a specific external ID.
-   *
-   * @param externalId - The external ID associated with the accounts.
-   * @param params - The query parameters for retrieving accounts.
-   * @returns A promise resolving to a list of accounts.
-   *
-   * @example
-   *
-   * ```typescript
-   * const accounts = await client.getAccountsByExternalId("external-id");
-   * console.log(accounts);
-   * ```
-   */
-  public async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<Account[]> {
-    return this.makeConnectRequest<Account[]>(`/users/${externalId}/accounts`, {
       params,
     });
   }
@@ -653,11 +627,11 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * await client.deleteAccount("account-id");
+   * await client.accountDelete("account-id");
    * console.log("Account deleted");
    * ```
    */
-  public async deleteAccount(accountId: string): Promise<void> {
+  public async accountDelete(accountId: string): Promise<void> {
     await this.makeConnectRequest(`/accounts/${accountId}`, {
       method: "DELETE",
     });
@@ -672,11 +646,11 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * await client.deleteAccountsByApp("app-id");
+   * await client.accountsDeleteByApp("app-id");
    * console.log("All accounts deleted");
    * ```
    */
-  public async deleteAccountsByApp(appId: string): Promise<void> {
+  public async accountsDeleteByApp(appId: string): Promise<void> {
     await this.makeConnectRequest(`/accounts/app/${appId}`, {
       method: "DELETE",
     });
@@ -691,11 +665,11 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * await client.deleteExternalUser("external-id");
+   * await client.accountsDeleteByExternalUser("external-id");
    * console.log("All accounts deleted");
    * ```
    */
-  public async deleteExternalUser(externalId: string): Promise<void> {
+  public async accountsDeleteByExternalUser(externalId: string): Promise<void> {
     await this.makeConnectRequest(`/users/${externalId}`, {
       method: "DELETE",
     });
@@ -709,11 +683,11 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * const projectInfo = await client.getProjectInfo();
+   * const projectInfo = await client.projectGetInfo();
    * console.log(projectInfo);
    * ```
    */
-  public async getProjectInfo(): Promise<ProjectInfoResponse> {
+  public async projectGetInfo(): Promise<ProjectInfoResponse> {
     return this.makeConnectRequest<ProjectInfoResponse>("/projects/info", {
       method: "GET",
     });
@@ -784,7 +758,7 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * const response = await client.invokeWorkflow(
+   * const response = await client.workflowInvoke(
    *   "https://your-workflow-url.m.pipedream.net",
    *   {
    *     body: {
@@ -801,7 +775,7 @@ export class BackendClient {
    * console.log(response);
    * ```
    */
-  public async invokeWorkflow(urlOrEndpoint: string, opts: RequestOptions = {}, authType: HTTPAuthType = HTTPAuthType.None): Promise<unknown> {
+  public async workflowInvoke(urlOrEndpoint: string, opts: RequestOptions = {}, authType: HTTPAuthType = HTTPAuthType.None): Promise<unknown> {
     const {
       body,
       headers = {},
@@ -870,7 +844,7 @@ export class BackendClient {
    * console.log(response);
    * ```
    */
-  public async invokeWorkflowForExternalUser(url: string, externalUserId: string, opts: RequestOptions = {}): Promise<unknown> {
+  public async workflowInvokeForExternalUser(url: string, externalUserId: string, opts: RequestOptions = {}): Promise<unknown> {
     const { headers = {} } = opts;
 
     if (!externalUserId) {
@@ -881,7 +855,7 @@ export class BackendClient {
       throw new Error("OAuth is required for invoking workflows for external users. Please pass credentials for a valid OAuth client");
     }
 
-    return this.invokeWorkflow(url, {
+    return this.workflowInvoke(url, {
       ...opts,
       headers: {
         ...headers,

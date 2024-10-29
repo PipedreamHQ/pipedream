@@ -289,7 +289,7 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("getAccounts", () => {
+  describe("accountsGet", () => {
     it("should retrieve accounts", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify([
@@ -305,7 +305,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.getAccounts({
+      const result = await client.accountsGet({
         include_credentials: 1,
       });
 
@@ -322,7 +322,7 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("getAccount", () => {
+  describe("accountsGetById", () => {
     it("should retrieve a specific account by ID", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -336,7 +336,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.getAccount("account-1");
+      const result = await client.accountsGetById("account-1");
 
       expect(result).toEqual({
         id: "account-1",
@@ -349,7 +349,7 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("getAccountsByApp", () => {
+  describe("Get accounts by app", () => {
     it("should retrieve accounts associated with a specific app", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify([
@@ -365,7 +365,9 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.getAccountsByApp("app-1");
+      const result = await client.accountsGet({
+        app: "app-1",
+      });
 
       expect(result).toEqual([
         {
@@ -374,13 +376,13 @@ describe("BackendClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        `https://api.pipedream.com/v1/connect/${projectId}/accounts/app/app-1`,
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts?app=app-1`,
         expect.any(Object),
       );
     });
   });
 
-  describe("getAccountsByExternalId", () => {
+  describe("Get accounts by external user ID", () => {
     it("should retrieve accounts associated with a specific external ID", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify([
@@ -396,7 +398,9 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.getAccountsByExternalId("external-id-1");
+      const result = await client.accountsGet({
+        external_user_id: "external-id-1",
+      });
 
       expect(result).toEqual([
         {
@@ -405,7 +409,7 @@ describe("BackendClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        `https://api.pipedream.com/v1/connect/${projectId}/users/external-id-1/accounts`,
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts?external_user_id=external-id-1`,
         expect.any(Object),
       );
     });
@@ -417,7 +421,7 @@ describe("BackendClient", () => {
         status: 204,
       });
 
-      await client.deleteAccount("account-1");
+      await client.accountDelete("account-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
         `https://api.pipedream.com/v1/connect/${projectId}/accounts/account-1`,
@@ -428,13 +432,13 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("deleteAccountsByApp", () => {
+  describe("accountsDeleteByApp", () => {
     it("should delete all accounts associated with a specific app", async () => {
       fetchMock.mockResponseOnce("", {
         status: 204,
       });
 
-      await client.deleteAccountsByApp("app-1");
+      await client.accountsDeleteByApp("app-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
         `https://api.pipedream.com/v1/connect/${projectId}/accounts/app/app-1`,
@@ -445,13 +449,13 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("deleteExternalUser", () => {
+  describe("accountsDeleteByExternalUser", () => {
     it("should delete all accounts associated with a specific external ID", async () => {
       fetchMock.mockResponseOnce("", {
         status: 204,
       });
 
-      await client.deleteExternalUser("external-id-1");
+      await client.accountsDeleteByExternalUser("external-id-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
         `https://api.pipedream.com/v1/connect/${projectId}/users/external-id-1`,
@@ -462,7 +466,7 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("getProjectInfo", () => {
+  describe("projectGetInfo", () => {
     it("should retrieve project info", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -480,7 +484,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.getProjectInfo();
+      const result = await client.projectGetInfo();
 
       expect(result).toEqual({
         apps: [
@@ -499,7 +503,7 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("invokeWorkflow", () => {
+  describe("workflowInvoke", () => {
     it("should invoke a workflow with provided URL and body, with no auth type", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -512,7 +516,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.invokeWorkflow("https://example.com/workflow", {
+      const result = await client.workflowInvoke("https://example.com/workflow", {
         body: {
           foo: "bar",
         },
@@ -548,7 +552,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.invokeWorkflow("https://example.com/workflow", {}, HTTPAuthType.OAuth);
+      const result = await client.workflowInvoke("https://example.com/workflow", {}, HTTPAuthType.OAuth);
 
       expect(result).toEqual({
         result: "workflow-response",
@@ -576,7 +580,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.invokeWorkflow("https://example.com/workflow", {
+      const result = await client.workflowInvoke("https://example.com/workflow", {
         headers: {
           "Authorization": "Bearer static-token",
         },
@@ -722,7 +726,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.invokeWorkflowForExternalUser("https://example.com/workflow", "external-user-id", {
+      const result = await client.workflowInvokeForExternalUser("https://example.com/workflow", "external-user-id", {
         body: {
           foo: "bar",
         },
@@ -744,7 +748,7 @@ describe("BackendClient", () => {
     });
 
     it("should throw error when externalUserId is missing", async () => {
-      await expect(client.invokeWorkflowForExternalUser("https://example.com/workflow", "", {
+      await expect(client.workflowInvokeForExternalUser("https://example.com/workflow", "", {
         body: {
           foo: "bar",
         },
