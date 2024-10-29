@@ -6,7 +6,7 @@ export default {
   key: "short-update-a-link",
   name: "Update Link",
   description: "Update original URL, title or path for existing URL by id. [See the documentation](https://developers.short.io/reference/linksbylinkidpost).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shortApp,
