@@ -21,7 +21,7 @@ export default {
     },
     arr: {
       type: "string",
-      label: "Anual Recurring Revenue (ARR)",
+      label: "Annual Recurring Revenue (ARR)",
       description: "The annual recurring revenue of the company, as a currency value.",
       optional: true,
     },
@@ -40,13 +40,13 @@ export default {
     originalContractDate: {
       type: "string",
       label: "Original Contract Date",
-      description: "The date the engagement with the client started.",
+      description: "The date the engagement with the client started, in `YYYY-MM-DD` format.",
       optional: true,
     },
     renewalDate: {
       type: "string",
       label: "Renewal Date",
-      description: "The upcoming renewal date of the contract.",
+      description: "The upcoming renewal date of the contract, in `YYYY-MM-DD` format.",
       optional: true,
     },
     stage: {
