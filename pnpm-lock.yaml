@@ -8067,7 +8067,10 @@ importers:
     specifiers: {}
 
   components/rapid_url_indexer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/rat_genome_database:
     specifiers: {}
