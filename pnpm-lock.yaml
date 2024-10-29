@@ -3493,7 +3493,10 @@ importers:
     specifiers: {}
 
   components/flash_by_velora_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/flexmail:
     specifiers:
@@ -7130,6 +7133,9 @@ importers:
       '@pipedream/platform': 3.0.0
       crypto: 1.0.1
 
+  components/parallel:
+    specifiers: {}
+
   components/parma:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -8061,7 +8067,10 @@ importers:
     specifiers: {}
 
   components/rapid_url_indexer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/rat_genome_database:
     specifiers: {}
