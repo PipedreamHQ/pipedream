@@ -62,10 +62,12 @@ export default {
         file_id: this.fileId,
         chunking_strategy: this.chunkingStrategy && {
           type: this.chunkingStrategy,
-          static: this.chunkingStrategy === "static" && {
-            max_chunk_size_tokens: this.maxChunkSizeTokens,
-            chunk_overlap_tokens: this.chunkOverlapTokens,
-          },
+          static: this.chunkingStrategy === "static"
+            ? {
+              max_chunk_size_tokens: this.maxChunkSizeTokens,
+              chunk_overlap_tokens: this.chunkOverlapTokens,
+            }
+            : undefined,
         },
       },
     });
