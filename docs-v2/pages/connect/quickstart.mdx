@@ -139,7 +139,8 @@ export default function Home() {
   const pd = createClient()
   function connectAccount() {
     pd.connectAccount({
-      app: process.env.NEXT_PUBLIC_PIPEDREAM_APP_SLUG, // From the Next.js example — adjust to pass your own app name slug
+      app: appSlug, // Pass the app name slug of the app you want to integrate
+      oauthAppId: appId, // For OAuth apps, pass the OAuth app ID; omit this param to use Pipedream's OAuth client or for key-based apps
       token: "YOUR_TOKEN", // The token you received from your server above
       onSuccess: ({ id: accountId }) => {
         console.log(`Account successfully connected: ${accountId}`)
@@ -168,7 +169,7 @@ The Connect Link opens a Pipedream-hosted page, guiding users through the accoun
 3. Before returning the URL to your user, add an `app` parameter to the end of the query string:
 
 ```
-https://pipedream.com/_static/connect.html?token={token}&connectLink=true&app={appSlug}
+https://pipedream.com/_static/connect.html?token={token}&connectLink=true&app={appSlug}&oauthAppId={oauthAppId}
 ```
 
 4. Redirect your users to this URL, or send it to them via email, SMS, and more.

@@ -1,0 +1,18 @@
+import Image from 'next/image'
+
+# OAuth Clients
+
+When connecting an account for any OAuth app via Pipedream Connect, we'll default to using Pipedream's official OAuth client, which enables you to quick get up and running. [Read more about OAuth clients in Pipedream here](/connected-accounts/oauth-clients).
+
+## Using a custom OAuth client
+1. Follow the steps outlined [here](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) to create an OAuth client in Pipedream.
+2. Open the **Apps** tab within your Pipedream project and select **Add app**.
+3. Select the app you're looking for, then select the OAuth client from the dropdown menu 
+4. When connecting an account either via the [frontend SDK](/connect/quickstart#use-the-pipedream-sdk-in-your-frontend) or using [Connect Link](/connect/quickstart#use-connect-link), make sure to include the `oauth_app_id` in the request.
+
+## Finding your OAuth app ID
+[Create your OAuth client in Pipedream](https://pipedream.com/@/accounts/oauth-clients) then click the arrow to the left of the client name to expand the details.
+
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1730241292/oauth-app-id_umhhqi.png" alt="Copy OAuth App ID" width={650} height={529} />
+
+## Using Pipedream OAuth clients

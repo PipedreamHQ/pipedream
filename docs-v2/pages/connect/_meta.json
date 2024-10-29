@@ -17,6 +17,9 @@
   "environments": {
     "title": "Environments"
   },
+  "oauth-clients": {
+    "title": "OAuth Clients"
+  },
   "webhooks": {
     "title": "Webhooks"
   },
