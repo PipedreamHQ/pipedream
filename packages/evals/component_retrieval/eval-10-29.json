@@ -1,0 +1,529 @@
+{
+  "evaluationTests": [
+    {
+      "query": "When a lead is created in Salesforce, create a task in Asana and send a message in Slack",
+      "sources": [
+        "salesforce_rest_api-new-record-instant",
+        "salesforce_rest_api-new-record"
+      ],
+      "actions": [
+        "asana-create-task",
+        "slack-send-message",
+        "slack-send-message-advanced"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "add new hubspot contacts to mailchimp",
+      "sources": [
+        "hubspot-new-contact",
+        "hubspot-new-contact-in-list"
+      ],
+      "actions": [
+        "mailchimp-add-or-update-subscriber"
+      ],
+      "persona": "succinct"
+    },
+    {
+      "query": "how do I get a phone number",
+      "sources": [],
+      "actions": [],
+      "persona": "invalid-query"
+    },
+    {
+      "query": "when new emails arrive in Gmail, use OpenAI to summarize them and post to Slack",
+      "sources": [
+        "gmail-new-email-received",
+        "gmail-new-email-matching-search"
+      ],
+      "actions": [
+        "openai-chat",
+        "slack-send-message",
+        "slack-send-message-advanced"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "watch airtable for new records",
+      "sources": [
+        "airtable_oauth-new-records",
+        "airtable_oauth-new-records-in-view"
+      ],
+      "actions": [],
+      "persona": "succinct"
+    },
+    {
+      "query": "create jira ticket",
+      "sources": [],
+      "actions": [
+        "jira-create-issue"
+      ],
+      "persona": "succinct"
+    },
+    {
+      "query": "When new candidate appears in Lever, create user in JumpCloud",
+      "sources": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "Add new LeanIX components to our Architecture Handbook in Confluence",
+      "sources": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When a deal closes in Close.com, create project in TeamGantt",
+      "sources": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new Zendesk tickets arrive, analyze sentiment with OpenAI and prioritize in Linear",
+      "sources": [
+        "zendesk-new-ticket"
+      ],
+      "actions": [
+        "openai-chat",
+        "linear-create-issue"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "when new issues are created in GitHub, analyze priority with chatgpt and create corresponding Trello cards",
+      "sources": [
+        "github-new-or-updated-issue"
+      ],
+      "actions": [
+        "openai-chat",
+        "trello-create-card"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When someone books through Calendly, add event to Google Calendar",
+      "sources": [
+        "calendly_v2-new-event-scheduled"
+      ],
+      "actions": [
+        "google_calendar-create-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When files are uploaded to Box, create Google Doc",
+      "sources": [
+        "box-new-file"
+      ],
+      "actions": [
+        "google_docs-create-document"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When Box gets new file, upload to OneDrive and Google Drive",
+      "sources": [
+        "box-new-file"
+      ],
+      "actions": [
+        "microsoft_onedrive-upload-file",
+        "google_drive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When files are added to OneDrive folder, save to Google Drive",
+      "sources": [
+        "microsoft_onedrive-new-file-in-folder"
+      ],
+      "actions": [
+        "google_drive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create new task in Google Tasks when Todoist task is created",
+      "sources": [
+        "todoist-new-task"
+      ],
+      "actions": [
+        "google_tasks-create-task"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "create event in Zoho Calendar when Google Calendar event is updated",
+      "sources": [
+        "google_calendar-new-or-updated-event-instant"
+      ],
+      "actions": [
+        "zoho_calendar-create-or-update-event"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "send email through Gmail when Zoho Mail receives new message",
+      "sources": [
+        "zoho_mail-new-email"
+      ],
+      "actions": [
+        "gmail-send-email"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "When files are uploaded to Dropbox, copy them to Google Drive",
+      "sources": [
+        "dropbox-new-file"
+      ],
+      "actions": [
+        "google_drive-upload-file"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "upload file to Microsoft OneDrive when Google Drive gets new file",
+      "sources": [
+        "google_drive-new-files-instant"
+      ],
+      "actions": [
+        "microsoft_onedrive-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "I need new RSS items to be posted to Discord",
+      "sources": [
+        "rss-new-item-in-feed",
+        "rss-new-item-from-multiple-feeds"
+      ],
+      "actions": [
+        "discord-send-message",
+        "discord_bot-send-message",
+        "discord_bot-send-message-to-forum-post"
+      ],
+      "persona": "verbose"
+    },
+    {
+      "query": "When Box gets new file, copy to Dropbox",
+      "sources": [
+        "box-new-file"
+      ],
+      "actions": [
+        "dropbox-upload-file"
+      ],
+      "persona": "similar-app"
+    },
+    {
+      "query": "Create a new project in Wrike when Typeform is submitted",
+      "sources": [
+        "typeform-new-submission"
+      ],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When Gcal events are updated, post to Slack",
+      "sources": [
+        "google_calendar-new-or-updated-event-instant"
+      ],
+      "actions": [
+        "slack-send-message"
+      ],
+      "persona": "ambiguous"
+    },
+    {
+      "query": "When customer churns in Chargebee, remove access in Auth0 and revoke Workato license",
+      "sources": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When a new invoice is created in NetSuite, sync to Sage Intacct",
+      "sources": [],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When new document is uploaded to Box, scan with Nightfall",
+      "sources": [
+        "box-new-file"
+      ],
+      "actions": [],
+      "persona": "no-component"
+    },
+    {
+      "query": "When files change in shared Google Drive, notify in Slack",
+      "sources": [
+        "google_drive-changes-to-specific-files-shared-drive"
+      ],
+      "actions": [
+        "slack-send-message",
+        "slack-send-message-advanced"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When worksheets are added to Google Sheets, create Notion pages",
+      "sources": [
+        "google_sheets-new-worksheet"
+      ],
+      "actions": [
+        "notion-create-page",
+        "notion-create-page-from-database"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When documents are uploaded to Google Drive, use GPT to generate summaries in Notion",
+      "sources": [
+        "google_drive-new-files-instant"
+      ],
+      "actions": [
+        "openai-chat",
+        "notion-create-page",
+        "notion-create-page-from-database"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When RingCentral records a call, transcribe with OpenAI",
+      "sources": [
+        "ringcentral-new-call-recording"
+      ],
+      "actions": [
+        "openai-create-transcription"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When new article appears in Inoreader folder, save to Notion",
+      "sources": [
+        "inoreader-new-article-in-folder"
+      ],
+      "actions": [
+        "notion-create-page",
+        "notion-create-page-from-database"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When deals change stage in HubSpot, update records in Salesforce",
+      "sources": [
+        "hubspot-deal-updated"
+      ],
+      "actions": [
+        "salesforce_rest_api-update-record"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When someone stars our GitHub repo, send an email in Gmail",
+      "sources": [
+        "github-new-stars",
+        "github-new-star-by-user"
+      ],
+      "actions": [
+        "openai-chat",
+        "gmail-send-email"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When a new form is answered in Google Forms, add to Airtable",
+      "sources": [
+        "google_forms-new-form-answer"
+      ],
+      "actions": [
+        "airtable_oauth-create-single-record"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "I need all Typeform submissions to be analyzed by ChatGPT and then posted to both Slack and Notion",
+      "sources": [
+        "typeform-new-submission"
+      ],
+      "actions": [
+        "openai-chat",
+        "slack-send-message",
+        "slack-send-message-advanced",
+        "notion-create-page",
+        "notion-create-page-from-database"
+      ],
+      "persona": "verbose"
+    },
+    {
+      "query": "When a row is added to Google Sheets in a shared drive, create a Linear ticket",
+      "sources": [
+        "google_sheets-new-row-added"
+      ],
+      "actions": [
+        "linear-create-issue"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When a message is posted to Discord, analyze with OpenAI",
+      "sources": [
+        "discord-new-message",
+        "discord_bot-new-message-in-channel"
+      ],
+      "actions": [
+        "openai-chat"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When a new email is received in Gmail, create a task in Google Tasks, and append the email details to a Google Sheet",
+      "sources": [
+        "gmail-new-email-received",
+        "gmail-new-email-matching-search"
+      ],
+      "actions": [
+        "google_tasks-create-task",
+        "google_sheets-add-single-row"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When a new event is added to Google Calendar, update a page in Notion, and notify the IT team in Slack",
+      "sources": [
+        "google_calendar-new-event"
+      ],
+      "actions": [
+        "notion-update-page",
+        "slack-send-message",
+        "slack-send-message-advanced"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "When a new order is created in Shopify, create a meeting in Zoom, and log the order details in Google Sheets",
+      "sources": [
+        "shopify_developer_app-new-order-created"
+      ],
+      "actions": [
+        "zoom-create-meeting",
+        "zoom_admin-create-meeting",
+        "google_sheets-add-single-row"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "when a new lead submits our Typeform, analyze their responses with OpenAI for sentiment and urgency, then alert the sales team in Slack",
+      "sources": [
+        "typeform-new-submission"
+      ],
+      "actions": [
+        "openai-chat",
+        "slack-send-message",
+        "slack-send-message-advanced"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "whenever someone mentions our company on Twitter, send the tweet to OpenAI for analysis and automatically create a Notion page to track our response",
+      "sources": [
+        "twitter-new-mention-received-by-user"
+      ],
+      "actions": [
+        "openai-chat",
+        "notion-create-page",
+        "notion-create-page-from-database"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "when new form submissions come in through Jotform, add them to our Google Sheet and notify the team in Discord",
+      "sources": [
+        "jotform-new-submission"
+      ],
+      "actions": [
+        "google_sheets-add-single-row",
+        "discord-send-message",
+        "discord_bot-send-message"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "when a new Google Calendar event is created, update our team availability spreadsheet and send a Telegram notification",
+      "sources": [
+        "google_calendar-new-event"
+      ],
+      "actions": [
+        "google_sheets-update-row",
+        "telegram_bot_api-send-text-message-or-reply"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "whenever someone books a meeting in Calendly, create a Notion page for notes and add a prep task in Todoist",
+      "sources": [
+        "calendly_v2-new-event-scheduled"
+      ],
+      "actions": [
+        "notion-create-page",
+        "notion-create-page-from-database",
+        "todoist-create-task"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "when a new file is uploaded to our Google Drive shared folder, create an entry in our asset tracking sheet and notify the team in Slack",
+      "sources": [
+        "google_drive-new-files-instant"
+      ],
+      "actions": [
+        "google_sheets-add-single-row",
+        "slack-send-message",
+        "slack-send-message-advanced"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "when we get a new YouTube video, transcribe it with OpenAI and create a Notion page with the content",
+      "sources": [
+        "youtube_data_api-new-videos"
+      ],
+      "actions": [
+        "openai-create-transcription",
+        "notion-create-page"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "whenever someone fills out our Typeform, add their info to Airtable and send them a welcome email",
+      "sources": [
+        "typeform-new-submission"
+      ],
+      "actions": [
+        "airtable_oauth-create-single-record",
+        "gmail-send-email"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "when new RSS items mention our company, analyze them with OpenAI and add important ones to our Google sheet",
+      "sources": [
+        "rss-new-item-in-feed"
+      ],
+      "actions": [
+        "openai-chat",
+        "google_sheets-add-single-row"
+      ],
+      "persona": "complex-workflow"
+    },
+    {
+      "query": "whenever we get a new email in Gmail with attachments, save them to Google Drive and update our document log in Notion",
+      "sources": [
+        "gmail-new-attachment-received"
+      ],
+      "actions": [
+        "google_drive-upload-file",
+        "notion-update-page"
+      ],
+      "persona": "complex-workflow"
+    }
+  ]
+}
