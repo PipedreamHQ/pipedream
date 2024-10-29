@@ -14,42 +14,23 @@ export type PipedreamOAuthClient = {
 
 /**
  * Options for creating a server-side client.
- * This is used to configure the ServerClient instance.
+ * This is used to configure the BackendClient instance.
  */
-export type CreateServerClientOpts = {
-  /**
-   * @deprecated Use the `oauth` object instead.
-   * The public API key for accessing the service.
-   */
-  publicKey?: string;
-
-  /**
-   * @deprecated Use the `oauth` object instead.
-   * The secret API key for accessing the service.
-   */
-  secretKey?: string;
-
+export type CreateBackendClientOpts = {
   /**
    * The environment in which the server client is running (e.g., "production", "development").
    */
   environment?: string;
 
   /**
-   * @deprecated Use the `oauth` object instead.
-   * The client ID of your workspace's OAuth application.
-   */
-  oauthClientId?: string;
-
-  /**
-   * @deprecated Use the `oauth` object instead.
-   * The client secret of your workspace's OAuth application.
-   */
-  oauthClientSecret?: string;
-
-  /**
    * The OAuth object, containing client ID and client secret.
    */
   oauth?: PipedreamOAuthClient;
+
+  /**
+   * The base project ID tied to relevant API requests
+   */
+  projectId?: string;
 
   /**
    * The API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
@@ -318,49 +299,49 @@ interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
 }
 
 /**
- * Creates a new instance of ServerClient with the provided options.
+ * Creates a new instance of BackendClient with the provided options.
  *
  * @example
  *
  * ```typescript
  * const client = createClient({
- *   publicKey: "your-public-key",
- *   secretKey: "your-secret-key",
+ *   oauth: {
+ *    clientId: "your-client-id",
+ *    clientSecret: "your-client-secret",
+ *   },
  * });
  * ```
  *
  * @param opts - The options for creating the server client.
- * @returns A new instance of ServerClient.
+ * @returns A new instance of BackendClient.
  */
-export function createClient(opts: CreateServerClientOpts) {
-  return new ServerClient(opts);
+export function createClient(opts: CreateBackendClientOpts) {
+  return new BackendClient(opts);
 }
 
 /**
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
-export class ServerClient {
-  private secretKey?: string;
-  private publicKey?: string;
+export class BackendClient {
   private environment: string;
   private oauthClient?: ClientCredentials;
   private oauthToken?: AccessToken;
+  private projectId?: string;
   private readonly baseAPIURL: string;
   private readonly baseWorkflowDomain: string;
 
   /**
-   * Constructs a new ServerClient instance.
+   * Constructs a new BackendClient instance.
    *
    * @param opts - The options for configuring the server client.
    * @param oauthClient - An optional OAuth client to use for authentication in tests
    */
   constructor(
-    opts: CreateServerClientOpts,
+    opts: CreateBackendClientOpts,
     oauthClient?: ClientCredentials,
   ) {
     this.environment = opts.environment ?? "production";
-    this.secretKey = opts.secretKey;
-    this.publicKey = opts.publicKey;
+    this.projectId = opts.projectId;
 
     const {
       apiHost = "api.pipedream.com", baseWorkflowDomain = "m.pipedream.net",
@@ -378,18 +359,14 @@ export class ServerClient {
   }
 
   private configureOauthClient(
-    {
-      oauthClientId: id,
-      oauthClientSecret: secret,
-      oauth,
-    }: CreateServerClientOpts,
+    { oauth }: CreateBackendClientOpts,
     tokenHost: string,
   ) {
-    const clientId = oauth?.clientId ?? id;
-    const clientSecret = oauth?.clientSecret ?? secret;
+    const clientId = oauth?.clientId;
+    const clientSecret = oauth?.clientSecret;
 
     if (!clientId || !clientSecret) {
-      return;
+      throw new Error("OAuth client ID and secret are required");
     }
 
     const client = {
@@ -404,17 +381,6 @@ export class ServerClient {
         tokenPath: "/v1/oauth/token",
       },
     });
-  }
-
-  /**
-   * Generates an Authorization header for Connect using the public and secret
-   * keys of the target project.
-   *
-   * @returns The authorization header as a string.
-   */
-  private connectAuthorizationHeader(): string {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString("base64");
-    return `Basic ${encoded}`;
   }
 
   private async oauthAuthorizationHeader(): Promise<string> {
@@ -537,45 +503,23 @@ export class ServerClient {
    * @template T - The expected response type.
    * @param path - The API endpoint path.
    * @param opts - The options for the request.
-   * @param authType - The type of authorization to use ("oauth" or "connect").
    * @returns A promise resolving to the API response.
    * @throws Will throw an error if the response status is not OK.
    */
-  private async makeAuthorizedRequest<T>(
+  public async makeAuthorizedRequest<T>(
     path: string,
     opts: RequestOptions = {},
-    authType: "oauth" | "connect" = "oauth",
   ): Promise<T> {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
       ...opts.headers,
+      "Authorization": await this.oauthAuthorizationHeader(),
     };
-
-    if (authType === "oauth") {
-      headers["Authorization"] = await this.oauthAuthorizationHeader();
-    } else {
-      headers["Authorization"] = this.connectAuthorizationHeader();
-    }
 
     return this.makeRequest<T>(path, {
       headers,
       ...opts,
     });
-  }
-
-  /**
-   * Makes a request to the Pipedream API using OAuth authorization.
-   *
-   * @template T - The expected response type.
-   * @param path - The API endpoint path.
-   * @param opts - The options for the request.
-   * @returns A promise resolving to the API response.
-   */
-  private async makeApiRequest<T>(
-    path: string,
-    opts: RequestOptions = {},
-  ): Promise<T> {
-    return this.makeAuthorizedRequest<T>(path, opts, "oauth");
   }
 
   /**
@@ -590,7 +534,8 @@ export class ServerClient {
     path: string,
     opts: RequestOptions = {},
   ): Promise<T> {
-    return this.makeAuthorizedRequest<T>(`/connect${path}`, opts, "connect");
+    const fullPath = `/connect/${this.projectId}${path}`;
+    return this.makeAuthorizedRequest<T>(fullPath, opts);
   }
 
   /**

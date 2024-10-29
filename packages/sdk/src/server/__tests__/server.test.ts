@@ -1,12 +1,13 @@
 import {
-  ServerClient, createClient, HTTPAuthType,
+  BackendClient, createClient, HTTPAuthType,
 } from "../index";
 import fetchMock from "jest-fetch-mock";
 import { ClientCredentials } from "simple-oauth2";
 
-let client: ServerClient;
-let customDomainClient: ServerClient;
+let client: BackendClient;
+let customDomainClient: BackendClient;
 let oauthClientMock: ClientCredentials;
+const projectId = "proj_abc123";
 
 beforeEach(() => {
   const getTokenMock = jest.fn().mockResolvedValue({
@@ -20,25 +21,23 @@ beforeEach(() => {
     getToken: getTokenMock,
   } as unknown as ClientCredentials;
 
-  client = new ServerClient(
+  client = new BackendClient(
     {
-      publicKey: "test-public-key",
-      secretKey: "test-secret-key",
       oauth: {
         clientId: "test-client-id",
         clientSecret: "test-client-secret",
       },
+      projectId,
     },
     oauthClientMock,
   );
 
-  customDomainClient = new ServerClient({
-    publicKey: "test-public-key",
-    secretKey: "test-secret-key",
+  customDomainClient = new BackendClient({
     oauth: {
       clientId: "test-client-id",
       clientSecret: "test-client-secret",
     },
+    projectId,
     baseWorkflowDomain: "example.com",
   });
 });
@@ -48,20 +47,23 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe("ServerClient", () => {
+describe("BackendClient", () => {
   beforeEach(() => {
     fetchMock.resetMocks();
   });
 
   describe("createClient", () => {
-    it("should mock the createClient method and return a ServerClient instance", () => {
+    it("should mock the createClient method and return a BackendClient instance", () => {
       const params = {
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+        oauth: {
+          clientId: "test-client-id",
+          clientSecret: "test",
+        },
+        projectId,
       };
 
       client = createClient(params);
-      expect(client).toBeInstanceOf(ServerClient);
+      expect(client).toBeInstanceOf(BackendClient);
     });
   });
 
@@ -143,7 +145,7 @@ describe("ServerClient", () => {
     });
   });
 
-  describe("makeApiRequest", () => {
+  describe("makeAuthorizedRequest", () => {
     it("should include OAuth Authorization header and make an API request", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -156,7 +158,7 @@ describe("ServerClient", () => {
         },
       );
 
-      const result = await client["makeApiRequest"]("/test-path");
+      const result = await client["makeAuthorizedRequest"]("/test-path");
 
       expect(result).toEqual({
         success: true,
@@ -174,7 +176,7 @@ describe("ServerClient", () => {
 
     it("should handle OAuth token retrieval failure", async () => {
       oauthClientMock.getToken = jest.fn().mockRejectedValue(new Error("Invalid credentials"));
-      await expect(client["makeApiRequest"]("/test-path")).rejects.toThrow("Failed to obtain OAuth token: Invalid credentials");
+      await expect(client["makeAuthorizedRequest"]("/test-path")).rejects.toThrow("Failed to obtain OAuth token: Invalid credentials");
     });
   });
 
@@ -197,10 +199,10 @@ describe("ServerClient", () => {
         success: true,
       });
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/test-path",
+        `https://api.pipedream.com/v1/connect/${projectId}/test-path`,
         expect.objectContaining({
           headers: expect.objectContaining({
-            "Authorization": expect.stringContaining("Basic "),
+            "Authorization": expect.stringContaining("Bearer "),
           }),
         }),
       );
@@ -230,7 +232,7 @@ describe("ServerClient", () => {
         expires_at: "2024-01-01T00:00:00Z",
       });
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/tokens",
+        `https://api.pipedream.com/v1/connect/${projectId}/tokens`,
         expect.objectContaining({
           method: "POST",
           body: JSON.stringify({
@@ -269,7 +271,7 @@ describe("ServerClient", () => {
         expires_at: "2024-01-01T00:00:00Z",
       });
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/tokens",
+        `https://api.pipedream.com/v1/connect/${projectId}/tokens`,
         expect.objectContaining({
           method: "POST",
           body: JSON.stringify({
@@ -314,7 +316,7 @@ describe("ServerClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts?include_credentials=1",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts?include_credentials=1`,
         expect.any(Object),
       );
     });
@@ -341,7 +343,7 @@ describe("ServerClient", () => {
         name: "Test Account",
       });
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/account-1",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts/account-1`,
         expect.any(Object),
       );
     });
@@ -372,7 +374,7 @@ describe("ServerClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/app/app-1",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts/app/app-1`,
         expect.any(Object),
       );
     });
@@ -403,7 +405,7 @@ describe("ServerClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/users/external-id-1/accounts",
+        `https://api.pipedream.com/v1/connect/${projectId}/users/external-id-1/accounts`,
         expect.any(Object),
       );
     });
@@ -418,7 +420,7 @@ describe("ServerClient", () => {
       await client.deleteAccount("account-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/account-1",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts/account-1`,
         expect.objectContaining({
           method: "DELETE",
         }),
@@ -435,7 +437,7 @@ describe("ServerClient", () => {
       await client.deleteAccountsByApp("app-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/app/app-1",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts/app/app-1`,
         expect.objectContaining({
           method: "DELETE",
         }),
@@ -452,7 +454,7 @@ describe("ServerClient", () => {
       await client.deleteExternalUser("external-id-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/users/external-id-1",
+        `https://api.pipedream.com/v1/connect/${projectId}/users/external-id-1`,
         expect.objectContaining({
           method: "DELETE",
         }),
@@ -489,7 +491,7 @@ describe("ServerClient", () => {
         ],
       });
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/projects/info",
+        `https://api.pipedream.com/v1/connect/${projectId}/projects/info`,
         expect.objectContaining({
           method: "GET",
         }),
@@ -621,14 +623,13 @@ describe("ServerClient", () => {
         getToken: getTokenMock,
       } as unknown as ClientCredentials;
 
-      const client = new ServerClient(
+      const client = new BackendClient(
         {
-          publicKey: "test-public-key",
-          secretKey: "test",
           oauth: {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
           },
+          projectId: "proj_abc123",
         },
         oauthClientMock,
       );
@@ -645,7 +646,7 @@ describe("ServerClient", () => {
       );
 
       // First request will get the expired token and fetch a new one
-      const result1 = await client["makeApiRequest"]("/test-path");
+      const result1 = await client["makeAuthorizedRequest"]("/test-path");
 
       expect(result1).toEqual({
         success: true,
@@ -663,7 +664,7 @@ describe("ServerClient", () => {
   });
 
   describe("invokeWorkflowForExternalUser", () => {
-    let client: ServerClient;
+    let client: BackendClient;
 
     beforeEach(() => {
       fetchMock.resetMocks();
@@ -692,14 +693,13 @@ describe("ServerClient", () => {
       const oauthClientMock = {
         getToken: getTokenMock,
       } as unknown as ClientCredentials;
-      client = new ServerClient(
+      client = new BackendClient(
         {
-          publicKey: "test-public-key",
-          secretKey: "test",
           oauth: {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
           },
+          projectId,
         },
         oauthClientMock,
       );
@@ -752,7 +752,7 @@ describe("ServerClient", () => {
     });
   });
 
-  describe("ServerClient - buildWorkflowUrl", () => {
+  describe("BackendClient - buildWorkflowUrl", () => {
     describe("Default domain (m.pipedream.net)", () => {
       it("should return full URL if input is a full URL with protocol", () => {
         const input = "https://en123.m.pipedream.net";
