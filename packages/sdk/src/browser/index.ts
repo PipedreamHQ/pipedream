@@ -79,14 +79,14 @@ type StartConnectOpts = {
  *
  * @example
  * ```typescript
- * const client = createClient({
+ * const client = createFrontendClient({
  *   environment: "production",
  * });
  * ```
  * @param opts - The options for creating the browser client.
  * @returns A new instance of `BrowserClient`.
  */
-export function createClient(opts: CreateBrowserClientOpts = {}) {
+export function createFrontendClient(opts: CreateBrowserClientOpts = {}) {
   return new BrowserClient(opts);
 }
 
