@@ -61,7 +61,7 @@ export default {
       if (!thread.applied_tags) {
         continue;
       }
-      if (thread.applied_tags.some((tag) => !tags[thread.id].includes(tag))) {
+      if (thread.applied_tags.some((tag) => !tags[thread.id] || !tags[thread.id].includes(tag))) {
         const meta = this.generateMeta(thread);
         this.$emit(thread, meta);
 
