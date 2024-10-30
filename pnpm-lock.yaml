@@ -2644,11 +2644,11 @@ importers:
 
   components/discord_bot:
     specifiers:
-      '@pipedream/platform': ^1.6.0
+      '@pipedream/platform': ^3.0.3
       form-data: ^4.0.0
       lodash.maxby: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.6.2
+      '@pipedream/platform': 3.0.3
       form-data: 4.0.0
       lodash.maxby: 4.6.0
 
@@ -21540,12 +21540,6 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
-  /@types/node/22.7.9:
-    resolution: {integrity: sha512-jrTfRC7FM6nChvU7X2KqcrgquofrWLFDeYC1hKfwNWomVvrn7JIksqf344WN2X/y8xrgqBd2dJATZV4GbatBfg==}
-    dependencies:
-      undici-types: 6.19.8
-    dev: false
-
   /@types/normalize-package-data/2.4.2:
     resolution: {integrity: sha512-lqa4UEhhv/2sjjIQgjX8B+RBjj47eo0mzGasklVJ78UKGQY1r0VpB9XHDaZZO9qzEFDdy4MrXLuEaSmPrPSe/A==}
     dev: true
@@ -21679,7 +21673,7 @@ packages:
   /@types/ws/8.5.12:
     resolution: {integrity: sha512-3tPRkv1EtkDpzlgyKyI8pGsGZAGPEaXeu0DOj5DI25Ja91bdAYddYHbADRYVrZMRbfW+1l5YwXVDKohDJNQxkQ==}
     dependencies:
-      '@types/node': 22.7.9
+      '@types/node': 20.16.1
     dev: false
 
   /@types/ws/8.5.3:
