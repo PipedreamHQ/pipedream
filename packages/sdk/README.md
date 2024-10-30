@@ -55,7 +55,7 @@ For example:
 
 ```bash
 cd your_project_directory
-echo `nodejs 22.10.0` >> `.tool-versions` # Please reference the latest version being used in the Pipedream public repo
+echo "nodejs 22.10.0" >> .tool-versions # Please reference the latest version being used in the Pipedream public repo
 ```
 
 Then, in your local project, run
