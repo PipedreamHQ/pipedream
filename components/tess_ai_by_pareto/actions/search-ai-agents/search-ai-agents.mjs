@@ -1,8 +1,8 @@
 import app from "../../tess_ai_by_pareto.app.mjs";
 
 export default {
-  key: "tess_ai_by_pareto-search-templates",
-  name: "Search AI Templates",
+  key: "tess_ai_by_pareto-search-ai-agents",
+  name: "Search AI Agents",
   description:
     "Retrieve AI Agents (templates) that match the specified criteria. [See the documentation](https://tess.pareto.io/api/swagger#/default/201046139d07458d530ad3526e0b3c2f)",
   version: "0.0.1",
