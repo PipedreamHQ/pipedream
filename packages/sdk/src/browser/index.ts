@@ -86,7 +86,7 @@ type StartConnectOpts = {
  * @param opts - The options for creating the browser client.
  * @returns A new instance of `BrowserClient`.
  */
-export function createClient(opts: CreateBrowserClientOpts) {
+export function createClient(opts: CreateBrowserClientOpts = {}) {
   return new BrowserClient(opts);
 }
 
