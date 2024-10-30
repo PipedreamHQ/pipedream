@@ -26,7 +26,6 @@ export default {
       label: "Scope",
       description: "The scope of the webhook",
       options: SCOPE_OPTIONS,
-      optional: true,
     },
   },
   methods: {
