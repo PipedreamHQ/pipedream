@@ -1,11 +1,12 @@
+import { TYPE_OPTIONS } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import crowdin from "../../crowdin.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
-  key: "crowdin-upload-file",
-  name: "Upload File to Project",
-  description: "Uploads a file into the created project. [See the documentation](https://developer.crowdin.com/api/v2/#tag/source-files/operation/api.projects.files.post)",
-  version: "0.0.{{ts}}",
+  key: "crowdin-add-file",
+  name: "Add File to Project",
+  description: "Adds a file into the created project. [See the documentation](https://developer.crowdin.com/api/v2/#tag/source-files/operation/api.projects.files.post)",
+  version: "0.0.1",
   type: "action",
   props: {
     crowdin,
@@ -24,7 +25,7 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "The name of the file in Crowdin",
+      description: "The name of the file in Crowdin. **Note:** Can't contain `\\ / : * ? \" < > |` symbols. `ZIP` files are not allowed.",
     },
     branchId: {
       propDefinition: [
@@ -47,25 +48,26 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "The title of the file",
+      description: "Use to provide more details for translators. Title is available in UI only",
       optional: true,
     },
     context: {
       type: "string",
       label: "Context",
-      description: "The context of the file",
+      description: "Use to provide context about whole file",
       optional: true,
     },
     type: {
       type: "string",
       label: "File Type",
-      description: "The type of the file",
+      description: "The type of the file. **Note:** Use `docx` type to import each cell as a separate source string for XLSX file. Default is `auto`",
+      options: TYPE_OPTIONS,
       optional: true,
     },
     parserVersion: {
       type: "integer",
       label: "Parser Version",
-      description: "The version of the parser",
+      description: "Using latest parser version by default. **Note:** Must be used together with `type`.",
       optional: true,
     },
     attachLabelIds: {
@@ -79,24 +81,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      projectId: this.projectId,
-      storageId: this.storageId,
-      name: this.name,
-      branchId: this.branchId,
-      directoryId: this.directoryId,
-      title: this.title,
-      context: this.context,
-      type: this.type,
-      parserVersion: this.parserVersion,
-      attachLabelIds: this.attachLabelIds,
-    };
+    const {
+      crowdin,
+      attachLabelIds,
+      projectId,
+      ...data
+    } = this;
 
-    const data = Object.fromEntries(Object.entries(params).filter(([
-      , v,
-    ]) => v !== undefined && v !== ""));
-
-    const response = await this.crowdin.uploadFileToProject(data);
+    const response = await crowdin.uploadFileToProject({
+      $,
+      projectId,
+      data: {
+        ...data,
+        attachLabelIds: parseObject(attachLabelIds),
+      },
+    });
     $.export("$summary", `Successfully uploaded file: ${this.name}`);
     return response;
   },

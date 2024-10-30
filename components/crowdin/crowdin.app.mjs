@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,55 +9,66 @@ export default {
       type: "string",
       label: "Project ID",
       description: "The ID of the project",
-      async options() {
-        const projects = await this.listProjects();
-        return projects.map((project) => ({
-          label: project.name,
-          value: project.id,
+      async options({ page }) {
+        const { data } = await this.listProjects({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return data.map(({
+          data: {
+            id: value, name: label,
+          },
+        }) => ({
+          label,
+          value,
         }));
       },
     },
     directoryId: {
       type: "string",
       label: "Directory ID",
-      description: "The ID of the directory",
+      description: "The ID of the directory. **Note:** Can't be used with `Branch Id` in same request",
       optional: true,
-      async options({ projectId }) {
-        const directories = await this.listDirectories({
+      async options({
+        page, projectId,
+      }) {
+        const { data } = await this.listDirectories({
           projectId,
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
         });
-        return directories.map((directory) => ({
-          label: directory.name,
-          value: directory.id,
+        return data.map(({
+          data: {
+            id: value, name: label,
+          },
+        }) => ({
+          label,
+          value,
         }));
       },
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name associated with the event or project",
     },
     sourceLanguageId: {
       type: "string",
       label: "Source Language ID",
       description: "The language ID of the source language",
-      async options() {
-        const languages = await this.listSupportedLanguages();
-        return languages.map((language) => ({
-          label: language.name,
-          value: language.id,
-        }));
-      },
-    },
-    targetLanguageIds: {
-      type: "string[]",
-      label: "Target Language IDs",
-      description: "Array of target language IDs",
-      async options() {
-        const languages = await this.listSupportedLanguages();
-        return languages.map((language) => ({
-          label: language.name,
-          value: language.id,
+      async options({ page }) {
+        const { data } = await this.listSupportedLanguages({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return data.map(({
+          data: {
+            id: value, name: label,
+          },
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -64,26 +76,45 @@ export default {
       type: "string",
       label: "Storage ID",
       description: "The ID of the storage",
-      async options() {
-        const storages = await this.listStorages();
-        return storages.map((storage) => ({
-          label: `Storage ${storage.id}`,
-          value: storage.id,
+      async options({ page }) {
+        const { data } = await this.listStorages({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return data.map(({
+          data: {
+            id: value, fileName: label,
+          },
+        }) => ({
+          label,
+          value,
         }));
       },
     },
     branchId: {
       type: "string",
       label: "Branch ID",
-      description: "The ID of the branch",
+      description: "Defines branch to which file will be added. **Note:** Can't be used with `Directory Id` in same request",
       optional: true,
-      async options({ projectId }) {
-        const branches = await this.listBranches({
+      async options({
+        page, projectId,
+      }) {
+        const { data } = await this.listBranches({
           projectId,
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
         });
-        return branches.map((branch) => ({
-          label: branch.name,
-          value: branch.id,
+        return data.map(({
+          data: {
+            id: value, name, title,
+          },
+        }) => ({
+          label: `${title} - ${name}`,
+          value,
         }));
       },
     },
@@ -92,13 +123,23 @@ export default {
       label: "Attach Label IDs",
       description: "The IDs of the labels to attach",
       optional: true,
-      async options({ projectId }) {
-        const labels = await this.listLabels({
+      async options({
+        page, projectId,
+      }) {
+        const { data } = await this.listLabels({
           projectId,
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
         });
-        return labels.map((label) => ({
-          label: label.title,
-          value: label.id,
+        return data.map(({
+          data: {
+            id: value, title: label,
+          },
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -106,45 +147,49 @@ export default {
       type: "string",
       label: "Machine Translation ID",
       description: "The ID of the machine translation engine",
-      async options() {
-        const mts = await this.listMachineTranslations();
-        return mts.map((mt) => ({
-          label: mt.name,
-          value: mt.id,
+      async options({ page }) {
+        const { data } = await this.listMTs({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return data.map(({
+          data: {
+            id: value, name: label,
+          },
+        }) => ({
+          label,
+          value,
         }));
       },
-    },
-    strings: {
-      type: "string[]",
-      label: "Strings",
-      description: "Array of strings to be translated",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.crowdin.com/api/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listProjects(opts = {}) {
+    listProjects(opts = {}) {
       return this._makeRequest({
         path: "/projects",
         ...opts,
       });
     },
-    async listDirectories({
+    listDirectories({
       projectId, ...opts
     }) {
       return this._makeRequest({
@@ -152,19 +197,19 @@ export default {
         ...opts,
       });
     },
-    async listSupportedLanguages(opts = {}) {
+    listSupportedLanguages(opts = {}) {
       return this._makeRequest({
         path: "/languages",
         ...opts,
       });
     },
-    async listStorages(opts = {}) {
+    listStorages(opts = {}) {
       return this._makeRequest({
         path: "/storages",
         ...opts,
       });
     },
-    async listBranches({
+    listBranches({
       projectId, ...opts
     }) {
       return this._makeRequest({
@@ -172,7 +217,7 @@ export default {
         ...opts,
       });
     },
-    async listLabels({
+    listLabels({
       projectId, ...opts
     }) {
       return this._makeRequest({
@@ -180,59 +225,74 @@ export default {
         ...opts,
       });
     },
-    async listMachineTranslations(opts = {}) {
+    listMTs(opts = {}) {
       return this._makeRequest({
         path: "/mts",
         ...opts,
       });
     },
-    async emitCommentOrIssueEvent({
-      projectId, name,
-    }) {
-      // Logic to listen and emit 'stringcomment.created' event
-    },
-    async emitFileApprovedEvent({
-      projectId, name,
-    }) {
-      // Logic to listen and emit 'project.approved' event
-    },
-    async emitNewDirectoryEvent({
-      projectId, directoryId,
-    }) {
-      // Logic to listen and emit event when a new directory is created
-    },
-    async createProject(data) {
+    createProject(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/projects",
-        data,
+        ...opts,
       });
     },
-    async uploadFileToProject({
-      projectId, storageId, name, ...optionalParams
+    uploadFileToProject({
+      projectId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/projects/${projectId}/files`,
-        data: {
-          storageId,
-          name,
-          ...optionalParams,
-        },
+        ...opts,
       });
     },
-    async performMachineTranslation({
-      mtId, targetLanguageId, strings, ...optionalParams
+    performMachineTranslation({
+      mtId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/mts/${mtId}/translations`,
-        data: {
-          targetLanguageId,
-          strings,
-          ...optionalParams,
-        },
+        ...opts,
       });
+    },
+    createWebhook({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/projects/${projectId}/webhooks`,
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      projectId, webhookId,
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/projects/${projectId}/webhooks/${webhookId}`,
+      });
+    },
+    async *paginate({
+      fn, params = {}, ...opts
+    }) {
+      let hasMore = false;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page++;
+        const { data } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

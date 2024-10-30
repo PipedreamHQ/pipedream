@@ -1,11 +1,17 @@
+import { ConfigurationError } from "@pipedream/platform";
+import {
+  LANGUAGE_ACCESS_POLICY_OPTIONS,
+  TAGS_DETECTION_OPTIONS,
+  VISIBILITY_OPTIONS,
+} from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import crowdin from "../../crowdin.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "crowdin-create-project",
   name: "Create Project",
   description: "Creates a new project within Crowdin. [See the documentation](https://support.crowdin.com/developer/api/v2/#/projects-api/create-project)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     crowdin,
@@ -23,8 +29,11 @@ export default {
     targetLanguageIds: {
       propDefinition: [
         crowdin,
-        "targetLanguageIds",
+        "sourceLanguageId",
       ],
+      type: "string[]",
+      label: "Target Language IDs",
+      description: "Array of target language IDs",
       optional: true,
     },
     identifier: {
@@ -33,33 +42,19 @@ export default {
       description: "A custom identifier for the project",
       optional: true,
     },
-    type: {
-      type: "integer",
-      label: "Type",
-      description: "Defines the project type. To create a file-based project, use 0.",
-      optional: true,
-    },
     visibility: {
       type: "string",
       label: "Visibility",
       description: "Defines how users can join the project.",
+      options: VISIBILITY_OPTIONS,
       optional: true,
-      options: [
-        "open",
-        "private",
-      ],
-      default: "private",
     },
     languageAccessPolicy: {
       type: "string",
       label: "Language Access Policy",
       description: "Defines access to project languages.",
       optional: true,
-      options: [
-        "open",
-        "moderate",
-      ],
-      default: "open",
+      options: LANGUAGE_ACCESS_POLICY_OPTIONS,
     },
     cname: {
       type: "string",
@@ -74,64 +69,61 @@ export default {
       optional: true,
     },
     tagsDetection: {
-      type: "integer",
+      type: "string",
       label: "Tags Detection",
-      description: "Values available: 0 - Auto, 1 - Count tags, 2 - Skip tags.",
+      description: "The type of the tags detection.",
+      options: TAGS_DETECTION_OPTIONS,
       optional: true,
-      default: 0,
     },
     isMtAllowed: {
       type: "boolean",
       label: "Allow Machine Translation",
-      description: "Allows machine translations to be visible for translators.",
+      description: "Allows machine translations to be visible for translators. Default is **true**.",
       optional: true,
-      default: true,
     },
     taskBasedAccessControl: {
       type: "boolean",
       label: "Task Based Access Control",
-      description: "Allow project members to work with tasks they're assigned to.",
+      description: "Allow project members to work with tasks they're assigned to. Default is **false**.",
       optional: true,
       default: false,
     },
     autoSubstitution: {
       type: "boolean",
       label: "Auto Substitution",
-      description: "Allows auto-substitution.",
+      description: "Allows auto-substitution. Default is **true**.",
       optional: true,
       default: true,
     },
     autoTranslateDialects: {
       type: "boolean",
       label: "Auto Translate Dialects",
-      description: "Automatically fill in regional dialects.",
+      description: "Automatically fill in regional dialects. Default is **false**.",
       optional: true,
-      default: false,
     },
     publicDownloads: {
       type: "boolean",
       label: "Public Downloads",
-      description: "Allows translators to download source files.",
+      description: "Allows translators to download source files. Default is **true**.",
       optional: true,
-      default: true,
     },
     hiddenStringsProofreadersAccess: {
       type: "boolean",
       label: "Hidden Strings Proofreaders Access",
-      description: "Allows proofreaders to work with hidden strings.",
+      description: "Allows proofreaders to work with hidden strings. Default is **true**.",
       optional: true,
       default: true,
     },
     useGlobalTm: {
       type: "boolean",
       label: "Use Global Translation Memory",
-      description: "If true, machine translations from connected MT engines will appear as suggestions.",
+      description: "If true, machine translations from connected MT engines will appear as suggestions. Default is **true**.",
       optional: true,
     },
     showTmSuggestionsDialects: {
       type: "boolean",
       label: "Show TM Suggestions for Dialects",
-      description: "Show primary language TM suggestions for dialects if there are no dialect-specific ones.",
+      description: "Show primary language TM suggestions for dialects if there are no dialect-specific ones. Default is **true**.",
       optional: true,
       default: true,
     },
@@ -150,80 +142,43 @@ export default {
     qaCheckIsActive: {
       type: "boolean",
       label: "QA Check Is Active",
-      description: "If true, QA checks are active.",
+      description: "If true, QA checks are active. Default is **true**.",
       optional: true,
-      default: true,
     },
-    savingsReportSettingsTemplateId: {
-      type: "integer",
-      label: "Savings Report Settings Template ID",
-      description: "Report Settings Templates Identifier.",
+    type: {
+      type: "string",
+      label: "Type",
+      description: "Defines the project type. To create a file-based project, use 0.",
+      options: [
+        "0",
+        "1",
+      ],
       optional: true,
-      async options() {
-        const templates = await this.crowdin.listSavingsReportSettingsTemplates();
-        return templates.map((template) => ({
-          label: template.name,
-          value: template.id,
-        }));
-      },
-    },
-    defaultTmId: {
-      type: "integer",
-      label: "Default TM ID",
-      description: "Translation Memory ID. If omitted, a new translation memory will be created.",
-      optional: true,
-      async options() {
-        const tms = await this.crowdin.listTMs();
-        return tms.map((tm) => ({
-          label: tm.name,
-          value: tm.id,
-        }));
-      },
-    },
-    defaultGlossaryId: {
-      type: "integer",
-      label: "Default Glossary ID",
-      description: "Glossary ID. If omitted, a new Glossary will be created.",
-      optional: true,
-      async options() {
-        const glossaries = await this.crowdin.listGlossaries();
-        return glossaries.map((glossary) => ({
-          label: glossary.name,
-          value: glossary.id,
-        }));
-      },
     },
   },
   async run({ $ }) {
-    const data = {
-      name: this.name,
-      sourceLanguageId: this.sourceLanguageId,
-      identifier: this.identifier,
-      type: this.type,
-      targetLanguageIds: this.targetLanguageIds,
-      visibility: this.visibility,
-      languageAccessPolicy: this.languageAccessPolicy,
-      cname: this.cname,
-      description: this.description,
-      tagsDetection: this.tagsDetection,
-      isMtAllowed: this.isMtAllowed,
-      taskBasedAccessControl: this.taskBasedAccessControl,
-      autoSubstitution: this.autoSubstitution,
-      autoTranslateDialects: this.autoTranslateDialects,
-      publicDownloads: this.publicDownloads,
-      hiddenStringsProofreadersAccess: this.hiddenStringsProofreadersAccess,
-      useGlobalTm: this.useGlobalTm,
-      showTmSuggestionsDialects: this.showTmSuggestionsDialects,
-      skipUntranslatedStrings: this.skipUntranslatedStrings,
-      exportApprovedOnly: this.exportApprovedOnly,
-      qaCheckIsActive: this.qaCheckIsActive,
-      savingsReportSettingsTemplateId: this.savingsReportSettingsTemplateId,
-      defaultTmId: this.defaultTmId,
-      defaultGlossaryId: this.defaultGlossaryId,
-    };
+    try {
+      const {
+        crowdin,
+        type,
+        targetLanguageIds,
+        tagsDetection,
+        ...data
+      } = this;
 
-    const response = await this.crowdin.createProject(data);
-    $.export("$summary", `Project "${response.name}" created successfully`);
-    return response;
+      const response = await crowdin.createProject({
+        $,
+        data: {
+          ...data,
+          type: parseInt(type),
+          targetLanguageIds: parseObject(targetLanguageIds),
+          tagsDetection: parseInt(tagsDetection),
+        },
+      });
+      $.export("$summary", `Project created successfully with Id: ${response.data.id}`);
+      return response;
+    } catch ({ response }) {
+      throw new ConfigurationError(response.data.errors[0]?.error?.errors[0]?.message);
+    }
   },
 };

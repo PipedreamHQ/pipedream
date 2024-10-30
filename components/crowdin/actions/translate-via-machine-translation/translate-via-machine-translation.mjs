@@ -1,11 +1,11 @@
+import { LANGUAGE_R_PROVIDER_OPTIONS } from "../../common/constants.mjs";
 import crowdin from "../../crowdin.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "crowdin-translate-via-machine-translation",
   name: "Translate via Machine Translation",
   description: "Performs machine translation of the uploaded files. [See the documentation](https://support.crowdin.com/developer/api/v2/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     crowdin,
@@ -16,49 +16,42 @@ export default {
       ],
     },
     targetLanguageId: {
+      propDefinition: [
+        crowdin,
+        "sourceLanguageId",
+      ],
       type: "string",
       label: "Target Language ID",
       description: "The language ID for the target translation language",
-      async options() {
-        const languages = await this.crowdin.listSupportedLanguages();
-        return languages.map((language) => ({
-          label: language.name,
-          value: language.id,
-        }));
-      },
-    },
-    strings: {
-      propDefinition: [
-        crowdin,
-        "strings",
-      ],
     },
     languageRecognitionProvider: {
       type: "string",
       label: "Language Recognition Provider",
-      description: "Optional language recognition provider",
-      optional: true,
+      description: "Select a provider for language recognition **Note:** Is required if the source language is not selected",
+      options: LANGUAGE_R_PROVIDER_OPTIONS,
     },
     sourceLanguageId: {
-      type: "string",
-      label: "Source Language ID",
-      description: "The language ID of the source language",
-      async options() {
-        const languages = await this.crowdin.listSupportedLanguages();
-        return languages.map((language) => ({
-          label: language.name,
-          value: language.id,
-        }));
-      },
+      propDefinition: [
+        crowdin,
+        "sourceLanguageId",
+      ],
+    },
+    strings: {
+      type: "string[]",
+      label: "Strings",
+      description: "Array of strings to be translated. **Note:** You can translate up to 100 strings at a time.",
     },
   },
   async run({ $ }) {
     const response = await this.crowdin.performMachineTranslation({
+      $,
       mtId: this.mtId,
-      targetLanguageId: this.targetLanguageId,
-      strings: this.strings,
-      languageRecognitionProvider: this.languageRecognitionProvider,
-      sourceLanguageId: this.sourceLanguageId,
+      data: {
+        targetLanguageId: this.targetLanguageId,
+        strings: this.strings,
+        languageRecognitionProvider: this.languageRecognitionProvider,
+        sourceLanguageId: this.sourceLanguageId,
+      },
     });
 
     $.export("$summary", "Successfully performed machine translation");
