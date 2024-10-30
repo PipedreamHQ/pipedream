@@ -31,6 +31,7 @@ asdf install
 Install deps locally:
 
 ```bash
+cd packages/sdk
 npm i
 ```
 
@@ -45,8 +46,6 @@ You can use `npm link` to point other code to the local version of the SDK you'r
 First run `npm link` in the `sdk` directory:
 
 ```bash
-# From repo root
-cd packages/sdk
 npm link
 ```
 
