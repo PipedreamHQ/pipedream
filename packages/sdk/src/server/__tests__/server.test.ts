@@ -1,5 +1,5 @@
 import {
-  BackendClient, createClient, HTTPAuthType,
+  BackendClient, createBackendClient, HTTPAuthType,
 } from "../index";
 import fetchMock from "jest-fetch-mock";
 import { ClientCredentials } from "simple-oauth2";
@@ -52,8 +52,8 @@ describe("BackendClient", () => {
     fetchMock.resetMocks();
   });
 
-  describe("createClient", () => {
-    it("should mock the createClient method and return a BackendClient instance", () => {
+  describe("createBackendClient", () => {
+    it("should mock the createBackendClient method and return a BackendClient instance", () => {
       const params = {
         oauth: {
           clientId: "test-client-id",
@@ -62,7 +62,7 @@ describe("BackendClient", () => {
         projectId,
       };
 
-      client = createClient(params);
+      client = createBackendClient(params);
       expect(client).toBeInstanceOf(BackendClient);
     });
   });

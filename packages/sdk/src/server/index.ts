@@ -318,7 +318,7 @@ interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
  * @example
  *
  * ```typescript
- * const client = createClient({
+ * const client = createBackendClient({
  *   oauth: {
  *    clientId: "your-client-id",
  *    clientSecret: "your-client-secret",
@@ -329,7 +329,7 @@ interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
  * @param opts - The options for creating the server client.
  * @returns A new instance of BackendClient.
  */
-export function createClient(opts: CreateBackendClientOpts) {
+export function createBackendClient(opts: CreateBackendClientOpts) {
   return new BackendClient(opts);
 }
 
