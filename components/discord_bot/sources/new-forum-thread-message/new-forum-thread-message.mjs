@@ -10,7 +10,7 @@ export default {
   name: "New Forum Thread Message",
   description: "Emit new event for each forum thread message posted. Note that your bot must have the `MESSAGE_CONTENT` privilege intent to see the message content, [see the docs here](https://discord.com/developers/docs/topics/gateway#message-content-intent).",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     ...common.props,
@@ -34,6 +34,14 @@ export default {
       ],
       label: "Forum Id",
       description: "Select the forum you want to watch.",
+    },
+  },
+  methods: {
+    ...common.methods,
+    getChannel(id) {
+      return this.discord._makeRequest({
+        path: `/channels/${id}`,
+      });
     },
   },
   async run({ $ }) {
@@ -106,6 +114,11 @@ export default {
       }
 
       console.log(`${messages.length} new messages in thread ${channelId}`);
+
+      messages = await Promise.all(messages.map(async (message) => ({
+        ...message,
+        thread: await this.getChannel(message.channel_id),
+      })));
 
       messages.reverse().forEach((message) => {
         this.$emit(message, {
