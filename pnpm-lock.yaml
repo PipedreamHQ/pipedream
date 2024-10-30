@@ -434,7 +434,10 @@ importers:
       moment: 2.30.1
 
   components/aitable_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/aivoov:
     specifiers:
@@ -2791,6 +2794,9 @@ importers:
   components/donedone:
     specifiers: {}
 
+  components/donorbox:
+    specifiers: {}
+
   components/doppler:
     specifiers: {}
 
@@ -3199,6 +3205,12 @@ importers:
   components/eventee:
     specifiers: {}
 
+  components/everhour:
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
+
   components/eversign:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -3479,6 +3491,12 @@ importers:
 
   components/fixer_io:
     specifiers: {}
+
+  components/flash_by_velora_ai:
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/flexmail:
     specifiers:
@@ -4981,10 +4999,10 @@ importers:
 
   components/intercom:
     specifiers:
-      '@pipedream/platform': ^1.2.0
+      '@pipedream/platform': ^3.0.3
       crypto: ^1.0.1
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.3
       crypto: 1.0.1
 
   components/interseller:
@@ -5092,6 +5110,12 @@ importers:
       '@pipedream/platform': 3.0.1
       form-data: 4.0.0
       mime: 4.0.4
+
+  components/jina_reader:
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/jira:
     specifiers:
@@ -5651,7 +5675,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/liveswitch:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/llama_ai:
     specifiers:
@@ -7109,6 +7136,9 @@ importers:
       '@pipedream/platform': 3.0.0
       crypto: 1.0.1
 
+  components/parallel:
+    specifiers: {}
+
   components/parma:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -7229,7 +7259,10 @@ importers:
     specifiers: {}
 
   components/pdf_app_net:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/pdf_charts:
     specifiers:
@@ -8037,7 +8070,10 @@ importers:
     specifiers: {}
 
   components/rapid_url_indexer:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/rat_genome_database:
     specifiers: {}
@@ -8424,7 +8460,10 @@ importers:
     specifiers: {}
 
   components/roamresearch:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/robocorp:
     specifiers: {}
@@ -8512,7 +8551,12 @@ importers:
     specifiers: {}
 
   components/runware:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+      uuid: ^10.0.0
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      uuid: 10.0.0
 
   components/rytr:
     specifiers: {}
@@ -9401,7 +9445,10 @@ importers:
       '@pipedream/platform': 3.0.3
 
   components/smstools:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/smtp2go:
     specifiers:
