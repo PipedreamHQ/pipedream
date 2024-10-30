@@ -67,7 +67,8 @@ the `.tool-versions` file in your local project where you'd like to use the SDK.
 For example, in your app's directory:
 
 ```shell
-grep nodejs ${PIPEDREAM_REPO_PATH}/packages/sdk/.tool-versions >> .tool-versions
+# Replace /path/to/pipedream with the actual path to this repository
+grep nodejs /path/to/pipedream/packages/sdk/.tool-versions >> .tool-versions
 asdf install
 pnpm install @pipedream/sdk
 ```
