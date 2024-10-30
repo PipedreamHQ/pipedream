@@ -24,39 +24,7 @@ Here's how Connect sits in your frontend and backend, and communicates with Pipe
 
 <Steps>
 
-### Add the apps you want to integrate
-
-1. Open an existing Pipedream project or create a new one at [https://pipedream.com/projects](https://pipedream.com/projects).
-2. Click the **Connect** tab, then select **Apps**.
-3. From here, you can add any app to your project that you want to integrate with your application.
-
-There are two types of apps in Pipedream:
-
-1. **Key-based**: These apps require static credentials, like API keys. Pipedream stores these credentials securely and exposes them via API.
-2. **OAuth**: These apps require OAuth authorization. Pipedream manages the OAuth flow for these apps, ensuring you always have a fresh access token for requests.
-
-**OAuth apps require you create your own OAuth client to [deploy to production](/connect/environments):**
-
-<Callout type="info">
-To get started in [development mode](/connect/environments), you can skip these steps. To deploy your app to production, you'll need to create an OAuth client for the app you're integrating.
-</Callout>
-
-1. First, [create an OAuth client](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) for the app you'd like to integrate.
-2. Now when selecting an OAuth app in the **Apps** tab, you'll be prompted to select the OAuth client you've created.
-
-### Create a Pipedream OAuth application
-
-Pipedream uses OAuth to authorize requests to the REST API. To create an OAuth application:
-
-1. Visit the [API settings](https://pipedream.com/settings/api) for your workspace.
-2. Click the **New OAuth App** button.
-3. Name your app and click **Create**.
-4. Copy the app's client secret. **It will not be accessible again**. Click **Close**.
-5. Copy the app's client ID from the list of OAuth applications.
-
-You'll need these when configuring the SDK and making API requests.
-
-### Run the Pipedream demo app or configure your own
+### Run the Pipedream example app or configure your own
 
 You'll need to do two things to add Pipedream Connect to your app:
 
@@ -81,9 +49,27 @@ and fill the `.env.local` file with your project and app details:
 # Used by `app/server.ts` to authorize requests to the Pipedream API — see below
 PIPEDREAM_OAUTH_CLIENT_ID=your_client_id
 PIPEDREAM_OAUTH_CLIENT_SECRET=your_client_secret
+PIPEDREAM_PROJECT_ID=your_project_id
 ```
 
 If you're building your own app, you'll need to provide these values to the environment, or retrieve them from your secrets store.
+
+### Create a project in Pipedream
+
+1. Open an existing Pipedream project or create a new one at [https://pipedream.com/projects](https://pipedream.com/projects).
+2. Click the **Settings** tab, then copy your **Project ID**.
+
+### Create a Pipedream OAuth client
+
+Pipedream uses OAuth to authorize requests to the REST API. To create an OAuth application:
+
+1. Visit the [API settings](https://pipedream.com/settings/api) for your workspace.
+2. Click the **New OAuth Client** button.
+3. Name your client and click **Create**.
+4. Copy the client secret. **It will not be accessible again**. Click **Close**.
+5. Copy the client ID from the list.
+
+You'll need these when configuring the SDK and making API requests.
 
 ### Generate a short-lived token
 
@@ -150,7 +136,7 @@ export default function Home() {
 
   return (
     <main>
-      <button style={{ all: "revert" }} onClick={connectAccount}>Connect your account</button>
+      <button onClick={connectAccount}>Connect your account</button>
     </main>
   )
 }
@@ -567,6 +553,7 @@ response = client.get_user_accounts('USER_ID')
 
 ### Deploy your app to production
 
-Now that you've successfully connected an account and retrieved the credentials, you're ready to deploy your app to production!
+- Now that you've successfully connected an account and retrieved the credentials, you're almost done!
+- Learn about [development environments](/connect/environments) and [using OAuth clients](/connect/oauth-clients) to deploy your app to production.
 
 </Steps>
