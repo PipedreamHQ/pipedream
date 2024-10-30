@@ -2,7 +2,7 @@ import common from "../common/common.mjs";
 
 export default {
   key: "jira-issue-deleted",
-  name: "New Issue Deleted Event",
+  name: "New Issue Deleted Event (Instant)",
   description: "Emit new event when an issue is deleted. Note that Jira supports only one webhook, if more sources are needed please use `New Event` source and select multiple events.",
   version: "0.0.10",
   type: "source",
