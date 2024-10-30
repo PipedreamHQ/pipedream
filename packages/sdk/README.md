@@ -20,7 +20,31 @@ The [quickstart](https://pipedream.com/docs/connect/quickstart) is the easiest w
 
 Clone and run the [example app](https://github.com/PipedreamHQ/pipedream-connect-examples/) to get started.
 
+## Importing the clients in different environments
+
+You can import the SDK from the root package name, and it will automatically load the appropriate code depending on the environment (Node.js or browser).
+
+For CommonJS modules:
+
+```javascript
+const { createClient } = require("@pipedream/sdk");
+```
+
+For ES modules:
+
+```javascript
+import { createClient } from "@pipedream/sdk";
+```
+
+In browser environments:
+
+```javascript
+import { createClient } from "@pipedream/sdk";
+```
+
 ## Developing on the SDK
+
+### Setting up local package dev with `npm link`
 
 Clone this repo and initialize global dependencies. We use `asdf` to manage these dependencies — [install it here](https://asdf-vm.com/). Then run
 
@@ -56,6 +80,7 @@ For example:
 ```bash
 cd your_project_directory
 echo "nodejs 22.10.0" >> .tool-versions # Please reference the latest version being used in the Pipedream public repo
+asdf install
 ```
 
 Then, in your local project, run
@@ -78,3 +103,13 @@ and you should see the `sdk` package pointing to your local directory:
 total 0
 lrwxr-xr-x  1 dylburger  staff  34 Oct 29 20:09 sdk -> ../../../../pipedream/packages/sdk
 ```
+
+### Automatically building the SDK on new changes
+
+To automatically run `npm run build` on changes to the `src/` directory, run:
+
+```bash
+npm run watch
+```
+
+and start developing. Any changes to `src/**/*.ts` will automatically trigger builds, and any code using the linked package should use the latest version.
