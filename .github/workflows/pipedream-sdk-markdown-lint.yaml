@@ -1,4 +1,4 @@
-name: Run SDK Tests
+name: Lint SDK Markdown Files
 
 on:
   pull_request:
