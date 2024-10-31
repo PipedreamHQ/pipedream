@@ -3335,6 +3335,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.3
 
+  components/fal_ai:
+    specifiers: {}
+
   components/faraday:
     specifiers:
       '@pipedream/platform': ^1.6.0
