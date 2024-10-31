@@ -7,7 +7,7 @@ import {
   ClientCredentials,
 } from "simple-oauth2";
 
-export type PipedreamOAuthClient = {
+export type OAuthCredentials = {
   clientId: string;
   clientSecret: string;
 };
@@ -16,35 +16,38 @@ export type PipedreamOAuthClient = {
  * Options for creating a server-side client.
  * This is used to configure the BackendClient instance.
  */
-export type CreateBackendClientOpts = {
+export type BackendClientOpts = {
   /**
-   * The environment in which the server client is running (e.g., "production", "development").
+   * The environment in which the server client is running (e.g., "production",
+   * "development").
    */
   environment?: string;
 
   /**
-   * The OAuth object, containing client ID and client secret.
+   * Your OAuth credentials, containing client ID and secret.
    */
-  oauth?: PipedreamOAuthClient;
+  credentials: OAuthCredentials;
 
   /**
    * The base project ID tied to relevant API requests
    */
-  projectId?: string;
+  projectId: string;
 
   /**
-   * The API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
+   * The API host URL. Used by Pipedream employees. Defaults to
+   * "api.pipedream.com" if not provided.
    */
   apiHost?: string;
 
   /**
-   * Base domain for workflows. Used for custom domains: https://pipedream.com/docs/workflows/domains
+   * Base domain for workflows. Used for custom domains:
+   * https://pipedream.com/docs/workflows/domains
    */
-  baseWorkflowDomain?: string;
+  workflowDomain?: string;
 };
 
 /**
- * Different types of ways customers can authorize requests to HTTP endpoints
+ * Different ways in which customers can authorize requests to HTTP endpoints
  */
 export enum HTTPAuthType {
   None = "none",
@@ -55,7 +58,7 @@ export enum HTTPAuthType {
 /**
  * Options for creating a Connect token.
  */
-export type ConnectTokenCreateOpts = {
+export type ConnectTokenOpts = {
   /**
    * An external user ID associated with the token.
    */
@@ -118,34 +121,11 @@ export type ConnectTokenResponse = {
    * The expiration time of the token in ISO 8601 format.
    */
   expires_at: string;
+
   /**
    * The Connect Link URL
    */
   connect_link_url: string;
-};
-
-/**
- * Parameters for the Connect Accounts API
- */
-export type AccountsGetParams = {
-  /**
-   * The name slug of the app.
-   */
-  app?: string;
-
-  /**
-   * The external user ID associated with the account.
-   */
-  external_user_id?: string;
-
-  /**
-   * The name of the account.
-   */
-  oauth_app_id?: string;
-  /**
-   * Whether to include credentials in the request (1 to include, 0 to exclude).
-   */
-  include_credentials?: number;
 };
 
 /**
@@ -160,17 +140,7 @@ export enum AppAuthType {
 /**
  * Response object for Pipedream app metadata
  */
-export type AppResponse = {
-  /**
-   * The unique ID of the app.
-   */
-  id: string;
-
-  /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
-   */
-  name_slug: string;
-
+export type AppResponse = AppInfo & {
   /**
    * The human-readable name of the app.
    */
@@ -198,28 +168,31 @@ export type AppResponse = {
 };
 
 /**
- * Options for creating a connected account.
+ * Parameters for the retrieval of accounts from the Connect API
  */
-export type CreateAccountOpts = {
+export type GetAccountOpts = {
   /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
+   * The ID or name slug of the app, in case you want to only retrieve the
+   * accounts for a specific app.
    */
-  app_slug: string;
+  app?: string;
 
   /**
-   * The connect token used to authenticate the account creation.
+   * The ID of the app (if it's an OAuth app), in case you want to only retrieve
+   * the accounts for a specific app.
    */
-  connect_token: string;
+  oauth_app_id?: string;
 
   /**
-   * A JSON string representing a map of custom fields for the account.
+   * The external user ID associated with the account, in case you want to only
+   * retrieve the accounts of a specific user.
    */
-  cfmap_json: string;
+  external_user_id?: string;
 
   /**
-   * The name of the account.
+   * Whether to retrieve the account's credentials or not.
    */
-  name?: string;
+  include_credentials?: boolean;
 };
 
 /**
@@ -319,7 +292,7 @@ interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
  *
  * ```typescript
  * const client = createBackendClient({
- *   oauth: {
+ *   credentials: {
  *    clientId: "your-client-id",
  *    clientSecret: "your-client-secret",
  *   },
@@ -329,7 +302,7 @@ interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
  * @param opts - The options for creating the server client.
  * @returns A new instance of BackendClient.
  */
-export function createBackendClient(opts: CreateBackendClientOpts) {
+export function createBackendClient(opts: BackendClientOpts) {
   return new BackendClient(opts);
 }
 
@@ -338,47 +311,42 @@ export function createBackendClient(opts: CreateBackendClientOpts) {
  */
 export class BackendClient {
   private environment: string;
-  private oauthClient?: ClientCredentials;
+  private oauthClient: ClientCredentials;
   private oauthToken?: AccessToken;
-  private projectId?: string;
-  private readonly baseAPIURL: string;
-  private readonly baseWorkflowDomain: string;
+  private projectId: string;
+  private readonly baseApiUrl: string;
+  private readonly workflowDomain: string;
 
   /**
    * Constructs a new BackendClient instance.
    *
    * @param opts - The options for configuring the server client.
-   * @param oauthClient - An optional OAuth client to use for authentication in tests
+   * @param oauthClient - An optional OAuth client to use for authentication in
+   * tests
    */
   constructor(
-    opts: CreateBackendClientOpts,
-    oauthClient?: ClientCredentials,
+    opts: BackendClientOpts,
   ) {
     this.environment = opts.environment ?? "production";
     this.projectId = opts.projectId;
 
     const {
-      apiHost = "api.pipedream.com", baseWorkflowDomain = "m.pipedream.net",
+      apiHost = "api.pipedream.com",
+      workflowDomain = "m.pipedream.net",
     } = opts;
-    this.baseAPIURL = `https://${apiHost}/v1`;
-    this.baseWorkflowDomain = baseWorkflowDomain;
+    this.baseApiUrl = `https://${apiHost}/v1`;
+    this.workflowDomain = workflowDomain;
 
-    if (oauthClient) {
-      // Use the provided OAuth client (useful for testing)
-      this.oauthClient = oauthClient;
-    } else {
-      // Configure the OAuth client normally
-      this.configureOauthClient(opts, this.baseAPIURL);
-    }
+    this.oauthClient = this.newOauthClient(opts.credentials, this.baseApiUrl);
   }
 
-  private configureOauthClient(
-    { oauth }: CreateBackendClientOpts,
+  private newOauthClient(
+    {
+      clientId,
+      clientSecret,
+    }: OAuthCredentials,
     tokenHost: string,
   ) {
-    const clientId = oauth?.clientId;
-    const clientSecret = oauth?.clientSecret;
-
     if (!clientId || !clientSecret) {
       throw new Error("OAuth client ID and secret are required");
     }
@@ -387,8 +355,7 @@ export class BackendClient {
       id: clientId,
       secret: clientSecret,
     };
-
-    this.oauthClient = new ClientCredentials({
+    return new ClientCredentials({
       client,
       auth: {
         tokenHost,
@@ -445,7 +412,7 @@ export class BackendClient {
       headers: customHeaders,
       body,
       method = "GET",
-      baseURL = this.baseAPIURL,
+      baseURL = this.baseApiUrl,
       ...fetchOpts
     } = opts;
 
@@ -530,7 +497,7 @@ export class BackendClient {
       "Authorization": await this.oauthAuthorizationHeader(),
     };
 
-    return this.makeRequest<T>(path, {
+    return this.makeRequest(path, {
       headers,
       ...opts,
     });
@@ -544,12 +511,12 @@ export class BackendClient {
    * @param opts - The options for the request.
    * @returns A promise resolving to the API response.
    */
-  private async makeConnectRequest<T>(
+  private makeConnectRequest<T>(
     path: string,
     opts: RequestOptions = {},
   ): Promise<T> {
     const fullPath = `/connect/${this.projectId}${path}`;
-    return this.makeAuthorizedRequest<T>(fullPath, opts);
+    return this.makeAuthorizedRequest(fullPath, opts);
   }
 
   /**
@@ -562,38 +529,38 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * const tokenResponse = await client.connectTokenCreate({
+   * const tokenResponse = await client.createConnectToken({
    *   external_user_id: "external-user-id",
    * });
    * console.log(tokenResponse.token);
    * ```
    */
-  public async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
+  public createConnectToken(opts: ConnectTokenOpts): Promise<ConnectTokenResponse> {
     const body = {
       ...opts,
       external_id: opts.external_user_id,
     };
-    return this.makeConnectRequest<ConnectTokenResponse>("/tokens", {
+    return this.makeConnectRequest("/tokens", {
       method: "POST",
       body,
     });
   }
 
   /**
-   * Retrieves a list of accounts.
+   * Retrieves the list of accounts associated with the project.
    *
-   * @param params - The query parameters for retrieving accounts.
    * @returns A promise resolving to a list of accounts.
    *
    * @example
    *
    * ```typescript
-   * const accounts = await client.accountsGet({ include_credentials: 1 });
+   * const accounts = await client.getAccounts({ include_credentials: 1 });
    * console.log(accounts);
    * ```
    */
-  public async accountsGet(params: AccountsGetParams = {}): Promise<Account[]> {
-    return this.makeConnectRequest<Account[]>("/accounts", {
+  public getAccounts(params: GetAccountOpts = {}): Promise<Account[]> {
+    return this.makeConnectRequest("/accounts", {
+      method: "GET",
       params,
     });
   }
@@ -602,18 +569,21 @@ export class BackendClient {
    * Retrieves a specific account by ID.
    *
    * @param accountId - The ID of the account to retrieve.
-   * @param params - The query parameters for retrieving the account.
    * @returns A promise resolving to the account.
    *
    * @example
    *
    * ```typescript
-   * const account = await client.accountsGetById("account-id");
+   * const account = await client.getAccountById("account-id");
    * console.log(account);
    * ```
    */
-  public async accountsGetById(accountId: string, params: AccountsGetParams = {}): Promise<Account> {
-    return this.makeConnectRequest<Account>(`/accounts/${accountId}`, {
+  public getAccountById(
+    accountId: string,
+    params: GetAccountOpts = {},
+  ): Promise<Account> {
+    return this.makeConnectRequest(`/accounts/${accountId}`, {
+      method: "GET",
       params,
     });
   }
@@ -627,12 +597,12 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * await client.accountDelete("account-id");
+   * await client.deleteAccount("account-id");
    * console.log("Account deleted");
    * ```
    */
-  public async accountDelete(accountId: string): Promise<void> {
-    await this.makeConnectRequest(`/accounts/${accountId}`, {
+  public deleteAccount(accountId: string): Promise<void> {
+    return this.makeConnectRequest(`/accounts/${accountId}`, {
       method: "DELETE",
     });
   }
@@ -646,12 +616,12 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * await client.accountsDeleteByApp("app-id");
+   * await client.deleteAccountsByApp("app-id");
    * console.log("All accounts deleted");
    * ```
    */
-  public async accountsDeleteByApp(appId: string): Promise<void> {
-    await this.makeConnectRequest(`/accounts/app/${appId}`, {
+  public deleteAccountsByApp(appId: string): Promise<void> {
+    return this.makeConnectRequest(`/accounts/app/${appId}`, {
       method: "DELETE",
     });
   }
@@ -665,30 +635,29 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * await client.accountsDeleteByExternalUser("external-id");
+   * await client.deleteExternalUser("external-id");
    * console.log("All accounts deleted");
    * ```
    */
-  public async accountsDeleteByExternalUser(externalId: string): Promise<void> {
-    await this.makeConnectRequest(`/users/${externalId}`, {
+  public deleteExternalUser(externalId: string): Promise<void> {
+    return this.makeConnectRequest(`/users/${externalId}`, {
       method: "DELETE",
     });
   }
 
   /**
-   * Retrieves project information.
+   * Retrieves the project's information, such as the list of apps linked to it.
    *
    * @returns A promise resolving to the project info response.
    *
    * @example
-   *
    * ```typescript
-   * const projectInfo = await client.projectGetInfo();
+   * const projectInfo = await client.getProjectInfo();
    * console.log(projectInfo);
    * ```
    */
-  public async projectGetInfo(): Promise<ProjectInfoResponse> {
-    return this.makeConnectRequest<ProjectInfoResponse>("/projects/info", {
+  public getProjectInfo(): Promise<ProjectInfoResponse> {
+    return this.makeConnectRequest("/projects/info", {
       method: "GET",
     });
   }
@@ -703,19 +672,25 @@ export class BackendClient {
  * @throws If the input is a malformed URL, throws an error with a clear message.
  *
  * @example
+ * ```typescript
  * // Full URL input
  * this.buildWorkflowUrl("https://en123.m.pipedream.net");
  * // Returns: "https://en123.m.pipedream.net"
+ * ```
  *
  * @example
+ * ```typescript
  * // Partial URL (without protocol)
  * this.buildWorkflowUrl("en123.m.pipedream.net");
  * // Returns: "https://en123.m.pipedream.net"
+ * ```
  *
  * @example
+ * ```typescript
  * // ID only input
  * this.buildWorkflowUrl("en123");
- * // Returns: "https://en123.yourdomain.com" (where `yourdomain.com` is set in `baseWorkflowDomain`)
+ * // Returns: "https://en123.yourdomain.com" (where `yourdomain.com` is set in `workflowDomain`)
+ * ```
  */
   private buildWorkflowUrl(input: string): string {
     let url: string;
@@ -735,7 +710,7 @@ export class BackendClient {
       }
     } else {
     // If the input is an ID, construct the full URL using the base domain
-      url = `https://${input}.${this.baseWorkflowDomain}`;
+      url = `https://${input}.${this.workflowDomain}`;
     }
 
     return url;
@@ -758,7 +733,7 @@ export class BackendClient {
    * @example
    *
    * ```typescript
-   * const response = await client.workflowInvoke(
+   * const response = await client.invokeWorkflow(
    *   "https://your-workflow-url.m.pipedream.net",
    *   {
    *     body: {
@@ -775,7 +750,11 @@ export class BackendClient {
    * console.log(response);
    * ```
    */
-  public async workflowInvoke(urlOrEndpoint: string, opts: RequestOptions = {}, authType: HTTPAuthType = HTTPAuthType.None): Promise<unknown> {
+  public async invokeWorkflow(
+    urlOrEndpoint: string,
+    opts: RequestOptions = {},
+    authType: HTTPAuthType = HTTPAuthType.None,
+  ): Promise<unknown> {
     const {
       body,
       headers = {},
@@ -785,8 +764,9 @@ export class BackendClient {
 
     let authHeader: string | undefined;
     switch (authType) {
-    // It's expected that users will pass their own Authorization header in the static bearer case
     case HTTPAuthType.StaticBearer:
+      // It's expected that users will pass their own Authorization header in
+      // the static bearer case
       authHeader = headers["Authorization"];
       break;
     case HTTPAuthType.OAuth:
@@ -814,7 +794,8 @@ export class BackendClient {
    * Invokes a workflow for a Pipedream Connect user in a project
    *
    * @param url - The URL of the workflow's HTTP interface.
-   * @param externalUserId — Your end user ID, for whom you're invoking the workflow.
+   * @param externalUserId — Your end user ID, for whom you're invoking the
+   * workflow.
    * @param opts - The options for the request.
    * @param opts.body - The body of the request. It must be a JSON-serializable
    * value (e.g. an object, null, a string, etc.).
@@ -826,25 +807,29 @@ export class BackendClient {
    *
    * @example
    *
-   * ```typescript
-   * const response = await client.invokeWorkflowForExternalUser(
-   *   "https://your-workflow-url.m.pipedream.net",
-   *   "your-external-user-id",
-   *   {
-   *     body: {
-   *       foo: 123,
-   *       bar: "abc",
-   *       baz: null,
-   *     },
-   *     headers: {
-   *       "Accept": "application/json",
-   *     },
-   *   },
-   * );
-   * console.log(response);
-   * ```
+   *```typescript
+   *const response = await client.invokeWorkflowForExternalUser(
+   *  "https://your-workflow-url.m.pipedream.net",
+   *  "your-external-user-id",
+   *  {
+   *    body: {
+   *      foo: 123,
+   *      bar: "abc",
+   *      baz: null,
+   *    },
+   *    headers: {
+   *      "Accept": "application/json",
+   *    },
+   *  },
+   *);
+   *console.log(response);
+   *```
    */
-  public async workflowInvokeForExternalUser(url: string, externalUserId: string, opts: RequestOptions = {}): Promise<unknown> {
+  public async invokeWorkflowForExternalUser(
+    url: string,
+    externalUserId: string,
+    opts: RequestOptions = {},
+  ): Promise<unknown> {
     const { headers = {} } = opts;
 
     if (!externalUserId) {
@@ -855,7 +840,7 @@ export class BackendClient {
       throw new Error("OAuth is required for invoking workflows for external users. Please pass credentials for a valid OAuth client");
     }
 
-    return this.workflowInvoke(url, {
+    return this.invokeWorkflow(url, {
       ...opts,
       headers: {
         ...headers,

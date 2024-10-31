@@ -1,44 +1,46 @@
-import {
-  BackendClient, createBackendClient, HTTPAuthType,
-} from "../index";
 import fetchMock from "jest-fetch-mock";
+
 import { ClientCredentials } from "simple-oauth2";
+jest.mock("simple-oauth2");
+
+import {
+  BackendClient,
+  createBackendClient,
+  HTTPAuthType,
+} from "../index";
 
 let client: BackendClient;
 let customDomainClient: BackendClient;
-let oauthClientMock: ClientCredentials;
 const projectId = "proj_abc123";
 
 beforeEach(() => {
-  const getTokenMock = jest.fn().mockResolvedValue({
-    token: {
-      access_token: "mocked-oauth-token",
-    },
-    expired: jest.fn().mockReturnValue(false),
-  });
-
-  oauthClientMock = {
-    getToken: getTokenMock,
-  } as unknown as ClientCredentials;
+  // @ts-ignore
+  ClientCredentials.mockImplementation(() => ({
+    getToken: jest.fn().mockResolvedValue({
+      token: {
+        access_token: "mocked-oauth-token",
+      },
+      expired: jest.fn().mockReturnValue(false),
+    }),
+  }));
 
   client = new BackendClient(
     {
-      oauth: {
+      credentials: {
         clientId: "test-client-id",
         clientSecret: "test-client-secret",
       },
       projectId,
     },
-    oauthClientMock,
   );
 
   customDomainClient = new BackendClient({
-    oauth: {
+    credentials: {
       clientId: "test-client-id",
       clientSecret: "test-client-secret",
     },
     projectId,
-    baseWorkflowDomain: "example.com",
+    workflowDomain: "example.com",
   });
 });
 
@@ -48,14 +50,10 @@ afterEach(() => {
 });
 
 describe("BackendClient", () => {
-  beforeEach(() => {
-    fetchMock.resetMocks();
-  });
-
   describe("createBackendClient", () => {
     it("should mock the createBackendClient method and return a BackendClient instance", () => {
       const params = {
-        oauth: {
+        credentials: {
           clientId: "test-client-id",
           clientSecret: "test",
         },
@@ -175,8 +173,25 @@ describe("BackendClient", () => {
     });
 
     it("should handle OAuth token retrieval failure", async () => {
-      oauthClientMock.getToken = jest.fn().mockRejectedValue(new Error("Invalid credentials"));
-      await expect(client["makeAuthorizedRequest"]("/test-path")).rejects.toThrow("Failed to obtain OAuth token: Invalid credentials");
+      // @ts-ignore
+      ClientCredentials.mockImplementation(() => ({
+        getToken: jest.fn().mockRejectedValue(new Error("Invalid credentials")),
+      }));
+
+      // Need to create a new client instance to use the new mock implementation
+      const client = new BackendClient(
+        {
+          credentials: {
+            clientId: "test-client-id",
+            clientSecret: "test-client-secret",
+          },
+          projectId,
+        },
+      );
+
+      await expect(client.makeAuthorizedRequest("/test-path")).rejects.toThrow(
+        "Failed to obtain OAuth token: Invalid credentials",
+      );
     });
   });
 
@@ -209,7 +224,7 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("connectTokenCreate", () => {
+  describe("createConnectToken", () => {
     it("should create a connect token", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -223,7 +238,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.connectTokenCreate({
+      const result = await client.createConnectToken({
         external_user_id: "user-id",
       });
 
@@ -260,7 +275,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.connectTokenCreate({
+      const result = await client.createConnectToken({
         external_user_id: "user-id",
         success_redirect_uri: "https://example.com/success",
         error_redirect_uri: "https://example.com/error",
@@ -289,7 +304,7 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("accountsGet", () => {
+  describe("getAccounts", () => {
     it("should retrieve accounts", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify([
@@ -305,8 +320,8 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.accountsGet({
-        include_credentials: 1,
+      const result = await client.getAccounts({
+        include_credentials: true,
       });
 
       expect(result).toEqual([
@@ -316,13 +331,13 @@ describe("BackendClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        `https://api.pipedream.com/v1/connect/${projectId}/accounts?include_credentials=1`,
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts?include_credentials=true`,
         expect.any(Object),
       );
     });
   });
 
-  describe("accountsGetById", () => {
+  describe("getAccountById", () => {
     it("should retrieve a specific account by ID", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -336,7 +351,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.accountsGetById("account-1");
+      const result = await client.getAccountById("account-1");
 
       expect(result).toEqual({
         id: "account-1",
@@ -365,7 +380,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.accountsGet({
+      const result = await client.getAccounts({
         app: "app-1",
       });
 
@@ -398,7 +413,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.accountsGet({
+      const result = await client.getAccounts({
         external_user_id: "external-id-1",
       });
 
@@ -421,7 +436,7 @@ describe("BackendClient", () => {
         status: 204,
       });
 
-      await client.accountDelete("account-1");
+      await client.deleteAccount("account-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
         `https://api.pipedream.com/v1/connect/${projectId}/accounts/account-1`,
@@ -432,13 +447,13 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("accountsDeleteByApp", () => {
+  describe("deleteAccountsByApp", () => {
     it("should delete all accounts associated with a specific app", async () => {
       fetchMock.mockResponseOnce("", {
         status: 204,
       });
 
-      await client.accountsDeleteByApp("app-1");
+      await client.deleteAccountsByApp("app-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
         `https://api.pipedream.com/v1/connect/${projectId}/accounts/app/app-1`,
@@ -449,13 +464,13 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("accountsDeleteByExternalUser", () => {
+  describe("deleteExternalUser", () => {
     it("should delete all accounts associated with a specific external ID", async () => {
       fetchMock.mockResponseOnce("", {
         status: 204,
       });
 
-      await client.accountsDeleteByExternalUser("external-id-1");
+      await client.deleteExternalUser("external-id-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
         `https://api.pipedream.com/v1/connect/${projectId}/users/external-id-1`,
@@ -466,7 +481,7 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("projectGetInfo", () => {
+  describe("getProjectInfo", () => {
     it("should retrieve project info", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -484,7 +499,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.projectGetInfo();
+      const result = await client.getProjectInfo();
 
       expect(result).toEqual({
         apps: [
@@ -503,7 +518,7 @@ describe("BackendClient", () => {
     });
   });
 
-  describe("workflowInvoke", () => {
+  describe("invokeWorkflow", () => {
     it("should invoke a workflow with provided URL and body, with no auth type", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -516,7 +531,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.workflowInvoke("https://example.com/workflow", {
+      const result = await client.invokeWorkflow("https://example.com/workflow", {
         body: {
           foo: "bar",
         },
@@ -552,7 +567,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.workflowInvoke("https://example.com/workflow", {}, HTTPAuthType.OAuth);
+      const result = await client.invokeWorkflow("https://example.com/workflow", {}, HTTPAuthType.OAuth);
 
       expect(result).toEqual({
         result: "workflow-response",
@@ -580,7 +595,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.workflowInvoke("https://example.com/workflow", {
+      const result = await client.invokeWorkflow("https://example.com/workflow", {
         headers: {
           "Authorization": "Bearer static-token",
         },
@@ -623,19 +638,20 @@ describe("BackendClient", () => {
         .mockResolvedValueOnce(expiredTokenMock)
         .mockResolvedValueOnce(newTokenMock);
 
-      const oauthClientMock = {
+      // @ts-ignore
+      ClientCredentials.mockImplementation(() => ({
         getToken: getTokenMock,
-      } as unknown as ClientCredentials;
+      }));
 
+      // Need to create a new client instance to use the new mock implementation
       const client = new BackendClient(
         {
-          oauth: {
+          credentials: {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
           },
           projectId: "proj_abc123",
         },
-        oauthClientMock,
       );
 
       fetchMock.mockResponse(
@@ -694,18 +710,14 @@ describe("BackendClient", () => {
         .mockResolvedValueOnce(expiredTokenMock)
         .mockResolvedValueOnce(newTokenMock);
 
-      const oauthClientMock = {
-        getToken: getTokenMock,
-      } as unknown as ClientCredentials;
       client = new BackendClient(
         {
-          oauth: {
+          credentials: {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
           },
           projectId,
         },
-        oauthClientMock,
       );
     });
 
@@ -726,7 +738,7 @@ describe("BackendClient", () => {
         },
       );
 
-      const result = await client.workflowInvokeForExternalUser("https://example.com/workflow", "external-user-id", {
+      const result = await client.invokeWorkflowForExternalUser("https://example.com/workflow", "external-user-id", {
         body: {
           foo: "bar",
         },
@@ -748,7 +760,7 @@ describe("BackendClient", () => {
     });
 
     it("should throw error when externalUserId is missing", async () => {
-      await expect(client.workflowInvokeForExternalUser("https://example.com/workflow", "", {
+      await expect(client.invokeWorkflowForExternalUser("https://example.com/workflow", "", {
         body: {
           foo: "bar",
         },
