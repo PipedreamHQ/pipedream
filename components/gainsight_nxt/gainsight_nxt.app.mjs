@@ -10,7 +10,7 @@ export default {
       description: "The name of the custom object.",
       async options() {
         const { data } = await this.listCustomObjects();
-        return data.map(( {
+        return data?.filter?.((obj) => obj.objectType === "CUSTOM").map(( {
           label, objectName,
         }) => ({
           label,
