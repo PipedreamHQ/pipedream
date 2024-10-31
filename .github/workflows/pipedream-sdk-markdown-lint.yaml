@@ -1,0 +1,20 @@
+name: Run SDK Tests
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+    paths:
+      - 'packages/sdk/**/*.md'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Lint markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v17
+        with:
+          globs: '**/*.md'
