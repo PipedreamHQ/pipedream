@@ -32,6 +32,20 @@ export default {
         }));
       },
     },
+    fundingSourceId: {
+      type: "string",
+      label: "Funding Source ID",
+      description: "Tremendous ID of the funding source that will be used to pay for the order. Use `balance` to use your Tremendous's balance.",
+      async options() {
+        const response = await this.listFundingSources();
+        return response.funding_sources?.map(({
+          id, method,
+        }) => ({
+          label: `${id} - ${method}`,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
     _baseRequest({
@@ -63,6 +77,12 @@ export default {
       return this._baseRequest({
         method: "GET",
         url: "/products",
+      });
+    },
+    listFundingSources() {
+      return this._baseRequest({
+        method: "GET",
+        url: "/funding_sources",
       });
     },
   },

@@ -1,19 +1,15 @@
-export const FUNDING_SOURCE_OPTIONS = [
+export const DELIVERY_METHOD_OPTIONS = [
   {
-    value: "balance",
-    label:
-      "Pre-funded balance in your Tremendous account to draw funds from to send rewards to recipients.",
+    value: "EMAIL",
+    label: "Deliver the reward to the recipient by email",
   },
   {
-    value: "bank_account",
-    label: "Bank account to draw funds from to send rewards to recipients.",
+    value: "LINK",
+    label: "Deliver the reward to the recipient via a link.",
   },
+
   {
-    value: "credit_card",
-    label: "Credit card to draw funds from to send rewards to recipients.",
-  },
-  {
-    value: "invoice",
-    label: "Send rewards to recipients and pay by invoice.",
+    value: "PHONE",
+    label: "Deliver the reward to the recipient by SMS",
   },
 ];
