@@ -46,7 +46,7 @@ pnpm watch
 
 ### Use the Package
 
-You can use PNPM's `link` command to point other code to your local version of
+You can use pnpm's `link` command to point other code to your local version of
 this package during development. This lets you test the SDK in other local apps,
 end-to-end.
 
