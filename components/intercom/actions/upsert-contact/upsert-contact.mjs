@@ -125,7 +125,7 @@ export default {
         data,
       });
     }
-    $.export("$summary", `Successfully ${requestType} note with ID ${response.id}`);
+    $.export("$summary", `Successfully ${requestType} contact with ID ${response.id}`);
     return response;
   },
 };
