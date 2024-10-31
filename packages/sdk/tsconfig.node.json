@@ -12,6 +12,9 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
+    "sourceMap": true,
+    "moduleResolution": "NodeNext",
+    "noImplicitAny": true,
     "types": [
       "node",
       "jest",
