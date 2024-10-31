@@ -799,23 +799,23 @@ export class BackendClient {
    * @returns A promise resolving to the response from the workflow.
    *
    * @example
-   *```typescript
-   *const response = await client.invokeWorkflowForExternalUser(
-   *  "https://your-workflow-url.m.pipedream.net",
-   *  "your-external-user-id",
-   *  {
-   *    body: {
-   *      foo: 123,
-   *      bar: "abc",
-   *      baz: null,
-   *    },
-   *    headers: {
-   *      "Accept": "application/json",
-   *    },
-   *  },
-   *);
-   *console.log(response);
-   *```
+   * ```typescript
+   * const response = await client.invokeWorkflowForExternalUser(
+   *   "https://your-workflow-url.m.pipedream.net",
+   *   "your-external-user-id",
+   *   {
+   *     body: {
+   *       foo: 123,
+   *       bar: "abc",
+   *       baz: null,
+   *     },
+   *     headers: {
+   *       "Accept": "application/json",
+   *     },
+   *   },
+   * );
+   * console.log(response);
+   * ```
    */
   public async invokeWorkflowForExternalUser(
     url: string,
