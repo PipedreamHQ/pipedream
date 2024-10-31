@@ -6220,6 +6220,9 @@ importers:
       '@pipedream/platform': 1.5.1
       isomorphic-fetch: 3.0.0
 
+  components/microsoft_text_translate:
+    specifiers: {}
+
   components/microsofttodo:
     specifiers:
       '@pipedream/platform': ^1.5.1
