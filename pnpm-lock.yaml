@@ -6545,6 +6545,9 @@ importers:
       '@pipedream/platform': 1.6.2
       moment: 2.30.1
 
+  components/news_api:
+    specifiers: {}
+
   components/newscatcher:
     specifiers: {}
 
