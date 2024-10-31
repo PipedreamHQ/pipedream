@@ -645,6 +645,67 @@ curl https://api.pipedream.com/v1/components/registry/github-new-repository \
 }
 ```
 
+### Search for registry components
+
+Search for components in the global registry with natural language. Pipedream will use AI to match your query to the most relevant components.
+
+#### Endpoint
+
+```
+GET /components/search
+```
+
+#### Parameters
+
+`query` **string**
+
+The query string to search for components in the global registry, e.g. "Send a message to Slack on new Hubspot contacts"
+
+---
+
+`app` **string** (_optional_)
+
+The name slug the app you'd like to filter results for. For example, Slack's name slug is `slack`. Returned sources and actions are filtered to only those tied to the specified app.
+
+You can find the name slug under the **Authentication** section of any [app page](https://pipedream.com/apps).
+
+---
+
+`similarity_threshold` **number** (_optional_)
+
+The minimum similarity score required for a component to be returned. The similarity score is a number between 0 and 1, where 1 is a perfect match. Similarity here is computed as the cosine distance between the embedding of the user query and the embedding of the component's metadata.
+
+---
+
+`debug` **boolean** (_optional_)
+
+Pass `debug=true` to return additional data in the response, useful for inspecting the results.
+
+#### Example Request
+
+```shell
+curl https://api.pipedream.com/v1/components/search\?query\="When someone sends a tweet mentioning my brand, send me an SMS" \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json"
+```
+
+### Example Response
+
+```json
+{
+  "sources": [
+    "twitter-new-mention-received-by-user",
+    "twitter-new-tweet-posted-by-user",
+    "twitter-new-tweet-posted-matching-query"
+  ],
+  "actions": [
+    "sms-send-sms",
+    "sms_fusion-send-sms",
+    "sms_alert-send-sms"
+  ]
+}
+```
+
 ## Connect
 
 [Pipedream Connect](/connect) is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI-driven products, [and much more](/connect/use-cases), all in a few minutes. Visit [the quickstart](/connect/quickstart) to build your first integration.
