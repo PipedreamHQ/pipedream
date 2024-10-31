@@ -333,7 +333,11 @@ export class BackendClient {
    */
   constructor(opts: BackendClientOpts) {
     this.environment = opts.environment ?? "production";
+
     this.projectId = opts.projectId;
+    if (!this.projectId) {
+      throw new Error("Project ID is required");
+    }
 
     const {
       apiHost = "api.pipedream.com",
