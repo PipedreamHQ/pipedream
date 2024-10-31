@@ -98,7 +98,7 @@ export default {
           ],
         },
         pagination: {
-          per_page: 5,
+          per_page: 1,
         },
       },
     });
