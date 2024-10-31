@@ -17,4 +17,4 @@ jobs:
       - name: Lint markdown files
         uses: DavidAnson/markdownlint-cli2-action@v17
         with:
-          globs: '**/*.md'
+          globs: 'packages/sdk/**/*.md'
