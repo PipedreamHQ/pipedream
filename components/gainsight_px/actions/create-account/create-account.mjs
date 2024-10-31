@@ -2,7 +2,7 @@ import app from "../../gainsight_px.app.mjs";
 
 export default {
   key: "gainsight_px-create-account",
-  name: "Create Memory",
+  name: "Create Account",
   description: "Create a new account with the given data. [See the documentation](https://gainsightpx.docs.apiary.io/#reference/accounts/v1accounts/create-account)",
   version: "0.0.1",
   type: "action",
