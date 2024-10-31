@@ -30,7 +30,7 @@ export default {
     phone: {
       type: "string",
       label: "Phone",
-      description: "The contact's email.",
+      description: "The contact's phone number.",
       optional: true,
     },
     name: {
