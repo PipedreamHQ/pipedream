@@ -1,3 +1,4 @@
+import { parseObjectEntries } from "../../common/utils.mjs";
 import app from "../../gainsight_nxt.app.mjs";
 
 export default {
@@ -74,22 +75,11 @@ export default {
         "Churn",
       ],
     },
-    csmFirstName: {
-      type: "string",
-      label: "CSM First Name",
-      description: "The first name of the POC of the company.",
-      optional: true,
-    },
-    csmLastName: {
-      type: "string",
-      label: "CSM Last Name",
-      description: "The last name of the POC of the company.",
-      optional: true,
-    },
-    parentCompanyName: {
-      type: "string",
-      label: "Parent Company Name",
-      description: "The name of the parent company.",
+    additionalOptions: {
+      type: "object",
+      label: "Additional Options",
+      description:
+        "Additional parameters to send in the request. [See the documentation](https://support.gainsight.com/gainsight_nxt/API_and_Developer_Docs/Company_and_Relationship_API/Company_API_Documentation#Parameters) for available parameters. Values will be parsed as JSON where applicable.",
       optional: true,
     },
   },
@@ -106,9 +96,7 @@ export default {
           RenewalDate: this.renewalDate,
           Stage: this.stage,
           Status: this.status,
-          CSMFirstName: this.csmFirstName,
-          CSMLastName: this.csmLastName,
-          ParentCompanyName: this.parentCompanyName,
+          ...(this.additionalOptions && parseObjectEntries(this.additionalOptions)),
         },
       ],
     };
