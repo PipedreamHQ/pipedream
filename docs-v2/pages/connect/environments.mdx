@@ -1,0 +1,10 @@
+# Environments
+
+Pipedream Connect projects support two environments: `development` and `production`.
+
+1. Connected accounts and credentials stored in `development` remain separate from `production`.
+2. In `development`, you can use the official Pipedream OAuth apps, so you can test integrations without creating your own OAuth client.
+
+## How to specify environment
+
+You specify the environment when [creating a new Connect token](/connect/api/#create-a-new-token) with the Pipedream SDK or API. By default, the enviromment is set to `production`. When users succesfully connect their account, Pipedream saves it for that `external_user_id` in the specified `project_environment`.
