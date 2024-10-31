@@ -18,7 +18,7 @@ export default {
     propertyKeys: {
       type: "string[]",
       label: "Property Keys",
-      description: "At least one property key. The key can be found by clicking on `Administration`, `Set Up` and `Products`",
+      description: "At least one tag key. The key can be found by clicking on `Administration` >`Set Up` > `Products` > Tag Key. For example: AP-xxx-1",
     },
     countryName: {
       type: "string",
