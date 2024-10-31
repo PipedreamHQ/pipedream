@@ -1,7 +1,5 @@
 import fetchMock from "jest-fetch-mock";
-
 import { ClientCredentials } from "simple-oauth2";
-jest.mock("simple-oauth2");
 
 import {
   BackendClient,
@@ -687,29 +685,6 @@ describe("BackendClient", () => {
     let client: BackendClient;
 
     beforeEach(() => {
-      fetchMock.resetMocks();
-      // These mocks are distinct from the ones in the outer beforeEach
-      // We need to test the behavior of the client when the OAuth token
-      // is expired or invalid
-      const expiredTokenMock = {
-        token: {
-          access_token: "expired-oauth-token",
-        },
-        expired: jest.fn().mockReturnValue(true),
-      };
-
-      const newTokenMock = {
-        token: {
-          access_token: "new-oauth-token",
-        },
-        expired: jest.fn().mockReturnValue(false),
-      };
-
-      const getTokenMock = jest
-        .fn()
-        .mockResolvedValueOnce(expiredTokenMock)
-        .mockResolvedValueOnce(newTokenMock);
-
       client = new BackendClient(
         {
           credentials: {
@@ -719,11 +694,6 @@ describe("BackendClient", () => {
           projectId,
         },
       );
-    });
-
-    afterEach(() => {
-      fetchMock.resetMocks();
-      jest.clearAllMocks();
     });
 
     it("should include externalUserId and environment headers", async () => {
