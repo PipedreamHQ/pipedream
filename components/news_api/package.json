@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/news_api",
+  "version": "0.0.1",
+  "description": "Pipedream News API Components",
+  "main": "news_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "news_api"
+  ],
+  "homepage": "https://pipedream.com/apps/news_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

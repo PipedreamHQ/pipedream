@@ -67,6 +67,58 @@ export default {
         };
       },
     },
+    vectorStoreId: {
+      type: "string",
+      label: "Vector Store ID",
+      description: "The identifier of a vector store",
+      async options({ prevContext }) {
+        const params = prevContext?.after
+          ? {
+            after: prevContext.after,
+          }
+          : {};
+        const {
+          data: vectorStores, last_id: after,
+        } = await this.listVectorStores({
+          params,
+        });
+        return {
+          options: vectorStores.map((vectorStore) => ({
+            label: vectorStore.name || vectorStore.id,
+            value: vectorStore.id,
+          })),
+          context: {
+            after,
+          },
+        };
+      },
+    },
+    vectorStoreFileId: {
+      type: "string",
+      label: "Vector Store File ID",
+      description: "The identifier of a vector store file",
+      async options({
+        vectorStoreId, prevContext,
+      }) {
+        const params = prevContext?.after
+          ? {
+            after: prevContext.after,
+          }
+          : {};
+        const {
+          data: vectorStoreFiles, last_id: after,
+        } = await this.listVectorStoreFiles({
+          vectorStoreId,
+          params,
+        });
+        return {
+          options: vectorStoreFiles.map((vectorStoreFile) => vectorStoreFile.id),
+          context: {
+            after,
+          },
+        };
+      },
+    },
     name: {
       type: "string",
       label: "Name",
@@ -620,9 +672,74 @@ export default {
         ...args,
       });
     },
+    getVectorStore({
+      vectorStoreId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector_stores/${vectorStoreId}`,
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
     listVectorStores(args = {}) {
       return this._makeRequest({
         path: "/vector_stores",
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    createVectorStore(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/vector_stores",
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    deleteVectorStore({
+      vectorStoreId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/vector_stores/${vectorStoreId}`,
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    getVectorStoreFile({
+      vectorStoreId, vectorStoreFileId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector_stores/${vectorStoreId}/files/${vectorStoreFileId}`,
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    listVectorStoreFiles({
+      vectorStoreId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector_stores/${vectorStoreId}/files`,
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    createVectorStoreFile({
+      vectorStoreId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/vector_stores/${vectorStoreId}/files`,
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    deleteVectorStoreFile({
+      vectorStoreId, vectorStoreFileId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/vector_stores/${vectorStoreId}/files/${vectorStoreFileId}`,
         headers: this._betaHeaders("v2"),
         ...args,
       });
