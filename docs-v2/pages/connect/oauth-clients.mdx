@@ -1,0 +1,35 @@
+import Image from 'next/image'
+import Callout from '@/components/Callout'
+
+# OAuth Clients
+
+When connecting an account for any OAuth app via Pipedream Connect, we'll default to using Pipedream's official OAuth client, which enables you to quickly get up and running. [Read more about OAuth clients in Pipedream here](/connected-accounts/oauth-clients).
+
+## Using Pipedream OAuth
+
+There are two types of apps in Pipedream:
+
+1. **Key-based**: These apps require static credentials, like API keys. Pipedream stores these credentials securely and exposes them via API.
+2. **OAuth**: These apps require OAuth authorization. Pipedream manages the OAuth flow for these apps, ensuring you always have a fresh access token for requests.
+
+**OAuth apps require you create your own OAuth client to [deploy to production](/connect/environments):**
+
+<Callout type="info">
+To get started in [development mode](/connect/environments), you can skip these steps. To deploy your app to production, you'll need to [create an OAuth client](#using-a-custom-oauth-client) for the app you're integrating.
+</Callout>
+
+## Using a custom OAuth client
+
+1. Follow the steps [here](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) to create an OAuth client in Pipedream.
+2. Open the **Apps** tab within your Pipedream project and select **Add app**.
+3. Select the app you're looking for, then select your OAuth client from the dropdown menu.
+4. When connecting an account either via the [frontend SDK](/connect/quickstart#use-the-pipedream-sdk-in-your-frontend), make sure to include the `oauth_app_id` in `pd.connectAccount()`.
+5. If using [Connect Link](/connect/quickstart#use-connect-link), make sure to include the `oauth_app_id` in the URL.
+
+### Finding your OAuth app ID
+
+[Create your OAuth client in Pipedream](https://pipedream.com/@/accounts/oauth-clients) then click the arrow to the left of the client name to expand the details.
+
+<br />
+
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1730241292/oauth-app-id_umhhqi.png" alt="Copy OAuth App ID" width={650} height={529} />
