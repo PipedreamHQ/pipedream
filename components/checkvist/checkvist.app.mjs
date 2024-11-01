@@ -9,98 +9,93 @@ export default {
       label: "List ID",
       description: "Select a list to monitor for new items",
       async options() {
-        const lists = await this.getLists();
-        return lists.map((list) => ({
-          label: list.name,
-          value: list.id,
+        const lists = await this.getLists({
+          params: {
+            skip_stats: true,
+          },
+        });
+        return lists.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    content: {
+    parentId: {
       type: "string",
-      label: "Content",
-      description: "Block of text containing items to add. Indentations indicate nested list items.",
-    },
-    name: {
-      type: "string",
-      label: "List Name",
-      description: "Name of the new list to be created",
+      label: "Parent task ID",
+      description: "Empty for root-level tasks",
+      async options({ listId }) {
+        const items = await this.getListItems({
+          listId,
+        });
+        return items.map(({
+          id: value, content: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.checkvist.com";
+      return "https://checkvist.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        username: `${this.$auth.username}`,
+        password: `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        auth: this._auth(),
+        ...opts,
       });
     },
-    async getLists(opts = {}) {
+    getLists(opts = {}) {
       return this._makeRequest({
         path: "/checklists.json",
         ...opts,
       });
     },
-    async createList({
-      name, ...opts
+    getListItems({
+      listId, ...opts
     }) {
+      return this._makeRequest({
+        path: `/checklists/${listId}/tasks.json`,
+        ...opts,
+      });
+    },
+    createList(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/checklists.json",
-        data: {
-          checklist: {
-            name,
-          },
-        },
         ...opts,
       });
     },
-    async createListItem({
-      listId, content, ...opts
+    createListItem({
+      listId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/checklists/${listId}/tasks.json`,
-        data: {
-          task: {
-            content,
-          },
-        },
         ...opts,
       });
     },
-    async createMultipleListItems({
-      content, listId = "default", ...opts
+    createMultipleListItems({
+      listId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/checklists/${listId}/import.json`,
-        data: {
-          import_content: content,
-          separate_with_empty_line: false,
-        },
         ...opts,
       });
-    },
-    async watchNewLists() {
-      const lists = await this.getLists();
-      return lists; // Emit new event when lists change
-    },
-    async watchNewListItems({ listId }) {
-      const items = await this._makeRequest({
-        path: `/checklists/${listId}/tasks.json`,
-      });
-      return items; // Emit new event when list items change
     },
   },
 };
