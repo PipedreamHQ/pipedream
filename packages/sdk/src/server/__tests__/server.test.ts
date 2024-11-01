@@ -3,13 +3,22 @@ import { ClientCredentials } from "simple-oauth2";
 
 import {
   BackendClient,
+  BackendClientOpts,
   createBackendClient,
   HTTPAuthType,
 } from "../index";
 
+const projectId = "proj_abc123";
+const clientParams: BackendClientOpts = {
+  credentials: {
+    clientId: "test-client-id",
+    clientSecret: "test-client-secret",
+  },
+  projectId,
+};
+
 let client: BackendClient;
 let customDomainClient: BackendClient;
-const projectId = "proj_abc123";
 
 beforeEach(() => {
   // @ts-ignore
@@ -23,21 +32,10 @@ beforeEach(() => {
   }));
 
   client = new BackendClient(
-    {
-      credentials: {
-        clientId: "test-client-id",
-        clientSecret: "test-client-secret",
-      },
-      projectId,
-    },
+    clientParams,
   );
-
   customDomainClient = new BackendClient({
-    credentials: {
-      clientId: "test-client-id",
-      clientSecret: "test-client-secret",
-    },
-    projectId,
+    ...clientParams,
     workflowDomain: "example.com",
   });
 });
@@ -50,15 +48,7 @@ afterEach(() => {
 describe("BackendClient", () => {
   describe("createBackendClient", () => {
     it("should mock the createBackendClient method and return a BackendClient instance", () => {
-      const params = {
-        credentials: {
-          clientId: "test-client-id",
-          clientSecret: "test",
-        },
-        projectId,
-      };
-
-      client = createBackendClient(params);
+      const client = createBackendClient(clientParams);
       expect(client).toBeInstanceOf(BackendClient);
     });
   });
