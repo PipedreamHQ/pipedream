@@ -6,23 +6,24 @@ The Pipedream API supports two methods of authentication: [OAuth](#oauth) and [U
 
 ✅ OAuth clients are tied to the workspace, administered by workspace admins <br />
 ✅ Tokens are short-lived <br />
-✅ OAuth clients support scopes, limiting access to specific operations <br />
+✅ OAuth clients support scopes, limiting access to specific operations (coming soon!)<br />
+✅ Limit access to specific Pipedream projects (coming soon!)<br />
 
 When testing the API or using the CLI, you can use your user API key. This key is tied to your user account and provides full access to any resources your user has access to, across workspaces.
 
 ## OAuth
 
-Workspace administrators can create OAuth applications in your workspace's [API settings](https://pipedream.com/settings/api). 
+Workspace administrators can create OAuth clients in your workspace's [API settings](https://pipedream.com/settings/api). 
 
 Since API requests are meant to be made server-side, and since grants are not tied to individual end users, all OAuth clients are [**Client Credentials** applications](https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/).
 
-### Creating an OAuth application
+### Creating an OAuth client
 
-1. Visit your workspace's [API settings](https://pipedream.com/settings/api).
-2. Click the **New OAuth App** button.
-3. Name your app and click **Create**.
-4. Copy the app's client secret. **It will not be accessible again**. Click **Close**.
-5. Copy the app's client ID from the list of OAuth applications.
+1. Visit the [API settings](https://pipedream.com/settings/api) for your workspace.
+2. Click the **New OAuth Client** button.
+3. Name your client and click **Create**.
+4. Copy the client secret. **It will not be accessible again**. Click **Close**.
+5. Copy the client ID from the list.
 
 ### How to get an access token
 
@@ -69,7 +70,7 @@ Access tokens expire after 1 hour. Store access tokens securely, server-side.
 ### Revoking a client secret
 
 1. Visit your workspace's [API settings](https://pipedream.com/settings/api).
-2. Click the **...** button to the right of the OAuth app whose secret you want to revoke, then click **Rotate client secret**.
+2. Click the **...** button to the right of the OAuth client whose secret you want to revoke, then click **Rotate client secret**.
 3. Copy the new client secret. **It will not be accessible again**.
 
 ### OAuth security
