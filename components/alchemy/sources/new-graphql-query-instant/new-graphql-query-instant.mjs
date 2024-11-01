@@ -14,12 +14,6 @@ export default {
       type: "$.interface.http",
       customResponse: true,
     },
-    authToken: {
-      propDefinition: [
-        alchemy,
-        "authToken",
-      ],
-    },
     network: {
       propDefinition: [
         alchemy,
@@ -36,7 +30,6 @@ export default {
   hooks: {
     async activate() {
       const { data: { id } } = await this.alchemy.createWebhook({
-        authToken: this.authToken,
         data: {
           network: this.network,
           webhook_type: "GRAPHQL",
@@ -50,7 +43,6 @@ export default {
       const hookId = this._getHookId();
       if (hookId) {
         await this.alchemy.deleteWebhook({
-          authToken: this.authToken,
           params: {
             webhook_id: hookId,
           },

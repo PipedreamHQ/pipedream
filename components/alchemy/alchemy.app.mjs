@@ -5,11 +5,6 @@ export default {
   type: "app",
   app: "alchemy",
   propDefinitions: {
-    authToken: {
-      type: "string",
-      label: "Auth Token",
-      description: "Find your [Alchemy auth token](https://docs.alchemy.com/reference/notify-api-faq#where-do-i-find-my-alchemy-auth-token) in the upper-right corner of your Webhooks dashboard by clicking the **AUTH TOKEN** button.",
-    },
     network: {
       type: "string",
       label: "Network",
@@ -35,13 +30,12 @@ export default {
     _makeRequest({
       $ = this,
       path,
-      authToken,
       ...opts
     }) {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: {
-          "X-Alchemy-Token": authToken,
+          "X-Alchemy-Token": this.$auth.auth_token,
         },
         ...opts,
       });
