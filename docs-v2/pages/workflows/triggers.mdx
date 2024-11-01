@@ -146,11 +146,11 @@ You can use the Pipedream SDK to automatically refresh access tokens and invoke 
 <Tabs items={['TypeScript', 'Node.js']}>
 <Tabs.Tab>
 ```typescript
-import { createClient, HTTPAuthType } from "@pipedream/sdk";
+import { createBackendClient, HTTPAuthType } from "@pipedream/sdk";
  
 // These secrets should be saved securely and passed to your environment
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "YOUR_CLIENT_ID",
     clientSecret: "YOUR_CLIENT_SECRET",
   },
@@ -170,11 +170,11 @@ await pd.invokeWorkflow(
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
 // These secrets should be saved securely and passed to your environment
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "YOUR_CLIENT_ID",
     clientSecret: "YOUR_CLIENT_SECRET",
   },

@@ -50,11 +50,11 @@ Most of your interactions with the Connect API will happen on the server, to pro
 [Create a Pipedream OAuth client](/rest-api/auth#oauth) and instantiate the SDK with your client ID and secret:
 
 ```typescript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
 // These secrets should be saved securely and passed to your environment
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -73,8 +73,7 @@ You'll primarily use the browser SDK to let your users securely connect apps fro
 Here's a Next.js example [from our quickstart](/connect/quickstart):
 
 ```typescript
-// Note that we import the browser-specific SDK client here
-import { createClient } from "@pipedream/sdk/browser"
+import { createFrontendClient } from "@pipedream/sdk"
 // Example from our Next.js app
 import { serverConnectTokenCreate } from "./server"
  
@@ -83,7 +82,7 @@ const { token, expires_at } = await serverConnectTokenCreate({
 });
 
 export default function Home() {
-  const pd = createClient({})
+  const pd = createFrontendClient()
   function connectAccount() {
     pd.connectAccount({
       app: appSlug,
@@ -128,11 +127,11 @@ You can use the SDK to invoke workflows on behalf of any end user. **Write one w
 <Tabs items={['TypeScript', 'Node.js']}>
 <Tabs.Tab>
 ```typescript
-import { createClient, HTTPAuthType } from "@pipedream/sdk";
+import { createBackendClient, HTTPAuthType } from "@pipedream/sdk";
  
 // These secrets should be saved securely and passed to your environment
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "YOUR_CLIENT_ID",
     clientSecret: "YOUR_CLIENT_SECRET",
   },
@@ -153,11 +152,11 @@ await pd.invokeWorkflowForExternalUser(
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
 // These secrets should be saved securely and passed to your environment
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "YOUR_CLIENT_ID",
     clientSecret: "YOUR_CLIENT_SECRET",
   },
@@ -230,7 +229,7 @@ Specify the environment (`production` or `development`) to use for the account c
 
 ##### Examples
 
-To create a short-lived token via TypeScript / JavaScript SDK, you'll need to create a Pipedream API client and call the `connectTokenCreate` method. In our example app, this code is in `app/server.ts`. 
+To create a short-lived token via TypeScript / JavaScript SDK, you'll need to create a Pipedream API client and call the `createConnectToken` method. In our example app, this code is in `app/server.ts`. 
 
 In other languages, you'll need to make an HTTP POST request to the `/tokens` endpoint to create a token, then return the token to your frontend. Click into other tabs to see examples in additional languages.
 
@@ -238,20 +237,20 @@ In other languages, you'll need to make an HTTP POST request to the `/tokens` en
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
+  createBackendClient,
   type ConnectAPIResponse, 
   type ConnectTokenCreateOpts, 
   type ConnectTokenResponse,
 } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
 });
 
-const { token, expires_at } = await pd.connectTokenCreate({
+const { token, expires_at } = await pd.createConnectToken({
   project_id: "your-project-id",
   external_user_id: "your-external-user-id"  // The end user's ID in your system
 });
@@ -259,16 +258,16 @@ const { token, expires_at } = await pd.connectTokenCreate({
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   },
 });
 
-const { token, expires_at } = await pd.connectTokenCreate({
+const { token, expires_at } = await pd.createConnectToken({
   project_id: "your-project-id",
   external_user_id: "your-external-user-id", // The end user's ID in your system
 });
@@ -325,11 +324,11 @@ Pass `include_credentials=true` as a query-string parameter to include the accou
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
+  createBackendClient,
 } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -345,10 +344,10 @@ const accounts = await pd.getAccounts({
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -487,11 +486,11 @@ Pass `include_credentials=true` as a query-string parameter to include the accou
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
+  createBackendClient,
 } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -507,10 +506,10 @@ const accounts = await pd.getAccountsByApp(appId, {
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -601,11 +600,11 @@ Pass `include_credentials=true` as a query-string parameter to include the accou
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
+  createBackendClient,
 } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -621,10 +620,10 @@ const account = await pd.getAccount(accountId, {
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -749,11 +748,11 @@ Pass `include_credentials=true` as a query-string parameter to include the accou
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
+  createBackendClient,
 } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -769,10 +768,10 @@ await pd.getAccountsByExternalId(externalId, {
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -956,11 +955,11 @@ DELETE /{project_id}/accounts/{account_id}
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
+  createBackendClient,
 } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -973,10 +972,10 @@ await pd.deleteAccount(accountId);
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -1036,11 +1035,11 @@ The app ID for which you want to delete all connected accounts. `app_id` can be 
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
+  createBackendClient,
 } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -1053,10 +1052,10 @@ await pd.deleteAccountsByApp(appId);
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -1116,11 +1115,11 @@ DELETE /{project_id}/users/{external_user_id}
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
+  createBackendClient,
 } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -1133,10 +1132,10 @@ console.log("All accounts associated with the external ID have been deleted.");
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -1193,10 +1192,10 @@ GET /{project_id}/info
 <Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
@@ -1209,10 +1208,10 @@ const info = await pd.getProjectInfo({
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }

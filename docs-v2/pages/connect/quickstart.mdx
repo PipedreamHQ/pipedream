@@ -118,11 +118,10 @@ In our example, `app/page.tsx` calls the `connectAccount` method from the Pipedr
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1724182571/connect-account-button-screenshot_n7vjvq.png" alt="Connect your account button" width={550} height={300} />
 
 ```typescript
-// Note that we import the browser-specific SDK client here
-import { createClient } from "@pipedream/sdk/browser"
+import { createFrontendClient } from "@pipedream/sdk"
 
 export default function Home() {
-  const pd = createClient()
+  const pd = createFrontendClient()
   function connectAccount() {
     pd.connectAccount({
       app: appSlug, // Pass the app name slug of the app you want to integrate
@@ -170,17 +169,17 @@ This example shows you how to fetch credentials by your end user's `external_id`
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
+  createBackendClient,
 } from "@pipedream/sdk";
 
-const pd = createClient({
-  oauth: {
+const pd = createBackendClient({
+  credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
   }
 });
 
-export async function getUserAccounts(externalId: string, include_credentials: number = 0) {
+export async function getUserAccounts(externalId: string, include_credentials: boolean = false) {
   await pd.getAccountsByExternalId(externalId, {
     include_credentials, // set to 1 to include credentials
   })
