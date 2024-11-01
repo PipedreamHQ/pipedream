@@ -49,6 +49,7 @@ and fill the `.env.local` file with your project and app details:
 # Used by `app/server.ts` to authorize requests to the Pipedream API — see below
 PIPEDREAM_OAUTH_CLIENT_ID=your_client_id
 PIPEDREAM_OAUTH_CLIENT_SECRET=your_client_secret
+PIPEDREAM_PROJECT_ENVIRONMENT=development
 PIPEDREAM_PROJECT_ID=your_project_id
 ```
 
@@ -61,7 +62,7 @@ If you're building your own app, you'll need to provide these values to the envi
 
 ### Create a Pipedream OAuth client
 
-Pipedream uses OAuth to authorize requests to the REST API. To create an OAuth application:
+Pipedream uses OAuth to authorize requests to the REST API. To create an OAuth client:
 
 1. Visit the [API settings](https://pipedream.com/settings/api) for your workspace.
 2. Click the **New OAuth Client** button.
@@ -90,7 +91,7 @@ If you're using a different server / API framework, you'll need to make secure c
 Once you have a token, return it to your frontend to start the account connection flow for the user, or redirect them to a Pipedream-hosted URL with [Connect Link](#use-connect-link).
 
 <Callout type="info">
-Refer to the API docs for [all the parameters you can pass](/connect/api#create-a-new-token) in the `ConnectTokenCreate` call.
+Refer to the API docs for [full set of parameters you can pass](/connect/api#create-a-new-token) in the `ConnectTokenCreate` call.
 </Callout>
 
 ### Connect a user's account
@@ -98,7 +99,7 @@ Refer to the API docs for [all the parameters you can pass](/connect/api#create-
 To connect a third-party account for a user, you have two options:
 
 1. [Use the Pipedream SDK](#use-the-pipedream-sdk-in-your-frontend) in your frontend
-2. [Use Connect Link](#use-connect-link) to deliver a hosted URL to your user (see above).
+2. [Use Connect Link](#use-connect-link) to deliver a hosted URL to your user
 
 #### Use the Pipedream SDK in your frontend
 

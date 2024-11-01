@@ -85,7 +85,8 @@ export default function Home() {
   const pd = createFrontendClient()
   function connectAccount() {
     pd.connectAccount({
-      app: appSlug,
+      app: appSlug, // Pass the app name slug of the app you want to integrate
+      oauthAppId: appId, // For OAuth apps, pass the OAuth app ID; omit this param to use Pipedream's OAuth client or for key-based apps
       token, // The token you received from your server above
       onSuccess: ({ id: accountId }) => {
         console.log(`Account successfully connected: ${accountId}`)
@@ -95,7 +96,7 @@ export default function Home() {
 
   return (
     <main>
-      <button style={{ all: "revert" }} onClick={connectAccount}>Connect your account</button>
+      <button onClick={connectAccount}>Connect your account</button>
     </main>
   )
 }
@@ -107,7 +108,7 @@ When you use the Connect API, you'll pass an `external_user_id` parameter when i
 
 Pipedream associates this ID with user accounts, so you can retrieve credentials for a specific user, and invoke workflows on their behalf.
 
-External IDs are limited to 250 characters.
+External User IDs are limited to 250 characters.
 
 ## Rate limits
 
