@@ -163,7 +163,7 @@ https://pipedream.com/_static/connect.html?token={token}&connectLink=true&app={a
 
 Once your user connects an account, you can retrieve their credentials from your backend.
 
-This example shows you how to fetch credentials by your end user's `external_id` and the app's name slug. You can also fetch all connected accounts for a specific app, or a specific user — see the [Connect API reference](/connect/api).
+This example shows you how to fetch credentials by your end user's `external_user_id`. You can also fetch all connected accounts for a specific app, or a specific user — see the [Connect API reference](/connect/api).
 
 <Tabs items={['TypeScript', 'Node.js']}>
 <Tabs.Tab>
@@ -179,9 +179,9 @@ const pd = createBackendClient({
   }
 });
 
-async function getUserAccounts(externalId: string, include_credentials: boolean = false) {
+async function getUserAccounts(external_user_id: string, include_credentials: boolean = false) {
   await pd.getAccounts({
-    external_user_id: externalId,
+    external_user_id,
     include_credentials, // set to true to include credentials
   })
 
@@ -203,9 +203,9 @@ const pd = createBackendClient({
   }
 });
 
-async function getUserAccounts(externalId, include_credentials = false) {
+async function getUserAccounts(external_user_id, include_credentials = false) {
   await pd.getAccounts({
-    external_user_id: externalId,
+    external_user_id,
     include_credentials, // set to true to include credentials
   })
 
