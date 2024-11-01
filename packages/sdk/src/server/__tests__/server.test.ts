@@ -507,6 +507,13 @@ describe("BackendClient", () => {
   });
 
   describe("invokeWorkflow", () => {
+    beforeEach(() => {
+      client = new BackendClient({
+        ...clientParams,
+        workflowDomain: "example.com",
+      });
+    });
+
     it("should invoke a workflow with provided URL and body, with no auth type", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -675,15 +682,10 @@ describe("BackendClient", () => {
     let client: BackendClient;
 
     beforeEach(() => {
-      client = new BackendClient(
-        {
-          credentials: {
-            clientId: "test-client-id",
-            clientSecret: "test-client-secret",
-          },
-          projectId,
-        },
-      );
+      client = new BackendClient({
+        ...clientParams,
+        workflowDomain: "example.com",
+      });
     });
 
     it("should include externalUserId and environment headers", async () => {
@@ -729,6 +731,22 @@ describe("BackendClient", () => {
   });
 
   describe("BackendClient - buildWorkflowUrl", () => {
+    describe("Validations", () => {
+      it("should throw an error when the input is blank", () => {
+        expect(() => client["buildWorkflowUrl"]("   ")).toThrow("URL or endpoint ID is required");
+      });
+
+      it("should throw an error when the URL doesn't match the workflow domain", () => {
+        const url = "https://example.com";
+        expect(() => client["buildWorkflowUrl"](url)).toThrow("Invalid workflow domain");
+      });
+
+      it("should throw an error when the endpoint ID doesn't match the expected format", () => {
+        const input = "foo123";
+        expect(() => client["buildWorkflowUrl"](input)).toThrow("Invalid endpoint ID format");
+      });
+    });
+
     describe("Default domain (m.pipedream.net)", () => {
       it("should return full URL if input is a full URL with protocol", () => {
         const input = "https://en123.m.pipedream.net";

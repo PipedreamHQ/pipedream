@@ -693,23 +693,42 @@ export class BackendClient {
    * ```
    */
   private buildWorkflowUrl(input: string): string {
+    if (!input?.trim()) {
+      throw new Error("URL or endpoint ID is required");
+    }
+
+    input = input.trim().toLowerCase();
     let url: string;
 
     const isUrl = input.includes(".") || input.startsWith("http");
 
     if (isUrl) {
-    // Try to parse the input as a URL
+      // Try to parse the input as a URL
+      let parsedUrl: URL;
       try {
         const urlString = input.startsWith("http")
           ? input
           : `https://${input}`;
-        const parsedUrl = new URL(urlString);
-        url = parsedUrl.href;
+        parsedUrl = new URL(urlString);
       } catch (error) {
         throw new Error(`The provided URL is malformed: "${input}". Please provide a valid URL.`);
       }
+
+      // Validate the hostname to prevent potential DNS rebinding attacks
+      if (!parsedUrl.hostname.endsWith(this.workflowDomain)) {
+        throw new Error(`Invalid workflow domain. URL must end with ${this.workflowDomain}`);
+      }
+
+      url = parsedUrl.href;
     } else {
     // If the input is an ID, construct the full URL using the base domain
+      if (!/^e(n|o)[a-z0-9-]+$/i.test(input)) {
+        throw new Error(`
+          Invalid endpoint ID format.
+          Must contain only letters, numbers, and hyphens, and start with either "en" or "eo".
+        `);
+      }
+
       url = `https://${input}.${this.workflowDomain}`;
     }
 
