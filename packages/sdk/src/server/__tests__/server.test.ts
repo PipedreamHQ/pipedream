@@ -21,6 +21,7 @@ let client: BackendClient;
 let customDomainClient: BackendClient;
 
 beforeEach(() => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   ClientCredentials.mockImplementation(() => ({
     getToken: jest.fn().mockResolvedValue({
@@ -161,6 +162,7 @@ describe("BackendClient", () => {
     });
 
     it("should handle OAuth token retrieval failure", async () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       ClientCredentials.mockImplementation(() => ({
         getToken: jest.fn().mockRejectedValue(new Error("Invalid credentials")),
@@ -633,6 +635,7 @@ describe("BackendClient", () => {
         .mockResolvedValueOnce(expiredTokenMock)
         .mockResolvedValueOnce(newTokenMock);
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       ClientCredentials.mockImplementation(() => ({
         getToken: getTokenMock,
