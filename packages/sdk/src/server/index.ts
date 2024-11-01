@@ -693,25 +693,30 @@ export class BackendClient {
    * ```
    */
   private buildWorkflowUrl(input: string): string {
-    if (!input?.trim()) {
+    const sanitizedInput = input
+      .trim()
+      .replace(/[^\w-./:]/g, "")
+      .toLowerCase();
+    if (!sanitizedInput) {
       throw new Error("URL or endpoint ID is required");
     }
 
-    input = input.trim().toLowerCase();
     let url: string;
-
-    const isUrl = input.includes(".") || input.startsWith("http");
+    const isUrl = sanitizedInput.includes(".") || sanitizedInput.startsWith("http");
 
     if (isUrl) {
       // Try to parse the input as a URL
       let parsedUrl: URL;
       try {
-        const urlString = input.startsWith("http")
-          ? input
-          : `https://${input}`;
+        const urlString = sanitizedInput.startsWith("http")
+          ? sanitizedInput
+          : `https://${sanitizedInput}`;
         parsedUrl = new URL(urlString);
       } catch (error) {
-        throw new Error(`The provided URL is malformed: "${input}". Please provide a valid URL.`);
+        throw new Error(`
+          The provided URL is malformed: "${sanitizedInput}".
+          Please provide a valid URL.
+        `);
       }
 
       // Validate the hostname to prevent potential DNS rebinding attacks
@@ -722,14 +727,14 @@ export class BackendClient {
       url = parsedUrl.href;
     } else {
     // If the input is an ID, construct the full URL using the base domain
-      if (!/^e(n|o)[a-z0-9-]+$/i.test(input)) {
+      if (!/^e(n|o)[a-z0-9-]+$/i.test(sanitizedInput)) {
         throw new Error(`
           Invalid endpoint ID format.
           Must contain only letters, numbers, and hyphens, and start with either "en" or "eo".
         `);
       }
 
-      url = `https://${input}.${this.workflowDomain}`;
+      url = `https://${sanitizedInput}.${this.workflowDomain}`;
     }
 
     return url;
