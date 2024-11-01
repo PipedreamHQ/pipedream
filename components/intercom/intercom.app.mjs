@@ -45,14 +45,13 @@ export default {
     * @params {Object} [opts.data] - The request body
     * @returns {*} The response may vary depending on the specific API request.
     */
-    async makeRequest(opts) {
-      const {
-        method,
-        url,
-        endpoint,
-        data,
-        $,
-      } = opts;
+    async makeRequest({
+      method,
+      url,
+      endpoint,
+      $,
+      ...opts
+    }) {
       const config = {
         method,
         url: url ?? `https://api.intercom.io/${endpoint}`,
@@ -60,7 +59,7 @@ export default {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
           Accept: "application/json",
         },
-        data,
+        ...opts,
       };
       return axios($ || this, config);
     },
@@ -208,6 +207,29 @@ export default {
           admin_id: adminId,
         },
         $,
+      });
+    },
+    searchContact(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        endpoint: "contacts/search",
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        endpoint: "contacts",
+        ...opts,
+      });
+    },
+    updateContact({
+      contactId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "PUT",
+        endpoint: `contacts/${contactId}`,
+        ...opts,
       });
     },
     /**
