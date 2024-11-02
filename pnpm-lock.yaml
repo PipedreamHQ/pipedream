@@ -6154,6 +6154,9 @@ importers:
   components/microsoft_advertising:
     specifiers: {}
 
+  components/microsoft_azure_ai_translator:
+    specifiers: {}
+
   components/microsoft_entra_id:
     specifiers:
       '@pipedream/platform': ^1.5.1
