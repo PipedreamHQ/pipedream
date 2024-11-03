@@ -1,87 +1,82 @@
 import { axios } from "@pipedream/platform";
+import xml2js from "xml2js";
 
 export default {
   type: "app",
   app: "gocanvas",
   propDefinitions: {
-    applicationId: {
+    dispatchId: {
       type: "string",
-      label: "Application ID",
-      description: "The ID of the GoCanvas application",
-    },
-    submissionId: {
-      type: "string",
-      label: "Submission ID",
-      description: "The ID of the submission to get dynamic fields",
-      optional: true,
-    },
-    dispatchApp: {
-      type: "string",
-      label: "Dispatch App",
-      description: "The name of a dispatch-enabled GoCanvas app",
-    },
-    dispatchDescription: {
-      type: "string",
-      label: "Dispatch Description",
-      description: "The 'description' of the dispatch to be deleted",
-    },
-    referenceDataFile: {
-      type: "string",
-      label: "Reference Data File",
-      description: "The name of the GoCanvas reference data file to be synced",
+      label: "Dispatch ID",
+      description: "Identifier of a dispatch",
+      async options({ page }) {
+        const dispatches = await this.getActiveDispatches({
+          data: {
+            page: page + 1,
+          },
+        });
+        return dispatches?.map(({
+          $, Description: desc,
+        }) => ({
+          value: $.Id,
+          label: desc[0],
+        })) || [];
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.gocanvas.com";
+      return "https://www.gocanvas.com/apiv2/";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        params,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
+        params: {
+          ...params,
+          username: `${this.$auth.username}`,
+        },
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
-    async emitNewEvent(opts = {}) {
-      return this._makeRequest({
-        path: `/submissions/${opts.submissionId}`,
+    async getActiveDispatches(opts = {}) {
+      const response = await this._makeRequest({
+        path: "/dispatch_export",
         ...opts,
       });
+      const { CanvasResult: { Dispatches: dispatches } } = await new xml2js
+        .Parser().parseStringPromise(response);
+      const dispatchList = [];
+      for (const dispatch of dispatches) {
+        if (!dispatch.Dispatch) {
+          continue;
+        }
+        const activeDispatches = dispatch.Dispatch.filter((d) => d.Status[0] !== "deleted");
+        dispatchList.push(...activeDispatches);
+      }
+      return dispatchList;
     },
-    async createDispatchItem(opts = {}) {
+    async getDispatchDescription({
+      dispatchId, ...opts
+    }) {
+      const dispatches = await this.getActiveDispatches({
+        ...opts,
+      });
+      const dispatch = dispatches.find(({ $ }) => $.Id === dispatchId);
+      return dispatch.Description[0];
+    },
+    dispatchItems(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/dispatches",
-        data: {
-          app_name: opts.dispatchApp,
-        },
-        ...opts,
-      });
-    },
-    async removeDispatch(opts = {}) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: "/dispatches",
-        params: {
-          description: opts.dispatchDescription,
-        },
-        ...opts,
-      });
-    },
-    async syncReferenceDataFile(opts = {}) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/reference_data_files/${opts.referenceDataFile}`,
+        path: "/dispatch_items",
         ...opts,
       });
     },
