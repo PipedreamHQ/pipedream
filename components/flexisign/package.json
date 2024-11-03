@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/flexisign",
+  "version": "0.0.1",
+  "description": "Pipedream FlexiSign Components",
+  "main": "flexisign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "flexisign"
+  ],
+  "homepage": "https://pipedream.com/apps/flexisign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -3510,6 +3510,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.3
 
+  components/flexisign:
+    specifiers: {}
+
   components/flexmail:
     specifiers:
       '@pipedream/platform': ^1.5.1
