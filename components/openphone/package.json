@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/openphone",
+  "version": "0.0.1",
+  "description": "Pipedream OpenPhone Components",
+  "main": "openphone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "openphone"
+  ],
+  "homepage": "https://pipedream.com/apps/openphone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
