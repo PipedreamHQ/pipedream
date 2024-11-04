@@ -850,16 +850,19 @@ export class BackendClient {
     externalUserId: string,
     opts: RequestOptions = {},
   ): Promise<unknown> {
-    const { headers = {} } = opts;
-
-    if (!externalUserId) {
+    if (!externalUserId?.trim()) {
       throw new Error("External user ID is required");
+    }
+
+    if (!url.trim()) {
+      throw new Error("Workflow URL is required");
     }
 
     if (!this.oauthClient) {
       throw new Error("OAuth is required for invoking workflows for external users. Please pass credentials for a valid OAuth client");
     }
 
+    const { headers = {} } = opts;
     return this.invokeWorkflow(url, {
       ...opts,
       headers: {

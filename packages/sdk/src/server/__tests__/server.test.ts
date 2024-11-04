@@ -731,6 +731,22 @@ describe("BackendClient", () => {
         },
       })).rejects.toThrow("External user ID is required");
     });
+
+    it("should throw error when externalUserId is blank", async () => {
+      await expect(client.invokeWorkflowForExternalUser("https://example.com/workflow", "    ", {
+        body: {
+          foo: "bar",
+        },
+      })).rejects.toThrow("External user ID is required");
+    });
+
+    it("should throw error when the URL is blank", async () => {
+      await expect(client.invokeWorkflowForExternalUser("  ", "external-user-id", {
+        body: {
+          foo: "bar",
+        },
+      })).rejects.toThrow("Workflow URL is required");
+    });
   });
 
   describe("BackendClient - buildWorkflowUrl", () => {
