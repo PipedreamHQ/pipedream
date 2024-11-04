@@ -25,5 +25,8 @@
   },
   "connect-link": {
     "title": "Connect Link"
+  },
+  "migrating-from-project-keys-to-oauth": {
+    "display": "hidden"
   }
 }
