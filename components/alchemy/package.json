@@ -1,18 +1,18 @@
 {
   "name": "@pipedream/alchemy",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Alchemy Components",
-  "main": "dist/app/alchemy.app.mjs",
+  "main": "alchemy.app.mjs",
   "keywords": [
     "pipedream",
     "alchemy"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/alchemy",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }
