@@ -4,38 +4,37 @@ export default {
   key: "tldr-summarize-text",
   name: "Summarize Text",
   description: "Reads in a piece of text and distills the main points. [See the documentation](https://runtldr.com/documentation)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     tldr,
     inputText: {
-      propDefinition: [
-        tldr,
-        "inputText",
-      ],
+      type: "string",
+      label: "Text to Summarize",
+      description: "The text that needs to be summarized.",
     },
     responseStyle: {
-      propDefinition: [
-        tldr,
-        "responseStyle",
-      ],
+      type: "string",
+      label: "Response Style",
+      description: "Style of the response (e.g., Funny, Serious).",
     },
     responseLength: {
-      propDefinition: [
-        tldr,
-        "responseLength",
-      ],
+      type: "integer",
+      label: "Response Length",
+      description: "Length of the response summary.",
     },
   },
   async run({ $ }) {
     const response = await this.tldr.summarize({
-      inputText: this.inputText,
-      responseLength: this.responseLength || undefined,
-      responseStyle: this.responseStyle || undefined,
+      $,
+      data: {
+        inputText: this.inputText,
+        responseLength: this.responseLength,
+        responseStyle: this.responseStyle,
+      },
     });
 
-    const summary = response.output.summary;
-    $.export("$summary", `Successfully summarized the text with the following summary: "${summary}"`);
-    return response.output;
+    $.export("$summary", `Successfully summarized the text with the following input: "${this.inputText}"`);
+    return response;
   },
 };

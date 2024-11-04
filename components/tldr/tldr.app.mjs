@@ -3,57 +3,30 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "tldr",
-  propDefinitions: {
-    inputText: {
-      type: "string",
-      label: "Text to Summarize",
-      description: "The text that needs to be summarized.",
-    },
-    responseStyle: {
-      type: "string",
-      label: "Response Style",
-      description: "Style of the response (e.g., Funny, Serious).",
-      optional: true,
-    },
-    responseLength: {
-      type: "integer",
-      label: "Response Length",
-      description: "Length of the response summary.",
-      optional: true,
-    },
-  },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "Content-Type": "application/json",
+      };
     },
     _baseUrl() {
-      return "https://runtldr.com";
+      return "https://runtldr.com/apis/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "POST", path = "/", headers, ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-          "Content-Type": "application/json",
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async summarize({
-      inputText, responseLength, responseStyle,
-    }) {
+    summarize(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/summarize",
-        data: {
-          inputText,
-          responseLength,
-          responseStyle,
-        },
+        ...opts,
       });
     },
   },
