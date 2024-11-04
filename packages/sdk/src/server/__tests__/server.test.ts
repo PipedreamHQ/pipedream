@@ -1,25 +1,56 @@
-import {
-  ServerClient, createClient,
-} from "../index";
 import fetchMock from "jest-fetch-mock";
 import { ClientCredentials } from "simple-oauth2";
 
-describe("ServerClient", () => {
-  let client: ServerClient;
+import {
+  BackendClient,
+  BackendClientOpts,
+  createBackendClient,
+  HTTPAuthType,
+} from "../index";
 
-  beforeEach(() => {
-    fetchMock.resetMocks();
+const projectId = "proj_abc123";
+const clientParams: BackendClientOpts = {
+  credentials: {
+    clientId: "test-client-id",
+    clientSecret: "test-client-secret",
+  },
+  projectId,
+};
+
+let client: BackendClient;
+let customDomainClient: BackendClient;
+
+beforeEach(() => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  ClientCredentials.mockImplementation(() => ({
+    getToken: jest.fn().mockResolvedValue({
+      token: {
+        access_token: "mocked-oauth-token",
+      },
+      expired: jest.fn().mockReturnValue(false),
+    }),
+  }));
+
+  client = new BackendClient(
+    clientParams,
+  );
+  customDomainClient = new BackendClient({
+    ...clientParams,
+    workflowDomain: "example.com",
   });
+});
 
-  describe("createClient", () => {
-    it("should mock the createClient method and return a ServerClient instance", () => {
-      const params = {
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      };
+afterEach(() => {
+  fetchMock.resetMocks();
+  jest.clearAllMocks();
+});
 
-      const client = createClient(params);
-      expect(client).toBeInstanceOf(ServerClient);
+describe("BackendClient", () => {
+  describe("createBackendClient", () => {
+    it("should mock the createBackendClient method and return a BackendClient instance", () => {
+      const client = createBackendClient(clientParams);
+      expect(client).toBeInstanceOf(BackendClient);
     });
   });
 
@@ -35,11 +66,6 @@ describe("ServerClient", () => {
           },
         },
       );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
 
       const result = await client.makeRequest("/test-path", {
         method: "GET",
@@ -65,11 +91,6 @@ describe("ServerClient", () => {
           },
         },
       );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
 
       const result = await client.makeRequest("/test-path", {
         method: "POST",
@@ -103,11 +124,6 @@ describe("ServerClient", () => {
         },
       });
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
       await expect(client.makeRequest("/bad-path")).rejects.toThrow("HTTP error! status: 404, body: Not Found");
       expect(fetchMock).toHaveBeenCalledWith(
         "https://api.pipedream.com/v1/bad-path",
@@ -116,30 +132,8 @@ describe("ServerClient", () => {
     });
   });
 
-  describe("makeApiRequest", () => {
+  describe("makeAuthorizedRequest", () => {
     it("should include OAuth Authorization header and make an API request", async () => {
-      const getTokenMock = jest.fn().mockResolvedValue({
-        token: {
-          access_token: "mocked-oauth-token",
-        },
-        expired: jest.fn().mockReturnValue(false),
-      });
-
-      const oauthClientMock = {
-        getToken: getTokenMock,
-      } as unknown as ClientCredentials;
-
-      // Inject the mock oauthClient into the ServerClient instance
-      client = new ServerClient(
-        {
-          publicKey: "test-public-key",
-          secretKey: "test-secret-key",
-          oauthClientId: "test-client-id",
-          oauthClientSecret: "test-client-secret",
-        },
-        oauthClientMock,
-      );
-
       fetchMock.mockResponseOnce(
         JSON.stringify({
           success: true,
@@ -151,7 +145,7 @@ describe("ServerClient", () => {
         },
       );
 
-      const result = await client["makeApiRequest"]("/test-path");
+      const result = await client["makeAuthorizedRequest"]("/test-path");
 
       expect(result).toEqual({
         success: true,
@@ -168,34 +162,31 @@ describe("ServerClient", () => {
     });
 
     it("should handle OAuth token retrieval failure", async () => {
-      // Create a mock oauthClient that fails to get a token
-      const getTokenMock = jest.fn().mockRejectedValue(new Error("Invalid credentials"));
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ClientCredentials.mockImplementation(() => ({
+        getToken: jest.fn().mockRejectedValue(new Error("Invalid credentials")),
+      }));
 
-      const oauthClientMock = {
-        getToken: getTokenMock,
-      } as unknown as ClientCredentials;
-
-      client = new ServerClient(
+      // Need to create a new client instance to use the new mock implementation
+      const client = new BackendClient(
         {
-          publicKey: "test-public-key",
-          secretKey: "test-secret-key",
-          oauthClientId: "test-client-id",
-          oauthClientSecret: "test-client-secret",
+          credentials: {
+            clientId: "test-client-id",
+            clientSecret: "test-client-secret",
+          },
+          projectId,
         },
-        oauthClientMock,
       );
 
-      await expect(client["makeApiRequest"]("/test-path")).rejects.toThrow("Failed to obtain OAuth token: Invalid credentials");
+      await expect(client.makeAuthorizedRequest("/test-path")).rejects.toThrow(
+        "Failed to obtain OAuth token: Invalid credentials",
+      );
     });
   });
 
   describe("makeConnectRequest", () => {
     it("should include Connect Authorization header and make a request", async () => {
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
       fetchMock.mockResponseOnce(
         JSON.stringify({
           success: true,
@@ -213,17 +204,17 @@ describe("ServerClient", () => {
         success: true,
       });
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/test-path",
+        `https://api.pipedream.com/v1/connect/${projectId}/test-path`,
         expect.objectContaining({
           headers: expect.objectContaining({
-            "Authorization": expect.stringContaining("Basic "),
+            "Authorization": expect.stringContaining("Bearer "),
           }),
         }),
       );
     });
   });
 
-  describe("connectTokenCreate", () => {
+  describe("createConnectToken", () => {
     it("should create a connect token", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -237,12 +228,7 @@ describe("ServerClient", () => {
         },
       );
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
-      const result = await client.connectTokenCreate({
+      const result = await client.createConnectToken({
         external_user_id: "user-id",
       });
 
@@ -251,7 +237,7 @@ describe("ServerClient", () => {
         expires_at: "2024-01-01T00:00:00Z",
       });
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/tokens",
+        `https://api.pipedream.com/v1/connect/${projectId}/tokens`,
         expect.objectContaining({
           method: "POST",
           body: JSON.stringify({
@@ -279,12 +265,7 @@ describe("ServerClient", () => {
         },
       );
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
-      const result = await client.connectTokenCreate({
+      const result = await client.createConnectToken({
         external_user_id: "user-id",
         success_redirect_uri: "https://example.com/success",
         error_redirect_uri: "https://example.com/error",
@@ -295,7 +276,7 @@ describe("ServerClient", () => {
         expires_at: "2024-01-01T00:00:00Z",
       });
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/tokens",
+        `https://api.pipedream.com/v1/connect/${projectId}/tokens`,
         expect.objectContaining({
           method: "POST",
           body: JSON.stringify({
@@ -329,13 +310,8 @@ describe("ServerClient", () => {
         },
       );
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
       const result = await client.getAccounts({
-        include_credentials: 1,
+        include_credentials: true,
       });
 
       expect(result).toEqual([
@@ -345,13 +321,13 @@ describe("ServerClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts?include_credentials=1",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts?include_credentials=true`,
         expect.any(Object),
       );
     });
   });
 
-  describe("getAccount", () => {
+  describe("getAccountById", () => {
     it("should retrieve a specific account by ID", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
@@ -365,25 +341,20 @@ describe("ServerClient", () => {
         },
       );
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
-      const result = await client.getAccount("account-1");
+      const result = await client.getAccountById("account-1");
 
       expect(result).toEqual({
         id: "account-1",
         name: "Test Account",
       });
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/account-1",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts/account-1`,
         expect.any(Object),
       );
     });
   });
 
-  describe("getAccountsByApp", () => {
+  describe("Get accounts by app", () => {
     it("should retrieve accounts associated with a specific app", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify([
@@ -399,12 +370,9 @@ describe("ServerClient", () => {
         },
       );
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+      const result = await client.getAccounts({
+        app: "app-1",
       });
-
-      const result = await client.getAccountsByApp("app-1");
 
       expect(result).toEqual([
         {
@@ -413,13 +381,13 @@ describe("ServerClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/app/app-1",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts?app=app-1`,
         expect.any(Object),
       );
     });
   });
 
-  describe("getAccountsByExternalId", () => {
+  describe("Get accounts by external user ID", () => {
     it("should retrieve accounts associated with a specific external ID", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify([
@@ -435,12 +403,9 @@ describe("ServerClient", () => {
         },
       );
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+      const result = await client.getAccounts({
+        external_user_id: "external-id-1",
       });
-
-      const result = await client.getAccountsByExternalId("external-id-1");
 
       expect(result).toEqual([
         {
@@ -449,7 +414,7 @@ describe("ServerClient", () => {
         },
       ]);
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/users/external-id-1/accounts",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts?external_user_id=external-id-1`,
         expect.any(Object),
       );
     });
@@ -461,15 +426,10 @@ describe("ServerClient", () => {
         status: 204,
       });
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
       await client.deleteAccount("account-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/account-1",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts/account-1`,
         expect.objectContaining({
           method: "DELETE",
         }),
@@ -483,15 +443,10 @@ describe("ServerClient", () => {
         status: 204,
       });
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
       await client.deleteAccountsByApp("app-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/app/app-1",
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts/app/app-1`,
         expect.objectContaining({
           method: "DELETE",
         }),
@@ -505,15 +460,10 @@ describe("ServerClient", () => {
         status: 204,
       });
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
       await client.deleteExternalUser("external-id-1");
 
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/users/external-id-1",
+        `https://api.pipedream.com/v1/connect/${projectId}/users/external-id-1`,
         expect.objectContaining({
           method: "DELETE",
         }),
@@ -539,11 +489,6 @@ describe("ServerClient", () => {
         },
       );
 
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
       const result = await client.getProjectInfo();
 
       expect(result).toEqual({
@@ -555,7 +500,7 @@ describe("ServerClient", () => {
         ],
       });
       expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/projects/info",
+        `https://api.pipedream.com/v1/connect/${projectId}/projects/info`,
         expect.objectContaining({
           method: "GET",
         }),
@@ -564,30 +509,14 @@ describe("ServerClient", () => {
   });
 
   describe("invokeWorkflow", () => {
-    it("should invoke a workflow with provided URL and body", async () => {
-      // Create a mock oauthClient
-      const getTokenMock = jest.fn().mockResolvedValue({
-        token: {
-          access_token: "mocked-oauth-token",
-        },
-        expired: jest.fn().mockReturnValue(false),
+    beforeEach(() => {
+      client = new BackendClient({
+        ...clientParams,
+        workflowDomain: "example.com",
       });
+    });
 
-      const oauthClientMock = {
-        getToken: getTokenMock,
-      } as unknown as ClientCredentials;
-
-      // Inject the mock oauthClient into the ServerClient instance
-      client = new ServerClient(
-        {
-          publicKey: "test-public-key",
-          secretKey: "test-secret-key",
-          oauthClientId: "test-client-id",
-          oauthClientSecret: "test-client-secret",
-        },
-        oauthClientMock,
-      );
-
+    it("should invoke a workflow with provided URL and body, with no auth type", async () => {
       fetchMock.mockResponseOnce(
         JSON.stringify({
           result: "workflow-response",
@@ -616,7 +545,68 @@ describe("ServerClient", () => {
             foo: "bar",
           }),
           headers: expect.objectContaining({
-            Authorization: "Bearer mocked-oauth-token",
+            "Content-Type": "application/json",
+            "X-PD-Environment": "production",
+          }),
+        }),
+      );
+    });
+
+    it("should invoke a workflow with OAuth auth type", async () => {
+      fetchMock.mockResponseOnce(
+        JSON.stringify({
+          result: "workflow-response",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const result = await client.invokeWorkflow("https://example.com/workflow", {}, HTTPAuthType.OAuth);
+
+      expect(result).toEqual({
+        result: "workflow-response",
+      });
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "https://example.com/workflow",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            "Authorization": "Bearer mocked-oauth-token",
+          }),
+        }),
+      );
+    });
+
+    it("should invoke a workflow with static bearer auth type", async () => {
+      fetchMock.mockResponseOnce(
+        JSON.stringify({
+          result: "workflow-response",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const result = await client.invokeWorkflow("https://example.com/workflow", {
+        headers: {
+          "Authorization": "Bearer static-token",
+        },
+      }, HTTPAuthType.StaticBearer);
+
+      expect(result).toEqual({
+        result: "workflow-response",
+      });
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "https://example.com/workflow",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            "Authorization": "Bearer static-token",
           }),
         }),
       );
@@ -645,18 +635,21 @@ describe("ServerClient", () => {
         .mockResolvedValueOnce(expiredTokenMock)
         .mockResolvedValueOnce(newTokenMock);
 
-      const oauthClientMock = {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ClientCredentials.mockImplementation(() => ({
         getToken: getTokenMock,
-      } as unknown as ClientCredentials;
+      }));
 
-      const client = new ServerClient(
+      // Need to create a new client instance to use the new mock implementation
+      const client = new BackendClient(
         {
-          publicKey: "test-public-key",
-          secretKey: "test-secret-key",
-          oauthClientId: "test-client-id",
-          oauthClientSecret: "test-client-secret",
+          credentials: {
+            clientId: "test-client-id",
+            clientSecret: "test-client-secret",
+          },
+          projectId: "proj_abc123",
         },
-        oauthClientMock,
       );
 
       fetchMock.mockResponse(
@@ -671,7 +664,7 @@ describe("ServerClient", () => {
       );
 
       // First request will get the expired token and fetch a new one
-      const result1 = await client["makeApiRequest"]("/test-path");
+      const result1 = await client["makeAuthorizedRequest"]("/test-path");
 
       expect(result1).toEqual({
         success: true,
@@ -685,6 +678,156 @@ describe("ServerClient", () => {
           }),
         }),
       );
+    });
+  });
+
+  describe("invokeWorkflowForExternalUser", () => {
+    let client: BackendClient;
+
+    beforeEach(() => {
+      client = new BackendClient({
+        ...clientParams,
+        workflowDomain: "example.com",
+      });
+    });
+
+    it("should include externalUserId and environment headers", async () => {
+      fetchMock.mockResponseOnce(
+        JSON.stringify({
+          result: "workflow-response",
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const result = await client.invokeWorkflowForExternalUser("https://example.com/workflow", "external-user-id", {
+        body: {
+          foo: "bar",
+        },
+      });
+
+      expect(result).toEqual({
+        result: "workflow-response",
+      });
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        "https://example.com/workflow",
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            "X-PD-External-User-ID": "external-user-id",
+            "X-PD-Environment": "production",
+          }),
+        }),
+      );
+    });
+
+    it("should throw error when externalUserId is missing", async () => {
+      await expect(client.invokeWorkflowForExternalUser("https://example.com/workflow", "", {
+        body: {
+          foo: "bar",
+        },
+      })).rejects.toThrow("External user ID is required");
+    });
+
+    it("should throw error when externalUserId is blank", async () => {
+      await expect(client.invokeWorkflowForExternalUser("https://example.com/workflow", "    ", {
+        body: {
+          foo: "bar",
+        },
+      })).rejects.toThrow("External user ID is required");
+    });
+
+    it("should throw error when the URL is blank", async () => {
+      await expect(client.invokeWorkflowForExternalUser("  ", "external-user-id", {
+        body: {
+          foo: "bar",
+        },
+      })).rejects.toThrow("Workflow URL is required");
+    });
+  });
+
+  describe("BackendClient - buildWorkflowUrl", () => {
+    describe("Validations", () => {
+      it("should throw an error when the input is blank", () => {
+        expect(() => client["buildWorkflowUrl"]("   ")).toThrow("URL or endpoint ID is required");
+      });
+
+      it("should throw an error when the URL doesn't match the workflow domain", () => {
+        const url = "https://example.com";
+        expect(() => client["buildWorkflowUrl"](url)).toThrow("Invalid workflow domain");
+      });
+
+      it("should throw an error when the endpoint ID doesn't match the expected format", () => {
+        const input = "foo123";
+        expect(() => client["buildWorkflowUrl"](input)).toThrow("Invalid endpoint ID format");
+      });
+    });
+
+    describe("Default domain (m.pipedream.net)", () => {
+      it("should return full URL if input is a full URL with protocol", () => {
+        const input = "https://en123.m.pipedream.net";
+        const expected = "https://en123.m.pipedream.net/";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should return full URL if input is a URL without protocol", () => {
+        const input = "en123.m.pipedream.net";
+        const expected = "https://en123.m.pipedream.net/";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should construct URL with 'm.pipedream.net' if input is an endpoint ID", () => {
+        const input = "en123";
+        const expected = "https://en123.m.pipedream.net";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path in full URL with protocol", () => {
+        const input = "https://en123.m.pipedream.net/foo";
+        const expected = "https://en123.m.pipedream.net/foo";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path when no protocol is provided", () => {
+        const input = "en123.m.pipedream.net/foo";
+        const expected = "https://en123.m.pipedream.net/foo";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+    });
+
+    describe("Custom domain (example.com)", () => {
+      it("should return full URL if input is a full URL with protocol", () => {
+        const input = "https://en123.example.com";
+        const expected = "https://en123.example.com/";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should return full URL if input is a URL without protocol", () => {
+        const input = "en123.example.com";
+        const expected = "https://en123.example.com/";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should construct URL with 'example.com' if input is an endpoint ID", () => {
+        const input = "en123";
+        const expected = "https://en123.example.com";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path in full URL with protocol", () => {
+        const input = "https://en123.example.com/foo";
+        const expected = "https://en123.example.com/foo";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path when no protocol is provided", () => {
+        const input = "en123.example.com/foo";
+        const expected = "https://en123.example.com/foo";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
     });
   });
 });

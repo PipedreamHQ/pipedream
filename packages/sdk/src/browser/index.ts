@@ -1,38 +1,34 @@
-// This code is meant to be run client-side. Never provide project keys to the browser client,
-// or make API requests to the Pipedream API to fetch credentials. The browser client is
-// meant for initiating browser-specific operations, like connecting accounts via Pipedream Connect.
-// See the server/ directory for the server client.
+// This code is meant to be run client-side. Never provide project keys to the
+// browser client, or make API requests to the Pipedream API to fetch
+// credentials. The browser client is meant for initiating browser-specific
+// operations, like connecting accounts via Pipedream Connect. See the server/
+// directory for the server client.
 
 /**
- * Options for creating a browser-side client.
- * This is used to configure the BrowserClient instance.
+ * Options for creating a browser-side client. This is used to configure the
+ * BrowserClient instance.
  */
 type CreateBrowserClientOpts = {
   /**
-   * The environment in which the browser client is running (e.g., "production", "development").
+   * The environment in which the browser client is running (e.g., "production",
+   * "development").
    */
   environment?: string;
 
   /**
-   * The frontend host URL. Used by Pipedream employees only. Defaults to "pipedream.com" if not provided.
+   * The frontend host URL. Used by Pipedream employees only. Defaults to
+   * "pipedream.com" if not provided.
    */
   frontendHost?: string;
 };
 
 /**
- * A unique identifier for an app.
+ * The name slug for an app, a unique, human-readable identifier like "github"
+ * or "google_sheets". Find this in the Authentication section for any app's
+ * page at https://pipedream.com/apps. For more information about name slugs,
+ * see https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug.
  */
-type AppId = string;
-
-/**
- * Object representing an app to start connecting with.
- */
-type StartConnectApp = {
-  /**
-   * The unique identifier of the app.
-   */
-  id: AppId;
-};
+type AppNameSlug = string;
 
 /**
  * The result of a successful connection.
@@ -61,7 +57,7 @@ type StartConnectOpts = {
   /**
    * The app to connect to, either as an ID or an object containing the ID.
    */
-  app: AppId | StartConnectApp;
+  app: AppNameSlug;
 
   /**
    * The OAuth app ID to connect to.
@@ -88,14 +84,14 @@ type StartConnectOpts = {
  *
  * @example
  * ```typescript
- * const client = createClient({
+ * const client = createFrontendClient({
  *   environment: "production",
  * });
  * ```
  * @param opts - The options for creating the browser client.
  * @returns A new instance of `BrowserClient`.
  */
-export function createClient(opts: CreateBrowserClientOpts) {
+export function createFrontendClient(opts: CreateBrowserClientOpts = {}) {
   return new BrowserClient(opts);
 }
 
@@ -139,7 +135,7 @@ class BrowserClient {
    * });
    * ```
    */
-  connectAccount(opts: StartConnectOpts) {
+  public connectAccount(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
       switch (e.data?.type) {
       case "success":
@@ -168,7 +164,8 @@ class BrowserClient {
   }
 
   /**
-   * Cleans up the iframe and message event listener after the connection process is complete.
+   * Cleans up the iframe and message event listener after the connection
+   * process is complete.
    *
    * @param onMessage - The message event handler to remove.
    */
@@ -178,7 +175,8 @@ class BrowserClient {
   }
 
   /**
-   * Creates an iframe for the connection process and appends it to the document body.
+   * Creates an iframe for the connection process and appends it to the document
+   * body.
    *
    * @param opts - The options for starting the connection process.
    *
