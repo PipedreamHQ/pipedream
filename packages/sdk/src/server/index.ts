@@ -88,7 +88,7 @@ export type ConnectTokenOpts = {
    * Specify the environment ("production" or "development") to use for the
    * account connection flow. Defaults to "production".
    */
-  environment_name?: string;
+  project_environment?: string;
 };
 
 export type AppInfo = {
@@ -755,8 +755,8 @@ export class BackendClient {
    *
    * @example
    * ```typescript
-   * const response = await client.invokeWorkflow(
-   *   "https://your-workflow-url.m.pipedream.net",
+   * const response: JSON = await client.invokeWorkflow(
+   *   "https://en-your-endpoint.m.pipedream.net",
    *   {
    *     body: {
    *       foo: 123,
