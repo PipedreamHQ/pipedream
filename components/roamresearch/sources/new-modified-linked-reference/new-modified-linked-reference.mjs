@@ -51,7 +51,6 @@ export default {
         : ":block/uid";
 
       return {
-        debug: true,
         data: {
           selector: `[${attribute} :block/string :block/order :edit/time {:block/_refs ...}]`,
           eid: `[${attribute} "${pageOrBlock}"]`,
