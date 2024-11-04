@@ -2236,8 +2236,10 @@ importers:
   components/crowdin:
     specifiers:
       '@pipedream/platform': ^3.0.3
+      fs: ^0.0.1-security
     dependencies:
       '@pipedream/platform': 3.0.3
+      fs: 0.0.1-security
 
   components/crowdpower:
     specifiers: {}
