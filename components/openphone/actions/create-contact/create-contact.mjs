@@ -1,5 +1,5 @@
+import { parseObject } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "openphone-create-contact",
@@ -10,61 +10,71 @@ export default {
   props: {
     openphone,
     firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The contact's first name.",
+      propDefinition: [
+        openphone,
+        "firstName",
+      ],
     },
     lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The contact's last name.",
+      propDefinition: [
+        openphone,
+        "lastName",
+      ],
       optional: true,
     },
     company: {
-      type: "string",
-      label: "Company",
-      description: "The contact's company name.",
+      propDefinition: [
+        openphone,
+        "company",
+      ],
       optional: true,
     },
     role: {
-      type: "string",
-      label: "Role",
-      description: "The contact's role.",
+      propDefinition: [
+        openphone,
+        "role",
+      ],
       optional: true,
     },
     emails: {
-      type: "string[]",
-      label: "Emails",
-      description: "Array of contact's emails.",
+      propDefinition: [
+        openphone,
+        "emails",
+      ],
       optional: true,
     },
     phoneNumbers: {
-      type: "string[]",
-      label: "Phone Numbers",
-      description: "Array of contact's phone numbers.",
+      propDefinition: [
+        openphone,
+        "phoneNumbers",
+      ],
       optional: true,
     },
     customFields: {
-      type: "string[]",
-      label: "Custom Fields",
-      description: "Array of custom fields for the contact.",
+      propDefinition: [
+        openphone,
+        "customFields",
+      ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const data = {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      company: this.company,
-      role: this.role,
-      emails: this.emails,
-      phoneNumbers: this.phoneNumbers,
-      customFields: this.customFields,
-    };
+    const response = await this.openphone.createContact({
+      $,
+      data: {
+        defaultFields: {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          company: this.company,
+          role: this.role,
+          emails: parseObject(this.emails),
+          phoneNumbers: parseObject(this.phoneNumbers),
+        },
+        customFields: parseObject(this.customFields),
+      },
+    });
 
-    const response = await this.openphone.createContact(data);
-
-    $.export("$summary", `Successfully created contact with ID: ${response.id}`);
+    $.export("$summary", `Successfully created contact with ID: ${response.data.id}`);
     return response;
   },
 };

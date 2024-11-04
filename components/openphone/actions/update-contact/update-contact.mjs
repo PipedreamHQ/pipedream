@@ -1,18 +1,18 @@
+import { parseObject } from "../../common/utils.mjs";
 import openphone from "../../openphone.app.mjs";
 
 export default {
   key: "openphone-update-contact",
   name: "Update Contact",
   description: "Update an existing contact on OpenPhone. [See the documentation](https://www.openphone.com/docs/api-reference/contacts/update-a-contact-by-id)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     openphone,
     contactId: {
-      propDefinition: [
-        openphone,
-        "contactId",
-      ],
+      type: "string",
+      label: "Contact ID",
+      description: "The unique identifier of the contact.",
     },
     firstName: {
       propDefinition: [
@@ -65,17 +65,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      company: this.company,
-      role: this.role,
-      emails: this.emails,
-      phoneNumbers: this.phoneNumbers,
-      customFields: this.customFields,
-    };
-
-    const response = await this.openphone.updateContact(this.contactId, data);
+    const response = await this.openphone.updateContact({
+      $,
+      contactId: this.contactId,
+      data: {
+        defaultFields: {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          company: this.company,
+          role: this.role,
+          emails: parseObject(this.emails),
+          phoneNumbers: parseObject(this.phoneNumbers),
+        },
+        customFields: parseObject(this.customFields),
+      },
+    });
 
     $.export("$summary", `Successfully updated contact with ID ${this.contactId}`);
     return response;
