@@ -1,10 +1,10 @@
 # Security Best Practices
 
-Pipedream implements a range of [privacy and security measures](/privacy-and-security/) meant to protect your data from unauthorized access. Since Pipedream [workflows](/workflows/), [event sources](/sources/), and other resources can run any Node.js code and process any event data, you also have a responsibility to ensure you handle that code and data securely. We've outlined a handful of best practices for that below.
+Pipedream implements a range of [privacy and security measures](/privacy-and-security/) meant to protect your data from unauthorized access. Since Pipedream [workflows](/workflows/), [event sources](/sources/), and other resources can run any code and process any event data, you also have a responsibility to ensure you handle that code and data securely. We've outlined a handful of best practices for that below.
 
 ## Store secrets as Pipedream connected accounts or environment variables
 
-Even if your workflow code is private, you should never store secrets like API keys in code. These secrets should be stored in one of two ways:
+Never store secrets like API keys directly in code. These secrets should be stored in one of two ways:
 
 - [If Pipedream integrates with the app](https://pipedream.com/apps), use [connected accounts](/connected-accounts/) to link your apps / APIs.
 - If you need to store credentials for an app Pipedream doesn't support, or you need to store arbitrary configuration data, use [environment variables](/environment-variables/).
@@ -13,21 +13,19 @@ Read more about how Pipedream secures connected accounts / environment variables
 
 ## Deliver data to Pipedream securely
 
-Whenever possible, encrypt data in transit to Pipedream. For example, use HTTPS endpoints when sending HTTP traffic to a workflow.
+Always send data over HTTPS to Pipedream endpoints.
 
 ## Send data out of Pipedream securely
 
 When you connect to APIs in a workflow, or deliver data to third-party destinations, encrypt that data in transit. For example, use HTTPS endpoints when sending HTTP traffic to third parties.
 
-## Add authentication to incoming event data
+## Require authorization for HTTP triggers
 
-You can add many public-facing triggers to your workflows. For example, when you add an HTTP trigger to your workflow, anyone with the associated trigger URL can invoke it. You should protect your workflow with an authentication mechanism like [Basic Auth](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication), JWT, or others.
+HTTP triggers are public by default, and require no authorization or token to invoke.
 
-The easiest way to do this is to use the [Validate Webhook Auth action](https://pipedream.com/apps/http/actions/validate-webhook-auth). This supports common auth options, and you don't have to write any code to configure it.
+For many workflows, you should [configure authorization](/workflows/triggers#authorizing-http-requests) to ensure that only authorized parties can invoke your HTTP trigger.
 
-If you need to implement custom logic in code, see [this workflow](https://pipedream.com/new?h=tch_OaJfNv) for a shared API key example. This reads the header `x-api-key` and compares it to the [environment variable](/environment-variables/) called `YOUR_WEBHOOK_API_KEY`. If the `x-api-key` header does not match this variable, it returns a `401 Unauthorized` error and exits the workflow early.
-
-This pattern is typical for protecting workflows: add the authentication logic in a step at the top of your workflow, ending early if auth fails. If auth succeeds, Pipedream runs the remaining steps of your workflow.
+For third-party services like webhooks, that authorize requests using their own mechanism, use the [Validate Webhook Auth action](https://pipedream.com/apps/http/actions/validate-webhook-auth). This supports common auth options, and you don't have to write any code to configure it.
 
 ## Validate signatures for incoming events, where available
 

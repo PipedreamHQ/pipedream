@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Callout from '@/components/Callout'
+import { Tabs } from 'nextra/components'
 import PipedreamImg from '@/components/PipedreamImg'
 import VideoPlayer from "@/components/VideoPlayer";
 
@@ -100,9 +101,109 @@ You can send data of any [Media Type](https://www.iana.org/assignments/media-typ
 
 The primary limit we impose is on the size of the request body: we'll issue a `413 Payload Too Large` status when the body [exceeds our specified limit](#request-entity-too-large).
 
+### Authorizing HTTP requests
+
+By default, HTTP triggers are public and require no authorization to invoke. Anyone with the endpoint URL can trigger your workflow. When possible, we recommend adding authorization.
+
+HTTP triggers support two built-in authorization types in the **Authorization** section of the HTTP trigger configuration: a [static, custom token](#custom-token) and [OAuth](#oauth).
+
+#### Custom token
+
+To configure a static, custom token for HTTP auth:
+
+1. Open the **Configure** section of the HTTP trigger
+2. Select **Custom token**.
+3. Enter whatever secret you'd like and click **Save and Continue**.
+
+![Custom token auth](https://res.cloudinary.com/pipedreamin/image/upload/v1729791152/Google_Chrome_-_Untitled_Workflow_-_10-24-2024_10-30_AM_-_Build_-_Pipedream_2024-10-24_at_10.31.01_AM_pkh8dk.png)
+
+When making HTTP requests, pass the custom token as a `Bearer` token in the `Authorization` header:
+
+```bash
+curl -H 'Authorization: Bearer <your token>' https://myendpoint.m.pipedream.net
+```
+
+#### OAuth
+
+You can also authorize requests using [Pipedream OAuth clients](/rest-api/auth#oauth):
+
+1. Open the **Configure** section of the HTTP trigger.
+2. Select **OAuth**.
+3. If you don't have an existing OAuth client, [create one in your workspace's API settings](/rest-api/auth#creating-an-oauth-application).
+
+![OAuth authorization](https://res.cloudinary.com/pipedreamin/image/upload/v1729791415/Google_Chrome_-_Untitled_Workflow_-_10-24-2024_10-30_AM_-_Build_-_Pipedream_2024-10-24_at_10.36.04_AM_ujx34e.png)
+
+Next, you'll need to [generate an OAuth access token](/rest-api/auth#how-to-get-an-access-token).
+
+When making HTTP requests, pass the OAuth access token as a `Bearer` token in the `Authorization` header:
+
+```bash
+curl -H 'Authorization: Bearer <OAuth access token>' https://myendpoint.m.pipedream.net
+```
+
+You can use the Pipedream SDK to automatically refresh access tokens and invoke workflows:
+
+<Tabs items={['TypeScript', 'Node.js']}>
+<Tabs.Tab>
+```typescript
+import { createBackendClient, HTTPAuthType } from "@pipedream/sdk";
+ 
+// These secrets should be saved securely and passed to your environment
+const pd = createBackendClient({
+  credentials: {
+    clientId: "YOUR_CLIENT_ID",
+    clientSecret: "YOUR_CLIENT_SECRET",
+  },
+});
+
+await pd.invokeWorkflow(
+  "enabc123", // pass the endpoint ID or full URL here
+  {
+    method: "POST",
+    body: {
+      key: "value",
+    }
+  },
+  HTTPAuthType.OAuth // Will automatically send the Authorization header with a fresh token
+)
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk";
+
+// These secrets should be saved securely and passed to your environment
+const pd = createBackendClient({
+  credentials: {
+    clientId: "YOUR_CLIENT_ID",
+    clientSecret: "YOUR_CLIENT_SECRET",
+  },
+});
+
+await pd.invokeWorkflow(
+  "enabc123", // pass the endpoint ID or full URL here
+  {
+    method: "POST",
+    body: {
+      key: "value",
+    }
+  },
+  "oauth" // Will automatically send the Authorization header with a fresh token
+)
+```
+</Tabs.Tab>
+</Tabs>
+
+
+#### Implement your own authorization logic
+
+Since you have access to the entire request object, and can issue any HTTP response from a workflow, you can implement custom logic to validate requests.
+
+For example, you could require JWT tokens and validate those tokens using the [`jsonwebtoken` package](https://www.npmjs.com/package/jsonwebtoken) at the start of your workflow.
+
 ### Custom domains
 
-To configure endpoints on your own domain, e.g. `endpoint.yourdomain.com` instead of the default `{process.env.ENDPOINT_BASE_URL}` domain, see the [custom domains](/workflows/domains) docs.
+To configure endpoints on your own domain, e.g. `endpoint.yourdomain.com` instead of the default `*.m.pipedream.net` domain, see the [custom domains](/workflows/domains) docs.
 
 ### How Pipedream handles JSON payloads
 
@@ -441,20 +542,6 @@ You can also [reach out](https://pipedream.com/support/) to inquire about raisin
 
 If you control the application sending requests, you should implement [a backoff strategy](https://medium.com/clover-platform-blog/conquering-api-rate-limiting-dcac5552714d) to temporarily slow the rate of events.
 
-### Validating requests
-
-Since you have access to the entire request object, and can issue any HTTP response from a workflow, you can implement custom logic to validate requests using any [Node.js code](/code/nodejs/).
-
-For example, you can [require requests pass a specific secret in a header](https://pipedream.com/@dylburger/end-a-workflow-early-on-invalid-secret-p_YyCmmK/edit). Just copy the workflow and add your secret as the value of the the **Secret** param. Add the rest of your code in steps below this initial one. Requests must contain the secret:
-
-```bash
-curl -H 'X-Pipedream-Secret: abc123' https://myendpoint.m.pipedream.net
-```
-
-Otherwise, the workflow will [end early](/code/nodejs/#ending-a-workflow-early).
-
-Since you can [run any code](/code/) in a workflow, you can implement more complex validation. For example, you could require JWT tokens and validate those tokens using the [`jsonwebtoken` package](https://www.npmjs.com/package/jsonwebtoken) at the start of your workflow.
-
 ## Schedule
 
 Pipedream allows you to run hosted scheduled jobs — commonly-referred to as a "cron job" — [for free](/pricing/). You can think of workflows like scripts that run on a schedule.
@@ -599,6 +686,18 @@ myemailaddr+unsubscribe@pipedream.net
 
 This allows you implement conditional logic in your workflow based on the data in that string.
 
+### Troubleshooting
+
+#### I'm receiving an `Expired Token` error when trying to read an email attachment
+
+Email attachments are saved to S3, and are accessible in your workflows over [pre-signed URLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html).
+
+If the presigned URL for the attachment has expired, then you'll need to send another email to create a brand new pre-signed URL.
+
+If you're using email attachments in combination with [`$.flow.delay`](/code/nodejs/delay/) or [`$.flow.rerun`](/code/nodejs/rerun/) which introduces a gap of time between steps in your workflow, then there's a chance the email attachment's URL will expire.
+
+To overcome this, we suggest uploading your email attachments to your Project's [File Store](/projects/file-stores/) for persistent storage.
+
 ## RSS
 
 Choose the RSS trigger to watch an RSS feed for new items:
@@ -610,15 +709,3 @@ This will create an RSS [event source](/sources/) that polls the feed for new it
 ## Don't see a trigger you need?
 
 If you don't see a trigger you'd like us to support, please [let us know](https://pipedream.com/support/).
-
-## Troubleshooting
-
-### I'm receiving an `Expired Token` error when trying to read an email attachment
-
-Email attachments are saved to S3, and are accessible in your workflows over [pre-signed URLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html).
-
-If the presigned URL for the attachment has expired, then you'll need to send another email to create a brand new pre-signed URL.
-
-If you're using email attachments in combination with [`$.flow.delay`](/code/nodejs/delay/) or [`$.flow.rerun`](/code/nodejs/rerun/) which introduces a gap of time between steps in your workflow, then there's a chance the email attachment's URL will expire.
-
-To overcome this, we suggest uploading your email attachments to your Project's [File Store](/projects/file-stores/) for persistent storage.
