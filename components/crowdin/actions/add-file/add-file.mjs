@@ -1,5 +1,9 @@
+import fs from "fs";
 import { TYPE_OPTIONS } from "../../common/constants.mjs";
-import { parseObject } from "../../common/utils.mjs";
+import {
+  checkTmp,
+  parseObject,
+} from "../../common/utils.mjs";
 import crowdin from "../../crowdin.app.mjs";
 
 export default {
@@ -16,11 +20,10 @@ export default {
         "projectId",
       ],
     },
-    storageId: {
-      propDefinition: [
-        crowdin,
-        "storageId",
-      ],
+    file: {
+      type: "string",
+      label: "File",
+      description: "The path to the file saved to the `/tmp` directory  (e.g. `/tmp/example.jpg`) to process. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
     name: {
       type: "string",
@@ -85,14 +88,29 @@ export default {
       crowdin,
       attachLabelIds,
       projectId,
+      file,
       ...data
     } = this;
+
+    const fileBinary = fs.readFileSync(checkTmp(file));
+    const crowdinFilename = file.startsWith("/tmp/")
+      ? file.slice(5)
+      : file;
+
+    const fileResponse = await crowdin.createStorage({
+      data: Buffer.from(fileBinary, "binary"),
+      headers: {
+        "Crowdin-API-FileName": encodeURI(crowdinFilename),
+        "Content-Type": "application/octet-stream",
+      },
+    });
 
     const response = await crowdin.uploadFileToProject({
       $,
       projectId,
       data: {
         ...data,
+        storageId: fileResponse.data.id,
         attachLabelIds: parseObject(attachLabelIds),
       },
     });

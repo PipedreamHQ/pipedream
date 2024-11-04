@@ -22,3 +22,10 @@ export const parseObject = (obj) => {
   }
   return obj;
 };
+
+export const checkTmp = (filename) => {
+  if (filename.indexOf("/tmp") === -1) {
+    return `/tmp/${filename}`;
+  }
+  return filename;
+};

@@ -73,7 +73,7 @@ export default {
       },
     },
     storageId: {
-      type: "string",
+      type: "integer",
       label: "Storage ID",
       description: "The ID of the storage",
       async options({ page }) {
@@ -169,17 +169,18 @@ export default {
     _baseUrl() {
       return "https://api.crowdin.com/api/v2";
     },
-    _headers() {
+    _headers(headers = {}) {
       return {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        ...headers,
       };
     },
     _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, headers, ...opts
     }) {
       return axios($, {
         url: this._baseUrl() + path,
-        headers: this._headers(),
+        headers: this._headers(headers),
         ...opts,
       });
     },
@@ -235,6 +236,13 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/projects",
+        ...opts,
+      });
+    },
+    createStorage(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/storages",
         ...opts,
       });
     },
