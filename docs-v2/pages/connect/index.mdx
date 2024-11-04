@@ -5,23 +5,16 @@ import VideoPlayer from "@/components/VideoPlayer";
 
 # Pipedream Connect
 
-<Callout type="info">
-**Pipedream Connect is currently in preview, and we're looking for feedback!**
+Pipedream Connect is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI agents, [and much more](/connect/use-cases), all in a few minutes. Visit [the quickstart](/connect/quickstart) to build your first integration.
 
-**During the preview phase, Connect is free to use for any workspace. The API may change without notice, which may cause breaking changes**. We'll do our best to communicate these changes.
+You have full, code-level control over how these integrations work in your app. You handle your product, Pipedream simplifies the integration. 
 
-Please reach out at `connect@pipedream.com` or our [Slack community](https://pipedream.com/support) to let us know how you're using it, what's not working, and what else you'd like to see.
-</Callout>
+Connect lets you:
 
-Pipedream Connect is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI-driven products, [and much more](/connect/use-cases), all in a few minutes. Visit [the quickstart](/connect/quickstart) to build your first integration.
-
-Connect lets your users authorize access to any API, directly in your app. You can then retrieve fresh credentials for any account, making requests on their behalf. Pipedream handles the security of credentials and the whole OAuth flow — **no need to manage authorization grants or token refresh yourself.**
-
-You have full, code-level control over how these integrations work. You handle the product, Pipedream takes care of the auth. Connect provides:
-
-1. A [Client SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) or [Connect Link](/connect/quickstart#use-connect-link) to initiate authorization or accept API keys on behalf of your users, for any of the [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps) available on Pipedream
-2. A [REST API](/connect/api) to retrieve credentials for your end users — OAuth access tokens, API keys, and other credentials stored for them
-3. The Pipedream platform and its [workflow builder](/workflows), [serverless runtime](/), and thousands of no-code [triggers](/workflows/triggers) and [actions](/workflows/actions)
+1. Handle authorization or accept API keys on behalf of your users, for any of Pipedream's [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps). Use the [Client SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) or [Connect Link](/connect/quickstart#use-connect-link) to accept auth in minutes.
+2. Securely retrieve OAuth access tokens, API keys, and other credentials for your end users with Pipedream's [REST API](/connect/api)
+3. Run workflows for your end users with Pipedream's [workflow builder](/workflows), [serverless runtime](/), and thousands of no-code [triggers](/workflows/triggers) and [actions](/workflows/actions). Build complex integrations in minutes, writing code when you need it and using no-code components when you don't. Pipedream workflows are easy to modify, debug, and scale.
+4. Run [any Pipedream action](https://pipedream.com/explore) or [deploy any Pipedream trigger](https://pipedream.com/explore) on behalf of your users, directly from within your application.
 
 <br />
 
@@ -42,15 +35,31 @@ Pipedream Connect lets you build any API integration into your product in minute
 
 Watch [the demo](https://www.youtube.com/embed/xhUagMsogkQ) or visit [the quickstart](/connect/quickstart) to build your first integration.
 
+## App configuration for OAuth apps
+
+Pipedream has more than {process.env.PUBLIC_APPS} apps available for you to integrate via Connect. Getting started is easy — just follow the [quickstart](/connect/quickstart) to get up and running.
+
+By default, apps that use OAuth to authenticate will use Pipedream's official OAuth client. To deploy your integrations to production, you'll need to configure your own OAuth client. Read more about OAuth clients in Pipedream [here](/connected-accounts/oauth-clients).
+
+[Let us know](https://pipedream.com/support) if the app you're looking for isn't listed [here](https://pipedream.com/apps).
+
+## Users
+
+To view or delete your users' connected accounts:
+
+1. Open your project
+2. Click the **Connect** tab
+3. In the **Apps** section, add a new app.
+
+You'll see a list of all users, their connected accounts, and the option to delete any accounts from the UI. You can also retrieve and delete all your users via the API ([see the docs for reference](/connect/api)).
+
 ## Plans and pricing
 
-During the preview phase, **Connect is free to use for any workspace**.
-
-Please let us know if you have any feedback on the value of Connect and how you'd like to see it priced.
+**Connect is free to use for any workspace**.
 
 ## Security
 
-Pipedream takes the security of our products seriously. Please [review our security docs](/privacy-and-security) and send us any questions or [suspected vulnerabilities](/privacy-and-security#reporting-a-vulnerability). You can also get a copy of our [SOC 2 Type 2 report](/privacy-and-security#soc-2), [sign HIPAA BAAs](/privacy-and-security#hipaa), and get information on other practices and controls.
+Pipedream takes the security of our products seriously. See [details on Connect security](/privacy-and-security#pipedream-connect) and [our general security docs](/privacy-and-security). Please send us any questions or [suspected vulnerabilities](/privacy-and-security#reporting-a-vulnerability). You can also get a copy of our [SOC 2 Type 2 report](/privacy-and-security#soc-2), [sign HIPAA BAAs](/privacy-and-security#hipaa), and get information on other practices and controls.
 
 ### Storing user credentials, token refresh
 
@@ -58,23 +67,15 @@ All credentials and tokens are sent to Pipedream securely over HTTPS, and encryp
 
 ### How to secure your Connect apps
 
-- **Secure all secrets** — Secure your Pipedream project's secret key and user credentials. Never expose secrets in your client-side code. Make all requests to Pipedream's API and third-party APIs from your server-side code.
+- **Secure all secrets** — Secure your Pipedream OAuth client credentials, and especially any user credentials. Never expose secrets in your client-side code. Make all requests to Pipedream's API and third-party APIs from your server-side code.
 - **Use HTTPS** — Always use HTTPS to secure your connections between your client and server. Requests to Pipedream's API will be automatically redirected to HTTPS.
 - **Use secure, session-based auth between your client and server** — authorize all requests from your client to your server using a secure, session-based auth mechanism. Use well-known identity providers with services like [Clerk](https://clerk.com/), [Firebase](https://firebase.google.com/), or [Auth0](https://auth0.com/) to securely generate and validate authentication tokens. The same follows for Pipedream workflows — if you trigger Pipedream workflows from your client or server, validate all requests in the workflow before executing workflow code.
 - **Secure your workflows** — See our [standard security practices](/privacy-and-security/best-practices) for recommendations on securing your Pipedream workflows.
-
-## Product roadmap for Connect
-
-- Address bugs and feedback during the preview phase
-- Use Pipedream OAuth clients while in development, to make it easier to get started
-- Invoke Pipedream workflows on behalf of your end users
-- Improve error handling for Connect developers and end users
-- And more!
 
 ## Glossary of terms
 
 - **App**: GitHub, Notion, Slack, Google Sheets, and more. The app is the API you want your users to connect to in your product. See the [full list here](https://pipedream.com/apps).
 - **Developer**: This is probably you, the Pipedream customer who's developing an app and wants to use Connect to make API requests on behalf of your end users.
-- **End User**: Your customer or user, whose data you want to access on their behalf. End users are identifed via the `external_id` param in the Connect SDK and API.
+- **End User**: Your customer or user, whose data you want to access on their behalf. End users are identifed via the `external_user_id` param in the Connect SDK and API.
 - **Connected Account**: The account your end user connects. [Read more about connected accounts](/connected-accounts).
 - **OAuth Client**: Custom OAuth clients you create in Pipedream. [Read more about OAuth clients](/connected-accounts/oauth-clients).
