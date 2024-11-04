@@ -53,7 +53,7 @@ export type BackendClientOpts = {
 /**
  * Different ways in which customers can authorize requests to HTTP endpoints
  */
-export enum HTTPAuthType {
+export const enum HTTPAuthType {
   None = "none",
   StaticBearer = "static_bearer_token",
   OAuth = "oauth"
@@ -137,7 +137,7 @@ export type ConnectTokenResponse = {
 /**
  * The types of authentication that Pipedream apps support.
  */
-export enum AppAuthType {
+export const enum AppAuthType {
   OAuth = "oauth",
   Keys = "keys",
   None = "none",
