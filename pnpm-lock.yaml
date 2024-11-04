@@ -10980,6 +10980,9 @@ importers:
       '@pipedream/platform': 1.5.1
       verifalia: 3.2.2
 
+  components/verifone:
+    specifiers: {}
+
   components/verifybee:
     specifiers: {}
 
