@@ -6442,6 +6442,9 @@ importers:
   components/mumara:
     specifiers: {}
 
+  components/mural:
+    specifiers: {}
+
   components/murlist:
     specifiers: {}
 
