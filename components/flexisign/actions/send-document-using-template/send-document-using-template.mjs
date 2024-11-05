@@ -1,3 +1,4 @@
+import { snakeCaseToTitleCase } from "../../common/utils.mjs";
 import flexisign from "../../flexisign.app.mjs";
 
 export default {
@@ -13,26 +14,51 @@ export default {
         flexisign,
         "templateId",
       ],
-    },
-    recipients: {
-      propDefinition: [
-        flexisign,
-        "recipients",
-      ],
-    },
-    message: {
-      propDefinition: [
-        flexisign,
-        "message",
-      ],
-      optional: true,
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (this.templateId) {
+      const { data: { bodyStructure } } = await this.flexisign.getTemplateDetails({
+        params: {
+          templateId: this.templateId,
+        },
+      });
+
+      for (const [
+        key,
+        value,
+      ] of Object.entries(bodyStructure)) {
+        if ([
+          "templateId",
+          "recipientsCount",
+        ].includes(key)) continue;
+
+        const title = snakeCaseToTitleCase(key);
+        props[key] = {
+          type: typeof value === "number"
+            ? "integer"
+            : "string",
+          label: title,
+          description: title,
+          default: typeof value === "number"
+            ? value
+            : undefined,
+        };
+      }
+    }
+    return props;
+  },
   async run({ $ }) {
-    const response = await this.flexisign.sendSignatureRequest({
-      templateId: this.templateId,
-      recipients: this.recipients,
-      message: this.message,
+    const {
+      flexisign,
+      ...data
+    } = this;
+
+    const response = await flexisign.sendSignatureRequest({
+      $,
+      data,
     });
 
     $.export("$summary", `Signature request sent for template ID: ${this.templateId}`);

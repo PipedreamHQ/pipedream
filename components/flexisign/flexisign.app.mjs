@@ -9,61 +9,51 @@ export default {
       label: "Template ID",
       description: "The ID of the template to generate the document from",
       async options() {
-        const templates = await this.listTemplates();
-        return templates.map((template) => ({
-          label: template.name,
-          value: template.id,
+        const { data: { list } } = await this.listTemplates();
+        return list.map(({
+          _id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
-    },
-    recipients: {
-      type: "string[]",
-      label: "Recipients",
-      description: "An array of recipient objects, with each recipient specified as a JSON string (e.g., '[{\"email\": \"example@example.com\"}]')",
-    },
-    message: {
-      type: "string",
-      label: "Message",
-      description: "A personalized message for the recipients",
-      optional: true,
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.flexisign.io/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
-      });
+    _headers() {
+      return {
+        "api-key": `${this.$auth.api_key}`,
+      };
     },
-    async listTemplates(opts = {}) {
-      return this._makeRequest({
-        path: "/templates",
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
         ...opts,
       });
     },
-    async sendSignatureRequest(opts = {}) {
-      const {
-        templateId, recipients, message,
-      } = opts;
+    listTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/templates/all",
+        ...opts,
+      });
+    },
+    getTemplateDetails(opts = {}) {
+      return this._makeRequest({
+        path: "/template",
+        ...opts,
+      });
+    },
+    sendSignatureRequest(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/signature/send",
-        data: {
-          template_id: templateId,
-          recipients: recipients.map(JSON.parse),
-          message,
-        },
+        path: "/template/create-document",
+        ...opts,
       });
     },
   },
