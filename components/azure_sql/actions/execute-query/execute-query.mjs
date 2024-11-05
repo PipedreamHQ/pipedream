@@ -5,7 +5,7 @@ export default {
   name: "Execute Query",
   description: "Executes a SQL query and returns the results. [See the documentation](https://learn.microsoft.com/en-us/sql/t-sql/queries/select-transact-sql?view=azuresqldb-current)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     app,
     query: {
@@ -20,18 +20,26 @@ export default {
       description: "The inputs to the query. These will be available as @input_parameter in the query. For example, if you provide an input named 'id', you can use @id in the query.",
       optional: true,
     },
+    requestTimeout: {
+      propDefinition: [
+        app,
+        "requestTimeout",
+      ],
+    },
   },
   run({ $ }) {
     const {
       app,
       inputs,
       query,
+      requestTimeout,
     } = this;
 
     return app.executeQuery({
       $,
       query,
       inputs,
+      requestTimeout,
       summary: () => "Successfully executed query.",
     });
   },
