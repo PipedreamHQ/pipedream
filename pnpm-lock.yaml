@@ -700,10 +700,10 @@ importers:
 
   components/apollo_io:
     specifiers:
-      '@pipedream/platform': ^1.6.0
+      '@pipedream/platform': ^3.0.3
       md5: ^2.3.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 3.0.3
       md5: 2.3.0
 
   components/appcircle:
@@ -36639,7 +36639,7 @@ packages:
     dev: false
 
   /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
     dependencies:
       assert-plus: 1.0.0
