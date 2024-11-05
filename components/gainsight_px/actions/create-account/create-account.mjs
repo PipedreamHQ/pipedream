@@ -11,38 +11,38 @@ export default {
     id: {
       propDefinition: [
         app,
-        "id"
-      ]
+        "id",
+      ],
     },
     name: {
       propDefinition: [
         app,
-        "name"
-      ]
+        "name",
+      ],
     },
     propertyKeys: {
       propDefinition: [
         app,
-        "propertyKeys"
-      ]
+        "propertyKeys",
+      ],
     },
     countryName: {
       propDefinition: [
         app,
-        "countryName"
-      ]
+        "countryName",
+      ],
     },
     stateName: {
       propDefinition: [
         app,
-        "stateName"
-      ]
+        "stateName",
+      ],
     },
     city: {
       propDefinition: [
         app,
-        "city"
-      ]
+        "city",
+      ],
     },
   },
 
@@ -57,8 +57,8 @@ export default {
           countryName: this.countryName,
           stateName: this.stateName,
           city: this.city,
-        }
-      }
+        },
+      },
     });
 
     $.export("$summary", `Successfully created account with the name '${this.name}'`);

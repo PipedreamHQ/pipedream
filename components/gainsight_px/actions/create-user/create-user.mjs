@@ -19,32 +19,32 @@ export default {
     propertyKeys: {
       propDefinition: [
         app,
-        "propertyKeys"
-      ]
+        "propertyKeys",
+      ],
     },
     type: {
       propDefinition: [
         app,
-        "type"
-      ]
+        "type",
+      ],
     },
     email: {
       propDefinition: [
         app,
-        "email"
-      ]
+        "email",
+      ],
     },
     firstName: {
       propDefinition: [
         app,
-        "firstName"
-      ]
+        "firstName",
+      ],
     },
     lastName: {
       propDefinition: [
         app,
-        "lastName"
-      ]
+        "lastName",
+      ],
     },
   },
 
@@ -58,7 +58,7 @@ export default {
         email: this.email,
         firstName: this.firstName,
         lastName: this.lastName,
-      }
+      },
     });
 
     $.export("$summary", `Successfully created user with ID '${this.id}'`);

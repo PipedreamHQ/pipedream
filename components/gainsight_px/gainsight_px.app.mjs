@@ -45,11 +45,13 @@ export default {
       async options() {
         const response = await this.listUsers();
         const userIds = response.users;
-        return userIds.map(({ identifyId, email }) => ({
+        return userIds.map(({
+          identifyId, email,
+        }) => ({
           label: email,
           value: identifyId,
         }));
-      }
+      },
     },
     type: {
       type: "string",
@@ -94,34 +96,34 @@ export default {
         headers: {
           ...headers,
           "X-APTRINSIC-API-KEY": `${this.$auth.api_key}`,
-          "Accept": `application/json`,
+          "Accept": "application/json",
         },
       });
     },
     async createAccount(args = {}) {
       return this._makeRequest({
-        path: `/accounts`,
+        path: "/accounts",
         method: "post",
         ...args,
       });
     },
     async deleteUser(args = {}) {
       return this._makeRequest({
-        path: `/users/delete`,
+        path: "/users/delete",
         method: "delete",
         ...args,
       });
     },
     async createUser(args = {}) {
       return this._makeRequest({
-        path: `/users`,
+        path: "/users",
         method: "post",
         ...args,
       });
     },
     async listUsers(args = {}) {
       return this._makeRequest({
-        path: `/users`,
+        path: "/users",
         ...args,
       });
     },

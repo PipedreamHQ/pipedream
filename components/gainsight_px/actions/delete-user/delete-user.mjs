@@ -21,7 +21,7 @@ export default {
       $,
       data: {
         identifyId: this.identifyId,
-      }
+      },
     });
 
     $.export("$summary", `Successfully deleted user with ID ${this.identifyId}`);
