@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_ad_manager",
+  "version": "0.0.1",
+  "description": "Pipedream Google Ad Manager Components",
+  "main": "google_ad_manager.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_ad_manager"
+  ],
+  "homepage": "https://pipedream.com/apps/google_ad_manager",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
