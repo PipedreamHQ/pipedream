@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zendesk_sell",
+  "version": "0.0.1",
+  "description": "Pipedream Zendesk Sell Components",
+  "main": "zendesk_sell.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zendesk_sell"
+  ],
+  "homepage": "https://pipedream.com/apps/zendesk_sell",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
