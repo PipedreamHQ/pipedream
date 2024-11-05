@@ -4,7 +4,7 @@ export default {
   key: "roamresearch-add-content-to-daily-note-page",
   name: "Add Content To Daily Note Page",
   description: "Adds content as a child block to a daily note page in Roam Research (access to encrypted and non encrypted graphs). [See the documentation](https://roamresearch.com/#/app/developer-documentation/page/eb8OVhaFC).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -57,7 +57,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Succesfully added content to daily note page.");
+    $.export("$summary", "Successfully added content to daily note page.");
     return response;
   },
 };

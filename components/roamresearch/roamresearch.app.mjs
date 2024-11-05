@@ -5,6 +5,20 @@ export default {
   type: "app",
   app: "roamresearch",
   propDefinitions: {
+    resourceType: {
+      type: "string",
+      label: "Resource Type",
+      description: "The type of resource to get data for.",
+      options: [
+        "page",
+        "block",
+      ],
+    },
+    pageOrBlock: {
+      type: "string",
+      label: "Page Title Or Block UID",
+      description: "The page title of the block uid to get data for. Page title example: `My Page` and Block UID example: `ideWWvTgI`.",
+    },
     content: {
       type: "string",
       label: "Content",
@@ -60,6 +74,18 @@ export default {
     pull(args = {}) {
       return this.post({
         path: "/pull",
+        ...args,
+      });
+    },
+    pullMany(args = {}) {
+      return this.post({
+        path: "/pull-many",
+        ...args,
+      });
+    },
+    write(args = {}) {
+      return this.post({
+        path: "/write",
         ...args,
       });
     },

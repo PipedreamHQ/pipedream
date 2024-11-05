@@ -4,23 +4,21 @@ export default {
   key: "roamresearch-get-page-or-block-data",
   name: "Get Page Or Block Data",
   description: "Get the data for a page or block in Roam Research (access only to non ecrypted graphs). [See the documentation](https://roamresearch.com/#/app/developer-documentation/page/eb8OVhaFC).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
     resourceType: {
-      type: "string",
-      label: "Resource Type",
-      description: "The type of resource to get data for.",
-      options: [
-        "page",
-        "block",
+      propDefinition: [
+        app,
+        "resourceType",
       ],
     },
     pageOrBlock: {
-      type: "string",
-      label: "Page Title Or Block UID",
-      description: "The page title of the block uid to get data for. Page title example: `My Page` and Block UID example: `ideWWvTgI`.",
+      propDefinition: [
+        app,
+        "pageOrBlock",
+      ],
     },
   },
   async run({ $ }) {
@@ -47,7 +45,7 @@ export default {
       return response;
     }
 
-    $.export("$summary", `Succesfully got data for ${resourceType}: \`${pageOrBlock}\`.`);
+    $.export("$summary", `Successfully got data for ${resourceType}: \`${pageOrBlock}\`.`);
     return response;
   },
 };
