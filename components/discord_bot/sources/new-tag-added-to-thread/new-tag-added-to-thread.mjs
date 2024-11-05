@@ -5,7 +5,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "discord_bot-new-tag-added-to-thread",
-  name: "New Tag Added to Thread",
+  name: "New Tag Added to Forum Thread",
   description: "Emit new event when a new tag is added to a thread",
   type: "source",
   version: "0.0.1",
@@ -49,6 +49,11 @@ export default {
         ts: Date.now(),
       };
     },
+    getChannel(id) {
+      return this.discord._makeRequest({
+        path: `/channels/${id}`,
+      });
+    },
   },
   async run() {
     let tags = this._getTags();
@@ -62,10 +67,17 @@ export default {
         continue;
       }
       if (thread.applied_tags.some((tag) => !tags[thread.id] || !tags[thread.id].includes(tag))) {
+        tags[thread.id] = thread.applied_tags;
+
+        const { available_tags: availableTags = [] } = await this.getChannel(thread.parent_id);
+
+        thread.applied_tags = thread.applied_tags.map((tagId) => ({
+          ...availableTags.find(({ id }) => id === tagId),
+        }));
+
         const meta = this.generateMeta(thread);
         this.$emit(thread, meta);
 
-        tags[thread.id] = thread.applied_tags;
       }
     }
 

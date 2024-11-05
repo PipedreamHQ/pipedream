@@ -22,7 +22,26 @@ export default {
   "member_count": 1,
   "total_message_sent": 0,
   "applied_tags": [
-    "1301256232052457563",
-    "1301281978968178759"
-  ]
-}
+    {
+      "id": "1301256232052457563",
+      "name": "tag",
+      "moderated": false,
+      "emoji_id": null,
+      "emoji_name": null,
+    },
+    {
+      "id": "1301282004998033428",
+      "name": "tag3",
+      "moderated": false,
+      "emoji_id": null,
+      "emoji_name": null,
+    },
+    {
+      "id": "1301281978968178759",
+      "name": "tag2",
+      "moderated": false,
+      "emoji_id": null,
+      "emoji_name": null,
+    },
+  ],
+};

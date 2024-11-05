@@ -8,7 +8,7 @@ export default {
   ...common,
   key: "discord_bot-new-forum-thread-message",
   name: "New Forum Thread Message",
-  description: "Emit new event for each forum thread message posted. Note that your bot must have the `MESSAGE_CONTENT` privilege intent to see the message content, [see the docs here](https://discord.com/developers/docs/topics/gateway#message-content-intent).",
+  description: "Emit new event for each forum thread message posted. Note that your bot must have the `MESSAGE_CONTENT` privilege intent to see the message content. [See the documentation](https://discord.com/developers/docs/topics/gateway#message-content-intent).",
   type: "source",
   version: "0.0.4",
   dedupe: "unique", // Dedupe events based on the Discord message ID
@@ -119,6 +119,16 @@ export default {
         ...message,
         thread: await this.getChannel(message.channel_id),
       })));
+
+      const { available_tags: availableTags = [] } = await this.getChannel(this.forumId);
+      for (const message of messages) {
+        if (!message.thread.applied_tags) {
+          message.thread.applied_tags = [];
+        }
+        message.thread.applied_tags = message.thread.applied_tags.map((tagId) => ({
+          ...availableTags.find(({ id }) => id === tagId),
+        }));
+      }
 
       messages.reverse().forEach((message) => {
         this.$emit(message, {
