@@ -1478,6 +1478,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/campaign_monitor:
+    specifiers: {}
+
   components/campaignhq:
     specifiers: {}
 
