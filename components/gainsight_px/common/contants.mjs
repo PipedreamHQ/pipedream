@@ -5,4 +5,4 @@ export default {
     "VISITOR",
     "EMPTY_USER_TYPE",
   ],
-}
+};
