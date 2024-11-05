@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mural",
+  "version": "0.0.1",
+  "description": "Pipedream Mural Components",
+  "main": "mural.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mural"
+  ],
+  "homepage": "https://pipedream.com/apps/mural",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
