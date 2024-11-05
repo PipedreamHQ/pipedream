@@ -69,7 +69,7 @@ const NOTION_PAGE_PROPERTIES = {
     convertToNotion: (property) => ({
       date: !(typeof (property.value) === "string")
         ? property.value
-        : property.value.includes("start")
+        : property.value.trim().startsWith("{")
           ? JSON.parse(property.value)
           : {
             start: property.value,
