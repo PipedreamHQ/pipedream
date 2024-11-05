@@ -1,0 +1,21 @@
+export default {
+  "id": 66743402,
+  "parent_id": 0,
+  "checklist_id": 910790,
+  "status": 0,
+  "position": 9,
+  "tasks": [],
+  "update_line": "created by Username",
+  "updated_at": "2024/11/01 15:37:54 +0000",
+  "created_at": "2024/11/01 15:37:54 +0000",
+  "due": null,
+  "content": "Root task",
+  "collapsed": false,
+  "comments_count": 0,
+  "assignee_ids": [],
+  "details": {},
+  "link_ids": [],
+  "backlink_ids": [],
+  "tags": {},
+  "tags_as_text": ""
+}

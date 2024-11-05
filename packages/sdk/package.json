@@ -1,24 +1,17 @@
 {
   "name": "@pipedream/sdk",
-  "version": "0.1.9",
+  "version": "1.0.0",
   "description": "Pipedream SDK",
   "main": "dist/server/index.js",
   "module": "dist/server/index.js",
   "types": "dist/server/index.d.ts",
-  "browser": {
-    "import": "dist/browser/index.js",
-    "require": "dist/browser/index.js"
-  },
+  "browser": "./dist/browser/index.js",
   "exports": {
     ".": {
+      "browser": "./dist/browser/index.js",
       "import": "./dist/server/index.js",
       "require": "./dist/server/index.js",
-      "types": "./dist/server/index.d.ts"
-    },
-    "./browser": {
-      "import": "./dist/browser/index.js",
-      "require": "./dist/browser/index.js",
-      "types": "./dist/browser/index.d.ts"
+      "default": "./dist/server/index.js"
     }
   },
   "engines": {
@@ -36,7 +29,8 @@
     "build": "npm run build:node && npm run build:browser",
     "build:node": "tsc -p tsconfig.node.json",
     "build:browser": "tsc -p tsconfig.browser.json",
-    "test": "jest"
+    "test": "jest",
+    "watch": "nodemon --watch src --ext ts --exec 'npm run build'"
   },
   "files": [
     "dist"
@@ -48,6 +42,7 @@
     "@types/simple-oauth2": "^5.0.7",
     "jest": "^29.7.0",
     "jest-fetch-mock": "^3.0.3",
+    "nodemon": "^3.1.7",
     "ts-jest": "^29.2.5",
     "typescript": "^5.5.2"
   },
