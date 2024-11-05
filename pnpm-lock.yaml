@@ -5718,6 +5718,9 @@ importers:
   components/livechat:
     specifiers: {}
 
+  components/livekit:
+    specifiers: {}
+
   components/livesession:
     specifiers:
       '@pipedream/platform': ^1.6.0
