@@ -1,5 +1,6 @@
 import gocanvas from "../../gocanvas.app.mjs";
-import * as csvParse from "csv-parse";
+import { parse } from "csv-parse/sync";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "gocanvas-create-or-update-reference-data",
@@ -27,10 +28,14 @@ export default {
   },
   methods: {
     csvToXml(data) {
-      const records = csvParse.parse(data, {
+      const records = parse(data, {
         columns: true,
         trim: true,
       });
+
+      if (!records?.length) {
+        throw new ConfigurationError("No data items found to create/update. Please enter column names and at least 1 row of data.");
+      }
 
       // Extract columns
       const columns = Object.keys(records[0]);
