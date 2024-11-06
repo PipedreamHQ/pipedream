@@ -6,7 +6,7 @@ export default {
   name: "New Deal Created",
   description: "Emit new event when a new deal is created in Zendesk Sell.",
   type: "source",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   dedupe: "unique",
   methods: {
     ...common.methods,
