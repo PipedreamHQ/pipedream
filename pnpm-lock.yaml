@@ -6805,6 +6805,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.0
 
+  components/ntfy:
+    specifiers: {}
+
   components/nudgify:
     specifiers:
       '@pipedream/platform': ^1.5.1
