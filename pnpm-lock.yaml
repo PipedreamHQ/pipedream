@@ -4899,6 +4899,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/ignisign:
+    specifiers: {}
+
   components/ikas:
     specifiers:
       '@pipedream/platform': ^3.0.0
