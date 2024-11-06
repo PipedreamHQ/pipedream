@@ -11512,6 +11512,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/workflow_max:
+    specifiers: {}
+
   components/workiom:
     specifiers: {}
 
