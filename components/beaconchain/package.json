@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/beaconchain",
+  "version": "0.0.1",
+  "description": "Pipedream Beaconchain Components",
+  "main": "beaconchain.app.mjs",
+  "keywords": [
+    "pipedream",
+    "beaconchain"
+  ],
+  "homepage": "https://pipedream.com/apps/beaconchain",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

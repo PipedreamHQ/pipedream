@@ -1016,6 +1016,9 @@ importers:
   components/bc_gov_news:
     specifiers: {}
 
+  components/beaconchain:
+    specifiers: {}
+
   components/beaconstac:
     specifiers: {}
 
@@ -2996,6 +2999,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dynatrace_api:
+    specifiers: {}
+
+  components/e2b:
     specifiers: {}
 
   components/e_conomic:
@@ -5007,6 +5013,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/insertchat:
+    specifiers: {}
 
   components/insightly:
     specifiers:
@@ -9381,6 +9390,9 @@ importers:
   components/skyciv:
     specifiers: {}
 
+  components/skyvern:
+    specifiers: {}
+
   components/slack:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -11502,6 +11514,9 @@ importers:
       '@pipedream/platform': ^1.1.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/workflow_max:
+    specifiers: {}
 
   components/workiom:
     specifiers: {}
