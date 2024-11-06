@@ -14,6 +14,11 @@ export default {
         "objectName",
       ],
     },
+    infoBox: {
+      type: "alert",
+      alertType: "info",
+      content: "Custom object fields may be suffixed with `__gc`, e.g. if you've named your field \"Object Name\", its key would be `Object_Name__gc`. Check the object configuration in the Gainsight platform for the correct field names.",
+    },
     fields: {
       type: "string[]",
       label: "Key Field(s)",
