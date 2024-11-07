@@ -1,0 +1,119 @@
+import { Steps, Tabs } from 'nextra/components'
+
+# Running workflows for your end users
+
+Just like you can build and run internal [workflows](/docs/workflows/) for your team, **you can run workflows for [your end users](/connect/api#external-users), too**.
+
+Whether you're building well-defined integrations or more-autonomous AI agents, workflows provide a powerful set of tools for running [code](/code) or [pre-defined actions](/workflows/actions) on behalf of your users. Pipedream's UI makes it easy to build, test, and [debug](/workflows/inspect) workflows.
+
+## What are workflows?
+
+<div className="mt-4">
+<img width="500px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1730935490/docs/pCBdtm7Ca9CdPHTe76PwfzddY_qowz2v.avif" />
+</div>
+
+Workflows are sequences of [steps](/workflows/steps) [triggered by an event](/workflows/triggers), like an HTTP request, or new rows in a Google sheet.
+
+You can use [pre-built actions](/workflows/actions/) or custom [Node.js](/code/nodejs/), [Python](/code/python/), [Golang](/code/go/), or [Bash](/code/bash/) code in workflows and connect to any of our {process.env.PUBLIC_APPS} integrated apps.
+
+Workflows also have built-in:
+
+- [Flow control](/workflows/control-flow)
+- [Concurrency and throttling](/workflows/concurrency-and-throttling)
+- [Key-value stores](/data-stores)
+- [Error handling](/workflows/errors)
+- [VPCs](/workflows/vpc)
+- [And more](https://pipedream.com/pricing)
+
+Read [the quickstart](/quickstart/) to learn more.
+
+## How to run workflows for your end users
+
+<Steps>
+
+### Create an OAuth client
+
+To run workflows for end users, you'll need to first [create an OAuth client](/rest-api/auth#creating-an-oauth-client). This client will be used to authenticate requests to your workflow.
+
+### Create a workflow
+
+[Create a new workflow](/workflows#how-do-i-create-a-new-workflow) or open an existing one.
+
+### Add an HTTP trigger, configure OAuth
+
+1. Add an [HTTP trigger](/workflows/triggers#http) to your workflow
+2. [Configure **OAuth** authorization](/workflows/triggers#oauth) on the trigger
+
+### Configure accounts to use your end users' auth
+
+When you configure [pre-built actions](/workflows/actions) or [custom code that connects to third-party APIs](/code/nodejs/auth), you can link accounts in one of two ways:
+
+1. **Use your own account**: If you're connecting to an API that uses your own app's API key or developer account — for example, a workflow that connects to the OpenAI API — click the **Connect an [app] account** button to link your own, static account.
+
+<div className="my-4">
+<img width="300px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1730936163/docs/Screenshot_2024-11-06_at_3.35.58_PM_a4evmq.png" />
+</div>
+
+2. **Use your end users' auth**: If you're building a workflow that connects to your end users' accounts — for example, a workflow that sends a message to a user's Slack account — you can select the option to **Use end user's auth via Connect**:
+
+<div className="my-4">
+<img width="300px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1730936776/docs/Screenshot_2024-11-06_at_3.46.10_PM_mxjvla.png" />
+</div>
+
+This looks up the end user's account for this app, based on the user ID you provide [when invoking the workflow](#invoke-the-workflow).
+
+When you're done with the workflow, **Deploy** it.
+
+### Connect a test account
+
+You can connect a static account to the workflow step to test it, but to run an end-to-end test as an end user, you'll need to [invoke the workflow](#invoke-the-workflow) with a user ID that has linked a Connect account.
+
+You'll see all accounts by end user ID in [the **Users** tab](/connect#users) of your Connect dashboard. If you already have a test account linked, get the external user ID and [invoke the workflow](#invoke-the-workflow).
+
+If you've don't have a test account, create one:
+
+- If you've already [added Connect to your app](/connect), run through your own app's integrations flow and link test accounts for the apps you're using.
+- You can also run [the Connect example app](/connect/quickstart) to quickly connect an account for any app.
+
+### Invoke the workflow
+
+If you haven't already, [install the Pipedream SDK](/connect/api#installing-the-typescript-sdk):
+
+```bash
+npm install @pipedream/sdk
+```
+
+To invoke workflows, you'll need:
+
+1. The OAuth client ID and secret from **Step 1**
+2. Your [Project ID](/projects#finding-your-projects-id)
+3. Your workflow's HTTP endpoint URL
+4. The [external user ID](/connect/api#external-users) of the user you'd like to run the workflow for
+
+```javascript
+import { createBackendClient } from "@pipedream/sdk";
+
+const client = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "your-client-id", 
+    clientSecret: "your-client-secret"
+  },
+  projectId: "your-project-id"
+});
+
+const response = await client.invokeWorkflowForExternalUser(
+  "your-workflow-endpoint-url",
+  "your-external-user-id",
+  {
+    method: "POST",
+    body: {
+      message: "Hello World"
+    }
+  }
+)
+```
+
+</Steps>
+
+## Errors

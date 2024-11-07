@@ -8,6 +8,9 @@
   "quickstart": {
     "title": "Quickstart"
   },
+  "workflows": {
+    "title": "Running workflows"
+  },
   "api": {
     "title": "API & SDK Reference"
   },
