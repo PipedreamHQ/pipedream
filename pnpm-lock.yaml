@@ -5812,6 +5812,9 @@ importers:
   components/logsnag:
     specifiers: {}
 
+  components/lokalise:
+    specifiers: {}
+
   components/looker:
     specifiers: {}
 
