@@ -34,6 +34,11 @@ export default {
       const channelID = this._getChannelID();
       const newChannelID = uuid();
 
+      console.log("renewing subscription");
+      console.log("subscription: ", subscription);
+      console.log("channelId: ", channelID);
+      console.log("newChannelId: ", newChannelID);
+
       const {
         expiration,
         resourceId,
@@ -44,6 +49,9 @@ export default {
         newChannelID,
         this.getSheetId(),
       );
+
+      console.log("expiration: ", expiration);
+      console.log("resourceId: ", resourceId);
 
       this._setSubscription({
         expiration,
