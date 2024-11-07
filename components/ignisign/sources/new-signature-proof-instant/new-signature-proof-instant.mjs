@@ -1,11 +1,11 @@
 import ignisign from "../../ignisign.app.mjs";
-import crypto from "crypto";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "ignisign-new-signature-proof-instant",
   name: "New Signature Proof Instant",
   description: "Emit new event when a signature proof is generated. [See the documentation](https://ignisign.io/docs/webhooks/signatureproof)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -17,59 +17,38 @@ export default {
     db: "$.service.db",
   },
   methods: {
-    _getWebhookId() {
-      return this.db.get("webhookId");
+    _getHookId() {
+      return this.db.get("hookId");
     },
-    _setWebhookId(id) {
-      this.db.set("webhookId", id);
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
     },
   },
   hooks: {
-    async deploy() {
-      await this.ignisign.emitSignatureProofEvent();
-    },
     async activate() {
-      const response = await this.ignisign._makeRequest({
-        method: "POST",
-        path: `/v4/applications/${this.ignisign.$auth.appId}/envs/${this.ignisign.$auth.appEnv}/webhooks`,
+      const [
+        response,
+      ] = await this.ignisign.createWebhook({
         data: {
           url: this.http.endpoint,
-          description: "Webhook for receiving Ignisign signature proof events",
+          decription: this.description,
         },
       });
-      this._setWebhookId(response._id);
+      await this.ignisign.disableWebhookEvents(response._id);
+      this._setHookId(response._id);
     },
     async deactivate() {
-      const webhookId = this._getWebhookId();
-      if (webhookId) {
-        await this.ignisign._makeRequest({
-          method: "DELETE",
-          path: `/v4/webhooks/${webhookId}`,
-        });
-      }
+      const webhookId = this._getHookId();
+      await this.ignisign.deleteWebhook(webhookId);
     },
   },
-  async run(event) {
-    const signatureProofData = event.body;
-    const token = this._getWebhookId();
-    const computedSignature = crypto.createHmac("sha256", token).update(event.rawBody)
-      .digest("base64");
-
-    if (computedSignature !== event.headers["x-signature"]) {
-      this.http.respond({
-        status: 401,
-        body: "Unauthorized",
-      });
-      return;
-    }
-
-    this.http.respond({
-      status: 200,
-    });
-    this.$emit(signatureProofData, {
-      id: signatureProofData.signatureRequestId,
-      summary: `New signature proof generated for document ID: ${signatureProofData.documentId}`,
-      ts: Date.now(),
+  async run({ body }) {
+    const ts = Date.parse(new Date());
+    this.$emit(body, {
+      id: `${body.signatureRequestId}-${ts}`,
+      summary: `New signature proof generated for signature request ID: ${body.content.signatureRequestId}`,
+      ts: ts,
     });
   },
+  sampleEmit,
 };

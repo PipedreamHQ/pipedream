@@ -4,153 +4,303 @@ export default {
   type: "app",
   app: "ignisign",
   propDefinitions: {
-    signerprofileid: {
+    signatureProfileId: {
+      type: "string",
+      label: "Signature Profile ID",
+      description: "The unique identifier of the signature profile",
+      async options() {
+        const data = await this.listSignatureProfiles();
+
+        return data.map(({
+          _id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    signerProfileId: {
       type: "string",
       label: "Signer Profile ID",
       description: "The unique identifier of the signer profile",
+      async options() {
+        const data = await this.listSignerProfiles();
+
+        return data.map(({
+          _id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    firstname: {
+    signerIds: {
+      type: "string[]",
+      label: "Signer IDs",
+      description: "The unique identifier of the signers",
+      async options({ page }) {
+        const { signers } = await this.listSigners({
+          params: {
+            page,
+          },
+        });
+
+        return signers.map(({
+          signerId: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    signatureRequestId: {
       type: "string",
-      label: "First Name",
-      description: "The first name of the signer",
+      label: "Signature Request ID",
+      description: "The unique identifier of the asignature requests",
+      async options({ page }) {
+        const { signatureRequests } = await this.listSignatureRequests({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return signatureRequests.map(({
+          _id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    documentId: {
+      type: "string",
+      label: "Document ID",
+      description: "The unique identifier of the asignature request documents",
+      async options({
+        page, signatureRequestId,
+      }) {
+        const { documents } = await this.getSignatureRequestContext({
+          signatureRequestId,
+          params: {
+            page,
+          },
+        });
+
+        return documents.map(({
+          _id: value, fileName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    externalId: {
+      type: "string",
+      label: "External ID",
+      description: "An external identifier for the signer",
     },
     email: {
       type: "string",
       label: "Email",
       description: "The email of the signer",
     },
-    externalid: {
+    firstName: {
       type: "string",
-      label: "External ID",
-      description: "An external identifier for the signer",
-      optional: true,
+      label: "First Name",
+      description: "The first name of the signer",
     },
-    lastname: {
+    lastName: {
       type: "string",
       label: "Last Name",
       description: "The last name of the signer",
-      optional: true,
     },
-    phonenumber: {
+    phoneNumber: {
       type: "string",
       label: "Phone Number",
       description: "The phone number of the signer",
-      optional: true,
     },
     nationality: {
       type: "string",
       label: "Nationality",
       description: "The nationality of the signer in ISO 3166-1 alpha-2",
-      optional: true,
     },
-    birthdate: {
+    birthDate: {
       type: "string",
       label: "Birth Date",
       description: "The birth date of the signer",
-      optional: true,
     },
-    birthplace: {
+    birthPlace: {
       type: "string",
-      label: "Birthplace",
+      label: "Birth Place",
       description: "The place of birth of the signer",
-      optional: true,
     },
-    birthcountry: {
+    birthCountry: {
       type: "string",
       label: "Birth Country",
       description: "The country of birth of the signer in ISO 3166-1 alpha-2",
-      optional: true,
     },
-    documentid: {
+    /* documentid: {
       type: "string",
       label: "Document ID",
       description: "The unique identifier for the document to be signed",
-    },
-    signerid: {
-      type: "string",
-      label: "Signer ID",
-      description: "The unique identifier of the signer",
     },
     signrequestid: {
       type: "string",
       label: "Sign Request ID",
       description: "The identifier of the signature request you want to get the proof for",
-    },
+    }, */
   },
   methods: {
-    _baseUrl() {
-      return "https://api.ignisign.io";
+    _baseUrl(envs = `/applications/${this.$auth.app_id}/envs/${this.$auth.app_env}`) {
+      return `https://api.ignisign.io/v4${envs}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers(headers = {}) {
+      return {
+        ...headers,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, envs, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
+        url: this._baseUrl(envs) + path,
+        headers: this._headers(headers),
+        ...opts,
+      });
+    },
+    createSigner(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/signers",
+        ...opts,
+      });
+    },
+    listSignatureProfiles(opts = {}) {
+      return this._makeRequest({
+        path: "/signature-profiles",
+        ...opts,
+      });
+    },
+    listSignatureRequests(opts = {}) {
+      return this._makeRequest({
+        path: "/signature-requests",
+        ...opts,
+      });
+    },
+    listSigners(opts = {}) {
+      return this._makeRequest({
+        path: "/signers-paginate",
+        ...opts,
+      });
+    },
+    listSignerProfiles(opts = {}) {
+      return this._makeRequest({
+        path: "/signer-profiles",
+        ...opts,
+      });
+    },
+    initDocument(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/init-documents",
+        ...opts,
+      });
+    },
+    initSignatureRequest(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/signature-requests",
+        ...opts,
+      });
+    },
+    updateSignatureRequest({
+      signatureRequestId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/signature-requests/${signatureRequestId}`,
+        envs: "",
+        ...opts,
+      });
+    },
+    getSignatureRequestContext({ signatureRequestId }) {
+      return this._makeRequest({
+        path: `/signature-requests/${signatureRequestId}/context`,
+        envs: "",
+      });
+    },
+    getSignatureProof({
+      documentId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/documents/${documentId}/signature-proof/PDF_WITH_SIGNATURES`,
+        envs: "",
+        ...opts,
+      });
+    },
+    getSignerProfileInputs({ signerProfileId }) {
+      return this._makeRequest({
+        path: `/signer-profiles/${signerProfileId}/inputs-needed`,
+      });
+    },
+    getSignerDetails({ signerId }) {
+      return this._makeRequest({
+        path: `/signers/${signerId}/details`,
+      });
+    },
+    uploadFile({
+      documentId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/documents/${documentId}/file`,
+        envs: "",
+        ...opts,
+      });
+    },
+    publishSignatureRequest({ signatureRequestId }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/signature-requests/${signatureRequestId}/publish`,
+        envs: "",
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
+        envs: "",
+      });
+    },
+    disableWebhookEvents(webhookId) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/webhooks/${webhookId}/disabled-events`,
+        envs: "",
+        data: {
+          topics: {
+            "ALL": true,
+            "APP": true,
+            "SIGNATURE": true,
+            "SIGNATURE_REQUEST": true,
+            "SIGNER": true,
+            "SIGNATURE_PROFILE": true,
+            "SIGNATURE_SESSION": true,
+            "SIGNATURE_SIGNER_IMAGE": true,
+            "ID_PROOFING": true,
+            "SIGNER_AUTH": true,
+          },
         },
       });
-    },
-    async createSigner(opts = {}) {
-      const data = {
-        signerProfileId: this.signerprofileid,
-        firstName: this.firstname,
-        email: this.email,
-        externalId: this.externalid,
-        lastName: this.lastname,
-        phoneNumber: this.phonenumber,
-        nationality: this.nationality,
-        birthDate: this.birthdate,
-        birthPlace: this.birthplace,
-        birthCountry: this.birthcountry,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: `/v4/applications/${this.$auth.appId}/envs/${this.$auth.appEnv}/signers`,
-        data,
-        ...opts,
-      });
-    },
-    async initDocumentSignature(opts = {}) {
-      const data = {
-        documentId: this.documentid,
-        signerId: this.signerid,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: `/v4/applications/${this.$auth.appId}/envs/${this.$auth.appEnv}/signature-requests`,
-        data,
-        ...opts,
-      });
-    },
-    async retrieveSignatureProof(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: `/v4/signature-proofs/${opts.signrequestid}/proof-file`,
-        ...opts,
-      });
-    },
-    async emitSignatureProofEvent() {
-      const proofs = await this._makeRequest({
-        path: "/v4/emit-signature-proofs",
-      });
-
-      for (const proof of proofs) {
-        this.$emit(proof, {
-          id: proof.id,
-          summary: `New signature proof generated: ${proof.id}`,
-          ts: Date.now(),
-        });
-      }
     },
   },
 };

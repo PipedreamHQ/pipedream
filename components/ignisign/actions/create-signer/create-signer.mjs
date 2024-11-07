@@ -1,5 +1,4 @@
 import ignisign from "../../ignisign.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ignisign-create-signer",
@@ -9,42 +8,45 @@ export default {
   type: "action",
   props: {
     ignisign,
-    signerprofileid: {
+    signatureProfileId: {
       propDefinition: [
         ignisign,
-        "signerprofileid",
+        "signatureProfileId",
       ],
+      optional: true,
     },
-    firstname: {
+    externalId: {
       propDefinition: [
         ignisign,
-        "firstname",
+        "externalId",
       ],
+      optional: true,
+    },
+    firstName: {
+      propDefinition: [
+        ignisign,
+        "firstName",
+      ],
+      optional: true,
+    },
+    lastName: {
+      propDefinition: [
+        ignisign,
+        "lastName",
+      ],
+      optional: true,
     },
     email: {
       propDefinition: [
         ignisign,
         "email",
       ],
-    },
-    externalid: {
-      propDefinition: [
-        ignisign,
-        "externalid",
-      ],
       optional: true,
     },
-    lastname: {
+    phoneNumber: {
       propDefinition: [
         ignisign,
-        "lastname",
-      ],
-      optional: true,
-    },
-    phonenumber: {
-      propDefinition: [
-        ignisign,
-        "phonenumber",
+        "phoneNumber",
       ],
       optional: true,
     },
@@ -55,42 +57,37 @@ export default {
       ],
       optional: true,
     },
-    birthdate: {
+    birthDate: {
       propDefinition: [
         ignisign,
-        "birthdate",
+        "birthDate",
       ],
       optional: true,
     },
-    birthplace: {
+    birthPlace: {
       propDefinition: [
         ignisign,
-        "birthplace",
+        "birthPlace",
       ],
       optional: true,
     },
-    birthcountry: {
+    birthCountry: {
       propDefinition: [
         ignisign,
-        "birthcountry",
+        "birthCountry",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.ignisign.createSigner({
-      data: {
-        signerProfileId: this.signerprofileid,
-        firstName: this.firstname,
-        email: this.email,
-        externalId: this.externalid,
-        lastName: this.lastname,
-        phoneNumber: this.phonenumber,
-        nationality: this.nationality,
-        birthDate: this.birthdate,
-        birthPlace: this.birthplace,
-        birthCountry: this.birthcountry,
-      },
+    const {
+      ignisign,
+      ...data
+    } = this;
+
+    const response = await ignisign.createSigner({
+      $,
+      data,
     });
 
     $.export("$summary", `Successfully created signer with ID: ${response.signerId}`);

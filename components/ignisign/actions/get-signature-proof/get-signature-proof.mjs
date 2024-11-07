@@ -1,5 +1,7 @@
+import fs from "fs";
+import stream from "stream";
+import { promisify } from "util";
 import ignisign from "../../ignisign.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ignisign-get-signature-proof",
@@ -9,19 +11,37 @@ export default {
   type: "action",
   props: {
     ignisign,
-    signrequestid: {
+    signatureRequestId: {
       propDefinition: [
         ignisign,
-        "signrequestid",
+        "signatureRequestId",
       ],
+    },
+    documentId: {
+      propDefinition: [
+        ignisign,
+        "documentId",
+        ({ signatureRequestId }) => ({
+          signatureRequestId,
+        }),
+      ],
+      withLabel: true,
     },
   },
   async run({ $ }) {
-    const response = await this.ignisign.retrieveSignatureProof({
-      signrequestid: this.signrequestid,
+    const response = await this.ignisign.getSignatureProof({
+      $,
+      documentId: this.documentId.value,
+      responseType: "stream",
     });
 
-    $.export("$summary", `Successfully retrieved signature proof for request ID: ${this.signrequestid}`);
-    return response;
+    const pipeline = promisify(stream.pipeline);
+    await pipeline(response, fs.createWriteStream(`/tmp/${this.documentId.label}`));
+
+    $.export("$summary", `Successfully retrieved signature proof for request ID: ${this.signatureRequestId} and saved in /tmp directory.`);
+    return {
+      filename: this.documentId.label,
+      filepath: `/tmp/${this.documentId.label}`,
+    };
   },
 };
