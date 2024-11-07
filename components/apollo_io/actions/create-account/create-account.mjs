@@ -5,7 +5,7 @@ export default {
   name: "Create Account",
   description: "Creates a new account in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#create-an-account)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
     name: {

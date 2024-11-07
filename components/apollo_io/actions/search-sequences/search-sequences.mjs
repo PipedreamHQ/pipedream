@@ -6,7 +6,7 @@ export default {
   name: "Search For Sequences",
   description: "Search for sequences in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-sequences)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     search: {

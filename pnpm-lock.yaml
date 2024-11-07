@@ -700,10 +700,10 @@ importers:
 
   components/apollo_io:
     specifiers:
-      '@pipedream/platform': ^1.6.0
+      '@pipedream/platform': ^3.0.3
       md5: ^2.3.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 3.0.3
       md5: 2.3.0
 
   components/appcircle:
@@ -816,7 +816,10 @@ importers:
     specifiers: {}
 
   components/autoblogger:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/autobound:
     specifiers: {}
@@ -1014,6 +1017,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/bc_gov_news:
+    specifiers: {}
+
+  components/beaconchain:
     specifiers: {}
 
   components/beaconstac:
@@ -1477,6 +1483,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/campaign_monitor:
+    specifiers: {}
 
   components/campaignhq:
     specifiers: {}
@@ -2256,7 +2265,12 @@ importers:
     specifiers: {}
 
   components/crowdin:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+      fs: ^0.0.1-security
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      fs: 0.0.1-security
 
   components/crowdpower:
     specifiers: {}
@@ -2666,11 +2680,11 @@ importers:
 
   components/discord_bot:
     specifiers:
-      '@pipedream/platform': ^1.6.0
+      '@pipedream/platform': ^3.0.3
       form-data: ^4.0.0
       lodash.maxby: ^4.6.0
     dependencies:
-      '@pipedream/platform': 1.6.2
+      '@pipedream/platform': 3.0.3
       form-data: 4.0.0
       lodash.maxby: 4.6.0
 
@@ -2988,6 +3002,9 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/dynatrace_api:
+    specifiers: {}
+
+  components/e2b:
     specifiers: {}
 
   components/e_conomic:
@@ -3361,7 +3378,10 @@ importers:
       '@pipedream/platform': 3.0.3
 
   components/fal_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/faraday:
     specifiers:
@@ -3517,6 +3537,9 @@ importers:
   components/firmao:
     specifiers: {}
 
+  components/fiserv:
+    specifiers: {}
+
   components/fivetran:
     specifiers: {}
 
@@ -3530,7 +3553,10 @@ importers:
       '@pipedream/platform': 3.0.3
 
   components/flexisign:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/flexmail:
     specifiers:
@@ -3813,7 +3839,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/gainsight_nxt:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/gainsight_px:
     specifiers: {}
@@ -4068,6 +4097,9 @@ importers:
       '@pipedream/platform': ^1.5.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/google_ad_manager:
+    specifiers: {}
 
   components/google_address_validation:
     specifiers: {}
@@ -4876,6 +4908,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.10.0
 
+  components/ignisign:
+    specifiers: {}
+
   components/ikas:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -4990,6 +5025,9 @@ importers:
       '@pipedream/platform': ^1.4.1
     dependencies:
       '@pipedream/platform': 1.5.1
+
+  components/insertchat:
+    specifiers: {}
 
   components/insightly:
     specifiers:
@@ -5704,6 +5742,9 @@ importers:
   components/livechat:
     specifiers: {}
 
+  components/livekit:
+    specifiers: {}
+
   components/livesession:
     specifiers:
       '@pipedream/platform': ^1.6.0
@@ -5772,6 +5813,9 @@ importers:
     specifiers: {}
 
   components/logsnag:
+    specifiers: {}
+
+  components/lokalise:
     specifiers: {}
 
   components/looker:
@@ -6431,6 +6475,9 @@ importers:
   components/mumara:
     specifiers: {}
 
+  components/mural:
+    specifiers: {}
+
   components/murlist:
     specifiers: {}
 
@@ -6773,6 +6820,9 @@ importers:
     dependencies:
       '@pipedream/platform': 3.0.0
 
+  components/ntfy:
+    specifiers: {}
+
   components/nudgify:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -7008,7 +7058,10 @@ importers:
       '@pipedream/platform': 3.0.1
 
   components/openphone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/opensea:
     specifiers:
@@ -9361,6 +9414,9 @@ importers:
   components/skyciv:
     specifiers: {}
 
+  components/skyvern:
+    specifiers: {}
+
   components/slack:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -10584,6 +10640,12 @@ importers:
       mime: 4.0.4
       ms: 2.1.3
 
+  components/tremendous:
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
+
   components/trengo:
     specifiers:
       '@pipedream/platform': ^1.1.1
@@ -11477,6 +11539,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
 
+  components/workflow_max:
+    specifiers: {}
+
   components/workiom:
     specifiers: {}
 
@@ -11681,6 +11746,9 @@ importers:
     dependencies:
       '@pipedream/platform': 0.9.0
       crypto: 1.0.1
+
+  components/zendesk_sell:
+    specifiers: {}
 
   components/zenkit:
     specifiers:
@@ -16372,17 +16440,17 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.2.13:
-    resolution: {integrity: sha512-m7YEtGhwAjmQyJQFQ7q8+hTGTiC/WrdRATvw8fyTwgW+RiWUt8MAeehuFj4txnCYXDcLO0ozuW5gNrLoYR4Ubg==}
+  /@definitelytyped/header-parser/0.2.14:
+    resolution: {integrity: sha512-c40yTjFDApT7oWPNA7mgmar1llevqCLvTNar/vXnM8HdQ/O/qc2drsma9xDoq82IbbEsmgOE9USORgER8xGY6Q==}
     engines: {node: '>=18.18.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.4
+      '@definitelytyped/typescript-versions': 0.1.5
       '@definitelytyped/utils': 0.1.8
       semver: 7.6.3
     dev: true
 
-  /@definitelytyped/typescript-versions/0.1.4:
-    resolution: {integrity: sha512-4Rz5kCpyxofwXCtBQaNfmWYXZcH0sMJxpbIgJzS+PAxgFCAa9W+2Jil7rrkpzsjx9E7+zOPukbXBXjyXohcyuQ==}
+  /@definitelytyped/typescript-versions/0.1.5:
+    resolution: {integrity: sha512-XdLx3+S6zZCcG4jnG6Kqv/PlKBRTkz5M/xZUEEN9R2g6BlzbxyE+z5EzlezJqkUls53zjuOzgbkNNP4HQIfbJQ==}
     engines: {node: '>=18.18.0'}
     dev: true
 
@@ -24964,7 +25032,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.13
+      '@definitelytyped/header-parser': 0.2.14
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -24979,7 +25047,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.13
+      '@definitelytyped/header-parser': 0.2.14
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -24995,8 +25063,8 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.13
-      '@definitelytyped/typescript-versions': 0.1.4
+      '@definitelytyped/header-parser': 0.2.14
+      '@definitelytyped/typescript-versions': 0.1.5
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
@@ -25015,8 +25083,8 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.13
-      '@definitelytyped/typescript-versions': 0.1.4
+      '@definitelytyped/header-parser': 0.2.14
+      '@definitelytyped/typescript-versions': 0.1.5
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11_typescript@5.5.4
       fs-extra: 6.0.1

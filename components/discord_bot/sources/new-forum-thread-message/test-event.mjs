@@ -28,5 +28,45 @@ export default {
   "edited_timestamp": null,
   "flags": 0,
   "components": [],
-  "position": 13
-}
+  "position": 13,
+  "thread": {
+    "id": "1301256410990116917",
+    "type": 11,
+    "last_message_id": "1301256410990116917",
+    "flags": 0,
+    "guild_id": "901259362205589565",
+    "name": "hello world",
+    "parent_id": "1301256016934994024",
+    "rate_limit_per_user": 0,
+    "bitrate": 64000,
+    "user_limit": 0,
+    "rtc_region": null,
+    "owner_id": "867892178135023656",
+    "thread_metadata": {
+      "archived": false,
+      "archive_timestamp": "2024-10-30T18:48:24.555000+00:00",
+      "auto_archive_duration": 4320,
+      "locked": false,
+      "create_timestamp": "2024-10-30T18:48:24.555000+00:00",
+    },
+    "message_count": 0,
+    "member_count": 1,
+    "total_message_sent": 0,
+    "applied_tags": [
+      {
+        "id": "1301256232052457563",
+        "name": "tag",
+        "moderated": false,
+        "emoji_id": null,
+        "emoji_name": null,
+      },
+      {
+        "id": "1301281978968178759",
+        "name": "tag2",
+        "moderated": false,
+        "emoji_id": null,
+        "emoji_name": null,
+      },
+    ],
+  },
+};

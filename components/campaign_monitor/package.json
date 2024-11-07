@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/campaign_monitor",
+  "version": "0.0.1",
+  "description": "Pipedream Campaign Monitor Components",
+  "main": "campaign_monitor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "campaign_monitor"
+  ],
+  "homepage": "https://pipedream.com/apps/campaign_monitor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

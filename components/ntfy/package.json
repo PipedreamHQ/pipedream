@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ntfy",
+  "version": "0.0.1",
+  "description": "Pipedream ntfy Components",
+  "main": "ntfy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ntfy"
+  ],
+  "homepage": "https://pipedream.com/apps/ntfy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

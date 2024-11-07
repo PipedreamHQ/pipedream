@@ -4,7 +4,7 @@ export default {
   key: "roamresearch-add-content-to-page",
   name: "Add Content To Page",
   description: "Add content as a child block to an existing or new page in Roam Research (access to encrypted and non encrypted graphs). [See the documentation](https://roamresearch.com/#/app/developer-documentation/page/eb8OVhaFC).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -55,7 +55,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Succesfully added content to page.");
+    $.export("$summary", "Successfully added content to page.");
     return response;
   },
 };

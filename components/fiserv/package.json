@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/fiserv",
+  "version": "0.0.1",
+  "description": "Pipedream Fiserv Components",
+  "main": "fiserv.app.mjs",
+  "keywords": [
+    "pipedream",
+    "fiserv"
+  ],
+  "homepage": "https://pipedream.com/apps/fiserv",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

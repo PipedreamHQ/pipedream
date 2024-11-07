@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/livekit",
+  "version": "0.0.1",
+  "description": "Pipedream LiveKit Components",
+  "main": "livekit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "livekit"
+  ],
+  "homepage": "https://pipedream.com/apps/livekit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

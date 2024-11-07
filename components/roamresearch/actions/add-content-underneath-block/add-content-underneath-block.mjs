@@ -4,7 +4,7 @@ export default {
   key: "roamresearch-add-content-underneath-block",
   name: "Add Content Underneath Block",
   description: "Add content underneath an existing block in your Roam Research graph (access to encrypted and non encrypted graphs). [See the documentation](https://roamresearch.com/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -54,7 +54,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Succesfully added content underneath block.");
+    $.export("$summary", "Successfully added content underneath block.");
     return response;
   },
 };
