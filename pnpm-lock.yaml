@@ -7052,7 +7052,10 @@ importers:
       '@pipedream/platform': 3.0.1
 
   components/openphone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/opensea:
     specifiers:
