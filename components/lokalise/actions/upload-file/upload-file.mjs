@@ -1,12 +1,11 @@
 import lokalise from "../../lokalise.app.mjs";
 import fs from "fs";
-import path from "path";
 
 export default {
   key: "lokalise-upload-file",
   name: "Upload File",
-  description: "Uploads a specified file to a Lokalise project",
-  version: "0.0.{{ts}}",
+  description: "Uploads a specified file to a Lokalise project. [See the documentation](https://developers.lokalise.com/reference/upload-a-file)",
+  version: "0.0.1",
   type: "action",
   props: {
     lokalise,
@@ -17,15 +16,15 @@ export default {
       ],
     },
     filePath: {
+      type: "string",
+      label: "File Path",
+      description: "The path to a file of a [supported file format](https://docs.lokalise.com/en/collections/2909229-supported-file-formats) in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+    },
+    language: {
       propDefinition: [
         lokalise,
-        "filePath",
+        "language",
       ],
-    },
-    langIso: {
-      type: "string",
-      label: "Language ISO",
-      description: "Language code of the translations in the file you are importing",
     },
     filename: {
       type: "string",
@@ -34,14 +33,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const fileData = fs.readFileSync(path.resolve(this.filePath), {
+    const fileData = fs.readFileSync(this.filePath.startsWith("/tmp")
+      ? this.filePath
+      : `/tmp/${this.filePath}`, {
       encoding: "base64",
     });
     const response = await this.lokalise.uploadFile({
+      $,
+      projectId: this.projectId,
       data: {
         data: fileData,
         filename: this.filename,
-        lang_iso: this.langIso,
+        lang_iso: this.language,
       },
     });
     $.export("$summary", "Successfully uploaded file");

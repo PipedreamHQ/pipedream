@@ -7,82 +7,110 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "The ID of the project",
+      description: "Identifier of a project",
+      async options({ page }) {
+        const { projects } = await this.listProjects({
+          params: {
+            page: page + 1,
+          },
+        });
+        return projects?.map(({
+          project_id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    taskId: {
+    language: {
       type: "string",
-      label: "Task ID",
-      description: "The ID of the task",
-    },
-    filePath: {
-      type: "string",
-      label: "File Path",
-      description: "The path to the file to be uploaded",
-    },
-    fileFormat: {
-      type: "string",
-      label: "File Format",
-      description: "The format of the file to be downloaded",
-      optional: true,
+      label: "Language",
+      description: "Language/locale code of the project base language",
+      async options({ page }) {
+        const { languages } = await this.listLanguages({
+          params: {
+            page: page + 1,
+          },
+        });
+        return languages?.map(({
+          lang_iso: value, lang_name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.lokalise.com/api2";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path, headers, ...otherOpts
+        $ = this,
+        path,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async createTask(opts = {}) {
+    createWebhook({
+      projectId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/projects/${this.projectId}/tasks`,
+        path: `/projects/${projectId}/webhooks`,
         ...opts,
       });
     },
-    async importData(opts = {}) {
+    deleteWebhook({
+      projectId, hookId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: `/projects/${this.projectId}/import`,
+        method: "DELETE",
+        path: `/projects/${projectId}/webhooks/${hookId}`,
         ...opts,
       });
     },
-    async closeTask(opts = {}) {
+    listProjects(opts = {}) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/projects/${this.projectId}/tasks/${this.taskId}/close`,
+        path: "/projects",
         ...opts,
       });
     },
-    async initializeProject(opts = {}) {
+    listLanguages(opts = {}) {
+      return this._makeRequest({
+        path: "/system/languages",
+        ...opts,
+      });
+    },
+    createProject(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/projects",
         ...opts,
       });
     },
-    async uploadFile(opts = {}) {
+    uploadFile({
+      projectId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/projects/${this.projectId}/files/upload`,
+        path: `/projects/${projectId}/files/upload`,
         ...opts,
       });
     },
-    async downloadFiles(opts = {}) {
+    downloadFiles({
+      projectId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/projects/${this.projectId}/files/download`,
+        path: `/projects/${projectId}/files/download`,
         ...opts,
       });
     },

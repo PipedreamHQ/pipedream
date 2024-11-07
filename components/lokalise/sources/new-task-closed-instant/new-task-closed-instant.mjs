@@ -1,48 +1,24 @@
-import lokalise from "../../lokalise.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "lokalise-new-task-closed-instant",
   name: "New Task Closed (Instant)",
   description: "Emit new event when a task is closed in Lokalise",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    lokalise,
-    db: "$.service.db",
-    taskId: {
-      propDefinition: [
-        lokalise,
-        "taskId",
-      ],
+  methods: {
+    ...common.methods,
+    getEvents() {
+      return [
+        "project.task.closed",
+      ];
     },
-    projectId: {
-      propDefinition: [
-        lokalise,
-        "projectId",
-      ],
+    getSummary({ task }) {
+      return `Task Closed with ID: ${task.id}`;
     },
   },
-  hooks: {
-    async deploy() {
-      const task = await this.lokalise.closeTask({
-        taskId: this.taskId,
-      });
-      this.$emit(task, {
-        id: task.task_id,
-        summary: `Task ${task.task_id} closed`,
-        ts: Date.now(),
-      });
-    },
-  },
-  async run() {
-    const task = await this.lokalise.closeTask({
-      taskId: this.taskId,
-    });
-    this.$emit(task, {
-      id: task.task_id,
-      summary: `Task ${task.task_id} closed`,
-      ts: Date.now(),
-    });
-  },
+  sampleEmit,
 };
