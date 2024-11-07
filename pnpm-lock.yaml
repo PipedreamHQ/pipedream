@@ -3845,7 +3845,10 @@ importers:
       '@pipedream/platform': 3.0.3
 
   components/gainsight_px:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/gami5d:
     specifiers:
