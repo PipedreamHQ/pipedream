@@ -174,10 +174,12 @@ import {
 } from "@pipedream/sdk";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 async function getUserAccounts(external_user_id: string, include_credentials: boolean = false) {
@@ -198,10 +200,12 @@ import {
 } from "@pipedream/sdk";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 async function getUserAccounts(external_user_id, include_credentials = false) {

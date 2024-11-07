@@ -77,10 +77,10 @@ If you've don't have a test account, create one:
 
 ### Invoke the workflow
 
-If you haven't already, [install the Pipedream SDK](/connect/api#installing-the-typescript-sdk):
+If you're using TypeScript or a JavaScript runtime, [install the Pipedream SDK](/connect/api#installing-the-typescript-sdk). Pipedream also provides an HTTP API for invoking workflows (see example below).
 
 ```bash
-npm install @pipedream/sdk
+npm i @pipedream/sdk
 ```
 
 To invoke workflows, you'll need:
@@ -89,22 +89,55 @@ To invoke workflows, you'll need:
 2. Your [Project ID](/projects#finding-your-projects-id)
 3. Your workflow's HTTP endpoint URL
 4. The [external user ID](/connect/api#external-users) of the user you'd like to run the workflow for
+5. The [Connect environment](/connect/environments) tied to the user's account (defaults to `production`)
 
+Then invoke the workflow like so:
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```typescript
+import { createBackendClient, HTTPAuthType } from "@pipedream/sdk";
+ 
+// These secrets should be saved securely and passed to your environment
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+await pd.invokeWorkflowForExternalUser(
+  "{your_endpoint_url}", // pass the endpoint ID or full URL here
+  "{your_external_user_id}" // The end user's ID in your system
+  {
+    method: "POST",
+    body: {
+      message: "Hello World"
+    }
+  },
+  HTTPAuthType.OAuth // Will automatically send the Authorization header with a fresh token
+)
+```
+</Tabs.Tab>
+<Tabs.Tab>
 ```javascript
 import { createBackendClient } from "@pipedream/sdk";
 
+// These secrets should be saved securely and passed to your environment
 const client = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-client-id", 
-    clientSecret: "your-client-secret"
+    clientId: "{oauth_client_id}", 
+    clientSecret: "{oauth_client_secret}"
   },
-  projectId: "your-project-id"
+  projectId: "{your_project_id}"
 });
 
 const response = await client.invokeWorkflowForExternalUser(
-  "your-workflow-endpoint-url",
-  "your-external-user-id",
+  "{your_endpoint_url}", // pass the endpoint ID or full URL here
+  "{your_external_user_id}" // The end user's ID in your system
   {
     method: "POST",
     body: {
@@ -113,7 +146,31 @@ const response = await client.invokeWorkflowForExternalUser(
   }
 )
 ```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
 
+# The response will include an access_token. Use it in the Authorization header below.
+
+curl -X POST https://{your-endpoint-url} \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {access_token}" \
+  -H 'X-PD-External-User-ID: {your_external_user_id}' \
+  -H 'X-PD-Environment: development' \  # 'development' or 'production'
+  -d '{
+    "message": "Hello, world"
+  }'
+```
+</Tabs.Tab>
+</Tabs>
 </Steps>
 
 ## Errors
