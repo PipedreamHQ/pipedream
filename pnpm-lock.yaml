@@ -6420,7 +6420,10 @@ importers:
       monday-sdk-js: 0.1.6
 
   components/monday_oauth:
-    specifiers: {}
+    specifiers:
+      monday-sdk-js: ^0.5.5
+    dependencies:
+      monday-sdk-js: 0.5.5
 
   components/moneybird:
     specifiers:
@@ -31302,6 +31305,14 @@ packages:
     resolution: {integrity: sha512-OfkICgBQRI8N4dmSLqR2k8tpIIogpfLQCksuV3E/TLayyJzinuN6KOp1Mk/qdG1lilA9AArQO11UvZnQ4ZRXDQ==}
     dependencies:
       '@types/source-map': 0.5.7
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /monday-sdk-js/0.5.5:
+    resolution: {integrity: sha512-i5JyZwlDpsZznXMbrqlPhRdwn6DX1sVjZ87tR0x4vc4wJSTrDY1hHM+wN6YSCtP/JlW8+pqcymm6jDaE6+RyxA==}
+    dependencies:
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
