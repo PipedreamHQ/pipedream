@@ -4872,6 +4872,9 @@ importers:
       '@pipedream/platform': 1.5.1
       lodash.pickby: 4.6.0
 
+  components/ibm_cloud_natural_language_understanding:
+    specifiers: {}
+
   components/ibm_x_force_exchange:
     specifiers: {}
 
