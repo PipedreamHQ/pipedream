@@ -20,11 +20,22 @@ export default {
         "text",
       ],
     },
+    userId: {
+      propDefinition: [
+        helpScout,
+        "userId",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.helpScout.addNoteToConversation({
+      $,
       conversationId: this.conversationId,
-      text: this.text,
+      data: {
+        text: this.text,
+        user: this.userId,
+      },
     });
     $.export("$summary", `Successfully added note to conversation ID: ${this.conversationId}`);
     return response;

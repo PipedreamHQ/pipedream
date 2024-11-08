@@ -1,5 +1,4 @@
 import helpScout from "../../help_scout.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "help_scout-send-reply",
@@ -15,17 +14,37 @@ export default {
         "conversationId",
       ],
     },
+    customerId: {
+      propDefinition: [
+        helpScout,
+        "customerId",
+      ],
+    },
     text: {
       propDefinition: [
         helpScout,
         "text",
       ],
+      description: "The content of the reply.",
+    },
+    draft: {
+      type: "boolean",
+      label: "Draft",
+      description: "If set to true, a draft reply is created.",
+      default: false,
     },
   },
   async run({ $ }) {
     const response = await this.helpScout.sendReplyToConversation({
+      $,
       conversationId: this.conversationId,
-      text: this.text,
+      data: {
+        customer: {
+          id: this.customerId,
+        },
+        text: this.text,
+        draft: this.draft,
+      },
     });
 
     $.export("$summary", `Reply sent successfully to conversation ID: ${this.conversationId}`);

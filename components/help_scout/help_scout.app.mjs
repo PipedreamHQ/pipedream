@@ -13,184 +13,137 @@ export default {
       type: "string",
       label: "Conversation ID",
       description: "The unique identifier of the conversation.",
+      async options({ page }) {
+        const { _embedded: { conversations } } = await this.listConversations({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return conversations.map(({
+          id: value, subject, primaryCustomer: { email },
+        }) => ({
+          label: `${subject}(${value}) - ${email}`,
+          value,
+        }));
+      },
     },
-    conversationTitle: {
+    customerId: {
       type: "string",
-      label: "Conversation Title",
-      description: "Title of the conversation.",
+      label: "Customer ID",
+      description: "The unique identifier of the customer.",
+      async options({ page }) {
+        const { _embedded: { customers } } = await this.listCustomers({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return customers.map(({
+          id: value, firstName, lastName, _embedded: { emails },
+        }) => ({
+          label: `${firstName} ${lastName} - ${emails[0].id}`,
+          value,
+        }));
+      },
+    },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The unique identifier of the user.",
+      async options({ page }) {
+        const { _embedded: { users } } = await this.listUsers({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return users.map(({
+          id: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     text: {
       type: "string",
       label: "Text",
-      description: "The content of the note or reply.",
-    },
-    customerEmail: {
-      type: "string",
-      label: "Customer Email",
-      description: "Email of the customer.",
-    },
-    customerDetails: {
-      type: "object",
-      label: "Customer Details",
-      description: "Optional customer's details such as name and contact.",
-      optional: true,
-    },
-    customerPhone: {
-      type: "string",
-      label: "Customer Phone",
-      description: "Optional phone number of the customer.",
-      optional: true,
-    },
-    chatHandles: {
-      type: "string[]",
-      label: "Chat Handles",
-      description: "Optional chat handles for the customer.",
-      optional: true,
-    },
-    socialProfiles: {
-      type: "string[]",
-      label: "Social Profiles",
-      description: "Optional social profiles for the customer.",
-      optional: true,
-    },
-    customerAddress: {
-      type: "object",
-      label: "Customer Address",
-      description: "Optional address of the customer.",
-      optional: true,
+      description: "The content of the note.",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.helpscout.net/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async createWebhook({
-      url, events, secret,
-    }) {
+    listConversations(opts = {}) {
+      return this._makeRequest({
+        path: "/conversations",
+        ...opts,
+      });
+    },
+    listCustomers(opts = {}) {
+      return this._makeRequest({
+        path: "/customers",
+        ...opts,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/webhooks",
-        data: {
-          url,
-          events,
-          secret,
-          payloadVersion: "V2",
-        },
+        ...opts,
       });
     },
-    async addNoteToConversation({
-      conversationId, text,
+    deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
+      });
+    },
+    addNoteToConversation({
+      conversationId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/conversations/${conversationId}/notes`,
-        data: {
-          text,
-        },
+        ...opts,
       });
     },
-    async createCustomer({
-      customerEmail,
-      customerPhone,
-      chatHandles,
-      socialProfiles,
-      customerAddress,
-      ...customerDetails
-    }) {
+    createCustomer(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/customers",
-        data: {
-          emails: [
-            {
-              value: customerEmail,
-            },
-          ],
-          phones: customerPhone
-            ? [
-              {
-                value: customerPhone,
-              },
-            ]
-            : undefined,
-          chats: chatHandles
-            ? chatHandles.map((handle) => ({
-              value: handle,
-            }))
-            : undefined,
-          socialProfiles: socialProfiles
-            ? socialProfiles.map((profile) => ({
-              value: profile,
-            }))
-            : undefined,
-          address: customerAddress,
-          ...customerDetails,
-        },
+        ...opts,
       });
     },
-    async sendReplyToConversation({
-      conversationId, text,
+    sendReplyToConversation({
+      conversationId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/conversations/${conversationId}/reply`,
-        data: {
-          text,
-        },
-      });
-    },
-    async emitNewEventOnConversationAssigned({ agentId }) {
-      const events = [
-        "convo.assigned",
-      ];
-      const url = "https://example.com/helpscout"; // Replace with your URL
-      const secret = "your_secret_key"; // Generate and replace with your secret key
-      await this.createWebhook({
-        url,
-        events,
-        secret,
-      });
-    },
-    async emitNewEventOnCustomerAdded() {
-      const events = [
-        "customer.created",
-      ];
-      const url = "https://example.com/helpscout"; // Replace with your URL
-      const secret = "your_secret_key"; // Generate and replace with your secret key
-      await this.createWebhook({
-        url,
-        events,
-        secret,
-      });
-    },
-    async emitNewEventOnConversationCreated({ conversationTitle }) {
-      const events = [
-        "convo.created",
-      ];
-      const url = "https://example.com/helpscout"; // Replace with your URL
-      const secret = "your_secret_key"; // Generate and replace with your secret key
-      await this.createWebhook({
-        url,
-        events,
-        secret,
+        ...opts,
       });
     },
   },
