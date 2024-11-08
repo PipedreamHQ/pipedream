@@ -4902,11 +4902,13 @@ importers:
   components/ignisign:
     specifiers:
       '@pipedream/platform': ^3.0.3
+      form-data: ^4.0.1
       fs: ^0.0.1-security
       stream: ^0.0.3
       util: ^0.12.5
     dependencies:
       '@pipedream/platform': 3.0.3
+      form-data: 4.0.1
       fs: 0.0.1-security
       stream: 0.0.3
       util: 0.12.5
@@ -16431,8 +16433,8 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.2.14:
-    resolution: {integrity: sha512-c40yTjFDApT7oWPNA7mgmar1llevqCLvTNar/vXnM8HdQ/O/qc2drsma9xDoq82IbbEsmgOE9USORgER8xGY6Q==}
+  /@definitelytyped/header-parser/0.2.15:
+    resolution: {integrity: sha512-SRUpmhQ7QZpsjLiA9SlwaD2Ct1xOc5Vt8cpZAqQ+P/puu4nNIsibCW87NKkyjCXG+MCUVFWEK7rVCTd12m2hTw==}
     engines: {node: '>=18.18.0'}
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.5
@@ -25019,7 +25021,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.14
+      '@definitelytyped/header-parser': 0.2.15
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -25034,7 +25036,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.14
+      '@definitelytyped/header-parser': 0.2.15
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -25050,7 +25052,7 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.14
+      '@definitelytyped/header-parser': 0.2.15
       '@definitelytyped/typescript-versions': 0.1.5
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11_typescript@5.2.2
@@ -25070,7 +25072,7 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.14
+      '@definitelytyped/header-parser': 0.2.15
       '@definitelytyped/typescript-versions': 0.1.5
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11_typescript@5.5.4
