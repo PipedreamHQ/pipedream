@@ -4,123 +4,159 @@ export default {
   type: "app",
   app: "insertchat",
   propDefinitions: {
-    leadContactInfo: {
-      type: "object",
-      label: "Lead Contact Information",
-      description: "The contact information for the lead (name, email, phone, etc.)",
-      required: true,
-    },
-    leadStatus: {
+    chatbotId: {
       type: "string",
-      label: "Lead Status",
-      description: "The status of the lead (new, in-progress, converted)",
-      optional: true,
+      label: "Chatbot ID",
+      description: "The unique identifier for the chatbot",
+      async options({ page }) {
+        const { data } = await this.listChatbots({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          uid: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     leadId: {
       type: "string",
       label: "Lead ID",
       description: "The unique identifier for the lead",
-      required: true,
+      async options({ page }) {
+        const { data } = await this.listLeads({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data?.map(({
+          uid: value, first_name: firstName, last_name: lastName,
+        }) => ({
+          value,
+          label: firstName || lastName
+            ? (`${firstName} ${lastName}`).trim()
+            : value,
+        })) || [];
+      },
     },
     chatSessionId: {
       type: "string",
       label: "Chat Session ID",
       description: "The unique identifier for the chat session",
-      required: true,
-    },
-    messageContent: {
-      type: "string",
-      label: "Message Content",
-      description: "The content of the message to be pushed into the chat session",
-      required: true,
-    },
-    messageSender: {
-      type: "string",
-      label: "Message Sender",
-      description: "The sender of the message (user or ai)",
-      optional: true,
-    },
-    userInfo: {
-      type: "object",
-      label: "User Info",
-      description: "The user's information",
-      required: true,
-    },
-    chatTranscript: {
-      type: "string",
-      label: "Chat Transcript",
-      description: "The transcript of the chat session",
-      required: true,
+      async options({
+        chatbotId, page,
+      }) {
+        const { data } = await this.listChatSessions({
+          chatbotId,
+          page: page + 1,
+        });
+        return data?.map(({
+          uid: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _appId() {
+      return this.$auth.app_uid;
     },
     _baseUrl() {
-      return "https://api.insertchat.com";
+      return "https://api.insertchat.com/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
+        $ = this,
+        path,
+        headers,
+        ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async emitNewChatbot() {
+    listChatbots(opts = {}) {
       return this._makeRequest({
-        path: "/chatbots/new",
+        path: `/${this._appId()}/widgets`,
+        ...opts,
       });
     },
-    async emitNewLead(contactInfo) {
+    listLeads(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/leads/new",
-        data: contactInfo,
+        path: `/${this._appId()}/contacts`,
+        ...opts,
       });
     },
-    async emitNewChatSession(userInfo, chatTranscript) {
+    listChatSessions({
+      chatbotId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/chats/new",
-        data: {
-          userInfo,
-          chatTranscript,
-        },
+        path: `/${this._appId()}/chats/history/${chatbotId}?expand[0]=messages`,
+        ...opts,
       });
     },
-    async createNewLead(contactInfo, leadStatus) {
+    createLead(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/leads",
-        data: {
-          contactInfo,
-          status: leadStatus,
-        },
+        path: `/${this._appId()}/contacts`,
+        ...opts,
       });
     },
-    async deleteLead(leadId) {
+    deleteLead({
+      leadId, ...opts
+    }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/leads/${leadId}`,
+        path: `/${this._appId()}/contacts/${leadId}`,
+        ...opts,
       });
     },
-    async pushMessage(sessionId, messageContent, sender) {
+    pushMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/chats/${sessionId}/messages`,
-        data: {
-          content: messageContent,
-          sender,
+        path: "/embeds/messages",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
         },
+        ...opts,
       });
+    },
+    async *paginate({
+      fn,
+      args,
+      max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          page: 1,
+        },
+      };
+      let done, count = 0;
+      do {
+        const {
+          data, meta,
+        } = await fn(args);
+        for (const item of data) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+          done = args.params.page === meta.last_page;
+          args.params.page++;
+        }
+      } while (!done);
     },
   },
 };

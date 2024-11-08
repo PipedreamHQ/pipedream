@@ -1,55 +1,34 @@
-import insertchat from "../../insertchat.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "insertchat-new-chat-session",
   name: "New Chat Session",
-  description: "Emit new event when a new chat session is initiated. [See the documentation](https://docs.insertchat.com)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new chat session is initiated.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    insertchat,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-    userInfo: {
+    ...common.props,
+    chatbotId: {
       propDefinition: [
-        insertchat,
-        "userInfo",
-      ],
-    },
-    chatTranscript: {
-      propDefinition: [
-        insertchat,
-        "chatTranscript",
+        common.props.insertchat,
+        "chatbotId",
       ],
     },
   },
   methods: {
-    generateMeta(data) {
-      const {
-        id, created_at,
-      } = data;
+    ...common.methods,
+    getResourceFn() {
+      return this.insertchat.listChatSessions;
+    },
+    getArgs() {
       return {
-        id,
-        summary: `New chat session: ${id}`,
-        ts: Date.parse(created_at),
+        chatbotId: this.chatbotId,
       };
     },
-  },
-  async run() {
-    const lastRun = this.db.get("lastRun") || this.timer.timestamp;
-    const results = await this.insertchat.emitNewChatSession(this.userInfo, this.chatTranscript);
-    for (const result of results) {
-      const timestamp = Date.parse(result.created_at);
-      if (timestamp > lastRun) {
-        this.$emit(result, this.generateMeta(result));
-      }
-    }
-    this.db.set("lastRun", this.timer.timestamp);
+    getSummary(item) {
+      return `New Chat Session ID: ${item.uid}`;
+    },
   },
 };

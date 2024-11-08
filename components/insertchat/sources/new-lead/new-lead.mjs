@@ -1,57 +1,20 @@
-import insertchat from "../../insertchat.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "insertchat-new-lead",
   name: "New Lead Created",
-  description: "Emits a new event when a new lead is created. Best for real-time CRM integration.",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new lead is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    insertchat,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60,
-      },
-    },
-    leadContactInfo: {
-      propDefinition: [
-        insertchat,
-        "leadContactInfo",
-      ],
-      required: true,
-    },
-  },
   methods: {
-    _getLeadId() {
-      return this.db.get("leadId") || null;
+    ...common.methods,
+    getResourceFn() {
+      return this.insertchat.listLeads;
     },
-    _setLeadId(leadId) {
-      this.db.set("leadId", leadId);
+    getSummary(item) {
+      return `New Lead ID: ${item.uid}`;
     },
-  },
-  hooks: {
-    async deploy() {
-      const lead = await this.insertchat.emitNewLead(this.leadContactInfo);
-      this._setLeadId(lead.id);
-      this.$emit(lead, {
-        id: lead.id,
-        summary: `New Lead: ${lead.name}`,
-        ts: Date.now(),
-      });
-    },
-  },
-  async run() {
-    const lead = await this.insertchat.emitNewLead(this.leadContactInfo);
-    if (lead.id !== this._getLeadId()) {
-      this._setLeadId(lead.id);
-      this.$emit(lead, {
-        id: lead.id,
-        summary: `New Lead: ${lead.name}`,
-        ts: Date.now(),
-      });
-    }
   },
 };
