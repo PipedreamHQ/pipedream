@@ -3005,7 +3005,10 @@ importers:
     specifiers: {}
 
   components/e2b:
-    specifiers: {}
+    specifiers:
+      '@e2b/code-interpreter': ^1.0.3
+    dependencies:
+      '@e2b/code-interpreter': 1.0.3
 
   components/e_conomic:
     specifiers: {}
@@ -16406,6 +16409,10 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
+  /@bufbuild/protobuf/1.10.0:
+    resolution: {integrity: sha512-QDdVFLoN93Zjg36NoQPZfsVH9tZew7wKDKyV5qRdj8ntT4wQCOradQjRaTdwMhWUYsgKsvCINKKm87FdEk96Ag==}
+    dev: false
+
   /@colors/colors/1.5.0:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
@@ -16414,6 +16421,24 @@ packages:
   /@colors/colors/1.6.0:
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
     engines: {node: '>=0.1.90'}
+    dev: false
+
+  /@connectrpc/connect-web/1.6.1_vw5phdcb2eqdev6wdcwiheqqle:
+    resolution: {integrity: sha512-GVfxQOmt3TtgTaKeXLS/EA2IHa3nHxwe2BCHT7X0Q/0hohM+nP5DDnIItGEjGrGdt3LTTqWqE4s70N4h+qIMlQ==}
+    peerDependencies:
+      '@bufbuild/protobuf': ^1.10.0
+      '@connectrpc/connect': 1.6.1
+    dependencies:
+      '@bufbuild/protobuf': 1.10.0
+      '@connectrpc/connect': 1.6.1_@bufbuild+protobuf@1.10.0
+    dev: false
+
+  /@connectrpc/connect/1.6.1_@bufbuild+protobuf@1.10.0:
+    resolution: {integrity: sha512-KchMDNtU4CDTdkyf0qG7ugJ6qHTOR/aI7XebYn3OTCNagaDYWiZUVKgRgwH79yeMkpNgvEUaXSK7wKjaBK9b/Q==}
+    peerDependencies:
+      '@bufbuild/protobuf': ^1.10.0
+    dependencies:
+      '@bufbuild/protobuf': 1.10.0
     dev: false
 
   /@csstools/css-parser-algorithms/2.3.2_qabfbasg4cggam7o7issvon7wi:
@@ -16485,6 +16510,13 @@ packages:
       tar-stream: 3.1.6
       which: 4.0.0
     dev: true
+
+  /@e2b/code-interpreter/1.0.3:
+    resolution: {integrity: sha512-/dfMagUEytQtwqkab+0glMPCpPvOwhGaUZvOscT/YvxJxaYPswwjIWb3TXa9DeV25XYw//72syT2wo6rGnnCKw==}
+    engines: {node: '>=18'}
+    dependencies:
+      e2b: 1.0.4
+    dev: false
 
   /@eslint-community/eslint-utils/4.4.0_eslint@8.15.0:
     resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
@@ -23993,6 +24025,10 @@ packages:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
     dev: false
 
+  /compare-versions/6.1.1:
+    resolution: {integrity: sha512-4hm4VPpIecmlg59CHXnRDnqGplJFrbLG4aFEl5vl6cK1u76ws3LLvX7ikFnTDl5vo39sjWD6AaDPYodJp/NNHg==}
+    dev: false
+
   /component-emitter/1.3.0:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}
     dev: false
@@ -25129,6 +25165,18 @@ packages:
       inherits: 2.0.4
       readable-stream: 3.6.2
       stream-shift: 1.0.1
+    dev: false
+
+  /e2b/1.0.4:
+    resolution: {integrity: sha512-/syWwMNNwnGULcivy6kYISJpJrq/ASy9BN9CW/EJ8hM2TESUXvHNAoagnIHXt6sJl/SjgIG12M/jI/G7XhLQRw==}
+    engines: {node: '>=18'}
+    dependencies:
+      '@bufbuild/protobuf': 1.10.0
+      '@connectrpc/connect': 1.6.1_@bufbuild+protobuf@1.10.0
+      '@connectrpc/connect-web': 1.6.1_vw5phdcb2eqdev6wdcwiheqqle
+      compare-versions: 6.1.1
+      openapi-fetch: 0.9.8
+      platform: 1.3.6
     dev: false
 
   /eastasianwidth/0.2.0:
@@ -32060,8 +32108,18 @@ packages:
       - debug
     dev: false
 
+  /openapi-fetch/0.9.8:
+    resolution: {integrity: sha512-zM6elH0EZStD/gSiNlcPrzXcVQ/pZo3BDvC6CDwRDUt1dDzxlshpmQnpD6cZaJ39THaSmwVCxxRrPKNM1hHrDg==}
+    dependencies:
+      openapi-typescript-helpers: 0.0.8
+    dev: false
+
   /openapi-types/12.1.3:
     resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
+    dev: false
+
+  /openapi-typescript-helpers/0.0.8:
+    resolution: {integrity: sha512-1eNjQtbfNi5Z/kFhagDIaIRj6qqDzhjNJKz8cmMW0CVdGwT6e1GLbAfgI0d28VTJa1A8jz82jm/4dG8qNoNS8g==}
     dev: false
 
   /opencollective-postinstall/2.0.3:
@@ -32657,6 +32715,10 @@ packages:
     dependencies:
       find-up: 6.3.0
     dev: true
+
+  /platform/1.3.6:
+    resolution: {integrity: sha512-fnWVljUchTro6RiCFvCXBbNhJc2NijN7oIQxbwsyL0buWJPG85v81ehlHI9fXrJsMNgTofEoWIQeClKpgxFLrg==}
+    dev: false
 
   /playwright-core/1.41.2:
     resolution: {integrity: sha512-VaTvwCA4Y8kxEe+kfm2+uUUw5Lubf38RxF7FpBxLPmGe5sdNkSg5e3ChEigaGrX7qdqT3pt2m/98LiyvU2x6CA==}
