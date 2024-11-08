@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "slack-new-user-mention",
   name: "New User Mention (Instant)",
-  version: "0.0.4",
+  version: "0.0.5",
   description: "Emit new event when a username or specific keyword is mentioned in a channel",
   type: "source",
   dedupe: "unique",
