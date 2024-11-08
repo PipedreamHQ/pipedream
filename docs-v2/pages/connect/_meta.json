@@ -26,6 +26,9 @@
   "connect-link": {
     "title": "Connect Link"
   },
+  "app-configuration": {
+    "title": "App Configuration"
+  },
   "migrating-from-project-keys-to-oauth": {
     "display": "hidden"
   }
