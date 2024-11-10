@@ -5,7 +5,7 @@ export default {
     name: "Get currently playing track",
     description: "Get the object currently being played on the user's Spotify account.",
     key: "spotify-get-currently-playing-track",
-    version: "0.0.2",
+    version: "0.0.1",
     type: "action",
     props: {
         spotify,
