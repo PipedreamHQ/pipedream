@@ -44,7 +44,7 @@ export default {
         is_playing: res?.is_playing,
       };
     } catch (error) {
-      throw new Error(`Failed to get currently playing track for user: ${err.message}`);
+      throw new Error(`Failed to get currently playing track for user: ${error.message}`);
     }
   },
 };
