@@ -4,36 +4,47 @@ import { ITEM_TYPES } from "../../consts.mjs";
 
 export default {
   name: "Get currently playing track",
-  description: "Get the object currently being played on the user's Spotify account.",
+  description:
+    "Get the object currently being played on the user's Spotify account.",
   key: "spotify-get-currently-playing-track",
-  version: "0.0.1",
+  version: "0.0.9",
   type: "action",
   props: {
-      spotify,
-      market: {
-        propDefinition: [
-          spotify,
-          "market",
-        ],
-        optional: true,
-      },
+    spotify,
+    market: {
+      propDefinition: [spotify, "market"],
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const {
-      market,
-    } = this;
+    const { market } = this;
 
-      const res = await axios($, this.spotify._getAxiosParams({
-      method: "GET",
-      path: `/me/player/currently-playing`,
-      params: {
-        market,
-        additional_types: `${ITEM_TYPES.TRACK},${ITEM_TYPES.EPISODE}`,
-      },
-    }));
+    try {
+      const res = await axios(
+        $,
+        this.spotify._getAxiosParams({
+          method: "GET",
+          path: `/me/player/currently-playing`,
+          params: {
+            market,
+            additional_types: [ITEM_TYPES.TRACK, ITEM_TYPES.EPISODE].join(','),
+          },
+        })
+      );
 
-    $.export("$summary", "Successfully retrieved currently playing track for user");
+      const itemType = res?.currently_playing_type || 'track';
+      const itemName = res?.item?.name || 'Nothing';
+      $.export("$summary", `Currently playing ${itemType}: ${itemName}`);
 
-    return res;
+      return {
+        playing: !!res,
+        type: res?.currently_playing_type,
+        item: res?.item,
+        progress_ms: res?.progress_ms,
+        is_playing: res?.is_playing,
+      };
+    } catch (error) {
+      throw new Error(`Failed to get currently playing track for user: ${err.message}`);
+    }
   },
-}
+};
