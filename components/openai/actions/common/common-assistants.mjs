@@ -16,7 +16,20 @@ export default {
     if (!this.toolTypes?.length) {
       return props;
     }
-    return this.getToolProps();
+    if (this.toolTypes.includes("function")) {
+      props.numberOfFunctions = {
+        type: "integer",
+        label: "Number of Functions",
+        description: "The number of functions to define.",
+        optional: true,
+        reloadProps: true,
+        default: 1,
+      };
+    }
+    return {
+      ...props,
+      ...(await this.getToolProps()),
+    };
   },
   methods: {
     async getToolProps() {
@@ -58,23 +71,26 @@ export default {
         };
       }
       if (this.toolTypes.includes("function")) {
-        props.functionName = {
-          type: "string",
-          label: "Function Name",
-          description: "The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.",
-        };
-        props.functionDescription = {
-          type: "string",
-          label: "Function Description",
-          description: "A description of what the function does, used by the model to choose when and how to call the function.",
-          optional: true,
-        };
-        props.functionParameters = {
-          type: "object",
-          label: "Function Parameters",
-          description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.",
-          optional: true,
-        };
+        const numberOfFunctions = this.numberOfFunctions || 1;
+        for (let i = 0; i < numberOfFunctions; i++) {
+          props[`functionName_${i}`] = {
+            type: "string",
+            label: `Function Name ${i + 1}`,
+            description: "The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.",
+          };
+          props[`functionDescription_${i}`] = {
+            type: "string",
+            label: `Function Description ${i + 1}`,
+            description: "A description of what the function does, used by the model to choose when and how to call the function.",
+            optional: true,
+          };
+          props[`functionParameters_${i}`] = {
+            type: "object",
+            label: `Function Parameters ${i + 1}`,
+            description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.",
+            optional: true,
+          };
+        }
       }
       return props;
     },
@@ -83,14 +99,17 @@ export default {
         type: toolType,
       })) || [];
       if (this.toolTypes?.includes("function")) {
-        tools.push({
-          type: "function",
-          function: {
-            name: this.functionName,
-            description: this.functionDescription,
-            parameters: this.functionParameters,
-          },
-        });
+        const numberOfFunctions = this.numberOfFunctions || 1;
+        for (let i = 0; i < numberOfFunctions; i++) {
+          tools.push({
+            type: "function",
+            function: {
+              name: this[`functionName_${i}`],
+              description: this[`functionDescription_${i}`],
+              parameters: this[`functionParameters_${i}`],
+            },
+          });
+        }
       }
       return tools.length
         ? tools

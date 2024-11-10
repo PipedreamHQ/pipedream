@@ -189,10 +189,10 @@ importers:
 
   components/activecampaign:
     specifiers:
-      '@pipedream/platform': ^1.6.0
+      '@pipedream/platform': ^3.0.3
       inflection: ^3.0.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 3.0.3
       inflection: 3.0.0
 
   components/acuity_scheduling:
@@ -700,10 +700,10 @@ importers:
 
   components/apollo_io:
     specifiers:
-      '@pipedream/platform': ^1.6.0
+      '@pipedream/platform': ^3.0.3
       md5: ^2.3.0
     dependencies:
-      '@pipedream/platform': 1.6.0
+      '@pipedream/platform': 3.0.3
       md5: 2.3.0
 
   components/appcircle:
@@ -816,7 +816,10 @@ importers:
     specifiers: {}
 
   components/autoblogger:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/autobound:
     specifiers: {}
@@ -2367,9 +2370,6 @@ importers:
   components/danny_test_app:
     specifiers: {}
 
-  components/danny_test_app:
-    specifiers: {}
-
   components/dart:
     specifiers:
       '@pipedream/platform': ^3.0.0
@@ -3845,7 +3845,10 @@ importers:
       '@pipedream/platform': 3.0.3
 
   components/gainsight_px:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/gami5d:
     specifiers:
@@ -4637,6 +4640,12 @@ importers:
     dependencies:
       '@pipedream/platform': 1.6.0
 
+  components/heroku:
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
+
   components/heygen:
     specifiers:
       '@pipedream/platform': ^1.5.1
@@ -4862,6 +4871,9 @@ importers:
     dependencies:
       '@pipedream/platform': 1.5.1
       lodash.pickby: 4.6.0
+
+  components/ibm_cloud_natural_language_understanding:
+    specifiers: {}
 
   components/ibm_x_force_exchange:
     specifiers: {}
@@ -5813,7 +5825,10 @@ importers:
     specifiers: {}
 
   components/lokalise:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/looker:
     specifiers: {}
@@ -6818,7 +6833,10 @@ importers:
       '@pipedream/platform': 3.0.0
 
   components/ntfy:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/nudgify:
     specifiers:
@@ -7055,7 +7073,10 @@ importers:
       '@pipedream/platform': 3.0.1
 
   components/openphone:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/opensea:
     specifiers:
@@ -11742,7 +11763,10 @@ importers:
       crypto: 1.0.1
 
   components/zendesk_sell:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/zenkit:
     specifiers:
@@ -16434,17 +16458,17 @@ packages:
       kuler: 2.0.0
     dev: false
 
-  /@definitelytyped/header-parser/0.2.13:
-    resolution: {integrity: sha512-m7YEtGhwAjmQyJQFQ7q8+hTGTiC/WrdRATvw8fyTwgW+RiWUt8MAeehuFj4txnCYXDcLO0ozuW5gNrLoYR4Ubg==}
+  /@definitelytyped/header-parser/0.2.15:
+    resolution: {integrity: sha512-SRUpmhQ7QZpsjLiA9SlwaD2Ct1xOc5Vt8cpZAqQ+P/puu4nNIsibCW87NKkyjCXG+MCUVFWEK7rVCTd12m2hTw==}
     engines: {node: '>=18.18.0'}
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.4
+      '@definitelytyped/typescript-versions': 0.1.5
       '@definitelytyped/utils': 0.1.8
       semver: 7.6.3
     dev: true
 
-  /@definitelytyped/typescript-versions/0.1.4:
-    resolution: {integrity: sha512-4Rz5kCpyxofwXCtBQaNfmWYXZcH0sMJxpbIgJzS+PAxgFCAa9W+2Jil7rrkpzsjx9E7+zOPukbXBXjyXohcyuQ==}
+  /@definitelytyped/typescript-versions/0.1.5:
+    resolution: {integrity: sha512-XdLx3+S6zZCcG4jnG6Kqv/PlKBRTkz5M/xZUEEN9R2g6BlzbxyE+z5EzlezJqkUls53zjuOzgbkNNP4HQIfbJQ==}
     engines: {node: '>=18.18.0'}
     dev: true
 
@@ -22935,7 +22959,7 @@ packages:
   /axios/1.7.5:
     resolution: {integrity: sha512-fZu86yCo+svH3uqJ/yTdQ0QHpQu5oL+/QE+QPSv6BZSkDAoky9vytxp7u5qk83OJFS3kEBcesWni9WTZAv3tSw==}
     dependencies:
-      follow-redirects: 1.15.6
+      follow-redirects: 1.15.9
       form-data: 4.0.1
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -25026,7 +25050,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.13
+      '@definitelytyped/header-parser': 0.2.15
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -25041,7 +25065,7 @@ packages:
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.13
+      '@definitelytyped/header-parser': 0.2.15
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -25057,8 +25081,8 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.13
-      '@definitelytyped/typescript-versions': 0.1.4
+      '@definitelytyped/header-parser': 0.2.15
+      '@definitelytyped/typescript-versions': 0.1.5
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11_typescript@5.2.2
       fs-extra: 6.0.1
@@ -25077,8 +25101,8 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
     dependencies:
-      '@definitelytyped/header-parser': 0.2.13
-      '@definitelytyped/typescript-versions': 0.1.4
+      '@definitelytyped/header-parser': 0.2.15
+      '@definitelytyped/typescript-versions': 0.1.5
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11_typescript@5.5.4
       fs-extra: 6.0.1
