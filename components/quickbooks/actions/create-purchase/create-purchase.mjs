@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-create-purchase",
   name: "Create Purchase",
   description: "Creates a new purchase. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#create-a-purchase)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     quickbooks,
