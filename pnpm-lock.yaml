@@ -4080,6 +4080,16 @@ importers:
   components/gobio_link:
     specifiers: {}
 
+  components/gocanvas:
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+      csv-parse: ^5.5.6
+      xml2js: ^0.6.2
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      csv-parse: 5.5.6
+      xml2js: 0.6.2
+
   components/godaddy:
     specifiers: {}
 
@@ -24382,6 +24392,10 @@ packages:
 
   /csstype/3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+    dev: false
+
+  /csv-parse/5.5.6:
+    resolution: {integrity: sha512-uNpm30m/AGSkLxxy7d9yRXpJQFrZzVWLFBkS+6ngPcZkw/5k3L/jjFuj7tVnEpRn+QgmiXr21nDlhCiUK4ij2A==}
     dev: false
 
   /current-module-paths/1.1.1:
