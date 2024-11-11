@@ -9759,8 +9759,10 @@ importers:
   components/spotify:
     specifiers:
       '@pipedream/platform': ^3.0.3
+      lodash: ^4.17.21
     dependencies:
       '@pipedream/platform': 3.0.3
+      lodash: 4.17.21
 
   components/spotlightr:
     specifiers:
