@@ -48,7 +48,6 @@ export default {
       type: "string",
       label: "Title",
       description: "The title of the signature request.",
-      optional: true,
     },
     description: {
       type: "string",

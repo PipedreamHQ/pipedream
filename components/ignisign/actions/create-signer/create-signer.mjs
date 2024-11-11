@@ -8,10 +8,10 @@ export default {
   type: "action",
   props: {
     ignisign,
-    signatureProfileId: {
+    signerProfileId: {
       propDefinition: [
         ignisign,
-        "signatureProfileId",
+        "signerProfileId",
       ],
       optional: true,
     },
@@ -41,7 +41,6 @@ export default {
         ignisign,
         "email",
       ],
-      optional: true,
     },
     phoneNumber: {
       propDefinition: [

@@ -64,7 +64,7 @@ export default {
           },
         });
 
-        return signatureRequests.map(({
+        return signatureRequests.filter(({ status }) => status === "COMPLETED").map(({
           _id: value, title: label,
         }) => ({
           label,
@@ -139,16 +139,6 @@ export default {
       label: "Birth Country",
       description: "The country of birth of the signer in ISO 3166-1 alpha-2",
     },
-    /* documentid: {
-      type: "string",
-      label: "Document ID",
-      description: "The unique identifier for the document to be signed",
-    },
-    signrequestid: {
-      type: "string",
-      label: "Sign Request ID",
-      description: "The identifier of the signature request you want to get the proof for",
-    }, */
   },
   methods: {
     _baseUrl(envs = `/applications/${this.$auth.app_id}/envs/${this.$auth.app_env}`) {
