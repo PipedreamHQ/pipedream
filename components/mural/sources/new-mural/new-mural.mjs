@@ -1,64 +1,28 @@
-import mural from "../../mural.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "mural-new-mural",
-  name: "New Mural",
+  name: "New Mural Created",
   description: "Emit new event when a new mural is created.",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    mural: {
-      type: "app",
-      app: "mural",
-    },
-    muralId: {
-      propDefinition: [
-        mural,
-        "muralId",
-      ],
-    },
-    userId: {
-      propDefinition: [
-        mural,
-        "userId",
-      ],
-    },
-    muralTitle: {
-      propDefinition: [
-        mural,
-        "muralTitle",
-      ],
-      optional: true,
-    },
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
-    },
-  },
   methods: {
-    ...mural.methods,
-    generateMeta(mural) {
-      const {
-        id, name, createdAt,
-      } = mural;
+    ...common.methods,
+    getResourceFn() {
+      return this.mural.listMurals;
+    },
+    getArgs() {
       return {
-        id,
-        summary: name,
-        ts: Date.parse(createdAt),
+        workspaceId: this.workspaceId,
+        params: {
+          sortBy: "lastCreated",
+        },
       };
     },
-  },
-  async run() {
-    const murals = await this.mural._makeRequest({
-      path: `/v1/murals/${this.muralId}`,
-    });
-    for (const mural of murals) {
-      if (mural.id === this.muralId && mural.createdBy === this.userId) {
-        this.$emit(mural, this.generateMeta(mural));
-      }
-    }
+    getSummary(item) {
+      return `New Mural ID: ${item.id}`;
+    },
   },
 };

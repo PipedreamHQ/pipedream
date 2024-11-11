@@ -1,71 +1,40 @@
-import mural from "../../mural.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "mural-new-sticky",
   name: "New Sticky Note Created",
-  description: "Emits an event each time a new sticky note is created in a specified mural",
-  version: "0.0.{{ts}}",
+  description: "Emit new event each time a new sticky note is created in a specified mural",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    mural: {
-      type: "app",
-      app: "mural",
-    },
+    ...common.props,
     muralId: {
       propDefinition: [
-        mural,
+        common.props.mural,
         "muralId",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
       ],
-    },
-    stickyId: {
-      propDefinition: [
-        mural,
-        "stickyId",
-      ],
-    },
-    stickyContent: {
-      propDefinition: [
-        mural,
-        "stickyContent",
-      ],
-      optional: true,
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
     },
   },
   methods: {
-    _getSticky() {
-      return this.db.get("sticky") ?? {
-        id: this.stickyId,
+    ...common.methods,
+    getResourceFn() {
+      return this.mural.listWidgets;
+    },
+    getArgs() {
+      return {
+        muralId: this.muralId,
+        params: {
+          type: "sticky notes",
+        },
       };
     },
-    _setSticky(sticky) {
-      this.db.set("sticky", sticky);
+    getSummary(item) {
+      return `New Sticky Note ID: ${item.id}`;
     },
-  },
-  async run() {
-    // get the sticky
-    const sticky = await this.mural.createSticky({
-      muralId: this.muralId,
-      stickyId: this.stickyId,
-      content: this.stickyContent,
-    });
-
-    // check if the sticky is new
-    const lastSticky = this._getSticky();
-    if (sticky.id !== lastSticky.id) {
-      this.$emit(sticky, {
-        id: sticky.id,
-        summary: `New Sticky: ${sticky.content}`,
-        ts: Date.now(),
-      });
-      this._setSticky(sticky);
-    }
   },
 };
