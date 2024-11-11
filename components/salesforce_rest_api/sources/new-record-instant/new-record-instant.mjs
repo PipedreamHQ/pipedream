@@ -54,7 +54,7 @@ export default {
         Id: id,
       } = item;
       const entityType = startCase(objectType);
-      const summary = `New ${entityType} created: ${name}`;
+      const summary = `New ${entityType} created: ${name ?? id}`;
       const ts = Date.parse(createdDate);
       return {
         id,
@@ -71,7 +71,7 @@ export default {
         [nameField]: name,
       } = newObject;
       const entityType = startCase(this.objectType).toLowerCase();
-      const summary = `New ${entityType} created: ${name}`;
+      const summary = `New ${entityType} created: ${name ?? id}`;
       const ts = Date.parse(createdDate);
       return {
         id,
@@ -133,7 +133,7 @@ export default {
       } = this;
 
       let columns = this.fieldsToObtain;
-      if (!columns) {
+      if (!columns?.length) {
         const { fields } = await getObjectTypeDescription(objectType);
         columns = fields.map(({ name }) => name);
       }
