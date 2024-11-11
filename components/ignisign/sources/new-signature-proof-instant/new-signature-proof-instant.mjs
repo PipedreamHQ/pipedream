@@ -31,7 +31,7 @@ export default {
       ] = await this.ignisign.createWebhook({
         data: {
           url: this.http.endpoint,
-          decription: this.description,
+          description: this.description,
         },
       });
       await this.ignisign.disableWebhookEvents(response._id);
