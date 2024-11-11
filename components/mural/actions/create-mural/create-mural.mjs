@@ -66,7 +66,7 @@ export default {
     visitorAvatarTheme: {
       type: "string",
       label: "Visitor Avatar Theme",
-      description: "The timer sound theme for the mural",
+      description: "The visitor avatar theme for the mural",
       options: [
         "animals",
         "music",
