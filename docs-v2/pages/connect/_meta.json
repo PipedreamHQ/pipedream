@@ -29,6 +29,9 @@
   "connect-link": {
     "title": "Connect Link"
   },
+  "troubleshooting": {
+    "title": "Troubleshooting"
+  },
   "migrating-from-project-keys-to-oauth": {
     "display": "hidden"
   }

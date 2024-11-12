@@ -174,3 +174,19 @@ curl -X POST https://{your-endpoint-url} \
 </Steps>
 
 ## Errors
+
+#### No external user ID passed, but one or more steps require it
+- One or more steps in the workflow are configured to **Use end user's auth via Connect**, but no `external_user_id` was passed when invoking the workflow.
+- [Refer to the docs](#invoke-the-workflow) to make sure you're passing `external_user_id` correctly when invoking the workflow.
+
+#### No matching external user ID 
+- There was an external user ID passed and is accessible via `steps.trigger.context.external_user_id`, but it didn't match any users in the project.
+- Double-check that the `external_user_id` that you passed when invoking the workflow matches one either [in the UI](/connect#users) or [via the API](/connect/api#accounts).
+
+#### Required account not found for external user ID
+- The `external_user_id` was passed when invoking the workflow, but the user hasn't connected an account one or more of the apps that are configured to use it in this workflow execution.
+- You can check which accounts that user has connected [in the UI](/connect#users) or [via the API](/connect/api#accounts).
+
+#### The Business plan is required to run this workflow for production users
+- Running workflows for your end users is available for users in `development`, but a Business plan is required to run on behalf of `production` users.
+- Schedule a call with our sales team and learn more about pricing [here](https://pipedream.com/pricing?plan=Enterprise).

@@ -1,10 +1,20 @@
+import Callout from '@/components/Callout'
+
 # Environments
 
 Pipedream Connect projects support two environments: `development` and `production`.
 
 1. Connected accounts and credentials stored in `development` remain separate from `production`.
-2. In `development`, you can use the official Pipedream OAuth apps, so you can test integrations without creating your own OAuth client.
+2. In `development`, you can use the official Pipedream OAuth clients, so you can test integrations without creating your own OAuth client, and you can also use features that are typically only available on higher paid tiers, like [running workflows on behalf of your end users](/connect/workflows).
 
 ## How to specify environment
 
-You specify the environment when [creating a new Connect token](/connect/api/#create-a-new-token) with the Pipedream SDK or API. By default, the enviromment is set to `production`. When users succesfully connect their account, Pipedream saves it for that `external_user_id` in the specified `project_environment`.
+You specify the environment when [creating a new Connect token](/connect/api/#create-a-new-token) with the Pipedream SDK or API. By default, the enviromment is set to `production`. When users succesfully connect their account, Pipedream saves it for that `external_user_id` in the specified `environment`.
+
+## Using development mode
+
+When connecting an account in `development` mode, the end user who is connecting their account must be signed in to pipedream.com.
+
+<Callout type="warning">
+`development` mode should only be used by you and your team for testing. When you're ready to test with real users, switch to `production`.
+</Callout>
