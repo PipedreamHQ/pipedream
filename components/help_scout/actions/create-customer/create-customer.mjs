@@ -153,41 +153,43 @@ export default {
     },
   },
   async run({ $ }) {
+    const address = cleanObject({
+      city: this.addressCity,
+      state: this.addressState,
+      postalCode: this.addressPostalCode,
+      country: this.addressCountry,
+      lines: parseObject(this.addressLines),
+      properties: parseObject(this.properties),
+    });
+
+    let data = {};
+
+    data = cleanObject({
+      firstName: this.firstName,
+      lastName: this.lastName,
+      phone: this.phone,
+      photoUrl: this.photoUrl,
+      jobTitle: this.jobTitle,
+      photoType: this.photoType,
+      background: this.background,
+      location: this.location,
+      organization: this.organization,
+      gender: this.gender,
+      age: this.age,
+      emails: parseObject(this.emails),
+      phones: parseObject(this.phones),
+      chats: parseObject(this.chats),
+      socialProfiles: parseObject(this.socialProfiles),
+      websites: parseObject(this.websites),
+    });
+
+    if (Object.keys(address).length) data.address = address;
+
+    if (!Object.keys(data).length) {
+      throw new ConfigurationError("At least one field or customer entry must be defined.");
+    }
+
     try {
-      const address = cleanObject({
-        city: this.addressCity,
-        state: this.addressState,
-        postalCode: this.addressPostalCode,
-        country: this.addressCountry,
-        lines: parseObject(this.addressLines),
-        properties: parseObject(this.properties),
-      });
-
-      const data = cleanObject({
-        firstName: this.firstName,
-        lastName: this.lastName,
-        phone: this.phone,
-        photoUrl: this.photoUrl,
-        jobTitle: this.jobTitle,
-        photoType: this.photoType,
-        background: this.background,
-        location: this.location,
-        organization: this.organization,
-        gender: this.gender,
-        age: this.age,
-        emails: parseObject(this.emails),
-        phones: parseObject(this.phones),
-        chats: parseObject(this.chats),
-        socialProfiles: parseObject(this.socialProfiles),
-        websites: parseObject(this.websites),
-      });
-
-      if (Object.keys(address).length) data.address = address;
-
-      if (!Object.keys(data).length) {
-        throw new ConfigurationError("At least one field or customer entry must be defined.");
-      }
-
       const response = await this.helpScout.createCustomer({
         $,
         data,
@@ -195,9 +197,9 @@ export default {
 
       $.export("$summary", "Successfully created the new customer.");
       return response;
-
-    } catch ({ response }) {
-      throw new ConfigurationError(response.data.message);
+    } catch ({ message }) {
+      const error = JSON.parse(message)._embedded.errors[0];
+      throw new ConfigurationError(`Path: ${error.path} - ${error.message}`);
     }
   },
 };
