@@ -195,6 +195,154 @@ export default {
       description: "Suffix of the name. For example, `Jr`. The `DisplayName` attribute or at least one of `Title`, `GivenName`, `MiddleName`, `FamilyName`, or `Suffix` attributes is required for object create.",
       optional: true,
     },
+    accountingMethod: {
+      type: "string",
+      label: "Accounting Method",
+      description: "The accounting method used in the report",
+      options: [
+        "Cash",
+        "Accrual",
+      ],
+      optional: true,
+    },
+    columns: {
+      type: "string[]",
+      label: "Columns",
+      description: "Column types to be shown in the report",
+      optional: true,
+    },
+    termIds: {
+      type: "string[]",
+      label: "Term Ids",
+      description: "Filters report contents based on term or terms supplied",
+      optional: true,
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Term: terms } } = await this.query({
+          params: {
+            query: `select * from term maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return terms?.map(({
+          Id: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    vendorIds: {
+      type: "string[]",
+      label: "Vendor Ids",
+      description: "Filters report contents to include information for specified vendors",
+      optional: true,
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Vendor: vendors } } = await this.query({
+          params: {
+            query: `select * from vendor maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return vendors?.map(({
+          Id: value, DisplayName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    accountIds: {
+      type: "string[]",
+      label: "Account Ids",
+      description: "Filters report contents to include information for specified accounts",
+      optional: true,
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Account: accounts } } = await this.query({
+          params: {
+            query: `select * from account maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return accounts?.map(({
+          Id: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    classIds: {
+      type: "string[]",
+      label: "Class Ids",
+      description: "Filters report contents to include information for specified classes if so configured in the company file",
+      optional: true,
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Class: classes } } = await this.query({
+          params: {
+            query: `select * from class maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return classes?.map(({
+          Id: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    employeeIds: {
+      type: "string[]",
+      label: "Employee Ids",
+      description: "Filters report contents to include information for specified employees",
+      optional: true,
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Employee: employees } } = await this.query({
+          params: {
+            query: `select * from employee maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return employees?.map(({
+          Id: value, DisplayName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    departmentIds: {
+      type: "string[]",
+      label: "Department Ids",
+      description: "Filters report contents to include information for specified departments if so configured in the company file",
+      optional: true,
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Department: departments } } = await this.query({
+          params: {
+            query: `select * from department maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return departments?.map(({
+          Id: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     _companyId() {
@@ -351,6 +499,20 @@ export default {
       return this._makeRequest(`company/${this._companyId()}/customer`, {
         method: "post",
         data,
+        params,
+      }, $);
+    },
+    getApAgingReport({
+      $, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/reports/AgedPayableDetail`, {
+        params,
+      }, $);
+    },
+    getProfitLossReport({
+      $, params,
+    }) {
+      return this._makeRequest(`company/${this._companyId()}/reports/ProfitAndLoss`, {
         params,
       }, $);
     },
