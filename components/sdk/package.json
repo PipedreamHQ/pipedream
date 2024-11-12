@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream SDK Components",
   "main": "sdk.app.mjs",
   "keywords": [
@@ -11,7 +11,5 @@
   ],
   "homepage": "https://pipedream.com/docs/connect/workflows",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "publishConfig": {
-    "access": "public"
-  }
+  "private": true
 }
