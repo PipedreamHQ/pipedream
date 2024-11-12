@@ -21,6 +21,6 @@ When you generate a token, you can specify a `webhook_uri` where Pipedream will 
 
 ## Tokens are scoped to end users and project environments
 
-When you [create a new Connect token](/connect/api/#create-a-new-token), you pass an `external_user_id` and an optional `project_environment` parameter. By default, the environment is set to `production`. See the docs on [environments](/connect/environments) for more information.
+When you [create a new Connect token](/connect/api/#create-a-new-token), you pass an `external_user_id` and an optional `environment_name` parameter. By default, the environment is set to `production`. See the docs on [environments](/connect/environments) for more information.
 
-Tokens are scoped to this user and environment. When the user successfully connects an account with that token, it will be saved for that `external_user_id` in the specified `project_environment`.
+Tokens are scoped to this user and environment. When the user successfully connects an account with that token, it will be saved for that `external_user_id` in the specified `environment_name`.
