@@ -97,7 +97,7 @@ export default {
 
     const path = checkTmp(this.file);
     if (!fs.existsSync(path)) {
-      await this.ignisign.deleteSignatureRequest({
+      await this.ignisign.closeSignatureRequest({
         signatureRequestId,
       });
       throw new ConfigurationError("File does not exist!");

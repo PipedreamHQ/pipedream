@@ -257,6 +257,13 @@ export default {
         envs: "",
       });
     },
+    closeSignatureRequest({ signatureRequestId }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/signature-requests/${signatureRequestId}/close`,
+        envs: "",
+      });
+    },
     createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
