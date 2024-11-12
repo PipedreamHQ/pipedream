@@ -102,6 +102,36 @@ export default function Home() {
 }
 ```
 
+## Environment
+
+Some API endpoints accept an [environment](/connect/environments) parameter. This lets you specify the environment (`production` or `development`) where resources will live in your project.
+
+You can set the environment when you create the SDK client:
+
+```typescript
+import { createBackendClient } from "@pipedream/sdk";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "your-oauth-client-id",
+    clientSecret: "your-oauth-client-secret",
+  }
+});
+```
+
+or pass the `X-PD-Environment` header in HTTP requests:
+
+```bash
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "your-external-user-id"
+  }'
+```
+
 ## External users
 
 When you use the Connect API, you'll pass an `external_user_id` parameter when initiating account connections and retrieving credentials. This is your user's ID, in your system — whatever you use to uniquely identify them. 
@@ -245,6 +275,7 @@ import {
 } from "@pipedream/sdk";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
@@ -262,6 +293,7 @@ const { token, expires_at } = await pd.createConnectToken({
 import { createBackendClient } from "@pipedream/sdk";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
@@ -289,6 +321,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
   -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
   -H "Authorization: Bearer {access_token}" \
   -d '{
     "external_user_id": "your-external-user-id"
