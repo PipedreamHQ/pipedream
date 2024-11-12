@@ -1,61 +1,52 @@
-import campaignMonitor from "../../campaign_monitor.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "campaign_monitor-new-email-open",
   name: "New Email Open",
-  description: "Emits a new event when an email from a campaign is opened",
+  description: "Emit new event when an email from a campaign is opened",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    campaignMonitor: {
-      type: "app",
-      app: "campaign_monitor",
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
+    ...common.props,
+    clientId: {
+      propDefinition: [
+        common.props.campaignMonitor,
+        "clientId",
+      ],
     },
     campaignId: {
       propDefinition: [
-        campaignMonitor,
+        common.props.campaignMonitor,
         "campaignId",
+        (c) => ({
+          clientId: c.clientId,
+        }),
       ],
-    },
-    subscriberId: {
-      propDefinition: [
-        campaignMonitor,
-        "subscriberId",
-      ],
-      optional: true,
     },
   },
   methods: {
-    _getEventMeta(event) {
-      const ts = +new Date(event.Date);
-      const summary = `New email open: ${event.EmailAddress}`;
-      const id = `${event.EmailAddress}-${ts}`;
+    ...common.methods,
+    getResourceFn() {
+      return this.campaignMonitor.listOpens;
+    },
+    getArgs() {
       return {
-        id,
-        summary,
+        campaignId: this.campaignId,
+        params: {
+          orderfield: "date",
+          orderdirection: "desc",
+        },
+      };
+    },
+    generateMeta(open) {
+      const ts = Date.parse(open[this.getTsField()]);
+      return {
+        id: `${open.EmailAddress}-${ts}`,
+        summary: `New Email Open: ${open.EmailAddress}`,
         ts,
       };
     },
-  },
-  async run() {
-    const since = this.db.get("since");
-    const { Results: events } =
-      await this.campaignMonitor.emitCampaignEmailOpen(this.campaignId, this.subscriberId);
-    for (const event of events) {
-      if (since && new Date(event.Date) <= new Date(since)) {
-        console.log("This email open event is old, skipping");
-        continue;
-      }
-      this.$emit(event, this._getEventMeta(event));
-    }
-    this.db.set("since", new Date());
   },
 };

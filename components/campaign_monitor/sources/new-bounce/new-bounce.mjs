@@ -1,53 +1,52 @@
-import campaignMonitor from "../../campaign_monitor.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "campaign_monitor-new-bounce",
   name: "New Bounce",
-  description: "Emits an event when a campaign email bounces",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a campaign email bounces",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    campaignMonitor: {
-      type: "app",
-      app: "campaign_monitor",
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 60 * 15, // 15 minutes
-      },
+    ...common.props,
+    clientId: {
+      propDefinition: [
+        common.props.campaignMonitor,
+        "clientId",
+      ],
     },
     campaignId: {
       propDefinition: [
-        campaignMonitor,
+        common.props.campaignMonitor,
         "campaignId",
+        (c) => ({
+          clientId: c.clientId,
+        }),
       ],
     },
   },
-  hooks: {
-    async deploy() {
-      // Get the most recent bounces to initialize the checkpoint.
-      const bounces = await this.campaignMonitor.emitCampaignEmailBounce(this.campaignId);
-      if (bounces && bounces.length > 0) {
-        this.db.set("lastBounceDate", bounces[0].Date);
-      }
+  methods: {
+    ...common.methods,
+    getResourceFn() {
+      return this.campaignMonitor.listBounces;
     },
-  },
-  async run() {
-    const lastBounceDate = this.db.get("lastBounceDate");
-    const bounces = await this.campaignMonitor.emitCampaignEmailBounce(this.campaignId);
-
-    for (const bounce of bounces) {
-      if (!lastBounceDate || new Date(bounce.Date) > new Date(lastBounceDate)) {
-        this.$emit(bounce, {
-          id: bounce.EmailAddress,
-          summary: `New bounce for ${bounce.EmailAddress}`,
-          ts: Date.parse(bounce.Date),
-        });
-        this.db.set("lastBounceDate", bounce.Date);
-      }
-    }
+    getArgs() {
+      return {
+        campaignId: this.campaignId,
+        params: {
+          orderfield: "date",
+          orderdirection: "desc",
+        },
+      };
+    },
+    generateMeta(bounce) {
+      const ts = Date.parse(bounce[this.getTsField()]);
+      return {
+        id: `${bounce.EmailAddress}-${ts}`,
+        summary: `New Bounce: ${bounce.EmailAddress}`,
+        ts,
+      };
+    },
   },
 };

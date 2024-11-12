@@ -1,44 +1,103 @@
 import { axios } from "@pipedream/platform";
+const DEFAULT_PAGE_SIZE = 1000;
 
 export default {
   type: "app",
   app: "campaign_monitor",
   propDefinitions: {
+    clientId: {
+      type: "string",
+      label: "Client ID",
+      description: "The ID of the client",
+      async options() {
+        const clients = await this.listClients();
+        return clients?.map(({
+          ClientID: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     campaignId: {
       type: "string",
       label: "Campaign ID",
-      description: "The ID of the campaign",
+      description: "The ID of a sent or scheduled campaign",
+      async options({ clientId }) {
+        const campaigns = await this.listCampaigns(clientId);
+        return campaigns?.map(({
+          CampaignID: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    subscriberId: {
+    subscriber: {
       type: "string",
-      label: "Subscriber ID",
-      description: "The ID of the subscriber",
-      optional: true,
+      label: "Subscriber",
+      description: "The email address of the subscriber",
+      async options({
+        listId, page,
+      }) {
+        const { Results: subscribers } = await this.listSubscribers({
+          listId,
+          params: {
+            page: page + 1,
+          },
+        });
+        return subscribers?.map(({
+          EmailAddress: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     listId: {
       type: "string",
       label: "List ID",
       description: "The ID of the list",
+      async options({ clientId }) {
+        const lists = await this.listLists({
+          clientId,
+        });
+        return lists?.map(({
+          ListID: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    email: {
+    smartEmailId: {
       type: "string",
-      label: "Email",
-      description: "The email of the recipient",
+      label: "Smart Email ID",
+      description: "The ID of the smart email to send",
+      async options({ clientId }) {
+        const emails = await this.listSmartEmails({
+          params: {
+            clientId,
+          },
+        });
+        return emails?.map(({
+          ID: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    subject: {
+    consentToTrack: {
       type: "string",
-      label: "Subject",
-      description: "The subject of the email",
-    },
-    content: {
-      type: "string",
-      label: "Content",
-      description: "The content of the email",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the subscriber",
+      label: "Consent to Track",
+      description: "Whether the subscriber has given permission to have their email opens and clicks tracked",
+      options: [
+        "Yes",
+        "No",
+        "Unchanged",
+      ],
+      default: "Unchanged",
       optional: true,
     },
   },
@@ -46,73 +105,148 @@ export default {
     _baseUrl() {
       return "https://api.createsend.com/api/v3.3";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async emitCampaignEmailBounce(campaignId) {
+    listClients(opts = {}) {
       return this._makeRequest({
-        path: `/campaigns/${campaignId}/bounces`,
+        path: "/clients.json",
+        ...opts,
       });
     },
-    async emitCampaignEmailOpen(campaignId, subscriberId) {
-      return this._makeRequest({
-        path: `/campaigns/${campaignId}/opens`,
+    async listCampaigns(clientId) {
+      const scheduledCampaigns = await this.listScheduledCampaigns({
+        clientId,
+      });
+      const { Results: sentCampaigns } = await this.listSentCampaigns({
+        clientId,
         params: {
-          subscriber_id: subscriberId,
+          pagesize: DEFAULT_PAGE_SIZE,
         },
       });
+      return [
+        ...scheduledCampaigns,
+        ...sentCampaigns,
+      ];
     },
-    async emitNewSubscriber(listId) {
+    listSentCampaigns({
+      clientId, ...opts
+    }) {
       return this._makeRequest({
-        path: `/lists/${listId}/active`,
+        path: `/clients/${clientId}/campaigns.json`,
+        ...opts,
       });
     },
-    async sendIntelligentEmail(email, subject, content, listId) {
+    listScheduledCampaigns({
+      clientId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/clients/${clientId}/scheduled.json`,
+        ...opts,
+      });
+    },
+    listBounces({
+      campaignId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/campaigns/${campaignId}/bounces.json`,
+        ...opts,
+      });
+    },
+    listOpens({
+      campaignId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/campaigns/${campaignId}/opens.json`,
+        ...opts,
+      });
+    },
+    listSubscribers({
+      listId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/lists/${listId}/active.json`,
+        ...opts,
+      });
+    },
+    listLists({
+      clientId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/clients/${clientId}/lists.json`,
+        ...opts,
+      });
+    },
+    listSmartEmails(opts = {}) {
+      return this._makeRequest({
+        path: "/transactional/smartEmail",
+        ...opts,
+      });
+    },
+    sendSmartEmail({
+      smartEmailId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/transactional/send",
-        data: {
-          email,
-          subject,
-          content,
-          list_id: listId,
-        },
+        path: `/transactional/smartEmail/${smartEmailId}/send`,
+        ...opts,
       });
     },
-    async removeSubscriber(email, listId) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/subscribers/${listId}`,
-        params: {
-          email,
-        },
-      });
-    },
-    async createSubscriber(email, listId, name) {
+    unsubscribeSubscriber({
+      listId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/subscribers/${listId}`,
-        data: {
-          email,
-          list_id: listId,
-          name,
-        },
+        path: `/subscribers/${listId}/unsubscribe.json`,
+        ...opts,
       });
+    },
+    createSubscriber({
+      listId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/subscribers/${listId}.json`,
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn,
+      args,
+      max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          pagesize: DEFAULT_PAGE_SIZE,
+        },
+      };
+      let hasMore, count = 0;
+      do {
+        const {
+          Results: results, NumberOfPages: numPages,
+        } = await fn(args);
+        for (const item of results) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+          hasMore = args.params.page < numPages;
+          args.params.page++;
+        }
+      } while (hasMore);
     },
   },
 };

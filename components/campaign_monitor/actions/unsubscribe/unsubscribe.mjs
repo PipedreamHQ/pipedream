@@ -3,26 +3,45 @@ import campaignMonitor from "../../campaign_monitor.app.mjs";
 export default {
   key: "campaign_monitor-unsubscribe",
   name: "Unsubscribe",
-  description: "Removes a subscriber from a mailing list given their email address.",
-  version: "0.0.{{ts}}",
+  description: "Removes a subscriber from a mailing list given their email address. [See the documentation](https://www.campaignmonitor.com/api/v3-3/subscribers/#unsubscribing-a-subscriber)",
+  version: "0.0.1",
   type: "action",
   props: {
     campaignMonitor,
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email of the subscriber to remove",
+    clientId: {
+      propDefinition: [
+        campaignMonitor,
+        "clientId",
+      ],
     },
     listId: {
-      type: "string",
-      label: "List ID",
-      description: "The ID of the mailing list from which to remove the subscriber",
-      optional: true,
+      propDefinition: [
+        campaignMonitor,
+        "listId",
+        (c) => ({
+          clientId: c.clientId,
+        }),
+      ],
+    },
+    subscriber: {
+      propDefinition: [
+        campaignMonitor,
+        "subscriber",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.campaignMonitor.removeSubscriber(this.email, this.listId);
-    $.export("$summary", `Successfully unsubscribed ${this.email}`);
+    const response = await this.campaignMonitor.unsubscribeSubscriber({
+      $,
+      listId: this.listId,
+      data: {
+        EmailAddress: this.subscriber,
+      },
+    });
+    $.export("$summary", `Successfully unsubscribed ${this.subscriber}`);
     return response;
   },
 };
