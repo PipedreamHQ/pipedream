@@ -1,10 +1,12 @@
+/* eslint-disable pipedream/source-description */
+/* eslint-disable pipedream/source-name */
 import sdk from "../../sdk.app.mjs";
 
 export default {
-  name: "New Event Received from the React.js Pipedream SDK",
-  version: "0.0.1",
+  name: "React.js",
+  version: "0.0.2",
   key: "sdk-reactjs-event-received",
-  description: "Emit new event via the React.js Pipedream SDK.",
+  description: "Emit a new event via the React.js Pipedream SDK.",
   props: {
     sdk,
   },

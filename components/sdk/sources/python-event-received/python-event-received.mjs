@@ -1,10 +1,12 @@
+/* eslint-disable pipedream/source-description */
+/* eslint-disable pipedream/source-name */
 import sdk from "../../sdk.app.mjs";
 
 export default {
-  name: "New Event Received from the Python Pipedream SDK",
-  version: "0.0.1",
+  name: "Python",
+  version: "0.0.2",
   key: "sdk-python-event-received",
-  description: "Emit new event via the Python Pipedream SDK.",
+  description: "Emit a new event via the Python Pipedream SDK.",
   props: {
     sdk,
   },
