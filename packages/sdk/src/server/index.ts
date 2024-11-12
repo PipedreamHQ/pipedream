@@ -88,7 +88,7 @@ export type ConnectTokenOpts = {
    * Specify the environment ("production" or "development") to use for the
    * account connection flow. Defaults to "production".
    */
-  project_environment?: string;
+  environment_name?: string;
 };
 
 export type AppInfo = {
