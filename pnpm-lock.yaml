@@ -8894,6 +8894,9 @@ importers:
       stream: 0.0.2
       util: 0.12.5
 
+  components/sdk:
+    specifiers: {}
+
   components/search_api:
     specifiers:
       '@pipedream/platform': ^1.5.1
