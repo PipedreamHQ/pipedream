@@ -1,7 +1,7 @@
 import skyvern from "../../skyvern.app.mjs";
 
 export default {
-  key: "skyvern-get-workflow-run-details",
+  key: "skyvern-get-workflow",
   name: "Get Workflow Run Details",
   description: "Retrieve details of runs of a specific Skyvern workflow. Useful for checking the status and result of a run. [See the documentation](https://docs.skyvern.com/workflows/getting-workflows)",
   version: "0.0.1",
