@@ -243,9 +243,9 @@ export default {
           if (max && ++count >= max) {
             return;
           }
-          hasMore = args.params.page < numPages;
-          args.params.page++;
         }
+        hasMore = args.params.page < numPages;
+        args.params.page++;
       } while (hasMore);
     },
   },
