@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream SDK Components",
   "main": "sdk.app.mjs",
   "keywords": [
