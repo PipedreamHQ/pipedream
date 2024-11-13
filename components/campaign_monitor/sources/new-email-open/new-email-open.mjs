@@ -10,12 +10,6 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
-    clientId: {
-      propDefinition: [
-        common.props.campaignMonitor,
-        "clientId",
-      ],
-    },
     campaignId: {
       propDefinition: [
         common.props.campaignMonitor,
