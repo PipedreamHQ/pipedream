@@ -1,9 +1,33 @@
 # Troubleshooting
 
-## Common errors
+Below are some common errors when connecting your users' accounts via Pipedream Connect.
 
-#### This link has expired. Please request a new one from the app developer.
+### Error creating a Connect token
+>Error creating token: Error: Failed to obtain OAuth token: Response Error: 401 Unauthorized
+- Authorization to the Pipedream API failed when creating the Connect token.
+- Double-check the client ID or secret for your [Pipedream OAuth client](/connect/api#authentication).
 
-#### This session has expired. Please refresh the page to try again.
+### Error connecting an account
+Most errors when connecting an account are related to the [Connect token](/connect/tokens), which Pipedream validates from the Connect iFrame.
 
-#### Connection failed. Please retry or contact support.
+#### Possible errors
+>- This link has expired. Please request a new one from the app developer. <br />
+>- This session has expired. Please refresh the page to try again.
+
+#### Troubleshooting steps
+- Pipedream typically returns an explicit error message in the HTTP response of the token validation network call directly from the iFrame in the client.
+- To check for errors, start the account connection flow in a browser and open the developer console to view the network requests.
+- Look for `https://api.pipedream.com/v1/connect/tokens/{connect_token}/validate?app_id{app_slug}` and check the response for any error messages.
+
+#### Token validation errors
+
+>The Pipedream Connect token is invalid. Please generate a new one and try again.
+- Connect tokens have explicit expiries, and are only able to be used once. Try generating a new token and trying again.
+
+>App not found. Please check your app id.
+- Double-check the app slug you're passing [when connecting your user's account](/connect/quickstart#connect-a-users-account).
+
+
+### Connection failed. Please retry or contact support.
+- The user may have closed the OAuth popup window without completing authorization.
+

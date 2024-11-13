@@ -1,3 +1,5 @@
+import Callout from '@/components/Callout'
+
 # Connect tokens
 
 When you initiate account connection for your end users, you must either:
@@ -8,6 +10,10 @@ When you initiate account connection for your end users, you must either:
 Here, we'll show you how to generate tokens for your users and return that to your frontend, passing that to the account connection flow. 
 
 Use tokens when you want to handle the account connection flow yourself, in your app's UI. For example, you might want to show a **Connect Slack** button in your app that triggers the account connection flow for Slack, or launch the flow in a modal.
+
+<Callout type="info">
+Connect tokens currently have a 4-hour expiry, and can only be used once.
+</Callout>
 
 ## Creating a token
 
