@@ -101,9 +101,10 @@ export default {
     return props;
   },
   methods: {
-    peopleSearch() {
+    peopleSearch(args = {}) {
       return this.app.post({
         path: "/people/search",
+        ...args,
       });
     },
     peopleEnrichment(args = {}) {
