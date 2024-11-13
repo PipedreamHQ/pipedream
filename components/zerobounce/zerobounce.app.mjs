@@ -3,58 +3,50 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "zerobounce",
-  propDefinitions: {
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email address to be validated",
-    },
-    file: {
-      type: "string",
-      label: "File",
-      description: "The file that contains email addresses to be validated",
-    },
-  },
   methods: {
     _baseUrl() {
       return "https://api.zerobounce.net/v2";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
         path,
-        headers,
+        url,
+        params,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "user-agent": "@PipedreamHQ/pipedream v0.1",
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        url: url || `${this._baseUrl()}${path}`,
+        params: {
+          ...params,
+          api_key: this.$auth.api_key,
         },
       });
     },
-    async validateEmail(email) {
+    validateEmail(opts = {}) {
       return this._makeRequest({
-        path: `/validate?email=${email}`,
+        path: "/validate",
+        ...opts,
       });
     },
-    async validateEmailsInFile(file) {
+    getReliabilityScore(opts = {}) {
+      return this._makeRequest({
+        path: "/scoring",
+        ...opts,
+      });
+    },
+    validateEmailsInFile(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/sendfile",
-        data: {
-          file: file,
-        },
+        url: "https://bulkapi.zerobounce.net/v2/sendfile",
+        ...opts,
       });
     },
-    async getReliabilityScore(email) {
+    getResultsFile(opts = {}) {
       return this._makeRequest({
-        path: `/score?email=${email}`,
+        url: "https://bulkapi.zerobounce.net/v2/getfile",
+        ...opts,
       });
     },
   },
