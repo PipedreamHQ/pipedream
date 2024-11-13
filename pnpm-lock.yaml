@@ -6501,7 +6501,10 @@ importers:
     specifiers: {}
 
   components/mural:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/murlist:
     specifiers: {}
