@@ -1,73 +1,47 @@
-import zohoSheet from "../../zoho_sheet.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "zoho_sheet-new-row-instant",
   name: "New Row Created (Instant)",
-  description: "Emit new event each time a new row is created in a Zoho Sheet worksheet. [See the documentation](https://www.zoho.com/sheet/help/api/v2/)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event each time a new row is created in a Zoho Sheet worksheet.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    zohoSheet,
-    http: {
-      type: "$.interface.http",
-      customResponse: false,
-    },
-    db: "$.service.db",
-    worksheet: {
+    ...common.props,
+    workbookId: {
       propDefinition: [
-        zohoSheet,
-        "worksheet",
+        common.props.zohoSheet,
+        "workbookId",
       ],
+    },
+    worksheetId: {
+      propDefinition: [
+        common.props.zohoSheet,
+        "worksheet",
+        ({ workbookId }) => ({
+          workbookId,
+        }),
+      ],
+      withLabel: true,
     },
   },
   methods: {
-    _getWebhookId() {
-      return this.db.get("webhookId");
+    ...common.methods,
+    getEvent() {
+      return "new_row";
     },
-    _setWebhookId(id) {
-      this.db.set("webhookId", id);
+    getExtraData() {
+      return {
+        resource_id: this.workbookId,
+        worksheet_id: this.worksheetId.value,
+      };
     },
-  },
-  hooks: {
-    async deploy() {
-      // Emits the 50 most recent row entries from the specified worksheet
-      const recentRows = await this.zohoSheet.emitNewRowEvent({
-        worksheet: this.worksheet,
-      });
-      for (const row of recentRows.slice(-50).reverse()) {
-        this.$emit(row, {
-          id: row.id,
-          summary: `New row in worksheet: ${row.worksheetId}`,
-          ts: Date.now(),
-        });
-      }
-    },
-    async activate() {
-      const webhookId = await this.zohoSheet.emitNewRowEvent({
-        worksheet: this.worksheet,
-      });
-      this._setWebhookId(webhookId);
-    },
-    async deactivate() {
-      const id = this._getWebhookId();
-      if (id) {
-        await this.zohoSheet.deleteRow({
-          worksheet: this.worksheet,
-          criteria: {
-            webhook_id: id,
-          },
-        });
-      }
+    getSummary() {
+      return  `New row in worksheet ${this.worksheetId.label}`;
     },
   },
-  async run(event) {
-    const { body } = event;
-    this.$emit(body, {
-      id: body.id,
-      summary: `New row created in worksheet: ${this.worksheet}`,
-      ts: Date.now(),
-    });
-  },
+  sampleEmit,
 };
