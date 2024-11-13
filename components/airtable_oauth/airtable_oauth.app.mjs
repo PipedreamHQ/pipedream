@@ -180,8 +180,8 @@ export default {
     },
     returnFieldsByFieldId: {
       type: "boolean",
-      label: "Return Fields By Field ID",
-      description: "If set to `true`, the returned field objects will have the field ID as the key, instead of the field name (default behavior).",
+      label: "Return Fields By ID",
+      description: "If set to `true`, the returned field objects will have the field ID as the key, instead of the field name.",
       optional: true,
     },
     sortDirection: {
@@ -212,13 +212,20 @@ export default {
     typecast: {
       type: "boolean",
       label: "Typecast",
-      description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. Automatic conversion is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources.",
+      description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. This is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources.",
       optional: true,
     },
     record: {
       type: "object",
       label: "Record",
-      description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also pass a JSON object as a custom expression with key/value pairs representing columns and values (e.g., `{{ {\"foo\":\"bar\",\"id\":123} }}`). A common pattern is to reference an object exported by a previous step (e.g., `{{steps.foo.$return_value}}`).",
+      description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also use a custom expression.",
+    },
+    customExpressionInfo: {
+      type: "alert",
+      alertType: "info",
+      content: `A custom expression can be a JSON object with key/value pairs representing columns and values, e.g. \`{{ { "foo": "bar", "id": 123 } }}\`.
+\\\\
+You can also reference an object exported by a previous step, e.g. \`{{steps.foo.$return_value}}\`.`,
     },
   },
   methods: {
