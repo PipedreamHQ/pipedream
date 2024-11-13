@@ -6,7 +6,7 @@ export default {
   key: "attio-record-updated-instant",
   name: "Record Updated (Instant)",
   description: "Emit new event when values on a record, such as person, company or deal, are updated",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
