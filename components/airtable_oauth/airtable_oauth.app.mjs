@@ -205,9 +205,9 @@ export default {
       optional: true,
     },
     records: {
-      type: "string",
+      type: "string[]",
       label: "Records",
-      description: "Provide an array of objects. Each object should represent a new record with the column name as the key and the data to insert as the corresponding value (e.g., passing `[{\"foo\":\"bar\",\"id\":123},{\"foo\":\"baz\",\"id\":456}]` will create two records and with values added to the fields `foo` and `id`). The most common pattern is to reference an array of objects exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of objects.",
+      description: "Each item in the array should be an object in JSON format, representing a new record. The keys are the column names and the corresponding values are the data to insert.",
     },
     typecast: {
       type: "boolean",
@@ -224,7 +224,7 @@ export default {
       type: "alert",
       alertType: "info",
       content: `A custom expression can be a JSON object with key/value pairs representing columns and values, e.g. \`{{ { "foo": "bar", "id": 123 } }}\`.
-\\\\
+\\
 You can also reference an object exported by a previous step, e.g. \`{{steps.foo.$return_value}}\`.`,
     },
   },
