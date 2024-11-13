@@ -1,6 +1,21 @@
 # Changelog
 
-## [1.0.0-rc.1] - 2024-11-01
+## [1.0.1] - 2024-11-13
+
+### Changed
+
+- Deprecated the `environment_name` field in the `ConnectTokenOpts` type, as it
+  is no longer used by the SDK nor the Connect API. The environment name is now
+  exclusively determined by the `environment` field in the `BackendClientOpts`
+  type, read during the client creation.
+
+### Added
+
+- Added a new optional flag to `RequestOptions` called `fullResponse`, which
+  allows the user to get the full HTTP response object, including the headers
+  and status code.
+
+## [1.0.0] - 2024-11-01
 
 ### Changed
 
