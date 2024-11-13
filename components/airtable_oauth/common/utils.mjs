@@ -70,7 +70,7 @@ function fieldToProp(field) {
   return {
     type: fieldTypeToPropType(field.type),
     label: field.name,
-    description: field.description,
+    description: field.description ?? `Field type: \`${field.type}\`. Field ID: \`${field.id}\``,
     optional: true,
     options: field.options?.choices?.map((choice) => ({
       label: choice.name || choice.id,
