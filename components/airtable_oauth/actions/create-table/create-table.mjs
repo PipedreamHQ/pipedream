@@ -17,18 +17,18 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "The name for the table",
+      description: "The name of the table",
     },
     description: {
       type: "string",
       label: "Description",
-      description: "The description for the table",
+      description: "The description of the table",
       optional: true,
     },
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "A list of JSON objects representing the fields in the table. Refer to [field types](https://airtable.com/developers/web/api/model/field-type) for supported field types, the write format for field options, and other specifics for certain field types.",
+      description: "A list of JSON objects representing the fields in the table. [See the documentation](https://airtable.com/developers/web/api/model/field-type) for supported field types, the write format for field options, and other specifics for certain field types.",
     },
   },
   async run({ $ }) {

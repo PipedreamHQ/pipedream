@@ -201,7 +201,7 @@ export default {
     filterByFormula: {
       type: "string",
       label: "Filter by Formula",
-      description: "Optionally provide a [formula (see the documentation)](https://support.airtable.com/hc/en-us/articles/203255215-Formula-Field-Reference) used to filter records. The formula will be evaluated for each record, and if the result is not `0`, `false`, `\"\"`, `NaN`, `[]`, or `#Error!` the record will be included in the response. For example, to only include records where `Name` isn't empty, use `NOT({Name} = '')`.",
+      description: "Optionally provide a [formula (see info on the documentation)](https://support.airtable.com/hc/en-us/articles/203255215-Formula-Field-Reference) used to filter records. The formula will be evaluated for each record, and if the result is not `0`, `false`, `\"\"`, `NaN`, `[]`, or `#Error!` the record will be included in the response. For example, to only include records where `Name` isn't empty, use `NOT({Name} = '')`.",
       optional: true,
     },
     records: {

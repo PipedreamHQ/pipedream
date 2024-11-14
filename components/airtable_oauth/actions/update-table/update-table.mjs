@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   key: "airtable_oauth-update-table",
   name: "Update Table",
-  description: "Updates an existing table. [See the documentation](https://airtable.com/developers/web/api/update-table)",
+  description: "Update an existing table. [See the documentation](https://airtable.com/developers/web/api/update-table)",
   version: "0.0.6",
   type: "action",
   props: {
@@ -11,13 +11,13 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "The name for the table",
+      description: "The updated name of the table",
       optional: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "The description for the table",
+      description: "The updated description of the table",
       optional: true,
     },
   },
