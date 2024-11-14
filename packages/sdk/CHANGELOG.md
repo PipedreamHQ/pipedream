@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
-## [1.0.1] - 2024-11-13
+## [1.0.2] - 2024-11-14
 
 ### Changed
 
