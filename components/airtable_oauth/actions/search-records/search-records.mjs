@@ -4,7 +4,7 @@ import { fieldTypeToPropType } from "../../common/utils.mjs";
 export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
-  description: "Searches for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
+  description: "Search for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
   version: "0.0.8",
   type: "action",
   props: {
