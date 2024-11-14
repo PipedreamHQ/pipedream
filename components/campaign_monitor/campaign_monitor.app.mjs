@@ -105,19 +105,37 @@ export default {
     _baseUrl() {
       return "https://api.createsend.com/api/v3.3";
     },
-    _makeRequest(opts = {}) {
+    async _makeRequest(opts = {}) {
       const {
         $ = this,
         path,
         ...otherOpts
       } = opts;
-      return axios($, {
-        ...otherOpts,
-        url: `${this._baseUrl()}${path}`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
+      const requestFn = async () => {
+        return await axios($, {
+          ...otherOpts,
+          url: `${this._baseUrl()}${path}`,
+          headers: {
+            Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+          },
+        });
+      };
+      return await this.retryWithExponentialBackoff(requestFn);
+    },
+    // The API has been observed to occasionally return -
+    // {"Code":120,"Message":"Invalid OAuth Token"}
+    // Retry if a 401 Unauthorized or 429 (Rate limit exceeded)
+    // status is returned
+    async retryWithExponentialBackoff(requestFn, retries = 3, backoff = 500) {
+      try {
+        return await requestFn();
+      } catch (error) {
+        if (retries > 0 && (error.response?.status === 401 || error.response?.status === 429)) {
+          await new Promise((resolve) => setTimeout(resolve, backoff));
+          return this.retryWithExponentialBackoff(requestFn, retries - 1, backoff * 2);
+        }
+        throw error;
+      }
     },
     listClients(opts = {}) {
       return this._makeRequest({
