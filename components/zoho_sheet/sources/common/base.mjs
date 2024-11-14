@@ -3,10 +3,7 @@ import zohoSheet from "../../zoho_sheet.app.mjs";
 export default {
   props: {
     zohoSheet,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
+    http: "$.interface.http",
     db: "$.service.db",
     serviceName: {
       type: "string",
