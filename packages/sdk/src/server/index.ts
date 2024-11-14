@@ -57,7 +57,7 @@ export type BackendClientOpts = {
  */
 export type ConnectTokenCreateOpts = {
   /**
-   * An external user ID associated with the token.
+   * The ID of the user in your system.
    */
   external_user_id: string;
 
