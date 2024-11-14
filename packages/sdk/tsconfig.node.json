@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "module": "NodeNext",
-    "target": "ES6",
+    "target": "es2017",
     "lib": [
-      "ES6"
+      "es2017"
     ],
     "declaration": true,
     "outDir": "dist/server",

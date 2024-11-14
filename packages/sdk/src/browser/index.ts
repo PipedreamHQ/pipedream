@@ -4,6 +4,10 @@
 // operations, like connecting accounts via Pipedream Connect. See the server/
 // directory for the server client.
 
+import {
+  BaseClient, ConnectTokenResponse,
+} from "../shared";
+
 /**
  * Options for creating a browser-side client. This is used to configure the
  * BrowserClient instance.
@@ -20,7 +24,30 @@ type CreateBrowserClientOpts = {
    * "pipedream.com" if not provided.
    */
   frontendHost?: string;
+
+  /**
+   * The API host URL. Used by Pipedream employees. Defaults to
+   * "api.pipedream.com" if not provided.
+   */
+  apiHost?: string;
+
+  /**
+   * Will be called whenever we need a new token.
+   *
+   * The callback function should return the response from
+   * `serverClient.createConnectToken`.
+   */
+  tokenCallback?: TokenCallback;
+
+  /**
+   * An external user ID associated with the token.
+   */
+  externalUserId?: string;
 };
+
+export type TokenCallback = (opts: {
+  externalUserId: string;
+}) => Promise<ConnectTokenResponse>;
 
 /**
  * The name slug for an app, a unique, human-readable identifier like "github"
@@ -51,8 +78,10 @@ class ConnectError extends Error {}
 type StartConnectOpts = {
   /**
    * The token used for authenticating the connection.
+   *
+   * Optional if client already initialized with token
    */
-  token: string;
+  token?: string;
 
   /**
    * The app to connect to, either as an ID or an object containing the ID.
@@ -98,12 +127,14 @@ export function createFrontendClient(opts: CreateBrowserClientOpts = {}) {
 /**
  * A client for interacting with the Pipedream Connect API from the browser.
  */
-class BrowserClient {
-  private environment?: string;
+export class BrowserClient extends BaseClient {
   private baseURL: string;
   private iframeURL: string;
   private iframe?: HTMLIFrameElement;
   private iframeId = 0;
+  private tokenCallback?: TokenCallback;
+  private _token?: string;
+  externalUserId?: string;
 
   /**
    * Constructs a new `BrowserClient` instance.
@@ -111,9 +142,33 @@ class BrowserClient {
    * @param opts - The options for configuring the browser client.
    */
   constructor(opts: CreateBrowserClientOpts) {
-    this.environment = opts.environment;
+    super(opts);
     this.baseURL = `https://${opts.frontendHost || "pipedream.com"}`;
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
+    this.tokenCallback = opts.tokenCallback;
+    this.externalUserId = opts.externalUserId;
+  }
+
+  private async token() {
+    // TODO: handle token expiration
+    if (this._token) {
+      return this._token;
+    }
+    if (this.tokenCallback) {
+      if (!this.externalUserId) {
+        throw new Error("No external user ID provided");
+      }
+      const token = await this.tokenCallback({
+        externalUserId: this.externalUserId,
+      });
+      this._token = token.token;
+      return token.token;
+    }
+    throw new Error("No token provided");
+  }
+
+  private refreshToken() {
+    this._token = undefined;
   }
 
   /**
@@ -161,6 +216,7 @@ class BrowserClient {
     } catch (err) {
       opts.onError?.(err as ConnectError);
     }
+    this.refreshToken(); // token is used only once
   }
 
   /**
@@ -182,9 +238,10 @@ class BrowserClient {
    *
    * @throws {ConnectError} If the app option is not a string.
    */
-  private createIframe(opts: StartConnectOpts) {
+  private async createIframe(opts: StartConnectOpts) {
+    const token = opts.token || (await this.token());
     const qp = new URLSearchParams({
-      token: opts.token,
+      token,
     });
 
     if (this.environment) {
@@ -215,5 +272,12 @@ class BrowserClient {
     };
 
     document.body.appendChild(iframe);
+  }
+
+  protected async authHeaders(): Promise<string> {
+    if (!(await this.token())) {
+      throw new Error("No token provided");
+    }
+    return `Bearer ${await this.token()}`;
   }
 }
