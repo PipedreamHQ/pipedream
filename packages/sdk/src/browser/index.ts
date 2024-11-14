@@ -190,7 +190,7 @@ export class BrowserClient extends BaseClient {
    * });
    * ```
    */
-  public connectAccount(opts: StartConnectOpts) {
+  public async connectAccount(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
       switch (e.data?.type) {
       case "success":
@@ -212,11 +212,11 @@ export class BrowserClient extends BaseClient {
     window.addEventListener("message", onMessage);
 
     try {
-      this.createIframe(opts);
+      await this.createIframe(opts);
     } catch (err) {
       opts.onError?.(err as ConnectError);
     }
-    this.refreshToken(); // token is used only once
+    this.refreshToken(); // token expires once it's used to create a connected account. We need to get a new token for the next requests.
   }
 
   /**
