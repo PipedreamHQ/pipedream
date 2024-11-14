@@ -388,6 +388,18 @@ export default {
       ] = constants.API.ORGANIZATIONS;
       return this.api(className).addOrganization(this.buildOpts(addProperty, opts));
     },
+    updateOrganization(opts = {}) {
+      const {
+        organizationId,
+        ...otherOpts
+      } = opts;
+      const [
+        className,
+        updateProperty,
+      ] = constants.API.ORGANIZATIONS;
+      return this.api(className)
+        .updateOrganization(organizationId, this.buildOpts(updateProperty, otherOpts));
+    },
     addPerson(opts = {}) {
       const [
         className,
