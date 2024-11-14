@@ -38,7 +38,7 @@ export default {
       $,
       data: {
         html_content: this.htmlContent,
-        css_content: this.cssContnet,
+        css_content: this.cssContent,
         font: this.font,
         quality: this.quality,
         generate_img_url: true,
