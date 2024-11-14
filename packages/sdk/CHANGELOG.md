@@ -1,6 +1,13 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.0.3] - 2024-11-14
+
+### Added
+
+- Added a new argument to the `getAccountById` method in the backend client to
+  allow the client to retrieve the credentials of the corresponding account.
+
 ## [1.0.2] - 2024-11-14
 
 ### Changed

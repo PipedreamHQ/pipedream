@@ -205,6 +205,16 @@ export type GetAccountOpts = {
 };
 
 /**
+ * Parameters for the retrieval of an account from the Connect API
+ */
+export type GetAccountByIdOpts = {
+  /**
+   * Whether to retrieve the account's credentials or not.
+   */
+  include_credentials?: boolean;
+};
+
+/**
  * End user account data, returned from the API.
  */
 export type Account = {
@@ -600,9 +610,13 @@ export class BackendClient {
    * console.log(account);
    * ```
    */
-  public getAccountById(accountId: string): Promise<Account> {
+  public getAccountById(
+    accountId: string,
+    params: GetAccountByIdOpts = {},
+  ): Promise<Account> {
     return this.makeConnectRequest(`/accounts/${accountId}`, {
       method: "GET",
+      params,
     });
   }
 
