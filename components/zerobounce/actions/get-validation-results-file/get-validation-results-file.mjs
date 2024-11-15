@@ -1,5 +1,6 @@
 import zerobounce from "../../zerobounce.app.mjs";
 import fs from "fs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "zerobounce-get-validation-results-file",
@@ -12,7 +13,7 @@ export default {
     fileId: {
       type: "string",
       label: "File ID",
-      description: "The file_id returned when sending the file for validation",
+      description: "The file_id returned when sending the file for validation. Can be found on your Zerobounce \"Validate\" tab under Results next to each filename. Click on the ID circle.",
     },
     fileName: {
       type: "string",
@@ -20,12 +21,38 @@ export default {
       description: "The filename to save the file as in the \"/tmp\" directory",
     },
   },
+  methods: {
+    getResultsFile({
+      $, ...opts
+    }) {
+      return this.zerobounce.getResultsFile({
+        $,
+        params: {
+          file_id: this.fileId,
+        },
+        ...opts,
+      });
+    },
+    async validateFileId({ $ }) {
+      try {
+        const x = await this.getResultsFile({
+          $,
+        });
+        console.log(x);
+        return true;
+      } catch {
+        throw new ConfigurationError("File not found. Make sure the File ID is correct");
+      }
+    },
+  },
   async run({ $ }) {
-    const response = await this.zerobounce.getResultsFile({
+    if (!(await this.validateFileId({
       $,
-      params: {
-        file_id: this.fileId,
-      },
+    }))) {
+      return;
+    }
+    const response = await this.getResultsFile({
+      $,
       responseType: "arraybuffer",
     });
 
