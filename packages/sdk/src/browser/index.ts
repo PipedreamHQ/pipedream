@@ -135,6 +135,7 @@ export class BrowserClient extends BaseClient {
   private tokenCallback?: TokenCallback;
   private _token?: string;
   private _tokenExpiresAt?: Date;
+  private _tokenRequest?: Promise<string>;
   externalUserId?: string;
 
   /**
@@ -162,18 +163,33 @@ export class BrowserClient extends BaseClient {
     ) {
       return this._token;
     }
-    if (this.tokenCallback) {
-      if (!this.externalUserId) {
-        throw new Error("No external user ID provided");
-      }
-      const { token, expires_at } = await this.tokenCallback({
-        externalUserId: this.externalUserId,
+
+    if (this._tokenRequest) {
+      return this._tokenRequest;
+    }
+
+    const tokenCallback = this.tokenCallback;
+    const externalUserId = this.externalUserId;
+
+    if (!tokenCallback) {
+      throw new Error("No token callback provided");
+    }
+    if (!externalUserId) {
+      throw new Error("No external user ID provided");
+    }
+
+    // Ensure only one token request is in-flight at a time.
+    this._tokenRequest = (async () => {
+      const { token, expires_at } = await tokenCallback({
+        externalUserId: externalUserId,
       });
       this._token = token;
       this._tokenExpiresAt = new Date(expires_at);
+      this._tokenRequest = undefined;
       return token;
-    }
-    throw new Error("No token provided");
+    })();
+
+    return this._tokenRequest;
   }
 
   private refreshToken() {
