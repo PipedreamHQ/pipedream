@@ -53,7 +53,7 @@ export type BackendClientOpts = {
 /**
  * Different ways in which customers can authorize requests to HTTP endpoints
  */
-export const enum HTTPAuthType {
+export enum HTTPAuthType {
   None = "none",
   StaticBearer = "static_bearer_token",
   OAuth = "oauth"
@@ -140,7 +140,7 @@ export type ConnectTokenResponse = {
 /**
  * The types of authentication that Pipedream apps support.
  */
-export const enum AppAuthType {
+export enum AppAuthType {
   OAuth = "oauth",
   Keys = "keys",
   None = "none",
@@ -602,6 +602,7 @@ export class BackendClient {
    * Retrieves a specific account by ID.
    *
    * @param accountId - The ID of the account to retrieve.
+   * @param params - The query parameters for retrieving the account.
    * @returns A promise resolving to the account.
    *
    * @example
@@ -609,6 +610,13 @@ export class BackendClient {
    * const account = await client.getAccountById("account-id");
    * console.log(account);
    * ```
+   *
+   * @example
+   * ```typescript
+   * const account = await client.getAccountById("account-id", {
+   *  include_credentials: true,
+   * });
+   * console.log(account.credentials);
    */
   public getAccountById(
     accountId: string,
