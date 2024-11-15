@@ -4124,7 +4124,10 @@ importers:
       '@pipedream/platform': 1.5.1
 
   components/google_ad_manager:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/google_address_validation:
     specifiers: {}
