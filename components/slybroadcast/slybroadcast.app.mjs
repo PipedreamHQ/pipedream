@@ -36,7 +36,7 @@ export default {
     _makeRequest(opts = {}) {
       const {
         $ = this, method = "POST", path, data, ...otherOpts
-      } = opts; console.log(data);
+      } = opts;
       return axios($, {
         ...otherOpts,
         method,
