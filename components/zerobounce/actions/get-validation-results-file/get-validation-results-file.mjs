@@ -35,11 +35,9 @@ export default {
     },
     async validateFileId({ $ }) {
       try {
-        const x = await this.getResultsFile({
+        return await this.getResultsFile({
           $,
         });
-        console.log(x);
-        return true;
       } catch {
         throw new ConfigurationError("File not found. Make sure the File ID is correct");
       }
