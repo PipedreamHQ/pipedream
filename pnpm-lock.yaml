@@ -11679,6 +11679,9 @@ importers:
       '@pipedream/platform': 1.5.1
       qs: 6.11.2
 
+  components/x_ai:
+    specifiers: {}
+
   components/xata:
     specifiers:
       '@pipedream/platform': ^3.0.2
