@@ -1,4 +1,6 @@
 // This code is meant to be shared between the browser and server.
+import { AsyncResponseManager } from "./async";
+import type { AsyncResponse, AsyncErrorResponse } from "./async";
 
 /**
  * Options for creating a server-side client.
@@ -74,6 +76,12 @@ export type AppResponse = AppInfo & {
    * Categories associated with the app.
    */
   categories: string[];
+};
+
+export type ComponentConfigureResponse = {
+  options: { label: string; value: string }[];
+  string_options: string[];
+  errors: string[];
 };
 
 /**
@@ -237,7 +245,7 @@ export type ConnectAPIResponse<T> = T | ErrorResponse;
 /**
  * Options for making a request to the Pipedream API.
  */
-interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
+export interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
   /**
    * Query parameters to include in the request URL.
    */
@@ -259,14 +267,20 @@ interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
   body?: Record<string, unknown> | string | FormData | URLSearchParams | null;
 }
 
+export interface AsyncRequestOptions extends RequestOptions {
+  body: { async_handle: string } & Required<RequestOptions["body"]>;
+};
+
 /**
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
 export abstract class BaseClient {
-  protected environment: string;
+  protected apiHost: string;
+  protected abstract asyncResponseManager: AsyncResponseManager;
   protected readonly baseApiUrl: string;
-  protected readonly workflowDomain: string;
+  protected environment: string;
   protected projectId?: string;
+  protected readonly workflowDomain: string;
 
   /**
    * Constructs a new BackendClient instance.
@@ -280,6 +294,7 @@ export abstract class BaseClient {
       apiHost = "api.pipedream.com",
       workflowDomain = "m.pipedream.net",
     } = opts;
+    this.apiHost = apiHost;
     this.baseApiUrl = `https://${apiHost}/v1`;
     this.workflowDomain = workflowDomain;
   }
@@ -425,6 +440,31 @@ export abstract class BaseClient {
   }
 
   /**
+   * Makes a request to the Connect API using Connect authorization.
+   * This version makes an asynchronous request, fulfilled via Websocket.
+   *
+   * @template T - The expected response type.
+   * @param path - The API endpoint path.
+   * @param opts - The options for the request.
+   * @returns A promise resolving to the API response.
+   */
+  protected async makeConnectRequestAsync<T extends object>(
+    path: string,
+    opts: AsyncRequestOptions
+  ): Promise<T> {
+    await this.asyncResponseManager.connect();
+    const data = await this.makeConnectRequest<AsyncResponse | AsyncErrorResponse | T>(path, opts);
+    if ("errors" in data && data.errors.length) {
+      throw new Error(data.errors[0]);
+    }
+    if ("async_handle" in data && data.async_handle) {
+      const result = await this.asyncResponseManager.waitFor<T>(data.async_handle);
+      return result;
+    }
+    return data as T;
+  }
+
+  /**
    * Retrieves the list of accounts associated with the project.
    *
    * @param params - The query parameters for retrieving accounts.
@@ -525,7 +565,7 @@ export abstract class BaseClient {
 
   public async componentConfigure(opts: ComponentConfigureOpts) {
     const body = {
-      blocking: true, // TODO websocket and make non-blocking? gotta figure out pattern
+      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: opts.userId,
       id: opts.componentId,
       prop_name: opts.propName,
@@ -533,39 +573,32 @@ export abstract class BaseClient {
       dynamic_props_id: opts.dynamicPropsId,
       environment: this.environment,
     };
-    const data = await this.makeConnectRequest<{
-      options: { label: string; value: string; }[];
-      string_options: string[];
-      errors: string[];
-    }>("/actions/configure", {
+    return await this.makeConnectRequestAsync<{
+        options: { label: string; value: string }[]
+        string_options: string[]
+        errors: string[]
+      }>("/actions/configure", {
       // TODO trigger
       method: "POST",
       body,
     });
-    // XXX maybe forward errors here (and more data)
-    if (data.errors?.length) {
-      throw new Error(data.errors[0]);
-    }
-    return data;
   }
 
   public async componentReloadProps(opts: ComponentReloadPropsOpts) {
     // RpcActionReloadPropsInput
     const body = {
-      blocking: true, // TODO websocket and make non-blocking? gotta figure out pattern
+      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: opts.userId,
       id: opts.componentId,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
       environment: this.environment,
     };
-    const data = await this.makeConnectRequest<unknown>("/actions/props", {
+    return await this.makeConnectRequestAsync<{}>("/actions/props", {
       // TODO trigger
       method: "POST",
       body,
     });
-    // TODO error checking here, and may want to forward out more data?
-    return data;
   }
 
   public async actionRun(opts: {
@@ -575,14 +608,14 @@ export abstract class BaseClient {
     dynamicPropsId?: string;
   }) {
     const body = {
-      blocking: true, // TODO websocket and make non-blocking? gotta figure out pattern
+      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: opts.userId,
       id: opts.actionId,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
       environment: this.environment,
     };
-    const data = await this.makeConnectRequest<{
+    return await this.makeConnectRequestAsync<{
       exports: unknown;
       os: unknown[];
       ret: unknown;
@@ -590,8 +623,6 @@ export abstract class BaseClient {
       method: "POST",
       body,
     });
-    // TODO error checking here, and may want to forward out more data?
-    return data;
   }
 
   /**

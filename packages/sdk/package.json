@@ -25,6 +25,7 @@
     "access": "public"
   },
   "scripts": {
+    "lint": "eslint --fix --ext .ts src",
     "prepublish": "rm -rf dist && npm run build",
     "build": "npm run build:node && npm run build:browser",
     "build:node": "tsc -p tsconfig.node.json",
@@ -39,7 +40,9 @@
     "@types/fetch-mock": "^7.3.8",
     "@types/jest": "^29.5.13",
     "@types/node": "^20.17.6",
+    "@types/rails__actioncable": "^6.1.11",
     "@types/simple-oauth2": "^5.0.7",
+    "@types/ws": "^8.5.13",
     "jest": "^29.7.0",
     "jest-fetch-mock": "^3.0.3",
     "nodemon": "^3.1.7",
@@ -47,6 +50,8 @@
     "typescript": "^5.5.2"
   },
   "dependencies": {
-    "simple-oauth2": "^5.1.0"
+    "@rails/actioncable": "^8.0.0",
+    "simple-oauth2": "^5.1.0",
+    "ws": "^8.18.0"
   }
 }

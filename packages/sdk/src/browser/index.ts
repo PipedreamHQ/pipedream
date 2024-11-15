@@ -7,6 +7,7 @@
 import {
   BaseClient, ConnectTokenResponse,
 } from "../shared";
+import { BrowserAsyncResponseManager } from "./async";
 
 /**
  * Options for creating a browser-side client. This is used to configure the
@@ -128,6 +129,7 @@ export function createFrontendClient(opts: CreateBrowserClientOpts = {}) {
  * A client for interacting with the Pipedream Connect API from the browser.
  */
 export class BrowserClient extends BaseClient {
+  protected override asyncResponseManager: BrowserAsyncResponseManager;
   private baseURL: string;
   private iframeURL: string;
   private iframe?: HTMLIFrameElement;
@@ -147,6 +149,10 @@ export class BrowserClient extends BaseClient {
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
     this.tokenCallback = opts.tokenCallback;
     this.externalUserId = opts.externalUserId;
+    this.asyncResponseManager = new BrowserAsyncResponseManager({
+      apiHost: this.apiHost,
+      getConnectToken: () => this.token(),
+    });
   }
 
   private async token() {
