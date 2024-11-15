@@ -4,10 +4,8 @@
 // operations, like connecting accounts via Pipedream Connect. See the server/
 // directory for the server client.
 
-import {
-  BaseClient, ConnectTokenResponse,
-} from "../shared";
 import { BrowserAsyncResponseManager } from "./async";
+import { BaseClient, ConnectTokenResponse } from "../shared";
 
 /**
  * Options for creating a browser-side client. This is used to configure the
@@ -204,19 +202,19 @@ export class BrowserClient extends BaseClient {
   public async connectAccount(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
       switch (e.data?.type) {
-      case "success":
-        opts.onSuccess?.({
-          id: e.data?.authProvisionId,
-        });
-        break;
-      case "error":
-        opts.onError?.(new ConnectError(e.data.error));
-        break;
-      case "close":
-        this.cleanup(onMessage);
-        break;
-      default:
-        break;
+        case "success":
+          opts.onSuccess?.({
+            id: e.data?.authProvisionId,
+          });
+          break;
+        case "error":
+          opts.onError?.(new ConnectError(e.data.error));
+          break;
+        case "close":
+          this.cleanup(onMessage);
+          break;
+        default:
+          break;
       }
     };
 
