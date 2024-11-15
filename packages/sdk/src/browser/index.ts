@@ -136,6 +136,7 @@ export class BrowserClient extends BaseClient {
   private iframeId = 0;
   private tokenCallback?: TokenCallback;
   private _token?: string;
+  private _tokenExpiresAt?: Date;
   externalUserId?: string;
 
   /**
@@ -156,19 +157,23 @@ export class BrowserClient extends BaseClient {
   }
 
   private async token() {
-    // TODO: handle token expiration
-    if (this._token) {
+    if (
+      this._token &&
+      this._tokenExpiresAt &&
+      this._tokenExpiresAt > new Date()
+    ) {
       return this._token;
     }
     if (this.tokenCallback) {
       if (!this.externalUserId) {
         throw new Error("No external user ID provided");
       }
-      const token = await this.tokenCallback({
+      const { token, expires_at } = await this.tokenCallback({
         externalUserId: this.externalUserId,
       });
-      this._token = token.token;
-      return token.token;
+      this._token = token;
+      this._tokenExpiresAt = new Date(expires_at);
+      return token;
     }
     throw new Error("No token provided");
   }
