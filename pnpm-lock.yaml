@@ -10018,11 +10018,13 @@ importers:
 
   components/supabase:
     specifiers:
-      '@pipedream/platform': ^1.2.1
+      '@pipedream/platform': ^3.0.3
       '@supabase/supabase-js': ^2.45.6
+      csv-parse: ^5.5.6
     dependencies:
-      '@pipedream/platform': 1.5.1
+      '@pipedream/platform': 3.0.3
       '@supabase/supabase-js': 2.46.1
+      csv-parse: 5.5.6
 
   components/supabase_management_api:
     specifiers:
