@@ -4,7 +4,7 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-get-sales-receipt",
   name: "Get Sales Receipt",
-  description: "Returns details about a sales receipt. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/salesreceipt#read-a-salesreceipt)",
+  description: "Returns details about a sales receipt. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/salesreceipt#read-a-salesreceipt)",
   version: "0.1.6",
   type: "action",
   props: {

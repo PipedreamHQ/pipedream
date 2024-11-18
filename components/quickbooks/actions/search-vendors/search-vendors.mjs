@@ -4,7 +4,7 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-search-vendors",
   name: "Search Vendors",
-  description: "Searches for vendors. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/vendor#query-a-vendor)",
+  description: "Searches for vendors. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/vendor#query-a-vendor)",
   version: "0.1.6",
   type: "action",
   props: {

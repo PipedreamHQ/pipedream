@@ -21,7 +21,7 @@ export default {
       return "LastUpdatedTime";
     },
     getSummary(item) {
-      return `New Customer Updated: ${item.Id}`;
+      return `New Customer Updated: ${item.DisplayName}`;
     },
   },
   sampleEmit,

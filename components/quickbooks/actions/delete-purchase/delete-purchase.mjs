@@ -3,7 +3,7 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-delete-purchase",
   name: "Delete Purchase",
-  description: "Delete a specific purchase. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#delete-a-purchase)",
+  description: "Delete a specific purchase. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#delete-a-purchase)",
   version: "0.0.4",
   type: "action",
   props: {

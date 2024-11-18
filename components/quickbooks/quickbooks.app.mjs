@@ -354,7 +354,11 @@ export default {
     _apiUrl() {
       return "https://quickbooks.api.intuit.com/v3";
     },
-    async _makeRequest(path, options = {}, $ = this) {
+    async _makeRequest({
+      $ = this,
+      path,
+      ...opts
+    }) {
       const requestFn = async () => {
         return await axios($, {
           url: `${this._apiUrl()}/${path}`,
@@ -362,159 +366,152 @@ export default {
             Authorization: `Bearer ${this._accessToken()}`,
             accept: "application/json",
           },
-          ...options,
+          ...opts,
         });
       };
       return await retryWithExponentialBackoff(requestFn);
     },
-    async createPayment({
-      $, data,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/payment`, {
+    createPayment(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/payment`,
         method: "post",
-        data,
-      }, $);
+        ...opts,
+      });
     },
-    async createBill({
-      $, data, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/bill`, {
+    createBill(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/bill`,
         method: "post",
-        data,
-        params,
-      }, $);
+        ...opts,
+      });
     },
-    async createCustomer({
-      $, data, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/customer`, {
+    createCustomer(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/customer`,
         method: "post",
-        data,
-        params,
-      }, $);
+        ...opts,
+      });
     },
-    createPurchase({
-      $, ...args
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/purchase`, {
-        method: "POST",
-        ...args,
-      }, $);
-    },
-    async createInvoice({
-      $, data, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/invoice`, {
+    createPurchase(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/purchase`,
         method: "post",
-        data,
-        params,
-      }, $);
+        ...opts,
+      });
     },
-    async deletePurchase({
-      $, ...args
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/purchase`, {
-        method: "POST",
-        ...args,
-      }, $);
-    },
-    async sparseUpdateInvoice({
-      $, data, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/invoice`, {
+    createInvoice(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/invoice`,
         method: "post",
-        data,
-        params,
-      }, $);
+        ...opts,
+      });
     },
-    async getBill({
-      $, billId, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/bill/${billId}`, {
-        params,
-      }, $);
-    },
-    async getCustomer({
-      $, customerId, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/customer/${customerId}`, {
-        params,
-      }, $);
-    },
-    async getInvoice({
-      $, invoiceId, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/invoice/${invoiceId}`, {
-        params,
-      }, $);
-    },
-    async getInvoices({
-      $, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/query`, {
-        params,
-      }, $);
-    },
-    async getMyCompany({ $ } = {}) {
-      return this._makeRequest(`company/${this._companyId()}/companyinfo/${this._companyId()}`, {}, $);
-    },
-    async getPurchase({
-      $, purchaseId, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/purchase/${purchaseId}`, {
-        params,
-      }, $);
-    },
-    async getPurchaseOrder({
-      $, purchaseOrderId, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/purchaseorder/${purchaseOrderId}`, {
-        params,
-      }, $);
-    },
-    async getSalesReceipt({
-      $, salesReceiptId, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/salesreceipt/${salesReceiptId}`, {
-        params,
-      }, $);
-    },
-    async getTimeActivity({
-      $, timeActivityId, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/timeactivity/${timeActivityId}`, {
-        params,
-      }, $);
-    },
-    async query({
-      $, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/query`, {
-        params,
-      }, $);
-    },
-    async updateCustomer({
-      $, data, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/customer`, {
+    deletePurchase(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/purchase`,
         method: "post",
-        data,
-        params,
-      }, $);
+        ...opts,
+      });
     },
-    getApAgingReport({
-      $, params,
-    }) {
-      return this._makeRequest(`company/${this._companyId()}/reports/AgedPayableDetail`, {
-        params,
-      }, $);
+    sparseUpdateInvoice(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/invoice`,
+        method: "post",
+        ...opts,
+      });
     },
-    getProfitLossReport({
-      $, params,
+    getBill({
+      billId, ...opts
     }) {
-      return this._makeRequest(`company/${this._companyId()}/reports/ProfitAndLoss`, {
-        params,
-      }, $);
+      return this._makeRequest({
+        path: `company/${this._companyId()}/bill/${billId}`,
+        ...opts,
+      });
+    },
+    getCustomer({
+      customerId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/customer/${customerId}`,
+        ...opts,
+      });
+    },
+    getInvoice({
+      invoiceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/invoice/${invoiceId}`,
+        ...opts,
+      });
+    },
+    getInvoices(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/query`,
+        ...opts,
+      });
+    },
+    getMyCompany(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/companyinfo/${this._companyId()}`,
+        ...opts,
+      });
+    },
+    getPurchase({
+      purchaseId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/purchase/${purchaseId}`,
+        ...opts,
+      });
+    },
+    getPurchaseOrder({
+      purchaseOrderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/purchaseorder/${purchaseOrderId}`,
+        ...opts,
+      });
+    },
+    getSalesReceipt({
+      salesReceiptId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/salesreceipt/${salesReceiptId}`,
+        ...opts,
+      });
+    },
+    getTimeActivity({
+      timeActivityId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/timeactivity/${timeActivityId}`,
+        ...opts,
+      });
+    },
+    query(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/query`,
+        ...opts,
+      });
+    },
+    updateCustomer(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/customer`,
+        method: "post",
+        ...opts,
+      });
+    },
+    getApAgingReport(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/reports/AgedPayableDetail`,
+        ...opts,
+      });
+    },
+    getProfitLossReport(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/reports/ProfitAndLoss`,
+        ...opts,
+      });
     },
     async *paginate({
       fn, params = {}, fieldList, query, maxResults = null, ...opts

@@ -4,7 +4,7 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-search-time-activities",
   name: "Search Time Activities",
-  description: "Searches for time activities. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#query-a-timeactivity-object)",
+  description: "Searches for time activities. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/timeactivity#query-a-timeactivity-object)",
   version: "0.1.6",
   type: "action",
   props: {

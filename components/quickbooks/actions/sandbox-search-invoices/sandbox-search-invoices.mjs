@@ -4,7 +4,7 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-sandbox-search-invoices",
   name: "Search Invoices",
-  description: "Searches for invoices. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#query-an-invoice)",
+  description: "Searches for invoices. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#query-an-invoice)",
   version: "0.1.6",
   type: "action",
   props: {

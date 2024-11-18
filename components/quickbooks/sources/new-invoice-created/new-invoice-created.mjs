@@ -17,9 +17,6 @@ export default {
     getFieldList() {
       return "Invoice";
     },
-    getFieldDate() {
-      return "CreateTime";
-    },
     getSummary(item) {
       return `New Invoice: ${item.Id}`;
     },

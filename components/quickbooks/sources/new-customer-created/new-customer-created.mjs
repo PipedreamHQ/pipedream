@@ -17,11 +17,8 @@ export default {
     getFieldList() {
       return "Customer";
     },
-    getFieldDate() {
-      return "CreateTime";
-    },
     getSummary(item) {
-      return `New Customer: ${item.Id}`;
+      return `New Customer: ${item.DisplayName}`;
     },
   },
   sampleEmit,

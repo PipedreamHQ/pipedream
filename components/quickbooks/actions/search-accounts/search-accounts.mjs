@@ -4,7 +4,7 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-search-accounts",
   name: "Search Accounts",
-  description: "Search for accounts. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/account#query-an-account)",
+  description: "Search for accounts. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/account#query-an-account)",
   version: "0.2.6",
   type: "action",
   props: {
