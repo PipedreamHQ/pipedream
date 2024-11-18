@@ -1,16 +1,20 @@
 {
   "name": "@pipedream/zerobounce",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream ZeroBounce Components",
-  "main": "dist/app/zerobounce.app.mjs",
+  "main": "zerobounce.app.mjs",
   "keywords": [
     "pipedream",
     "zerobounce"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/zerobounce",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "form-data": "^4.0.1",
+    "path": "^0.12.7"
   }
 }
