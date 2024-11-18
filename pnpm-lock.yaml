@@ -11868,7 +11868,14 @@ importers:
       '@pipedream/platform': 3.0.3
 
   components/zerobounce:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+      form-data: ^4.0.1
+      path: ^0.12.7
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      form-data: 4.0.1
+      path: 0.12.7
 
   components/zerotier:
     specifiers:
