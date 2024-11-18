@@ -7,4 +7,30 @@ Pipedream Connect projects support two environments: `development` and `producti
 
 ## How to specify environment
 
-You specify the environment when [creating a new Connect token](/connect/api/#create-a-new-token) with the Pipedream SDK or API. By default, the enviromment is set to `production`. When users succesfully connect their account, Pipedream saves it for that `external_user_id` in the specified `project_environment`.
+You specify the environment when [creating a new Connect token](/connect/api/#create-a-new-token) with the Pipedream SDK or API. By default, the enviromment is set to `production`. When users succesfully connect their account, Pipedream saves it for that `external_user_id` in the specified environment.
+
+You can set the environment when you create the SDK client:
+
+```typescript
+import { createBackendClient } from "@pipedream/sdk";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "your-oauth-client-id",
+    clientSecret: "your-oauth-client-secret",
+  }
+});
+```
+
+or pass the `X-PD-Environment` header in HTTP requests:
+
+```bash
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "your-external-user-id"
+  }'
+```

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/runware",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Runware Components",
   "main": "runware.app.mjs",
   "keywords": [

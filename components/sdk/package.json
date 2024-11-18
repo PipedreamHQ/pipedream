@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sdk",
+  "version": "0.1.2",
+  "description": "Pipedream SDK Components",
+  "main": "sdk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sdk",
+    "integrations",
+    "api"
+  ],
+  "homepage": "https://pipedream.com/docs/connect/workflows",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "private": true
+}

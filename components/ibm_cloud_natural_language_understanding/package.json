@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ibm_cloud_natural_language_understanding",
+  "version": "0.0.1",
+  "description": "Pipedream IBM Cloud - Natural Language Understanding Components",
+  "main": "ibm_cloud_natural_language_understanding.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ibm_cloud_natural_language_understanding"
+  ],
+  "homepage": "https://pipedream.com/apps/ibm_cloud_natural_language_understanding",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

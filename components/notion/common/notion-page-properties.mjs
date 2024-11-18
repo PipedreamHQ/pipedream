@@ -64,12 +64,16 @@ const NOTION_PAGE_PROPERTIES = {
   },
   date: {
     type: "string",
-    example: "2022-05-15T18:47:00.000Z",
+    example: "2022-05-15T18:47:00.000Z or { \"start\": \"2022-05-15T18:47:00.000Z\", \"end\": \"2022-06-15T18:47:00.000Z\" }",
     options: () => undefined,
     convertToNotion: (property) => ({
-      date: {
-        start: property.value,
-      },
+      date: !(typeof (property.value) === "string")
+        ? property.value
+        : property.value.trim().startsWith("{")
+          ? JSON.parse(property.value)
+          : {
+            start: property.value,
+          },
     }),
   },
   people: {

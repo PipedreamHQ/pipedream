@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/cloze",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Cloze Components",
-  "main": "dist/app/cloze.app.mjs",
+  "main": "cloze.app.mjs",
   "keywords": [
     "pipedream",
     "cloze"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/cloze",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "3.0.3"
   }
 }

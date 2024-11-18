@@ -6,7 +6,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   ...common,
   name: "Chat",
-  version: "0.2.2",
+  version: "0.2.3",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
@@ -57,19 +57,87 @@ export default {
       optional: true,
       reloadProps: true,
     },
+    toolTypes: {
+      type: "string[]",
+      label: "Tool Types",
+      description: "The types of tools to enable on the assistant",
+      options: constants.TOOL_TYPES.filter((toolType) => toolType === "function"),
+      optional: true,
+      reloadProps: true,
+    },
   },
   additionalProps() {
-    const { responseFormat } = this;
-    if (responseFormat !== constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
-      return {};
-    }
-    return {
-      jsonSchema: {
+    const {
+      responseFormat,
+      toolTypes,
+      numberOfFunctions,
+    } = this;
+    const props = {};
+
+    if (responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
+      props.jsonSchema = {
         type: "string",
         label: "JSON Schema",
         description: "Define the schema that the model's output must adhere to. [See the documentation here](https://platform.openai.com/docs/guides/structured-outputs/supported-schemas).",
-      },
-    };
+      };
+    }
+
+    if (toolTypes?.includes("function")) {
+      props.numberOfFunctions = {
+        type: "integer",
+        label: "Number of Functions",
+        description: "The number of functions to define",
+        optional: true,
+        reloadProps: true,
+        default: 1,
+      };
+
+      for (let i = 0; i < (numberOfFunctions || 1); i++) {
+        props[`functionName_${i}`] = {
+          type: "string",
+          label: `Function Name ${i + 1}`,
+          description: "The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.",
+        };
+        props[`functionDescription_${i}`] = {
+          type: "string",
+          label: `Function Description ${i + 1}`,
+          description: "A description of what the function does, used by the model to choose when and how to call the function.",
+          optional: true,
+        };
+        props[`functionParameters_${i}`] = {
+          type: "object",
+          label: `Function Parameters ${i + 1}`,
+          description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.",
+          optional: true,
+        };
+      }
+    }
+
+    return props;
+  },
+  methods: {
+    ...common.methods,
+    _buildTools() {
+      const tools = this.toolTypes?.filter((toolType) => toolType !== "function")?.map((toolType) => ({
+        type: toolType,
+      })) || [];
+      if (this.toolTypes?.includes("function")) {
+        const numberOfFunctions = this.numberOfFunctions || 1;
+        for (let i = 0; i < numberOfFunctions; i++) {
+          tools.push({
+            type: "function",
+            function: {
+              name: this[`functionName_${i}`],
+              description: this[`functionDescription_${i}`],
+              parameters: this[`functionParameters_${i}`],
+            },
+          });
+        }
+      }
+      return tools.length
+        ? tools
+        : undefined;
+    },
   },
   async run({ $ }) {
     if (this.audio && !this.modelId.includes("gpt-4o-audio-preview")) {
@@ -80,7 +148,10 @@ export default {
 
     const response = await this.openai.createChatCompletion({
       $,
-      data: args,
+      data: {
+        ...args,
+        tools: this._buildTools(),
+      },
     });
 
     if (response) {

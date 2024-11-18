@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/x_ai",
+  "version": "0.0.1",
+  "description": "Pipedream X AI Components",
+  "main": "x_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "x_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/x_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

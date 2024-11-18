@@ -28,8 +28,36 @@ const TASK_TYPE = {
   },
 };
 
+const IMAGE_INFERENCE_STRUCTURE = {
+  TEXT_TO_IMAGE: {
+    value: "textToImage",
+    label: "Text to Image",
+  },
+  IMAGE_TO_IMAGE: {
+    value: "imageToImage",
+    label: "Image to Image",
+  },
+  IN_OUT_PAINTING: {
+    value: "inOutpainting",
+    label: "In/Outpainting",
+  },
+  REFINER: {
+    value: "refiner",
+    label: "Refiner",
+  },
+  CONTROL_NET: {
+    value: "controlNet",
+    label: "Control Net",
+  },
+  LORA: {
+    value: "lora",
+    label: "LoRA",
+  },
+};
+
 export default {
   BASE_URL,
   VERSION_PATH,
+  IMAGE_INFERENCE_STRUCTURE,
   TASK_TYPE,
 };

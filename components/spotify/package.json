@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/spotify",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream Spotify Components",
   "main": "spotify.app.js",
   "keywords": [
@@ -14,6 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.4.0"
+    "@pipedream/platform": "^3.0.3",
+    "lodash": "^4.17.21"
   }
 }

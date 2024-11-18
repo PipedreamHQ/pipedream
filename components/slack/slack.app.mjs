@@ -119,7 +119,7 @@ export default {
           }
         }
         const [
-          userNames,
+          userNames = await this.userNames(),
           conversationsResp,
         ] = await Promise.all([
           userNamesOrPromise,

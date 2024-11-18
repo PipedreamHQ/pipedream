@@ -64,7 +64,15 @@ export default {
             offset: page * DEFAULT_LIMIT,
           },
         });
-        return data?.map(({ id }) => id.record_id) || [];
+        return data?.map(({
+          id, values,
+        }) => ({
+          value: id.record_id,
+          label: (values?.name?.length && (values.name[0].value || values.name[0].full_name))
+            ?? (values?.domains?.length && values.domains[0].domain)
+            ?? (values?.email_addresses?.length && values.email_addresses[0].email_address)
+            ?? values?.id?.record_id,
+        })) || [];
       },
     },
     attributeId: {

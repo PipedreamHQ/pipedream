@@ -87,8 +87,11 @@ export type ConnectTokenOpts = {
   /**
    * Specify the environment ("production" or "development") to use for the
    * account connection flow. Defaults to "production".
+  *
+   * @deprecated in favor of the `environment` field in `BackendClientOpts`.
+   * This field is completely ignored.
    */
-  project_environment?: string;
+  environment_name?: string;
 };
 
 export type AppInfo = {
@@ -202,6 +205,16 @@ export type GetAccountOpts = {
 };
 
 /**
+ * Parameters for the retrieval of an account from the Connect API
+ */
+export type GetAccountByIdOpts = {
+  /**
+   * Whether to retrieve the account's credentials or not.
+   */
+  include_credentials?: boolean;
+};
+
+/**
  * End user account data, returned from the API.
  */
 export type Account = {
@@ -292,6 +305,14 @@ interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
    * The body of the request.
    */
   body?: Record<string, unknown> | string | FormData | URLSearchParams | null;
+
+  /**
+   * A flag to indicate that you want to get the full response object, not just
+   * the body. Note that when this flag is set, responses with unsuccessful HTTP
+   * statuses won't throw exceptions. Instead, you'll need to check the status
+   * code in the response object. Defaults to false.
+   */
+  fullResponse?: boolean;
 }
 
 /**
@@ -422,6 +443,7 @@ export class BackendClient {
       body,
       method = "GET",
       baseURL = this.baseApiUrl,
+      fullResponse = false,
       ...fetchOpts
     } = opts;
 
@@ -472,6 +494,9 @@ export class BackendClient {
     }
 
     const response: Response = await fetch(url.toString(), requestOptions);
+    if (fullResponse) {
+      return response as unknown as T;
+    }
 
     if (!response.ok) {
       const errorBody = await response.text();
@@ -585,9 +610,13 @@ export class BackendClient {
    * console.log(account);
    * ```
    */
-  public getAccountById(accountId: string): Promise<Account> {
+  public getAccountById(
+    accountId: string,
+    params: GetAccountByIdOpts = {},
+  ): Promise<Account> {
     return this.makeConnectRequest(`/accounts/${accountId}`, {
       method: "GET",
+      params,
     });
   }
 
