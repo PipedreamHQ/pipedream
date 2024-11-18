@@ -353,7 +353,10 @@ export class BackendClient {
    * @param opts - The options for configuring the server client.
    */
   constructor(opts: BackendClientOpts) {
-    this.environment = opts.environment ?? "production";
+    if (!opts.environment || !["development", "production"].includes(opts.environment)) {
+      throw new Error("Project environment is required. Supported environments are development and production.");
+    }
+    this.environment = opts.environment
 
     this.projectId = opts.projectId;
     if (!this.projectId) {
