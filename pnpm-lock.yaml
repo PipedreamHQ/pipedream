@@ -261,9 +261,6 @@ importers:
   components/adp:
     specifiers: {}
 
-  components/adp:
-    specifiers: {}
-
   components/adrapid:
     specifiers:
       '@pipedream/platform': ^3.0.1
@@ -3020,7 +3017,7 @@ importers:
     specifiers:
       '@e2b/code-interpreter': ^1.0.3
     dependencies:
-      '@e2b/code-interpreter': 1.0.3
+      '@e2b/code-interpreter': 1.0.4
 
   components/e_conomic:
     specifiers: {}
@@ -16485,8 +16482,8 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@bufbuild/protobuf/1.10.0:
-    resolution: {integrity: sha512-QDdVFLoN93Zjg36NoQPZfsVH9tZew7wKDKyV5qRdj8ntT4wQCOradQjRaTdwMhWUYsgKsvCINKKm87FdEk96Ag==}
+  /@bufbuild/protobuf/2.2.2:
+    resolution: {integrity: sha512-UNtPCbrwrenpmrXuRwn9jYpPoweNXj8X5sMvYgsqYyaH8jQ6LfUJSk3dJLnBK+6sfYPrF4iAIo5sd5HQ+tg75A==}
     dev: false
 
   /@colors/colors/1.5.0:
@@ -16499,22 +16496,22 @@ packages:
     engines: {node: '>=0.1.90'}
     dev: false
 
-  /@connectrpc/connect-web/1.6.1_vw5phdcb2eqdev6wdcwiheqqle:
-    resolution: {integrity: sha512-GVfxQOmt3TtgTaKeXLS/EA2IHa3nHxwe2BCHT7X0Q/0hohM+nP5DDnIItGEjGrGdt3LTTqWqE4s70N4h+qIMlQ==}
+  /@connectrpc/connect-web/2.0.0-rc.3_jstrmpjfjf66z7q7ylujb4ahui:
+    resolution: {integrity: sha512-w88P8Lsn5CCsA7MFRl2e6oLY4J/5toiNtJns/YJrlyQaWOy3RO8pDgkz+iIkG98RPMhj2thuBvsd3Cn4DKKCkw==}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.10.0
-      '@connectrpc/connect': 1.6.1
+      '@bufbuild/protobuf': ^2.2.0
+      '@connectrpc/connect': 2.0.0-rc.3
     dependencies:
-      '@bufbuild/protobuf': 1.10.0
-      '@connectrpc/connect': 1.6.1_@bufbuild+protobuf@1.10.0
+      '@bufbuild/protobuf': 2.2.2
+      '@connectrpc/connect': 2.0.0-rc.3_@bufbuild+protobuf@2.2.2
     dev: false
 
-  /@connectrpc/connect/1.6.1_@bufbuild+protobuf@1.10.0:
-    resolution: {integrity: sha512-KchMDNtU4CDTdkyf0qG7ugJ6qHTOR/aI7XebYn3OTCNagaDYWiZUVKgRgwH79yeMkpNgvEUaXSK7wKjaBK9b/Q==}
+  /@connectrpc/connect/2.0.0-rc.3_@bufbuild+protobuf@2.2.2:
+    resolution: {integrity: sha512-ARBt64yEyKbanyRETTjcjJuHr2YXorzQo0etyS5+P6oSeW8xEuzajA9g+zDnMcj1hlX2dQE93foIWQGfpru7gQ==}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.10.0
+      '@bufbuild/protobuf': ^2.2.0
     dependencies:
-      '@bufbuild/protobuf': 1.10.0
+      '@bufbuild/protobuf': 2.2.2
     dev: false
 
   /@csstools/css-parser-algorithms/2.3.2_qabfbasg4cggam7o7issvon7wi:
@@ -16587,11 +16584,11 @@ packages:
       which: 4.0.0
     dev: true
 
-  /@e2b/code-interpreter/1.0.3:
-    resolution: {integrity: sha512-/dfMagUEytQtwqkab+0glMPCpPvOwhGaUZvOscT/YvxJxaYPswwjIWb3TXa9DeV25XYw//72syT2wo6rGnnCKw==}
+  /@e2b/code-interpreter/1.0.4:
+    resolution: {integrity: sha512-8y82UMXBdf/hye8bX2Fn04JlL72rvOenVgsvMZ+cAJqo6Ijdl4EmzzuFpM4mz9s+EJ29+34lGHBp277tiLWuiA==}
     engines: {node: '>=18'}
     dependencies:
-      e2b: 1.0.4
+      e2b: 1.0.5
     dev: false
 
   /@eslint-community/eslint-utils/4.4.0_eslint@8.15.0:
@@ -23063,7 +23060,7 @@ packages:
   /axios/1.7.5:
     resolution: {integrity: sha512-fZu86yCo+svH3uqJ/yTdQ0QHpQu5oL+/QE+QPSv6BZSkDAoky9vytxp7u5qk83OJFS3kEBcesWni9WTZAv3tSw==}
     dependencies:
-      follow-redirects: 1.15.9
+      follow-redirects: 1.15.6
       form-data: 4.0.1
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -25243,13 +25240,13 @@ packages:
       stream-shift: 1.0.1
     dev: false
 
-  /e2b/1.0.4:
-    resolution: {integrity: sha512-/syWwMNNwnGULcivy6kYISJpJrq/ASy9BN9CW/EJ8hM2TESUXvHNAoagnIHXt6sJl/SjgIG12M/jI/G7XhLQRw==}
+  /e2b/1.0.5:
+    resolution: {integrity: sha512-0c2xqNQfVcVBmETsd1bXWCYaN3iVl7m81dJVcjB7O2/c15A7t0s/FkydcZGzVvfZchj40/1f09AdjGX6nk1eNQ==}
     engines: {node: '>=18'}
     dependencies:
-      '@bufbuild/protobuf': 1.10.0
-      '@connectrpc/connect': 1.6.1_@bufbuild+protobuf@1.10.0
-      '@connectrpc/connect-web': 1.6.1_vw5phdcb2eqdev6wdcwiheqqle
+      '@bufbuild/protobuf': 2.2.2
+      '@connectrpc/connect': 2.0.0-rc.3_@bufbuild+protobuf@2.2.2
+      '@connectrpc/connect-web': 2.0.0-rc.3_jstrmpjfjf66z7q7ylujb4ahui
       compare-versions: 6.1.1
       openapi-fetch: 0.9.8
       platform: 1.3.6
