@@ -124,7 +124,7 @@ export default {
       description: "Watch for new events concerning the objects selected.",
       async options({
         objectType, ...opts
-      }) { console.log(opts);
+      }) {
         return objectType
           ? await this.createOptions(objectType, opts)
           : [];
@@ -410,6 +410,31 @@ export default {
           value,
           label,
         }));
+      },
+    },
+    leadId: {
+      type: "string",
+      label: "Lead ID",
+      description: "The identifier of the lead",
+      async options() {
+        const { results } = await this.listObjectsInPage("lead", undefined, {
+          properties: "hs_lead_name",
+        });
+        return results?.map(({
+          id: value, properties,
+        }) => ({
+          value,
+          label: properties?.hs_lead_name || value,
+        })) || [];
+      },
+    },
+    customObjectType: {
+      type: "string",
+      label: "Custom Object Type",
+      description: "Tye type of custom object to create",
+      async options() {
+        const { results } = await this.listSchemas();
+        return results?.map(({ name }) => name ) || [];
       },
     },
   },
