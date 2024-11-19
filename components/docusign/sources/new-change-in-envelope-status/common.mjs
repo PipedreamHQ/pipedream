@@ -15,19 +15,28 @@ export default {
     status: {
       type: "string[]",
       label: "Status",
-      description: "The envelope status that you are checking for",
+      description: "Watch for envelopes that have been updated to the selected statuses",
       options: [
-        "sent",
+        "any",
         "completed",
+        "created",
+        "declined",
+        "deleted",
+        "delivered",
+        "processing",
+        "sent",
+        "signed",
+        "timedout",
+        "voided",
       ],
       default: [
-        "sent",
+        "any",
       ],
     },
   },
   methods: {
     _getLastEvent() {
-      return this.db.get("lastEvent");
+      return this.db.get("lastEvent") || this.monthAgo().toISOString();
     },
     _setLastEvent(lastEvent) {
       this.db.set("lastEvent", lastEvent);
@@ -38,18 +47,19 @@ export default {
       return monthAgo;
     },
     generateMeta({
-      envelopeId: id, emailSubject: summary, status,
-    }, ts) {
+      envelopeId, emailSubject, statusChangedDateTime,
+    }) {
+      const ts = Date.parse(statusChangedDateTime);
       return {
-        id: `${id}${status}`,
-        summary,
+        id: `${envelopeId}-${ts}`,
+        summary: emailSubject,
         ts,
       };
     },
   },
   async run(event) {
     const { timestamp: ts } = event;
-    const lastEvent = this._getLastEvent() || this.monthAgo().toISOString();
+    const lastEvent = this._getLastEvent();
     const baseUri = await this.docusign.getBaseUri({
       accountId: this.account,
     });
@@ -70,7 +80,7 @@ export default {
       else done = true;
 
       for (const envelope of envelopes) {
-        const meta = this.generateMeta(envelope, ts);
+        const meta = this.generateMeta(envelope);
         this.$emit(envelope, meta);
       }
     } while (!done);
