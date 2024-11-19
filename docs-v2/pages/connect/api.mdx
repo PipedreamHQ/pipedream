@@ -151,6 +151,12 @@ The ID of your end user. Use whatever ID uniquely identifies the user in your sy
 
 ---
 
+`environment` **string**
+
+Specify the environment (`production` or `development`) to use for the account connection flow.
+
+---
+
 `success_redirect_uri` **string** (_optional_)
 
 When using [Connect Link](/connect/connect-link), you can optionally redirect your end user to the `success_redirect_uri` on successful completion of the auth flow.
@@ -166,12 +172,6 @@ When using [Connect Link](/connect/connect-link), you can optionally redirect yo
 `webhook_uri` **string** (_optional_)
 
 Pipedream will send events on successful auth, or any errors, to this URL via webhook. [See the webhooks docs](/connect/webhooks) for more information.
-
----
-
-`project_environment` **string** (_optional_)
-
-Specify the environment (`production` or `development`) to use for the account connection flow. Defaults to `production`.
 
 ##### Examples
 

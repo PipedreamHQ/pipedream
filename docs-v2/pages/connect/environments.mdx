@@ -9,11 +9,11 @@ Pipedream Connect projects support two environments: `development` and `producti
 
 ## How to specify environment
 
-You specify the environment when [creating a new Connect token](/connect/api/#create-a-new-token) with the Pipedream SDK or API. By default, the enviromment is set to `production`. When users succesfully connect their account, Pipedream saves it for that `external_user_id` in the specified `environment`.
+You specify the environment when [creating a new Connect token](/connect/api/#create-a-new-token) with the Pipedream SDK or API. When users succesfully connect their account, Pipedream saves it for that `external_user_id` in the specified `environment`.
 
 ## Using development mode
 
-When connecting an account in `development` mode, the end user who is connecting their account must be signed in to pipedream.com.
+When connecting an account in `development` mode, the end user who is connecting their account must be signed in to [https://pipedream.com](https://pipedream.com).
 
 <Callout type="warning">
 `development` mode should only be used by you and your team for testing. When you're ready to test with real users, switch to `production`.
