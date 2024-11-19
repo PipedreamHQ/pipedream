@@ -3,7 +3,6 @@ import {
   OBJECT_TYPE,
   OBJECT_TYPES,
   SEARCHABLE_OBJECT_TYPES,
-  SEARCHABLE_OBJECT_PROPERTIES,
 } from "./object-types.mjs";
 
 const BASE_URL = "https://api.hubapi.com";
@@ -160,6 +159,15 @@ const DEFAULT_LINE_ITEM_PROPERTIES = [
   "hs_term_in_months",
 ];
 
+const DEFAULT_LEAD_PROPERTIES = [
+  "hs_associated_contact_email",
+  "hs_associated_contact_lastname",
+  "hs_lead_name",
+  "hs_associated_company_domain",
+  "hs_associated_contact_firstname",
+  "hs_associated_company_name",
+];
+
 const ENGAGEMENT_TYPE_OPTIONS = [
   {
     label: "Note",
@@ -187,7 +195,6 @@ export {
   OBJECT_TYPE,
   OBJECT_TYPES,
   SEARCHABLE_OBJECT_TYPES,
-  SEARCHABLE_OBJECT_PROPERTIES,
   HUBSPOT_OWNER,
   BASE_URL,
   API_PATH,
@@ -199,5 +206,6 @@ export {
   DEFAULT_TICKET_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_LINE_ITEM_PROPERTIES,
+  DEFAULT_LEAD_PROPERTIES,
   ENGAGEMENT_TYPE_OPTIONS,
 };
