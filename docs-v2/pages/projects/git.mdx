@@ -198,6 +198,21 @@ Yes, you can use the GitHub Syncing feature to develop your workflows from YAML 
 
 Then pushing changes to the `production` branch will trigger a deploy for your Pipedream workflows.
 
+### Why am I seeing the error "could not resolve step[index].uses: component-key@version" when merging to production?
+This error occurs when a workflow references a [private component](https://pipedream.com/docs/components#using-private-actions) without properly prefixing the component key with your workspace name in the `workflow.yaml` configuration file. Pipedream requires this prefix to correctly identify and resolve components specific to your workspace.
+
+For example, if you modified a [registry action](https://pipedream.com/docs/apps/contributing) and published it privately, the correct component key should be formatted as `@workspacename/component-key@version` (e.g., `@pipedream/github-update-issue@0.1.0`).
+
+To resolve this error:
+
+1. Clone your repository locally and create a development branch.
+2. Locate the error in your `workflow.yaml` file where the component key is specified.
+3. Add your workspace name prefix to the component key, ensuring it follows the format `@workspacename/component-key@version`.
+4. Commit your changes and push them to your repository.
+5. Open your project in the Pipedream UI and select your development branch.
+6. Click on **Merge to Production** and verify the deployment success in the [Changelog](https://pipedream.com/docs/projects/git#use-the-changelog).
+7. If the issue persists, [reach out to Pipedream Support](https://pipedream.com/support) for further assistance.
+
 ### Why am I seeing an error about "private auth mismatch" when trying to merge a branch to production?
 ![Private Auth Mismatch](https://res.cloudinary.com/pipedreamin/image/upload/v1704258143/private_auth_mismatch_kzdd7e.png)
 
