@@ -1,10 +1,11 @@
 import cats from "../../cats.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "cats-create-candidate",
   name: "Create Candidate",
-  description: "Create a new candidate in your CATS database. [See the documentation](https://docs.catsone.com/api/v3/#create-a-candidate)",
-  version: "0.0.{{ts}}",
+  description: "Create a new candidate in your CATS database. [See the documentation](https://docs.catsone.com/api/v3/#candidates-create-a-candidate)",
+  version: "0.0.1",
   type: "action",
   props: {
     cats,
@@ -20,12 +21,6 @@ export default {
         "firstName",
       ],
     },
-    lastName: {
-      propDefinition: [
-        cats,
-        "lastName",
-      ],
-    },
     middleName: {
       propDefinition: [
         cats,
@@ -33,10 +28,23 @@ export default {
       ],
       optional: true,
     },
+    lastName: {
+      propDefinition: [
+        cats,
+        "lastName",
+      ],
+    },
     title: {
       propDefinition: [
         cats,
         "title",
+      ],
+      optional: true,
+    },
+    emails: {
+      propDefinition: [
+        cats,
+        "emails",
       ],
       optional: true,
     },
@@ -47,10 +55,31 @@ export default {
       ],
       optional: true,
     },
-    address: {
+    addressStreet: {
       propDefinition: [
         cats,
-        "address",
+        "addressStreet",
+      ],
+      optional: true,
+    },
+    addressCity: {
+      propDefinition: [
+        cats,
+        "addressCity",
+      ],
+      optional: true,
+    },
+    addressState: {
+      propDefinition: [
+        cats,
+        "addressState",
+      ],
+      optional: true,
+    },
+    addressPostalCode: {
+      propDefinition: [
+        cats,
+        "addressPostalCode",
       ],
       optional: true,
     },
@@ -69,10 +98,9 @@ export default {
       optional: true,
     },
     website: {
-      propDefinition: [
-        cats,
-        "website",
-      ],
+      type: "string",
+      label: "Website",
+      description: "The website of the record.",
       optional: true,
     },
     bestTimeToCall: {
@@ -90,10 +118,15 @@ export default {
       optional: true,
     },
     dateAvailable: {
-      propDefinition: [
-        cats,
-        "dateAvailable",
-      ],
+      type: "string",
+      label: "Date Available",
+      description: "The date the record is available for an opening. **Format: YYYY-MM-DD**.",
+      optional: true,
+    },
+    currentPay: {
+      type: "string",
+      label: "Current Pay",
+      description: "The current pay of the record.",
       optional: true,
     },
     desiredPay: {
@@ -138,6 +171,35 @@ export default {
       ],
       optional: true,
     },
+    isActive: {
+      type: "boolean",
+      label: "Is Active",
+      description: "A flag indicating if the candidate is active.",
+      optional: true,
+    },
+    isHot: {
+      propDefinition: [
+        cats,
+        "isHot",
+      ],
+      optional: true,
+    },
+    password: {
+      type: "string",
+      label: "password",
+      description: "The candidate's password if they are \"registering\".",
+      secret: true,
+      optional: true,
+    },
+    customFields: {
+      propDefinition: [
+        cats,
+        "customFields",
+      ],
+      withLabel: true,
+      reloadProps: true,
+      optional: true,
+    },
     workHistory: {
       propDefinition: [
         cats,
@@ -146,39 +208,101 @@ export default {
       optional: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    (this.customFields || []).map(({
+      label, value,
+    }) => {
+      props[value] = {
+        type: "string",
+        label: `Custom Field: ${label}`,
+        optional: true,
+      };
+    }, {});
+
+    return props;
+  },
   async run({ $ }) {
-    const candidateData = {
-      check_duplicate: this.checkDuplicate,
-      first_name: this.firstName,
-      last_name: this.lastName,
-      middle_name: this.middleName,
-      title: this.title,
-      phones: this.phones
-        ? this.phones.map(JSON.parse)
-        : undefined,
-      address: this.address,
-      country_code: this.countryCode,
-      social_media_urls: this.socialMediaUrls
-        ? this.socialMediaUrls.map(JSON.parse)
-        : undefined,
-      website: this.website,
-      best_time_to_call: this.bestTimeToCall,
-      current_employer: this.currentEmployer,
-      date_available: this.dateAvailable,
-      desired_pay: this.desiredPay,
-      is_willing_to_relocate: this.isWillingToRelocate,
-      key_skills: this.keySkills,
-      notes: this.notes,
-      source: this.source,
-      owner_id: this.ownerId,
-      work_history: this.workHistory
-        ? this.workHistory.map(JSON.parse)
-        : undefined,
+    const {
+      cats, // eslint-disable-next-line no-unused-vars
+      customFields,
+      firstName,
+      lastName,
+      ownerId,
+      middleName,
+      checkDuplicate,
+      bestTimeToCall,
+      currentEmployer,
+      emails,
+      phones,
+      addressStreet,
+      addressCity,
+      addressState,
+      addressPostalCode,
+      countryCode,
+      socialMediaUrls,
+      dateAvailable,
+      currentPay,
+      desiredPay,
+      isWillingToRelocate,
+      keySkills,
+      isActive,
+      isHot,
+      workHistory,
+      ...data
+    } = this;
+
+    const customFieldsObject = customFields
+      ? customFields.map(({ value }) => {
+        return {
+          id: value,
+          value: data[value],
+        };
+      })
+      : {};
+
+    const { headers } = await cats.createCandidate({
+      $,
+      returnFullResponse: true,
+      params: {
+        check_duplicate: checkDuplicate,
+      },
+      data: {
+        first_name: firstName,
+        middle_name: middleName,
+        last_name: lastName,
+        emails: parseObject(emails),
+        phones: parseObject(phones),
+        address: {
+          street: addressStreet,
+          city: addressCity,
+          state: addressState,
+          postal_code: addressPostalCode,
+        },
+        country_code: countryCode,
+        social_media_urls: parseObject(socialMediaUrls),
+        best_time_to_call: bestTimeToCall,
+        current_employer: currentEmployer,
+        date_available: dateAvailable,
+        current_pay: currentPay,
+        desired_pay: desiredPay,
+        is_willing_to_relocate: isWillingToRelocate,
+        key_skills: keySkills,
+        owner_id: ownerId,
+        is_active: isActive,
+        is_hot: isHot,
+        work_history: parseObject(workHistory),
+        custom_fields: customFieldsObject,
+        ...data,
+      },
+    });
+
+    const location = headers.location.split("/");
+    const candidateId = location[location.length - 1];
+
+    $.export("$summary", `Created candidate with ID ${candidateId}`);
+    return {
+      candidateId,
     };
-
-    const response = await this.cats.createCandidate(candidateData);
-
-    $.export("$summary", `Created candidate with ID ${response.id}`);
-    return response;
   },
 };
