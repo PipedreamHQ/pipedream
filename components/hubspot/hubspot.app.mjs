@@ -77,8 +77,19 @@ export default {
       type: "string",
       label: "Object Type",
       description: "Watch for new events concerning the object type specified.",
-      async options() {
-        return OBJECT_TYPES;
+      async options({ includeCustom = false }) {
+        const objectTypes = OBJECT_TYPES;
+        if (includeCustom) {
+          const { results } = await this.listSchemas();
+          const customObjects = results?.map(({
+            name: value, labels,
+          }) => ({
+            value,
+            label: labels.plural,
+          })) || [];
+          objectTypes.push(...customObjects);
+        }
+        return objectTypes;
       },
     },
     objectSchema: {
