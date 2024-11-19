@@ -1,6 +1,14 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.0.5] - 2024-11-18
+
+### Changed
+
+- The backend client used to default to `production` if the environment was not specified. 
+  Now `environment` is a required argument for `createBackendClient` and must be one of `production`
+  or `development`.
+
 ## [1.0.4] - 2024-11-15
 
 ### Changed

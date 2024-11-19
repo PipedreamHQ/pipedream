@@ -17,8 +17,7 @@ export type OAuthCredentials = {
 };
 
 /**
- * The environment in which the server client is running (e.g., "production",
- * "development").
+ * The environment in which the server client is running.
  */
 export type ProjectEnvironment = "development" | "production"
 
