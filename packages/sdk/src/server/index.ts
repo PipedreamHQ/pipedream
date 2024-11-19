@@ -19,7 +19,7 @@ export type OAuthCredentials = {
 /**
  * The environment in which the server client is running.
  */
-export type ProjectEnvironment = "development" | "production"
+export type ProjectEnvironment = "development" | "production";
 
 /**
  * Options for creating a server-side client.
@@ -358,8 +358,8 @@ export class BackendClient {
    * @param opts - The options for configuring the server client.
    */
   constructor(opts: BackendClientOpts) {
-    this.ensureValidEnvironment(opts.environment)
-    this.environment = opts.environment!!
+    this.ensureValidEnvironment(opts.environment);
+    this.environment = opts.environment!;
 
     this.projectId = opts.projectId;
     if (!this.projectId) {
@@ -377,7 +377,10 @@ export class BackendClient {
   }
 
   private ensureValidEnvironment(environment?: string) {
-    if (!environment || !["development", "production"].includes(environment)) {
+    if (!environment || ![
+      "development",
+      "production",
+    ].includes(environment)) {
       throw new Error("Project environment is required. Supported environments are development and production.");
     }
   }
