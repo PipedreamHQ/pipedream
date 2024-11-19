@@ -16,3 +16,5 @@ docs/.vuepress/dist
 
 ./package-lock.json
 components/**/package-lock.json
+/packages/evals/
+/packages/sdk/examples/.next/
