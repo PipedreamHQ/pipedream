@@ -17,6 +17,12 @@ export type OAuthCredentials = {
 };
 
 /**
+ * The environment in which the server client is running (e.g., "production",
+ * "development").
+ */
+export type ProjectEnvironment = "development" | "production"
+
+/**
  * Options for creating a server-side client.
  * This is used to configure the BackendClient instance.
  */
@@ -25,7 +31,7 @@ export type BackendClientOpts = {
    * The environment in which the server client is running (e.g., "production",
    * "development").
    */
-  environment?: string;
+  environment?: ProjectEnvironment;
 
   /**
    * The credentials to use for authentication against the Pipedream API.
