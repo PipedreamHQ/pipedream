@@ -1,10 +1,10 @@
 import common from "../common/common.mjs";
 
 export default {
-  name: "New Field",
-  description: "Emit new event for each new field created in a table",
+  name: "New Field Created",
+  description: "Emit new event for each new field created in a table. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
   key: "airtable_oauth-new-field",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     ...common.props,
@@ -16,7 +16,7 @@ export default {
           baseId,
         }),
       ],
-      description: "The table ID to watch for changes.",
+      description: "Select a table to watch for new fields, or provide a table ID.",
     },
   },
   methods: {
@@ -36,13 +36,14 @@ export default {
     const { fields } = tables.find(({ id }) => id === this.tableId);
 
     for (const field of fields) {
-      if (fieldIds.includes(field.id)) {
+      const { id } = field;
+      if (fieldIds.includes(id)) {
         continue;
       }
-      fieldIds.push(field.id);
+      fieldIds.push(id);
       this.$emit(field, {
-        id: field.id,
-        summary: field.name,
+        id,
+        summary: `New field: '${field.name}'`,
         ts: Date.now(),
       });
     }
