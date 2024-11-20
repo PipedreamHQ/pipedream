@@ -71,17 +71,16 @@ export default {
           let formattedTranscript = "";
 
           // Process each sentence maintaining chronological order
-          const allSentences = callTranscript.transcript.reduce((acc, segment) => {
-            const sentences = segment.sentences.map((sentence) => ({
-              ...sentence,
-              speakerId: segment.speakerId,
-              topic: segment.topic,
-            }));
-            return [
-              ...acc,
-              ...sentences,
-            ];
-          }, []);
+          const allSentences = [];
+          callTranscript.transcript.forEach((segment) => {
+            segment.sentences.forEach((sentence) => {
+              allSentences.push({
+                ...sentence,
+                speakerId: segment.speakerId,
+                topic: segment.topic,
+              });
+            });
+          });
 
           // Sort by start time
           allSentences.sort((a, b) => a.start - b.start);
