@@ -4,9 +4,9 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-create-column",
   name: "Create Column",
-  description: "Creates a column. [See the documentation](https://developer.monday.com/api-reference/docs/columns-queries-1)",
+  description: "Creates a column. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-column)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   props: {
     monday,
     boardId: {
@@ -25,12 +25,7 @@ export default {
       label: "Column Type",
       description: "The new column's title",
       options: constants.COLUMN_TYPE_OPTIONS,
-    },
-    defaults: {
-      type: "object",
-      label: "Defaults",
-      description: "The new column's defaults.",
-      optional: true,
+      reloadProps: true,
     },
     description: {
       type: "string",
@@ -38,6 +33,28 @@ export default {
       description: "The column's description.",
       optional: true,
     },
+  },
+  async additionalProps() {
+    const props = {};
+    const defaults = {
+      type: "string",
+      label: "Defaults",
+      description: "The new column's defaults. For use with column types `status` or `dropdown`. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for additional information.",
+      optional: true,
+    };
+    if (this.columnType === "status") {
+      props.defaults = {
+        ...defaults,
+        default: "{\"labels\":{\"1\":\"Option1\",\"2\":\"Option2\",\"3\":\"Option3\",\"4\": \"Option4\"}}",
+      };
+    }
+    if (this.columnType === "dropdown") {
+      props.defaults = {
+        ...defaults,
+        default: "{\"settings\":{\"labels\":[{\"id\":1,\"name\":\"Option1\"}, {\"id\":2,\"name\":\"Option2\"}, {\"id\":3,\"name\":\"Option3\"}]}}",
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     const {
@@ -49,7 +66,11 @@ export default {
         boardId: +this.boardId,
         title: this.title,
         columnType: this.columnType,
-        defaults: this.defaults,
+        defaults: this.defaults
+          ? typeof this.defaults !== "string"
+            ? JSON.stringify(this.defaults)
+            : this.defaults
+          : undefined,
         description: this.description,
       });
 
