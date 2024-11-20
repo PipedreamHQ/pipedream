@@ -82,6 +82,12 @@ https://pipedream.com/sources/dc_abc123
 
 Your source's ID is the value that starts with `dc_`. In this example: `dc_abc123`.
 
+## Why is my trigger paused?
+
+Pipedream automatically disables sources with a 100% error rate in the past 5 days for accounts on the Free plan.
+
+To troubleshoot, you can look at the errors in the [source](/sources/) logs, and may need to reconnect your account and re-enable the source for it to run again. If the issue persists, please reach out in [the community](https://pipedream.com/support).
+
 ## Warnings
 
 Pipedream displays warnings below steps in certain conditions. These warnings do not stop the execution of your workflow, but can signal an issue you should be aware of.
