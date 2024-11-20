@@ -5,7 +5,7 @@ export default {
   name: "Retrieve Transcripts Of Calls",
   description: "Retrieve transcripts of calls. [See the documentation](https://us-66463.app.gong.io/settings/api/documentation#post-/v2/calls/transcript)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     fromDateTime: {
@@ -27,6 +27,12 @@ export default {
       propDefinition: [
         app,
         "workspaceId",
+      ],
+    },
+    callIds: {
+      propDefinition: [
+        app,
+        "callIds",
       ],
     },
   },
@@ -51,7 +57,7 @@ export default {
       data: {
         filter,
       },
-      summary: (response) => `Successfully retrieved transcripts of calls with request ID \`${response.requestId}\``,
+      summary: (response) => `Successfully retrieved transcripts of calls with request ID \`${response.requestId}\`.`,
     });
   },
 };
