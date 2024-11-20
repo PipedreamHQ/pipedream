@@ -4,7 +4,7 @@ export default {
   key: "roamresearch-search-title",
   name: "Search Title",
   description: "Search for a title in Roam Research pages (access only to non ecrypted graphs). [See the documentation](https://roamresearch.com/#/app/developer-documentation/page/eb8OVhaFC).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -35,7 +35,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Succesfully searched for title: \`${title}\`.`);
+    $.export("$summary", `Successfully searched for title: \`${title}\`.`);
     return response;
   },
 };

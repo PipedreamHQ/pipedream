@@ -53,7 +53,7 @@ export type BackendClientOpts = {
 /**
  * Different ways in which customers can authorize requests to HTTP endpoints
  */
-export const enum HTTPAuthType {
+export enum HTTPAuthType {
   None = "none",
   StaticBearer = "static_bearer_token",
   OAuth = "oauth"
@@ -87,8 +87,11 @@ export type ConnectTokenOpts = {
   /**
    * Specify the environment ("production" or "development") to use for the
    * account connection flow. Defaults to "production".
+  *
+   * @deprecated in favor of the `environment` field in `BackendClientOpts`.
+   * This field is completely ignored.
    */
-  project_environment?: string;
+  environment_name?: string;
 };
 
 export type AppInfo = {
@@ -137,7 +140,7 @@ export type ConnectTokenResponse = {
 /**
  * The types of authentication that Pipedream apps support.
  */
-export const enum AppAuthType {
+export enum AppAuthType {
   OAuth = "oauth",
   Keys = "keys",
   None = "none",
@@ -195,6 +198,16 @@ export type GetAccountOpts = {
    */
   external_user_id?: string;
 
+  /**
+   * Whether to retrieve the account's credentials or not.
+   */
+  include_credentials?: boolean;
+};
+
+/**
+ * Parameters for the retrieval of an account from the Connect API
+ */
+export type GetAccountByIdOpts = {
   /**
    * Whether to retrieve the account's credentials or not.
    */
@@ -292,6 +305,14 @@ interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
    * The body of the request.
    */
   body?: Record<string, unknown> | string | FormData | URLSearchParams | null;
+
+  /**
+   * A flag to indicate that you want to get the full response object, not just
+   * the body. Note that when this flag is set, responses with unsuccessful HTTP
+   * statuses won't throw exceptions. Instead, you'll need to check the status
+   * code in the response object. Defaults to false.
+   */
+  fullResponse?: boolean;
 }
 
 /**
@@ -422,6 +443,7 @@ export class BackendClient {
       body,
       method = "GET",
       baseURL = this.baseApiUrl,
+      fullResponse = false,
       ...fetchOpts
     } = opts;
 
@@ -472,6 +494,9 @@ export class BackendClient {
     }
 
     const response: Response = await fetch(url.toString(), requestOptions);
+    if (fullResponse) {
+      return response as unknown as T;
+    }
 
     if (!response.ok) {
       const errorBody = await response.text();
@@ -577,6 +602,7 @@ export class BackendClient {
    * Retrieves a specific account by ID.
    *
    * @param accountId - The ID of the account to retrieve.
+   * @param params - The query parameters for retrieving the account.
    * @returns A promise resolving to the account.
    *
    * @example
@@ -584,10 +610,21 @@ export class BackendClient {
    * const account = await client.getAccountById("account-id");
    * console.log(account);
    * ```
+   *
+   * @example
+   * ```typescript
+   * const account = await client.getAccountById("account-id", {
+   *  include_credentials: true,
+   * });
+   * console.log(account.credentials);
    */
-  public getAccountById(accountId: string): Promise<Account> {
+  public getAccountById(
+    accountId: string,
+    params: GetAccountByIdOpts = {},
+  ): Promise<Account> {
     return this.makeConnectRequest(`/accounts/${accountId}`, {
       method: "GET",
+      params,
     });
   }
 

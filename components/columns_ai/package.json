@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/columns_ai",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Columns Ai Components",
   "main": "columns_ai.app.mjs",
   "keywords": [

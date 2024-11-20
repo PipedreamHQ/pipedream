@@ -3,7 +3,7 @@
     "title": "Overview"
   },
   "use-cases": {
-    "title": "Use cases"
+    "title": "Use Cases"
   },
   "quickstart": {
     "title": "Quickstart"
@@ -15,7 +15,7 @@
     "title": "API & SDK Reference"
   },
   "tokens": {
-    "title": "Connect tokens"
+    "title": "Connect Tokens"
   },
   "environments": {
     "title": "Environments"
@@ -31,6 +31,9 @@
   },
   "troubleshooting": {
     "title": "Troubleshooting"
+  },
+  "customize-your-app": {
+    "title": "Customize Your App"
   },
   "migrating-from-project-keys-to-oauth": {
     "display": "hidden"

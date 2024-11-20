@@ -352,6 +352,35 @@ describe("BackendClient", () => {
         expect.any(Object),
       );
     });
+
+    it("should include credentials when the flag is set", async () => {
+      fetchMock.mockResponseOnce(
+        JSON.stringify({
+          id: "account-1",
+          name: "Test Account",
+          credentials: {},
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const result = await client.getAccountById("account-1", {
+        include_credentials: true,
+      });
+
+      expect(result).toEqual({
+        id: "account-1",
+        name: "Test Account",
+        credentials: {},
+      });
+      expect(fetchMock).toHaveBeenCalledWith(
+        `https://api.pipedream.com/v1/connect/${projectId}/accounts/account-1?include_credentials=true`,
+        expect.any(Object),
+      );
+    });
   });
 
   describe("Get accounts by app", () => {
