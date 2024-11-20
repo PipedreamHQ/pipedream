@@ -234,7 +234,7 @@ export type ComponentRequestResponse = { data: V1Component; };
 /**
  * Different ways in which customers can authorize requests to HTTP endpoints
  */
-export const enum HTTPAuthType {
+export enum HTTPAuthType {
   None = "none",
   StaticBearer = "static_bearer_token",
   OAuth = "oauth",
