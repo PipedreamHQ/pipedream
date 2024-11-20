@@ -592,7 +592,7 @@ export abstract class BaseClient {
       dynamic_props_id: opts.dynamicPropsId,
       environment: this.environment,
     };
-    return await this.makeConnectRequestAsync<{}>("/components/props", {
+    return await this.makeConnectRequestAsync<Record<string, any>>("/components/props", {
       // TODO trigger
       method: "POST",
       body,

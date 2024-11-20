@@ -6,7 +6,7 @@ import {
   AccessToken, ClientCredentials,
 } from "simple-oauth2";
 import {
-  Account, BaseClient, GetAccountOpts, type AppInfo, type ConnectTokenResponse,
+  Account, BaseClient, type AppInfo, type ConnectTokenResponse,
 } from "../shared";
 import { ServerAsyncResponseManager } from "./async";
 export * from "../shared";
