@@ -10,6 +10,7 @@ import {
 
 const projectId = "proj_abc123";
 const clientParams: BackendClientOpts = {
+  environment: "production",
   credentials: {
     clientId: "test-client-id",
     clientSecret: "test-client-secret",
@@ -175,6 +176,7 @@ describe("BackendClient", () => {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
           },
+          environment: "production",
           projectId,
         },
       );
@@ -677,6 +679,7 @@ describe("BackendClient", () => {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
           },
+          environment: "production",
           projectId: "proj_abc123",
         },
       );
