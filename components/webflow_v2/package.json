@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/webflow_v2",
+  "version": "0.0.1",
+  "description": "Pipedream Webflow (v2) Components",
+  "main": "webflow_v2.app.mjs",
+  "keywords": [
+    "pipedream",
+    "webflow_v2"
+  ],
+  "homepage": "https://pipedream.com/apps/webflow_v2",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
