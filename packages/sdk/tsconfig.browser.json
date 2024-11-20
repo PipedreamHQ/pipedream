@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "module": "ESNext",
-    "target": "ES6",
-    "lib": ["ES5", "DOM"],
+    "target": "es2017",
+    "lib": ["ES5", "DOM", "es2017"],
     "declaration": true,
     "outDir": "dist/browser",
     "strict": true,
