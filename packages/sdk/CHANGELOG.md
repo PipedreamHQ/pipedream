@@ -1,6 +1,14 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.0.6] - 2024-11-20
+
+### Changed
+
+- Use client Connect tokens to make api calls directly from the client.
+- Deprecated the `environments` property on `createFrontendClient` since it is now
+  stored in the token
+
 ## [1.0.5] - 2024-11-18
 
 ### Changed
