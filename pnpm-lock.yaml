@@ -14,6 +14,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.27.1
       '@typescript-eslint/parser': ^5.21.0
       crypto: ^1.0.1
+      eslint: 8.15.0
       eslint-config-next: ^14.2.13
       eslint-plugin-jest: ^26.5.3
       eslint-plugin-jsonc: ^1.6.0
@@ -47,6 +48,7 @@ importers:
       '@types/jest': 27.5.2
       '@typescript-eslint/eslint-plugin': 5.62.0_lvg7vfeyjgbaq3eyeq5ilmueem
       '@typescript-eslint/parser': 5.62.0_qkejthbfznbxawpodlwdvzhwbm
+      eslint: 8.15.0
       eslint-config-next: 14.2.15_qkejthbfznbxawpodlwdvzhwbm
       eslint-plugin-jest: 26.9.0_pjroak5divhl36k3bzc5twoh2m
       eslint-plugin-jsonc: 1.7.0_eslint@8.15.0
