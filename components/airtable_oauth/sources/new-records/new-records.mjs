@@ -2,7 +2,7 @@ import base from "../common/common.mjs";
 
 export default {
   ...base,
-  name: "New Record(s) Created (in Table)",
+  name: "New Record(s) Created In Table",
   description: "Emit new event when a record is created in the selected table. [See the documentation](https://airtable.com/developers/web/api/list-records)",
   key: "airtable_oauth-new-records",
   version: "0.0.7",

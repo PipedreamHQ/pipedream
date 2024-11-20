@@ -1,10 +1,9 @@
 import base from "../common/common.mjs";
-import moment from "moment";
 
 export default {
   ...base,
-  name: "New or Modified Records in View",
-  description: "Emit new event for each new or modified record in a view",
+  name: "New or Modified Record(s) In View",
+  description: "Emit new event when a record is created or updated in the selected view. [See the documentation](https://airtable.com/developers/web/api/list-records)",
   key: "airtable_oauth-new-or-modified-records-in-view",
   version: "0.0.6",
   type: "source",
@@ -18,7 +17,7 @@ export default {
           baseId,
         }),
       ],
-      description: "The table ID to watch for changes.",
+      description: "Select a table to watch for records, or provide a table ID.",
     },
     viewId: {
       propDefinition: [
@@ -31,7 +30,7 @@ export default {
           tableId,
         }),
       ],
-      description: "The view ID to watch for changes.",
+      description: "Select a view to watch for records, or provide a view ID.",
     },
     returnFieldsByFieldId: {
       propDefinition: [
@@ -73,7 +72,7 @@ export default {
 
     let newRecords = 0, modifiedRecords = 0;
     for (const record of records) {
-      if (!lastTimestamp || moment(record.createdTime) > moment(lastTimestamp)) {
+      if (!lastTimestamp || Date.parse(record.createdTime) > Date.parse(lastTimestamp)) {
         record.type = "new_record";
         newRecords++;
       } else {
@@ -83,9 +82,13 @@ export default {
 
       record.metadata = metadata;
 
+      const id = record.id;
       this.$emit(record, {
-        summary: `${record.type}: ${JSON.stringify(record.fields)}`,
-        id: record.id,
+        summary: `${record.type === "new_record"
+          ? "New"
+          : "Updated"} record: ${id}`,
+        id,
+        ts: Date.now(),
       });
     }
     console.log(`Emitted ${newRecords} new records(s) and ${modifiedRecords} modified record(s).`);
