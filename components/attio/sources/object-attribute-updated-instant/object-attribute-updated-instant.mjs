@@ -19,7 +19,7 @@ export default {
       return {
         id: `${attribute.id.attribute_id}-${ts}`,
         summary: `New Object Attribute with ID: ${attribute.id.attribute_id}`,
-        ts: Date.now(),
+        ts,
       };
     },
   },
