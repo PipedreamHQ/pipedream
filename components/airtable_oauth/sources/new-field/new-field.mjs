@@ -2,7 +2,7 @@ import common from "../common/common.mjs";
 
 export default {
   name: "New Field Created",
-  description: "Emit new event for each new field created in a table. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
+  description: "Emit new event when a field is created in the selected table. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
   key: "airtable_oauth-new-field",
   version: "0.0.7",
   type: "source",

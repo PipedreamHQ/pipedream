@@ -1,12 +1,11 @@
 import base from "../common/common.mjs";
-import moment from "moment";
 
 export default {
   ...base,
-  name: "New Records in View",
-  description: "Emit new event for each new record in a view",
+  name: "New Record(s) Created (in View)",
+  description: "Emit new event when a record is created in the selected view. [See the documentation](https://airtable.com/developers/web/api/list-records)",
   key: "airtable_oauth-new-records-in-view",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     ...base.props,
@@ -18,7 +17,7 @@ export default {
           baseId,
         }),
       ],
-      description: "The table ID to watch for changes.",
+      description: "Select a table to watch for new records, or provide a table ID.",
     },
     viewId: {
       propDefinition: [
@@ -31,7 +30,7 @@ export default {
           tableId,
         }),
       ],
-      description: "The view ID to watch for changes.",
+      description: "Select a view to watch for new records, or provide a view ID.",
     },
     returnFieldsByFieldId: {
       propDefinition: [
@@ -75,13 +74,15 @@ export default {
     let recordCount = 0;
     for (const record of records) {
       record.metadata = metadata;
+      const ts = Date.parse(record.createdTime).valueOf();
+      const id = record.id;
 
       this.$emit(record, {
-        ts: moment(record.createdTime).valueOf(),
-        summary: JSON.stringify(record.fields),
-        id: record.id,
+        ts,
+        summary: `New record: ID ${id}`,
+        id,
       });
-      if (!maxTimestamp || moment(record.createdTime).valueOf() > moment(maxTimestamp).valueOf()) {
+      if (!maxTimestamp || ts > Date.parse(maxTimestamp).valueOf()) {
         maxTimestamp = record.createdTime;
       }
       recordCount++;
