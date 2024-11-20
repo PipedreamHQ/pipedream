@@ -5,7 +5,7 @@ export default {
   name: "Send SMS Verification",
   description: "Send an SMS verification to a phone number. [See the documentation](https://www.twilio.com/docs/verify/api)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
     serviceSid: {
