@@ -2,9 +2,9 @@ import common from "../common/common.mjs";
 
 export default {
   name: "New or Modified Field",
-  description: "Emit new event for each new or modified field in a table",
+  description: "Emit new event when a field is created or updated in the selected table. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
   key: "airtable_oauth-new-or-modified-field",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     ...common.props,
@@ -16,7 +16,7 @@ export default {
           baseId,
         }),
       ],
-      description: "The table ID to watch for changes.",
+      description: "Select a table to watch for field updates, or provide a table ID.",
     },
   },
   methods: {
