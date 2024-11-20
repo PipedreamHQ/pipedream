@@ -14,9 +14,18 @@ const DATA_TYPES = [
 ];
 
 const CHANGE_TYPES = [
-  "add",
-  "remove",
-  "update",
+  {
+    label: "Created",
+    value: "add",
+  },
+  {
+    label: "Deleted",
+    value: "remove",
+  },
+  {
+    label: "Updated/Modified",
+    value: "update",
+  },
 ];
 
 const FROM_SOURCES = [

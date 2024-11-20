@@ -6,7 +6,7 @@ export default {
   name: "New Record Created, Updated or Deleted (Instant)",
   description: "Emit new event when a record is added, updated, or deleted in a table or selected view. [See the documentation](https://airtable.com/developers/web/api/create-a-webhook)",
   key: "airtable_oauth-new-modified-or-deleted-records-instant",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
