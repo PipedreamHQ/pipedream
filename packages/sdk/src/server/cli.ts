@@ -1,7 +1,9 @@
 import { createBackendClient } from "./index";
 import { program } from "commander";
 
-const { CLIENT_ID, CLIENT_SECRET, PROJECT_ID, API_HOST } = process.env;
+const {
+  CLIENT_ID, CLIENT_SECRET, PROJECT_ID, API_HOST,
+} = process.env;
 
 if (!CLIENT_ID || !CLIENT_SECRET || !PROJECT_ID) {
   console.error("Error: Missing required environment variables (CLIENT_ID, CLIENT_SECRET, PROJECT_ID).");
@@ -14,7 +16,7 @@ const client = createBackendClient({
     clientSecret: CLIENT_SECRET,
   },
   projectId: PROJECT_ID,
-  apiHost: API_HOST
+  apiHost: API_HOST,
 });
 
 program
@@ -92,7 +94,9 @@ program
         success_redirect_uri: options.successRedirectUri,
         error_redirect_uri: options.errorRedirectUri,
         webhook_uri: options.webhookUri,
-        allowed_origins: options.allowedOrigins ? options.allowedOrigins.split(",") : undefined,
+        allowed_origins: options.allowedOrigins
+          ? options.allowedOrigins.split(",")
+          : undefined,
       });
       console.log(JSON.stringify(tokenResponse, null, 2));
     } catch (error) {
@@ -106,7 +110,11 @@ program
   .option("--include-credentials <include>", "Include credentials in the response")
   .action(async (options) => {
     try {
-      const params = options.includeCredentials ? { include_credentials: options.includeCredentials } : {};
+      const params = options.includeCredentials
+        ? {
+          include_credentials: options.includeCredentials,
+        }
+        : {};
       const accounts = await client.getAccounts(params);
       console.log(JSON.stringify(accounts, null, 2));
     } catch (error) {
@@ -132,7 +140,9 @@ program
   .option("--query <query>", "Query string to filter apps")
   .action(async (options) => {
     try {
-      const apps = await client.apps({ q: options.query });
+      const apps = await client.apps({
+        q: options.query,
+      });
       console.log(JSON.stringify(apps, null, 2));
     } catch (error) {
       handleError(error, "Failed to fetch apps");
@@ -175,7 +185,9 @@ program
   .description("Retrieve a specific component by key.")
   .action(async (key) => {
     try {
-      const component = await client.component({ key });
+      const component = await client.component({
+        key,
+      });
       console.log(JSON.stringify(component, null, 2));
     } catch (error) {
       handleError(error, "Failed to fetch component");

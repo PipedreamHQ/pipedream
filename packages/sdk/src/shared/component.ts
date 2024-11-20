@@ -1,50 +1,50 @@
 type BaseConfigurableProp = {
-  name: string
-  type: string
+  name: string;
+  type: string;
 
   // XXX don't actually apply to all, fix
-  label?: string
-  description?: string
-  optional?: boolean
-  disabled?: boolean
-  hidden?: boolean
-  remoteOptions?: boolean
-  useQuery?: boolean
-  reloadProps?: boolean
-}
+  label?: string;
+  description?: string;
+  optional?: boolean;
+  disabled?: boolean;
+  hidden?: boolean;
+  remoteOptions?: boolean;
+  useQuery?: boolean;
+  reloadProps?: boolean;
+};
 
 // XXX fix duplicating mapping to value type here and with PropValue
-type Defaultable<T> = { default?: T; options?: T[] }
+type Defaultable<T> = { default?: T; options?: T[]; };
 
 export type ConfigurablePropAlert = BaseConfigurableProp & {
-  type: "alert"
-  alertType: "info" | "neutral" | "warning" | "error" // TODO check the types
-  content: string
-}
+  type: "alert";
+  alertType: "info" | "neutral" | "warning" | "error"; // TODO check the types
+  content: string;
+};
 export type ConfigurablePropAny = BaseConfigurableProp & {
-  type: "any"
-} & Defaultable<any>
+  type: "any";
+} & Defaultable<any>;
 export type ConfigurablePropApp = BaseConfigurableProp & {
-  type: "app"
-  app: string
-}
-export type ConfigurablePropBoolean = BaseConfigurableProp & { type: "boolean" }
+  type: "app";
+  app: string;
+};
+export type ConfigurablePropBoolean = BaseConfigurableProp & { type: "boolean"; };
 export type ConfigurablePropInteger = BaseConfigurableProp & {
-  type: "integer"
-  min?: number
-  max?: number
-} & Defaultable<number>
+  type: "integer";
+  min?: number;
+  max?: number;
+} & Defaultable<number>;
 export type ConfigurablePropObject = BaseConfigurableProp & {
-  type: "object"
-} & Defaultable<object>
+  type: "object";
+} & Defaultable<object>;
 export type ConfigurablePropString = BaseConfigurableProp & {
-  type: "string"
-  secret?: boolean
-} & Defaultable<string>
+  type: "string";
+  secret?: boolean;
+} & Defaultable<string>;
 export type ConfigurablePropStringArray = BaseConfigurableProp & {
-  type: "string[]"
-  secret?: boolean // TODO is this supported
-} & Defaultable<string[]> // TODO
+  type: "string[]";
+  secret?: boolean; // TODO is this supported
+} & Defaultable<string[]>; // TODO
 // | { type: "$.interface.http" } // source only
 // | { type: "$.interface.timer" } // source only
 // | { type: "$.service.db" }
@@ -60,16 +60,16 @@ export type ConfigurableProp =
   | ConfigurablePropObject
   | ConfigurablePropString
   | ConfigurablePropStringArray
-  | (BaseConfigurableProp & { type: "$.discord.channel" })
+  | (BaseConfigurableProp & { type: "$.discord.channel"; });
 
-export type ConfigurableProps = Readonly<ConfigurableProp[]>
+export type ConfigurableProps = Readonly<ConfigurableProp[]>;
 
 export type PropValue<T extends ConfigurableProp["type"]> = T extends "alert"
   ? never
   : T extends "any"
   ? any
   : T extends "app"
-  ? { authProvisionId: string }
+  ? { authProvisionId: string; }
   : T extends "boolean"
   ? boolean
   : T extends "integer"
@@ -80,16 +80,16 @@ export type PropValue<T extends ConfigurableProp["type"]> = T extends "alert"
   ? string
   : T extends "string[]"
   ? string[] // XXX support arrays differently?
-  : never
+  : never;
 
 export type ConfiguredProps<T extends ConfigurableProps> = {
   [K in T[number] as K["name"]]?: PropValue<K["type"]>
-}
+};
 
 // as returned by API (configurable_props_json from `afterSave`)
 export type V1Component<T extends ConfigurableProps = any> = {
-  name: string
-  key: string
-  version: string
-  configurable_props: T
-}
+  name: string;
+  key: string;
+  version: string;
+  configurable_props: T;
+};

@@ -5,9 +5,11 @@
 import {
   AccessToken, ClientCredentials,
 } from "simple-oauth2";
-import { Account, BaseClient, GetAccountOpts, type AppInfo, type ConnectTokenResponse } from "../shared";
+import {
+  Account, BaseClient, GetAccountOpts, type AppInfo, type ConnectTokenResponse,
+} from "../shared";
 import { ServerAsyncResponseManager } from "./async";
-export * from '../shared'
+export * from "../shared";
 
 /**
  * OAuth credentials for your Pipedream account, containing client ID and
@@ -168,16 +170,21 @@ export class BackendClient extends BaseClient {
   }
 
   private ensureValidEnvironment(environment?: string) {
-    if (!environment || !["development", "production"].includes(environment)) {
+    if (!environment || ![
+      "development",
+      "production",
+    ].includes(environment)) {
       throw new Error(
-        "Project environment is required. Supported environments are development and production."
+        "Project environment is required. Supported environments are development and production.",
       );
     }
   }
 
   private newOauthClient(
-    { clientId, clientSecret }: OAuthCredentials,
-    tokenHost: string
+    {
+      clientId, clientSecret,
+    }: OAuthCredentials,
+    tokenHost: string,
   ) {
     if (!clientId || !clientSecret) {
       throw new Error("OAuth client ID and secret are required");
@@ -253,7 +260,7 @@ export class BackendClient extends BaseClient {
    * ```
    */
   public createConnectToken(
-    opts: ConnectTokenCreateOpts
+    opts: ConnectTokenCreateOpts,
   ): Promise<ConnectTokenResponse> {
     const body = {
       ...opts,
@@ -279,7 +286,7 @@ export class BackendClient extends BaseClient {
    */
   public getAccountById(
     accountId: string,
-    params: GetAccountByIdOpts = {}
+    params: GetAccountByIdOpts = {},
   ): Promise<Account> {
     return this.makeConnectRequest(`/accounts/${accountId}`, {
       method: "GET",
