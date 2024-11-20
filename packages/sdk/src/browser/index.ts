@@ -19,8 +19,7 @@ export type * from "../shared";
  */
 type CreateBrowserClientOpts = {
   /**
-   * The environment in which the browser client is running (e.g., "production",
-   * "development").
+   * @deprecated environment is set on the server when generating the client token
    */
   environment?: string;
 
@@ -119,7 +118,6 @@ type StartConnectOpts = {
  * @example
  * ```typescript
     const client = createFrontendClient({
-      environment: "development",
       tokenCallback,
       externalUserId,
     });
@@ -278,10 +276,6 @@ export class BrowserClient extends BaseClient {
     const qp = new URLSearchParams({
       token,
     });
-
-    if (this.environment) {
-      qp.set("environment", this.environment);
-    }
 
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
