@@ -46,7 +46,7 @@ export type AppInfo = {
 /**
  * The types of authentication that Pipedream apps support.
  */
-export const enum AppAuthType {
+export enum AppAuthType {
   OAuth = "oauth",
   Keys = "keys",
   None = "none",
