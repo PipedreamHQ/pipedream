@@ -69,30 +69,44 @@ export default {
         const myTenantId = await this.getAuthenticatedUserTenant();
         const options = [];
 
+        this._userCache = this._userCache || new Map();
+
         for (const chat of response.value) {
           const messages = await this.makeRequest({
             path: `/chats/${chat.id}/messages?$top=50`,
           });
 
           const members = await Promise.all(chat.members.map(async (member) => {
-            let displayName = member.displayName;
-
-            if (!displayName && messages.value.length > 0) {
-              const userMessage = messages.value.find((msg) =>
-                msg.from?.user?.id === member.userId);
-              if (userMessage?.from?.user?.displayName) {
-                displayName = userMessage.from.user.displayName;
-              }
-            }
+            const cacheKey = `user_${member.userId}`;
+            let displayName = member.displayName || this._userCache.get(cacheKey);
 
             if (!displayName) {
               try {
-                const userDetails = await this.makeRequest({
-                  path: `/users/${member.userId}`,
-                });
-                displayName = userDetails.displayName;
+                if (messages?.value?.length > 0) {
+                  const userMessage = messages.value.find((msg) =>
+                    msg.from?.user?.id === member.userId);
+                  if (userMessage?.from?.user?.displayName) {
+                    displayName = userMessage.from.user.displayName;
+                  }
+                }
+
+                if (!displayName) {
+                  const userDetails = await this.makeRequest({
+                    path: `/users/${member.userId}`,
+                  });
+                  displayName = userDetails.displayName;
+                }
+
+                this._userCache.set(cacheKey, displayName);
               } catch (err) {
-                displayName = "Unknown User";
+                if (err.statusCode === 404) {
+                  displayName = "User Not Found";
+                } else if (err.statusCode === 403) {
+                  displayName = "Access Denied";
+                } else {
+                  displayName = "Unknown User";
+                }
+                console.error(`Failed to fetch user details for ${member.userId}:`, err);
               }
             }
 
@@ -179,10 +193,20 @@ export default {
         }, api);
     },
     async getAuthenticatedUserTenant() {
-      const { value } = await this.client()
-        .api("/organization")
-        .get();
-      return value[0].id;
+      try {
+        const { value } = await this.client()
+          .api("/organization")
+          .get();
+
+        if (!value || value.length === 0) {
+          throw new Error("No organization found");
+        }
+
+        return value[0].id;
+      } catch (error) {
+        console.error("Failed to fetch tenant ID:", error);
+        throw new Error("Unable to determine tenant ID");
+      }
     },
     async authenticatedUserId() {
       const { id } = await this.client()
