@@ -4,6 +4,13 @@ import type { AsyncResponseManagerOpts } from "../shared/async";
 import { adapters } from "@rails/actioncable";
 import * as WS from "ws";
 
+declare global {
+  function addEventListener(type: string, listener: () => void): void
+  function removeEventListener(type: string, listener: () => void): void
+}
+global.addEventListener = () => {}
+global.removeEventListener = () => {}
+
 export type ServerAsyncResponseManagerOpts = {
   apiHost: string;
   getOauthToken: () => Promise<AccessToken> | AccessToken;
@@ -21,7 +28,8 @@ export class ServerAsyncResponseManager extends AsyncResponseManager {
   }
 
   protected override async getOpts(): Promise<AsyncResponseManagerOpts> {
-    const token = await this.serverOpts.getOauthToken();
+    const oauthToken = await this.serverOpts.getOauthToken();
+    const token = oauthToken.token.access_token;
     const projectId = await this.serverOpts.getProjectId();
     return {
       url: `wss://${this.serverOpts.apiHost}/websocket?oauth_token=${token}`,
