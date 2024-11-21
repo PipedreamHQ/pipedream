@@ -8,8 +8,6 @@ declare global {
   function addEventListener(type: string, listener: () => void): void
   function removeEventListener(type: string, listener: () => void): void
 }
-global.addEventListener = () => {}
-global.removeEventListener = () => {}
 
 export type ServerAsyncResponseManagerOpts = {
   apiHost: string;
@@ -23,6 +21,8 @@ export class ServerAsyncResponseManager extends AsyncResponseManager {
   constructor(opts: ServerAsyncResponseManagerOpts) {
     super();
     this.serverOpts = opts;
+    global.addEventListener = () => {}
+    global.removeEventListener = () => {}
     if (typeof adapters.WebSocket === "undefined")
       adapters.WebSocket == WS;
   }
