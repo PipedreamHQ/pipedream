@@ -1,5 +1,9 @@
+import {
+  INTELLIGENCE_NOTES_FORMAT_OPTIONS,
+  TRANSCRIPT_FORMAT_OPTIONS,
+} from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import grain from "../../grain.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "grain-get-recording",
@@ -14,44 +18,36 @@ export default {
         grain,
         "recordId",
       ],
-      async options({ page }) {
-        const recordings = await this.grain.listRecordings({
-          page,
-        });
-        return recordings.map((recording) => ({
-          label: recording.title,
-          value: recording.id,
-        }));
-      },
     },
     transcriptFormat: {
-      propDefinition: [
-        grain,
-        "transcriptFormat",
-      ],
+      type: "string",
+      label: "Transcript Format",
+      description: "Format for the transcript",
+      options: TRANSCRIPT_FORMAT_OPTIONS,
       optional: true,
     },
     intelligenceNotesFormat: {
-      propDefinition: [
-        grain,
-        "intelligenceNotesFormat",
-      ],
+      type: "string",
+      label: "Intelligence Notes Format",
+      description: "Format for the intelligence notes",
+      options: INTELLIGENCE_NOTES_FORMAT_OPTIONS,
       optional: true,
     },
     allowedIntelligenceNotes: {
-      propDefinition: [
-        grain,
-        "allowedIntelligenceNotes",
-      ],
+      type: "string[]",
+      label: "Allowed Intelligence Notes",
+      description: "Whitelist of intelligence notes section titles",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.grain.fetchRecording({
       recordId: this.recordId,
-      transcriptFormat: this.transcriptFormat,
-      intelligenceNotesFormat: this.intelligenceNotesFormat,
-      allowedIntelligenceNotes: this.allowedIntelligenceNotes,
+      params: {
+        transcript_format: this.transcriptFormat,
+        intelligence_notes_format: this.intelligenceNotesFormat,
+        allowed_intelligence_notes: parseObject(this.allowedIntelligenceNotes),
+      },
     });
 
     $.export("$summary", `Successfully fetched recording with ID ${this.recordId}`);

@@ -1,73 +1,36 @@
-import grain from "../../grain.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "grain-removed-recording-instant",
-  name: "Removed Recording Instant",
-  description: "Emit a new event when a recording matching the filter is removed. [See the documentation](https://grainhq.notion.site/grain-public-api-877184aa82b54c77a875083c1b560de9)",
-  version: "0.0.{{ts}}",
+  name: "New Recording Removed (Instant)",
+  description: "Emit new event when a recording is removed.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    grain,
-    http: {
-      type: "$.interface.http",
-      customResponse: false,
-    },
-    db: "$.service.db",
-  },
-  hooks: {
-    async deploy() {
-      const recordings = await this.grain.listRecordings({
-        paginate: true,
-        max: 50,
-      });
-      for (const recording of recordings) {
-        this.$emit(recording, {
-          id: recording.id,
-          summary: `Recording removed: ${recording.title}`,
-          ts: Date.parse(recording.start_datetime),
-        });
-      }
-    },
-    async activate() {
-      const webhookConfig = {
-        type: "removed",
-        hook_url: this.http.endpoint,
-      };
-      const webhookId = await this.grain._makeRequest({
-        method: "POST",
-        path: "/_/public-api/hooks",
-        data: webhookConfig,
-      });
-      this._setWebhookId(webhookId);
-    },
-    async deactivate() {
-      const id = this._getWebhookId();
-      await this.grain._makeRequest({
-        method: "DELETE",
-        path: `/_/public-api/hooks/${id}`,
-      });
+    ...common.props,
+    viewId: {
+      propDefinition: [
+        common.props.grain,
+        "viewId",
+        () => ({
+          type: "recordings",
+        }),
+      ],
     },
   },
   methods: {
-    _getWebhookId() {
-      return this.db.get("webhookId");
+    ...common.methods,
+    getAction() {
+      return [
+        "removed",
+      ];
     },
-    _setWebhookId(id) {
-      this.db.set("webhookId", id);
+    getSummary({ data }) {
+      return `Recording removed: ${data.id}`;
     },
   },
-  async run(event) {
-    const {
-      type, data,
-    } = event.body;
-    if (type === "removed") {
-      this.$emit(data, {
-        id: data.id,
-        summary: `Recording removed: ${data.id}`,
-        ts: Date.now(),
-      });
-    }
-  },
+  sampleEmit,
 };
