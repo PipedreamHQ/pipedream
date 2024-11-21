@@ -343,6 +343,27 @@ export default {
         })) || [];
       },
     },
+    itemId: {
+      type: "string",
+      label: "Item Id",
+      description: "The identifier of an item",
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Item: items } } = await this.query({
+          params: {
+            query: `select * from item maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return items?.map(({
+          Id: value, Name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     _companyId() {
@@ -497,6 +518,13 @@ export default {
     updateCustomer(opts = {}) {
       return this._makeRequest({
         path: `company/${this._companyId()}/customer`,
+        method: "post",
+        ...opts,
+      });
+    },
+    updateItem(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/item`,
         method: "post",
         ...opts,
       });
