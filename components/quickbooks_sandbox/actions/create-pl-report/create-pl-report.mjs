@@ -1,5 +1,5 @@
 import app from "../../quickbooks_sandbox.app.mjs";
-import common from "../../../quickbooks/actions/update-item/update-item.mjs";
+import common from "../../../quickbooks/actions/create-plreport/create-pl-report.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -10,8 +10,8 @@ const props = adjustPropDefinitions(others.props, app);
 
 export default {
   ...others,
-  key: "quickbooks_sandbox-update-item",
-  version: "0.2.2",
+  key: "quickbooks_sandbox-create-pl-report",
+  version: "0.0.1",
   name,
   description,
   type,

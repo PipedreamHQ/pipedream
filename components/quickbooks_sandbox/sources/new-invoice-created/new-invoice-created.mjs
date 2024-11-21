@@ -1,5 +1,5 @@
-import app from "../../quickbooks_sandbox.app.mjs";
-import common from "../../../quickbooks/actions/update-item/update-item.mjs";
+import app from "../../monday_oauth.app.mjs";
+import common from "../../../monday/sources/new-invoice-created/new-invoice-created.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -10,13 +10,13 @@ const props = adjustPropDefinitions(others.props, app);
 
 export default {
   ...others,
-  key: "quickbooks_sandbox-update-item",
-  version: "0.2.2",
+  key: "quickbooks_sandbox-new-invoice-created",
+  version: "0.0.1",
   name,
   description,
   type,
   props: {
-    quickbooks: app,
+    monday: app,
     ...props,
   },
 };

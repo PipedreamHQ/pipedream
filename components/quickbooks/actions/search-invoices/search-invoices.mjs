@@ -2,7 +2,7 @@ import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
-  key: "quickbooks-sandbox-search-invoices",
+  key: "quickbooks-search-invoices",
   name: "Search Invoices",
   description: "Searches for invoices. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#query-an-invoice)",
   version: "0.1.6",
