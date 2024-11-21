@@ -11,21 +11,16 @@ export default {
       type: "string",
       description: "Id of the invoice to get details of.",
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Invoice: records } } = await this.query({
-          params: {
-            query: `select * from invoice maxresults 10${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "Invoice",
+          mapper: ({
+            Id: value, DocNumber: docNumber, CustomerRef: customerRef,
+          }) => ({
+            label: `(${docNumber}) ${customerRef.name}`,
+            value,
+          }),
         });
-
-        return records?.map(({
-          Id: value, DocNumber: docNumber, CustomerRef: customerRef,
-        }) => ({
-          label: `(${docNumber}) ${customerRef.name}`,
-          value,
-        })) || [];
       },
     },
     minorVersion: {
@@ -44,24 +39,16 @@ export default {
       type: "string",
       description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference.",
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Customer: records } } = await this.query({
-          params: {
-            query: `select * from Customer maxresults 10${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
-        });
-
-        return records?.map(({
-          Id: id, DisplayName: label,
-        }) => ({
-          label,
-          value: JSON.stringify({
+        return this.getPropOptions({
+          page,
+          resource: "Customer",
+          mapper: ({
+            Id: id, DisplayName: label,
+          }) => ({
+            label,
             value: id,
-            name: label,
           }),
-        })) || [];
+        });
       },
     },
     customerRefName: {
@@ -76,24 +63,19 @@ export default {
       description: "This must be defined if multicurrency is enabled for the company.\nMulticurrency is enabled for the company if `Preferences.MultiCurrencyEnabled` is set to `true`. Read more about multicurrency support [here](https://developer.intuit.com/docs?RedirectID=MultCurrencies). Required if multicurrency is enabled for the company.",
       optional: true,
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { CompanyCurrency: records } } = await this.query({
-          params: {
-            query: `select * from companycurrency maxresults 10${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
-        });
-
-        return records?.map(({
-          Code: code, Name: name,
-        }) => ({
-          label: `${code} - ${name}`,
-          value: JSON.stringify({
-            value: code,
-            name: name,
+        return this.getPropOptions({
+          page,
+          resource: "CompanyCurrency",
+          mapper: ({
+            Code: code, Name: name,
+          }) => ({
+            label: `${code} - ${name}`,
+            value: JSON.stringify({
+              value: code,
+              name: name,
+            }),
           }),
-        })) || [];
+        });
       },
     },
     currencyRefValue: {
@@ -172,21 +154,16 @@ export default {
       description: "Id of the purchase.",
       withLabel: true,
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Purchase: records } } = await this.query({
-          params: {
-            query: `select * from Purchase maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "Purchase",
+          mapper: ({
+            Id, PaymentType, SyncToken,
+          }) => ({
+            label: `${Id} - ${PaymentType}`,
+            value: `${Id}|${SyncToken}`,
+          }),
         });
-
-        return records?.map(({
-          Id, PaymentType, SyncToken,
-        }) => ({
-          label: `${Id} - ${PaymentType}`,
-          value: `${Id}|${SyncToken}`,
-        })) || [];
       },
     },
     suffix: {
@@ -217,20 +194,16 @@ export default {
       description: "Filters report contents based on term or terms supplied",
       optional: true,
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Term: terms } } = await this.query({
-          params: {
-            query: `select * from term maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "Term",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
-        return terms?.map(({
-          Id: value, Name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
       },
     },
     vendorIds: {
@@ -239,20 +212,16 @@ export default {
       description: "Filters report contents to include information for specified vendors",
       optional: true,
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Vendor: vendors } } = await this.query({
-          params: {
-            query: `select * from vendor maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "Vendor",
+          mapper: ({
+            Id: value, DisplayName: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
-        return vendors?.map(({
-          Id: value, DisplayName: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
       },
     },
     accountIds: {
@@ -261,20 +230,16 @@ export default {
       description: "Filters report contents to include information for specified accounts",
       optional: true,
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Account: accounts } } = await this.query({
-          params: {
-            query: `select * from account maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "Account",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
-        return accounts?.map(({
-          Id: value, Name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
       },
     },
     classIds: {
@@ -283,20 +248,16 @@ export default {
       description: "Filters report contents to include information for specified classes if so configured in the company file",
       optional: true,
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Class: classes } } = await this.query({
-          params: {
-            query: `select * from class maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "Class",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
-        return classes?.map(({
-          Id: value, Name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
       },
     },
     employeeIds: {
@@ -305,20 +266,16 @@ export default {
       description: "Filters report contents to include information for specified employees",
       optional: true,
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Employee: employees } } = await this.query({
-          params: {
-            query: `select * from employee maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "Employee",
+          mapper: ({
+            Id: value, DisplayName: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
-        return employees?.map(({
-          Id: value, DisplayName: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
       },
     },
     departmentIds: {
@@ -327,20 +284,16 @@ export default {
       description: "Filters report contents to include information for specified departments if so configured in the company file",
       optional: true,
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Department: departments } } = await this.query({
-          params: {
-            query: `select * from department maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "Department",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
-        return departments?.map(({
-          Id: value, Name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
       },
     },
     itemId: {
@@ -348,20 +301,16 @@ export default {
       label: "Item Id",
       description: "The identifier of an item",
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Item: items } } = await this.query({
-          params: {
-            query: `select * from item maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "Item",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
         });
-        return items?.map(({
-          Id: value, Name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
       },
     },
     billId: {
@@ -369,15 +318,11 @@ export default {
       label: "Bill Id",
       description: "The identifier of a bill",
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { Bill: bills } } = await this.query({
-          params: {
-            query: `select * from bill maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "Bill",
+          mapper: ({ Id: id }) => id,
         });
-        return bills?.map(({ Id: id }) => id ) || [];
       },
     },
     purchaseOrderId: {
@@ -385,20 +330,16 @@ export default {
       label: "Item Id",
       description: "The identifier of a purchase order",
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { PurchaseOrder: purchaseOrders } } = await this.query({
-          params: {
-            query: `select * from purchaseorder maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "PurchaseOrder",
+          mapper: ({
+            Id: value, DocNumber,
+          }) => ({
+            value,
+            label: DocNumber ?? value,
+          }),
         });
-        return purchaseOrders?.map(({
-          Id: value, DocNumber,
-        }) => ({
-          value,
-          label: DocNumber ?? value,
-        })) || [];
       },
     },
     salesReceiptId: {
@@ -406,20 +347,16 @@ export default {
       label: "Sales Receipt Id",
       description: "The identifier of a sales receipt",
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { SalesReceipt: salesReceipts } } = await this.query({
-          params: {
-            query: `select * from salesreceipt maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "SalesReceipt",
+          mapper: ({
+            Id: value, DocNumber,
+          }) => ({
+            value,
+            label: DocNumber ?? value,
+          }),
         });
-        return salesReceipts?.map(({
-          Id: value, DocNumber,
-        }) => ({
-          value,
-          label: DocNumber ?? value,
-        })) || [];
       },
     },
     timeActivityId: {
@@ -427,20 +364,16 @@ export default {
       label: "Time Activity Id",
       description: "The identifier of a time activity",
       async options({ page }) {
-        const position = 1 + (page * 10);
-        const { QueryResponse: { TimeActivity: timeActivities } } = await this.query({
-          params: {
-            query: `select * from timeactivity maxresults 10 ${page
-              ? `startposition ${position}`
-              : ""} `,
-          },
+        return this.getPropOptions({
+          page,
+          resource: "TimeActivity",
+          mapper: ({
+            Id: value, NameOf: nameOf, Description: description,
+          }) => ({
+            value,
+            label: `${nameOf} ${description}`,
+          }),
         });
-        return timeActivities?.map(({
-          Id: value, NameOf: nameOf, Description: description,
-        }) => ({
-          value,
-          label: `${nameOf} ${description}`,
-        })) || [];
       },
     },
   },
@@ -470,6 +403,20 @@ export default {
         });
       };
       return await retryWithExponentialBackoff(requestFn);
+    },
+    async getPropOptions({
+      page, resource, mapper,
+    }) {
+      const position = 1 + (page * 10);
+      const { QueryResponse: queryResponse } = await this.query({
+        params: {
+          query: `select * from ${resource} maxresults 10${page
+            ? `startposition ${position}`
+            : ""} `,
+        },
+      });
+      const items = queryResponse[resource];
+      return items?.map(mapper) || [];
     },
     createPayment(opts = {}) {
       return this._makeRequest({
