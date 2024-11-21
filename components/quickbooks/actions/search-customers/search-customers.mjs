@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-search-customers",
   name: "Search Customers",
   description: "Searches for customers. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#query-a-customer)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     quickbooks,
