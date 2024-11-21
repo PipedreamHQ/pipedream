@@ -4,14 +4,22 @@
 // operations, like connecting accounts via Pipedream Connect. See the server/
 // directory for the server client.
 
+import { BrowserAsyncResponseManager } from "./async";
+import {
+  AccountsRequestResponse,
+  BaseClient,
+  GetAccountOpts,
+  type ConnectTokenResponse,
+} from "../shared";
+export type * from "../shared";
+
 /**
  * Options for creating a browser-side client. This is used to configure the
  * BrowserClient instance.
  */
 type CreateBrowserClientOpts = {
   /**
-   * The environment in which the browser client is running (e.g., "production",
-   * "development").
+   * @deprecated environment is set on the server when generating the client token
    */
   environment?: string;
 
@@ -20,7 +28,30 @@ type CreateBrowserClientOpts = {
    * "pipedream.com" if not provided.
    */
   frontendHost?: string;
+
+  /**
+   * The API host URL. Used by Pipedream employees. Defaults to
+   * "api.pipedream.com" if not provided.
+   */
+  apiHost?: string;
+
+  /**
+   * Will be called whenever we need a new token.
+   *
+   * The callback function should return the response from
+   * `serverClient.createConnectToken`.
+   */
+  tokenCallback?: TokenCallback;
+
+  /**
+   * An external user ID associated with the token.
+   */
+  externalUserId?: string;
 };
+
+export type TokenCallback = (opts: {
+  externalUserId: string;
+}) => Promise<ConnectTokenResponse>;
 
 /**
  * The name slug for an app, a unique, human-readable identifier like "github"
@@ -51,8 +82,10 @@ class ConnectError extends Error {}
 type StartConnectOpts = {
   /**
    * The token used for authenticating the connection.
+   *
+   * Optional if client already initialized with token
    */
-  token: string;
+  token?: string;
 
   /**
    * The app to connect to, either as an ID or an object containing the ID.
@@ -84,9 +117,10 @@ type StartConnectOpts = {
  *
  * @example
  * ```typescript
- * const client = createFrontendClient({
- *   environment: "production",
- * });
+    const client = createFrontendClient({
+      tokenCallback,
+      externalUserId,
+    });
  * ```
  * @param opts - The options for creating the browser client.
  * @returns A new instance of `BrowserClient`.
@@ -98,12 +132,17 @@ export function createFrontendClient(opts: CreateBrowserClientOpts = {}) {
 /**
  * A client for interacting with the Pipedream Connect API from the browser.
  */
-class BrowserClient {
-  private environment?: string;
+export class BrowserClient extends BaseClient {
+  protected override asyncResponseManager: BrowserAsyncResponseManager;
   private baseURL: string;
   private iframeURL: string;
   private iframe?: HTMLIFrameElement;
   private iframeId = 0;
+  private tokenCallback?: TokenCallback;
+  private _token?: string;
+  private _tokenExpiresAt?: Date;
+  private _tokenRequest?: Promise<string>;
+  externalUserId?: string;
 
   /**
    * Constructs a new `BrowserClient` instance.
@@ -111,9 +150,58 @@ class BrowserClient {
    * @param opts - The options for configuring the browser client.
    */
   constructor(opts: CreateBrowserClientOpts) {
-    this.environment = opts.environment;
+    super(opts);
     this.baseURL = `https://${opts.frontendHost || "pipedream.com"}`;
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
+    this.tokenCallback = opts.tokenCallback;
+    this.externalUserId = opts.externalUserId;
+    this.asyncResponseManager = new BrowserAsyncResponseManager({
+      apiHost: this.apiHost,
+      getConnectToken: () => this.token(),
+    });
+  }
+
+  private async token() {
+    if (
+      this._token &&
+      this._tokenExpiresAt &&
+      this._tokenExpiresAt > new Date()
+    ) {
+      return this._token;
+    }
+
+    if (this._tokenRequest) {
+      return this._tokenRequest;
+    }
+
+    const tokenCallback = this.tokenCallback;
+    const externalUserId = this.externalUserId;
+
+    if (!tokenCallback) {
+      throw new Error("No token callback provided");
+    }
+    if (!externalUserId) {
+      throw new Error("No external user ID provided");
+    }
+
+    // Ensure only one token request is in-flight at a time.
+    this._tokenRequest = (async () => {
+      const {
+        token, expires_at,
+      } = await tokenCallback({
+        externalUserId: externalUserId,
+      });
+      this._token = token;
+      this._tokenExpiresAt = new Date(expires_at);
+      this._tokenRequest = undefined;
+      return token;
+    })();
+
+    return this._tokenRequest;
+  }
+
+  private refreshToken() {
+    this._token = undefined;
   }
 
   /**
@@ -135,7 +223,7 @@ class BrowserClient {
    * });
    * ```
    */
-  public connectAccount(opts: StartConnectOpts) {
+  public async connectAccount(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
       switch (e.data?.type) {
       case "success":
@@ -157,10 +245,11 @@ class BrowserClient {
     window.addEventListener("message", onMessage);
 
     try {
-      this.createIframe(opts);
+      await this.createIframe(opts);
     } catch (err) {
       opts.onError?.(err as ConnectError);
     }
+    this.refreshToken(); // token expires once it's used to create a connected account. We need to get a new token for the next requests.
   }
 
   /**
@@ -182,14 +271,11 @@ class BrowserClient {
    *
    * @throws {ConnectError} If the app option is not a string.
    */
-  private createIframe(opts: StartConnectOpts) {
+  private async createIframe(opts: StartConnectOpts) {
+    const token = opts.token || (await this.token());
     const qp = new URLSearchParams({
-      token: opts.token,
+      token,
     });
-
-    if (this.environment) {
-      qp.set("environment", this.environment);
-    }
 
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
@@ -215,5 +301,18 @@ class BrowserClient {
     };
 
     document.body.appendChild(iframe);
+  }
+
+  protected async authHeaders(): Promise<string> {
+    if (!(await this.token())) {
+      throw new Error("No token provided");
+    }
+    return `Bearer ${await this.token()}`;
+  }
+
+  public getAccounts(
+    params?: Omit<GetAccountOpts, "external_user_id">,
+  ): Promise<AccountsRequestResponse> {
+    return super.getAccounts(params);
   }
 }
