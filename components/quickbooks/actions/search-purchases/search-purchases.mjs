@@ -46,17 +46,17 @@ export default {
       whereClause = ` WHERE  ${this.whereClause}`;
     }
 
-    var orderClause = "";
+    let orderClause = "";
     if (this.orderClause) {
       orderClause = ` ORDERBY  ${this.orderClause}`;
     }
 
-    var startPosition = "";
+    let startPosition = "";
     if (this.startPosition) {
       startPosition = ` STARTPOSITION  ${this.startPosition}`;
     }
 
-    var maxResults = "";
+    let maxResults = "";
     if (this.maxResults) {
       maxResults = ` MAXRESULTS ${this.maxResults}` || "";
     }

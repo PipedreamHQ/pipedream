@@ -53,22 +53,21 @@ export default {
       throw new ConfigurationError("Must provide includeClause, whereClause parameters.");
     }
 
-    var orderClause = "";
+    let orderClause = "";
     if (this.orderClause) {
       orderClause = ` ORDERBY  ${this.orderClause}`;
     }
 
-    var startPosition = "";
+    let startPosition = "";
     if (this.startPosition) {
       startPosition = ` STARTPOSITION  ${this.startPosition}`;
     }
 
-    var maxResults = "";
+    let maxResults = "";
     if (this.maxResults) {
       maxResults = ` MAXRESULTS ${this.maxResults}` || "";
     }
 
-    //Prepares the request's query parameter
     const query = `select ${this.includeClause} from Item where Type = 'Inventory' and ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
 
     const response = await this.quickbooks.query({

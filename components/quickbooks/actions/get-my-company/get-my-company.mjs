@@ -10,7 +10,6 @@ export default {
     quickbooks,
   },
   async run({ $ }) {
-
     const response = await this.quickbooks.getMyCompany({
       $,
     });

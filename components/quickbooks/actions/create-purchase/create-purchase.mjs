@@ -56,7 +56,6 @@ export default {
     },
   },
   async run({ $ }) {
-
     let parsedLineItems = parseOne(this.lineItems);
 
     const response = await this.quickbooks.createPurchase({

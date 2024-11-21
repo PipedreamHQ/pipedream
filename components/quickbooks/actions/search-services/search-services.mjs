@@ -1,4 +1,5 @@
 import quickbooks from "../../quickbooks.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-search-services",
@@ -49,20 +50,20 @@ export default {
   },
   async run({ $ }) {
     if (!this.include_clause || !this.where_clause) {
-      throw new Error("Must provide include_clause, where_clause parameters.");
+      throw new ConfigurationError("Must provide include_clause, where_clause parameters.");
     }
 
-    var orderClause = "";
+    let orderClause = "";
     if (this.order_clause) {
       orderClause = ` ORDERBY  ${this.order_clause}`;
     }
 
-    var startPosition = "";
+    let startPosition = "";
     if (this.start_position) {
       startPosition = ` STARTPOSITION  ${this.start_position}`;
     }
 
-    var maxResults = "";
+    let maxResults = "";
     if (this.max_results) {
       maxResults = ` MAXRESULTS ${this.max_results}` || "";
     }

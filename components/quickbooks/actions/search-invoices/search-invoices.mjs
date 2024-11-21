@@ -55,22 +55,21 @@ export default {
 
     //Prepares OrderBy clause,start position, max results
     // parameters to be used in the request's query parameter.
-    var orderClause = "";
+    let orderClause = "";
     if (this.orderClause) {
       orderClause = ` ORDERBY  ${this.orderClause}`;
     }
 
-    var startPosition = "";
+    let startPosition = "";
     if (this.startPosition) {
       startPosition = ` STARTPOSITION  ${this.startPosition}`;
     }
 
-    var maxResults = "";
+    let maxResults = "";
     if (this.maxResults) {
       maxResults = ` MAXRESULTS ${this.maxResults}` || "";
     }
 
-    //Prepares the request's query parameter
     const query = `select ${this.includeClause} from Invoice where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
 
     const response = await this.quickbooks.query({
