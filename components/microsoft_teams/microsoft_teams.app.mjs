@@ -5,7 +5,7 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "microsoft_teams",
-  description: "**Personal accounts are not currently supported by Microsoft Teams.** Refer to Microsoft's documentation [here](https://learn.microsoft.com/en-us/graph/permissions-reference#remarks-7) to learn more.",
+  description: "Connect and interact with Microsoft Teams, supporting both internal and external communications.",
   propDefinitions: {
     team: {
       type: "string",
@@ -58,16 +58,50 @@ export default {
     chat: {
       type: "string",
       label: "Chat",
-      description: "Team Chat within the organization (No external Contacts)",
+      description: "Team Chat (internal and external contacts)",
       async options({ prevContext }) {
         const response = prevContext.nextLink
           ? await this.makeRequest({
             path: prevContext.nextLink,
           })
           : await this.listChats();
+
+        const myTenantId = await this.getAuthenticatedUserTenant();
         const options = [];
+
         for (const chat of response.value) {
-          const members = chat.members.map((member) => member.displayName);
+          const messages = await this.makeRequest({
+            path: `/chats/${chat.id}/messages?$top=50`,
+          });
+
+          const members = await Promise.all(chat.members.map(async (member) => {
+            let displayName = member.displayName;
+
+            if (!displayName && messages.value.length > 0) {
+              const userMessage = messages.value.find((msg) =>
+                msg.from?.user?.id === member.userId);
+              if (userMessage?.from?.user?.displayName) {
+                displayName = userMessage.from.user.displayName;
+              }
+            }
+
+            if (!displayName) {
+              try {
+                const userDetails = await this.makeRequest({
+                  path: `/users/${member.userId}`,
+                });
+                displayName = userDetails.displayName;
+              } catch (err) {
+                displayName = "Unknown User";
+              }
+            }
+
+            const isExternal = member.tenantId !== myTenantId || !member.tenantId;
+            return isExternal
+              ? `${displayName} (External)`
+              : displayName;
+          }));
+
           options.push({
             label: members.join(", "),
             value: chat.id,
@@ -143,6 +177,12 @@ export default {
             ? reduction[methodName](...methodArgs)
             : reduction;
         }, api);
+    },
+    async getAuthenticatedUserTenant() {
+      const { value } = await this.client()
+        .api("/organization")
+        .get();
+      return value[0].id;
     },
     async authenticatedUserId() {
       const { id } = await this.client()
