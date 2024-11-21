@@ -10,9 +10,10 @@ export default {
   props: {
     quickbooks,
     salesReceiptId: {
-      label: "sales Receipt ID",
-      type: "string",
-      description: "Id of the sales receipt to get details of.",
+      propDefinition: [
+        quickbooks,
+        "salesReceiptId",
+      ],
     },
     minorVersion: {
       propDefinition: [

@@ -10,9 +10,10 @@ export default {
   props: {
     quickbooks,
     customerId: {
-      label: "Customer ID",
-      type: "string",
-      description: "Id of the account to get details of.",
+      propDefinition: [
+        quickbooks,
+        "customer",
+      ],
     },
     minorVersion: {
       propDefinition: [

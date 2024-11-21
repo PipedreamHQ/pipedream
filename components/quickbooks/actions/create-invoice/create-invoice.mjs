@@ -16,9 +16,10 @@ export default {
       ],
     },
     customerRefValue: {
-      label: "Customer Reference Value",
-      type: "string",
-      description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference. Use `Customer.Id` from that object for `CustomerRef.value`.",
+      propDefinition: [
+        quickbooks,
+        "customer",
+      ],
     },
     customerRefName: {
       propDefinition: [

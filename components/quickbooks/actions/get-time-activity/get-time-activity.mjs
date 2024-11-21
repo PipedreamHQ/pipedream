@@ -10,9 +10,10 @@ export default {
   props: {
     quickbooks,
     timeActivityId: {
-      label: "Time Activity ID",
-      type: "string",
-      description: "Id of the time activity object to get details of.",
+      propDefinition: [
+        quickbooks,
+        "timeActivityId",
+      ],
     },
     minorVersion: {
       propDefinition: [

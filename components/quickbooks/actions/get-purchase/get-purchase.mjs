@@ -10,9 +10,10 @@ export default {
   props: {
     quickbooks,
     purchaseId: {
-      label: "Purchase ID",
-      type: "string",
-      description: "Id of the purchase to get details of.",
+      propDefinition: [
+        quickbooks,
+        "purchaseId",
+      ],
     },
     minorVersion: {
       propDefinition: [
@@ -28,7 +29,7 @@ export default {
 
     const response = await this.quickbooks.getPurchase({
       $,
-      purchaseId: this.purchaseId,
+      purchaseId: this.purchaseId?.value ?? this.purchaseId,
       params: {
         minorversion: this.minorVersion,
       },

@@ -10,8 +10,12 @@ export default {
   props: {
     quickbooks,
     vendorRefValue: {
-      label: "Vendor Ref Value",
+      propDefinition: [
+        quickbooks,
+        "vendorIds",
+      ],
       type: "string",
+      label: "Vendor Ref Value",
       description: "Reference to the vendor for this transaction. Query the Vendor name list resource to determine the appropriate Vendor object for this reference. Use `Vendor.Id` from that object for `VendorRef.value`.",
     },
     lineItems: {

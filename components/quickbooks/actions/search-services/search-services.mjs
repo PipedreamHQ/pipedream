@@ -53,20 +53,17 @@ export default {
       throw new ConfigurationError("Must provide include_clause, where_clause parameters.");
     }
 
-    let orderClause = "";
-    if (this.order_clause) {
-      orderClause = ` ORDERBY  ${this.order_clause}`;
-    }
+    const orderClause = this.orderClause
+      ? ` ORDERBY  ${this.orderClause}`
+      : "";
 
-    let startPosition = "";
-    if (this.start_position) {
-      startPosition = ` STARTPOSITION  ${this.start_position}`;
-    }
+    const startPosition = this.startPosition
+      ? ` STARTPOSITION  ${this.startPosition}`
+      : "";
 
-    let maxResults = "";
-    if (this.max_results) {
-      maxResults = ` MAXRESULTS ${this.max_results}` || "";
-    }
+    const maxResults = this.maxResults
+      ? ` MAXRESULTS ${this.maxResults}`
+      : "";
 
     const query = `select ${this.include_clause} from Item where Type = 'Service' and ${this.where_clause}${orderClause}${startPosition}${maxResults}`;
 

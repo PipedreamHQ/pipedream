@@ -53,22 +53,17 @@ export default {
       throw new ConfigurationError("Must provide includeClause, whereClause parameters.");
     }
 
-    //Prepares OrderBy clause,start position, max results
-    // parameters to be used in the request's query parameter.
-    let orderClause = "";
-    if (this.orderClause) {
-      orderClause = ` ORDERBY  ${this.orderClause}`;
-    }
+    const orderClause = this.orderClause
+      ? ` ORDERBY  ${this.orderClause}`
+      : "";
 
-    let startPosition = "";
-    if (this.startPosition) {
-      startPosition = ` STARTPOSITION  ${this.startPosition}`;
-    }
+    const startPosition = this.startPosition
+      ? ` STARTPOSITION  ${this.startPosition}`
+      : "";
 
-    let maxResults = "";
-    if (this.maxResults) {
-      maxResults = ` MAXRESULTS ${this.maxResults}` || "";
-    }
+    const maxResults = this.maxResults
+      ? ` MAXRESULTS ${this.maxResults}`
+      : "";
 
     const query = `select ${this.includeClause} from Invoice where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
 

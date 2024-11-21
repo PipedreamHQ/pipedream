@@ -9,6 +9,12 @@ export default {
   type: "action",
   props: {
     quickbooks,
+    customerId: {
+      propDefinition: [
+        quickbooks,
+        "customer",
+      ],
+    },
     displayName: {
       propDefinition: [
         quickbooks,
@@ -181,11 +187,6 @@ export default {
       description: "The name of the company associated with the person or organization.",
       label: "Company Name",
       optional: true,
-      type: "string",
-    },
-    customerId: {
-      description: "Unique identifier for the customer object to be updated.",
-      label: "Customer Id",
       type: "string",
     },
     customerTypeRefValue: {

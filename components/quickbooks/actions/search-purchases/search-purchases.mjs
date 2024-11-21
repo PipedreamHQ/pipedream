@@ -41,26 +41,22 @@ export default {
     },
   },
   async run({ $ }) {
-    let whereClause = "";
-    if (this.whereClause) {
-      whereClause = ` WHERE  ${this.whereClause}`;
-    }
+    const whereClause = this.whereClause
+      ? ` WHERE  ${this.whereClause}`
+      : "";
 
-    let orderClause = "";
-    if (this.orderClause) {
-      orderClause = ` ORDERBY  ${this.orderClause}`;
-    }
+    const orderClause = this.orderClause
+      ? ` ORDERBY  ${this.orderClause}`
+      : "";
 
-    let startPosition = "";
-    if (this.startPosition) {
-      startPosition = ` STARTPOSITION  ${this.startPosition}`;
-    }
+    const startPosition = this.startPosition
+      ? ` STARTPOSITION  ${this.startPosition}`
+      : "";
 
-    let maxResults = "";
-    if (this.maxResults) {
-      maxResults = ` MAXRESULTS ${this.maxResults}` || "";
-    }
-    //Prepares the request's query parameter
+    const maxResults = this.maxResults
+      ? ` MAXRESULTS ${this.maxResults}`
+      : "";
+
     const query = `select * from Purchase ${whereClause}${orderClause}${startPosition}${maxResults}`;
 
     const response = await this.quickbooks.query({

@@ -10,10 +10,10 @@ export default {
   props: {
     quickbooks,
     invoiceId: {
-      label: "Invoice ID",
-      type: "string",
-      description: "Id of the invoice to get details of.",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "invoiceId",
+      ],
     },
     minorVersion: {
       propDefinition: [

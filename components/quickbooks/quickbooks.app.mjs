@@ -364,6 +364,85 @@ export default {
         })) || [];
       },
     },
+    billId: {
+      type: "string",
+      label: "Bill Id",
+      description: "The identifier of a bill",
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { Bill: bills } } = await this.query({
+          params: {
+            query: `select * from bill maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return bills?.map(({ Id: id }) => id ) || [];
+      },
+    },
+    purchaseOrderId: {
+      type: "string",
+      label: "Item Id",
+      description: "The identifier of a purchase order",
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { PurchaseOrder: purchaseOrders } } = await this.query({
+          params: {
+            query: `select * from purchaseorder maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return purchaseOrders?.map(({
+          Id: value, DocNumber,
+        }) => ({
+          value,
+          label: DocNumber ?? value,
+        })) || [];
+      },
+    },
+    salesReceiptId: {
+      type: "string",
+      label: "Sales Receipt Id",
+      description: "The identifier of a sales receipt",
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { SalesReceipt: salesReceipts } } = await this.query({
+          params: {
+            query: `select * from salesreceipt maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return salesReceipts?.map(({
+          Id: value, DocNumber,
+        }) => ({
+          value,
+          label: DocNumber ?? value,
+        })) || [];
+      },
+    },
+    timeActivityId: {
+      type: "string",
+      label: "Time Activity Id",
+      description: "The identifier of a time activity",
+      async options({ page }) {
+        const position = 1 + (page * 10);
+        const { QueryResponse: { TimeActivity: timeActivities } } = await this.query({
+          params: {
+            query: `select * from timeactivity maxresults 10 ${page
+              ? `startposition ${position}`
+              : ""} `,
+          },
+        });
+        return timeActivities?.map(({
+          Id: value, NameOf: nameOf, Description: description,
+        }) => ({
+          value,
+          label: `${nameOf} ${description}`,
+        })) || [];
+      },
+    },
   },
   methods: {
     _companyId() {

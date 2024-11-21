@@ -10,9 +10,10 @@ export default {
   props: {
     quickbooks,
     billId: {
-      label: "Bill ID",
-      type: "string",
-      description: "Id of the bill to get details of.",
+      propDefinition: [
+        quickbooks,
+        "billId",
+      ],
     },
     minorVersion: {
       propDefinition: [

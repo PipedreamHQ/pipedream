@@ -10,9 +10,10 @@ export default {
   props: {
     quickbooks,
     purchaseOrderId: {
-      label: "Purchase Order ID",
-      type: "string",
-      description: "Id of the purchase order to get details of.",
+      propDefinition: [
+        quickbooks,
+        "purchaseOrderId",
+      ],
     },
     minorVersion: {
       propDefinition: [
