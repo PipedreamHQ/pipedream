@@ -1,5 +1,5 @@
 import app from "../../quickbooks_sandbox.app.mjs";
-import common from "../../../quickbooks/actions/create-plreport/create-pl-report.mjs";
+import common from "../../../quickbooks/actions/create-pl-report/create-pl-report.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
