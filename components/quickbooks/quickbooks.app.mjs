@@ -327,7 +327,7 @@ export default {
     },
     purchaseOrderId: {
       type: "string",
-      label: "Item Id",
+      label: "Purchase Order Id",
       description: "The identifier of a purchase order",
       async options({ page }) {
         return this.getPropOptions({

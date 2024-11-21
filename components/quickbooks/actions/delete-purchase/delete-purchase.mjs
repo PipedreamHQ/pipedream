@@ -25,7 +25,7 @@ export default {
     const {
       quickbooks,
       purchaseId,
-      minorversion,
+      minorVersion,
     } = this;
 
     const [
@@ -40,7 +40,7 @@ export default {
         SyncToken,
       },
       params: {
-        minorversion,
+        minorversion: minorVersion,
         operation: "delete",
       },
     });

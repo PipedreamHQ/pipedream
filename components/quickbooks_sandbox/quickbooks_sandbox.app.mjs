@@ -5,7 +5,7 @@ export default {
   type: "app",
   app: "quickbooks_sandbox",
   methods: {
-    ...common.mehtods,
+    ...common.methods,
     _apiUrl() {
       return "https://quickbooks.api.intuit.com/v3";
     },

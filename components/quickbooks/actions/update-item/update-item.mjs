@@ -2,7 +2,7 @@ import quickbooks from "../../quickbooks.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "quickbooks_sandbox-update-item",
+  key: "quickbooks-update-item",
   name: "Update Item",
   description: "Updates an item. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#full-update-an-item)",
   version: "0.0.1",
@@ -102,7 +102,7 @@ export default {
       optional: true,
     },
     salesTaxIncluded: {
-      type: "string",
+      type: "boolean",
       label: "Sales Tax Included",
       description: "True if the sales tax is included in the item amount, and therefore is not calculated for the transaction.",
       optional: true,
@@ -339,7 +339,7 @@ export default {
       },
     };
 
-    if (this.prefVendorRefValue || this.parentRefName) {
+    if (this.parentRefValue || this.parentRefName) {
       data["ParentRef"] = {
         value: this.parentRefValue,
         name: this.parentRefName,
@@ -350,7 +350,7 @@ export default {
       $,
       data,
       params: {
-        minorversion: this.minorversion,
+        minorversion: this.minorVersion,
       },
     });
 

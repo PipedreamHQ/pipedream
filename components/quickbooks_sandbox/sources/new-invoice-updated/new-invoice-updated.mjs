@@ -1,5 +1,5 @@
-import app from "../../monday_oauth.app.mjs";
-import common from "../../../monday/sources/new-invoice-updated/new-invoice-updated.mjs";
+import app from "../../quickbooks_sandbox.app.mjs";
+import common from "../../../quickbooks/sources/new-invoice-updated/new-invoice-updated.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -16,7 +16,7 @@ export default {
   description,
   type,
   props: {
-    monday: app,
+    quickbooks: app,
     ...props,
   },
 };
