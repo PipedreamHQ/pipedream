@@ -5636,6 +5636,9 @@ importers:
   components/learndash:
     specifiers: {}
 
+  components/learnworlds:
+    specifiers: {}
+
   components/leexi:
     specifiers:
       '@pipedream/platform': ^1.6.5
