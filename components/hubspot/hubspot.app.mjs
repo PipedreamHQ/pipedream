@@ -580,6 +580,35 @@ export default {
         value: object.id,
       }));
     },
+    async getPipelinesOptions(objectType) {
+      const { results } = await this.getPipelines({
+        objectType,
+      });
+      return results?.map((pipeline) => ({
+        label: pipeline.label,
+        value: pipeline.id,
+      })) || [];
+    },
+    async getPipelineStagesOptions(objectType, pipelineId) {
+      if (!pipelineId) {
+        return [];
+      }
+      const { stages } = await this.getPipeline({
+        objectType,
+        pipelineId,
+      });
+      return stages?.map((stage) => ({
+        label: stage.label,
+        value: stage.id,
+      })) || [];
+    },
+    async getBusinessUnitOptions() {
+      const { results } = await this.getBusinessUnits();
+      return results?.map((unit) => ({
+        label: unit.name,
+        value: unit.id,
+      })) || [];
+    },
     searchCRM({
       object, ...opts
     }) {
@@ -751,6 +780,22 @@ export default {
       return this.makeRequest({
         api: API_PATH.EMAIL,
         endpoint: "/subscriptions/timeline",
+        ...opts,
+      });
+    },
+    getBusinessUnits(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.BUSINESS_UNITS,
+        endpoint: `/business-units/user/${this.$auth.oauth_uid}`,
+        ...opts,
+      });
+    },
+    getPipeline({
+      objectType, pipelineId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/pipelines/${objectType}/${pipelineId}`,
         ...opts,
       });
     },
