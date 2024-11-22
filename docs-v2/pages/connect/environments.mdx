@@ -14,7 +14,7 @@ You specify the environment when [creating a new Connect token](/connect/api/#cr
 Always set the environment when you create the SDK client:
 
 ```typescript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production

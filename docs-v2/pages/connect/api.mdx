@@ -36,7 +36,7 @@ You can also load the client-side SDK via `<script>` tag. You can run the latest
 or a specific version:
 
 ```html
-<script src="https://unpkg.com/@pipedream/sdk@0.0.13/dist/browser/index.js"></script>
+<script src="https://unpkg.com/@pipedream/sdk@1.0.6/dist/browser/index.js"></script>
 ```
 
 ## Authentication
@@ -50,7 +50,7 @@ Most of your interactions with the Connect API will happen on the server, to pro
 [Create a Pipedream OAuth client](/rest-api/auth#oauth) and instantiate the SDK with your client ID and secret:
 
 ```typescript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
@@ -73,7 +73,7 @@ You'll primarily use the browser SDK to let your users securely connect apps fro
 Here's a Next.js example [from our quickstart](/connect/quickstart):
 
 ```typescript
-import { createFrontendClient } from "@pipedream/sdk"
+import { createFrontendClient } from "@pipedream/sdk/browser"
 // Example from our Next.js app
 import { serverConnectTokenCreate } from "./server"
  
@@ -109,7 +109,7 @@ Some API endpoints accept an [environment](/connect/environments) parameter. Thi
 Always set the environment when you create the SDK client:
 
 ```typescript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -211,7 +211,7 @@ import {
   type ConnectAPIResponse, 
   type ConnectTokenCreateOpts, 
   type ConnectTokenResponse,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -230,7 +230,7 @@ const { token, expires_at } = await pd.createConnectToken({
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -320,7 +320,7 @@ Pass `include_credentials=true` as a query-string parameter to include the accou
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -341,7 +341,7 @@ const accounts = await pd.getAccounts({
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -488,7 +488,7 @@ Pass `include_credentials=true` as a query-string parameter to include the accou
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -509,7 +509,7 @@ const account = await pd.getAccountById(accountId, {
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -632,7 +632,7 @@ DELETE /{project_id}/accounts/{account_id}
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -650,7 +650,7 @@ await pd.deleteAccount(accountId);
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -716,7 +716,7 @@ The app ID for which you want to delete all connected accounts. `app_id` can be 
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -734,7 +734,7 @@ await pd.deleteAccountsByApp(appId);
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -800,7 +800,7 @@ DELETE /{project_id}/users/{external_user_id}
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -818,7 +818,7 @@ console.log("All accounts associated with the external ID have been deleted.");
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -880,7 +880,7 @@ GET /{project_id}/info
 <Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -898,7 +898,7 @@ const info = await pd.getProjectInfo({
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
