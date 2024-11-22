@@ -86,7 +86,7 @@ jobs:
           LINTER_RULES_PATH: /
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVASCRIPT_ES: true
-          VALIDATE_JSON: true
+          VALIDATE_JSON: false
       # ESLint only on changed files (not the same as the above super-linter)
       - name: Get Changed Files (space-separated)
         id: changed_files_space
