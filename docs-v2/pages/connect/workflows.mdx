@@ -121,7 +121,7 @@ Then invoke the workflow like so:
 <Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
-import { createBackendClient, HTTPAuthType } from "@pipedream/sdk";
+import { createBackendClient, HTTPAuthType } from "@pipedream/sdk/server";
  
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
@@ -148,7 +148,7 @@ await pd.invokeWorkflowForExternalUser(
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 // These secrets should be saved securely and passed to your environment
 const client = createBackendClient({

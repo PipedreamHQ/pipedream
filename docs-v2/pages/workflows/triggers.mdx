@@ -146,7 +146,7 @@ You can use the Pipedream SDK to automatically refresh access tokens and invoke 
 <Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
-import { createBackendClient, HTTPAuthType } from "@pipedream/sdk";
+import { createBackendClient, HTTPAuthType } from "@pipedream/sdk/server";
  
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
@@ -170,7 +170,7 @@ await pd.invokeWorkflow(
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
@@ -242,7 +242,7 @@ curl -F 'name=Leia' -F 'title=General' https://myendpoint.m.pipedream.net
 
 Pipedream will convert that to a JavaScript object, `event.body`, with the following shape:
 
-```json
+```js
 {
   name: "Leia",
   title: "General",
