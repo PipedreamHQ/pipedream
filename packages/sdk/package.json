@@ -35,7 +35,7 @@
     "access": "public"
   },
   "scripts": {
-    "lint": "eslint --fix --ext .ts src",
+    "lint": "eslint --fix src",
     "prepublish": "rm -rf dist && pnpm run build",
     "build": "pnpm run build:node && pnpm run build:browser",
     "build:node": "tsc -p tsconfig.node.json",
