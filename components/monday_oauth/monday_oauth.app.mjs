@@ -1,11 +1,17 @@
+import common from "../monday/monday.app.mjs";
+import mondaySdk from "monday-sdk-js";
+
 export default {
-  type: "app",
+  ...common,
   app: "monday_oauth",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...common.methods,
+    async makeRequest({
+      query, options,
+    }) {
+      const monday = mondaySdk();
+      monday.setToken(this.$auth.oauth_access_token);
+      return monday.api(query, options);
     },
   },
 };
