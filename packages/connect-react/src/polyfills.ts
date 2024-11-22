@@ -3,6 +3,6 @@
 // 5:const element = document.createElement('i')
 if (typeof document === "undefined") {
   globalThis.document = {
-    createElement: () => {},
-  } as any;
+    createElement: () => { /* noop */ },
+  } as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
