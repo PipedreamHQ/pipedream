@@ -49,7 +49,7 @@ type FormContextProviderProps<T extends ConfigurableProps> = {
 };
 
 export const FormContextProvider = <T extends ConfigurableProps>({
-  children, props,
+  children, props: formProps,
 }: FormContextProviderProps<T>) => {
   const client = useFrontendClient();
 
@@ -57,7 +57,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
 
   const {
     component, configuredProps: __configuredProps, propNames, userId,
-  } = props;
+  } = formProps;
   const componentId = component.key;
 
   const [
@@ -90,8 +90,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     _configuredProps,
     _setConfiguredProps,
   ] = useState(configuredProps);
-  const setConfiguredProps = props.onUpdateConfiguredProps || _setConfiguredProps;
-  if (!props.onUpdateConfiguredProps) {
+  const setConfiguredProps = formProps.onUpdateConfiguredProps || _setConfiguredProps;
+  if (!formProps.onUpdateConfiguredProps) {
     configuredProps = _configuredProps;
   }
 
@@ -130,7 +130,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   });
 
   // XXX fix types of dynamicProps, props.component so this type decl not needed
-  let configurableProps: T = dynamicProps?.configurable_props || props.component.configurable_props || [];
+  let configurableProps: T = dynamicProps?.configurable_props || formProps.component.configurable_props || [];
   if (propNames?.length) {
     const _configurableProps = [];
     for (const prop of configurableProps) {
@@ -299,7 +299,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const value: FormContext<T> = {
     id,
     isValid: !Object.keys(errors).length, // XXX want to expose more from errors
-    props,
+    props: formProps,
     userId,
     component,
     configurableProps,

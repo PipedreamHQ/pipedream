@@ -268,9 +268,9 @@ export function useCustomize(): Customization {
   };
 }
 
-export const CustomizeProvider: React.FC<CustomizationConfig & { children: React.ReactNode; }> = ({
+export const CustomizeProvider = ({
   children,
   ...customizationProps
-}) => {
+}: CustomizationConfig<any, any, any> & { children: React.ReactNode; }) => { // eslint-disable-line @typescript-eslint/no-explicit-any
   return <CustomizationContext.Provider value={customizationProps}>{children}</CustomizationContext.Provider>;
 };

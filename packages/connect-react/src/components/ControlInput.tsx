@@ -3,10 +3,10 @@ import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
 
 export function ControlInput() {
-  const props = useFormFieldContext();
+  const formFieldContextProps = useFormFieldContext();
   const {
     id, onChange, prop, value,
-  } = props;
+  } = formFieldContextProps;
   const {
     getProps, theme,
   } = useCustomize();
@@ -53,7 +53,7 @@ export function ControlInput() {
       name={prop.name}
       value={value ?? ""}
       onChange={(e) => onChange(toOnChangeValue(e.target.value))}
-      {...getProps("controlInput", baseStyles, props)}
+      {...getProps("controlInput", baseStyles, formFieldContextProps)}
       min={"min" in prop
         ? prop.min
         : undefined}
