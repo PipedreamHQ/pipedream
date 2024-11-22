@@ -45,6 +45,12 @@ You can disable these notifications for your workflow by disabling the **Notify 
 
 ## Auto-retry Errors
 
+<Callout type="info">
+**Out of Memory and Timeout Errors**
+
+Pipedream will not automatically retry if an execution fails due to an Out of Memory (OOM) error or a timeout. If you encounter these errors frequently, consider increasing the configuration settings for your workflow.
+</Callout>
+
 Customers on the [Advanced Plan](https://pipedream.com/pricing) can automatically retry workflows on errors. If any step in your workflow throws an error, Pipedream will retry the workflow from that failed step, re-rerunning the step up to 8 times over a 10 hour span with an [exponential backoff](https://en.wikipedia.org/wiki/Exponential_backoff) strategy.
 
 On error, the step will export a `$summary` property that tells you how many times the step has been retried, and an `$attempt` object with the following properties:
