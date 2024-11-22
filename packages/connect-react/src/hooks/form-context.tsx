@@ -1,5 +1,5 @@
 import {
-  createContext, useContext, useEffect, useId, useState,
+  createContext, useContext, useEffect, useId, useState, type ReactNode,
 } from "react";
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
@@ -43,7 +43,7 @@ export const useFormContext = () => {
 };
 
 type FormContextProviderProps<T extends ConfigurableProps> = {
-  children: React.ReactNode;
+  children: ReactNode;
 } & {
   props: ComponentFormProps<T>;
 };
