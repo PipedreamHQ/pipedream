@@ -1,26 +1,30 @@
-import { createContext, useContext } from "react"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import type { BrowserClient } from "@pipedream/sdk/browser"
+import {
+  createContext, useContext,
+} from "react";
+import {
+  QueryClient, QueryClientProvider,
+} from "@tanstack/react-query";
+import type { BrowserClient } from "@pipedream/sdk/browser";
 
 const FrontendClientContext = createContext<BrowserClient | undefined>(
-  undefined
-)
+  undefined,
+);
 
 export const useFrontendClient = () => {
-  const context = useContext(FrontendClientContext)
+  const context = useContext(FrontendClientContext);
 
   if (!context) {
-    throw new Error("Must be used inside FrontendClientProvider")
+    throw new Error("Must be used inside FrontendClientProvider");
   }
 
-  return context
-}
+  return context;
+};
 
-type FrontendClientProviderProps = { children: React.ReactNode, client: BrowserClient }
+type FrontendClientProviderProps = { children: React.ReactNode; client: BrowserClient; };
 
 export const FrontendClientProvider: React.FC<FrontendClientProviderProps> = ({
   children,
-  client
+  client,
 }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -29,7 +33,7 @@ export const FrontendClientProvider: React.FC<FrontendClientProviderProps> = ({
         refetchOnWindowFocus: false,
       },
     },
-  })
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -37,5 +41,5 @@ export const FrontendClientProvider: React.FC<FrontendClientProviderProps> = ({
         {children}
       </FrontendClientContext.Provider>
     </QueryClientProvider>
-  )
-}
+  );
+};

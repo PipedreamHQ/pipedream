@@ -1,24 +1,31 @@
-import { useId, useState } from "react"
-import Select, { components } from "react-select"
-import { useApps } from "../hooks/use-apps"
-import { AppResponse } from "@pipedream/sdk"
+import {
+  useId, useState,
+} from "react";
+import Select, { components } from "react-select";
+import { useApps } from "../hooks/use-apps";
+import { AppResponse } from "@pipedream/sdk";
 
 type SelectAppProps = {
-  value?: Partial<AppResponse> & { name_slug: string }
-  onChange?: (app?: AppResponse) => void
-}
+  value?: Partial<AppResponse> & { name_slug: string; };
+  onChange?: (app?: AppResponse) => void;
+};
 
-export function SelectApp({ value, onChange }: SelectAppProps) {
-  const [q, setQ] = useState("") // XXX can we just use Select ref.value instead?
-  const instanceId = useId()
+export function SelectApp({
+  value, onChange,
+}: SelectAppProps) {
+  const [
+    q,
+    setQ,
+  ] = useState(""); // XXX can we just use Select ref.value instead?
+  const instanceId = useId();
   const {
     isLoading,
     // TODO error
     apps,
   } = useApps({
     q,
-  })
-  const { Option } = components
+  });
+  const { Option } = components;
   return (
     <Select
       instanceId={instanceId}
@@ -27,13 +34,21 @@ export function SelectApp({ value, onChange }: SelectAppProps) {
       components={{
         Option: (props) => (
           <Option {...props}>
-            <div style={{ display: "flex", gap: 10 }}>
+            <div style={{
+              display: "flex",
+              gap: 10,
+            }}>
               <img
                 src={`https://pipedream.com/s.v0/${props.data.id}/logo/48`}
-                style={{ height: 24, width: 24 }}
+                style={{
+                  height: 24,
+                  width: 24,
+                }}
                 alt={props.data.name}
               />
-              <span style={{ whiteSpace: "nowrap" }}>{props.data.name}</span>
+              <span style={{
+                whiteSpace: "nowrap",
+              }}>{props.data.name}</span>
             </div>
           </Option>
         ),
@@ -47,5 +62,5 @@ export function SelectApp({ value, onChange }: SelectAppProps) {
       onInputChange={(v) => setQ(v)}
       isLoading={isLoading}
     />
-  )
+  );
 }

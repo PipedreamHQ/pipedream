@@ -1,256 +1,299 @@
-import { createContext, useContext, useEffect, useId, useState } from "react"
-import isEqual from "lodash.isequal"
-import { useQuery } from "@tanstack/react-query"
-import type { ComponentReloadPropsOpts, ConfigurableProp, V1Component } from "@pipedream/sdk"
-import { useFrontendClient } from "./frontend-client-context"
-import type { ComponentFormProps } from "../components/ComponentForm"
+import {
+  createContext, useContext, useEffect, useId, useState,
+} from "react";
+import isEqual from "lodash.isequal";
+import { useQuery } from "@tanstack/react-query";
+import type {
+  ComponentReloadPropsOpts, ConfigurableProp, V1Component,
+} from "@pipedream/sdk";
+import { useFrontendClient } from "./frontend-client-context";
+import type { ComponentFormProps } from "../components/ComponentForm";
 
-export type DynamicProps = { id: string; configurable_props: any } // TODO
+export type DynamicProps = { id: string; configurable_props: any; }; // TODO
 
 export type FormContext = {
-  component: V1Component // XXX <T>
-  configurableProps: any[] // dynamicProps.configurable_props || props.component.configurable_props
-  configuredProps: Record<string, any> // TODO
-  dynamicProps?: DynamicProps // lots of calls require dynamicProps?.id, so need to expose
-  dynamicPropsQueryIsFetching?: boolean
-  id: string
-  isValid: boolean
-  optionalPropIsEnabled: (prop: ConfigurableProp) => boolean
-  optionalPropSetEnabled: (prop: ConfigurableProp, enabled: boolean) => void
-  props: ComponentFormProps
-  queryDisabledIdx?: number
-  setConfiguredProp: (idx: number, value: any) => void // XXX would be nice to have type safety here
-  setSubmitting: (submitting: boolean) => void
-  submitting: boolean
-  userId: string
-}
+  component: V1Component; // XXX <T>
+  configurableProps: any[]; // dynamicProps.configurable_props || props.component.configurable_props
+  configuredProps: Record<string, any>; // TODO
+  dynamicProps?: DynamicProps; // lots of calls require dynamicProps?.id, so need to expose
+  dynamicPropsQueryIsFetching?: boolean;
+  id: string;
+  isValid: boolean;
+  optionalPropIsEnabled: (prop: ConfigurableProp) => boolean;
+  optionalPropSetEnabled: (prop: ConfigurableProp, enabled: boolean) => void;
+  props: ComponentFormProps;
+  queryDisabledIdx?: number;
+  setConfiguredProp: (idx: number, value: any) => void; // XXX would be nice to have type safety here
+  setSubmitting: (submitting: boolean) => void;
+  submitting: boolean;
+  userId: string;
+};
 
-export const FormContext = createContext<FormContext | undefined>(undefined)
+export const FormContext = createContext<FormContext | undefined>(undefined);
 
 export const useFormContext = () => {
-  const context = useContext(FormContext)
+  const context = useContext(FormContext);
 
   if (!context) {
     // TODO: Improve error using hook/component names once we finalize them
-    throw new Error("Must be used inside provider")
+    throw new Error("Must be used inside provider");
   }
 
-  return context
-}
+  return context;
+};
 
 type FormContextProviderProps = {
-  children: React.ReactNode
+  children: React.ReactNode;
 } & {
-  props: ComponentFormProps
-}
+  props: ComponentFormProps;
+};
 
-export const FormContextProvider: React.FC<FormContextProviderProps> = ({ children, props }) => {
-  const client = useFrontendClient()
+export const FormContextProvider: React.FC<FormContextProviderProps> = ({
+  children, props,
+}) => {
+  const client = useFrontendClient();
 
-  const id = useId()
+  const id = useId();
 
-  const { component, configuredProps: __configuredProps, propNames, userId } = props
-  const componentId = component.key
+  const {
+    component, configuredProps: __configuredProps, propNames, userId,
+  } = props;
+  const componentId = component.key;
 
-  const [queryDisabledIdx, setQueryDisabledIdx] = useState<number | undefined>(0)
-  const [submitting, setSubmitting] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string[]>>({})
+  const [
+    queryDisabledIdx,
+    setQueryDisabledIdx,
+  ] = useState<number | undefined>(0);
+  const [
+    submitting,
+    setSubmitting,
+  ] = useState(false);
+  const [
+    errors,
+    setErrors,
+  ] = useState<Record<string, string[]>>({});
 
-  const [enabledOptionalProps, setEnabledOptionalProps] = useState<Record<string, boolean>>({})
+  const [
+    enabledOptionalProps,
+    setEnabledOptionalProps,
+  ] = useState<Record<string, boolean>>({});
   useEffect(() => {
-    setEnabledOptionalProps({})
-  }, [component])
+    setEnabledOptionalProps({});
+  }, [
+    component,
+  ]);
   // XXX pass this down? (in case we make it hash or set backed, but then also provide {add,remove} instead of set)
-  const optionalPropIsEnabled = (prop: ConfigurableProp) => enabledOptionalProps[prop.name]
+  const optionalPropIsEnabled = (prop: ConfigurableProp) => enabledOptionalProps[prop.name];
 
-  let configuredProps = __configuredProps || {}
-  const [_configuredProps, _setConfiguredProps] = useState(configuredProps)
-  let setConfiguredProps = props.onUpdateConfiguredProps || _setConfiguredProps
+  let configuredProps = __configuredProps || {};
+  const [
+    _configuredProps,
+    _setConfiguredProps,
+  ] = useState(configuredProps);
+  const setConfiguredProps = props.onUpdateConfiguredProps || _setConfiguredProps;
   if (!props.onUpdateConfiguredProps) {
-    configuredProps = _configuredProps
+    configuredProps = _configuredProps;
   }
 
-  const [dynamicProps, setDynamicProps] = useState<DynamicProps>()
-  const [reloadPropIdx, setReloadPropIdx] = useState<number>()
+  const [
+    dynamicProps,
+    setDynamicProps,
+  ] = useState<DynamicProps>();
+  const [
+    reloadPropIdx,
+    setReloadPropIdx,
+  ] = useState<number>();
   const componentReloadPropsInput: ComponentReloadPropsOpts = {
     userId,
     componentId,
     configuredProps,
     dynamicPropsId: dynamicProps?.id,
-  }
+  };
   const {
     isFetching: dynamicPropsQueryIsFetching,
     // TODO error
   } = useQuery({
-    queryKey: ["dynamicProps"],
+    queryKey: [
+      "dynamicProps",
+    ],
     queryFn: async () => {
-      const { dynamic_props } = await client.componentReloadProps(componentReloadPropsInput)
+      const { dynamic_props } = await client.componentReloadProps(componentReloadPropsInput);
       // XXX what about if null?
       // TODO observation errors, etc.
       if (dynamic_props) {
-        setDynamicProps(dynamic_props)
+        setDynamicProps(dynamic_props);
       }
-      setReloadPropIdx(undefined)
-      return [] // XXX ok to mutate above and not look at data?
+      setReloadPropIdx(undefined);
+      return []; // XXX ok to mutate above and not look at data?
     },
     enabled: reloadPropIdx != null, // TODO or props.dynamicPropsId && !dynamicProps
-  })
+  });
 
   // XXX fix types of dynamicProps, props.component so this type decl not needed
-  let configurableProps: ConfigurableProp[] = dynamicProps?.configurable_props || props.component.configurable_props || []
+  let configurableProps: ConfigurableProp[] = dynamicProps?.configurable_props || props.component.configurable_props || [];
   if (propNames?.length) {
-    const _configurableProps = []
+    const _configurableProps = [];
     for (const prop of configurableProps) {
       // TODO decided propNames (and hideOptionalProps) should NOT filter dynamic props
       if (propNames.findIndex((name) => prop.name === name) >= 0) {
-        _configurableProps.push(prop)
+        _configurableProps.push(prop);
       }
     }
-    configurableProps = _configurableProps
+    configurableProps = _configurableProps;
   }
   if (reloadPropIdx) {
-    configurableProps = configurableProps.slice(0, reloadPropIdx + 1)
+    configurableProps = configurableProps.slice(0, reloadPropIdx + 1);
   }
 
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation
   const propErrors = (prop: ConfigurableProp, value: any): string[] => {
-    const errs: string[] = []
+    const errs: string[] = [];
     if (value === undefined) {
       if (!prop.optional) {
-        errs.push("required")
+        errs.push("required");
       }
     } else if (prop.type === "integer") { // XXX type should be "number"? we don't support floats otherwise...
       if (typeof value !== "number") {
-        errs.push("not a number")
+        errs.push("not a number");
       } else {
         if (prop.min != null && value < prop.min) {
-          errs.push("number too small")
+          errs.push("number too small");
         }
         if (prop.max != null && value > prop.max) {
-          errs.push("number too big")
+          errs.push("number too big");
         }
       }
     } else if (prop.type === "boolean") {
       if (typeof value !== "boolean") {
-        errs.push("not a boolean")
+        errs.push("not a boolean");
       }
     } else if (prop.type === "string") {
       if (typeof value !== "string" ) {
-        errs.push("not a string")
+        errs.push("not a string");
       }
     } else if (prop.type === "app") {
       // TODO need to know about auth type
     }
-    return errs
-  }
+    return errs;
+  };
 
   const updateConfiguredPropsQueryDisabledIdx = (configuredProps: Record<string, any>) => {
-    let _queryDisabledIdx =  undefined
+    let _queryDisabledIdx =  undefined;
     for (let idx = 0; idx < configurableProps.length; idx++) {
-      const prop = configurableProps[idx]
+      const prop = configurableProps[idx];
       if (prop.hidden || (prop.optional && !optionalPropIsEnabled(prop))) {
-        continue
+        continue;
       }
-      const value = configuredProps[prop.name]
+      const value = configuredProps[prop.name];
       if (value === undefined && _queryDisabledIdx == null && (prop.type === "app" || prop.remoteOptions)) {
-        _queryDisabledIdx = idx
-        break
+        _queryDisabledIdx = idx;
+        break;
       }
     }
-    setQueryDisabledIdx(_queryDisabledIdx)
-  }
+    setQueryDisabledIdx(_queryDisabledIdx);
+  };
 
   // trusts they've been filtered to configurable props correctly already
   const updateConfiguredProps = (configuredProps: Record<string, any>) => {
-    setConfiguredProps(configuredProps)
-    updateConfiguredPropsQueryDisabledIdx(configuredProps)
-    const _errors: typeof errors = {}
+    setConfiguredProps(configuredProps);
+    updateConfiguredPropsQueryDisabledIdx(configuredProps);
+    const _errors: typeof errors = {};
     for (let idx = 0; idx < configurableProps.length; idx++) {
-      const prop = configurableProps[idx]
-      const value = configuredProps[prop.name]
-      const errs = propErrors(prop, value)
+      const prop = configurableProps[idx];
+      const value = configuredProps[prop.name];
+      const errs = propErrors(prop, value);
       if (errs.length) {
-        _errors[prop.name] = errs
+        _errors[prop.name] = errs;
       }
     }
-    setErrors(_errors)
-  }
+    setErrors(_errors);
+  };
 
   useEffect(() => {
-    const newConfiguredProps: Record<string, any> = {}
+    const newConfiguredProps: Record<string, any> = {};
     for (const prop of configurableProps) {
       if (prop.hidden) {
-        continue
+        continue;
       }
       // if prop.optional and not shown, we skip and do on un-collapse
       if (prop.optional && !optionalPropIsEnabled(prop)) {
-        continue
+        continue;
       }
-      const value = configuredProps[prop.name]
+      const value = configuredProps[prop.name];
       if (value === undefined) {
         if ("default" in prop && prop.default != null) {
-          newConfiguredProps[prop.name] = prop.default
+          newConfiguredProps[prop.name] = prop.default;
         }
       } else {
         if (prop.type === "integer" && typeof value !== "number") {
-          delete newConfiguredProps[prop.name]
+          delete newConfiguredProps[prop.name];
         } else {
-          newConfiguredProps[prop.name] = value
+          newConfiguredProps[prop.name] = value;
         }
       }
     }
     if (!isEqual(newConfiguredProps, configuredProps)) {
-      updateConfiguredProps(newConfiguredProps)
+      updateConfiguredProps(newConfiguredProps);
     }
-  }, [configurableProps])
+  }, [
+    configurableProps,
+  ]);
 
   // clear all props on user change
   useEffect(() => {
-    updateConfiguredProps({})
-  }, [userId])
+    updateConfiguredProps({});
+  }, [
+    userId,
+  ]);
 
   // maybe should take prop as first arg but for text inputs didn't want to compute index each time
   const setConfiguredProp = (idx: number, value: any) => {
-    const prop = configurableProps[idx]
-    const newConfiguredProps = {...configuredProps}
+    const prop = configurableProps[idx];
+    const newConfiguredProps = {
+      ...configuredProps,
+    };
     if (value === undefined) {
-      delete newConfiguredProps[prop.name]
+      delete newConfiguredProps[prop.name];
     } else {
-      newConfiguredProps[prop.name] = value
+      newConfiguredProps[prop.name] = value;
     }
-    setConfiguredProps(newConfiguredProps)
+    setConfiguredProps(newConfiguredProps);
     if (prop.reloadProps) {
-      setReloadPropIdx(idx)
+      setReloadPropIdx(idx);
     }
     if (prop.type === "app" || prop.remoteOptions) {
-      updateConfiguredPropsQueryDisabledIdx(newConfiguredProps)
+      updateConfiguredPropsQueryDisabledIdx(newConfiguredProps);
     }
-    const errs = propErrors(prop, value)
-    const newErrors = {...errors}
+    const errs = propErrors(prop, value);
+    const newErrors = {
+      ...errors,
+    };
     if (errs.length) {
-      newErrors[prop.name] = errs
+      newErrors[prop.name] = errs;
     } else {
-      delete newErrors[prop.name]
+      delete newErrors[prop.name];
     }
-    setErrors(newErrors)
-  }
+    setErrors(newErrors);
+  };
 
   const optionalPropSetEnabled = (prop: ConfigurableProp, enabled: boolean) => {
-    const newEnabledOptionalProps = {...enabledOptionalProps}
+    const newEnabledOptionalProps = {
+      ...enabledOptionalProps,
+    };
     if (enabled) {
-      newEnabledOptionalProps[prop.name] = true
+      newEnabledOptionalProps[prop.name] = true;
     } else {
-      delete newEnabledOptionalProps[prop.name]
+      delete newEnabledOptionalProps[prop.name];
     }
-    const idx = configurableProps.findIndex((p) => p.name === prop.name)
+    const idx = configurableProps.findIndex((p) => p.name === prop.name);
     if (!enabled) {
-      setConfiguredProp(idx, undefined)
+      setConfiguredProp(idx, undefined);
     } else if ("default" in prop && prop.default != null) {
-      setConfiguredProp(idx, prop.default)
+      setConfiguredProp(idx, prop.default);
     }
-    setEnabledOptionalProps(newEnabledOptionalProps)
-  }
+    setEnabledOptionalProps(newEnabledOptionalProps);
+  };
 
   // console.log("***", configurableProps, configuredProps)
   const value: FormContext = {
@@ -269,6 +312,6 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({ childr
     setConfiguredProp,
     setSubmitting,
     submitting,
-  }
-  return <FormContext.Provider value={value}>{children}</FormContext.Provider>
-}
+  };
+  return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
+};

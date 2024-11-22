@@ -1,14 +1,16 @@
-import Select, { components as ReactSelectComponents } from "react-select"
-import { useFrontendClient } from "../hooks/frontend-client-context"
-import { useAccounts } from "../hooks/use-accounts"
-import { useFormFieldContext } from "../hooks/form-field-context"
-import { useCustomize } from "../hooks/customization-context"
-import type { BaseReactSelectProps } from "../hooks/customization-context"
-import { useMemo } from "react"
-import type { CSSProperties } from "react"
+import Select, { components as ReactSelectComponents } from "react-select";
+import { useFrontendClient } from "../hooks/frontend-client-context";
+import { useAccounts } from "../hooks/use-accounts";
+import { useFormFieldContext } from "../hooks/form-field-context";
+import { useCustomize } from "../hooks/customization-context";
+import type { BaseReactSelectProps } from "../hooks/customization-context";
+import { useMemo } from "react";
+import type { CSSProperties } from "react";
 
-import type { OptionProps } from "react-select"
-import { AppResponse, ConfigurablePropApp } from "@pipedream/sdk"
+import type { OptionProps } from "react-select";
+import {
+  AppResponse, ConfigurablePropApp,
+} from "@pipedream/sdk";
 
 const BaseOption = (props: OptionProps<any>) => {
   // const imgSrc =
@@ -18,25 +20,28 @@ const BaseOption = (props: OptionProps<any>) => {
       {/*<img src={`https://pipedream.com/s.v0/${props.data.id}/logo/48`} style={{width: 24, float: "left", marginRight: 10}} alt={props.data.name} />*/}
       {props.data.name}
     </ReactSelectComponents.Option>
-  )
-}
+  );
+};
 
 type ControlAppProps = {
-  app: AppResponse
-}
+  app: AppResponse;
+};
 
 export function ControlApp({ app }: ControlAppProps) {
-  const client = useFrontendClient()
-  const formFieldCtx = useFormFieldContext<ConfigurablePropApp>()
-  const { id, prop, value, onChange } = formFieldCtx
+  const client = useFrontendClient();
+  const formFieldCtx = useFormFieldContext<ConfigurablePropApp>();
+  const {
+    id, prop, value, onChange,
+  } = formFieldCtx;
 
-
-  const { getProps, select, theme } = useCustomize()
+  const {
+    getProps, select, theme,
+  } = useCustomize();
 
   const baseStyles: CSSProperties = {
     color: theme.colors.neutral60,
     gridArea: "control",
-  }
+  };
   const baseStylesConnectButton: CSSProperties = {
     borderRadius: theme.borderRadius,
     border: "solid 1px",
@@ -44,10 +49,12 @@ export function ControlApp({ app }: ControlAppProps) {
     color: theme.colors.neutral60,
     padding: "0.25rem 0.5rem",
     gridArea: "control",
-  }
+  };
 
   const baseSelectProps: BaseReactSelectProps = {
-    components: { Option: BaseOption },
+    components: {
+      Option: BaseOption,
+    },
     styles: {
       control: (base: {}) => ({
         ...base,
@@ -55,10 +62,10 @@ export function ControlApp({ app }: ControlAppProps) {
         boxShadow: theme.boxShadow.input,
       }),
     },
-  }
-  const selectProps =  select.getProps("controlAppSelect", baseSelectProps)
+  };
+  const selectProps =  select.getProps("controlAppSelect", baseSelectProps);
 
-  const oauthAppId = undefined // XXX allow customizing
+  const oauthAppId = undefined; // XXX allow customizing
   const {
     isLoading: isLoadingAccounts,
     // TODO error
@@ -74,7 +81,7 @@ export function ControlApp({ app }: ControlAppProps) {
         enabled: !!app,
         suspense: !!app,
       },
-    }
+    },
   );
 
   const startConnectAccount = async () => {
@@ -82,31 +89,39 @@ export function ControlApp({ app }: ControlAppProps) {
       app: prop.app,
       oauthAppId,
       onSuccess: async (res) => {
-        await refetchAccounts()
-        onChange({ authProvisionId: res.id })
+        await refetchAccounts();
+        onChange({
+          authProvisionId: res.id,
+        });
       },
       onError: () => {
         // TODO
       },
-    })
-  }
+    });
+  };
 
   const selectValue = useMemo(() => {
-    let ret = value
+    let ret = value;
     if (ret != null) {
       for (const item of accounts) {
         if (ret.authProvisionId === item.id) {
-          ret = item
-          break
+          ret = item;
+          break;
         }
       }
     }
-    return ret
-  }, [accounts, value])
+    return ret;
+  }, [
+    accounts,
+    value,
+  ]);
 
   // XXX loading / skeleton hooks
   return (
-    <div {...getProps("controlApp", baseStyles, { app, ...formFieldCtx })}>
+    <div {...getProps("controlApp", baseStyles, {
+      app,
+      ...formFieldCtx,
+    })}>
       {isLoadingAccounts ? (
         `Loading ${app.name} accounts...`
       ) : accounts.length ? (
@@ -115,7 +130,10 @@ export function ControlApp({ app }: ControlAppProps) {
           value={selectValue}
           options={[
             ...accounts,
-            { id: "_new", name: `Connect new ${app.name} account...` },
+            {
+              id: "_new",
+              name: `Connect new ${app.name} account...`,
+            },
           ]}
           {...selectProps}
           required={true}
@@ -130,20 +148,25 @@ export function ControlApp({ app }: ControlAppProps) {
               if (a.id === "_new") {
                 // start connect account and then select it, etc.
                 // TODO unset / put in loading state
-                startConnectAccount()
+                startConnectAccount();
               } else {
-                onChange({ authProvisionId: a.id })
+                onChange({
+                  authProvisionId: a.id,
+                });
               }
             } else {
-              onChange(undefined)
+              onChange(undefined);
             }
           }}
         />
       ) : (
-        <button type="button" {...getProps("connectButton", baseStylesConnectButton, { app, ...formFieldCtx })} onClick={() => startConnectAccount()}>
+        <button type="button" {...getProps("connectButton", baseStylesConnectButton, {
+          app,
+          ...formFieldCtx,
+        })} onClick={() => startConnectAccount()}>
           Connect {app.name}
         </button>
       )}
     </div>
-  )
+  );
 }

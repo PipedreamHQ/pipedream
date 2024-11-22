@@ -1,26 +1,28 @@
-import { FormContextProvider, type FormContext } from "../hooks/form-context"
+import {
+  FormContextProvider, type FormContext,
+} from "../hooks/form-context";
 import type {
   ConfigurableProps,
   ConfiguredProps,
   V1Component,
-} from "@pipedream/sdk"
-import { InternalComponentForm } from "./InternalComponentForm"
+} from "@pipedream/sdk";
+import { InternalComponentForm } from "./InternalComponentForm";
 
 export type ComponentFormProps<T extends ConfigurableProps = any> = {
-  userId: string
-  component: V1Component<T>
-  configuredProps?: ConfiguredProps<T> // XXX value?
-  disableQueryDisabling?: boolean
-  propNames?: string[] // TODO PropNames<T>
-  onSubmit?: (ctx: FormContext) => void | Promise<void> // if passed, we include button
-  onUpdateConfiguredProps?: (v: ConfiguredProps<T>) => void // XXX onChange?
-  hideOptionalProps?: boolean
-}
+  userId: string;
+  component: V1Component<T>;
+  configuredProps?: ConfiguredProps<T>; // XXX value?
+  disableQueryDisabling?: boolean;
+  propNames?: string[]; // TODO PropNames<T>
+  onSubmit?: (ctx: FormContext) => void | Promise<void>; // if passed, we include button
+  onUpdateConfiguredProps?: (v: ConfiguredProps<T>) => void; // XXX onChange?
+  hideOptionalProps?: boolean;
+};
 
 export function ComponentForm(props: ComponentFormProps) {
   return (
     <FormContextProvider props={props}>
       <InternalComponentForm />
     </FormContextProvider>
-  )
+  );
 }

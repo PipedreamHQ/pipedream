@@ -78,6 +78,7 @@
     {
       "files": [
         "*.ts",
+        "*.tsx",
         "*.mts"
       ],
       "extends": [
@@ -109,6 +110,17 @@
             }
           }
         }]
+      }
+    },
+    {
+      "files": [
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:react/recommended"
+      ],
+      "rules": {
+        "react/react-in-jsx-scope": "off"
       }
     }
   ],

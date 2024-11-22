@@ -1,22 +1,26 @@
-import { useFormFieldContext } from "../hooks/form-field-context"
-import { useCustomize } from "../hooks/customization-context"
-import type { CSSProperties } from "react"
+import { useFormFieldContext } from "../hooks/form-field-context";
+import { useCustomize } from "../hooks/customization-context";
+import type { CSSProperties } from "react";
 
 export function ControlAny() {
-  const props = useFormFieldContext()
-  const { id, onChange, value } = props
-  const { getProps, theme } = useCustomize()
+  const props = useFormFieldContext();
+  const {
+    id, onChange, value,
+  } = props;
+  const {
+    getProps, theme,
+  } = useCustomize();
   const baseStyles: CSSProperties = {
     display: "block",
     gridArea: "control",
     width: "100%",
     fontSize: "0.875rem",
     boxShadow: theme.boxShadow.input,
-  }
+  };
 
-  let jsonValue = value
+  let jsonValue = value;
   if (typeof jsonValue === "object") {
-    jsonValue = JSON.stringify(jsonValue)
+    jsonValue = JSON.stringify(jsonValue);
   }
 
   // XXX this needs to be a more complex component so disabled above
@@ -27,5 +31,5 @@ export function ControlAny() {
       onChange={(e) => onChange(e.target.value)}
       {...getProps("controlAny", baseStyles, props)}
     />
-  )
+  );
 }

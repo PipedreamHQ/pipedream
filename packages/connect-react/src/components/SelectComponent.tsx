@@ -1,13 +1,15 @@
-import Select from "react-select"
-import { useComponents } from "../hooks/use-components"
-import { AppResponse, V1Component } from "@pipedream/sdk"
+import Select from "react-select";
+import { useComponents } from "../hooks/use-components";
+import {
+  AppResponse, V1Component,
+} from "@pipedream/sdk";
 
 type SelectComponentProps = {
-  app?: Partial<AppResponse> & { name_slug: string }
-  componentType?: "action" | "trigger"
-  value?: Partial<V1Component> & { key: string }
-  onChange?: (component?: V1Component) => void
-}
+  app?: Partial<AppResponse> & { name_slug: string; };
+  componentType?: "action" | "trigger";
+  value?: Partial<V1Component> & { key: string; };
+  onChange?: (component?: V1Component) => void;
+};
 
 export function SelectComponent({
   app,
@@ -22,7 +24,7 @@ export function SelectComponent({
   } = useComponents({
     app: app?.name_slug,
     componentType,
-  })
+  });
   return (
     <Select
       instanceId={app?.name_slug}
@@ -38,5 +40,5 @@ export function SelectComponent({
         IndicatorSeparator: () => null,
       }}
     />
-  )
+  );
 }

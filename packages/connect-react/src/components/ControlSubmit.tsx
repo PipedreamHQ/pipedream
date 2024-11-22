@@ -1,16 +1,18 @@
-import { FormContext } from "../hooks/form-context"
-import { useCustomize } from "../hooks/customization-context"
-import type { CSSProperties } from "react"
+import { FormContext } from "../hooks/form-context";
+import { useCustomize } from "../hooks/customization-context";
+import type { CSSProperties } from "react";
 
 export type ControlSubmitProps = {
-  form: FormContext
-}
+  form: FormContext;
+};
 
 export function ControlSubmit(props: ControlSubmitProps) {
-  const { form } = props
-  const { submitting } = form
+  const { form } = props;
+  const { submitting } = form;
 
-  const { getProps, theme } = useCustomize()
+  const {
+    getProps, theme,
+  } = useCustomize();
   const baseStyles: CSSProperties = {
     width: "fit-content",
     textTransform: "capitalize",
@@ -23,9 +25,13 @@ export function ControlSubmit(props: ControlSubmitProps) {
     boxShadow: theme.boxShadow?.button,
     cursor: "pointer",
     fontSize: "0.875rem",
-    opacity: submitting ? 0.5 : undefined,
+    opacity: submitting
+      ? 0.5
+      : undefined,
     margin: "0.5rem 0 0 0",
-  }
+  };
 
-  return <input type="submit" value={submitting ? "Submitting..." : "Submit"} {...getProps("controlSubmit", baseStyles, props)} disabled={submitting} />
+  return <input type="submit" value={submitting
+    ? "Submitting..."
+    : "Submit"} {...getProps("controlSubmit", baseStyles, props)} disabled={submitting} />;
 }

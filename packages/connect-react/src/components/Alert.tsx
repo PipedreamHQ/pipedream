@@ -1,10 +1,10 @@
-import type { ConfigurablePropAlert } from "@pipedream/sdk"
+import type { ConfigurablePropAlert } from "@pipedream/sdk";
 
 type AlertProps = {
-  prop: ConfigurablePropAlert
-}
+  prop: ConfigurablePropAlert;
+};
 
 export function Alert({ prop }: AlertProps) {
   // XXX useCustomize, getClassNames
-  return <p className={`pd-alert-${prop.alertType}`}>{prop.content}</p>
+  return <p className={`pd-alert-${prop.alertType}`}>{prop.content}</p>;
 }

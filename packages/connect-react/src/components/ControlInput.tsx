@@ -1,11 +1,15 @@
-import type { CSSProperties } from "react"
-import { useFormFieldContext } from "../hooks/form-field-context"
-import { useCustomize } from "../hooks/customization-context"
+import type { CSSProperties } from "react";
+import { useFormFieldContext } from "../hooks/form-field-context";
+import { useCustomize } from "../hooks/customization-context";
 
 export function ControlInput() {
-  const props = useFormFieldContext()
-  const { id, onChange, prop, value } = props
-  const { getProps, theme } = useCustomize()
+  const props = useFormFieldContext();
+  const {
+    id, onChange, prop, value,
+  } = props;
+  const {
+    getProps, theme,
+  } = useCustomize();
 
   const baseStyles: CSSProperties = {
     color: theme.colors.neutral60,
@@ -17,27 +21,29 @@ export function ControlInput() {
     borderRadius: theme.borderRadius,
     gridArea: "control",
     boxShadow: theme.boxShadow.input,
-  }
+  };
 
-  let autoComplete = "off"
+  let autoComplete = "off";
 
-  let inputType: HTMLInputElement["type"] = "text"
-  let toOnChangeValue = (v: string): typeof value => v
+  let inputType: HTMLInputElement["type"] = "text";
+  let toOnChangeValue = (v: string): typeof value => v;
   switch (prop.type) {
-    case "string":
-      break
-    case "integer":
-      inputType = "number" // XXX may not want this... inputmode="numeric", etc.
-      toOnChangeValue = (v) => v ? parseInt(v) : undefined
-      break
-    default:
-      throw new Error("unexpected prop.type for ControlInput: " + prop.type)
+  case "string":
+    break;
+  case "integer":
+    inputType = "number"; // XXX may not want this... inputmode="numeric", etc.
+    toOnChangeValue = (v) => v
+      ? parseInt(v)
+      : undefined;
+    break;
+  default:
+    throw new Error("unexpected prop.type for ControlInput: " + prop.type);
   }
 
   // TODO need to figure out reifying values that are saved though on this path
   if ("secret" in prop && prop.secret) {
-    inputType = "password"
-    autoComplete = "new-password" // in chrome, this is better than "off" here
+    inputType = "password";
+    autoComplete = "new-password"; // in chrome, this is better than "off" here
   }
 
   return (
@@ -48,12 +54,16 @@ export function ControlInput() {
       value={value ?? ""}
       onChange={(e) => onChange(toOnChangeValue(e.target.value))}
       {...getProps("controlInput", baseStyles, props)}
-      min={"min" in prop ? prop.min : undefined}
-      max={"max" in prop ? prop.max : undefined}
+      min={"min" in prop
+        ? prop.min
+        : undefined}
+      max={"max" in prop
+        ? prop.max
+        : undefined}
       autoComplete={autoComplete}
       data-lpignore="true"
       data-1p-ignore="true"
       required={!prop.optional}
     />
-  )
+  );
 }

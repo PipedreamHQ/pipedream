@@ -1,19 +1,17 @@
-import { useQuery } from "@tanstack/react-query"
-import { useState } from "react"
-import { ComponentConfigureOpts } from "@pipedream/sdk"
-import { useFormContext } from "../hooks/form-context"
-import { useFormFieldContext } from "../hooks/form-field-context"
-import { useFrontendClient } from "../hooks/frontend-client-context"
-import { ControlSelect } from "./ControlSelect"
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { ComponentConfigureOpts } from "@pipedream/sdk";
+import { useFormContext } from "../hooks/form-context";
+import { useFormFieldContext } from "../hooks/form-field-context";
+import { useFrontendClient } from "../hooks/frontend-client-context";
+import { ControlSelect } from "./ControlSelect";
 
 export type RemoteOptionsContainerProps = {
-  queryEnabled?: boolean
-}
+  queryEnabled?: boolean;
+};
 
-export function RemoteOptionsContainer({
-  queryEnabled,
-}: RemoteOptionsContainerProps) {
-  const client = useFrontendClient()
+export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerProps) {
+  const client = useFrontendClient();
   const {
     userId,
     component,
@@ -21,15 +19,20 @@ export function RemoteOptionsContainer({
     configuredProps,
     dynamicProps,
     props: { disableQueryDisabling },
-  } = useFormContext()
-  const { idx, prop } = useFormFieldContext()
+  } = useFormContext();
+  const {
+    idx, prop,
+  } = useFormFieldContext();
 
-  const [query, setQuery] = useState("")
+  const [
+    query,
+    setQuery,
+  ] = useState("");
 
-  const configuredPropsUpTo: Record<string, any> = {}
+  const configuredPropsUpTo: Record<string, any> = {};
   for (let i = 0; i < idx; i++) {
-    const prop = configurableProps[i]
-    configuredPropsUpTo[prop.name] = configuredProps[prop.name]
+    const prop = configurableProps[i];
+    configuredPropsUpTo[prop.name] = configuredProps[prop.name];
   }
   const componentConfigureInput: ComponentConfigureOpts = {
     userId,
@@ -37,58 +40,78 @@ export function RemoteOptionsContainer({
     propName: prop.name,
     configuredProps: configuredPropsUpTo,
     dynamicPropsId: dynamicProps?.id,
-  }
+  };
   if (prop.useQuery) {
-    componentConfigureInput.query = query || "" // TODO ref.value ? Is this still supported?
+    componentConfigureInput.query = query || ""; // TODO ref.value ? Is this still supported?
   }
   // exclude dynamicPropsId from the key since only affect it should have is to add / remove props but prop by name should not change!
-  const { dynamicPropsId, ...queryKeyInput } = componentConfigureInput
+  const {
+    dynamicPropsId, ...queryKeyInput
+  } = componentConfigureInput;
 
-  const [error, setError] = useState<{ name: string; message: string }>()
+  const [
+    error,
+    setError,
+  ] = useState<{ name: string; message: string; }>();
 
   // TODO handle error!
-  const { isFetching, data, refetch } = useQuery({
-    queryKey: ["componentConfigure", queryKeyInput],
+  const {
+    isFetching, data, refetch,
+  } = useQuery({
+    queryKey: [
+      "componentConfigure",
+      queryKeyInput,
+    ],
     queryFn: async () => {
-      setError(undefined)
-      const res = await client.componentConfigure(componentConfigureInput)
+      setError(undefined);
+      const res = await client.componentConfigure(componentConfigureInput);
 
       // console.log("res", res)
       // XXX look at errors in response here too
-      const { options, string_options: stringOptions, errors } = res
+      const {
+        options, string_options: stringOptions, errors,
+      } = res;
       if (errors?.length) {
         // TODO field context setError? (for validity, etc.)
         try {
-          setError(JSON.parse(errors[0]))
+          setError(JSON.parse(errors[0]));
         } catch {
-          setError({ name: "Error", message: errors[0] })
+          setError({
+            name: "Error",
+            message: errors[0],
+          });
         }
-        return []
+        return [];
       }
       if (options?.length) {
-        return options
+        return options;
       }
       if (stringOptions?.length) {
-        const options = []
+        const options = [];
         for (const stringOption of stringOptions) {
-          options.push({ label: stringOption, value: stringOption })
+          options.push({
+            label: stringOption,
+            value: stringOption,
+          });
         }
-        return options
+        return options;
       }
-      return []
+      return [];
     },
     enabled: !!queryEnabled,
-  })
+  });
 
   // TODO show error in different spot!
   const placeholder = error
     ? error.message
     : disableQueryDisabling
-    ? "Click to configure"
-    : !queryEnabled
-    ? "Configure props above first"
-    : undefined
-  const isDisabled = disableQueryDisabling ? false : !queryEnabled
+      ? "Click to configure"
+      : !queryEnabled
+        ? "Configure props above first"
+        : undefined;
+  const isDisabled = disableQueryDisabling
+    ? false
+    : !queryEnabled;
 
   return (
     <ControlSelect
@@ -98,19 +121,21 @@ export function RemoteOptionsContainer({
         isLoading: isFetching,
         placeholder,
         isDisabled,
-        inputValue: prop.useQuery ? query : undefined,
+        inputValue: prop.useQuery
+          ? query
+          : undefined,
         onInputChange(v) {
           if (prop.useQuery) {
-            setQuery(v)
-            refetch()
+            setQuery(v);
+            refetch();
           }
         },
         onMenuOpen() {
           if (disableQueryDisabling && !queryEnabled) {
-            refetch() // TODO don't refetch if same exact params? (this is just for stress demo -- for now)
+            refetch(); // TODO don't refetch if same exact params? (this is just for stress demo -- for now)
           }
         },
       }}
     />
-  )
+  );
 }

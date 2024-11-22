@@ -1,22 +1,26 @@
-import { Component } from "react"
+import { Component } from "react";
 
 type Props = {
-  children: React.ReactNode 
-  fallback: (err: any) => React.ReactNode 
-}
+  children: React.ReactNode;
+  fallback: (err: any) => React.ReactNode;
+};
 
 export class ErrorBoundary extends Component<Props> {
-  state = {err: undefined}
+  state = {
+    err: undefined,
+  };
 
   static getDerivedStateFromError(err: any) {
-    return {err}
+    return {
+      err,
+    };
   }
 
   render() {
-    const { err } = this.state
+    const { err } = this.state;
     if (err) {
-      return this.props.fallback(err)
+      return this.props.fallback(err);
     }
-    return this.props.children
+    return this.props.children;
   }
 }
