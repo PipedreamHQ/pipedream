@@ -2,7 +2,7 @@ import { Component } from "react";
 
 type Props = {
   children: React.ReactNode;
-  fallback: (err: any) => React.ReactNode;
+  fallback: (err: unknown) => React.ReactNode;
 };
 
 export class ErrorBoundary extends Component<Props> {
@@ -10,7 +10,7 @@ export class ErrorBoundary extends Component<Props> {
     err: undefined,
   };
 
-  static getDerivedStateFromError(err: any) {
+  static getDerivedStateFromError(err: unknown) {
     return {
       err,
     };

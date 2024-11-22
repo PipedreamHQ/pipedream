@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
+    "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "noEmit": true,
     "strict": true,
