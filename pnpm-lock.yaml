@@ -88,8 +88,8 @@ importers:
         specifier: ^12.3.4
         version: 12.5.0(enquirer@2.4.1)
       pnpm:
-        specifier: 7.33.6
-        version: 7.33.6
+        specifier: ^9
+        version: 9.14.2
       putout:
         specifier: '>=36'
         version: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
@@ -21613,9 +21613,9 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  pnpm@7.33.6:
-    resolution: {integrity: sha512-kOJ/04BH8YWD8zQveEzD8Yf01MqsievB//rhjc17Ld52eKC/I3SBvLj36OZhNfo0gDhW5OssRCzggv+rXZ0kHw==}
-    engines: {node: '>=14.6'}
+  pnpm@9.14.2:
+    resolution: {integrity: sha512-biuvd9Brk2IpQVLIUcTyeO3jerHro6Vf2jF6SheyCfTbuXP7JQp3q8Rjo0H8sfF/F8+iQJHE6zGc2g2bhCeDhw==}
+    engines: {node: '>=18.12'}
     hasBin: true
 
   pop-iterate@1.0.1:
@@ -37015,7 +37015,7 @@ snapshots:
 
   pluralize@8.0.0: {}
 
-  pnpm@7.33.6: {}
+  pnpm@9.14.2: {}
 
   pop-iterate@1.0.1: {}
 
