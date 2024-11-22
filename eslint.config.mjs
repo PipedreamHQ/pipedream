@@ -28,7 +28,7 @@ export default [
       "**/node_modules",
       "**/package-lock.json",
       "**/pnpm-lock.yaml",
-      "platform/dist",
+      "**/dist/**",
       "**/*.md",
       "**/*.mdx",
       "**/*.txt",
