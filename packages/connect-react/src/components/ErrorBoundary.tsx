@@ -8,10 +8,6 @@ type Props = {
 export class ErrorBoundary extends Component<Props> {
   state = {err: undefined}
 
-  constructor(props: Props) {
-    super(props)
-  }
-
   static getDerivedStateFromError(err: any) {
     return {err}
   }

@@ -194,7 +194,7 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({ childr
         }
       } else {
         if (prop.type === "integer" && typeof value !== "number") {
-          newConfiguredProps[prop.name] = undefined // XXX check this deletes
+          delete newConfiguredProps[prop.name]
         } else {
           newConfiguredProps[prop.name] = value
         }
