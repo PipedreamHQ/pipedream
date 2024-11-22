@@ -8,7 +8,12 @@ import {
   components as ReactSelectComponents, mergeStyles as mergeReactSelectStyles,
 } from "react-select";
 import type {
-  ClassNamesConfig as ReactSelectClassNamesConfig, SelectComponentsConfig as ReactSelectComponentsConfig, Props as ReactSelectCustomizationProps, StylesConfig as ReactSelectStylesConfig, Theme as ReactSelectTheme,
+  ClassNamesConfig as ReactSelectClassNamesConfig,
+  GroupBase,
+  Props as ReactSelectCustomizationProps,
+  SelectComponentsConfig as ReactSelectComponentsConfig,
+  StylesConfig as ReactSelectStylesConfig,
+  Theme as ReactSelectTheme,
 } from "react-select";
 import type { ConfigurableProp } from "@pipedream/sdk";
 import {
@@ -41,15 +46,16 @@ export type ReactSelectComponents = {
   controlSelect: typeof ControlSelect;
 };
 
-export type CustomComponents = {
+export type CustomComponents<Option, IsMulti extends boolean, Group extends GroupBase<Option>> = {
   [K in keyof typeof defaultComponents]: typeof defaultComponents[K]
 } & {
-  [K in keyof ReactSelectComponents]: ReactSelectComponentsConfig<any, any, any>
+  [K in keyof ReactSelectComponents]: ReactSelectComponentsConfig<Option, IsMulti, Group>
 };
 
 export type ComponentLibrary = typeof defaultComponents;
-export type CustomComponentsConfig = Partial<CustomComponents>;
+export type CustomComponentsConfig<T, U extends boolean, V extends GroupBase<T>> = Partial<CustomComponents<T, U, V>>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CustomizationOpts<P extends ComponentProps<JSXElementConstructor<any>>> = P & {
   theme: Theme;
 };
@@ -86,16 +92,16 @@ export type CustomStylesConfig = {
   [K in keyof ReactSelectComponents]?: ReactSelectStylesConfig
 };
 
-export type CustomizationConfig = {
+export type CustomizationConfig<Option, IsMulti extends boolean, Group extends GroupBase<Option>> = {
   classNames?: CustomClassNamesConfig;
   classNamePrefix?: string;
-  components?: CustomComponentsConfig;
+  components?: CustomComponentsConfig<Option, IsMulti, Group>;
   styles?: CustomStylesConfig;
   theme?: CustomThemeConfig;
   unstyled?: boolean;
 };
 
-export const CustomizationContext = createContext<CustomizationConfig>({
+export const CustomizationContext = createContext<CustomizationConfig<any, any, any>>({ // eslint-disable-line @typescript-eslint/no-explicit-any
   classNames: {},
   classNamePrefix: "",
   components: {},
@@ -108,11 +114,12 @@ export type CustomizationProps = {
   className: string;
   style: CSSProperties;
 };
-export type BaseReactSelectProps = {
-  components?: ReactSelectComponentsConfig<any, any, any>;
+export type BaseReactSelectProps<Option, IsMulti extends boolean, Group extends GroupBase<Option>> = {
+  components?: ReactSelectComponentsConfig<Option, IsMulti, Group>;
   styles?: ReactSelectStylesConfig;
 };
 
+// XXX refactor generics in this file to fix relationship between Key and other generics, etc.
 export type Customization = {
   getClassNames: <Key extends keyof CustomizableProps>(name: Key, props: CustomizableProps[Key]) => string;
   getComponents: () => ComponentLibrary;
@@ -122,9 +129,11 @@ export type Customization = {
   select: {
     getClassNamePrefix: <Key extends keyof ReactSelectComponents>(name: Key) => string;
     getClassNames: <Key extends keyof ReactSelectComponents>(name: Key) => ReactSelectClassNamesConfig;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getComponents: <Key extends keyof ReactSelectComponents>(name: Key, baseComponents?: ReactSelectComponentsConfig<any, any, any>) => ReactSelectComponentsConfig<any, any, any>;
     getStyles: <Key extends keyof ReactSelectComponents>(name: Key, baseStyles?: ReactSelectStylesConfig) => ReactSelectStylesConfig;
-    getProps: <Key extends keyof ReactSelectComponents>(name: Key, baseProps?: BaseReactSelectProps) => ReactSelectCustomizationProps;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getProps: <Key extends keyof ReactSelectComponents>(name: Key, baseProps?: BaseReactSelectProps<any, any, any>) => ReactSelectCustomizationProps;
     theme: ReactSelectTheme;
   };
 };
@@ -152,6 +161,7 @@ function createSelectCustomization(): Customization["select"] {
     return classNames;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function getComponents<Key extends keyof ReactSelectComponents>(name: Key, baseComponents?: ReactSelectComponentsConfig<any, any, any>): ReactSelectComponentsConfig<any, any, any> {
     return {
       ...ReactSelectComponents,
@@ -164,7 +174,8 @@ function createSelectCustomization(): Customization["select"] {
     return mergeReactSelectStyles(context.styles?.[name] ?? {}, baseStyles ?? {});
   }
 
-  function getProps<Key extends keyof ReactSelectComponents>(name: Key, baseProps?: BaseReactSelectProps): ReactSelectCustomizationProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function getProps<Key extends keyof ReactSelectComponents>(name: Key, baseProps?: BaseReactSelectProps<any, any, any>): ReactSelectCustomizationProps {
     return {
       classNamePrefix: getClassNamePrefix(),
       classNames: getClassNames(name),

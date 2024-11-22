@@ -29,7 +29,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     setQuery,
   ] = useState("");
 
-  const configuredPropsUpTo: Record<string, any> = {};
+  const configuredPropsUpTo: Record<string, unknown> = {};
   for (let i = 0; i < idx; i++) {
     const prop = configurableProps[i];
     configuredPropsUpTo[prop.name] = configuredProps[prop.name];
@@ -45,9 +45,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     componentConfigureInput.query = query || ""; // TODO ref.value ? Is this still supported?
   }
   // exclude dynamicPropsId from the key since only affect it should have is to add / remove props but prop by name should not change!
-  const {
-    dynamicPropsId, ...queryKeyInput
-  } = componentConfigureInput;
+  const queryKeyInput = {
+    ...componentConfigureInput,
+  }
+  delete queryKeyInput.dynamicPropsId
 
   const [
     error,

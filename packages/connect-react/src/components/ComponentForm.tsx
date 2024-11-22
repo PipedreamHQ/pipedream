@@ -8,7 +8,7 @@ import type {
 } from "@pipedream/sdk";
 import { InternalComponentForm } from "./InternalComponentForm";
 
-export type ComponentFormProps<T extends ConfigurableProps = any> = {
+export type ComponentFormProps<T extends ConfigurableProps> = {
   userId: string;
   component: V1Component<T>;
   configuredProps?: ConfiguredProps<T>; // XXX value?
@@ -19,7 +19,7 @@ export type ComponentFormProps<T extends ConfigurableProps = any> = {
   hideOptionalProps?: boolean;
 };
 
-export function ComponentForm(props: ComponentFormProps) {
+export function ComponentForm<T extends ConfigurableProps>(props: ComponentFormProps<T>) {
   return (
     <FormContextProvider props={props}>
       <InternalComponentForm />

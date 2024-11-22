@@ -18,13 +18,13 @@ export function InternalComponentForm() {
     isValid,
     optionalPropIsEnabled,
     optionalPropSetEnabled,
-    props,
+    props: formContextProps,
     setSubmitting,
   } = formContext;
 
   const {
     hideOptionalProps, onSubmit,
-  } = props;
+  } = formContextProps;
 
   const {
     getComponents, getProps, theme,
