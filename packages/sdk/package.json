@@ -58,7 +58,7 @@
     "jest-fetch-mock": "^3.0.3",
     "nodemon": "^3.1.7",
     "ts-jest": "^29.2.5",
-    "typescript": "^5.5.2"
+    "typescript": "^5.6"
   },
   "dependencies": {
     "@rails/actioncable": "^8.0.0",

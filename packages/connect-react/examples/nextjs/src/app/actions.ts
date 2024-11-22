@@ -24,7 +24,7 @@ if (!PIPEDREAM_ALLOWED_ORIGINS) {
 let allowedOrigins: string[] = [];
 try {
   allowedOrigins = JSON.parse(PIPEDREAM_ALLOWED_ORIGINS);
-} catch (e) {
+} catch {
   throw new Error("PIPEDREAM_ALLOWED_ORIGINS must be a valid JSON array");
 }
 if (!Array.isArray(allowedOrigins)) {
