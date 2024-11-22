@@ -82,7 +82,7 @@ jobs:
         env:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JAVASCRIPT_ES_CONFIG_FILE: .eslintrc
+          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.mjs
           LINTER_RULES_PATH: /
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JAVASCRIPT_ES: true
