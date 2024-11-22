@@ -1,4 +1,4 @@
-import "./polyfills"
+import "./polyfills";
 /* eslint-disable object-curly-newline */
 export { Alert } from "./components/Alert";
 export { ComponentForm } from "./components/ComponentForm";

@@ -11,7 +11,11 @@ export default defineConfig({
       fileName: (format) => `connect-react.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime"],
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+      ],
     },
   },
   plugins: [

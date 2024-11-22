@@ -4,5 +4,5 @@
 if (typeof document === "undefined") {
   globalThis.document = {
     createElement: () => {},
-  } as any
+  } as any;
 }

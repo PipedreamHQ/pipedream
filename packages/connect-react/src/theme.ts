@@ -1,7 +1,7 @@
 import {
   defaultTheme as reactSelectDefaultTheme,
   type Theme as ReactSelectTheme,
-} from "react-select"
+} from "react-select";
 
 export type Colors = {
   // select.control:boxShadow
@@ -9,86 +9,86 @@ export type Colors = {
   // select.control:hover:focused:borderColor
   // select.option:active:selected:backgroundColor
   // select.option:selected:backgroundColor
-  primary: string
-  primary75: string
+  primary: string;
+  primary75: string;
   // select.option:active:not(selected):backgroundColor
-  primary50: string
+  primary50: string;
   // select.option:focused:backgroundColor
-  primary25: string
+  primary25: string;
 
   // select.multiValueRemove:hover:color
-  danger: string
+  danger: string;
   // select.multiValueRemove:focused:backgroundColor
   // select.multiValueRemove:hover:backgroundColor
-  dangerLight: string
+  dangerLight: string;
 
   // select.control:backgroundColor
   // select.menu:backgroundColor
   // select.multiValue:backgroundColor
   // select.option:selected:color
-  neutral0: string
+  neutral0: string;
   // select.control:disabled:backgroundColor
-  neutral5: string
+  neutral5: string;
   // select.control:disabled:borderColor
   // select.indicatorSeparator:disabled:backgroundColor
-  neutral10: string
+  neutral10: string;
   // select.control:borderColor
   // select.indicatorContainer:color
   // select.indicatorSeparator:backgroundColor
   // select.loadingIndicator:color
   // select.option:disabled:color
-  neutral20: string
+  neutral20: string;
   // select.control:hover:not(focused):borderColor
-  neutral30: string
+  neutral30: string;
   // select.groupHeading:color
   // select.indicatorContainer:hover:not(focused):color
   // select.notice:color
   // select.singleValue:disabled:color
-  neutral40: string
+  neutral40: string;
   // select.placeholder:color
-  neutral50: string
+  neutral50: string;
   // select.indicatorContainer:focused:color
   // select.loadingIndicator:focused:color
-  neutral60: string
-  neutral70: string
+  neutral60: string;
+  neutral70: string;
   // select.indicatorContainer:hover:focused:color
   // select.input:color
   // select.multiValueLabel:color
   // select.singleValue:color
-  neutral80: string
-  neutral90: string
-}
+  neutral80: string;
+  neutral90: string;
+};
 
 export type Shadows = {
-  button: string
-  input: string
-  card: string
-  dropdown: string
-}
+  button: string;
+  input: string;
+  card: string;
+  dropdown: string;
+};
 
 export type ThemeSpacing = {
-  baseUnit: number
+  baseUnit: number;
   // The minimum height of the control
-  controlHeight: number
+  controlHeight: number;
   // The amount of space between the control and menu
-  menuGutter: number
-}
+  menuGutter: number;
+};
 
 export type Theme = {
-  borderRadius?: number | string
-  colors: Partial<Colors>
-  spacing: ThemeSpacing
-  boxShadow: Shadows
-}
+  borderRadius?: number | string;
+  colors: Partial<Colors>;
+  spacing: ThemeSpacing;
+  boxShadow: Shadows;
+};
 
 export type PartialTheme = {
-  borderRadius?: Theme["borderRadius"]
-  colors?: Partial<Colors>
-  spacing?: Partial<ThemeSpacing>
-  boxShadow?: Partial<Shadows>
-}
+  borderRadius?: Theme["borderRadius"];
+  colors?: Partial<Colors>;
+  spacing?: Partial<ThemeSpacing>;
+  boxShadow?: Partial<Shadows>;
+};
 
-export type CustomThemeConfig = PartialTheme | ((theme: Theme) => PartialTheme)
+export type CustomThemeConfig = PartialTheme | ((theme: Theme) => PartialTheme);
 
 export const defaultTheme: Theme = {
   borderRadius: 4,
@@ -126,7 +126,7 @@ export const defaultTheme: Theme = {
     controlHeight: 32,
     menuGutter: 8,
   },
-}
+};
 
 export const unstyledTheme: Theme = {
   colors: {},
@@ -141,17 +141,21 @@ export const unstyledTheme: Theme = {
     card: "none",
     dropdown: "none",
   },
-}
+};
 
 export function getReactSelectTheme(
-  theme: CustomThemeConfig | undefined
+  theme: CustomThemeConfig | undefined,
 ): ReactSelectTheme {
-  if (!theme) return reactSelectDefaultTheme
-  const _theme = typeof theme == "function" ? theme(defaultTheme) : theme
-  const { colors, spacing, borderRadius } = mergeTheme(
+  if (!theme) return reactSelectDefaultTheme;
+  const _theme = typeof theme == "function"
+    ? theme(defaultTheme)
+    : theme;
+  const {
+    colors, spacing, borderRadius,
+  } = mergeTheme(
     reactSelectDefaultTheme,
-    _theme
-  )
+    _theme,
+  );
   return {
     borderRadius:
       typeof borderRadius !== "number"
@@ -159,7 +163,7 @@ export function getReactSelectTheme(
         : borderRadius,
     colors: colors as ReactSelectTheme["colors"],
     spacing,
-  }
+  };
 }
 
 export function mergeTheme(
@@ -168,16 +172,22 @@ export function mergeTheme(
 ): Theme {
   const merged = {
     borderRadius: target.borderRadius,
-    colors: { ...target.colors },
-    spacing: { ...target.spacing },
-    boxShadow: { ...target.boxShadow },
-  }
+    colors: {
+      ...target.colors,
+    },
+    spacing: {
+      ...target.spacing,
+    },
+    boxShadow: {
+      ...target.boxShadow,
+    },
+  };
   for (const source of sources) {
-    if (!source) continue
-    merged.borderRadius = source.borderRadius ?? merged.borderRadius
-    Object.assign(merged.boxShadow, source.boxShadow)
-    Object.assign(merged.colors, source.colors)
-    Object.assign(merged.spacing, source.spacing)
+    if (!source) continue;
+    merged.borderRadius = source.borderRadius ?? merged.borderRadius;
+    Object.assign(merged.boxShadow, source.boxShadow);
+    Object.assign(merged.colors, source.colors);
+    Object.assign(merged.spacing, source.spacing);
   }
-  return merged
+  return merged;
 }
