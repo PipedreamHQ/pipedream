@@ -95,7 +95,7 @@ export function InternalComponentForm() {
       color: "red",
     }}>Error: {err.message}</p>}>
       <Suspense fallback={<p>Loading form...</p>}>
-        <form {...getProps("componentForm", baseStyles, props)} onSubmit={_onSubmit}>
+        <form {...getProps("componentForm", baseStyles, formContextProps)} onSubmit={_onSubmit}>
           {shownProps.map(([
             prop,
             idx,
@@ -108,8 +108,8 @@ export function InternalComponentForm() {
           {dynamicPropsQueryIsFetching && <p>Loading dynamic props...</p>}
           {(!hideOptionalProps && optionalProps.length)
             ? <div>
-              <div {...getProps("heading", baseHeadingStyles, props)}>Optional Props</div>
-              <div {...getProps("optionalFields", baseOptionalFieldsStyles, props)}>
+              <div {...getProps("heading", baseHeadingStyles, formContextProps)}>Optional Props</div>
+              <div {...getProps("optionalFields", baseOptionalFieldsStyles, formContextProps)}>
                 {optionalProps.map(([
                   prop,
                   enabled,
