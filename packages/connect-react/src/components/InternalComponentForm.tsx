@@ -8,7 +8,7 @@ import { InternalField } from "./InternalField";
 import { Alert } from "./Alert";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { ControlSubmit } from "./ControlSubmit";
-import { ConfigurableProp } from "@pipedream/sdk";
+import type { ConfigurableProp } from "@pipedream/sdk";
 
 export function InternalComponentForm() {
   const formContext = useFormContext();
@@ -93,7 +93,9 @@ export function InternalComponentForm() {
   return (
     <ErrorBoundary fallback={(err) => <p style={{
       color: "red",
-    }}>Error: {err.message}</p>}>
+    }}>Error: {err && typeof err === "object" && "message" in err && typeof err.message === "string"
+        ? err.message
+        : "Unknown"}</p>}>
       <Suspense fallback={<p>Loading form...</p>}>
         <form {...getProps("componentForm", baseStyles, formContextProps)} onSubmit={_onSubmit}>
           {shownProps.map(([

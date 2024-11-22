@@ -1,5 +1,5 @@
 import {
-  createContext, useContext,
+  createContext, useContext, type ReactNode, type FC,
 } from "react";
 import {
   QueryClient, QueryClientProvider,
@@ -20,9 +20,9 @@ export const useFrontendClient = () => {
   return context;
 };
 
-type FrontendClientProviderProps = { children: React.ReactNode; client: BrowserClient; };
+type FrontendClientProviderProps = { children: ReactNode; client: BrowserClient; };
 
-export const FrontendClientProvider: React.FC<FrontendClientProviderProps> = ({
+export const FrontendClientProvider: FC<FrontendClientProviderProps> = ({
   children,
   client,
 }: FrontendClientProviderProps) => {

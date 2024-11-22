@@ -276,6 +276,7 @@ export default [
     },
 
     rules: {
+      "no-undef": "error", // XXX maybe lift this higher (not just ts)
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
@@ -288,14 +289,20 @@ export default [
   },
   ...compat.extends("plugin:react/recommended").map((config) => ({
     ...config,
+    files: [
+      "**/*.tsx",
+    ],
+    languageOptions: {
+      globals: {
+        HTMLFormElement: "readonly",
+        HTMLInputElement: "readonly",
+      },
+    },
     settings: {
       react: {
         version: "detect",
       },
     },
-    files: [
-      "**/*.tsx",
-    ],
   })),
   {
     files: [

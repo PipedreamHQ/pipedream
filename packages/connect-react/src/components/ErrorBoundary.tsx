@@ -1,8 +1,10 @@
-import { Component } from "react";
+import {
+  Component, type ReactNode,
+} from "react";
 
 type Props = {
-  children: React.ReactNode;
-  fallback: (err: unknown) => React.ReactNode;
+  children: ReactNode;
+  fallback: (err: unknown) => ReactNode;
 };
 
 export class ErrorBoundary extends Component<Props> {
