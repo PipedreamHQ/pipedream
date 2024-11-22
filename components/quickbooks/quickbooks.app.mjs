@@ -149,7 +149,7 @@ export default {
       optional: true,
     },
     purchaseId: {
-      label: "purchase Id",
+      label: "Purchase Id",
       type: "string",
       description: "Id of the purchase.",
       withLabel: true,
@@ -376,6 +376,23 @@ export default {
         });
       },
     },
+    paymentId: {
+      type: "string",
+      label: "Payment Id",
+      description: "The identifier of a payment",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Payment",
+          mapper: ({
+            Id: value, CustomerRef: customerRef, TotalAmt: totalAmt, TxnDate: txnDate,
+          }) => ({
+            value,
+            label: `${customerRef.name} - Amount: ${totalAmt} - ${txnDate}`,
+          }),
+        });
+      },
+    },
   },
   methods: {
     _companyId() {
@@ -532,6 +549,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `company/${this._companyId()}/timeactivity/${timeActivityId}`,
+        ...opts,
+      });
+    },
+    getPayment({
+      paymentId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/payment/${paymentId}`,
         ...opts,
       });
     },
