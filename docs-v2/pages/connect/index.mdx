@@ -53,6 +53,12 @@ To view or delete your users' connected accounts:
 
 You'll see a list of all users, their connected accounts, and the option to delete any accounts from the UI. You can also retrieve and delete all your users via the API ([see the docs for reference](/connect/api)).
 
+<Callout type="warning">
+Connect currently supports one connected account per user / app / environment combination.
+
+So if user `abc-123` in your application connects their Slack account in `production`, then that same user connects a different Slack workspace (also in `production`), the first connected account will get overwritten in Pipedream and replaced by the second.
+</Callout>
+
 ## Plans and pricing
 
 **Connect is free to use for up to 1,000 connected accounts for any workspace**.
