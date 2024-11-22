@@ -3555,7 +3555,14 @@ importers:
     specifiers: {}
 
   components/fiserv:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.3
+      crypto: ^1.0.1
+      uuid: ^11.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      crypto: 1.0.1
+      uuid: 11.0.3
 
   components/fivetran:
     specifiers: {}
@@ -36836,6 +36843,11 @@ packages:
 
   /uuid/10.0.0:
     resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
+    hasBin: true
+    dev: false
+
+  /uuid/11.0.3:
+    resolution: {integrity: sha512-d0z310fCWv5dJwnX1Y/MncBAqGMKEzlBb1AOf7z9K8ALnd0utBX/msg/fA0+sbyN1ihbMsLhrBlnl1ak7Wa0rg==}
     hasBin: true
     dev: false
 
