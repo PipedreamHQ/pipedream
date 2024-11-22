@@ -181,7 +181,7 @@ export type Account = {
 export type ComponentReloadPropsOpts = {
   userId: string;
   componentId: string;
-  configuredProps: any;
+  configuredProps: any;  // eslint-disable-line @typescript-eslint/no-explicit-any
   dynamicPropsId?: string;
 };
 
@@ -189,7 +189,7 @@ export type ComponentConfigureOpts = {
   userId: string;
   componentId: string;
   propName: string;
-  configuredProps: any;
+  configuredProps: any;  // eslint-disable-line @typescript-eslint/no-explicit-any
   dynamicPropsId?: string;
   query?: string;
 };
@@ -592,6 +592,7 @@ export abstract class BaseClient {
       dynamic_props_id: opts.dynamicPropsId,
       environment: this.environment,
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return await this.makeConnectRequestAsync<Record<string, any>>("/components/props", {
       // TODO trigger
       method: "POST",
@@ -602,7 +603,7 @@ export abstract class BaseClient {
   public async actionRun(opts: {
     userId: string;
     actionId: string;
-    configuredProps: Record<string, any>;
+    configuredProps: Record<string, any>;  // eslint-disable-line @typescript-eslint/no-explicit-any
     dynamicPropsId?: string;
   }) {
     const body = {
@@ -674,7 +675,7 @@ export abstract class BaseClient {
           ? sanitizedInput
           : `https://${sanitizedInput}`;
         parsedUrl = new URL(urlString);
-      } catch (error) {
+      } catch {
         throw new Error(`
           The provided URL is malformed: "${sanitizedInput}".
           Please provide a valid URL.
