@@ -26,7 +26,7 @@ export class ServerAsyncResponseManager extends AsyncResponseManager {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     global.removeEventListener = () => {};
     if (typeof adapters.WebSocket === "undefined")
-      adapters.WebSocket = WS as unknown as WebSocket;
+      adapters.WebSocket = WS as unknown as (typeof adapters)["WebSocket"];
   }
 
   protected override async getOpts(): Promise<AsyncResponseManagerOpts> {

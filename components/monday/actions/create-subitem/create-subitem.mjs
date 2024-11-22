@@ -6,9 +6,9 @@ export default {
   ...commonCreateItem,
   key: "monday-create-subitem",
   name: "Create Subitem",
-  description: "Creates a subitem. [See the documentation](https://developer.monday.com/api-reference/docs/introduction-to-graphql#mondaycom-schema)",
+  description: "Creates a subitem. [See the documentation](https://developer.monday.com/api-reference/reference/subitems#create-a-subitem)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     monday,
     boardId: {
@@ -35,12 +35,6 @@ export default {
       ],
       description: "The new subitem's name",
     },
-    createLabels: {
-      propDefinition: [
-        monday,
-        "itemCreateLabels",
-      ],
-    },
     ...commonCreateItem.props,
   },
   methods: {
@@ -50,7 +44,6 @@ export default {
         parentItemId: utils.emptyStrToUndefined(this.parentItemId),
         itemName: utils.emptyStrToUndefined(this.itemName),
         columnValues: utils.strinfied(columnValues),
-        createLabels: utils.emptyStrToUndefined(this.createLabels),
       });
     },
     getItemId(data) {
