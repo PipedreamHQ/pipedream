@@ -17,7 +17,9 @@ const client = createBackendClient({
   },
   projectId: PROJECT_ID,
   apiHost: API_HOST,
-  environment: ENVIRONMENT === "production" ? "production" : "development",
+  environment: ENVIRONMENT === "production"
+    ? "production"
+    : "development",
 });
 
 program

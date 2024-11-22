@@ -5,8 +5,8 @@ import { adapters } from "@rails/actioncable";
 import * as WS from "ws";
 
 declare global {
-  function addEventListener(type: string, listener: () => void): void
-  function removeEventListener(type: string, listener: () => void): void
+  function addEventListener(type: string, listener: () => void): void;
+  function removeEventListener(type: string, listener: () => void): void;
 }
 
 export type ServerAsyncResponseManagerOpts = {
@@ -21,10 +21,12 @@ export class ServerAsyncResponseManager extends AsyncResponseManager {
   constructor(opts: ServerAsyncResponseManagerOpts) {
     super();
     this.serverOpts = opts;
-    global.addEventListener = () => {}
-    global.removeEventListener = () => {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    global.addEventListener = () => {};
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    global.removeEventListener = () => {};
     if (typeof adapters.WebSocket === "undefined")
-      adapters.WebSocket == WS;
+      adapters.WebSocket = WS as unknown as WebSocket;
   }
 
   protected override async getOpts(): Promise<AsyncResponseManagerOpts> {
