@@ -32,7 +32,7 @@ export class ServerAsyncResponseManager extends AsyncResponseManager {
   protected override async getOpts(): Promise<AsyncResponseManagerOpts> {
     const oauthToken = await this.serverOpts.getOauthToken();
     if (!oauthToken?.token?.access_token) {
-      throw new Error('Invalid OAuth token structure');
+      throw new Error("Invalid OAuth token structure");
     }
     const token = oauthToken.token.access_token;
     const projectId = await this.serverOpts.getProjectId();

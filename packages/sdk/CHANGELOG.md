@@ -1,6 +1,21 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.0.7] - 2024-11-21
+
+### Changed
+
+- The backend client now correctly uses asynchronous messaging to handle long running
+  operations.
+- Updated the backend command line tool to respect the `ENVIRONMENT` env variable
+  if set.
+
+### Changed
+
+- Use client Connect tokens to make api calls directly from the client.
+- Deprecated the `environments` property on `createFrontendClient` since it is now
+  stored in the token
+
 ## [1.0.6] - 2024-11-20
 
 ### Changed
