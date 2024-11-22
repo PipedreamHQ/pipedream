@@ -25,7 +25,7 @@ type FrontendClientProviderProps = { children: React.ReactNode; client: BrowserC
 export const FrontendClientProvider: React.FC<FrontendClientProviderProps> = ({
   children,
   client,
-}) => {
+}: FrontendClientProviderProps) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {

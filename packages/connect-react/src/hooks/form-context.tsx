@@ -4,18 +4,18 @@ import {
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
 import type {
-  ComponentReloadPropsOpts, ConfigurableProp, V1Component,
+  ComponentReloadPropsOpts, ConfigurableProp, ConfigurableProps, ConfiguredProps, V1Component,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
 
-export type DynamicProps = { id: string; configurable_props: any; }; // TODO
+export type DynamicProps<T extends ConfigurableProps> = { id: string; configurable_props: T; }; // TODO
 
-export type FormContext = {
-  component: V1Component; // XXX <T>
-  configurableProps: any[]; // dynamicProps.configurable_props || props.component.configurable_props
-  configuredProps: Record<string, any>; // TODO
-  dynamicProps?: DynamicProps; // lots of calls require dynamicProps?.id, so need to expose
+export type FormContext<T extends ConfigurableProps> = {
+  component: V1Component<T>;
+  configurableProps: T; // dynamicProps.configurable_props || props.component.configurable_props
+  configuredProps: ConfiguredProps<T>;
+  dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
   id: string;
   isValid: boolean;
@@ -23,13 +23,13 @@ export type FormContext = {
   optionalPropSetEnabled: (prop: ConfigurableProp, enabled: boolean) => void;
   props: ComponentFormProps;
   queryDisabledIdx?: number;
-  setConfiguredProp: (idx: number, value: any) => void; // XXX would be nice to have type safety here
+  setConfiguredProp: (idx: number, value: unknown) => void; // XXX type safety for value (T will rarely be static right?)
   setSubmitting: (submitting: boolean) => void;
   submitting: boolean;
   userId: string;
 };
 
-export const FormContext = createContext<FormContext | undefined>(undefined);
+export const FormContext = createContext<FormContext<any /* XXX fix */> | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export const useFormContext = () => {
   const context = useContext(FormContext);
@@ -50,7 +50,7 @@ type FormContextProviderProps = {
 
 export const FormContextProvider: React.FC<FormContextProviderProps> = ({
   children, props,
-}) => {
+}: FormContextProviderProps) => {
   const client = useFrontendClient();
 
   const id = useId();

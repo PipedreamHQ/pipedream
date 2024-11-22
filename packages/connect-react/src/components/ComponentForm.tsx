@@ -14,7 +14,7 @@ export type ComponentFormProps<T extends ConfigurableProps = any> = {
   configuredProps?: ConfiguredProps<T>; // XXX value?
   disableQueryDisabling?: boolean;
   propNames?: string[]; // TODO PropNames<T>
-  onSubmit?: (ctx: FormContext) => void | Promise<void>; // if passed, we include button
+  onSubmit?: (ctx: FormContext<T>) => void | Promise<void>; // if passed, we include button
   onUpdateConfiguredProps?: (v: ConfiguredProps<T>) => void; // XXX onChange?
   hideOptionalProps?: boolean;
 };
