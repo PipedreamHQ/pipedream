@@ -690,7 +690,10 @@ importers:
     specifiers: {}
 
   components/apipie_ai:
-    specifiers: {}
+    specifiers:
+      '@pipedream/platform': 3.0.1
+    dependencies:
+      '@pipedream/platform': 3.0.1
 
   components/apitemplate_io:
     specifiers:
