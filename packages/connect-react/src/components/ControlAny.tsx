@@ -3,10 +3,10 @@ import { useCustomize } from "../hooks/customization-context";
 import type { CSSProperties } from "react";
 
 export function ControlAny() {
-  const props = useFormFieldContext();
+  const formFieldContext = useFormFieldContext();
   const {
     id, onChange, value,
-  } = props;
+  } = formFieldContext;
   const {
     getProps, theme,
   } = useCustomize();
@@ -29,7 +29,7 @@ export function ControlAny() {
       id={id}
       value={jsonValue}
       onChange={(e) => onChange(e.target.value)}
-      {...getProps("controlAny", baseStyles, props)}
+      {...getProps("controlAny", baseStyles, formFieldContext)}
     />
   );
 }

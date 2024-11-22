@@ -37,6 +37,7 @@ export default [
       "**/*.lock",
       "**/*.py",
       "**/*.png",
+      "**/.next",
     ],
   },
   ...compat.extends(

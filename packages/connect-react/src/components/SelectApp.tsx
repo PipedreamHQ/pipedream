@@ -32,23 +32,23 @@ export function SelectApp({
       className="react-select-container text-sm"
       classNamePrefix="react-select"
       components={{
-        Option: (props) => (
-          <Option {...props}>
+        Option: (optionProps) => (
+          <Option {...optionProps}>
             <div style={{
               display: "flex",
               gap: 10,
             }}>
               <img
-                src={`https://pipedream.com/s.v0/${props.data.id}/logo/48`}
+                src={`https://pipedream.com/s.v0/${optionProps.data.id}/logo/48`}
                 style={{
                   height: 24,
                   width: 24,
                 }}
-                alt={props.data.name}
+                alt={optionProps.data.name}
               />
               <span style={{
                 whiteSpace: "nowrap",
-              }}>{props.data.name}</span>
+              }}>{optionProps.data.name}</span>
             </div>
           </Option>
         ),

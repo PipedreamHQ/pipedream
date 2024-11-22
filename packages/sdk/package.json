@@ -36,12 +36,12 @@
   },
   "scripts": {
     "lint": "eslint --fix --ext .ts src",
-    "prepublish": "rm -rf dist && npm run build",
-    "build": "npm run build:node && npm run build:browser",
+    "prepublish": "rm -rf dist && pnpm run build",
+    "build": "pnpm run build:node && pnpm run build:browser",
     "build:node": "tsc -p tsconfig.node.json",
     "build:browser": "tsc -p tsconfig.browser.json",
     "test": "jest",
-    "watch": "nodemon --watch src --ext ts --exec 'npm run build'",
+    "watch": "nodemon --watch src --ext ts --exec 'pnpm run build'",
     "cli": "node dist/server/server/cli.js"
   },
   "files": [

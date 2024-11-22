@@ -4,10 +4,10 @@ import { useCustomize } from "../hooks/customization-context";
 import type { CSSProperties } from "react";
 
 export function ControlBoolean() {
-  const props = useFormFieldContext<ConfigurablePropBoolean>();
+  const formFieldContextProps = useFormFieldContext<ConfigurablePropBoolean>();
   const {
     id, value, onChange,
-  } = props;
+  } = formFieldContextProps;
   const { getProps } = useCustomize();
   const baseStyles: CSSProperties = {
     width: "16px",

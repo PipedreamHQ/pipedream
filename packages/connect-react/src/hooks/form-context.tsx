@@ -4,32 +4,32 @@ import {
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
 import type {
-  ComponentReloadPropsOpts, ConfigurableProp, V1Component,
+  ComponentReloadPropsOpts, ConfigurableProp, ConfigurableProps, ConfiguredProps, V1Component,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
 
-export type DynamicProps = { id: string; configurable_props: any; }; // TODO
+export type DynamicProps<T extends ConfigurableProps> = { id: string; configurable_props: T; }; // TODO
 
-export type FormContext = {
-  component: V1Component; // XXX <T>
-  configurableProps: any[]; // dynamicProps.configurable_props || props.component.configurable_props
-  configuredProps: Record<string, any>; // TODO
-  dynamicProps?: DynamicProps; // lots of calls require dynamicProps?.id, so need to expose
+export type FormContext<T extends ConfigurableProps> = {
+  component: V1Component<T>;
+  configurableProps: T; // dynamicProps.configurable_props || props.component.configurable_props
+  configuredProps: ConfiguredProps<T>;
+  dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
   id: string;
   isValid: boolean;
   optionalPropIsEnabled: (prop: ConfigurableProp) => boolean;
   optionalPropSetEnabled: (prop: ConfigurableProp, enabled: boolean) => void;
-  props: ComponentFormProps;
+  props: ComponentFormProps<T>;
   queryDisabledIdx?: number;
-  setConfiguredProp: (idx: number, value: any) => void; // XXX would be nice to have type safety here
+  setConfiguredProp: (idx: number, value: unknown) => void; // XXX type safety for value (T will rarely be static right?)
   setSubmitting: (submitting: boolean) => void;
   submitting: boolean;
   userId: string;
 };
 
-export const FormContext = createContext<FormContext | undefined>(undefined);
+export const FormContext = createContext<FormContext<any /* XXX fix */> | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export const useFormContext = () => {
   const context = useContext(FormContext);
@@ -42,22 +42,22 @@ export const useFormContext = () => {
   return context;
 };
 
-type FormContextProviderProps = {
+type FormContextProviderProps<T extends ConfigurableProps> = {
   children: React.ReactNode;
 } & {
-  props: ComponentFormProps;
+  props: ComponentFormProps<T>;
 };
 
-export const FormContextProvider: React.FC<FormContextProviderProps> = ({
-  children, props,
-}) => {
+export const FormContextProvider = <T extends ConfigurableProps>({
+  children, props: formProps,
+}: FormContextProviderProps<T>) => {
   const client = useFrontendClient();
 
   const id = useId();
 
   const {
     component, configuredProps: __configuredProps, propNames, userId,
-  } = props;
+  } = formProps;
   const componentId = component.key;
 
   const [
@@ -85,20 +85,20 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({
   // XXX pass this down? (in case we make it hash or set backed, but then also provide {add,remove} instead of set)
   const optionalPropIsEnabled = (prop: ConfigurableProp) => enabledOptionalProps[prop.name];
 
-  let configuredProps = __configuredProps || {};
+  let configuredProps = __configuredProps || {} as ConfiguredProps<T>;
   const [
     _configuredProps,
     _setConfiguredProps,
   ] = useState(configuredProps);
-  const setConfiguredProps = props.onUpdateConfiguredProps || _setConfiguredProps;
-  if (!props.onUpdateConfiguredProps) {
+  const setConfiguredProps = formProps.onUpdateConfiguredProps || _setConfiguredProps;
+  if (!formProps.onUpdateConfiguredProps) {
     configuredProps = _configuredProps;
   }
 
   const [
     dynamicProps,
     setDynamicProps,
-  ] = useState<DynamicProps>();
+  ] = useState<DynamicProps<T>>();
   const [
     reloadPropIdx,
     setReloadPropIdx,
@@ -130,7 +130,7 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({
   });
 
   // XXX fix types of dynamicProps, props.component so this type decl not needed
-  let configurableProps: ConfigurableProp[] = dynamicProps?.configurable_props || props.component.configurable_props || [];
+  let configurableProps: T = dynamicProps?.configurable_props || formProps.component.configurable_props || [];
   if (propNames?.length) {
     const _configurableProps = [];
     for (const prop of configurableProps) {
@@ -139,15 +139,15 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({
         _configurableProps.push(prop);
       }
     }
-    configurableProps = _configurableProps;
+    configurableProps = _configurableProps as unknown as T; // XXX
   }
   if (reloadPropIdx) {
-    configurableProps = configurableProps.slice(0, reloadPropIdx + 1);
+    configurableProps = configurableProps.slice(0, reloadPropIdx + 1) as unknown as T; // XXX
   }
 
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation
-  const propErrors = (prop: ConfigurableProp, value: any): string[] => {
+  const propErrors = (prop: ConfigurableProp, value: unknown): string[] => {
     const errs: string[] = [];
     if (value === undefined) {
       if (!prop.optional) {
@@ -178,14 +178,14 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({
     return errs;
   };
 
-  const updateConfiguredPropsQueryDisabledIdx = (configuredProps: Record<string, any>) => {
+  const updateConfiguredPropsQueryDisabledIdx = (configuredProps: ConfiguredProps<T>) => {
     let _queryDisabledIdx =  undefined;
     for (let idx = 0; idx < configurableProps.length; idx++) {
       const prop = configurableProps[idx];
       if (prop.hidden || (prop.optional && !optionalPropIsEnabled(prop))) {
         continue;
       }
-      const value = configuredProps[prop.name];
+      const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
       if (value === undefined && _queryDisabledIdx == null && (prop.type === "app" || prop.remoteOptions)) {
         _queryDisabledIdx = idx;
         break;
@@ -195,13 +195,13 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({
   };
 
   // trusts they've been filtered to configurable props correctly already
-  const updateConfiguredProps = (configuredProps: Record<string, any>) => {
+  const updateConfiguredProps = (configuredProps: ConfiguredProps<T>) => {
     setConfiguredProps(configuredProps);
     updateConfiguredPropsQueryDisabledIdx(configuredProps);
     const _errors: typeof errors = {};
     for (let idx = 0; idx < configurableProps.length; idx++) {
       const prop = configurableProps[idx];
-      const value = configuredProps[prop.name];
+      const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
       const errs = propErrors(prop, value);
       if (errs.length) {
         _errors[prop.name] = errs;
@@ -211,7 +211,7 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({
   };
 
   useEffect(() => {
-    const newConfiguredProps: Record<string, any> = {};
+    const newConfiguredProps: ConfiguredProps<T> = {};
     for (const prop of configurableProps) {
       if (prop.hidden) {
         continue;
@@ -220,16 +220,16 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({
       if (prop.optional && !optionalPropIsEnabled(prop)) {
         continue;
       }
-      const value = configuredProps[prop.name];
+      const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
       if (value === undefined) {
         if ("default" in prop && prop.default != null) {
-          newConfiguredProps[prop.name] = prop.default;
+          newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = prop.default;
         }
       } else {
         if (prop.type === "integer" && typeof value !== "number") {
-          delete newConfiguredProps[prop.name];
+          delete newConfiguredProps[prop.name as keyof ConfiguredProps<T>];
         } else {
-          newConfiguredProps[prop.name] = value;
+          newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = value;
         }
       }
     }
@@ -248,15 +248,15 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({
   ]);
 
   // maybe should take prop as first arg but for text inputs didn't want to compute index each time
-  const setConfiguredProp = (idx: number, value: any) => {
+  const setConfiguredProp = (idx: number, value: unknown) => {
     const prop = configurableProps[idx];
     const newConfiguredProps = {
       ...configuredProps,
     };
     if (value === undefined) {
-      delete newConfiguredProps[prop.name];
+      delete newConfiguredProps[prop.name as keyof ConfiguredProps<T>];
     } else {
-      newConfiguredProps[prop.name] = value;
+      newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = value as any /* XXX fix prop value type from T */; // eslint-disable-line @typescript-eslint/no-explicit-any
     }
     setConfiguredProps(newConfiguredProps);
     if (prop.reloadProps) {
@@ -296,10 +296,10 @@ export const FormContextProvider: React.FC<FormContextProviderProps> = ({
   };
 
   // console.log("***", configurableProps, configuredProps)
-  const value: FormContext = {
+  const value: FormContext<T> = {
     id,
     isValid: !Object.keys(errors).length, // XXX want to expose more from errors
-    props,
+    props: formProps,
     userId,
     component,
     configurableProps,

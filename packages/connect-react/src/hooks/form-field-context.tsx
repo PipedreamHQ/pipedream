@@ -7,7 +7,7 @@ import type {
 
 export type FormFieldContextExtra<T extends ConfigurableProp> = T extends ConfigurablePropApp ? {
   app?: AppInfo;
-} : {};
+} : Record<string, never>;
 
 export type FormFieldContext<T extends ConfigurableProp> = {
   id: string;
@@ -18,7 +18,7 @@ export type FormFieldContext<T extends ConfigurableProp> = {
   extra: FormFieldContextExtra<T>;
 };
 
-export const FormFieldContext = createContext<FormFieldContext<any> | undefined>(undefined);
+export const FormFieldContext = createContext<FormFieldContext<any /* XXX fix */> | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export const useFormFieldContext = <T extends ConfigurableProp>() => {
   const context = useContext(FormFieldContext);

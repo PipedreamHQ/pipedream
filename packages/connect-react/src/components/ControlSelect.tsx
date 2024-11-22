@@ -26,7 +26,7 @@ export function ControlSelect<T>({
 
   const baseSelectProps: BaseReactSelectProps = {
     styles: {
-      container: (base: {}): CSSObjectWithLabel => ({
+      container: (base): CSSObjectWithLabel => ({
         ...base,
         gridArea: "control",
         boxShadow: theme.boxShadow.input,
