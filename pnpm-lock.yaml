@@ -6392,8 +6392,8 @@ importers:
   components/monday:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6410,7 +6410,11 @@ importers:
         specifier: ^0.1.3
         version: 0.1.6
 
-  components/monday_oauth: {}
+  components/monday_oauth:
+    dependencies:
+      monday-sdk-js:
+        specifier: ^0.5.5
+        version: 0.5.5
 
   components/moneybird:
     dependencies:
@@ -20876,6 +20880,9 @@ packages:
 
   monday-sdk-js@0.1.6:
     resolution: {integrity: sha512-OfkICgBQRI8N4dmSLqR2k8tpIIogpfLQCksuV3E/TLayyJzinuN6KOp1Mk/qdG1lilA9AArQO11UvZnQ4ZRXDQ==}
+
+  monday-sdk-js@0.5.5:
+    resolution: {integrity: sha512-i5JyZwlDpsZznXMbrqlPhRdwn6DX1sVjZ87tR0x4vc4wJSTrDY1hHM+wN6YSCtP/JlW8+pqcymm6jDaE6+RyxA==}
 
   mongodb-connection-string-url@2.6.0:
     resolution: {integrity: sha512-WvTZlI9ab0QYtTYnuMLgobULWhokRjtC7db9LtcVfJ+Hsnyr5eo6ZtNAt3Ly24XZScGMelOcGtm7lSn0332tPQ==}
@@ -36124,6 +36131,12 @@ snapshots:
   monday-sdk-js@0.1.6:
     dependencies:
       '@types/source-map': 0.5.7
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
+
+  monday-sdk-js@0.5.5:
+    dependencies:
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
