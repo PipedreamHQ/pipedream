@@ -6,6 +6,8 @@ import type {
 import type { V1Component } from "./component";
 export * from "./component";
 
+type RequestInit = globalThis.RequestInit;
+
 /**
  * Options for creating a server-side client.
  * This is used to configure the BackendClient instance.

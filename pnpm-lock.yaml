@@ -18,7 +18,7 @@ importers:
         specifier: ^7.7.0
         version: 7.120.0
       '@types/node':
-        specifier: ^20.9.2
+        specifier: ^20.17.6
         version: 20.17.6
       crypto:
         specifier: ^1.0.1

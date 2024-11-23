@@ -58,8 +58,8 @@ export default [
       globals: {
         ...globals.commonjs,
         ...globals.node,
+        ...globals.browser,
       },
-
       ecmaVersion: 12,
       sourceType: "module",
     },
