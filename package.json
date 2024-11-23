@@ -73,7 +73,7 @@
     "@actions/core": "^1.10.0",
     "@pipedream/platform": "^1.5.1",
     "@sentry/node": "^7.7.0",
-    "@types/node": "^20.9.2",
+    "@types/node": "^20.17.6",
     "crypto": "^1.0.1",
     "uuid": "^8.3.2",
     "vue": "^2.6.14"
