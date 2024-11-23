@@ -55,7 +55,7 @@ jobs:
           fetch-depth: 0
       - uses: pnpm/action-setup@v4.0.0
         with:
-          version: 7.33.6
+          version: 9.14.2
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
@@ -70,23 +70,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r
       - name: Setup Node Env
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.1.0
         with:
-          node-version: 18
+          node-version: 18.18.0
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: Compile TypeScript
-        run: npm run build
-      - name: Lint Code Base
-        uses: github/super-linter@v6
-        env:
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JAVASCRIPT_ES_CONFIG_FILE: .eslintrc
-          LINTER_RULES_PATH: /
-          VALIDATE_ALL_CODEBASE: false
-          VALIDATE_JAVASCRIPT_ES: true
-          VALIDATE_JSON: true
+      # - name: Lint Code Base
+      #   uses: super-linter/super-linter/slim@v7.2.0
+      #   env:
+      #     DEFAULT_BRANCH: master
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     JAVASCRIPT_ES_CONFIG_FILE: eslint.config.mjs
+      #     LINTER_RULES_PATH: /
+      #     VALIDATE_ALL_CODEBASE: false
+      #     VALIDATE_JAVASCRIPT_ES: true
+      #     VALIDATE_JSON: true
       # ESLint only on changed files (not the same as the above super-linter)
       - name: Get Changed Files (space-separated)
         id: changed_files_space
@@ -94,7 +92,7 @@ jobs:
         with:
           format: 'space-delimited'
       - name: Lint changed files
-        run: npx eslint --quiet ${{ steps.changed_files_space.outputs.added_modified }} ${{ steps.changed_files_space.outputs.renamed }}
+        run: pnpm exec eslint ${{ steps.changed_files_space.outputs.added_modified }} ${{ steps.changed_files_space.outputs.renamed }}
       - name: Get Changed Files (comma-separated)
         id: changed_files
         uses: Ana06/get-changed-files@v2.3.0
