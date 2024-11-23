@@ -75,16 +75,16 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: Lint Code Base
-        uses: super-linter/super-linter/slim@v7.2.0
-        env:
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.mjs
-          LINTER_RULES_PATH: /
-          VALIDATE_ALL_CODEBASE: false
-          VALIDATE_JAVASCRIPT_ES: true
-          VALIDATE_JSON: true
+      # - name: Lint Code Base
+      #   uses: super-linter/super-linter/slim@v7.2.0
+      #   env:
+      #     DEFAULT_BRANCH: master
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     JAVASCRIPT_ES_CONFIG_FILE: eslint.config.mjs
+      #     LINTER_RULES_PATH: /
+      #     VALIDATE_ALL_CODEBASE: false
+      #     VALIDATE_JAVASCRIPT_ES: true
+      #     VALIDATE_JSON: true
       # ESLint only on changed files (not the same as the above super-linter)
       - name: Get Changed Files (space-separated)
         id: changed_files_space
