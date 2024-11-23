@@ -40,7 +40,7 @@
     "build:node": "tsc -p tsconfig.node.json",
     "build:browser": "tsc -p tsconfig.browser.json",
     "test": "jest",
-    "watch": "nodemon --watch src --ext ts --exec 'pnpm run build'",
+    "watch": "nodemon --watch src --exec 'pnpm run build'",
     "cli": "node dist/server/server/cli.js"
   },
   "files": [
