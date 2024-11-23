@@ -17,6 +17,9 @@
   "scripts": {
     "build": "vite build"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [],
   "author": "Pipedream Engineering",
   "license": "MIT",
