@@ -73,7 +73,7 @@ jobs:
         run: pnpm install -r
       - name: Compile TypeScript
         id: compile
-        run: npm run build > files.txt
+        run: pnpm run build > files.txt
       - name: Get Changed Files
         id: files
         uses: Ana06/get-changed-files@v2.3.0
@@ -162,7 +162,7 @@ jobs:
         run: pnpm install -r
       - name: Compile TypeScript
         id: compile
-        run: npm run build > files.txt
+        run: pnpm run build > files.txt
       - name: Get Changed Files
         id: files
         uses: Ana06/get-changed-files@v2.3.0

@@ -50,8 +50,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4.1.7
         with:
-          # Full git history is needed to get a proper list of changed files
-          # within `super-linter`
+          # See https://github.com/actions/checkout#checkout-v2
+          # This will be slow. The intent is to fetch all commits
+          # since the merge-base (the commit where we branched off)
+          # so we can check the git diff against all changed files.
+          # By default, the checkout action only returns the last commit,
+          # There's no native way to do this in the checkout action, so
+          # we have to fetch the entire history. See
+          # https://github.com/actions/checkout/issues/266#issuecomment-638346893
           fetch-depth: 0
       - uses: pnpm/action-setup@v4.0.0
         with:
@@ -72,20 +78,10 @@ jobs:
       - name: Setup Node Env
         uses: actions/setup-node@v4.1.0
         with:
-          node-version: 18.18.0
+          node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      # - name: Lint Code Base
-      #   uses: super-linter/super-linter/slim@v7.2.0
-      #   env:
-      #     DEFAULT_BRANCH: master
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     JAVASCRIPT_ES_CONFIG_FILE: eslint.config.mjs
-      #     LINTER_RULES_PATH: /
-      #     VALIDATE_ALL_CODEBASE: false
-      #     VALIDATE_JAVASCRIPT_ES: true
-      #     VALIDATE_JSON: true
-      # ESLint only on changed files (not the same as the above super-linter)
+      # ESLint only on changed files
       - name: Get Changed Files (space-separated)
         id: changed_files_space
         uses: Ana06/get-changed-files@v2.3.0
