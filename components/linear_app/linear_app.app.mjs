@@ -1,8 +1,8 @@
 import { LinearClient } from "@linear/sdk";
-import constants from "./common/constants.mjs";
-import utils from "./common/utils.mjs";
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 import queries from "./common/queries.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -218,6 +218,9 @@ export default {
     },
     async createIssue(input) {
       return this.client().createIssue(input);
+    },
+    async createProject(input) {
+      return this.client().createProject(input);
     },
     async updateIssue({
       issueId, input,
