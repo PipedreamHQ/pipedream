@@ -31,11 +31,11 @@ jobs:
       - name: Setup Node Env
         uses: actions/setup-node@v4.0.3
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Compile TypeScript
-        run: npm run build
+        run: pnpm run build
       - name: Install pd cli
         env:
           PD_API_KEY: ${{ secrets.PD_API_KEY }}
@@ -137,7 +137,7 @@ jobs:
       - name: Setup Node Env
         uses: actions/setup-node@v4.0.3
         with:
-          node-version: 14
+          node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Install Dependencies
@@ -154,7 +154,7 @@ jobs:
           echo "org_id = $PD_ORG_ID" >> $HOME/.config/pipedream/config
       - name: Compile TypeScript
         id: compile
-        run: npm run build > files.txt
+        run: pnpm run build > files.txt
       - name: Get Changed Files
         id: files
         uses: Ana06/get-changed-files@v2.3.0
