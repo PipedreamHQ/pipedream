@@ -1,3 +1,4 @@
+// eslint-disable @typescript-eslint/no-explicit-any
 type BaseConfigurableProp = {
   name: string;
   type: string;
@@ -23,7 +24,7 @@ export type ConfigurablePropAlert = BaseConfigurableProp & {
 };
 export type ConfigurablePropAny = BaseConfigurableProp & {
   type: "any";
-} & Defaultable<any>;
+} & Defaultable<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 export type ConfigurablePropApp = BaseConfigurableProp & {
   type: "app";
   app: string;
@@ -67,7 +68,7 @@ export type ConfigurableProps = Readonly<ConfigurableProp[]>;
 export type PropValue<T extends ConfigurableProp["type"]> = T extends "alert"
   ? never
   : T extends "any"
-  ? any
+  ? any // eslint-disable-line @typescript-eslint/no-explicit-any
   : T extends "app"
   ? { authProvisionId: string; }
   : T extends "boolean"
@@ -87,7 +88,7 @@ export type ConfiguredProps<T extends ConfigurableProps> = {
 };
 
 // as returned by API (configurable_props_json from `afterSave`)
-export type V1Component<T extends ConfigurableProps = any> = {
+export type V1Component<T extends ConfigurableProps = any> = { // eslint-disable-line @typescript-eslint/no-explicit-any
   name: string;
   key: string;
   version: string;

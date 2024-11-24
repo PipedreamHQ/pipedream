@@ -684,7 +684,7 @@ Pass `debug=true` to return additional data in the response, useful for inspecti
 #### Example Request
 
 ```shell
-curl https://api.pipedream.com/v1/components/search\?query\="When someone sends a tweet mentioning my brand, send me an SMS" \
+curl https://api.pipedream.com/v1/components/search\?query\="When a new Hubspot contact is added, send me an SMS"&limit=1 \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json"
 ```
@@ -694,14 +694,10 @@ curl https://api.pipedream.com/v1/components/search\?query\="When someone sends 
 ```json
 {
   "sources": [
-    "twitter-new-mention-received-by-user",
-    "twitter-new-tweet-posted-by-user",
-    "twitter-new-tweet-posted-matching-query"
+    "hubspot-new-contact"
   ],
   "actions": [
-    "sms-send-sms",
-    "sms_fusion-send-sms",
-    "sms_alert-send-sms"
+    "twilio-send-sms"
   ]
 }
 ```

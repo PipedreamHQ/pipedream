@@ -2,7 +2,7 @@ import { createBackendClient } from "./index";
 import { program } from "commander";
 
 const {
-  CLIENT_ID, CLIENT_SECRET, PROJECT_ID, API_HOST,
+  CLIENT_ID, CLIENT_SECRET, PROJECT_ID, API_HOST, ENVIRONMENT,
 } = process.env;
 
 if (!CLIENT_ID || !CLIENT_SECRET || !PROJECT_ID) {
@@ -17,6 +17,9 @@ const client = createBackendClient({
   },
   projectId: PROJECT_ID,
   apiHost: API_HOST,
+  environment: ENVIRONMENT === "production"
+    ? "production"
+    : "development",
 });
 
 program
