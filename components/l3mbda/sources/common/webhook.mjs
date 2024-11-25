@@ -79,12 +79,11 @@ export default {
 
       const response = await createEndpoint({
         data: {
-          name: "Pipedream BLOCK",
-          description: "Pipedream & L3mbda Integration",
-          action: "webhook",
-          url: http.endpoint,
+          name: "Pipedream",
+          description: "Pipedream & L3MBDA Integration",
           event: getEvent(),
           filters: getFilters(),
+          url: http.endpoint,
         },
       });
 

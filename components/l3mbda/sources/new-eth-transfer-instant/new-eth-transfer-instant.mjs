@@ -3,10 +3,10 @@ import events from "../common/events.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
-  key: "l3mbda-new-eth-transfer-instant",
-  name: "New ETH Transfer (Instant)",
-  description: "Emit new event when a new ETH transfer is detected by [l3mbda.](https://l3mbda.com/)",
-  version: "0.0.2",
+  key: "l3mbda-new-native-transfer-instant",
+  name: "New Native Transfer (Instant)",
+  description: "Emit new event when a new native (ETH, POL) transfer is detected by [l3mbda.](https://l3mbda.com/)",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -21,7 +21,7 @@ export default {
   methods: {
     ...common.methods,
     getEvent() {
-      return events.ERC1155_TRANSFER;
+      return events.NATIVE_TRANSFER;
     },
     getFilters() {
       const { amount } = this;
@@ -37,7 +37,7 @@ export default {
       return filters;
     },
     getSummary({ logIndex }) {
-      return `New ETH Transfer: ${logIndex}`;
+      return `New Native Transfer: ${logIndex}`;
     },
   },
   sampleEmit,
