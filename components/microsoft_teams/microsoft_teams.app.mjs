@@ -58,16 +58,64 @@ export default {
     chat: {
       type: "string",
       label: "Chat",
-      description: "Team Chat within the organization (No external Contacts)",
+      description: "Team Chat (internal and external contacts)",
       async options({ prevContext }) {
         const response = prevContext.nextLink
           ? await this.makeRequest({
             path: prevContext.nextLink,
           })
           : await this.listChats();
+
+        const myTenantId = await this.getAuthenticatedUserTenant();
         const options = [];
+
+        this._userCache = this._userCache || new Map();
+
         for (const chat of response.value) {
-          const members = chat.members.map((member) => member.displayName);
+          const messages = await this.makeRequest({
+            path: `/chats/${chat.id}/messages?$top=50`,
+          });
+
+          const members = await Promise.all(chat.members.map(async (member) => {
+            const cacheKey = `user_${member.userId}`;
+            let displayName = member.displayName || this._userCache.get(cacheKey);
+
+            if (!displayName) {
+              try {
+                if (messages?.value?.length > 0) {
+                  const userMessage = messages.value.find((msg) =>
+                    msg.from?.user?.id === member.userId);
+                  if (userMessage?.from?.user?.displayName) {
+                    displayName = userMessage.from.user.displayName;
+                  }
+                }
+
+                if (!displayName) {
+                  const userDetails = await this.makeRequest({
+                    path: `/users/${member.userId}`,
+                  });
+                  displayName = userDetails.displayName;
+                }
+
+                this._userCache.set(cacheKey, displayName);
+              } catch (err) {
+                if (err.statusCode === 404) {
+                  displayName = "User Not Found";
+                } else if (err.statusCode === 403) {
+                  displayName = "Access Denied";
+                } else {
+                  displayName = "Unknown User";
+                }
+                console.error(`Failed to fetch user details for ${member.userId}:`, err);
+              }
+            }
+
+            const isExternal = member.tenantId !== myTenantId || !member.tenantId;
+            return isExternal
+              ? `${displayName} (External)`
+              : displayName;
+          }));
+
           options.push({
             label: members.join(", "),
             value: chat.id,
@@ -143,6 +191,22 @@ export default {
             ? reduction[methodName](...methodArgs)
             : reduction;
         }, api);
+    },
+    async getAuthenticatedUserTenant() {
+      try {
+        const { value } = await this.client()
+          .api("/organization")
+          .get();
+
+        if (!value || value.length === 0) {
+          throw new Error("No organization found");
+        }
+
+        return value[0].id;
+      } catch (error) {
+        console.error("Failed to fetch tenant ID:", error);
+        throw new Error("Unable to determine tenant ID");
+      }
     },
     async authenticatedUserId() {
       const { id } = await this.client()
