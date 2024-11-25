@@ -1,55 +1,51 @@
+import { parseObject } from "../../common/utils.mjs";
 import ortto from "../../ortto.app.mjs";
 
 export default {
   key: "ortto-create-custom-activity",
   name: "Create Custom Activity",
-  description: "Creates a unique activity for a user. Can optionally initialize a new record beforehand. [See the documentation](https://help.ortto.com/developer/latest/api-reference/activity/index.html)",
-  version: "0.0.{{ts}}",
+  description: "Creates a unique activity for a person. Can optionally initialize a new record beforehand. [See the documentation](https://help.ortto.com/developer/latest/api-reference/activity/index.html)",
+  version: "0.0.1",
   type: "action",
   props: {
     ortto,
-    activityName: {
+    activityId: {
       propDefinition: [
         ortto,
-        "activityName",
+        "activityId",
       ],
     },
-    recordId: {
+    attributes: {
       propDefinition: [
         ortto,
-        "recordId",
+        "attributes",
       ],
-      optional: true,
     },
-    recordType: {
+    fields: {
       propDefinition: [
         ortto,
-        "recordType",
+        "fields",
       ],
-      optional: true,
-    },
-    data: {
-      propDefinition: [
-        ortto,
-        "data",
-      ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    if (this.recordType && this.data) {
-      await this.ortto.initializeOrUpdateRecord({
-        recordType: this.recordType,
-        data: this.data,
-      });
-    }
-
-    const response = await this.ortto.createUniqueActivity({
-      activityName: this.activityName,
-      recordId: this.recordId,
+    const response = await this.ortto.createCustomActivity({
+      $,
+      data: {
+        "activities": [
+          {
+            activity_id: this.activityId,
+            attributes: parseObject(this.attributes),
+            fields: parseObject(this.fields),
+          },
+        ],
+        "merge_by": [
+          "str::email",
+        ],
+      },
     });
 
-    $.export("$summary", `Successfully created activity ${response.id}`);
+    $.export("$summary", "Successfully created activity");
     return response;
   },
 };

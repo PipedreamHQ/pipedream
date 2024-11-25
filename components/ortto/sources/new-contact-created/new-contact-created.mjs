@@ -1,61 +1,48 @@
-import ortto from "../../ortto.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "ortto-new-contact-created",
   name: "New Contact Created",
-  description: "Emit new event when a contact is created in your Ortto account. [See the documentation](https://help.ortto.com/a-258-retrieve-one-or-more-people-get)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a contact is created in your Ortto account.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    ortto,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-  },
-  hooks: {
-    async deploy() {
-      const response = await this.ortto.getNewContacts();
-      const contacts = response.contacts.slice(0, 50);
-
-      contacts.forEach((contact) => {
-        this.$emit(contact, {
-          id: contact.id,
-          summary: `New Contact: ${contact.fields["str::first"]} ${contact.fields["str::last"]}`,
-          ts: Date.parse(contact.fields["date::created_at"]) || Date.now(),
-        });
-      });
-    },
-  },
   methods: {
-    emitContact(contact) {
-      this.$emit(contact, {
-        id: contact.id,
-        summary: `New Contact: ${contact.fields["str::first"]} ${contact.fields["str::last"]}`,
-        ts: Date.parse(contact.fields["date::created_at"]) || Date.now(),
-      });
+    ...common.methods,
+    getFunction() {
+      return this.ortto.listPeople;
+    },
+    getFieldName() {
+      return "contacts";
+    },
+    getFields() {
+      return [
+        "str::first",
+        "str::last",
+        "phn::phone",
+        "str::email",
+        "geo::city",
+        "geo::country",
+        "dtz::b",
+        "geo::region",
+        "str::postal",
+        "tags",
+        "u4s::t",
+        "bol::gdpr",
+        "str::ei",
+        "bol::p",
+        "str::u-ctx",
+        "str::s-ctx",
+        "bol::sp",
+        "str::soi-ctx",
+        "str::soo-ctx",
+      ];
+    },
+    getSummary(item) {
+      return `New Contact: ${item.fields["str::first"] || ""} ${item.fields["str::last"] || ""}  ${item.fields["str::email"] || ""} `;
     },
   },
-  async run() {
-    const lastId = this.db.get("lastId");
-    const response = await this.ortto.getNewContacts({
-      params: {
-        cursor_id: lastId,
-      },
-    });
-    const contacts = response.contacts;
-
-    contacts.forEach((contact) => this.emitContact(contact));
-
-    if (contacts.length > 0) {
-      this.db.set("lastId", contacts[contacts.length - 1].id);
-    }
-  },
+  sampleEmit,
 };

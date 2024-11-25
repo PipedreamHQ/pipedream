@@ -1,5 +1,4 @@
 import ortto from "../../ortto.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ortto-opt-out-sms",
@@ -9,21 +8,32 @@ export default {
   type: "action",
   props: {
     ortto,
-    userId: {
+    userEmail: {
       propDefinition: [
         ortto,
-        "userId",
+        "userEmail",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.ortto.optOutSMS({
-      pathParams: {
-        userId: this.userId,
+    const response = await this.ortto.updatePerson({
+      data: {
+        people: [
+          {
+            fields: {
+              "str::email": this.userEmail,
+              "bol::sp": false,
+            },
+          },
+        ],
+        async: false,
+        merge_by: [
+          "str::email",
+        ],
       },
     });
 
-    $.export("$summary", `Successfully opted out SMS for User ID: ${this.userId}`);
+    $.export("$summary", `Successfully opted out SMS for User ID: ${this.userEmail}`);
     return response;
   },
 };

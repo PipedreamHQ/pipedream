@@ -1,162 +1,115 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "../../common/constants.mjs";
 
 export default {
   type: "app",
   app: "ortto",
   propDefinitions: {
-    recordType: {
+    userEmail: {
       type: "string",
-      label: "Record Type",
-      description: "Choose between 'person' or 'organization'",
-      options: [
-        "person",
-        "organization",
-      ],
+      label: "User Email",
+      description: "Specify the user email to opt out from all SMS communications.",
+      async options({ page }) {
+        const { contacts } = await this.listPeople({
+          data: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+            fields: [
+              "str::first",
+              "str::last",
+              "str::email",
+            ],
+          },
+        });
+
+        return contacts.map(({ fields }) => ({
+          label: `${fields["str::first"]} ${fields["str::last"]} (${fields["str::email"]})`,
+          value: fields["str::email"],
+        }));
+      },
     },
-    data: {
+    activityId: {
+      type: "string",
+      label: "Activity Id",
+      description: "The Id of the activity definition. You can find the id by clicking on the activity, the id will be in the url \"/activities/{ACTIVITY_ID}/overview\"",
+    },
+    fields: {
       type: "object",
-      label: "Record Data",
-      description: "Data of the record to initialize or update.",
+      label: "Fields",
+      description: "An object with the fields of the activity. You can find the fields by clicking on the activity and on the Developer button.",
     },
-    activityName: {
-      type: "string",
-      label: "Activity Name",
-      description: "Specify the activity to be created.",
-    },
-    recordId: {
-      type: "string",
-      label: "Record ID",
-      description: "Optional: Assign the activity to a preexisting record",
-      optional: true,
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "Specify the user ID to opt out from all SMS communications.",
+    attributes: {
+      type: "object",
+      label: "Attributes",
+      description: "An object with the attributes. You can find the attributes by clicking on the activity and on the Developer button.",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.ap3api.com";
+      return `https://${this.$auth.region}/v1`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "X-Api-Key": `${this.$auth.api_key}`,
+        "Content-Type": "application/json",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
+        method: "POST",
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async emitContactCreated(opts = {}) {
+    listPeople(opts = {}) {
+      return this._makeRequest({
+        path: "/person/get",
+        ...opts,
+      });
+    },
+    updatePerson(opts = {}) {
+      return this._makeRequest({
+        path: "/person/merge",
+        ...opts,
+      });
+    },
+    createPerson(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/person/create",
+        path: "/person/merge",
         ...opts,
       });
     },
-    async emitOrganizationCreated(opts = {}) {
+    createCustomActivity(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v1/organizations/create",
+        path: "/activities/create",
         ...opts,
       });
     },
-    async emitContactUpdated(opts = {}) {
-      return this._makeRequest({
-        method: "PATCH",
-        path: "/v1/person/update",
-        ...opts,
-      });
-    },
-    async emitOrganizationUpdated(opts = {}) {
-      return this._makeRequest({
-        method: "PATCH",
-        path: "/v1/organizations/update",
-        ...opts,
-      });
-    },
-    async createUniqueActivity(opts = {}) {
-      const {
-        activityName, recordId, ...otherOpts
-      } = opts;
-      return this._makeRequest({
-        method: "POST",
-        path: "/v1/activities/create",
-        data: {
-          activityName: this.activityName,
-          recordId: this.recordId,
-          ...otherOpts,
-        },
-      });
-    },
-    async optOutSMS(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/v1/persons/${this.userId}/sms-opt-out`,
-        ...opts,
-      });
-    },
-    async initializeOrUpdateRecord(opts = {}) {
-      const {
-        recordType, data, ...otherOpts
-      } = opts;
-      return this._makeRequest({
-        method: "POST",
-        path: `/v1/${recordType}s/merge`,
-        data: {
-          [recordType]: [
-            data,
-          ],
-          async: true,
-          ...otherOpts,
-        },
-      });
-    },
-    async getNewContacts(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/v1/persons/get",
-        params: {
-          sort_order: "asc",
-          sort_by_field_id: "created_at",
-          limit: 50,
-        },
-        ...opts,
-      });
-    },
-    async getNewOrganizations(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/v1/organizations/get",
-        params: {
-          sort_order: "asc",
-          sort_by_field_id: "created_at",
-          limit: 50,
-        },
-        ...opts,
-      });
-    },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let response = await fn(...opts);
-      results = results.concat(response.items);
+    async *paginate({
+      fn, data = {}, fieldName, ...opts
+    }) {
+      let hasMore = false;
+      let page = 0;
 
-      while (response.has_more) {
-        const nextOpts = {
+      do {
+        data.limit = LIMIT;
+        data.offset = LIMIT * page++;
+        const response = await fn({
+          data,
           ...opts,
-          cursor_id: response.cursor_id,
-        };
-        response = await fn(...nextOpts);
-        results = results.concat(response.items);
-      }
+        });
+        for (const d of response[fieldName]) {
+          yield d;
+        }
 
-      return results;
+        hasMore = response.has_more;
+
+      } while (hasMore);
     },
   },
 };
