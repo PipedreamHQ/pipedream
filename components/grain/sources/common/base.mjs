@@ -13,9 +13,6 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
-    getExtraData() {
-      return {};
-    },
   },
   hooks: {
     async activate() {
