@@ -11988,8 +11988,8 @@ importers:
   components/zoho_survey:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       html-entities-decoder:
         specifier: ^1.0.5
         version: 1.0.5
