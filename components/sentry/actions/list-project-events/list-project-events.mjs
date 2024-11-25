@@ -2,7 +2,7 @@ import app from "../../sentry.app.mjs";
 
 export default {
   key: "sentry-list-project-events",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   name: "List Project Events.",
   description: "Return a list of events bound to a project. [See the docs here](https://docs.sentry.io/api/events/list-a-projects-events/)",
