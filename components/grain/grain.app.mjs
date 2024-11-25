@@ -32,7 +32,7 @@ export default {
     viewId: {
       type: "string",
       label: "View ID",
-      description: "The ID of the recording to fetch",
+      description: "The ID of the view to fetch",
       async options({
         type, prevContext: { nextPage },
       }) {
