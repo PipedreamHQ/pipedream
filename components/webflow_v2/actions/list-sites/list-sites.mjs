@@ -1,16 +1,16 @@
-import webflow from "../../webflow.app.mjs";
+import app from "../../webflow_v2.app.mjs";
 
 export default {
-  key: "webflow-list-sites",
+  key: "webflow_v2-list-sites",
   name: "List Sites",
   description: "List sites. [See the docs here](https://developers.webflow.com/#list-sites)",
-  version: "0.0.4",
+  version: "0.1.{{ts}}",
   type: "action",
   props: {
-    webflow,
+    app,
   },
   async run({ $ }) {
-    const response = await this.webflow.getSites();
+    const response = await this.app.getSites();
 
     $.export("$summary", "Successfully retrieved sites");
 
