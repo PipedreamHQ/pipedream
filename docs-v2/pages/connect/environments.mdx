@@ -1,4 +1,5 @@
 import Callout from '@/components/Callout'
+import Image from 'next/image'
 
 # Environments
 
@@ -6,6 +7,14 @@ Pipedream Connect projects support two environments: `development` and `producti
 
 1. Connected accounts and credentials stored in `development` remain separate from `production`.
 2. In `development`, you can use the official Pipedream OAuth clients, so you can test integrations without creating your own OAuth client, and you can also use features that are typically only available on higher paid tiers, like [running workflows on behalf of your end users](/connect/workflows).
+
+<Callout type="warning">
+When connecting an account in `development`, make sure you're signed in to pipedream.com in the same browser where you're connecting your account. This is only a requirement for the `development` environment.
+</Callout>
+
+<br />
+
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1732654019/Google_Chrome_-_Pipedream_Connect_2024-11-26_at_12.45.06_PM_yp4gnl.png" alt="Connect in development mode" width={350} height={529} />
 
 ## How to specify environment
 
