@@ -36,7 +36,7 @@ export default {
         const collections = await this.getCollections(siteId);
 
         return collections.map((collection) => ({
-          label: collection.name,
+          label: collection.displayName || collection.slug,
           value: collection.id,
         }));
       },
@@ -51,7 +51,7 @@ export default {
         const items = await this.getItems(page, collectionId);
 
         return items.map((item) => ({
-          label: item.name,
+          label: item.fieldData?.name || item.fieldData?.slug,
           value: item.id,
         }));
       },
@@ -202,9 +202,7 @@ export default {
     async getCollection(collectionId) {
       const webflow = this._createApiClient();
 
-      return await webflow.collections.get({
-        collectionId,
-      });
+      return await webflow.collections.get(collectionId);
     },
     /**
      * Get a list of collections;
@@ -218,9 +216,7 @@ export default {
 
       if (!siteId) return [];
 
-      const response = await webflow.collections.list({
-        siteId: siteId,
-      });
+      const response = await webflow.collections.list(siteId);
       return response?.collections;
     },
     /**
@@ -235,9 +231,7 @@ export default {
 
       if (!collectionId) return [];
 
-      const response = await webflow.collections.items.listItems({
-        collectionId,
-      }, {
+      const response = await webflow.collections.items.listItems(collectionId, {
         limit: constants.LIMIT,
         offset: page,
       });
