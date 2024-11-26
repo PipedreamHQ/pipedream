@@ -586,8 +586,7 @@ importers:
 
   components/amazon_polly: {}
 
-  components/amazon_selling_partner:
-    specifiers: {}
+  components/amazon_selling_partner: {}
 
   components/amazon_ses:
     dependencies:
@@ -5542,6 +5541,12 @@ importers:
         version: 1.6.6
 
   components/lattice: {}
+
+  components/launchdarkly:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
 
   components/launchnotes:
     dependencies:
