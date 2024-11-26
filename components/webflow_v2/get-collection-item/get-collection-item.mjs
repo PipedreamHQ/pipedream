@@ -1,22 +1,22 @@
-import webflow from "../../webflow.app.mjs";
+import app from "../../webflow_v2.app.mjs";
 
 export default {
-  key: "webflow-get-collection-item",
+  key: "webflow_v2-get-collection-item",
   name: "Get Collection Item",
   description: "Get a Collection Item. [See the docs here](https://developers.webflow.com/#get-single-item)",
-  version: "0.1.7",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
-    webflow,
+    app,
     siteId: {
       propDefinition: [
-        webflow,
+        app,
         "sites",
       ],
     },
     collectionId: {
       propDefinition: [
-        webflow,
+        app,
         "collections",
         (c) => ({
           siteId: c.siteId,
@@ -25,7 +25,7 @@ export default {
     },
     itemId: {
       propDefinition: [
-        webflow,
+        app,
         "items",
         (c) => ({
           collectionId: c.collectionId,
@@ -34,7 +34,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const webflow = this.webflow._createApiClient();
+    const webflow = this.app._createApiClient();
 
     const response = await webflow.item({
       collectionId: this.collectionId,

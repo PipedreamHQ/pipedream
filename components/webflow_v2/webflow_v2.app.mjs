@@ -201,7 +201,7 @@ export default {
     async getCollection(collectionId) {
       const webflow = this._createApiClient();
 
-      return await webflow.collection({
+      return await webflow.collections.get({
         collectionId,
       });
     },
@@ -233,7 +233,7 @@ export default {
 
       if (!collectionId) return [];
 
-      const response = await webflow.items({
+      const response = await webflow.collections.items.listItems({
         collectionId,
       }, {
         limit: constants.LIMIT,
