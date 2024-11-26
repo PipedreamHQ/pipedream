@@ -586,6 +586,9 @@ importers:
 
   components/amazon_polly: {}
 
+  components/amazon_selling_partner:
+    specifiers: {}
+
   components/amazon_ses:
     dependencies:
       '@aws-sdk/client-ec2':
