@@ -11,14 +11,14 @@ export default {
     model: {
       propDefinition: [
         app,
-        "model"
-      ]
+        "model",
+      ],
     },
     prompt: {
       propDefinition: [
         app,
-        "prompt"
-      ]
+        "prompt",
+      ],
     },
   },
 

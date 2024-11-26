@@ -11,8 +11,8 @@ export default {
     model: {
       propDefinition: [
         app,
-        "model"
-      ]
+        "model",
+      ],
     },
   },
 

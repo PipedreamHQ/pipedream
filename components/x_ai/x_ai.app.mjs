@@ -12,9 +12,9 @@ export default {
         const response = await this.listModels();
         const modelsIds = response.data;
         return modelsIds.map(({ id }) => ({
-          value: id
+          value: id,
         }));
-      }
+      },
     },
     prompt: {
       type: "string",
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://api.x.ai`;
+      return "https://api.x.ai";
     },
     async _makeRequest(opts = {}) {
       const {
@@ -56,12 +56,14 @@ export default {
     },
     async postCompletion(args = {}) {
       return this._makeRequest({
-        path: `/v1/completions`,
+        path: "/v1/completions",
         method: "post",
         ...args,
       });
     },
-    async getModel({ model, ...args }) {
+    async getModel({
+      model, ...args
+    }) {
       return this._makeRequest({
         path: `/v1/models/${model}`,
         ...args,

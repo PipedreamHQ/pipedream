@@ -11,14 +11,14 @@ export default {
     model: {
       propDefinition: [
         app,
-        "model"
-      ]
+        "model",
+      ],
     },
     message: {
       propDefinition: [
         app,
-        "message"
-      ]
+        "message",
+      ],
     },
   },
 
@@ -28,7 +28,10 @@ export default {
       data: {
         model: this.model,
         messages: [
-          { role: "user", content: this.message },
+          {
+            role: "user",
+            content: this.message,
+          },
         ],
       },
     });
