@@ -23,7 +23,7 @@ export default {
         const sites = await this.getSites();
 
         return sites.map((site) => ({
-          label: site.name,
+          label: site.displayName || site.shortName,
           value: site._id,
         }));
       },
@@ -189,7 +189,8 @@ export default {
     async getSites() {
       const webflow = this._createApiClient();
 
-      return await webflow.sites.list();
+      const response = await webflow.sites.list();
+      return response?.sites;
     },
     /**
      * Get a collection;
@@ -217,9 +218,10 @@ export default {
 
       if (!siteId) return [];
 
-      return await webflow.collections.list({
+      const response = await webflow.collections.list({
         siteId: siteId,
       });
+      return response?.collections;
     },
     /**
      * Get a list of items;
@@ -240,7 +242,7 @@ export default {
         offset: page,
       });
 
-      return response;
+      return response?.items;
     },
   },
 };
