@@ -24,7 +24,7 @@ export default {
 
         return sites.map((site) => ({
           label: site.displayName || site.shortName,
-          value: site._id,
+          value: site.id,
         }));
       },
     },
@@ -37,7 +37,7 @@ export default {
 
         return collections.map((collection) => ({
           label: collection.name,
-          value: collection._id,
+          value: collection.id,
         }));
       },
     },
@@ -52,7 +52,7 @@ export default {
 
         return items.map((item) => ({
           label: item.name,
-          value: item._id,
+          value: item.id,
         }));
       },
     },
