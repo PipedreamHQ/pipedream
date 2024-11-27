@@ -58,7 +58,7 @@ export default {
     },
     async deleteMemory({ memoryName, ...args }) {
       return this._makeRequest({
-        path: `/memorysets/sergio19733/${memoryName}`,
+        path: `/memorysets/${this.$auth.org}/${memoryName}`,
         method: "delete",
         ...args,
       });
