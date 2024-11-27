@@ -1,22 +1,22 @@
-import webflow from "../../webflow.app.mjs";
+import app from "../../webflow_v2.app.mjs";
 
 export default {
-  key: "webflow-create-collection-item",
+  key: "webflow_v2-create-collection-item",
   name: "Create Collection Item",
   description: "Create new collection item. [See the docs here](https://developers.webflow.com/#create-new-collection-item)",
-  version: "0.1.7",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
-    webflow,
+    app,
     siteId: {
       propDefinition: [
-        webflow,
+        app,
         "sites",
       ],
     },
     collectionId: {
       propDefinition: [
-        webflow,
+        app,
         "collections",
         (c) => ({
           siteId: c.siteId,
@@ -24,21 +24,15 @@ export default {
       ],
       reloadProps: true,
     },
-    live: {
-      label: "Live",
-      description: "Indicate if the item should be published to the live site",
-      type: "boolean",
-      default: false,
-    },
   },
   async additionalProps() {
     const props = {};
     if (!this.collectionId) {
       return props;
     }
-    const { fields } = await this.webflow.getCollection(this.collectionId);
+    const { fields } = await this.app.getCollection(this.collectionId);
     for (const field of fields) {
-      if (field.editable && field.slug !== "_archived" && field.slug !== "_draft") {
+      if (field.editable && field.slug !== "isArchived" && field.slug !== "isDraft") {
         props[field.slug] = {
           type: "string",
           label: field.name,
@@ -55,29 +49,23 @@ export default {
   },
   async run({ $ }) {
     const {
-      webflow,
+      app,
       // eslint-disable-next-line no-unused-vars
       siteId,
-      // eslint-disable-next-line no-unused-vars
       collectionId,
-      live,
       ...fields
     } = this;
 
-    const webflowClient = webflow._createApiClient();
-
-    const response = await webflowClient.createItem({
-      collectionId: this.collectionId,
-      fields: {
+    const response = await app.createCollectionItem({
+      collectionId,
+      fieldData: {
         ...fields,
-        _archived: false,
-        _draft: false,
+        isArchived: false,
+        isDraft: false,
       },
-    }, {
-      live,
     });
 
-    $.export("$summary", `Successfully created collection item ${fields.name}`);
+    $.export("$summary", `Successfully created collection item ${fields.name ?? ""}`);
 
     return response;
   },
