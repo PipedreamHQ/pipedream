@@ -61,13 +61,13 @@ export default {
       label: "Chat",
       description: "Select a chat (type to search by participant names)",
       async options({
-        prevContext, searchTerm,
+        prevContext, query,
       }) {
         let path = "/chats?$expand=members";
         path += "&$top=20";
 
-        if (searchTerm) {
-          path += `&$search="${searchTerm}"`;
+        if (query) {
+          path += `&$search="${query}"`;
         }
 
         const response = prevContext?.nextLink
