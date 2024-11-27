@@ -11570,7 +11570,11 @@ importers:
         specifier: ^6.11.2
         version: 6.13.1
 
-  components/x_ai: {}
+  components/x_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/xata:
     dependencies:
