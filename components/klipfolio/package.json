@@ -2,7 +2,7 @@
   "name": "@pipedream/klipfolio",
   "version": "0.1.0",
   "description": "Pipedream Klipfolio Components",
-  "main": "dist/app/klipfolio.app.mjs",
+  "main": "klipfolio.app.mjs",
   "keywords": [
     "pipedream",
     "klipfolio"
