@@ -34,12 +34,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const webflow = this.app._createApiClient();
-
-    const response = await webflow.item({
-      collectionId: this.collectionId,
-      itemId: this.itemId,
-    });
+    const response = await this.app.getCollectionItem(this.collectionId, this.itemId);
 
     $.export("$summary", "Successfully retrieved collection item");
 

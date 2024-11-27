@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.getCollections(this.siteId);
+    const response = await this.app.listCollections(this.siteId);
 
     $.export("$summary", "Successfully retrieved collections");
 

@@ -25,7 +25,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.getItems(0, this.collectionId);
+    const response = await this.app.listCollectionItems(0, this.collectionId);
 
     $.export("$summary", "Successfully retrieved collection's items");
 

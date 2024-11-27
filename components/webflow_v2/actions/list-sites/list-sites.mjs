@@ -10,7 +10,7 @@ export default {
     app,
   },
   async run({ $ }) {
-    const response = await this.app.getSites();
+    const response = await this.app.listSites();
 
     $.export("$summary", "Successfully retrieved sites");
 
