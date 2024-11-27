@@ -60,14 +60,16 @@ export default {
       type: "string",
       label: "Chat",
       description: "Select a chat (type to search by participant names)",
-      async options({ prevContext, searchTerm }) {
+      async options({
+        prevContext, searchTerm,
+      }) {
         let path = "/chats?$expand=members";
         path += "&$top=20";
-        
+
         if (searchTerm) {
           path += `&$search="${searchTerm}"`;
         }
-        
+
         const response = prevContext?.nextLink
           ? await this.makeRequest({
             path: prevContext.nextLink,
@@ -75,10 +77,10 @@ export default {
           : await this.makeRequest({
             path,
           });
-        
+
         this._userCache = this._userCache || new Map();
         const options = [];
-        
+
         for (const chat of response.value) {
           let members = chat.members.map((member) => ({
             displayName: member.displayName,
@@ -86,20 +88,20 @@ export default {
             userId: member.userId,
             email: member.email,
           }));
-          
+
           if (members.some((member) => !member.displayName)) {
             try {
               const messages = await this.makeRequest({
                 path: `/chats/${chat.id}/messages?$top=10&$orderby=createdDateTime desc`,
               });
-              
+
               const nameMap = new Map();
               messages.value.forEach((msg) => {
                 if (msg.from?.user?.id && msg.from?.user?.displayName) {
                   nameMap.set(msg.from.user.id, msg.from.user.displayName);
                 }
               });
-              
+
               members = members.map((member) => ({
                 ...member,
                 displayName: member.displayName || nameMap.get(member.userId) || member.email || "Unknown User",
@@ -108,13 +110,12 @@ export default {
               console.error(`Failed to fetch messages for chat ${chat.id}:`, err);
             }
           }
-          
-          const memberNames = members.map((member) => 
-            member.wasNull 
+
+          const memberNames = members.map((member) =>
+            member.wasNull
               ? `${member.displayName} (External)`
-              : member.displayName,
-          );
-          
+              : member.displayName);
+
           options.push({
             label: memberNames.join(", "),
             value: chat.id,
