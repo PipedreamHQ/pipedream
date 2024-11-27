@@ -51,9 +51,7 @@ export default {
         model: this.model,
       },
     });
-
     $.export("$summary", `Successfully created Chatbot with ID '${response.chatbotId}'`);
-
     return response;
   },
 };
