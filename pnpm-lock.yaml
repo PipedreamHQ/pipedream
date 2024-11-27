@@ -6313,6 +6313,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
+  components/microsoft_teams_bot:
+    specifiers: {}
+
   components/microsoft_text_translate: {}
 
   components/microsofttodo:
