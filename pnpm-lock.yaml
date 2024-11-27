@@ -1769,7 +1769,11 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(web-streams-polyfill@3.3.3)
 
-  components/clarify: {}
+  components/clarify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
 
   components/clearbit:
     dependencies:
