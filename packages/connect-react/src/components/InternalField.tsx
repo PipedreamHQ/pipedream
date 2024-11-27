@@ -43,7 +43,7 @@ export function InternalField<T extends ConfigurableProp>({
       setConfiguredProp(idx, value);
     },
     extra: {
-      app: app as AppInfo | undefined, // XXX fix ts
+      app, // XXX fix ts
     },
   };
 
