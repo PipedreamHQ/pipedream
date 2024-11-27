@@ -34,7 +34,8 @@ export default {
       label: "Channel",
       description: "Team Channel",
       async options({
-        teamId, prevContext,
+        teamId,
+        prevContext,
       }) {
         const response = prevContext.nextLink
           ? await this.makeRequest({
@@ -79,27 +80,27 @@ export default {
         const options = [];
         
         for (const chat of response.value) {
-          let members = chat.members.map(member => ({
+          let members = chat.members.map((member) => ({
             displayName: member.displayName,
             wasNull: !member.displayName,
             userId: member.userId,
-            email: member.email
+            email: member.email,
           }));
           
-          if (members.some(member => !member.displayName)) {
+          if (members.some((member) => !member.displayName)) {
             try {
               const messages = await this.makeRequest({
                 path: `/chats/${chat.id}/messages?$top=10&$orderby=createdDateTime desc`,
               });
               
               const nameMap = new Map();
-              messages.value.forEach(msg => {
+              messages.value.forEach((msg) => {
                 if (msg.from?.user?.id && msg.from?.user?.displayName) {
                   nameMap.set(msg.from.user.id, msg.from.user.displayName);
                 }
               });
               
-              members = members.map(member => ({
+              members = members.map((member) => ({
                 ...member,
                 displayName: member.displayName || nameMap.get(member.userId) || member.email || "Unknown User",
               }));
@@ -108,10 +109,10 @@ export default {
             }
           }
           
-          const memberNames = members.map(member => 
+          const memberNames = members.map((member) => 
             member.wasNull 
               ? `${member.displayName} (External)`
-              : member.displayName
+              : member.displayName,
           );
           
           options.push({
@@ -168,7 +169,10 @@ export default {
       });
     },
     async makeRequest({
-      method, path, params = {}, content,
+      method,
+      path,
+      params = {},
+      content,
     }) {
       const api = this.client().api(path);
 
@@ -215,7 +219,8 @@ export default {
       });
     },
     async createChannel({
-      teamId, content,
+      teamId,
+      content,
     }) {
       return this.makeRequest({
         method: "post",
@@ -224,7 +229,9 @@ export default {
       });
     },
     async sendChannelMessage({
-      teamId, channelId, content,
+      teamId,
+      channelId,
+      content,
     }) {
       return this.makeRequest({
         method: "post",
@@ -233,7 +240,8 @@ export default {
       });
     },
     async sendChatMessage({
-      chatId, content,
+      chatId,
+      content,
     }) {
       return this.makeRequest({
         method: "post",
@@ -263,7 +271,8 @@ export default {
         .get();
     },
     async listChannelMessages({
-      teamId, channelId,
+      teamId,
+      channelId,
     }) {
       return this.makeRequest({
         path: `/teams/${teamId}/channels/${channelId}/messages/delta`,
