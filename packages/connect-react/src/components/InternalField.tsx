@@ -1,10 +1,8 @@
+import type { ConfigurableProp } from "@pipedream/sdk";
 import { FormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
 import { Field } from "./Field";
 import { useApp } from "../hooks/use-app";
-import {
-  AppInfo, ConfigurableProp,
-} from "@pipedream/sdk";
 
 type FieldInternalProps<T extends ConfigurableProp> = {
   prop: T;
