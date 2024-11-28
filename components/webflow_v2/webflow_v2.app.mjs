@@ -163,5 +163,17 @@ export default {
         customDomains
       })
     },
+    fulfillOrder(siteId, orderId, data) {
+      return this.webflowClient().orders.updateFulfill(siteId, orderId, data);
+    },
+    unfulfillOrder(siteId, orderId) {
+      return this.webflowClient().orders.updateUnfulfill(siteId, orderId);
+    },
+    refundOrder(siteId, orderId) {
+      return this.webflowClient().orders.refund(siteId, orderId);
+    },
+    updateOrder(siteId, orderId, data) {
+      return this.webflowClient().orders.update(siteId, orderId, data);
+    }
   },
 };

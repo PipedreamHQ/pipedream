@@ -1,22 +1,22 @@
-import webflow from "../../webflow.app.mjs";
+import app from "../../webflow_v2.app.mjs";
 
 export default {
-  key: "webflow-fulfill-order",
+  key: "webflow_v2-fulfill-order",
   name: "Fulfill Order",
   description: "Fulfill an order. [See the docs here](https://developers.webflow.com/#fulfill-order)",
-  version: "0.0.4",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
-    webflow,
+    app,
     siteId: {
       propDefinition: [
-        webflow,
+        app,
         "sites",
       ],
     },
     orderId: {
       propDefinition: [
-        webflow,
+        app,
         "orders",
       ],
     },
@@ -28,13 +28,8 @@ export default {
     },
   },
   async run({ $ }) {
-    const apiClient = this.webflow._createApiClient();
-
-    const response = await apiClient.post(`/sites/${this.siteId}/order/${this.orderId}/fulfill`, {
-      data: {
-        sendOrderFulfilledEmail: this.sendOrderFulfilledEmail,
-      },
-    });
+    const { app, siteId, orderId, ...data } = this;
+    const response = await app.fulfillOrder(siteId, orderId, data);
 
     $.export("$summary", "Successfully fulfilled order");
 
