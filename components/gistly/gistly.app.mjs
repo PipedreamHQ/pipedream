@@ -39,7 +39,7 @@ export default {
         url: `${this._apiUrl()}${path}`,
         ...args,
         headers: {
-          Authorization: `Bearer ${this._apiKey()}`,
+          "x-api-key": this._apiKey(),
           "Content-Type": "application/json",
         },
       });
