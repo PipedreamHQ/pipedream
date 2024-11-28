@@ -7,7 +7,7 @@ export default {
   propDefinitions: {
     domains: {
       label: "Domain",
-      description: "The list of domains.",
+      description: "Select one or more domains, or provide custom domain IDs.",
       type: "string[]",
       async options({ siteId }) {
         const domains = await this.getDomains(siteId);
@@ -17,7 +17,7 @@ export default {
     },
     sites: {
       label: "Site",
-      description: "The list of sites",
+      description: "Select a site or provide a custom site ID.",
       type: "string",
       async options() {
         const sites = await this.getSites();
@@ -30,7 +30,7 @@ export default {
     },
     collections: {
       label: "Collection",
-      description: "The list of collection of a site",
+      description: "Select a collection or provide a custom collection ID.",
       type: "string",
       async options({ siteId }) {
         const collections = await this.getCollections(siteId);
@@ -43,7 +43,7 @@ export default {
     },
     items: {
       label: "Item",
-      description: "The list of items of a collection",
+      description: "Select an item or provide a custom item ID.",
       type: "string",
       async options({
         collectionId, page,
@@ -58,7 +58,7 @@ export default {
     },
     orders: {
       label: "Order",
-      description: "The list of orders of a site",
+      description: "Select an order, or provide a custom order ID.",
       type: "string",
       async options({
         siteId, page,
@@ -158,5 +158,16 @@ export default {
     updateCollectionItem(collectionId, itemId, data) {
       return this.webflowClient().collections.items.updateItem(collectionId, itemId, data);
     },
+    getCollectionItemInventory(collectionId, itemId) {
+      return this.webflowClient().inventory.list(collectionId, itemId);
+    },
+    updateCollectionItemInventory(collectionId, itemId, data) {
+      return this.webflowClient().inventory.update(collectionId, itemId, data);
+    },
+    publishSite(siteId, customDomains) {
+      return this.webflowClient().sites.publish(siteId, {
+        customDomains
+      })
+    }
   },
 };
