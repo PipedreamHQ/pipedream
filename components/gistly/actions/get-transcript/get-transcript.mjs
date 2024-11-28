@@ -10,18 +10,30 @@ export default {
   props: {
     app,
     videoUrl: {
-      propDefinition: [app, "videoUrl"],
+      propDefinition: [
+        app,
+        "videoUrl",
+      ],
       optional: true,
     },
     videoId: {
-      propDefinition: [app, "videoId"],
+      propDefinition: [
+        app,
+        "videoId",
+      ],
       optional: true,
     },
     text: {
-      propDefinition: [app, "text"],
+      propDefinition: [
+        app,
+        "text",
+      ],
     },
     chunkSize: {
-      propDefinition: [app, "chunkSize"],
+      propDefinition: [
+        app,
+        "chunkSize",
+      ],
     },
   },
   async run({ $ }) {
@@ -37,7 +49,7 @@ export default {
       params,
     });
 
-    $.export("$summary", `Successfully fetched the transcript for the video.`);
+    $.export("$summary", "Successfully fetched the transcript for the video.");
     return response;
   },
 };
