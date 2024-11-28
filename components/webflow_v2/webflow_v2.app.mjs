@@ -120,14 +120,14 @@ export default {
      const response = await this.webflowClient().sites.getCustomDomain(siteId);
      return response?.customDomains;
     },
-    async getSite(siteId) {
+    getSite(siteId) {
       return this.webflowClient().sites.get(siteId);
     },
     async listSites() {
       const response = await this.webflowClient().sites.list();
       return response?.sites;
     },
-    async getCollection(collectionId) {
+    getCollection(collectionId) {
       return this.webflowClient().collections.get(collectionId);
     },
     async listCollections(siteId) {
@@ -146,8 +146,17 @@ export default {
 
       return response?.items;
     },
-    async getCollectionItem(collectionId, itemId) {
+    getCollectionItem(collectionId, itemId) {
       return this.webflowClient().collections.items.getItem(collectionId, itemId);
-    }
+    },
+    deleteCollectionItem(collectionId, itemId) {
+      return this.webflowClient().collections.items.deleteItem(collectionId, itemId);
+    },
+    createCollectionItem(collectionId, data) {
+      return this.webflowClient().collections.items.createItem(collectionId, data);
+    },
+    updateCollectionItem(collectionId, itemId, data) {
+      return this.webflowClient().collections.items.updateItem(collectionId, itemId, data);
+    },
   },
 };

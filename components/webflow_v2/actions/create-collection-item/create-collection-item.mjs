@@ -53,17 +53,17 @@ export default {
       // eslint-disable-next-line no-unused-vars
       siteId,
       collectionId,
-      ...fields
+      ...fieldData
     } = this;
 
-    const response = await app.createCollectionItem({
+    const response = await app.createCollectionItem(
       collectionId,
-      fieldData: {
-        ...fields,
+      {
+        fieldData,
         isArchived: false,
         isDraft: false,
       },
-    });
+    );
 
     $.export("$summary", `Successfully created collection item ${fields.name ?? ""}`);
 
