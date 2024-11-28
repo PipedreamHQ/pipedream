@@ -44,11 +44,10 @@ export default {
         },
       });
     },
-    fetchTranscript({ $, params }) {
+    fetchTranscript(args = {}) {
       return this._makeRequest({
-        $,
         path: "/youtube/transcript",
-        params,
+        ...args,
       });
     },
   },
