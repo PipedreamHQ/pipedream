@@ -5544,6 +5544,12 @@ importers:
 
   components/lattice: {}
 
+  components/launchdarkly:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
+
   components/launchnotes:
     dependencies:
       '@pipedream/platform':
@@ -6312,6 +6318,8 @@ importers:
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0
+
+  components/microsoft_teams_bot: {}
 
   components/microsoft_text_translate: {}
 

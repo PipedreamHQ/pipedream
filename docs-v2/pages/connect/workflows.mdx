@@ -34,9 +34,13 @@ Read [the quickstart](/quickstart/) to learn more.
 
 <Steps>
 
+### Enable the feature flag
+
+Go to [https://pipedream.com/settings/alpha](https://pipedream.com/settings/alpha) and click the checkbox, **Allow use Connect in builder**.
+
 ### Create an OAuth client
 
-**This step is optional but strongly recommended.** To securely run workflows for end users, you'll need to first [create a Pipedream OAuth client](/rest-api/auth#creating-an-oauth-client). Pipedream uses OAuth to authenticate requests to the Pipedream API and workflows.
+**This step is optional but strongly recommended.** To securely run workflows for end users, you should [create a Pipedream OAuth client](/rest-api/auth#creating-an-oauth-client). Pipedream uses OAuth to authenticate requests to the Pipedream API and workflows.
 
 
 ### Create a workflow
@@ -110,7 +114,7 @@ npm i @pipedream/sdk
 
 To invoke workflows, you'll need:
 
-1. The OAuth client ID and secret from your [workspace settings](rest-api/auth#oauth)
+1. The OAuth client ID and secret from your OAuth client in **[step 2](#create-an-oauth-client)**
 2. Your [Project ID](/projects#finding-your-projects-id)
 3. Your workflow's HTTP endpoint URL
 4. The [external user ID](/connect/api#external-users) of the user you'd like to run the workflow for
@@ -197,6 +201,44 @@ curl -X POST https://{your-endpoint-url} \
 </Tabs.Tab>
 </Tabs>
 </Steps>
+
+## Step configuration
+
+When configuring a workflow that's using your end user's auth instead of your own, you'll need to define most configuration fields manually in each step.
+
+For example, normally when you connect your own Google Sheets account directly in the builder, you can dynamically list all of the available sheets from a dropdown.
+
+<div className="mt-4">
+  <img width="550px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1732752732/async-options_iq7dtw.png" />
+</div>
+
+However, when running workflows on behalf of your end users, that UI configuration doesn't work, since the Google Sheets account to use is determined at the time of workflow execution. So instead, you'll need to configure these fields manually.
+
+- Either make sure to pass all required configuration data when invoking the workflow, or add a step to your workflow that retrieve it from your database, etc. For example:
+
+```bash
+curl -X POST https://{your-endpoint-url} \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {access_token}" \
+  -H 'X-PD-External-User-ID: {your_external_user_id}' \
+  -H 'X-PD-Environment: development' \  # 'development' or 'production'
+  -d '{ 
+    "slackChannel": "#general",
+    "messageText": "Hello, world!",
+    "gitRepo": "AcmeOrg/acme-repo",
+    "issueTitle": "Test Issue"
+  }' \
+```
+
+- Then in the Slack and GitHub steps, you'd reference those fields directly:
+
+<div className="mt-4">
+  <img width="650px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1732754036/step-refs_lhwhrj.png" />
+</div>
+
+<Callout type="info">
+We plan to improve this interface in the future, and potentially allow developers to store end user metadata and configuration data alongside the connected account for your end users, so you won't need to pass the data at runtime.
+</Callout>
 
 ## Errors
 
