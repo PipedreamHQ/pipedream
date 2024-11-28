@@ -64,7 +64,7 @@ export default {
       ...data
     } = this;
 
-    const response = await this.app.updateCollectionItemInventory(collectionId, itemId, data);
+    const response = await app.updateCollectionItemInventory(collectionId, itemId, data);
 
     $.export("$summary", "Successfully updated item inventory");
 
