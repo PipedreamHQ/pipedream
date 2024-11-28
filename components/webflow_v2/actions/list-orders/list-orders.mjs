@@ -1,4 +1,4 @@
-import app from "../../webflow.app.mjs";
+import app from "../../webflow_v2.app.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
