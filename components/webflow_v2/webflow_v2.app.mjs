@@ -98,23 +98,17 @@ export default {
         webhookId,
       });
     },
-    async getOrder({
-      siteId, orderId,
-    }) {
-      const apiClient = this._createApiClient();
-
-      return apiClient.get(`/sites/${siteId}/order/${orderId}`);
+    async getOrder(siteId, orderId) {
+      return this.webflowClient().orders.get(siteId, orderId);
     },
     async listOrders({
-      page, siteId, status,
+      page: offset = 0, siteId, status,
     }) {
-      const apiClient = this._createApiClient();
-
-      return apiClient.get(`/sites/${siteId}/orders`, {
-        status: status,
-        offset: page ?? 0,
-        limit: constants.LIMIT,
+      const response = await this.webflowClient().orders.list(siteId, {
+        offset,
+        status
       });
+     return response?.orders;
     },
     async listDomains(siteId) {
      const response = await this.webflowClient().sites.getCustomDomain(siteId);
@@ -168,6 +162,6 @@ export default {
       return this.webflowClient().sites.publish(siteId, {
         customDomains
       })
-    }
+    },
   },
 };
