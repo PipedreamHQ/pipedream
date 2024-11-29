@@ -25,12 +25,6 @@ export default {
     getWebhookTriggerType() {
       throw new Error("getWebhookTriggerType is not implemented");
     },
-    getWebhookFilter() {
-      return {};
-    },
-    isEventRelevant(event) {
-      if (event) return true;
-    },
     generateMeta(data) {
       return {
         id: data.id || uuid(),
@@ -39,10 +33,6 @@ export default {
       };
     },
     processEvent(event) {
-      if (!this.isEventRelevant(event)) {
-        return;
-      }
-
       const { body } = event;
       const meta = this.generateMeta(body);
       this.$emit(body, meta);
@@ -59,7 +49,6 @@ export default {
       const webhook = await this.app.createWebhook(this.siteId, {
         url: this.http.endpoint,
         triggerType: this.getWebhookTriggerType(),
-        filter: this.getWebhookFilter(),
       });
 
       this._setWebhookId(webhook?.id);
