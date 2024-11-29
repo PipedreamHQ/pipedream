@@ -25,7 +25,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.publishSite(siteId, domains);
+    const response = await this.app.publishSite(this.siteId, this.domains);
 
     $.export("$summary", "Successfully published site");
 

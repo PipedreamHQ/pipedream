@@ -28,7 +28,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const { app, siteId, orderId, ...data } = this;
+    const {
+      app, siteId, orderId, ...data
+    } = this;
     const response = await app.fulfillOrder(siteId, orderId, data);
 
     $.export("$summary", "Successfully fulfilled order");

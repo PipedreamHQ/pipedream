@@ -34,7 +34,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const { collectionId, itemId } = this;
+    const {
+      collectionId, itemId,
+    } = this;
     const response = await this.app.deleteCollectionItem(collectionId, itemId);
 
     $.export("$summary", "Successfully deleted item");

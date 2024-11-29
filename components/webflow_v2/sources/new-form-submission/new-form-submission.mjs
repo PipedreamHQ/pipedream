@@ -14,7 +14,9 @@ export default {
       return "form_submission";
     },
     generateMeta(data) {
-      const { name, id, submittedAt } = data;
+      const {
+        name, id, submittedAt,
+      } = data;
       return {
         id,
         summary: `Form submitted: ${name ?? id}`,

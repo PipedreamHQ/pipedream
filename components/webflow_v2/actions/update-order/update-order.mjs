@@ -40,7 +40,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const { app, siteId, orderId, ...data } = this;
+    const {
+      app, siteId, orderId, ...data
+    } = this;
 
     const response = await app.updateOrder(siteId, orderId, data);
 

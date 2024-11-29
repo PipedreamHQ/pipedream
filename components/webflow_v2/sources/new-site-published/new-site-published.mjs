@@ -31,7 +31,9 @@ export default {
     getWebhookTriggerType() {
       return "site_publish";
     },
-    generateMeta({ siteId, publishedOn }) {
+    generateMeta({
+      siteId, publishedOn,
+    }) {
       return {
         id: `${siteId}-${publishedOn}`,
         summary: `Site published: ${siteId}`,

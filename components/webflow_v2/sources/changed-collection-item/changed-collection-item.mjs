@@ -13,7 +13,9 @@ export default {
       return "collection_item_changed";
     },
     generateMeta(data) {
-      const { id, fieldData, lastUpdated } = data;
+      const {
+        id, fieldData, lastUpdated,
+      } = data;
       const ts = Date.parse(lastUpdated);
 
       return {

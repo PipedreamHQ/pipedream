@@ -65,7 +65,7 @@ export default {
       },
     );
 
-    $.export("$summary", `Successfully created collection item ${fields.name ?? ""}`);
+    $.export("$summary", `Successfully created collection item ${this.name ?? ""}`);
 
     return response;
   },

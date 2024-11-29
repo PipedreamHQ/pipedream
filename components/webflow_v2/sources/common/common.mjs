@@ -7,7 +7,10 @@ export default {
   props: {
     app,
     siteId: {
-      propDefinition: [app, "sites"],
+      propDefinition: [
+        app,
+        "sites",
+      ],
     },
     db: "$.service.db",
     http: "$.interface.http",

@@ -10,7 +10,10 @@ export default {
   props: {
     app,
     siteId: {
-      propDefinition: [app, "sites"],
+      propDefinition: [
+        app,
+        "sites",
+      ],
     },
     collectionId: {
       propDefinition: [
@@ -51,8 +54,8 @@ export default {
             field.slug === "name"
               ? "Name given to the Item."
               : field.slug === "slug"
-              ? "URL structure of the Item in your site. Note: Updates to an item slug will break all links referencing the old slug."
-              : "See the documentation for additional information about [Field Types & Item Values](https://developers.webflow.com/reference/field-types-item-values).",
+                ? "URL structure of the Item in your site. Note: Updates to an item slug will break all links referencing the old slug."
+                : "See the documentation for additional information about [Field Types & Item Values](https://developers.webflow.com/reference/field-types-item-values).",
           optional: true,
         };
       }

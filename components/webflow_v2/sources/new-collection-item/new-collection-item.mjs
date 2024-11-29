@@ -13,7 +13,9 @@ export default {
       return "collection_item_created";
     },
     generateMeta(data) {
-      const { id, fieldData } = data;
+      const {
+        id, fieldData,
+      } = data;
       return {
         id,
         summary: `New item: ${fieldData?.slug ?? fieldData?.name ?? id}`,

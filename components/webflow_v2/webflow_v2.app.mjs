@@ -95,13 +95,13 @@ export default {
     }) {
       const response = await this.webflowClient().orders.list(siteId, {
         offset,
-        status
+        status,
       });
-     return response?.orders;
+      return response?.orders;
     },
     async listDomains(siteId) {
-     const response = await this.webflowClient().sites.getCustomDomain(siteId);
-     return response?.customDomains;
+      const response = await this.webflowClient().sites.getCustomDomain(siteId);
+      return response?.customDomains;
     },
     getSite(siteId) {
       return this.webflowClient().sites.get(siteId);
@@ -149,8 +149,8 @@ export default {
     },
     publishSite(siteId, customDomains) {
       return this.webflowClient().sites.publish(siteId, {
-        customDomains
-      })
+        customDomains,
+      });
     },
     fulfillOrder(siteId, orderId, data) {
       return this.webflowClient().orders.updateFulfill(siteId, orderId, data);
@@ -163,6 +163,6 @@ export default {
     },
     updateOrder(siteId, orderId, data) {
       return this.webflowClient().orders.update(siteId, orderId, data);
-    }
+    },
   },
 };

@@ -24,7 +24,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const { app, ...data } = this;
+    const {
+      app, ...data
+    } = this;
     const response = await app.listOrders(data);
 
     $.export("$summary", `Successfully retrieved ${response?.length} orders`);
