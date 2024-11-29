@@ -5590,7 +5590,11 @@ importers:
 
   components/learndash: {}
 
-  components/learnworlds: {}
+  components/learnworlds:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/leexi:
     dependencies:
