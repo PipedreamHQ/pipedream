@@ -33,9 +33,9 @@ export default {
       };
     },
     processEvent(event) {
-      const { body } = event;
-      const meta = this.generateMeta(body);
-      this.$emit(body, meta);
+      const { body: { payload } } = event;
+      const meta = this.generateMeta(payload);
+      this.$emit(payload, meta);
     },
     emitHistoricalEvents(events, limit = constants.DEPLOY_OFFSET) {
       for (const event of events.slice(0, limit)) {
