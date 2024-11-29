@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 export default {
   type: "source",
   key: "webflow_v2-new-site-published",
-  name: "New Site Published",
+  name: "Site Published",
   description: "Emit new event when a site is published. [See the docs here](https://developers.webflow.com/#trigger-types)",
   version: "0.0.{{ts}}",
   ...common,

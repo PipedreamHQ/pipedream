@@ -6,13 +6,15 @@ export default {
   app: "webflow_v2",
   propDefinitions: {
     domains: {
-      label: "Domain",
-      description: "Select one or more domains, or provide custom domain IDs.",
+      label: "Custom Domains",
+      description: "Select one or more custom domains to publish.",
       type: "string[]",
       async options({ siteId }) {
         const domains = await this.listDomains(siteId);
-
-        return domains.map((domain) => domain.name);
+        return domains.map((id, url) => ({
+          label: url,
+          id,
+        }));
       },
     },
     sites: {
