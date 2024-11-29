@@ -13,10 +13,11 @@ export default {
       return "collection_item_deleted";
     },
     generateMeta(data) {
+      const { id } = data;
       return {
-        id: data.itemId,
-        summary: `Item ${data.itemId} deleted`,
-        ts: Date.parse(data["created-on"]),
+        id,
+        summary: `Item deleted: ${id}`,
+        ts: Date.now(),
       };
     },
   },
