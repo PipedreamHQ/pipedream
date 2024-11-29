@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   type: "source",
   key: "webflow_v2-changed-ecommerce-order",
-  name: "New Changed E-commerce Order",
+  name: "E-commerce Order Updated",
   description: "Emit new event when an e-commerce order is changed. [See the docs here](https://developers.webflow.com/#order-model)",
   version: "0.0.{{ts}}",
   ...common,
@@ -12,13 +12,12 @@ export default {
     getWebhookTriggerType() {
       return "ecomm_order_changed";
     },
-    generateMeta(data) {
-      const now = Date.now();
-
+    generateMeta({ orderId }) {
+      const ts = Date.now();
       return {
-        id: `${data.orderId}-${now}`,
-        summary: `E-commerce order ${data.orderId} changed`,
-        ts: now,
+        id: `${orderId}-${ts}`,
+        summary: `E-comm order updated: ${orderId}`,
+        ts,
       };
     },
   },

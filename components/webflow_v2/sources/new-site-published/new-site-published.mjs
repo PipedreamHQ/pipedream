@@ -13,10 +13,7 @@ export default {
     async deploy() {
       console.log("Retrieving historical events...");
 
-      const sites = await this._makeRequest("/sites", {
-        limit: this.historicalEventsNumber,
-      });
-
+      const sites = await this.app.listSites();
       const filtered = sites.filter((site) => site.lastPublished);
       const sliced = filtered.slice(
         filtered.length - constants.DEPLOY_OFFSET,
@@ -34,11 +31,11 @@ export default {
     getWebhookTriggerType() {
       return "site_publish";
     },
-    generateMeta(data) {
+    generateMeta({ siteId, publishedOn }) {
       return {
-        id: `${data.site}-${data.publishTime}`,
-        summary: `The site ${data.site} has been published.`,
-        ts: data.publishTime,
+        id: `${siteId}-${publishedOn}`,
+        summary: `Site published: ${siteId}`,
+        ts: Date.parse(publishedOn),
       };
     },
   },

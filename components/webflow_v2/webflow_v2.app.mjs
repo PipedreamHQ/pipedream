@@ -10,7 +10,7 @@ export default {
       description: "Select one or more domains, or provide custom domain IDs.",
       type: "string[]",
       async options({ siteId }) {
-        const domains = await this.getDomains(siteId);
+        const domains = await this.listDomains(siteId);
 
         return domains.map((domain) => domain.name);
       },
@@ -20,7 +20,7 @@ export default {
       description: "Select a site or provide a custom site ID.",
       type: "string",
       async options() {
-        const sites = await this.getSites();
+        const sites = await this.listSites();
 
         return sites.map((site) => ({
           label: site.displayName || site.shortName,
@@ -33,7 +33,7 @@ export default {
       description: "Select a collection or provide a custom collection ID.",
       type: "string",
       async options({ siteId }) {
-        const collections = await this.getCollections(siteId);
+        const collections = await this.listCollections(siteId);
 
         return collections.map((collection) => ({
           label: collection.displayName || collection.slug,
@@ -48,7 +48,7 @@ export default {
       async options({
         collectionId, page,
       }) {
-        const items = await this.getItems(page, collectionId);
+        const items = await this.listCollectionItems(page, collectionId);
 
         return items.map((item) => ({
           label: item.fieldData?.name || item.fieldData?.slug,
@@ -63,7 +63,7 @@ export default {
       async options({
         siteId, page,
       }) {
-        const items = await this.getOrders({
+        const items = await this.listOrders({
           page,
           siteId,
         });
