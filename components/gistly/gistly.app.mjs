@@ -34,7 +34,9 @@ export default {
     _apiUrl() {
       return "https://api.gist.ly";
     },
-    _makeRequest({ $ = this, path, ...args }) {
+    _makeRequest({
+      $ = this, path, ...args
+    }) {
       return axios($, {
         url: `${this._apiUrl()}${path}`,
         ...args,
