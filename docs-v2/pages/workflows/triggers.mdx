@@ -141,18 +141,18 @@ When making HTTP requests, pass the OAuth access token as a `Bearer` token in th
 curl -H 'Authorization: Bearer <OAuth access token>' https://myendpoint.m.pipedream.net
 ```
 
-You can use the Pipedream SDK to automatically refresh access tokens and invoke workflows:
+You can use the Pipedream SDK to automatically refresh access tokens and invoke workflows, or make HTTP requests directly to the workflow's URL:
 
-<Tabs items={['TypeScript', 'Node.js']}>
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
-import { createBackendClient, HTTPAuthType } from "@pipedream/sdk";
+import { createBackendClient, HTTPAuthType } from "@pipedream/sdk/server";
  
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
   credentials: {
-    clientId: "YOUR_CLIENT_ID",
-    clientSecret: "YOUR_CLIENT_SECRET",
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
   },
 });
 
@@ -170,13 +170,13 @@ await pd.invokeWorkflow(
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
   credentials: {
-    clientId: "YOUR_CLIENT_ID",
-    clientSecret: "YOUR_CLIENT_SECRET",
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
   },
 });
 
@@ -190,6 +190,27 @@ await pd.invokeWorkflow(
   },
   "oauth" // Will automatically send the Authorization header with a fresh token
 )
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+
+curl -X POST https://{your-endpoint-url} \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "message": "Hello, world"
+  }'
 ```
 </Tabs.Tab>
 </Tabs>
@@ -221,7 +242,7 @@ curl -F 'name=Leia' -F 'title=General' https://myendpoint.m.pipedream.net
 
 Pipedream will convert that to a JavaScript object, `event.body`, with the following shape:
 
-```json
+```js
 {
   name: "Leia",
   title: "General",

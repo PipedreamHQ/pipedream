@@ -6,7 +6,7 @@ export default {
   key: "twilio-list-messages",
   name: "List Messages",
   description: "Return a list of messages associated with your account. [See the documentation](https://www.twilio.com/docs/sms/api/message-resource#read-multiple-message-resources)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     twilio,

@@ -36,7 +36,7 @@ You can also load the client-side SDK via `<script>` tag. You can run the latest
 or a specific version:
 
 ```html
-<script src="https://unpkg.com/@pipedream/sdk@0.0.13/dist/browser/index.js"></script>
+<script src="https://unpkg.com/@pipedream/sdk@1.0.6/dist/browser/index.js"></script>
 ```
 
 ## Authentication
@@ -50,13 +50,13 @@ Most of your interactions with the Connect API will happen on the server, to pro
 [Create a Pipedream OAuth client](/rest-api/auth#oauth) and instantiate the SDK with your client ID and secret:
 
 ```typescript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
   }
 });
 
@@ -73,7 +73,7 @@ You'll primarily use the browser SDK to let your users securely connect apps fro
 Here's a Next.js example [from our quickstart](/connect/quickstart):
 
 ```typescript
-import { createFrontendClient } from "@pipedream/sdk"
+import { createFrontendClient } from "@pipedream/sdk/browser"
 // Example from our Next.js app
 import { serverConnectTokenCreate } from "./server"
  
@@ -106,10 +106,10 @@ export default function Home() {
 
 Some API endpoints accept an [environment](/connect/environments) parameter. This lets you specify the environment (`production` or `development`) where resources will live in your project.
 
-You can set the environment when you create the SDK client:
+Always set the environment when you create the SDK client:
 
 ```typescript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -153,62 +153,7 @@ If you need higher rate limits, please [reach out](https://pipedream.com/support
 
 ### Invoke workflows
 
-You can use the SDK to invoke workflows on behalf of any end user. **Write one workflow, run it for all of your users**.
-
-<Tabs items={['TypeScript', 'Node.js']}>
-<Tabs.Tab>
-```typescript
-import { createBackendClient, HTTPAuthType } from "@pipedream/sdk";
- 
-// These secrets should be saved securely and passed to your environment
-const pd = createBackendClient({
-  credentials: {
-    clientId: "YOUR_CLIENT_ID",
-    clientSecret: "YOUR_CLIENT_SECRET",
-  },
-});
-
-await pd.invokeWorkflowForExternalUser(
-  "enabc123", // pass the endpoint ID or full URL here
-  "external_user_id", // The end user's ID in your system
-  {
-    method: "POST",
-    body: {
-      key: "value",
-    }
-  },
-  HTTPAuthType.OAuth // Will automatically send the Authorization header with a fresh token
-)
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```javascript
-import { createBackendClient } from "@pipedream/sdk";
-
-// These secrets should be saved securely and passed to your environment
-const pd = createBackendClient({
-  credentials: {
-    clientId: "YOUR_CLIENT_ID",
-    clientSecret: "YOUR_CLIENT_SECRET",
-  },
-});
-
-await pd.invokeWorkflowForExternalUser(
-  "enabc123", // pass the endpoint ID or full URL here
-  "external_user_id", // The end user's ID in your system
-  {
-    method: "POST",
-    body: {
-      key: "value",
-    }
-  },
-  "oauth" // Will automatically send the Authorization header with a fresh token
-)
-```
-</Tabs.Tab>
-</Tabs>
-
-See the [workflow invocation docs](/workflows/triggers#oauth) for more details.
+You can use the SDK to [invoke workflows on behalf of any end user](/connect/workflows). **Write one workflow, run it for all of your users**.
 
 ### Tokens
 
@@ -252,12 +197,6 @@ When using [Connect Link](/connect/connect-link), you can optionally redirect yo
 
 Pipedream will send events on successful auth, or any errors, to this URL via webhook. [See the webhooks docs](/connect/webhooks) for more information.
 
----
-
-`environment_name` **string** (_optional_)
-
-Specify the environment (`production` or `development`) to use for the account connection flow. Defaults to `production`.
-
 ##### Examples
 
 To create a short-lived token via TypeScript / JavaScript SDK, you'll need to create a Pipedream API client and call the `createConnectToken` method. In our example app, this code is in `app/server.ts`. 
@@ -272,37 +211,39 @@ import {
   type ConnectAPIResponse, 
   type ConnectTokenCreateOpts, 
   type ConnectTokenResponse,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 const { token, expires_at } = await pd.createConnectToken({
-  project_id: "your-project-id",
-  external_user_id: "your-external-user-id"  // The end user's ID in your system
+  project_id: "{your_project_id}",
+  external_user_id: "{your_external_user_id}"  // The end user's ID in your system
 });
 ```
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
   },
+  projectId: "{your_project_id}"
 });
 
 const { token, expires_at } = await pd.createConnectToken({
-  project_id: "your-project-id",
-  external_user_id: "your-external-user-id", // The end user's ID in your system
+  project_id: "{your_project_id}",
+  external_user_id: "{your_external_user_id}", // The end user's ID in your system
 });
 ```
 </Tabs.Tab>
@@ -324,7 +265,7 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
   -H "X-PD-Environment: development" \
   -H "Authorization: Bearer {access_token}" \
   -d '{
-    "external_user_id": "your-external-user-id"
+    "external_user_id": "{your_external_user_id}"
   }'
 ```
 </Tabs.Tab>
@@ -379,13 +320,15 @@ Pass `include_credentials=true` as a query-string parameter to include the accou
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 const accounts = await pd.getAccounts({
@@ -398,13 +341,15 @@ const accounts = await pd.getAccounts({
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 const accounts = await pd.getAccounts({
@@ -543,16 +488,18 @@ Pass `include_credentials=true` as a query-string parameter to include the accou
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
-const account = await pd.getAccount(accountId, {
+const account = await pd.getAccountById(accountId, {
   include_credentials: true, // set to true to include credentials
 });
 
@@ -562,18 +509,20 @@ const account = await pd.getAccount(accountId, {
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 const accountId = "{account_id}"; // Replace with your account ID
 
-const account = await pd.getAccount(accountId, {
+const account = await pd.getAccountById(accountId, {
   include_credentials: true, // set to true to include credentials
 });
 
@@ -683,13 +632,15 @@ DELETE /{project_id}/accounts/{account_id}
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 await pd.deleteAccount(accountId);
@@ -699,13 +650,15 @@ await pd.deleteAccount(accountId);
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 await pd.deleteAccount(accountId);
@@ -763,13 +716,15 @@ The app ID for which you want to delete all connected accounts. `app_id` can be 
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 await pd.deleteAccountsByApp(appId);
@@ -779,13 +734,15 @@ await pd.deleteAccountsByApp(appId);
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 await pd.deleteAccount(accountId);
@@ -843,13 +800,15 @@ DELETE /{project_id}/users/{external_user_id}
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 await pd.deleteExternalUser(externalId);
@@ -859,13 +818,15 @@ console.log("All accounts associated with the external ID have been deleted.");
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 const externalId = "{external_user_id}"; // Replace with your external user ID
@@ -919,33 +880,37 @@ GET /{project_id}/info
 <Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 const info = await pd.getProjectInfo({
-  project_id: "your-project-id",
+  project_id: "{your_project_id}",
 });
 ```
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 const info = await pd.getProjectInfo({
-  project_id: "your-project-id",
+  project_id: "{your_project_id}",
 });
 ```
 </Tabs.Tab>

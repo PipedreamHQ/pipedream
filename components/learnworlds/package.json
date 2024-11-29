@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/learnworlds",
+  "version": "0.0.1",
+  "description": "Pipedream LearnWorlds Components",
+  "main": "learnworlds.app.mjs",
+  "keywords": [
+    "pipedream",
+    "learnworlds"
+  ],
+  "homepage": "https://pipedream.com/apps/learnworlds",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
