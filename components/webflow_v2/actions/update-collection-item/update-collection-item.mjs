@@ -23,7 +23,6 @@ export default {
           siteId: c.siteId,
         }),
       ],
-      reloadProps: true,
     },
     itemId: {
       propDefinition: [
@@ -33,6 +32,7 @@ export default {
           collectionId: c.collectionId,
         }),
       ],
+      reloadProps: true,
     },
   },
   async additionalProps() {
@@ -43,7 +43,7 @@ export default {
     const { fields } = await this.app.getCollection(this.collectionId);
     for (const field of fields) {
       if (
-        field.editable &&
+        field.isEditable &&
         field.slug !== "isArchived" &&
         field.slug !== "isDraft"
       ) {
@@ -78,12 +78,13 @@ export default {
     const item = await app.getCollectionItem(collectionId, itemId);
 
     const response = await app.updateCollectionItem(collectionId, itemId, {
+      id: itemId,
       isArchived: false,
       isDraft: false,
       fieldData: {
         ...customFields,
-        name: name || item.name,
-        slug: slug || item.slug,
+        name: name || item.fieldData.name,
+        slug: slug || item.fieldData.slug,
       },
     });
 

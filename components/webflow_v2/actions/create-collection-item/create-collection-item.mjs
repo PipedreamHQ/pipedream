@@ -32,7 +32,7 @@ export default {
     }
     const { fields } = await this.app.getCollection(this.collectionId);
     for (const field of fields) {
-      if (field.editable && field.slug !== "isArchived" && field.slug !== "isDraft") {
+      if (field.isEditable && field.slug !== "isArchived" && field.slug !== "isDraft") {
         props[field.slug] = {
           type: "string",
           label: field.name,
@@ -41,7 +41,7 @@ export default {
             : field.slug === "slug"
               ? "URL structure of the Item in your site."
               : "See the documentation for additional information about [Field Types & Item Values](https://developers.webflow.com/reference/field-types-item-values).",
-          optional: !field.required,
+          optional: !field.isRequired,
         };
       }
     }
