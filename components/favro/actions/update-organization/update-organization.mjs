@@ -1,7 +1,7 @@
 import app from "../../favro.app.mjs";
 
 export default {
-  key: "favro-post-update-organization",
+  key: "favro-update-organization",
   name: "Update Organization",
   description: "Updates an existing organization. [See the documentation](https://favro.com/developer/#update-an-organization)",
   version: "0.0.1",
