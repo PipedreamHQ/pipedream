@@ -706,6 +706,12 @@ importers:
 
   components/api_void: {}
 
+  components/apiary:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/apify:
     dependencies:
       '@pipedream/platform':
