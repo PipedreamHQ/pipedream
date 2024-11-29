@@ -3,10 +3,10 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   type: "source",
-  key: "webflow-new-form-submission",
+  key: "webflow_v2-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event when a new form is submitted. [See the docs here](https://developers.webflow.com/#trigger-types)",
-  version: "0.2.4",
+  version: "0.0.{{ts}}",
   ...common,
   methods: {
     ...common.methods,

@@ -3,10 +3,10 @@ import common from "../common/common.mjs";
 
 export default {
   type: "source",
-  key: "webflow-new-site-published",
+  key: "webflow_v2-new-site-published",
   name: "New Site Published",
   description: "Emit new event when a site is published. [See the docs here](https://developers.webflow.com/#trigger-types)",
-  version: "0.2.3",
+  version: "0.0.{{ts}}",
   ...common,
   hooks: {
     ...common.hooks,

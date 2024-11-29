@@ -81,22 +81,11 @@ export default {
         accessToken: this._authToken(),
       });
     },
-    async createWebhook(siteId, url, triggerType, filter = {}) {
-      const apiClient = this._createApiClient();
-
-      return apiClient.createWebhook({
-        siteId,
-        triggerType,
-        url,
-        filter,
-      });
+    async createWebhook(siteId, data) {
+      return this.webflowClient().webhooks.create(siteId, data);
     },
-    async removeWebhook(siteId, webhookId) {
-      const apiClient = this._createApiClient();
-      return apiClient.removeWebhook({
-        siteId,
-        webhookId,
-      });
+    async removeWebhook(webhookId) {
+      return this.webflowClient().webhooks.delete(webhookId);
     },
     async getOrder(siteId, orderId) {
       return this.webflowClient().orders.get(siteId, orderId);
