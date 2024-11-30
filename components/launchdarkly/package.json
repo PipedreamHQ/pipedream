@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/fullenrich",
-  "version": "0.1.1",
-  "description": "Pipedream FullEnrich Components",
-  "main": "fullenrich.app.mjs",
+  "name": "@pipedream/launchdarkly",
+  "version": "0.0.1",
+  "description": "Pipedream LaunchDarkly Components",
+  "main": "launchdarkly.app.mjs",
   "keywords": [
     "pipedream",
-    "fullenrich"
+    "launchdarkly"
   ],
-  "homepage": "https://pipedream.com/apps/fullenrich",
+  "homepage": "https://pipedream.com/apps/launchdarkly",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
