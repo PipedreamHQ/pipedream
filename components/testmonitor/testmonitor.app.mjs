@@ -54,6 +54,48 @@ export default {
         }));
       },
     },
+    testCaseId: {
+      type: "integer",
+      label: "Test Case Id",
+      description: "The test case identifier where this test result belongs to.",
+      async options({
+        page, projectId,
+      }) {
+        const { data } = await this.getTestCases({
+          page: page + 1,
+          params: {
+            project_id: projectId,
+          },
+        });
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    testRunId: {
+      type: "integer",
+      label: "Test Run Id",
+      description: "The test run identifier where this test result belongs to.",
+      async options({
+        page, projectId,
+      }) {
+        const { data } = await this.getTestRuns({
+          page: page + 1,
+          params: {
+            project_id: projectId,
+          },
+        });
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     query: {
       type: "string",
       label: "Query",
@@ -103,6 +145,25 @@ export default {
       };
 
       return axios($, config);
+    },
+    createTestResult(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "test-results",
+        ...opts,
+      });
+    },
+    getTestCases(opts = {}) {
+      return this._makeRequest({
+        path: "test-cases",
+        ...opts,
+      });
+    },
+    getTestRuns(opts = {}) {
+      return this._makeRequest({
+        path: "test-runs",
+        ...opts,
+      });
     },
     getIssue({
       $, issueId,
