@@ -3930,8 +3930,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/gistly:
-    specifiers: {}
+  components/gistly: {}
 
   components/github:
     dependencies:
