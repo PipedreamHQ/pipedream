@@ -11305,7 +11305,14 @@ importers:
         specifier: 1.3.1
         version: 1.3.1
 
-  components/webflow_v2: {}
+  components/webflow_v2:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      webflow-api:
+        specifier: 2.4.2
+        version: 2.4.2
 
   components/webinarfuel: {}
 
@@ -23762,6 +23769,9 @@ packages:
 
   webflow-api@1.3.1:
     resolution: {integrity: sha512-ij/Y7t7VqeS2doOhHaCSToKkZeItFwkgCS003mqbG6d51eUmihcJ2ri4SOiR3zTxmUYZO+sg1sF+aAqsY7tgiA==}
+
+  webflow-api@2.4.2:
+    resolution: {integrity: sha512-+znE6V6E6YULwZIGIk8NLFZaimGFH7xVEAjCeivHz4gV13Zcg4FRXyhWxxTHnOYBwKjcjDoaWl8ZK1H9mUA5mQ==}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -39980,6 +39990,18 @@ snapshots:
       axios: 1.7.7(debug@3.2.7)
     transitivePeerDependencies:
       - debug
+
+  webflow-api@2.4.2:
+    dependencies:
+      form-data: 4.0.1
+      formdata-node: 6.0.3
+      js-base64: 3.7.2
+      node-fetch: 2.7.0
+      qs: 6.11.2
+      readable-stream: 4.5.2
+      url-join: 4.0.1
+    transitivePeerDependencies:
+      - encoding
 
   webidl-conversions@3.0.1: {}
 
