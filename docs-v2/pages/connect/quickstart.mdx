@@ -119,7 +119,7 @@ In our example, `app/page.tsx` calls the `connectAccount` method from the Pipedr
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1724182571/connect-account-button-screenshot_n7vjvq.png" alt="Connect your account button" width={550} height={300} />
 
 ```typescript
-import { createFrontendClient } from "@pipedream/sdk"
+import { createFrontendClient } from "@pipedream/sdk/browser"
 
 export default function Home() {
   const pd = createFrontendClient()
@@ -171,13 +171,15 @@ This example shows you how to fetch credentials by your end user's `external_use
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 async function getUserAccounts(external_user_id: string, include_credentials: boolean = false) {
@@ -195,13 +197,15 @@ async function getUserAccounts(external_user_id: string, include_credentials: bo
 ```javascript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 async function getUserAccounts(external_user_id, include_credentials = false) {

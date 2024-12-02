@@ -10,6 +10,7 @@ import {
 
 const projectId = "proj_abc123";
 const clientParams: BackendClientOpts = {
+  environment: "production",
   credentials: {
     clientId: "test-client-id",
     clientSecret: "test-client-secret",
@@ -175,6 +176,7 @@ describe("BackendClient", () => {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
           },
+          environment: "production",
           projectId,
         },
       );
@@ -247,6 +249,7 @@ describe("BackendClient", () => {
           headers: expect.objectContaining({
             "Authorization": expect.any(String),
             "Content-Type": "application/json",
+            "X-PD-Environment": "production",
           }),
         }),
       );
@@ -296,13 +299,15 @@ describe("BackendClient", () => {
 
   describe("getAccounts", () => {
     it("should retrieve accounts", async () => {
-      fetchMock.mockResponseOnce(
-        JSON.stringify([
-          {
-            id: "account-1",
-            name: "Test Account",
-          },
-        ]),
+      fetchMock.mockResponse(
+        JSON.stringify({
+          data: [
+            {
+              id: "account-1",
+              name: "Test Account",
+            },
+          ],
+        }),
         {
           headers: {
             "Content-Type": "application/json",
@@ -314,7 +319,7 @@ describe("BackendClient", () => {
         include_credentials: true,
       });
 
-      expect(result).toEqual([
+      expect(result.data).toEqual([
         {
           id: "account-1",
           name: "Test Account",
@@ -677,6 +682,7 @@ describe("BackendClient", () => {
             clientId: "test-client-id",
             clientSecret: "test-client-secret",
           },
+          environment: "production",
           projectId: "proj_abc123",
         },
       );

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/fullenrich",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream FullEnrich Components",
   "main": "fullenrich.app.mjs",
   "keywords": [
