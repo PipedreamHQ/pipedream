@@ -42,6 +42,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.grain.fetchRecording({
+      $,
       recordId: this.recordId,
       params: {
         transcript_format: this.transcriptFormat,
