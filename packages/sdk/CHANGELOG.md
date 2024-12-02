@@ -1,12 +1,44 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.0.8] - 2024-11-29
+
+### Changed
+
+- Fix fallback WebSocket import (for new components API)
+
+## [1.0.7] - 2024-11-21
+
+### Changed
+
+- The backend client now correctly uses asynchronous messaging to handle long running
+  operations.
+- Updated the backend command line tool to respect the `ENVIRONMENT` env variable
+  if set.
+
+## [1.0.6] - 2024-11-20
+
+### Changed
+
+- Use client Connect tokens to make api calls directly from the client.
+- Deprecated the `environments` property on `createFrontendClient` since it is now
+  stored in the token
+
+## [1.0.5] - 2024-11-18
+
+### Changed
+
+- The backend client used to default to `production` if the environment was not
+specified. Now `environment` is a required argument for `createBackendClient`
+and must be one of `production` or `development`.  
+
 ## [1.0.4] - 2024-11-15
 
 ### Changed
 
 - Improved the docs of the `getAccountById` method in the backend client to
   clarify the behavior of the new argument.
+
 - Fixed the exported `HTTPAuthType` enum so that it can be used by the consumers
   of the SDK.
 

@@ -8,6 +8,9 @@
   "quickstart": {
     "title": "Quickstart"
   },
+  "workflows": {
+    "title": "Running workflows"
+  },
   "api": {
     "title": "API & SDK Reference"
   },
@@ -25,6 +28,9 @@
   },
   "connect-link": {
     "title": "Connect Link"
+  },
+  "troubleshooting": {
+    "title": "Troubleshooting"
   },
   "customize-your-app": {
     "title": "Customize Your App"

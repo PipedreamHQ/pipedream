@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/azure_devops",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Azure DevOps Components",
   "main": "azure_devops.app.mjs",
   "keywords": [

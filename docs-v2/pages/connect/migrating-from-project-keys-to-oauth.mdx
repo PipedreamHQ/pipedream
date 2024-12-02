@@ -32,7 +32,7 @@ Change the `@pipedream/sdk` version in your `package.json`:
 ```json
 {
   "dependencies": {
-    "@pipedream/sdk": "1.0.0"
+    "@pipedream/sdk": "^1.0.0"
   }
 }
 ```
@@ -59,7 +59,7 @@ You'll need to make two changes to your frontend client code:
 2. Change the `createClient` method to `createFrontendClient`.
 
 ```typescript
-import { createFrontendClient } from "@pipedream/sdk"
+import { createFrontendClient } from "@pipedream/sdk/browser"
 const pd = createFrontendClient()
 ```
 
@@ -74,7 +74,7 @@ You'll need to make three changes to your backend code:
 <Tabs items={['TypeScript', 'Node.js']}>
 <Tabs.Tab>
 ```typescript
-import { createBackendClient, HTTPAuthType } from "@pipedream/sdk";
+import { createBackendClient, HTTPAuthType } from "@pipedream/sdk/server";
  
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
@@ -87,7 +87,7 @@ const pd = createBackendClient({
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
