@@ -46,7 +46,7 @@ export default {
         },
       });
     },
-    fetchTranscript(args = {}) {
+    getTranscript(args = {}) {
       return this._makeRequest({
         path: "/youtube/transcript",
         ...args,

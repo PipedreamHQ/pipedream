@@ -44,7 +44,7 @@ export default {
       chunkSize: this.chunkSize,
     };
 
-    const response = await this.app.fetchTranscript({
+    const response = await this.app.getTranscript({
       $,
       params,
     });
