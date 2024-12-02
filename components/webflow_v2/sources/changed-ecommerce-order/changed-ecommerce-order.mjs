@@ -5,7 +5,7 @@ export default {
   key: "webflow_v2-changed-ecommerce-order",
   name: "E-commerce Order Updated",
   description: "Emit new event when an e-commerce order is changed. [See the docs here](https://developers.webflow.com/#order-model)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   ...common,
   methods: {
     ...common.methods,

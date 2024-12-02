@@ -5,7 +5,7 @@ export default {
   name: "Update Collection Item",
   description:
     "Update collection item. [See the documentation](https://developers.webflow.com/#update-collection-item)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

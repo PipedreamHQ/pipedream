@@ -4,7 +4,7 @@ export default {
   key: "webflow_v2-create-collection-item",
   name: "Create Collection Item",
   description: "Create new collection item. [See the docs here](https://developers.webflow.com/#create-new-collection-item)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

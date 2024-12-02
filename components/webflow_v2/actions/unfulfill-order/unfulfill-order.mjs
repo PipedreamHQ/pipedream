@@ -4,7 +4,7 @@ export default {
   key: "webflow_v2-unfulfill-order",
   name: "Unfulfill Order",
   description: "Unfulfill an order. [See the docs here](https://developers.webflow.com/#unfulfill-order)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     app,

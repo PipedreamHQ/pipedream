@@ -6,7 +6,7 @@ export default {
   key: "webflow_v2-new-form-submission",
   name: "New Form Submission",
   description: "Emit new event when a form is submitted. [See the docs here](https://developers.webflow.com/#trigger-types)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   ...common,
   methods: {
     ...common.methods,

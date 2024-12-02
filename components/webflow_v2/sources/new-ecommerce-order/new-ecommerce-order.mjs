@@ -6,7 +6,7 @@ export default {
   name: "New E-commerce Order",
   description:
     "Emit new event when an e-commerce order is created. [See the docs here](https://developers.webflow.com/#order-model)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   ...common,
   hooks: {
     ...common.hooks,

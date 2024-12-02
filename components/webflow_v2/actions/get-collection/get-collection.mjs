@@ -4,7 +4,7 @@ export default {
   key: "webflow_v2-get-collection",
   name: "Get Collection",
   description: "Get a collection. [See the docs here](https://developers.webflow.com/#get-collection-with-full-schema)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
