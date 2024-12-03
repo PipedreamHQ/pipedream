@@ -147,7 +147,7 @@ export default {
           },
         },
       });
-      $.export("$summary", `Successfully created contact ${this.name}`);
+      $.export("$summary", `Successfully created single send ${this.name}`);
       return resp;
     } catch (e) {
       const errors = e.split("Unexpected error (status code: ERR_BAD_REQUEST):")[1];
