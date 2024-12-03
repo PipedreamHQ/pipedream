@@ -10302,8 +10302,8 @@ importers:
   components/testmonitor:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       moment:
         specifier: ^2.29.4
         version: 2.30.1
