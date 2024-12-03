@@ -5441,7 +5441,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/klipfolio: {}
+  components/klipfolio:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/knack:
     dependencies:
