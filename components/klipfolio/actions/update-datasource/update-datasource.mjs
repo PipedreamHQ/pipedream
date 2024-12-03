@@ -42,7 +42,6 @@ export default {
         name: this.name,
         description: this.description,
         refreshInterval: parseInt(this.refreshInterval, 10),
-
       },
     });
     $.export("$summary", `Successfully updated Datasource named '${this.name}'`);
