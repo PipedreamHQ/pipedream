@@ -1,6 +1,10 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.5] - 2024-12-02
+
+- Change colors of "Connect App" button
+
 # [1.0.0-preview.4] - 2024-11-27
 
 - Fix accidental use of useSuspenseQuery

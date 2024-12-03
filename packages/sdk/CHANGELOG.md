@@ -1,6 +1,12 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.0.8] - 2024-11-29
+
+### Changed
+
+- Fix fallback WebSocket import (for new components API)
+
 ## [1.0.7] - 2024-11-21
 
 ### Changed
