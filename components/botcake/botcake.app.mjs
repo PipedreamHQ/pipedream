@@ -10,7 +10,7 @@ export default {
       description: "ID of the Flow",
       async options() {
         const response = await this.getFlow();
-        const flowsIds = response.data.folders;
+        const flowsIds = response.data.flows;
         return flowsIds.map(({
           id, name,
         }) => ({
@@ -25,8 +25,8 @@ export default {
       description: "ID of the Keyword",
       async options() {
         const response = await this.getKeyword();
-        const datasourceIds = response.datasources;
-        return datasourceIds.map(({ id }) => ({
+        const keywordIds = response.data;
+        return keywordIds.map(({ id }) => ({
           value: id,
         }));
       },

@@ -32,9 +32,7 @@ export default {
         },
       },
     });
-
     $.export("$summary", `Successfully updated Keyword with ID: '${this.keywordId}'`);
-
     return response;
   },
 };

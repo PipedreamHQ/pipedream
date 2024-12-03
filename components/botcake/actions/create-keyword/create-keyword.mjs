@@ -14,9 +14,7 @@ export default {
     const response = await this.app.createKeyword({
       $,
     });
-
     $.export("$summary", "Successfully created new Keyword");
-
     return response;
   },
 };

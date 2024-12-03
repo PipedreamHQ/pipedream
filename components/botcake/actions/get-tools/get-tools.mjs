@@ -14,9 +14,7 @@ export default {
     const response = await this.app.getTools({
       $,
     });
-
     $.export("$summary", `Successfully retrieved ${response.data.length} tools`);
-
     return response;
   },
 };
