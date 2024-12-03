@@ -6348,7 +6348,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
-  components/microsoft_teams_bot: {}
+  components/microsoft_teams_bot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
 
   components/microsoft_text_translate: {}
 
