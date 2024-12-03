@@ -126,7 +126,7 @@ export default {
         $,
         data: {
           name: this.name,
-          categories: parseObject(this.categories),
+          categories: parseObject(this.categoryIds),
           send_at: this.sendAt,
           send_to: {
             list_ids: parseObject(this.listIds),
