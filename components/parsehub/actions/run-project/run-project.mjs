@@ -4,7 +4,7 @@ export default {
   key: "parsehub-run-project",
   name: "Run Parsehub Project",
   description: "Initiates an instance of a specified project on the Parsehub cloud. [See the documentation](https://www.parsehub.com/docs/ref/api/v2/#run-a-project)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
