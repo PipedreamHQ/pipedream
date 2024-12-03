@@ -45,12 +45,6 @@ export default {
         "suffix",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (
@@ -70,13 +64,10 @@ export default {
         FamilyName: this.familyName,
         GivenName: this.givenName,
       },
-      params: {
-        minorversion: this.minorVersion,
-      },
     });
 
     if (response) {
-      $.export("summary", `Successfully created customer with id ${response.Customer.Id}`);
+      $.export("summary", `Successfully created customer with ID ${response.Customer.Id}`);
     }
 
     return response;

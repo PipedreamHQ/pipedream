@@ -34,12 +34,6 @@ export default {
         "currency",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     try {
@@ -63,9 +57,6 @@ export default {
     const response = await this.quickbooks.sparseUpdateInvoice({
       $,
       data: Invoice,
-      params: {
-        minorversion: this.minorVersion,
-      },
     });
 
     if (response) {

@@ -15,12 +15,6 @@ export default {
         "timeActivityId",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (!this.timeActivityId) {
@@ -30,9 +24,7 @@ export default {
     const response = await this.quickbooks.getTimeActivity({
       $,
       timeActivityId: this.timeActivityId,
-      params: {
-        minorversion: this.minorVersion,
-      },
+      params: {},
     });
 
     if (response) {

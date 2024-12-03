@@ -14,18 +14,11 @@ export default {
         "purchaseId",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     const {
       quickbooks,
       purchaseId,
-      minorVersion,
     } = this;
 
     const [
@@ -40,7 +33,6 @@ export default {
         SyncToken,
       },
       params: {
-        minorversion: minorVersion,
         operation: "delete",
       },
     });

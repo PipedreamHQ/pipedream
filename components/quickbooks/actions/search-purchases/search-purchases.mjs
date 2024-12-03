@@ -33,12 +33,6 @@ export default {
       ],
       optional: true,
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     const whereClause = this.whereClause
@@ -62,7 +56,6 @@ export default {
     const response = await this.quickbooks.query({
       $,
       params: {
-        minorversion: this.minorVersion,
         query,
       },
     });

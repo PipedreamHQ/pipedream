@@ -23,16 +23,15 @@ export default {
         });
       },
     },
-    minorVersion: {
-      label: "Minor Version",
-      type: "string",
-      description: "Use the `minorversion` query parameter in REST API requests to access a version of the API other than the generally available version. For example, to invoke minor version 1 of the JournalEntry entity, issue the following request:\n`https://quickbooks.api.intuit.com/v3/company/<realmId>/journalentry/entityId?minorversion=1`",
-      optional: true,
-    },
     lineItems: {
       label: "Line Items",
       type: "string[]",
       description: "Individual line items of a transaction. Valid Line types include: `ItemBasedExpenseLine` and `AccountBasedExpenseLine`. One minimum line item required for the request to succeed. E.g `[ { \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Meals and Entertainment\", \"value\": \"10\" } } } ]`",
+    },
+    lineItemsAsObjects: {
+      type: "boolean",
+      label: "Enter Line Items as Objects",
+      description: "Enter line items as an array of objects",
     },
     customer: {
       label: "Customer Reference",
@@ -58,10 +57,11 @@ export default {
       optional: true,
     },
     currency: {
-      label: "Currency Reference",
+      label: "Currency Code",
       type: "string",
-      description: "This must be defined if multicurrency is enabled for the company.\nMulticurrency is enabled for the company if `Preferences.MultiCurrencyEnabled` is set to `true`. Read more about multicurrency support [here](https://developer.intuit.com/docs?RedirectID=MultCurrencies). Required if multicurrency is enabled for the company.",
+      description: "A three letter string representing the ISO 4217 code for the currency. For example, `USD`, `AUD`, `EUR`, and so on. This must be defined if multicurrency is enabled for the company.\nMulticurrency is enabled for the company if `Preferences.MultiCurrencyEnabled` is set to `true`. Read more about multicurrency support [here](https://developer.intuit.com/docs?RedirectID=MultCurrencies). Required if multicurrency is enabled for the company.",
       optional: true,
+      default: "USD",
       async options({ page }) {
         return this.getPropOptions({
           page,
@@ -422,7 +422,7 @@ export default {
       return await retryWithExponentialBackoff(requestFn);
     },
     async getPropOptions({
-      page, resource, mapper,
+      page = 0, resource, mapper,
     }) {
       const position = 1 + (page * 10);
       const { QueryResponse: queryResponse } = await this.query({

@@ -41,12 +41,6 @@ export default {
       ],
       optional: false,
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (!this.includeClause || !this.whereClause) {
@@ -70,7 +64,6 @@ export default {
     const response = await this.quickbooks.query({
       $,
       params: {
-        minorversion: this.minorVersion,
         query,
       },
     });

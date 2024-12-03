@@ -15,12 +15,6 @@ export default {
         "paymentId",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (!this.paymentId) {
@@ -30,9 +24,6 @@ export default {
     const response = await this.quickbooks.getPayment({
       $,
       paymentId: this.paymentId,
-      params: {
-        minorversion: this.minorVersion,
-      },
     });
 
     if (response) {

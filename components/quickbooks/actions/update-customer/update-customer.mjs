@@ -464,12 +464,6 @@ export default {
       optional: true,
       type: "string",
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     //See Quickbooks API docs at: https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#full-update-a-customer
@@ -582,9 +576,6 @@ export default {
           CountrySubDivisionCode: this.billAddrCountrySubDivisionCode,
         },
         TaxExemptionReasonId: this.taxExemptionReasonId,
-      },
-      params: {
-        minorversion: this.minorVersion,
       },
     });
 

@@ -7,7 +7,7 @@ export default {
   methods: {
     ...common.methods,
     _apiUrl() {
-      return "https://quickbooks.api.intuit.com/v3";
+      return "https://sandbox-quickbooks.api.intuit.com/v3";
     },
   },
 };

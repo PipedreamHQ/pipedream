@@ -14,12 +14,6 @@ export default {
       type: "string",
       description: "A search query against a Quickbooks entity. See query language syntax, limitations, and other specifications on [Data queries](https://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries)",
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (!this.searchQuery) {
@@ -29,7 +23,6 @@ export default {
     const response = await this.quickbooks.query({
       $,
       params: {
-        minorversion: this.minorVersion,
         query: this.searchQuery,
       },
     });

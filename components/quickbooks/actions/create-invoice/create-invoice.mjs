@@ -9,76 +9,113 @@ export default {
   type: "action",
   props: {
     quickbooks,
-    lineItems: {
-      propDefinition: [
-        quickbooks,
-        "lineItems",
-      ],
-    },
     customerRefValue: {
       propDefinition: [
         quickbooks,
         "customer",
       ],
     },
-    customerRefName: {
-      propDefinition: [
-        quickbooks,
-        "customerRefName",
-      ],
-    },
     currencyRefValue: {
       propDefinition: [
         quickbooks,
-        "currencyRefValue",
+        "currency",
       ],
     },
-    currencyRefName: {
+    lineItemsAsObjects: {
       propDefinition: [
         quickbooks,
-        "currencyRefName",
+        "lineItemsAsObjects",
       ],
+      reloadProps: true,
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.lineItemsAsObjects) {
+      props.lineItems = {
+        type: "string[]",
+        label: "Line Items",
+        description: "Line items of an invoice. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
+      };
+      return props;
+    }
+    props.numLineItems = {
+      type: "integer",
+      label: "Number of Line Items",
+      description: "The number of line items to enter",
+      reloadProps: true,
+    };
+    if (!this.numLineItems) {
+      return props;
+    }
+    for (let i = 1; i <= this.numLineItems; i++) {
+      props[`item_${i}`] = {
+        type: "string",
+        label: `Line ${i} - Item ID`,
+        options: await this.quickbooks.getPropOptions({
+          resource: "Item",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        }),
+      };
+      props[`amount_${i}`] = {
+        type: "string",
+        label: `Line ${i} - Amount`,
+      };
+    }
+    return props;
+  },
+  methods: {
+    buildLineItems() {
+      const lineItems = [];
+      for (let i = 1; i <= this.numLineItems; i++) {
+        lineItems.push({
+          DetailType: "SalesItemLineDetail",
+          Amount: this[`amount_${i}`],
+          SalesItemLineDetail: {
+            ItemRef: {
+              value: this[`item_${i}`],
+            },
+          },
+        });
+      }
+      return lineItems;
     },
   },
   async run({ $ }) {
-    if (!this.lineItems || !this.customerRefValue) {
+    if ((!this.numLineItems && !this.lineItemsAsObjects) || !this.customerRefValue) {
       throw new ConfigurationError("Must provide lineItems, and customerRefValue parameters.");
     }
 
-    try {
-      this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
-        ? JSON.parse(lineItem)
-        : lineItem);
-    } catch (error) {
-      throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
+    if (this.lineItemsAsObjects) {
+      try {
+        this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
+          ? JSON.parse(lineItem)
+          : lineItem);
+      } catch (error) {
+        throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
+      }
     }
 
     const response = await this.quickbooks.createInvoice({
       $,
       data: {
-        Line: this.lineItems,
+        Line: this.buildLineItems(),
         CustomerRef: {
           value: this.customerRefValue,
-          name: this.customerRefName,
         },
         CurrencyRef: {
           value: this.currencyRefValue,
-          name: this.currencyRefName,
         },
-      },
-      params: {
-        minorversion: this.minorVersion,
       },
     });
 
     if (response) {
-      $.export("summary", `Successfully created invoice with id ${response.Invoice.Id}`);
+      $.export("summary", `Successfully created invoice with ID ${response.Invoice.Id}`);
     }
 
     return response;

@@ -263,12 +263,6 @@ export default {
       description: "The ID for the referenced parent item object as found in the Id field of the object payload. \n\nThe immediate parent of the sub item in the hierarchical Category:Sub-category list. If SubItem is true, then ParenRef is required. Query the Item name list resource to determine the appropriate object for this reference. Use `Item.Id` from that object for `ParentRef.value`.",
       optional: true,
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (!this.itemId
@@ -349,9 +343,6 @@ export default {
     const response = await this.quickbooks.updateItem({
       $,
       data,
-      params: {
-        minorversion: this.minorVersion,
-      },
     });
 
     if (response) {

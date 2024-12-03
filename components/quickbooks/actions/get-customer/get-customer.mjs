@@ -15,12 +15,6 @@ export default {
         "customer",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (!this.customerId) {
@@ -30,9 +24,6 @@ export default {
     const response = await this.quickbooks.getCustomer({
       $,
       customerId: this.customerId,
-      params: {
-        minorversion: this.minorVersion,
-      },
     });
 
     if (response) {

@@ -15,52 +15,93 @@ export default {
         "vendorIds",
       ],
       type: "string",
-      label: "Vendor Ref Value",
-      description: "Reference to the vendor for this transaction. Query the Vendor name list resource to determine the appropriate Vendor object for this reference. Use `Vendor.Id` from that object for `VendorRef.value`.",
-    },
-    lineItems: {
-      description: "Individual line items of a transaction. Valid Line types include: `ItemBasedExpenseLine` and `AccountBasedExpenseLine`. One minimum line item required for the request to succeed. E.g `[ { \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 200.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"value\": \"1\" } } } ]`",
-      propDefinition: [
-        quickbooks,
-        "lineItems",
-      ],
-    },
-    vendorRefName: {
-      label: "Vendor Reference Name",
-      type: "string",
-      description: "Reference to the vendor for this transaction. Query the Vendor name list resource to determine the appropriate Vendor object for this reference. Use `Vendor.Name` from that object for `VendorRef.name`.",
-      optional: true,
+      label: "Vendor ID",
+      description: "Reference to the vendor for this transaction",
     },
     currencyRefValue: {
       propDefinition: [
         quickbooks,
-        "currencyRefValue",
+        "currency",
       ],
     },
-    currencyRefName: {
+    lineItemsAsObjects: {
       propDefinition: [
         quickbooks,
-        "currencyRefName",
+        "lineItemsAsObjects",
       ],
+      reloadProps: true,
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.lineItemsAsObjects) {
+      props.lineItems = {
+        type: "string[]",
+        label: "Line Items",
+        description: "Line items of a bill. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }`",
+      };
+      return props;
+    }
+    props.numLineItems = {
+      type: "integer",
+      label: "Number of Line Items",
+      description: "The number of line items to enter",
+      reloadProps: true,
+    };
+    if (!this.numLineItems) {
+      return props;
+    }
+    for (let i = 1; i <= this.numLineItems; i++) {
+      props[`account_${i}`] = {
+        type: "string",
+        label: `Line ${i} - Account ID`,
+        options: await this.quickbooks.getPropOptions({
+          resource: "Account",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        }),
+      };
+      props[`amount_${i}`] = {
+        type: "string",
+        label: `Line ${i} - Amount`,
+      };
+    }
+    return props;
+  },
+  methods: {
+    buildLineItems() {
+      const lineItems = [];
+      for (let i = 1; i <= this.numLineItems; i++) {
+        lineItems.push({
+          DetailType: "AccountBasedExpenseLineDetail",
+          Amount: this[`amount_${i}`],
+          AccountBasedExpenseLineDetail: {
+            AccountRef: {
+              value: this[`account_${i}`],
+            },
+          },
+        });
+      }
+      return lineItems;
     },
   },
   async run({ $ }) {
-    if (!this.vendorRefValue || !this.lineItems) {
+    if (!this.vendorRefValue || (!this.numLineItems && !this.lineItemsAsObjects)) {
       throw new ConfigurationError("Must provide vendorRefValue, and lineItems parameters.");
     }
 
-    try {
-      this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
-        ? JSON.parse(lineItem)
-        : lineItem);
-    } catch (error) {
-      throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
+    if (this.lineItemsAsObjects) {
+      try {
+        this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
+          ? JSON.parse(lineItem)
+          : lineItem);
+      } catch (error) {
+        throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
+      }
     }
 
     const response = await this.quickbooks.createBill({
@@ -68,21 +109,16 @@ export default {
       data: {
         VendorRef: {
           value: this.vendorRefValue,
-          name: this.vendorRefName,
         },
-        Line: this.lineItems,
+        Line: this.buildLineItems(),
         CurrencyRef: {
           value: this.currencyRefValue,
-          name: this.currencyRefName,
         },
-      },
-      params: {
-        minorversion: this.minorVersion,
       },
     });
 
     if (response) {
-      $.export("summary", `Successfully created bill with id ${response.Bill.Id}`);
+      $.export("summary", `Successfully created bill with ID ${response.Bill.Id}`);
     }
 
     return response;

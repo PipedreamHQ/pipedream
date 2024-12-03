@@ -15,12 +15,6 @@ export default {
         "billId",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (!this.billId) {
@@ -30,9 +24,6 @@ export default {
     const response = await this.quickbooks.getBill({
       $,
       billId: this.billId,
-      params: {
-        minorversion: this.minorVersion,
-      },
     });
 
     if (response) {

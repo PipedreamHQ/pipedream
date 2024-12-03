@@ -15,12 +15,6 @@ export default {
         "salesReceiptId",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (!this.salesReceiptId) {
@@ -30,9 +24,6 @@ export default {
     const response = await this.quickbooks.getSalesReceipt({
       $,
       salesReceiptId: this.salesReceiptId,
-      params: {
-        minorversion: this.minorVersion,
-      },
     });
 
     if (response) {

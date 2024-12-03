@@ -52,12 +52,6 @@ export default {
         "currencyRefName",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     let parsedLineItems = parseOne(this.lineItems);
@@ -77,9 +71,6 @@ export default {
           value: this.currencyRefValue,
           name: this.currencyRefName,
         },
-      },
-      params: {
-        minorversion: this.minorVersion,
       },
     });
 

@@ -15,12 +15,6 @@ export default {
         "purchaseOrderId",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (!this.purchaseOrderId) {
@@ -30,9 +24,7 @@ export default {
     const response = await this.quickbooks.getPurchaseOrder({
       $,
       purchaseOrderId: this.purchaseOrderId,
-      params: {
-        minorversion: this.minorVersion,
-      },
+      params: {},
     });
 
     if (response) {
