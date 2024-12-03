@@ -2,7 +2,7 @@ import type { AccessToken } from "simple-oauth2";
 import { AsyncResponseManager } from "../shared/async";
 import type { AsyncResponseManagerOpts } from "../shared/async";
 import { adapters } from "@rails/actioncable";
-import * as WS from "ws";
+import { WebSocket } from "ws";
 
 declare global {
   function addEventListener(type: string, listener: () => void): void;
@@ -26,7 +26,7 @@ export class ServerAsyncResponseManager extends AsyncResponseManager {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     global.removeEventListener = () => {};
     if (typeof adapters.WebSocket === "undefined")
-      adapters.WebSocket = WS as unknown as (typeof adapters)["WebSocket"];
+      adapters.WebSocket = WebSocket;
   }
 
   protected override async getOpts(): Promise<AsyncResponseManagerOpts> {

@@ -1,3 +1,4 @@
+import { useId } from "react";
 import Select from "react-select";
 import { useComponents } from "../hooks/use-components";
 import {
@@ -17,6 +18,7 @@ export function SelectComponent({
   value,
   onChange,
 }: SelectComponentProps) {
+  const instanceId = useId();
   const {
     isLoading,
     // TODO error
@@ -27,7 +29,7 @@ export function SelectComponent({
   });
   return (
     <Select
-      instanceId={app?.name_slug}
+      instanceId={instanceId}
       className="react-select-container text-sm"
       classNamePrefix="react-select"
       options={components}

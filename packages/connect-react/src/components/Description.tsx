@@ -1,19 +1,19 @@
 import type { CSSProperties } from "react";
 import Markdown from "react-markdown";
-import { ConfigurableProp } from "@pipedream/sdk";
+import { ConfigurableProp, ConfigurableProps } from "@pipedream/sdk";
 import { useCustomize } from "../hooks/customization-context";
 import { FormFieldContext } from "../hooks/form-field-context";
 import { FormContext } from "../hooks/form-context";
 
-export type DescriptionProps<T extends ConfigurableProp> = {
+export type DescriptionProps<T extends ConfigurableProps, U extends ConfigurableProp> = {
   markdown?: string;
-  field: FormFieldContext<T>;
-  form: FormContext;
+  field: FormFieldContext<U>;
+  form: FormContext<T>;
 };
 
 // XXX should we rename to FieldDescription (so shared prefix + clear we need field context
 // eg. cannot be used in OptionalFieldButton, or they need to be set up better)
-export function Description<T extends ConfigurableProp>(props: DescriptionProps<T>) {
+export function Description<T extends ConfigurableProps, U extends ConfigurableProp>(props: DescriptionProps<T, U>) {
   if (!props.field) {
     console.log("props", props);
   }
