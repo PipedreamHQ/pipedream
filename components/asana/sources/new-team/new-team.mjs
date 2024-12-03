@@ -5,7 +5,7 @@ export default {
   key: "asana-new-team",
   type: "source",
   name: "New Team",
-  description: "Emit new event for each task added to an organization.",
+  description: "Emit new event for each team added to an organization.",
   version: "0.1.8",
   dedupe: "unique",
   props: {
