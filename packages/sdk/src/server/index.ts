@@ -3,9 +3,13 @@
 // See the browser/ directory for the browser client.
 
 import {
-  AccessToken,
-  ClientCredentials,
+  AccessToken, ClientCredentials,
 } from "simple-oauth2";
+import {
+  Account, BaseClient, type AppInfo, type ConnectTokenResponse,
+} from "../shared";
+import { ServerAsyncResponseManager } from "./async";
+export * from "../shared";
 
 /**
  * OAuth credentials for your Pipedream account, containing client ID and
@@ -17,15 +21,20 @@ export type OAuthCredentials = {
 };
 
 /**
+ * The environment in which the server client is running.
+ */
+export type ProjectEnvironment = "development" | "production";
+
+/**
  * Options for creating a server-side client.
- * This is used to configure the BackendClient instance.
+ * This is used to configure the ServerClient instance.
  */
 export type BackendClientOpts = {
   /**
    * The environment in which the server client is running (e.g., "production",
    * "development").
    */
-  environment?: string;
+  environment?: ProjectEnvironment;
 
   /**
    * The credentials to use for authentication against the Pipedream API.
@@ -51,20 +60,11 @@ export type BackendClientOpts = {
 };
 
 /**
- * Different ways in which customers can authorize requests to HTTP endpoints
- */
-export enum HTTPAuthType {
-  None = "none",
-  StaticBearer = "static_bearer_token",
-  OAuth = "oauth"
-}
-
-/**
  * Options for creating a Connect token.
  */
-export type ConnectTokenOpts = {
+export type ConnectTokenCreateOpts = {
   /**
-   * An external user ID associated with the token.
+   * The ID of the user in your system.
    */
   external_user_id: string;
 
@@ -85,26 +85,9 @@ export type ConnectTokenOpts = {
   webhook_uri?: string;
 
   /**
-   * Specify the environment ("production" or "development") to use for the
-   * account connection flow. Defaults to "production".
-  *
-   * @deprecated in favor of the `environment` field in `BackendClientOpts`.
-   * This field is completely ignored.
+   * Specify which origins can use the token to call the Pipedream API.
    */
-  environment_name?: string;
-};
-
-export type AppInfo = {
-  /**
-   * ID of the app. Only applies for OAuth apps.
-   */
-  id?: string;
-
-  /**
-   * The name slug of the target app (see
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug)
-   */
-  name_slug: string;
+  allowed_origins?: string[];
 };
 
 /**
@@ -118,93 +101,6 @@ export type ProjectInfoResponse = {
 };
 
 /**
- * Response received after creating a connect token.
- */
-export type ConnectTokenResponse = {
-  /**
-   * The generated token.
-   */
-  token: string;
-
-  /**
-   * The expiration time of the token in ISO 8601 format.
-   */
-  expires_at: string;
-
-  /**
-   * The Connect Link URL
-   */
-  connect_link_url: string;
-};
-
-/**
- * The types of authentication that Pipedream apps support.
- */
-export enum AppAuthType {
-  OAuth = "oauth",
-  Keys = "keys",
-  None = "none",
-}
-
-/**
- * Response object for a Pipedream app's metadata
- */
-export type AppResponse = AppInfo & {
-  /**
-   * The human-readable name of the app.
-   */
-  name: string;
-
-  /**
-   * The authentication type used by the app.
-   */
-  auth_type: AppAuthType;
-
-  /**
-   * The URL to the app's logo.
-   */
-  img_src: string;
-
-  /**
-   * A JSON string representing the custom fields for the app.
-   */
-  custom_fields_json: string;
-
-  /**
-   * Categories associated with the app.
-   */
-  categories: string[];
-};
-
-/**
- * Parameters for the retrieval of accounts from the Connect API
- */
-export type GetAccountOpts = {
-  /**
-   * The ID or name slug of the app, in case you want to only retrieve the
-   * accounts for a specific app.
-   */
-  app?: string;
-
-  /**
-   * The ID of the app (if it's an OAuth app), in case you want to only retrieve
-   * the accounts for a specific app.
-   */
-  oauth_app_id?: string;
-
-  /**
-   * The external user ID associated with the account, in case you want to only
-   * retrieve the accounts of a specific user.
-   */
-  external_user_id?: string;
-
-  /**
-   * Whether to retrieve the account's credentials or not.
-   */
-  include_credentials?: boolean;
-};
-
-/**
  * Parameters for the retrieval of an account from the Connect API
  */
 export type GetAccountByIdOpts = {
@@ -215,122 +111,23 @@ export type GetAccountByIdOpts = {
 };
 
 /**
- * End user account data, returned from the API.
- */
-export type Account = {
-  /**
-   * The unique ID of the account.
-   */
-  id: string;
-
-  /**
-   * The name of the account.
-   */
-  name: string;
-
-  /**
-   * The external ID associated with the account.
-   */
-  external_id: string;
-
-  /**
-   * Indicates if the account is healthy. Pipedream will periodically retry
-   * token refresh and test requests for unhealthy accounts.
-   */
-  healthy: boolean;
-
-  /**
-   * Indicates if the account is no longer active.
-   */
-  dead: boolean;
-
-  /**
-   * The app associated with the account.
-   */
-  app: AppResponse;
-
-  /**
-   * The date and time the account was created, an ISO 8601 formatted string.
-   */
-  created_at: string;
-
-  /**
-   * The date and time the account was last updated, an ISO 8601 formatted
-   * string.
-   */
-  updated_at: string;
-
-  /**
-   * The credentials associated with the account, if the `include_credentials`
-   * parameter was set to true in the request.
-   */
-  credentials?: Record<string, string>;
-};
-
-/**
- * Error response returned by the API in case of an error.
- */
-export type ErrorResponse = {
-  /**
-   * The error message returned by the API.
-   */
-  error: string;
-};
-
-/**
- * A generic API response that can either be a success or an error.
- */
-export type ConnectAPIResponse<T> = T | ErrorResponse;
-
-/**
- * Options for making a request to the Pipedream API.
- */
-interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
-  /**
-   * Query parameters to include in the request URL.
-   */
-  params?: Record<string, string | boolean | number>;
-
-  /**
-   * Headers to include in the request.
-   */
-  headers?: Record<string, string>;
-
-  /**
-   * The URL to make the request to.
-   */
-  baseURL?: string;
-
-  /**
-   * The body of the request.
-   */
-  body?: Record<string, unknown> | string | FormData | URLSearchParams | null;
-
-  /**
-   * A flag to indicate that you want to get the full response object, not just
-   * the body. Note that when this flag is set, responses with unsuccessful HTTP
-   * statuses won't throw exceptions. Instead, you'll need to check the status
-   * code in the response object. Defaults to false.
-   */
-  fullResponse?: boolean;
-}
-
-/**
  * Creates a new instance of BackendClient with the provided options.
  *
  * @example
  *
  * ```typescript
- * const client = createBackendClient({
- *   credentials: {
- *    clientId: "your-client-id",
- *    clientSecret: "your-client-secret",
- *   },
- * });
+      const serverClient = createBackendClient({
+        environment: "development",
+        projectId: "<project id>",
+        credentials: {
+          clientId: "<client id>",
+          clientSecret: "<client secret>",
+        },
+      })
  * ```
  *
  * @param opts - The options for creating the server client.
- * @returns A new instance of BackendClient.
+ * @returns A new instance of ServerClient.
  */
 export function createBackendClient(opts: BackendClientOpts) {
   return new BackendClient(opts);
@@ -339,41 +136,53 @@ export function createBackendClient(opts: BackendClientOpts) {
 /**
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
-export class BackendClient {
-  private environment: string;
+export class BackendClient extends BaseClient {
+  protected override asyncResponseManager: ServerAsyncResponseManager;
   private oauthClient: ClientCredentials;
   private oauthToken?: AccessToken;
-  private projectId: string;
-  private readonly baseApiUrl: string;
-  private readonly workflowDomain: string;
+  protected projectId: string;
 
   /**
-   * Constructs a new BackendClient instance.
+   * Constructs a new ServerClient instance.
    *
    * @param opts - The options for configuring the server client.
+   * @param oauthClient - An optional OAuth client to use for authentication in tests
    */
   constructor(opts: BackendClientOpts) {
-    this.environment = opts.environment ?? "production";
+    super(opts);
 
+    this.ensureValidEnvironment(opts.environment);
     this.projectId = opts.projectId;
-    if (!this.projectId) {
-      throw new Error("Project ID is required");
-    }
-
-    const {
-      apiHost = "api.pipedream.com",
-      workflowDomain = "m.pipedream.net",
-    } = opts;
-    this.baseApiUrl = `https://${apiHost}/v1`;
-    this.workflowDomain = workflowDomain;
 
     this.oauthClient = this.newOauthClient(opts.credentials, this.baseApiUrl);
+    this.asyncResponseManager = new ServerAsyncResponseManager({
+      apiHost: this.apiHost,
+      getOauthToken: async () => {
+        await this.ensureValidOauthToken();
+        return this.oauthToken as AccessToken;
+      },
+      getProjectId: () => {
+        if (!this.projectId)
+          throw "Attempted to connect to websocket without a valid Project id";
+        return this.projectId;
+      },
+    });
+  }
+
+  private ensureValidEnvironment(environment?: string) {
+    if (!environment || ![
+      "development",
+      "production",
+    ].includes(environment)) {
+      throw new Error(
+        "Project environment is required. Supported environments are development and production.",
+      );
+    }
   }
 
   private newOauthClient(
     {
-      clientId,
-      clientSecret,
+      clientId, clientSecret,
     }: OAuthCredentials,
     tokenHost: string,
   ) {
@@ -394,10 +203,12 @@ export class BackendClient {
     });
   }
 
-  private async oauthAuthorizationHeader(): Promise<string> {
-    if (!this.oauthClient) {
-      throw new Error("OAuth client not configured");
-    }
+  protected authHeaders(): string | Promise<string> {
+    return this.oauthAuthorizationHeader();
+  }
+
+  private async ensureValidOauthToken() {
+    if (this.oauthToken && !this.oauthToken.expired) return;
 
     let attempts = 0;
     const maxAttempts = 2; // Prevent potential infinite loops
@@ -410,6 +221,7 @@ export class BackendClient {
 
       try {
         this.oauthToken = await this.oauthClient.getToken({});
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         throw new Error(`Failed to obtain OAuth token: ${error.message}`);
       }
@@ -420,137 +232,16 @@ export class BackendClient {
     if (this.oauthToken.expired()) {
       throw new Error("Unable to obtain a valid (non-expired) OAuth token");
     }
-
-    return `Bearer ${this.oauthToken.token.access_token}`;
   }
 
-  /**
-   * Makes an HTTP request
-   *
-   * @template T - The expected response type.
-   * @param path - The API endpoint path.
-   * @param opts - The options for the request.
-   * @returns A promise resolving to the API response.
-   * @throws Will throw an error if the response status is not OK.
-   */
-  public async makeRequest<T>(
-    path: string,
-    opts: RequestOptions = {},
-  ): Promise<T> {
-    const {
-      params,
-      headers: customHeaders,
-      body,
-      method = "GET",
-      baseURL = this.baseApiUrl,
-      fullResponse = false,
-      ...fetchOpts
-    } = opts;
-
-    const url = new URL(`${baseURL}${path}`);
-
-    if (params) {
-      for (const [
-        key,
-        value,
-      ] of Object.entries(params)) {
-        if (value !== undefined && value !== null) {
-          url.searchParams.append(key, String(value));
-        }
-      }
+  private async oauthAuthorizationHeader(): Promise<string> {
+    if (!this.oauthClient) {
+      throw new Error("OAuth client not configured");
     }
 
-    const headers: Record<string, string> = {
-      ...customHeaders,
-      "X-PD-Environment": this.environment,
-    };
+    await this.ensureValidOauthToken();
 
-    let processedBody: string | Buffer | URLSearchParams | FormData | null = null;
-
-    if (body) {
-      if (body instanceof FormData || body instanceof URLSearchParams || typeof body === "string") {
-        // For FormData, URLSearchParams, or strings, pass the body as-is
-        processedBody = body;
-      } else {
-        // For objects, assume it's JSON and serialize it
-        processedBody = JSON.stringify(body);
-        // Set the Content-Type header to application/json if not already set
-        headers["Content-Type"] = headers["Content-Type"] || "application/json";
-      }
-    }
-
-    const requestOptions: RequestInit = {
-      method,
-      headers,
-      ...fetchOpts,
-    };
-
-    if ([
-      "POST",
-      "PUT",
-      "PATCH",
-    ].includes(method.toUpperCase()) && processedBody) {
-      requestOptions.body = processedBody;
-    }
-
-    const response: Response = await fetch(url.toString(), requestOptions);
-    if (fullResponse) {
-      return response as unknown as T;
-    }
-
-    if (!response.ok) {
-      const errorBody = await response.text();
-      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
-    }
-
-    // Attempt to parse JSON, fall back to raw text if it fails
-    const contentType = response.headers.get("Content-Type");
-    if (contentType && contentType.includes("application/json")) {
-      return await response.json() as T;
-    }
-
-    return await response.text() as unknown as T;
-  }
-
-  /**
-   * Makes a request to the Pipedream API with appropriate authorization.
-   *
-   * @template T - The expected response type.
-   * @param path - The API endpoint path.
-   * @param opts - The options for the request.
-   * @returns A promise resolving to the API response.
-   * @throws Will throw an error if the response status is not OK.
-   */
-  public async makeAuthorizedRequest<T>(
-    path: string,
-    opts: RequestOptions = {},
-  ): Promise<T> {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      ...opts.headers,
-      "Authorization": await this.oauthAuthorizationHeader(),
-    };
-
-    return this.makeRequest(path, {
-      headers,
-      ...opts,
-    });
-  }
-
-  /**
-   * Makes a request to the Connect API using Connect authorization.
-   *
-   * @template T - The expected response type.
-   * @param path - The API endpoint path.
-   * @param opts - The options for the request.
-   * @returns A promise resolving to the API response.
-   */
-  private makeConnectRequest<T>(
-    path: string,
-    opts: RequestOptions = {},
-  ): Promise<T> {
-    const fullPath = `/connect/${this.projectId}${path}`;
-    return this.makeAuthorizedRequest(fullPath, opts);
+    return `Bearer ${(this.oauthToken as AccessToken).token.access_token}`;
   }
 
   /**
@@ -561,14 +252,16 @@ export class BackendClient {
    * @returns A promise resolving to the connect token response.
    *
    * @example
+   *
    * ```typescript
-   * const tokenResponse = await client.createConnectToken({
-   *   external_user_id: "external-user-id",
-   * });
+   * const tokenResponse = await client.connectTokenCreate({
+   *   external_user_id: "external-user-id", });
    * console.log(tokenResponse.token);
    * ```
    */
-  public createConnectToken(opts: ConnectTokenOpts): Promise<ConnectTokenResponse> {
+  public createConnectToken(
+    opts: ConnectTokenCreateOpts,
+  ): Promise<ConnectTokenResponse> {
     const body = {
       ...opts,
       external_id: opts.external_user_id,
@@ -580,29 +273,9 @@ export class BackendClient {
   }
 
   /**
-   * Retrieves the list of accounts associated with the project.
-   *
-   * @param params - The query parameters for retrieving accounts.
-   * @returns A promise resolving to a list of accounts.
-   *
-   * @example
-   * ```typescript
-   * const accounts = await client.getAccounts({ include_credentials: 1 });
-   * console.log(accounts);
-   * ```
-   */
-  public getAccounts(params: GetAccountOpts = {}): Promise<Account[]> {
-    return this.makeConnectRequest("/accounts", {
-      method: "GET",
-      params,
-    });
-  }
-
-  /**
    * Retrieves a specific account by ID.
    *
    * @param accountId - The ID of the account to retrieve.
-   * @param params - The query parameters for retrieving the account.
    * @returns A promise resolving to the account.
    *
    * @example
@@ -610,13 +283,6 @@ export class BackendClient {
    * const account = await client.getAccountById("account-id");
    * console.log(account);
    * ```
-   *
-   * @example
-   * ```typescript
-   * const account = await client.getAccountById("account-id", {
-   *  include_credentials: true,
-   * });
-   * console.log(account.credentials);
    */
   public getAccountById(
     accountId: string,
@@ -697,215 +363,5 @@ export class BackendClient {
     return this.makeConnectRequest("/projects/info", {
       method: "GET",
     });
-  }
-
-  /**
-   * Builds a full workflow URL based on the input.
-   *
-   * @param input - Either a full URL (with or without protocol) or just an
-   * endpoint ID.
-   * @returns The fully constructed URL.
-   * @throws If the input is a malformed URL, throws an error with a clear
-   * message.
-   *
-   * @example
-   * ```typescript
-   * // Full URL input
-   * this.buildWorkflowUrl("https://en123.m.pipedream.net");
-   * // Returns: "https://en123.m.pipedream.net"
-   * ```
-   *
-   * @example
-   * ```typescript
-   * // Partial URL (without protocol)
-   * this.buildWorkflowUrl("en123.m.pipedream.net");
-   * // Returns: "https://en123.m.pipedream.net"
-   * ```
-   *
-   * @example
-   * ```typescript
-   * // ID only input
-   * this.buildWorkflowUrl("en123");
-   * // Returns: "https://en123.yourdomain.com" (where `yourdomain.com` is set in `workflowDomain`)
-   * ```
-   */
-  private buildWorkflowUrl(input: string): string {
-    const sanitizedInput = input
-      .trim()
-      .replace(/[^\w-./:]/g, "")
-      .toLowerCase();
-    if (!sanitizedInput) {
-      throw new Error("URL or endpoint ID is required");
-    }
-
-    let url: string;
-    const isUrl = sanitizedInput.includes(".") || sanitizedInput.startsWith("http");
-
-    if (isUrl) {
-      // Try to parse the input as a URL
-      let parsedUrl: URL;
-      try {
-        const urlString = sanitizedInput.startsWith("http")
-          ? sanitizedInput
-          : `https://${sanitizedInput}`;
-        parsedUrl = new URL(urlString);
-      } catch (error) {
-        throw new Error(`
-          The provided URL is malformed: "${sanitizedInput}".
-          Please provide a valid URL.
-        `);
-      }
-
-      // Validate the hostname to prevent potential DNS rebinding attacks
-      if (!parsedUrl.hostname.endsWith(this.workflowDomain)) {
-        throw new Error(`Invalid workflow domain. URL must end with ${this.workflowDomain}`);
-      }
-
-      url = parsedUrl.href;
-    } else {
-    // If the input is an ID, construct the full URL using the base domain
-      if (!/^e(n|o)[a-z0-9-]+$/i.test(sanitizedInput)) {
-        throw new Error(`
-          Invalid endpoint ID format.
-          Must contain only letters, numbers, and hyphens, and start with either "en" or "eo".
-        `);
-      }
-
-      url = `https://${sanitizedInput}.${this.workflowDomain}`;
-    }
-
-    return url;
-  }
-
-  /**
-   * Invokes a workflow using the URL of its HTTP interface(s), by sending an
-   *
-   * @param urlOrEndpoint - The URL of the workflow's HTTP interface, or the ID of the endpoint
-   * @param opts - The options for the request.
-   * @param opts.body - The body of the request. It must be a JSON-serializable
-   * value (e.g. an object, null, a string, etc.).
-   * @param opts.headers - The headers to include in the request. Note that the
-   * Authorization header will always be set with an OAuth access token
-   * retrieved by the client.
-   * @param authType - The type of authorization to use for the request.
-   * @returns A promise resolving to the response from the workflow.
-   *
-   * @example
-   * ```typescript
-   * const response: JSON = await client.invokeWorkflow(
-   *   "https://en-your-endpoint.m.pipedream.net",
-   *   {
-   *     body: {
-   *       foo: 123,
-   *       bar: "abc",
-   *       baz: null,
-   *     },
-   *     headers: {
-   *       "Accept": "application/json",
-   *     },
-   *   },
-   *   "oauth",
-   * );
-   * console.log(response);
-   * ```
-   */
-  public async invokeWorkflow(
-    urlOrEndpoint: string,
-    opts: RequestOptions = {},
-    authType: HTTPAuthType = HTTPAuthType.None,
-  ): Promise<unknown> {
-    const {
-      body,
-      headers = {},
-    } = opts;
-
-    const url = this.buildWorkflowUrl(urlOrEndpoint);
-
-    let authHeader: string | undefined;
-    switch (authType) {
-    case HTTPAuthType.StaticBearer:
-      // It's expected that users will pass their own Authorization header in
-      // the static bearer case
-      authHeader = headers["Authorization"];
-      break;
-    case HTTPAuthType.OAuth:
-      authHeader = await this.oauthAuthorizationHeader();
-      break;
-    default:
-      break;
-    }
-
-    return this.makeRequest("", {
-      ...opts,
-      baseURL: url,
-      method: opts.method || "POST", // Default to POST if not specified
-      headers: authHeader
-        ? {
-          ...headers,
-          "Authorization": authHeader,
-        }
-        : headers,
-      body,
-    });
-  }
-
-  /**
-   * Invokes a workflow for a Pipedream Connect user in a project
-   *
-   * @param url - The URL of the workflow's HTTP interface.
-   * @param externalUserId — Your end user ID, for whom you're invoking the
-   * workflow.
-   * @param opts - The options for the request.
-   * @param opts.body - The body of the request. It must be a JSON-serializable
-   * value (e.g. an object, null, a string, etc.).
-   * @param opts.headers - The headers to include in the request. Note that the
-   * Authorization header will always be set with an OAuth access token
-   * retrieved by the client.
-   * @returns A promise resolving to the response from the workflow.
-   *
-   * @example
-   * ```typescript
-   * const response = await client.invokeWorkflowForExternalUser(
-   *   "https://your-workflow-url.m.pipedream.net",
-   *   "your-external-user-id",
-   *   {
-   *     body: {
-   *       foo: 123,
-   *       bar: "abc",
-   *       baz: null,
-   *     },
-   *     headers: {
-   *       "Accept": "application/json",
-   *     },
-   *   },
-   * );
-   * console.log(response);
-   * ```
-   */
-  public async invokeWorkflowForExternalUser(
-    url: string,
-    externalUserId: string,
-    opts: RequestOptions = {},
-  ): Promise<unknown> {
-    if (!externalUserId?.trim()) {
-      throw new Error("External user ID is required");
-    }
-
-    if (!url.trim()) {
-      throw new Error("Workflow URL is required");
-    }
-
-    if (!this.oauthClient) {
-      throw new Error("OAuth is required for invoking workflows for external users. Please pass credentials for a valid OAuth client");
-    }
-
-    const { headers = {} } = opts;
-    return this.invokeWorkflow(url, {
-      ...opts,
-      headers: {
-        ...headers,
-        "X-PD-External-User-ID": externalUserId,
-      },
-    }, HTTPAuthType.OAuth); // OAuth auth is required for invoking workflows for external users
   }
 }

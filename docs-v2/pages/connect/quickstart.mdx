@@ -31,7 +31,7 @@ You'll need to do two things to add Pipedream Connect to your app:
 1. [Connect to the Pipedream API from your server](#connect-to-the-pipedream-api-from-your-server-and-create-a-token). This lets you make secure calls to the Pipedream API to initiate the account connection flow and retrieve account credentials. If you're running a JavaScript framework like Node.js on your server, you can use the Pipedream SDK.
 2. [Add the Pipedream SDK to your frontend](#connect-your-account-from-the-frontend) or redirect your users to [a Pipedream-hosted URL](/connect/connect-link) to start the account connection flow.
 
-We'll walk through these steps below, using [an example Next.js app](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/next-app/). To follow along, clone [the repo](https://github.com/PipedreamHQ/pipedream-connect-examples/) and follow the instructions in [the app's `README`](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/next-app/). That will run the app on `localhost:3000`.
+We'll walk through these steps below, using [an example Next.js app](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/managed-auth-basic-next-app/). To follow along, clone [the repo](https://github.com/PipedreamHQ/pipedream-connect-examples/) and follow the instructions in [the app's `README`](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/managed-auth-basic-next-app/). That will run the app on `localhost:3000`.
 
 <Callout type="info">
 The Next.js app is just an example. You can build Connect apps in any framework, using any language. We've provided examples in Python, Ruby, and others below.
@@ -119,7 +119,7 @@ In our example, `app/page.tsx` calls the `connectAccount` method from the Pipedr
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1724182571/connect-account-button-screenshot_n7vjvq.png" alt="Connect your account button" width={550} height={300} />
 
 ```typescript
-import { createFrontendClient } from "@pipedream/sdk"
+import { createFrontendClient } from "@pipedream/sdk/browser"
 
 export default function Home() {
   const pd = createFrontendClient()
@@ -171,13 +171,15 @@ This example shows you how to fetch credentials by your end user's `external_use
 ```typescript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 async function getUserAccounts(external_user_id: string, include_credentials: boolean = false) {
@@ -195,13 +197,15 @@ async function getUserAccounts(external_user_id: string, include_credentials: bo
 ```javascript
 import {
   createBackendClient,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
   credentials: {
-    clientId: "your-oauth-client-id",
-    clientSecret: "your-oauth-client-secret",
-  }
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
 async function getUserAccounts(external_user_id, include_credentials = false) {
