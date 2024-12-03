@@ -3,7 +3,7 @@ import app from "../../webflow.app.mjs";
 export default {
   key: "webflow-list-collection-items",
   name: "List Collection Items",
-  description: "List Items of a collection. [See the docs here](https://developers.webflow.com/#get-all-items-for-a-collection)",
+  description: "List Items of a collection. [See the documentation](https://developers.webflow.com/data/reference/cms/collection-items/bulk-items/list-items)",
   version: "1.0.0",
   type: "action",
   props: {

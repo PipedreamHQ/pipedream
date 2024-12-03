@@ -3,7 +3,7 @@ import app from "../../webflow.app.mjs";
 export default {
   key: "webflow-get-collection",
   name: "Get Collection",
-  description: "Get a collection. [See the docs here](https://developers.webflow.com/#get-collection-with-full-schema)",
+  description: "Get a collection. [See the documentation](https://developers.webflow.com/data/reference/cms/collections/get)",
   version: "1.0.0",
   type: "action",
   props: {

@@ -3,7 +3,7 @@ import app from "../../webflow.app.mjs";
 export default {
   key: "webflow-get-order",
   name: "Get Order",
-  description: "Get info on an order. [See the docs here](https://developers.webflow.com/#get-order)",
+  description: "Get info on an order. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/get)",
   version: "1.0.0",
   type: "action",
   props: {

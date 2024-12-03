@@ -3,7 +3,7 @@ import app from "../../webflow.app.mjs";
 export default {
   key: "webflow-publish-site",
   name: "Publish Site",
-  description: "Publish a site. [See the docs here](https://developers.webflow.com/#publish-site)",
+  description: "Publish a site. [See the documentation](https://developers.webflow.com/data/reference/sites/publish)",
   version: "1.0.0",
   type: "action",
   props: {

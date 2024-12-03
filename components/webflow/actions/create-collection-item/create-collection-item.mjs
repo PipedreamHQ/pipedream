@@ -3,7 +3,7 @@ import app from "../../webflow.app.mjs";
 export default {
   key: "webflow-create-collection-item",
   name: "Create Collection Item",
-  description: "Create new collection item. [See the docs here](https://developers.webflow.com/#create-new-collection-item)",
+  description: "Create new collection item. [See the documentation](https://developers.webflow.com/data/reference/cms/collection-items/staged-items/create-item)",
   version: "1.0.0",
   type: "action",
   props: {

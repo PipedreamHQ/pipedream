@@ -3,7 +3,7 @@ import app from "../../webflow.app.mjs";
 export default {
   key: "webflow-get-site",
   name: "Get Site",
-  description: "Get a site. [See the docs here](https://developers.webflow.com/#get-specific-site)",
+  description: "Get a site. [See the documentation](https://developers.webflow.com/data/reference/sites/get)",
   version: "1.0.0",
   type: "action",
   props: {

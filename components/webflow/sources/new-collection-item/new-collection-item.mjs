@@ -4,7 +4,7 @@ export default {
   type: "source",
   key: "webflow-new-collection-item",
   name: "New Collection Item Created",
-  description: "Emit new event when a collection item is created. [See the docs here](https://developers.webflow.com/#item-model)",
+  description: "Emit new event when a collection item is created. [See the documentation](https://developers.webflow.com/data/reference/webhooks/events/collection-item-created)",
   version: "1.0.0",
   ...common,
   methods: {

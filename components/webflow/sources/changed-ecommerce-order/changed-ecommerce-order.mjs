@@ -4,7 +4,7 @@ export default {
   type: "source",
   key: "webflow-changed-ecommerce-order",
   name: "E-commerce Order Updated",
-  description: "Emit new event when an e-commerce order is changed. [See the docs here](https://developers.webflow.com/#order-model)",
+  description: "Emit new event when an e-commerce order is changed. [See the documentation](https://developers.webflow.com/data/reference/webhooks/events/ecomm-order-changed)",
   version: "1.0.0",
   ...common,
   methods: {

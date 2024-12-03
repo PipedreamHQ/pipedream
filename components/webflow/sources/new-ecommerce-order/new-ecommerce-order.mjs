@@ -5,7 +5,7 @@ export default {
   key: "webflow-new-ecommerce-order",
   name: "New E-commerce Order",
   description:
-    "Emit new event when an e-commerce order is created. [See the docs here](https://developers.webflow.com/#order-model)",
+    "Emit new event when an e-commerce order is created. [See the documentation](https://developers.webflow.com/data/reference/webhooks/events/ecomm-new-order)",
   version: "1.0.0",
   ...common,
   hooks: {

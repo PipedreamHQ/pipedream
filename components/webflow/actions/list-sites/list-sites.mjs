@@ -3,7 +3,7 @@ import app from "../../webflow.app.mjs";
 export default {
   key: "webflow-list-sites",
   name: "List Sites",
-  description: "List sites. [See the docs here](https://developers.webflow.com/#list-sites)",
+  description: "List sites. [See the documentation](https://developers.webflow.com/data/reference/sites/list)",
   version: "1.0.0",
   type: "action",
   props: {

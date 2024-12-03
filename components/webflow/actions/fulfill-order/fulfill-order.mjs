@@ -3,7 +3,7 @@ import app from "../../webflow.app.mjs";
 export default {
   key: "webflow-fulfill-order",
   name: "Fulfill Order",
-  description: "Fulfill an order. [See the docs here](https://developers.webflow.com/#fulfill-order)",
+  description: "Fulfill an order. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/update-fulfill)",
   version: "1.0.0",
   type: "action",
   props: {

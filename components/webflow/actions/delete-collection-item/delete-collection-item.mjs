@@ -3,7 +3,7 @@ import app from "../../webflow.app.mjs";
 export default {
   key: "webflow-delete-collection-item",
   name: "Delete Collection Item",
-  description: "Delete Item of a Collection. [See the docs here](https://developers.webflow.com/#remove-collection-item)",
+  description: "Delete Item of a Collection. [See the documentation](https://developers.webflow.com/data/reference/cms/collection-items/staged-items/delete-item)",
   version: "1.0.0",
   type: "action",
   props: {

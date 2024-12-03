@@ -4,7 +4,7 @@ import constants from "../common/constants.mjs";
 export default {
   key: "webflow-list-orders",
   name: "List Orders",
-  description: "List orders. [See the docs here](https://developers.webflow.com/#get-all-orders)",
+  description: "List orders. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/list)",
   version: "1.0.0",
   type: "action",
   props: {
