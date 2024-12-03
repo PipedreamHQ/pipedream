@@ -39,3 +39,10 @@ export const clearObj = (obj) => {
         : v,
     }), {});
 };
+
+export const checkUrl = (url) => {
+  if (url.startsWith("/books/v3")) {
+    return url.substring(9);
+  }
+  return url;
+};

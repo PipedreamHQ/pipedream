@@ -21,7 +21,7 @@ export default {
       return "expense_id";
     },
     getSummary(item) {
-      return `New Expense: ${item.description}`;
+      return `New Expense: ${item.expense_id}`;
     },
   },
   sampleEmit,

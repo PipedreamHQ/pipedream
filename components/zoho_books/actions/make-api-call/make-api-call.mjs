@@ -1,4 +1,5 @@
 // legacy_hash_id: a_PNinw1
+import { checkUrl } from "../../common/utils.mjs";
 import zohoBooks from "../../zoho_books.app.mjs";
 
 export default {
@@ -48,7 +49,7 @@ export default {
   async run({ $ }) {
     const response = await this.zohoBooks._makeRequest({
       $,
-      path: this.relativeUrl,
+      path: checkUrl(this.relativeUrl),
       params: this.queryString,
       method: this.requestMethod,
       headers: this.headers,

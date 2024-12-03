@@ -140,7 +140,7 @@ export default {
     itemTaxPreferences: {
       type: "string[]",
       label: "Item Tax Preferences",
-      desctiption: "A list of item tax objects. **Format: {\"tax_id\":\"12312312031200\",\"tax_specification\":\"intra\"}**",
+      description: "A list of item tax objects. **Format: {\"tax_id\":\"12312312031200\",\"tax_specification\":\"intra\"}**",
       optional: true,
     },
   },

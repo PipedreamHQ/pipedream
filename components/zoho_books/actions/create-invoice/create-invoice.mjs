@@ -20,7 +20,7 @@ export default {
     invoiceNumber: {
       type: "string",
       label: "Invoice Number",
-      description: "Search invoices by invoice number.Variants: `invoice_number_startswith` and `invoice_number_contains`. Max-length [100]",
+      description: "Search invoices by invoice number. Max-length [100]",
       optional: true,
     },
     placeOfSupply: {
@@ -53,7 +53,7 @@ export default {
     date: {
       type: "string",
       label: "Date",
-      description: "Search invoices by invoice date. Default date format is yyyy-mm-dd. `Variants: due_date_start, due_date_end, due_date_before and due_date_after.`",
+      description: "Search invoices by invoice date. Default date format is yyyy-mm-dd.",
       optional: true,
     },
     paymentTerms: {

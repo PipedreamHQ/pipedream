@@ -5,7 +5,7 @@ import zohoBooks from "../../zoho_books.app.mjs";
 export default {
   key: "zoho_books-create-estimate",
   name: "Create Estimate",
-  description: "Creates a new estimate. [See the documentation](https://www.zoho.com/books/api/v3/items/#create-an-item)",
+  description: "Creates a new estimate. [See the documentation](https://www.zoho.com/books/api/v3/estimates/#create-an-estimate)",
   version: "0.0.1",
   type: "action",
   props: {
