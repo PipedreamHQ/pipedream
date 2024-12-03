@@ -119,7 +119,7 @@ export default {
   },
   async run({ $ }) {
     if (!this.suppressionGroupId && !this.customUnsubscribeUrl) {
-      throw new ConfigurationError("You must provide either `Suppression Goup Id` or the `Custom Unsubscribe URL`.");
+      throw new ConfigurationError("You must provide either `Suppression Group Id` or the `Custom Unsubscribe URL`.");
     }
     try {
       const resp = await this.sendgrid.createSingleSend({
