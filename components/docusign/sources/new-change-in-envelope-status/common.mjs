@@ -1,4 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import fs from "fs";
 
 export default {
   dedupe: "unique",
@@ -33,6 +34,30 @@ export default {
         "any",
       ],
     },
+    downloadEnvelopeDocuments: {
+      type: "string",
+      label: "Download Envelope Documents",
+      description: "Download envelope documents to the `/tmp` directory",
+      options: [
+        {
+          label: "All Documents (PDF)",
+          value: "combined",
+        },
+        {
+          label: "All Documents (Zip)",
+          value: "archive",
+        },
+        {
+          label: "Certificate (PDF)",
+          value: "certificate",
+        },
+        {
+          label: "Portfolio (PDF)",
+          value: "portfolio",
+        },
+      ],
+      optional: true,
+    },
   },
   methods: {
     _getLastEvent() {
@@ -56,6 +81,23 @@ export default {
         ts,
       };
     },
+    getFilePath(envelopeId) {
+      const extension = this.downloadEnvelopeDocuments === "archive"
+        ? "zip"
+        : "pdf";
+      return `/tmp/${envelopeId}.${extension}`;
+    },
+    async downloadToTmp(baseUri, documentsUri, filePath) {
+      const content = await this.docusign._makeRequest({
+        config: {
+          url: `${baseUri}${documentsUri.slice(1)}/${this.downloadEnvelopeDocuments}`,
+          responseType: "arraybuffer",
+        },
+      });
+      const rawcontent = content.toString("base64");
+      const buffer = Buffer.from(rawcontent, "base64");
+      fs.writeFileSync(filePath, buffer);
+    },
   },
   async run(event) {
     const { timestamp: ts } = event;
@@ -68,6 +110,9 @@ export default {
       from_date: lastEvent,
       status: this.status.join(),
     };
+
+    const newEnvelopes = [];
+
     do {
       const {
         envelopes = [],
@@ -78,12 +123,22 @@ export default {
         params.start_position += endPosition + 1;
       }
       else done = true;
-
-      for (const envelope of envelopes) {
-        const meta = this.generateMeta(envelope);
-        this.$emit(envelope, meta);
-      }
+      newEnvelopes.push(...envelopes);
     } while (!done);
+
     this._setLastEvent(new Date(ts * 1000).toISOString());
+
+    for (const envelope of newEnvelopes) {
+      if (this.downloadEnvelopeDocuments) {
+        const filePath = this.getFilePath(envelope.envelopeId);
+        await this.downloadToTmp(baseUri, envelope.documentsUri, filePath);
+        envelope.documents = {
+          filePath,
+        };
+      }
+      console.log(fs.readdirSync("/tmp"));
+      const meta = this.generateMeta(envelope);
+      this.$emit(envelope, meta);
+    }
   },
 };
