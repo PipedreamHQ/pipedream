@@ -150,10 +150,12 @@ export default {
       $.export("$summary", `Successfully created single send ${this.name}`);
       return resp;
     } catch (e) {
-      const errors = e.split("Unexpected error (status code: ERR_BAD_REQUEST):")[1];
-      const errorJson = JSON.parse(errors);
-
-      throw new ConfigurationError(errorJson.data.errors[0].message);
+    } catch (e) {
+      if (e.response && e.response.data && e.response.data.errors && e.response.data.errors.length > 0) {
+        throw new ConfigurationError(e.response.data.errors[0].message);
+      } else {
+        throw new ConfigurationError("An unexpected error occurred.");
+      }
     }
   },
 };
