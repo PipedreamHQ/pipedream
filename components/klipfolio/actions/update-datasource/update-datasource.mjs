@@ -11,26 +11,26 @@ export default {
     datasourceId: {
       propDefinition: [
         app,
-        "datasourceId"
-      ]
+        "datasourceId",
+      ],
     },
     name: {
       propDefinition: [
         app,
-        "name"
-      ]
+        "name",
+      ],
     },
     description: {
       propDefinition: [
         app,
-        "description"
-      ]
+        "description",
+      ],
     },
     refreshInterval: {
       propDefinition: [
         app,
-        "refreshInterval"
-      ]
+        "refreshInterval",
+      ],
     },
   },
 

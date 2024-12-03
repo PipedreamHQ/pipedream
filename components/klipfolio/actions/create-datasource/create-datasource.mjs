@@ -11,44 +11,44 @@ export default {
     name: {
       propDefinition: [
         app,
-        "name"
-      ]
+        "name",
+      ],
     },
     description: {
       propDefinition: [
         app,
-        "description"
-      ]
+        "description",
+      ],
     },
     format: {
       propDefinition: [
         app,
-        "format"
-      ]
+        "format",
+      ],
     },
     connector: {
       propDefinition: [
         app,
-        "connector"
-      ]
+        "connector",
+      ],
     },
     refreshInterval: {
       propDefinition: [
         app,
-        "refreshInterval"
-      ]
+        "refreshInterval",
+      ],
     },
     endpointUrl: {
       propDefinition: [
         app,
-        "endpointUrl"
-      ]
+        "endpointUrl",
+      ],
     },
     method: {
       propDefinition: [
         app,
-        "method"
-      ]
+        "method",
+      ],
     },
   },
 
@@ -64,7 +64,7 @@ export default {
         properties: {
           endpoint_url: this.endpointUrl,
           method: this.method,
-        }
+        },
       },
     });
     $.export("$summary", `Successfully created Datasource named '${this.name}'`);

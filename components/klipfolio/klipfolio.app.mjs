@@ -49,16 +49,18 @@ export default {
       async options() {
         const response = await this.getDatasources();
         const datasourceIds = response.data.datasources;
-        return datasourceIds.map(({ id, name }) => ({
+        return datasourceIds.map(({
+          id, name,
+        }) => ({
           label: name,
-          value: id
+          value: id,
         }));
-      }
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return `https://app.klipfolio.com/api/1.0`;
+      return "https://app.klipfolio.com/api/1.0";
     },
     async _makeRequest(opts = {}) {
       const {
@@ -83,14 +85,18 @@ export default {
         ...args,
       });
     },
-    async updateDatasource({ datasourceId, ...args }) {
+    async updateDatasource({
+      datasourceId, ...args
+    }) {
       return this._makeRequest({
         path: `/datasources/${datasourceId}`,
         method: "put",
         ...args,
       });
     },
-    async deleteDatasource({ datasourceId, ...args }) {
+    async deleteDatasource({
+      datasourceId, ...args
+    }) {
       return this._makeRequest({
         path: `/datasources/${datasourceId}`,
         method: "delete",
