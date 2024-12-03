@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import contants from "./common/contants.mjs";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -22,9 +22,9 @@ export default {
     },
     type: {
       type: "string",
-      label: "Type of the API",
-      description: "Name of the organization",
-      options: contants.API_TYPES,
+      label: "API Type",
+      description: "Type of the API",
+      options: constants.API_TYPES,
     },
     public: {
       type: "boolean",
@@ -81,7 +81,7 @@ export default {
       apiSubdomain, ...args
     }) {
       return this._makeRequest({
-        path: `/blueprint/get/${apiSubdomain}`,
+        path: `/blueprint/publish/${apiSubdomain}`,
         ...args,
       });
     },
