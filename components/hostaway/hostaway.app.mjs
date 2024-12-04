@@ -118,6 +118,12 @@ export default {
         })) || [];
       },
     },
+    channelId: {
+      type: "integer",
+      label: "Channel",
+      description: "Identifier of the channel",
+      options: constants.CHANNEL_OPTIONS
+    },
   },
   methods: {
     _baseUrl() {
@@ -211,5 +217,12 @@ export default {
         ...args,
       });
     },
+    createReservation(args = {}) {
+      return this._makeRequest({
+        path: "/reservations",
+        method: "POST",
+        ...args,
+      });
+    }
   },
 };
