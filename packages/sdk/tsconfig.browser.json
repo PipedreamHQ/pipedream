@@ -10,7 +10,8 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
-    "types": []
+    "types": [],
+    "allowImportingTsExtensions": true
   },
   "include": [
     "src/browser/**/*"

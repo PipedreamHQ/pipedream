@@ -19,7 +19,8 @@
       "node",
       "jest",
       "jest-fetch-mock"
-    ]
+    ],
+    "allowImportingTsExtensions": true
   },
   "include": [
     "src/server/**/*"
