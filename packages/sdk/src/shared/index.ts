@@ -1,10 +1,11 @@
 // This code is meant to be shared between the browser and server.
-import { AsyncResponseManager } from "./async";
+import { AsyncResponseManager } from "./async.js";
 import type {
   AsyncResponse, AsyncErrorResponse,
-} from "./async";
-import type { V1Component } from "./component";
-export * from "./component";
+} from "./async.js";
+import type { V1Component } from "./component.js";
+export * from "./component.js";
+import { version as sdkVersion } from "../version.js";
 
 type RequestInit = globalThis.RequestInit;
 
@@ -290,6 +291,7 @@ export interface AsyncRequestOptions extends RequestOptions {
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
 export abstract class BaseClient {
+  version = sdkVersion;
   protected apiHost: string;
   protected abstract asyncResponseManager: AsyncResponseManager;
   protected readonly baseApiUrl: string;
@@ -351,6 +353,7 @@ export abstract class BaseClient {
 
     const headers: Record<string, string> = {
       ...customHeaders,
+      "X-PD-SDK-Version": sdkVersion,
       "X-PD-Environment": this.environment,
     };
 
