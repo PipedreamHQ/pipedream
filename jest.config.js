@@ -4,6 +4,7 @@ module.exports = {
   testEnvironment: "node",
   // See https://kulshekhar.github.io/ts-jest/docs/guides/esm-support
   extensionsToTreatAsEsm: [
+    ".js",
     ".ts",
     ".mts",
   ],
@@ -14,7 +15,7 @@ module.exports = {
     "types/.*.types.test..*$",
   ],
   transform: {
-    "\\.[jt]s?$": [
+    "\\.[jt]s$": [
       "ts-jest",
       {
         "useESM": true,
