@@ -1,4 +1,7 @@
-import { WebflowClient } from "webflow-api";
+// Webflow version support here: https://www.npmjs.com/package/webflow-api?activeTab=versions
+// @note: this is pinned to Webflow 1.3.1
+// because the upgrade to version 2 requires a new app
+import Webflow from "webflow-api@1.3.1";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -6,66 +9,64 @@ export default {
   app: "webflow",
   propDefinitions: {
     domains: {
-      label: "Custom Domains",
-      description: "Select one or more custom domains to publish.",
+      label: "Domain",
+      description: "The list of domains.",
       type: "string[]",
       async options({ siteId }) {
-        const domains = await this.listDomains(siteId);
-        return domains.map((id, url) => ({
-          label: url,
-          id,
-        }));
+        const domains = await this.getDomains(siteId);
+
+        return domains.map((domain) => domain.name);
       },
     },
     sites: {
       label: "Site",
-      description: "Select a site or provide a custom site ID.",
+      description: "The list of sites",
       type: "string",
       async options() {
-        const sites = await this.listSites();
+        const sites = await this.getSites();
 
         return sites.map((site) => ({
-          label: site.displayName || site.shortName,
-          value: site.id,
+          label: site.name,
+          value: site._id,
         }));
       },
     },
     collections: {
       label: "Collection",
-      description: "Select a collection or provide a custom collection ID.",
+      description: "The list of collection of a site",
       type: "string",
       async options({ siteId }) {
-        const collections = await this.listCollections(siteId);
+        const collections = await this.getCollections(siteId);
 
         return collections.map((collection) => ({
-          label: collection.displayName || collection.slug,
-          value: collection.id,
+          label: collection.name,
+          value: collection._id,
         }));
       },
     },
     items: {
       label: "Item",
-      description: "Select an item or provide a custom item ID.",
+      description: "The list of items of a collection",
       type: "string",
       async options({
         collectionId, page,
       }) {
-        const items = await this.listCollectionItems(page, collectionId);
+        const items = await this.getItems(page, collectionId);
 
         return items.map((item) => ({
-          label: item.fieldData?.name || item.fieldData?.slug,
-          value: item.id,
+          label: item.name,
+          value: item._id,
         }));
       },
     },
     orders: {
       label: "Order",
-      description: "Select an order, or provide a custom order ID.",
+      description: "The list of orders of a site",
       type: "string",
       async options({
         siteId, page,
       }) {
-        const items = await this.listOrders({
+        const items = await this.getOrders({
           page,
           siteId,
         });
@@ -75,96 +76,179 @@ export default {
     },
   },
   methods: {
+    /**
+     * Get the auth access token;
+     *
+     * @returns {string} The base auth access token.
+     */
     _authToken() {
       return this.$auth.oauth_access_token;
     },
-    webflowClient() {
-      return new WebflowClient({
-        accessToken: this._authToken(),
+    /**
+     * Create a Webflow API client;
+     *
+     * @returns {params} The Webflow API client.
+     */
+    _createApiClient() {
+      return new Webflow({
+        token: this._authToken(),
       });
     },
-    async createWebhook(siteId, data) {
-      return this.webflowClient().webhooks.create(siteId, data);
+    /**
+     * Create a Webflow webhook;
+     *
+     * @param {siteId} ID of the site to be monitored.
+     * @param {url} URL to webhook return.
+     * @param {triggerType} Type of event that will be triggered.
+     * @param {filter} Filters to be applied in webhook.
+     *
+     * @returns {params} The Webflow webhook.
+     */
+    async createWebhook(siteId, url, triggerType, filter = {}) {
+      const apiClient = this._createApiClient();
+
+      return apiClient.createWebhook({
+        siteId,
+        triggerType,
+        url,
+        filter,
+      });
     },
-    async removeWebhook(webhookId) {
-      return this.webflowClient().webhooks.delete(webhookId);
+    /**
+     * Remove a Webflow webhook;
+     *
+     * @param {siteId} ID of the site.
+     * @param {webhookId} ID of the webhook.
+     */
+    async removeWebhook(siteId, webhookId) {
+      const apiClient = this._createApiClient();
+      return apiClient.removeWebhook({
+        siteId,
+        webhookId,
+      });
     },
-    async getOrder(siteId, orderId) {
-      return this.webflowClient().orders.get(siteId, orderId);
-    },
-    async listOrders({
-      page: offset = 0, siteId, status,
+    /**
+     * Get an order;
+     *
+     * @param {options} Options to filter the order.
+     *
+     * @returns {params} An order.
+     */
+    async getOrder({
+      siteId, orderId,
     }) {
-      const response = await this.webflowClient().orders.list(siteId, {
-        offset,
-        status,
+      const apiClient = this._createApiClient();
+
+      return apiClient.get(`/sites/${siteId}/order/${orderId}`);
+    },
+    /**
+     * Get a list of orders;
+     *
+     * @param {options} Options to filter the orders.
+     *
+     * @returns {params} A list of orders.
+     */
+    async getOrders({
+      page, siteId, status,
+    }) {
+      const apiClient = this._createApiClient();
+
+      return apiClient.get(`/sites/${siteId}/orders`, {
+        status: status,
+        offset: page ?? 0,
+        limit: constants.LIMIT,
       });
-      return response?.orders;
     },
-    async listDomains(siteId) {
-      const response = await this.webflowClient().sites.getCustomDomain(siteId);
-      return response?.customDomains;
+    /**
+     * Get a list of domains;
+     *
+     * @param {options} Options to filter the domains.
+     *
+     * @returns {params} A list of domains.
+     */
+    async getDomains(siteId) {
+      const webflow = this._createApiClient();
+
+      return await webflow.domains({
+        siteId,
+      });
     },
-    getSite(siteId) {
-      return this.webflowClient().sites.get(siteId);
+    /**
+     * Get a site;
+     *
+     * @param {options} Options to filter the site.
+     *
+     * @returns {params} A site.
+     */
+    async getSite(siteId) {
+      const webflow = this._createApiClient();
+
+      return await webflow.site({
+        siteId,
+      });
     },
-    async listSites() {
-      const response = await this.webflowClient().sites.list();
-      return response?.sites;
+    /**
+     * Get a list of sites;
+     *
+     * @param {options} Options to filter the sites.
+     *
+     * @returns {params} A list of sites.
+     */
+    async getSites() {
+      const webflow = this._createApiClient();
+
+      return await webflow.sites();
     },
-    getCollection(collectionId) {
-      return this.webflowClient().collections.get(collectionId);
+    /**
+     * Get a collection;
+     *
+     * @param {options} Options to filter the collection.
+     *
+     * @returns {params} A collection.
+     */
+    async getCollection(collectionId) {
+      const webflow = this._createApiClient();
+
+      return await webflow.collection({
+        collectionId,
+      });
     },
-    async listCollections(siteId) {
+    /**
+     * Get a list of collections;
+     *
+     * @param {options} Options to filter the collections.
+     *
+     * @returns {params} A list of collections.
+     */
+    async getCollections(siteId) {
+      const webflow = this._createApiClient();
+
       if (!siteId) return [];
 
-      const response = await this.webflowClient().collections.list(siteId);
-      return response?.collections;
+      return await webflow.collections({
+        siteId: siteId,
+      });
     },
-    async listCollectionItems(page = 0, collectionId) {
+    /**
+     * Get a list of items;
+     *
+     * @param {options} Options to filter the items.
+     *
+     * @returns {params} A list of items.
+     */
+    async getItems(page = 0, collectionId) {
+      const webflow = this._createApiClient();
+
       if (!collectionId) return [];
 
-      const response = await this.webflowClient().collections.items.listItems(collectionId, {
+      const response = await webflow.items({
+        collectionId,
+      }, {
         limit: constants.LIMIT,
         offset: page,
       });
 
-      return response?.items;
-    },
-    getCollectionItem(collectionId, itemId) {
-      return this.webflowClient().collections.items.getItem(collectionId, itemId);
-    },
-    deleteCollectionItem(collectionId, itemId) {
-      return this.webflowClient().collections.items.deleteItem(collectionId, itemId);
-    },
-    createCollectionItem(collectionId, data) {
-      return this.webflowClient().collections.items.createItem(collectionId, data);
-    },
-    updateCollectionItem(collectionId, itemId, data) {
-      return this.webflowClient().collections.items.updateItem(collectionId, itemId, data);
-    },
-    getCollectionItemInventory(collectionId, itemId) {
-      return this.webflowClient().inventory.list(collectionId, itemId);
-    },
-    updateCollectionItemInventory(collectionId, itemId, data) {
-      return this.webflowClient().inventory.update(collectionId, itemId, data);
-    },
-    publishSite(siteId, customDomains) {
-      return this.webflowClient().sites.publish(siteId, {
-        customDomains,
-      });
-    },
-    fulfillOrder(siteId, orderId, data) {
-      return this.webflowClient().orders.updateFulfill(siteId, orderId, data);
-    },
-    unfulfillOrder(siteId, orderId) {
-      return this.webflowClient().orders.updateUnfulfill(siteId, orderId);
-    },
-    refundOrder(siteId, orderId) {
-      return this.webflowClient().orders.refund(siteId, orderId);
-    },
-    updateOrder(siteId, orderId, data) {
-      return this.webflowClient().orders.update(siteId, orderId, data);
+      return response;
     },
   },
 };
