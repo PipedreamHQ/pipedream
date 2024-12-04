@@ -11,7 +11,9 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "types": [],
-    "allowImportingTsExtensions": true
+    "paths": {
+      "*.js": ["*.ts"]
+    }
   },
   "include": [
     "src/browser/**/*"

@@ -20,7 +20,9 @@
       "jest",
       "jest-fetch-mock"
     ],
-    "allowImportingTsExtensions": true
+    "paths": {
+      "*.js": ["*.ts"]
+    }
   },
   "include": [
     "src/server/**/*"

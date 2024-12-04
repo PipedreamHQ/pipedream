@@ -3,13 +3,13 @@ import type {
   AsyncResponse,
   AsyncErrorResponse,
   AsyncResponseManager,
-} from "./async.ts";
+} from "./async.js";
 import type {
   V1Component,
   V1DeployedComponent,
-} from "./component.ts";
-export * from "./component.ts";
-import { version as sdkVersion } from "../version.ts";
+} from "./component.js";
+export * from "./component.js";
+import { version as sdkVersion } from "../version.js";
 
 type RequestInit = globalThis.RequestInit;
 
