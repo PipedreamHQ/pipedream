@@ -7,15 +7,18 @@ module.exports = {
     ".ts",
     ".mts",
   ],
-  globals: {
-    "ts-jest": {
-      useESM: true,
-    },
-  },
   moduleNameMapper: {
     "^(.+)\\.js$": "$1",
   },
   testPathIgnorePatterns: [
     "types/.*.types.test..*$",
   ],
+  transform: {
+    "\\.[jt]s?$": [
+      "ts-jest",
+      {
+        "useESM": true,
+      },
+    ],
+  },
 };
