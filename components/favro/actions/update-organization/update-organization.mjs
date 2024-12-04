@@ -40,6 +40,7 @@ export default {
   async run({ $ }) {
     const response = await this.app.updateOrganization({
       $,
+      organizationId: this.organizationId,
       headers: {
         organizationId: this.organizationId,
       },
@@ -53,6 +54,7 @@ export default {
         ],
       },
     });
+
 
     $.export("$summary", `Successfully updated organization with ID '${this.organizationId}'`);
 
