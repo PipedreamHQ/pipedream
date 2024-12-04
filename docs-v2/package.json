@@ -2,6 +2,7 @@
   "name": "@pipedream/docs",
   "version": "0.0.1",
   "description": "Pipedream docs",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
