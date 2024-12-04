@@ -576,7 +576,6 @@ export abstract class BaseClient {
       prop_name: opts.propName,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
-      environment: this.environment,
     };
     return await this.makeConnectRequestAsync<{
       options: { label: string; value: string; }[];
@@ -596,7 +595,6 @@ export abstract class BaseClient {
       id: opts.componentId,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
-      environment: this.environment,
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return await this.makeConnectRequestAsync<Record<string, any>>("/components/props", {
@@ -618,13 +616,33 @@ export abstract class BaseClient {
       id: opts.actionId,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
-      environment: this.environment,
     };
     return await this.makeConnectRequestAsync<{
       exports: unknown;
       os: unknown[];
       ret: unknown;
     }>("/actions/run", {
+      method: "POST",
+      body,
+    });
+  }
+
+  public async triggerDeploy(opts: {
+    userId: string;
+    triggerId: string;
+    configuredProps: Record<string, any>;  // eslint-disable-line @typescript-eslint/no-explicit-any
+    dynamicPropsId?: string;
+    webhookUrl?: string;
+  }) {
+    const body = {
+      async_handle: this.asyncResponseManager.createAsyncHandle(),
+      external_user_id: opts.userId,
+      id: opts.triggerId,
+      configured_props: opts.configuredProps,
+      dynamic_props_id: opts.dynamicPropsId,
+      webhook_url: opts.webhookUrl,
+    }
+    return await this.makeConnectRequestAsync("/triggers/deploy", {
       method: "POST",
       body,
     });
