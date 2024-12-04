@@ -44,5 +44,8 @@ export const checkUrl = (url) => {
   if (url.startsWith("/books/v3")) {
     return url.substring(9);
   }
+  if (url.startsWith("/v3")) {
+    return url.substring(3);
+  }
   return url;
 };

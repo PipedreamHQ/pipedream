@@ -56,7 +56,7 @@ export default {
       data: this.requestBody,
     });
 
-    $.export("$summary", `Successfully called the path: ${this.path}`);
+    $.export("$summary", `Successfully called the path: ${this.relativeUrl}`);
     return response;
   },
 };
