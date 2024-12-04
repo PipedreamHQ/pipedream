@@ -19,7 +19,8 @@ export default {
         app,
         "organizationId",
       ],
-      description: "Organization of the user that will be associated to the new organization",
+      description: "Organization of the user that will be associated with the new organization",
+
 
     },
     userId: {
