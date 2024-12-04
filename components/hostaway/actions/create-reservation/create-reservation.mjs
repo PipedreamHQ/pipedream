@@ -53,15 +53,17 @@ export default {
       label: "Additional Fields",
       description: "Additional fields to set for the reservation. [See the documentation](https://api.hostaway.com/documentation#reservation-object) for all available fields.",
       optional: true,
-    }
+    },
   },
   async run({ $ }) {
-    const { hostaway, additionalFields = {}, ...data } = this;
+    const {
+      hostaway, additionalFields = {}, ...data
+    } = this;
     const { result } = await hostaway.createReservation({
       $,
       data: {
         ...data,
-        ...additionalFields
+        ...additionalFields,
       },
     });
 

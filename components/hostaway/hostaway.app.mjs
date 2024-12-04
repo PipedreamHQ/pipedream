@@ -122,7 +122,7 @@ export default {
       type: "integer",
       label: "Channel",
       description: "Identifier of the channel",
-      options: constants.CHANNEL_OPTIONS
+      options: constants.CHANNEL_OPTIONS,
     },
   },
   methods: {
@@ -223,6 +223,6 @@ export default {
         method: "POST",
         ...args,
       });
-    }
+    },
   },
 };
