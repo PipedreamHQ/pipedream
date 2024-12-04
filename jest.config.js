@@ -13,7 +13,7 @@ module.exports = {
     },
   },
   moduleNameMapper: {
-    "^(\\.{1,2}/.*)\\.js$": "$1",
+    "^(.+)\\.js$": "$1",
   },
   testPathIgnorePatterns: [
     "types/.*.types.test..*$",
