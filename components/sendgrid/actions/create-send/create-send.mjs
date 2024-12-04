@@ -150,8 +150,12 @@ export default {
       $.export("$summary", `Successfully created single send ${this.name}`);
       return resp;
     } catch (e) {
-    } catch (e) {
-      if (e.response && e.response.data && e.response.data.errors && e.response.data.errors.length > 0) {
+      if (
+        e.response
+        && e.response.data
+        && e.response.data.errors
+        && e.response.data.errors.length > 0
+      ) {
         throw new ConfigurationError(e.response.data.errors[0].message);
       } else {
         throw new ConfigurationError("An unexpected error occurred.");
