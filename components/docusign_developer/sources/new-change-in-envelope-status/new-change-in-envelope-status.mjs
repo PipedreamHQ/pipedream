@@ -4,7 +4,7 @@ import common from "../../../docusign/sources/new-change-in-envelope-status/comm
 export default {
   ...common,
   key: "docusign_developer-new-change-in-envelope-status",
-  version: "0.0.2",
+  version: "0.0.1",
   name: "New Change in Envelope Status",
   description: "Emit new event when an envelope's status is updated",
   type: "source",
