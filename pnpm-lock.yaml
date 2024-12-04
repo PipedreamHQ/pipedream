@@ -5194,8 +5194,7 @@ importers:
 
   components/iqair_airvisual: {}
 
-  components/ironclad:
-    specifiers: {}
+  components/ironclad: {}
 
   components/iscraper: {}
 
