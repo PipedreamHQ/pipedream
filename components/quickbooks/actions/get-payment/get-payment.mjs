@@ -27,7 +27,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully retrieved payment with id ${response.Payment.Id}`);
+      $.export("summary", `Successfully retrieved payment with ID ${response.Payment.Id}`);
     }
 
     return response;

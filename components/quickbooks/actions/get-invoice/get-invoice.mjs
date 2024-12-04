@@ -27,7 +27,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully retrieved invoice with id ${response.Invoice.Id}`);
+      $.export("summary", `Successfully retrieved invoice with ID ${response.Invoice.Id}`);
     }
 
     return response;

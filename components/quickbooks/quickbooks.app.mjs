@@ -9,7 +9,7 @@ export default {
     invoiceId: {
       label: "Invoice ID",
       type: "string",
-      description: "Id of the invoice to get details of.",
+      description: "Id of the invoice to get details of",
       async options({ page }) {
         return this.getPropOptions({
           page,
@@ -23,20 +23,10 @@ export default {
         });
       },
     },
-    lineItems: {
-      label: "Line Items",
-      type: "string[]",
-      description: "Individual line items of a transaction. Valid Line types include: `ItemBasedExpenseLine` and `AccountBasedExpenseLine`. One minimum line item required for the request to succeed. E.g `[ { \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Meals and Entertainment\", \"value\": \"10\" } } } ]`",
-    },
-    lineItemsAsObjects: {
-      type: "boolean",
-      label: "Enter Line Items as Objects",
-      description: "Enter line items as an array of objects",
-    },
     customer: {
       label: "Customer Reference",
       type: "string",
-      description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference.",
+      description: "Reference to a customer or job",
       async options({ page }) {
         return this.getPropOptions({
           page,
@@ -50,11 +40,41 @@ export default {
         });
       },
     },
-    customerRefName: {
-      label: "Customer Reference Name",
+    customerType: {
+      label: "Customer Type",
       type: "string",
-      description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference. Use `Customer.DisplayName ` from that object for `CustomerRef.name`.",
+      description: "ID referencing the customer type assigned to a customer",
       optional: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "CustomerType",
+          mapper: ({
+            Id: id, Name: label,
+          }) => ({
+            label,
+            value: id,
+          }),
+        });
+      },
+    },
+    paymentMethod: {
+      label: "Payment Method",
+      type: "string",
+      description: "ID referencing a PaymentMethod object associated with this Customer object",
+      optional: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Payment Method",
+          mapper: ({
+            Id: id, Name: label,
+          }) => ({
+            label,
+            value: id,
+          }),
+        });
+      },
     },
     currency: {
       label: "Currency Code",
@@ -78,22 +98,269 @@ export default {
         });
       },
     },
-    currencyRefValue: {
-      label: "Currency Reference Value",
+    purchaseId: {
+      label: "Purchase ID",
       type: "string",
-      description: "A three letter string representing the ISO 4217 code for the currency. For example, `USD`, `AUD`, `EUR`, and so on. This must be defined if multicurrency is enabled for the company.\nMulticurrency is enabled for the company if `Preferences.MultiCurrencyEnabled` is set to `true`. Read more about multicurrency support [here](https://developer.intuit.com/docs?RedirectID=MultCurrencies). Required if multicurrency is enabled for the company.",
-      optional: true,
+      description: "ID of the purchase.",
+      withLabel: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Purchase",
+          mapper: ({
+            Id, PaymentType, SyncToken,
+          }) => ({
+            label: `${Id} - ${PaymentType}`,
+            value: `${Id}|${SyncToken}`,
+          }),
+        });
+      },
     },
-    currencyRefName: {
-      label: "Currency Reference Name",
-      type: "string",
-      description: "The full name of the currency.",
+    termIds: {
+      type: "string[]",
+      label: "Term IDs",
+      description: "Filters report contents based on term or terms supplied",
       optional: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Term",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
     },
-    includeClause: {
-      description: "Fields to use in the select clause of the data query. See query language syntax, limitations, and other specifications on [Data queries](https://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries)",
-      label: "Include Clause",
+    vendorIds: {
+      type: "string[]",
+      label: "Vendor IDs",
+      description: "Filters report contents to include information for specified vendors",
+      optional: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Vendor",
+          mapper: ({
+            Id: value, DisplayName: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    accountIds: {
+      type: "string[]",
+      label: "Account IDs",
+      description: "Filters report contents to include information for specified accounts",
+      optional: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Account",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    classIds: {
+      type: "string[]",
+      label: "Class IDs",
+      description: "Filters report contents to include information for specified classes if so configured in the company file",
+      optional: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Class",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    employeeIds: {
+      type: "string[]",
+      label: "Employee IDs",
+      description: "Filters report contents to include information for specified employees",
+      optional: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Employee",
+          mapper: ({
+            Id: value, DisplayName: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    departmentIds: {
+      type: "string[]",
+      label: "Department IDs",
+      description: "Filters report contents to include information for specified departments if so configured in the company file",
+      optional: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Department",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    itemId: {
       type: "string",
+      label: "Item ID",
+      description: "The identifier of an item",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Item",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    billId: {
+      type: "string",
+      label: "Bill ID",
+      description: "The identifier of a bill",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Bill",
+          mapper: ({ Id: id }) => id,
+        });
+      },
+    },
+    purchaseOrderId: {
+      type: "string",
+      label: "Purchase Order ID",
+      description: "The identifier of a purchase order",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "PurchaseOrder",
+          mapper: ({
+            Id: value, DocNumber,
+          }) => ({
+            value,
+            label: DocNumber ?? value,
+          }),
+        });
+      },
+    },
+    salesReceiptId: {
+      type: "string",
+      label: "Sales Receipt ID",
+      description: "The identifier of a sales receipt",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "SalesReceipt",
+          mapper: ({
+            Id: value, DocNumber,
+          }) => ({
+            value,
+            label: DocNumber ?? value,
+          }),
+        });
+      },
+    },
+    timeActivityId: {
+      type: "string",
+      label: "Time Activity ID",
+      description: "The identifier of a time activity",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "TimeActivity",
+          mapper: ({
+            Id: value, NameOf: nameOf, Description: description,
+          }) => ({
+            value,
+            label: `${nameOf} ${description}`,
+          }),
+        });
+      },
+    },
+    paymentId: {
+      type: "string",
+      label: "Payment ID",
+      description: "The identifier of a payment",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Payment",
+          mapper: ({
+            Id: value, CustomerRef: customerRef, TotalAmt: totalAmt, TxnDate: txnDate,
+          }) => ({
+            value,
+            label: `${customerRef.name} - Amount: ${totalAmt} - ${txnDate}`,
+          }),
+        });
+      },
+    },
+    taxCodeId: {
+      type: "string",
+      label: "Tax Code ID",
+      description: "The identifier of a tax code",
+      optional: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "TaxCode",
+          mapper: ({
+            Id: value, Name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    taxClassificationId: {
+      type: "string",
+      label: "Tax Classification ID",
+      description: "The identifier of a tax classification",
+      optional: true,
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "TaxClassification",
+          mapper: ({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          }),
+        });
+      },
+    },
+    lineItemsAsObjects: {
+      type: "boolean",
+      label: "Enter Line Items as Objects",
+      description: "Enter line items as an array of objects",
     },
     maxResults: {
       description: "The number of entity elements in the response.",
@@ -148,24 +415,6 @@ export default {
       description: "Family name or the last name of the person. The `DisplayName` attribute or at least one of `Title`, `GivenName`, `MiddleName`, `FamilyName`, or `Suffix` attributes is required for object create.",
       optional: true,
     },
-    purchaseId: {
-      label: "Purchase Id",
-      type: "string",
-      description: "Id of the purchase.",
-      withLabel: true,
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "Purchase",
-          mapper: ({
-            Id, PaymentType, SyncToken,
-          }) => ({
-            label: `${Id} - ${PaymentType}`,
-            value: `${Id}|${SyncToken}`,
-          }),
-        });
-      },
-    },
     suffix: {
       label: "Suffix",
       type: "string",
@@ -187,211 +436,6 @@ export default {
       label: "Columns",
       description: "Column types to be shown in the report",
       optional: true,
-    },
-    termIds: {
-      type: "string[]",
-      label: "Term Ids",
-      description: "Filters report contents based on term or terms supplied",
-      optional: true,
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "Term",
-          mapper: ({
-            Id: value, Name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
-    },
-    vendorIds: {
-      type: "string[]",
-      label: "Vendor Ids",
-      description: "Filters report contents to include information for specified vendors",
-      optional: true,
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "Vendor",
-          mapper: ({
-            Id: value, DisplayName: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
-    },
-    accountIds: {
-      type: "string[]",
-      label: "Account Ids",
-      description: "Filters report contents to include information for specified accounts",
-      optional: true,
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "Account",
-          mapper: ({
-            Id: value, Name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
-    },
-    classIds: {
-      type: "string[]",
-      label: "Class Ids",
-      description: "Filters report contents to include information for specified classes if so configured in the company file",
-      optional: true,
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "Class",
-          mapper: ({
-            Id: value, Name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
-    },
-    employeeIds: {
-      type: "string[]",
-      label: "Employee Ids",
-      description: "Filters report contents to include information for specified employees",
-      optional: true,
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "Employee",
-          mapper: ({
-            Id: value, DisplayName: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
-    },
-    departmentIds: {
-      type: "string[]",
-      label: "Department Ids",
-      description: "Filters report contents to include information for specified departments if so configured in the company file",
-      optional: true,
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "Department",
-          mapper: ({
-            Id: value, Name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
-    },
-    itemId: {
-      type: "string",
-      label: "Item Id",
-      description: "The identifier of an item",
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "Item",
-          mapper: ({
-            Id: value, Name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        });
-      },
-    },
-    billId: {
-      type: "string",
-      label: "Bill Id",
-      description: "The identifier of a bill",
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "Bill",
-          mapper: ({ Id: id }) => id,
-        });
-      },
-    },
-    purchaseOrderId: {
-      type: "string",
-      label: "Purchase Order Id",
-      description: "The identifier of a purchase order",
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "PurchaseOrder",
-          mapper: ({
-            Id: value, DocNumber,
-          }) => ({
-            value,
-            label: DocNumber ?? value,
-          }),
-        });
-      },
-    },
-    salesReceiptId: {
-      type: "string",
-      label: "Sales Receipt Id",
-      description: "The identifier of a sales receipt",
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "SalesReceipt",
-          mapper: ({
-            Id: value, DocNumber,
-          }) => ({
-            value,
-            label: DocNumber ?? value,
-          }),
-        });
-      },
-    },
-    timeActivityId: {
-      type: "string",
-      label: "Time Activity Id",
-      description: "The identifier of a time activity",
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "TimeActivity",
-          mapper: ({
-            Id: value, NameOf: nameOf, Description: description,
-          }) => ({
-            value,
-            label: `${nameOf} ${description}`,
-          }),
-        });
-      },
-    },
-    paymentId: {
-      type: "string",
-      label: "Payment Id",
-      description: "The identifier of a payment",
-      async options({ page }) {
-        return this.getPropOptions({
-          page,
-          resource: "Payment",
-          mapper: ({
-            Id: value, CustomerRef: customerRef, TotalAmt: totalAmt, TxnDate: txnDate,
-          }) => ({
-            value,
-            label: `${customerRef.name} - Amount: ${totalAmt} - ${txnDate}`,
-          }),
-        });
-      },
     },
   },
   methods: {
@@ -466,6 +510,13 @@ export default {
     createInvoice(opts = {}) {
       return this._makeRequest({
         path: `company/${this._companyId()}/invoice`,
+        method: "post",
+        ...opts,
+      });
+    },
+    createSalesReceipt(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/salesreceipt`,
         method: "post",
         ...opts,
       });
@@ -557,6 +608,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `company/${this._companyId()}/payment/${paymentId}`,
+        ...opts,
+      });
+    },
+    getItem({
+      itemId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/item/${itemId}`,
         ...opts,
       });
     },

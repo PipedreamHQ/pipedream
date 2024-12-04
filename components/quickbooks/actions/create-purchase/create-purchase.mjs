@@ -1,5 +1,5 @@
-import { parseOne } from "../../common/utils.mjs";
 import quickbooks from "../../quickbooks.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-create-purchase",
@@ -16,7 +16,8 @@ export default {
       ],
       type: "string",
       label: "Account Reference Value",
-      description: "Specifies the id of the account reference. Check must specify bank account, CreditCard must specify credit card account. Validation Rules:Valid and Active Account Reference of an appropriate type.",
+      description: "Specifies the ID of the account reference. Check must specify bank account, CreditCard must specify credit card account. Validation Rules:Valid and Active Account Reference of an appropriate type.",
+      optional: false,
     },
     paymentType: {
       label: "Payment Type",
@@ -28,33 +29,90 @@ export default {
         "CreditCard",
       ],
     },
-    lineItems: {
-      propDefinition: [
-        quickbooks,
-        "lineItems",
-      ],
-    },
-    accountRefName: {
-      label: "Account Reference Name",
-      type: "string",
-      description: "Specifies the name of the account reference. Check must specify bank account, CreditCard must specify credit card account. Validation Rules:Valid and Active Account Reference of an appropriate type.",
-      optional: true,
-    },
     currencyRefValue: {
       propDefinition: [
         quickbooks,
-        "currencyRefValue",
+        "currency",
       ],
     },
-    currencyRefName: {
+    lineItemsAsObjects: {
       propDefinition: [
         quickbooks,
-        "currencyRefName",
+        "lineItemsAsObjects",
       ],
+      reloadProps: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.lineItemsAsObjects) {
+      props.lineItems = {
+        type: "string[]",
+        label: "Line Items",
+        description: "Line items of a purchase. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }`",
+      };
+      return props;
+    }
+    props.numLineItems = {
+      type: "integer",
+      label: "Number of Line Items",
+      description: "The number of line items to enter",
+      reloadProps: true,
+    };
+    if (!this.numLineItems) {
+      return props;
+    }
+    for (let i = 1; i <= this.numLineItems; i++) {
+      props[`account_${i}`] = {
+        type: "string",
+        label: `Line ${i} - Account ID`,
+        options: async ({ page }) => {
+          return this.quickbooks.getPropOptions({
+            page,
+            resource: "Account",
+            mapper: ({
+              Id: value, Name: label,
+            }) => ({
+              value,
+              label,
+            }),
+          });
+        },
+      };
+      props[`amount_${i}`] = {
+        type: "string",
+        label: `Line ${i} - Amount`,
+      };
+    }
+    return props;
+  },
+  methods: {
+    buildLineItems() {
+      const lineItems = [];
+      for (let i = 1; i <= this.numLineItems; i++) {
+        lineItems.push({
+          DetailType: "AccountBasedExpenseLineDetail",
+          Amount: this[`amount_${i}`],
+          AccountBasedExpenseLineDetail: {
+            AccountRef: {
+              value: this[`account_${i}`],
+            },
+          },
+        });
+      }
+      return lineItems;
     },
   },
   async run({ $ }) {
-    let parsedLineItems = parseOne(this.lineItems);
+    if (this.lineItemsAsObjects) {
+      try {
+        this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
+          ? JSON.parse(lineItem)
+          : lineItem);
+      } catch (error) {
+        throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
+      }
+    }
 
     const response = await this.quickbooks.createPurchase({
       $,
@@ -62,20 +120,18 @@ export default {
         PaymentType: this.paymentType,
         AccountRef: {
           value: this.accountRefValue,
-          name: this.accountRefName,
         },
-        Line: parsedLineItems.length
-          ? parsedLineItems.map((item) => parseOne(item))
-          : [],
+        Line: this.lineItemsAsObjects
+          ? this.lineItems
+          : this.buildLineItems(),
         CurrencyRef: {
           value: this.currencyRefValue,
-          name: this.currencyRefName,
         },
       },
     });
 
     if (response) {
-      $.export("summary", `Successfully created purchase with id ${response.Purchase.Id}`);
+      $.export("summary", `Successfully created purchase with ID ${response.Purchase.Id}`);
     }
 
     return response;

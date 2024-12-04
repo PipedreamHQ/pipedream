@@ -9,13 +9,6 @@ export default {
   type: "action",
   props: {
     quickbooks,
-    includeClause: {
-      propDefinition: [
-        quickbooks,
-        "includeClause",
-      ],
-      optional: false,
-    },
     maxResults: {
       propDefinition: [
         quickbooks,
@@ -43,8 +36,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.includeClause || !this.whereClause) {
-      throw new ConfigurationError("Must provide includeClause, whereClause parameters.");
+    if (!this.whereClause) {
+      throw new ConfigurationError("Must provide whereClause parameter.");
     }
 
     const orderClause = this.orderClause
@@ -59,7 +52,7 @@ export default {
       ? ` MAXRESULTS ${this.maxResults}`
       : "";
 
-    const query = `select ${this.includeClause} from Item where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
+    const query = `select * from Item where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
 
     const response = await this.quickbooks.query({
       $,

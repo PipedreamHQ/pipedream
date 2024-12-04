@@ -27,7 +27,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully retrieved bill with id ${response.Bill.Id}`);
+      $.export("summary", `Successfully retrieved bill with ID ${response.Bill.Id}`);
     }
 
     return response;

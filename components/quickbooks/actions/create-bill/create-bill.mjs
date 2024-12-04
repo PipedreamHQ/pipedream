@@ -55,15 +55,18 @@ export default {
       props[`account_${i}`] = {
         type: "string",
         label: `Line ${i} - Account ID`,
-        options: await this.quickbooks.getPropOptions({
-          resource: "Account",
-          mapper: ({
-            Id: value, Name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        }),
+        options: async ({ page }) => {
+          return  this.quickbooks.getPropOptions({
+            page,
+            resource: "Account",
+            mapper: ({
+              Id: value, Name: label,
+            }) => ({
+              value,
+              label,
+            }),
+          });
+        },
       };
       props[`amount_${i}`] = {
         type: "string",
@@ -110,7 +113,9 @@ export default {
         VendorRef: {
           value: this.vendorRefValue,
         },
-        Line: this.buildLineItems(),
+        Line: this.lineItemsAsObjects
+          ? this.lineItems
+          : this.buildLineItems(),
         CurrencyRef: {
           value: this.currencyRefValue,
         },

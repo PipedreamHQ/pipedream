@@ -15,7 +15,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully retrieved company with id ${response.CompanyInfo.Id}`);
+      $.export("summary", `Successfully retrieved company with ID ${response.CompanyInfo.Id}`);
     }
 
     return response;

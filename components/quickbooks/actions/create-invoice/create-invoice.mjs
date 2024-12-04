@@ -52,15 +52,18 @@ export default {
       props[`item_${i}`] = {
         type: "string",
         label: `Line ${i} - Item ID`,
-        options: await this.quickbooks.getPropOptions({
-          resource: "Item",
-          mapper: ({
-            Id: value, Name: label,
-          }) => ({
-            value,
-            label,
-          }),
-        }),
+        options: async ({ page }) => {
+          return this.quickbooks.getPropOptions({
+            page,
+            resource: "Item",
+            mapper: ({
+              Id: value, Name: label,
+            }) => ({
+              value,
+              label,
+            }),
+          });
+        },
       };
       props[`amount_${i}`] = {
         type: "string",
@@ -104,7 +107,9 @@ export default {
     const response = await this.quickbooks.createInvoice({
       $,
       data: {
-        Line: this.buildLineItems(),
+        Line: this.lineItemsAsObjects
+          ? this.lineItems
+          : this.buildLineItems(),
         CustomerRef: {
           value: this.customerRefValue,
         },

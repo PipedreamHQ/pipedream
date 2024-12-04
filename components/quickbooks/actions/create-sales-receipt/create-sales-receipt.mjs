@@ -9,12 +9,6 @@ export default {
   type: "action",
   props: {
     quickbooks,
-    lineItems: {
-      propDefinition: [
-        quickbooks,
-        "lineItems",
-      ],
-    },
     currencyRefValue: {
       propDefinition: [
         quickbooks,
@@ -22,50 +16,99 @@ export default {
       ],
       optional: true,
     },
-    currencyRefName: {
+    lineItemsAsObjects: {
       propDefinition: [
         quickbooks,
-        "currencyRefName",
+        "lineItemsAsObjects",
       ],
-      optional: true,
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (this.lineItemsAsObjects) {
+      props.lineItems = {
+        type: "string[]",
+        label: "Line Items",
+        description: "Line items of a sales receipt. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
+      };
+      return props;
+    }
+    props.numLineItems = {
+      type: "integer",
+      label: "Number of Line Items",
+      description: "The number of line items to enter",
+      reloadProps: true,
+    };
+    if (!this.numLineItems) {
+      return props;
+    }
+    for (let i = 1; i <= this.numLineItems; i++) {
+      props[`item_${i}`] = {
+        type: "string",
+        label: `Line ${i} - Item ID`,
+        options: async ({ page }) => {
+          return this.quickbooks.getPropOptions({
+            page,
+            resource: "Item",
+            mapper: ({
+              Id: value, Name: label,
+            }) => ({
+              value,
+              label,
+            }),
+          });
+        },
+      };
+      props[`amount_${i}`] = {
+        type: "string",
+        label: `Line ${i} - Amount`,
+      };
+    }
+    return props;
+  },
   methods: {
-    async createSalesReceipt({
-      $, data,
-    }) {
-      return this.quickbooks._makeRequest(`company/${this.quickbooks._companyId()}/salesreceipt`, {
-        method: "post",
-        data,
-      }, $);
+    buildLineItems() {
+      const lineItems = [];
+      for (let i = 1; i <= this.numLineItems; i++) {
+        lineItems.push({
+          DetailType: "SalesItemLineDetail",
+          Amount: this[`amount_${i}`],
+          SalesItemLineDetail: {
+            ItemRef: {
+              value: this[`item_${i}`],
+            },
+          },
+        });
+      }
+      return lineItems;
     },
   },
   async run({ $ }) {
-    try {
-      if (typeof (this.lineItems) === "string") {
-        this.lineItems = JSON.parse(this.lineItems);
-      } else {
+    if (this.lineItemsAsObjects) {
+      try {
         this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
           ? JSON.parse(lineItem)
           : lineItem);
+      } catch (error) {
+        throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
       }
-    } catch (error) {
-      throw new ConfigurationError(`An error occurred while trying to parse the LineItems. Error: ${error}`);
     }
 
-    const response = await this.createSalesReceipt({
+    const response = await this.quickbooks.createSalesReceipt({
       $,
       data: {
-        Line: this.lineItems,
+        Line: this.lineItemsAsObjects
+          ? this.lineItems
+          : this.buildLineItems(),
         CurrencyRef: this.currencyRefValue && {
           value: this.currencyRefValue,
-          name: this.currencyRefName,
         },
       },
     });
 
     if (response) {
-      $.export("summary", `Successfully created sales receipt with id ${response.SalesReceipt.Id}`);
+      $.export("summary", `Successfully created sales receipt with ID ${response.SalesReceipt.Id}`);
     }
 
     return response;

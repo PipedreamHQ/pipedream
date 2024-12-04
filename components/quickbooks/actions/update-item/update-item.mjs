@@ -20,20 +20,10 @@ export default {
       label: "Name",
       description: "Name of the item. This value must be unique.",
     },
-    syncToken: {
-      type: "string",
-      label: "Sync Token",
-      description: "Version number of the entity. Required for the update operation.",
-    },
     trackQtyOnHand: {
       type: "boolean",
       label: "Track Quantity on Hand",
       description: "True if there is quantity on hand to be tracked. Once this value is true, it cannot be updated to false. Applicable for items of type `Inventory`. Not applicable for `Service` or `NonInventory` item types.",
-    },
-    sparseUpdate: {
-      type: "string",
-      label: "Sparse Update",
-      description: "When set to `true`, sparse updating provides the ability to update a subset of properties for a given object; only elements specified in the request are updated. Missing elements are left untouched.",
     },
     qtyOnHand: {
       type: "string",
@@ -45,13 +35,10 @@ export default {
       type: "string",
       label: "Income Account Ref Value",
       description: "Reference to the posting account, that is, the account that records the proceeds from the sale of this item. Must be an account with account type of `Sales of Product Income`. Query the Account name list resource to determine the appropriate Account object for this reference. Use `Account.Id` from that object for `IncomeAccountRef.value`. See specifications for the IncomeAccountRef parameters in the [Create an item page](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#create-an-item).",
-      optional: true,
-    },
-    incomeAccountRefName: {
-      type: "string",
-      label: "Income Account Ref Name",
-      description: "Reference to the posting account, that is, the account that records the proceeds from the sale of this item. Must be an account with account type of `Sales of Product Income`. Query the Account name list resource to determine the appropriate Account object for this reference. Use `Account.Name` from that object for `IncomeAccountRef.name`. See specifications for the IncomeAccountRef parameters in the [Create an item page](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#create-an-item).",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "accountIds",
+      ],
     },
     type: {
       type: "string",
@@ -69,13 +56,10 @@ export default {
       type: "string",
       label: "Asset Account Ref Value",
       description: "Required for Inventory item types. Reference to the Inventory Asset account that tracks the current value of the inventory. If the same account is used for all inventory items, the current balance of this account will represent the current total value of the inventory. Must be an account with account type of `Other Current Asset`. Query the Account name list resource to determine the appropriate Account object for this reference. Use `Account.Id` from that object for `AssetAccountRef.value`.",
-      optional: true,
-    },
-    assetAccountRefName: {
-      type: "string",
-      label: "Asset Account Ref Name",
-      description: "Required for Inventory item types. Reference to the Inventory Asset account that tracks the current value of the inventory. If the same account is used for all inventory items, the current balance of this account will represent the current total value of the inventory. Must be an account with account type of `Other Current Asset`. Query the Account name list resource to determine the appropriate Account object for this reference. Use `Account.Name` from that object for `AssetAccountRef.name`.",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "accountIds",
+      ],
     },
     invStartDate: {
       type: "string",
@@ -87,13 +71,10 @@ export default {
       type: "string",
       label: "Expense Account Ref Value",
       description: "Reference to the expense account used to pay the vendor for this item. Must be an account with account type of `Cost of Goods Sold`. Query the Account name list resource to determine the appropriate Account object for this reference. Use `Account.Id` from that object for `ExpenseAccountRef.value`. See specifications for the ExpenseAccountRef parameters in the [Create an item page](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#create-an-item).",
-      optional: true,
-    },
-    expenseAccountRefName: {
-      type: "string",
-      label: "Expense Account Ref Name",
-      description: "Reference to the expense account used to pay the vendor for this item. Must be an account with account type of `Cost of Goods Sold`. Query the Account name list resource to determine the appropriate Account object for this reference. Use `Account.Name` from that object for `ExpenseAccountRef.name`. See specifications for the ExpenseAccountRef parameters in the [Create an item page](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#create-an-item).",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "accountIds",
+      ],
     },
     sku: {
       type: "string",
@@ -108,28 +89,21 @@ export default {
       optional: true,
     },
     salesTaxCodeRefValue: {
-      type: "string",
       label: "Sales Tax Code Ref Value",
-      description: "Id of the referenced sales tax code  for the Sales item. Applicable to Service and Sales item types only. Query the TaxCode name list resource to determine the appropriate TaxCode object for this reference. Use `TaxCode.Id` from that object for `SalesTaxCodeRef.value`.",
-      optional: true,
-    },
-    salesTaxCodeRefName: {
-      type: "string",
-      label: "Sales Tax Code Ref Name",
-      description: "Name of the referenced sales tax code  for the Sales item. Applicable to Service and Sales item types only. Query the TaxCode name list resource to determine the appropriate TaxCode object for this reference. Use `TaxCode.Name` from that object for `SalesTaxCodeRef.name`.",
-      optional: true,
+      description: "ID of the referenced sales tax code  for the Sales item. Applicable to Service and Sales item types only. Query the TaxCode name list resource to determine the appropriate TaxCode object for this reference. Use `TaxCode.Id` from that object for `SalesTaxCodeRef.value`.",
+      propDefinition: [
+        quickbooks,
+        "taxCodeId",
+      ],
     },
     classRefValue: {
       type: "string",
       label: "Class Ref Value",
-      description: "Id of the referenced Class for the item. Query the Class name list resource to determine the appropriate object for this reference. Use `Class.Id` from that object for `ClassRef.value`.",
-      optional: true,
-    },
-    classRefName: {
-      type: "string",
-      label: "Class Ref Name",
-      description: "Name of the referenced Class for the item. Query the Class name list resource to determine the appropriate object for this reference. Use `Class.Name` from that object for `ClassRef.name`.",
-      optional: true,
+      description: "ID of the referenced Class for the item. Query the Class name list resource to determine the appropriate object for this reference. Use `Class.Id` from that object for `ClassRef.value`.",
+      propDefinition: [
+        quickbooks,
+        "classIds",
+      ],
     },
     purchaseTaxIncluded: {
       type: "boolean",
@@ -189,13 +163,10 @@ export default {
       type: "string",
       label: "Pref Vendor Ref Value",
       description: "Pref vendor ref value",
-      optional: true,
-    },
-    prefVendorRefName: {
-      type: "string",
-      label: "Pref Vendor Ref Name",
-      description: "Pref vendor ref name",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "vendorIds",
+      ],
     },
     active: {
       type: "boolean",
@@ -206,20 +177,16 @@ export default {
     UqcId: {
       type: "string",
       label: "UQC ID",
-      description: "Id of Standard Unit of Measure (UQC:Unique Quantity Code) of the item according to GST rule.",
+      description: "ID of Standard Unit of Measure (UQC:Unique Quantity Code) of the item according to GST rule.",
       optional: true,
     },
     purchaseTaxCodeRefValue: {
-      type: "string",
       label: "Purchase Tax Code Ref Value",
       description: "The ID for the referenced purchase tax code object as found in the Id field of the object payload. \n\nReference to the purchase tax code for the item. Applicable to Service, Other Charge, and Product (Non-Inventory) item types. Query the TaxCode name list resource to determine the appropriate TaxCode object for this reference. Use `TaxCode.Id` from that object for `PurchaseTaxCodeRef.value`.",
-      optional: true,
-    },
-    purchaseTaxCodeRefName: {
-      type: "string",
-      label: "Purchase Tax Code Ref Name",
-      description: "An identifying name for the purchase tax code object being referenced by value and is derived from the field that holds the common name of that object. \n\nReference to the purchase tax code for the item. Applicable to Service, Other Charge, and Product (Non-Inventory) item types. Query the TaxCode name list resource to determine the appropriate TaxCode object for this reference. Use `TaxCode.Name` from that object for `PurchaseTaxCodeRef.name`.",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "taxCodeId",
+      ],
     },
     serviceType: {
       type: "string",
@@ -240,70 +207,64 @@ export default {
       optional: true,
     },
     taxClassificationRefValue: {
-      type: "string",
-      label: "Tax Classification Ref Value",
       description: "The ID for the referenced Tax classification object as found in the Id field of the object payload.\n\nTax classification segregates different items into different classifications and the tax classification is one of the key parameters to determine appropriate tax on transactions involving items. Tax classifications are sourced by either tax governing authorities as in India/Malaysia or externally like Exactor. 'Fuel', 'Garments' and 'Soft drinks' are a few examples of tax classification in layman terms. User can choose a specific tax classification for an item while creating it. A level 1 tax classification cannot be associated to an Item",
-      optional: true,
-    },
-    taxClassificationRefName: {
-      type: "string",
-      label: "Tax Classification Ref Name",
-      description: "An identifying name for the Tax classification object being referenced by value and is derived from the field that holds the common name of that object.",
-      optional: true,
-    },
-    parentRefName: {
-      type: "string",
-      label: "Parent Ref Name",
-      description: "An identifying name for the parent item object being referenced by `value` and is derived from the field that holds the common name of that object.\n\nThe immediate parent of the sub item in the hierarchical Category:Sub-category list. If SubItem is true, then ParenRef is required. Query the Item name list resource to determine the appropriate object for this reference. Use `Item.Id` from that object for `ParentRef.value`.",
-      optional: true,
+      propDefinition: [
+        quickbooks,
+        "taxClassificationId",
+      ],
     },
     parentRefValue: {
-      type: "string",
       label: "Parent Ref Value",
       description: "The ID for the referenced parent item object as found in the Id field of the object payload. \n\nThe immediate parent of the sub item in the hierarchical Category:Sub-category list. If SubItem is true, then ParenRef is required. Query the Item name list resource to determine the appropriate object for this reference. Use `Item.Id` from that object for `ParentRef.value`.",
       optional: true,
+      propDefinition: [
+        quickbooks,
+        "itemId",
+      ],
+    },
+  },
+  methods: {
+    async getSyncToken($) {
+      const { Item: item } = await this.quickbooks.getItem({
+        $,
+        itemId: this.itemId,
+      });
+      return item.SyncToken;
     },
   },
   async run({ $ }) {
     if (!this.itemId
       || !this.name
-      || !this.syncToken
       || this.trackQtyOnHand === undefined
-      || this.sparseUpdate === undefined
     ) {
-      throw new ConfigurationError("Must provide itemId, name, syncToken, and trackQtyOnHand parameters.");
+      throw new ConfigurationError("Must provide itemId, name, and trackQtyOnHand parameters.");
     }
 
     const data = {
-      sparse: this.sparseUpdate,
+      sparse: true,
       Id: this.itemId,
       Name: this.name,
       QtyOnHand: this.qtyOnHand,
-      SyncToken: this.syncToken,
+      SyncToken: await this.getSyncToken($),
       IncomeAccountRef: {
         value: this.incomeAccountRefValue,
-        name: this.incomeAccountRefName,
       },
       Type: this.type,
       AssetAccountRef: {
         value: this.assetAccountRefValue,
-        name: this.assetAccountRefName,
       },
       InvStartDate: this.invStartDate,
       ExpenseAccountRef: {
         value: this.expenseAccountRefValue,
-        name: this.expenseAccountRefName,
       },
       Sku: this.sku,
       SalesTaxIncluded: this.salesTaxIncluded,
       TrackQtyOnHand: this.trackQtyOnHand,
       SalesTaxCodeRef: {
         value: this.salesTaxCodeRefValue,
-        name: this.salesTaxCodeRefName,
       },
       ClassRef: {
         value: this.classRefValue,
-        name: this.classRefName,
       },
       PurchaseTaxIncluded: this.purchaseTaxIncluded,
       Description: this.description,
@@ -316,27 +277,23 @@ export default {
       PurchaseDesc: this.purchaseDesc,
       PrefVendorRef: {
         value: this.prefVendorRefValue,
-        name: this.prefVendorRefName,
       },
       Active: this.active,
       UQCId: this.UqcId,
       PurchaseTaxCodeRef: {
         value: this.purchaseTaxCodeRefValue,
-        name: this.purchaseTaxCodeRefName,
       },
       ServiceType: this.serviceType,
       PurchaseCost: this.purchaseCost,
       UnitPrice: this.unitPrice,
       TaxClassificationRef: {
         value: this.taxClassificationRefValue,
-        name: this.taxClassificationRefName,
       },
     };
 
     if (this.parentRefValue || this.parentRefName) {
       data["ParentRef"] = {
         value: this.parentRefValue,
-        name: this.parentRefName,
       };
     }
 
@@ -346,7 +303,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully updated item with id ${this.itemId}`);
+      $.export("summary", `Successfully updated item with ID ${this.itemId}`);
     }
 
     return response;

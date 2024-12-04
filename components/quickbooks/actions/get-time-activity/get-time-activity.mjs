@@ -28,7 +28,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully retrieved time activity with id ${response.TimeActivity.Id}`);
+      $.export("summary", `Successfully retrieved time activity with ID ${response.TimeActivity.Id}`);
     }
 
     return response;

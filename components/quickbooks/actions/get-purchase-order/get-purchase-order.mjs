@@ -28,7 +28,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully retrieved purchase order with id ${response.PurchaseOrder.Id}`);
+      $.export("summary", `Successfully retrieved purchase order with ID ${response.PurchaseOrder.Id}`);
     }
 
     return response;

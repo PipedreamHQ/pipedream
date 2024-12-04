@@ -19,22 +19,10 @@ export default {
         "customer",
       ],
     },
-    customerRefName: {
-      propDefinition: [
-        quickbooks,
-        "customerRefName",
-      ],
-    },
     currencyRefValue: {
       propDefinition: [
         quickbooks,
-        "currencyRefValue",
-      ],
-    },
-    currencyRefName: {
-      propDefinition: [
-        quickbooks,
-        "currencyRefName",
+        "currency",
       ],
     },
   },
@@ -45,17 +33,15 @@ export default {
         TotalAmt: this.totalAmount,
         CustomerRef: {
           value: this.customerRefValue,
-          name: this.customerRefName,
         },
         CurrencyRef: {
           value: this.currencyRefValue,
-          name: this.currencyRefName,
         },
       },
     });
 
     if (response) {
-      $.export("summary", `Successfully created payment with id ${response.Payment.Id}`);
+      $.export("summary", `Successfully created payment with ID ${response.Payment.Id}`);
     }
 
     return response;

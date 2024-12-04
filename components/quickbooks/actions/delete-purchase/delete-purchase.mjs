@@ -38,7 +38,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully deleted purchase with id ${Id}`);
+      $.export("summary", `Successfully deleted purchase with ID ${Id}`);
     }
 
     return response;

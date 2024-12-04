@@ -27,7 +27,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully retrieved customer with id ${response.Customer.Id}`);
+      $.export("summary", `Successfully retrieved customer with ID ${response.Customer.Id}`);
     }
 
     return response;

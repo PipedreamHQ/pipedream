@@ -27,7 +27,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully retrieved sales receipt with id ${response.SalesReceipt.Id}`);
+      $.export("summary", `Successfully retrieved sales receipt with ID ${response.SalesReceipt.Id}`);
     }
 
     return response;
