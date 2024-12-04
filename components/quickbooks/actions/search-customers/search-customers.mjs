@@ -52,7 +52,7 @@ export default {
 
     let maxResults = "";
     if (this.maxResults) {
-      maxResults = ` MAXRESULTS ${this.maxResults}` || "";
+      maxResults = ` MAXRESULTS ${this.maxResults}`;
     }
 
     const query = `select * from Customer where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
