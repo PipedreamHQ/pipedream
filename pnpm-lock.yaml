@@ -1256,7 +1256,11 @@ importers:
 
   components/botbaba: {}
 
-  components/botcake: {}
+  components/botcake:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/botconversa:
     dependencies:
