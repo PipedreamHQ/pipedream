@@ -4,7 +4,10 @@ import type {
   AsyncErrorResponse,
   AsyncResponseManager,
 } from "./async.ts";
-import type { V1Component, V1DeployedComponent } from "./component.ts";
+import type {
+  V1Component,
+  V1DeployedComponent,
+} from "./component.ts";
 export * from "./component.ts";
 import { version as sdkVersion } from "../version.ts";
 
