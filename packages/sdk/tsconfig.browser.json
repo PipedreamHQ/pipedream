@@ -11,10 +11,7 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "types": [],
-    "allowJs": true,
-    "paths": {
-      "*.js": ["*.ts"]
-    }
+    "allowJs": true
   },
   "include": [
     "src/browser/**/*"
