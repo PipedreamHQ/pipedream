@@ -4,7 +4,7 @@ export default {
   key: "webflow-get-order",
   name: "Get Order",
   description: "Get info on an order. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/get)",
-  version: "1.0.0",
+  version: "2.0.0",
   type: "action",
   props: {
     app,

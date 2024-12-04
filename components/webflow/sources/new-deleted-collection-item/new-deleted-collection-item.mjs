@@ -5,7 +5,7 @@ export default {
   key: "webflow-new-deleted-collection-item",
   name: "Collection Item Deleted",
   description: "Emit new event when a collection item is deleted. [See the documentation](https://developers.webflow.com/data/reference/webhooks/events/collection-item-deleted)",
-  version: "1.0.0",
+  version: "2.0.0",
   ...common,
   methods: {
     ...common.methods,

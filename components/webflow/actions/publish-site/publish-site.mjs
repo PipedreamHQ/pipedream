@@ -4,7 +4,7 @@ export default {
   key: "webflow-publish-site",
   name: "Publish Site",
   description: "Publish a site. [See the documentation](https://developers.webflow.com/data/reference/sites/publish)",
-  version: "1.0.0",
+  version: "2.0.0",
   type: "action",
   props: {
     app,

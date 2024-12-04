@@ -5,7 +5,7 @@ export default {
   key: "webflow-new-site-published",
   name: "Site Published",
   description: "Emit new event when a site is published. [See the documentation](https://developers.webflow.com/data/reference/webhooks/events/site-publish)",
-  version: "1.0.0",
+  version: "2.0.0",
   ...common,
   methods: {
     ...common.methods,
