@@ -8137,8 +8137,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/quickbooks_sandbox:
-    specifiers: {}
+  components/quickbooks_sandbox: {}
 
   components/quickemailverification:
     dependencies:
