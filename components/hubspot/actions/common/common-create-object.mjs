@@ -33,12 +33,17 @@ export default {
     isDefaultProperty() {
       return false;
     },
+    createObject(opts = {}) {
+      return this.hubspot.createObject(opts);
+    },
   },
   async run({ $ }) {
     const {
       hubspot,
       /* eslint-disable no-unused-vars */
       propertyGroups,
+      customObjectType,
+      contactId,
       $db,
       updateIfExists,
       ...properties
@@ -54,7 +59,7 @@ export default {
         }
       });
     try {
-      const response = await hubspot.createObject({
+      const response = await this.createObject({
         $,
         objectType,
         data: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/livekit",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream LiveKit Components",
   "main": "livekit.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "livekit-server-sdk": "^2.8.1"
   }
 }
