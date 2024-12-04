@@ -1,11 +1,12 @@
+import common from "../quickbooks/quickbooks.app.mjs";
+
 export default {
   type: "app",
   app: "quickbooks_sandbox",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...common.methods,
+    _apiUrl() {
+      return "https://sandbox-quickbooks.api.intuit.com/v3";
     },
   },
 };
