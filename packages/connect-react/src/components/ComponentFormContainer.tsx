@@ -1,3 +1,4 @@
+import { ConfigurableProps } from "@pipedream/sdk";
 import { useComponent } from "../hooks/use-component";
 import {
   ComponentForm, type ComponentFormProps,
@@ -6,11 +7,11 @@ import {
 // given
 // key: string // in future, can be [@<owner>/]<key>[@<version>] -- for now just key
 // load a component and pass it down
-type ComponentFormContainerProps = Omit<ComponentFormProps, "component"> & {
+type ComponentFormContainerProps<T extends ConfigurableProps> = Omit<ComponentFormProps<T>, "component"> & {
   componentKey: string;
 };
 
-export function ComponentFormContainer(props: ComponentFormContainerProps) {
+export function ComponentFormContainer<T extends ConfigurableProps>(props: ComponentFormContainerProps<T>) {
   const {
     isLoading,
     error,

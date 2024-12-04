@@ -1,7 +1,9 @@
 import {
-  defaultTheme as reactSelectDefaultTheme,
+  defaultTheme as _reactSelectDefaultTheme,
   type Theme as ReactSelectTheme,
 } from "react-select";
+
+const reactSelectDefaultTheme = _reactSelectDefaultTheme as Theme;
 
 export type Colors = {
   // select.control:boxShadow
@@ -146,7 +148,7 @@ export const unstyledTheme: Theme = {
 export function getReactSelectTheme(
   theme: CustomThemeConfig | undefined,
 ): ReactSelectTheme {
-  if (!theme) return reactSelectDefaultTheme;
+  if (!theme) return _reactSelectDefaultTheme;
   const _theme = typeof theme == "function"
     ? theme(defaultTheme)
     : theme;
@@ -157,13 +159,10 @@ export function getReactSelectTheme(
     _theme,
   );
   return {
-    borderRadius:
-      typeof borderRadius !== "number"
-        ? reactSelectDefaultTheme.borderRadius
-        : borderRadius,
-    colors: colors as ReactSelectTheme["colors"],
+    borderRadius,
+    colors,
     spacing,
-  };
+  } as ReactSelectTheme;
 }
 
 export function mergeTheme(

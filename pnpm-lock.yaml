@@ -586,6 +586,8 @@ importers:
 
   components/amazon_polly: {}
 
+  components/amazon_selling_partner: {}
+
   components/amazon_ses:
     dependencies:
       '@aws-sdk/client-ec2':
@@ -832,7 +834,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/attractwell: {}
+  components/attractwell:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
 
   components/autoblogger:
     dependencies:
@@ -1111,6 +1117,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
+  components/bigdatacorp: {}
+
   components/bigmailer:
     dependencies:
       '@pipedream/platform':
@@ -1252,7 +1260,11 @@ importers:
 
   components/botbaba: {}
 
-  components/botcake: {}
+  components/botcake:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/botconversa:
     dependencies:
@@ -1692,6 +1704,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/checkout_com: {}
 
   components/checkvist:
     dependencies:
@@ -2165,6 +2179,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/contentstack: {}
 
   components/control_d:
     dependencies:
@@ -3924,6 +3940,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/gistly: {}
+
   components/github:
     dependencies:
       '@octokit/core':
@@ -4434,7 +4452,11 @@ importers:
 
   components/grafbase: {}
 
-  components/grain: {}
+  components/grain:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/graphhopper: {}
 
@@ -5172,6 +5194,8 @@ importers:
 
   components/iqair_airvisual: {}
 
+  components/ironclad: {}
+
   components/iscraper: {}
 
   components/isn: {}
@@ -5538,6 +5562,12 @@ importers:
 
   components/lattice: {}
 
+  components/launchdarkly:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
+
   components/launchnotes:
     dependencies:
       '@pipedream/platform':
@@ -5578,7 +5608,11 @@ importers:
 
   components/learndash: {}
 
-  components/learnworlds: {}
+  components/learnworlds:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/leexi:
     dependencies:
@@ -5956,6 +5990,8 @@ importers:
         specifier: ^2.0.5
         version: 2.3.0
 
+  components/mailgenius: {}
+
   components/mailgun:
     dependencies:
       '@pipedream/helper_functions':
@@ -6304,6 +6340,8 @@ importers:
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0
+
+  components/microsoft_teams_bot: {}
 
   components/microsoft_text_translate: {}
 
@@ -6725,6 +6763,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/ninjaone: {}
 
   components/ninox:
     dependencies:
@@ -11565,7 +11605,11 @@ importers:
         specifier: ^6.11.2
         version: 6.13.1
 
-  components/x_ai: {}
+  components/x_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/xata:
     dependencies:
@@ -12100,6 +12144,9 @@ importers:
         specifier: ^5.8.2
         version: 5.8.3(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
+      '@emotion/react':
+        specifier: ^11.13.5
+        version: 11.13.5(@types/react@18.3.12)(react@18.3.1)
       '@types/lodash.isequal':
         specifier: ^4.5.8
         version: 4.5.8
@@ -16947,7 +16994,7 @@ packages:
     resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
 
   buffer-equal-constant-time@1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
 
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
@@ -17384,7 +17431,7 @@ packages:
     resolution: {integrity: sha512-7CEBgcMjVmitjYo5q8JTJVra6X5mQ20uTThdK+0kR7UEaDrAWEQcRiBtWJzga4eRpP6afNwwLsX2SET2JhVB1Q==}
 
   concat-map@0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   concat-stream@2.0.0:
     resolution: {integrity: sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==}
@@ -17536,7 +17583,7 @@ packages:
     hasBin: true
 
   cssfilter@0.0.10:
-    resolution: {integrity: sha1-xtJnJjKi5cg+AT5oZKQs6N79IK4=}
+    resolution: {integrity: sha512-FAaLDaplstoRsDR8XGYH51znUN0UY7nMc6Z9/fvE8EXGwvJE9hu7W2vHwx1+bd6gCYnln9nLbzxFTrcO9YQDZw==}
 
   cssom@0.5.0:
     resolution: {integrity: sha512-iKuQcq+NdHqlAcwUY0o/HL69XQrUaQdMjmStJ8JFmUaiiQErlhrmuigkg/CU4E2J0IyUKUrMAgl36TvN67MqTw==}
@@ -18371,7 +18418,7 @@ packages:
     resolution: {integrity: sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA==}
 
   event-stream@3.3.4:
-    resolution: {integrity: sha1-SrTJoPWlTbkzi0w02Gv86PSzVXE=}
+    resolution: {integrity: sha512-QHpkERcGsR0T7Qm3HNJSyXKEEj8AHNxkY3PK8TS2KJvQ7NiSHe3DDpwVKKtoYprL/AreyzFBeIkBIWChAqn60g==}
 
   event-target-shim@5.0.1:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
@@ -18747,7 +18794,7 @@ packages:
     resolution: {integrity: sha512-f+3gwDWunQoFRiX8/pbegr28qRztGgKrxF0oH7yIZQho0N3/kZjYHn3LelTio++nGoPcDIKkZob/WS1jQuSnHg==}
 
   from2-array@0.0.4:
-    resolution: {integrity: sha1-6vwWtl9uJxm81X/cGGkAWsEzLNY=}
+    resolution: {integrity: sha512-0G0cAp7sYLobH7ALsr835x98PU/YeVF7wlwxdWbCUaea7wsa7lJfKZUAo6p2YZGZ8F94luCuqHZS3JtFER6uPg==}
 
   from2@2.3.0:
     resolution: {integrity: sha512-OMcX/4IC/uqEPVgGeyfN22LJk6AZrMkRZHxcHBMBvHScDGgwTm2GT2Wkgtocyd3JfZffjj2kYUDXXII0Fk9W0g==}
@@ -20625,7 +20672,7 @@ packages:
     resolution: {integrity: sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w==}
 
   media-typer@0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
 
   memoize-one@6.0.0:
@@ -22904,7 +22951,7 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
@@ -23517,7 +23564,7 @@ packages:
     engines: {node: '>=14.8'}
 
   url-join@0.0.1:
-    resolution: {integrity: sha1-HbSK1CLTQCRpqH99l73r/k+x48g=}
+    resolution: {integrity: sha512-H6dnQ/yPAAVzMQRvEvyz01hhfQL5qRWSEt7BX8t9DqnPw9BjMb64fjIRq76Uvf1hkHp+mTZvEVJ5guXOT0Xqaw==}
 
   url-join@4.0.1:
     resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
@@ -23641,7 +23688,7 @@ packages:
     engines: {node: '>= 0.8.0'}
 
   verror@1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
+    resolution: {integrity: sha512-ZZKSmDAEFOijERBLkmYfJ+vmk3w+7hOLYDNkRCuRuMJGEmqYNCNLyBBFwWKVMhfwaEF3WOd0Zlw86U/WC/+nYw==}
     engines: {'0': node >=0.6.0}
 
   vfile-location@5.0.3:

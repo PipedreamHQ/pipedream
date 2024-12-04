@@ -12,11 +12,19 @@ There are two types of apps in Pipedream:
 1. **Key-based**: These apps require static credentials, like API keys. Pipedream stores these credentials securely and exposes them via API.
 2. **OAuth**: These apps require OAuth authorization. Pipedream manages the OAuth flow for these apps, ensuring you always have a fresh access token for requests.
 
-**OAuth apps require you create your own OAuth client to [deploy Connect to production](/connect/environments):**
-
 <Callout type="info">
-To get started in [development mode](/connect/environments), you can skip these steps. To deploy your app to production, you'll need to [create an OAuth client](#using-a-custom-oauth-client) for the app you're integrating.
+For any OAuth app that supports it, **you can always use your own client.** Your ability to use Pipedream's OAuth clients in production depends on the use case.
 </Callout>
+
+<br />
+
+<div className="highlightHeaderRowTable">
+| Operation | Details | Environment |
+|--------|---------|------------------------------|
+| [Retrieve credentials via API](/connect/api#accounts) | Fetch the credentials for your end user from Pipedream's API to use in your application. | ✅ `development`<br />❌ `production` |
+| [Invoke workflows](/connect/workflows) | Trigger any Pipedream workflow and use the connected account of your end user | ✅ `development`<br />❌ `production` |
+| Run components via API (coming soon) | Run any action and deploy any trigger directly from your application | ✅ `development`<br />✅ `production` |
+</div>
 
 ## Using a custom OAuth client
 

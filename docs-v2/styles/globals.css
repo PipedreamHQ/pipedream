@@ -47,3 +47,11 @@ html.dark {
 .DocSearch input.DocSearch-Input:focus-visible {
   box-shadow: none;
 }
+
+.highlightHeaderRowTable th {
+  background-color: #f6f8fa;
+}
+
+.highlightHeaderRowTable td:last-child {
+  white-space: nowrap;
+}
