@@ -53,7 +53,8 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created organization named ${this.name}'`);
+    $.export("$summary", `Successfully created organization named ${this.name}`);
+
 
     return response;
   },
