@@ -55,7 +55,6 @@ export default {
       },
     });
 
-
     $.export("$summary", `Successfully updated organization with ID '${this.organizationId}'`);
 
     return response;

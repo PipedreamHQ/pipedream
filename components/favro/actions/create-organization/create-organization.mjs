@@ -21,7 +21,6 @@ export default {
       ],
       description: "Organization of the user that will be associated with the new organization",
 
-
     },
     userId: {
       propDefinition: [
@@ -55,7 +54,6 @@ export default {
     });
 
     $.export("$summary", `Successfully created organization named ${this.name}`);
-
 
     return response;
   },
