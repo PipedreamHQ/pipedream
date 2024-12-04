@@ -4,14 +4,14 @@
 // operations, like connecting accounts via Pipedream Connect. See the server/
 // directory for the server client.
 
-import { BrowserAsyncResponseManager } from "./async.js";
+import { BrowserAsyncResponseManager } from "./async.ts";
 import {
   AccountsRequestResponse,
   BaseClient,
   GetAccountOpts,
   type ConnectTokenResponse,
-} from "../shared/index.js";
-export type * from "../shared/index.js";
+} from "../shared/index.ts";
+export type * from "../shared/index.ts";
 
 /**
  * Options for creating a browser-side client. This is used to configure the
