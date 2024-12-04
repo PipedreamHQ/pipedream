@@ -83,8 +83,9 @@ export default {
         },
       });
     },
-    async downloadToTmp(baseUri, documentsUri, filePath) {
+    async downloadToTmp($, baseUri, documentsUri, filePath) {
       const content = await this.docusign._makeRequest({
+        $,
         config: {
           url: `${baseUri}${documentsUri.slice(1)}/${this.downloadType}`,
           responseType: "arraybuffer",
@@ -101,7 +102,7 @@ export default {
     });
     const envelope = await this.getEnvelope($, baseUri, this.envelopeId);
     const filePath = `/tmp/${this.filename}`;
-    await this.downloadToTmp(baseUri, envelope.documentsUri, filePath);
+    await this.downloadToTmp($, baseUri, envelope.documentsUri, filePath);
 
     $.export("$summary", `Successfully downloaded files to ${filePath}`);
 
