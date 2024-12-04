@@ -1,7 +1,8 @@
 // This code is meant to be shared between the browser and server.
-import { AsyncResponseManager } from "./async.js";
 import type {
-  AsyncResponse, AsyncErrorResponse,
+  AsyncResponse,
+  AsyncErrorResponse,
+  AsyncResponseManager,
 } from "./async.js";
 import type { V1Component } from "./component.js";
 export * from "./component.js";
