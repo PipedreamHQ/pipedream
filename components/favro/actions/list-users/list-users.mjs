@@ -3,7 +3,8 @@ import app from "../../favro.app.mjs";
 export default {
   key: "favro-list-users",
   name: "List Users",
-  description: "List all users in the organization. [See the documentation](https://docs.x.ai/api/endpoints#get-model)",
+  description: "List all users in the organization. [See the documentation](https://favro.com/developer/#get-all-users)",
+
   version: "0.0.1",
   type: "action",
   props: {
