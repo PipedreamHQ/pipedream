@@ -7,5 +7,7 @@ if (!process.env.CI) {
 }
 
 const pkg = JSON.parse(String(fs.readFileSync("./package.json", "utf8")))
-fs.writeFileSync("./src/version.ts", `// DO NOT EDIT, SET AT BUILD TIME
-export const version = "${pkg.version}";`);
+const versionTsPath = "./src/version.ts";
+const data = String(fs.readFileSync(versionTsPath, "utf8"));
+const newData = data.replace(/"(.*)"/, `"${pkg.version}"`);
+fs.writeFileSync(versionTsPath, newData);
