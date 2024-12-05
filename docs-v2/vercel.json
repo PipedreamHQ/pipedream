@@ -1,6 +1,6 @@
 {
-  "installCommand": "pnpm install --frozen-lockfile=false",
-  "buildCommand": "pnpm run vercel-build",
+  "installCommand": "npx pnpm@9.14.2 install --frozen-lockfile=false",
+  "buildCommand": "npx pnpm@9.14.2 run vercel-build",
   "redirects": [
     {
       "source": "/docs/v3",
