@@ -1,6 +1,7 @@
 {
   "installCommand": "pnpm install --ignore-engines",
-  "buildCommand": "pnpm@9.14.2 build:docs",
+  "buildCommand": "cd docs-v2 && pnpm run vercel-build",
+  "outputDirectory": "docs-v2/.next",
   "redirects": [
     {
       "source": "/docs/v3",
