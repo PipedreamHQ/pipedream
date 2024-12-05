@@ -35,7 +35,7 @@
     "platform-test": "cd platform && npm test",
     "types-test": "cd types && npm test",
     "helpers-test": "cd helpers && npm test",
-    "build:docs": "cd docs-v2 && pnpm install && pnpm build"
+    "build:docs": "cd docs-v2 && pnpm install --ignore-engines && pnpm build"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

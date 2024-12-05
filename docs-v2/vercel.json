@@ -1,6 +1,6 @@
 {
-  "installCommand": "cd .. && npx pnpm@9.14.2 install",
-  "buildCommand": "cd .. && npx pnpm@9.14.2 build:docs",
+  "installCommand": "npx pnpm@9.14.2 install --ignore-engines",
+  "buildCommand": "npx pnpm@9.14.2 build:docs",
   "redirects": [
     {
       "source": "/docs/v3",
