@@ -6,7 +6,7 @@ export default {
   key: "zoho_books-create-estimate",
   name: "Create Estimate",
   description: "Creates a new estimate. [See the documentation](https://www.zoho.com/books/api/v3/estimates/#create-an-estimate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     zohoBooks,
@@ -156,7 +156,7 @@ export default {
         zohoBooks,
         "lineItems",
       ],
-      description: "A list of line items objects of an estimate. **Example: {\"item_id\": \"1352827000000156060\", \"name\": \"name\", \"description\": \"description\", \"quantity\": \"1\" }** [See the documentation](https://www.zoho.com/books/api/v3/sales-order/#create-a-sales-order) for further details.",
+      description: "A list of line items objects of an estimate. **Example: {\"item_id\": \"1352827000.0.256060\", \"name\": \"name\", \"description\": \"description\", \"quantity\": \"1\" }** [See the documentation](https://www.zoho.com/books/api/v3/sales-order/#create-a-sales-order) for further details.",
     },
     notes: {
       propDefinition: [

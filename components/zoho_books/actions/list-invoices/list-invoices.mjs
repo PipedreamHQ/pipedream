@@ -10,7 +10,7 @@ export default {
   key: "zoho_books-list-invoices",
   name: "List Invoices",
   description: "Lists all invoices. [See the documentation](https://www.zoho.com/books/api/v3/contacts/#list-contacts)",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     zohoBooks,

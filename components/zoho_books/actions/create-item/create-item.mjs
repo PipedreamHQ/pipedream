@@ -9,7 +9,7 @@ export default {
   key: "zoho_books-create-item",
   name: "Create Item",
   description: "Creates a new item. [See the documentation](https://www.zoho.com/books/api/v3/items/#create-an-item)",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     zohoBooks,
