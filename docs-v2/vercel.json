@@ -1,5 +1,5 @@
 {
-  "installCommand": "pnpm install --prefix ..",
+  "installCommand": "pnpm install --frozen-lockfile=false",
   "buildCommand": "pnpm run vercel-build",
   "redirects": [
     {
