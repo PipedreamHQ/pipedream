@@ -20,7 +20,7 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 
 - Trigger Node.js code on HTTP requests, timers, cron schedules, or manually
 - Emit data on each event to inspect it. Trigger Pipedream hosted workflows or access it outside of Pipedream via API
-- Accept user input on deploy via [CLI](/cli/reference/#pd-deploy), [API](/api/rest/#overview), or [UI](https://pipedream.com/sources)
+- Accept user input on deploy via [CLI](/cli/reference/#pd-deploy), [API](/rest-api/#overview), or [UI](https://pipedream.com/sources)
 - Connect to [{process.env.PUBLIC_APPS}+ apps](https://pipedream.com/apps) using Pipedream managed auth
 - Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
@@ -878,7 +878,7 @@ When your workflow runs, you'll see the named exports appear below your step, wi
 
 ##### Returning HTTP responses with `$.respond`
 
-`$.respond` lets you issue HTTP responses from your workflow. [See the full `$.respond` docs for more information](/workflows/steps/triggers/#customizing-the-http-response).
+`$.respond` lets you issue HTTP responses from your workflow. [See the full `$.respond` docs for more information](/workflows/triggers/#customizing-the-http-response).
 
 ```javascript
 async run({ $ }) {
@@ -924,35 +924,35 @@ $.export(
 
 **`$.send.http`**
 
-[See the HTTP destination docs](/destinations/http/#using-send-http-in-component-actions).
+[See the HTTP destination docs](/destinations/http/#using-sendhttp-in-component-actions).
 
 **`$.send.email`**
 
-[See the Email destination docs](/destinations/email/#using-send-email-in-component-actions).
+[See the Email destination docs](/destinations/email/#using-sendemail-in-component-actions).
 
 **`$.send.s3`**
 
-[See the S3 destination docs](/destinations/s3/#using-send-s3-in-component-actions).
+[See the S3 destination docs](/destinations/s3/#using-sends3-in-component-actions).
 
 **`$.send.emit`**
 
-[See the Emit destination docs](/destinations/emit/#using-send-emit-in-component-actions).
+[See the Emit destination docs](/destinations/emit/#using-sendemit-in-component-actions).
 
 **`$.send.sse`**
 
-[See the SSE destination docs](/destinations/sse/#using-send-sse-in-component-actions).
+[See the SSE destination docs](/destinations/sse/#using-sendsse-in-component-actions).
 
 ##### `$.context`
 
-`$.context` exposes [the same properties as `steps.trigger.context`](/workflows/events/#steps-trigger-context), and more. Action authors can use it to get context about the calling workflow and the execution.
+`$.context` exposes [the same properties as `steps.trigger.context`](/workflows/events/#stepstriggercontext), and more. Action authors can use it to get context about the calling workflow and the execution.
 
-All properties from [`steps.trigger.context`](/workflows/events/#steps-trigger-context) are exposed, as well as:
+All properties from [`steps.trigger.context`](/workflows/events/#stepstriggercontext) are exposed, as well as:
 
 | Property   |                                                                       Description                                                                       |
 | ---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------: |
 | `deadline` |               An epoch millisecond timestamp marking the point when the workflow is configured to [timeout](/limits/#time-per-execution).               |
 | `JIT`      |             Stands for "just in time" (environment). `true` if the user is testing the step, `false` if the step is running in production.              |
-| `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/workflows/events/#steps-trigger-context) for more detail. |
+| `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/workflows/events/#stepstriggercontext) for more detail. |
 
 ### Environment variables
 
@@ -1096,7 +1096,7 @@ You can delete a component via the UI at [https://pipedream.com/sources](https:/
 
 #### API
 
-See the [REST API docs](/api/rest/).
+See the [REST API docs](/rest-api/).
 
 ### Managing Actions
 
@@ -1201,7 +1201,7 @@ When you navigate to your source [in the UI](https://pipedream.com/sources), you
 
 #### API
 
-Events can be retrieved using the [REST API](/api/rest/) or [SSE stream tied to your component](/api/sse/). This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](/api/rest/) to retrieve events in batch, and connect to the [SSE stream](/api/sse/) to process them in real time.
+Events can be retrieved using the [REST API](/rest-api) or [SSE stream tied to your component](/api/sse/). This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](/rest-api) to retrieve events in batch, and connect to the [SSE stream](/api/sse/) to process them in real time.
 
 #### CLI
 

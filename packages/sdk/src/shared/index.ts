@@ -1,10 +1,15 @@
 // This code is meant to be shared between the browser and server.
-import { AsyncResponseManager } from "./async";
 import type {
-  AsyncResponse, AsyncErrorResponse,
-} from "./async";
-import type { V1Component } from "./component";
-export * from "./component";
+  AsyncResponse,
+  AsyncErrorResponse,
+  AsyncResponseManager,
+} from "./async.js";
+import type {
+  V1Component,
+  V1DeployedComponent,
+} from "./component.js";
+export * from "./component.js";
+import { version as sdkVersion } from "../version.js";
 
 type RequestInit = globalThis.RequestInit;
 
@@ -290,6 +295,7 @@ export interface AsyncRequestOptions extends RequestOptions {
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
 export abstract class BaseClient {
+  version = sdkVersion;
   protected apiHost: string;
   protected abstract asyncResponseManager: AsyncResponseManager;
   protected readonly baseApiUrl: string;
@@ -351,6 +357,7 @@ export abstract class BaseClient {
 
     const headers: Record<string, string> = {
       ...customHeaders,
+      "X-PD-SDK-Version": sdkVersion,
       "X-PD-Environment": this.environment,
     };
 
@@ -572,7 +579,6 @@ export abstract class BaseClient {
       prop_name: opts.propName,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
-      environment: this.environment,
     };
     return await this.makeConnectRequestAsync<{
       options: { label: string; value: string; }[];
@@ -592,7 +598,6 @@ export abstract class BaseClient {
       id: opts.componentId,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
-      environment: this.environment,
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return await this.makeConnectRequestAsync<Record<string, any>>("/components/props", {
@@ -614,13 +619,33 @@ export abstract class BaseClient {
       id: opts.actionId,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
-      environment: this.environment,
     };
     return await this.makeConnectRequestAsync<{
       exports: unknown;
       os: unknown[];
       ret: unknown;
     }>("/actions/run", {
+      method: "POST",
+      body,
+    });
+  }
+
+  public async triggerDeploy(opts: {
+    userId: string;
+    triggerId: string;
+    configuredProps: Record<string, any>;  // eslint-disable-line @typescript-eslint/no-explicit-any
+    dynamicPropsId?: string;
+    webhookUrl?: string;
+  }) {
+    const body = {
+      async_handle: this.asyncResponseManager.createAsyncHandle(),
+      external_user_id: opts.userId,
+      id: opts.triggerId,
+      configured_props: opts.configuredProps,
+      dynamic_props_id: opts.dynamicPropsId,
+      webhook_url: opts.webhookUrl,
+    }
+    return await this.makeConnectRequestAsync<V1DeployedComponent>("/triggers/deploy", {
       method: "POST",
       body,
     });

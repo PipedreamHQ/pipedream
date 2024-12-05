@@ -4,13 +4,13 @@ Below you'll find a glossary of Pipedream-specific terms. We use these in the pr
 
 All terms that aren't in this doc hold their standard technical meaning. If you see a term missing, please [reach out](https://pipedream.com/support).
 
-[0-9](#0-9) | [A](#a) | [B](#b) | [C](#c) | [D](#d) | [E](#e) | [F](#f) | [G](#g) | [H](#h) | [I](#i) | [J](#j) | [K](#k) | [L](#l) | [M](#m) | [N](#n) | [O](#o) | [P](#p) | [Q](#q) | [R](#r) | [S](#s) | [T](#t) | [U](#u) | [V](#v) | [W-Z](#w-z)
+[0-9](#0---9) | [A](#a) | [B](#b) | [C](#c) | [D](#d) | [E](#e) | [F](#f) | [G](#g) | [H](#h) | [I](#i) | [J](#j) | [K](#k) | [L](#l) | [M](#m) | [N](#n) | [O](#o) | [P](#p) | [Q](#q) | [R](#r) | [S](#s) | [T](#t) | [U](#u) | [V](#v) | [W-Z](#w-z)
 
 ## 0 - 9
 
 ### 2FA
 
-Short for [two-factor authentication](#two-factor-authentication).
+Short for [two-factor authentication](#two-factor-authentication-2fa).
 
 ## A
 
@@ -96,7 +96,7 @@ The public registry of [components](#component) available to Pipedream users, [a
 
 ### Connected account
 
-A specific account or credentials used to connect to a Pipedream [integration](#integration). If both you and your team member have an account with OpenAI, for example, you would connect each account as a distinct connected account. [See the docs](/connected-accounts) for more details.
+A specific account or credentials used to connect to a Pipedream [integration](#integrations). If both you and your team member have an account with OpenAI, for example, you would connect each account as a distinct connected account. [See the docs](/connected-accounts) for more details.
 
 ### Connected account access control
 
@@ -118,11 +118,11 @@ An [event source](#event-source) that you create using custom code, or by modify
 
 ### Data retention
 
-A workflow setting that allows you to configure how long Pipedream stores event data and logs associated with [executions](#execution). [See the docs](/workflows/settings#data-retention) for more details.
+A workflow setting that allows you to configure how long Pipedream stores event data and logs associated with [executions](#execution). [See the docs](/workflows/settings#data-retention-controls) for more details.
 
 ### Dedicated workers
 
-[Workers](#worker) that remain available to process events, even when the workflow is not running. This can help reduce [cold starts](#cold-starts) and improve performance for workflows that require low latency. [See the docs](/workflows/settings#eliminate-cold-starts) for more details.
+[Workers](#worker) that remain available to process events, even when the workflow is not running. This can help reduce [cold starts](#cold-start) and improve performance for workflows that require low latency. [See the docs](/workflows/settings#eliminate-cold-starts) for more details.
 
 ### Deduper
 
@@ -130,7 +130,7 @@ A workflow setting that allows you to configure how long Pipedream stores event 
 
 ### Delay
 
-[A built-in service](/workflows/flow-control#delay) that lets you pause a workflow for a specified amount of time. You can delay workflows using pre-built actions, or delay in code.
+[A built-in service](/workflows/control-flow/delay) that lets you pause a workflow for a specified amount of time. You can delay workflows using pre-built actions, or delay in code.
 
 ### Destination
 
@@ -160,7 +160,7 @@ A [workflow trigger](#trigger) that listens for incoming email. This trigger exp
 
 ### Emit
 
-[Event sources](#event-source), [workflow triggers](#trigger), and even workflows themselves can emit [events](#event) that trigger other [listeners](#listener). Since sources have a built-in [deduper](#deduper), not all [requests](#request) are emitted as events.
+[Event sources](#event-source), [workflow triggers](#trigger), and even workflows themselves can emit [events](#event) that trigger other [listeners](#listener). Since sources have a built-in [deduper](#deduper), not all requests are emitted as events.
 
 ### Emitter
 
@@ -179,7 +179,7 @@ Pipedream supports two types of environment variables:
 
 ### Event
 
-Events are emitted by [sources](#event-sources) and consumed by workflows. Events can be triggered by a variety of sources, including HTTP requests, cron schedules, and third-party APIs. Events can be passed to actions, which can process the event data and perform a variety of operations, including making HTTP requests, sending emails, and interacting with third-party APIs.
+Events are emitted by [sources](#event-source) and consumed by workflows. Events can be triggered by a variety of sources, including HTTP requests, cron schedules, and third-party APIs. Events can be passed to actions, which can process the event data and perform a variety of operations, including making HTTP requests, sending emails, and interacting with third-party APIs.
 
 ### Event context
 
@@ -332,7 +332,7 @@ A [connected account](#connected-account) that uses OAuth to authenticate with a
 
 ### Premium apps
 
-Pipedream's built-in [integrations](#integration) that require a paid plan to use. [See the pricing page](https://pipedream.com/pricing) for more details and the [full list of premium apps](/apps#premium-apps).
+Pipedream's built-in [integrations](#integrations) that require a paid plan to use. [See the pricing page](https://pipedream.com/pricing) for more details and the [full list of premium apps](/apps#premium-apps).
 
 ### Project
 
@@ -372,7 +372,7 @@ Pipedream's internal code in the [execution environment](#execution-environment)
 
 ### Object explorer
 
-The [builder](#builder) UI that allows you to search objects [exported](#export) from prior steps. [See the docs](/workflows/using-props#object-explorer) for more details.
+The [builder](#builder) UI that allows you to search objects [exported](#export) from prior steps. [See the docs](/workflows/using-props#use-the-object-explorer) for more details.
 
 ## Q
 
@@ -406,7 +406,7 @@ Synonym for [event source](#event-source).
 
 ### Step export
 
-JSON-serializable data returned from steps, available in future steps of a workflow. [See the docs](/steps#step-exports) for more details.
+JSON-serializable data returned from steps, available in future steps of a workflow. [See the docs](/workflows/steps#step-exports) for more details.
 
 ### Step notes
 

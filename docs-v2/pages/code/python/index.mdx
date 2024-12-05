@@ -104,7 +104,7 @@ See the [Making HTTP Requests with Python](/code/python/http-requests/) docs for
 
 ## Returning HTTP responses
 
-You can return HTTP responses from [HTTP-triggered workflows](/workflows/steps/triggers/#http) using the `pd.respond()` method:
+You can return HTTP responses from [HTTP-triggered workflows](/workflows/triggers/#http) using the `pd.respond()` method:
 
 ```python
 def handler(pd: "pipedream"):
@@ -123,7 +123,7 @@ Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/trigg
 </Callout>
 
 <Callout type="info">
-_Don't forget_ to [configure your workflow's HTTP trigger to allow a custom response](/workflows/steps/triggers/#http-responses). Otherwise your workflow will return the default response.
+_Don't forget_ to [configure your workflow's HTTP trigger to allow a custom response](/workflows/triggers/#http-responses). Otherwise your workflow will return the default response.
 </Callout>
 
 ## Sharing data between steps
