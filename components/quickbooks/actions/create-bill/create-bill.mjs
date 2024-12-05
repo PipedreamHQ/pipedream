@@ -18,6 +18,7 @@ export default {
       type: "string",
       label: "Vendor ID",
       description: "Reference to the vendor for this transaction",
+      optional: false,
     },
     currencyRefValue: {
       propDefinition: [
