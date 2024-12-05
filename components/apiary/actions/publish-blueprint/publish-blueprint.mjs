@@ -24,7 +24,6 @@ export default {
 
     $.export("$summary", `Successfully published the blueprint with the subdomain '${this.apiSubdomain}'`);
 
-
     return response;
   },
 };
