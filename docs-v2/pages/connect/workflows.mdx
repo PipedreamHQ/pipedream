@@ -34,15 +34,6 @@ Read [the quickstart](/quickstart/) to learn more.
 
 <Steps>
 
-### Enable the feature flag
-
-Go to [https://pipedream.com/settings/alpha](https://pipedream.com/settings/alpha) and click the checkbox, **Allow use Connect in builder**.
-
-### Create an OAuth client
-
-**This step is optional but strongly recommended.** To securely run workflows for end users, you should [create a Pipedream OAuth client](/rest-api/auth#creating-an-oauth-client). Pipedream uses OAuth to authenticate requests to the Pipedream API and workflows.
-
-
 ### Create a workflow
 
 [Create a new workflow](/workflows#how-do-i-create-a-new-workflow) or open an existing one.
@@ -50,7 +41,13 @@ Go to [https://pipedream.com/settings/alpha](https://pipedream.com/settings/alph
 ### Add an HTTP trigger, configure OAuth
 
 1. Add an [HTTP trigger](/workflows/triggers#http) to your workflow.
-2. [Configure **OAuth** authorization](/workflows/triggers#oauth) on the trigger. Again, this step is optional **but strongly recommended.**
+2. [Configure **OAuth** authorization](/workflows/triggers#oauth) on the trigger.
+
+<Callout type="info">
+To securely run workflows for end users, **configuring OAuth authorization on the trigger is optional but strongly recommended.**
+
+[Create a Pipedream OAuth client](/rest-api/auth#creating-an-oauth-client) to authenticate requests to the Pipedream API and workflows.
+</Callout>
 
 ### Configure accounts to use your end users' auth
 
@@ -114,7 +111,7 @@ npm i @pipedream/sdk
 
 To invoke workflows, you'll need:
 
-1. The OAuth client ID and secret from your OAuth client in **[step 2](#create-an-oauth-client)**
+1. The OAuth client ID and secret from your OAuth client in **step 2 above** (if configured)
 2. Your [Project ID](/projects#finding-your-projects-id)
 3. Your workflow's HTTP endpoint URL
 4. The [external user ID](/connect/api#external-users) of the user you'd like to run the workflow for
