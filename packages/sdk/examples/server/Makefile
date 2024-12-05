@@ -1,0 +1,2 @@
+default:
+	@node index.mjs

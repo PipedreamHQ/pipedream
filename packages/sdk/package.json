@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sdk",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Pipedream SDK",
   "main": "dist/server/server/index.js",
   "module": "dist/server/server/index.js",
@@ -35,8 +35,9 @@
     "access": "public"
   },
   "scripts": {
-    "prepublish": "rm -rf dist && pnpm run build",
-    "build": "pnpm run build:node && pnpm run build:browser",
+    "prepublish": "pnpm run build",
+    "prebuild": "node scripts/updateVersion.mjs",
+    "build": "rm -rf dist && pnpm run prebuild && pnpm run build:node && pnpm run build:browser",
     "build:node": "tsc -p tsconfig.node.json",
     "build:browser": "tsc -p tsconfig.browser.json",
     "test": "jest",

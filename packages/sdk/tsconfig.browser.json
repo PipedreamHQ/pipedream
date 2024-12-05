@@ -10,7 +10,8 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "skipLibCheck": true,
-    "types": []
+    "types": [],
+    "allowJs": true
   },
   "include": [
     "src/browser/**/*"

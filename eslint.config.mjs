@@ -2,6 +2,7 @@ import jsonc from "eslint-plugin-jsonc";
 import putout from "eslint-plugin-putout";
 import pipedream from "eslint-plugin-pipedream";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
+import importPlugin from "eslint-plugin-import";
 import jest from "eslint-plugin-jest";
 import globals from "globals";
 import parser from "jsonc-eslint-parser";
@@ -52,6 +53,7 @@ export default [
       pipedream,
       "@typescript-eslint": typescriptEslint,
       jest,
+      "import": importPlugin,
     },
 
     languageOptions: {
@@ -311,6 +313,19 @@ export default [
 
     rules: {
       "react/react-in-jsx-scope": "off",
+    },
+  },
+  {
+    files: [
+      "packages/sdk/src/browser/**/*.ts",
+      "packages/sdk/src/shared/**/*.ts",
+    ],
+
+    rules: {
+      "import/extensions": [
+        "error",
+        "always",
+      ],
     },
   },
 ];
