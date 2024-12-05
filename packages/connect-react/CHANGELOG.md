@@ -1,6 +1,10 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.7] - 2024-12-05
+
+- Use proper casing for `stringOptions` now that configure prop is properly async
+
 # [1.0.0-preview.6] - 2024-12-05
 
 - Handle configurable prop `withLabel` (eg. fixes config of Airtable `tableId`)
