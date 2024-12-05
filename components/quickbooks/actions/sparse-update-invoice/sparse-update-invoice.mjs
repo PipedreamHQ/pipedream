@@ -1,5 +1,4 @@
-import { ConfigurationError } from "@pipedream/platform";
-import { parseOne } from "../../common/utils.mjs";
+import { parseLineItems } from "../../common/utils.mjs";
 import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
@@ -97,33 +96,35 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.lineItemsAsObjects) {
-      try {
-        this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
-          ? JSON.parse(lineItem)
-          : lineItem);
-      } catch (error) {
-        throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
-      }
-    }
+    this.lineItems = this.lineItemsAsObjects
+      ? parseLineItems(this.lineItems)
+      : this.buildLineItems();
 
-    const { Invoice } = await this.quickbooks.getInvoice({
+    const { Invoice: invoice } = await this.quickbooks.getInvoice({
       $,
       invoiceId: this.invoiceId,
     });
 
-    if (this.lineItems.length) Invoice.Line?.push(...this.lineItems);
-
-    Invoice.CurrencyRef = parseOne(this.currency);
-    Invoice.CustomerRef = parseOne(this.customer);
+    if (this.lineItems?.length) invoice.Line?.push(...this.lineItems);
 
     const response = await this.quickbooks.sparseUpdateInvoice({
       $,
-      data: Invoice,
+      data: {
+        sparse: true,
+        Id: this.invoiceId,
+        SyncToken: invoice.SyncToken,
+        CurrencyRef: this.currencyRefValue && {
+          value: this.currencyRefValue,
+        },
+        CustomerRef: {
+          value: this.customer,
+        },
+        Line: invoice.Line,
+      },
     });
 
     if (response) {
-      $.export("summary", `Successfully updated invoice with Id ${response.Invoice.Id}`);
+      $.export("summary", `Successfully updated invoice with ID ${response.Invoice.Id}`);
     }
 
     return response;

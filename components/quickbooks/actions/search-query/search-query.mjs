@@ -30,5 +30,6 @@ export default {
     if (response) {
       $.export("summary", "Successfully retrieved query results");
     }
+    return response;
   },
 };

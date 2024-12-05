@@ -1,5 +1,5 @@
 import quickbooks from "../../quickbooks.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import { parseLineItems } from "../../common/utils.mjs";
 
 export default {
   key: "quickbooks-create-purchase",
@@ -104,16 +104,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.lineItemsAsObjects) {
-      try {
-        this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
-          ? JSON.parse(lineItem)
-          : lineItem);
-      } catch (error) {
-        throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
-      }
-    }
-
     const response = await this.quickbooks.createPurchase({
       $,
       data: {
@@ -122,7 +112,7 @@ export default {
           value: this.accountRefValue,
         },
         Line: this.lineItemsAsObjects
-          ? this.lineItems
+          ? parseLineItems(this.lineItems)
           : this.buildLineItems(),
         CurrencyRef: {
           value: this.currencyRefValue,

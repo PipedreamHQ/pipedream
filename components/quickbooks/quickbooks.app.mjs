@@ -108,10 +108,10 @@ export default {
           page,
           resource: "Purchase",
           mapper: ({
-            Id, PaymentType, SyncToken,
+            Id, PaymentType, TxnDate,
           }) => ({
-            label: `${Id} - ${PaymentType}`,
-            value: `${Id}|${SyncToken}`,
+            label: `${Id} - ${PaymentType} - ${TxnDate}`,
+            value: Id,
           }),
         });
       },

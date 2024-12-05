@@ -61,7 +61,7 @@ export default {
       description: "If true, this entity is currently enabled for use by QuickBooks. If there is an amount in `Customer.Balance` when setting this Customer object to inactive through the QuickBooks UI, a CreditMemo balancing transaction is created for the amount.",
       label: "Active",
       optional: true,
-      type: "string",
+      type: "boolean",
     },
     alternatePhoneFreeFormNumber: {
       description: "Specifies the alternate phone number in free form.",
@@ -200,12 +200,6 @@ export default {
         "DEEMED",
       ],
       type: "string",
-    },
-    isProject: {
-      description: "If true, indicates this is a Project.",
-      label: "Is Project",
-      optional: true,
-      type: "boolean",
     },
     job: {
       description: "If true, this is a Job or sub-customer. If false or null, this is a top level customer, not a Job or sub-customer.",
@@ -362,7 +356,7 @@ export default {
       description: "If true, transactions for this customer are taxable. Default behavior with minor version 10 and above: true, if `DefaultTaxCodeRef` is defined or false if `TaxExemptionReasonId` is set.",
       label: "Taxable",
       optional: true,
-      type: "string",
+      type: "boolean",
     },
     taxExemptionReasonId: {
       label: "Tax Exemption Reason Id",
@@ -412,6 +406,31 @@ export default {
       throw new ConfigurationError("Must provide displayName or at least one of title, givenName, middleName, familyName, or suffix, and customerId parameters.");
     }
 
+    const hasBillingAddress = this.billAddrPostalCode
+      || this.billAddrCity
+      || this.billAddrCountry
+      || this.billAddrLine5
+      || this.billAddrLine4
+      || this.billAddrLine3
+      || this.billAddrLine2
+      || this.billAddrLine1
+      || this.billAddrLate
+      || this.billAddrLong
+      || this.billAddrCountrySubDivisionCode;
+
+    const hasShippingAddress = this.shipAddrId
+      || this.shipAddrPostalCode
+      || this.shipAddrCity
+      || this.shipAddrCountry
+      || this.shipAddrLine5
+      || this.shipAddrLine4
+      || this.shipAddrLine3
+      || this.shipAddrLine2
+      || this.shipAddrLine1
+      || this.shipAddrLate
+      || this.shipAddrLong
+      || this.shipAddrCountrySubDivisionCode;
+
     const response = await this.quickbooks.updateCustomer({
       $,
       data: {
@@ -424,46 +443,48 @@ export default {
         FamilyName: this.familyName,
         GivenName: this.givenName,
         SyncToken: await this.getSyncToken($),
-        PrimaryEmailAddr: this.primaryEmailAddr,
+        PrimaryEmailAddr: this.primaryEmailAddr && {
+          Address: this.primaryEmailAddr,
+        },
         ResaleNum: this.resaleNum,
         SecondaryTaxIdentifier: this.secondaryTaxIdentifier,
-        ARAccountRef: {
+        ARAccountRef: this.arAccountRefValue && {
           value: this.arAccountRefValue,
         },
-        DefaultTaxCodeRef: {
+        DefaultTaxCodeRef: this.defaultTaxCodeValue && {
           value: this.defaultTaxCodeValue,
         },
         PreferredDeliveryMethod: this.preferredDeliveryMethod,
         GSTIN: this.GSTIN,
-        SalesTermRef: {
+        SalesTermRef: this.saleTermRefValue && {
           value: this.saleTermRefValue,
         },
-        CustomerTypeRef: {
-          value: this.customerRypeRefValue,
+        CustomerTypeRef: this.customerTypeRefValue && {
+          value: this.customerTypeRefValue,
         },
-        Fax: {
+        Fax: this.faxFreeFormNumber && {
           FreeFormNumber: this.faxFreeFormNumber,
         },
         BusinessNumber: this.businessNumber,
         BillWithParent: this.billWithParent,
-        CurrencyRef: {
+        CurrencyRef: this.currencyRefValue && {
           value: this.currencyRefValue,
         },
-        Mobile: {
+        Mobile: this.mobileFreeFormNumber && {
           FreeFormNumber: this.mobileFreeFormNumber,
         },
         Job: this.job,
-        PrimaryPhone: {
+        PrimaryPhone: this.primaryPhoneFreeFormNumber && {
           FreeFormNumber: this.primaryPhoneFreeFormNumber,
         },
         Taxable: this.taxable,
-        AlternatePhone: {
+        AlternatePhone: this.alternatePhoneFreeFormNumber && {
           FreeFormNumber: this.alternatePhoneFreeFormNumber,
         },
         Notes: this.notes,
         WebAddr: this.webAddr,
         Active: this.active,
-        ShipAddr: {
+        ShipAddr: hasShippingAddress && {
           Id: this.shipAddrId,
           PostalCode: this.shipAddrPostalCode,
           City: this.shipAddrCity,
@@ -477,15 +498,14 @@ export default {
           Long: this.shipAddrLong,
           CountrySubDivisionCode: this.shipAddrCountrySubDivisionCode,
         },
-        PaymentMethodRef: {
+        PaymentMethodRef: this.paymentMethodRefValue && {
           value: this.paymentMethodRefValue,
         },
-        IsProject: this.isProject,
         CompanyName: this.companyName,
         PrimaryTaxIdentifier: this.primaryTaxIdentifier,
         GSTRegistrationType: this.gstRegistrationType,
         PrintOnCheckName: this.printOnCheckName,
-        BillAddr: {
+        BillAddr: hasBillingAddress && {
           PostalCode: this.billAddrPostalCode,
           City: this.billAddrCity,
           Country: this.billAddrCountry,

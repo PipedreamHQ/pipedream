@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
+import { parseLineItems } from "../../common/utils.mjs";
 
 export default {
   key: "quickbooks-create-bill",
@@ -97,16 +98,6 @@ export default {
       throw new ConfigurationError("Must provide vendorRefValue, and lineItems parameters.");
     }
 
-    if (this.lineItemsAsObjects) {
-      try {
-        this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
-          ? JSON.parse(lineItem)
-          : lineItem);
-      } catch (error) {
-        throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
-      }
-    }
-
     const response = await this.quickbooks.createBill({
       $,
       data: {
@@ -114,7 +105,7 @@ export default {
           value: this.vendorRefValue,
         },
         Line: this.lineItemsAsObjects
-          ? this.lineItems
+          ? parseLineItems(this.lineItems)
           : this.buildLineItems(),
         CurrencyRef: {
           value: this.currencyRefValue,

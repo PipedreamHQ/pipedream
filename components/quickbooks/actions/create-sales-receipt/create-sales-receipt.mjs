@@ -1,5 +1,5 @@
-import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
+import { parseLineItems } from "../../common/utils.mjs";
 
 export default {
   key: "quickbooks-create-sales-receipt",
@@ -9,19 +9,19 @@ export default {
   type: "action",
   props: {
     quickbooks,
-    currencyRefValue: {
-      propDefinition: [
-        quickbooks,
-        "currencyRefValue",
-      ],
-      optional: true,
-    },
     lineItemsAsObjects: {
       propDefinition: [
         quickbooks,
         "lineItemsAsObjects",
       ],
       reloadProps: true,
+    },
+    currencyRefValue: {
+      propDefinition: [
+        quickbooks,
+        "currency",
+      ],
+      optional: true,
     },
   },
   async additionalProps() {
@@ -85,21 +85,11 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.lineItemsAsObjects) {
-      try {
-        this.lineItems = this.lineItems.map((lineItem) => typeof lineItem === "string"
-          ? JSON.parse(lineItem)
-          : lineItem);
-      } catch (error) {
-        throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
-      }
-    }
-
     const response = await this.quickbooks.createSalesReceipt({
       $,
       data: {
         Line: this.lineItemsAsObjects
-          ? this.lineItems
+          ? parseLineItems(this.lineItems)
           : this.buildLineItems(),
         CurrencyRef: this.currencyRefValue && {
           value: this.currencyRefValue,

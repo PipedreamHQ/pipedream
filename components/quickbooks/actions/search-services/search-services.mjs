@@ -36,7 +36,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.where_clause) {
+    if (!this.whereClause) {
       throw new ConfigurationError("Must provide whereClause parameter.");
     }
 

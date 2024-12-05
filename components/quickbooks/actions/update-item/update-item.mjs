@@ -24,6 +24,7 @@ export default {
       type: "boolean",
       label: "Track Quantity on Hand",
       description: "True if there is quantity on hand to be tracked. Once this value is true, it cannot be updated to false. Applicable for items of type `Inventory`. Not applicable for `Service` or `NonInventory` item types.",
+      optional: true,
     },
     qtyOnHand: {
       type: "string",
@@ -94,15 +95,6 @@ export default {
       propDefinition: [
         quickbooks,
         "taxCodeId",
-      ],
-    },
-    classRefValue: {
-      type: "string",
-      label: "Class Ref Value",
-      description: "ID of the referenced Class for the item. Query the Class name list resource to determine the appropriate object for this reference. Use `Class.Id` from that object for `ClassRef.value`.",
-      propDefinition: [
-        quickbooks,
-        "classIds",
       ],
     },
     purchaseTaxIncluded: {
@@ -233,11 +225,8 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.itemId
-      || !this.name
-      || this.trackQtyOnHand === undefined
-    ) {
-      throw new ConfigurationError("Must provide itemId, name, and trackQtyOnHand parameters.");
+    if (!this.itemId || !this.name) {
+      throw new ConfigurationError("Must provide itemId and name parameters.");
     }
 
     const data = {
@@ -246,25 +235,22 @@ export default {
       Name: this.name,
       QtyOnHand: this.qtyOnHand,
       SyncToken: await this.getSyncToken($),
-      IncomeAccountRef: {
+      IncomeAccountRef: this.incomeAccountRefValue && {
         value: this.incomeAccountRefValue,
       },
       Type: this.type,
-      AssetAccountRef: {
+      AssetAccountRef: this.assetAccountRefValue && {
         value: this.assetAccountRefValue,
       },
       InvStartDate: this.invStartDate,
-      ExpenseAccountRef: {
+      ExpenseAccountRef: this.expenseAccountRefValue && {
         value: this.expenseAccountRefValue,
       },
       Sku: this.sku,
       SalesTaxIncluded: this.salesTaxIncluded,
       TrackQtyOnHand: this.trackQtyOnHand,
-      SalesTaxCodeRef: {
+      SalesTaxCodeRef: this.salesTaxCodeRefValue && {
         value: this.salesTaxCodeRefValue,
-      },
-      ClassRef: {
-        value: this.classRefValue,
       },
       PurchaseTaxIncluded: this.purchaseTaxIncluded,
       Description: this.description,
@@ -275,18 +261,18 @@ export default {
       UQCDisplayText: this.UqcDisplayText,
       ReorderPoint: this.reorderPoint,
       PurchaseDesc: this.purchaseDesc,
-      PrefVendorRef: {
+      PrefVendorRef: this.prefVendorRefValue && {
         value: this.prefVendorRefValue,
       },
       Active: this.active,
       UQCId: this.UqcId,
-      PurchaseTaxCodeRef: {
+      PurchaseTaxCodeRef: this.purchaseTaxCodeRefValue && {
         value: this.purchaseTaxCodeRefValue,
       },
       ServiceType: this.serviceType,
       PurchaseCost: this.purchaseCost,
       UnitPrice: this.unitPrice,
-      TaxClassificationRef: {
+      TaxClassificationRef: this.taxClassificationRefValue && {
         value: this.taxClassificationRefValue,
       },
     };
