@@ -31,7 +31,7 @@ export default {
     relativeUrl: {
       type: "string",
       label: "Relative Url",
-      description: "A path relative to Zoho Books to send the request against.",
+      description: "A path relative to Zoho Books to send the request against. For example, use `/expenses` for [List Expenses API](https://www.zoho.com/books/api/v3/expenses/#list-expenses). [See the documentation](https://www.zoho.com/books/api/v3/introduction/)",
     },
     headers: {
       type: "object",
