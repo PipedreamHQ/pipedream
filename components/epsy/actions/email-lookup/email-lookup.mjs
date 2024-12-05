@@ -11,20 +11,19 @@ export default {
     value: {
       propDefinition: [
         app,
-        "value",
-      ],
+        "value"
+      ]
     },
   },
 
   async run({ $ }) {
     const response = await this.app.emailLookup({
       $,
-      params: {
+      data: {
         value: this.value,
-        lookupId: "67",
-      },
+        lookupId: 67,
+      }
     });
-
     $.export("$summary", `Successfully sent request. Use the ID to get the results: '${response.id}'`);
 
     return response;

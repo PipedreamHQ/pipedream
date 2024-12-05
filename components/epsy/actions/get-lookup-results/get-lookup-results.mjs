@@ -26,13 +26,14 @@ export default {
     const response = await this.app.getLookupResults({
       $,
       searchId: this.searchId,
-      params: {
+      data: {
         value: this.value,
       },
+      params: {
+        key: `${this.app.$auth.api_key}`,
+      },
     });
-
     $.export("$summary", `Successfully retrieved the details of the request with ID: '${this.searchId}'`);
-
     return response;
   },
 };
