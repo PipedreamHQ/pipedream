@@ -3387,7 +3387,11 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
 
-  components/favro: {}
+  components/favro:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/fedex: {}
 
