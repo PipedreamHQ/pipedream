@@ -137,8 +137,8 @@ By default, Pipedream limits the size of incoming HTTP payloads. If you exceed t
 
 Pipedream supports two different ways to bypass this limit. Both of these interfaces support uploading data up to `5TB`, though you may encounter other [platform limits](/limits/).
 
-- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/steps/triggers/#sending-large-payloads).
-- You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/steps/triggers/#large-file-support).
+- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/triggers/#sending-large-payloads).
+- You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/triggers/#large-file-support).
 
 ## Function Payload Limit Exceeded
 
@@ -178,7 +178,7 @@ There are a few known ways this can be caused and how to solve them.
 
 Pipedream components are updated continously. But when new versions of actions and sources are published to the Pipedream Component Registry, your workflows are not updated by default.
 
-[An **Update** prompt](/workflows/steps/actions/#updating-actions-to-the-latest-version) is shown in the in the top right of the action if the component has a new version available.
+[An **Update** prompt](/workflows/actions/#updating-actions-to-the-latest-version) is shown in the in the top right of the action if the component has a new version available.
 
 Sources do not feature an update button at this time, to receive the latest version, you'll need to create a new source, then attach it to your workflow.
 
@@ -260,7 +260,7 @@ Pipedream also operates a [built-in key-value store](/data-stores/) that you can
 
 ### How do I delay the execution of a workflow?
 
-Use Pipedream's [built-in Delay actions](/workflows/flow-control/#delay) to delay a workflow at any step.
+Use Pipedream's [built-in Delay actions](/workflows/control-flow/delay) to delay a workflow at any step.
 
 ### How can my workflow run faster?
 

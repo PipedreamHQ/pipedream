@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ninjaone",
+  "version": "0.0.1",
+  "description": "Pipedream NinjaOne Components",
+  "main": "ninjaone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ninjaone"
+  ],
+  "homepage": "https://pipedream.com/apps/ninjaone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

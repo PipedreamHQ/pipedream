@@ -1,14 +1,14 @@
 {
   "name": "@pipedream/gistly",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Pipedream Gistly Components",
   "main": "gistly.app.mjs",
   "keywords": [
     "pipedream",
     "gistly"
   ],
-  "homepage": "https://gist.ly/youtube-transcript-api",
-  "author": "Rafal Zawadzki <iam@rafalzawadzki.com>",
+  "homepage": "https://pipedream.com/apps/gistly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
   },

@@ -4,7 +4,7 @@ export default {
   key: "webflow-delete-collection-item",
   name: "Delete Collection Item",
   description: "Delete Item of a Collection. [See the docs here](https://developers.webflow.com/#remove-collection-item)",
-  version: "0.0.5",
+  version: "1.0.1",
   type: "action",
   props: {
     webflow,

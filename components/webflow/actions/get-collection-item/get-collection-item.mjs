@@ -4,7 +4,7 @@ export default {
   key: "webflow-get-collection-item",
   name: "Get Collection Item",
   description: "Get a Collection Item. [See the docs here](https://developers.webflow.com/#get-single-item)",
-  version: "0.1.7",
+  version: "1.0.1",
   type: "action",
   props: {
     webflow,
