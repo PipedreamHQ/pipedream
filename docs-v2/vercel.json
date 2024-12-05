@@ -1,4 +1,6 @@
 {
+  "installCommand": "cd .. && pnpm install",
+  "buildCommand": "pnpm build",
   "redirects": [
     {
       "source": "/docs/v3",
