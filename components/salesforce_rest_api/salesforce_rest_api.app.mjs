@@ -292,6 +292,17 @@ export default {
         data,
       });
     },
+    async upsertRecord(sobjectName, {
+      $, data, externalIdFieldName, externalIdValue
+    }) {
+      const url = `${this._sObjectTypeApiUrl(sobjectName)}/${externalIdFieldName}/${externalIdValue}`;
+      return this._makeRequest({
+        $,
+        url,
+        method: "PATCH",
+        data,
+      });
+    },
     async query({
       $, query,
     }) {
