@@ -4,7 +4,7 @@ export default {
   key: "webflow-get-order",
   name: "Get Order",
   description: "Get an order. [See the docs here](https://developers.webflow.com/#get-order)",
-  version: "0.0.4",
+  version: "1.0.1",
   type: "action",
   props: {
     webflow,

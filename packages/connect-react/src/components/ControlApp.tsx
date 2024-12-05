@@ -42,10 +42,11 @@ export function ControlApp({ app }: ControlAppProps) {
     gridArea: "control",
   };
   const baseStylesConnectButton: CSSProperties = {
+    backgroundColor: theme.colors.primary,
     borderRadius: theme.borderRadius,
     border: "solid 1px",
-    borderColor: theme.colors.neutral20,
-    color: theme.colors.neutral60,
+    borderColor: theme.colors.primary25,
+    color: theme.colors.primary25,
     padding: "0.25rem 0.5rem",
     gridArea: "control",
   };

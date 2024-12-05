@@ -293,13 +293,13 @@ GET /{project_id}/accounts/
 
 The ID or name slug the app you'd like to retrieve. For example, Slack's unique app ID is `app_OkrhR1`, and its name slug is `slack`.
 
-You can find the app's ID in the response from the [List apps](#list-apps) endpoint, and the name slug under the **Authentication** section of any [app page](https://pipedream.com/apps).
+You can find the app's ID in the response from the [List apps](/rest-api#list-apps) endpoint, and the name slug under the **Authentication** section of any [app page](https://pipedream.com/apps).
 
 ---
 
 `oauth_app_id` **string** (_optional_)
 
-The ID of the custom [OAuth app](/connect/quickstart#creating-a-custom-oauth-client) you'd like to retrieve accounts for.
+The ID of the custom [OAuth app](/connect/quickstart#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
 
 ---
 
@@ -707,7 +707,7 @@ DELETE /{project_id}/apps/{app_id}/accounts
 
 `app_id` **string**
 
-The app ID for which you want to delete all connected accounts. `app_id` can be `oauth_app_id` for [OAuth apps](/connect/quickstart#creating-a-custom-oauth-client) or [name slug](/connect/quickstart/#find-your-apps-name-slug) for key-based apps.
+The app ID for which you want to delete all connected accounts. `app_id` can be `oauth_app_id` for [OAuth apps](/connect/quickstart#create-a-pipedream-oauth-client) or name slug for key-based apps, which you can find under the **Authentication** section of any [app page](https://pipedream.com/apps)
 
 ##### Examples
 

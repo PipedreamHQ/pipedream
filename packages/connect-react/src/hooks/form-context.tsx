@@ -141,7 +141,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     }
     configurableProps = _configurableProps as unknown as T; // XXX
   }
-  if (reloadPropIdx) {
+  if (reloadPropIdx != null) {
     configurableProps = configurableProps.slice(0, reloadPropIdx + 1) as unknown as T; // XXX
   }
 
@@ -241,8 +241,12 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   // clear all props on user change
+  const [prevUserId, setPrevUserId] = useState(userId)
   useEffect(() => {
-    updateConfiguredProps({});
+    if (prevUserId !== userId) {
+      updateConfiguredProps({});
+      setPrevUserId(userId)
+    }
   }, [
     userId,
   ]);

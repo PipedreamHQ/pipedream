@@ -75,12 +75,12 @@ including all fields). Pass as a string of comma-separated values:
 The `org_id` parameter is only required when using [User API keys](/rest-api/auth#user-api-keys). When authenticating with OAuth tokens, the API will automatically use the workspace associated with the token.
 </Callout>
 
-When using [User API keys](/rest-api/auth#user-api-keys), some endpoints require you to specify [your workspace ID](/workspaces/#finding-your-workspace-s-id) you want the operation to take effect in:
+When using [User API keys](/rest-api/auth#user-api-keys), some endpoints require you to specify [your workspace ID](/workspaces/#finding-your-workspaces-id) you want the operation to take effect in:
 
 - When _fetching_ specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), **you should not need to pass `org_id`**. If your user is a part of the workspace, and you have access to that resource, and the API will return the details of the resource.
 - When _creating_ new resources, you'll need to specify the `org_id` in which you want to create the resource.
 
-[Find your workspace / org ID here](/workspaces/#finding-your-workspace-s-id).
+[Find your workspace / org ID here](/workspaces/#finding-your-workspaces-id).
 
 ## Pagination
 
@@ -185,7 +185,7 @@ You can find the app's ID in the response from the [List apps](#list-apps) endpo
 
 `oauth_app_id` **string** (_optional_)
 
-The ID of the custom [OAuth app](/connect/quickstart#creating-a-custom-oauth-client) you'd like to retrieve accounts for.
+The ID of the custom [OAuth app](/connect/quickstart#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
 
 ---
 
@@ -745,7 +745,7 @@ associated with a source. To delete a specific event, or a range of events, you
 can use the `start_id` and `end_id` parameters.
 
 These IDs can be retrieved by using the [`GET /sources/{id}/event_summaries`
-endpoint](/api/rest/#get-source-events), and are tied to the timestamp at which
+endpoint](/rest-api/#get-source-events), and are tied to the timestamp at which
 the event was emitted — e.g. `1589486981597-0`. They are therefore naturally
 ordered by time.
 
@@ -936,7 +936,7 @@ POST /sources/
 `component_id` **string** (_optional_)
 
 The ID of a component previously created in your account. [See the component
-endpoints](/api/rest/#components) for information on how to retrieve this ID.
+endpoints](/rest-api/#components) for information on how to retrieve this ID.
 
 ---
 
@@ -1017,7 +1017,7 @@ PUT /sources/{id}
 `component_id` **string** (_optional_)
 
 The ID of a component previously created in your account. [See the component
-endpoints](/api/rest/#components) for information on how to retrieve this ID.
+endpoints](/rest-api/#components) for information on how to retrieve this ID.
 
 ---
 
@@ -1099,7 +1099,7 @@ workflows or components:
 - `p_*`: Listen to events from all workflows
 - `dc_*`: Listen to events from all event sources
 
-[See the component endpoints](/api/rest/#components) for information on how to
+[See the component endpoints](/rest-api/#components) for information on how to
 retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
@@ -1128,7 +1128,7 @@ Pipedream also exposes channels for logs and errors:
 
 The ID of the component or workflow you'd like to receive events.
 
-[See the component endpoints](/api/rest/#components) for information on how to
+[See the component endpoints](/rest-api/#components) for information on how to
 retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
@@ -1182,7 +1182,7 @@ The name of the event stream whose events you'd like to receive:
 
 The ID of the component or workflow you'd like to receive events.
 
-[See the component endpoints](/api/rest/#components) for information on how to
+[See the component endpoints](/rest-api/#components) for information on how to
 retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
@@ -1225,7 +1225,7 @@ workflows or components:
 - `p_*`: Listen to events from all workflows
 - `dc_*`: Listen to events from all event sources
 
-[See the component endpoints](/api/rest/#components) for information on how to
+[See the component endpoints](/rest-api/#components) for information on how to
 retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
@@ -1236,7 +1236,7 @@ in your workflow's URL - it's the string `p_2gCPml` in
 
 The ID of the component or workflow you'd like to receive events.
 
-[See the component endpoints](/api/rest/#components) for information on how to
+[See the component endpoints](/rest-api/#components) for information on how to
 retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
@@ -1249,7 +1249,7 @@ The name of the event stream tied to your subscription. **If you didn't specify
 an `event_name` when creating your subscription, pass `event_name=`**.
 
 You'll find the `event_name` that's tied to your subscription when [listing your
-subscriptions](#get-current-user-s-subscriptions):
+subscriptions](#get-current-users-subscriptions):
 
 ```javascript
 {
@@ -1372,7 +1372,7 @@ for new tweets. If you [subscribe](#subscriptions) the webhook to this source,
 Pipedream will deliver those tweets directly to your webhook's URL without
 running a workflow.
 
-[**See these tutorials**](/api/rest/webhooks/) for examples.
+[**See these tutorials**](/rest-api/webhooks/) for examples.
 
 ### Create a webhook
 
@@ -1416,14 +1416,13 @@ mysql://user:pass@host:port
 `name` **string**
 
 The name you'd like to assign to this webhook, which will appear when [listing
-your webhooks](#get-current-user-s-webhooks).
+your webhooks](#get-current-users-webhooks).
 
 ---
 
 `description` **string**
 
-The description you'd like to assign to this webhook, which will appear when
-[listing your webhooks](#get-current-user-s-webhooks).
+The description you'd like to assign to this webhook.
 
 #### Example Request
 
@@ -1457,11 +1456,6 @@ creating [subscriptions](#subscriptions).
   }
 }
 ```
-
-### List webhooks
-
-You can list webhooks you've created in your account using the
-[`/users/me/webhooks` endpoint](#get-current-user-s-webhooks)
 
 ### Delete a webhook
 
@@ -1514,7 +1508,7 @@ POST /workflows
 
 `org_id` **string**
 
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspaces-id).
 
 ---
 
@@ -1793,7 +1787,7 @@ If the URL is [https://pipedream.com/@michael-testing/api-p_13CDnxK/inspect](htt
 The activation status of a workflow. Set to `true` to activate the workflow, or `false` to deactivate it.
 
 `org_id` **string**
-[Find your org's ID](/workspaces/#finding-your-workspace-s-id).
+[Find your org's ID](/workspaces/#finding-your-workspaces-id).
 
 #### Example Request
 
@@ -2035,7 +2029,7 @@ GET /v1/workspaces/<org_id>
 
 `workspaces_id` **string**
 
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspaces-id).
 
 #### Example Response
 
@@ -2066,7 +2060,7 @@ GET /workspaces/<org_id>/accounts
 
 `org_id` **string**
 
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspaces-id).
 
 #### Query Parameters
 
@@ -2114,7 +2108,7 @@ GET /workspaces/<org_id>/subscriptions
 
 `workspaces_id` **string**
 
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspaces-id).
 
 #### Example Request
 
@@ -2158,7 +2152,7 @@ GET /orgs/<org_id>/sources
 
 `org_id` **string**
 
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspace-s-id).
+[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspaces-id).
 
 #### Example Request
 

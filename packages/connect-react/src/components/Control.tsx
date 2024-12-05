@@ -1,6 +1,6 @@
 import { FormContext } from "../hooks/form-context";
 import { FormFieldContext } from "../hooks/form-field-context";
-import { ConfigurableProp } from "@pipedream/sdk";
+import { ConfigurableProp, ConfigurableProps } from "@pipedream/sdk";
 // import { ControlAny } from "./ControlAny"
 import { ControlApp } from "./ControlApp";
 import { ControlBoolean } from "./ControlBoolean";
@@ -8,14 +8,14 @@ import { ControlInput } from "./ControlInput";
 import { ControlSelect } from "./ControlSelect";
 import { RemoteOptionsContainer } from "./RemoteOptionsContainer";
 
-export type ControlProps<T extends ConfigurableProp> = {
-  field: FormFieldContext<T>;
-  form: FormContext;
+export type ControlProps<T extends ConfigurableProps, U extends ConfigurableProp> = {
+  field: FormFieldContext<U>;
+  form: FormContext<T>;
 };
 
 // TODO for easier Control* overriding, should probably pass more stuff in so they don't need to reach into context?
 // ... or do we want the API to incentivize just reaching into context?
-export function Control<T extends ConfigurableProp>(props: ControlProps<T>) {
+export function Control<T extends ConfigurableProps, U extends ConfigurableProp>(props: ControlProps<T, U>) {
   const {
     field, form,
   } = props;
@@ -63,7 +63,7 @@ export function Control<T extends ConfigurableProp>(props: ControlProps<T>) {
   // case "any":
   //   return <ControlAny />
   case "app":
-    return <ControlApp app={app} />;
+    return <ControlApp app={app!} />;
   case "boolean":
     return <ControlBoolean />;
   case "string":

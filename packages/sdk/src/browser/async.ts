@@ -1,5 +1,5 @@
-import { AsyncResponseManager } from "../shared/async";
-import type { AsyncResponseManagerOpts } from "../shared/async";
+import { AsyncResponseManager } from "../shared/async.js";
+import type { AsyncResponseManagerOpts } from "../shared/async.js";
 
 export type BrowserAsyncResponseManagerOpts = {
   apiHost: string;

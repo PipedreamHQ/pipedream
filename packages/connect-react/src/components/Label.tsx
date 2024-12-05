@@ -1,16 +1,16 @@
 import type { CSSProperties } from "react";
-import type { ConfigurableProp } from "@pipedream/sdk";
+import type { ConfigurableProp, ConfigurableProps } from "@pipedream/sdk";
 import { useCustomize } from "../hooks/customization-context";
 import type { FormFieldContext } from "../hooks/form-field-context";
 import { FormContext } from "../hooks/form-context";
 
-export type LabelProps<T extends ConfigurableProp> = {
+export type LabelProps<T extends ConfigurableProps, U extends ConfigurableProp> = {
   text: string;
-  field: FormFieldContext<T>;
-  form: FormContext;
+  field: FormFieldContext<U>;
+  form: FormContext<T>;
 };
 
-export function Label<T extends ConfigurableProp>(props: LabelProps<T>) {
+export function Label<T extends ConfigurableProps, U extends ConfigurableProp>(props: LabelProps<T, U>) {
   const {
     text, field,
   } = props;
@@ -27,7 +27,8 @@ export function Label<T extends ConfigurableProp>(props: LabelProps<T>) {
     lineHeight: "1.5",
   };
 
+  // XXX have to fix typing in customization (and elsewere really)
   return (
-    <label htmlFor={id} {...getProps("label", baseStyles, props)}>{text}</label>
+    <label htmlFor={id} {...getProps("label", baseStyles, props as any)}>{text}</label>
   );
 }

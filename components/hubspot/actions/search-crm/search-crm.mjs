@@ -1,21 +1,21 @@
 import hubspot from "../../hubspot.app.mjs";
 import {
   SEARCHABLE_OBJECT_TYPES,
-  SEARCHABLE_OBJECT_PROPERTIES,
   DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_COMPANY_PROPERTIES,
   DEFAULT_DEAL_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_LINE_ITEM_PROPERTIES,
+  DEFAULT_LEAD_PROPERTIES,
 } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
 
 export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
-  description: "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, or quotes. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.7",
+  description: "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
+  version: "0.0.8",
   type: "action",
   props: {
     hubspot,
@@ -23,7 +23,13 @@ export default {
       type: "string",
       label: "Object Type",
       description: "Type of CRM object to search for",
-      options: SEARCHABLE_OBJECT_TYPES,
+      options: [
+        ...SEARCHABLE_OBJECT_TYPES,
+        {
+          label: "Custom Object",
+          value: "custom_object",
+        },
+      ],
       reloadProps: true,
     },
     createIfNotFound: {
@@ -37,11 +43,28 @@ export default {
   },
   async additionalProps() {
     const props = {};
+    if (this.objectType === "custom_object") {
+      props.customObjectType = {
+        type: "string",
+        label: "Custom Object Type",
+        options: await this.getCustomObjectTypes(),
+        reloadProps: true,
+      };
+    }
+    if (!this.objectType || (this.objectType === "custom_object" && !this.customObjectType)) {
+      return props;
+    }
+
+    const objectType = this.customObjectType ?? this.objectType;
+    const schema = await this.hubspot.getSchema({
+      objectType,
+    });
+
     props.searchProperty = {
       type: "string",
       label: "Search Property",
       description: "The field to search",
-      options: this.getSearchProperties(),
+      options: schema.searchableProperties,
     };
     props.searchValue = {
       type: "string",
@@ -66,7 +89,7 @@ export default {
           return [];
         }
         const { results: properties } = await this.hubspot.getProperties({
-          objectType: this.objectType,
+          objectType: this.customObjectType ?? this.objectType,
         });
         const defaultProperties = this.getDefaultProperties();
         return properties.filter(({ name }) => !defaultProperties.includes(name))
@@ -77,12 +100,9 @@ export default {
       },
     };
     let creationProps = {};
-    if (this.createIfNotFound && this.objectType) {
-      const schema = await this.hubspot.getSchema({
-        objectType: this.objectType,
-      });
+    if (this.createIfNotFound && objectType) {
       const { results: properties } = await this.hubspot.getProperties({
-        objectType: this.objectType,
+        objectType,
       });
       creationProps = properties
         .filter(this.isRelevantProperty)
@@ -101,9 +121,6 @@ export default {
   },
   methods: {
     ...common.methods,
-    getSearchProperties() {
-      return SEARCHABLE_OBJECT_PROPERTIES[this.objectType];
-    },
     getDefaultProperties() {
       if (this.objectType === "contact") {
         return DEFAULT_CONTACT_PROPERTIES;
@@ -117,15 +134,22 @@ export default {
         return DEFAULT_PRODUCT_PROPERTIES;
       } else if (this.objectType === "line_item") {
         return DEFAULT_LINE_ITEM_PROPERTIES;
+      } else if (this.objectType === "lead") {
+        return DEFAULT_LEAD_PROPERTIES;
       } else {
         return [];
       }
+    },
+    async getCustomObjectTypes() {
+      const { results } = await this.hubspot.listSchemas();
+      return results?.map(({ name }) => name ) || [];
     },
   },
   async run({ $ }) {
     const {
       hubspot,
       objectType,
+      customObjectType,
       additionalProperties = [],
       searchProperty,
       searchValue,
@@ -150,7 +174,7 @@ export default {
       ],
     };
     const { results } = await hubspot.searchCRM({
-      object: objectType,
+      object: customObjectType ?? objectType,
       data,
       $,
     });
@@ -158,12 +182,12 @@ export default {
     if (!results?.length && createIfNotFound) {
       const response = await hubspot.createObject({
         $,
-        objectType,
+        objectType: customObjectType ?? objectType,
         data: {
           properties,
         },
       });
-      const objectName = hubspot.getObjectTypeName(objectType);
+      const objectName = hubspot.getObjectTypeName(customObjectType ?? objectType);
       $.export("$summary", `Successfully created ${objectName}`);
       return response;
     }

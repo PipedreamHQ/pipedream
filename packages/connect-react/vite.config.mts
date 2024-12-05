@@ -12,11 +12,23 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
+        "@emotion/react",
         "react",
         "react-dom",
         "react/jsx-runtime",
       ],
+      output: {
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+          "react/jsx-runtime": "react/jsx-runtime",
+          "@emotion/react": "@emotion/react",
+        },
+      },
     },
+  },
+  resolve: {
+    dedupe: ["@emotion/react"],
   },
   plugins: [
     dts({

@@ -24,7 +24,7 @@ export function ControlSelect<T>({
     select, theme,
   } = useCustomize();
 
-  const baseSelectProps: BaseReactSelectProps = {
+  const baseSelectProps: BaseReactSelectProps<any, any, any> = {
     styles: {
       container: (base): CSSObjectWithLabel => ({
         ...base,
