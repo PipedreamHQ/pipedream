@@ -94,3 +94,17 @@ export type V1Component<T extends ConfigurableProps = any> = { // eslint-disable
   version: string;
   configurable_props: T;
 };
+
+export type V1DeployedComponent<T extends ConfigurableProps = any> = { // eslint-disable-line @typescript-eslint/no-explicit-any
+  id: string;
+  owner_id: string;
+  component_id: string;
+  configurable_props: T;
+  configured_props: ConfiguredProps<T>;
+  active: boolean;
+  created_at: number;
+  updated_at: number;
+  name: string;
+  name_slug: string;
+  callback_observations?: unknown;
+};

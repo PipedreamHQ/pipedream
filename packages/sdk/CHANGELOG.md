@@ -1,6 +1,13 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.0.9] - 2024-12-04
+
+### Added
+
+- `triggerDeploy` preview API
+- `client.version` and `x-pd-sdk-version` header
+
 ## [1.0.8] - 2024-11-29
 
 ### Changed
