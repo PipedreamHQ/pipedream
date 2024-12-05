@@ -9,6 +9,11 @@
     "start": "next start",
     "vercel-build": "next build"
   },
+  "packageManager": "pnpm@9.14.2",
+  "engines": {
+    "pnpm": "9.14.2",
+    "node": "20.9.0"
+  },
   "author": "Pipedream",
   "license": "MIT",
   "homepage": "https://pipedream.com",
