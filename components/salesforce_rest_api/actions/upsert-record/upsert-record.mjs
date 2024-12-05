@@ -20,16 +20,6 @@ export default {
       description: "The type of object to create a record of",
       reloadProps: true,
     },
-    externalIdFieldName: {
-      type: "string",
-      label: "External ID Field",
-      description: "The name of the field used as the external ID. If a record exists with this field having the value specified in `External ID Value`, it will be updated, otherwise a new record will be created.",
-    },
-    externalIdValue: {
-      type: "string",
-      label: "External ID Value",
-      description: "The value of the external ID field specified above. If a record exists with this value, it will be updated, otherwise a new record will be created.",
-    }
   },
   methods: {
     getAdditionalFields,
@@ -43,6 +33,11 @@ export default {
       return field.createable && field.updateable && !field.nillable && !field.defaultedOnCreate;
     });
 
+    const externalIdFieldOptions = fields.filter(field => field.externalId).map(({ label, name}) => ({
+      label,
+      value: name
+    }));
+
     const requiredFieldProps = this.convertFieldsToProps(requiredFields);
 
     return {
@@ -50,6 +45,23 @@ export default {
         type: "alert",
         alertType: "info",
         content: `[See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_${objectType.toLowerCase()}.htm) for information on all available fields.`,
+      },
+      externalIdFieldName: {
+        type: "string",
+        label: "External ID Field",
+        description: "The field to use as the external ID to identify the record.",
+        options: externalIdFieldOptions,
+      },
+      externalIdFieldValue: {
+        type: "string",
+        label: "External ID Value",
+        description: "The value of the external ID field selected above. If a record with this value exists, it will be updated, otherwise a new one will be created.",
+      },
+      updateOnly: {
+        type: "boolean",
+        label: "Update Only",
+        description: "If enabled, the action will only update an existing record, but not create one.",
+        optional: true,
       },
       ...requiredFieldProps,
       additionalFields,
@@ -66,6 +78,7 @@ export default {
       additionalFields,
       externalIdFieldName,
       externalIdValue,
+      updateOnly,
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
@@ -73,6 +86,9 @@ export default {
       $,
       externalIdFieldName,
       externalIdValue,
+      params: {
+        updateOnly
+      },
       data: {
         ...data,
         ...getData(),
