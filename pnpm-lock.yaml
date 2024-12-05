@@ -11864,6 +11864,12 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
+  components/zoho_books:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/zoho_bugtracker:
     dependencies:
       '@pipedream/platform':
