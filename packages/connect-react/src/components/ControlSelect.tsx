@@ -59,6 +59,8 @@ export function ControlSelect<T>({
             }
           }
         }
+      } else if (ret.__lv) {
+        ret = ret.__lv
       }
     }
     return ret;
@@ -87,14 +89,22 @@ export function ControlSelect<T>({
             if (typeof o[0] === "object" && "value" in o[0]) {
               const vs = [];
               for (const _o of o) {
-                vs.push(_o.value);
+                if (prop.withLabel) {
+                  vs.push(_o);
+                } else {
+                  vs.push(_o.value);
+                }
               }
               onChange(vs);
             } else {
               onChange(o);
             }
           } else if (typeof o === "object" && "value" in o) {
-            onChange(o.value);
+            if (prop.withLabel) {
+              onChange({__lv: o});
+            } else {
+              onChange(o.value);
+            }
           } else {
             throw new Error("unhandled option type"); // TODO
           }
