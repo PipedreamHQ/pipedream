@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-upsert-record",
   name: "Upsert Record",
   description: "Create or update a record of a given object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     salesforce,
@@ -52,7 +52,7 @@ export default {
         description: "The field to use as the external ID to identify the record.",
         options: externalIdFieldOptions,
       },
-      externalIdFieldValue: {
+      externalIdValue: {
         type: "string",
         label: "External ID Value",
         description: "The value of the external ID field selected above. If a record with this value exists, it will be updated, otherwise a new one will be created.",

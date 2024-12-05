@@ -293,14 +293,13 @@ export default {
       });
     },
     async upsertRecord(sobjectName, {
-      $, data, externalIdFieldName, externalIdValue
+      externalIdFieldName, externalIdValue, ...args
     }) {
       const url = `${this._sObjectTypeApiUrl(sobjectName)}/${externalIdFieldName}/${externalIdValue}`;
       return this._makeRequest({
-        $,
         url,
         method: "PATCH",
-        data,
+        ...args,
       });
     },
     async query({
