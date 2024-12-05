@@ -21,9 +21,7 @@ export default {
       $,
       model: this.model,
     });
-
     $.export("$summary", `Successfully retrieved the '${this.model}' model`);
-
     return response;
   },
 };

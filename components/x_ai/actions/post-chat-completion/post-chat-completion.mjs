@@ -20,6 +20,66 @@ export default {
         "message",
       ],
     },
+    frequencyPenalty: {
+      propDefinition: [
+        app,
+        "frequencyPenalty",
+      ],
+    },
+    logprobs: {
+      propDefinition: [
+        app,
+        "logprobs",
+      ],
+    },
+    maxTokens: {
+      propDefinition: [
+        app,
+        "maxTokens",
+      ],
+    },
+    n: {
+      propDefinition: [
+        app,
+        "n",
+      ],
+    },
+    presencePenalty: {
+      propDefinition: [
+        app,
+        "presencePenalty",
+      ],
+    },
+    seed: {
+      propDefinition: [
+        app,
+        "seed",
+      ],
+    },
+    stream: {
+      propDefinition: [
+        app,
+        "stream",
+      ],
+    },
+    temperature: {
+      propDefinition: [
+        app,
+        "temperature",
+      ],
+    },
+    topP: {
+      propDefinition: [
+        app,
+        "topP",
+      ],
+    },
+    user: {
+      propDefinition: [
+        app,
+        "user",
+      ],
+    },
   },
 
   async run({ $ }) {
@@ -33,11 +93,19 @@ export default {
             content: this.message,
           },
         ],
+        frequency_penalty: Number(this.frequencyPenalty),
+        logprobs: this.logprobs,
+        max_tokens: this.maxTokens,
+        n: this.n,
+        presence_penalty: Number(this.presencePenalty),
+        seed: this.seed,
+        stream: this.stream,
+        temperature: Number(this.temperature),
+        top_p: Number(this.topP),
+        user: this.user,
       },
     });
-
     $.export("$summary", `Successfully sent message to the model '${this.model}'`);
-
     return response;
   },
 };
