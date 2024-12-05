@@ -16,7 +16,7 @@ const fira = Fira_Code({
 });
 
 const PipedreamCode = ({ children }: PipedreamCodeProps) => <>
-  <code className={`${fira.className} dark:text-white`}>{children}</code>
+  <code className={`${fira.className} dark:text-white p-2`}>{children}</code>
 </>;
 
 export default PipedreamCode;
