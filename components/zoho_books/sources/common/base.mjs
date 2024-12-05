@@ -1,60 +1,45 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import zohoBooks from "../../zoho_books.app.mjs";
 
 export default {
   props: {
     zohoBooks,
+    http: "$.interface.http",
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
+    webhookName: {
+      type: "string",
+      label: "Webhook Name",
+      description: "A name to identify the webhook.",
     },
   },
   methods: {
-    _getLastDate() {
-      return this.db.get("lastDate") || 0;
+    _getHookId() {
+      return this.db.get("hookId");
     },
-    _setLastDate(lastDate) {
-      this.db.set("lastDate", lastDate);
-    },
-    async emitEvent(maxResults = false) {
-      const lastDate = this._getLastDate();
-
-      const response = this.zohoBooks.paginate({
-        fn: this.getFunction(),
-        fieldName: this.getFieldName(),
-      });
-
-      let responseArray = [];
-      for await (const item of response) {
-        if (item.created_time <= lastDate) break;
-        responseArray.push(item);
-      }
-
-      if (responseArray.length) {
-        if (maxResults && (responseArray.length > maxResults)) {
-          responseArray.length = maxResults;
-        }
-        this._setLastDate(Date.parse(responseArray[0].created_time));
-      }
-
-      for (const item of responseArray.reverse()) {
-        this.$emit(item, {
-          id: item[this.getFieldId()],
-          summary: this.getSummary(item),
-          ts: Date.parse(item.created_time),
-        });
-      }
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
     },
   },
   hooks: {
-    async deploy() {
-      await this.emitEvent(25);
+    async activate() {
+      const { webhook } = await this.zohoBooks.createWebhook({
+        data: {
+          webhook_name: this.webhookName,
+          url: this.http.endpoint,
+          entity: this.getEntity(),
+          method: "POST",
+          body_type: "application/json",
+          raw_data: "${JSONString}",
+        },
+      });
+      this._setHookId(webhook.webhook_id);
+    },
+    async deactivate() {
+      const webhookId = this._getHookId();
+      await this.zohoBooks.deleteWebhook(webhookId);
     },
   },
-  async run() {
-    await this.emitEvent();
+  async run({ body }) {
+    if (body.payload === "") return true;
+    this.$emit(body, this.generateMeta(body));
   },
 };

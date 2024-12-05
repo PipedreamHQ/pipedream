@@ -603,6 +603,19 @@ export default {
         ...opts,
       });
     },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/settings/webhooks",
+        ...opts,
+      });
+    },
+    deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/settings/webhooks/${webhookId}`,
+      });
+    },
     deleteContact({
       customerId, ...opts
     }) {
