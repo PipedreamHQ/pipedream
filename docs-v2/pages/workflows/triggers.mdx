@@ -129,7 +129,7 @@ You can also authorize requests using [Pipedream OAuth clients](/rest-api/auth#o
 
 1. Open the **Configure** section of the HTTP trigger.
 2. Select **OAuth**.
-3. If you don't have an existing OAuth client, [create one in your workspace's API settings](/rest-api/auth#creating-an-oauth-application).
+3. If you don't have an existing OAuth client, [create one in your workspace's API settings](/rest-api/auth#creating-an-oauth-client).
 
 ![OAuth authorization](https://res.cloudinary.com/pipedreamin/image/upload/v1729791415/Google_Chrome_-_Untitled_Workflow_-_10-24-2024_10-30_AM_-_Build_-_Pipedream_2024-10-24_at_10.36.04_AM_ujx34e.png)
 
@@ -230,7 +230,7 @@ To configure endpoints on your own domain, e.g. `endpoint.yourdomain.com` instea
 
 When you send JSON in the HTTP payload, or when JSON data is sent in the payload from a webhook provider, **Pipedream converts that JSON to its equivalent JavaScript object**. The trigger data can be referenced using [the `steps` object](#shape-of-the-stepstriggerevent-object).
 
-In the [Inspector](/workflows/events/inspect/), we present `steps.trigger.event` cleanly, indenting nested properties, to make the payload easy to read. Since `steps.trigger.event` is a JavaScript object, it's easy to reference and manipulate properties of the payload using dot-notation.
+In the [Inspector](/workflows/inspect/), we present `steps.trigger.event` cleanly, indenting nested properties, to make the payload easy to read. Since `steps.trigger.event` is a JavaScript object, it's easy to reference and manipulate properties of the payload using dot-notation.
 
 ### How Pipedream handles `multipart/form-data`
 
@@ -357,7 +357,7 @@ curl -F 'image=@my_image.png' https://myendpoint.m.pipedream.net
 
 The `-F` tells `cURL` we're sending form data, with a single "part": a field named `image`, with the content of the image as the value (the `@` allows `cURL` to reference a local file).
 
-When you send this image to a workflow, Pipedream [parses the form data](#how-pipedream-handles-multipart-form-data) and converts it to a JavaScript object, `event.body`. Select the event from the [inspector](/workflows/events/inspect/#the-inspector), and you'll see the `image` property under `event.body`:
+When you send this image to a workflow, Pipedream [parses the form data](#how-pipedream-handles-multipartform-data) and converts it to a JavaScript object, `event.body`. Select the event from the [inspector](/workflows/inspect/#the-inspector), and you'll see the `image` property under `event.body`:
 
 ![Image form data](/images/triggers/image_form_data.png)
 
@@ -388,7 +388,7 @@ await pipeline(
 
 #### Limits
 
-Since large files are uploaded using a `Content-Type` of `multipart/form-data`, the limits that apply to [form data](#how-pipedream-handles-multipart-form-data) also apply here.
+Since large files are uploaded using a `Content-Type` of `multipart/form-data`, the limits that apply to [form data](#how-pipedream-handles-multipartform-data) also apply here.
 
 The content of the file itself does not contribute to the HTTP payload limit imposed for forms. **You can upload files up to 5TB in size**. However, files that large may trigger [other Pipedream limits](/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
 
@@ -586,7 +586,7 @@ If you're running a scheduled job once a day, you probably don't want to wait un
 
 ### Job History
 
-You'll see the history of job executions under the **Job History** section of the [Inspector](/workflows/events/inspect/).
+You'll see the history of job executions under the **Job History** section of the [Inspector](/workflows/inspect/).
 
 Clicking on a specific job shows the execution details for that job — all the logs and observability associated with that run of the workflow.
 
@@ -602,7 +602,7 @@ You can also [write code](/code/) to trigger any complex notification logic you'
 
 When you run a scheduled job, you may need to troubleshoot errors or other execution issues. Pipedream offers built-in, step-level logs that show you detailed execution information that should aid troubleshooting.
 
-Any time a scheduled job runs, you'll see a new execution appear in the [Inspector](/workflows/events/inspect/). This shows you when the job ran, how long it took to run, and any errors that might have occurred. **Click on any of these lines in the Inspector to view the details for a given run**.
+Any time a scheduled job runs, you'll see a new execution appear in the [Inspector](/workflows/inspect/). This shows you when the job ran, how long it took to run, and any errors that might have occurred. **Click on any of these lines in the Inspector to view the details for a given run**.
 
 Code steps show [logs](/code/nodejs/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
 

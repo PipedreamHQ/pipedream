@@ -3,9 +3,9 @@ import { Steps } from 'nextra/components'
 
 # Example: Create a Workflow
 
-Here, we'll walk through an example of how to create a [workflow](/workflows/) programmatically using the [create workflow endpoint](/api/rest/#create-a-workflow) from a [workflow share link](/workflows/sharing/), and pass your own connected accounts, step and trigger props as configuration.
+Here, we'll walk through an example of how to create a [workflow](/workflows/) programmatically using the [create workflow endpoint](/rest-api/#create-a-workflow) from a [workflow share link](/workflows/sharing/), and pass your own connected accounts, step and trigger props as configuration.
 
-Before you begin, you'll need your [Pipedream API Key](/rest-api/auth/#pipedream-api-key).
+Before you begin, you'll need your [Pipedream API Key](/rest-api/auth/#user-api-keys).
 
 ## Creating a new workflow from a template
 
@@ -13,7 +13,7 @@ Workflows can be shared as templates using a [Workflow Share Link](/workflows/sh
 
 However, opening workflow share link with a browser will not include sharing private resources - such as connected accounts, sources and data stores. Connections to your private resources have to be populated by hand.
 
-The [create workflow endpoint](/api/rest/#create-a-workflow) allows you to programmatically assign your own connected accounts, props within the workflow, and even deploy the workflow in a single API request.
+The [create workflow endpoint](/rest-api/#create-a-workflow) allows you to programmatically assign your own connected accounts, props within the workflow, and even deploy the workflow in a single API request.
 
 <Steps>
 
@@ -109,7 +109,7 @@ For the example workflow above, the RSS feed trigger has a `url` property, and t
 
 Now that we have the names of the configurable props for both the `triggers` and `steps` of the workflow, let's design the payload for creating a new instance of the workflow.
 
-First, populate the `project_id` and `org_id` where you'd like this new workflow to be instantiated under. Please refer to the [**Create Workflow** parameters documentation](/api/rest/#create-a-workflow) on how to find these values.
+First, populate the `project_id` and `org_id` where you'd like this new workflow to be instantiated under. Please refer to the [**Create Workflow** parameters documentation](/rest-api/#create-a-workflow) on how to find these values.
 
 The `template_id` for your workflow can be found from the URL of the workflow share link you created in **Step 1** of this guide.
 
@@ -147,7 +147,7 @@ The **Slack - Send message in a Public Channel** step requires a `channelId`, `m
 
 To connect your accounts to the workflow, you'll need to find the specific IDs for each of the accounts you'd like to connect.
 
-You can find your connected account IDs by using the [List Accounts endpoint](/api/rest/#get-workspaces-s-connected-accounts).
+You can find your connected account IDs by using the [List Accounts endpoint](/rest-api/#get-workspacess-connected-accounts).
 
 You can filter your accounts by using the `query` query parameter. For example, if you want to find your connected Slack accounts to your workspace, then add `slack` to the query param:
 

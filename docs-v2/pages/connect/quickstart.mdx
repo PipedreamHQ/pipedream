@@ -28,8 +28,8 @@ Here's how Connect sits in your frontend and backend, and communicates with Pipe
 
 You'll need to do two things to add Pipedream Connect to your app:
 
-1. [Connect to the Pipedream API from your server](#connect-to-the-pipedream-api-from-your-server-and-create-a-token). This lets you make secure calls to the Pipedream API to initiate the account connection flow and retrieve account credentials. If you're running a JavaScript framework like Node.js on your server, you can use the Pipedream SDK.
-2. [Add the Pipedream SDK to your frontend](#connect-your-account-from-the-frontend) or redirect your users to [a Pipedream-hosted URL](/connect/connect-link) to start the account connection flow.
+1. [Connect to the Pipedream API from your server](#generate-a-short-lived-token). This lets you make secure calls to the Pipedream API to initiate the account connection flow and retrieve account credentials. If you're running a JavaScript framework like Node.js on your server, you can use the Pipedream SDK.
+2. [Add the Pipedream SDK to your frontend](#connect-a-users-account) or redirect your users to [a Pipedream-hosted URL](/connect/connect-link) to start the account connection flow.
 
 We'll walk through these steps below, using [an example Next.js app](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/managed-auth-basic-next-app/). To follow along, clone [the repo](https://github.com/PipedreamHQ/pipedream-connect-examples/) and follow the instructions in [the app's `README`](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/managed-auth-basic-next-app/). That will run the app on `localhost:3000`.
 
@@ -111,7 +111,7 @@ First, install the [Pipedream SDK](https://www.npmjs.com/package/@pipedream/sdk)
 npm i --save @pipedream/sdk
 ```
 
-When the user connects an account in your product, [pass the token from your backend](#connect-to-the-pipedream-api-from-your-server-and-create-a-token) and call `connectAccount`. This opens a Pipedream iFrame that guides the user through the account connection.
+When the user connects an account in your product, [pass the token from your backend](#generate-a-short-lived-token) and call `connectAccount`. This opens a Pipedream iFrame that guides the user through the account connection.
 
 In our example, `app/page.tsx` calls the `connectAccount` method from the Pipedream SDK when the user clicks the **Connect your account** button.
 
@@ -150,7 +150,7 @@ Use this option when you can't execute JavaScript or open an iFrame in your envi
 
 The Connect Link opens a Pipedream-hosted page, guiding users through the account connection process. The URL is specific to the user and expires after 4 hours.
 
-1. First, [generate a token](#generate-a-token) for your users.
+1. First, [generate a token](#generate-a-short-lived-token) for your users.
 2. Extract the `connect_link_url` from the token response.
 3. Before returning the URL to your user, add an `app` parameter to the end of the query string:
 

@@ -6,9 +6,17 @@ import chalk from "chalk";
 
 // Convert header text to anchor link format
 function headerToAnchor(headerText) {
-  return headerText
+  // First remove any Markdown links - replace [text](url) with just text
+  const textWithoutLinks = headerText.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+
+  return textWithoutLinks
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
+    // Remove backticks which are just formatting
+    .replace(/`/g, "")
+    // Keep underscores but remove other special characters
+    .replace(/[^a-z0-9_\s-]/g, "")
+    .trim()
+    // Convert spaces to hyphens
     .replace(/\s+/g, "-");
 }
 
