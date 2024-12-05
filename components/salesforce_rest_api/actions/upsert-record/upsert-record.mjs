@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-upsert-record",
   name: "Upsert Record",
   description: "Create or update a record of a given object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_upsert.htm)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     salesforce,
@@ -24,6 +24,16 @@ export default {
   methods: {
     getAdditionalFields,
     convertFieldsToProps,
+    async upsertRecord(sobjectName, {
+      externalIdFieldName, externalIdValue, ...args
+    }) {
+      const url = `${this._sObjectTypeApiUrl(sobjectName)}/${externalIdFieldName}/${externalIdValue}`;
+      return this.salesforce._makeRequest({
+        url,
+        method: "PATCH",
+        ...args,
+      });
+    },
   },
   async additionalProps() {
     const { objectType } = this;
@@ -33,9 +43,11 @@ export default {
       return field.createable && field.updateable && !field.nillable && !field.defaultedOnCreate;
     });
 
-    const externalIdFieldOptions = fields.filter(field => field.externalId).map(({ label, name}) => ({
+    const externalIdFieldOptions = fields.filter((field) => field.externalId).map(({
+      label, name,
+    }) => ({
       label,
-      value: name
+      value: name,
     }));
 
     const requiredFieldProps = this.convertFieldsToProps(requiredFields);
@@ -82,19 +94,21 @@ export default {
       ...data
     } = this;
     /* eslint-enable no-unused-vars */
-    const response = await salesforce.upsertRecord(objectType, {
+    const response = await this.upsertRecord(objectType, {
       $,
       externalIdFieldName,
       externalIdValue,
       params: {
-        updateOnly
+        updateOnly,
       },
       data: {
         ...data,
         ...getData(),
       },
     });
-    $.export("$summary", `Successfully ${response.created ? 'created' : 'updated'} ${objectType} record (ID: ${response.id})`);
+    $.export("$summary", `Successfully ${response.created
+      ? "created"
+      : "updated"} ${objectType} record (ID: ${response.id})`);
     return response;
   },
 };
