@@ -36,6 +36,7 @@ export default {
       ],
       description: "The recipient List IDs that will receive the Single Send.",
       optional: true,
+      hidden: true,
     },
     segmentIds: {
       propDefinition: [
@@ -43,12 +44,14 @@ export default {
         "segmentIds",
       ],
       optional: true,
+      hidden: true,
     },
     all: {
       type: "boolean",
       label: "All",
       description: "Set to `true` to send to All Contacts. If set to `false`, at least one `List Ids` or `Segment Ids` value must be provided before the Single Send is scheduled to be sent to recipients.",
-      optional: true,
+      default: true,
+      reloadProps: true,
     },
     subject: {
       type: "string",
@@ -92,9 +95,10 @@ export default {
       optional: true,
     },
     suppressionGroupId: {
-      type: "integer",
-      label: "Suppression Group Id",
-      description: "The ID of the Suppression Group to allow recipients to unsubscribe — you must provide this or the `Custom Unsubscribe URL`.",
+      propDefinition: [
+        common.props.sendgrid,
+        "asmGroupId",
+      ],
       optional: true,
     },
     customUnsubscribeUrl: {
@@ -117,9 +121,14 @@ export default {
       optional: true,
     },
   },
+  async additionalProps(props) {
+    props.listIds.hidden = this.all;
+    props.segmentIds.hidden = this.all;
+    return {};
+  },
   async run({ $ }) {
     if (!this.suppressionGroupId && !this.customUnsubscribeUrl) {
-      throw new ConfigurationError("You must provide either `Suppression Group Id` or the `Custom Unsubscribe URL`.");
+      throw new ConfigurationError("You must provide either `ASM Group ID` or the `Custom Unsubscribe URL`.");
     }
     try {
       const resp = await this.sendgrid.createSingleSend({
@@ -129,8 +138,12 @@ export default {
           categories: parseObject(this.categoryIds),
           send_at: this.sendAt,
           send_to: {
-            list_ids: parseObject(this.listIds),
-            segment_ids: parseObject(this.segmentIds),
+            list_ids: !this.all
+              ? parseObject(this.listIds)
+              : null,
+            segment_ids: !this.all
+              ? parseObject(this.segmentIds)
+              : null,
             all: this.all,
           },
           email_config: {
@@ -150,16 +163,10 @@ export default {
       $.export("$summary", `Successfully created single send ${this.name}`);
       return resp;
     } catch (e) {
-      if (
-        e.response
-        && e.response.data
-        && e.response.data.errors
-        && e.response.data.errors.length > 0
-      ) {
-        throw new ConfigurationError(e.response.data.errors[0].message);
-      } else {
-        throw new ConfigurationError("An unexpected error occurred.");
-      }
+      const errors = e.split("Unexpected error (status code: ERR_BAD_REQUEST):")[1];
+      const errorJson = JSON.parse(errors);
+
+      throw new ConfigurationError(errorJson.data.errors[0].message);
     }
   },
 };
