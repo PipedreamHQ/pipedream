@@ -3,7 +3,7 @@ import app from "../../remote_retrieval.app.mjs";
 export default {
   key: "remote_retrieval-create-order",
   name: "Create Order",
-  description: "Create order in Remote Retrieval. [See the documentation](https://www.remoteretrieval.com/api-documentation/#create-order)",
+  description: "Create order in Remote Retrieval. [See the documentation](https://www.remoteretrieval.com/api-integration/#create-order)",
   version: "0.0.1",
   type: "action",
   props: {
