@@ -91,7 +91,7 @@ importers:
         specifier: ^12.3.4
         version: 12.5.0(enquirer@2.4.1)
       pnpm:
-        specifier: ^9
+        specifier: 9.14.2
         version: 9.14.2
       putout:
         specifier: '>=36'
