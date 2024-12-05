@@ -4,7 +4,7 @@ import ortto from "../../ortto.app.mjs";
 export default {
   key: "ortto-create-custom-activity",
   name: "Create Custom Activity",
-  description: "Creates a unique activity for a person. Can optionally initialize a new record beforehand. [See the documentation](https://help.ortto.com/developer/latest/api-reference/activity/index.html)",
+  description: "Creates a unique activity for a person. Can optionally initialize a new record beforehand. [See the documentation](https://help.ortto.com/a-271-create-a-custom-activity-event-create)",
   version: "0.0.1",
   type: "action",
   props: {

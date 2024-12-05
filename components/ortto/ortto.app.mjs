@@ -31,17 +31,17 @@ export default {
     activityId: {
       type: "string",
       label: "Activity Id",
-      description: "The Id of the activity definition. You can find the id by clicking on the activity, the id will be in the url \"/activities/{ACTIVITY_ID}/overview\"",
+      description: "The Id of the activity definition. You can find the id by clicking on the activity definition, the id will be in the url \"/activities/{ACTIVITY_ID}/overview\"",
     },
     fields: {
       type: "object",
       label: "Fields",
-      description: "An object with the fields of the activity. You can find the fields by clicking on the activity and on the Developer button.",
+      description: "An object with the fields of the activity. You can find the fields by clicking on the activity definition and on the Developer button.",
     },
     attributes: {
       type: "object",
       label: "Attributes",
-      description: "An object with the attributes. You can find the attributes by clicking on the activity and on the Developer button.",
+      description: "An object with the attributes. You can find the attributes by clicking on the activity definition and on the Developer button.",
     },
   },
   methods: {

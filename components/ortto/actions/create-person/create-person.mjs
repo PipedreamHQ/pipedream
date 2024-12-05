@@ -99,7 +99,6 @@ export default {
         merge_by: [
           "str::email",
         ],
-        merge_strategy: 3,
         find_strategy: 0,
       },
     });
