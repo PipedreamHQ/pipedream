@@ -1,5 +1,5 @@
 {
-  "installCommand": "pnpm install --ignore-engines --prefix ..",
+  "installCommand": "pnpm install --prefix ..",
   "buildCommand": "pnpm run vercel-build",
   "redirects": [
     {
