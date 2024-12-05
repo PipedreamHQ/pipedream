@@ -1,37 +1,99 @@
 import ironclad from "../../ironclad.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ironclad-create-record",
   name: "Create Record",
-  description: "Creates a new record in Ironclad. [See the documentation](/reference/create-a-record)",
+  description: "Creates a new record in Ironclad. [See the documentation](https://developer.ironcladapp.com/reference/create-a-record)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
     ironclad,
-    recordData: {
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of the record",
+    },
+    type: {
       propDefinition: [
         ironclad,
-        "recordData",
+        "recordType",
       ],
     },
-    user: {
+    links: {
       propDefinition: [
         ironclad,
-        "user",
+        "recordId",
       ],
-      optional: true,
+      type: "string[]",
+      label: "Links",
+      description: "Record ID's to link to the new record",
     },
-    tags: {
+    parent: {
       propDefinition: [
         ironclad,
-        "tags",
+        "recordId",
       ],
-      optional: true,
+      label: "Parent",
+      description: "Record ID to be set as the parent of the current record",
+    },
+    children: {
+      propDefinition: [
+        ironclad,
+        "recordId",
+      ],
+      type: "string[]",
+      label: "Children",
+      description: "Record ID's to be set as child records of the current record",
+    },
+    properties: {
+      propDefinition: [
+        ironclad,
+        "properties",
+      ],
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (!this.properties?.length) {
+      return props;
+    }
+    const { properties } = await this.ironclad.getRecordSchema();
+    for (const property of this.properties) {
+      props[property] = {
+        type: "string",
+        label: properties[property].displayName,
+      };
+    }
+    return props;
+  },
   async run({ $ }) {
-    const response = await this.ironclad.createRecord(this.recordData, this.user, this.tags);
+    const { properties } = await this.ironclad.getRecordSchema();
+    const propertiesData = {};
+    for (const property of this.properties) {
+      propertiesData[property] = {
+        type: properties[property].type,
+        value: this[property],
+      };
+    }
+
+    const response = await this.ironclad.createRecord({
+      $,
+      data: {
+        name: this.name,
+        type: this.type,
+        links: this.links?.length && this.links.map((link) => ({
+          recordId: link,
+        })),
+        parent: this.parent && {
+          recordId: this.parent,
+        },
+        children: this.children?.length && this.children.map((child) => ({
+          recordId: child,
+        })),
+        properties: propertiesData,
+      },
+    });
     $.export("$summary", `Created record with ID: ${response.id}`);
     return response;
   },

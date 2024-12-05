@@ -1,5 +1,4 @@
 import ironclad from "../../ironclad.app.mjs";
-import { axios } from "@pipedream/platform";
 import crypto from "crypto";
 
 export default {
@@ -10,10 +9,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    ironclad: {
-      type: "app",
-      app: "ironclad",
-    },
+    ironclad,
     selectedEvent: {
       propDefinition: [
         ironclad,

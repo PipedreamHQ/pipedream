@@ -5,6 +5,43 @@ export default {
   app: "ironclad",
   version: "0.0.{{ts}}",
   propDefinitions: {
+    recordType: {
+      type: "string",
+      label: "Type",
+      description: "The type of the record",
+      async options() {
+        const { recordTypes } = await this.getRecordsSchema();
+        return (Object.keys(recordTypes)).map((type) => type);
+      },
+    },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "The identifier of a record",
+      optional: true,
+      async options({ page }) {
+        const { list } = await this.listRecords({
+          params: {
+            page,
+          },
+        });
+        return list?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    properties: {
+      type: "string[]",
+      label: "Properties",
+      description: "Properties to add to the record",
+      async options() {
+        const { properties } = await this.getRecordSchema();
+        return (Object.keys(properties)).map((property) => property);
+      },
+    },
     selectedEvent: {
       type: "string[]",
       label: "Selected Events",
@@ -75,89 +112,38 @@ export default {
       description: "Optional attachments to include when launching workflow",
       optional: true,
     },
-    user: {
-      type: "object",
-      label: "User",
-      description: "Optional user information for actions that support it",
-      optional: true,
-      properties: {
-        userId: {
-          type: "string",
-          label: "User ID",
-          description: "ID of the user performing the action",
-        },
-      },
-    },
-    recordData: {
-      type: "object",
-      label: "Record Data",
-      description: "Data required to create a new record in Ironclad",
-      properties: {
-        type: {
-          type: "string",
-          label: "Record Type",
-          description: "Type/category of the record",
-        },
-        name: {
-          type: "string",
-          label: "Name",
-          description: "Name/title of the record",
-        },
-        properties: {
-          type: "object",
-          label: "Properties",
-          description: "Metadata properties of the record",
-        },
-      },
-    },
-    tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "Optional tags for the record",
-      optional: true,
-    },
     workflowId: {
       type: "string",
       label: "Workflow ID",
       description: "ID of the workflow to update",
     },
-    updatedMetadata: {
-      type: "object",
-      label: "Updated Metadata",
-      description: "New metadata to update the workflow",
-      properties: {
-        status: {
-          type: "string",
-          label: "Status",
-          description: "New status for the workflow",
-        },
-        comments: {
-          type: "string",
-          label: "Comments",
-          description: "Additional comments for the workflow",
-        },
-      },
-    },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.ironcladapp.com";
+      return "https://ironcladapp.com/public/api/v1";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
-        $, method = "GET", path = "/", headers, ...otherOpts
+        $,  path, ...otherOpts
       } = opts;
       return axios($, {
-        method,
         url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
         ...otherOpts,
+      });
+    },
+    getRecordsSchema(opts = {}) {
+      return this._makeRequest({
+        path: "/records/metadata",
+        ...opts,
+      });
+    },
+    listRecords(opts = {}) {
+      return this._makeRequest({
+        path: "/records",
+        ...opts,
       });
     },
     async launchWorkflow(workflowDetails, attachments, user) {
@@ -176,27 +162,20 @@ export default {
         data,
       });
     },
-    async createRecord(recordData, user, tags) {
-      const data = {
-        ...recordData,
-      };
-      if (user) {
-        data.user = user;
-      }
-      if (tags && tags.length > 0) {
-        data.tags = tags;
-      }
-      return await this._makeRequest({
+    createRecord(opts = {}) {
+      return this._makeRequest({
         method: "POST",
         path: "/records",
-        data,
+        ...opts,
       });
     },
-    async updateWorkflowMetadata(workflowId, updatedMetadata) {
-      return await this._makeRequest({
+    updateWorkflowMetadata({
+      workflowId, ...opts
+    }) {
+      return this._makeRequest({
         method: "PATCH",
-        path: `/workflows/${workflowId}`,
-        data: updatedMetadata,
+        path: `workflows/${workflowId}/attributes`,
+        ...opts,
       });
     },
   },

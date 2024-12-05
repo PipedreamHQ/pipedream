@@ -1,6 +1,5 @@
 import ironclad from "../../ironclad.app.mjs";
 import crypto from "crypto";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ironclad-new-workflow-document-event-instant",
@@ -10,10 +9,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    ironclad: {
-      type: "app",
-      app: "ironclad",
-    },
+    ironclad,
     selectedEvent: {
       propDefinition: [
         "ironclad",

@@ -1,4 +1,3 @@
-import { axios } from "@pipedream/platform";
 import ironclad from "../../ironclad.app.mjs";
 import crypto from "crypto";
 

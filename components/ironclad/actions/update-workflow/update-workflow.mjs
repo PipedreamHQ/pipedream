@@ -1,5 +1,4 @@
 import ironclad from "../../ironclad.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ironclad-update-workflow",
