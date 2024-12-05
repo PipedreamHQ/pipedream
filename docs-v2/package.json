@@ -2,6 +2,7 @@
   "name": "@pipedream/docs",
   "version": "0.0.1",
   "description": "Pipedream docs",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -16,6 +17,7 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "@vercel/analytics": "^1.3.1",
+    "chalk": "^5.3.0",
     "eslint": "^8.57.0",
     "eslint-plugin-jest": "^27.9.0",
     "eslint-plugin-jsonc": "^2.16.0",
