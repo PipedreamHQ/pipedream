@@ -5,6 +5,8 @@ import type {
   AsyncResponseManager,
 } from "./async.js";
 import type {
+  ConfigurableProps,
+  ConfiguredProps,
   V1Component,
   V1DeployedComponent,
 } from "./component.js";
@@ -62,7 +64,7 @@ export enum AppAuthType {
 /**
  * Response object for a Pipedream app's metadata
  */
-export type AppResponse = AppInfo & {
+export type App = AppInfo & {
   /**
    * The human-readable name of the app.
    */
@@ -89,11 +91,22 @@ export type AppResponse = AppInfo & {
   categories: string[];
 };
 
-export type ComponentConfigureResponse = {
+/**
+ * @deprecated Use `App` instead.
+ */
+export type AppResponse = App;
+
+// TODO: Add docstring
+export type ConfigureComponentResponse = {
   options: { label: string; value: string; }[];
   stringOptions: string[];
   errors: string[];
 };
+
+/**
+ * @deprecated Use `ConfigureComponentResponse` instead.
+ */
+export type ComponentConfigureResponse = ConfigureComponentResponse;
 
 /**
  * Parameters for the retrieval of apps from the Connect API
@@ -185,27 +198,96 @@ export type Account = {
   credentials?: Record<string, string>;
 };
 
-export type ComponentReloadPropsOpts = {
+export type ReloadComponentPropsOpts = {
+  /**
+   * Your end user ID, for whom you're configuring the component.
+   */
+  externalUserId: string;
+
+  /**
+   * @deprecated Use `externalUserId` instead.
+   */
   userId: string;
-  componentId: string;
-  configuredProps: any;  // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  /**
+   * The ID of the component you're configuring. This is the key that uniquely
+   * identifies the component.
+   */
+  componentId: string | ComponentId;
+
+  /**
+   * The props that have already been configured for the component. This is a
+   * JSON-serializable object with the prop names as keys and the configured
+   * values as values.
+   */
+  configuredProps: ConfiguredProps<ConfigurableProps>;
+
   dynamicPropsId?: string;
 };
 
-export type ComponentConfigureOpts = {
+/**
+ * @deprecated Use `ReloadComponentPropsOpts` instead.
+ */
+export type ComponentReloadPropsOpts = ReloadComponentPropsOpts;
+
+export type ConfigureComponentOpts = {
+  /**
+   * Your end user ID, for whom you're configuring the component.
+   */
+  externalUserId: string;
+
+  /**
+   * @deprecated Use `externalUserId` instead.
+   */
   userId: string;
-  componentId: string;
+
+  /**
+   * The ID of the component you're configuring. This is the key that uniquely
+   * identifies the component.
+   */
+  componentId: string | ComponentId;
+
+  /**
+   * The name of the prop you're configuring.
+   */
   propName: string;
-  configuredProps: any;  // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  /**
+   * The props that have already been configured for the component. This is a
+   * JSON-serializable object with the prop names as keys and the configured
+   * values as values.
+   */
+  configuredProps: ConfiguredProps<ConfigurableProps>;
+
   dynamicPropsId?: string;
   query?: string;
 };
 
-export type GetComponentOpts = {
+/**
+ * @deprecated Use `ConfigureComponentOpts` instead.
+ */
+export type ComponentConfigureOpts = ConfigureComponentOpts;
+
+export type GetComponentsOpts = {
   q?: string;
   app?: string;
   componentType?: "trigger" | "action";
 };
+
+/**
+ * @deprecated Use `GetComponentsOpts` instead.
+ */
+export type GetComponentOpts = GetComponentsOpts;
+
+export type ComponentId = {
+  /**
+   * The key that uniquely identifies the component.
+   *
+   * @example "gitlab-list-commits"
+   * @example "slack-send-message"
+   */
+  key: string;
+}
 
 /**
  * Response received after creating a connect token.
@@ -226,17 +308,108 @@ export type ConnectTokenResponse = {
   connect_link_url: string;
 };
 
-export type AccountsRequestResponse = { data: Account[]; };
+export type GetAccountsResponse = { data: Account[]; };
 
-export type AppsRequestResponse = { data: AppResponse[]; };
+/**
+ * @deprecated Use `GetAccountsResponse` instead.
+ */
+export type AccountsRequestResponse = GetAccountsResponse;
 
-export type AppRequestResponse = { data: AppResponse; };
+export type GetAppsResponse = { data: App[]; };
 
-export type ComponentsRequestResponse = {
+/**
+ * @deprecated Use `GetAppsResponse` instead.
+ */
+export type AppsRequestResponse = GetAppsResponse;
+
+export type GetAppResponse = { data: App; };
+
+/**
+ * @deprecated Use `GetAppResponse` instead.
+ */
+export type AppRequestResponse = GetAppResponse;
+
+export type GetComponentsResponse = {
   data: Omit<V1Component, "configurable_props">[];
 };
 
-export type ComponentRequestResponse = { data: V1Component; };
+/**
+ * @deprecated Use `GetComponentsResponse` instead.
+ */
+export type ComponentsRequestResponse = GetComponentsResponse;
+
+export type GetComponentResponse = { data: V1Component; };
+
+/**
+ * @deprecated Use `GetComponentResponse` instead.
+ */
+export type ComponentRequestResponse = GetComponentResponse;
+
+export type RunActionOpts = {
+  /**
+   * Your end user ID, for whom you're running the action.
+   */
+  externalUserId: string;
+
+  /**
+   * @deprecated Use `externalUserId` instead.
+   */
+  userId: string;
+
+  /**
+   * The ID of the action you're running. This is the key that uniquely
+   * identifies the action.
+   */
+  actionId: string | ComponentId;
+
+  /**
+   * The props that have already been configured for the action. This is a
+   * JSON-serializable object with the prop names as keys and the configured
+   * values as values.
+   */
+  configuredProps: ConfiguredProps<ConfigurableProps>;
+
+  dynamicPropsId?: string;
+};
+
+// TODO: Add docstring
+export type RunActionResponse = {
+  exports: unknown;
+  os: unknown[];
+  ret: unknown;
+};
+
+export type DeployTriggerOpts = {
+  /**
+   * Your end user ID, for whom you're deploying the trigger.
+   */
+  externalUserId: string;
+
+  /**
+   * @deprecated Use `externalUserId` instead.
+   */
+  userId: string;
+
+  /**
+   * The ID of the trigger you're deploying. This is the key that uniquely
+   * identifies the trigger.
+   */
+  triggerId: string | ComponentId;
+
+  /**
+   * The props that have already been configured for the trigger. This is a
+   * JSON-serializable object with the prop names as keys and the configured
+   * values as values.
+   */
+  configuredProps: ConfiguredProps<ConfigurableProps>;
+
+  dynamicPropsId?: string;
+
+  /**
+   * The webhook URL that the trigger will use to send the events it generates.
+   */
+  webhookUrl?: string;
+};
 
 /**
  * Different ways in which customers can authorize requests to HTTP endpoints
@@ -502,24 +675,33 @@ export abstract class BaseClient {
    * console.log(accounts);
    * ```
    */
-  public async getAccounts(
-    params: GetAccountOpts = {},
-  ): Promise<AccountsRequestResponse> {
-    const resp = await this.makeConnectRequest<AccountsRequestResponse>("/accounts", {
+  public getAccounts(params: GetAccountOpts = {}) {
+    return this.makeConnectRequest<GetAccountsResponse>("/accounts", {
       method: "GET",
       params,
     });
-
-    return resp;
   }
 
-  // XXX only here while need project auth
-  public async apps(opts?: GetAppsOpts) {
+  /**
+   * Retrieves the list of apps available in Pipedream.
+   *
+   * @param params - The query parameters for retrieving apps.
+   * @param params.q - A search query to filter the apps.
+   *
+   * @returns A promise resolving to a list of apps.
+   *
+   * @example
+   * ```typescript
+   * const apps = await client.getApps({ q: "slack" });
+   * console.log(apps);
+   * ```
+   */
+  public async getApps(opts?: GetAppsOpts) {
     const params: Record<string, string> = {};
     if (opts?.q) {
       params.q = opts.q;
     }
-    const resp = await this.makeAuthorizedRequest<AppsRequestResponse>(
+    const resp = await this.makeAuthorizedRequest<GetAppsResponse>(
       "/apps",
       {
         method: "GET",
@@ -529,16 +711,56 @@ export abstract class BaseClient {
     return resp;
   }
 
-  public async app(idOrNameSlug: string) {
+  /**
+   * @deprecated Use `getApps` instead.
+   */
+  public apps(opts?: GetAppsOpts) {
+    return this.getApps(opts);
+  }
+
+  /**
+   * Retrieves the metadata for a specific app.
+   *
+   * @param idOrNameSlug - The ID or name slug of the app.
+   * @returns A promise resolving to the app metadata.
+   *
+   * @example
+   * ```typescript
+   * const app = await client.getApp("slack");
+   * console.log(app);
+   * ```
+   */
+  public async getApp(idOrNameSlug: string) {
     const url = `/apps/${idOrNameSlug}`;
-    const resp = await this.makeAuthorizedRequest<AppRequestResponse>(url, {
+    const resp = await this.makeAuthorizedRequest<GetAppResponse>(url, {
       method: "GET",
     });
     return resp;
   }
 
-  // XXX only here while need project auth
-  public async components(opts?: GetComponentOpts) {
+  /**
+   * @deprecated Use `getApp` instead.
+   */
+  public app(idOrNameSlug: string) {
+    return this.getApp(idOrNameSlug);
+  }
+
+  /**
+   * Retrieves the list of components available in Pipedream.
+   *
+   * @param opts - The options for retrieving components.
+   * @param opts.q - A search query to filter the components.
+   * @param opts.app - The ID or name slug of the app to filter the components.
+   * @param opts.componentType - The type of component to filter (either "trigger" or "action").
+   * @returns A promise resolving to a list of components.
+   *
+   * @example
+   * ```typescript
+   * const components = await client.getComponents({ q: "slack" });
+   * console.log(components);
+   * ```
+   */
+  public async getComponents(opts?: GetComponentsOpts) {
     const params: Record<string, string> = {
       limit: "20",
     };
@@ -563,88 +785,209 @@ export abstract class BaseClient {
     return resp;
   }
 
-  public async component({ key }: { key: string; }) {
-    const url = `/components/${key}`;
-    const resp = await this.makeConnectRequest<ComponentRequestResponse>(url, {
+  /**
+   * @deprecated Use `getComponents` instead.
+   */
+  public components(opts?: GetComponentOpts) {
+    return this.getComponents(opts);
+  }
+
+  /**
+   * Retrieves the metadata for a specific component.
+   *
+   * @param id - The identifier of the component.
+   * @param id.key - The key that uniquely identifies the component.
+   * @returns A promise resolving to the component metadata.
+   *
+   * @example
+   * ```typescript
+   * const component = await client.getComponent("slack-send-message");
+   * console.log(component);
+   * ```
+   */
+  public async getComponent(id: ComponentId) {
+    const { key } = id;
+    const path = `/components/${key}`;
+    const resp = await this.makeConnectRequest<GetComponentResponse>(path, {
       method: "GET",
     });
     return resp;
   }
 
-  public async componentConfigure(opts: ComponentConfigureOpts) {
+  /**
+   * @deprecated Use `getComponent` instead.
+   */
+  public component({ key }: { key: string; }) {
+    return this.getComponent({
+      key,
+    });
+  }
+
+  /**
+   * Configure the next component's prop, based on the current component's
+   * configuration.
+   * @param opts - The options for configuring the component.
+   * @returns
+   */
+  public configureComponent(opts: ConfigureComponentOpts) {
+    const {
+      userId,
+      externalUserId = userId,
+      componentId,
+    } = opts;
+
+    const id = typeof componentId === "object"
+      ? componentId.key
+      : componentId;
+
     const body = {
       async_handle: this.asyncResponseManager.createAsyncHandle(),
-      external_user_id: opts.userId,
-      id: opts.componentId,
+      external_user_id: externalUserId,
+      id,
       prop_name: opts.propName,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
     };
-    return await this.makeConnectRequestAsync<ComponentConfigureResponse>("/components/configure", {
+    return this.makeConnectRequestAsync<ConfigureComponentResponse>("/components/configure", {
       method: "POST",
       body,
     });
   }
 
-  public async componentReloadProps(opts: ComponentReloadPropsOpts) {
+  /**
+   * @deprecated Use `configureComponent` instead.
+   */
+  public componentConfigure(opts: ComponentConfigureOpts) {
+    return this.configureComponent(opts);
+  }
+
+  // TODO: Add docstring
+  public reloadComponentProps(opts: ReloadComponentPropsOpts) {
+    const {
+      userId,
+      externalUserId = userId,
+      componentId,
+    } = opts;
+
+    const id = typeof componentId === "object"
+      ? componentId.key
+      : componentId;
+
     // RpcActionReloadPropsInput
     const body = {
       async_handle: this.asyncResponseManager.createAsyncHandle(),
-      external_user_id: opts.userId,
-      id: opts.componentId,
+      external_user_id: externalUserId,
+      id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return await this.makeConnectRequestAsync<Record<string, any>>("/components/props", {
+
+    return this.makeConnectRequestAsync<ConfiguredProps<ConfigurableProps>>(
+      "/components/props", {
       // TODO trigger
-      method: "POST",
-      body,
-    });
+        method: "POST",
+        body,
+      },
+    );
   }
 
-  public async actionRun(opts: {
-    userId: string;
-    actionId: string;
-    configuredProps: Record<string, any>;  // eslint-disable-line @typescript-eslint/no-explicit-any
-    dynamicPropsId?: string;
-  }) {
+  /**
+   * @deprecated Use `reloadComponentProps` instead.
+   */
+  public componentReloadProps(opts: ComponentReloadPropsOpts) {
+    return this.reloadComponentProps(opts);
+  }
+
+  /**
+   * Invoke an action component for a Pipedream Connect user in a project
+   *
+   * @param opts
+   * @returns A promise resolving to the response from the action's execution.
+   *
+   * @example
+   * ```typescript
+   * const response = await client.runAction({
+   *   externalUserId: "jverce",
+   *   actionId: {
+   *     key: "gitlab-list-commits",
+   *   },
+   *   configuredProps: {
+   *     gitlab: {
+   *       authProvisionId: "apn_z8hD1b4"
+   *     },
+   *     projectId: 21208123,
+   *     refName: "10-0-stable-ee",
+   *   },
+   * });
+   * ```
+   */
+  public runAction(opts: RunActionOpts) {
+    const {
+      userId,
+      externalUserId = userId,
+      actionId,
+    } = opts;
+
+    const id = typeof actionId === "object"
+      ? actionId.key
+      : actionId;
+
     const body = {
       async_handle: this.asyncResponseManager.createAsyncHandle(),
-      external_user_id: opts.userId,
-      id: opts.actionId,
+      external_user_id: externalUserId,
+      id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
     };
-    return await this.makeConnectRequestAsync<{
-      exports: unknown;
-      os: unknown[];
-      ret: unknown;
-    }>("/actions/run", {
+    return this.makeConnectRequestAsync<RunActionResponse>("/actions/run", {
       method: "POST",
       body,
     });
   }
 
-  public async triggerDeploy(opts: {
-    userId: string;
-    triggerId: string;
-    configuredProps: Record<string, any>;  // eslint-disable-line @typescript-eslint/no-explicit-any
-    dynamicPropsId?: string;
-    webhookUrl?: string;
-  }) {
+  /**
+   * @deprecated Use `runAction` instead.
+   */
+  public actionRun(opts: RunActionOpts) {
+    return this.runAction(opts);
+  }
+
+  /**
+   * Deploy a trigger component for a Pipedream Connect user in a project
+   *
+   * @param opts
+   * @returns A promise resolving to the response from the trigger's deployment.
+   */
+  public deployTrigger(opts: DeployTriggerOpts) {
+    const {
+      userId,
+      externalUserId = userId,
+      triggerId,
+    } = opts;
+
+    const id = typeof triggerId === "object"
+      ? triggerId.key
+      : triggerId;
+
     const body = {
       async_handle: this.asyncResponseManager.createAsyncHandle(),
-      external_user_id: opts.userId,
-      id: opts.triggerId,
+      external_user_id: externalUserId,
+      id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
       webhook_url: opts.webhookUrl,
-    }
-    return await this.makeConnectRequestAsync<V1DeployedComponent>("/triggers/deploy", {
+    };
+    return this.makeConnectRequestAsync<V1DeployedComponent>("/triggers/deploy", {
       method: "POST",
       body,
     });
+  }
+
+  /**
+   * @deprecated Use `triggerDeploy` instead.
+   */
+  public triggerDeploy(opts: DeployTriggerOpts) {
+    return this.triggerDeploy(opts);
   }
 
   /**
