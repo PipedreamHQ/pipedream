@@ -1,6 +1,12 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.0.10] - 2024-12-04
+
+### Changed
+
+- Handle correct casing of `stringOptions` in configure prop response
+
 ## [1.0.9] - 2024-12-04
 
 ### Added

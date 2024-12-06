@@ -91,7 +91,7 @@ export type AppResponse = AppInfo & {
 
 export type ComponentConfigureResponse = {
   options: { label: string; value: string; }[];
-  string_options: string[];
+  stringOptions: string[];
   errors: string[];
 };
 
@@ -580,11 +580,7 @@ export abstract class BaseClient {
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
     };
-    return await this.makeConnectRequestAsync<{
-      options: { label: string; value: string; }[];
-      string_options: string[];
-      errors: string[];
-    }>("/components/configure", {
+    return await this.makeConnectRequestAsync<ComponentConfigureResponse>("/components/configure", {
       method: "POST",
       body,
     });
