@@ -77,13 +77,13 @@ By default, if a step fails on all 8 retries, and throws a final error, you'll r
 
 On any workflow with auto-retry enabled, you can optionally choose to **Send notification on first error**. This is disabled by default so you don't get emails for transient errors, but you can enable for critical workflows where you want visibility into all errors.
 
-For custom control over error handling, you can implement error logic in code steps (e.g. `try` / `catch` statements in Node.js code), or [create your own custom error workflow](/workflows/errors/#process-errors-with-custom-logic-instead-of-email).
+For custom control over error handling, you can implement error logic in code steps (e.g. `try` / `catch` statements in Node.js code), or [create your own custom error workflow](/workflows/errors/#handle-errors-with-custom-logic).
 
 ## Data Retention Controls
 
 By default, Pipedream stores exports, logs, and other data tied to workflow executions. You can view these logs in two places:
 
-1. [The workflow inspector](/workflows/events/inspect/#the-inspector)
+1. [The workflow inspector](/workflows/inspect/#the-inspector)
 2. [Event History](/event-history)
 
 But if you're processing sensitive data, you may not want to store those logs. You can **Disable data retention** in your workflow settings to disable **all** logging. Since Pipedream stores no workflow logs with this setting enabled, you'll see no logs in the inspector or event history UI.
@@ -100,7 +100,7 @@ Refer to our [pricing page](https://pipedream.com/pricing) to understand the lat
 <Callout type="info">
 **Avoid surfacing events in the builder**
 
-Even with data retention disabled on your workflow, the builder will still surface inbound events when in build mode. To avoid surfacing potentially sensitive data here as well, refer to [these docs](/workflows/steps/triggers/#pipedream-specific-request-parameters).
+Even with data retention disabled on your workflow, the builder will still surface inbound events when in build mode. To avoid surfacing potentially sensitive data here as well, refer to [these docs](/workflows/triggers/#pipedream-specific-request-parameters).
 
 </Callout>
 
@@ -170,7 +170,7 @@ Incoming requests are handled by a single worker, one at a time. If you only rec
 
 But you might have a higher-volume app that receives two concurrent requests. In that case, Pipedream spins up **two** workers to handle each request.
 
-For many user-facing (even internal) applications, the number of requests over time can be modeled with a [Poisson distrubution](https://en.wikipedia.org/wiki/Poisson_distribution). You can use that distribution to estimate the number of workers you need at an average time, or set it higher if you want to ensure a specific percentage of requests hit a dedicated worker. You can also save a record of all workflow runs to your own database, with the timestamp they ran ([see `steps.trigger.context.ts`](/workflows/events/#steps-trigger-context)), and look at your own pattern of requests, to compute the optimal number of workers.
+For many user-facing (even internal) applications, the number of requests over time can be modeled with a [Poisson distrubution](https://en.wikipedia.org/wiki/Poisson_distribution). You can use that distribution to estimate the number of workers you need at an average time, or set it higher if you want to ensure a specific percentage of requests hit a dedicated worker. You can also save a record of all workflow runs to your own database, with the timestamp they ran ([see `steps.trigger.context.ts`](/workflows/events/#stepstriggercontext)), and look at your own pattern of requests, to compute the optimal number of workers.
 
 ### Do compute budgets apply to dedicated workers?
 

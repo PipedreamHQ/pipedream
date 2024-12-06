@@ -46,6 +46,7 @@
     "@typescript-eslint/parser": "^8",
     "eslint": "^8",
     "eslint-config-next": "^15",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jest": "^28",
     "eslint-plugin-jsonc": "^1.6.0",
     "eslint-plugin-pipedream": "0.2.4",
