@@ -59,36 +59,36 @@ export default {
     }
   },
   abuse: {
-    display: "children"
+    display: "hidden"
   },
   airtable: {
-    display: "children"
+    display: "hidden"
   },
   examples: {
-    display: "children"
+    display: "hidden"
   },
   "migrate-from-v1": {
-    display: "children"
+    display: "hidden"
   },
   "new-feature-or-bug": {
-    display: "children"
+    display: "hidden"
   },
   "nodejs20-faq-2024-02": {
-    display: "children"
+    display: "hidden"
   },
   "scheduling-future-tasks": {
-    display: "children"
+    display: "hidden"
   },
   "shopify-faq-2023-10": {
-    display: "children"
+    display: "hidden"
   },
   subprocessors: {
-    display: "children"
+    display: "hidden"
   },
   "pipedream-axios": {
-    display: "children"
+    display: "hidden"
   },
   status: {
-    display: "children"
+    display: "hidden"
   }
 } as const
