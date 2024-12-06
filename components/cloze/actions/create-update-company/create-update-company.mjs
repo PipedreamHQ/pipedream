@@ -136,7 +136,7 @@ export default {
     } = this;
 
     if (!name && !domains) {
-      throw new ConfigurationError("**Company Name** or **Domains** are required.");
+      throw new ConfigurationError("Either **Company Name** or **Domains** are required.");
     }
 
     const response = await createCompany({
