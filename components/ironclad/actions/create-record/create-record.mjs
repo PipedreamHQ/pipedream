@@ -4,7 +4,7 @@ export default {
   key: "ironclad-create-record",
   name: "Create Record",
   description: "Creates a new record in Ironclad. [See the documentation](https://developer.ironcladapp.com/reference/create-a-record)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     ironclad,
@@ -58,17 +58,19 @@ export default {
     if (!this.properties?.length) {
       return props;
     }
-    const { properties } = await this.ironclad.getRecordSchema();
+    const { properties } = await this.ironclad.getRecordsSchema();
     for (const property of this.properties) {
       props[property] = {
-        type: "string",
+        type: properties[property].type === "boolean"
+          ? "boolean"
+          : "string",
         label: properties[property].displayName,
       };
     }
     return props;
   },
   async run({ $ }) {
-    const { properties } = await this.ironclad.getRecordSchema();
+    const { properties } = await this.ironclad.getRecordsSchema();
     const propertiesData = {};
     for (const property of this.properties) {
       propertiesData[property] = {

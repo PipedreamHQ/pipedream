@@ -3,40 +3,68 @@ import ironclad from "../../ironclad.app.mjs";
 export default {
   key: "ironclad-launch-workflow",
   name: "Launch Workflow",
-  description: "Launches a new workflow in Ironclad. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Launches a new workflow in Ironclad. [See the documentation](https://developer.ironcladapp.com/reference/launch-a-new-workflow)",
+  version: "0.0.1",
   type: "action",
   props: {
     ironclad,
-    workflowDetails: {
+    templateId: {
       propDefinition: [
         ironclad,
-        "workflowDetails",
+        "templateId",
       ],
-    },
-    attachments: {
-      propDefinition: [
-        ironclad,
-        "attachments",
-      ],
-      optional: true,
-    },
-    user: {
-      propDefinition: [
-        ironclad,
-        "user",
-      ],
-      optional: true,
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (!this.templateId) {
+      return props;
+    }
+    const { schema } = await this.ironclad.getWorkflowSchema({
+      templateId: this.templateId,
+    });
+    for (const [
+      key,
+      value,
+    ] of Object.entries(schema)) {
+      if (!value.readOnly && value?.type !== "document" && value?.elementType?.type !== "document") {
+        props[key] = {
+          type: value.type === "boolean"
+            ? "boolean"
+            : value.type === "array"
+              ? "string[]"
+              : "string",
+          label: value.displayName,
+          optional: !(key === "counterpartyName"),
+        };
+        if (key === "paperSource") {
+          props[key].options = [
+            "Counterparty paper",
+            "Our paper",
+          ];
+        }
+      }
+    }
+    return props;
+  },
   async run({ $ }) {
-    const response = await this.ironclad.launchWorkflow(
-      this.workflowDetails,
-      this.attachments,
-      this.user,
-    );
-    const workflowId = response.id || response.workflowId || "unknown";
-    $.export("$summary", `Workflow launched successfully with ID ${workflowId}`);
+    const {
+      ironclad,
+      templateId,
+      ...attributes
+    } = this;
+
+    const response = await ironclad.launchWorkflow({
+      $,
+      data: {
+        template: templateId,
+        attributes: {
+          ...attributes,
+        },
+      },
+    });
+    $.export("$summary", `Workflow launched successfully with ID ${response.id}`);
     return response;
   },
 };
