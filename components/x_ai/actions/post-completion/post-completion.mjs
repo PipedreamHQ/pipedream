@@ -4,7 +4,7 @@ export default {
   key: "x_ai-post-completion",
   name: "Post Completion",
   description: "Create a language model response for a given prompt. [See the documentation](https://docs.x.ai/api/endpoints#completions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
