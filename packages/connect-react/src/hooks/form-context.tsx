@@ -8,6 +8,7 @@ import type {
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
+import type { FormFieldContext } from "./form-field-context";
 
 export type DynamicProps<T extends ConfigurableProps> = { id: string; configurable_props: T; }; // TODO
 
@@ -17,12 +18,14 @@ export type FormContext<T extends ConfigurableProps> = {
   configuredProps: ConfiguredProps<T>;
   dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
+  fields: Record<string, FormFieldContext<ConfigurableProp>>;
   id: string;
   isValid: boolean;
   optionalPropIsEnabled: (prop: ConfigurableProp) => boolean;
   optionalPropSetEnabled: (prop: ConfigurableProp, enabled: boolean) => void;
   props: ComponentFormProps<T>;
   queryDisabledIdx?: number;
+  registerField: <T extends ConfigurableProp>(field: FormFieldContext<T>) => void;
   setConfiguredProp: (idx: number, value: unknown) => void; // XXX type safety for value (T will rarely be static right?)
   setSubmitting: (submitting: boolean) => void;
   submitting: boolean;
@@ -64,6 +67,10 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     queryDisabledIdx,
     setQueryDisabledIdx,
   ] = useState<number | undefined>(0);
+  const [
+    fields,
+    setFields,
+  ] = useState<Record<string, FormFieldContext<ConfigurableProp>>>({});
   const [
     submitting,
     setSubmitting,
@@ -173,7 +180,14 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         errs.push("not a string");
       }
     } else if (prop.type === "app") {
-      // TODO need to know about auth type
+      const field = fields[prop.name]
+      if (!field.extra.app) {
+        errs.push("app field not registered")
+      } else if (!value) {
+        errs.push("no app configured")
+      } else if (typeof value === "object" && "authProvisionId" in value && !value.authProvisionId) {
+        errs.push("no auth provision configured")
+      }
     }
     return errs;
   };
@@ -241,7 +255,10 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   // clear all props on user change
-  const [prevUserId, setPrevUserId] = useState(userId)
+  const [
+    prevUserId,
+    setPrevUserId,
+  ] = useState(userId)
   useEffect(() => {
     if (prevUserId !== userId) {
       updateConfiguredProps({});
@@ -299,6 +316,11 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setEnabledOptionalProps(newEnabledOptionalProps);
   };
 
+  const registerField = <T extends ConfigurableProp>(field: FormFieldContext<T>) => {
+    fields[field.prop.name] = field
+    setFields(fields);
+  };
+
   // console.log("***", configurableProps, configuredProps)
   const value: FormContext<T> = {
     id,
@@ -310,9 +332,12 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     configuredProps,
     dynamicProps,
     dynamicPropsQueryIsFetching,
+    errors,
+    fields,
     optionalPropIsEnabled,
     optionalPropSetEnabled,
     queryDisabledIdx,
+    registerField,
     setConfiguredProp,
     setSubmitting,
     submitting,
