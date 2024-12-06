@@ -9,7 +9,10 @@ export default {
     "title": "Quickstart",
   },
   "workflows": {
-    "title": "Running workflows",
+    "title": "Running Workflows",
+  },
+  "components": {
+    "title": "Running Components",
   },
   "api": {
     "title": "API & SDK Reference",

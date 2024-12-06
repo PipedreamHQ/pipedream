@@ -1,6 +1,28 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.1.1] - 2024-12-12
+
+### Changed
+
+- Fixed the docstring referring to the `componentConfigure` and
+  `reloadComponentProps` methods of the components API
+
+## [1.1.0] - 2024-12-10
+
+### Added
+
+- Documented the public methods and types for the components API
+
+### Changed
+
+- Renamed the methods involved with the components API (e.g.
+  `componentConfigure` -> `configureComponent`)
+- Renamed the types used for passing options and accessing responses from the
+  components API endpoints (e.g. `ComponentRequestResponse` ->
+  `GetComponentResponse`)
+- Marked the renamed methods and types as deprecated
+
 ## [1.0.12] - 2024-12-06
 
 ### Added
@@ -55,7 +77,7 @@
 
 - The backend client used to default to `production` if the environment was not
 specified. Now `environment` is a required argument for `createBackendClient`
-and must be one of `production` or `development`.  
+and must be one of `production` or `development`.
 
 ## [1.0.4] - 2024-11-15
 
