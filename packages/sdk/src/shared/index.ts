@@ -987,7 +987,7 @@ export abstract class BaseClient {
    * @deprecated Use `triggerDeploy` instead.
    */
   public triggerDeploy(opts: DeployTriggerOpts) {
-    return this.triggerDeploy(opts);
+    return this.deployTrigger(opts);
   }
 
   /**
