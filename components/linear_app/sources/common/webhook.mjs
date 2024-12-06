@@ -25,7 +25,7 @@ export default {
     db: "$.service.db",
   },
   async additionalProps() {
-    const props = {}; console.log(await this.isAdmin());
+    const props = {};
     if (!(await this.isAdmin())) {
       props.alert = {
         type: "alert",
