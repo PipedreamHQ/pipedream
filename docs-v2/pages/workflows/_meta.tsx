@@ -14,9 +14,9 @@ export default {
   "domains": "Custom Domains",
   "sharing": "Sharing workflows",
   "build-and-run": {
-    "display": "hidden"
+    "display": "hidden",
   },
   "switch-to-v2": {
-    "display": "hidden"
-  }
+    "display": "hidden",
+  },
 } as const

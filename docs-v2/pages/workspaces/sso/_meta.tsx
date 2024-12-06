@@ -2,5 +2,5 @@ export default {
   "index": "Overview",
   "google": "Google Workspace",
   "okta": "Okta",
-  "saml": "SAML"
+  "saml": "SAML",
 } as const

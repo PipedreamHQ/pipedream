@@ -1,5 +1,5 @@
 export default {
   "waiting-to-execute-next-step-of-workflow": {
-    "display": "hidden"
-  }
+    "display": "hidden",
+  },
 } as const

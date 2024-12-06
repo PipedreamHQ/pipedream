@@ -1,3 +1,3 @@
 export default {
-  "index": "File Stores"
+  "index": "File Stores",
 } as const

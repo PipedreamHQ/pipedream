@@ -1,6 +1,6 @@
 export default {
   "index": {
-    "display": "hidden"
-  }
+    "display": "hidden",
+  },
 } as const
 

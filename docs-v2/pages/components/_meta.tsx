@@ -4,5 +4,5 @@ export default {
   "actions-quickstart": "Quickstart — Actions",
   "sources-quickstart": "Quickstart — Sources",
   "guidelines": "Guidelines",
-  "typescript": "TypeScript components"
+  "typescript": "TypeScript components",
 } as const

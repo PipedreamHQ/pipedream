@@ -5,5 +5,5 @@ export default {
   "parallel": "Branching - Parallel",
   "delay": "Delay",
   "filter": "Filter",
-  "end-workflow": "End Workflow"
+  "end-workflow": "End Workflow",
 } as const

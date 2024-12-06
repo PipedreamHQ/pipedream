@@ -3,5 +3,5 @@ export default {
   "auth": "Authentication",
   "workflows": "Example: Create a workflow",
   "rss": "Example: Create an RSS source",
-  "webhooks": "Example: Webhooks"
+  "webhooks": "Example: Webhooks",
 } as const

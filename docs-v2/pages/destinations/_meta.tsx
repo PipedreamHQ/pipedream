@@ -4,5 +4,5 @@ export default {
   "http": "HTTP",
   "emit": "Emit",
   "sse": "SSE",
-  "s3": "S3"
+  "s3": "S3",
 } as const

@@ -7,5 +7,5 @@ export default {
   "delay": "Delaying steps",
   "rerun": "Pause, resume, and rerun steps",
   "import-mappings": "Different PyPI package name and import name",
-  "faqs": "Python FAQs"
+  "faqs": "Python FAQs",
 } as const

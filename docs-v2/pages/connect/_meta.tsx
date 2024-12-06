@@ -1,41 +1,41 @@
 export default {
   "index": {
-    "title": "Overview"
+    "title": "Overview",
   },
   "use-cases": {
-    "title": "Use Cases"
+    "title": "Use Cases",
   },
   "quickstart": {
-    "title": "Quickstart"
+    "title": "Quickstart",
   },
   "workflows": {
-    "title": "Running workflows"
+    "title": "Running workflows",
   },
   "api": {
-    "title": "API & SDK Reference"
+    "title": "API & SDK Reference",
   },
   "tokens": {
-    "title": "Connect Tokens"
+    "title": "Connect Tokens",
   },
   "environments": {
-    "title": "Environments"
+    "title": "Environments",
   },
   "oauth-clients": {
-    "title": "OAuth Clients"
+    "title": "OAuth Clients",
   },
   "webhooks": {
-    "title": "Webhooks"
+    "title": "Webhooks",
   },
   "connect-link": {
-    "title": "Connect Link"
+    "title": "Connect Link",
   },
   "troubleshooting": {
-    "title": "Troubleshooting"
+    "title": "Troubleshooting",
   },
   "customize-your-app": {
-    "title": "Customize Your App"
+    "title": "Customize Your App",
   },
   "migrating-from-project-keys-to-oauth": {
-    "display": "hidden"
-  }
+    "display": "hidden",
+  },
 } as const

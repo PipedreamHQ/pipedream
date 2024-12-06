@@ -1,4 +1,4 @@
 export default {
   "index": "Connected Accounts",
-  "oauth-clients": "OAuth Clients"
+  "oauth-clients": "OAuth Clients",
 } as const

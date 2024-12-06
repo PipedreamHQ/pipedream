@@ -1,94 +1,94 @@
 export default {
-  index: "What is Pipedream?",
-  quickstart: "Quickstart",
-  workspaces: "Workspaces",
-  projects: "Projects",
-  workflows: "Workflows",
-  code: "Code",
+  "index": "What is Pipedream?",
+  "quickstart": "Quickstart",
+  "workspaces": "Workspaces",
+  "projects": "Projects",
+  "workflows": "Workflows",
+  "code": "Code",
   "data-stores": "Data Stores",
-  databases: "Databases",
+  "databases": "Databases",
   "connected-accounts": "Connected Accounts",
-  apps: "Integrations",
-  connect: {
-    title: "Pipedream Connect"
+  "apps": "Integrations",
+  "connect": {
+    title: "Pipedream Connect",
   },
-  components: "Components",
-  sources: "Sources",
+  "components": "Components",
+  "sources": "Sources",
   "event-history": "Event History",
-  http: "HTTP",
+  "http": "HTTP",
   "environment-variables": "Environment Variables",
   "rest-api": "REST API",
-  cli: "CLI",
-  destinations: "Destinations",
+  "cli": "CLI",
+  "destinations": "Destinations",
   "user-settings": "User and Billing Settings",
-  troubleshooting: "Troubleshooting",
-  pricing: "Pricing FAQ",
+  "troubleshooting": "Troubleshooting",
+  "pricing": "Pricing FAQ",
   "privacy-and-security": "Security",
-  limits: "Limits",
-  glossary: "Glossary of Terms",
-  support: {
+  "limits": "Limits",
+  "glossary": "Glossary of Terms",
+  "support": {
     title: "Support",
     type: "page",
     href: "https://pipedream.com/support",
-    newWindow: true
+    newWindow: true,
   },
   "pricing-page": {
     title: "Pricing",
     href: "https://pipedream.com/pricing",
     newWindow: true,
-    type: "page"
+    type: "page",
   },
-  statuspage: {
+  "statuspage": {
     title: "Status",
     type: "page",
     href: "https://status.pipedream.com",
-    newWindow: true
+    newWindow: true,
   },
-  version: {
+  "version": {
     title: "Version",
     type: "menu",
     items: {
       v3: {
         title: "Current",
-        href: "https://pipedream.com/docs"
+        href: "https://pipedream.com/docs",
       },
       v2: {
         title: "Linear (classic)",
-        href: "https://pipedream.com/docs/v2"
-      }
-    }
+        href: "https://pipedream.com/docs/v2",
+      },
+    },
   },
-  abuse: {
-    display: "hidden"
+  "abuse": {
+    display: "hidden",
   },
-  airtable: {
-    display: "hidden"
+  "airtable": {
+    display: "hidden",
   },
-  examples: {
-    display: "hidden"
+  "examples": {
+    display: "hidden",
   },
   "migrate-from-v1": {
-    display: "hidden"
+    display: "hidden",
   },
   "new-feature-or-bug": {
-    display: "hidden"
+    display: "hidden",
   },
   "nodejs20-faq-2024-02": {
-    display: "hidden"
+    display: "hidden",
   },
   "scheduling-future-tasks": {
-    display: "hidden"
+    display: "hidden",
   },
   "shopify-faq-2023-10": {
-    display: "hidden"
+    display: "hidden",
   },
-  subprocessors: {
-    display: "hidden"
+  "subprocessors": {
+    display: "hidden",
   },
   "pipedream-axios": {
-    display: "hidden"
+    display: "hidden",
   },
-  status: {
-    display: "hidden"
-  }
+  "status": {
+    display: "hidden",
+  },
 } as const

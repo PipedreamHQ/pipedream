@@ -9,5 +9,5 @@ export default {
   "rerun": "Pause, resume, and rerun steps",
   "async": "Running asynchronous code",
   "sharing-code": "Sharing code across workflows",
-  "browser-automation": "Browser automation"
+  "browser-automation": "Browser automation",
 } as const

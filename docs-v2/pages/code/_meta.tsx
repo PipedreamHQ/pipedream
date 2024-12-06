@@ -3,5 +3,5 @@ export default {
   "nodejs": "Node.js",
   "python": "Python",
   "go": "Go",
-  "bash": "Bash"
+  "bash": "Bash",
 } as const
