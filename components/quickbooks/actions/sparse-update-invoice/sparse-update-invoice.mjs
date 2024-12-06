@@ -1,5 +1,6 @@
 import { parseLineItems } from "../../common/utils.mjs";
 import quickbooks from "../../quickbooks.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-sparse-update-invoice",
@@ -41,7 +42,7 @@ export default {
       props.lineItems = {
         type: "string[]",
         label: "Line Items",
-        description: "Line items of an invoice. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
+        description: "Line items of an invoice. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, `DescriptionOnly`, `DiscountLineDetail`, or `SubTotalLineDetail`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
       };
       return props;
     }
@@ -96,16 +97,22 @@ export default {
     },
   },
   async run({ $ }) {
-    this.lineItems = this.lineItemsAsObjects
+    const lines = this.lineItemsAsObjects
       ? parseLineItems(this.lineItems)
       : this.buildLineItems();
+
+    lines.forEach((line) => {
+      if (line.DetailType !== "SalesItemLineDetail" && line.DetailType !== "GroupLineDetail" && line.DetailType !== "DescriptionOnly" && line.DetailType !== "DiscountLineDetail" && line.DetailType !== "SubTotalLineDetail") {
+        throw new ConfigurationError("Line Item DetailType must be `SalesItemLineDetail`, `GroupLineDetail`, `DescriptionOnly`, `DiscountLineDetail`, or `SubTotalLineDetail`");
+      }
+    });
 
     const { Invoice: invoice } = await this.quickbooks.getInvoice({
       $,
       invoiceId: this.invoiceId,
     });
 
-    if (this.lineItems?.length) invoice.Line?.push(...this.lineItems);
+    if (lines?.length) invoice.Line?.push(lines);
 
     const response = await this.quickbooks.sparseUpdateInvoice({
       $,

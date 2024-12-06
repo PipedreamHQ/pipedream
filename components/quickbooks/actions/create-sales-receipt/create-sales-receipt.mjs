@@ -1,5 +1,6 @@
 import quickbooks from "../../quickbooks.app.mjs";
 import { parseLineItems } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-create-sales-receipt",
@@ -30,7 +31,7 @@ export default {
       props.lineItems = {
         type: "string[]",
         label: "Line Items",
-        description: "Line items of a sales receipt. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
+        description: "Line items of a sales receipt. Set DetailType to `SalesItemLineDetail` or `GroupLineDetail`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
       };
       return props;
     }
@@ -85,12 +86,20 @@ export default {
     },
   },
   async run({ $ }) {
+    const lines = this.lineItemsAsObjects
+      ? parseLineItems(this.lineItems)
+      : this.buildLineItems();
+
+    lines.forEach((line) => {
+      if (line.DetailType !== "SalesItemLineDetail" && line.DetailType !== "GroupLineDetail") {
+        throw new ConfigurationError("Line Item DetailType must be `SalesItemLineDetail` or `GroupLineDetail`");
+      }
+    });
+
     const response = await this.quickbooks.createSalesReceipt({
       $,
       data: {
-        Line: this.lineItemsAsObjects
-          ? parseLineItems(this.lineItems)
-          : this.buildLineItems(),
+        Line: lines,
         CurrencyRef: this.currencyRefValue && {
           value: this.currencyRefValue,
         },

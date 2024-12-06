@@ -1,5 +1,6 @@
 import quickbooks from "../../quickbooks.app.mjs";
 import { parseLineItems } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "quickbooks-create-purchase",
@@ -49,7 +50,7 @@ export default {
       props.lineItems = {
         type: "string[]",
         label: "Line Items",
-        description: "Line items of a purchase. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }`",
+        description: "Line items of a purchase. Set DetailType to `AccountBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }`",
       };
       return props;
     }
@@ -104,6 +105,15 @@ export default {
     },
   },
   async run({ $ }) {
+    const lines = this.lineItemsAsObjects
+      ? parseLineItems(this.lineItems)
+      : this.buildLineItems();
+
+    lines.forEach((line) => {
+      if (line.DetailType !== "AccountBasedExpenseLineDetail") {
+        throw new ConfigurationError("Line Item DetailType must be `AccountBasedExpenseLineDetail`");
+      }
+    });
     const response = await this.quickbooks.createPurchase({
       $,
       data: {
@@ -111,9 +121,7 @@ export default {
         AccountRef: {
           value: this.accountRefValue,
         },
-        Line: this.lineItemsAsObjects
-          ? parseLineItems(this.lineItems)
-          : this.buildLineItems(),
+        Line: lines,
         CurrencyRef: {
           value: this.currencyRefValue,
         },

@@ -40,7 +40,7 @@ export default {
       props.lineItems = {
         type: "string[]",
         label: "Line Items",
-        description: "Line items of a bill. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }`",
+        description: "Line items of a bill. Set DetailType to `AccountBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }`",
       };
       return props;
     }
@@ -99,15 +99,23 @@ export default {
       throw new ConfigurationError("Must provide vendorRefValue, and lineItems parameters.");
     }
 
+    const lines = this.lineItemsAsObjects
+      ? parseLineItems(this.lineItems)
+      : this.buildLineItems();
+
+    lines.forEach((line) => {
+      if (line.DetailType !== "AccountBasedExpenseLineDetail") {
+        throw new ConfigurationError("Line Item DetailType must be `AccountBasedExpenseLineDetail`");
+      }
+    });
+
     const response = await this.quickbooks.createBill({
       $,
       data: {
         VendorRef: {
           value: this.vendorRefValue,
         },
-        Line: this.lineItemsAsObjects
-          ? parseLineItems(this.lineItems)
-          : this.buildLineItems(),
+        Line: lines,
         CurrencyRef: {
           value: this.currencyRefValue,
         },

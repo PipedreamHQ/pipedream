@@ -36,7 +36,7 @@ export default {
       props.lineItems = {
         type: "string[]",
         label: "Line Items",
-        description: "Line items of an invoice. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
+        description: "Line items of an invoice. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, or `DescriptionOnly`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
       };
       return props;
     }
@@ -95,12 +95,20 @@ export default {
       throw new ConfigurationError("Must provide lineItems, and customerRefValue parameters.");
     }
 
+    const lines = this.lineItemsAsObjects
+      ? parseLineItems(this.lineItems)
+      : this.buildLineItems();
+
+    lines.forEach((line) => {
+      if (line.DetailType !== "SalesItemLineDetail" && line.DetailType !== "GroupLineDetail" && line.DetailType !== "DescriptionOnly") {
+        throw new ConfigurationError("Line Item DetailType must be `SalesItemLineDetail`, `GroupLineDetail`, or `DescriptionOnly`");
+      }
+    });
+
     const response = await this.quickbooks.createInvoice({
       $,
       data: {
-        Line: this.lineItemsAsObjects
-          ? parseLineItems(this.lineItems)
-          : this.buildLineItems(),
+        Line: lines,
         CustomerRef: {
           value: this.customerRefValue,
         },

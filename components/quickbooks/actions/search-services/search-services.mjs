@@ -52,7 +52,7 @@ export default {
       ? ` MAXRESULTS ${this.maxResults}`
       : "";
 
-    const query = `select * from Item where Type = 'Service' and ${this.where_clause}${orderClause}${startPosition}${maxResults}`;
+    const query = `select * from Item where Type = 'Service' and ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
 
     const response = await this.quickbooks.query({
       $,
