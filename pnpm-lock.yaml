@@ -5705,8 +5705,8 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
       '@pipedream/platform':
-        specifier: ^1.3.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/linear_app:
     dependencies:
@@ -5714,8 +5714,8 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
       '@pipedream/platform':
-        specifier: ^1.3.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/linearb:
     dependencies:
@@ -40846,7 +40846,7 @@ snapshots:
   path-scurry@1.11.1:
     dependencies:
       lru-cache: 10.4.3
-      minipass: 5.0.0
+      minipass: 7.1.2
 
   path-to-regexp@6.3.0: {}
 
