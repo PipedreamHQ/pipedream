@@ -83,7 +83,7 @@ export default {
           }`,
         },
       });
-      return !data?.user?.admin;
+      return data?.user?.admin;
     },
   },
   hooks: {
