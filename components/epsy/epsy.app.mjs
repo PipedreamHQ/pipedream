@@ -18,9 +18,9 @@ export default {
         const searchIds = response.list;
         return searchIds.map(({ id }) => ({
           value: id,
-        }))
-      }
-    }
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -38,8 +38,8 @@ export default {
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          accept: `application/json`,
-          "content-type": `application/json`,
+          "accept": "application/json",
+          "content-type": "application/json",
         },
         data: {
           ...data,
@@ -52,30 +52,32 @@ export default {
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          "accept": `application/json`,
-          "content-type": `application/json`,
+          "accept": "application/json",
+          "content-type": "application/json",
         },
         data: {
           ...data,
           key: `${this.$auth.api_key}`,
-        }
+        },
       });
     },
     async emailLookup(args = {}) {
       return this._makeRequest({
-        path: `/developer/combined_email`,
+        path: "/developer/combined_email",
         method: "post",
         ...args,
       });
     },
     async nameLookup(args = {}) {
       return this._makeRequest({
-        path: `/developer/combined_name`,
+        path: "/developer/combined_name",
         method: "post",
         ...args,
       });
     },
-    async getLookupResults({ searchId, ...args }) {
+    async getLookupResults({
+      searchId, ...args
+    }) {
       return this._makeRequest({
         path: `/request-monitor/api-usage/${searchId}`,
         ...args,
@@ -83,7 +85,7 @@ export default {
     },
     async getSearchIds(args = {}) {
       return this._makeRequest({
-        path: `/request-monitor/api-usage`,
+        path: "/request-monitor/api-usage",
         params: {
           key: `${this.$auth.api_key}`,
         },

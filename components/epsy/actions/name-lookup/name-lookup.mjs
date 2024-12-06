@@ -11,8 +11,8 @@ export default {
     value: {
       propDefinition: [
         app,
-        "value"
-      ]
+        "value",
+      ],
     },
   },
 
@@ -22,7 +22,7 @@ export default {
       data: {
         value: this.value,
         lookupId: 149,
-      }
+      },
     });
     $.export("$summary", `Successfully sent request. Use the ID to get the results: '${response.id}'`);
     return response;
