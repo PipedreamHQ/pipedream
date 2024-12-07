@@ -13,6 +13,12 @@ import type {
 export * from "./component.js";
 import { version as sdkVersion } from "../version.js";
 
+export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
+    Pick<T, Exclude<keyof T, Keys>>
+    & {
+        [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+    }[Keys]
+
 type RequestInit = globalThis.RequestInit;
 
 /**
@@ -198,16 +204,16 @@ export type Account = {
   credentials?: Record<string, string>;
 };
 
-export type ReloadComponentPropsOpts = {
+export type ReloadComponentPropsOpts = RequireAtLeastOne<{
   /**
    * Your end user ID, for whom you're configuring the component.
    */
-  externalUserId: string;
+  externalUserId?: string;
 
   /**
    * @deprecated Use `externalUserId` instead.
    */
-  userId: string;
+  userId?: string;
 
   /**
    * The ID of the component you're configuring. This is the key that uniquely
@@ -223,14 +229,14 @@ export type ReloadComponentPropsOpts = {
   configuredProps: ConfiguredProps<ConfigurableProps>;
 
   dynamicPropsId?: string;
-};
+}, "externalUserId" | "userId">;
 
 /**
  * @deprecated Use `ReloadComponentPropsOpts` instead.
  */
 export type ComponentReloadPropsOpts = ReloadComponentPropsOpts;
 
-export type ConfigureComponentOpts = {
+export type ConfigureComponentOpts = RequireAtLeastOne<{
   /**
    * Your end user ID, for whom you're configuring the component.
    */
@@ -261,7 +267,7 @@ export type ConfigureComponentOpts = {
 
   dynamicPropsId?: string;
   query?: string;
-};
+}, "externalUserId" | "userId">;
 
 /**
  * @deprecated Use `ConfigureComponentOpts` instead.
@@ -345,7 +351,7 @@ export type GetComponentResponse = { data: V1Component; };
  */
 export type ComponentRequestResponse = GetComponentResponse;
 
-export type RunActionOpts = {
+export type RunActionOpts = RequireAtLeastOne<{
   /**
    * Your end user ID, for whom you're running the action.
    */
@@ -370,7 +376,7 @@ export type RunActionOpts = {
   configuredProps: ConfiguredProps<ConfigurableProps>;
 
   dynamicPropsId?: string;
-};
+}, "externalUserId" | "userId">;
 
 // TODO: Add docstring
 export type RunActionResponse = {
