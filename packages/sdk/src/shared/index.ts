@@ -96,8 +96,10 @@ export type ComponentConfigureResponse = {
 };
 
 export type RelationOpts = {
-  limit?: number
-}
+  after?: string;
+  before?: string;
+  limit?: number;
+};
 
 /**
  * Parameters for the retrieval of apps from the Connect API
@@ -523,9 +525,7 @@ export abstract class BaseClient {
     if (opts?.q) {
       params.q = opts.q;
     }
-    if (opts?.limit != null) {
-      params.limit = "" + opts.limit
-    }
+    this.addRelationOpts(params, opts);
     const resp = await this.makeAuthorizedRequest<AppsRequestResponse>(
       "/apps",
       {
@@ -553,7 +553,7 @@ export abstract class BaseClient {
     if (opts?.q) {
       params.q = opts.q;
     }
-    params.limit = "" + (opts?.limit ?? 20)
+    this.addRelationOpts(params, opts, 20);
     // XXX can just use /components and ?type instead when supported
     let path = "/components";
     if (opts?.componentType === "trigger") {
@@ -870,5 +870,20 @@ export abstract class BaseClient {
       },
       HTTPAuthType.OAuth,
     ); // OAuth auth is required for invoking workflows for external users
+  }
+
+  private addRelationOpts(params: Record<string, string>, opts?: RelationOpts, defaultLimit?: number) {
+    if (opts?.limit != null) {
+      params.limit = "" + opts.limit;
+    }
+    if (defaultLimit != null && !params.limit) {
+      params.limit = "" + defaultLimit;
+    }
+    if (opts?.after) {
+      params.after = opts.after;
+    }
+    if (opts?.before) {
+      params.before = opts.before;
+    }
   }
 }

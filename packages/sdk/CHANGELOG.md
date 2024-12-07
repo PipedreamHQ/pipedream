@@ -1,7 +1,13 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
-## [1.0.11] - 2024-12-04
+## [1.0.12] - 2024-12-06
+
+### Added
+
+- Allow passing `before`, `after` pagination cursors for apps, accounts, components endpoints
+
+## [1.0.11] - 2024-12-06
 
 ### Added
 
