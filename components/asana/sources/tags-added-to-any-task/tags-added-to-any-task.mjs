@@ -5,9 +5,9 @@ export default {
   ...common,
   key: "asana-tags-added-to-any-task",
   type: "source",
-  name: "Tags added to any task (Instant)",
+  name: "New Tags added to any task (Instant)",
   description: "Emit new event each time a tag is added to any task, optionally filtering by a given set of tags.",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -2,14 +2,15 @@
   "name": "pipedream",
   "version": "1.2.1",
   "description": "Pipedream Monorepo",
-  "engines": {
-    "pnpm": "9.14.2"
-  },
   "keywords": [
     "pipedream",
     "integration",
     "api"
   ],
+  "packageManager": "pnpm@9.14.2",
+  "engines": {
+    "pnpm": "9.14.2"
+  },
   "homepage": "https://github.com/PipedreamHQ/pipedream#readme",
   "bugs": {
     "url": "https://github.com/PipedreamHQ/pipedream/issues"
@@ -34,7 +35,8 @@
     "platform-dist": "cd platform && git add dist && (git diff-index --quiet HEAD || git commit -m 'update platform/dist')",
     "platform-test": "cd platform && npm test",
     "types-test": "cd types && npm test",
-    "helpers-test": "cd helpers && npm test"
+    "helpers-test": "cd helpers && npm test",
+    "build:docs": "cd docs-v2 && pnpm install --ignore-engines && pnpm build"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -57,7 +59,8 @@
     "husky": "^7.0.4",
     "jest": "^29.7.0",
     "lint-staged": "^12.3.4",
-    "pnpm": "^9",
+    "@next/eslint-plugin-next": "^14.2.5",
+    "pnpm": "9.14.2",
     "putout": ">=36",
     "renamer": "^4.0.0",
     "ts-jest": "^29.1.1",
