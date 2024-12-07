@@ -1,6 +1,12 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.0.11] - 2024-12-04
+
+### Added
+
+- Configurable `limit` option for apps, accounts, components endpoints
+
 ## [1.0.10] - 2024-12-04
 
 ### Changed
