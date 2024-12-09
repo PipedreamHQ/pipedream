@@ -31,17 +31,17 @@ export default {
     activityId: {
       type: "string",
       label: "Activity Id",
-      description: "The Id of the activity definition. You can find the id by clicking on the activity definition, the id will be in the url \"/activities/{ACTIVITY_ID}/overview\"",
+      description: "The Id of the activity definition. To find Activity ID, login into your Ortto app > CDP > Activities > Select an activity, then you can find the Activity ID in the browser URL as https://ortto.app/{Org}/activities/{Activity ID}/overview. For example, if your Activity URL is https://ortto.app/pipedreamtest/activities/act::s/overview, then your Activity ID is `act::s`",
     },
     fields: {
       type: "object",
       label: "Fields",
-      description: "An object with the fields of the activity. You can find the fields by clicking on the activity definition and on the Developer button.",
+      description: "The object containing the fields for a person associated with the event.",
     },
     attributes: {
       type: "object",
       label: "Attributes",
-      description: "An object with the attributes. You can find the attributes by clicking on the activity definition and on the Developer button.",
+      description: "An object with the attributes. To find Activity attributes, login into your Ortto app > CDP > Activities > Select an activity > Developer.",
     },
   },
   methods: {
