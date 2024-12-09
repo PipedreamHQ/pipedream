@@ -241,7 +241,10 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   // clear all props on user change
-  const [prevUserId, setPrevUserId] = useState(userId)
+  const [
+    prevUserId,
+    setPrevUserId,
+  ] = useState(userId)
   useEffect(() => {
     if (prevUserId !== userId) {
       updateConfiguredProps({});
