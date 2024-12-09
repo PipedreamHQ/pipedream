@@ -31,7 +31,7 @@ export default {
     activityId: {
       type: "string",
       label: "Activity Id",
-      description: "The Id of the activity definition. To find Activity ID, login into your Ortto app > CDP > Activities > Select an activity, then you can find the Activity ID in the browser URL as https://ortto.app/{Org}/activities/{Activity ID}/overview. For example, if your Activity URL is https://ortto.app/pipedreamtest/activities/act::s/overview, then your Activity ID is `act::s`",
+      description: "The Id of the activity definition. To find Activity ID, login into your Ortto app > CDP > Activities > Select an activity, then you can find the Activity ID in the browser URL as `https://ortto.app/{Org}/activities/{Activity_ID}/overview`. For example, if your Activity URL is `https://ortto.app/pipedreamtest/activities/act::s/overview`, then your Activity ID is `act::s`",
     },
     fields: {
       type: "object",
