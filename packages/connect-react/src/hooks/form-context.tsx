@@ -13,7 +13,7 @@ export type DynamicProps<T extends ConfigurableProps> = { id: string; configurab
 
 export type FormContext<T extends ConfigurableProps> = {
   component: V1Component<T>;
-  configurableProps: T; // dynamicProps.configurableProps || props.component.configurableProps
+  configurableProps: T; // dynamicProps.configurableProps || props.component.configurable_props
   configuredProps: ConfiguredProps<T>;
   dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
