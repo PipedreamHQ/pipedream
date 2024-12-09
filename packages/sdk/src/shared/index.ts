@@ -109,6 +109,12 @@ export type ConfigureComponentResponse = {
   errors: string[];
 };
 
+export type RelationOpts = {
+  after?: string;
+  before?: string;
+  limit?: number;
+};
+
 /**
  * @deprecated Use `ConfigureComponentResponse` instead.
  */
@@ -117,7 +123,7 @@ export type ComponentConfigureResponse = ConfigureComponentResponse;
 /**
  * Parameters for the retrieval of apps from the Connect API
  */
-export type GetAppsOpts = {
+export type GetAppsOpts = RelationOpts & {
   /**
    * A search query to filter the apps.
    */
@@ -127,7 +133,7 @@ export type GetAppsOpts = {
 /**
  * Parameters for the retrieval of accounts from the Connect API
  */
-export type GetAccountOpts = {
+export type GetAccountOpts = RelationOpts & {
   /**
    * The ID or name slug of the app, in case you want to only retrieve the
    * accounts for a specific app.
@@ -274,7 +280,7 @@ export type ConfigureComponentOpts = RequireAtLeastOne<{
  */
 export type ComponentConfigureOpts = ConfigureComponentOpts;
 
-export type GetComponentsOpts = {
+export type GetComponentsOpts = RelationOpts & {
   q?: string;
   app?: string;
   componentType?: "trigger" | "action";
@@ -702,19 +708,19 @@ export abstract class BaseClient {
    * console.log(apps);
    * ```
    */
-  public async getApps(opts?: GetAppsOpts) {
+  public getApps(opts?: GetAppsOpts) {
     const params: Record<string, string> = {};
     if (opts?.q) {
       params.q = opts.q;
     }
-    const resp = await this.makeAuthorizedRequest<GetAppsResponse>(
+    this.addRelationOpts(params, opts);
+    return this.makeAuthorizedRequest<GetAppsResponse>(
       "/apps",
       {
         method: "GET",
         params,
       },
     );
-    return resp;
   }
 
   /**
@@ -767,15 +773,14 @@ export abstract class BaseClient {
    * ```
    */
   public async getComponents(opts?: GetComponentsOpts) {
-    const params: Record<string, string> = {
-      limit: "20",
-    };
+    const params: Record<string, string> = {};
     if (opts?.app) {
       params.app = opts.app;
     }
     if (opts?.q) {
       params.q = opts.q;
     }
+    this.addRelationOpts(params, opts, 20);
     // XXX can just use /components and ?type instead when supported
     let path = "/components";
     if (opts?.componentType === "trigger") {
@@ -1213,5 +1218,20 @@ export abstract class BaseClient {
       },
       HTTPAuthType.OAuth,
     ); // OAuth auth is required for invoking workflows for external users
+  }
+
+  private addRelationOpts(params: Record<string, string>, opts?: RelationOpts, defaultLimit?: number) {
+    if (opts?.limit != null) {
+      params.limit = "" + opts.limit;
+    }
+    if (defaultLimit != null && !params.limit) {
+      params.limit = "" + defaultLimit;
+    }
+    if (opts?.after) {
+      params.after = opts.after;
+    }
+    if (opts?.before) {
+      params.before = opts.before;
+    }
   }
 }

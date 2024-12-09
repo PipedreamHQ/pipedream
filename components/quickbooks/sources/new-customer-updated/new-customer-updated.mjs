@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-new-customer-updated",
   name: "New Customer Updated",
   description: "Emit new event when a customer is updated.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -21,7 +21,7 @@ export default {
       return "LastUpdatedTime";
     },
     getSummary(item) {
-      return `New Customer Updated: ${item.Id}`;
+      return `New Customer Updated: ${item.DisplayName}`;
     },
   },
   sampleEmit,

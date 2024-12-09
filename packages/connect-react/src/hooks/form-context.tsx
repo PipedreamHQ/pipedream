@@ -9,11 +9,11 @@ import type {
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
 
-export type DynamicProps<T extends ConfigurableProps> = { id: string; configurable_props: T; }; // TODO
+export type DynamicProps<T extends ConfigurableProps> = { id: string; configurableProps: T; }; // TODO
 
 export type FormContext<T extends ConfigurableProps> = {
   component: V1Component<T>;
-  configurableProps: T; // dynamicProps.configurable_props || props.component.configurable_props
+  configurableProps: T; // dynamicProps.configurableProps || props.component.configurable_props
   configuredProps: ConfiguredProps<T>;
   dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
@@ -117,11 +117,11 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       "dynamicProps",
     ],
     queryFn: async () => {
-      const { dynamic_props } = await client.componentReloadProps(componentReloadPropsInput);
+      const { dynamicProps } = await client.componentReloadProps(componentReloadPropsInput);
       // XXX what about if null?
       // TODO observation errors, etc.
-      if (dynamic_props) {
-        setDynamicProps(dynamic_props);
+      if (dynamicProps) {
+        setDynamicProps(dynamicProps);
       }
       setReloadPropIdx(undefined);
       return []; // XXX ok to mutate above and not look at data?
@@ -130,7 +130,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   });
 
   // XXX fix types of dynamicProps, props.component so this type decl not needed
-  let configurableProps: T = dynamicProps?.configurable_props || formProps.component.configurable_props || [];
+  let configurableProps: T = dynamicProps?.configurableProps || formProps.component.configurable_props || [];
   if (propNames?.length) {
     const _configurableProps = [];
     for (const prop of configurableProps) {
@@ -169,7 +169,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         errs.push("not a boolean");
       }
     } else if (prop.type === "string") {
-      if (typeof value !== "string" ) {
+      if (typeof value !== "string") {
         errs.push("not a string");
       }
     } else if (prop.type === "app") {
@@ -179,7 +179,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   };
 
   const updateConfiguredPropsQueryDisabledIdx = (configuredProps: ConfiguredProps<T>) => {
-    let _queryDisabledIdx =  undefined;
+    let _queryDisabledIdx = undefined;
     for (let idx = 0; idx < configurableProps.length; idx++) {
       const prop = configurableProps[idx];
       if (prop.hidden || (prop.optional && !optionalPropIsEnabled(prop))) {
@@ -241,7 +241,10 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   // clear all props on user change
-  const [prevUserId, setPrevUserId] = useState(userId)
+  const [
+    prevUserId,
+    setPrevUserId,
+  ] = useState(userId)
   useEffect(() => {
     if (prevUserId !== userId) {
       updateConfiguredProps({});
