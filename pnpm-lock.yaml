@@ -8402,6 +8402,9 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
+  components/rejoiner:
+    specifiers: {}
+
   components/relavate:
     dependencies:
       '@pipedream/platform':
@@ -8997,8 +9000,8 @@ importers:
   components/sendgrid:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       '@sendgrid/client':
         specifier: ^7.6.2
         version: 7.7.0

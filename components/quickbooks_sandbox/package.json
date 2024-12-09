@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/quickbooks_sandbox",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Quickbooks Sandbox Components",
   "main": "quickbooks_sandbox.app.mjs",
   "keywords": [
