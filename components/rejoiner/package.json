@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rejoiner",
+  "version": "0.0.1",
+  "description": "Pipedream Rejoiner Components",
+  "main": "rejoiner.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rejoiner"
+  ],
+  "homepage": "https://pipedream.com/apps/rejoiner",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

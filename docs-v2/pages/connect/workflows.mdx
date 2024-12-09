@@ -199,7 +199,7 @@ curl -X POST https://{your-endpoint-url} \
 </Tabs>
 </Steps>
 
-## Step configuration
+## Configuring workflow steps
 
 When configuring a workflow that's using your end user's auth instead of your own, you'll need to define most configuration fields manually in each step.
 
@@ -237,8 +237,47 @@ curl -X POST https://{your-endpoint-url} \
 We plan to improve this interface in the future, and potentially allow developers to store end user metadata and configuration data alongside the connected account for your end users, so you won't need to pass the data at runtime.
 </Callout>
 
-## Errors
+## Testing workflow steps
 
+To test a step using the connected account of one of your end users in the builder, you'll need a few things to be configured so that your workflow knows which account to use.
+
+**Make sure you have an external user with the relevant connected account(s) saved to your project:**
+- Go to the **[Users tab](/connect#users)** in the **Connect** section of your project to confirm
+- If not, either connect one from your application or [directly in the UI](#connect-a-test-account)
+
+**Pass the environment and external user ID:**
+1. Once you've added an HTTP trigger to the workflow, click **Generate test event**
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1733533191/generate-test-event-cta_emoykg.png" alt="Generate test event" width={600} height={529} />
+2. Click on the **Headers** tab
+3. Make sure `x-pd-environment` is set (you'll likely want to `development`)
+4. Make sure to also pass `x-pd-external-user-id` with the external user ID of the user you'd like to test with
+
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1733533298/pd-connect-headers_c1x7an.png" alt="Include required headers" width={600} height={529} />
+
+## Troubleshooting
+
+For help debugging issues with your workflow, you can return verbose error messages to the caller by configuring the HTTP trigger to **Return a custom response from your workflow**. 
+
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1733461258/custom-response_gu3x47.png" alt="Configure custom response" width={600} height={529} />
+
+With that setting enabled on the trigger, below is an example of [this](/connect/workflows#required-account-not-found-for-external-user-id) error:
+
+```bash
+curl -X POST https://{your-endpoint-url} \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer {access_token}' \
+  -H "x-pd-environment: development" \
+  -H "x-pd-external-user-id: abc-123" \
+  -d '{
+    "slackChannel": "#general",
+    "messageText": "Hello, world! (sent via curl)",
+    "hubSpotList": "prospects",
+    "contactEmail": "foo@example.com"
+  }' \
+Pipedream Connect Error: Required account for hubspot not found for external user ID abc-123 in development
+```
+
+### Common errors
 #### No external user ID passed, but one or more steps require it
 - One or more steps in the workflow are configured to **Use end user's auth via Connect**, but no external user ID was passed when invoking the workflow.
 - [Refer to the docs](#invoke-the-workflow) to make sure you're passing external user ID correctly when invoking the workflow.

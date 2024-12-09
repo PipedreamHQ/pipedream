@@ -95,10 +95,16 @@ export type ComponentConfigureResponse = {
   errors: string[];
 };
 
+export type RelationOpts = {
+  after?: string;
+  before?: string;
+  limit?: number;
+};
+
 /**
  * Parameters for the retrieval of apps from the Connect API
  */
-export type GetAppsOpts = {
+export type GetAppsOpts = RelationOpts & {
   /**
    * A search query to filter the apps.
    */
@@ -108,7 +114,7 @@ export type GetAppsOpts = {
 /**
  * Parameters for the retrieval of accounts from the Connect API
  */
-export type GetAccountOpts = {
+export type GetAccountOpts = RelationOpts & {
   /**
    * The ID or name slug of the app, in case you want to only retrieve the
    * accounts for a specific app.
@@ -201,7 +207,7 @@ export type ComponentConfigureOpts = {
   query?: string;
 };
 
-export type GetComponentOpts = {
+export type GetComponentOpts = RelationOpts & {
   q?: string;
   app?: string;
   componentType?: "trigger" | "action";
@@ -519,6 +525,7 @@ export abstract class BaseClient {
     if (opts?.q) {
       params.q = opts.q;
     }
+    this.addRelationOpts(params, opts);
     const resp = await this.makeAuthorizedRequest<AppsRequestResponse>(
       "/apps",
       {
@@ -539,15 +546,14 @@ export abstract class BaseClient {
 
   // XXX only here while need project auth
   public async components(opts?: GetComponentOpts) {
-    const params: Record<string, string> = {
-      limit: "20",
-    };
+    const params: Record<string, string> = {};
     if (opts?.app) {
       params.app = opts.app;
     }
     if (opts?.q) {
       params.q = opts.q;
     }
+    this.addRelationOpts(params, opts, 20);
     // XXX can just use /components and ?type instead when supported
     let path = "/components";
     if (opts?.componentType === "trigger") {
@@ -864,5 +870,20 @@ export abstract class BaseClient {
       },
       HTTPAuthType.OAuth,
     ); // OAuth auth is required for invoking workflows for external users
+  }
+
+  private addRelationOpts(params: Record<string, string>, opts?: RelationOpts, defaultLimit?: number) {
+    if (opts?.limit != null) {
+      params.limit = "" + opts.limit;
+    }
+    if (defaultLimit != null && !params.limit) {
+      params.limit = "" + defaultLimit;
+    }
+    if (opts?.after) {
+      params.after = opts.after;
+    }
+    if (opts?.before) {
+      params.before = opts.before;
+    }
   }
 }
