@@ -34,7 +34,11 @@ export default {
       type: "string",
       label: "Model",
       description: "The model to use for content generation",
-      async options({ prevContext: { pageToken } }) {
+      reloadProps: true,
+      async options({
+        prevContext: { pageToken },
+        filter = (model) => model,
+      }) {
         if (pageToken === null) {
           return [];
         }
@@ -46,13 +50,16 @@ export default {
             pageToken,
           },
         });
-        const options = models.map(({
-          name: value,
-          displayName: label,
-        }) => ({
-          label,
-          value,
-        }));
+
+        const options = models
+          .filter(filter)
+          .map(({
+            name: value,
+            displayName: label,
+          }) => ({
+            label,
+            value,
+          }));
 
         return {
           options,
@@ -61,6 +68,14 @@ export default {
           },
         };
       },
+    },
+    responseFormat: {
+      type: "boolean",
+      label: "JSON Output",
+      description: "Enable to receive responses in structured JSON format instead of plain text. Useful for automated processing, data extraction, or when you need to parse the response programmatically. You can optionally define a specific schema for the response structure.",
+      optional: true,
+      default: false,
+      reloadProps: true,
     },
   },
   methods: {
@@ -99,13 +114,21 @@ export default {
         ? model
         : `models/${model}`;
       return this.post({
-        path: `/${pathPrefix}:generateContent`,
+        path: `/${pathPrefix}:${constants.MODEL_METHODS.GENERATE_CONTENT}`,
         ...args,
       });
     },
     listModels(args = {}) {
       return this.makeRequest({
         path: "/models",
+        ...args,
+      });
+    },
+    getModel({
+      model, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/${model}`,
         ...args,
       });
     },
