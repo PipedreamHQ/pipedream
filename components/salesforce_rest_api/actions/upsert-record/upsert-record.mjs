@@ -67,7 +67,7 @@ export default {
       docsInfoExtId: {
         type: "alert",
         alertType: "info",
-        content: "If you don't see any fields in the above list, you probably need to create one in Salesforce's Object Manager. Only a field marked as an external id field can be used to identify a record."
+        content: "If you don't see any fields in the above list, you probably need to create one in Salesforce's Object Manager. Only a field marked as an external id field can be used to identify a record.",
       },
       externalIdValue: {
         type: "string",
