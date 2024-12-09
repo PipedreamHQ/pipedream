@@ -110,7 +110,7 @@ export default {
       status: 200,
     });
 
-    if (this.isRelevant(resource) && this.checkMetaFields(resource)) {
+    if (this.isRelevant(resource)) {
       this.$emit(resource, this.generateMeta(resource));
     }
   },
