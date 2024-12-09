@@ -27,7 +27,7 @@ export default {
     async upsertRecord(sobjectName, {
       externalIdFieldName, externalIdValue, ...args
     }) {
-      const url = `${this._sObjectTypeApiUrl(sobjectName)}/${externalIdFieldName}/${externalIdValue}`;
+      const url = `${this.salesforce._sObjectTypeApiUrl(sobjectName)}/${externalIdFieldName}/${externalIdValue}`;
       return this.salesforce._makeRequest({
         url,
         method: "PATCH",
