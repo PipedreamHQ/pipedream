@@ -61,7 +61,6 @@ function getCustomFields(app: AppResponse): AppCustomField[] {
 }
 
 export function appPropError(prop: ConfigurablePropApp, value: unknown, app: AppResponse | undefined): string | undefined {
-  console.log("appPropError", prop, value, app)
   if (!app) {
     return "app field not registered"
   }
@@ -77,9 +76,11 @@ export function appPropError(prop: ConfigurablePropApp, value: unknown, app: App
       if (app.auth_type === "oauth" && !(_value as OauthAppPropValue).oauth_access_token) {
         return "missing oauth token"
       }
-      for (const cf of getCustomFields(app)) {
-        if (!cf.optional && !_value[cf.name]) {
-          return "missing custom field"
+      if (app.auth_type === "oauth" || app.auth_type === "keys") {
+        for (const cf of getCustomFields(app)) {
+          if (!cf.optional && !_value[cf.name]) {
+            return "missing custom field"
+          }
         }
       }
       return "no auth provision configured"
