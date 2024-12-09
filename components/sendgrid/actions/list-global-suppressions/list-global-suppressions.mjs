@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-list-global-suppressions",
   name: "List Global Suppressions",
   description: "Allows you to get a list of all email address that are globally suppressed. [See the docs here](https://docs.sendgrid.com/api-reference/suppressions-global-suppressions/retrieve-all-global-suppressions)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

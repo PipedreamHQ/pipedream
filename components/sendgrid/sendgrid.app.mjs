@@ -1,8 +1,10 @@
-import { axios } from "@pipedream/platform";
-import get from "lodash/get.js";
-import retry from "async-retry";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import sendgrid from "@sendgrid/client";
-import { ConfigurationError } from "@pipedream/platform";
+import retry from "async-retry";
+import get from "lodash/get.js";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -15,9 +17,68 @@ export default {
       optional: true,
       async options() {
         const lists = await this.getAllContactLists();
+        console.log("lists: ", lists);
+
         return lists.map((list) => ({
           label: list.name,
           value: list.id,
+        }));
+      },
+    },
+    segmentIds: {
+      type: "string[]",
+      label: "Segment Ids",
+      description: "The recipient Segment IDs that will receive the Single Send.",
+      optional: true,
+      async options() {
+        const { results } = await this.getAllSegments();
+        return results.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    designId: {
+      type: "string",
+      label: "Design Id",
+      description: "A design id can be used in place of `HTML Content`, `Plain Content`, and/or `Subject`.",
+      async options() {
+        const { result } = await this.getAllDesigns();
+        return result.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    categoryIds: {
+      type: "string[]",
+      label: "Categories",
+      description: "The categories to associate with this Single Send.",
+      async options({ page }) {
+        const { categories } = await this.getAllCategories({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return categories.map((category) => category);
+      },
+    },
+    senderId: {
+      type: "string",
+      label: "Sender Id",
+      description: "The ID of the verified Sender.",
+      async options() {
+        const results = await this.getAllSenders();
+        return results.map(({
+          id: value, nickname: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -405,6 +466,44 @@ export default {
       const { data } = await this._makeClientRequest(config);
       return data;
     },
+    createSingleSend({
+      $, ...opts
+    }) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        method: "POST",
+        headers: this._makeRequestHeader(),
+        url: `${baseUrl}/marketing/singlesends`,
+        ...opts,
+      }, $);
+    },
+    getAllDesigns(opts = {}) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        headers: this._makeRequestHeader(),
+        url: `${baseUrl}/designs`,
+        ...opts,
+      });
+    },
+    getAllSenders(opts = {}) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        headers: this._makeRequestHeader(),
+        url: `${baseUrl}/senders`,
+        ...opts,
+      });
+    },
+    getAllCategories({
+      $, ...opts
+    }) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        headers: this._makeRequestHeader(),
+        url: `${baseUrl}/marketing/singlesends/categories`,
+        ...opts,
+      }, $);
+    },
+
     /**
      * Deletes all email addresses on on the associated account blocks list
      *
@@ -589,6 +688,14 @@ export default {
         url = data._metadata.next.replace("https://api.sendgrid.com", "");
       } while (contactLists.length < maxItems);
       return contactLists.slice(0, maxItems);
+    },
+    getAllSegments(opts = {}) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        headers: this._makeRequestHeader(),
+        url: `${baseUrl}/marketing/segments/2.0`,
+        ...opts,
+      });
     },
     /**
      * Lists all email addresses that are currently the associated account blocks list.
