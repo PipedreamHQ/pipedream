@@ -11,6 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@pipedream/platform": "^3.0.3",
+    "fs": "^0.0.1-security",
     "moment": "^2.29.4"
   },
   "publishConfig": {
