@@ -13,11 +13,26 @@ import type {
 export * from "./component.js";
 import { version as sdkVersion } from "../version.js";
 
-export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
+type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
     Pick<T, Exclude<keyof T, Keys>>
     & {
         [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
     }[Keys]
+
+// Using `RequireAtLeastOne` here prevents the renaming of the attribute to
+// break existing SDK users, by keeping the old attribute name, while ensuring
+// that at least one of the two attributes is present.
+type ExternalUserId = RequireAtLeastOne<{
+  /**
+   * Your end user ID, for whom you're configuring the component.
+   */
+  externalUserId: string;
+
+  /**
+   * @deprecated Use `externalUserId` instead.
+   */
+  userId: string;
+}, "externalUserId" | "userId">;
 
 type RequestInit = globalThis.RequestInit;
 
@@ -45,6 +60,9 @@ export type ClientOpts = {
   workflowDomain?: string;
 };
 
+/**
+ * Basic ID information of a Pipedream app.
+ */
 export type AppInfo = {
   /**
    * ID of the app. Only applies for OAuth apps.
@@ -102,16 +120,56 @@ export type App = AppInfo & {
  */
 export type AppResponse = App;
 
-// TODO: Add docstring
+/**
+ * The response received after configuring a component's prop.
+ */
 export type ConfigureComponentResponse = {
+  /**
+   * The options for the prop that's being configured. This field is applicable
+   * when the values don't nicely map to a descriptive string. Useful when the
+   * values for each option are meaningless numeric IDs, unless mapped to a
+   * human-readable string.
+   *
+   * @example a branch with ID `21208123` and name `my-repo/foo` in a Gitlab
+   * repo
+   * ```json
+   * {
+   *   "label": "my-repo/foo",
+   *   "value": 21208123
+   * }
+   * ```
+   */
   options: { label: string; value: string; }[];
+
+  /**
+   * The options for the prop that's being configured. This field is applicable
+   * when the values themselves are already human-readable strings.
+   */
   stringOptions: string[];
+
+  /**
+   * A list of errors that occurred during the configuration process.
+   */
   errors: string[];
 };
 
+/**
+ * Attributes to use for pagination in API requests.
+ */
 export type RelationOpts = {
+  /**
+   * The retrieve records starting from a certain cursor.
+   */
   after?: string;
+
+  /**
+   * To retrieve records up until a certain cursor.
+   */
   before?: string;
+
+  /**
+   * The maximum number of records to retrieve.
+   */
   limit?: number;
 };
 
@@ -210,17 +268,11 @@ export type Account = {
   credentials?: Record<string, string>;
 };
 
-export type ReloadComponentPropsOpts = RequireAtLeastOne<{
-  /**
-   * Your end user ID, for whom you're configuring the component.
-   */
-  externalUserId?: string;
-
-  /**
-   * @deprecated Use `externalUserId` instead.
-   */
-  userId?: string;
-
+/**
+ * The request options for reconfiguring a component's props when dealing with
+ * dynamic props.
+ */
+export type ReloadComponentPropsOpts = ExternalUserId & {
   /**
    * The ID of the component you're configuring. This is the key that uniquely
    * identifies the component.
@@ -234,25 +286,22 @@ export type ReloadComponentPropsOpts = RequireAtLeastOne<{
    */
   configuredProps: ConfiguredProps<ConfigurableProps>;
 
+  /**
+   * The ID of the last prop reconfiguration (or none when reconfiguring the
+   * props for the first time).
+   */
   dynamicPropsId?: string;
-}, "externalUserId" | "userId">;
+};
 
 /**
  * @deprecated Use `ReloadComponentPropsOpts` instead.
  */
 export type ComponentReloadPropsOpts = ReloadComponentPropsOpts;
 
-export type ConfigureComponentOpts = RequireAtLeastOne<{
-  /**
-   * Your end user ID, for whom you're configuring the component.
-   */
-  externalUserId: string;
-
-  /**
-   * @deprecated Use `externalUserId` instead.
-   */
-  userId: string;
-
+/**
+ * The request options for configuring a component's prop.
+ */
+export type ConfigureComponentOpts = ExternalUserId & {
   /**
    * The ID of the component you're configuring. This is the key that uniquely
    * identifies the component.
@@ -271,19 +320,37 @@ export type ConfigureComponentOpts = RequireAtLeastOne<{
    */
   configuredProps: ConfiguredProps<ConfigurableProps>;
 
+  /**
+   * The ID of the last prop reconfiguration (if any).
+   */
   dynamicPropsId?: string;
+
   query?: string;
-}, "externalUserId" | "userId">;
+};
 
 /**
  * @deprecated Use `ConfigureComponentOpts` instead.
  */
 export type ComponentConfigureOpts = ConfigureComponentOpts;
 
+/**
+ * The request options for retrieving a list of components.
+ */
 export type GetComponentsOpts = RelationOpts & {
+  /**
+   * A search query to filter the components.
+   */
   q?: string;
+
+  /**
+   * The ID or name slug of the app to filter the components.
+   */
   app?: string;
-  componentType?: "trigger" | "action";
+
+  /**
+   * The type of component to filter (either "trigger" or "action").
+   */
+  componentType?: ComponentType;
 };
 
 /**
@@ -299,7 +366,12 @@ export type ComponentId = {
    * @example "slack-send-message"
    */
   key: string;
-}
+};
+
+/**
+ * Components can be either triggers or actions.
+ */
+export type ComponentType = "trigger" | "action";
 
 /**
  * Response received after creating a connect token.
@@ -314,12 +386,16 @@ export type ConnectTokenResponse = {
    * The expiration time of the token in ISO 8601 format.
    */
   expires_at: string;
+
   /**
    * The Connect Link URL
    */
   connect_link_url: string;
 };
 
+/**
+ * The response received when retrieving a list of accounts.
+ */
 export type GetAccountsResponse = { data: Account[]; };
 
 /**
@@ -327,6 +403,9 @@ export type GetAccountsResponse = { data: Account[]; };
  */
 export type AccountsRequestResponse = GetAccountsResponse;
 
+/**
+ * The response received when retrieving a list of apps.
+ */
 export type GetAppsResponse = { data: App[]; };
 
 /**
@@ -334,6 +413,9 @@ export type GetAppsResponse = { data: App[]; };
  */
 export type AppsRequestResponse = GetAppsResponse;
 
+/**
+ * The response received when retrieving a specific app.
+ */
 export type GetAppResponse = { data: App; };
 
 /**
@@ -341,6 +423,9 @@ export type GetAppResponse = { data: App; };
  */
 export type AppRequestResponse = GetAppResponse;
 
+/**
+ * The response received when retrieving a list of components.
+ */
 export type GetComponentsResponse = {
   data: Omit<V1Component, "configurable_props">[];
 };
@@ -350,6 +435,9 @@ export type GetComponentsResponse = {
  */
 export type ComponentsRequestResponse = GetComponentsResponse;
 
+/**
+ * The response received when retrieving a specific component.
+ */
 export type GetComponentResponse = { data: V1Component; };
 
 /**
@@ -357,17 +445,10 @@ export type GetComponentResponse = { data: V1Component; };
  */
 export type ComponentRequestResponse = GetComponentResponse;
 
-export type RunActionOpts = RequireAtLeastOne<{
-  /**
-   * Your end user ID, for whom you're running the action.
-   */
-  externalUserId: string;
-
-  /**
-   * @deprecated Use `externalUserId` instead.
-   */
-  userId: string;
-
+/**
+ * The request options for running an action.
+ */
+export type RunActionOpts = ExternalUserId & {
   /**
    * The ID of the action you're running. This is the key that uniquely
    * identifies the action.
@@ -381,27 +462,38 @@ export type RunActionOpts = RequireAtLeastOne<{
    */
   configuredProps: ConfiguredProps<ConfigurableProps>;
 
+  /**
+   * The ID of the last prop reconfiguration (if any).
+   */
   dynamicPropsId?: string;
-}, "externalUserId" | "userId">;
+};
 
-// TODO: Add docstring
+/**
+ * The response received after running an action. See
+ * https://pipedream.com/docs/components/api#returning-data-from-steps for more
+ * details.
+ */
 export type RunActionResponse = {
+  /**
+   * The key-value pairs resulting from calls to `$.export`
+   */
   exports: unknown;
+
+  /**
+   * Any logs produced during the execution of the action
+   */
   os: unknown[];
+
+  /**
+   * The value returned by the action
+   */
   ret: unknown;
 };
 
-export type DeployTriggerOpts = {
-  /**
-   * Your end user ID, for whom you're deploying the trigger.
-   */
-  externalUserId: string;
-
-  /**
-   * @deprecated Use `externalUserId` instead.
-   */
-  userId: string;
-
+/**
+ * The request options for deploying a trigger.
+ */
+export type DeployTriggerOpts = ExternalUserId & {
   /**
    * The ID of the trigger you're deploying. This is the key that uniquely
    * identifies the trigger.
@@ -415,6 +507,9 @@ export type DeployTriggerOpts = {
    */
   configuredProps: ConfiguredProps<ConfigurableProps>;
 
+  /**
+   * The ID of the last prop reconfiguration (if any).
+   */
   dynamicPropsId?: string;
 
   /**
@@ -697,9 +792,7 @@ export abstract class BaseClient {
   /**
    * Retrieves the list of apps available in Pipedream.
    *
-   * @param params - The query parameters for retrieving apps.
-   * @param params.q - A search query to filter the apps.
-   *
+   * @param opts - The options for retrieving apps.
    * @returns A promise resolving to a list of apps.
    *
    * @example
@@ -760,9 +853,6 @@ export abstract class BaseClient {
    * Retrieves the list of components available in Pipedream.
    *
    * @param opts - The options for retrieving components.
-   * @param opts.q - A search query to filter the components.
-   * @param opts.app - The ID or name slug of the app to filter the components.
-   * @param opts.componentType - The type of component to filter (either "trigger" or "action").
    * @returns A promise resolving to a list of components.
    *
    * @example
@@ -805,7 +895,6 @@ export abstract class BaseClient {
    * Retrieves the metadata for a specific component.
    *
    * @param id - The identifier of the component.
-   * @param id.key - The key that uniquely identifies the component.
    * @returns A promise resolving to the component metadata.
    *
    * @example
@@ -834,8 +923,23 @@ export abstract class BaseClient {
   /**
    * Configure the next component's prop, based on the current component's
    * configuration.
+   *
    * @param opts - The options for configuring the component.
-   * @returns
+   * @returns A promise resolving to the response from the configuration.
+   *
+   * @example
+   * ```typescript
+   * const { options } = await client.configureComponent({
+   *  externalUserId: "jverce",
+   *  componentId: {
+   *    key: "slack-send-message",
+   *  },
+   *  propName: "channel",
+   *  configuredProps: {
+   *    authProvisionId: "apn_z8hD1b4",
+   *  }
+   * });
+   * console.log(options);
    */
   public configureComponent(opts: ConfigureComponentOpts) {
     const {
@@ -869,7 +973,30 @@ export abstract class BaseClient {
     return this.configureComponent(opts);
   }
 
-  // TODO: Add docstring
+  /**
+   * Reload the component prop's based on the current component's configuration.
+   * This applies to dynamic props (see the docs for more info:
+   * https://pipedream.com/docs/components/api#dynamic-props).
+   *
+   * @param opts - The options for reloading the component's props.
+   * @returns A promise resolving to the response from the reload.
+   *
+   * @example
+   * ```typescript
+   * const { dynamicProps } = await client.reloadComponentProps({
+   *  externalUserId: "jverce",
+   *  componentId: {
+   *    key: "slack-send-message",
+   *  },
+   *  configuredProps: {
+   *    authProvisionId: "apn_z8hD1b4",
+   *  }
+   * });
+   *
+   * const { configurableProps, id: dynamicPropsId } = dynamicProps;
+   * // Use `dynamicPropsId` to configure the next prop
+   * // Use `configurableProps` to display the new set of props to the user
+   */
   public reloadComponentProps(opts: ReloadComponentPropsOpts) {
     const {
       userId,
@@ -909,7 +1036,7 @@ export abstract class BaseClient {
   /**
    * Invoke an action component for a Pipedream Connect user in a project
    *
-   * @param opts
+   * @param opts - The options for running the action.
    * @returns A promise resolving to the response from the action's execution.
    *
    * @example
@@ -927,6 +1054,7 @@ export abstract class BaseClient {
    *     refName: "10-0-stable-ee",
    *   },
    * });
+   * console.log(response);
    * ```
    */
   public runAction(opts: RunActionOpts) {
@@ -963,8 +1091,25 @@ export abstract class BaseClient {
   /**
    * Deploy a trigger component for a Pipedream Connect user in a project
    *
-   * @param opts
+   * @param opts - The options for deploying the trigger.
    * @returns A promise resolving to the response from the trigger's deployment.
+   *
+   * @example
+   * ```typescript
+   * const response = await client.deployTrigger({
+   *   externalUserId: "jverce",
+   *   triggerId: {
+   *     key: "gitlab-new-issue",
+   *   },
+   *   configuredProps: {
+   *     gitlab: {
+   *       authProvisionId: "apn_z8hD1b4",
+   *     },
+   *     projectId: 21208123,
+   *   },
+   *   webhookUrl: "https://dest.mydomain.com",
+   * });
+   * console.log(response);
    */
   public deployTrigger(opts: DeployTriggerOpts) {
     const {
