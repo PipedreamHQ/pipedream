@@ -339,8 +339,10 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   }
 
   const registerField = <T extends ConfigurableProp>(field: FormFieldContext<T>) => {
-    fields[field.prop.name] = field
-    setFields(fields);
+    setFields((fields) => {
+      fields[field.prop.name] = field
+      return fields
+    });
   };
 
   // console.log("***", configurableProps, configuredProps)
