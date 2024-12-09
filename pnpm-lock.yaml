@@ -10304,6 +10304,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
       moment:
         specifier: ^2.29.4
         version: 2.30.1
