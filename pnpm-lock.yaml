@@ -8402,8 +8402,7 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/rejoiner:
-    specifiers: {}
+  components/rejoiner: {}
 
   components/relavate:
     dependencies:
