@@ -4,11 +4,12 @@ import {
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
 import type {
-  ComponentReloadPropsOpts, ConfigurableProp, ConfigurableProps, ConfiguredProps, V1Component,
+  ComponentReloadPropsOpts, ConfigurableProp, ConfigurableProps, ConfiguredProps, V1Component, PropValue,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
 import type { FormFieldContext } from "./form-field-context";
+import { appPropError } from "./use-app";
 
 export type DynamicProps<T extends ConfigurableProps> = { id: string; configurable_props: T; }; // TODO
 
@@ -24,6 +25,7 @@ export type FormContext<T extends ConfigurableProps> = {
   optionalPropIsEnabled: (prop: ConfigurableProp) => boolean;
   optionalPropSetEnabled: (prop: ConfigurableProp, enabled: boolean) => void;
   props: ComponentFormProps<T>;
+  propsNeedConfiguring: string[];
   queryDisabledIdx?: number;
   registerField: <T extends ConfigurableProp>(field: FormFieldContext<T>) => void;
   setConfiguredProp: (idx: number, value: unknown) => void; // XXX type safety for value (T will rarely be static right?)
@@ -136,6 +138,16 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     enabled: reloadPropIdx != null, // TODO or props.dynamicPropsId && !dynamicProps
   });
 
+  const [
+    propsNeedConfiguring,
+    setPropsNeedConfiguring,
+  ] = useState<string[]>([]);
+  useEffect(() => {
+    checkPropsNeedConfiguring()
+  }, [
+    configuredProps,
+  ]);
+
   // XXX fix types of dynamicProps, props.component so this type decl not needed
   let configurableProps: T = dynamicProps?.configurable_props || formProps.component.configurable_props || [];
   if (propNames?.length) {
@@ -154,7 +166,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
 
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation
-  const propErrors = (prop: ConfigurableProp, value: unknown): string[] => {
+  const propErrors = <T extends ConfigurableProps>(prop: ConfigurableProp, value: unknown): string[] => {
     const errs: string[] = [];
     if (value === undefined) {
       if (!prop.optional) {
@@ -181,13 +193,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       }
     } else if (prop.type === "app") {
       const field = fields[prop.name]
-      if (!field.extra.app) {
-        errs.push("app field not registered")
-      } else if (!value) {
-        errs.push("no app configured")
-      } else if (typeof value === "object" && "authProvisionId" in value && !value.authProvisionId) {
-        errs.push("no auth provision configured")
-      }
+      const app = field.extra.app
+      const err = appPropError(prop, value, app)
+      if (err) errs.push(err)
     }
     return errs;
   };
@@ -316,6 +324,20 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setEnabledOptionalProps(newEnabledOptionalProps);
   };
 
+  const checkPropsNeedConfiguring = () => {
+    const _propsNeedConfiguring = []
+    for (const prop of configurableProps) {
+      if (!prop || prop.optional || prop.hidden) continue
+      const value = configuredProps[prop.name as keyof ConfiguredProps<T>]
+      const errors = propErrors(prop, value)
+      if (errors.length) {
+        _propsNeedConfiguring.push(prop.name)
+      }
+    }
+    // propsNeedConfiguring.splice(0, propsNeedConfiguring.length, ..._propsNeedConfiguring)
+    setPropsNeedConfiguring(_propsNeedConfiguring)
+  }
+
   const registerField = <T extends ConfigurableProp>(field: FormFieldContext<T>) => {
     fields[field.prop.name] = field
     setFields(fields);
@@ -336,6 +358,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     fields,
     optionalPropIsEnabled,
     optionalPropSetEnabled,
+    propsNeedConfiguring,
     queryDisabledIdx,
     registerField,
     setConfiguredProp,
