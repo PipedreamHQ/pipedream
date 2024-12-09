@@ -742,12 +742,11 @@ export abstract class BaseClient {
    * console.log(app);
    * ```
    */
-  public async getApp(idOrNameSlug: string) {
+  public getApp(idOrNameSlug: string) {
     const url = `/apps/${idOrNameSlug}`;
-    const resp = await this.makeAuthorizedRequest<GetAppResponse>(url, {
+    return this.makeAuthorizedRequest<GetAppResponse>(url, {
       method: "GET",
     });
-    return resp;
   }
 
   /**
@@ -772,7 +771,7 @@ export abstract class BaseClient {
    * console.log(components);
    * ```
    */
-  public async getComponents(opts?: GetComponentsOpts) {
+  public getComponents(opts?: GetComponentsOpts) {
     const params: Record<string, string> = {};
     if (opts?.app) {
       params.app = opts.app;
@@ -789,11 +788,10 @@ export abstract class BaseClient {
       path = "/actions";
     }
     // XXX Is V1Component the correct type for triggers and actions?
-    const resp = await this.makeConnectRequest<ComponentsRequestResponse>(path, {
+    return this.makeConnectRequest<ComponentsRequestResponse>(path, {
       method: "GET",
       params,
     });
-    return resp;
   }
 
   /**
@@ -816,13 +814,12 @@ export abstract class BaseClient {
    * console.log(component);
    * ```
    */
-  public async getComponent(id: ComponentId) {
+  public getComponent(id: ComponentId) {
     const { key } = id;
     const path = `/components/${key}`;
-    const resp = await this.makeConnectRequest<GetComponentResponse>(path, {
+    return this.makeConnectRequest<GetComponentResponse>(path, {
       method: "GET",
     });
-    return resp;
   }
 
   /**
