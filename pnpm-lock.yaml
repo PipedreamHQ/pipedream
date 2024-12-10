@@ -9364,7 +9364,14 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/signaturit: {}
+  components/signaturit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/signerx:
     dependencies:
