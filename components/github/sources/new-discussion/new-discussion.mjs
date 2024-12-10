@@ -8,7 +8,7 @@ export default {
   key: "github-new-discussion",
   name: "New Discussion",
   description: "Emit new event when a discussion is created",
-  version: "1.0.7",
+  version: "1.0.8",
   type: "source",
   dedupe: "unique",
   methods: {

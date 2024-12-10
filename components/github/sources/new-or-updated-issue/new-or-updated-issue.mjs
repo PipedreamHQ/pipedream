@@ -9,7 +9,7 @@ export default {
   key: "github-new-or-updated-issue",
   name: "New or Updated Issue",
   description: "Emit new events when an issue is created or updated",
-  version: "1.1.4",
+  version: "1.1.5",
   type: "source",
   dedupe: "unique",
   methods: {

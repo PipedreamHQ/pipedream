@@ -8,7 +8,7 @@ export default {
   name: "New Webhook Event (Instant)",
   description: "Emit new event for each selected event type",
   type: "source",
-  version: "1.0.7",
+  version: "1.0.8",
   dedupe: "unique",
   props: {
     docsInfo: {
