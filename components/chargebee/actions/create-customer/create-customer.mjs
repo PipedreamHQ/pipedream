@@ -1,4 +1,5 @@
 import chargebee from "../../chargebee.app.mjs";
+import { clearObject } from "../../common/utils.mjs";
 
 export default {
   key: "chargebee-create-customer",
@@ -52,7 +53,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.chargebee.createCustomer(Object.fromEntries(Object.entries({
+    const response = await this.chargebee.createCustomer(clearObject({
       id: this.id,
       first_name: this.firstName,
       last_name: this.lastName,
@@ -60,10 +61,7 @@ export default {
       phone: this.phone,
       company: this.company,
       ...this.additionalFields,
-    }).filter(([
-      _,
-      v,
-    ]) => v !== undefined)));
+    }));
 
     $.export("$summary", `Successfully created customer (ID: ${response?.customer?.id})`);
     return response;
