@@ -29,5 +29,8 @@ export default {
     getEvents(args = {}) {
       return this.instance().event.list(args).request();
     },
+    createCustomer(args = {}) {
+      return this.instance().customer.create(args).request();
+    }
   },
 };
