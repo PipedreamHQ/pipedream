@@ -5,7 +5,7 @@ export default {
   key: "seqera-create-pipeline",
   name: "Create Pipeline",
   description: "Creates a new pipeline in a user context. [See the documentation](https://docs.seqera.io/platform/23.3.0/api/overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

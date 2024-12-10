@@ -1,12 +1,11 @@
 import hubspot from "../../hubspot.app.mjs";
-import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "hubspot-create-associations",
   name: "Create Associations",
   description: "Create associations between objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/associations#endpoint?spec=POST-/crm/v3/associations/{fromObjectType}/{toObjectType}/batch/create)",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     hubspot,
@@ -14,6 +13,9 @@ export default {
       propDefinition: [
         hubspot,
         "objectType",
+        () => ({
+          includeCustom: true,
+        }),
       ],
       label: "From Object Type",
       description: "The type of the object being associated",
@@ -34,6 +36,9 @@ export default {
       propDefinition: [
         hubspot,
         "objectType",
+        () => ({
+          includeCustom: true,
+        }),
       ],
       label: "To Object Type",
       description: "Type of the objects the from object is being associated with",
@@ -60,6 +65,20 @@ export default {
       description: "Id's of the objects the from object is being associated with",
     },
   },
+  methods: {
+    async getAssociationCategory({
+      $, fromObjectType, toObjectType, associationType,
+    }) {
+      const { results } = await this.hubspot.getAssociationTypes({
+        $,
+        fromObjectType,
+        toObjectType,
+        associationType,
+      });
+      const association = results.find(({ typeId }) => typeId === this.associationType);
+      return association.category;
+    },
+  },
   async run({ $ }) {
     const {
       fromObjectType,
@@ -77,6 +96,13 @@ export default {
         throw new ConfigurationError("Could not parse \"To Objects\" array.");
       }
     }
+
+    const associationCategory = await this.getAssociationCategory({
+      $,
+      fromObjectType,
+      toObjectType,
+      associationType,
+    });
     const response = await this.hubspot.createAssociations({
       $,
       fromObjectType,
@@ -91,7 +117,7 @@ export default {
           },
           types: [
             {
-              associationCategory: ASSOCIATION_CATEGORY.HUBSPOT_DEFINED,
+              associationCategory,
               associationTypeId: associationType,
             },
           ],

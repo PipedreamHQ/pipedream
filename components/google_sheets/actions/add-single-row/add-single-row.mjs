@@ -1,6 +1,7 @@
 import common from "../common/worksheet.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { parseArray } from "../../common/utils.mjs";
+import { isDynamicExpression } from "../common/worksheet.mjs";
 
 const { googleSheets } = common.props;
 
@@ -9,7 +10,7 @@ export default {
   key: "google_sheets-add-single-row",
   name: "Add Single Row",
   description: "Add a single row of data to Google Sheets. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
-  version: "2.1.10",
+  version: "2.1.11",
   type: "action",
   props: {
     googleSheets,
@@ -27,6 +28,7 @@ export default {
           driveId: googleSheets.methods.getDriveId(c.drive),
         }),
       ],
+      reloadProps: true,
     },
     worksheetId: {
       propDefinition: [
@@ -36,42 +38,81 @@ export default {
           sheetId: c.sheetId?.value || c.sheetId,
         }),
       ],
-      type: "string",
-      label: "Worksheet ID",
-    },
-    hasHeaders: {
-      type: "boolean",
-      label: "Does the first row of the sheet have headers?",
-      description: "If the first row of your document has headers, we'll retrieve them to make it easy to enter the value for each column. Please note, that if you are referencing a worksheet using a custom expression referencing data from another step, e.g. `{{steps.my_step.$return_value}}` this prop cannot be used. If you want to retrieve the header row, select both **Spreadsheet** and **Worksheet ID** from the dropdowns above.",
+      description: "Select a worksheet or enter a custom expression. When referencing a spreadsheet dynamically, you must provide a custom expression for the worksheet.",
+      async options({ sheetId }) {
+        // If sheetId is a dynamic reference, don't load options
+        if (isDynamicExpression(sheetId)) {
+          return [];
+        }
+
+        // Otherwise, call the original options function with the correct context
+        const origOptions = googleSheets.propDefinitions.worksheetIDs.options;
+        return origOptions.call(this, {
+          sheetId,
+        });
+      },
       reloadProps: true,
     },
+    hasHeaders: common.props.hasHeaders,
   },
   async additionalProps() {
     const {
       sheetId,
       worksheetId,
+      hasHeaders,
     } = this;
 
-    const props = {};
-    if (this.hasHeaders) {
-      const worksheet = await this.getWorksheetById(sheetId, worksheetId);
+    // If using dynamic expressions for either sheetId or worksheetId, return only array input
+    if (isDynamicExpression(sheetId) || isDynamicExpression(worksheetId)) {
+      return {
+        myColumnData: {
+          type: "string[]",
+          label: "Values",
+          description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+        },
+      };
+    }
 
-      const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheet?.properties?.title}!1:1`);
-      if (!values[0]?.length) {
-        throw new ConfigurationError("Could not find a header row. Please either add headers and click \"Refresh fields\" or adjust the action configuration to continue.");
-      }
-      for (let i = 0; i < values[0]?.length; i++) {
-        props[`col_${i.toString().padStart(4, "0")}`] = {
+    const props = {};
+    if (hasHeaders) {
+      try {
+        const worksheet = await this.getWorksheetById(sheetId, worksheetId);
+        const { values } = await this.googleSheets.getSpreadsheetValues(sheetId, `${worksheet?.properties?.title}!1:1`);
+
+        if (!values?.[0]?.length) {
+          throw new ConfigurationError("Could not find a header row. Please either add headers and click \"Refresh fields\" or set 'Does the first row of the sheet have headers?' to false.");
+        }
+
+        for (let i = 0; i < values[0]?.length; i++) {
+          props[`col_${i.toString().padStart(4, "0")}`] = {
+            type: "string",
+            label: values[0][i],
+            optional: true,
+          };
+        }
+        props.allColumns = {
           type: "string",
-          label: values[0][i],
-          optional: true,
+          hidden: true,
+          default: JSON.stringify(values),
+        };
+      } catch (err) {
+        console.error("Error fetching headers:", err);
+        // Fallback to basic column input if headers can't be fetched
+        return {
+          headerError: {
+            type: "string",
+            label: "Header Fetch Error",
+            description: `Unable to fetch headers: ${err.message}. Using simple column input instead.`,
+            optional: true,
+            hidden: true,
+          },
+          myColumnData: {
+            type: "string[]",
+            label: "Values",
+            description: "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string.",
+          },
         };
       }
-      props.allColumns = {
-        type: "string",
-        hidden: true,
-        default: JSON.stringify(values),
-      };
     } else {
       props.myColumnData = {
         type: "string[]",
@@ -94,7 +135,11 @@ export default {
     const worksheet = await this.getWorksheetById(sheetId, worksheetId);
 
     let cells;
-    if (this.hasHeaders) {
+    if (this.hasHeaders
+      && !isDynamicExpression(sheetId)
+      && !isDynamicExpression(worksheetId)
+      && this.allColumns
+    ) {
       const rows = JSON.parse(this.allColumns);
       const [
         headers,
@@ -103,10 +148,11 @@ export default {
         .map((_, i) => `col_${i.toString().padStart(4, "0")}`)
         .map((column) => this[column] ?? "");
     } else {
+      // For dynamic references or no headers, use the array input
       cells = this.googleSheets.sanitizedArray(this.myColumnData);
     }
 
-    // validate input
+    // Validate input
     if (!cells || !cells.length) {
       throw new ConfigurationError("Please enter an array of elements in `Cells / Column Values`.");
     }
@@ -118,7 +164,7 @@ export default {
     }
 
     const {
-      arr,
+      arr: sanitizedCells,
       convertedIndexes,
     } = this.googleSheets.arrayValuesToString(cells);
 
@@ -126,7 +172,7 @@ export default {
       spreadsheetId: sheetId,
       range: worksheet?.properties?.title,
       rows: [
-        arr,
+        sanitizedCells,
       ],
     });
 

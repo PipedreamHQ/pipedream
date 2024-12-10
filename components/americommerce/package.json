@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/americommerce",
+  "version": "0.1.0",
+  "description": "Pipedream AmeriCommerce Components",
+  "main": "americommerce.app.mjs",
+  "keywords": [
+    "pipedream",
+    "americommerce"
+  ],
+  "homepage": "https://pipedream.com/apps/americommerce",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "3.0.3"
+  }
+}

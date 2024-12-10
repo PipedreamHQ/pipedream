@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/the_bookie",
+  "version": "0.1.0",
+  "description": "Pipedream The Bookie Components",
+  "main": "the_bookie.app.mjs",
+  "keywords": [
+    "pipedream",
+    "the_bookie"
+  ],
+  "homepage": "https://pipedream.com/apps/the_bookie",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1"
+  }
+}
+

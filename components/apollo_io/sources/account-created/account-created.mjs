@@ -6,7 +6,7 @@ export default {
   name: "Account Created",
   description: "Triggers when an account is created. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-accounts)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,

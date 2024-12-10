@@ -4,9 +4,8 @@ export default {
   ...common,
   key: "trello-new-notification",
   name: "New Notification",
-  description:
-    "Emit new event for each new Trello notification for the authenticated user.",
-  version: "0.0.11",
+  description: "Emit new event for each new Trello notification for the authenticated user.",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -29,11 +28,13 @@ export default {
   },
   async run() {
     const since = this._getLastNotificationId();
-    const params = {
-      since,
-    };
 
-    const notifications = await this.trello.getNotifications("me", params);
+    const notifications = await this.app.getNotifications({
+      notificationId: "me",
+      params: {
+        since,
+      },
+    });
 
     const { length: notificationCount = 0 } = notifications;
     if (notificationCount <= 0) {

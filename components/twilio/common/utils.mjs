@@ -136,6 +136,7 @@ function recordingToString(recording) {
 }
 
 export {
+  formatTimeElapsed,
   timeBetween,
   omitEmptyStringValues,
   callToString,

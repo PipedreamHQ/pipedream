@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/stealthgpt",
+  "version": "0.0.1",
+  "description": "Pipedream StealthGPT Components",
+  "main": "stealthgpt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "stealthgpt"
+  ],
+  "homepage": "https://pipedream.com/apps/stealthgpt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

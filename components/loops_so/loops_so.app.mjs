@@ -21,10 +21,44 @@ export default {
       description: "The last name of the contact",
       optional: true,
     },
+    source: {
+      type: "string",
+      label: "Source",
+      description: "A custom source value to replace the default **API**. [Read more](https://loops.so/docs/contacts/properties#source).",
+      optional: true,
+    },
+    subscribed: {
+      type: "boolean",
+      label: "Subscribed",
+      description: "Whether the contact will receive campaign and loops emails. [Read more](https://loops.so/docs/contacts/properties#subscribed).",
+      optional: true,
+    },
     userGroup: {
       type: "string",
       label: "User Group",
       description: "User group of the contact",
+      optional: true,
+    },
+    userId: {
+      type: "string",
+      label: "User Id",
+      description: "A unique user ID (for example, from an external application). [Read more](https://loops.so/docs/contacts/properties#user-id).",
+      optional: true,
+    },
+    mailingLists: {
+      type: "string[]",
+      label: "Mailing Lists",
+      description: "A list of mailing list IDs",
+      async options() {
+        const data = await this.listMailingLists();
+        return data.map(({
+          id: value,
+          name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
       optional: true,
     },
     customFields: {
@@ -85,6 +119,13 @@ export default {
         ...args,
       });
     },
+    deleteContact(args = {}) {
+      return this._makeRequest({
+        path: "/contacts/delete",
+        method: "POST",
+        ...args,
+      });
+    },
     sendEvent(args = {}) {
       return this._makeRequest({
         path: "/events/send",
@@ -102,6 +143,12 @@ export default {
     listCustomFields(args = {}) {
       return this._makeRequest({
         path: "/contacts/customFields",
+        ...args,
+      });
+    },
+    listMailingLists(args = {}) {
+      return this._makeRequest({
+        path: "/lists",
         ...args,
       });
     },

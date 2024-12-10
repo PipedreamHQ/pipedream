@@ -2,30 +2,61 @@
 // Pipedream project's public and secret keys and access customer credentials.
 // See the browser/ directory for the browser client.
 
+import {
+  AccessToken, ClientCredentials,
+} from "simple-oauth2";
+import {
+  Account, BaseClient, type AppInfo, type ConnectTokenResponse,
+} from "../shared";
+import { ServerAsyncResponseManager } from "./async";
+export * from "../shared";
+
+/**
+ * OAuth credentials for your Pipedream account, containing client ID and
+ * secret.
+ */
+export type OAuthCredentials = {
+  clientId: string;
+  clientSecret: string;
+};
+
+/**
+ * The environment in which the server client is running.
+ */
+export type ProjectEnvironment = "development" | "production";
+
 /**
  * Options for creating a server-side client.
  * This is used to configure the ServerClient instance.
  */
-export type CreateServerClientOpts = {
+export type BackendClientOpts = {
   /**
-   * The environment in which the server is running (e.g., "production", "development").
+   * The environment in which the server client is running (e.g., "production",
+   * "development").
    */
-  environment?: string;
+  environment?: ProjectEnvironment;
 
   /**
-   * The public API key for accessing the service. This key is required.
+   * The credentials to use for authentication against the Pipedream API.
    */
-  publicKey: string;
+  credentials: OAuthCredentials;
 
   /**
-   * The secret API key for accessing the service. This key is required.
+   * The base project ID tied to relevant API requests
    */
-  secretKey: string;
+  projectId: string;
 
   /**
-   * The API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
+   * The API host URL. Used by Pipedream employees. Defaults to
+   * "api.pipedream.com" if not provided.
    */
   apiHost?: string;
+
+  /**
+   * Base domain for workflows. Used for custom domains:
+   * https://pipedream.com/docs/workflows/domains
+   */
+  workflowDomain?: string;
 };
 
 /**
@@ -33,351 +64,211 @@ export type CreateServerClientOpts = {
  */
 export type ConnectTokenCreateOpts = {
   /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
-   */
-  app_slug: string;
-
-  /**
-   * Pass for OAuth apps. See https://pipedream.com/docs/connect/quickstart#creating-a-custom-oauth-client
-   */
-  oauth_app_id?: string;
-
-  /**
-   * An external user ID associated with the token.
+   * The ID of the user in your system.
    */
   external_user_id: string;
+
+  /**
+   * The optional url to redirect the user to upon successful connection.
+   */
+  success_redirect_uri?: string;
+
+  /**
+   * The optional url to redirect the user to upon failed connection.
+   */
+  error_redirect_uri?: string;
+
+  /**
+   * An optional webhook uri that Pipedream can invoke on success or failure of
+   * connection requests.
+   */
+  webhook_uri?: string;
+
+  /**
+   * Specify which origins can use the token to call the Pipedream API.
+   */
+  allowed_origins?: string[];
 };
 
 /**
- * Response received after creating a connect token.
+ * Response received after requesting a project's info.
  */
-export type ConnectTokenResponse = {
+export type ProjectInfoResponse = {
   /**
-   * The generated token.
+   * An array of apps linked to the project.
    */
-  token: string;
-
-  /**
-   * The expiration time of the token in ISO 8601 format.
-   */
-  expires_at: string;
+  apps: AppInfo[];
 };
 
 /**
- * Parameters for the Connect API.
+ * Parameters for the retrieval of an account from the Connect API
  */
-export type ConnectParams = {
+export type GetAccountByIdOpts = {
   /**
-   * Whether to include credentials in the request (1 to include, 0 to exclude).
+   * Whether to retrieve the account's credentials or not.
    */
-  include_credentials?: number;
+  include_credentials?: boolean;
 };
 
 /**
- * The authentication type for the app.
- */
-export type AuthType = "oauth" | "keys" | "none";
-
-/**
- * Response object for Pipedream app metadata
- */
-export type AppResponse = {
-  /**
-   * The unique ID of the app.
-   */
-  id: string;
-
-  /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
-   */
-  name_slug: string;
-
-  /**
-   * The human-readable name of the app.
-   */
-  name: string;
-
-  /**
-   * The authentication type used by the app.
-   */
-  auth_type: AuthType;
-
-  /**
-   * The URL to the app's logo.
-   */
-  img_src: string;
-
-  /**
-   * A JSON string representing the custom fields for the app.
-   */
-  custom_fields_json: string;
-
-  /**
-   * Categories associated with the app.
-   */
-  categories: string[];
-};
-
-/**
- * Options for creating a connected account.
- */
-export type CreateAccountOpts = {
-  /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
-   */
-  app_slug: string;
-
-  /**
-   * The connect token used to authenticate the account creation.
-   */
-  connect_token: string;
-
-  /**
-   * A JSON string representing a map of custom fields for the account.
-   */
-  cfmap_json: string;
-
-  /**
-   * The name of the account.
-   */
-  name?: string;
-};
-
-/**
- * End user account data, returned from the API.
- */
-export type Account = {
-  /**
-   * The unique ID of the account.
-   */
-  id: string;
-
-  /**
-   * The name of the account.
-   */
-  name: string;
-
-  /**
-   * The external ID associated with the account.
-   */
-  external_id: string;
-
-  /**
-   * Indicates if the account is healthy. Pipedream will periodically retry token refresh and test requests for unhealthy accounts.
-   */
-  healthy: boolean;
-
-  /**
-   * Indicates if the account is no longer active.
-   */
-  dead: boolean;
-
-  /**
-   * The app associated with the account.
-   */
-  app: AppResponse;
-
-  /**
-   * The date and time the account was created, an ISO 8601 formatted string.
-   */
-  created_at: string;
-
-  /**
-   * The date and time the account was last updated, an ISO 8601 formatted string.
-   */
-  updated_at: string;
-
-  /**
-   * The credentials associated with the account, if `include_credentials` was true.
-   */
-  credentials?: Record<string, string>;
-};
-
-/**
- * Error response returned by the API in case of an error.
- */
-export type ErrorResponse = {
-  /**
-   * The error message returned by the API.
-   */
-  error: string;
-};
-
-/**
- * A generic API response that can either be a success or an error.
- */
-export type ConnectAPIResponse<T> = T | ErrorResponse;
-
-/**
- * Options for making a request to the Connect API.
- */
-interface ConnectRequestOptions extends Omit<RequestInit, "headers"> {
-  /**
-   * Query parameters to include in the request URL.
-   */
-  params?: Record<string, string | boolean | number>;
-
-  /**
-   * Headers to include in the request.
-   */
-  headers?: Record<string, string>;
-}
-
-/**
- * Creates a new instance of `ServerClient` with the provided options.
+ * Creates a new instance of BackendClient with the provided options.
  *
  * @example
+ *
  * ```typescript
- * const client = createClient({
- *   publicKey: "your-public-key",
- *   secretKey: "your-secret-key",
- * });
+      const serverClient = createBackendClient({
+        environment: "development",
+        projectId: "<project id>",
+        credentials: {
+          clientId: "<client id>",
+          clientSecret: "<client secret>",
+        },
+      })
  * ```
+ *
  * @param opts - The options for creating the server client.
- * @returns A new instance of `ServerClient`.
+ * @returns A new instance of ServerClient.
  */
-export function createClient(opts: CreateServerClientOpts) {
-  return new ServerClient(opts);
+export function createBackendClient(opts: BackendClientOpts) {
+  return new BackendClient(opts);
 }
 
 /**
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
-class ServerClient {
-  environment?: string;
-  secretKey: string;
-  publicKey: string;
-  baseURL: string;
+export class BackendClient extends BaseClient {
+  protected override asyncResponseManager: ServerAsyncResponseManager;
+  private oauthClient: ClientCredentials;
+  private oauthToken?: AccessToken;
+  protected projectId: string;
 
   /**
-   * Constructs a new `ServerClient` instance.
+   * Constructs a new ServerClient instance.
    *
    * @param opts - The options for configuring the server client.
+   * @param oauthClient - An optional OAuth client to use for authentication in tests
    */
-  constructor(opts: CreateServerClientOpts) {
-    this.environment = opts.environment;
-    this.secretKey = opts.secretKey;
-    this.publicKey = opts.publicKey;
+  constructor(opts: BackendClientOpts) {
+    super(opts);
 
-    const { apiHost = "api.pipedream.com" } = opts;
-    this.baseURL = `https://${apiHost}/v1`;
+    this.ensureValidEnvironment(opts.environment);
+    this.projectId = opts.projectId;
+
+    this.oauthClient = this.newOauthClient(opts.credentials, this.baseApiUrl);
+    this.asyncResponseManager = new ServerAsyncResponseManager({
+      apiHost: this.apiHost,
+      getOauthToken: async () => {
+        await this.ensureValidOauthToken();
+        return this.oauthToken as AccessToken;
+      },
+      getProjectId: () => {
+        if (!this.projectId)
+          throw "Attempted to connect to websocket without a valid Project id";
+        return this.projectId;
+      },
+    });
   }
 
-  /**
-   * Generates an Authorization header using the public and secret keys.
-   *
-   * @returns The authorization header as a string.
-   */
-  private _authorizationHeader(): string {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString("base64");
-    return `Basic ${encoded}`;
+  private ensureValidEnvironment(environment?: string) {
+    if (!environment || ![
+      "development",
+      "production",
+    ].includes(environment)) {
+      throw new Error(
+        "Project environment is required. Supported environments are development and production.",
+      );
+    }
   }
 
-  /**
-   * Makes a request to the Connect API.
-   *
-   * @template T - The expected response type.
-   * @param path - The API endpoint path.
-   * @param opts - The options for the request.
-   * @returns A promise resolving to the API response.
-   * @throws Will throw an error if the response status is not OK.
-   */
-  async _makeConnectRequest<T>(
-    path: string,
-    opts: ConnectRequestOptions = {},
-  ): Promise<T> {
-    const {
-      params,
-      headers: customHeaders,
-      body,
-      method = "GET",
-      ...fetchOpts
-    } = opts;
-    const url = new URL(`${this.baseURL}/connect${path}`);
-
-    if (params) {
-      Object.entries(params).forEach(([
-        key,
-        value,
-      ]) => {
-        if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
-          url.searchParams.append(key, value.toString());
-        }
-      });
+  private newOauthClient(
+    {
+      clientId, clientSecret,
+    }: OAuthCredentials,
+    tokenHost: string,
+  ) {
+    if (!clientId || !clientSecret) {
+      throw new Error("OAuth client ID and secret are required");
     }
 
-    const headers = {
-      "Authorization": this._authorizationHeader(),
-      "Content-Type": "application/json",
-      ...customHeaders,
+    const client = {
+      id: clientId,
+      secret: clientSecret,
     };
+    return new ClientCredentials({
+      client,
+      auth: {
+        tokenHost,
+        tokenPath: "/v1/oauth/token",
+      },
+    });
+  }
 
-    const requestOptions: RequestInit = {
-      method,
-      headers,
-      ...fetchOpts,
-    };
+  protected authHeaders(): string | Promise<string> {
+    return this.oauthAuthorizationHeader();
+  }
 
-    if ([
-      "POST",
-      "PUT",
-      "PATCH",
-    ].includes(method.toUpperCase()) && body) {
-      requestOptions.body = body;
+  private async ensureValidOauthToken() {
+    if (this.oauthToken && !this.oauthToken.expired) return;
+
+    let attempts = 0;
+    const maxAttempts = 2; // Prevent potential infinite loops
+
+    do {
+      if (attempts > 0) {
+        // Wait for a short duration before retrying to avoid rapid retries
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+
+      try {
+        this.oauthToken = await this.oauthClient.getToken({});
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        throw new Error(`Failed to obtain OAuth token: ${error.message}`);
+      }
+
+      attempts++;
+    } while (this.oauthToken.expired() && attempts < maxAttempts);
+
+    if (this.oauthToken.expired()) {
+      throw new Error("Unable to obtain a valid (non-expired) OAuth token");
+    }
+  }
+
+  private async oauthAuthorizationHeader(): Promise<string> {
+    if (!this.oauthClient) {
+      throw new Error("OAuth client not configured");
     }
 
-    const response: Response = await fetch(url.toString(), requestOptions);
+    await this.ensureValidOauthToken();
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json() as unknown as T;
-    return result;
+    return `Bearer ${(this.oauthToken as AccessToken).token.access_token}`;
   }
 
   /**
-   * Creates a new connect token.
+   * Creates a new Pipedream Connect token. See
+   * https://pipedream.com/docs/connect/quickstart#connect-to-the-pipedream-api-from-your-server-and-create-a-token
    *
    * @param opts - The options for creating the connect token.
    * @returns A promise resolving to the connect token response.
    *
    * @example
+   *
    * ```typescript
    * const tokenResponse = await client.connectTokenCreate({
-   *   app_slug: "your-app-slug",
-   *   external_user_id: "external-user-id",
-   * });
+   *   external_user_id: "external-user-id", });
    * console.log(tokenResponse.token);
    * ```
    */
-  async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
+  public createConnectToken(
+    opts: ConnectTokenCreateOpts,
+  ): Promise<ConnectTokenResponse> {
     const body = {
-      // Named external_id in the API, but from the developer's perspective, it's the user's ID
-      external_id: opts.external_user_id,
       ...opts,
+      external_id: opts.external_user_id,
     };
-    return this._makeConnectRequest<ConnectTokenResponse>("/tokens", {
+    return this.makeConnectRequest("/tokens", {
       method: "POST",
-      body: JSON.stringify(body),
-    });
-  }
-
-  /**
-   * Retrieves a list of accounts.
-   *
-   * @param params - The query parameters for retrieving accounts.
-   * @returns A promise resolving to a list of accounts.
-   *
-   * @example
-   * ```typescript
-   * const accounts = await client.getAccounts({ include_credentials: 1 });
-   * console.log(accounts);
-   * ```
-   */
-  async getAccounts(params: ConnectParams = {}): Promise<Account[]> {
-    return this._makeConnectRequest<Account[]>("/accounts", {
-      params,
+      body,
     });
   }
 
@@ -385,55 +276,20 @@ class ServerClient {
    * Retrieves a specific account by ID.
    *
    * @param accountId - The ID of the account to retrieve.
-   * @param params - The query parameters for retrieving the account.
    * @returns A promise resolving to the account.
    *
    * @example
    * ```typescript
-   * const account = await client.getAccount("account-id");
+   * const account = await client.getAccountById("account-id");
    * console.log(account);
    * ```
    */
-  async getAccount(accountId: string, params: ConnectParams = {}): Promise<Account> {
-    return this._makeConnectRequest<Account>(`/accounts/${accountId}`, {
-      params,
-    });
-  }
-
-  /**
-   * Retrieves accounts associated with a specific app.
-   *
-   * @param appId - The ID of the app.
-   * @param params - The query parameters for retrieving accounts.
-   * @returns A promise resolving to a list of accounts.
-   *
-   * @example
-   * ```typescript
-   * const accounts = await client.getAccountsByApp("app-id");
-   * console.log(accounts);
-   * ```
-   */
-  async getAccountsByApp(appId: string, params: ConnectParams = {}): Promise<Account[]> {
-    return this._makeConnectRequest<Account[]>(`/accounts/app/${appId}`, {
-      params,
-    });
-  }
-
-  /**
-   * Retrieves accounts associated with a specific external ID.
-   *
-   * @param externalId - The external ID associated with the accounts.
-   * @param params - The query parameters for retrieving accounts.
-   * @returns A promise resolving to a list of accounts.
-   *
-   * @example
-   * ```typescript
-   * const accounts = await client.getAccountsByExternalId("external-id");
-   * console.log(accounts);
-   * ```
-   */
-  async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<Account[]> {
-    return this._makeConnectRequest<Account[]>(`/accounts/external_id/${externalId}`, {
+  public getAccountById(
+    accountId: string,
+    params: GetAccountByIdOpts = {},
+  ): Promise<Account> {
+    return this.makeConnectRequest(`/accounts/${accountId}`, {
+      method: "GET",
       params,
     });
   }
@@ -450,8 +306,8 @@ class ServerClient {
    * console.log("Account deleted");
    * ```
    */
-  async deleteAccount(accountId: string): Promise<void> {
-    await this._makeConnectRequest(`/accounts/${accountId}`, {
+  public deleteAccount(accountId: string): Promise<void> {
+    return this.makeConnectRequest(`/accounts/${accountId}`, {
       method: "DELETE",
     });
   }
@@ -468,8 +324,8 @@ class ServerClient {
    * console.log("All accounts deleted");
    * ```
    */
-  async deleteAccountsByApp(appId: string): Promise<void> {
-    await this._makeConnectRequest(`/accounts/app/${appId}`, {
+  public deleteAccountsByApp(appId: string): Promise<void> {
+    return this.makeConnectRequest(`/accounts/app/${appId}`, {
       method: "DELETE",
     });
   }
@@ -486,9 +342,26 @@ class ServerClient {
    * console.log("All accounts deleted");
    * ```
    */
-  async deleteExternalUser(externalId: string): Promise<void> {
-    await this._makeConnectRequest(`/users/${externalId}`, {
+  public deleteExternalUser(externalId: string): Promise<void> {
+    return this.makeConnectRequest(`/users/${externalId}`, {
       method: "DELETE",
+    });
+  }
+
+  /**
+   * Retrieves the project's information, such as the list of apps linked to it.
+   *
+   * @returns A promise resolving to the project info response.
+   *
+   * @example
+   * ```typescript
+   * const projectInfo = await client.getProjectInfo();
+   * console.log(projectInfo);
+   * ```
+   */
+  public getProjectInfo(): Promise<ProjectInfoResponse> {
+    return this.makeConnectRequest("/projects/info", {
+      method: "GET",
     });
   }
 }

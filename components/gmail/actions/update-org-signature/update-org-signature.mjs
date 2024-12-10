@@ -1,6 +1,6 @@
 import googleCloud from "../../../google_cloud/google_cloud.app.mjs";
 import base from "../update-primary-signature/update-primary-signature.mjs";
-import verifyClient from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
   ...base,
@@ -8,10 +8,10 @@ export default {
   name: "Update Signature for Email in Organization",
   description: `Update the signature for a specific email address in an organization.
     A Google Cloud service account with delegated domain-wide authority is required for this action. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.settings.sendAs/update)`,
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
-    ...verifyClient.props,
+    gmail,
     googleCloud,
     signature: base.props.signature,
     email: {

@@ -3,8 +3,8 @@ import mailerlite from "../../mailerlite.app.mjs";
 export default {
   key: "mailerlite-subscribe-to-group",
   name: "Subscribe to MailerLite Group",
-  description: "Add a subscriber to a group. [See the docs here](https://developers.mailerlite.com/docs/groups.html#assign-subscriber-to-a-group)",
-  version: "0.3.2",
+  description: "Add a subscriber to a group. [See the documentation](https://developers.mailerlite.com/docs/groups.html#assign-subscriber-to-a-group)",
+  version: "0.3.3",
   type: "action",
   props: {
     mailerlite,
@@ -14,19 +14,20 @@ export default {
         "group",
       ],
     },
-    email: {
+    subscriber: {
       propDefinition: [
         mailerlite,
         "subscriber",
       ],
-      description: "Email of the active subscriber to add to group",
+      description: "ID of the active subscriber to add to group",
     },
   },
   async run({ $ }) {
-    const data = {
-      email: this.email,
-    };
-    const resp = await this.mailerlite.addSubscriberToGroup(data, this.group);
+    const resp = await this.mailerlite.addSubscriberToGroup({
+      $,
+      subscriber: this.subscriber,
+      group: this.group,
+    });
     $.export("$summary", "Added subscriber to group");
     return resp;
   },

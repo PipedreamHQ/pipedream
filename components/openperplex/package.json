@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/openperplex",
+  "version": "0.1.0",
+  "description": "Pipedream OpenPerplex Components",
+  "main": "openperplex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "openperplex"
+  ],
+  "homepage": "https://pipedream.com/apps/openperplex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1"
+  }
+}

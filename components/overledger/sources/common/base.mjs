@@ -6,6 +6,12 @@ import overledger from "../../overledger.app.mjs";
 export default {
   props: {
     overledger,
+    environment: {
+      propDefinition: [
+        overledger,
+        "environment",
+      ],
+    },
     db: "$.service.db",
     http: {
       type: "$.interface.http",
@@ -35,6 +41,7 @@ export default {
     async activate() {
       const response = await this.overledger.createHook({
         path: this.getPath(),
+        environment: this.environment,
         data: {
           location: {
             technology: this.locationTechnology,
@@ -51,6 +58,7 @@ export default {
       await this.overledger.deleteHook({
         path: this.getPath(),
         webhookId,
+        environment: this.environment,
       });
     },
   },

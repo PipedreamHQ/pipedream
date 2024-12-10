@@ -1,4 +1,5 @@
-import { axios } from "@pipedream/platform";
+import { axios as axiosPD } from "@pipedream/platform";
+import axios from "axios";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -45,7 +46,7 @@ export default {
         });
         return elements?.map((element) => ({
           label: element.name,
-          id: element.id,
+          value: element.id,
         }));
       },
     },
@@ -138,13 +139,22 @@ export default {
     }) {
       const BASE_URL = constants.BASE_URL;
 
-      const config = {
+      return axiosPD($ || this, {
         url: url || `${BASE_URL}${constants.VERSION_PATH}${path}`,
         headers: this._getHeaders(),
         ...otherConfig,
-      };
+      });
+    },
+    async _makeRequestAxios({
+      url, path, ...otherConfig
+    }) {
+      const BASE_URL = constants.BASE_URL;
 
-      return axios($ || this, config);
+      return axios({
+        url: url || `${BASE_URL}${constants.VERSION_PATH}${path}`,
+        headers: this._getHeaders(),
+        ...otherConfig,
+      });
     },
     async createPost({
       data, ...args
@@ -223,10 +233,9 @@ export default {
         ...args,
       });
     },
-    async getAccessControl(args = {}) {
-      return this._makeRequest({
-        path: "/organizationAcls",
-        ...args,
+    async getAccessControl({ params }) {
+      return this._makeRequestAxios({
+        path: `/organizationAcls?${params}`,
       });
     },
     async queryAnaltyics(query, args = {} ) {

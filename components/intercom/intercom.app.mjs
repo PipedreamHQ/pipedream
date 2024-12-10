@@ -45,14 +45,13 @@ export default {
     * @params {Object} [opts.data] - The request body
     * @returns {*} The response may vary depending on the specific API request.
     */
-    async makeRequest(opts) {
-      const {
-        method,
-        url,
-        endpoint,
-        data,
-        $,
-      } = opts;
+    async makeRequest({
+      method,
+      url,
+      endpoint,
+      $,
+      ...opts
+    }) {
       const config = {
         method,
         url: url ?? `https://api.intercom.io/${endpoint}`,
@@ -60,7 +59,7 @@ export default {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
           Accept: "application/json",
         },
-        data,
+        ...opts,
       };
       return axios($ || this, config);
     },
@@ -76,7 +75,7 @@ export default {
      * Used to retrieve only new results
      * @returns {Array} The complete list of paginated items
      */
-    async paginate(itemType, method, data, isSearch = false, lastCreatedAt) {
+    async paginate(itemType, method, data, isSearch = false, lastCreatedAt, resourceKey = "data") {
       let results = null;
       let done = false;
       let items = [];
@@ -91,14 +90,14 @@ export default {
           data,
         });
         if (lastCreatedAt) {
-          for (const item of results.data) {
+          for (const item of results[resourceKey]) {
             if (item.created_at > lastCreatedAt)
               items.push(item);
             else
               done = true;
           }
         } else {
-          items = items.concat(results.data);
+          items = items.concat(results[resourceKey]);
           if (!startingAfter)
             done = true;
         }
@@ -190,7 +189,7 @@ export default {
      * @returns {Array} List of conversations matching search query
      */
     async searchConversations(data) {
-      return this.paginate("conversations", "POST", data, true);
+      return this.paginate("conversations", "POST", data, true, null, "conversations");
     },
     /**
      * Create a note for a specific user
@@ -208,6 +207,29 @@ export default {
           admin_id: adminId,
         },
         $,
+      });
+    },
+    searchContact(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        endpoint: "contacts/search",
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        endpoint: "contacts",
+        ...opts,
+      });
+    },
+    updateContact({
+      contactId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "PUT",
+        endpoint: `contacts/${contactId}`,
+        ...opts,
       });
     },
     /**

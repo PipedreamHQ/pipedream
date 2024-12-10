@@ -1,38 +1,65 @@
-// This code is meant to be run client-side. Never provide project keys to the browser client,
-// or make API requests to the Pipedream API to fetch credentials. The browser client is
-// meant for initiating browser-specific operations, like connecting accounts via Pipedream Connect.
-// See the server/ directory for the server client.
+// This code is meant to be run client-side. Never provide project keys to the
+// browser client, or make API requests to the Pipedream API to fetch
+// credentials. The browser client is meant for initiating browser-specific
+// operations, like connecting accounts via Pipedream Connect. See the server/
+// directory for the server client.
+
+import { BrowserAsyncResponseManager } from "./async.js";
+import {
+  AccountsRequestResponse,
+  BaseClient,
+  GetAccountOpts,
+  type ConnectTokenResponse,
+} from "../shared/index.js";
+export type * from "../shared/index.js";
 
 /**
- * Options for creating a browser-side client.
- * This is used to configure the BrowserClient instance.
+ * Options for creating a browser-side client. This is used to configure the
+ * BrowserClient instance.
  */
 type CreateBrowserClientOpts = {
   /**
-   * The environment in which the browser client is running (e.g., "production", "development").
+   * @deprecated environment is set on the server when generating the client token
    */
   environment?: string;
 
   /**
-   * The frontend host URL. Used by Pipedream employees only. Defaults to "pipedream.com" if not provided.
+   * The frontend host URL. Used by Pipedream employees only. Defaults to
+   * "pipedream.com" if not provided.
    */
   frontendHost?: string;
-};
 
-/**
- * A unique identifier for an app.
- */
-type AppId = string;
-
-/**
- * Object representing an app to start connecting with.
- */
-type StartConnectApp = {
   /**
-   * The unique identifier of the app.
+   * The API host URL. Used by Pipedream employees. Defaults to
+   * "api.pipedream.com" if not provided.
    */
-  id: AppId;
+  apiHost?: string;
+
+  /**
+   * Will be called whenever we need a new token.
+   *
+   * The callback function should return the response from
+   * `serverClient.createConnectToken`.
+   */
+  tokenCallback?: TokenCallback;
+
+  /**
+   * An external user ID associated with the token.
+   */
+  externalUserId?: string;
 };
+
+export type TokenCallback = (opts: {
+  externalUserId: string;
+}) => Promise<ConnectTokenResponse>;
+
+/**
+ * The name slug for an app, a unique, human-readable identifier like "github"
+ * or "google_sheets". Find this in the Authentication section for any app's
+ * page at https://pipedream.com/apps. For more information about name slugs,
+ * see https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug.
+ */
+type AppNameSlug = string;
 
 /**
  * The result of a successful connection.
@@ -55,13 +82,20 @@ class ConnectError extends Error {}
 type StartConnectOpts = {
   /**
    * The token used for authenticating the connection.
+   *
+   * Optional if client already initialized with token
    */
-  token: string;
+  token?: string;
 
   /**
    * The app to connect to, either as an ID or an object containing the ID.
    */
-  app: AppId | StartConnectApp;
+  app: AppNameSlug;
+
+  /**
+   * The OAuth app ID to connect to.
+   */
+  oauthAppId?: string;
 
   /**
    * Callback function to be called upon successful connection.
@@ -83,26 +117,32 @@ type StartConnectOpts = {
  *
  * @example
  * ```typescript
- * const client = createClient({
- *   environment: "production",
- * });
+    const client = createFrontendClient({
+      tokenCallback,
+      externalUserId,
+    });
  * ```
  * @param opts - The options for creating the browser client.
  * @returns A new instance of `BrowserClient`.
  */
-export function createClient(opts: CreateBrowserClientOpts) {
+export function createFrontendClient(opts: CreateBrowserClientOpts = {}) {
   return new BrowserClient(opts);
 }
 
 /**
  * A client for interacting with the Pipedream Connect API from the browser.
  */
-class BrowserClient {
-  private environment?: string;
+export class BrowserClient extends BaseClient {
+  protected override asyncResponseManager: BrowserAsyncResponseManager;
   private baseURL: string;
   private iframeURL: string;
   private iframe?: HTMLIFrameElement;
   private iframeId = 0;
+  private tokenCallback?: TokenCallback;
+  private _token?: string;
+  private _tokenExpiresAt?: Date;
+  private _tokenRequest?: Promise<string>;
+  externalUserId?: string;
 
   /**
    * Constructs a new `BrowserClient` instance.
@@ -110,9 +150,58 @@ class BrowserClient {
    * @param opts - The options for configuring the browser client.
    */
   constructor(opts: CreateBrowserClientOpts) {
-    this.environment = opts.environment;
+    super(opts);
     this.baseURL = `https://${opts.frontendHost || "pipedream.com"}`;
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
+    this.tokenCallback = opts.tokenCallback;
+    this.externalUserId = opts.externalUserId;
+    this.asyncResponseManager = new BrowserAsyncResponseManager({
+      apiHost: this.apiHost,
+      getConnectToken: () => this.token(),
+    });
+  }
+
+  private async token() {
+    if (
+      this._token &&
+      this._tokenExpiresAt &&
+      this._tokenExpiresAt > new Date()
+    ) {
+      return this._token;
+    }
+
+    if (this._tokenRequest) {
+      return this._tokenRequest;
+    }
+
+    const tokenCallback = this.tokenCallback;
+    const externalUserId = this.externalUserId;
+
+    if (!tokenCallback) {
+      throw new Error("No token callback provided");
+    }
+    if (!externalUserId) {
+      throw new Error("No external user ID provided");
+    }
+
+    // Ensure only one token request is in-flight at a time.
+    this._tokenRequest = (async () => {
+      const {
+        token, expires_at,
+      } = await tokenCallback({
+        externalUserId: externalUserId,
+      });
+      this._token = token;
+      this._tokenExpiresAt = new Date(expires_at);
+      this._tokenRequest = undefined;
+      return token;
+    })();
+
+    return this._tokenRequest;
+  }
+
+  private refreshToken() {
+    this._token = undefined;
   }
 
   /**
@@ -134,17 +223,9 @@ class BrowserClient {
    * });
    * ```
    */
-  connectAccount(opts: StartConnectOpts) {
+  public async connectAccount(opts: StartConnectOpts) {
     const onMessage = (e: MessageEvent) => {
-      if (e.origin !== this.baseURL || !this.iframe?.contentWindow) {
-        console.warn("Untrusted origin or iframe not ready:", e.origin);
-        return;
-      }
-
       switch (e.data?.type) {
-      case "verify-domain":
-        this.handleVerifyDomain(e);
-        break;
       case "success":
         opts.onSuccess?.({
           id: e.data?.authProvisionId,
@@ -164,31 +245,16 @@ class BrowserClient {
     window.addEventListener("message", onMessage);
 
     try {
-      this.createIframe(opts);
+      await this.createIframe(opts);
     } catch (err) {
       opts.onError?.(err as ConnectError);
     }
+    this.refreshToken(); // token expires once it's used to create a connected account. We need to get a new token for the next requests.
   }
 
   /**
-   * Handles the verification of the domain from the iframe.
-   *
-   * @param e - The message event containing the verification request.
-   */
-  private handleVerifyDomain(e: MessageEvent) {
-    if (this.iframe?.contentWindow) {
-      this.iframe.contentWindow.postMessage(
-        {
-          type: "domain-response",
-          origin: window.origin,
-        },
-        e.origin,
-      );
-    }
-  }
-
-  /**
-   * Cleans up the iframe and message event listener after the connection process is complete.
+   * Cleans up the iframe and message event listener after the connection
+   * process is complete.
    *
    * @param onMessage - The message event handler to remove.
    */
@@ -198,25 +264,27 @@ class BrowserClient {
   }
 
   /**
-   * Creates an iframe for the connection process and appends it to the document body.
+   * Creates an iframe for the connection process and appends it to the document
+   * body.
    *
    * @param opts - The options for starting the connection process.
    *
    * @throws {ConnectError} If the app option is not a string.
    */
-  private createIframe(opts: StartConnectOpts) {
+  private async createIframe(opts: StartConnectOpts) {
+    const token = opts.token || (await this.token());
     const qp = new URLSearchParams({
-      token: opts.token,
+      token,
     });
-
-    if (this.environment) {
-      qp.set("environment", this.environment);
-    }
 
     if (typeof opts.app === "string") {
       qp.set("app", opts.app);
     } else {
       throw new ConnectError("Object app not yet supported");
+    }
+
+    if (opts.oauthAppId) {
+      qp.set("oauthAppId", opts.oauthAppId);
     }
 
     const iframe = document.createElement("iframe");
@@ -233,5 +301,18 @@ class BrowserClient {
     };
 
     document.body.appendChild(iframe);
+  }
+
+  protected async authHeaders(): Promise<string> {
+    if (!(await this.token())) {
+      throw new Error("No token provided");
+    }
+    return `Bearer ${await this.token()}`;
+  }
+
+  public getAccounts(
+    params?: Omit<GetAccountOpts, "external_user_id">,
+  ): Promise<AccountsRequestResponse> {
+    return super.getAccounts(params);
   }
 }

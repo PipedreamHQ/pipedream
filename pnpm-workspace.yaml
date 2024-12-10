@@ -4,3 +4,4 @@ packages:
   - 'helpers/**'
   - 'platform/**'
   - 'packages/**'
+  - 'docs-v2/**'

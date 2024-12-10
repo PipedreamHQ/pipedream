@@ -7,9 +7,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-openai = "^0.27.8"
+openai = "^1.45.0"
 python-dotenv = "^1.0.0"
-langchain = "0.1.11"
+langchain = "^0.2.16"
+langchain-community = "^0.2.16"
+langchain-openai = "^0.1.23"
 supabase = "^1.0.3"
 selenium = "^4.12.0"
 markdown-to-json = "^2.1.0"

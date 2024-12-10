@@ -3,9 +3,9 @@ import lodash from "lodash";
 
 export default {
   key: "short-domain-statistics",
-  name: "Domain Statistics.",
-  description: "Returns detailed statistics for domain in given period. [See the docs](https://developers.short.io/reference/getdomaindomainid).",
-  version: "0.0.1",
+  name: "Get Domain Statistics",
+  description: "Returns detailed statistics for a domain in given period. [See the documentation](https://developers.short.io/reference/getdomaindomainid).",
+  version: "0.0.2",
   type: "action",
   props: {
     shortApp,

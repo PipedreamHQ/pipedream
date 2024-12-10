@@ -1,23 +1,22 @@
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
-  ...common,
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
-  version: "0.0.4",
+  version: "0.0.7",
   type: "action",
   props: {
-    ...common.props,
+    gmail,
     q: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "q",
       ],
     },
     labels: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "label",
       ],
       type: "string[]",
@@ -32,31 +31,27 @@ export default {
       optional: true,
       default: false,
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "Maximum number of messages to return. This field defaults to 100. The maximum allowed value for this field is 500.",
+      default: 100,
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const messageIds = [];
-    let pageToken;
-
-    do {
-      const {
-        messages = [],
-        nextPageToken,
-      } = await this.gmail.listMessages({
-        q: this.q,
-        labelIds: this.labels,
-        includeSpamTrash: this.includeSpamTrash,
-        pageToken,
-      });
-      messageIds.push(...messages.map(({ id }) => id));
-      pageToken = nextPageToken;
-    } while (pageToken);
-
-    const messages = await this.gmail.getMessages(messageIds);
-
-    const suffix = messages.length === 1
+    const { messages = [] } = await this.gmail.listMessages({
+      q: this.q,
+      labelIds: this.labels,
+      includeSpamTrash: this.includeSpamTrash,
+      maxResults: this.maxResults,
+    });
+    const messageIds = messages.map(({ id }) => id);
+    const messagesToEmit = await this.gmail.getMessages(messageIds);
+    const suffix = messagesToEmit.length === 1
       ? ""
       : "s";
-    $.export("$summary", `Successfully found ${messages.length} message${suffix}`);
-    return messages;
+    $.export("$summary", `Successfully found ${messagesToEmit.length} message${suffix}`);
+    return messagesToEmit;
   },
 };

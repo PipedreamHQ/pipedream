@@ -77,8 +77,19 @@ export default {
       type: "string",
       label: "Object Type",
       description: "Watch for new events concerning the object type specified.",
-      async options() {
-        return OBJECT_TYPES;
+      async options({ includeCustom = false }) {
+        const objectTypes = OBJECT_TYPES;
+        if (includeCustom) {
+          const { results } = await this.listSchemas();
+          const customObjects = results?.map(({
+            name: value, labels,
+          }) => ({
+            value,
+            label: labels.plural,
+          })) || [];
+          objectTypes.push(...customObjects);
+        }
+        return objectTypes;
       },
     },
     objectSchema: {
@@ -113,7 +124,7 @@ export default {
       description: "Watch for new events concerning the objects selected.",
       async options({
         objectType, ...opts
-      }) { console.log(opts);
+      }) {
         return objectType
           ? await this.createOptions(objectType, opts)
           : [];
@@ -401,6 +412,31 @@ export default {
         }));
       },
     },
+    leadId: {
+      type: "string",
+      label: "Lead ID",
+      description: "The identifier of the lead",
+      async options() {
+        const { results } = await this.listObjectsInPage("lead", undefined, {
+          properties: "hs_lead_name",
+        });
+        return results?.map(({
+          id: value, properties,
+        }) => ({
+          value,
+          label: properties?.hs_lead_name || value,
+        })) || [];
+      },
+    },
+    customObjectType: {
+      type: "string",
+      label: "Custom Object Type",
+      description: "Tye type of custom object to create",
+      async options() {
+        const { results } = await this.listSchemas();
+        return results?.map(({ name }) => name ) || [];
+      },
+    },
   },
   methods: {
     _getHeaders() {
@@ -543,6 +579,35 @@ export default {
         label: object.email,
         value: object.id,
       }));
+    },
+    async getPipelinesOptions(objectType) {
+      const { results } = await this.getPipelines({
+        objectType,
+      });
+      return results?.map((pipeline) => ({
+        label: pipeline.label,
+        value: pipeline.id,
+      })) || [];
+    },
+    async getPipelineStagesOptions(objectType, pipelineId) {
+      if (!pipelineId) {
+        return [];
+      }
+      const { stages } = await this.getPipeline({
+        objectType,
+        pipelineId,
+      });
+      return stages?.map((stage) => ({
+        label: stage.label,
+        value: stage.id,
+      })) || [];
+    },
+    async getBusinessUnitOptions() {
+      const { results } = await this.getBusinessUnits();
+      return results?.map((unit) => ({
+        label: unit.name,
+        value: unit.id,
+      })) || [];
     },
     searchCRM({
       object, ...opts
@@ -715,6 +780,22 @@ export default {
       return this.makeRequest({
         api: API_PATH.EMAIL,
         endpoint: "/subscriptions/timeline",
+        ...opts,
+      });
+    },
+    getBusinessUnits(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.BUSINESS_UNITS,
+        endpoint: `/business-units/user/${this.$auth.oauth_uid}`,
+        ...opts,
+      });
+    },
+    getPipeline({
+      objectType, pipelineId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/pipelines/${objectType}/${pipelineId}`,
         ...opts,
       });
     },

@@ -1,23 +1,22 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-add-member-to-card",
   name: "Add Member to Card",
-  description: "Adds a member to the specified card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idmembers-post)",
-  version: "0.1.4",
+  description: "Adds a member to the specified card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idmembers-post).",
+  version: "0.2.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     board: {
       propDefinition: [
-        common.props.trello,
+        app,
         "board",
       ],
     },
-    idCard: {
+    cardId: {
       propDefinition: [
-        common.props.trello,
+        app,
         "cards",
         (c) => ({
           board: c.board,
@@ -28,21 +27,27 @@ export default {
       description: "The ID of the Card to add the Member to",
       optional: false,
     },
-    idMember: {
+    value: {
       propDefinition: [
-        common.props.trello,
+        app,
         "member",
         (c) => ({
           board: c.board,
+          card: c.cardId,
+          excludeCardMembers: true,
         }),
       ],
     },
   },
   async run({ $ }) {
-    const res = await this.trello.addMemberToCard(this.idCard, {
-      value: this.idMember,
-    }, $);
-    $.export("$summary", `Successfully added member ${res[0].fullName} to card ${this.idCard}`);
+    const res = await this.app.addMemberToCard({
+      $,
+      cardId: this.cardId,
+      params: {
+        value: this.value,
+      },
+    });
+    $.export("$summary", `Successfully added member ${res[0].fullName} to card ${this.cardId}`);
     return res;
   },
 };
