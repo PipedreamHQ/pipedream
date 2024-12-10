@@ -14,6 +14,7 @@ export function getProps({
   objType,
   createOrUpdate = "create",
   docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_concepts.htm",
+  showDocsInfo = true,
   showDateInfo = false,
 }) {
   let { initialProps } = objType;
@@ -34,6 +35,13 @@ export function getProps({
 
   return {
     salesforce,
+    ...showDocsInfo && {
+      docsInfo: {
+        type: "alert",
+        alertType: "info",
+        content: `[See the documentation](${docsLink}) for more information on available fields.`,
+      },
+    },
     ...showDateInfo && {
       dateInfo: {
         type: "alert",
@@ -45,11 +53,6 @@ export function getProps({
       ? "createProps"
       : "updateProps"],
     ...initialProps,
-    docsInfo: {
-      type: "alert",
-      alertType: "info",
-      content: `[See the documentation](${docsLink}) for more information on available fields.`,
-    },
     useAdvancedProps: {
       propDefinition: [
         salesforce,
