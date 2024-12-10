@@ -2837,6 +2837,9 @@ importers:
 
   components/dokan: {}
 
+  components/domo:
+    specifiers: {}
+
   components/donedone: {}
 
   components/donorbox: {}
