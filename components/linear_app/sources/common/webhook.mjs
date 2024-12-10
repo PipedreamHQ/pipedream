@@ -1,6 +1,7 @@
 import linearApp from "../../linear_app.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   props: {
@@ -12,6 +13,7 @@ export default {
         linearApp,
         "teamId",
       ],
+      reloadProps: true,
     },
     projectId: {
       propDefinition: [
@@ -21,6 +23,17 @@ export default {
     },
     http: "$.interface.http",
     db: "$.service.db",
+  },
+  async additionalProps() {
+    const props = {};
+    if (!(await this.isAdmin())) {
+      props.alert = {
+        type: "alert",
+        alertType: "error",
+        content: "You must have an admin role to create or manage webhooks. See the Linear [documentation](https://linear.app/docs/api-and-webhooks#webhooks) for details.",
+      };
+    }
+    return props;
   },
   methods: {
     setWebhookId(teamId, id) {
@@ -59,9 +72,26 @@ export default {
     getLoadedProjectId() {
       throw new Error("Get loaded project ID not implemented");
     },
+    async isAdmin() {
+      const { data } = await this.linearApp.makeAxiosRequest({
+        method: "POST",
+        data: {
+          "query": `{ 
+            user(id: "me") {
+              admin
+            }
+          }`,
+        },
+      });
+      return data?.user?.admin;
+    },
   },
   hooks: {
     async deploy() {
+      if (!(await this.isAdmin())) {
+        throw new ConfigurationError("You must have an admin role to create or manage webhooks. See the Linear [documentation](https://linear.app/docs/api-and-webhooks#webhooks) for details.");
+      }
+
       // Retrieve historical events
       console.log("Retrieving historical events...");
       const stream = this.linearApp.paginateResources({
