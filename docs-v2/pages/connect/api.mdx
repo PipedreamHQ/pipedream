@@ -307,11 +307,6 @@ The ID of the custom [OAuth app](/connect/quickstart#create-a-pipedream-oauth-cl
 
 [The external user ID](/connect/api/#external-users) in your system that you want to retrieve accounts for.
 
----
-
-`include_credentials` **boolean** (_optional_)
-
-Pass `include_credentials=true` as a query-string parameter to include the account credentials in the response
 
 ##### Examples
 
@@ -331,12 +326,9 @@ const pd = createBackendClient({
   projectId: "{your_project_id}"
 });
 
-const accounts = await pd.getAccounts({
-  include_credentials: true, // set to true to include credentials
-});
+const accounts = await pd.getAccounts();
 
-// Parse and return the data you need. These may contain credentials, 
-// which you should never return to the client
+// Parse and return the data you need
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -352,12 +344,9 @@ const pd = createBackendClient({
   projectId: "{your_project_id}"
 });
 
-const accounts = await pd.getAccounts({
-  include_credentials: true, // set to true to include credentials
-});
+const accounts = await pd.getAccounts();
 
-// Parse and return the data you need. These may contain credentials,
-// which you should never return to the client
+// Parse and return the data you need
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -373,7 +362,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 # The response will include an access_token. Use it in the Authorization header below.
 
-curl -X GET "https://api.pipedream.com/v1/connect/{project_id}/accounts/?include_credentials=true" \
+curl -X GET "https://api.pipedream.com/v1/connect/{project_id}/accounts" \
   -H "Authorization: Bearer {access_token}"
 ```
 </Tabs.Tab>
