@@ -18,7 +18,7 @@ export default {
       type: "integer",
       label: "Limit",
       description: "The maximum quantity to be returned.",
-      default: 100
+      default: 100,
     },
   },
   async run({ $ }) {
@@ -37,7 +37,7 @@ export default {
       if (workflowRuns.length === 0) {
         break;
       }
-      
+
       allWorkflowRuns = allWorkflowRuns.concat(workflowRuns);
       count += workflowRuns.length;
       page += 1;
