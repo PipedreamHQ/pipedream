@@ -3,7 +3,7 @@ import app from "../../vies_api.app.mjs";
 export default {
   key: "vies_api-retrieve-vat-data",
   name: "Retrieve VAT Data",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Get firm data from VIES registry. [See the documentation](https://viesapi.eu/public/rest/index.html#/API/getVIESData)",
   type: "action",
   props: {
