@@ -358,6 +358,9 @@ export type GetComponentsOpts = RelationOpts & {
  */
 export type GetComponentOpts = GetComponentsOpts;
 
+/**
+ * An object that identifies a single, unique component in Pipedream.
+ */
 export type ComponentId = {
   /**
    * The key that uniquely identifies the component.
