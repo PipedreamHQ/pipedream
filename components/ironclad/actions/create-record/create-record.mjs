@@ -65,6 +65,7 @@ export default {
           ? "boolean"
           : "string",
         label: properties[property].displayName,
+        description: properties[property].description ?? `Value of ${properties[property].displayName}`,
       };
     }
     return props;
