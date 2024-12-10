@@ -195,7 +195,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       const field = fields[prop.name]
       if (field) {
         const app = field.extra.app
-        const err = appPropError(prop, value, app)
+        const err = appPropError({ value, app })
         if (err) errs.push(err)
       } else {
         errs.push("field not registered")

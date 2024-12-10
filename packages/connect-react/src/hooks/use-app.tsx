@@ -60,7 +60,8 @@ function getCustomFields(app: AppResponse): AppCustomField[] {
   })
 }
 
-export function appPropError(prop: ConfigurablePropApp, value: unknown, app: AppResponse | undefined): string | undefined {
+export function appPropError(opts: { value: any, app: AppResponse | undefined }): string | undefined {
+  const { app, value } = opts
   if (!app) {
     return "app field not registered"
   }
