@@ -3,6 +3,7 @@ import { FormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
 import { Field } from "./Field";
 import { useApp } from "../hooks/use-app";
+import { useEffect } from "react";
 
 type FieldInternalProps<T extends ConfigurableProp> = {
   prop: T;
@@ -14,7 +15,7 @@ export function InternalField<T extends ConfigurableProp>({
 }: FieldInternalProps<T>) {
   const formCtx = useFormContext();
   const {
-    id: formId, configuredProps, setConfiguredProp,
+    id: formId, configuredProps, registerField, setConfiguredProp,
   } = formCtx;
 
   const appSlug = prop.type === "app" && "app" in prop
@@ -44,7 +45,9 @@ export function InternalField<T extends ConfigurableProp>({
       app, // XXX fix ts
     },
   };
-
+  useEffect(() => registerField(fieldCtx), [
+    fieldCtx,
+  ])
   return (
     <FormFieldContext.Provider value={fieldCtx}>
       <Field field={fieldCtx} form={formCtx} />
