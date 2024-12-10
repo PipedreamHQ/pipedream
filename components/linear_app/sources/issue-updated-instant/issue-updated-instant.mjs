@@ -5,9 +5,9 @@ export default {
   ...common,
   key: "linear_app-issue-updated-instant",
   name: "New Updated Issue (Instant)",
-  description: "Emit new event when an issue is updated. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
+  description: "Emit new event when an issue is updated. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.3.6",
+  version: "0.3.7",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -39,6 +39,11 @@ export default {
         },
       };
     },
+    getResource(issue) {
+      return this.linearApp.getIssue({
+        issueId: issue.id,
+      });
+    },
     getMetadata(resource) {
       const {
         delivery,
@@ -46,10 +51,11 @@ export default {
         data,
         updatedAt,
       } = resource;
+      const ts = Date.parse(updatedAt);
       return {
-        id: delivery || resource.id,
+        id: delivery || `${resource.id}-${ts}`,
         summary: `Issue Updated: ${data?.title || title}`,
-        ts: Date.parse(updatedAt),
+        ts,
       };
     },
   },
