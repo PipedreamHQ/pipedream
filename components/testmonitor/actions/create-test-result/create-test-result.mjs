@@ -77,7 +77,7 @@ export default {
   },
   async run({ $ }) {
     let testResultId;
-    let summary;
+    let summary = "";
     try {
       const response = await this.testmonitor.createTestResult({
         $,
@@ -90,19 +90,21 @@ export default {
       });
       testResultId = response.data.id;
 
-      try {
-        for (const file of parseObject(this.attachments)) {
-          const data = new FormData();
-          data.append("file", fs.createReadStream(checkTmp(file)));
-          await this.testmonitor.uploadAttachment({
-            $,
-            testResultId,
-            data,
-            headers: data.getHeaders(),
-          });
+      if (this.attachments) {
+        try {
+          for (const file of parseObject(this.attachments)) {
+            const data = new FormData();
+            data.append("file", fs.createReadStream(checkTmp(file)));
+            await this.testmonitor.uploadAttachment({
+              $,
+              testResultId,
+              data,
+              headers: data.getHeaders(),
+            });
+          }
+        } catch (e) {
+          summary = ", but the attachments could not be loaded.";
         }
-      } catch (e) {
-        summary = ", but the attachments could not be loaded.";
       }
 
       const updateResponse = await this.testmonitor.updateTestResult({
