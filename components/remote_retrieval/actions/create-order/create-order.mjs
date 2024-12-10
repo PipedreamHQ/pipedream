@@ -137,29 +137,6 @@ export default {
   },
 
   async run({ $ }) {
-    console.log({
-      typeOfEquipment: this.typeOfEquipment,
-      orderType: this.orderType,
-      email: this.email,
-      name: this.name,
-      addressLine1: this.addressLine1,
-      addressLine2: this.addressLine2,
-      addressCity: this.addressCity,
-      addressState: this.addressState,
-      addressCountry: this.addressCountry,
-      addressZip: this.addressZip,
-      phone: this.phone,
-      returnPersonName: this.returnPersonName,
-      returnCompanyName: this.returnCompanyName,
-      returnAddressLine1: this.returnAddressLine1,
-      returnAddressLine2: this.returnAddressLine2,
-      returnAddressCity: this.returnAddressCity,
-      returnAddressState: this.returnAddressState,
-      returnAddressCountry: this.returnAddressCountry,
-      returnAddressZip: this.returnAddressZip,
-      companyEmail: this.companyEmail,
-      companyPhone: this.companyPhone,
-    });
     const response = await this.app.createOrder({
       $,
       data: {
