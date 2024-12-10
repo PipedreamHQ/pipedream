@@ -11,8 +11,8 @@ export default {
     datasourceId: {
       propDefinition: [
         app,
-        "datasourceId",
-      ],
+        "datasourceId"
+      ]
     },
   },
 

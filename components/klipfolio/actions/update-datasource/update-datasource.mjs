@@ -11,26 +11,26 @@ export default {
     datasourceId: {
       propDefinition: [
         app,
-        "datasourceId",
-      ],
+        "datasourceId"
+      ]
     },
     name: {
       propDefinition: [
         app,
-        "name",
-      ],
+        "name"
+      ]
     },
     description: {
       propDefinition: [
         app,
-        "description",
-      ],
+        "description"
+      ]
     },
     refreshInterval: {
       propDefinition: [
         app,
-        "refreshInterval",
-      ],
+        "refreshInterval"
+      ]
     },
   },
 
@@ -41,7 +41,7 @@ export default {
       data: {
         name: this.name,
         description: this.description,
-        refreshInterval: parseInt(this.refreshInterval, 10),
+        refresh_interval: parseInt(this.refreshInterval, 10),
       },
     });
     $.export("$summary", `Successfully updated Datasource named '${this.name}'`);
