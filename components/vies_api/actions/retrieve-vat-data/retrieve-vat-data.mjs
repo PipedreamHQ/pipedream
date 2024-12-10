@@ -4,7 +4,7 @@ export default {
   key: "vies_api-retrieve-vat-data",
   name: "Retrieve VAT Data",
   version: "0.0.1",
-  description: "Get firm data from VIES registry. [See the documentation](https://viesapi.eu/public/rest/viesapi.html#/API/getVIESData)",
+  description: "Get firm data from VIES registry. [See the documentation](https://viesapi.eu/public/rest/index.html#/API/getVIESData)",
   type: "action",
   props: {
     app,
