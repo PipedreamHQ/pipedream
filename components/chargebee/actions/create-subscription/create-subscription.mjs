@@ -13,7 +13,7 @@ export default {
       propDefinition: [
         chargebee,
         "customerId",
-      ]
+      ],
     },
     id: {
       type: "string",

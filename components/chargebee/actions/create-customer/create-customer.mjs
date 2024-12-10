@@ -60,7 +60,10 @@ export default {
       phone: this.phone,
       company: this.company,
       ...this.additionalFields,
-    }).filter(([_, v]) => v !== undefined)));
+    }).filter(([
+      _,
+      v,
+    ]) => v !== undefined)));
 
     $.export("$summary", `Successfully created customer (ID: ${response?.customer?.id})`);
     return response;

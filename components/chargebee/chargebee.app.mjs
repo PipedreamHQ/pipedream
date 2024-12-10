@@ -11,11 +11,11 @@ export default {
       async options() {
         const customers = await this.getCustomers();
         return customers.list.map((customer) => ({
-          label: `${customer.first_name ?? ''} ${customer.last_name ?? ''} (${customer.email ?? customer.id})`,
+          label: `${customer.first_name ?? ""} ${customer.last_name ?? ""} (${customer.email ?? customer.id})`,
           value: customer.id,
         }));
-      }
-    }
+      },
+    },
   },
   methods: {
     instance() {
