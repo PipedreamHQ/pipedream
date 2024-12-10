@@ -8429,7 +8429,7 @@ importers:
   components/remote_retrieval:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.1
         version: 3.0.3
 
   components/render: {}
