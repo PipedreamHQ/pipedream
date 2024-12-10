@@ -22,7 +22,6 @@ export default {
           repoFullname,
         }),
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
