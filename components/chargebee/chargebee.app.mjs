@@ -3,6 +3,20 @@ import chargebee from "chargebee";
 export default {
   type: "app",
   app: "chargebee",
+  propDefinitions: {
+    customerId: {
+      type: "string",
+      label: "Customer ID",
+      description: "The ID of the customer to create the subscription for.",
+      async options() {
+        const customers = await this.getCustomers();
+        return customers.list.map((customer) => ({
+          label: `${customer.first_name ?? ''} ${customer.last_name ?? ''} (${customer.email ?? customer.id})`,
+          value: customer.id,
+        }));
+      }
+    }
+  },
   methods: {
     instance() {
       chargebee.configure({
@@ -31,6 +45,9 @@ export default {
     },
     createCustomer(args = {}) {
       return this.instance().customer.create(args).request();
-    }
+    },
+    createSubscription(customerId, args = {}) {
+      return this.instance().subscription.create_for_customer(customerId, args).request();
+    },
   },
 };
