@@ -18,6 +18,7 @@ export default {
       type: "integer",
       label: "Limit",
       description: "The maximum quantity to be returned.",
+      default: 100
     },
   },
   async run({ $ }) {
@@ -26,19 +27,19 @@ export default {
     let allWorkflowRuns = [];
     let count = 0;
 
-    while (true) {
+    while (count < this.limit) {
       const { workflow_runs: workflowRuns } = await this.github.listWorkflowRuns({
         repoFullname: this.repoFullname,
         perPage: perPage,
         page: page,
       });
 
-      if ((workflowRuns.length === 0) || count >= this.limit) {
+      if (workflowRuns.length === 0) {
         break;
       }
-      count += workflowRuns.length;
-
+      
       allWorkflowRuns = allWorkflowRuns.concat(workflowRuns);
+      count += workflowRuns.length;
       page += 1;
     }
 
