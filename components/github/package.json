@@ -15,7 +15,6 @@
     "@octokit/webhooks-definitions": "^3.29.0",
     "@pipedream/platform": "^3.0.3"
   },
-  "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"
   }
