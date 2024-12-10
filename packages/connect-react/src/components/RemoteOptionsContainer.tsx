@@ -70,7 +70,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       // console.log("res", res)
       // XXX look at errors in response here too
       const {
-        options, string_options: stringOptions, errors,
+        options, stringOptions, errors,
       } = res;
       if (errors?.length) {
         // TODO field context setError? (for validity, etc.)
