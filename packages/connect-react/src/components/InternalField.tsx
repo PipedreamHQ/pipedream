@@ -46,9 +46,7 @@ export function InternalField<T extends ConfigurableProp>({
     },
   };
   useEffect(() => registerField(fieldCtx), [
-    app,
-    configuredProps,
-    prop,
+    fieldCtx,
   ])
   return (
     <FormFieldContext.Provider value={fieldCtx}>
