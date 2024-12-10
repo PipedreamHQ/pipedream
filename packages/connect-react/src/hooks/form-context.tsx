@@ -360,7 +360,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     configuredProps,
     dynamicProps,
     dynamicPropsQueryIsFetching,
-    errors,
     fields,
     optionalPropIsEnabled,
     optionalPropSetEnabled,
