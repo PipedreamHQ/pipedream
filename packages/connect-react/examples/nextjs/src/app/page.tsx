@@ -31,11 +31,17 @@ export default function Home() {
           configuredProps={configuredProps}
           onUpdateConfiguredProps={setConfiguredProps}
           onSubmit={async () => {
-            await client.actionRun({
-              userId,
-              actionId: "slack-send-message",
-              configuredProps,
-            })}}
+            try {
+              await client.actionRun({
+                userId,
+                actionId: "slack-send-message",
+                configuredProps,
+              });
+            } catch (error) {
+              console.error('Action run failed:', error);
+              // Consider showing user-friendly error message
+            }
+          }}
         />
       </FrontendClientProvider>
     </>
