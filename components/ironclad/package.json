@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ironclad",
+  "version": "0.0.1",
+  "description": "Pipedream Ironclad Components",
+  "main": "ironclad.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ironclad"
+  ],
+  "homepage": "https://pipedream.com/apps/ironclad",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

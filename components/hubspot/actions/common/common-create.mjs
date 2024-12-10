@@ -70,7 +70,7 @@ export default {
         ? options
         : undefined;
     },
-    makePropDefinition(property, requiredProperties) {
+    async makePropDefinition(property, requiredProperties) {
       let type = "string";
       let options = this.makeLabelValueOptions(property);
 
@@ -83,6 +83,24 @@ export default {
         property.description += ". Enter date in ISO-8601 format. Example: `2024-06-25T15:43:49.214Z`";
       }
 
+      const objectType = this.hubspot.getObjectTypeName(this.getObjectType());
+      let reloadProps;
+      if (property.name === "hs_pipeline") {
+        options = await this.hubspot.getPipelinesOptions(objectType);
+        reloadProps = true;
+      }
+      if (property.name === "hs_pipeline_stage") {
+        options = await this.hubspot.getPipelineStagesOptions(objectType, this.hs_pipeline);
+      }
+      if (property.name === "hs_all_assigned_business_unit_ids") {
+        try {
+          options = await this.hubspot.getBusinessUnitOptions();
+        } catch {
+          console.log("Could not load business units");
+        }
+        property.description += " For use with the Business Units Add-On.";
+      }
+
       return {
         type,
         name: property.name,
@@ -90,6 +108,7 @@ export default {
         description: property.description,
         optional: !requiredProperties.includes(property.name),
         options,
+        reloadProps,
       };
     },
   },
@@ -101,9 +120,12 @@ export default {
     const { results: properties } = await this.hubspot.getProperties({
       objectType,
     });
-    return properties
-      .filter(this.isRelevantProperty)
-      .map((property) => this.makePropDefinition(property, schema.requiredProperties))
+    const relevantProperties = properties.filter(this.isRelevantProperty);
+    const propDefinitions = [];
+    for (const property of relevantProperties) {
+      propDefinitions.push(await this.makePropDefinition(property, schema.requiredProperties));
+    }
+    return propDefinitions
       .reduce((props, {
         name, ...definition
       }) => {

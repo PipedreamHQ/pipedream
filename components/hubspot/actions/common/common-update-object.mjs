@@ -32,6 +32,7 @@ export default {
       hubspot,
       /* eslint-disable no-unused-vars */
       propertyGroups,
+      customObjectType,
       $db,
       objectId,
       ...properties

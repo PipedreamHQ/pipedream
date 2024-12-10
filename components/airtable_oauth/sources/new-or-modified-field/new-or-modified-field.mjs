@@ -4,7 +4,7 @@ export default {
   name: "New or Modified Field",
   description: "Emit new event for each new or modified field in a table",
   key: "airtable_oauth-new-or-modified-field",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   props: {
     ...common.props,

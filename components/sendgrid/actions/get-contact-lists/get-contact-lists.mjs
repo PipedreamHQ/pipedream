@@ -5,7 +5,7 @@ export default {
   key: "sendgrid-get-contact-lists",
   name: "Get Contact Lists",
   description: "Allows you to get details of your contact lists. [See the docs here](https://docs.sendgrid.com/api-reference/lists/get-all-lists)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
