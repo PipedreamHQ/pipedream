@@ -38,8 +38,7 @@ export default function Home() {
                 configuredProps,
               });
             } catch (error) {
-              console.error('Action run failed:', error);
-              // Consider showing user-friendly error message
+              console.error("Action run failed:", error);
             }
           }}
         />
