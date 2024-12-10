@@ -878,7 +878,7 @@ export abstract class BaseClient {
       path = "/actions";
     }
     // XXX Is V1Component the correct type for triggers and actions?
-    return this.makeConnectRequest<ComponentsRequestResponse>(path, {
+    return this.makeConnectRequest<GetComponentsResponse>(path, {
       method: "GET",
       params,
     });
@@ -1137,7 +1137,7 @@ export abstract class BaseClient {
   }
 
   /**
-   * @deprecated Use `triggerDeploy` instead.
+   * @deprecated Use `deployTrigger` instead.
    */
   public triggerDeploy(opts: DeployTriggerOpts) {
     return this.deployTrigger(opts);
