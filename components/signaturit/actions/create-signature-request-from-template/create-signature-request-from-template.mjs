@@ -175,7 +175,7 @@ export default {
       formData,
     });
     if (this.cc) {
-      let j;
+      let j = 0;
       for (const item of parseObject(this.cc)) {
         formData.append(`cc[${j++}]`, item);
       }
