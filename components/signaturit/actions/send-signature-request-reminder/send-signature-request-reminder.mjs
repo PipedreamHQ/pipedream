@@ -1,17 +1,13 @@
 import signaturit from "../../signaturit.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "signaturit-send-signature-request-reminder",
   name: "Send Signature Request Reminder",
-  description: "Sends a reminder for a pending signature request. [See the documentation](https://docs.signaturit.com/api/latest)",
-  version: "0.0.{{ts}}",
+  description: "Sends a reminder for a pending signature request. [See the documentation](https://docs.signaturit.com/api/latest#signatures_send_reminder)",
+  version: "0.0.1",
   type: "action",
   props: {
-    signaturit: {
-      type: "app",
-      app: "signaturit",
-    },
+    signaturit,
     signatureRequestId: {
       propDefinition: [
         signaturit,
@@ -20,7 +16,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.signaturit.sendReminder();
+    const response = await this.signaturit.sendReminder({
+      $,
+      signatureRequestId: this.signatureRequestId,
+    });
     $.export("$summary", `Sent reminder for signature request ${this.signatureRequestId}`);
     return response;
   },
