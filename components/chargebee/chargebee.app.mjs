@@ -22,7 +22,11 @@ export default {
       description: "The unique identifier of the plan item price.",
       async options() {
         const itemPrices = await this.getItemPrices();
-        return itemPrices.list.map(({ item_price: { name, id } }) => ({
+        return itemPrices.list.map(({
+          item_price: {
+            name, id,
+          },
+        }) => ({
           label: name,
           value: id,
         }));
