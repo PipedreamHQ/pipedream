@@ -199,16 +199,19 @@ export default {
       }
       return new Date(min);
     },
-    getChannelIds() {
-      const channelIds = [];
+    getCalendarIdForChannelId(incomingChannelId) {
       for (const calendarId of this.calendarIds) {
         const channelId = this.db.get(`${calendarId}.channelId`);
-        channelIds.push(channelId);
+        if (this.db.get(`${calendarId}.channelId`) === incomingChannelId) {
+          return calendarId;
+        }
       }
-      return channelIds;
+      return null;
     },
   },
   async run(event) {
+    let calendarId = null; // calendar ID matching incoming channel ID
+
     // refresh watch
     if (event.interval_seconds) {
       // get time
@@ -224,9 +227,9 @@ export default {
       }
     } else {
       // Verify channel ID
-      const channelIds = this.getChannelIds();
       const incomingChannelId = event?.headers?.["x-goog-channel-id"];
-      if (!channelIds.includes(incomingChannelId)) {
+      calendarId = this.getCalendarIdForChannelId(incomingChannelId);
+      if (!calendarId) {
         console.log(
           `Unexpected channel ID ${incomingChannelId}. This likely means there are multiple, older subscriptions active.`,
         );
@@ -252,7 +255,8 @@ export default {
     }
 
     // Fetch and emit events
-    for (const calendarId of this.calendarIds) {
+    const checkCalendarIds = calendarId ? [ calendarId ] : this.calendarIds;
+    for (const calendarId of checkCalendarIds) {
       const syncToken = this.getNextSyncToken(calendarId);
       let nextSyncToken = null;
       let nextPageToken = null;
