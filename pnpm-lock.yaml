@@ -1624,8 +1624,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
       chargebee:
-        specifier: ^2.22.3
-        version: 2.44.0
+        specifier: ^3.2.1
+        version: 3.2.1
 
   components/chargeblast:
     dependencies:
@@ -17826,9 +17826,9 @@ packages:
   charenc@0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
 
-  chargebee@2.44.0:
-    resolution: {integrity: sha512-yPAtwVJfVku6G8xWOGteXu5SzmCKy7H0KqCCU8yyl6FR2ae7Lu5Jr3dfSC/PdLO5XY7jhRo5E716j8rlenO4Uw==}
-    engines: {node: '>=0.6.0'}
+  chargebee@3.2.1:
+    resolution: {integrity: sha512-wrq52h+W2dRLSOV1XDbEKvIcTNXTUSZEQ7d1a7TZjhi8iXJBGdbkolTpFOKo2/NdMNtNMmfCp6iErzEyV8Odig==}
+    engines: {node: '>=18.*'}
 
   charm@1.0.2:
     resolution: {integrity: sha512-wqW3VdPnlSWT4eRiYX+hcs+C6ViBPUWk1qTCd+37qw9kEm/a5n2qcyQDMBWvSYKN/ctqZzeXNQaeBjOetJJUkw==}
@@ -33690,10 +33690,7 @@ snapshots:
 
   charenc@0.0.2: {}
 
-  chargebee@2.44.0:
-    dependencies:
-      q: 1.5.1
-      safer-buffer: 2.1.2
+  chargebee@3.2.1: {}
 
   charm@1.0.2:
     dependencies:
