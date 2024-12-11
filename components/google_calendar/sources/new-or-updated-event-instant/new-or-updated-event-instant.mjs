@@ -266,6 +266,7 @@ export default {
           syncToken,
           pageToken: nextPageToken,
           maxResults: 2500,
+          validateStatus: (status) => (status >= 200 && (status < 300 || status == 410)),
         });
         if (syncStatus === 410) {
           console.log("Sync token invalid, resyncing");
