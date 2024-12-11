@@ -305,6 +305,19 @@ The ID of the [OAuth app](/connect/quickstart#create-a-pipedream-oauth-client) y
 
 [The external user ID](/connect/api/#external-users) in your system that you want to retrieve accounts for.
 
+---
+
+`include_credentials` **boolean** (_optional_)
+
+Pass `include_credentials=true` as a query-string parameter to include the account credentials in the response.
+
+<Callout type="warning">
+Never return user credentials to the client
+</Callout>
+
+<Callout type="info">
+To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/oauth-clients#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/oauth-clients#using-pipedream-oauth).
+</Callout>
 
 ##### Examples
 
@@ -324,9 +337,14 @@ const pd = createBackendClient({
   projectId: "{your_project_id}"
 });
 
-const accounts = await pd.getAccounts();
+const accounts = await pd.getAccounts({
+  app: "github", // optional, filter by app
+  external_user_id: "user-abc-123", // optional, filter by external user ID
+  include_credentials: true, // optional, set to true to include credentials
+});
 
-// Parse and return the data you need
+// Parse and return the data you need. These may contain credentials, 
+// which you should never return to the client
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -342,9 +360,14 @@ const pd = createBackendClient({
   projectId: "{your_project_id}"
 });
 
-const accounts = await pd.getAccounts();
+const accounts = await pd.getAccounts({
+  app: "github", // optional, filter by app
+  external_user_id: "user-abc-123", // optional, filter by external user ID
+  include_credentials: true, // optional, set to true to include credentials
+});
 
-// Parse and return the data you need
+// Parse and return the data you need. These may contain credentials, 
+// which you should never return to the client
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -360,16 +383,31 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 # The response will include an access_token. Use it in the Authorization header below.
 
-curl -X GET "https://api.pipedream.com/v1/connect/{project_id}/accounts" \
-  -H "Authorization: Bearer {access_token}"
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{project_id}/accounts" \
+  -H "Authorization: Bearer {access_token}" \
+  -d "app=github" \ # optional, filter by app
+  -d "external_user_id=user-abc-123" \ # optional, filter by external user ID
+  -d "include_credentials=true" # optional, include credentials
+
+
+# Parse and return the data you need. These may contain credentials, 
+# which you should never return to the client
 ```
 </Tabs.Tab>
 </Tabs>
 
-##### Example response
+##### Example response (without credentials)
 
 ```json
 {
+ "page_info": {
+    "total_count": 5,
+    "count": 5,
+    "start_cursor": "YXBuX0JtaEJKSm0",
+    "end_cursor": "YXBuX1YxaE1lTE0",
+  }, 
   "data": {
     "accounts": [
       {
@@ -442,6 +480,53 @@ curl -X GET "https://api.pipedream.com/v1/connect/{project_id}/accounts" \
 }
 ```
 
+##### Example response (with credentials)
+
+```json
+{
+ "page_info": {
+    "total_count": 1,
+    "count": 1,
+    "start_cursor": "YXBuX0JtaEJKSm0",
+    "end_cursor": "YXBuX1YxaE1lTE0",
+  }, 
+  "data": {
+    "accounts":[
+      {
+        "id": "apn_MGhvgnX",
+        "name": "gcostanza",
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": null,
+        "app": {
+          "id": "oa_aPXiQd",
+          "name_slug": "github",
+          "name": "GitHub",
+          "auth_type": "oauth",
+          "description": "Where the world builds software. Millions of developers and companies build, ship, and maintain their software on GitHub—the largest and most advanced development platform in the world.",
+          "img_src": "https://assets.pipedream.net/s.v0/app_OrZhaO/logo/orig",
+          "custom_fields_json": "[]",
+          "categories": [
+            "Developer Tools"
+          ]
+        },
+        "created_at": "2024-12-03T04:26:38.000Z",
+        "updated_at": "2024-12-11T17:59:28.000Z",
+        "credentials": {
+          "oauth_client_id": "xyz789...",
+          "oauth_access_token": "xxx_abc123...",
+          "oauth_uid": "123456789"
+        },
+        "expires_at": null,
+        "error": null,
+        "last_refreshed_at": "2024-12-11T17:59:28.000Z",
+        "next_refresh_at": "2024-12-11T18:56:28.000Z"
+      }
+    ]
+  }
+}
+```
+
 #### Retrieve account details by ID
 
 Retrieve the account details for a specific account based on the account ID
@@ -468,6 +553,10 @@ The ID of the account you want to retrieve
 
 Pass `include_credentials=true` as a query-string parameter to include the account credentials in the response.
 
+<Callout type="warning">
+Never return user credentials to the client
+</Callout>
+
 <Callout type="info">
 To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/oauth-clients#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/oauth-clients#using-pipedream-oauth).
 </Callout>
@@ -491,7 +580,9 @@ const pd = createBackendClient({
 });
 
 const account = await pd.getAccountById(accountId, {
-  include_credentials: true, // set to true to include credentials
+  app: "github", // optional, filter by app
+  external_user_id: "user-abc-123", // optional, filter by external user ID
+  include_credentials: true, // optional, set to true to include credentials
 });
 
 // Parse and return the data you need. These may contain credentials, 
@@ -514,7 +605,9 @@ const pd = createBackendClient({
 const accountId = "{account_id}"; // Replace with your account ID
 
 const account = await pd.getAccountById(accountId, {
-  include_credentials: true, // set to true to include credentials
+  app: "github", // optional, filter by app
+  external_user_id: "user-abc-123", // optional, filter by external user ID
+  include_credentials: true, // optional, set to true to include credentials
 });
 
 // Parse and return the data you need. These may contain credentials, 
@@ -534,8 +627,16 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 # The response will include an access_token. Use it in the Authorization header below.
 
-curl -X GET "https://api.pipedream.com/v1/connect/{project_id}/accounts/{account_id}?include_credentials=true" \
-  -H "Authorization: Bearer {access_token}"
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{project_id}/accounts/{account_id}" \
+  -H "Authorization: Bearer {access_token}" \
+  -d "app=github" \ # optional, filter by app
+  -d "external_user_id=user-abc-123" \ # optional, filter by external user ID
+  -d "include_credentials=true" # optional, include credentials
+
+# Parse and return the data you need. These may contain credentials, 
+# which you should never return to the client
 ```
 </Tabs.Tab>
 </Tabs>
@@ -590,7 +691,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{project_id}/accounts/{account
     },
     "expires_at": "2024-08-01T05:04:03.000Z",
     "project_id": 279440,
-    "user_id": "danny",
+    "user_id": "gcostanza",
     "error": null,
     "last_refreshed_at": null,
     "next_refresh_at": "2024-08-01T04:17:33.000Z"
