@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-new-contact",
   name: "New Contact",
   description: "Emit new event when a new contact is created",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   hooks: {
