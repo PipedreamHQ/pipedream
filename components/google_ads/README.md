@@ -19,7 +19,7 @@ such as creating and managing campaigns, adding and removing keywords, and
 adjusting bids. You can also use the API to get information about your
 campaigns, such as campaign stats, keyword stats, and ad performance.
 
-## Customizing API requests through tge Pipedream proxy
+## Customizing API requests with the Pipedream proxy
 
 The Pipedream components interact with Google Ads API through Pipedream's proxy service, which handles authentication and developer token requirements.
 
