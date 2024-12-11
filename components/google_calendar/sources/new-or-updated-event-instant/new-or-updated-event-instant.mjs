@@ -201,7 +201,6 @@ export default {
     },
     getCalendarIdForChannelId(incomingChannelId) {
       for (const calendarId of this.calendarIds) {
-        const channelId = this.db.get(`${calendarId}.channelId`);
         if (this.db.get(`${calendarId}.channelId`) === incomingChannelId) {
           return calendarId;
         }
@@ -255,7 +254,9 @@ export default {
     }
 
     // Fetch and emit events
-    const checkCalendarIds = calendarId ? [ calendarId ] : this.calendarIds;
+    const checkCalendarIds = calendarId
+      ? [calendarId]
+      : this.calendarIds;
     for (const calendarId of checkCalendarIds) {
       const syncToken = this.getNextSyncToken(calendarId);
       let nextSyncToken = null;
@@ -274,7 +275,7 @@ export default {
         });
         if (syncStatus === 410) {
           console.log("Sync token invalid, resyncing");
-          nextSyncToken = await this.googleCalendar.fullSync(this.calendarId);
+          nextSyncToken = await this.googleCalendar.fullSync(calendarId);
           break;
         }
         nextPageToken = syncData.nextPageToken;
