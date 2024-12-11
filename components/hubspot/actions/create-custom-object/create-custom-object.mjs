@@ -6,7 +6,7 @@ export default {
   key: "hubspot-create-custom-object",
   name: "Create Custom Object",
   description: "Create a new custom object in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/custom-objects#create-a-custom-object)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     hubspot,
