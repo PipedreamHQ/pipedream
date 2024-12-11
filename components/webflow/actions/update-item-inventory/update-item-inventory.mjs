@@ -4,7 +4,7 @@ export default {
   key: "webflow-update-item-inventory",
   name: "Update Item Inventory",
   description: "Update the inventory of a specific item. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/inventory/update)",
-  version: "0.0.5",
+  version: "2.0.0",
   type: "action",
   props: {
     app,
