@@ -223,7 +223,6 @@ const pd = createBackendClient({
 });
 
 const { token, expires_at } = await pd.createConnectToken({
-  project_id: "{your_project_id}",
   external_user_id: "{your_external_user_id}"  // The end user's ID in your system
 });
 ```
@@ -242,7 +241,6 @@ const pd = createBackendClient({
 });
 
 const { token, expires_at } = await pd.createConnectToken({
-  project_id: "{your_project_id}",
   external_user_id: "{your_external_user_id}", // The end user's ID in your system
 });
 ```
@@ -299,7 +297,7 @@ You can find the app's ID in the response from the [List apps](/rest-api#list-ap
 
 `oauth_app_id` **string** (_optional_)
 
-The ID of the custom [OAuth app](/connect/quickstart#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
+The ID of the [OAuth app](/connect/quickstart#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
 
 ---
 
@@ -307,11 +305,6 @@ The ID of the custom [OAuth app](/connect/quickstart#create-a-pipedream-oauth-cl
 
 [The external user ID](/connect/api/#external-users) in your system that you want to retrieve accounts for.
 
----
-
-`include_credentials` **boolean** (_optional_)
-
-Pass `include_credentials=true` as a query-string parameter to include the account credentials in the response
 
 ##### Examples
 
@@ -331,12 +324,9 @@ const pd = createBackendClient({
   projectId: "{your_project_id}"
 });
 
-const accounts = await pd.getAccounts({
-  include_credentials: true, // set to true to include credentials
-});
+const accounts = await pd.getAccounts();
 
-// Parse and return the data you need. These may contain credentials, 
-// which you should never return to the client
+// Parse and return the data you need
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -352,12 +342,9 @@ const pd = createBackendClient({
   projectId: "{your_project_id}"
 });
 
-const accounts = await pd.getAccounts({
-  include_credentials: true, // set to true to include credentials
-});
+const accounts = await pd.getAccounts();
 
-// Parse and return the data you need. These may contain credentials,
-// which you should never return to the client
+// Parse and return the data you need
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -373,7 +360,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 # The response will include an access_token. Use it in the Authorization header below.
 
-curl -X GET "https://api.pipedream.com/v1/connect/{project_id}/accounts/?include_credentials=true" \
+curl -X GET "https://api.pipedream.com/v1/connect/{project_id}/accounts" \
   -H "Authorization: Bearer {access_token}"
 ```
 </Tabs.Tab>
@@ -480,6 +467,10 @@ The ID of the account you want to retrieve
 `include_credentials` **boolean** (_optional_)
 
 Pass `include_credentials=true` as a query-string parameter to include the account credentials in the response.
+
+<Callout type="info">
+To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/oauth-clients#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/oauth-clients#using-pipedream-oauth).
+</Callout>
 
 ##### Examples
 

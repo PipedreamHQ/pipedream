@@ -54,6 +54,70 @@ export default {
         }));
       },
     },
+    testCaseId: {
+      type: "integer",
+      label: "Test Case Id",
+      description: "The test case identifier where this test result belongs to.",
+      async options({
+        page, projectId,
+      }) {
+        const { data } = await this.getTestCases({
+          page: page + 1,
+          params: {
+            project_id: projectId,
+          },
+        });
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    testRunId: {
+      type: "integer",
+      label: "Test Run Id",
+      description: "The test run identifier where this test result belongs to.",
+      async options({
+        page, projectId,
+      }) {
+        const { data } = await this.getTestRuns({
+          page: page + 1,
+          params: {
+            project_id: projectId,
+          },
+        });
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    testResultStatusId: {
+      type: "integer",
+      label: "Test Result Status Id",
+      description: "The test result status identifier.",
+      async options({
+        page, projectId,
+      }) {
+        const { data } = await this.getResultStatuses({
+          params: {
+            page: page + 1,
+            project_id: projectId,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     query: {
       type: "string",
       label: "Query",
@@ -88,28 +152,68 @@ export default {
     _apiUrl() {
       return `https://${this.$auth.domain}.testmonitor.com/api/v1`;
     },
-    _getHeaders() {
+    _getHeaders(headers = {}) {
       return {
+        ...headers,
         "Authorization": `Bearer ${this.$auth.api_token}`,
       };
     },
     async _makeRequest({
-      $ = this, path, ...opts
+      $ = this, path, headers, ...opts
     }) {
       const config = {
         url: `${this._apiUrl()}/${path}`,
-        headers: this._getHeaders(),
+        headers: this._getHeaders(headers),
         ...opts,
       };
 
+      console.log("config: ", config);
+
       return axios($, config);
     },
-    getIssue({
-      $, issueId,
+    createTestResult(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "test-results",
+        ...opts,
+      });
+    },
+    updateTestResult({
+      testResultId, ...opts
     }) {
       return this._makeRequest({
-        $,
+        method: "PUT",
+        path: `test-results/${testResultId}`,
+        ...opts,
+      });
+    },
+    uploadAttachment({
+      testResultId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `test-result/${testResultId}/attachments`,
+        ...opts,
+      });
+    },
+    getTestCases(opts = {}) {
+      return this._makeRequest({
+        path: "test-cases",
+        ...opts,
+      });
+    },
+    getTestRuns(opts = {}) {
+      return this._makeRequest({
+        path: "test-runs",
+        ...opts,
+      });
+    },
+    getIssue({
+      issueId, ...opts
+    }) {
+      return this._makeRequest({
         path: `issues/${issueId}`,
+        ...opts,
       });
     },
     getIssues(params) {
@@ -119,11 +223,11 @@ export default {
       });
     },
     getProject({
-      $, projectId,
+      projectId, ...opts
     }) {
       return this._makeRequest({
-        $,
         path: `projects/${projectId}`,
+        ...opts,
       });
     },
     getProjects(params) {
@@ -133,11 +237,17 @@ export default {
       });
     },
     getTestResult({
-      $, testResultId,
+      testResultId, ...opts
     }) {
       return this._makeRequest({
-        $,
         path: `test-results/${testResultId}`,
+        ...opts,
+      });
+    },
+    getResultStatuses(opts = {}) {
+      return this._makeRequest({
+        path: "test-result-statuses",
+        ...opts,
       });
     },
     getTestResults(params) {

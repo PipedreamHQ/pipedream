@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-new-item-created",
   name: "New Item Created",
   description: "Emit new event when a new item is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -16,9 +16,6 @@ export default {
     },
     getFieldList() {
       return "Item";
-    },
-    getFieldDate() {
-      return "CreateTime";
     },
     getSummary(item) {
       return `New Item: ${item.Id}`;
