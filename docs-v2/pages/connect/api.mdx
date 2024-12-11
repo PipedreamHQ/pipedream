@@ -223,7 +223,6 @@ const pd = createBackendClient({
 });
 
 const { token, expires_at } = await pd.createConnectToken({
-  project_id: "{your_project_id}",
   external_user_id: "{your_external_user_id}"  // The end user's ID in your system
 });
 ```
@@ -242,7 +241,6 @@ const pd = createBackendClient({
 });
 
 const { token, expires_at } = await pd.createConnectToken({
-  project_id: "{your_project_id}",
   external_user_id: "{your_external_user_id}", // The end user's ID in your system
 });
 ```
@@ -469,6 +467,10 @@ The ID of the account you want to retrieve
 `include_credentials` **boolean** (_optional_)
 
 Pass `include_credentials=true` as a query-string parameter to include the account credentials in the response.
+
+<Callout type="info">
+To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/oauth-clients#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/oauth-clients#using-pipedream-oauth).
+</Callout>
 
 ##### Examples
 
