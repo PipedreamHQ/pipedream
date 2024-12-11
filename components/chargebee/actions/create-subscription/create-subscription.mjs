@@ -15,6 +15,22 @@ export default {
         "customerId",
       ],
     },
+    itemPriceId: {
+      propDefinition: [
+        chargebee,
+        "itemPriceId"
+      ],
+    },
+    unitPrice: {
+      type: "integer",
+      label: "Unit Price",
+      description: "The unit price of the plan item.",
+    },
+    quantity: {
+      type: "integer",
+      label: "Quantity",
+      description: "The quantity of the plan item.",
+    },
     id: {
       type: "string",
       label: "ID",
@@ -41,14 +57,27 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.chargebee.createCustomer(this.customerId, clearObject({
+    try {
+    const response = await this.chargebee.createSubscription(this.customerId, clearObject({
       id: this.id,
       net_term_days: this.netTermDays,
       start_date: this.startDate && (Date.parse(this.startDate) / 1000),
+      subscription_items: [
+        {
+          item_price_id: this.itemPriceId,
+          item_type: "plan",
+          unit_price: this.unitPrice,
+          quantity: this.quantity,
+        }
+      ],
       ...this.additionalFields,
     }));
 
     $.export("$summary", `Successfully created subscription (ID: ${response?.subscription?.id})`);
     return response;
+  } catch (error) {
+    $.export("debug", error);
+    throw new Error("Error creating subscription. Check the debug export for more information.")
+  }
   },
 };
