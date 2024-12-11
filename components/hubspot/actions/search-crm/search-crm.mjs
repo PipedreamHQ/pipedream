@@ -15,7 +15,8 @@ export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
   description: "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.9",
+  //version: "0.0.9",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     hubspot,
@@ -104,9 +105,12 @@ export default {
       const { results: properties } = await this.hubspot.getProperties({
         objectType,
       });
-      creationProps = properties
-        .filter(this.isRelevantProperty)
-        .map((property) => this.makePropDefinition(property, schema.requiredProperties))
+      const relevantProperties = properties.filter(this.isRelevantProperty);
+      const propDefinitions = [];
+      for (const property of relevantProperties) {
+        propDefinitions.push(await this.makePropDefinition(property, schema.requiredProperties));
+      }
+      creationProps = propDefinitions
         .reduce((props, {
           name, ...definition
         }) => {
@@ -121,6 +125,9 @@ export default {
   },
   methods: {
     ...common.methods,
+    getObjectType() {
+      return this.objectType;
+    },
     getDefaultProperties() {
       if (this.objectType === "contact") {
         return DEFAULT_CONTACT_PROPERTIES;
