@@ -3184,7 +3184,11 @@ importers:
 
   components/eodhd_apis: {}
 
-  components/epsy: {}
+  components/epsy:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/equifax: {}
 
