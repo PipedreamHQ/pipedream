@@ -95,12 +95,16 @@ export default {
       return response;
     } catch (error) {
       const msg = JSON.parse(error.message);
+      const { schema } = await ironclad.getWorkflow({
+        workflowId,
+      });
       if (msg.code === "MISSING_PARAM") {
-        const { schema } = await this.ironclad.getWorkflowSchema({
-          templateId: this.templateId,
-        });
         const paramNames = (JSON.parse(msg.param)).map((p) => `\`${schema[p].displayName}\``);
         throw new ConfigurationError(`Please enter or update the following required parameters: ${paramNames.join(", ")}`);
+      }
+      if (msg.code === "INVALID_PARAM") {
+        const paramName = schema[msg.metadata.keyPath].displayName;
+        throw new ConfigurationError(`Invalid parameter: \`${paramName}\`. ${msg.message}`);
       }
       throw new ConfigurationError(msg.message);
     }
