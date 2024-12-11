@@ -8,7 +8,7 @@ export default {
   type: "source",
   name: "New Created or Updated Event (Instant)",
   description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
-  version: "0.1.13",
+  version: "0.1.14",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -255,7 +255,9 @@ export default {
 
     // Fetch and emit events
     const checkCalendarIds = calendarId
-      ? [calendarId]
+      ? [
+        calendarId,
+      ]
       : this.calendarIds;
     for (const calendarId of checkCalendarIds) {
       const syncToken = this.getNextSyncToken(calendarId);
