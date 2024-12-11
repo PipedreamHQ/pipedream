@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/webflow",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream Webflow Components",
   "main": "webflow.app.mjs",
   "keywords": [
