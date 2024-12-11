@@ -1,6 +1,22 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.9] - 2024-12-10
+
+- Disabled submit button when form is incomplete
+
+# [1.0.0-preview.8] - 2024-12-09
+
+- Fix dynamic props in the Connect demo app
+
+# [1.0.0-preview.7] - 2024-12-05
+
+- Use proper casing for `stringOptions` now that configure prop is properly async
+
+# [1.0.0-preview.6] - 2024-12-05
+
+- Handle configurable prop `withLabel` (eg. fixes config of Airtable `tableId`)
+
 # [1.0.0-preview.5] - 2024-12-02
 
 - Change colors of "Connect App" button

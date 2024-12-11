@@ -445,15 +445,39 @@ export default {
         "Content-Type": "application/json",
       };
     },
+    // Recursively trim string values in accordance with Hubspot's validation rules
+    // https://developers.hubspot.com/changelog/breaking-change-enhanced-validations-for-non-string-properties-in-hubspots-crmobject-apis
+    trimStringValues(obj) {
+      if (typeof obj === "string") {
+        return obj.trim();
+      } else if (Array.isArray(obj)) {
+        return obj.map(this.trimStringValues);
+      } else if (obj !== null && typeof obj === "object") {
+        return Object.fromEntries(
+          Object.entries(obj).map(([
+            key,
+            value,
+          ]) => [
+            key,
+            this.trimStringValues(value),
+          ]),
+        );
+      }
+      return obj;
+    },
     makeRequest({
       $ = this,
       api,
       endpoint,
+      data,
+      params,
       ...otherOpts
     }) {
       return axios($, {
         url: `${BASE_URL}${api}${endpoint}`,
         headers: this._getHeaders(),
+        data: data && this.trimStringValues(data),
+        params: params && this.trimStringValues(params),
         ...otherOpts,
       });
     },

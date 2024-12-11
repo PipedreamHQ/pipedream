@@ -1,8 +1,14 @@
 import React from "react";
 
+type VideoPlayerProps = {
+  src: string;
+  title: string;
+  startAt?: number;
+};
+
 const VideoPlayer = ({
   src, title, startAt,
-}) => {
+}: VideoPlayerProps) => {
   const embedUrl = `${src}?rel=0${startAt
     ? `&start=${startAt}`
     : ""}`;
