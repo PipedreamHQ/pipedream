@@ -124,10 +124,13 @@ export default {
         ...opts,
       });
     },
-    sendReminder({ signatureRequestId }) {
+    sendReminder({
+      signatureRequestId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/signatures/${signatureRequestId}/reminder.json`,
+        ...opts,
       });
     },
     listSignatureRequests(opts = {}) {
