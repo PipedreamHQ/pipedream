@@ -264,37 +264,39 @@ export default {
       let nextSyncToken = null;
       let nextPageToken = null;
       while (!nextSyncToken) {
-        const {
-          data: syncData = {},
-          status: syncStatus,
-        } = await this.googleCalendar.listEvents({
-          returnOnlyData: false,
-          calendarId,
-          syncToken,
-          pageToken: nextPageToken,
-          maxResults: 2500,
-          validateStatus: (status) => (status >= 200 && (status < 300 || status == 410)),
-        });
-        if (syncStatus === 410) {
-          console.log("Sync token invalid, resyncing");
-          nextSyncToken = await this.googleCalendar.fullSync(calendarId);
-          break;
-        }
-        nextPageToken = syncData.nextPageToken;
-        nextSyncToken = syncData.nextSyncToken;
-
-        const { items: events = [] } = syncData;
-        events
-          .filter(this.isEventRelevant, this)
-          .forEach((event) => {
-            const { status } = event;
-            if (status === "cancelled") {
-              console.log("Event cancelled. Exiting.");
-              return;
-            }
-            const meta = this.generateMeta(event);
-            this.$emit(event, meta);
+        try {
+          const { data: syncData = {} } = await this.googleCalendar.listEvents({
+            returnOnlyData: false,
+            calendarId,
+            syncToken,
+            pageToken: nextPageToken,
+            maxResults: 2500,
           });
+
+          nextPageToken = syncData.nextPageToken;
+          nextSyncToken = syncData.nextSyncToken;
+
+          const { items: events = [] } = syncData;
+          events
+            .filter(this.isEventRelevant, this)
+            .forEach((event) => {
+              const { status } = event;
+              if (status === "cancelled") {
+                console.log("Event cancelled. Exiting.");
+                return;
+              }
+              const meta = this.generateMeta(event);
+              this.$emit(event, meta);
+            });
+        } catch (error) {
+          if (error === "Sync token is no longer valid, a full sync is required.") {
+            console.log("Sync token invalid, resyncing");
+            nextSyncToken = await this.googleCalendar.fullSync(calendarId);
+            break;
+          } else {
+            throw error;
+          }
+        }
       }
 
       this.setNextSyncToken(calendarId, nextSyncToken);
