@@ -7500,8 +7500,7 @@ importers:
 
   components/pendo: {}
 
-  components/pennylane:
-    specifiers: {}
+  components/pennylane: {}
 
   components/people_data_labs:
     dependencies:
