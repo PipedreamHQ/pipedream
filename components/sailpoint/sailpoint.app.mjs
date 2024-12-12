@@ -3,7 +3,7 @@ import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
-  app: "identitynow",
+  app: "sailpoint",
   propDefinitions: {
     requestedFor: {
       type: "string[]",
