@@ -2,7 +2,7 @@ import identitynow from "../../identitynow.app.mjs";
 import { REQUEST_TYPE_OPTIONS } from "./common/constants.mjs";
 
 export default {
-  key: "identitynow-submit-access-request",
+  key: "sailpoint-submit-access-request",
   name: "Submit Access Request",
   description: "Sends an access request to IdentityNow. [See the documentation](https://developer.sailpoint.com/docs/api/v2024/create-access-request)",
   version: "0.0.1",
