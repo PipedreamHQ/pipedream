@@ -23,7 +23,7 @@ campaigns, such as campaign stats, keyword stats, and ad performance.
 
 The Pipedream components interact with Google Ads API through Pipedream's proxy service, which handles authentication and developer token requirements.
 
-The components accept a standard Google Ads API request object with the following structure:
+The component accepts a standard Google Ads API request object with the following structure:
 
 ```javascript
 const googleAdsReq = {
