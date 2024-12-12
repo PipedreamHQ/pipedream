@@ -8,7 +8,6 @@ import {
 import {
   Account, BaseClient, type AppInfo, type ConnectTokenResponse,
 } from "../shared";
-import { ServerAsyncResponseManager } from "./async";
 export * from "../shared";
 
 /**
@@ -137,7 +136,6 @@ export function createBackendClient(opts: BackendClientOpts) {
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
 export class BackendClient extends BaseClient {
-  protected override asyncResponseManager: ServerAsyncResponseManager;
   private oauthClient: ClientCredentials;
   private oauthToken?: AccessToken;
   protected projectId: string;
@@ -155,18 +153,6 @@ export class BackendClient extends BaseClient {
     this.projectId = opts.projectId;
 
     this.oauthClient = this.newOauthClient(opts.credentials, this.baseApiUrl);
-    this.asyncResponseManager = new ServerAsyncResponseManager({
-      apiHost: this.apiHost,
-      getOauthToken: async () => {
-        await this.ensureValidOauthToken();
-        return this.oauthToken as AccessToken;
-      },
-      getProjectId: () => {
-        if (!this.projectId)
-          throw "Attempted to connect to websocket without a valid Project id";
-        return this.projectId;
-      },
-    });
   }
 
   private ensureValidEnvironment(environment?: string) {

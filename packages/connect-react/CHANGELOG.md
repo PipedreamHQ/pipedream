@@ -1,6 +1,10 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.10] - 2024-12-12
+
+- Enforce string length limits
+
 # [1.0.0-preview.9] - 2024-12-10
 
 - Disabled submit button when form is incomplete

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/connect-react",
-  "version": "1.0.0-preview.9",
+  "version": "1.0.0-preview.10",
   "description": "Pipedream Connect library for React",
   "files": [
     "dist"

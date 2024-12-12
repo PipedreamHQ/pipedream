@@ -1,12 +1,18 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
-## [1.1.1] - 2024-12-12
+## [1.1.2] - 2024-12-12
 
 ### Changed
 
 - Fixed the docstring referring to the `componentConfigure` and
   `reloadComponentProps` methods of the components API
+
+## [1.1.1] - 2024-12-11
+
+### Changed
+
+- Remove deprecated asynchoronous response handling code.
 
 ## [1.1.0] - 2024-12-10
 

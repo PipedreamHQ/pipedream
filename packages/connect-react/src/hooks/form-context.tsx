@@ -4,7 +4,7 @@ import {
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
 import type {
-  ComponentReloadPropsOpts, ConfigurableProp, ConfigurableProps, ConfiguredProps, V1Component, PropValue,
+  ComponentReloadPropsOpts, ConfigurableProp, ConfigurableProps, ConfiguredProps, V1Component,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
@@ -166,7 +166,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
 
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation
-  const propErrors = <T extends ConfigurableProps>(prop: ConfigurableProp, value: unknown): string[] => {
+  const propErrors = (prop: ConfigurableProp, value: unknown): string[] => {
     const errs: string[] = [];
     if (value === undefined) {
       if (!prop.optional) {
@@ -188,14 +188,31 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         errs.push("not a boolean");
       }
     } else if (prop.type === "string") {
+      type StringProp = ConfigurableProp & {
+        min?: number;
+        max?: number;
+      }
+      const {
+        min = 1, max,
+      } = prop as StringProp;
       if (typeof value !== "string") {
         errs.push("not a string");
+      } else {
+        if (value.length < min) {
+          errs.push(`string length must be at least ${min} characters`);
+        }
+        if (max && value.length > max) {
+          errs.push(`string length must not exceed ${max} characters`);
+        }
       }
     } else if (prop.type === "app") {
       const field = fields[prop.name]
       if (field) {
         const app = field.extra.app
-        const err = appPropError({ value, app })
+        const err = appPropError({
+          value,
+          app,
+        })
         if (err) errs.push(err)
       } else {
         errs.push("field not registered")
