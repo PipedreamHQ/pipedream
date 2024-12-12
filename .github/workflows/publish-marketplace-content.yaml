@@ -47,4 +47,4 @@ jobs:
         shell: bash {0} # don't fast fail
         run: |
           printf -v added_modified_renamed_files '%s,%s' '${{ steps.files.outputs.added_modified }}' '${{ steps.files.outputs.renamed }}'
-          pnpm dlx ts-node --esm scripts/updateMarketplaceReadme.mts $added_modified_renamed_files
+          pnpm dlx tsx scripts/updateMarketplaceReadme.mts $added_modified_renamed_files
