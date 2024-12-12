@@ -55,6 +55,8 @@ export default {
       } catch {
         props.customObjectType = {
           type: "string",
+          label: "Custom Object Type",
+          reloadProps: true,
         };
       }
     }
@@ -147,7 +149,8 @@ export default {
       } catch {
         props.creationProps = {
           type: "object",
-          label: "A JSON object containing the object to create if not found",
+          label: "Object Properties",
+          description: "A JSON object containing the object to create if not found",
         };
       }
     }
