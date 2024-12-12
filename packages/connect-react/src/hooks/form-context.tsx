@@ -188,11 +188,13 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         errs.push("not a boolean");
       }
     } else if (prop.type === "string") {
-      interface StringProp extends ConfigurableProp {
+      type StringProp = ConfigurableProp & {
         min?: number;
         max?: number;
       }
-      const { min = 0, max } = prop as StringProp;
+      const {
+        min = 1, max,
+      } = prop as StringProp;
       if (typeof value !== "string") {
         errs.push("not a string");
       } else {
@@ -203,12 +205,14 @@ export const FormContextProvider = <T extends ConfigurableProps>({
           errs.push(`string length must not exceed ${max} characters`);
         }
       }
-      }
     } else if (prop.type === "app") {
       const field = fields[prop.name]
       if (field) {
         const app = field.extra.app
-        const err = appPropError({ value, app })
+        const err = appPropError({
+          value,
+          app,
+        })
         if (err) errs.push(err)
       } else {
         errs.push("field not registered")
