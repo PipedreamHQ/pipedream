@@ -188,8 +188,14 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         errs.push("not a boolean");
       }
     } else if (prop.type === "string") {
+      const { min = 1, max } = prop as unknown as { min?: number, max?: number }
       if (typeof value !== "string") {
         errs.push("not a string");
+      } else {
+        if (value.length < min)
+          errs.push("string too short");
+        if (max && value.length > max)
+          errs.push("string too long");
       }
     } else if (prop.type === "app") {
       const field = fields[prop.name]
