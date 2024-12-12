@@ -7500,6 +7500,9 @@ importers:
 
   components/pendo: {}
 
+  components/pennylane:
+    specifiers: {}
+
   components/people_data_labs:
     dependencies:
       '@pipedream/platform':

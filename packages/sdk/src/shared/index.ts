@@ -1,10 +1,5 @@
 // This code is meant to be shared between the browser and server.
 import type {
-  AsyncResponse,
-  AsyncErrorResponse,
-  AsyncResponseManager,
-} from "./async.js";
-import type {
   ConfigurableProps,
   ConfiguredProps,
   V1Component,
@@ -580,7 +575,6 @@ export interface AsyncRequestOptions extends RequestOptions {
 export abstract class BaseClient {
   version = sdkVersion;
   protected apiHost: string;
-  protected abstract asyncResponseManager: AsyncResponseManager;
   protected readonly baseApiUrl: string;
   protected environment: string;
   protected projectId?: string;
@@ -742,35 +736,6 @@ export abstract class BaseClient {
     }
     fullPath += path;
     return this.makeAuthorizedRequest(fullPath, opts);
-  }
-
-  /**
-   * Makes a request to the Connect API using Connect authorization.
-   * This version makes an asynchronous request, fulfilled via Websocket.
-   *
-   * @template T - The expected response type.
-   * @param path - The API endpoint path.
-   * @param opts - The options for the request.
-   * @returns A promise resolving to the API response.
-   */
-  protected async makeConnectRequestAsync<T extends object>(
-    path: string,
-    opts: AsyncRequestOptions,
-  ): Promise<T> {
-    await this.asyncResponseManager.ensureConnected();
-    const data = await this.makeConnectRequest<
-      AsyncResponse | AsyncErrorResponse | T
-    >(path, opts);
-    if ("errors" in data && data.errors.length) {
-      throw new Error(data.errors[0]);
-    }
-    if ("async_handle" in data && data.async_handle) {
-      const result = await this.asyncResponseManager.waitFor<T>(
-        data.async_handle,
-      );
-      return result;
-    }
-    return data as T;
   }
 
   /**
@@ -956,14 +921,13 @@ export abstract class BaseClient {
       : componentId;
 
     const body = {
-      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: externalUserId,
       id,
       prop_name: opts.propName,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
     };
-    return this.makeConnectRequestAsync<ConfigureComponentResponse>("/components/configure", {
+    return this.makeConnectRequest<ConfigureComponentResponse>("/components/configure", {
       method: "POST",
       body,
     });
@@ -1013,14 +977,13 @@ export abstract class BaseClient {
 
     // RpcActionReloadPropsInput
     const body = {
-      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: externalUserId,
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
     };
 
-    return this.makeConnectRequestAsync<ConfiguredProps<ConfigurableProps>>(
+    return this.makeConnectRequest<ConfiguredProps<ConfigurableProps>>(
       "/components/props", {
       // TODO trigger
         method: "POST",
@@ -1072,13 +1035,12 @@ export abstract class BaseClient {
       : actionId;
 
     const body = {
-      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: externalUserId,
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
     };
-    return this.makeConnectRequestAsync<RunActionResponse>("/actions/run", {
+    return this.makeConnectRequest<RunActionResponse>("/actions/run", {
       method: "POST",
       body,
     });
@@ -1126,14 +1088,13 @@ export abstract class BaseClient {
       : triggerId;
 
     const body = {
-      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: externalUserId,
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
       webhook_url: opts.webhookUrl,
     };
-    return this.makeConnectRequestAsync<V1DeployedComponent>("/triggers/deploy", {
+    return this.makeConnectRequest<V1DeployedComponent>("/triggers/deploy", {
       method: "POST",
       body,
     });
