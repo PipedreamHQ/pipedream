@@ -4,7 +4,7 @@ import {
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
 import type {
-  ComponentReloadPropsOpts, ConfigurableProp, ConfigurableProps, ConfiguredProps, V1Component, PropValue,
+  ComponentReloadPropsOpts, ConfigurableProp, ConfigurableProps, ConfiguredProps, V1Component,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
@@ -166,7 +166,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
 
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation
-  const propErrors = <T extends ConfigurableProps>(prop: ConfigurableProp, value: unknown): string[] => {
+  const propErrors = (prop: ConfigurableProp, value: unknown): string[] => {
     const errs: string[] = [];
     if (value === undefined) {
       if (!prop.optional) {
