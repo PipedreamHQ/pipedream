@@ -4,7 +4,6 @@
 // operations, like connecting accounts via Pipedream Connect. See the server/
 // directory for the server client.
 
-import { BrowserAsyncResponseManager } from "./async.js";
 import {
   AccountsRequestResponse,
   BaseClient,
@@ -133,7 +132,6 @@ export function createFrontendClient(opts: CreateBrowserClientOpts = {}) {
  * A client for interacting with the Pipedream Connect API from the browser.
  */
 export class BrowserClient extends BaseClient {
-  protected override asyncResponseManager: BrowserAsyncResponseManager;
   private baseURL: string;
   private iframeURL: string;
   private iframe?: HTMLIFrameElement;
@@ -155,10 +153,6 @@ export class BrowserClient extends BaseClient {
     this.iframeURL = `${this.baseURL}/_static/connect.html`;
     this.tokenCallback = opts.tokenCallback;
     this.externalUserId = opts.externalUserId;
-    this.asyncResponseManager = new BrowserAsyncResponseManager({
-      apiHost: this.apiHost,
-      getConnectToken: () => this.token(),
-    });
   }
 
   private async token() {
