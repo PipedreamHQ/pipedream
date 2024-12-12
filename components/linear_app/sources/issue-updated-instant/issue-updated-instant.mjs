@@ -46,14 +46,13 @@ export default {
     },
     getMetadata(resource) {
       const {
-        delivery,
         title,
         data,
         updatedAt,
       } = resource;
-      const ts = Date.parse(updatedAt);
+      const ts = Date.parse(data?.updatedAt || updatedAt);
       return {
-        id: delivery || `${resource.id}-${ts}`,
+        id: `${resource.id}-${ts}`,
         summary: `Issue Updated: ${data?.title || title}`,
         ts,
       };
