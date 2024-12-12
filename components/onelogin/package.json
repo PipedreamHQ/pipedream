@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/onelogin",
+  "version": "0.0.1",
+  "description": "Pipedream OneLogin Components",
+  "main": "onelogin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "onelogin"
+  ],
+  "homepage": "https://pipedream.com/apps/onelogin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

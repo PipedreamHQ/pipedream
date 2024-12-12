@@ -4,7 +4,7 @@ export default {
   key: "x_ai-get-model",
   name: "Get Model",
   description: "List all language and embedding models available. [See the documentation](https://docs.x.ai/api/endpoints#get-model)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -21,9 +21,7 @@ export default {
       $,
       model: this.model,
     });
-
     $.export("$summary", `Successfully retrieved the '${this.model}' model`);
-
     return response;
   },
 };

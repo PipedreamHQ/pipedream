@@ -4,7 +4,7 @@ export default {
   key: "algolia-delete-objects",
   name: "Delete Objects",
   description: "Delete objects from the given index. [See docs here](https://www.algolia.com/doc/api-reference/api-methods/delete-objects/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     algolia,
