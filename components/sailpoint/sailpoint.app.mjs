@@ -1,116 +1,145 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "identitynow",
   propDefinitions: {
-    // Props for uploading CSV account file
-    sourceId: {
-      type: "string",
-      label: "Source ID",
-      description: "ID of the source to upload the account file.",
-    },
-    csvAccountFile: {
-      type: "string",
-      label: "CSV Account File",
-      description: "CSV-formatted account file content.",
-    },
-    // Props for retrieving certification campaigns
-    filter: {
-      type: "string",
-      label: "Filter",
-      description: "Optional filter to adjust campaign retrieval.",
-      optional: true,
-    },
-    // Props for submitting access request
     requestedFor: {
       type: "string[]",
       label: "Requested For",
       description: "List of Identity IDs for whom the Access is requested.",
+      async options({ page }) {
+        const data = await this.listIdentityIds({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    requestType: {
+    sourceId: {
       type: "string",
-      label: "Request Type",
-      description: "Type of access request.",
-      options: [
-        {
-          label: "Grant Access",
-          value: "GRANT_ACCESS",
-        },
-        {
-          label: "Revoke Access",
-          value: "REVOKE_ACCESS",
-        },
-      ],
-      optional: true,
-    },
-    requestedItems: {
-      type: "string[]",
-      label: "Requested Items",
-      description: "List of requested items as JSON strings.",
+      label: "Source ID",
+      description: "ID of the source to upload the account file.",
+      async options({ page }) {
+        const data = await this.listSoruceIds({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://sailpoint.api.identitynow.com/v2024";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        ...otherOpts,
-      });
-    },
-    async uploadCsvAccountFile() {
-      const {
-        sourceId, csvAccountFile,
-      } = this;
-      const formData = new FormData();
-      formData.append("file", csvAccountFile, "accounts.csv");
-      return this._makeRequest({
-        method: "POST",
-        path: `/v3/sources/${sourceId}/schemas/accounts`,
-        headers: {
-          ...formData.getHeaders(),
-          "X-SailPoint-Experimental": "true",
-        },
-        data: formData,
-      });
-    },
-    async retrieveCertificationCampaigns() {
-      const { filter } = this;
-      const params = {};
-      if (filter) {
-        params.filter = filter;
-      }
-      return this._makeRequest({
-        method: "GET",
-        path: "/campaigns",
-        params,
-      });
-    },
-    async submitAccessRequest() {
-      const {
-        requestedFor, requestType, requestedItems,
-      } = this;
-      const data = {
-        requestedFor,
-        requestType: requestType || "GRANT_ACCESS",
-        requestedItems: requestedItems.map((item) => JSON.parse(item)),
+    _headers(headers = {}) {
+      return {
+        ...headers,
+        Accept: "application/json",
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...opts
+    }) {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(headers),
+        ...opts,
+      });
+    },
+    listIdentityIds(opts = {}) {
+      return this._makeRequest({
+        path: "/identities",
+        headers: {
+          "X-SailPoint-Experimental": true,
+        },
+        ...opts,
+      });
+    },
+    listSoruceIds(opts = {}) {
+      return this._makeRequest({
+        path: "/sources",
+        ...opts,
+      });
+    },
+    submitAccessRequest(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/access-requests",
-        data,
+        ...opts,
+      });
+    },
+    uploadSourceAccountFile({
+      sourceId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/sources/${sourceId}/schemas/accounts`,
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/trigger-subscriptions",
+        headers: {
+          "X-SailPoint-Experimental": true,
+        },
+        ...opts,
+      });
+    },
+    deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/trigger-subscriptions/${webhookId}`,
+        headers: {
+          "X-SailPoint-Experimental": true,
+        },
       });
     },
   },
-  version: `0.0.${Date.now()}`,
+  async *paginate({
+    fn, params = {}, maxResults = null, ...opts
+  }) {
+    let hasMore = false;
+    let count = 0;
+    let page = 0;
+
+    do {
+      params.page = ++page;
+      const data = await fn({
+        params,
+        ...opts,
+      });
+      for (const d of data) {
+        yield d;
+
+        if (maxResults && ++count === maxResults) {
+          return count;
+        }
+      }
+
+      hasMore = data.length;
+
+    } while (hasMore);
+  },
 };
