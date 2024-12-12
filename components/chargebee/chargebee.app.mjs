@@ -18,18 +18,16 @@ export default {
     },
     itemPriceId: {
       type: "string",
-      label: "Item Price ID",
+      label: "Plan Item Price ID",
       description: "The unique identifier of the plan item price.",
       async options() {
         const itemPrices = await this.getItemPrices();
-        return itemPrices.list.map(({
-          item_price: {
-            name, id,
-          },
-        }) => ({
-          label: name,
-          value: id,
-        }));
+        return itemPrices.list
+          .filter(({ item_price: { item_type } }) => item_type === "plan")
+          .map(({ item_price: { name, id } }) => ({
+            label: name,
+            value: id,
+          }));
       },
     },
   },
