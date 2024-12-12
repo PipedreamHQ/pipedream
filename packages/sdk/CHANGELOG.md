@@ -12,7 +12,7 @@
 
 ### Changed
 
-- Remove deprecated asynchoronous response handling code.
+- Remove deprecated asynchronous response handling code.
 
 ## [1.1.0] - 2024-12-10
 
@@ -33,7 +33,8 @@
 
 ### Added
 
-- Allow passing `before`, `after` pagination cursors for apps, accounts, components endpoints
+- Allow passing `before`, `after` pagination cursors for apps, accounts,
+  components endpoints
 
 ## [1.0.11] - 2024-12-06
 
@@ -64,8 +65,8 @@
 
 ### Changed
 
-- The backend client now correctly uses asynchronous messaging to handle long running
-  operations.
+- The backend client now correctly uses asynchronous messaging to handle long
+  running operations.
 - Updated the backend command line tool to respect the `ENVIRONMENT` env variable
   if set.
 
@@ -74,8 +75,8 @@
 ### Changed
 
 - Use client Connect tokens to make api calls directly from the client.
-- Deprecated the `environments` property on `createFrontendClient` since it is now
-  stored in the token
+- Deprecated the `environments` property on `createFrontendClient` since it is
+  now stored in the token
 
 ## [1.0.5] - 2024-11-18
 
