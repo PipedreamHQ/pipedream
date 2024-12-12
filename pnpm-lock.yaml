@@ -7620,8 +7620,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/pingone:
-    specifiers: {}
+  components/pingone: {}
 
   components/pingrabbit: {}
 
@@ -8742,7 +8741,14 @@ importers:
 
   components/ryver: {}
 
-  components/sailpoint: {}
+  components/sailpoint:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/sailpoint_personal_token: {}
 
