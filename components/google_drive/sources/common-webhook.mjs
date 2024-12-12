@@ -27,6 +27,7 @@ export default {
       static: {
         intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
       },
+      hidden: true,
     },
   },
   hooks: {
