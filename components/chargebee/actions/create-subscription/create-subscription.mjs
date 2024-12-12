@@ -77,7 +77,7 @@ export default {
       return response;
     } catch (error) {
       $.export("debug", error);
-      throw new Error("Error creating subscription. Check the debug export for more information.");
+      throw new Error(`Error creating subscription: ${error.error_msg}`);
     }
   },
 };

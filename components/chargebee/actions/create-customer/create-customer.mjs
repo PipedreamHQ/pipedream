@@ -64,6 +64,6 @@ export default {
     }));
 
     $.export("$summary", `Successfully created customer (ID: ${response?.customer?.id})`);
-    return response;
+    return response?.customer ?? response;
   },
 };
