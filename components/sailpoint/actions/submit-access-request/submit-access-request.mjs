@@ -1,5 +1,5 @@
+import { REQUEST_TYPE_OPTIONS } from "../../common/constants.mjs";
 import identitynow from "../../identitynow.app.mjs";
-import { REQUEST_TYPE_OPTIONS } from "./common/constants.mjs";
 
 export default {
   key: "sailpoint-submit-access-request",
