@@ -1,6 +1,18 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.1.1] - 2024-12-011
+
+### Changed
+
+- Remove deprecated asynchoronous response handling code.
+
+## [1.1.0] - 2024-12-010
+
+### Changed
+
+- Naming and docs improvements
+
 ## [1.0.12] - 2024-12-06
 
 ### Added
