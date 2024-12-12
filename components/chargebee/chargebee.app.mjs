@@ -24,7 +24,11 @@ export default {
         const itemPrices = await this.getItemPrices();
         return itemPrices.list
           .filter(({ item_price: { item_type } }) => item_type === "plan")
-          .map(({ item_price: { name, id } }) => ({
+          .map(({
+            item_price: {
+              name, id,
+            },
+          }) => ({
             label: name,
             value: id,
           }));
