@@ -20,7 +20,7 @@ export default {
     property: {
       type: "string",
       label: "Property",
-      description: "The company property to watch for changes",
+      description: "The custom object property to watch for changes",
       async options() {
         const properties = await this.getWriteOnlyProperties(this.objectSchema);
         return properties.map((property) => property.name);
