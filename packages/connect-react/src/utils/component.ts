@@ -50,12 +50,12 @@ export type ValidationOpts<T extends ConfigurableProp> = {
 
 export function arrayPropErrors(opts: ValidationOpts<ConfigurablePropStringArray>): string[] | undefined {
   const _values = valuesFromOptions(opts.value)
-  if (typeof _values === "undefined") {
+  if (!opts.prop.default && typeof _values === "undefined") {
     return [
       "required",
     ]
   }
-  if (Array.isArray(_values) && !_values.length) return [
+  if (!opts.prop.default && Array.isArray(_values) && !_values.length) return [
     "empty array",
   ]
 }
@@ -73,7 +73,7 @@ export function integerPropErrors(opts: ValidationOpts<ConfigurablePropInteger>)
   } = opts
   const value = valueFromOption(valueOpt)
 
-  if (value == null || typeof value === "undefined") return [
+  if (!prop.default && value == null || typeof value === "undefined") return [
     "required",
   ]
 
@@ -92,9 +92,15 @@ export function integerPropErrors(opts: ValidationOpts<ConfigurablePropInteger>)
 
 export function stringPropErrors(opts: ValidationOpts<ConfigurablePropString>): string[] | undefined {
   const _value = valueFromOption(opts.value)
-  if (!_value) return [
-    "string must not be empty",
-  ]
+
+  if (!opts.prop.default) {
+    if (typeof _value === "undefined" || _value == null) return [
+      "required",
+    ]
+    if (!String(_value).length) return [
+      "string must not be empty",
+    ]
+  }
 }
 
 type AppWithExtractedCustomFields = App & {

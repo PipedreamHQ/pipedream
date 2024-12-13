@@ -173,11 +173,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const propErrors = (prop: ConfigurableProp, value: unknown): string[] => {
     const errs: string[] = [];
     if (prop.optional || prop.hidden || prop.disabled) return []
-    if (typeof value === "undefined") {
-      return [
-        "required",
-      ]
-    }
     if (prop.type === "app") {
       const field = fields[prop.name]
       if (field) {
