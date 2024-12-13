@@ -193,12 +193,6 @@ The ID of the custom [OAuth app](/connect/quickstart#create-a-pipedream-oauth-cl
 
 ---
 
-`external_user_id` **string** (_optional_)
-
-[The external user ID](/connect/api/#external-users) in your system that you want to retrieve accounts for.
-
----
-
 `include_credentials` **boolean** (_optional_)
 
 Pass `include_credentials=true` as a query-string parameter to include the account credentials in the response
@@ -233,7 +227,7 @@ curl 'https://api.pipedream.com/v1/accounts' \
 
 ### Get account
 
-By default, this route returns metadata for a specific connected account. Set `include_credentials=true` to return credentials that you can use in any app where you need auth. [See this guide](/connected-accounts/api/) to learn more.
+By default, this route returns metadata for a specific connected account. Set `include_credentials=true` to return credentials that you can use in any app where you need the actual credentials (API key or OAuth access token for example).
 
 #### Endpoint
 

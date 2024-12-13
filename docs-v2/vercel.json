@@ -277,6 +277,10 @@
     {
       "source": "/docs/workflows/networking",
       "destination": "/docs/databases#connecting-to-restricted-databases"
+    },
+    {
+      "source": "/docs/connected-accounts/api",
+      "destination": "/docs/connect/api#accounts"
     }
   ]
 }
