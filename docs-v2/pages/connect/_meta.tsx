@@ -30,7 +30,7 @@ export default {
     "title": "Webhooks",
   },
   "connect-link": {
-    "title": "Connect link",
+    "title": "Connect Link",
   },
   "troubleshooting": {
     "title": "Troubleshooting",

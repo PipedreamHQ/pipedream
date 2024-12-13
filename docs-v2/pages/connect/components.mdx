@@ -22,6 +22,8 @@ guide](/components).
 
 ## How to run components for your end users
 
+<Steps>
+
 ### Retrieving a component's definition
 
 The first thing to do in order to run a component for your end users is to know
@@ -31,8 +33,8 @@ Pipedream API. See the [component
 structure](/components/api#component-structure) section in our docs for more
 details.
 
-As an example, the following API call will return the structure of the "List
-Commits" component for Gitlab:
+As an example, the following API call will return the structure of the **List
+Commits** component for Gitlab:
 
 ```text
 GET /v1/connect/components/gitlab-list-commits
@@ -40,9 +42,9 @@ GET /v1/connect/components/gitlab-list-commits
 
 The response will contain the component's structure, including its
 (human-understandable) name, version, and most importantly, the configuration
-options that the component accepts (also known as "props", which is an
-abbreviation of "properties"). Here's an example of the response for the
-component in the example above:
+options that the component accepts (also known as [props](/components/api#props)
+or "properties"). Here's an example of the response for the component in the
+example above:
 
 ```json
 {
@@ -90,7 +92,7 @@ your end users, as described in the next section.
 ### Configuration
 
 Component execution on behalf of your end users requires a few preliminary
-steps, focused on getting the right input parameters (a.k.a.
+steps, focused on getting the right input parameters (aka
 [props](/workflows/using-props)) to the component.
 
 Configuring each prop for a component usually involves an API call to our
@@ -101,16 +103,14 @@ are static/free-form. The endpoint is accessible at:
 POST /v1/connect/components/configure
 ```
 
-The reason for this back-and-forth is because the options for a prop are usually
-linked to a specific user's account, and the Pipedream API is the one in charge
-of contacting the third-party service using the user's credentials, retrieving
-the necessary data, and sending these options back as a response. Please not
-that this logic is not implemented by the API itself, but by the component's
-code; in particular, the `options` function of the corresponding prop.
+Typically, the options for a prop are linked to a specific user's account. Each
+of these props implements an `options` method that retrieves the necessary
+options from the third-party API, formats them, and sends them back in the
+response for the end user to select.
 
 The initial configuration call must contain your user's account ID for the
-target app, and the name of the prop you want to configure. Using the ["List
-Commits" component for
+target app, and the name of the prop you want to configure. Using the [**List
+Commits** component for
 Gitlab](https://github.com/PipedreamHQ/pipedream/blob/master/components/gitlab/actions/list-commits/list-commits.mjs#L4)
 as an example, the payload sent to the configuration API would look like this:
 
@@ -129,7 +129,7 @@ as an example, the payload sent to the configuration API would look like this:
 ```
 
 The goal of this particular call is to retrieve the options for the `projectId`
-prop of the "List Commits" component for Gitlab, for the user with the ID
+prop of the **List Commits** component for Gitlab, for the user with the ID
 `demo-34c13d13-a31e-4a3d-8b63-0ac954671095`. The `authProvisionId` is the ID of
 the account that the user has connected to the Gitlab app (see [this
 section](workflows#configure-accounts-to-use-your-end-users-auth) for more
@@ -233,7 +233,7 @@ The payload is similar to the one used for the configuration API, but it
 excludes the `prop_name` field since the goal of this call is to reload and
 retrieve the new set of props, not to configure a specific one.
 
-Using the "Add Single Row" component for Google Sheets as an example, the
+Using the **Add Single Row** component for Google Sheets as an example, the
 request payload would look like this:
 
 ```json
@@ -320,7 +320,7 @@ To illustrate, the response for the request above would look like this:
 
 Once all the props have been configured, the component can be invoked. Pipedream
 supports two types of components: [actions](/components#actions) and
-[sources](/components#sources) (a.k.a. triggers).
+[sources](/components#sources) (aka triggers).
 
 Actions are components that perform a task by taking an input either during
 [configuration](#configuration) and/or during invocation (usually both), and
@@ -412,7 +412,7 @@ to how a webhook works.
 
 Deploying a source is done by sending a payload similar to the one used for
 running an action, with the addition of the webhook URL mentioned above. Using
-the "New Issue (Instant)" source for Gitlab as an example, the payload would
+the **New Issue (Instant)** source for Gitlab as an example, the payload would
 look something like this:
 
 ```json
@@ -499,3 +499,5 @@ the source in the future:
 ```text
 DELETE /v1/connect/deployed-triggers/dc_dAuGmW7?external_user_id=jverce
 ```
+
+</Steps>
