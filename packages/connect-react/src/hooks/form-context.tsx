@@ -9,7 +9,10 @@ import type {
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
 import type { FormFieldContext } from "./form-field-context";
-import { appPropError } from "./use-app";
+import {
+  appPropErrors, arrayPropErrors, booleanPropErrors, integerPropErrors,
+  stringPropErrors,
+} from "../utils/component";
 
 export type DynamicProps<T extends ConfigurableProps> = { id: string; configurableProps: T; }; // TODO
 
@@ -19,6 +22,7 @@ export type FormContext<T extends ConfigurableProps> = {
   configuredProps: ConfiguredProps<T>;
   dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
+  errors: Record<string, string[]>;
   fields: Record<string, FormFieldContext<ConfigurableProp>>;
   id: string;
   isValid: boolean;
@@ -168,55 +172,39 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   // so can't rely on that base control form validation
   const propErrors = (prop: ConfigurableProp, value: unknown): string[] => {
     const errs: string[] = [];
-    if (value === undefined) {
-      if (!prop.optional) {
-        errs.push("required");
-      }
-    } else if (prop.type === "integer") { // XXX type should be "number"? we don't support floats otherwise...
-      if (typeof value !== "number") {
-        errs.push("not a number");
-      } else {
-        if (prop.min != null && value < prop.min) {
-          errs.push("number too small");
-        }
-        if (prop.max != null && value > prop.max) {
-          errs.push("number too big");
-        }
-      }
-    } else if (prop.type === "boolean") {
-      if (typeof value !== "boolean") {
-        errs.push("not a boolean");
-      }
-    } else if (prop.type === "string") {
-      type StringProp = ConfigurableProp & {
-        min?: number;
-        max?: number;
-      }
-      const {
-        min = 1, max,
-      } = prop as StringProp;
-      if (typeof value !== "string") {
-        errs.push("not a string");
-      } else {
-        if (value.length < min) {
-          errs.push(`string length must be at least ${min} characters`);
-        }
-        if (max && value.length > max) {
-          errs.push(`string length must not exceed ${max} characters`);
-        }
-      }
-    } else if (prop.type === "app") {
+    if (prop.optional || prop.hidden || prop.disabled) return []
+    if (prop.type === "app") {
       const field = fields[prop.name]
       if (field) {
         const app = field.extra.app
-        const err = appPropError({
+        errs.push(...(appPropErrors({
+          prop,
           value,
           app,
-        })
-        if (err) errs.push(err)
+        }) ?? []))
       } else {
         errs.push("field not registered")
       }
+    } else if (prop.type === "boolean") {
+      errs.push(...(booleanPropErrors({
+        prop,
+        value,
+      }) ?? []))
+    } else if (prop.type === "integer") {
+      errs.push(...(integerPropErrors({
+        prop,
+        value,
+      }) ?? []))
+    } else if (prop.type === "string") {
+      errs.push(...(stringPropErrors({
+        prop,
+        value,
+      }) ?? []))
+    } else if (prop.type === "string[]") {
+      errs.push(...(arrayPropErrors({
+        prop,
+        value,
+      }) ?? []))
     }
     return errs;
   };
@@ -377,6 +365,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     configuredProps,
     dynamicProps,
     dynamicPropsQueryIsFetching,
+    errors,
     fields,
     optionalPropIsEnabled,
     optionalPropSetEnabled,
