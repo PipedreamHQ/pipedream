@@ -1239,8 +1239,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/boldsign:
-    specifiers: {}
+  components/boldsign: {}
 
   components/boloforms:
     dependencies:
