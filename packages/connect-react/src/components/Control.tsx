@@ -71,11 +71,6 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   case "$.interface.timer":
     // XXX split into ControlString, ControlInteger, etc? but want to share autoComplet="off", etc functionality in base one
     return <ControlInput />;
-
-  // TODO do we need these?
-  //case "$.service.db":
-  //case "$.interface.http":
-  //  break;
   default:
     // TODO "not supported prop type should bubble up"
     throw new Error("Unsupported property type: " + prop.type);

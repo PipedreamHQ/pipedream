@@ -36,10 +36,6 @@ export function ControlInput() {
       ? parseInt(v)
       : undefined;
     break;
-  //case "$.service.db":
-  //case "$.interface.http":
-  //  inputType = "text";
-  //  break;
   case "$.interface.timer":
     inputType = "number"
     break;
