@@ -2,6 +2,7 @@ import {
   FormContextProvider, type FormContext,
 } from "../hooks/form-context";
 import type {
+  ConfigurableProp,
   ConfigurableProps,
   ConfiguredProps,
   V1Component,

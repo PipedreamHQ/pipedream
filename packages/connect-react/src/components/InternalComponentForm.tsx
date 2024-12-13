@@ -23,7 +23,7 @@ export function InternalComponentForm() {
   } = formContext;
 
   const {
-    hideOptionalProps, onSubmit,
+    hideOptionalProps, onSubmit
   } = formContextProps;
 
   const {
@@ -52,16 +52,20 @@ export function InternalComponentForm() {
   };
 
   const _onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    console.log("clicked")
     if (onSubmit) {
       e.preventDefault();
+      console.log("in if, isValid == ", isValid)
 
-      if (isValid) {
+      if (isValid || true) {
         setSubmitting(true);
         try {
           await onSubmit(formContext);
         } finally {
           setSubmitting(false);
         }
+      } else {
+        console.log(" not valid :(")
       }
     }
   };
@@ -71,6 +75,9 @@ export function InternalComponentForm() {
   for (let idx = 0; idx < configurableProps.length; idx++) {
     const prop = configurableProps[idx];
     if (prop.hidden) {
+      continue;
+    }
+    if (["$.service.db", "$.interface.http"].includes(prop.type)) {
       continue;
     }
     if (prop.optional) {

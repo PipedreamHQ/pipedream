@@ -36,6 +36,13 @@ export function ControlInput() {
       ? parseInt(v)
       : undefined;
     break;
+  case "$.service.db":
+  case "$.interface.http":
+    inputType = "text";
+    break;
+  case "$.interface.timer":
+    inputType = "number"
+    break;
   default:
     throw new Error("unexpected prop.type for ControlInput: " + prop.type);
   }
