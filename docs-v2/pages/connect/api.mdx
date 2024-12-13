@@ -1,11 +1,11 @@
 import Callout from '@/components/Callout'
 import { Tabs } from 'nextra/components'
 
-# Connect API & SDK Reference
+# Connect API & SDK reference
 
 Pipedream provides a TypeScript SDK and a REST API to interact with the Connect service. You'll find examples using the SDK and the REST API in multiple languages below.
 
-## REST API Base URL
+## REST API base URL
 
 Pipedream Connect resources are scoped to [projects](/projects), so you'll need to pass [the project's ID](/projects#finding-your-projects-id) as a part of the base URL:
 
@@ -15,7 +15,7 @@ https://api.pipedream.com/v1/connect/{project_id}
 
 ## Installing the TypeScript SDK
 
-Pipedream's SDK will work in any browser or server that can run JavaScript. 
+Pipedream's SDK will work in any browser or server that can run JavaScript.
 
 ### npm
 
@@ -43,7 +43,7 @@ or a specific version:
 
 See the [REST API Authentication docs](/rest-api/auth).
 
-### TypeScript SDK (Server)
+### TypeScript SDK (server)
 
 Most of your interactions with the Connect API will happen on the server, to protect API requests and user credentials. You'll use the SDK in [your frontend](#typescript-sdk-browser) to let users connect accounts. Once connected, you'll use the SDK on the server to retrieve credentials, invoke workflows on their behalf, and more.
 
@@ -63,7 +63,7 @@ const pd = createBackendClient({
 // The `pd` client provides methods to interact with the Connect API — see below
 ```
 
-### TypeScript SDK (Browser)
+### TypeScript SDK (browser)
 
 You'll primarily use the browser SDK to let your users securely connect apps from your frontend. Here, you
 
@@ -76,7 +76,7 @@ Here's a Next.js example [from our quickstart](/connect/quickstart):
 import { createFrontendClient } from "@pipedream/sdk/browser"
 // Example from our Next.js app
 import { serverConnectTokenCreate } from "./server"
- 
+
 const { token, expires_at } = await serverConnectTokenCreate({
   external_user_id: externalUserId  // The end user's ID in your system
 });
@@ -134,7 +134,7 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
 
 ## External users
 
-When you use the Connect API, you'll pass an `external_user_id` parameter when initiating account connections and retrieving credentials. This is your user's ID, in your system — whatever you use to uniquely identify them. 
+When you use the Connect API, you'll pass an `external_user_id` parameter when initiating account connections and retrieving credentials. This is your user's ID, in your system — whatever you use to uniquely identify them.
 
 Pipedream associates this ID with user accounts, so you can retrieve credentials for a specific user, and invoke workflows on their behalf.
 
@@ -165,7 +165,7 @@ See [the Connect tokens docs](/connect/tokens) for more information.
 
 ```
 POST /{project_id}/tokens
-``` 
+```
 
 ##### Path parameters
 
@@ -199,7 +199,7 @@ Pipedream will send events on successful auth, or any errors, to this URL via we
 
 ##### Examples
 
-To create a short-lived token via TypeScript / JavaScript SDK, you'll need to create a Pipedream API client and call the `createConnectToken` method. In our example app, this code is in `app/server.ts`. 
+To create a short-lived token via TypeScript / JavaScript SDK, you'll need to create a Pipedream API client and call the `createConnectToken` method. In our example app, this code is in `app/server.ts`.
 
 In other languages, you'll need to make an HTTP POST request to the `/tokens` endpoint to create a token, then return the token to your frontend. Click into other tabs to see examples in additional languages.
 
@@ -208,8 +208,8 @@ In other languages, you'll need to make an HTTP POST request to the `/tokens` en
 ```typescript
 import {
   createBackendClient,
-  type ConnectAPIResponse, 
-  type ConnectTokenCreateOpts, 
+  type ConnectAPIResponse,
+  type ConnectTokenCreateOpts,
   type ConnectTokenResponse,
 } from "@pipedream/sdk/server";
 
@@ -343,7 +343,7 @@ const accounts = await pd.getAccounts({
   include_credentials: true, // optional, set to true to include credentials
 });
 
-// Parse and return the data you need. These may contain credentials, 
+// Parse and return the data you need. These may contain credentials,
 // which you should never return to the client
 ```
 </Tabs.Tab>
@@ -366,7 +366,7 @@ const accounts = await pd.getAccounts({
   include_credentials: true, // optional, set to true to include credentials
 });
 
-// Parse and return the data you need. These may contain credentials, 
+// Parse and return the data you need. These may contain credentials,
 // which you should never return to the client
 ```
 </Tabs.Tab>
@@ -392,7 +392,7 @@ curl -X GET \
   -d "include_credentials=true" # optional, include credentials
 
 
-# Parse and return the data you need. These may contain credentials, 
+# Parse and return the data you need. These may contain credentials,
 # which you should never return to the client
 ```
 </Tabs.Tab>
@@ -407,7 +407,7 @@ curl -X GET \
     "count": 5,
     "start_cursor": "YXBuX0JtaEJKSm0",
     "end_cursor": "YXBuX1YxaE1lTE0",
-  }, 
+  },
   "data": {
     "accounts": [
       {
@@ -489,7 +489,7 @@ curl -X GET \
     "count": 1,
     "start_cursor": "YXBuX0JtaEJKSm0",
     "end_cursor": "YXBuX1YxaE1lTE0",
-  }, 
+  },
   "data": {
     "accounts":[
       {
@@ -585,7 +585,7 @@ const account = await pd.getAccountById(accountId, {
   include_credentials: true, // optional, set to true to include credentials
 });
 
-// Parse and return the data you need. These may contain credentials, 
+// Parse and return the data you need. These may contain credentials,
 // which you should never return to the client
 ```
 </Tabs.Tab>
@@ -610,7 +610,7 @@ const account = await pd.getAccountById(accountId, {
   include_credentials: true, // optional, set to true to include credentials
 });
 
-// Parse and return the data you need. These may contain credentials, 
+// Parse and return the data you need. These may contain credentials,
 // which you should never return to the client
 ```
 </Tabs.Tab>
@@ -635,7 +635,7 @@ curl -X GET \
   -d "external_user_id=user-abc-123" \ # optional, filter by external user ID
   -d "include_credentials=true" # optional, include credentials
 
-# Parse and return the data you need. These may contain credentials, 
+# Parse and return the data you need. These may contain credentials,
 # which you should never return to the client
 ```
 </Tabs.Tab>
@@ -667,7 +667,7 @@ curl -X GET \
 }
 ```
 
-##### Example Response (with `include_credentials=true`)
+##### Example response (with `include_credentials=true`)
 
 ```json
 {
@@ -951,28 +951,50 @@ curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/users/{externa
 
 Pipedream returns a `204 No Content` response on successful account deletion
 
-### Projects
 
-#### Retrieve project info
+### Components
 
-Retrieve the configuration for a specific project
+#### List components
+
+List all the components in the Pipedream registry.
 
 ```
-GET /{project_id}/info
+GET /{component_type}
 ```
 
 ##### Path parameters
 
-`project_id` **string**
+`component_type` **string**
 
-[The project's ID](/projects#finding-your-projects-id)
+Either `triggers`, `actions`, or `components`.
+
+##### Query parameters
+
+`app` **string** (_optional_)
+
+The ID or name slug the app you'd like to retrieve. For example, Slack's unique
+app ID is `app_OkrhR1`, and its name slug is `slack`.
+
+You can find the app's ID in the response from the [List
+apps](/rest-api#list-apps) endpoint, and the name slug under the
+**Authentication** section of any [app page](https://pipedream.com/apps).
+
+---
+
+`q` **string** (_optional_)
+
+A search query to filter the components by key (see the [component structure
+table](/components/api#component-structure)).
 
 ##### Examples
 
 <Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
 <Tabs.Tab>
 ```typescript
-import { createBackendClient } from "@pipedream/sdk/server";
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: "development", // change to production if running for a test production account, or in production
@@ -983,11 +1005,17 @@ const pd = createBackendClient({
   projectId: "{your_project_id}"
 });
 
-const info = await pd.getProjectInfo({
-  project_id: "{your_project_id}",
+// Retrieve components containing the word "issue" in their name, belonging to
+// the Gitlab app
+const { data: components } = await pd.getComponents({
+  app: "gitlab",
+  q: "issue",
 });
+
+// Parse and return the data you need
 ```
 </Tabs.Tab>
+
 <Tabs.Tab>
 ```javascript
 import { createBackendClient } from "@pipedream/sdk/server";
@@ -1001,11 +1029,17 @@ const pd = createBackendClient({
   projectId: "{your_project_id}"
 });
 
-const info = await pd.getProjectInfo({
-  project_id: "{your_project_id}",
+// Retrieve components containing the word "issue" in their name, belonging to
+// the Gitlab app
+const { data: components } = await pd.getComponents({
+  app: "gitlab",
+  q: "issue",
 });
+
+// Parse and return the data you need
 ```
 </Tabs.Tab>
+
 <Tabs.Tab>
 ```bash
 # First, obtain an OAuth access token
@@ -1018,9 +1052,978 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
   }'
 
 # The response will include an access_token. Use it in the Authorization header below.
-
-curl -X POST https://api.pipedream.com/v1/connect/{project_id}/info \
-  -H "Authorization: Bearer {access_token}" \
+# This request will fetch the first 3 components for the Gitlab app that contain
+# the word "issue" in their name
+curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components?app=gitlab&limit=3&q=issue" \
+  -H "Authorization: Bearer {access_token}"
 ```
 </Tabs.Tab>
 </Tabs>
+
+
+##### Example response
+```json
+{
+  "page_info": {
+    "total_count": 5,
+    "count": 3,
+    "start_cursor": "c2NfM3ZpanpRcg",
+    "end_cursor": "c2NfQjVpTkJBcA"
+  },
+  "data": [
+    {
+      "name": "New Issue (Instant)",
+      "version": "0.1.2",
+      "key": "gitlab-new-issue"
+    },
+    {
+      "name": "Update Issue",
+      "version": "0.0.2",
+      "key": "gitlab-update-issue"
+    },
+    {
+      "name": "Search Issues",
+      "version": "0.0.3",
+      "key": "gitlab-search-issues"
+    }
+  ]
+}
+```
+
+
+#### Retrieve a component
+
+Retrieve a specific component from the Pipedream registry.
+
+```
+GET /{component_type}/{component_key}
+```
+
+##### Path parameters
+
+`component_type` **string**
+
+Either `triggers`, `actions`, or `components`.
+
+---
+
+`component_key` **string**
+
+The key that identifies the component (see the [component structure
+table](/components/api#component-structure)).
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the "New Issue (Instant)" component for the Gitlab app
+const { data: component } = await pd.getComponent({
+  key: "gitlab-new-issue",
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the "New Issue (Instant)" component for the Gitlab app
+const { data: component } = await pd.getComponent({
+  key: "gitlab-new-issue",
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will fetch the "New Issue (Instant)" component for the Gitlab app.
+curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/gitlab-new-issue" \
+  -H "Authorization: Bearer {access_token}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "data": {
+    "name": "New Issue (Instant)",
+    "version": "0.1.2",
+    "key": "gitlab-new-issue",
+    "configurable_props": [
+      {
+        "name": "gitlab",
+        "type": "app",
+        "app": "gitlab"
+      },
+      {
+        "name": "db",
+        "type": "$.service.db"
+      },
+      {
+        "name": "http",
+        "type": "$.interface.http",
+        "customResponse": true
+      },
+      {
+        "name": "projectId",
+        "type": "integer",
+        "label": "Project ID",
+        "description": "The project ID, as displayed in the main project page",
+        "remoteOptions": true
+      }
+    ]
+  }
+}
+```
+
+
+
+
+#### Configure a component
+
+Configure the a component's prop, based on the current component's
+configuration. This endpoint will use the component's configuration to retrieve
+the list of options that can be used to configure the prop indicated in the
+request.
+
+```text
+GET /{component_type}/configure
+```
+
+##### Path parameters
+
+`component_type` **string**
+
+Either `triggers`, `actions`, or `components`.
+
+##### Body parameters
+
+`configured_props` **object**
+
+The props that have already been configured for the component. This is a
+JSON-serializable object with the prop names as keys and the configured values
+as values.
+
+---
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system that you
+want to retrieve accounts for.
+
+---
+
+`id` **string**
+
+The key that identifies the component (see the [component structure
+table](/components/api#component-structure)).
+
+---
+
+`prop_name` **string**
+
+The name of the component's prop to configure.
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the configuration options for the "projectId" prop of the "List
+// Commits" component for the Gitlab app.
+const { options } = await pd.configureComponent({
+  componentId: {
+    key: "gitlab-list-commits",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+  },
+  externalUserId: "jverce",
+  propName: "projectId",
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the configuration options for the "projectId" prop of the "List
+// Commits" component for the Gitlab app.
+const { options } = await pd.configureComponent({
+  componentId: {
+    key: "gitlab-list-commits",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+  },
+  externalUserId: "jverce",
+  propName: "projectId",
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will fetch the configuration options for the "projectId" prop of
+# the "List Commits" component for the Gitlab app.
+
+echo '{
+  "external_user_id": "jverce",
+  "id": "gitlab-list-commits",
+  "prop_name": "projectId",
+  "configured_props": {
+    "gitlab": {
+      "authProvisionId": "apn_kVh9AoD"
+    }
+  }
+}' > data.json
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/components/configure" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -d @data.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "observations": [],
+  "context": null,
+  "options": [
+    {
+      "label": "jverce/foo-massive-10231-1",
+      "value": 45672541
+    },
+    {
+      "label": "jverce/foo-massive-10231",
+      "value": 45672514
+    },
+    {
+      "label": "jverce/foo-massive-14999-2",
+      "value": 45672407
+    },
+    {
+      "label": "jverce/foo-massive-14999-1",
+      "value": 45672382
+    },
+    {
+      "label": "jverce/foo-massive-14999",
+      "value": 45672215
+    },
+    {
+      "label": "jverce/gitlab-development-kit",
+      "value": 21220953
+    },
+    {
+      "label": "jverce/gitlab",
+      "value": 21208123
+    }
+  ],
+  "errors": [],
+  "timings": {
+    "api_to_sidekiq": 1734043172355.1042,
+    "sidekiq_received": 1734043172357.867,
+    "sidekiq_to_lambda": 1734043172363.6812,
+    "sidekiq_done": 1734043173461.6406,
+    "lambda_configure_prop_called": 1734043172462,
+    "lambda_done": 1734043173455
+  },
+  "stringOptions": null
+}
+```
+
+#### Reload a component's props (i.e. configure dynamic props)
+
+Reload the component's props after configuring a dynamic prop, based on the
+current component's configuration. This endpoint will use the component's
+configuration to retrieve a new list of props depending on the value of the
+props that were configured so far. See the [Dynamic
+Props](/connect/components#dynamic-props-optional) section for more information.
+
+```text
+GET /{component_type}/props
+```
+
+##### Path parameters
+
+`component_type` **string**
+
+Either `triggers`, `actions`, or `components`.
+
+##### Body parameters
+
+`configured_props` **object**
+
+The props that have already been configured for the component. This is a
+JSON-serializable object with the prop names as keys and the configured values
+as values.
+
+---
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system that you
+want to retrieve accounts for.
+
+---
+
+`id` **string**
+
+The key that identifies the component (see the [component structure
+table](/components/api#component-structure)).
+
+---
+
+`dynamic_props_id` **string** (_optional_)
+
+The ID of the last prop reconfiguration (or none when reconfiguring the props
+for the first time).
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the configuration options for the "Add Single Row" component for
+// the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
+const { dynamicProps } = await pd.reloadComponentProps({
+  componentId: {
+    key: "google_sheets-add-single-row",
+  },
+  configuredProps: {
+    googleSheets: {
+      authProvisionId: "apn_V1hMoE7",
+    },
+    sheetId: "1BfWjFF2dTW_YDiLISj5N9nKCUErShgugPS434liyytg",
+  },
+  externalUserId: "jay",
+});
+
+const {
+  configurableProps,  // The new set of props
+  id: dynamicPropsId, // The ID of the last prop reconfiguration
+} = dynamicProps;
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the configuration options for the "Add Single Row" component for
+// the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
+const { dynamicProps } = await pd.reloadComponentProps({
+  componentId: {
+    key: "google_sheets-add-single-row",
+  },
+  configuredProps: {
+    googleSheets: {
+      authProvisionId: "apn_V1hMoE7",
+    },
+    sheetId: "1BfWjFF2dTW_YDiLISj5N9nKCUErShgugPS434liyytg",
+  },
+  externalUserId: "jay",
+});
+
+const {
+  configurableProps,  // The new set of props
+  id: dynamicPropsId, // The ID of the last prop reconfiguration
+} = dynamicProps;
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will fetch the new set of props for the "Add Single Row" component
+# for the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
+
+echo '{
+  "external_user_id": "jay",
+  "id": "google_sheets-add-single-row",
+  "configured_props": {
+    "googleSheets": {
+      "authProvisionId": "apn_V1hMoE7"
+    },
+    "sheetId": "1BfWjFF2dTW_YDiLISj5N9nKCUErShgugPS434liyytg"
+  }
+}' > data.json
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/components/props" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -d @data.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "observations": [],
+  "errors": [],
+  "dynamicProps": {
+    "id": "dyp_6xUyVgQ",
+    "configurableProps": [
+      {
+        "name": "googleSheets",
+        "type": "app",
+        "app": "google_sheets"
+      },
+      {
+        "name": "drive",
+        "type": "string",
+        "label": "Drive",
+        "description": "Defaults to `My Drive`. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+        "optional": true,
+        "default": "My Drive",
+        "remoteOptions": true
+      },
+      {
+        "name": "sheetId",
+        "type": "string",
+        "label": "Spreadsheet",
+        "description": "The Spreadsheet ID",
+        "useQuery": true,
+        "remoteOptions": true,
+        "reloadProps": true
+      },
+      {
+        "name": "worksheetId",
+        "type": "string[]",
+        "label": "Worksheet(s)",
+        "description": "Select a worksheet or enter a custom expression. When referencing a spreadsheet dynamically, you must provide a custom expression for the worksheet.",
+        "remoteOptions": true,
+        "reloadProps": true
+      },
+      {
+        "name": "hasHeaders",
+        "type": "boolean",
+        "label": "Does the first row of the sheet have headers?",
+        "description": "If the first row of your document has headers, we'll retrieve them to make it easy to enter the value for each column. Note: When using a dynamic reference for the worksheet ID (e.g. `{{steps.foo.$return_value}}`), this setting is ignored.",
+        "reloadProps": true
+      },
+      {
+        "name": "myColumnData",
+        "type": "string[]",
+        "label": "Values",
+        "description": "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string."
+      }
+    ]
+  }
+}
+```
+
+#### Invoke an action
+
+Invoke an action component for a Pipedream Connect user in a project.
+
+```text
+POST /actions/run
+```
+
+##### Body parameters
+
+`id` **string**
+
+The key that identifies the action component (see the [component structure
+table](/components/api#component-structure)).
+
+---
+
+`configured_props` **object**
+
+The props that have already been configured for the component. This is a
+JSON-serializable object with the prop names as keys and the configured values
+as values.
+
+---
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to execute the action.
+
+---
+
+`dynamic_props_id` **string** (_optional_)
+
+The ID of the last prop reconfiguration (if applicable).
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Run the "List Commits" action for the Gitlab app
+const {
+  exports,  // The named exports produced by the action
+  os,       // The observations produced by the action
+  ret,      // The value returned by the action
+} = await pd.runAction({
+  actionId: {
+    key: "gitlab-list-commits",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672541,
+    refName: "main"
+  },
+  externalUserId: "jverce",
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Run the "List Commits" action for the Gitlab app
+const {
+  exports,  // The named exports produced by the action
+  os,       // The observations produced by the action
+  ret,      // The value returned by the action
+} = await pd.runAction({
+  actionId: {
+    key: "gitlab-list-commits",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672541,
+    refName: "main"
+  },
+  externalUserId: "jverce",
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will run the "List Commits" action for the Gitlab app.
+
+echo '{
+  "external_user_id": "jverce",
+  "id": "gitlab-list-commits",
+  "configured_props": {
+    "gitlab": {
+      "authProvisionId": "apn_kVh9AoD"
+    },
+    "projectId": 45672541,
+    "refName": "main"
+  }
+}' > data.json
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -d @data.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "exports": {
+    "$summary": "Retrieved 1 commit"
+  },
+  "os": [],
+  "ret": [
+    {
+      "id": "387262aea5d4a6920ac76c1e202bc9fd0841fea5",
+      "short_id": "387262ae",
+      "created_at": "2023-05-03T03:03:25.000+00:00",
+      "parent_ids": [],
+      "title": "Initial commit",
+      "message": "Initial commit",
+      "author_name": "Jay Vercellone",
+      "author_email": "nope@pipedream.com",
+      "authored_date": "2023-05-03T03:03:25.000+00:00",
+      "committer_name": "Jay Vercellone",
+      "committer_email": "nope@pipedream.com",
+      "committed_date": "2023-05-03T03:03:25.000+00:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.com/jverce/foo-massive-10231-1/-/commit/387262aea5d4a6920ac76c1e202bc9fd0841fea5"
+    }
+  ]
+}
+```
+
+#### Deploy a trigger
+
+Deploy a trigger component for a Pipedream Connect user in a project.
+
+```text
+POST /triggers/deploy
+```
+
+##### Body parameters
+
+`id` **string**
+
+The key that identifies the action component (see the [component structure
+table](/components/api#component-structure)).
+
+---
+
+`configured_props` **object**
+
+The props that have already been configured for the component. This is a
+JSON-serializable object with the prop names as keys and the configured values
+as values.
+
+---
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to execute the action.
+
+---
+
+`webhook_url` **string**
+
+The URL to which the trigger will send events.
+
+---
+
+`dynamic_props_id` **string** (_optional_)
+
+The ID of the last prop reconfiguration (if applicable).
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Deploy the "New Issue (Instant)" trigger for the Gitlab app
+const { data: deployedTrigger } = await pd.runAction({
+  triggerId: {
+    key: "gitlab-new-issue",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672541,
+  },
+  externalUserId: "jverce",
+  webhookUrl: "https://events.example.com/gitlab-new-issue",
+});
+
+const {
+  id: triggerId,      // The unique ID of the deployed trigger
+  name: triggerName,  // The name of the deployed trigger
+  owner_id: userId,   // The unique ID in Pipedream of your user
+} = deployedTrigger;
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Deploy the "New Issue (Instant)" trigger for the Gitlab app
+const { data: deployedTrigger } = await pd.runAction({
+  triggerId: {
+    key: "gitlab-new-issue",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672541,
+  },
+  externalUserId: "jverce",
+  webhookUrl: "https://events.example.com/gitlab-new-issue",
+});
+
+const {
+  id: triggerId,      // The unique ID of the deployed trigger
+  name: triggerName,  // The name of the deployed trigger
+  owner_id: userId,   // The unique ID in Pipedream of your user
+} = deployedTrigger;
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will deploy the "New Issue (Instant)" trigger for the Gitlab app.
+
+echo '{
+  "external_user_id": "jverce",
+  "id": "gitlab-new-issue",
+  "configured_props": {
+    "gitlab": {
+      "authProvisionId": "apn_kVh9AoD"
+    },
+    "projectId": 45672541,
+  },
+  "webhook_url": "https://events.example.com/gitlab-new-issue"
+}' > data.json
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/deploy" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -d @data.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "data": {
+    "id": "dc_dAuGmW7",
+    "owner_id": "exu_oedidz",
+    "component_id": "sc_3vijzQr",
+    "configurable_props": [
+      {
+        "name": "gitlab",
+        "type": "app",
+        "app": "gitlab"
+      },
+      {
+        "name": "db",
+        "type": "$.service.db"
+      },
+      {
+        "name": "http",
+        "type": "$.interface.http",
+        "customResponse": true
+      },
+      {
+        "name": "projectId",
+        "type": "integer",
+        "label": "Project ID",
+        "description": "The project ID, as displayed in the main project page",
+        "remoteOptions": true
+      }
+    ],
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      },
+      "db": {
+        "type": "$.service.db"
+      },
+      "http": {
+        "endpoint_url": "https://39643dc2c8ff98a019f3fdc9078d6db9.m.pipedream.net"
+      },
+      "projectId": 45672541
+    },
+    "active": true,
+    "created_at": 1734028283,
+    "updated_at": 1734028283,
+    "name": "My first project - exu_oedidz",
+    "name_slug": "my-first-project---exu-oedidz-2"
+  }
+}
+```

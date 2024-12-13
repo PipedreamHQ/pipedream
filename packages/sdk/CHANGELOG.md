@@ -1,23 +1,40 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
-## [1.1.1] - 2024-12-011
+## [1.1.2] - 2024-12-12
 
 ### Changed
 
-- Remove deprecated asynchoronous response handling code.
+- Fixed the docstring referring to the `componentConfigure` and
+  `reloadComponentProps` methods of the components API
 
-## [1.1.0] - 2024-12-010
+## [1.1.1] - 2024-12-11
 
 ### Changed
 
-- Naming and docs improvements
+- Remove deprecated asynchronous response handling code.
+
+## [1.1.0] - 2024-12-10
+
+### Added
+
+- Documented the public methods and types for the components API
+
+### Changed
+
+- Renamed the methods involved with the components API (e.g.
+  `componentConfigure` -> `configureComponent`)
+- Renamed the types used for passing options and accessing responses from the
+  components API endpoints (e.g. `ComponentRequestResponse` ->
+  `GetComponentResponse`)
+- Marked the renamed methods and types as deprecated
 
 ## [1.0.12] - 2024-12-06
 
 ### Added
 
-- Allow passing `before`, `after` pagination cursors for apps, accounts, components endpoints
+- Allow passing `before`, `after` pagination cursors for apps, accounts,
+  components endpoints
 
 ## [1.0.11] - 2024-12-06
 
@@ -48,8 +65,8 @@
 
 ### Changed
 
-- The backend client now correctly uses asynchronous messaging to handle long running
-  operations.
+- The backend client now correctly uses asynchronous messaging to handle long
+  running operations.
 - Updated the backend command line tool to respect the `ENVIRONMENT` env variable
   if set.
 
@@ -58,8 +75,8 @@
 ### Changed
 
 - Use client Connect tokens to make api calls directly from the client.
-- Deprecated the `environments` property on `createFrontendClient` since it is now
-  stored in the token
+- Deprecated the `environments` property on `createFrontendClient` since it is
+  now stored in the token
 
 ## [1.0.5] - 2024-11-18
 
@@ -67,7 +84,7 @@
 
 - The backend client used to default to `production` if the environment was not
 specified. Now `environment` is a required argument for `createBackendClient`
-and must be one of `production` or `development`.  
+and must be one of `production` or `development`.
 
 ## [1.0.4] - 2024-11-15
 

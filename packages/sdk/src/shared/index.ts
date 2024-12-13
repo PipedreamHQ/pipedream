@@ -904,8 +904,10 @@ export abstract class BaseClient {
    *  },
    *  propName: "channel",
    *  configuredProps: {
-   *    authProvisionId: "apn_z8hD1b4",
-   *  }
+   *    slack: {
+    *     authProvisionId: "apn_z8hD1b4",
+    *   },
+   *  },
    * });
    * console.log(options);
    */
@@ -956,8 +958,10 @@ export abstract class BaseClient {
    *    key: "slack-send-message",
    *  },
    *  configuredProps: {
-   *    authProvisionId: "apn_z8hD1b4",
-   *  }
+   *    slack: {
+   *      authProvisionId: "apn_z8hD1b4",
+   *    },
+   *  },
    * });
    *
    * const { configurableProps, id: dynamicPropsId } = dynamicProps;
