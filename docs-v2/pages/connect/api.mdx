@@ -1,11 +1,11 @@
 import Callout from '@/components/Callout'
 import { Tabs } from 'nextra/components'
 
-# Connect API & SDK Reference
+# Connect API & SDK reference
 
 Pipedream provides a TypeScript SDK and a REST API to interact with the Connect service. You'll find examples using the SDK and the REST API in multiple languages below.
 
-## REST API Base URL
+## REST API base URL
 
 Pipedream Connect resources are scoped to [projects](/projects), so you'll need to pass [the project's ID](/projects#finding-your-projects-id) as a part of the base URL:
 
@@ -43,7 +43,7 @@ or a specific version:
 
 See the [REST API Authentication docs](/rest-api/auth).
 
-### TypeScript SDK (Server)
+### TypeScript SDK (server)
 
 Most of your interactions with the Connect API will happen on the server, to protect API requests and user credentials. You'll use the SDK in [your frontend](#typescript-sdk-browser) to let users connect accounts. Once connected, you'll use the SDK on the server to retrieve credentials, invoke workflows on their behalf, and more.
 
@@ -63,7 +63,7 @@ const pd = createBackendClient({
 // The `pd` client provides methods to interact with the Connect API — see below
 ```
 
-### TypeScript SDK (Browser)
+### TypeScript SDK (browser)
 
 You'll primarily use the browser SDK to let your users securely connect apps from your frontend. Here, you
 
@@ -667,7 +667,7 @@ curl -X GET \
 }
 ```
 
-##### Example Response (with `include_credentials=true`)
+##### Example response (with `include_credentials=true`)
 
 ```json
 {
@@ -954,7 +954,7 @@ Pipedream returns a `204 No Content` response on successful account deletion
 
 ### Components
 
-#### List Components
+#### List components
 
 List all the components in the Pipedream registry.
 
@@ -1060,8 +1060,8 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components?a
 </Tabs.Tab>
 </Tabs>
 
-##### Example Response
 
+##### Example response
 ```json
 {
   "page_info": {
@@ -1091,7 +1091,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components?a
 ```
 
 
-#### Retrieve a Component
+#### Retrieve a component
 
 Retrieve a specific component from the Pipedream registry.
 
@@ -1181,7 +1181,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/g
 </Tabs.Tab>
 </Tabs>
 
-##### Example Response
+##### Example response
 
 ```json
 {
@@ -1219,7 +1219,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/g
 
 
 
-#### Configure a Component
+#### Configure a component
 
 Configure the a component's prop, based on the current component's
 configuration. This endpoint will use the component's configuration to retrieve
@@ -1236,7 +1236,7 @@ GET /{component_type}/configure
 
 Either `triggers`, `actions`, or `components`.
 
-##### Body Parameters
+##### Body parameters
 
 `configured_props` **object**
 
@@ -1369,7 +1369,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/c
 
 </Tabs>
 
-##### Example Response
+##### Example response
 
 ```json
 {
@@ -1418,7 +1418,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/c
 }
 ```
 
-#### Reload a Component's Props (i.e. Configure Dynamic Props)
+#### Reload a component's props (i.e. configure dynamic props)
 
 Reload the component's props after configuring a dynamic prop, based on the
 current component's configuration. This endpoint will use the component's
@@ -1436,7 +1436,7 @@ GET /{component_type}/props
 
 Either `triggers`, `actions`, or `components`.
 
-##### Body Parameters
+##### Body parameters
 
 `configured_props` **object**
 
@@ -1580,7 +1580,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/p
 
 </Tabs>
 
-##### Example Response
+##### Example response
 
 ```json
 {
@@ -1638,7 +1638,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/p
 }
 ```
 
-#### Invoke an Action
+#### Invoke an action
 
 Invoke an action component for a Pipedream Connect user in a project.
 
@@ -1646,7 +1646,7 @@ Invoke an action component for a Pipedream Connect user in a project.
 POST /actions/run
 ```
 
-##### Body Parameters
+##### Body parameters
 
 `id` **string**
 
@@ -1787,7 +1787,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run"
 
 </Tabs>
 
-##### Example Response
+##### Example response
 
 ```json
 {
@@ -1817,7 +1817,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run"
 }
 ```
 
-#### Deploy a Trigger
+#### Deploy a trigger
 
 Deploy a trigger component for a Pipedream Connect user in a project.
 
@@ -1825,7 +1825,7 @@ Deploy a trigger component for a Pipedream Connect user in a project.
 POST /triggers/deploy
 ```
 
-##### Body Parameters
+##### Body parameters
 
 `id` **string**
 
@@ -1976,7 +1976,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/dep
 
 </Tabs>
 
-##### Example Response
+##### Example response
 
 ```json
 {

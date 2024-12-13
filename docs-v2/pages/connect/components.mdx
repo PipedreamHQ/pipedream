@@ -3,13 +3,13 @@ import ArcadeEmbed from '@/components/ArcadeEmbed'
 import Callout from '@/components/Callout'
 import Image from 'next/image'
 
-# Running Components for Your End Users
+# Running components for your end users
 
 Pipedream Connect provides you with the ability to pre-configure, deploy and
 invoke [components](/components) **on behalf of [your end
 users](/connect/api#external-users)**.
 
-## What are Components?
+## What are components?
 
 In the context of Pipedream Connect, components are self-contained executable
 units of code. They are usually provided with some arbitrary input and produce a
@@ -20,9 +20,9 @@ repository](https://github.com/PipedreamHQ/pipedream/tree/master/components).
 To learn more about components in detail, please visit our [Components
 guide](/components).
 
-## How to Run Components for Your End Users
+## How to run components for your end users
 
-### Retrieving a Component's Definition
+### Retrieving a component's definition
 
 The first thing to do in order to run a component for your end users is to know
 about the component itself. To start with, you need to know the component's
@@ -214,7 +214,7 @@ the prop being configured as the value for the `prop_name` attribute.
 }
 ```
 
-#### Dynamic Props
+#### Dynamic props
 
 The set of props that a component can accept might not be static, and can change
 depending on the values of prior props. Props that behave this way are called
@@ -333,7 +333,7 @@ All this means is that actions can be invoked manually on demand, while sources
 are instead deployed and run automatically when the event they are listening for
 occurs.
 
-#### Invoking an Action
+#### Invoking an action
 
 At the end of the configuration process for an action, you'll end up with a
 payload that you can use to invoke the action. The payload is similar to the one
@@ -401,7 +401,7 @@ above:
 }
 ```
 
-#### Deploying a Source
+#### Deploying a source
 
 Because sources are exercised by events that happen on a third-party service,
 their semantics are different from actions. Once a source is configured, it must
