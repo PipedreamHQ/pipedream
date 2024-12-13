@@ -25,18 +25,19 @@ export type PropOptions<T> = {
 export function valuesFromOptions<T>(value: unknown | T[] | PropOptions<T>): T[] {
   if (typeof value === "object" && value && "selectedOptions" in value && Array.isArray(value.selectedOptions)) {
     const selectedOptions = value.selectedOptions as PropOption<T>[]
-    const results = []
+    const results: T[] = []
     for (const so of selectedOptions) {
       if (typeof so === "object" && so && "emitValue" in so) {
         const emitValue = so.emitValue as T | PropOptionValue<T>
         if (typeof emitValue === "object" && emitValue && "__lv" in emitValue) {
           results.push(emitValue.__lv.value)
         }
-        results.push(emitValue)
+        results.push(emitValue as T)
       } else {
         throw "unexpected value"
       }
     }
+    return results
   }
   if (!Array.isArray(value))
     throw "unexpected value"
