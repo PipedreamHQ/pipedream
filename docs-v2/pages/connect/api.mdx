@@ -701,7 +701,7 @@ curl -X GET \
 
 #### Delete connected account
 
-Delete a specific connected account for an end user
+Delete a specific connected account for an end user, and any deployed triggers.
 
 ```
 DELETE /{project_id}/accounts/{account_id}
@@ -867,7 +867,7 @@ Pipedream returns a `204 No Content` response on successful account deletion
 
 #### Delete an end user
 
-Delete an end user and all their connected accounts
+Delete an end user, all their connected accounts, and any deployed triggers.
 
 ```
 DELETE /{project_id}/users/{external_user_id}
@@ -1879,7 +1879,7 @@ const pd = createBackendClient({
 });
 
 // Deploy the "New Issue (Instant)" trigger for the Gitlab app
-const { data: deployedTrigger } = await pd.runAction({
+const { data: deployedTrigger } = await pd.deployTrigger({
   triggerId: {
     key: "gitlab-new-issue",
   },
@@ -1917,7 +1917,7 @@ const pd = createBackendClient({
 });
 
 // Deploy the "New Issue (Instant)" trigger for the Gitlab app
-const { data: deployedTrigger } = await pd.runAction({
+const { data: deployedTrigger } = await pd.deployTrigger({
   triggerId: {
     key: "gitlab-new-issue",
   },
@@ -2015,7 +2015,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/de
         "type": "$.service.db"
       },
       "http": {
-        "endpoint_url": "https://39643dc2c8ff98a019f3fdc9078d6db9.m.pipedream.net"
+        "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
       },
       "projectId": 45672541
     },
@@ -2027,3 +2027,357 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/de
   }
 }
 ```
+
+#### List deployed triggers
+
+List all of the deployed triggers for a given user.
+
+```text
+GET /deployed-triggers/
+```
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all deployed triggers for the specified user.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+
+##### Example response
+
+```json
+{
+  "page_info": {
+    "total_count": 2,
+    "count": 2,
+    "start_cursor": "ZGNfZ3p1bUsyZQ",
+    "end_cursor": "ZGNfdjN1QllYZw"
+  },
+  "data": [
+    {
+      "id": "dc_gzumK2e",
+      "owner_id": "exu_2LniLm",
+      "component_id": "sc_r1ixBpL",
+      "configurable_props": [
+        {
+          "name": "googleDrive",
+          "type": "app",
+          "app": "google_drive"
+        },
+        {
+          "name": "db",
+          "type": "$.service.db"
+        },
+        {
+          "name": "http",
+          "type": "$.interface.http"
+        },
+        {
+          "name": "drive",
+          "type": "string",
+          "label": "Drive",
+          "description": "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+          "optional": false,
+          "default": "My Drive",
+          "remoteOptions": true
+        },
+        {
+          "name": "timer",
+          "label": "Push notification renewal schedule",
+          "description": "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
+          "type": "$.interface.timer",
+          "static": {
+            "intervalSeconds": 82080
+          }
+        },
+        {
+          "name": "folders",
+          "type": "string[]",
+          "label": "Folders",
+          "description": "(Optional) The folders you want to watch. Leave blank to watch for any new file in the Drive.",
+          "optional": true,
+          "default": [],
+          "remoteOptions": true
+        }
+      ],
+      "configured_props": {
+        "googleDrive": {
+          "authProvisionId": "apn_V1hMeLM"
+        },
+        "db": {
+          "type": "$.service.db"
+        },
+        "http": {
+          "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
+        },
+        "drive": "My Drive",
+        "timer": {
+          "cron": null,
+          "interval_seconds": 82080
+        }
+      },
+      "active": true,
+      "created_at": 1733512889,
+      "updated_at": 1733512889,
+      "name": "Danny Connect - exu_2LniLm",
+      "name_slug": "danny-connect---exu-2-lni-lm-3"
+    },
+    {
+      "id": "dc_K0u2OEQ",
+      "owner_id": "exu_2LniLm",
+      "component_id": "sc_ogiRveN",
+      "configurable_props": [
+        {
+          "name": "app",
+          "type": "app",
+          "app": "basecamp"
+        },
+        {
+          "name": "db",
+          "type": "$.service.db"
+        },
+        {
+          "name": "accountId",
+          "type": "string",
+          "label": "Account Id",
+          "description": "The ID of the account.",
+          "remoteOptions": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "label": "Project Id",
+          "description": "The ID of the project.",
+          "remoteOptions": true
+        },
+        {
+          "name": "http",
+          "type": "$.interface.http"
+        }
+      ],
+      "configured_props": {
+        "app": {
+          "authProvisionId": "apn_EOh4dP0"
+        },
+        "db": {
+          "type": "$.service.db"
+        },
+        "accountId": {
+          "__lv": {
+            "label": "Pipedream",
+            "value": 5871996
+          }
+        },
+        "projectId": {
+          "__lv": {
+            "label": "Getting Started",
+            "value": 39996142
+          }
+        },
+        "http": {
+          "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
+        }
+      },
+      "active": true,
+      "created_at": 1733198039,
+      "updated_at": 1733198039,
+      "name": "Danny Connect - exu_2LniLm",
+      "name_slug": "danny-connect---exu-2-lni-lm-1"
+    }
+  ]
+}
+```
+
+#### Retrieve a deployed trigger
+
+Retrieve a single deployed trigger for a given user.
+
+```text
+GET /deployed-triggers/{deployed_component_id}/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all deployed triggers for the specified user.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+
+##### Example response
+
+```json
+{
+  "id": "dc_gzumK2e",
+  "owner_id": "exu_2LniLm",
+  "component_id": "sc_r1ixBpL",
+  "configurable_props": [
+    {
+      "name": "googleDrive",
+      "type": "app",
+      "app": "google_drive"
+    },
+    {
+      "name": "db",
+      "type": "$.service.db"
+    },
+    {
+      "name": "http",
+      "type": "$.interface.http"
+    },
+    {
+      "name": "drive",
+      "type": "string",
+      "label": "Drive",
+      "description": "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+      "optional": false,
+      "default": "My Drive",
+      "remoteOptions": true
+    },
+    {
+      "name": "timer",
+      "label": "Push notification renewal schedule",
+      "description": "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
+      "type": "$.interface.timer",
+      "static": {
+        "intervalSeconds": 82080
+      }
+    },
+    {
+      "name": "folders",
+      "type": "string[]",
+      "label": "Folders",
+      "description": "(Optional) The folders you want to watch. Leave blank to watch for any new file in the Drive.",
+      "optional": true,
+      "default": [],
+      "remoteOptions": true
+    }
+  ],
+  "configured_props": {
+    "googleDrive": {
+      "authProvisionId": "apn_V1hMeLM"
+    },
+    "db": {
+      "type": "$.service.db"
+    },
+    "http": {
+      "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
+    },
+    "drive": "My Drive",
+    "timer": {
+      "cron": null,
+      "interval_seconds": 82080
+    }
+  },
+  "active": true,
+  "created_at": 1733512889,
+  "updated_at": 1733512889,
+  "name": "Danny Connect - exu_2LniLm",
+  "name_slug": "danny-connect---exu-2-lni-lm-3"
+}
+```
+
+#### Delete a deployed trigger
+
+Delete deployed trigger for a given user.
+
+```text
+DELETE /deployed-triggers/{deployed_component_id}/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all deployed triggers for the specified user.
+
+curl -X DELETE \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+
+##### Response
+
+Pipedream returns a `204 No Content` response on successful deletion
