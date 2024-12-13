@@ -1360,7 +1360,7 @@ echo '{
   }
 }' > data.json
 
-curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/configure" \
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/components/configure" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -d @data.json
@@ -1424,7 +1424,7 @@ Reload the component's props after configuring a dynamic prop, based on the
 current component's configuration. This endpoint will use the component's
 configuration to retrieve a new list of props depending on the value of the
 props that were configured so far. See the [Dynamic
-Props](/connect/components#dynamic-props) section for more information.
+Props](/connect/components#dynamic-props-optional) section for more information.
 
 ```text
 GET /{component_type}/props
@@ -1571,7 +1571,7 @@ echo '{
   }
 }' > data.json
 
-curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/props" \
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/components/props" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -d @data.json
@@ -1778,7 +1778,7 @@ echo '{
   }
 }' > data.json
 
-curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run" \
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -d @data.json
@@ -1967,7 +1967,7 @@ echo '{
   "webhook_url": "https://events.example.com/gitlab-new-issue"
 }' > data.json
 
-curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/deploy" \
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/deploy" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -d @data.json
