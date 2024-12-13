@@ -39,7 +39,6 @@ export function InternalField<T extends ConfigurableProp>({
     idx,
     value: configuredProps[prop.name],
     onChange(value) {
-      console.log("in internalfield onchange", idx, value)
       setConfiguredProp(idx, value);
     },
     extra: {

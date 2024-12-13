@@ -47,7 +47,7 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   // TODO just look at registry component repo and look for what we should make sure we support
   // TODO deal with suspense stuff!
   if (prop.type.endsWith("[][]")) {
-    throw new Error("XXXXUnsupported property type: " + prop.type);
+    throw new Error("Unsupported property type: " + prop.type);
   }
 
   if (prop.type.endsWith("[]")) {
@@ -56,7 +56,6 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
     }} />;
   }
 
-  debugger
   switch (prop.type) {
   // problem with this is that it should be the JSON value, but if it is at any point
   // not a valid json value, it should just be the string so the value is not lost... so it's just very odd
@@ -73,12 +72,12 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
     // XXX split into ControlString, ControlInteger, etc? but want to share autoComplet="off", etc functionality in base one
     return <ControlInput />;
 
-  case "$.service.db":
-  case "$.interface.http":
-    break;
+  // TODO do we need these?
+  //case "$.service.db":
+  //case "$.interface.http":
+  //  break;
   default:
     // TODO "not supported prop type should bubble up"
-    console.log("helliow worldXXXXXXj");
-    throw new Error("12/12Unsupported property type: " + prop.type);
+    throw new Error("Unsupported property type: " + prop.type);
   }
 }

@@ -3,7 +3,7 @@ import type {
   CSSProperties, FormEventHandler,
 } from "react";
 import { useCustomize } from "../hooks/customization-context";
-import { useFormContext } from "../hooks/form-context";
+import { useFormContext, skippablePropTypes } from "../hooks/form-context";
 import { InternalField } from "./InternalField";
 import { Alert } from "./Alert";
 import { ErrorBoundary } from "./ErrorBoundary";
@@ -23,7 +23,7 @@ export function InternalComponentForm() {
   } = formContext;
 
   const {
-    hideOptionalProps, onSubmit
+    hideOptionalProps, onSubmit,
   } = formContextProps;
 
   const {
@@ -52,20 +52,16 @@ export function InternalComponentForm() {
   };
 
   const _onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    console.log("clicked")
     if (onSubmit) {
       e.preventDefault();
-      console.log("in if, isValid == ", isValid)
 
-      if (isValid || true) {
+      if (isValid) {
         setSubmitting(true);
         try {
           await onSubmit(formContext);
         } finally {
           setSubmitting(false);
         }
-      } else {
-        console.log(" not valid :(")
       }
     }
   };
@@ -77,7 +73,7 @@ export function InternalComponentForm() {
     if (prop.hidden) {
       continue;
     }
-    if (["$.service.db", "$.interface.http"].includes(prop.type)) {
+    if (skippablePropTypes.includes(prop.type)) {
       continue;
     }
     if (prop.optional) {

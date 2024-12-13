@@ -34,6 +34,8 @@ export type FormContext<T extends ConfigurableProps> = {
   userId: string;
 };
 
+export const skippablePropTypes = ["$.service.db", "$.interface.http", "$.interface.apphook"]
+
 export const FormContext = createContext<FormContext<any /* XXX fix */> | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export const useFormContext = () => {
@@ -59,7 +61,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const client = useFrontendClient();
 
   const id = useId();
-  const skippable = ["$.service.db", "$.interface.http"]
 
   const {
     component, configuredProps: __configuredProps, propNames, userId,
@@ -170,7 +171,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const propErrors = <T extends ConfigurableProps>(prop: ConfigurableProp, value: unknown): string[] => {
     const errs: string[] = [];
     if (value === undefined) {
-      if (prop.optional || prop.hidden || skippable.includes(prop.type)) {
+      if (prop.optional || prop.hidden || skippablePropTypes.includes(prop.type)) {
       } else {
         errs.push("required");
       }
@@ -229,14 +230,12 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     const _errors: typeof errors = {};
     for (let idx = 0; idx < configurableProps.length; idx++) {
       const prop = configurableProps[idx];
-      console.log("prop: ", prop)
       const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
       const errs = propErrors(prop, value);
       if (errs.length) {
         _errors[prop.name] = errs;
       }
     }
-    console.log("errors: ", _errors)
     setErrors(_errors);
   };
 
@@ -246,7 +245,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       if (prop.hidden) {
         continue;
       }
-      if (skippable.includes(prop.type)) {
+      if (skippablePropTypes.includes(prop.type)) {
         continue;
       }
       // if prop.optional and not shown, we skip and do on un-collapse
@@ -289,8 +288,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
 
   // maybe should take prop as first arg but for text inputs didn't want to compute index each time
   const setConfiguredProp = (idx: number, value: unknown) => {
-    console.log("in set configureable prop")
-    console.log("configurableProps: ", configurableProps)
     const prop = configurableProps[idx];
     const newConfiguredProps = {
       ...configuredProps,
@@ -316,7 +313,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     } else {
       delete newErrors[prop.name];
     }
-    console.log("newErrors: ", newErrors)
     setErrors(newErrors);
   };
 
@@ -341,7 +337,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const checkPropsNeedConfiguring = () => {
     const _propsNeedConfiguring = []
     for (const prop of configurableProps) {
-      if (!prop || prop.optional || prop.hidden || skippable.includes(prop.type)) continue
+      if (!prop || prop.optional || prop.hidden || skippablePropTypes.includes(prop.type)) continue
       const value = configuredProps[prop.name as keyof ConfiguredProps<T>]
       const errors = propErrors(prop, value)
       if (errors.length) {
