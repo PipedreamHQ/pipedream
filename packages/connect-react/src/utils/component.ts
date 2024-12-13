@@ -74,7 +74,7 @@ export function integerPropErrors(opts: ValidationOpts<ConfigurablePropInteger>)
   } = opts
   const value = valueFromOption(valueOpt)
 
-  if (!prop.default && value == null || typeof value === "undefined") return [
+  if (!prop.default && (value == null || typeof value === "undefined")) return [
     "required",
   ]
 
@@ -82,9 +82,9 @@ export function integerPropErrors(opts: ValidationOpts<ConfigurablePropInteger>)
     ? value
     : parseInt(String(value))
 
-  if (_value !== _value) return [
+  if (Number.isNaN(_value)) return [
     "not a number",
-  ] // NaN
+  ]
   const errs = []
   if (typeof prop.min === "number" && _value < prop.min) errs.push("number too small")
   if (typeof prop.max === "number" && _value > prop.max) errs.push("number too big")
