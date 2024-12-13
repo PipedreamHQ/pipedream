@@ -349,6 +349,24 @@ GET /apps
 
 A query string to filter the list of apps. For example, to search for apps that **contain** the string "Slack", pass `q=Slack`.
 
+---
+
+`has_components` **string** (_optional_)
+
+Pass `1` to filter the list of apps to only those with public triggers or actions.
+
+---
+
+`has_actions` **string** (_optional_)
+
+Pass `1` to filter the list of apps to only those with public actions.
+
+---
+
+`has_triggers` **string** (_optional_)
+
+Pass `1` to filter the list of apps to only those with public triggers.
+
 #### Example Request
 
 ```shell
