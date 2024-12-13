@@ -6,7 +6,7 @@ export default {
   key: "zoho_crm-update-object",
   name: "Update Object",
   description: "Updates existing entities in the module. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v2/update-records.html)",
-  version: "0.3.2",
+  version: "0.3.3",
   type: "action",
   props: {
     ...common.props,
@@ -61,7 +61,7 @@ export default {
     const response = await zohoCrm.updateObject(
       moduleType,
       recordId,
-      object,
+      this.parseFields(object),
       $,
     );
     $.export("$summary", `Successfully updated object with ID ${recordId}.`);
