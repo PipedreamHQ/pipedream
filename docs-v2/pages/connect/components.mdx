@@ -20,21 +20,139 @@ repository](https://github.com/PipedreamHQ/pipedream/tree/master/components).
 To learn more about components in detail, please visit our [Components
 guide](/components).
 
+<Callout type="info">
+Running components for your end users via Pipedream Connect is in **beta**, and we're looking for feedback. Please [let us know](https://pipedream.com/support) how you're using it, what's not working, and what else you'd like to see.
+</Callout>
+
 ## How to run components for your end users
+
+<Callout type="info">
+Refer to the [Connect API docs](/connect/api) for the full API reference. Below is a quickstart with a few specific examples.
+</Callout>
 
 <Steps>
 
-### Retrieving a component's definition
+### Find the app you want to use
 
-The first thing to do in order to run a component for your end users is to know
-about the component itself. To start with, you need to know the component's
-unique key. Using that key, you can retrieve the component's structure from the
-Pipedream API. See the [component
+<Callout type="info">
+You can also skip steps 1 and 2 if you already know the component you want to use or if you'd prefer to [pass a natural language prompt to Pipedream's component search API](/rest-api#search-for-registry-components).
+</Callout>
+
+In order to find the right trigger or action to configure and run, you first need to find the app. For this example, we'll search for `gitlab`.
+
+```text
+GET /v1/connect/apps?q=gitlab
+```
+
+Here's the response: 
+
+```json
+{
+  "page_info": {
+    "total_count": 1,
+    "count": 1,
+    "start_cursor": "Z2l0bGFi",
+    "end_cursor": "Z2l0bGFi"
+  },
+  "data": [
+    {
+      "id": "app_1Z2hw1",
+      "name_slug": "gitlab",
+      "name": "GitLab",
+      "auth_type": "oauth",
+      "description": "GitLab is the most comprehensive AI-powered DevSecOps Platform.",
+      "img_src": "https://assets.pipedream.net/s.v0/app_1Z2hw1/logo/orig",
+      "custom_fields_json": "[{\"name\":\"base_api_url\",\"label\":\"Base API URL\",\"description\":\"The Base API URL defaults to `gitlab.com`. If you are using self-hosted Gitlab, enter your base url here, e.g. `gitlab.example.com`\",\"default\":\"gitlab.com\",\"optional\":null}]",
+      "categories": [
+        "Developer Tools"
+      ]
+    }
+  ]
+}
+```
+
+### List the available components for the app
+ 
+Once you have the app you want to use, now you can list the triggers and/or actions for that app. We'll list the actions for Gitlab and we'll pass the `name_slug` `gitlab` as the `app`.
+
+```text
+GET /actions?app=gitlab
+```
+
+Here's the response: 
+
+```json
+{
+  "page_info": {
+    "total_count": 20,
+    "count": 10,
+    "start_cursor": "c2NfbHlpRThkQQ",
+    "end_cursor": "c2NfQjVpTkJBTA"
+  },
+  "data": [
+    {
+      "name": "List Commits",
+      "version": "0.0.2",
+      "key": "gitlab_developer_app-list-commits"
+    },
+    {
+      "name": "Update Issue",
+      "version": "0.0.1",
+      "key": "gitlab_developer_app-update-issue"
+    },
+    {
+      "name": "Update Epic",
+      "version": "0.0.1",
+      "key": "gitlab_developer_app-update-epic"
+    },
+    {
+      "name": "Search Issues",
+      "version": "0.0.1",
+      "key": "gitlab_developer_app-search-issues"
+    },
+    {
+      "name": "List Repo Branches",
+      "version": "0.0.1",
+      "key": "gitlab_developer_app-list-repo-branches"
+    },
+    {
+      "name": "Get Repo Branch",
+      "version": "0.0.1",
+      "key": "gitlab_developer_app-get-repo-branch"
+    },
+    {
+      "name": "Get Issue",
+      "version": "0.0.1",
+      "key": "gitlab_developer_app-get-issue"
+    },
+    {
+      "name": "Create issue",
+      "version": "0.0.1",
+      "key": "gitlab_developer_app-create-issue"
+    },
+    {
+      "name": "Create Epic",
+      "version": "0.0.1",
+      "key": "gitlab_developer_app-create-epic"
+    },
+    {
+      "name": "Create Branch",
+      "version": "0.0.1",
+      "key": "gitlab_developer_app-create-branch"
+    }
+  ]
+}
+```
+### Retrieve the component's definition
+
+In order to run a component for your end users, you need to understand
+the component's definition. Now that you have the component's key from the previous step,
+you can retrieve its structure from the Pipedream API. See the [component
 structure](/components/api#component-structure) section in our docs for more
 details.
 
 As an example, the following API call will return the structure of the **List
-Commits** component for Gitlab:
+Commits** action for Gitlab:
 
 ```text
 GET /v1/connect/components/gitlab-list-commits
@@ -89,7 +207,7 @@ example above:
 Using this information, you can now drive the configuration of the component for
 your end users, as described in the next section.
 
-### Configuration
+### Configure the component
 
 Component execution on behalf of your end users requires a few preliminary
 steps, focused on getting the right input parameters (aka
@@ -224,7 +342,7 @@ For example, to retrieve the configuration options for the `refName` prop:
 }
 ```
 
-#### Dynamic props (optional)
+### Configure dynamic props (optional)
 
 The set of props that a component can accept might not be static, and can change
 depending on the values of prior props. Props that behave this way are called
@@ -333,7 +451,7 @@ supports two types of components: [actions](/components#actions) and
 [sources](/components#sources) (aka triggers).
 
 Actions are components that perform a task by taking an input either during
-[configuration](#configuration) and/or during invocation (usually both), and
+[configuration](#configure-the-component) and/or during invocation (usually both), and
 produce a result. Sources are very similar, but the difference is that they are
 not invoked directly by Pipedream users, but rather by events that happen on a
 third-party service. For example, the "New File" source for Google Drive will be

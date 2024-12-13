@@ -181,6 +181,18 @@ export type GetAppsOpts = RelationOpts & {
    * A search query to filter the apps.
    */
   q?: string;
+  /**
+   * Filter by whether apps have actions in the component registry.
+   */
+  hasActions?: boolean;
+  /**
+   * Filter by whether apps have components in the component registry.
+   */
+  hasComponents?: boolean;
+  /**
+   * Filter by whether apps have triggers in the component registry.
+   */
+  hasTriggers?: boolean;
 };
 
 /**
@@ -773,6 +785,15 @@ export abstract class BaseClient {
     const params: Record<string, string> = {};
     if (opts?.q) {
       params.q = opts.q;
+    }
+    if (opts?.hasActions != null) {
+      params.has_actions = opts.hasActions ? "1" : "0";
+    }
+    if (opts?.hasComponents != null) {
+      params.has_components = opts.hasComponents ? "1" : "0";
+    }
+    if (opts?.hasTriggers != null) {
+      params.has_triggers = opts.hasTriggers ? "1" : "0";
     }
     this.addRelationOpts(params, opts);
     return this.makeAuthorizedRequest<GetAppsResponse>(
