@@ -34,7 +34,11 @@ export type FormContext<T extends ConfigurableProps> = {
   userId: string;
 };
 
-export const skippablePropTypes = ["$.service.db", "$.interface.http", "$.interface.apphook"]
+export const skippablePropTypes = [
+  "$.service.db",
+  "$.interface.http",
+  "$.interface.apphook",
+]
 
 export const FormContext = createContext<FormContext<any /* XXX fix */> | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
 
@@ -171,8 +175,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const propErrors = <T extends ConfigurableProps>(prop: ConfigurableProp, value: unknown): string[] => {
     const errs: string[] = [];
     if (value === undefined) {
-      if (prop.optional || prop.hidden || skippablePropTypes.includes(prop.type)) {
-      } else {
+      if (!prop.optional && !prop.hidden && !skippablePropTypes.includes(prop.type)) {
         errs.push("required");
       }
     } else if (prop.type === "integer") { // XXX type should be "number"? we don't support floats otherwise...

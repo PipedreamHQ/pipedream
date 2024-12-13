@@ -3,7 +3,10 @@ import type {
   CSSProperties, FormEventHandler,
 } from "react";
 import { useCustomize } from "../hooks/customization-context";
-import { useFormContext, skippablePropTypes } from "../hooks/form-context";
+import {
+  useFormContext,
+  skippablePropTypes,
+} from "../hooks/form-context";
 import { InternalField } from "./InternalField";
 import { Alert } from "./Alert";
 import { ErrorBoundary } from "./ErrorBoundary";
