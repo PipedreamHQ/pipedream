@@ -1,6 +1,13 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+## [1.1.3] - 2024-12-13
+
+### Added
+
+- Can now filter `getApps` by whether app `hasComponents`,
+  `hasActions`, or `hasTriggers` in the registry
+
 ## [1.1.2] - 2024-12-12
 
 ### Changed
