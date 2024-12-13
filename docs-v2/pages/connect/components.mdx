@@ -197,10 +197,17 @@ attributes that the API itself consumes.
 
 </Callout>
 
-Subsequent prop configuration calls will be identical to the one above, but will
-incrementally add more props to the `configured_props` object, with the name of
-the prop being configured as the value for the `prop_name` attribute. For
-example, to retrieve the configuration options for the `refName` prop:
+You configure props one-by-one, making a call to the component configuration API
+for each new prop. Subsequent prop configuration calls will be identical to the
+one above:
+
+1. Add the prop you currently want to configure as the `prop_name`
+2. Include the names and values of all previously-configured props in the
+   `configured_props` object. Keep this object in your app's local state, add a
+   prop once you or the end user selects a value, and pass it to the
+   `configured_props` API param.
+
+For example, to retrieve the configuration options for the `refName` prop:
 
 ```json
 {
