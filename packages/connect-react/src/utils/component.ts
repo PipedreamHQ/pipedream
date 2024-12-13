@@ -31,8 +31,9 @@ export function valuesFromOptions<T>(value: unknown | T[] | PropOptions<T>): T[]
         const emitValue = so.emitValue as T | PropOptionValue<T>
         if (typeof emitValue === "object" && emitValue && "__lv" in emitValue) {
           results.push(emitValue.__lv.value)
+        } else {
+          results.push(emitValue as T)
         }
-        results.push(emitValue as T)
       } else {
         throw "unexpected value"
       }
