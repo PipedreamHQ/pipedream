@@ -108,15 +108,25 @@ of these props implements an `options` method that retrieves the necessary
 options from the third-party API, formats them, and sends them back in the
 response for the end user to select.
 
-The initial configuration call must contain your user's account ID for the
-target app, and the name of the prop you want to configure. Using the [**List
-Commits** component for
+The payload for the configuration API call must contain the following fields:
+
+1. `external_user_id`: the ID of your user on your end
+2. `id`: the component's unique ID (aka **key**)
+3. `prop_name`: the name of the prop you want to configure
+4. `configured_props`: an object containing the props that have already been
+   configured. The initial configuration call must contain the ID of the account
+   (aka `authProvisionId`) that your user has connected to the target app (see
+   [this section](workflows#configure-accounts-to-use-your-end-users-auth) for
+   more details on how to create these accounts)
+
+We'll use the [**List Commits** component for
 Gitlab](https://github.com/PipedreamHQ/pipedream/blob/master/components/gitlab/actions/list-commits/list-commits.mjs#L4)
-as an example, the payload sent to the configuration API would look like this:
+as an example, to illustrate a call that retrieves the options for the
+`projectId` prop of that component. The payload sent to the configuration API
+would look like this:
 
 ```json
 {
-  "async_handle": "qxyTp7QcS2A6",
   "external_user_id": "demo-34c13d13-a31e-4a3d-8b63-0ac954671095",
   "id": "gitlab-list-commits",
   "prop_name": "projectId",
@@ -127,13 +137,6 @@ as an example, the payload sent to the configuration API would look like this:
   }
 }
 ```
-
-The goal of this particular call is to retrieve the options for the `projectId`
-prop of the **List Commits** component for Gitlab, for the user with the ID
-`demo-34c13d13-a31e-4a3d-8b63-0ac954671095`. The `authProvisionId` is the ID of
-the account that the user has connected to the Gitlab app (see [this
-section](workflows#configure-accounts-to-use-your-end-users-auth) for more
-details on how to create these accounts).
 
 The response will contain the possible values (and their human-readable labels
 when applicable) for the prop, as well as any possible errors that might have
@@ -190,14 +193,14 @@ occurred. The response for the request above would look like this:
 
 Fields inside `configured_props` are written in camel case since they refer to
 the names of props as they appear in the component's code, they are not
-attributes that the API itself consumes. For example, to retrieve the
-configuration options for the `refName` prop:
+attributes that the API itself consumes.
 
 </Callout>
 
 Subsequent prop configuration calls will be identical to the one above, but will
 incrementally add more props to the `configured_props` object, with the name of
-the prop being configured as the value for the `prop_name` attribute.
+the prop being configured as the value for the `prop_name` attribute. For
+example, to retrieve the configuration options for the `refName` prop:
 
 ```json
 {
