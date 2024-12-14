@@ -12220,9 +12220,6 @@ importers:
 
   packages/connect-react:
     dependencies:
-      '@pipedream/sdk':
-        specifier: workspace:^
-        version: link:../sdk
       '@tanstack/react-query':
         specifier: ^5.59.16
         version: 5.61.0(react@18.3.1)
@@ -12245,6 +12242,9 @@ importers:
       '@emotion/react':
         specifier: ^11.13.5
         version: 11.13.5(@types/react@18.3.12)(react@18.3.1)
+      '@pipedream/sdk':
+        specifier: workspace:^
+        version: link:../sdk
       '@types/lodash.isequal':
         specifier: ^4.5.8
         version: 4.5.8
@@ -30152,7 +30152,6 @@ snapshots:
 
   '@pipedream/connect-react@file:packages/connect-react(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)':
     dependencies:
-      '@pipedream/sdk': link:packages/sdk
       '@tanstack/react-query': 5.61.0(react@19.0.0-rc-66855b96-20241106)
       lodash.isequal: 4.5.0
       react: 19.0.0-rc-66855b96-20241106
