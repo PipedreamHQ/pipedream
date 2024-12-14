@@ -3,7 +3,7 @@ import { Steps, Tabs } from 'nextra/components'
 import Image from 'next/image'
 import VideoPlayer from "@/components/VideoPlayer";
 
-# Quickstart
+# Managed Auth Quickstart
 
 Pipedream Connect is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI agents, [and much more](/connect/use-cases), all in a few minutes.
 
@@ -94,7 +94,7 @@ Once you have a token, return it to your frontend to start the account connectio
 Refer to the API docs for [full set of parameters you can pass](/connect/api#create-a-new-token) in the `ConnectTokenCreate` call.
 </Callout>
 
-### Connect a user's account
+### Connect your user's account
 
 To connect a third-party account for a user, you have two options:
 
@@ -144,7 +144,7 @@ export default function Home() {
 
 Press that button to connect an account for the app you configured.
 
-#### Use Connect Link
+#### Or use Connect Link
 
 Use this option when you can't execute JavaScript or open an iFrame in your environment (e.g. mobile apps), or when you want to offload the account connection flow to Pipedream and avoid frontend work. You can also send these links via email or SMS.
 
@@ -160,70 +160,17 @@ https://pipedream.com/_static/connect.html?token={token}&connectLink=true&app={a
 
 4. Redirect your users to this URL, or send it to them via email, SMS, and more.
 
-### Retrieve the credentials from the backend
+### Make authenticated requests
 
-Once your user connects an account, you can retrieve their credentials from your backend.
+Now that your users have connected an account, you can use their auth in one of a few ways:
 
-This example shows you how to fetch credentials by your end user's `external_user_id`. You can also fetch all connected accounts for a specific app, or a specific user — see the [Connect API reference](/connect/api).
-
-<Tabs items={['TypeScript', 'Node.js']}>
-<Tabs.Tab>
-```typescript
-import {
-  createBackendClient,
-} from "@pipedream/sdk/server";
-
-const pd = createBackendClient({
-  environment: "development", // change to production if running for a test production account, or in production
-  credentials: {
-    clientId: "{oauth_client_id}",
-    clientSecret: "{oauth_client_secret}",
-  },
-  projectId: "{your_project_id}"
-});
-
-async function getUserAccounts(external_user_id: string, include_credentials: boolean = false) {
-  await pd.getAccounts({
-    external_user_id,
-    include_credentials, // set to true to include credentials
-  })
-
-  // Parse and return the data you need. These may contain credentials, 
-  // which you should never return to the client
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```javascript
-import {
-  createBackendClient,
-} from "@pipedream/sdk/server";
-
-const pd = createBackendClient({
-  environment: "development", // change to production if running for a test production account, or in production
-  credentials: {
-    clientId: "{oauth_client_id}",
-    clientSecret: "{oauth_client_secret}",
-  },
-  projectId: "{your_project_id}"
-});
-
-async function getUserAccounts(external_user_id, include_credentials = false) {
-  await pd.getAccounts({
-    external_user_id,
-    include_credentials, // set to true to include credentials
-  })
-
-  // Parse and return the data you need. These may contain credentials, 
-  // which you should never return to the client
-}
-```
-</Tabs.Tab>
-</Tabs>
+1. [Retrieve their credentials from the REST API](/connect/api#accounts) to use in your backend application
+2. [Use Pipedream's visual workflow builder](/connect/workflows) to define complex logic to run on behalf of your users
+3. [Embed Pipedream components directly in your app](/connect/components) to run actions and triggers on their behalf
 
 ### Deploy your app to production
 
-- Now that you've successfully connected an account and retrieved the credentials, you're almost done!
-- Learn about [development environments](/connect/environments) and [using OAuth clients](/connect/oauth-clients) to deploy your app to production.
+- Test end to end in [development](/connect/environments)
+- Ship to production!
 
 </Steps>
