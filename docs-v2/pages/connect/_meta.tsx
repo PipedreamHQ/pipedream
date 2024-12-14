@@ -6,7 +6,7 @@ export default {
     "title": "Use cases",
   },
   "quickstart": {
-    "title": "Quickstart",
+    "title": "Managed auth",
   },
   "workflows": {
     "title": "Running workflows",
@@ -32,11 +32,11 @@ export default {
   "connect-link": {
     "title": "Connect Link",
   },
-  "troubleshooting": {
-    "title": "Troubleshooting",
-  },
   "customize-your-app": {
     "title": "Customize your app",
+  },
+  "troubleshooting": {
+    "title": "Troubleshooting",
   },
   "migrating-from-project-keys-to-oauth": {
     "display": "hidden",

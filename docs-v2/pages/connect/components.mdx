@@ -1,44 +1,35 @@
 import { Steps, Tabs } from 'nextra/components'
-import ArcadeEmbed from '@/components/ArcadeEmbed'
 import Callout from '@/components/Callout'
-import Image from 'next/image'
 
 # Running components for your end users
 
-Pipedream Connect provides you with the ability to pre-configure, deploy and
-invoke [components](/components) **on behalf of [your end
-users](/connect/api#external-users)**.
+Pipedream Connect provides APIs to embed [pre-built components](/components) directly in your application
+or AI agent, unlocking access to thousands of pre-built API operations. Enable [your end users](/connect/api#external-users) to
+configure, deploy, and invoke Pipedream triggers and actions for more than {process.env.PUBLIC_APPS} APIs.
 
 ## What are components?
 
-In the context of Pipedream Connect, components are self-contained executable
-units of code. They are usually provided with some arbitrary input and produce a
-result that's exported as output. These components are developed by the
-Pipedream community and their source code is available in our [public Github
-repository](https://github.com/PipedreamHQ/pipedream/tree/master/components).
-
-To learn more about components in detail, please visit our [Components
-guide](/components).
+In Pipedream, [components](/components) are self-contained executable units of code. Your end users configure the inputs and the components produce a
+result that's exported as output. These components are developed and maintained by Pipedream
+and our community and their source code is available in our [public Github repo](https://github.com/PipedreamHQ/pipedream/tree/master/components).
 
 <Callout type="info">
 Running components for your end users via Pipedream Connect is in **beta**, and we're looking for feedback. Please [let us know](https://pipedream.com/support) how you're using it, what's not working, and what else you'd like to see.
 </Callout>
 
-## How to run components for your end users
+## Getting stated
 
 <Callout type="info">
 Refer to the [Connect API docs](/connect/api) for the full API reference. Below is a quickstart with a few specific examples.
+
+You can skip steps 1 and 2 if you already know the component you want to use or if you'd prefer to [pass a natural language prompt to Pipedream's component search API](/rest-api#search-for-registry-components).
 </Callout>
 
 <Steps>
 
 ### Find the app you want to use
 
-<Callout type="info">
-You can also skip steps 1 and 2 if you already know the component you want to use or if you'd prefer to [pass a natural language prompt to Pipedream's component search API](/rest-api#search-for-registry-components).
-</Callout>
-
-In order to find the right trigger or action to configure and run, you first need to find the app. For this example, we'll search for `gitlab`.
+In order to find the right trigger or action to configure and run, you first need to find the app. In this example, we'll search for `gitlab`.
 
 ```text
 GET /v1/connect/apps?q=gitlab
@@ -145,7 +136,7 @@ Here's the response:
 ```
 ### Retrieve the component's definition
 
-In order to run a component for your end users, you need to understand
+To configure and run a component for your end users, you need to understand
 the component's definition. Now that you have the component's key from the previous step,
 you can retrieve its structure from the Pipedream API. See the [component
 structure](/components/api#component-structure) section in our docs for more
@@ -158,11 +149,10 @@ Commits** action for Gitlab:
 GET /v1/connect/components/gitlab-list-commits
 ```
 
-The response will contain the component's structure, including its
-(human-understandable) name, version, and most importantly, the configuration
-options that the component accepts (also known as [props](/components/api#props)
-or "properties"). Here's an example of the response for the component in the
-example above:
+The response will contain the component's structure, including its user-friendly name,
+version, and most importantly, the configuration options the component accepts
+(also known as [props](/components/api#props) or "properties").
+Here's an example of the response for the component in the example above:
 
 ```json
 {
@@ -213,9 +203,8 @@ Component execution on behalf of your end users requires a few preliminary
 steps, focused on getting the right input parameters (aka
 [props](/workflows/using-props)) to the component.
 
-Configuring each prop for a component usually involves an API call to our
-backend to retrieve the possible values, unless the values that a prop can take
-are static/free-form. The endpoint is accessible at:
+Configuring each prop for a component often involves an API call to retrieve the possible values,
+unless the values that a prop can take are static or free-form. The endpoint is accessible at:
 
 ```text
 POST /v1/connect/components/configure
@@ -224,7 +213,7 @@ POST /v1/connect/components/configure
 Typically, the options for a prop are linked to a specific user's account. Each
 of these props implements an `options` method that retrieves the necessary
 options from the third-party API, formats them, and sends them back in the
-response for the end user to select.
+response for the end user to select. Examples are listing Slack channels, Google Sheets, etc.
 
 The payload for the configuration API call must contain the following fields:
 
@@ -235,7 +224,7 @@ The payload for the configuration API call must contain the following fields:
    configured. The initial configuration call must contain the ID of the account
    (aka `authProvisionId`) that your user has connected to the target app (see
    [this section](workflows#configure-accounts-to-use-your-end-users-auth) for
-   more details on how to create these accounts)
+   more details on how to create these accounts).
 
 We'll use the [**List Commits** component for
 Gitlab](https://github.com/PipedreamHQ/pipedream/blob/master/components/gitlab/actions/list-commits/list-commits.mjs#L4)
@@ -344,7 +333,7 @@ For example, to retrieve the configuration options for the `refName` prop:
 
 ### Configure dynamic props (optional)
 
-The set of props that a component can accept might not be static, and can change
+The set of props that a component can accept might not be static, and may change
 depending on the values of prior props. Props that behave this way are called
 [dynamic props](/components/api#dynamic-props), and they need to be configured
 in a different way. Props that are dynamic will have a `reloadProps` attribute
@@ -361,7 +350,7 @@ The payload is similar to the one used for the configuration API, but it
 excludes the `prop_name` field since the goal of this call is to reload and
 retrieve the new set of props, not to configure a specific one.
 
-Using the **Add Single Row** component for Google Sheets as an example, the
+Using the [Add Single Row action for Google Sheets](https://pipedream.com/apps/google-sheets/actions/add-single-row) as an example, the
 request payload would look like this:
 
 ```json
@@ -455,7 +444,8 @@ Actions are components that perform a task by taking an input either during
 produce a result. Sources are very similar, but the difference is that they are
 not invoked directly by Pipedream users, but rather by events that happen on a
 third-party service. For example, the "New File" source for Google Drive will be
-triggered every time a new file is created in a specific folder in Google Drive.
+triggered every time a new file is created in a specific folder in Google Drive,
+then will emit an event for you to consume.
 
 All this means is that actions can be invoked manually on demand, while sources
 are instead deployed and run automatically when the event they are listening for
@@ -545,7 +535,7 @@ look something like this:
 
 ```json
 {
-  "external_user_id": "jverce",
+  "external_user_id": "demo-20a1b80e-23a5-4d4d-a8ef-c91cdbd0dad9",
   "id": "gitlab-new-issue",
   "prop_name": "http",
   "configured_props": {
@@ -608,7 +598,7 @@ this:
         "type": "$.service.db"
       },
       "http": {
-        "endpoint_url": "https://39643dc2c8ff98a019f3fdc9078d6db9.m.pipedream.net"
+        "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
       },
       "projectId": 45672541
     },
@@ -625,7 +615,7 @@ In the example above, the source ID is `dc_dAuGmW7`, which can be used to delete
 the source in the future:
 
 ```text
-DELETE /v1/connect/deployed-triggers/dc_dAuGmW7?external_user_id=jverce
+DELETE /v1/connect/deployed-triggers/dc_dAuGmW7?external_user_id=demo-20a1b80e-23a5-4d4d-a8ef-c91cdbd0dad9
 ```
 
 </Steps>
