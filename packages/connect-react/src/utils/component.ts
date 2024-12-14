@@ -35,13 +35,13 @@ export function valuesFromOptions<T>(value: unknown | T[] | PropOptions<T>): T[]
           results.push(emitValue as T)
         }
       } else {
-        throw "unexpected value"
+        return []
       }
     }
     return results
   }
   if (!Array.isArray(value))
-    throw "unexpected value"
+    return []
   return value as T[]
 }
 
