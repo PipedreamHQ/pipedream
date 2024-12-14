@@ -15,7 +15,7 @@ To get started, you'll need the following:
 
 ## Quickstart
 
-1. Create a bot in Azure Portal
+1. Create a bot in the Azure Portal
 2. Set up a Pipedream webhook
 3. Configure the bot's messaging endpoint
 4. Create and upload the Teams app manifest
