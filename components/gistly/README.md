@@ -15,4 +15,4 @@ Gistly API allows you to fetch transcripts or subtitles from YouTube videos in v
   - `text`: Boolean to return plain text transcript.
   - `chunkSize`: Maximum characters per transcript chunk (optional).
 
-For more details, visit the [Gistly API documentation](https://gist.ly/youtube-transcript-api#doc).
+For more details, visit [Gistly's API documentation](https://gist.ly/youtube-transcript-api#doc).
