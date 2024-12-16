@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   key: "lobste_rs-new-comment-in-thread",
   name: "New Comment in Thread",
-  description: "Emit new event when a new coomment is added to a thread.",
+  description: "Emit new event when a new comment is added to a thread.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -19,7 +19,7 @@ export default {
     url: {
       type: "string",
       label: "URL",
-      description: "The URL of the comment threaad to retrieve. E.g. `https://lobste.rs/s/yqjtvy/cloud_container_iceberg`",
+      description: "The URL of the comment thread to retrieve. E.g. `https://lobste.rs/s/yqjtvy/cloud_container_iceberg`",
     },
   },
   methods: {
