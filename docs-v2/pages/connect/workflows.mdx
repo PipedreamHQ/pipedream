@@ -277,6 +277,7 @@ curl -X POST https://{your-endpoint-url} \
 Pipedream Connect Error: Required account for hubspot not found for external user ID abc-123 in development
 ```
 
+
 ### Common errors
 #### No external user ID passed, but one or more steps require it
 - One or more steps in the workflow are configured to **Use end user's auth via Connect**, but no external user ID was passed when invoking the workflow.
@@ -293,3 +294,17 @@ Pipedream Connect Error: Required account for hubspot not found for external use
 #### Running workflows for your users in production requires a higher tier plan
 - Anyone is able to run workflows for your end users in `development`. The Business plan is required to run on behalf of `production` users.
 - Schedule a call with our sales team and learn more about pricing [here](https://pipedream.com/pricing?plan=Enterprise).
+
+## Known limitations
+
+#### Using your end user's auth is not currently supported within control flow segments
+- Currently, you can only use your end user's auth in the linear execution paths of a Pipedream workflow. 
+- You can still use control flow features in your Connect-enabled workflow, but the step(s) that use an end user's auth must be in the linear [execution path](/workflows/control-flow#execution-path) of the workflow.
+
+#### Workflows can only use a single external user's auth per execution
+- Right now you cannot invoke a workflow to loop through many external user IDs within a single execution.
+- You can only run a workflow for a single external user ID at a time (for now).
+
+#### The external user ID to use during execution must be passed in the triggering event
+- You can't run a workflow on a timer for example, and look up the external user ID to use at runtime.
+- The external user ID must be passed in the triggering event, typically via [HTTP trigger](#invoke-the-workflow).
