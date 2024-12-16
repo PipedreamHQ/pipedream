@@ -173,7 +173,9 @@ export default {
       ] of Object.entries(fields)) {
         try {
           if (typeof value === "string") {
-            fields[key] = JSON.parse(value);
+            fields[key] = typeof JSON.parse(value) === "number"
+              ? value
+              : JSON.parse(value);
           }
         } catch {
           fields[key] = value;

@@ -1,5 +1,6 @@
 import zohoCrm from "../../zoho_crm.app.mjs";
 import common from "../common/common-objects.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -58,13 +59,21 @@ export default {
       ...otherProps,
     });
 
-    const response = await zohoCrm.updateObject(
+    const res = await zohoCrm.updateObject(
       moduleType,
       recordId,
       this.parseFields(object),
       $,
     );
-    $.export("$summary", `Successfully updated object with ID ${recordId}.`);
-    return response;
+
+    if (res.data[0].code === "SUCCESS") {
+      $.export("$summary", `Successfully updated object with ID ${recordId}.`);
+    } else {
+      if (res.data[0].code === "INVALID_DATA") {
+        throw new ConfigurationError(`Error: Invalid data for field '${res.data[0].details.api_name}'. Expected data type: ${res.data[0].details.expected_data_type}`);
+      }
+      throw new ConfigurationError(res.data[0].message);
+    }
+    return res;
   },
 };
