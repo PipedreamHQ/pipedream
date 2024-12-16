@@ -6,7 +6,7 @@ export default {
   name: "Update Account",
   description: "Updates an existing account in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#update-an-account)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
     accountId: {

@@ -5,114 +5,169 @@ export default {
   type: "app",
   app: "remote_retrieval",
   propDefinitions: {
-    oid: {
+    orderId: {
       type: "string",
       label: "Order ID",
-      description: "The ID of the order to retrieve.",
-      async options({ page }) {
-        const orders = await this.getDeviceReturnOrders({
-          params: {
-            page: page + 1,
-          },
-        });
-        if (orders.message === "Data not found!") {
-          return [];
-        }
-        return orders?.map(({
-          order_id: value, shipments,
+      description: "ID of the Order",
+      async options() {
+        const response = await this.getOrders();
+        const orderIds = response.results;
+        return orderIds.map(({
+          order_id, employee_info,
         }) => ({
-          value,
-          label: `Order ID: ${value} - ${shipments.device_type}`,
-        })) || [];
+          value: order_id,
+          label: employee_info.name,
+        }));
       },
+    },
+    typeOfEquipment: {
+      type: "string",
+      label: "Type of Equipment",
+      description: "The type of equipment",
+      options: constants.EQUIPMENT_TYPES,
+    },
+    orderType: {
+      type: "string",
+      label: "Order Type",
+      description: "The type of order",
+      options: constants.ORDER_TYPES,
+    },
+    email: {
+      type: "string",
+      label: "Employee Email",
+      description: "Employee email address",
+    },
+    name: {
+      type: "string",
+      label: "Employee Name",
+      description: "Employee full name",
+    },
+    addressLine1: {
+      type: "string",
+      label: "Employee Address Line 1",
+      description: "Employee Address in line 1",
+    },
+    addressLine2: {
+      type: "string",
+      label: "Employee Address Line 2",
+      description: "Employee Address in line 2, it is not a mandatory field",
+      optional: true,
+    },
+    addressCity: {
+      type: "string",
+      label: "Employee City",
+      description: "Employee city",
+    },
+    addressState: {
+      type: "string",
+      label: "Employee State",
+      description: "Employee state",
+    },
+    addressCountry: {
+      type: "string",
+      label: "Employee Country",
+      description: "Employee country",
+    },
+    addressZip: {
+      type: "string",
+      label: "Employee Zip",
+      description: "Employee zip",
+    },
+    phone: {
+      type: "string",
+      label: "Employee Phone",
+      description: "Employee phone",
+    },
+    returnPersonName: {
+      type: "string",
+      label: "Return Person Name",
+      description: "Company person name",
+    },
+    returnCompanyName: {
+      type: "string",
+      label: "Return Company Name",
+      description: "Company name",
+    },
+    returnAddressLine1: {
+      type: "string",
+      label: "Return Address Line 1",
+      description: "Company address in line 1",
+    },
+    returnAddressLine2: {
+      type: "string",
+      label: "Return Address Line 2",
+      description: "Company address in line 2, it is not a mandatory field",
+      optional: true,
+    },
+    returnAddressCity: {
+      type: "string",
+      label: "Return Address City",
+      description: "Company city",
+    },
+    returnAddressState: {
+      type: "string",
+      label: "Return Address State",
+      description: "Company state",
+    },
+    returnAddressCountry: {
+      type: "string",
+      label: "Return Address Country",
+      description: "Company country",
+    },
+    returnAddressZip: {
+      type: "string",
+      label: "Return Address Zip",
+      description: "Company zip",
+    },
+    companyEmail: {
+      type: "string",
+      label: "Company Email",
+      description: "Company email",
+    },
+    companyPhone: {
+      type: "string",
+      label: "Company Phone",
+      description: "Company phone",
     },
   },
   methods: {
-    getBaseUrl() {
-      return `${constants.BASE_URL}${constants.VERSION_PATH}`;
+    _baseUrl() {
+      return "https://remoteretrieval.com/RR-enterprise/remoteretrieval/public/index.php/api/v1";
     },
-    getUrl(path, url) {
-      return url || `${this.getBaseUrl()}${path}`;
+    async _makeRequest(opts = {}) {
+      const {
+        $ = this,
+        path,
+        headers,
+        ...otherOpts
+      } = opts;
+      return axios($, {
+        ...otherOpts,
+        url: this._baseUrl() + path,
+        headers: {
+          ...headers,
+          Authorization: `Bearer ${this.$auth.api_key}`,
+        },
+      });
     },
-    getHeaders(headers) {
-      return {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.$auth.api_key}`,
-        ...headers,
-      };
-    },
-    makeRequest({
-      step = this, path, headers, url, ...args
-    } = {}) {
-
-      const config = {
-        headers: this.getHeaders(headers),
-        url: this.getUrl(path, url),
-        ...args,
-      };
-
-      return axios(step, config);
-    },
-    post(args = {}) {
-      return this.makeRequest({
+    async createOrder(args = {}) {
+      return this._makeRequest({
+        path: "/create-order",
         method: "post",
         ...args,
       });
     },
-    getOrder({
-      oid, ...args
-    } = {}) {
-      return this.makeRequest({
-        path: `/device_returns?oid=${oid}/`,
+    async getOrders(args = {}) {
+      return this._makeRequest({
+        path: "/orders",
         ...args,
       });
     },
-    getDeviceReturnOrders(args = {}) {
-      return this.makeRequest({
+    async getOrderDetails(args = {}) {
+      return this._makeRequest({
         path: "/device_returns",
         ...args,
       });
-    },
-    getPendingOrders(args = {}) {
-      return this.makeRequest({
-        path: "/pending-orders/",
-        ...args,
-      });
-    },
-    async *getResourcesStream({
-      resourceFn,
-      resourceFnArgs,
-      max = constants.DEFAULT_MAX,
-    }) {
-      let page = 1;
-      let resourcesCount = 0;
-
-      while (true) {
-        const response =
-          await resourceFn({
-            ...resourceFnArgs,
-            params: {
-              page,
-              ...resourceFnArgs?.params,
-            },
-          });
-
-        if (!response || response.message === "Data not found!") {
-          console.log("No more resources found");
-          return;
-        }
-
-        for (const resource of response) {
-          yield resource;
-          resourcesCount += 1;
-
-          if (resourcesCount >= max) {
-            return;
-          }
-        }
-
-        page++;
-      }
     },
   },
 };

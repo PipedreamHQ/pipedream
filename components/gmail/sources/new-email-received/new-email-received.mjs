@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.1.5",
+  version: "0.1.9",
   dedupe: "unique",
   props: {
     gmail,
@@ -121,11 +121,14 @@ export default {
         );
       }
 
-      newProps.http = "$.interface.http";
+      newProps.http = {
+        type: "$.interface.http",
+        customResponse: true,
+      };
       newProps.timer = {
         type: "$.interface.timer",
         default: {
-          intervalSeconds: 24 * 60 * 60,
+          intervalSeconds: 60 * 60,
         },
         hidden: true,
       };
@@ -203,10 +206,17 @@ export default {
 
         props.latencyWarningAlert.hidden = false;
 
-        const historyId = await this.setupGmailNotifications(topicName);
+        const {
+          historyId, expiration,
+        } = await this.setupGmailNotifications(topicName);
         newProps.initialHistoryId = {
           type: "string",
           default: historyId,
+          hidden: true,
+        };
+        newProps.expiration = {
+          type: "string",
+          default: expiration,
           hidden: true,
         };
       }
@@ -279,6 +289,18 @@ export default {
     _setLastProcessedHistoryId(lastProcessedHistoryId) {
       this.db.set("lastProcessedHistoryId", lastProcessedHistoryId);
     },
+    _getExpiration() {
+      return this.db.get("expiration");
+    },
+    _setExpiration(expiration) {
+      this.db.set("expiration", expiration);
+    },
+    _getLastReceivedTime() {
+      return this.db.get("lastReceivedTime");
+    },
+    _setLastReceivedTime(lastReceivedTime) {
+      this.db.set("lastReceivedTime", lastReceivedTime);
+    },
     sdkParams() {
       const authKeyJSON = JSON.parse(this.serviceAccountKeyJson);
       const {
@@ -338,7 +360,7 @@ export default {
         },
       });
       console.log("Watch response:", watchResponse);
-      return watchResponse.historyId;
+      return watchResponse;
     },
     async getOrCreateTopic(name) {
       const sdkParams = this.sdkParams();
@@ -383,6 +405,29 @@ export default {
         )
         : history.filter((item) => item.messagesAdded?.length);
     },
+    async getMessageDetails(ids) {
+      const messages = await Promise.all(ids.map(async (id) => {
+        try {
+          const message = await this.gmail.getMessage({
+            id,
+          });
+          return message;
+        } catch {
+          console.log(`Could not find message ${id}`);
+          return null;
+        }
+      }));
+      return messages;
+    },
+    getHistoryResponse(startHistoryId) {
+      return this.gmail.listHistory({
+        startHistoryId,
+        historyTypes: [
+          "messageAdded",
+        ],
+        labelId: this.label,
+      });
+    },
   },
   async run(event) {
     if (this.triggerType === "polling") {
@@ -399,16 +444,31 @@ export default {
         // event was triggered by timer
         const topicName = this._getTopicName();
         if (topicName) {
-          // renew Gmail push notifications
-          await this.setupGmailNotifications(topicName);
+          // renew Gmail push notifications if expiring within the next hour
+          // or if no email has been received within the last hour
+          const currentExpiration = this._getExpiration();
+          const lastReceivedTime = this._getLastReceivedTime();
+          if (
+            (+currentExpiration < (event.timestamp + 3600) * 1000)
+            || (lastReceivedTime < (event.timestamp - 3600) * 1000)
+          ) {
+            const { expiration } = await this.setupGmailNotifications(topicName);
+            this._setExpiration(expiration);
+          }
           return;
         } else {
           // first run, no need to renew push notifications
           this._setTopicName(this.topic);
-          this._setLastProcessedHistoryId(this.initialHistoryId);
+          const initialHistoryId = this.initialHistoryId || this._getLastHistoryId();
+          this._setLastProcessedHistoryId(initialHistoryId);
+          this._setExpiration(this.expiration);
           return;
         }
       }
+
+      this.http.respond({
+        status: 200,
+      });
 
       // Extract the Pub/Sub message data
       const pubsubMessage = event.body.message;
@@ -428,20 +488,27 @@ export default {
       console.log("Last processed historyId:", lastProcessedHistoryId);
 
       // Use the minimum of lastProcessedHistoryId and the received historyId
-      const startHistoryId = Math.min(
+      let startHistoryId = Math.min(
         parseInt(lastProcessedHistoryId),
         parseInt(receivedHistoryId),
       );
       console.log("Using startHistoryId:", startHistoryId);
 
       // Fetch the history
-      const historyResponse = await this.gmail.listHistory({
-        startHistoryId,
-        historyTypes: [
-          "messageAdded",
-        ],
-        labelId: this.label,
-      });
+      let historyResponse;
+      try {
+        historyResponse = await this.getHistoryResponse(startHistoryId);
+      } catch {
+        // catch error thrown if startHistoryId is invalid or expired
+
+        // emit recent messages to attempt to avoid missing any messages
+        await this.emitRecentMessages();
+
+        // set startHistoryId to the historyId received from the webhook
+        startHistoryId = parseInt(receivedHistoryId);
+        console.log("Using startHistoryId:", startHistoryId);
+        historyResponse = await this.getHistoryResponse(startHistoryId);
+      }
 
       console.log(
         "History response:",
@@ -464,7 +531,7 @@ export default {
 
       // Fetch full message details for new messages
       const newMessageIds = newMessages?.map(({ id }) => id) || [];
-      const messageDetails = await this.gmail.getMessages(newMessageIds);
+      const messageDetails = await this.getMessageDetails(newMessageIds);
 
       if (!messageDetails?.length) {
         return;
@@ -477,7 +544,13 @@ export default {
       this._setLastProcessedHistoryId(latestHistoryId);
       console.log("Updated lastProcessedHistoryId:", latestHistoryId);
 
-      messageDetails.forEach((message) => this.emitEvent(message));
+      this._setLastReceivedTime(Date.now());
+
+      messageDetails.forEach((message) => {
+        if (message?.id) {
+          this.emitEvent(message);
+        }
+      });
     }
   },
 };

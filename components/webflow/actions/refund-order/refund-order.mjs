@@ -1,30 +1,28 @@
-import webflow from "../../webflow.app.mjs";
+import app from "../../webflow.app.mjs";
 
 export default {
   key: "webflow-refund-order",
   name: "Refund Order",
-  description: "Refund an order. [See the docs here](https://developers.webflow.com/#refund-order)",
-  version: "0.0.4",
+  description: "Refund an order. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/refund)",
+  version: "2.0.0",
   type: "action",
   props: {
-    webflow,
+    app,
     siteId: {
       propDefinition: [
-        webflow,
+        app,
         "sites",
       ],
     },
     orderId: {
       propDefinition: [
-        webflow,
+        app,
         "orders",
       ],
     },
   },
   async run({ $ }) {
-    const apiClient = this.webflow._createApiClient();
-
-    const response = apiClient.get(`/sites/${this.siteId}/order/${this.orderId}/refund`);
+    const response = await this.app.refundOrder(this.siteId, this.orderId);
 
     $.export("$summary", "Successfully refunded order");
 

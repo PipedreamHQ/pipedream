@@ -170,6 +170,9 @@ export default {
         },
       };
     },
+    getChannelId() {
+      return this.conversation ?? this.reply_channel;
+    },
   },
   async run({ $ }) {
     let blocks = this.blocks;
@@ -207,7 +210,7 @@ export default {
 
     const obj = {
       text: this.text,
-      channel: this.conversation ?? this.reply_channel,
+      channel: await this.getChannelId(),
       attachments: this.attachments,
       unfurl_links: this.unfurl_links,
       unfurl_media: this.unfurl_media,

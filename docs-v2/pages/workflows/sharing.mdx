@@ -1,4 +1,4 @@
-import { Cards, Card, Steps } from 'nextra/components'
+import { Cards, Steps } from 'nextra/components'
 import Callout from '@/components/Callout'
 import RocketShip from '@/components/RocketShip'
 import Image from 'next/image'
@@ -20,7 +20,7 @@ Creating a share link for your workflow will allow anyone with the link to creat
 Click **Deploy to Pipedream** below to create a copy of this workflow in your own Pipedream account.
 
 <Cards>
-  <Card icon={<RocketShip />} title="Deploy to Pipedream" href="https://pipedream.com/new?h=tch_OYWfjz" />
+  <Cards.Card icon={<RocketShip />} title="Deploy to Pipedream" href="https://pipedream.com/new?h=tch_OYWfjz" />
 </Cards>
 
 The copied workflow includes the same trigger, steps, and connected account configuration, but it has a separate event history and versioning from the original.

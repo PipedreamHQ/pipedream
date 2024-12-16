@@ -1,0 +1,49 @@
+import Callout from '@/components/Callout'
+import Image from 'next/image'
+
+# Environments
+
+Pipedream Connect projects support two environments: `development` and `production`. Connected accounts and credentials stored in `development` remain separate from `production`.
+
+<Callout type="info">
+Pipedream customers on any plan can use all of the Connect features in `development` mode. To use Connect in `production`, click **Contact Sales** [here](https://pipedream.com/pricing?plan=Enterprise) to get in touch with our team.
+</Callout>
+
+
+## How to specify the environment
+
+You specify the environment when [creating a new Connect token](/connect/api/#create-a-new-token) with the Pipedream SDK or API. When users succesfully connect their account, Pipedream saves the account credentials (API key, access token, etc) for that `external_user_id` in the specified environment.
+
+Always set the environment when you create the SDK client:
+
+```typescript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "your-oauth-client-id",
+    clientSecret: "your-oauth-client-secret",
+  }
+});
+```
+
+or pass the `X-PD-Environment` header in HTTP requests:
+
+```bash
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "your-external-user-id"
+  }'
+```
+
+<Callout type="warning">
+When connecting an account in `development`, make sure you're signed in to pipedream.com in the same browser where you're connecting your account. This is only a requirement for the `development` environment. **You should only use `development` with your own accounts when testing and developing, and not with your end users.**
+</Callout>
+
+<br />
+
+<Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1732654019/Google_Chrome_-_Pipedream_Connect_2024-11-26_at_12.45.06_PM_yp4gnl.png" alt="Connect in development mode" width={350} height={529} />

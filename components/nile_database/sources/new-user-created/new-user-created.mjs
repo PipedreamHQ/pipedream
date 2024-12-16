@@ -5,7 +5,7 @@ export default {
   key: "nile_database-new-user-created",
   name: "New User Created",
   description: "Emit new event when a new user is added in a Nile Database",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

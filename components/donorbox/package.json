@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/donorbox",
+  "version": "0.0.1",
+  "description": "Pipedream Donorbox Components",
+  "main": "donorbox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "donorbox"
+  ],
+  "homepage": "https://pipedream.com/apps/donorbox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

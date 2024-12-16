@@ -132,7 +132,6 @@ export default {
       }) {
         const count = 20;
         const { elements } = await this.searchLeadForms({
-          debug: true,
           params: {
             q: "owner",
             owner: `(sponsoredAccount:${this.getSponsoredAccountUrn(adAccountId)})`,
@@ -192,7 +191,6 @@ export default {
       leadFormId, ...args
     } = {}) {
       return this._makeRequest({
-        debug: true,
         path: `/leadForms/${leadFormId}`,
         ...args,
       });
@@ -202,7 +200,6 @@ export default {
         "organizer",
       ];
       return this._makeRequest({
-        debug: true,
         path: "/events",
         paramsSerializer: utils.getParamsSerializer(utils.encodeParamKeys(keys)),
         transformResponse: utils.transformResponse,
@@ -211,7 +208,6 @@ export default {
     },
     searchConversions(args = {}) {
       return this._makeRequest({
-        debug: true,
         path: "/conversions",
         paramsSerializer: utils.getParamsSerializer(utils.encodeFn),
         ...args,
@@ -224,7 +220,6 @@ export default {
         "associatedEntity",
       ];
       return this._makeRequest({
-        debug: true,
         path: "/leadFormResponses",
         paramsSerializer: utils.getParamsSerializer(utils.encodeParamKeys(keys)),
         ...args,

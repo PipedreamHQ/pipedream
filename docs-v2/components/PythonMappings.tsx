@@ -72,7 +72,7 @@ const PythonMappings = () => {
                 <a
                   target="_blank"
                   className="external"
-                  href={`https://pypi.org/project/${mapping[0]}`}
+                  href={`https://pypi.org/project/${mapping[0]}`} rel="noreferrer"
                 >
                   <span className="font-mono">{`# pipedream add-package ${mapping[0]}`}</span>
                 </a>

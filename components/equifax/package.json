@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/equifax",
+  "version": "0.0.1",
+  "description": "Pipedream Equifax Components",
+  "main": "equifax.app.mjs",
+  "keywords": [
+    "pipedream",
+    "equifax"
+  ],
+  "homepage": "https://pipedream.com/apps/equifax",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

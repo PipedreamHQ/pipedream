@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-delete-global-suppression",
   name: "Delete Global Suppression",
   description: "Allows you to remove an email address from the global suppressions group. [See the docs here](https://docs.sendgrid.com/api-reference/suppressions-global-suppressions/delete-a-global-suppression)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

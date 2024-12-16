@@ -219,7 +219,7 @@ export default {
       description: "Specify a subject for the email.",
     },
     body: {
-      type: "any",
+      type: "string",
       label: "Email Body",
       description: "Include an email body as either plain text or HTML. If HTML, make sure to set the \"Body Type\" prop to `html`.",
     },
