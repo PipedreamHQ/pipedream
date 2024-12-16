@@ -1,5 +1,5 @@
 import { REQUEST_TYPE_OPTIONS } from "../../common/constants.mjs";
-import identitynow from "../../identitynow.app.mjs";
+import sailpoint from "../../sailpoint.app.mjs";
 
 export default {
   key: "sailpoint-submit-access-request",
@@ -8,10 +8,10 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    identitynow,
+    sailpoint,
     requestedFor: {
       propDefinition: [
-        identitynow,
+        sailpoint,
         "requestedFor",
       ],
     },
@@ -35,7 +35,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.identitynow.submitAccessRequest({
+    const response = await this.sailpoint.submitAccessRequest({
       $,
       data: {
         requestedFor: this.requestedFor,
