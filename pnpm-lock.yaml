@@ -1499,6 +1499,9 @@ importers:
 
   components/call_fire: {}
 
+  components/callerapi:
+    specifiers: {}
+
   components/callhub:
     dependencies:
       '@pipedream/platform':
