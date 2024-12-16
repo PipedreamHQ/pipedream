@@ -5,7 +5,7 @@ export default {
   key: "github-list-gists-for-a-user",
   name: "List Gists for a User",
   description: "Lists public gists for the specified user. [See the documentation](https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#list-gists-for-a-user)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     github: {

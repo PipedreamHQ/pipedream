@@ -1,6 +1,19 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.12] - 2024-12-13
+
+- Don't throw when validating unexpected values from the api
+
+# [1.0.0-preview.11] - 2024-12-13
+
+- Make prop validation more consistent with app behavior
+- Relax validation of string props when value is not a string
+
+# [1.0.0-preview.10] - 2024-12-12
+
+- Enforce string length limits
+
 # [1.0.0-preview.9] - 2024-12-10
 
 - Disabled submit button when form is incomplete

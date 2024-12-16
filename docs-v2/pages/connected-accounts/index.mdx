@@ -9,7 +9,6 @@ Pipedream provides native integrations for [{process.env.PUBLIC_APPS}+ APIs](htt
 
 - [Link that account to any step of a workflow](#connecting-accounts), using the associated credentials to make API requests to any service.
 - [Manage permissions](#managing-connected-accounts), limiting access to sensitive accounts
-- [Access credentials via API](#accessing-credentials-via-api), letting you build services anywhere and use Pipedream to handle auth
 
 Pipedream handles OAuth for you, ensuring you always have a fresh access token to authorize requests, and [credentials are tightly-secured](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables).
 
@@ -38,6 +37,10 @@ For those services, you'll have to create your keys in the service itself, then 
 For example, if you add a new connected account for **Sendgrid**, you'll be asked to add your Sendgrid API key.
 
 ## Connecting accounts
+
+<Callout type="info">
+This section discusses connecting **your own account** within the Pipedream UI. If you're looking to use the connected accounts for your customers, check out the [Connect docs](/connect).
+</Callout>
 
 ### From an action
 
