@@ -122,10 +122,21 @@ export default {
         objectType,
       });
       const relevantProperties = properties.filter(this.isRelevantProperty);
+
       const propDefinitions = [];
+      if (this.propertyGroups && !relevantProperties?.length) {
+        propDefinitions.push({
+          type: "alert",
+          alertType: "info",
+          name: "infoAlert",
+          content: `No writable properties found for Property Group(s): ${this.propertyGroups.join(", ")}`,
+        });
+      }
+
       for (const property of relevantProperties) {
         propDefinitions.push(await this.makePropDefinition(property, schema.requiredProperties));
       }
+
       if (existingProps.objectProperties) {
         existingProps.objectProperties.hidden = true;
         existingProps.objectProperties.optional = true;
@@ -133,6 +144,7 @@ export default {
       if (existingProps.propertyGroups) {
         existingProps.propertyGroups.hidden = false;
       }
+
       return propDefinitions
         .reduce((props, {
           name, ...definition
