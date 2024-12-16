@@ -37,7 +37,8 @@ export type FormContext<T extends ConfigurableProps> = {
 export const skippablePropTypes = [
   "$.service.db",
   "$.interface.http",
-  "$.interface.apphook",
+  "$.interface.timer", // TODO add support for this (cron string and timers)
+  "$.interface.apphook", // TODO can remove this when the api supports external users on these types of triggers
 ]
 
 export const FormContext = createContext<FormContext<any /* XXX fix */> | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
