@@ -1499,8 +1499,7 @@ importers:
 
   components/call_fire: {}
 
-  components/callerapi:
-    specifiers: {}
+  components/callerapi: {}
 
   components/callhub:
     dependencies:
