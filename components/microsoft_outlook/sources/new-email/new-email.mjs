@@ -13,7 +13,7 @@ export default {
     async activate() {
       await this.activate({
         changeType: "created",
-        resource: "/me/mailfolders('inbox')/messages",
+        resource: "/me/messages",
       });
     },
     async deactivate() {
