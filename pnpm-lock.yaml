@@ -7506,7 +7506,11 @@ importers:
 
   components/pendo: {}
 
-  components/pennylane: {}
+  components/pennylane:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/people_data_labs:
     dependencies:
