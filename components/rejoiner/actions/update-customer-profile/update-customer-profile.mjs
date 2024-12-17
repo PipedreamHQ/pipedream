@@ -1,37 +1,107 @@
 import rejoiner from "../../rejoiner.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "rejoiner-update-customer-profile",
   name: "Update Customer Profile",
-  description: "Updates a customer's profile information. [See the documentation](https://docs.rejoiner.com/docs/getting-started)",
-  version: "0.0.{{ts}}",
+  description: "Updates a customer's profile information. [See the documentation](https://docs.rejoiner.com/reference/update-customer-profile)",
+  version: "0.0.1",
   type: "action",
   props: {
     rejoiner,
-    customerId: {
+    email: {
       propDefinition: [
         rejoiner,
-        "customerId",
+        "email",
       ],
     },
-    profileData: {
+    firstName: {
       propDefinition: [
         rejoiner,
-        "profileData",
+        "firstName",
       ],
     },
-    updateSource: {
+    lastName: {
       propDefinition: [
         rejoiner,
-        "updateSource",
+        "lastName",
       ],
-      optional: true,
+    },
+    phone: {
+      propDefinition: [
+        rejoiner,
+        "phone",
+      ],
+    },
+    timezone: {
+      propDefinition: [
+        rejoiner,
+        "timezone",
+      ],
+    },
+    language: {
+      propDefinition: [
+        rejoiner,
+        "language",
+      ],
+    },
+    address1: {
+      propDefinition: [
+        rejoiner,
+        "address1",
+      ],
+    },
+    address2: {
+      propDefinition: [
+        rejoiner,
+        "address2",
+      ],
+    },
+    city: {
+      propDefinition: [
+        rejoiner,
+        "city",
+      ],
+    },
+    state: {
+      propDefinition: [
+        rejoiner,
+        "state",
+      ],
+    },
+    postalCode: {
+      propDefinition: [
+        rejoiner,
+        "postalCode",
+      ],
+    },
+    country: {
+      propDefinition: [
+        rejoiner,
+        "country",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.rejoiner.updateCustomerProfile();
-    $.export("$summary", `Updated customer profile for customer_id ${this.customerId}`);
+    const response = await this.rejoiner.updateCustomerProfile({
+      $,
+      params: {
+        email: this.email,
+      },
+      data: {
+        first_name: this.firstName,
+        last_name: this.lastName,
+        phone: this.phone,
+        timezone: this.timezone,
+        language: this.language,
+        address1: this.address1,
+        address2: this.address2,
+        city: this.city,
+        state: this.state,
+        postal_code: this.postalCode,
+        country: this.country,
+      },
+    });
+    $.export("$summary", `Updated customer profile for customer ${this.email}`);
     return response;
   },
 };

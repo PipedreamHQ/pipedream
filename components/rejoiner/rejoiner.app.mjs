@@ -4,133 +4,170 @@ export default {
   type: "app",
   app: "rejoiner",
   propDefinitions: {
-    customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: "Unique identifier for the customer",
-    },
     listId: {
       type: "string",
       label: "List ID",
       description: "Unique identifier for the list",
+      async options() {
+        const lists = await this.listLists();
+        return lists?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    listSource: {
+    email: {
       type: "string",
-      label: "List Source",
-      description: "Source context of the list",
+      label: "Email",
+      description: "The email address of the customer",
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the customer",
       optional: true,
     },
-    journeyId: {
+    lastName: {
       type: "string",
-      label: "Journey ID",
-      description: "Unique identifier for the journey",
-    },
-    metadata: {
-      type: "string",
-      label: "Metadata",
-      description: "Additional data relevant to the journey start",
+      label: "Last Name",
+      description: "The last name of the customer",
       optional: true,
     },
-    profileData: {
-      type: "object",
-      label: "Profile Data",
-      description: "An object containing updated profile attributes",
-    },
-    updateSource: {
+    phone: {
       type: "string",
-      label: "Update Source",
-      description: "Context for the update",
+      label: "Phone",
+      description: "A phone number for the customer",
+      optional: true,
+    },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "Timezone of customer, should be in list of [TZ database names](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)",
+      optional: true,
+    },
+    language: {
+      type: "string",
+      label: "Language",
+      description: "Two letter [code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) of customers language",
+      optional: true,
+    },
+    address1: {
+      type: "string",
+      label: "Address Line 1",
+      description: "First line of address for customer",
+      optional: true,
+    },
+    address2: {
+      type: "string",
+      label: "Address Line 2",
+      description: "Second line of address for customer",
+      optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "City where customer lives",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "State where customer lives",
+      optional: true,
+    },
+    postalCode: {
+      type: "string",
+      label: "Postal Code",
+      description: "Postal code of customer's address",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Country where customer lives",
       optional: true,
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.rejoiner.com";
+      return `https://rj2.rejoiner.com/api/v2/${this.$auth.site_id}`;
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
-        method = "GET",
-        path = "/",
-        headers,
+        path,
         ...otherOpts
       } = opts;
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_token}`,
+          "Authorization": `Rejoiner ${this.$auth.api_key}`,
           "Content-Type": "application/json",
         },
+        debug: true,
+        ...otherOpts,
       });
     },
-    async emitOptOutEvent() {
+    listLists(opts = {}) {
+      return this._makeRequest({
+        path: "/lists",
+        ...opts,
+      });
+    },
+    listListContacts({
+      listId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/lists/${listId}/contacts/`,
+        ...opts,
+      });
+    },
+    addCustomerToList({
+      listId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/events/opt-out",
-        data: {
-          customer_id: this.customerId,
-        },
+        path: `/lists/${listId}/contacts/`,
+        ...opts,
       });
     },
-    async addCustomerToList() {
-      const data = {
-        customer_id: this.customerId,
-        list_id: this.listId,
-      };
-      if (this.listSource) {
-        data.list_source = this.listSource;
-      }
-      return this._makeRequest({
-        method: "POST",
-        path: "/customers/lists",
-        data,
-      });
-    },
-    async triggerCustomerJourney() {
-      const data = {
-        journey_id: this.journeyId,
-        customer_id: this.customerId,
-      };
-      if (this.metadata) {
-        try {
-          data.metadata = JSON.parse(this.metadata);
-        } catch (error) {
-          throw new Error("Invalid JSON format for metadata");
-        }
-      }
-      return this._makeRequest({
-        method: "POST",
-        path: "/journeys/trigger",
-        data,
-      });
-    },
-    async updateCustomerProfile() {
-      if (!this.customerId) {
-        throw new Error("customer_id is required");
-      }
-      if (!this.profileData || typeof this.profileData !== "object") {
-        throw new Error("profile_data is required and must be an object");
-      }
-      const data = {
-        customer_id: this.customerId,
-        profile_data: this.profileData,
-      };
-      if (this.updateSource) {
-        data.update_source = this.updateSource;
-      }
+    updateCustomerProfile(opts = {}) {
       return this._makeRequest({
         method: "PUT",
-        path: `/customers/${this.customerId}/profile`,
-        data,
+        path: "/customers/by_email/",
+        ...opts,
       });
     },
+    async *paginate({
+      fn,
+      args,
+      max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          page: 1,
+        },
+      };
+      let total, itemCount = 0;
+
+      do {
+        const {
+          results, count,
+        } = await fn(args);
+        for (const item of results) {
+          yield item;
+          itemCount++;
+          if (max && itemCount >= max) {
+            return;
+          }
+        }
+        total = count;
+        args.params.page++;
+      } while (itemCount < total);
+    },
   },
-  version: "0.0.{{ts}}",
 };
