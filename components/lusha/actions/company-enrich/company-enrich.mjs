@@ -1,33 +1,37 @@
 import lusha from "../../lusha.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "lusha-company-enrich",
   name: "Enrich Companies",
-  description: "Enriches company information based on provided company IDs. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Enriches company information based on provided company IDs. [See the documentation](https://www.lusha.com/docs/#company-enrich)",
+  version: "0.0.1",
   type: "action",
   props: {
     lusha,
-    enrichCompanyRequestId: {
+    requestId: {
       propDefinition: [
         lusha,
-        "enrichCompanyRequestId",
+        "requestId",
       ],
+      label: "Company Request ID",
+      description: "The request ID generated from the company search response.",
     },
-    enrichCompanyIds: {
+    companiesIds: {
       propDefinition: [
         lusha,
-        "enrichCompanyIds",
+        "companiesIds",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.lusha.enrichCompanies({
-      enrichCompanyRequestId: this.enrichCompanyRequestId,
-      enrichCompanyIds: this.enrichCompanyIds,
+      $,
+      params: {
+        requestId: this.requestId,
+        companiesIds: this.companiesIds,
+      },
     });
-    $.export("$summary", `Successfully enriched ${this.enrichCompanyIds.length} companies`);
+    $.export("$summary", `Successfully enriched ${this.companiesIds.length} companies`);
     return response;
   },
 };

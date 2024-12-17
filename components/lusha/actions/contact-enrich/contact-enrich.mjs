@@ -3,33 +3,35 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-contact-enrich",
   name: "Enrich Contacts",
-  description: "Enriches contacts based on provided IDs. [See the documentation](https://www.lusha.com/docs/)",
-  version: "0.0.{{ts}}",
+  description: "Enriches contacts based on provided IDs. [See the documentation](https://www.lusha.com/docs/#contact-enrich)",
+  version: "0.0.1",
   type: "action",
   props: {
-    lusha: {
-      type: "app",
-      app: "lusha",
-    },
-    enrichContactRequestId: {
+    lusha,
+    requestId: {
       propDefinition: [
-        "lusha",
-        "enrichContactRequestId",
+        lusha,
+        "requestId",
       ],
+      label: "Company Request ID",
+      description: "The request ID generated from the company search response.",
     },
-    enrichContactIds: {
+    contactIds: {
       propDefinition: [
-        "lusha",
-        "enrichContactIds",
+        lusha,
+        "contactIds",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.lusha.enrichContacts({
-      enrichContactRequestId: this.enrichContactRequestId,
-      enrichContactIds: this.enrichContactIds,
+      $,
+      params: {
+        requestId: this.requestId,
+        contactIds: this.contactIds,
+      },
     });
-    $.export("$summary", `Successfully enriched ${this.enrichContactIds.length} contacts`);
+    $.export("$summary", `Successfully enriched ${this.contactIds.length} contacts`);
     return response;
   },
 };

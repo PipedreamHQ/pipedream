@@ -1,107 +1,98 @@
+import { parseObject } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "lusha-contact-search",
   name: "Search Contacts",
-  description: "Search for contacts using various filters. [See the documentation](https://www.lusha.com/docs/)",
-  version: "0.0.{{ts}}",
+  description: "Search for contacts using various filters. [See the documentation](https://www.lusha.com/docs/#contactcompany-search)",
+  version: "0.0.1",
   type: "action",
   props: {
     lusha,
-    searchContactNames: {
+    names: {
       propDefinition: [
         lusha,
-        "searchContactNames",
+        "contactNames",
+      ],
+      label: "Contact Names",
+      description: "Names of contacts to search.",
+    },
+    jobTitles: {
+      propDefinition: [
+        lusha,
+        "jobTitles",
       ],
     },
-    searchContactJobTitles: {
+    jobTitlesExactMatch: {
       propDefinition: [
         lusha,
-        "searchContactJobTitles",
+        "jobTitlesExactMatch",
       ],
     },
-    searchContactJobTitlesExactMatch: {
+    countries: {
       propDefinition: [
         lusha,
-        "searchContactJobTitlesExactMatch",
+        "countries",
       ],
     },
-    searchContactCountries: {
+    seniority: {
       propDefinition: [
         lusha,
-        "searchContactCountries",
+        "seniority",
       ],
     },
-    searchContactSeniority: {
+    departments: {
       propDefinition: [
         lusha,
-        "searchContactSeniority",
+        "departments",
       ],
     },
-    searchContactDepartments: {
+    existingDataPoints: {
       propDefinition: [
         lusha,
-        "searchContactDepartments",
+        "existingDataPoints",
       ],
     },
-    searchContactExistingDataPoints: {
+    location: {
       propDefinition: [
         lusha,
-        "searchContactExistingDataPoints",
-      ],
-    },
-    searchContactLocation: {
-      propDefinition: [
-        lusha,
-        "searchContactLocation",
+        "location",
       ],
     },
   },
   async run({ $ }) {
-    const args = {};
+    const include = {};
 
-    if (this.searchContactNames && this.searchContactNames.length > 0) {
-      args.searchContactNames = this.searchContactNames;
+    if (this.names) include.names = parseObject(this.names);
+    if (this.jobTitles) include.jobTitles = parseObject(this.jobTitles);
+    if (this.jobTitlesExactMatch)
+      include.jobTitlesExactMatch = parseObject(this.jobTitlesExactMatch);
+    if (this.countries) include.countries = parseObject(this.countries);
+    if (this.seniority) include.seniority = parseObject(this.seniority);
+    if (this.departments) include.departments = parseObject(this.departments);
+    if (this.existingDataPoints) include.existingDataPoints = parseObject(this.existingDataPoints);
+    if (this.location) include.location = parseObject(this.location);
+
+    const response = this.lusha.paginate({
+      $,
+      maxResults: this.limit,
+      fn: this.lusha.searchContacts,
+      data: {
+        filters: {
+          contacts: {
+            include,
+          },
+        },
+      },
+    });
+
+    const responseArray = [];
+
+    for await (const item of response) {
+      responseArray.push(item);
     }
 
-    if (this.searchContactJobTitles && this.searchContactJobTitles.length > 0) {
-      args.searchContactJobTitles = this.searchContactJobTitles;
-    }
-
-    if (
-      this.searchContactJobTitlesExactMatch &&
-      this.searchContactJobTitlesExactMatch.length > 0
-    ) {
-      args.searchContactJobTitlesExactMatch = this.searchContactJobTitlesExactMatch;
-    }
-
-    if (this.searchContactCountries && this.searchContactCountries.length > 0) {
-      args.searchContactCountries = this.searchContactCountries;
-    }
-
-    if (this.searchContactSeniority && this.searchContactSeniority.length > 0) {
-      args.searchContactSeniority = this.searchContactSeniority;
-    }
-
-    if (this.searchContactDepartments && this.searchContactDepartments.length > 0) {
-      args.searchContactDepartments = this.searchContactDepartments;
-    }
-
-    if (
-      this.searchContactExistingDataPoints &&
-      this.searchContactExistingDataPoints.length > 0
-    ) {
-      args.searchContactExistingDataPoints = this.searchContactExistingDataPoints;
-    }
-
-    if (this.searchContactLocation && this.searchContactLocation.length > 0) {
-      args.searchContactLocation = this.searchContactLocation;
-    }
-
-    const response = await this.lusha.searchContacts(args);
-
-    $.export("$summary", `Found ${response.totalResults} contacts`);
+    $.export("$summary", `Found ${responseArray.length} contacts`);
     return response;
   },
 };
