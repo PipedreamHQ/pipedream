@@ -71,7 +71,6 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
     return <ControlBoolean />;
   case "string":
   case "integer":
-  case "$.interface.timer":
     // XXX split into ControlString, ControlInteger, etc? but want to share autoComplet="off", etc functionality in base one
     return <ControlInput />;
   default:

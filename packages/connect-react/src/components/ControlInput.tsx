@@ -36,9 +36,6 @@ export function ControlInput() {
       ? parseInt(v)
       : undefined;
     break;
-  case "$.interface.timer":
-    inputType = "number"
-    break;
   default:
     throw new Error("unexpected prop.type for ControlInput: " + prop.type);
   }
