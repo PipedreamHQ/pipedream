@@ -5,9 +5,9 @@ export default {
   ...common,
   key: "asana-task-field-updated-in-project",
   type: "source",
-  name: "Task Field Updated In Project (Instant)",
+  name: "New Task Field Updated In Project (Instant)",
   description: "Emit new event whenever given task fields are updated.",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
     ...common.props,

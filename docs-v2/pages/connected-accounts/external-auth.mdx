@@ -15,7 +15,7 @@ Passing external credentials at runtime is a feature that's available to custome
 
 ## Pass credentials via HTTP
 
-1. If not already configured, [add an HTTP trigger](/workflows/steps/triggers/#http) to your workflow.
+1. If not already configured, [add an HTTP trigger](/workflows/triggers/#http) to your workflow.
 2. From your app, retrieve credentials and send them in an HTTP request to the endpoint with the rest of the payload.
 3. In the step of your workflow where you'd like to pass these credentials, select the **Use external authentication** option at the bottom-right of the account selector:
 
@@ -34,7 +34,7 @@ Default logging
 
 When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/workflows/settings/#data-retention-controls) you've configured.
 
-You can set [the `pd-nostore` flag](/workflows/steps/triggers/#x-pd-nostore) to `1` on requests with credentials to disable logging for those requests only.
+You can set [the `pd-nostore` flag](/workflows/triggers/#x-pd-nostore) to `1` on requests with credentials to disable logging for those requests only.
 </Callout>
 
 ## Fetch credentials from a DB or secrets store
@@ -57,5 +57,5 @@ Default logging
 
 When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/workflows/settings/#data-retention-controls) you've configured.
 
-You can set [the `pd-nostore` flag](/workflows/steps/triggers/#x-pd-nostore) to `1` on requests with credentials to disable logging for those requests only.
+You can set [the `pd-nostore` flag](/workflows/triggers/#x-pd-nostore) to `1` on requests with credentials to disable logging for those requests only.
 </Callout>

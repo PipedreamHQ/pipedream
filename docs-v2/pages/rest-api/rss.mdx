@@ -1,8 +1,8 @@
 # REST API example: Create an RSS source
 
-Here, we'll walk through an example of how to create an RSS [event source](/sources/) and retrieve events from that source using the [REST API](/api/rest/). 
+Here, we'll walk through an example of how to create an RSS [event source](/sources/) and retrieve events from that source using the [REST API](/rest-api/). 
 
-Before you begin, you'll need your [Pipedream API Key](/rest-api/auth/#pipedream-api-key).
+Before you begin, you'll need your [Pipedream API Key](/rest-api/auth#user-api-keys).
 
 ## Find the details of the source you'd like to create
 
@@ -129,4 +129,4 @@ curl -H "Authorization: Bearer <api key>" \
   "https://api.pipedream.com/v1/sources/dc_BVuN2Q/event_summaries"
 ```
 
-[See the docs on the `/event_summaries` endpoint](/api/rest/#get-source-events) for more details on the parameters it accepts. For example, you can pass a `limit` param to return only `N` results per page, and paginate over results using the `before` and `after` cursors described in the [pagination docs](/api/rest/#pagination).
+[See the docs on the `/event_summaries` endpoint](/rest-api/#get-source-events) for more details on the parameters it accepts. For example, you can pass a `limit` param to return only `N` results per page, and paginate over results using the `before` and `after` cursors described in the [pagination docs](/rest-api/#pagination).

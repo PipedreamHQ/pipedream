@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-new-customer-created",
   name: "New Customer Created",
   description: "Emit new event when a new customer is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -17,11 +17,8 @@ export default {
     getFieldList() {
       return "Customer";
     },
-    getFieldDate() {
-      return "CreateTime";
-    },
     getSummary(item) {
-      return `New Customer: ${item.Id}`;
+      return `New Customer: ${item.DisplayName}`;
     },
   },
   sampleEmit,

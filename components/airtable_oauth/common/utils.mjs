@@ -37,9 +37,9 @@ function fieldTypeToPropType(fieldType) {
   case FieldType.EXTERNAL_SYNC_SOURCE:
   case FieldType.LAST_MODIFIED_BY:
   case FieldType.LAST_MODIFIED_TIME:
-  case FieldType.URL:
     return "object";
   // string
+  case FieldType.URL:
   case FieldType.SINGLE_COLLABORATOR:
   case FieldType.DATE:
   case FieldType.DATE_TIME:

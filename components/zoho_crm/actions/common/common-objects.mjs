@@ -28,23 +28,33 @@ export default {
         && !field.system_mandatory
         && field.operation_type[`api_${type}`]
         && ![
-          "picklist",
           "lookup",
           "ownerlookup",
           "profileimage",
         ].includes(field.data_type));
     },
-    getType(dataType) {
+    getType({
+      data_type: dataType, json_type: jsonType,
+    }) {
+      let type;
       switch (dataType) {
       case "boolean":
-        return "boolean";
+        type = "boolean";
+        break;
       case "integer":
-        return "integer";
+        type = "integer";
+        break;
       case "bigint":
-        return "integer";
+        type = "integer";
+        break;
       default:
-        return "string";
+        type = "string";
+        break;
+      };
+      if (jsonType === "jsonarray") {
+        return `${type}[]`;
       }
+      return type;
     },
     getRequiredProps(moduleType, type = "create") {
       let props = {};
@@ -138,12 +148,40 @@ export default {
       const { fields } = await this.listFields(moduleType);
       for (const field of this.filterFields(fields, type)) {
         props[field.api_name] = {
-          type: this.getType(field.data_type),
+          type: this.getType(field),
           label: field.display_label,
           optional: true,
         };
+        if (field.pick_list_values?.length) {
+          props[field.api_name].options = field.pick_list_values.map(({
+            display_value: label, actual_value: value,
+          }) => ({
+            value,
+            label,
+          }));
+        }
       }
       return props;
+    },
+    parseFields(fields) {
+      if (!fields) {
+        return;
+      }
+      for (const [
+        key,
+        value,
+      ] of Object.entries(fields)) {
+        try {
+          if (typeof value === "string") {
+            fields[key] = typeof JSON.parse(value) === "number"
+              ? value
+              : JSON.parse(value);
+          }
+        } catch {
+          fields[key] = value;
+        }
+      }
+      return fields;
     },
   },
 };

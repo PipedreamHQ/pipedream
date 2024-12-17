@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.1.7",
+  version: "0.1.9",
   dedupe: "unique",
   props: {
     gmail,
@@ -419,6 +419,15 @@ export default {
       }));
       return messages;
     },
+    getHistoryResponse(startHistoryId) {
+      return this.gmail.listHistory({
+        startHistoryId,
+        historyTypes: [
+          "messageAdded",
+        ],
+        labelId: this.label,
+      });
+    },
   },
   async run(event) {
     if (this.triggerType === "polling") {
@@ -479,20 +488,27 @@ export default {
       console.log("Last processed historyId:", lastProcessedHistoryId);
 
       // Use the minimum of lastProcessedHistoryId and the received historyId
-      const startHistoryId = Math.min(
+      let startHistoryId = Math.min(
         parseInt(lastProcessedHistoryId),
         parseInt(receivedHistoryId),
       );
       console.log("Using startHistoryId:", startHistoryId);
 
       // Fetch the history
-      const historyResponse = await this.gmail.listHistory({
-        startHistoryId,
-        historyTypes: [
-          "messageAdded",
-        ],
-        labelId: this.label,
-      });
+      let historyResponse;
+      try {
+        historyResponse = await this.getHistoryResponse(startHistoryId);
+      } catch {
+        // catch error thrown if startHistoryId is invalid or expired
+
+        // emit recent messages to attempt to avoid missing any messages
+        await this.emitRecentMessages();
+
+        // set startHistoryId to the historyId received from the webhook
+        startHistoryId = parseInt(receivedHistoryId);
+        console.log("Using startHistoryId:", startHistoryId);
+        historyResponse = await this.getHistoryResponse(startHistoryId);
+      }
 
       console.log(
         "History response:",

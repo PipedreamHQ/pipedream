@@ -1,4 +1,6 @@
 {
+  "installCommand": "npx pnpm@9.14.2 install --frozen-lockfile=false",
+  "buildCommand": "npx pnpm@9.14.2 run build",
   "redirects": [
     {
       "source": "/docs/v3",
@@ -275,6 +277,18 @@
     {
       "source": "/docs/workflows/networking",
       "destination": "/docs/databases#connecting-to-restricted-databases"
+    },
+    {
+      "source": "/docs/connected-accounts/api",
+      "destination": "/docs/connect/api#accounts"
+    },
+    {
+      "source": "/docs/connect/quickstart#use-connect-link",
+      "destination": "/docs/connect/quickstart#or-use-connect-link"
+    },
+    {
+      "source": "/docs/connect/quickstart#connect-a-users-account",
+      "destination": "/docs/connect/quickstart#connect-your-users-account"
     }
   ]
 }

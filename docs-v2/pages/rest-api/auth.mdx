@@ -32,7 +32,7 @@ In the client credentials model, you exchange your OAuth client ID and secret fo
 If you're running a server that executes JavaScript, we recommend using [the Pipedream SDK](/connect/api#installing-the-typescript-sdk), which automatically refreshes tokens for you.
 
 ```javascript
-import { createBackendClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
  
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
