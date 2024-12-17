@@ -106,7 +106,6 @@ export default {
           "Authorization": `Rejoiner ${this.$auth.api_key}`,
           "Content-Type": "application/json",
         },
-        debug: true,
         ...otherOpts,
       });
     },
