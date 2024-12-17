@@ -1,6 +1,10 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.13] - 2024-12-17
+
+- Added skippable prop types to support triggers
+
 # [1.0.0-preview.12] - 2024-12-13
 
 - Don't throw when validating unexpected values from the api
