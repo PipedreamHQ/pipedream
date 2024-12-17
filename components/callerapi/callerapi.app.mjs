@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "domo",
+  app: "callerapi",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

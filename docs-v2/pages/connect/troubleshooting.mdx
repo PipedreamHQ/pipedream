@@ -1,10 +1,12 @@
+import Callout from '@/components/Callout'
+
 # Troubleshooting
 
 Below are some common errors when connecting your users' accounts via Pipedream Connect.
 
 ### Error creating a Connect token
 
-_Error creating token: Error: Failed to obtain OAuth token: Response Error: 401 Unauthorized_
+>Error creating token: Error: Failed to obtain OAuth token: Response Error: 401 Unauthorized
 
 Authorization to the Pipedream API failed when creating the Connect token. Double-check the client ID or secret for your [Pipedream OAuth client](/connect/api#authentication).
 
@@ -12,11 +14,11 @@ Authorization to the Pipedream API failed when creating the Connect token. Doubl
 
 Most errors when connecting an account are related to the [Connect token](/connect/tokens), which Pipedream validates from the Connect iFrame.
 
-#### Possible errors
+#### Common errors
 
-_This link has expired. Please request a new one from the app developer._
+>This link has expired. Please request a new one from the app developer.
 
-_This session has expired. Please refresh the page to try again._
+>This session has expired. Please refresh the page to try again.
 
 #### Troubleshooting steps
 
@@ -32,14 +34,18 @@ and check the response for error messages.
 
 #### Token validation errors
 
-_The Pipedream Connect token is invalid. Please generate a new one and try again._
+>The Pipedream Connect token is invalid. Please generate a new one and try again.
 
 Connect tokens expire, and are only able to be used once. Try generating a new token and try again.
 
-_App not found. Please check your app id._
+>App not found. Please check your app id.
 
 Double-check the app slug you're passing [when connecting your user's account](/connect/quickstart#connect-your-users-account).
 
 ### Connection failed. Please retry or contact support.
 
 The user may have closed the OAuth popup window without completing authorization.
+
+<Callout type="info">
+If you're still have trouble or hitting an error that isn't listed here, [get in touch with us](https://pipedream.com/support). We'd love to help.
+</Callout>
