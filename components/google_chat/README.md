@@ -15,7 +15,7 @@ The Google Chat API allows you to build custom bots for Google Chat, enabling au
 
 ## Creating a Google Chat app
 In order to connect your workspace Google Chat account to Pipedream, you'll need do the following:
-1. Create a Google Chat app in Google Cloud (a Google workspace account is required.)
+1. Create a Google Chat app in Google Cloud (a Google workspace account is required).
 2. Connect this app using custom OAuth clients on Pipedream. See the directions [here](https://pipedream.com/docs/connected-accounts/oauth-clients) on how to configure a custom OAuth client on Pipedream.
 
 1. Sign in to the [Google Cloud Console](https://cloud.google.com/)

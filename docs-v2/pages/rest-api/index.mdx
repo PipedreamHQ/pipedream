@@ -163,6 +163,10 @@ failure of an API request:
 
 ## Accounts
 
+<Callout type="info">
+These docs discuss connected accounts **for Pipedream users**. To retrieve accounts for your end users via Connect, refer to the [Connect API docs](/connect/api#accounts).
+</Callout>
+
 [Connected accounts](/connected-accounts/) let you manage credentials for integrated APIs.
 
 ### List accounts
@@ -186,12 +190,6 @@ You can find the app's ID in the response from the [List apps](#list-apps) endpo
 `oauth_app_id` **string** (_optional_)
 
 The ID of the custom [OAuth app](/connect/quickstart#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
-
----
-
-`external_user_id` **string** (_optional_)
-
-[The external user ID](/connect/api/#external-users) in your system that you want to retrieve accounts for.
 
 ---
 
@@ -229,7 +227,7 @@ curl 'https://api.pipedream.com/v1/accounts' \
 
 ### Get account
 
-By default, this route returns metadata for a specific connected account. Set `include_credentials=true` to return credentials that you can use in any app where you need auth. [See this guide](/connected-accounts/api/) to learn more.
+By default, this route returns metadata for a specific connected account. Set `include_credentials=true` to return credentials that you can use in any app where you need the actual credentials (API key or OAuth access token for example).
 
 #### Endpoint
 
@@ -345,6 +343,24 @@ GET /apps
 
 A query string to filter the list of apps. For example, to search for apps that **contain** the string "Slack", pass `q=Slack`.
 
+---
+
+`has_components` **string** (_optional_)
+
+Pass `1` to filter the list of apps to only those with public triggers or actions.
+
+---
+
+`has_actions` **string** (_optional_)
+
+Pass `1` to filter the list of apps to only those with public actions.
+
+---
+
+`has_triggers` **string** (_optional_)
+
+Pass `1` to filter the list of apps to only those with public triggers.
+
 #### Example Request
 
 ```shell
@@ -438,6 +454,10 @@ curl https://api.pipedream.com/v1/apps/app_OkrhR1 \
 ```
 
 ## Components
+
+<Callout type="info">
+These docs discuss the management of Pipedream components. To run components on behalf of your end users in your application, refer to the [Connect API docs](/connect/api#components).
+</Callout>
 
 Components are objects that represent the code for an [event source](#sources).
 

@@ -3,25 +3,28 @@ export default {
     "title": "Overview",
   },
   "use-cases": {
-    "title": "Use Cases",
+    "title": "Use cases",
   },
   "quickstart": {
-    "title": "Quickstart",
+    "title": "Managed auth",
   },
   "workflows": {
     "title": "Running workflows",
   },
+  "components": {
+    "title": "Running components",
+  },
   "api": {
-    "title": "API & SDK Reference",
+    "title": "API & SDK reference",
   },
   "tokens": {
-    "title": "Connect Tokens",
+    "title": "Connect tokens",
   },
   "environments": {
     "title": "Environments",
   },
   "oauth-clients": {
-    "title": "OAuth Clients",
+    "title": "OAuth clients",
   },
   "webhooks": {
     "title": "Webhooks",
@@ -29,11 +32,11 @@ export default {
   "connect-link": {
     "title": "Connect Link",
   },
+  "customize-your-app": {
+    "title": "Customize your app",
+  },
   "troubleshooting": {
     "title": "Troubleshooting",
-  },
-  "customize-your-app": {
-    "title": "Customize Your App",
   },
   "migrating-from-project-keys-to-oauth": {
     "display": "hidden",
