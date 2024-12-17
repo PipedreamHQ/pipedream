@@ -38,6 +38,13 @@ export type FormContext<T extends ConfigurableProps> = {
   userId: string;
 };
 
+export const skippablePropTypes = [
+  "$.service.db",
+  "$.interface.http",
+  "$.interface.apphook",
+  "$.interface.timer", // TODO add support for this (cron string and timers)
+]
+
 export const FormContext = createContext<FormContext<any /* XXX fix */> | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
 
 export const useFormContext = () => {
@@ -172,7 +179,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   // so can't rely on that base control form validation
   const propErrors = (prop: ConfigurableProp, value: unknown): string[] => {
     const errs: string[] = [];
-    if (prop.optional || prop.hidden || prop.disabled) return []
+    if (prop.optional || prop.hidden || prop.disabled || skippablePropTypes.includes(prop.type)) return []
     if (prop.type === "app") {
       const field = fields[prop.name]
       if (field) {
@@ -245,6 +252,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     const newConfiguredProps: ConfiguredProps<T> = {};
     for (const prop of configurableProps) {
       if (prop.hidden) {
+        continue;
+      }
+      if (skippablePropTypes.includes(prop.type)) {
         continue;
       }
       // if prop.optional and not shown, we skip and do on un-collapse
@@ -336,7 +346,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const checkPropsNeedConfiguring = () => {
     const _propsNeedConfiguring = []
     for (const prop of configurableProps) {
-      if (!prop || prop.optional || prop.hidden) continue
+      if (!prop || prop.optional || prop.hidden || skippablePropTypes.includes(prop.type)) continue
       const value = configuredProps[prop.name as keyof ConfiguredProps<T>]
       const errors = propErrors(prop, value)
       if (errors.length) {
