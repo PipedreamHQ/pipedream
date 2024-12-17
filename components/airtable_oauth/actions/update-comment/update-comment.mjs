@@ -3,8 +3,8 @@ import common from "../common/common.mjs";
 export default {
   key: "airtable_oauth-update-comment",
   name: "Update Comment",
-  description: "Updates an existing comment on a record. [See the documentation](https://airtable.com/developers/web/api/update-comment)",
-  version: "0.0.7",
+  description: "Update an existing comment on a selected record. [See the documentation](https://airtable.com/developers/web/api/update-comment)",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -36,7 +36,7 @@ export default {
     comment: {
       type: "string",
       label: "Comment",
-      description: "The text comment",
+      description: "The new content of the comment",
     },
   },
   async run({ $ }) {
