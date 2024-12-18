@@ -6,7 +6,9 @@ export default {
   methods: {
     ...common.methods,
     getDataTypes() {
-      return ["tableData"];
+      return [
+        "tableData",
+      ];
     },
   },
   props: {

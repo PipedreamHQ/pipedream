@@ -7,10 +7,12 @@ export default {
   key: "airtable_oauth-new-records",
   version: "1.0.0",
   type: "source",
-    methods: {
-      ...common.methods,
-      getChangeTypes() {
-        return ["add"]
-      }
+  methods: {
+    ...common.methods,
+    getChangeTypes() {
+      return [
+        "add",
+      ];
     },
+  },
 };

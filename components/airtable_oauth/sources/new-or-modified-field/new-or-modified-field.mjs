@@ -7,10 +7,13 @@ export default {
   key: "airtable_oauth-new-or-modified-field",
   version: "1.0.0",
   type: "source",
-    methods: {
-      ...common.methods,
-      getChangeTypes() {
-        return ["add", "update"]
-      }
+  methods: {
+    ...common.methods,
+    getChangeTypes() {
+      return [
+        "add",
+        "update",
+      ];
     },
+  },
 };

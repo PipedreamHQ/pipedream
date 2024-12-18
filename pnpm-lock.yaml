@@ -94,8 +94,8 @@ importers:
         specifier: ^12.3.4
         version: 12.5.0(enquirer@2.4.1)
       pnpm:
-        specifier: 9.14.2
-        version: 9.14.2
+        specifier: 9.14.3
+        version: 9.14.3
       putout:
         specifier: '>=36'
         version: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
@@ -463,18 +463,12 @@ importers:
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
       lodash.chunk:
         specifier: ^4.2.0
         version: 4.2.0
       lodash.isempty:
         specifier: ^4.4.0
         version: 4.4.0
-      moment:
-        specifier: ^2.30.1
-        version: 2.30.1
 
   components/aitable_ai:
     dependencies:
@@ -23055,8 +23049,8 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  pnpm@9.14.2:
-    resolution: {integrity: sha512-biuvd9Brk2IpQVLIUcTyeO3jerHro6Vf2jF6SheyCfTbuXP7JQp3q8Rjo0H8sfF/F8+iQJHE6zGc2g2bhCeDhw==}
+  pnpm@9.14.3:
+    resolution: {integrity: sha512-wPU+6ZR37ZabgrKJrQEaXRa/FiPJV+fynqvo0MALV0wpuMf1T2xn7nEMc/KFyBVNB85EtG/iwO60dqkEQbrDcQ==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -40534,7 +40528,7 @@ snapshots:
 
   pluralize@8.0.0: {}
 
-  pnpm@9.14.2: {}
+  pnpm@9.14.3: {}
 
   points-on-curve@0.2.0: {}
 

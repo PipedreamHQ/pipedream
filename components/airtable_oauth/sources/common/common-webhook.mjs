@@ -113,7 +113,7 @@ export default {
     },
     getChangeTypes() {
       return this.changeTypes;
-    }
+    },
   },
   async run() {
     this.http.respond({

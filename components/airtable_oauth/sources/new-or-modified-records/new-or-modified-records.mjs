@@ -10,7 +10,10 @@ export default {
   methods: {
     ...common.methods,
     getChangeTypes() {
-      return ["add", "update"];
+      return [
+        "add",
+        "update",
+      ];
     },
   },
 };
