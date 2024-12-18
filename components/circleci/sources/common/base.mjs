@@ -63,6 +63,9 @@ export default {
     verifySignature({
       headers, body,
     }) {
+      if (!headers["circleci-signature"]) {
+        return false;
+      }
       const secret = this._getSigningSecret();
       const signatureFromHeader = headers["circleci-signature"]
         .split(",")

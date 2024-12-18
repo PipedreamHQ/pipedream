@@ -66,7 +66,7 @@ export default {
       workflowId: this.workflowId,
       data: {
         enable_ssh: this.enableSsh,
-        from_failed: this.from_failed,
+        from_failed: this.fromFailed,
         jobs: typeof this.jobIds === "string"
           ? JSON.parse(this.jobIds)
           : this.jobIds,
