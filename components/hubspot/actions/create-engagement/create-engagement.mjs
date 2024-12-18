@@ -9,7 +9,7 @@ export default {
   key: "hubspot-create-engagement",
   name: "Create Engagement",
   description: "Create a new engagement for a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "action",
   props: {
     ...common.props,
@@ -53,6 +53,11 @@ export default {
       description: "A unique identifier to indicate the association type between the task and the other object",
       optional: true,
     },
+    objectProperties: {
+      type: "object",
+      label: "Object Properties",
+      description: "Enter the `engagement` properties as a JSON object",
+    },
   },
   methods: {
     ...common.methods,
@@ -82,12 +87,19 @@ export default {
       toObjectId,
       associationType,
       $db,
-      ...properties
+      objectProperties,
+      ...otherProperties
     } = this;
 
     if ((toObjectId && !associationType) || (!toObjectId && associationType)) {
       throw new ConfigurationError("Both `toObjectId` and `associationType` must be entered");
     }
+
+    const properties = objectProperties
+      ? typeof objectProperties === "string"
+        ? JSON.parse(objectProperties)
+        : objectProperties
+      : otherProperties;
 
     const objectType = this.getObjectType();
 
