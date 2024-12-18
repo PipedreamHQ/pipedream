@@ -7160,6 +7160,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/openrouter:
+    specifiers: {}
+
   components/opensea:
     dependencies:
       '@pipedream/platform':
