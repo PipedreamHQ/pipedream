@@ -87,19 +87,44 @@ export default {
         properties,
       };
     },
+    parseProperties(properties) {
+      if (!properties) {
+        return undefined;
+      }
+      if (typeof properties === "string") {
+        try {
+          return JSON.parse(properties);
+        } catch {
+          throw new Error("Could not parse properties as JSON object");
+        }
+      }
+      const parsedProperties = {};
+      for (const [
+        key,
+        value,
+      ] of Object.entries(properties)) {
+        try {
+          parsedProperties[key] = typeof value === "string"
+            ? JSON.parse(value)
+            : value;
+        } catch {
+          parsedProperties[key] = value;
+        }
+      }
+      return parsedProperties;
+    },
   },
   async run({ $ }) {
     try {
-      if (this.properties && typeof this.properties === "string") {
-        this.properties = JSON.parse(this.properties);
-      }
+      this.properties = this.parseProperties(this.properties);
+
       const currentPage = await this.notion.retrievePage(this.pageId);
       const page = this.buildPage(currentPage);
       const response = await this.notion.updatePage(this.pageId, page);
       $.export("$summary", "Updated page successfully");
       return response;
     } catch (error) {
-      throw new Error(error.body);
+      throw new Error(error.body || error);
     }
   },
 };
