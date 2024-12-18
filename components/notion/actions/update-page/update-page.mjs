@@ -67,7 +67,7 @@ export default {
         properties: {
           type: "object",
           label: "Properties",
-          description: "Enter the page properties as a JSON object",
+          description: "The property values to update for the page. The keys are the names or IDs of the property and the values are property values. If a page property ID is not included, then it is not changed. Example: `{ \"Name\": \"Tuscan Kale\", \"Description\": \"A dark green leafy vegetable\" }`",
         },
       };
     }
