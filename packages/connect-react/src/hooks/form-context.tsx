@@ -141,6 +141,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       // XXX what about if null?
       // TODO observation errors, etc.
       if (dynamicProps) {
+        formProps.onUpdateDynamicProps?.(dynamicProps);
         setDynamicProps(dynamicProps);
       }
       setReloadPropIdx(undefined);
