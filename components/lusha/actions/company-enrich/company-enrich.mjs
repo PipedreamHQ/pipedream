@@ -26,7 +26,7 @@ export default {
   async run({ $ }) {
     const response = await this.lusha.enrichCompanies({
       $,
-      params: {
+      data: {
         requestId: this.requestId,
         companiesIds: this.companiesIds,
       },

@@ -13,8 +13,8 @@ export default {
         lusha,
         "requestId",
       ],
-      label: "Company Request ID",
-      description: "The request ID generated from the company search response.",
+      label: "Contact Request ID",
+      description: "The request ID generated from the contact search response.",
     },
     contactIds: {
       propDefinition: [
@@ -26,7 +26,7 @@ export default {
   async run({ $ }) {
     const response = await this.lusha.enrichContacts({
       $,
-      params: {
+      data: {
         requestId: this.requestId,
         contactIds: this.contactIds,
       },

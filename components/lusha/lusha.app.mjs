@@ -41,8 +41,8 @@ export default {
     },
     contactNames: {
       type: "string[]",
-      label: "Company Names",
-      description: "Names of companies to search.",
+      label: "Contact Names",
+      description: "Names of contacts to search.",
     },
     jobTitles: {
       type: "string[]",
@@ -96,7 +96,7 @@ export default {
     },
   },
   methods: {
-    _apiUrl() {
+    _baseUrl() {
       return "https://api.lusha.com";
     },
     _headers() {
@@ -108,7 +108,7 @@ export default {
       $ = this, path, ...opts
     }) {
       return axios($, {
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
         ...opts,
       });
