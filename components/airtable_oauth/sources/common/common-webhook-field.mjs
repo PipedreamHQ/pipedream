@@ -3,6 +3,9 @@ import common from "./common-webhook.mjs";
 
 export default {
   ...common,
+  getDataTypes() {
+    return ["tableFields"];
+  },
   props: {
     ...common.props,
     watchSchemasOfFieldIds: {

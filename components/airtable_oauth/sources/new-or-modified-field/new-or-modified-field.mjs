@@ -1,56 +1,16 @@
-import common from "../common/common.mjs";
+import common from "../common/common-webhook-field.mjs";
 
 export default {
-  name: "New or Modified Field",
-  description: "Emit new event when a field is created or updated in the selected table. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
+  ...common,
+  name: "New or Modified Field (Instant)",
+  description: "Emit new event when a field is created or updated in the selected table",
   key: "airtable_oauth-new-or-modified-field",
-  version: "0.0.8",
+  version: "1.0.0",
   type: "source",
-  props: {
-    ...common.props,
-    tableId: {
-      propDefinition: [
-        common.props.airtable,
-        "tableId",
-        ({ baseId }) => ({
-          baseId,
-        }),
-      ],
-      description: "Select a table to watch for field updates, or provide a table ID.",
-    },
-  },
-  methods: {
-    _getPrevFields() {
-      return this.db.get("fieldIds") || {};
-    },
-    _setPrevFields(fieldIds) {
-      this.db.set("fieldIds", fieldIds);
-    },
-  },
-  async run() {
-    const prevFields = this._getPrevFields();
-
-    const { tables } = await this.airtable.listTables({
-      baseId: this.baseId,
-    });
-    const { fields } = tables.find(({ id }) => id === this.tableId);
-
-    for (const field of fields) {
-      if (prevFields[field.id] && prevFields[field.id] === JSON.stringify(field)) {
-        continue;
+    methods: {
+      ...common.methods,
+      getChangeTypes() {
+        return ["add", "update"]
       }
-      const summary = prevFields[field.id]
-        ? `${field.name} Updated`
-        : `${field.name} Created`;
-      prevFields[field.id] = JSON.stringify(field);
-
-      this.$emit(field, {
-        id: field.id,
-        summary,
-        ts: Date.now(),
-      });
-    }
-
-    this._setPrevFields(prevFields);
-  },
+    },
 };
