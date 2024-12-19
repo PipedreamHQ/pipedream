@@ -1,11 +1,11 @@
 import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import boldsign from "../../boldsign.app.mjs";
+import { DOCUMENT_DOWNLOAD_OPTIONS } from "../../common/constants.mjs";
 import {
   checkTmp,
   parseObject,
 } from "../../common/utils.mjs";
-import { DOCUMENT_DOWNLOAD_OPTIONS } from "./common/constants.mjs";
 
 export default {
   key: "boldsign-send-document-template",
