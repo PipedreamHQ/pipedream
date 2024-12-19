@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     _apiUrl() {
-      return `${this.$auth.api_domain}/subscriptions/v1`;
+      return `${this.$auth.api_domain}/billing/v1`;
     },
     _getHeaders(organizationId = null) {
       const headers = {

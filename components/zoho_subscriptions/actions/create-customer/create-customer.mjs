@@ -3,8 +3,8 @@ import zohoSubscriptions from "../../zoho_subscriptions.app.mjs";
 export default {
   key: "zoho_subscriptions-create-customer",
   name: "Create Customer",
-  version: "0.0.1",
-  description: "Create a new customer. [See the documentation](https://www.zoho.com/subscriptions/api/v1/customers/#create-a-customer)",
+  version: "0.0.2",
+  description: "Create a new customer. [See the documentation](https://www.zoho.com/billing/api/v1/customers/#create-a-customer)",
   type: "action",
   props: {
     zohoSubscriptions,
