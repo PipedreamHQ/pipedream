@@ -8,6 +8,11 @@ export default {
   type: "action",
   props: {
     circleci,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Supports all integrations except GitLab.",
+    },
     projectSlug: {
       propDefinition: [
         circleci,
