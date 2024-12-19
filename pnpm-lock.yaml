@@ -3496,9 +3496,6 @@ importers:
       '@firebase/app-types':
         specifier: ^0.7.0
         version: 0.7.0
-      '@pipedream/platform':
-        specifier: ^0.9.0
-        version: 0.9.0
       firebase-admin:
         specifier: ^10.0.1
         version: 10.3.0(@firebase/app-types@0.7.0)
