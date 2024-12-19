@@ -58,17 +58,19 @@ export default {
     },
     async emitEvent(maxResults = false) {
       const lastDate = this._getLastDate();
+      const params = {
+        ...this.getParams(),
+      };
+
+      if (this.sentBy) params.sentBy = this.sentBy;
+      if (this.recipients) params.recipients = parseObject(this.recipients);
+      if (this.searchKey) params.searchKey = this.searchKey;
+      if (this.labels) params.labels = parseObject(this.labels);
+      if (this.brandIds) params.brandIds = parseObject(this.brandIds);
 
       const response = this.boldsign.paginate({
         fn: this.getFunction(),
-        params: {
-          ...this.getParams(),
-          sentBy: this.sentBy,
-          recipients: this.recipients,
-          searchKey: this.searchKey,
-          labels: this.labels,
-          brandIds: parseObject(this.brandIds),
-        },
+        params,
       });
 
       let responseArray = [];
@@ -86,7 +88,7 @@ export default {
 
       for (const item of responseArray.reverse()) {
         this.$emit(item, {
-          id: `${item.documentId}-${item.activityDate}`,
+          id: item.documentId,
           summary: this.getSummary(item),
           ts: Date.parse(item.activityDate || new Date()),
         });
