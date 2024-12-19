@@ -3,10 +3,13 @@ import common from "./common-webhook.mjs";
 
 export default {
   ...common,
-  getDataTypes() {
-    return [
-      "tableFields",
-    ];
+  methods: {
+    ...common.methods,
+    getDataTypes() {
+      return [
+        "tableFields",
+      ];
+    },
   },
   props: {
     ...common.props,

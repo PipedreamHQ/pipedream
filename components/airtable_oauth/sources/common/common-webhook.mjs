@@ -73,8 +73,12 @@ export default {
           notificationUrl: `${this.http.endpoint}/`,
           specification: {
             options: {
-              filters: Object.keys(filters).length && filters,
-              includes: Object.keys(includes).length && includes,
+              filters: Object.keys(filters).length
+                ? filters
+                : undefined,
+              includes: Object.keys(includes).length
+                ? includes
+                : undefined,
             },
           },
         },
