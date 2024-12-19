@@ -79,11 +79,12 @@ export default {
      */
     _filterProps(properties = {}) {
       return Object.keys(properties)
-        .filter((property) => this[property] != null)
+        .filter((property) => this[property] != null
+          || (this.properties && this.properties[property]))
         .map((property) => ({
           type: properties[property]?.type ?? property,
           label: property,
-          value: this[property],
+          value: this[property] || this.properties[property],
         }));
     },
     /**
