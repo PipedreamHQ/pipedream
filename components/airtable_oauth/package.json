@@ -17,6 +17,7 @@
     "airtable": "^0.11.1",
     "bottleneck": "^2.19.5",
     "lodash.chunk": "^4.2.0",
-    "lodash.isempty": "^4.4.0"
+    "lodash.isempty": "^4.4.0",
+    "moment": "^2.30.1"
   }
 }
