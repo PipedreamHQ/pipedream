@@ -9,12 +9,12 @@ export default {
   type: "action",
   props: {
     app,
-    doc: {
-      propDefinition: [
-        app,
-        "doc",
-      ],
+    zipcode: {
+      type: "string",
+      label: "Zipcode",
+      description: "The postal code to search for",
     },
+
     dataset: {
       propDefinition: [
         app,
