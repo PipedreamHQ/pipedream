@@ -34,8 +34,9 @@ export function parseEntry(entry) {
       } catch {
         parsedEntry[key] = value;
       }
+    } else {
+      parsedEntry[key] = value;
     }
-    parsedEntry[key] = value;
   }
   return parsedEntry;
 }
