@@ -21,7 +21,9 @@ export default {
       $,
       datasourceId: this.datasourceId,
     });
+
     $.export("$summary", `Successfully deleted datasource with ID: ${this.datasourceId}`);
+
     return response;
   },
 };

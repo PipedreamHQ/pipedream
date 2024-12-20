@@ -74,7 +74,9 @@ export default {
         },
       },
     });
+
     $.export("$summary", `Successfully created Datasource named '${this.name}'`);
+
     return response;
   },
 };
