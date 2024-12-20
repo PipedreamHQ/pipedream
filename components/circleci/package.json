@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/circleci",
+  "version": "0.0.1",
+  "description": "Pipedream CircleCI Components",
+  "main": "circleci.app.mjs",
+  "keywords": [
+    "pipedream",
+    "circleci"
+  ],
+  "homepage": "https://pipedream.com/apps/circleci",
+  "author": "Pipedream Msupport@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "uuid": "^11.0.3"
+  }
+}

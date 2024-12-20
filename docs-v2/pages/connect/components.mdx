@@ -17,7 +17,7 @@ and our community and their source code is available in our [public Github repo]
 Running components for your end users via Pipedream Connect is in **beta**, and we're looking for feedback. Please [let us know](https://pipedream.com/support) how you're using it, what's not working, and what else you'd like to see.
 </Callout>
 
-## Getting stated
+## Getting started
 
 <Callout type="info">
 Refer to the [Connect API docs](/connect/api) for the full API reference. Below is a quickstart with a few specific examples.
@@ -35,7 +35,7 @@ In order to find the right trigger or action to configure and run, you first nee
 GET /v1/connect/apps?q=gitlab
 ```
 
-Here's the response: 
+Here's the response:
 
 ```json
 {
@@ -63,14 +63,14 @@ Here's the response:
 ```
 
 ### List the available components for the app
- 
+
 Once you have the app you want to use, now you can list the triggers and/or actions for that app. We'll list the actions for Gitlab and we'll pass the `name_slug` `gitlab` as the `app`.
 
 ```text
 GET /actions?app=gitlab
 ```
 
-Here's the response: 
+Here's the response:
 
 ```json
 {
