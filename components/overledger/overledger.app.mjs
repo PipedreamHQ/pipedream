@@ -27,7 +27,7 @@ export default {
     },
     _getBaseUrl(environment) { //conditional for environment url selection.
       return environment === "sandbox"
-        ? "https://api.staging.overledger.dev"
+        ? "https://api.sandbox.overledger.dev"
         : "https://api.overledger.dev";
     },
     _makeRequest({
