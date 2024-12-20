@@ -1,84 +1,193 @@
 import { axios } from "@pipedream/platform";
+const DEFAULT_LIMIT = 20;
 
 export default {
   type: "app",
   app: "contentstack",
-  version: "0.0.{{ts}}",
   propDefinitions: {
-    stackId: {
-      type: "string",
-      label: "Stack ID",
-      description: "The ID of the Contentstack stack",
+    branchIds: {
+      type: "string[]",
+      label: "Branches",
+      description: "An array of branch identifiers",
+      async options({ page }) {
+        const { branches } = await this.listBranches({
+          params: {
+            limit: DEFAULT_LIMIT,
+            skip: page * DEFAULT_LIMIT,
+          },
+        });
+        return branches?.map(({ uid }) => uid) || [];
+      },
     },
-    assetId: {
+    contentType: {
       type: "string",
-      label: "Asset ID",
-      description: "The ID of the asset",
-    },
-    contentTypeUid: {
-      type: "string",
-      label: "Content Type UID",
+      label: "Content Type",
       description: "The UID of the content type for creating and listing entries",
+      async options() {
+        const { content_types: contentTypes } = await this.listContentTypes();
+        return contentTypes?.map(({
+          uid: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     entryId: {
       type: "string",
       label: "Entry ID",
-      description: "The ID of the entry relevant to the published content",
-    },
-    entryUid: {
-      type: "string",
-      label: "Entry UID",
       description: "The UID of the entry to publish or update",
+      async options({ contentType }) {
+        const { entries } = await this.listEntries({
+          contentType,
+        });
+        return entries?.map(({
+          uid: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    entryTitle: {
-      type: "string",
-      label: "Entry Title",
-      description: "The title of the new entry",
-    },
-    content: {
-      type: "string",
-      label: "Content",
-      description: "The content of the new entry",
-    },
-    metadata: {
+    environments: {
       type: "string[]",
-      label: "Metadata",
-      description: "Array of metadata objects in JSON format",
-      optional: true,
+      label: "Environments",
+      description: "The UIDs of the environments to which you want to publish the entry",
+      async options() {
+        const { environments } = await this.listEnvironments();
+        return environments?.map(({ name }) => name ) || [];
+      },
     },
-    fieldsToUpdate: {
-      type: "string[]",
-      label: "Fields to Update",
-      description: "Array of fields to update with new values in JSON format",
-      optional: true,
+    locale: {
+      type: "string",
+      label: "Locale",
+      description: "The code of the language in which you want your entry to be localized in",
+      async options() {
+        const { locales } = await this.listLocales();
+        return locales?.map(({
+          code: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.contentstack.com/v3";
+      return `${this.$auth.region}api.contentstack.${this.$auth.region === "https://"
+        ? "io"
+        : "com"}/v3`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this,
+      path,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "api_key": this.$auth.api_key,
-          "access_token": this.$auth.access_token,
-          "Content-Type": "application/json",
+          "api_key": `${this.$auth.stack_api_key}`,
+          "authorization": `${this.$auth.management_token}`,
+          "content-type": "application/json",
         },
       });
     },
-    async listAssets(opts = {}) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
-        path: `/stacks/${this.stackId}/assets`,
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      webhookId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
+        ...opts,
+      });
+    },
+    listBranches(opts = {}) {
+      return this._makeRequest({
+        path: "/stacks/branches",
+        ...opts,
+      });
+    },
+    listContentTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/content_types",
+        ...opts,
+      });
+    },
+    listEntries({
+      contentType, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/content_types/${contentType}/entries`,
+        ...opts,
+      });
+    },
+    listEnvironments(opts = {}) {
+      return this._makeRequest({
+        path: "/environments",
+        ...opts,
+      });
+    },
+    listLocales(opts = {}) {
+      return this._makeRequest({
+        path: "/locales",
+        ...opts,
+      });
+    },
+    getEntry({
+      contentType, entryId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/content_types/${contentType}/entries/${entryId}`,
+        ...opts,
+      });
+    },
+    getContentType({
+      contentType, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/content_types/${contentType}`,
+        ...opts,
+      });
+    },
+    createEntry({
+      contentType, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/content_types/${contentType}/entries`,
+        ...opts,
+      });
+    },
+    updateEntry({
+      contentType, entryId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/content_types/${contentType}/entries/${entryId}`,
+        ...opts,
+      });
+    },
+    publishEntry({
+      contentType, entryId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/content_types/${contentType}/entries/${entryId}/publish`,
+        ...opts,
+      });
+    },
+    listAssets(opts = {}) {
+      return this._makeRequest({
+        path: "/assets",
         ...opts,
       });
     },
@@ -87,86 +196,6 @@ export default {
         path: `/stacks/${this.stackId}/assets/${this.assetId}`,
         ...opts,
       });
-    },
-    async listEntries(opts = {}) {
-      return this._makeRequest({
-        path: `/stacks/${this.stackId}/content_types/${this.contentTypeUid}/entries`,
-        ...opts,
-      });
-    },
-    async getEntry(opts = {}) {
-      return this._makeRequest({
-        path: `/stacks/${this.stackId}/entries/${this.entryId}`,
-        ...opts,
-      });
-    },
-    async createEntry(opts = {}) {
-      const data = {
-        title: this.entryTitle,
-        content: this.content,
-        ...(this.metadata
-          ? {
-            metadata: this.metadata.map(JSON.parse),
-          }
-          : {}),
-        ...opts.data,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: `/stacks/${this.stackId}/content_types/${this.contentTypeUid}/entries`,
-        data,
-        ...opts,
-      });
-    },
-    async updateEntry(opts = {}) {
-      const data = {
-        ...(this.fieldsToUpdate
-          ? this.fieldsToUpdate.reduce((acc, field) => {
-            const parsedField = JSON.parse(field);
-            return {
-              ...acc,
-              ...parsedField,
-            };
-          }, {})
-          : {}),
-        ...opts.data,
-      };
-      return this._makeRequest({
-        method: "PUT",
-        path: `/stacks/${this.stackId}/entries/${this.entryUid}`,
-        data,
-        ...opts,
-      });
-    },
-    async publishEntry(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/stacks/${this.stackId}/entries/${this.entryUid}/publish`,
-        ...opts,
-      });
-    },
-    async paginate(fn, ...opts) {
-      let allResults = [];
-      let currentPage = 1;
-      let hasMore = true;
-      while (hasMore) {
-        const response = await fn({
-          page: currentPage,
-          ...opts,
-        });
-        if (response.items && response.items.length > 0) {
-          allResults = [
-            ...allResults,
-            ...response.items,
-          ];
-        }
-        if (response.pagination && response.pagination.next_page) {
-          currentPage += 1;
-        } else {
-          hasMore = false;
-        }
-      }
-      return allResults;
     },
   },
 };

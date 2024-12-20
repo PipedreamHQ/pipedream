@@ -1,53 +1,50 @@
-import contentstack from "../../contentstack.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/entries.mjs";
 
 export default {
+  ...common,
   key: "contentstack-update-entry",
   name: "Update Entry",
   description: "Updates an existing Contentstack entry. [See the documentation](https://www.contentstack.com/docs/developers/apis/content-management-api#update-an-entry).",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    contentstack,
-    stackId: {
+    ...common.props,
+    entryId: {
       propDefinition: [
-        "contentstack",
-        "stackId",
+        common.props.contentstack,
+        "entryId",
+        (c) => ({
+          contentType: c.contentType,
+        }),
       ],
     },
-    contentTypeUid: {
+    locale: {
       propDefinition: [
-        "contentstack",
-        "contentTypeUid",
-      ],
-    },
-    entryUid: {
-      propDefinition: [
-        "contentstack",
-        "entryUid",
-      ],
-    },
-    fieldsToUpdate: {
-      propDefinition: [
-        "contentstack",
-        "fieldsToUpdate",
+        common.props.contentstack,
+        "locale",
       ],
       optional: true,
     },
   },
+  methods: {
+    ...common.methods,
+    isUpdate() {
+      return true;
+    },
+  },
   async run({ $ }) {
     const response = await this.contentstack.updateEntry({
-      data: this.fieldsToUpdate
-        ? this.fieldsToUpdate.reduce((acc, field) => {
-          const parsedField = JSON.parse(field);
-          return {
-            ...acc,
-            ...parsedField,
-          };
-        }, {})
-        : {},
+      $,
+      contentType: this.contentType,
+      entryId: this.entryId,
+      params: {
+        locale: this.locale,
+      },
+      data: {
+        entry: await this.buildEntry(),
+      },
     });
-    $.export("$summary", `Entry ${this.entryUid} updated successfully`);
+    $.export("$summary", `Entry ${this.entryId} updated successfully`);
     return response;
   },
 };

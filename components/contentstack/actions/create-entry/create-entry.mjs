@@ -1,49 +1,33 @@
-import contentstack from "../../contentstack.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/entries.mjs";
 
 export default {
+  ...common,
   key: "contentstack-create-entry",
   name: "Create Entry",
-  description: "Creates a new entry in Contentstack. [See the documentation]().",
-  version: "0.0.{{ts}}",
+  description: "Creates a new entry in Contentstack. [See the documentation](https://www.contentstack.com/docs/developers/apis/content-management-api#create-an-entry).",
+  version: "0.0.1",
   type: "action",
   props: {
-    contentstack,
-    stackId: {
+    ...common.props,
+    locale: {
       propDefinition: [
-        contentstack,
-        "stackId",
+        common.props.contentstack,
+        "locale",
       ],
-    },
-    contentTypeUid: {
-      propDefinition: [
-        contentstack,
-        "contentTypeUid",
-      ],
-    },
-    entryTitle: {
-      propDefinition: [
-        contentstack,
-        "entryTitle",
-      ],
-    },
-    content: {
-      propDefinition: [
-        contentstack,
-        "content",
-      ],
-    },
-    metadata: {
-      propDefinition: [
-        contentstack,
-        "metadata",
-      ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.contentstack.createEntry();
-    $.export("$summary", `Created entry "${response.title}" with UID ${response.uid}`);
+    const response = await this.contentstack.createEntry({
+      $,
+      contentType: this.contentType,
+      params: {
+        locale: this.locale,
+      },
+      data: {
+        entry: await this.buildEntry(),
+      },
+    });
+    $.export("$summary", `Created entry "${response.entry.title}" with UID ${response.entry.uid}`);
     return response;
   },
 };
