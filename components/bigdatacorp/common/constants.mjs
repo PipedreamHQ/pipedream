@@ -70,7 +70,7 @@ export default {
     },
     {
       "value": "environmental_preservation_areas",
-      "label": "Enviromental Preservation Areas",
+      "label": "Environmental Preservation Areas",
     },
     {
       "value": "biomes_data",
