@@ -29,7 +29,8 @@ export default {
       $,
       data: {
         Datasets: this.dataset,
-        q: `zipcode{${this.doc}}`,
+        q: `zipcode{${this.zipcode}}`,
+
       },
     });
 
