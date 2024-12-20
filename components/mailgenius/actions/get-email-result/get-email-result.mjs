@@ -1,7 +1,7 @@
 import app from "../../mailgenius.app.mjs";
 
 export default {
-  key: "mailgenius-get-email-results",
+  key: "mailgenius-get-email-result",
   name: "Get Email Results",
   description: "Returns the results of the test. [See the documentation](https://app.mailgenius.com/api-docs/index.html)",
   version: "0.0.1",
