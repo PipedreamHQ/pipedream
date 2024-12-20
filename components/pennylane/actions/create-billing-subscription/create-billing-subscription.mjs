@@ -1,3 +1,10 @@
+import {
+  DAY_OF_WEEK_OPTIONS,
+  MODE_OPTIONS,
+  PAYMENT_CONDITIONS_OPTIONS,
+  PAYMENT_METHOD_OPTIONS,
+  RECURRING_RULE_TYPE,
+} from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import pennylane from "../../pennylane.app.mjs";
 
@@ -9,96 +16,116 @@ export default {
   type: "action",
   props: {
     pennylane,
+    currency: {
+      type: "string",
+      label: "Currency",
+      description: "Invoice Currency (ISO 4217). Default is EUR.",
+      optional: true,
+    },
     mode: {
       type: "string",
       label: "Mode",
-      description: "Mode",
-      optional: true,
+      description: "Mode in which the new invoices will be created.",
+      options: MODE_OPTIONS,
+    },
+    start: {
+      type: "string",
+      label: "Start",
+      description: "Start date (ISO 8601)",
     },
     paymentConditions: {
       type: "string",
       label: "Payment Conditions",
-      description: "PaymentConditions",
-      optional: true,
+      description: "Customer payment conditions",
+      options: PAYMENT_CONDITIONS_OPTIONS,
     },
     paymentMethod: {
       type: "string",
       label: "Payment Method",
       description: "PaymentMethod",
-      optional: true,
+      options: PAYMENT_METHOD_OPTIONS,
     },
-    type: {
+    recurringRuleType: {
       type: "string",
-      label: "Type",
-      description: "Type",
-      optional: true,
+      label: "Recurring Rule Type",
+      description: "Type of the billing subscription's recurrence",
+      options: RECURRING_RULE_TYPE,
+      reloadProps: true,
     },
     dayOfMonth: {
-      type: "string",
+      type: "integer",
       label: "Day Of Month",
-      description: "DayOfMonth",
-      optional: true,
+      description: "The day of occurrences of the recurring rule",
+      hidden: true,
     },
     dayOfWeek: {
       type: "string",
       label: "Day Of Week",
-      description: "DayOfWeek",
-      optional: true,
+      description: "The day of occurrences of the recurring rule",
+      options: DAY_OF_WEEK_OPTIONS,
+      hidden: true,
     },
     interval: {
       type: "string",
       label: "Interval",
-      description: "Interval",
+      description: "The interval of occurrences of the recurring rule",
       optional: true,
     },
     count: {
-      type: "string",
+      type: "integer",
       label: "Count",
-      description: "Count",
-      optional: true,
-    },
-    sourceId: {
-      type: "string",
-      label: "Source Id",
-      description: "SourceId",
-      optional: true,
-    },
-    currency: {
-      type: "string",
-      label: "Currency",
-      description: "Currency",
-      optional: true,
-    },
-    start: {
-      type: "string",
-      label: "Start",
-      description: "Start",
+      description: "Number of occurrences of the recurring rule",
       optional: true,
     },
     specialMention: {
       type: "string",
       label: "Special Mention",
-      description: "Special Mention",
+      description: "Additional details",
       optional: true,
     },
     discount: {
       type: "integer",
       label: "Discount",
-      description: "Discount",
+      description: "Invoice discount (in percent)",
       optional: true,
     },
+    customerId: {
+      propDefinition: [
+        pennylane,
+        "customerId",
+      ],
+    },
     lineItemsSectionsAttributes: {
-      type: "string",
-      label: "Line Items Sections Attributes",
-      description: "Line Items Sections Attributes",
+      propDefinition: [
+        pennylane,
+        "lineItemsSectionsAttributes",
+      ],
       optional: true,
     },
     invoiceLines: {
-      type: "string",
+      propDefinition: [
+        pennylane,
+        "lineItems",
+      ],
       label: "Invoice Lines",
-      description: "Invoice Lines",
-      optional: true,
     },
+  },
+  async additionalProps(props) {
+    switch (this.recurringRuleType) {
+    case "monthly":
+      props.dayOfMonth.hidden = false;
+      props.dayOfWeek.hidden = true;
+      break;
+    case "weekly":
+      props.dayOfMonth.hidden = true;
+      props.dayOfWeek.hidden = false;
+      break;
+    case "yearly":
+      props.dayOfMonth.hidden = true;
+      props.dayOfWeek.hidden = true;
+      break;
+    }
+    return {};
   },
   async run({ $ }) {
     const response = await this.pennylane.createBillingSubscription({
@@ -113,7 +140,7 @@ export default {
           payment_conditions: this.paymentConditions,
           payment_method: this.paymentMethod,
           recurring_rule: {
-            type: this.type,
+            type: this.recurringRuleType,
             day_of_month: this.dayOfMonth,
             day_of_week: this.dayOfWeek,
             interval: this.interval,
@@ -122,7 +149,7 @@ export default {
           special_mention: this.specialMention,
           discount: this.discount,
           customer: {
-            source_id: this.sourceId,
+            source_id: this.customerId,
           },
           line_items_sections_attributes: parseObject(this.lineItemsSectionsAttributes),
           invoice_lines: parseObject(this.invoiceLines),

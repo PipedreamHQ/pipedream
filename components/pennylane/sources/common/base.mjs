@@ -13,14 +13,14 @@ export default {
     },
   },
   methods: {
-    _getLastId() {
-      return this.db.get("lastId") || 0;
+    _getLastDate() {
+      return this.db.get("lastDate") || 0;
     },
-    _setLastId(lastId) {
-      this.db.set("lastId", lastId);
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
     },
     async emitEvent(maxResults = false) {
-      const lastId = this._getLastId();
+      const lastDate = this._getLastDate();
 
       const response = this.pennylane.paginate({
         fn: this.getFunction(),
@@ -29,7 +29,7 @@ export default {
 
       let responseArray = [];
       for await (const item of response) {
-        if (item.source_id <= lastId) break;
+        if (Date.parse(item.updated_at) <= lastDate) break;
         responseArray.push(item);
       }
 
@@ -37,12 +37,12 @@ export default {
         if (maxResults && (responseArray.length > maxResults)) {
           responseArray.length = maxResults;
         }
-        this._setLastId(responseArray[0].source_id);
+        this._setLastDate(responseArray[0].updated_at);
       }
 
       for (const item of responseArray.reverse()) {
         this.$emit(item, {
-          id: item.source_id,
+          id: item.source_id || item.id,
           summary: this.getSummary(item),
           ts: Date.parse(item.updated_at || item.activated_at || new Date()),
         });

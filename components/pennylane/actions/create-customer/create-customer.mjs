@@ -1,7 +1,9 @@
+import { ConfigurationError } from "@pipedream/platform";
 import {
   CUSTOMER_GENDER_OPTIONS,
   CUSTOMER_TYPE_OPTIONS, PAYMENT_CONDITIONS_OPTIONS,
 } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import pennylane from "../../pennylane.app.mjs";
 
 export default {
@@ -76,6 +78,7 @@ export default {
       type: "string",
       label: "Recipient",
       description: "Recipient displayed in the invoice.",
+      hidden: true,
       optional: true,
     },
     vatNumber: {
@@ -169,6 +172,7 @@ export default {
     const typeCompany = (this.customerType === "company");
     props.name.hidden = !typeCompany;
     props.regNo.hidden = !typeCompany;
+    props.recipient.hidden = !typeCompany;
     props.vatNumber.hidden = !typeCompany;
     props.firstName.hidden = typeCompany;
     props.lastName.hidden = typeCompany;
@@ -176,46 +180,50 @@ export default {
     return {};
   },
   async run({ $ }) {
-    const additionalData = this.customerType === "company"
-      ? {
-        name: this.name,
-        reg_no: this.regNo,
-        vat_number: this.vatNumber,
-      }
-      : {
-        first_name: this.firstName,
-        last_name: this.lastName,
-        gender: this.gender,
-      };
-
-    const response = await this.pennylane.createCustomer({
-      $,
-      data: {
-        customer: {
-          customer_type: this.customerType,
-          address: this.address,
-          postal_code: this.postalCode,
-          city: this.city,
-          country: this.country,
+    try {
+      const additionalData = this.customerType === "company"
+        ? {
+          name: this.name,
+          reg_no: this.regNo,
+          vat_number: this.vatNumber,
           recipient: this.recipient,
-          source_id: this.sourceId,
-          emails: this.emails,
-          billing_iban: this.billingIban,
-          delivery_address: this.deliveryAddress,
-          delivery_postal_code: this.deliveryPostalCode,
-          delivery_city: this.deliveryCity,
-          delivery_country: this.deliveryCountry,
-          payment_conditions: this.paymentConditions,
-          phone: this.phone,
-          reference: this.reference,
-          notes: this.notes,
-          mandate: this.mandate,
-          plan_item: this.planItem,
-          ...additionalData,
+        }
+        : {
+          first_name: this.firstName,
+          last_name: this.lastName,
+          gender: this.gender,
+        };
+
+      const response = await this.pennylane.createCustomer({
+        $,
+        data: {
+          customer: {
+            customer_type: this.customerType,
+            address: this.address,
+            postal_code: this.postalCode,
+            city: this.city,
+            country_alpha2: this.country,
+            source_id: this.sourceId,
+            emails: parseObject(this.emails),
+            billing_iban: this.billingIban,
+            delivery_address: this.deliveryAddress,
+            delivery_postal_code: this.deliveryPostalCode,
+            delivery_city: this.deliveryCity,
+            delivery_country_alpha2: this.deliveryCountry,
+            payment_conditions: this.paymentConditions,
+            phone: this.phone,
+            reference: this.reference,
+            notes: this.notes,
+            mandate: parseObject(this.mandate),
+            plan_item: parseObject(this.planItem),
+            ...additionalData,
+          },
         },
-      },
-    });
-    $.export("$summary", `Successfully created customer with Id: ${response.customer.source_id}`);
-    return response;
+      });
+      $.export("$summary", `Successfully created customer with Id: ${response.customer.source_id}`);
+      return response;
+    } catch ({ response }) {
+      throw new ConfigurationError(response?.data?.message || response?.data?.error);
+    }
   },
 };

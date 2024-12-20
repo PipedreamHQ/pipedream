@@ -1,4 +1,9 @@
-import { LANGUAGE_OPTIONS } from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import {
+  BANKING_PROVIDER_OPTIONS,
+  LANGUAGE_OPTIONS,
+  PROVIDER_FIELD_NAMES_OPTIONS,
+} from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import pennylane from "../../pennylane.app.mjs";
 
@@ -41,7 +46,7 @@ export default {
     draft: {
       type: "boolean",
       label: "Draft",
-      description: "Do you wish to create a draft invoice (otherwise it is a finalized invoice) ? Reminder, once created, a finalized invoice cannot be edited !",
+      description: "Do you wish to create a draft invoice (otherwise it is a finalized invoice)? Reminder, once created, a finalized invoice cannot be edited!",
     },
     currency: {
       type: "string",
@@ -72,11 +77,15 @@ export default {
       type: "string",
       label: "Banking Provider",
       description: "The banking provider for the transaction",
+      options: BANKING_PROVIDER_OPTIONS,
+      reloadProps: true,
     },
     providerFieldName: {
       type: "string",
       label: "Provider Field Name",
       description: "Name of the field that you want to match",
+      options: PROVIDER_FIELD_NAMES_OPTIONS,
+      hidden: true,
     },
     providerFieldValue: {
       type: "string",
@@ -90,15 +99,17 @@ export default {
       ],
     },
     lineItemsSectionsAttributes: {
-      type: "string[]",
-      label: "Line Items Sections Attributes",
-      description: "A list of objects of items sections to be listed on the invoice",
+      propDefinition: [
+        pennylane,
+        "lineItemsSectionsAttributes",
+      ],
       optional: true,
     },
     lineItems: {
-      type: "string[]",
-      label: "Line Items",
-      description: "A list of objects of items to be listed on the invoice",
+      propDefinition: [
+        pennylane,
+        "lineItems",
+      ],
     },
     categories: {
       type: "string[]",
@@ -117,43 +128,55 @@ export default {
       description: "End date of the imputation period (ISO 8601)",
     },
   },
+  async additionalProps(props) {
+    if (this.bankingProvider === "stripe") {
+      props.providerFieldName.hidden = false;
+    }
+    return {};
+  },
   async run({ $ }) {
-    const invoice = await this.pennylane.createInvoice({
-      $,
-      data: {
-        create_custome: false,
-        create_products: false,
-        invoice: {
-          date: this.date,
-          deadline: this.deadline,
-          external_id: this.externalId,
-          pdf_invoice_free_text: this.pdfInvoiceFreeText,
-          pdf_invoice_subject: this.pdfInvoiceSubject,
-          draft: this.draft,
-          currency: this.currency,
-          special_mention: this.specialMention,
-          discount: this.discount,
-          language: this.language,
-          transactions_reference: {
-            banking_provider: this.bankingProvider,
-            provider_field_name: this.providerFieldName,
-            provider_field_value: this.providerFieldValue,
-          },
-          customer: {
-            source_id: this.customerId,
-          },
-          line_items_sections_attributes: parseObject(this.lineItemsSectionsAttributes),
-          line_items: parseObject(this.lineItems),
-          categories: parseObject(this.categories),
-          imputation_dates: {
-            start_date: this.startDate,
-            end_date: this.endDate,
+    try {
+      const invoice = await this.pennylane.createInvoice({
+        $,
+        data: {
+          create_customer: false,
+          create_products: false,
+          invoice: {
+            date: this.date,
+            deadline: this.deadline,
+            external_id: this.externalId,
+            pdf_invoice_free_text: this.pdfInvoiceFreeText,
+            pdf_invoice_subject: this.pdfInvoiceSubject,
+            draft: this.draft,
+            currency: this.currency,
+            special_mention: this.specialMention,
+            discount: this.discount,
+            language: this.language,
+            transactions_reference: {
+              banking_provider: this.bankingProvider,
+              provider_field_name: (this.bankingProvider === "gocardless")
+                ? "payment_id"
+                : this.providerFieldName,
+              provider_field_value: this.providerFieldValue,
+            },
+            customer: {
+              source_id: this.customerId,
+            },
+            line_items_sections_attributes: parseObject(this.lineItemsSectionsAttributes),
+            line_items: parseObject(this.lineItems),
+            categories: parseObject(this.categories),
+            imputation_dates: {
+              start_date: this.startDate,
+              end_date: this.endDate,
+            },
           },
         },
-      },
-    });
+      });
 
-    $.export("$summary", `Created invoice with ID ${invoice.invoice.id}`);
-    return invoice;
+      $.export("$summary", `Created invoice with ID ${invoice.invoice.id}`);
+      return invoice;
+    } catch ({ response }) {
+      throw new ConfigurationError(response?.data?.message || response?.data?.error);
+    }
   },
 };
