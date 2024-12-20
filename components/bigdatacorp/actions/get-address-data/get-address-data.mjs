@@ -10,11 +10,11 @@ export default {
   props: {
     app,
     zipcode: {
-      type: "string",
-      label: "Zipcode",
-      description: "The postal code to search for",
+      propDefinition: [
+        app,
+        "zipcode",
+      ],
     },
-
     dataset: {
       propDefinition: [
         app,

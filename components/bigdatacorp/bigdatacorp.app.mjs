@@ -14,6 +14,11 @@ export default {
       label: "Dataset",
       description: "The target dataset to which the query will be sent",
     },
+    zipcode: {
+      type: "string",
+      label: "Zipcode",
+      description: "The postal code to search for",
+    },
   },
   methods: {
     _baseUrl() {
