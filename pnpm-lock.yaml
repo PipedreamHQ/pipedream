@@ -5424,6 +5424,9 @@ importers:
 
   components/keen_io: {}
 
+  components/kenjo:
+    specifiers: {}
+
   components/key_app_demo_1: {}
 
   components/keycloak:
