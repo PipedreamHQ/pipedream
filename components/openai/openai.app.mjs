@@ -316,7 +316,7 @@ export default {
         "User-Agent": "@PipedreamHQ/pipedream v1.0",
       };
     },
-    _betaHeaders(version = "v1") {
+    _betaHeaders(version = "v2") {
       return {
         ...this._commonHeaders(),
         "OpenAI-Beta": `assistants=${version}`,
