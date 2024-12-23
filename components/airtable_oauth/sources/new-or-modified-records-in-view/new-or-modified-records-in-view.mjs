@@ -8,6 +8,7 @@ export default {
   key: "airtable_oauth-new-or-modified-records-in-view",
   version: "0.0.8",
   type: "source",
+  dedupe: "unique",
   props: {
     ...base.props,
     tableId: {

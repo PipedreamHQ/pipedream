@@ -7,6 +7,7 @@ export default {
   key: "airtable_oauth-new-records",
   version: "1.0.0",
   type: "source",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getChangeTypes() {

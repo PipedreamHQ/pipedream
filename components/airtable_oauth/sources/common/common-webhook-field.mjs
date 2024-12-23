@@ -23,16 +23,9 @@ export default {
         }),
       ],
       type: "string[]",
-      label: "Watch Schemas of Field Ids",
+      label: "Field Schemas to Watch",
       description:
         "Only emit events for updates that modify the schemas of these fields. If omitted, schemas of all fields within the table/view/base are watched",
-    },
-    includePreviousFieldDefinitions: {
-      type: "boolean",
-      label: "Include Previous Field Definitions",
-      description:
-        "If true, include the previous field definition in the event payload",
-      optional: true,
     },
   },
 };

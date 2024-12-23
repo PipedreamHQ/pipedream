@@ -7,6 +7,7 @@ export default {
   description: "Emit new event for each new or modified record in a table or view",
   version: "1.0.0",
   type: "source",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getChangeTypes() {

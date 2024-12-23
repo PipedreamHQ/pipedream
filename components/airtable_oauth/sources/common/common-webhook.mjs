@@ -48,37 +48,29 @@ export default {
   },
   hooks: {
     async activate() {
-      const filters = {
-        recordChangeScope: this.viewId
-          ? this.viewId
-          : this.tableId
-            ? this.tableId
-            : undefined,
-        dataTypes: this.getDataTypes(),
-        changeTypes: this.getChangeTypes(),
-        fromSources: this.fromSources,
-        watchDataInFieldIds: this.watchDataInFieldIds,
-        watchSchemasOfFieldIds: this.watchSchemasOfFieldIds,
-      };
-
-      const includes = {
-        includeCellValuesInFieldIds: this.includeCellValuesInFieldIds,
-        includePreviousCellValues: this.includePreviousCellValues,
-        includePreviousFieldDefinitions: this.includePreviousFieldDefinitions,
-      };
-
       const { id } = await this.airtable.createWebhook({
         baseId: this.baseId,
         data: {
           notificationUrl: `${this.http.endpoint}/`,
           specification: {
             options: {
-              filters: Object.keys(filters).length
-                ? filters
-                : undefined,
-              includes: Object.keys(includes).length
-                ? includes
-                : undefined,
+              filters: {
+                recordChangeScope: this.viewId
+                  ? this.viewId
+                  : this.tableId
+                    ? this.tableId
+                    : undefined,
+                dataTypes: this.getDataTypes(),
+                changeTypes: this.getChangeTypes(),
+                fromSources: this.fromSources,
+                watchDataInFieldIds: this.watchDataInFieldIds,
+                watchSchemasOfFieldIds: this.watchSchemasOfFieldIds,
+              },
+              includes: {
+                includeCellValuesInFieldIds: this.includeCellValuesInFieldIds,
+                includePreviousCellValues: true,
+                includePreviousFieldDefinitions: true,
+              },
             },
           },
         },

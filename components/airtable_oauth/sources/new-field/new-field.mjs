@@ -1,4 +1,4 @@
-import common from "../common/common-webhook-field.mjs";
+import common from "../common/common-webhook.mjs";
 
 export default {
   ...common,
@@ -7,11 +7,17 @@ export default {
   key: "airtable_oauth-new-field",
   version: "1.0.0",
   type: "source",
+  dedupe: "unique",
   methods: {
     ...common.methods,
     getChangeTypes() {
       return [
         "add",
+      ];
+    },
+    getDataTypes() {
+      return [
+        "tableFields",
       ];
     },
   },
