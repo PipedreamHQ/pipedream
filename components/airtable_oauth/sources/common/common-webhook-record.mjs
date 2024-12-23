@@ -20,6 +20,11 @@ export default {
       }
       const [recordId, recordUpdateInfo] = Object.entries(recordObj)[0];
 
+      const timestamp = Date.parse(payload.timestamp);
+      if (this.isDuplicateEvent(recordId, timestamp)) return;
+      this._setLastObjectId(recordId);
+      this._setLastTimestamp(timestamp);
+
       let updateType = 'updated';
       if (operation === "createdRecordsById") {
         updateType = "created";
@@ -33,7 +38,7 @@ export default {
         recordId
       });
 
-      const summary = `Record ${updateType}: ${fields?.name ?? recordId}`
+      const summary = `Record ${updateType}: ${fields?.name ?? recordId}`;
 
       this.$emit({
         originalPayload: payload,

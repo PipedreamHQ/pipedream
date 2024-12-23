@@ -20,10 +20,15 @@ export default {
         this.db.set("tableSchemas", filteredData);
       }
     },
-    emitEvent(payload) {
+    async emitEvent(payload) {
       const [tableId, tableData] = Object.entries(payload.changedTablesById)[0];
       const [operation, fieldObj] = Object.entries(tableData)[0];
       const [fieldId, fieldUpdateInfo] = Object.entries(fieldObj)[0];
+
+      const timestamp = Date.parse(payload.timestamp);
+      if (this.isDuplicateEvent(fieldId, timestamp)) return;
+      this._setLastObjectId(fieldId);
+      this._setLastTimestamp(timestamp);
 
       const updateType = operation === "createdFieldsById" ? "created" : "updated";
 

@@ -94,6 +94,29 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
+    _getLastObjectId() {
+      return this.db.get("lastObjectId");
+    },
+    async _setLastObjectId(id) {
+      this.db.set("lastObjectId", id);
+    },
+    _getLastTimestamp() {
+      return this.db.get("lastTimestamp");
+    },
+    async _setLastTimestamp(ts) {
+      this.db.set("lastTimestamp", ts);
+    },
+    isDuplicateEvent(id, ts) {
+      const lastId = this._getLastObjectId();
+      const lastTs = this._getLastTimestamp();
+
+      if (id === lastId && (ts - lastTs < 5000 )) {
+        console.log("Skipping trigger: another event was emitted for the same object within the last 5 seconds");
+        return true;
+      }
+
+      return false;
+    },
     getSpecificationOptions() {
       throw new Error("getSpecificationOptions is not implemented");
     },
@@ -123,7 +146,7 @@ export default {
       // sources may call this to fetch additional data (e.g. field schemas)
       // and it can be silently ignored when not required
       return true;
-    }
+    },
   },
   async run() {
     this.http.respond({
