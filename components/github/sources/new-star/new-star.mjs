@@ -8,7 +8,7 @@ export default {
   key: "github-new-star",
   name: "New Stars",
   description: "Emit new event when a repository is starred",
-  version: "1.0.8",
+  version: "1.0.9",
   type: "source",
   dedupe: "unique",
   methods: {
