@@ -36,7 +36,7 @@ export default {
     roles: {
       type: "string[]",
       label: "Roles",
-      description: "Roles assigned to the signers. [See the documentation](https://developers.boldsign.com/documents/send-document-from-template) for further information.",
+      description: "A role is simply a placeholder for a real person. For example, if we have a purchase order that will always be signed by two people, one from the company and one from the customer, we can create a template with two roles Customer and Representative. Example: **[{\"roleIndex\": 50,\"signerName\": \"Richard\",\"signerOrder\": 1,\"signerEmail\": \"richard@cubeflakes.com\",\"privateMessage\": \"Please check and sign the document.\",\"authenticationCode\": \"281028\",\"enableEmailOTP\": false,\"signerType\": \"Signer\",\"signerRole\": \"Manager\",\"formFields\": [{\"id\": \"SignField\",\"fieldType\": \"Signature\",\"pageNumber\": 1,\"bounds\": {\"x\": 100,\"y\": 100,\"width\": 100,\"height\": 50},\"isRequired\": true}]**.",
     },
     brandId: {
       propDefinition: [
@@ -156,7 +156,7 @@ export default {
     files: {
       type: "string[]",
       label: "Files",
-      description: "Files to include in the document.",
+      description: "A list of paths to files in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
       optional: true,
     },
     fileUrls: {
@@ -230,7 +230,7 @@ export default {
             reminderDays: this.reminderDays,
             reminderCount: this.reminderCount,
           },
-          cc: this.cc ?? parseObject(this.cc)?.map((item) => ({
+          cc: parseObject(this.cc)?.map((item) => ({
             emailAddress: item,
           })),
           expiryDays: this.expiryDays,

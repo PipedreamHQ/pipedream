@@ -53,12 +53,7 @@ export default {
           },
         });
 
-        return result.map(({
-          id: value, email: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return result.map(({ email }) => email);
       },
     },
     sentBy: {
