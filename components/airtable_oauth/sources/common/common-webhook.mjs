@@ -114,8 +114,13 @@ export default {
       const meta = this.generateMeta(payload);
       this.$emit(payload, meta);
     },
+    emitEvent(payload) {
+      // sources may call this to customize event emission, but it is
+      // a separate method so that the source may fall back to default
+      this.emitDefaultEvent(payload);
+    },
     async saveAdditionalData() {
-      // some sources may call this to fetch additional data (e.g. field schemas)
+      // sources may call this to fetch additional data (e.g. field schemas)
       // and it can be silently ignored when not required
       return true;
     }
