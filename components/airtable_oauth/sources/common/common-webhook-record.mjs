@@ -1,4 +1,4 @@
-import airtable from "../../airtable_oauth.app.mjs";
+
 import common from "./common-webhook.mjs";
 
 export default {
@@ -10,42 +10,40 @@ export default {
         "tableData",
       ];
     },
-  },
-  props: {
-    ...common.props,
-    watchDataInFieldIds: {
-      propDefinition: [
-        airtable,
-        "sortFieldId",
-        (c) => ({
-          baseId: c.baseId,
-          tableId: c.tableId,
-        }),
-      ],
-      type: "string[]",
-      label: "Watch Data In Field Ids",
-      description:
-        "Only emit events for updates that modify values in cells in these fields. If omitted, all fields within the table/view/base are watched",
-    },
-    includeCellValuesInFieldIds: {
-      propDefinition: [
-        airtable,
-        "sortFieldId",
-        (c) => ({
-          baseId: c.baseId,
-          tableId: c.tableId,
-        }),
-      ],
-      type: "string[]",
-      label: "Include Cell Values in Field Ids",
-      description: "Fields to include in the event payload, regardless of whether or not they changed",
-    },
-    includePreviousCellValues: {
-      type: "boolean",
-      label: "Include Previous Cell Values",
-      description:
-        "If true, include the previous cell value in the event payload",
-      optional: true,
+    async emitEvent(payload) {
+      const [tableId, tableData] = Object.entries(payload.changedTablesById)[0];
+      let [operation, recordObj] = Object.entries(tableData)[0];
+      if (operation === 'changedViewsById') {
+        const changedRecord = Object.entries(recordObj)[0];
+        operation = changedRecord[0];
+        recordObj = changedRecord[1];
+      }
+      const [recordId, recordUpdateInfo] = Object.entries(recordObj)[0];
+
+      let updateType = 'updated';
+      if (operation === "createdRecordsById") {
+        updateType = "created";
+      } else if (operation === "deletedRecordsById") {
+        updateType = "deleted";
+      }
+
+      const { fields } = await this.airtable.getRecord({
+        baseId: this.baseId,
+        tableId,
+        recordId
+      });
+
+      const summary = `Record ${updateType}: ${fields?.name ?? recordId}`
+
+      this.$emit({
+        originalPayload: payload,
+        tableId,
+        record: {
+          id: recordId,
+          fields,
+        },
+        recordUpdateInfo,
+      }, this.generateMeta(payload, summary));
     },
   },
 };

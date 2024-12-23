@@ -1,4 +1,3 @@
-import airtable from "../../airtable_oauth.app.mjs";
 import common from "./common-webhook.mjs";
 
 export default {
@@ -21,7 +20,7 @@ export default {
         this.db.set("tableSchemas", filteredData);
       }
     },
-    async emitEvent(payload) {
+    emitEvent(payload) {
       const [tableId, tableData] = Object.entries(payload.changedTablesById)[0];
       const [operation, fieldObj] = Object.entries(tableData)[0];
       const [fieldId, fieldUpdateInfo] = Object.entries(fieldObj)[0];

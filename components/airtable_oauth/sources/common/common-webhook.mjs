@@ -114,10 +114,10 @@ export default {
       const meta = this.generateMeta(payload);
       this.$emit(payload, meta);
     },
-    emitEvent(payload) {
+    async emitEvent(payload) {
       // sources may call this to customize event emission, but it is
       // a separate method so that the source may fall back to default
-      this.emitDefaultEvent(payload);
+      return this.emitDefaultEvent(payload);
     },
     async saveAdditionalData() {
       // sources may call this to fetch additional data (e.g. field schemas)
@@ -149,7 +149,7 @@ export default {
       });
       for (const payload of payloads) {
         try {
-          this.emitEvent(payload);
+          await this.emitEvent(payload);
         } catch (err) {
           console.log('Error emitting event, defaulting to default emission');
           console.log(err);
