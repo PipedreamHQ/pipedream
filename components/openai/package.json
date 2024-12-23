@@ -21,7 +21,7 @@
     "bottleneck": "^2.19.5",
     "form-data": "^4.0.0",
     "got": "^12.6.0",
-    "openai": "^3.2.1"
+    "openai": "^4.77.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.45"
