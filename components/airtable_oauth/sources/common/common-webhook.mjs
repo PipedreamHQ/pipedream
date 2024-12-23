@@ -97,10 +97,10 @@ export default {
     getSpecificationOptions() {
       throw new Error("getSpecificationOptions is not implemented");
     },
-    generateMeta(payload) {
+    generateMeta(payload, summary) {
       return {
         id: payload.baseTransactionNumber,
-        summary: `New Event ${payload.baseTransactionNumber}`,
+        summary: summary ?? `New Event ${payload.baseTransactionNumber}`,
         ts: Date.parse(payload.timestamp),
       };
     },
@@ -110,6 +110,15 @@ export default {
     getChangeTypes() {
       return this.changeTypes;
     },
+    emitDefaultEvent(payload) {
+      const meta = this.generateMeta(payload);
+      this.$emit(payload, meta);
+    },
+    async saveAdditionalData() {
+      // some sources may call this to fetch additional data (e.g. field schemas)
+      // and it can be silently ignored when not required
+      return true;
+    }
   },
   async run() {
     this.http.respond({
@@ -119,6 +128,12 @@ export default {
     const webhookId = this._getHookId();
     let hasMore = false;
     const params = {};
+    try {
+      await this.saveAdditionalData();
+    } catch (err) {
+      console.log("Error fetching additional data, proceeding to event emission");
+      console.log(err);
+    }
     do {
       const {
         cursor, mightHaveMore, payloads,
@@ -128,8 +143,13 @@ export default {
         params,
       });
       for (const payload of payloads) {
-        const meta = this.generateMeta(payload);
-        this.$emit(payload, meta);
+        try {
+          this.emitEvent(payload);
+        } catch (err) {
+          console.log('Error emitting event, defaulting to default emission');
+          console.log(err);
+          this.emitDefaultEvent(payload);
+        }
       }
       params.cursor = cursor;
       hasMore = mightHaveMore;
