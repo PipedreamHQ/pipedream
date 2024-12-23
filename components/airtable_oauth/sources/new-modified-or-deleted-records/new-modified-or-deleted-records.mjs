@@ -112,7 +112,7 @@ export default {
           id: recordID,
         };
         this.$emit(deletedRecordObj, {
-          summary: "record_deleted",
+          summary: `Record deleted: ${recordID}`,
           id: recordID,
         });
       }

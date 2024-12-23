@@ -79,7 +79,7 @@ export default {
 
       this.$emit(record, {
         ts: moment(record.createdTime).valueOf(),
-        summary: JSON.stringify(record.fields),
+        summary: `New record: ${record.id}`,
         id: record.id,
       });
       if (!maxTimestamp || moment(record.createdTime).valueOf() > moment(maxTimestamp).valueOf()) {
