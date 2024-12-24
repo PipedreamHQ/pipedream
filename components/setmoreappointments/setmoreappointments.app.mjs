@@ -89,6 +89,12 @@ export default {
         ...args,
       });
     },
+    listAppointments(args = {}) {
+      return this._makeRequest({
+        path: "/appointments",
+        ...args,
+      });
+    },
     createCustomer(args = {}) {
       return this._makeRequest({
         path: "/customer/create",
@@ -102,6 +108,22 @@ export default {
         method: "POST",
         ...args,
       });
+    },
+    async *paginate({
+      resourceFn,
+      params,
+      resourceKey,
+    }) {
+      let total;
+      do {
+        const { data } = await resourceFn(params);
+        const items = data[resourceKey];
+        for (const item of items) {
+          yield item;
+        }
+        total = items?.length;
+        params.cursor = data.cursor;
+      } while (total);
     },
   },
 };
