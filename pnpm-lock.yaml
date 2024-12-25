@@ -1335,6 +1335,9 @@ importers:
 
   components/braze: {}
 
+  components/breathe:
+    specifiers: {}
+
   components/brevo:
     dependencies:
       '@pipedream/platform':
