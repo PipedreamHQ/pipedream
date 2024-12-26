@@ -106,9 +106,9 @@ export default {
           home_telephone: this.homeTelephone,
           department: this.departmentId,
           division: this.divisionId,
-          location: this.location,
-          working_pattern: this.workingPattern,
-          holiday_allownace: this.holiday_allowance,
+          location: this.locationId,
+          working_pattern: this.workingPatternId,
+          holiday_allownace: this.holidayAllowanceId,
         },
       },
     });

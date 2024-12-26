@@ -110,7 +110,7 @@ export default {
     },
     holidayAllowanceId: {
       type: "string",
-      label: "Holiday Allownace ID",
+      label: "Holiday Allowance ID",
       description: "The identifier of a holiday allowance",
       optional: true,
       async options() {
