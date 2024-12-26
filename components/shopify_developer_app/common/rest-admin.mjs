@@ -54,6 +54,20 @@ export default {
         }));
       },
     },
+    orderId: {
+      type: "string",
+      label: "Order ID",
+      description: "The unique numeric identifier for the order.",
+      async options() {
+        const { orders } = await this.listOrders();
+        return orders.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     ...common.methods,
@@ -64,6 +78,20 @@ export default {
         "X-Shopify-Access-Token": this.$auth.access_token,
         ...headers,
       };
+    },
+    listOrders(args = {}) {
+      return this.makeRequest({
+        path: "/orders",
+        ...args,
+      });
+    },
+    getOrder({
+      orderId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/orders/${orderId}`,
+        ...args,
+      });
     },
   },
 };
