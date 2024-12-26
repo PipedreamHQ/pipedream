@@ -93,8 +93,11 @@ export default {
         ...(cert && {
           cert,
         }),
-        rejectUnauthorized: mode !== "skip_verification",
       };
+
+      if (mode === "verify_identity") {
+        ssl.rejectUnauthorized = true;
+      }
 
       return Object.keys(ssl).length > 0
         ? ssl
