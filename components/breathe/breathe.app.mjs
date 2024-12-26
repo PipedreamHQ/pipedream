@@ -3,212 +3,242 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "breathe",
-  version: "0.0.{{ts}}",
   propDefinitions: {
-    sessionType: {
+    employeeId: {
       type: "string",
-      label: "Session Type",
-      description: "The type of guided breathing session",
-      optional: true,
-      async options() {
-        const sessions = await this.getSessionTypes();
-        return sessions.map((session) => ({
-          label: session.name,
-          value: session.id,
-        }));
-      },
-    },
-    intensity: {
-      type: "string",
-      label: "Intensity",
-      description: "The intensity level of the breathing session",
-      optional: true,
-      async options() {
-        return [
-          {
-            label: "Low",
-            value: "low",
+      label: "Employee ID",
+      description: "The identifier of an employee",
+      async options({ page }) {
+        const { employees } = await this.listEmployees({
+          params: {
+            page: page + 1,
           },
-          {
-            label: "Medium",
-            value: "medium",
-          },
-          {
-            label: "High",
-            value: "high",
-          },
-        ];
+        });
+        return employees?.map(({
+          id: value, first_name: firstName, last_name: lastName,
+        }) => ({
+          value,
+          label: `${firstName} ${lastName}`,
+        })) || [];
       },
     },
-    milestoneType: {
+    leaveRequestId: {
       type: "string",
-      label: "Milestone Type",
-      description: "The type of breathing milestone",
+      label: "Leave Request ID",
+      description: "The identifier of a leave request",
+      async options({
+        page, employeeId,
+      }) {
+        const { leave_requests: leaveRequests } = await this.listLeaveRequests({
+          params: {
+            page: page + 1,
+            employee_id: employeeId,
+            exclude_cancelled_requests: true,
+          },
+        });
+        return leaveRequests?.map(({
+          id: value, start_date: startDate, end_date: endDate,
+        }) => ({
+          value,
+          label: `${startDate} - ${endDate}`,
+        })) || [];
+      },
+    },
+    departmentId: {
+      type: "string",
+      label: "Department ID",
+      description: "The identifier of a department",
+      optional: true,
+      async options({ page }) {
+        const { departments } = await this.listDepartments({
+          params: {
+            page: page + 1,
+          },
+        });
+        return departments?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    divisionId: {
+      type: "string",
+      label: "Division ID",
+      description: "The identifier of a division",
       optional: true,
       async options() {
-        const milestones = await this.getMilestoneTypes();
-        return milestones.map((milestone) => ({
-          label: milestone.name,
-          value: milestone.id,
-        }));
+        const { divisions } = await this.listDivisions();
+        return divisions?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
-    typeOfActivity: {
+    locationId: {
       type: "string",
-      label: "Activity Type",
-      description: "The type of breathing activity to log",
+      label: "Location ID",
+      description: "The identifier of a location",
+      optional: true,
       async options() {
-        const activities = await this.getActivityTypes();
-        return activities.map((activity) => ({
-          label: activity.name,
-          value: activity.id,
-        }));
+        const { locations } = await this.listLocations();
+        return locations?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
-    duration: {
-      type: "integer",
-      label: "Duration",
-      description: "Duration of the session or activity in minutes",
+    workingPatternId: {
+      type: "string",
+      label: "Working Pattern ID",
+      description: "The identifier of a working pattern",
       optional: true,
-      min: 1,
+      async options() {
+        const { working_patterns: workingPatterns } = await this.listWorkingPatterns();
+        return workingPatterns?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
-    notes: {
+    holidayAllowanceId: {
       type: "string",
-      label: "Notes",
-      description: "Optional notes for the breathing activity",
+      label: "Holiday Allownace ID",
+      description: "The identifier of a holiday allowance",
       optional: true,
-    },
-    reminderMessage: {
-      type: "string",
-      label: "Reminder Message",
-      description: "Personalized message for the reminder",
-    },
-    deliveryTime: {
-      type: "string",
-      label: "Delivery Time",
-      description: "Time to send the reminder (ISO 8601 format)",
+      async options() {
+        const { holiday_allowances: holidayAllowances } = await this.listHolidayAllowances();
+        return holidayAllowances?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.breathehr.com";
+      return `${this.$auth.api_url}/v1`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers = {}, ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this,
+      path,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "x-api-key": `${this.$auth.api_key}`,
         },
       });
     },
-    async getSessionTypes(opts = {}) {
+    listEmployees(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/sessions/types",
+        path: "/employees",
         ...opts,
       });
     },
-    async getMilestoneTypes(opts = {}) {
+    listDepartments(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/milestones/types",
+        path: "/departments",
         ...opts,
       });
     },
-    async getActivityTypes(opts = {}) {
+    listDivisions(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/activities/types",
+        path: "/divisions",
         ...opts,
       });
     },
-    async startSession({
-      sessionType, duration, intensity, ...opts
-    }) {
-      const data = {
-        session_type: sessionType,
-        duration,
-        intensity,
-      };
+    listLocations(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/sessions/start",
-        data,
+        path: "/locations",
         ...opts,
       });
     },
-    async logActivity({
-      typeOfActivity, duration, notes, ...opts
-    }) {
-      const data = {
-        activity_type: typeOfActivity,
-        duration,
-        notes,
-      };
+    listWorkingPatterns(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/activities/log",
-        data,
+        path: "/working_patterns",
         ...opts,
       });
     },
-    async sendReminder({
-      reminderMessage, deliveryTime, ...opts
-    }) {
-      const data = {
-        message: reminderMessage,
-        delivery_time: deliveryTime,
-      };
+    listHolidayAllowances(opts = {}) {
+      return this._makeRequest({
+        path: "/holiday_allowances",
+        ...opts,
+      });
+    },
+    listLeaveRequests(opts = {}) {
+      return this._makeRequest({
+        path: "/leave_requests",
+        ...opts,
+      });
+    },
+    createEmployee(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/reminders/send",
-        data,
+        path: "/employees",
         ...opts,
       });
     },
-    async emitNewSessionEvent(filters = {}) {
-      // Implementation depends on Pipedream's event emission capabilities
-      // Example:
-      // this.$emit({ session: filters });
+    createLeaveRequest({
+      employeeId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/employees/${employeeId}/leave_requests`,
+        ...opts,
+      });
     },
-    async emitMilestoneReachedEvent(milestoneType = null) {
-      // Implementation depends on specifics
-      // Example:
-      // this.$emit({ milestone: milestoneType });
+    approveLeaveRequest({
+      leaveRequestId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/leave_requests/${leaveRequestId}/approve`,
+        ...opts,
+      });
     },
-    async emitReportGeneratedEvent() {
-      // Implementation depends on specifics
-      // Example:
-      // this.$emit({ report: "new_stress_relaxation_report" });
+    rejectLeaveRequest({
+      leaveRequestId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/leave_requests/${leaveRequestId}/reject`,
+        ...opts,
+      });
     },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let hasMore = true;
-      let page = 1;
-
-      while (hasMore) {
-        const response = await fn({
-          page,
-          ...opts,
-        });
-        if (!response || response.length === 0) {
-          hasMore = false;
-        } else {
-          results = results.concat(response);
-          page += 1;
+    async *paginate({
+      resourceFn,
+      args,
+      resourceKey,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          page: 1,
+        },
+      };
+      let total;
+      do {
+        const response = await resourceFn(args);
+        const items = response[resourceKey];
+        for (const item of items) {
+          yield item;
         }
-      }
-
-      return results;
+        total = items?.length;
+        args.params.page++;
+      } while (total);
     },
   },
 };
