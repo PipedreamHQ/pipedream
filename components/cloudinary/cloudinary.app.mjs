@@ -8,7 +8,7 @@ export default {
     resourceType: {
       type: "string",
       label: "Resource Type",
-      description: "The type of asset. Defaults to `image` if left blank",
+      description: "The type of asset. Defaults to `image` if not specified. `Note:` use video for all video and audio assets, such as `.mp3`. ",
       options: constants.RESOURCE_TYPE_OPTIONS,
       default: "image",
       optional: true,
@@ -32,7 +32,7 @@ export default {
     deliveryType: {
       type: "string",
       label: "Type",
-      description: "The delivery type. Defaults to `upload` if left blank",
+      description: "The delivery type. Defaults to `upload` if not specified.",
       options: constants.DELIVERY_TYPE_OPTIONS,
       default: "upload",
       optional: true,

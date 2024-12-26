@@ -11,7 +11,7 @@ export default {
     dateInfo: {
       type: "alert",
       alertType: "info",
-      content: "If `Date` is not specified, it defaults to the current date."
+      content: "If `Date` is not specified, it defaults to the current date.",
     },
     date: {
       type: "string",
@@ -26,16 +26,16 @@ export default {
     };
 
     try {
-    const response = await this.cloudinary.getUsage(options);
+      const response = await this.cloudinary.getUsage(options);
 
-    if (response) {
-      $.export("$summary", "Successfully retrieved usage details");
+      if (response) {
+        $.export("$summary", "Successfully retrieved usage details");
+      }
+
+      return response;
     }
-
-    return response;
-  }
-     catch (err) {
+    catch (err) {
       throw new Error(`Cloudinary error response: ${err.error?.message ?? JSON.stringify(err)}`);
-     }
+    }
   },
 };
