@@ -1334,8 +1334,7 @@ importers:
 
   components/braze: {}
 
-  components/breathe:
-    specifiers: {}
+  components/breathe: {}
 
   components/brevo:
     dependencies:
