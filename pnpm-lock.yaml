@@ -94,8 +94,8 @@ importers:
         specifier: ^12.3.4
         version: 12.5.0(enquirer@2.4.1)
       pnpm:
-        specifier: 9.14.2
-        version: 9.14.2
+        specifier: 9.14.3
+        version: 9.14.3
       putout:
         specifier: '>=36'
         version: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
@@ -1233,8 +1233,7 @@ importers:
 
   components/bluecart_api: {}
 
-  components/bluesky:
-    specifiers: {}
+  components/bluesky: {}
 
   components/bluesky_by_unshape:
     dependencies:
@@ -1973,8 +1972,8 @@ importers:
   components/cloudinary:
     dependencies:
       cloudinary:
-        specifier: ^1.36.1
-        version: 1.41.3
+        specifier: ^2.5.1
+        version: 2.5.1
 
   components/cloudlayer: {}
 
@@ -12217,10 +12216,10 @@ importers:
         version: 14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       nextra:
         specifier: latest
-        version: 3.3.0(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
+        version: 3.3.1(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
       nextra-theme-docs:
         specifier: latest
-        version: 3.3.0(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nextra@3.3.0(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 3.3.1(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nextra@3.3.1(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -18040,14 +18039,9 @@ packages:
   cloudflare@2.9.1:
     resolution: {integrity: sha512-x8yXPPoloy7xQ9GCKnsvQ3U1nwvcLndA2B3nxwSjIWxgLTUJOyakeEDsrqxZO8Dr6FkGdaXwy554fQVMpOabiw==}
 
-  cloudinary-core@2.13.1:
-    resolution: {integrity: sha512-z53GPNWnvU0Zi+ns8CIVbZBfj7ps/++zDvwIyiFuq5p1MoK+KUCg0k5mBceDDHTnx1gHmHUd9aohS+gDxPNt6w==}
-    peerDependencies:
-      lodash: '>=4.0'
-
-  cloudinary@1.41.3:
-    resolution: {integrity: sha512-4o84y+E7dbif3lMns+p3UW6w6hLHEifbX/7zBJvaih1E9QNMZITENQ14GPYJC4JmhygYXsuuBb9bRA3xWEoOfg==}
-    engines: {node: '>=0.6'}
+  cloudinary@2.5.1:
+    resolution: {integrity: sha512-CNg6uU53Hl4FEVynkTGpt5bQEAQWDHi3H+Sm62FzKf5uQHipSN2v7qVqS8GRVqeb0T1WNV+22+75DOJeRXYeSQ==}
+    engines: {node: '>=9'}
 
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
@@ -18246,9 +18240,6 @@ packages:
 
   core-js-compat@3.39.0:
     resolution: {integrity: sha512-VgEUx3VwlExr5no0tXlBt+silBvhTryPwCXRI2Id1PN8WTKu7MreethvddqOubrYxkFdv/RnYrqlv1sFNAUelw==}
-
-  core-js@3.39.0:
-    resolution: {integrity: sha512-raM0ew0/jJUqkJ0E6e8UDtl+y/7ktFivgWvqw8dNSQeNWoSDLvQ1H/RN3aPXB9tBd4/FhyR4RDPGhsNIMsAn7g==}
 
   core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
@@ -22396,16 +22387,16 @@ packages:
       sass:
         optional: true
 
-  nextra-theme-docs@3.3.0:
-    resolution: {integrity: sha512-4JSbDmsbtaYa2eKHsNymWy6So4/fAAXuNPSkjgQ3S+aLRiC730mR9djdkTd1iRca4+czetzBWaqxu+HwTVSSCA==}
+  nextra-theme-docs@3.3.1:
+    resolution: {integrity: sha512-P305m2UcW2IDyQhjrcAu0qpdPArikofinABslUCAyixYShsmcdDRUhIMd4QBHYru4gQuVjGWX9PhWZZCbNvzDQ==}
     peerDependencies:
       next: '>=13'
-      nextra: 3.3.0
+      nextra: 3.3.1
       react: '>=18'
       react-dom: '>=18'
 
-  nextra@3.3.0:
-    resolution: {integrity: sha512-//+bQW3oKrpLrrIFD5HJow310+YcNYhGIgdM4y+EjYuIXScJcgp6Q4Upsq8c2s2fQKEJjeuf+hXKusx9fvH/2w==}
+  nextra@3.3.1:
+    resolution: {integrity: sha512-jiwj+LfUPHHeAxJAEqFuglxnbjFgzAOnDWFsjv7iv3BWiX8OksDwd3I2Sv3j2zba00iIBDEPdNeylfzTtTLZVg==}
     engines: {node: '>=18'}
     peerDependencies:
       next: '>=13'
@@ -23074,8 +23065,8 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
 
-  pnpm@9.14.2:
-    resolution: {integrity: sha512-biuvd9Brk2IpQVLIUcTyeO3jerHro6Vf2jF6SheyCfTbuXP7JQp3q8Rjo0H8sfF/F8+iQJHE6zGc2g2bhCeDhw==}
+  pnpm@9.14.3:
+    resolution: {integrity: sha512-wPU+6ZR37ZabgrKJrQEaXRa/FiPJV+fynqvo0MALV0wpuMf1T2xn7nEMc/KFyBVNB85EtG/iwO60dqkEQbrDcQ==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -33843,14 +33834,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  cloudinary-core@2.13.1(lodash@4.17.21):
+  cloudinary@2.5.1:
     dependencies:
-      lodash: 4.17.21
-
-  cloudinary@1.41.3:
-    dependencies:
-      cloudinary-core: 2.13.1(lodash@4.17.21)
-      core-js: 3.39.0
       lodash: 4.17.21
       q: 1.5.1
 
@@ -34058,8 +34043,6 @@ snapshots:
   core-js-compat@3.39.0:
     dependencies:
       browserslist: 4.24.2
-
-  core-js@3.39.0: {}
 
   core-util-is@1.0.2: {}
 
@@ -39625,7 +39608,7 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
-  nextra-theme-docs@3.3.0(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nextra@3.3.0(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  nextra-theme-docs@3.3.1(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nextra@3.3.1(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@headlessui/react': 2.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx: 2.1.1
@@ -39633,13 +39616,13 @@ snapshots:
       flexsearch: 0.7.43
       next: 14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-themes: 0.4.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      nextra: 3.3.0(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
+      nextra: 3.3.1(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       scroll-into-view-if-needed: 3.1.0
       zod: 3.23.8
 
-  nextra@3.3.0(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3):
+  nextra@3.3.1(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3):
     dependencies:
       '@formatjs/intl-localematcher': 0.5.8
       '@headlessui/react': 2.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -40448,7 +40431,7 @@ snapshots:
 
   pluralize@8.0.0: {}
 
-  pnpm@9.14.2: {}
+  pnpm@9.14.3: {}
 
   points-on-curve@0.2.0: {}
 
