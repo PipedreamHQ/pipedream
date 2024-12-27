@@ -10226,6 +10226,9 @@ importers:
 
   components/taggun: {}
 
+  components/taleez:
+    specifiers: {}
+
   components/talend: {}
 
   components/talenox: {}
