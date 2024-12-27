@@ -70,7 +70,7 @@ export default {
       return this._client().api.usage(options);
     },
     async transformImage(imageSource, options) {
-      return this._client().image(imageSource, options);
+      return this._client().url(imageSource, options);
     },
     async transformVideo(videoPublicId, options) {
       return this._client().video(videoPublicId, options);
