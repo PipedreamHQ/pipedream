@@ -31,8 +31,8 @@ export default {
     },
     deliveryType: {
       type: "string",
-      label: "Type",
-      description: "The delivery type. Defaults to `upload` if not specified.",
+      label: "Filter by Type",
+      description: "Find assets with the specified delivery type (defaults to `upload`).",
       options: constants.DELIVERY_TYPE_OPTIONS,
       default: "upload",
       optional: true,
@@ -40,7 +40,7 @@ export default {
     uploadDeliveryType: {
       type: "string",
       label: "Type",
-      description: "The delivery type. Allows uploading assets as `private` or `authenticated` instead of the default `upload` mode. Valid values: `upload`, `private` and `authenticated`. Default: `upload`.",
+      description: "The delivery type. Allows uploading assets as `private` or `authenticated` instead of the default `upload` mode.",
       options: constants.UPLOAD_DELIVERY_TYPE_OPTIONS,
       default: "upload",
       optional: true,
@@ -48,7 +48,7 @@ export default {
     accessMode: {
       type: "string",
       label: "Access Mode",
-      description: "Allows the asset to behave as if it's of the authenticated 'type' (see above) while still using the default 'upload' type in delivery URLs. The asset can later be made public by changing its access_mode via the [Admin API](https://cloudinary.com/documentation/admin_api#update_access_mode), without having to update any delivery URLs. Valid values: `public`, and `authenticated`. Default: `public`.",
+      description: "Allows the asset to behave as if it's of the authenticated 'type'. Default is `public`. The asset can later be made public by changing its Access Mode via the [Admin API](https://cloudinary.com/documentation/admin_api#update_access_mode), without having to update any delivery URLs.",
       optional: true,
       options: constants.ACCESS_MODE_OPTIONS,
     },
