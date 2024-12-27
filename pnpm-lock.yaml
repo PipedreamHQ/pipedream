@@ -1334,8 +1334,7 @@ importers:
 
   components/braze: {}
 
-  components/breathe:
-    specifiers: {}
+  components/breathe: {}
 
   components/brevo:
     dependencies:
@@ -5429,7 +5428,11 @@ importers:
 
   components/keen_io: {}
 
-  components/kenjo: {}
+  components/kenjo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/key_app_demo_1: {}
 
