@@ -132,7 +132,8 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://remoteretrieval.com/RR-enterprise/remoteretrieval/public/index.php/api/v1";
+      // return "https://remoteretrieval.com/RR-enterprise/remoteretrieval/public/index.php/api/v1";
+      return "https://remoteretrieval.com/api/v1"
     },
     async _makeRequest(opts = {}) {
       const {
