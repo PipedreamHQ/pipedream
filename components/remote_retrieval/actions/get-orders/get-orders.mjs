@@ -4,7 +4,7 @@ export default {
   key: "remote_retrieval-get-orders",
   name: "Get Orders",
   description: "Get a list of all orders. [See the documentation](https://www.remoteretrieval.com/api-integration/#all-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
