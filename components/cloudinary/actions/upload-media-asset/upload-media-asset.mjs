@@ -1,4 +1,5 @@
 import cloudinary from "../../cloudinary.app.mjs";
+import fs from 'fs';
 
 export default {
   key: "cloudinary-upload-media-asset",
@@ -74,11 +75,6 @@ export default {
     },
   },
   async run({ $ }) {
-    let file = this.file;
-    if (typeof file === 'string' && file.match(/^\/?tmp/)) {
-      file = fs.createReadStream(file);
-    }
-
     const options = {
       public_id: this.publicId,
       folder: this.folder,
@@ -98,12 +94,12 @@ export default {
     };
 
     try {
-      const response = await this.cloudinary.uploadMedia(file, options);
+      const response = await this.cloudinary.uploadMedia(this.file, options);
       if (response) {
         $.export("$summary", "Successfully uploaded media asset");
       }
       return response;
-    } catch (e) {
+    } catch (err) {
       throw new Error(`Cloudinary error response: ${err.error?.message ?? JSON.stringify(err)}`);
     }
   },
