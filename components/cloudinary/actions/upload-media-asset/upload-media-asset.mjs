@@ -1,5 +1,4 @@
 import cloudinary from "../../cloudinary.app.mjs";
-import fs from 'fs';
 
 export default {
   key: "cloudinary-upload-media-asset",
@@ -12,7 +11,7 @@ export default {
     infoAlert: {
       type: "alert",
       alertType: "info",
-      content: `Cloudinary offers a large amount of options to customize your asset upload. You can set any available options in the \`Additional Options\` prop. [See the Cloudinary documentation for more information.](https://cloudinary.com/documentation/image_upload_api_reference#upload_method)`
+      content: "Cloudinary offers a large amount of options to customize your asset upload. You can set any available options in the `Additional Options` prop. [See the Cloudinary documentation for more information.](https://cloudinary.com/documentation/image_upload_api_reference#upload_method)",
     },
     file: {
       type: "string",
@@ -84,13 +83,22 @@ export default {
       tags: this.tags,
       format: this.format,
       backup: this.backup,
-      ...Object.fromEntries(Object.entries(this.additionalOptions ?? {}).map(([key, value]) => {
+      ...Object.fromEntries(Object.entries(this.additionalOptions ?? {}).map(([
+        key,
+        value,
+      ]) => {
         try {
-          return [key, JSON.parse(value)]
+          return [
+            key,
+            JSON.parse(value),
+          ];
         } catch (err) {
-          return [key, value]
+          return [
+            key,
+            value,
+          ];
         }
-    })),
+      })),
     };
 
     try {

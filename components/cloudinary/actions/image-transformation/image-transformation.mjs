@@ -11,8 +11,8 @@ export default {
     assetId: {
       propDefinition: [
         cloudinary,
-        "assetId"
-      ]
+        "assetId",
+      ],
     },
     width: {
       type: "integer",
@@ -43,25 +43,27 @@ export default {
     transformations: {
       propDefinition: [
         cloudinary,
-        "transformations"
-      ]
+        "transformations",
+      ],
     },
   },
   async run({ $ }) {
-    const { cloudinary, assetId, transformations, ...options } = this;
+    const {
+      cloudinary, assetId, transformations, ...options
+    } = this;
     try {
-    const response = await cloudinary.transformAsset(assetId, { 
-      ...options,
-      ...transformations,
-    });
+      const response = await cloudinary.transformAsset(assetId, {
+        ...options,
+        ...transformations,
+      });
 
-    if (response) {
-      $.export("$summary", "Successfully transformed image");
+      if (response) {
+        $.export("$summary", "Successfully transformed image");
+      }
+
+      return response;
+    } catch (err) {
+      throw new Error(`Cloudinary error response: ${err.error?.message ?? JSON.stringify(err)}`);
     }
-
-    return response;
-  } catch (err) {
-    throw new Error(`Cloudinary error response: ${err.error?.message ?? JSON.stringify(err)}`);
-  }
   },
 };
