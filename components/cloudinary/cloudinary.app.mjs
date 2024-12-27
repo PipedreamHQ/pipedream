@@ -52,6 +52,16 @@ export default {
       optional: true,
       options: constants.ACCESS_MODE_OPTIONS,
     },
+    assetId: {
+      type: "string",
+      label: "Public ID",
+      description: "The [public ID](https://cloudinary.com/documentation/upload_images#public_id) of the asset , e.g. `folder/filename`.",
+    },
+    transformations: {
+      type: "object",
+      label: "Additional Transformations",
+      description: "Additional transformations to apply to the resource. [See the documentation](https://cloudinary.com/documentation/transformation_reference) for all available transformations. Example: `{ \"angle\": 90, \"color_space\": \"srgb\"}`",
+    },
   },
   methods: {
     _client() {
@@ -69,11 +79,8 @@ export default {
     async getUsage(options) {
       return this._client().api.usage(options);
     },
-    async transformImage(imageSource, options) {
+    async transformAsset(imageSource, options) {
       return this._client().url(imageSource, options);
-    },
-    async transformVideo(videoPublicId, options) {
-      return this._client().video(videoPublicId, options);
     },
     async uploadMedia(file, options) {
       return this._client().uploader.upload(file, options);

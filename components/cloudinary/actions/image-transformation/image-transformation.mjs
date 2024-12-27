@@ -3,15 +3,16 @@ import cloudinary from "../../cloudinary.app.mjs";
 export default {
   key: "cloudinary-image-transformation",
   name: "Transform Image",
-  description: "Transform an image on-the-fly with several options. [See the documentation](https://cloudinary.com/documentation/image_transformations)",
-  version: "0.1.{{ts}}",
+  description: "Transform an image asset on-the-fly with several options. [See the documentation](https://cloudinary.com/documentation/image_transformations)",
+  version: "0.1.0",
   type: "action",
   props: {
     cloudinary,
-    imageSource: {
-      type: "string",
-      label: "Public ID",
-      description: "The [public ID](https://cloudinary.com/documentation/upload_images#public_id) of the asset , e.g. `folder/filename`.",
+    assetId: {
+      propDefinition: [
+        cloudinary,
+        "assetId"
+      ]
     },
     width: {
       type: "integer",
@@ -40,21 +41,22 @@ export default {
       max: 100,
     },
     transformations: {
-      type: "object",
-      label: "Additional Transformations",
-      description: "Additional transformations to apply to the image. [See the documentation](https://cloudinary.com/documentation/transformation_reference#co_color) for all available transformations. Example: `{ \"angle\": 90, \"color_space\": \"srgb\"}`",
+      propDefinition: [
+        cloudinary,
+        "transformations"
+      ]
     },
   },
   async run({ $ }) {
-    const { cloudinary, imageSource, transformations, ...options } = this;
+    const { cloudinary, assetId, transformations, ...options } = this;
     try {
-    const response = await cloudinary.transformImage(imageSource, { 
+    const response = await cloudinary.transformAsset(assetId, { 
       ...options,
       ...transformations,
     });
 
     if (response) {
-      $.export("$summary", "Successfully transformed image.");
+      $.export("$summary", "Successfully transformed image");
     }
 
     return response;
