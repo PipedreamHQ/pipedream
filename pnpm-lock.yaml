@@ -8942,6 +8942,9 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
+  components/scrapegraphai:
+    specifiers: {}
+
   components/scrapein_: {}
 
   components/scrapeninja: {}
