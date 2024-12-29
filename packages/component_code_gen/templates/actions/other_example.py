@@ -1,8 +1,9 @@
-other_example = """## Slack API example component
+other_example = """<AdditionalExample>
+<Slack>
 
 Here's an example Pipedream component that makes a test request against the Slack API:
 
-```
+```javascript
 import slack from "../../slack.app.mjs"
 import { axios } from "@pipedream/platform"
 
@@ -41,18 +42,22 @@ export default {
     return response
   },
 };
+```
 
 Notice this section:
 
+```javascript
 data: {
   channel: this.channel,
   text: this.text,
 },
+```
 
-This shows you how to pass the values of props (e.g. this.channel and this.text) as params to the API. This is one of the most important things to know: you MUST generate code that adds inputs as props so that users can enter their own values when making the API request. You MUST NOT pass static values. See rule #2 below for more detail.
+This shows you how to pass the values of props (e.g. `this.channel` and `this.text`) as params to the API. This is one of the most important things to know: you MUST generate code that adds inputs as props so that users can enter their own values when making the API request. You MUST NOT pass static values. See the <Rules> for more information.
 
 The code you generate should be placed within the `run` method of the Pipedream component:
 
+```javascript
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -69,4 +74,8 @@ export default {
     $.export("$summary", "Your summary here")
     return response
   },
-};"""
+};
+```
+
+</Slack>
+</AdditionalExample>"""

@@ -38,7 +38,7 @@ def generate_code(app, prompt, templates, parsed_common_files, urls_content, tri
     docs_meta = {}  # XXX - temporarily disable supabase docs
     results = []
 
-    auth_details = "## Auth details\n\nThese details come directly from the app configuration in Pipedream. Prioritize this information over any other information you find in the app's docs, since this section is specific to Pipedream."
+    auth_details = "<AuthDetails>\n\nThese details come directly from the app configuration in Pipedream. Prioritize this information over any other information you find in the app's docs, since this section is specific to Pipedream."
     auth_meta = db.get_app_auth_meta(app)
     auth_type = auth_meta.get('auth_type')
     if auth_type == "keys":
@@ -48,7 +48,9 @@ def generate_code(app, prompt, templates, parsed_common_files, urls_content, tri
     elif auth_type == "oauth":
         auth_details += f"{app} is an OAuth app. The `this` object exposes the OAuth access token in the variable `this.#{app.name_slug}.$auth.oauth_access_token`. When you make an API request, use the format from the \"Auth example\" section below."
     if auth_meta.get('component_code_scaffold_raw'):
-        auth_details = f"\n\n## Auth example\n\nHere's example Node.js code to show how authentication is done in {app}:\n\n{auth_meta['component_code_scaffold_raw']}\n\n"
+        auth_details += f"\n\n## Auth example\n\nHere's example Node.js code to show how authentication is done in {app}:\n\n{auth_meta['component_code_scaffold_raw']}\n\n"
+
+    auth_details += "</AuthDetails>"
 
     normal_order = False
     for i in range(tries):

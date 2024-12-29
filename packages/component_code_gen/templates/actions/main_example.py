@@ -1,8 +1,9 @@
-main_example = """## OpenAI example component
+main_example = """<Example>
+<OpenAI>
 
-Here's an example component:
+Here's an example Pipedream action for OpenAI that lists all models available to the user:
 
-```
+```javascript
 import openai from "../../openai.app.mjs"
 import { axios } from "@pipedream/platform"
 
@@ -26,4 +27,7 @@ export default {
     return response
   },
 };
-```"""
+```
+</OpenAI>
+</Example>
+"""
