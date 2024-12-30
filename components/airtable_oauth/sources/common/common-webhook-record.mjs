@@ -18,6 +18,19 @@ export default {
         operation = changedRecord[0];
         recordObj = changedRecord[1];
       }
+
+        // for deleted record(s) we'll emit only their ids (no other info is available)
+      if (operation === 'destroyedRecordIds' && Array.isArray(recordObj)) {
+        const { length } = recordObj;
+        const summary = length === 1 ? `Record deleted: ${recordObj[0]}` : `${length} records deleted`;
+        this.$emit({
+          originalPayload: payload,
+          tableId,
+          deletedRecordIds: recordObj,
+        }, this.generateMeta(payload, summary));
+        return;
+      }
+
       const [recordId, recordUpdateInfo] = Object.entries(recordObj)[0];
 
       const timestamp = Date.parse(payload.timestamp);
@@ -25,12 +38,7 @@ export default {
       this._setLastObjectId(recordId);
       this._setLastTimestamp(timestamp);
 
-      let updateType = 'updated';
-      if (operation === "createdRecordsById") {
-        updateType = "created";
-      } else if (operation === "deletedRecordsById") {
-        updateType = "deleted";
-      }
+      let updateType = operation === "createdRecordsById" ? 'created' : 'updated';
 
       const { fields } = await this.airtable.getRecord({
         baseId: this.baseId,

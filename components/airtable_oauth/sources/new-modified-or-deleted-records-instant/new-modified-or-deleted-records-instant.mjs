@@ -8,7 +8,7 @@ export default {
   name: "New Record Created, Updated or Deleted (Instant)",
   description: "Emit new event when a record is added, updated, or deleted in a table or selected view.",
   key: "airtable_oauth-new-modified-or-deleted-records-instant",
-  version: "0.1.0",
+  version: "0.1.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {
@@ -19,6 +19,7 @@ export default {
       description: "Select the types of record updates that should emit events. If not specified, all updates will emit events.",
       options: constants.CHANGE_TYPES,
       optional: true,
+      default: ["add", "remove", "update"],
     },
     watchDataInFieldIds: {
       propDefinition: [

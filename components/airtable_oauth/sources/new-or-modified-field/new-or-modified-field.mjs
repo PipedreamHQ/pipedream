@@ -1,4 +1,5 @@
 import common from "../common/common-webhook-field.mjs";
+import airtable from "../../airtable_oauth.app.mjs";
 
 export default {
   ...common,
