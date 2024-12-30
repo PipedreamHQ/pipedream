@@ -5,12 +5,11 @@ import commonActions from "../../common/actions.mjs";
 export default {
   key: "airtable_oauth-get-record-or-create",
   name: "Get Record Or Create",
-  description: "Get a record from a table by record ID or create a new register.",
-  version: "0.0.8",
+  description: "Get a specific record, or create one if it doesn't exist. [See the documentation](https://airtable.com/developers/web/api/create-records)",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     tableId: {
       ...common.props.tableId,
       reloadProps: true,
