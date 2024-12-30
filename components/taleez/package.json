@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/taleez",
+  "version": "0.0.1",
+  "description": "Pipedream Taleez Components",
+  "main": "taleez.app.mjs",
+  "keywords": [
+    "pipedream",
+    "taleez"
+  ],
+  "homepage": "https://pipedream.com/apps/taleez",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
