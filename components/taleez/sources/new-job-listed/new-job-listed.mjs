@@ -1,100 +1,75 @@
-import taleez from "../../taleez.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "taleez-new-job-listed",
   name: "New Job Listing Created",
-  description: "Emit a new event when a job listing is created. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a job listing is created in Taleez. [See the documentation](https://api.taleez.com/swagger-ui/index.html#/jobs/list_3)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    taleez,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    departmentFilter: {
+    ...common.props,
+    unitId: {
       propDefinition: [
-        taleez,
-        "departmentFilter",
+        common.props.taleez,
+        "unitId",
       ],
-      optional: true,
     },
-    locationFilter: {
+    status: {
       propDefinition: [
-        taleez,
-        "locationFilter",
+        common.props.taleez,
+        "status",
       ],
-      optional: true,
+    },
+    contract: {
+      propDefinition: [
+        common.props.taleez,
+        "contract",
+      ],
+    },
+    city: {
+      propDefinition: [
+        common.props.taleez,
+        "city",
+      ],
+    },
+    companyLabel: {
+      propDefinition: [
+        common.props.taleez,
+        "companyLabel",
+      ],
+    },
+    tag: {
+      propDefinition: [
+        common.props.taleez,
+        "tag",
+      ],
     },
   },
-  hooks: {
-    async deploy() {
-      const jobListings = await this.taleez.listJobListings({
-        params: {
-          perpage: 50,
-          sort: "created_desc",
-          department: this.departmentFilter,
-          location: this.locationFilter,
-        },
-      });
-
-      // Sort from oldest to newest
-      jobListings.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-
-      for (const job of jobListings) {
-        this.$emit(job, {
-          id: job.id,
-          summary: `New Job Listing: ${job.title}`,
-          ts: Date.parse(job.created_at) || Date.now(),
-        });
-      }
-
-      if (jobListings.length > 0) {
-        const latestTs = Math.max(...jobListings.map((j) => Date.parse(j.created_at) || Date.now()));
-        await this.db.set("last_seen_ts", latestTs);
-      }
+  methods: {
+    ...common.methods,
+    getResourceFn() {
+      return this.taleez.listJobs;
     },
-    async activate() {
-      await this.taleez.emitNewJobListingEvent(this.callbackUrl);
+    getArgs() {
+      return {
+        unitId: this.unitId,
+        status: this.status,
+        contract: this.contract,
+        city: this.city,
+        companyLabel: this.companyLabel,
+        tag: this.tag,
+        withDetails: true,
+        withProps: true,
+      };
     },
-    async deactivate() {
-      await this.taleez.removeWebhook("job_listing_created");
-    },
-  },
-  async run() {
-    const lastSeenTs = (await this.db.get("last_seen_ts")) || 0;
-    const jobListings = await this.taleez.listJobListings({
-      params: {
-        perpage: 100,
-        sort: "created_asc",
-        department: this.departmentFilter,
-        location: this.locationFilter,
-      },
-    });
-
-    const newJobListings = jobListings.filter((job) => Date.parse(job.created_at) > lastSeenTs);
-
-    // Sort from oldest to newest
-    newJobListings.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-
-    for (const job of newJobListings) {
-      this.$emit(job, {
+    generateMeta(job) {
+      return {
         id: job.id,
-        summary: `New Job Listing: ${job.title}`,
-        ts: Date.parse(job.created_at) || Date.now(),
-      });
-    }
-
-    if (newJobListings.length > 0) {
-      const latestTs = Math.max(...newJobListings.map((j) => Date.parse(j.created_at) || Date.now()));
-      await this.db.set("last_seen_ts", latestTs);
-    }
+        summary: `New Job: ${job.label}`,
+        ts: job.dateCreation,
+      };
+    },
   },
 };
