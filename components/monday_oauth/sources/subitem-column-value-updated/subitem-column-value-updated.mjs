@@ -1,5 +1,5 @@
 import app from "../../monday_oauth.app.mjs";
-import common from "../../../monday/sources/subitem-column-value-updated/subitem-column-value-updated.mjs";
+import common from "@pipedream/monday/sources/subitem-column-value-updated/subitem-column-value-updated.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "monday_oauth-subitem-column-value-updated",
-  version: "0.0.1",
+  version: "0.0.2",
   name,
   description,
   type,

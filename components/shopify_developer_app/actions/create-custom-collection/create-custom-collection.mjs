@@ -1,12 +1,12 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "../../../shopify/actions/create-custom-collection/common.mjs";
+import common from "@pipedream/shopify/actions/create-custom-collection/common.mjs";
 
 export default {
   ...common,
   key: "shopify_developer_app-create-custom-collection",
   name: "Create Custom Collection",
   description: "Create a new custom collection. [See the documentation](https://shopify.dev/docs/api/admin-rest/2023-01/resources/customcollection#post-custom-collections)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     shopify,
