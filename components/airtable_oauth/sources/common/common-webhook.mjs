@@ -174,7 +174,7 @@ export default {
         try {
           await this.emitEvent(payload);
         } catch (err) {
-          console.log('Error emitting event, defaulting to default emission');
+          console.log("Error emitting event, defaulting to default emission");
           console.log(err);
           this.emitDefaultEvent(payload);
         }

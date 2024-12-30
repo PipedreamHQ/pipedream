@@ -34,5 +34,5 @@ export default {
       description:
         "Only emit events for updates that modify the schemas of these fields. If omitted, schemas of all fields within the table/view/base are watched",
     },
-  }
+  },
 };

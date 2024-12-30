@@ -19,7 +19,11 @@ export default {
       description: "Select the types of record updates that should emit events. If not specified, all updates will emit events.",
       options: constants.CHANGE_TYPES,
       optional: true,
-      default: ["add", "remove", "update"],
+      default: [
+        "add",
+        "remove",
+        "update",
+      ],
     },
     watchDataInFieldIds: {
       propDefinition: [
