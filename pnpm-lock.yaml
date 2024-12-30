@@ -1334,8 +1334,7 @@ importers:
 
   components/braze: {}
 
-  components/breathe:
-    specifiers: {}
+  components/breathe: {}
 
   components/brevo:
     dependencies:
@@ -1504,7 +1503,11 @@ importers:
 
   components/call_fire: {}
 
-  components/callerapi: {}
+  components/callerapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/callhub:
     dependencies:
@@ -1625,8 +1628,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/change_photos:
-    specifiers: {}
+  components/change_photos: {}
 
   components/changenow: {}
 
@@ -5395,8 +5397,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/kafka:
-    specifiers: {}
+  components/kafka: {}
 
   components/kajabi: {}
 
@@ -8945,8 +8946,7 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/scrapegraphai:
-    specifiers: {}
+  components/scrapegraphai: {}
 
   components/scrapein_: {}
 
@@ -10235,8 +10235,7 @@ importers:
 
   components/taggun: {}
 
-  components/taleez:
-    specifiers: {}
+  components/taleez: {}
 
   components/talend: {}
 
