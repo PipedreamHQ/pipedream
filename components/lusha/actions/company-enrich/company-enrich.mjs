@@ -4,7 +4,7 @@ export default {
   key: "lusha-company-enrich",
   name: "Enrich Companies",
   description: "Enriches company information based on provided company IDs. [See the documentation](https://www.lusha.com/docs/#company-enrich)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     lusha,
@@ -19,7 +19,7 @@ export default {
     companiesIds: {
       propDefinition: [
         lusha,
-        "companiesIds",
+        "companyIds",
       ],
     },
   },

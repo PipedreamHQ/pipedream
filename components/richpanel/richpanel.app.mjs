@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "quriiri",
+  app: "richpanel",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
