@@ -19,7 +19,6 @@ export default {
         headers: {
           Authorization: `Bearer ${this.$auth.api_key}`,
         },
-        debug: true,
       });
     },
     transformImage(opts = {}) {
