@@ -297,10 +297,6 @@ Pipedream Connect Error: Required account for hubspot not found for external use
 
 ## Known limitations
 
-#### Using your end user's auth is not currently supported within control flow segments
-- Currently, you can only use your end user's auth in the linear execution paths of a Pipedream workflow. 
-- You can still use control flow features in your Connect-enabled workflow, but the step(s) that use an end user's auth must be in the linear [execution path](/workflows/control-flow#execution-path) of the workflow.
-
 #### Workflows can only use a single external user's auth per execution
 - Right now you cannot invoke a workflow to loop through many external user IDs within a single execution.
 - You can only run a workflow for a single external user ID at a time (for now).

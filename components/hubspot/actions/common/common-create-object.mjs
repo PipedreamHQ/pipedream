@@ -9,6 +9,7 @@ export default {
     propertyGroups: {
       type: "string[]",
       label: "Property Groups",
+      hidden: true,
       reloadProps: true,
       async options() {
         const { results: groups } = await this.hubspot.getPropertyGroups({
@@ -19,6 +20,11 @@ export default {
           value: group.name,
         }));
       },
+    },
+    objectProperties: {
+      type: "object",
+      label: "Object Properties",
+      description: "Enter the object properties to create as a JSON object",
     },
   },
   methods: {
@@ -46,9 +52,16 @@ export default {
       contactId,
       $db,
       updateIfExists,
-      ...properties
+      objectProperties,
+      ...otherProperties
     } = this;
     const objectType = this.getObjectType();
+
+    const properties = objectProperties
+      ? typeof objectProperties === "string"
+        ? JSON.parse(objectProperties)
+        : objectProperties
+      : otherProperties;
 
     // checkbox (string[]) props must be semicolon separated strings
     Object.keys(properties)

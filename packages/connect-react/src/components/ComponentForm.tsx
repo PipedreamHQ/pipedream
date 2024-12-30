@@ -1,4 +1,5 @@
 import {
+  DynamicProps,
   FormContextProvider, type FormContext,
 } from "../hooks/form-context";
 import type {
@@ -13,9 +14,11 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
   component: V1Component<T>;
   configuredProps?: U; // XXX value?
   disableQueryDisabling?: boolean;
+  // dynamicPropsId?: string // XXX need to load this initially when passed
   propNames?: string[]; // TODO PropNames<T>
   onSubmit?: (ctx: FormContext<T>) => void | Promise<void>; // if passed, we include button
   onUpdateConfiguredProps?: (v: U) => void; // XXX onChange?
+  onUpdateDynamicProps?: (dp: DynamicProps<T>) => void;
   hideOptionalProps?: boolean;
 };
 

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/breathe",
+  "version": "0.0.1",
+  "description": "Pipedream Breathe Components",
+  "main": "breathe.app.mjs",
+  "keywords": [
+    "pipedream",
+    "breathe"
+  ],
+  "homepage": "https://pipedream.com/apps/breathe",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

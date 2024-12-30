@@ -3,7 +3,10 @@ import type {
   CSSProperties, FormEventHandler,
 } from "react";
 import { useCustomize } from "../hooks/customization-context";
-import { useFormContext } from "../hooks/form-context";
+import {
+  useFormContext,
+  skippablePropTypes,
+} from "../hooks/form-context";
 import { InternalField } from "./InternalField";
 import { Alert } from "./Alert";
 import { ErrorBoundary } from "./ErrorBoundary";
@@ -71,6 +74,9 @@ export function InternalComponentForm() {
   for (let idx = 0; idx < configurableProps.length; idx++) {
     const prop = configurableProps[idx];
     if (prop.hidden) {
+      continue;
+    }
+    if (skippablePropTypes.includes(prop.type)) {
       continue;
     }
     if (prop.optional) {

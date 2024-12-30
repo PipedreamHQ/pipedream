@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lobste_rs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream lobste.rs Components",
   "main": "lobste_rs.app.mjs",
   "keywords": [
@@ -11,5 +11,10 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "feedparser": "^2.2.10",
+    "object-hash": "^3.0.0"
   }
 }
