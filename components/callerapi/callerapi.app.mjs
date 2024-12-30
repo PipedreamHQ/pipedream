@@ -3,44 +3,46 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "callerapi",
-  version: "0.0.1",
-  propDefinitions: {},
+  propDefinitions: {
+    phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "The phone number to retrieve information for (E.164 format, e.g., +18006927753)",
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://callerapi.com/api";
+      return "https://callerapi.com/api/phone";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "x-auth": this.$auth.api_key,
+      };
+    },
+    _makeRequest({
+      $ = this, method, path = "/", ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
+        ...opts,
         method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "X-Auth": this.$auth.api_key,
-        },
+        headers: this._headers(),
       });
     },
-    async getPhoneInfo(phoneNumber, opts = {}) {
-      const phone = phoneNumber.replace(/^\+/, "");
+    getPhoneInfo({
+      $, phoneNumber,
+    }) {
       return this._makeRequest({
-        method: "GET",
-        path: `/phone/info/${phone}`,
-        ...opts,
+        $,
+        path: `/info/${phoneNumber}`,
       });
     },
-    async getPhonePicture(phoneNumber, opts = {}) {
-      const phone = phoneNumber.replace(/^\+/, "");
+    getPhonePicture({
+      $, phoneNumber,
+    }) {
       return this._makeRequest({
-        method: "GET",
-        path: `/phone/pic/${phone}`,
-        ...opts,
+        $,
+        path: `/pic/${phoneNumber}`,
       });
     },
   },
