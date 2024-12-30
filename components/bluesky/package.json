@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bluesky",
+  "version": "0.0.1",
+  "description": "Pipedream Bluesky Components",
+  "main": "bluesky.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bluesky"
+  ],
+  "homepage": "https://pipedream.com/apps/bluesky",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

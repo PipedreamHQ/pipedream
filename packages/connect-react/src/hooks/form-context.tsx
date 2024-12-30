@@ -100,7 +100,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   useEffect(() => {
     setEnabledOptionalProps({});
   }, [
-    component,
+    component.key,
   ]);
   // XXX pass this down? (in case we make it hash or set backed, but then also provide {add,remove} instead of set)
   const optionalPropIsEnabled = (prop: ConfigurableProp) => enabledOptionalProps[prop.name];
@@ -141,6 +141,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       // XXX what about if null?
       // TODO observation errors, etc.
       if (dynamicProps) {
+        formProps.onUpdateDynamicProps?.(dynamicProps);
         setDynamicProps(dynamicProps);
       }
       setReloadPropIdx(undefined);

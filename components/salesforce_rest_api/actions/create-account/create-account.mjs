@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-create-account",
   name: "Create Account",
   description: `Creates a Salesforce account. [See the documentation](${docsLink})`,
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   methods: {
     ...common.methods,

@@ -1,7 +1,7 @@
-import hubspot from "../../hubspot.app.mjs";
 import {
   OBJECT_TYPE, HUBSPOT_OWNER,
 } from "../../common/constants.mjs";
+import appProp from "./common-app-prop.mjs";
 
 /**
  * Returns an options method for a CRM object type, intended to be used in
@@ -43,7 +43,7 @@ function getOptionsMethod(objectTypeName) {
 
 export default {
   props: {
-    hubspot,
+    ...appProp.props,
   },
   methods: {
     getObjectType() {
@@ -112,25 +112,51 @@ export default {
       };
     },
   },
-  async additionalProps() {
+  async additionalProps(existingProps) {
     const objectType = this.getObjectType();
-    const schema = await this.hubspot.getSchema({
-      objectType,
-    });
-    const { results: properties } = await this.hubspot.getProperties({
-      objectType,
-    });
-    const relevantProperties = properties.filter(this.isRelevantProperty);
-    const propDefinitions = [];
-    for (const property of relevantProperties) {
-      propDefinitions.push(await this.makePropDefinition(property, schema.requiredProperties));
+    try {
+      const schema = await this.hubspot.getSchema({
+        objectType,
+      });
+      const { results: properties } = await this.hubspot.getProperties({
+        objectType,
+      });
+      const relevantProperties = properties.filter(this.isRelevantProperty);
+
+      const propDefinitions = [];
+      if (this.propertyGroups && !relevantProperties?.length) {
+        propDefinitions.push({
+          type: "alert",
+          alertType: "info",
+          name: "infoAlert",
+          content: `No writable properties found for Property Group(s): ${this.propertyGroups.join(", ")}`,
+        });
+      }
+
+      for (const property of relevantProperties) {
+        propDefinitions.push(await this.makePropDefinition(property, schema.requiredProperties));
+      }
+
+      if (existingProps.objectProperties) {
+        existingProps.objectProperties.hidden = true;
+        existingProps.objectProperties.optional = true;
+      }
+      if (existingProps.propertyGroups) {
+        existingProps.propertyGroups.hidden = false;
+      }
+
+      return propDefinitions
+        .reduce((props, {
+          name, ...definition
+        }) => {
+          props[name] = definition;
+          return props;
+        }, {});
+    } catch {
+      if (existingProps.propertyGroups) {
+        existingProps.propertyGroups.optional = true;
+      }
+      return {};
     }
-    return propDefinitions
-      .reduce((props, {
-        name, ...definition
-      }) => {
-        props[name] = definition;
-        return props;
-      }, {});
   },
 };

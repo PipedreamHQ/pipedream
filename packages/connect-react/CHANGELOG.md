@@ -1,6 +1,14 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.15] - 2024-12-18
+
+- Emit dynamic props via `onUpdateDynamicProps`
+
+# [1.0.0-preview.14] - 2024-12-17
+
+- Fixed one case of "maximum update depth exceeded" (useEffect component dependency)
+
 # [1.0.0-preview.13] - 2024-12-17
 
 - Added skippable prop types to support triggers
