@@ -2,12 +2,11 @@ import opensea from "../../opensea.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  name: "New Collection Events",
-  version: "0.0.3",
   key: "opensea-new-collection-events",
-  description:
-    "Emit new filtered events. [See docs](https://docs.opensea.io/reference/retrieving-asset-events)",
-  dedupe: "greatest",
+  name: "New Collection Events",
+  description: "Emit new listings for a collection. [See the documentation](https://docs.opensea.io/reference/get_all_listings_on_collection_v2)",
+  version: "0.0.4",
+  dedupe: "unique",
   type: "source",
   props: {
     opensea,
@@ -18,54 +17,62 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    contractAddress: {
+    collectionSlug: {
       type: "string",
-      label: "Contract Address",
-      description: "Collection contract address",
-    },
-    eventType: {
-      type: "string",
-      options: [
-        "sales",
-        "listings",
-      ],
-      label: "Event Type",
-      description: "OpenSea event type",
+      label: "Collection Slug",
+      description: "Unique string to identify a collection on OpenSea. This can be found by visiting the collection on the OpenSea website and noting the last path parameter.",
     },
   },
   methods: {
     getLastTimestamp() {
-      return this.db.get("lastTimestamp");
+      return this.db.get("lastTimestamp") || 0;
     },
     setLastTimestamp(ts) {
       this.db.set("lastTimestamp", ts);
     },
+    generateMeta(item) {
+      return {
+        id: item.order_hash,
+        summary: `New ${item.type} ${item.chain} Listing`,
+        ts: item.protocol_data.parameters.startTime,
+      };
+    },
+    async processEvent(max) {
+      const lastTimestamp = this.getLastTimestamp();
+
+      const results = this.opensea.paginate({
+        fn: this.opensea.retrieveEvents,
+        args: {
+          collectionSlug: this.collectionSlug,
+        },
+        resourceKey: "listings",
+      });
+
+      let items = [];
+      for await (const result of results) {
+        const ts = result.protocol_data.parameters.startTime;
+        if (ts >= lastTimestamp) {
+          items.push(result);
+        }
+      }
+
+      if (max) {
+        items = items.slice(-1 * max);
+      }
+      this.setLastTimestamp(items[items.length - 1].protocol_data.parameters.startTime);
+
+      items.forEach((item) => {
+        const meta = this.generateMeta(item);
+        this.$emit(item, meta);
+      });
+    },
+  },
+  hooks: {
+    async deploy() {
+      await this.processEvent(25);
+    },
   },
   async run() {
-    const eventType = this.eventType === "sales"
-      ? "successful"
-      : "created";
-    const lastTimestamp = this.getLastTimestamp();
-    let cursor = null;
-    do {
-      const resp = await this.opensea.retrieveEvents({
-        contract: this.contractAddress,
-        eventType,
-        occurredAfter: lastTimestamp,
-        cursor,
-      });
-      resp.asset_events.forEach((event) => {
-        this.$emit(event, {
-          id: event.id,
-          summary: `${event.asset.name} ${this.eventType} event`,
-          ts: +new Date(event.created_date),
-        });
-      });
-      if (!cursor && resp.asset_events.length > 0) {
-        const ts = Math.floor(new Date(resp.asset_events[0].created_date).getTime() / 1000);
-        this.setLastTimestamp(ts);
-      }
-      cursor = resp.next;
-    } while (lastTimestamp && cursor);
+    await this.processEvent();
   },
 };

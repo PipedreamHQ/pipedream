@@ -5,23 +5,48 @@ export default {
   app: "opensea",
   propDefinitions: {},
   methods: {
-    async retrieveEvents({
-      $, contract, eventType, occurredAfter, cursor,
+    _baseUrl() {
+      return "https://api.opensea.io/api/v2";
+    },
+    _makeRequest({
+      $ = this,
+      path,
+      ...otherOpts
     }) {
-      const apiKey = this.$auth.api_key;
-      return axios($ ?? this, {
-        url: "https://api.opensea.io/api/v1/events",
-        params: {
-          only_opensea: false,
-          asset_contract_address: contract,
-          event_type: eventType,
-          occurred_after: occurredAfter,
-          cursor,
-        },
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          "X-API-KEY": apiKey,
+          "X-API-KEY": this.$auth.api_key,
         },
+        ...otherOpts,
       });
+    },
+    retrieveEvents({
+      collectionSlug, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/listings/collection/${collectionSlug}/all`,
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn,
+      args = {},
+      resourceKey,
+    }) {
+      let total = 0;
+      do {
+        const response = await fn(args);
+        const items = response[resourceKey];
+        for (const item of items) {
+          yield item;
+        }
+        total = items?.length;
+        args.params = {
+          ...args?.params,
+          next: response?.next,
+        };
+      } while (total && args.params?.next);
     },
   },
 };
