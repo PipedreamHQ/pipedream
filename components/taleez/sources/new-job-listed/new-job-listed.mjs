@@ -54,14 +54,16 @@ export default {
     },
     getArgs() {
       return {
-        unitId: this.unitId,
-        status: this.status,
-        contract: this.contract,
-        city: this.city,
-        companyLabel: this.companyLabel,
-        tag: this.tag,
-        withDetails: true,
-        withProps: true,
+        params: {
+          unitId: this.unitId,
+          status: this.status,
+          contract: this.contract,
+          city: this.city,
+          companyLabel: this.companyLabel,
+          tag: this.tag,
+          withDetails: true,
+          withProps: true,
+        },
       };
     },
     generateMeta(job) {
