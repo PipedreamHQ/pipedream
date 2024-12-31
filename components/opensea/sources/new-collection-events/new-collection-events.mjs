@@ -56,7 +56,7 @@ export default {
         }
       }
 
-      if (items?.length) {
+      if (!items?.length) {
         return;
       }
 
