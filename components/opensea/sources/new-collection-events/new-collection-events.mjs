@@ -56,6 +56,10 @@ export default {
         }
       }
 
+      if (items?.length) {
+        return;
+      }
+
       if (max) {
         items = items.slice(-1 * max);
       }
