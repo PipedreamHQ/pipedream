@@ -8669,8 +8669,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/richpanel:
-    specifiers: {}
+  components/richpanel: {}
 
   components/ringcentral:
     dependencies:
@@ -8950,7 +8949,11 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/scrapegraphai: {}
+  components/scrapegraphai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/scrapein_: {}
 
