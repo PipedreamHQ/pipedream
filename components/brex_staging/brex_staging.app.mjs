@@ -1,4 +1,4 @@
-import commonApp from "../brex/common-app.mjs";
+import commonApp from "@pipedream/brex/common-app.mjs";
 
 export default {
   ...commonApp,
