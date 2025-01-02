@@ -1,30 +1,36 @@
 import richpanel from "../../richpanel.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "richpanel-update-ticket-status",
   name: "Update Ticket Status",
-  description: "Updates the status of an existing ticket in Richpanel. [See the documentation]().",
+  description: "Updates the status of an existing ticket in Richpanel. [See the documentation](https://developer.richpanel.com/reference/update-a-conversation).",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
     richpanel,
-    updateTicketId: {
+    conversationId: {
       propDefinition: [
         richpanel,
-        "updateTicketId",
+        "conversationId",
       ],
     },
-    updateStatus: {
+    status: {
       propDefinition: [
         richpanel,
-        "updateStatus",
+        "status",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.richpanel.updateTicketStatus();
-    $.export("$summary", `Updated ticket ${this.updateTicketId} to status ${this.updateStatus}`);
+    const response = await this.richpanel.updateTicket({
+      $,
+      data: {
+        ticket: {
+          status: this.status,
+        },
+      },
+    });
+    $.export("$summary", `Updated ticket ${this.conversationId} to status ${this.status}`);
     return response;
   },
 };

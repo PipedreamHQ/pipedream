@@ -1,36 +1,46 @@
 import richpanel from "../../richpanel.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "richpanel-add-ticket-message",
   name: "Add Ticket Message",
-  description: "Adds a message to an existing ticket. [See the documentation]()",
+  description: "Adds a message to an existing ticket. [See the documentation](https://developer.richpanel.com/reference/update-a-conversation)",
   version: "0.0.{{ts}}",
   type: "action",
   props: {
     richpanel,
-    addMessageId: {
+    conversationId: {
       propDefinition: [
         richpanel,
-        "addMessageId",
+        "conversationId",
       ],
     },
-    addMessageBody: {
+    commentBody: {
       propDefinition: [
         richpanel,
-        "addMessageBody",
+        "commentBody",
       ],
     },
-    addMessageSenderType: {
+    commentSenderType: {
       propDefinition: [
         richpanel,
-        "addMessageSenderType",
+        "commentSenderType",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.richpanel.addMessageToTicket();
-    $.export("$summary", `Added message to ticket ${this.addMessageId} successfully`);
+    const response = await this.richpanel.updateTicket({
+      $,
+      conversationId: this.conversationId,
+      data: {
+        ticket: {
+          comment: {
+            body: this.commentBody,
+            sender_type: this.commentSenderType,
+          },
+        },
+      },
+    });
+    $.export("$summary", `Added message to ticket ${this.messageId} successfully`);
     return response;
   },
 };
