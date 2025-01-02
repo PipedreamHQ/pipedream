@@ -463,9 +463,6 @@ importers:
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
       lodash.chunk:
         specifier: ^4.2.0
         version: 4.2.0
@@ -1233,7 +1230,11 @@ importers:
 
   components/bluecart_api: {}
 
-  components/bluesky: {}
+  components/bluesky:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
 
   components/bluesky_by_unshape:
     dependencies:
@@ -1241,7 +1242,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/boldsign: {}
+  components/boldsign:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/boloforms:
     dependencies:
@@ -1335,6 +1340,7 @@ importers:
   components/braze: {}
 
   components/breathe: {}
+  components/breathe: {}
 
   components/brevo:
     dependencies:
@@ -1353,6 +1359,9 @@ importers:
 
   components/brex_staging:
     dependencies:
+      '@pipedream/brex':
+        specifier: ^0.1.0
+        version: 0.1.0
       axios:
         specifier: ^0.25.0
         version: 0.25.0
@@ -1555,6 +1564,9 @@ importers:
 
   components/canva_enterprise:
     dependencies:
+      '@pipedream/canva':
+        specifier: ^0.2.3
+        version: 0.2.3
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
@@ -2860,6 +2872,9 @@ importers:
 
   components/docusign_developer:
     dependencies:
+      '@pipedream/docusign':
+        specifier: ^0.2.1
+        version: 0.2.1
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -4260,6 +4275,9 @@ importers:
       '@googleapis/docs':
         specifier: ^3.3.0
         version: 3.3.0
+      '@pipedream/google_drive':
+        specifier: ^0.6.19
+        version: 0.6.19
 
   components/google_drive:
     dependencies:
@@ -4379,7 +4397,7 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       '@pipedream/google_drive':
-        specifier: ^0.6.12
+        specifier: ^0.6.19
         version: 0.6.19
       '@pipedream/platform':
         specifier: ^3.0.0
@@ -5436,7 +5454,11 @@ importers:
 
   components/keen_io: {}
 
-  components/kenjo: {}
+  components/kenjo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/key_app_demo_1: {}
 
@@ -5761,6 +5783,9 @@ importers:
       '@linear/sdk':
         specifier: ^13.0.0
         version: 13.0.0
+      '@pipedream/linear_app':
+        specifier: ^0.5.7
+        version: 0.5.7
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -5800,6 +5825,9 @@ importers:
 
   components/linkedin_ads:
     dependencies:
+      '@pipedream/linkedin':
+        specifier: ^0.1.1
+        version: 0.1.1
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -6524,6 +6552,9 @@ importers:
 
   components/monday_oauth:
     dependencies:
+      '@pipedream/monday':
+        specifier: ^0.6.3
+        version: 0.6.3
       monday-sdk-js:
         specifier: ^0.5.5
         version: 0.5.5
@@ -8227,7 +8258,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/quickbooks_sandbox: {}
+  components/quickbooks_sandbox:
+    dependencies:
+      '@pipedream/quickbooks':
+        specifier: ^0.5.0
+        version: 0.5.0
 
   components/quickemailverification:
     dependencies:
@@ -8305,6 +8340,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+      '@pipedream/ramp':
+        specifier: ^0.1.2
+        version: 0.1.2
       uuid:
         specifier: ^10.0.0
         version: 10.0.0
@@ -8668,6 +8706,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/richpanel: {}
+
   components/ringcentral:
     dependencies:
       '@pipedream/platform':
@@ -8946,7 +8986,11 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/scrapegraphai: {}
+  components/scrapegraphai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/scrapein_: {}
 
@@ -8980,7 +9024,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/screenshot_fyi: {}
+  components/screenshot_fyi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/screenshotone:
     dependencies:
@@ -9264,7 +9312,11 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0
 
-  components/sftp_password_based_auth: {}
+  components/sftp_password_based_auth:
+    dependencies:
+      '@pipedream/sftp':
+        specifier: ^0.4.1
+        version: 0.4.1
 
   components/shadertoy:
     dependencies:
@@ -9352,6 +9404,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+      '@pipedream/shopify':
+        specifier: ^0.6.5
+        version: 0.6.5
       shopify-api-node:
         specifier: ^3.12.5
         version: 3.14.0
@@ -14947,11 +15002,20 @@ packages:
   '@pipedream/aws@0.7.0':
     resolution: {integrity: sha512-msYqK4BGcCtdBy7+eyNrraXPIi2ZcDAdI0KAkdT0y45NNf4l5ST3auwAn1azJJvx5lw8yTaGZawvAPSVLuRxUw==}
 
+  '@pipedream/brex@0.1.0':
+    resolution: {integrity: sha512-Cq/A6fwVEb9kAGiAtcPlNpL1JJhBevMxOnMhQzUkUxzQTBNedsmvMzW963cNxqG45V4fyOBuHEPoXl3meH4ATg==}
+
+  '@pipedream/canva@0.2.3':
+    resolution: {integrity: sha512-DSGSafiRvVT8DH4xZdffNWvZrdnfBMiKohU35aVNOg63T9/6BranefjFE7aokL3mmoZnI4bygblZzM7VauWwmQ==}
+
   '@pipedream/connect-react@file:packages/connect-react':
     resolution: {directory: packages/connect-react, type: directory}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+
+  '@pipedream/docusign@0.2.1':
+    resolution: {integrity: sha512-4NxQNHAWOZ/eFvj/PkmZ4LY9ZwsXZdCh363scbNlJfXqeMGCxnNrfRrEgYIFWvnB8pJyzHtSdxsDLL2axIMx4g==}
 
   '@pipedream/google_drive@0.6.19':
     resolution: {integrity: sha512-+JtwPhh0mHN3z3bOeyfw6OIztPhT0cVy/r/rpB5b0TFKWVly25Wz6Zv6zug5EhzyEt6DT7dnh9CpIhlxEj7SuA==}
@@ -14961,6 +15025,15 @@ packages:
 
   '@pipedream/helpers@1.3.12':
     resolution: {integrity: sha512-k305RiFddUBtKY11V9G2aqYD8ICgarHV+A0Isxh0j3il4asnht0q4+t6ykPOb+hl5uo9UV8WY+9eAWlj6VFt6Q==}
+
+  '@pipedream/linear_app@0.5.7':
+    resolution: {integrity: sha512-QiHmFSOwWhchNPCIjjk/psmfQ61SVPuvHACLtmE6DOeJkYFJIM2yliNo9Ks/Psc8iVFrHhJc00h33fFIw3CVsA==}
+
+  '@pipedream/linkedin@0.1.1':
+    resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
+
+  '@pipedream/monday@0.6.3':
+    resolution: {integrity: sha512-EUQgMyMW8+tq1fvylkaEapqLaxNXu8S0gqR/tocJLprwq66oeqQb7e8QW9hHOeUVOr40Mlc8cmeQPzFrmw3U6Q==}
 
   '@pipedream/platform@0.10.0':
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
@@ -14995,6 +15068,12 @@ packages:
   '@pipedream/platform@3.0.3':
     resolution: {integrity: sha512-7elalas41lnT8i6EAFkqB7fT/+hkLGEQ1njS6A7CVguTrEswaIYk/seKmkfkRY7+O6qncgnXswYIKCBML9Co7w==}
 
+  '@pipedream/quickbooks@0.5.0':
+    resolution: {integrity: sha512-hYTy3rZhoBFW9f+zDiDpCLKddrcJ4HTwGthhAxxm55lbs2bUfehufLwQcK1iV5v402We2xGHVzeHnvrK8aVOvw==}
+
+  '@pipedream/ramp@0.1.2':
+    resolution: {integrity: sha512-vYC5OPJo+kxhYYav5y0Mb7WihbLqNdoUO/CnOH1rHfKKNI4E23LLLLICn3VAl0gRc7xbWLHf4Nmcyjw7qf5k7Q==}
+
   '@pipedream/sdk@0.1.9':
     resolution: {integrity: sha512-f8FXEaoBqIOQpI4vVOO8OrHRAjwQYO4pKIwMUcGRkzS5KJ6cZ/7JYYGyXEu7NcS+y1VfyegtbJWu4tWacDjQZg==}
     engines: {node: '>=18.0.0'}
@@ -15002,6 +15081,12 @@ packages:
   '@pipedream/sdk@1.0.7':
     resolution: {integrity: sha512-ec3XowyXvy6KPxlr0/roOgv1Y2K3PQXJKYm1dc5ezewxImMon/FdHrxLOTIaqq2CGdTG/PG60EIR1Jm9LTOQlQ==}
     engines: {node: '>=18.0.0'}
+
+  '@pipedream/sftp@0.4.1':
+    resolution: {integrity: sha512-K+tYweZBO4cAZDXqCsciPeDEG6tJsuCS0+kP+JlWfwjKHH/Z75G/P5NXFO3tGCwmSrhwyB/Ew1Zi89oUsQq8mQ==}
+
+  '@pipedream/shopify@0.6.5':
+    resolution: {integrity: sha512-41i0E8h063ebHiAgDLFwkYfXJiA9/P1zUgmFeiGT/vv0dFBcUyfNVLP7AmKde8M0Emo78rMQWayQd3fv2jOXsg==}
 
   '@pipedream/snowflake-sdk@1.0.8':
     resolution: {integrity: sha512-/nLCQNjlSCz71MUnOUZqWmnjZTbEX7mie91mstPspb8uDG/GvaDk/RynLGhhYfgEP5d1KWj+OPaI71hmPSxReg==}
@@ -24572,22 +24657,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please downgrade to v7.1.5 if you need IE/ActiveXObject support OR upgrade to v8.0.0 as we no longer support IE and published an incorrect patch version (see https://github.com/visionmedia/superagent/issues/1731)
 
   supports-color@2.0.0:
     resolution: {integrity: sha512-KKNVtd6pCYgPIKU4cp2733HWYCpplQhddZLBUryaAHou723x+FRzQ5Df824Fj+IyyuiQTRoub4SnIFfIcrp70g==}
@@ -30187,6 +30272,19 @@ snapshots:
       - babel-plugin-macros
       - debug
 
+  '@pipedream/brex@0.1.0':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/canva@0.2.3':
+    dependencies:
+      '@pipedream/platform': 3.0.3
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/connect-react@file:packages/connect-react(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)':
     dependencies:
       '@pipedream/sdk': link:packages/sdk
@@ -30199,6 +30297,12 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
       - supports-color
+
+  '@pipedream/docusign@0.2.1':
+    dependencies:
+      '@pipedream/platform': 3.0.3
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/google_drive@0.6.19':
     dependencies:
@@ -30227,6 +30331,34 @@ snapshots:
     dependencies:
       '@pipedream/types': 0.0.5
       lodash-es: 4.17.21
+
+  '@pipedream/linear_app@0.5.7':
+    dependencies:
+      '@linear/sdk': 13.0.0
+      '@pipedream/platform': 3.0.3
+    transitivePeerDependencies:
+      - debug
+      - encoding
+
+  '@pipedream/linkedin@0.1.1':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      axios: 1.7.7(debug@3.2.7)
+      form-data: 4.0.1
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/monday@0.6.3':
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      form-data: 4.0.1
+      lodash.flatmap: 4.5.0
+      lodash.map: 4.6.0
+      lodash.uniqby: 4.7.0
+      monday-sdk-js: 0.1.6
+    transitivePeerDependencies:
+      - debug
+      - encoding
 
   '@pipedream/platform@0.10.0':
     dependencies:
@@ -30325,6 +30457,19 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/quickbooks@0.5.0':
+    dependencies:
+      '@pipedream/platform': 3.0.3
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/ramp@0.1.2':
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      uuid: 10.0.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/sdk@0.1.9':
     dependencies:
       simple-oauth2: 5.1.0
@@ -30341,6 +30486,24 @@ snapshots:
       - bufferutil
       - supports-color
       - utf-8-validate
+
+  '@pipedream/sftp@0.4.1':
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      ssh2-sftp-client: 11.0.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/shopify@0.6.5':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      async-retry: 1.3.3
+      bottleneck: 2.19.5
+      lodash.get: 4.4.2
+      lodash.topath: 4.5.2
+      shopify-api-node: 3.14.0
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/snowflake-sdk@1.0.8(asn1.js@5.4.1)':
     dependencies:
@@ -30701,8 +30864,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:

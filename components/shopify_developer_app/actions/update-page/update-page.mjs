@@ -1,12 +1,12 @@
 import app from "../../common/rest-admin.mjs";
-import common from "../../../shopify/actions/update-page/common.mjs";
+import common from "@pipedream/shopify/actions/update-page/common.mjs";
 
 export default {
   ...common,
   key: "shopify_developer_app-update-page",
   name: "Update Page",
   description: "Update an existing page. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/page#put-pages-page-id)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     app,

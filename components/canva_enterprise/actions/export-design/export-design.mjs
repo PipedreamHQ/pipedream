@@ -1,13 +1,13 @@
 import canva from "../../canva_enterprise.app.mjs";
-import common from "../../../canva/actions/export-design/export-design.mjs";
-import constants from "../../../canva/common/constants.mjs";
+import common from "@pipedream/canva/actions/export-design/export-design.mjs";
+import constants from "@pipedream/canva/common/constants.mjs";
 
 export default {
   ...common,
   key: "canva_enterprise-export-design",
   name: "Export Design",
   description: "Starts a new job to export a file from Canva. [See the documentation](https://www.canva.dev/docs/connect/api-reference/exports/create-design-export-job/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     canva,

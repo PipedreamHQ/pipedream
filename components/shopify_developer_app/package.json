@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shopify_developer_app",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Pipedream Shopify (Developer App) Components",
   "main": "shopify_developer_app.app.mjs",
   "keywords": [
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.0.0",
+    "@pipedream/shopify": "^0.6.5",
     "shopify-api-node": "^3.12.5"
   }
 }

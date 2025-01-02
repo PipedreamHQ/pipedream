@@ -4,8 +4,8 @@ import { fieldTypeToPropType } from "../../common/utils.mjs";
 export default {
   key: "airtable_oauth-search-records",
   name: "Search Records",
-  description: "Searches for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
-  version: "0.0.9",
+  description: "Search for a record by formula or by field value. [See the documentation](https://airtable.com/developers/web/api/list-records)",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
@@ -32,7 +32,7 @@ export default {
       props.searchFormula = {
         type: "string",
         label: "Search Formula",
-        description: "Use an Airtable search formula to find records. For example, if you want to find records with `Tags` includes `test-1`, use `FIND('test-1', {Tags})`. Learn more on [Airtable's website](https://support.airtable.com/docs/formula-field-reference)",
+        description: "Use an [Airtable search formula (see info on the documentation)](https://support.airtable.com/docs/formula-field-reference) to find records. For example, if you want to find records with `Tags` including `test-1`, use `FIND('test-1', {Tags})`.",
         optional: true,
       };
     }
