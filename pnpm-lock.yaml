@@ -10288,7 +10288,11 @@ importers:
 
   components/taggun: {}
 
-  components/taleez: {}
+  components/taleez:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/talend: {}
 
