@@ -216,6 +216,9 @@ importers:
 
   components/acelle_mail: {}
 
+  components/acronis_cyber_protect_cloud:
+    specifiers: {}
+
   components/action_builder: {}
 
   components/action_network: {}
