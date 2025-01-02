@@ -129,12 +129,13 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     configuredProps,
     dynamicPropsId: dynamicProps?.id,
   };
+  const queryKey = reloadPropIdx ? `dynamicProps:${reloadPropIdx}` : "dynamicProps"
   const {
     isFetching: dynamicPropsQueryIsFetching,
     // TODO error
   } = useQuery({
     queryKey: [
-      "dynamicProps",
+      queryKey
     ],
     queryFn: async () => {
       const { dynamicProps } = await client.componentReloadProps(componentReloadPropsInput);
