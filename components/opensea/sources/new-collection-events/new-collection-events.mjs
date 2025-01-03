@@ -24,11 +24,42 @@ export default {
     },
   },
   methods: {
-    getLastTimestamp() {
-      return this.db.get("lastTimestamp") || 0;
+    _getNextCursor() {
+      return this.db.get("nextCursor");
     },
-    setLastTimestamp(ts) {
-      this.db.set("lastTimestamp", ts);
+    _setNextCursor(nextCursor) {
+      this.db.set("nextCursor", nextCursor);
+    },
+    async getPaginatedCollectionEvents() {
+      const args = {
+        collectionSlug: this.collectionSlug,
+        params: {
+          limit: 100,
+          next: this._getNextCursor(),
+        },
+      };
+
+      let lastNextCursor, total = 0;
+      const results = [];
+
+      do {
+        const {
+          listings, next,
+        } = await this.opensea.retrieveEvents(args);
+        results.push(...listings);
+        total = listings?.length;
+        lastNextCursor = args.params.next;
+        args.params.next = next;
+      } while (total && args.params?.next);
+
+      this._setNextCursor(lastNextCursor);
+      return results;
+    },
+    emitEvents(items) {
+      items.forEach((item) => {
+        const meta = this.generateMeta(item);
+        this.$emit(item, meta);
+      });
     },
     generateMeta(item) {
       return {
@@ -38,37 +69,14 @@ export default {
       };
     },
     async processEvent(max) {
-      const lastTimestamp = this.getLastTimestamp();
-
-      const results = this.opensea.paginate({
-        fn: this.opensea.retrieveEvents,
-        args: {
-          collectionSlug: this.collectionSlug,
-        },
-        resourceKey: "listings",
-      });
-
-      let items = [];
-      for await (const result of results) {
-        const ts = result.protocol_data.parameters.startTime;
-        if (ts >= lastTimestamp) {
-          items.push(result);
-        }
-      }
-
+      let items = await this.getPaginatedCollectionEvents();
       if (!items?.length) {
         return;
       }
-
       if (max) {
         items = items.slice(-1 * max);
       }
-      this.setLastTimestamp(items[items.length - 1].protocol_data.parameters.startTime);
-
-      items.forEach((item) => {
-        const meta = this.generateMeta(item);
-        this.$emit(item, meta);
-      });
+      this.emitEvents(items);
     },
   },
   hooks: {

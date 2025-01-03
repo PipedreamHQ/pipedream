@@ -1,4 +1,10 @@
 import { axios } from "@pipedream/platform";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 200, // 5 requests per second
+  maxConcurrent: 1,
+});
+const axiosRateLimiter = limiter.wrap(axios);
 
 export default {
   type: "app",
@@ -13,7 +19,7 @@ export default {
       path,
       ...otherOpts
     }) {
-      return axios($, {
+      return axiosRateLimiter($, {
         url: `${this._baseUrl()}${path}`,
         headers: {
           "X-API-KEY": this.$auth.api_key,
@@ -28,25 +34,6 @@ export default {
         path: `/listings/collection/${collectionSlug}/all`,
         ...opts,
       });
-    },
-    async *paginate({
-      fn,
-      args = {},
-      resourceKey,
-    }) {
-      let total = 0;
-      do {
-        const response = await fn(args);
-        const items = response[resourceKey];
-        for (const item of items) {
-          yield item;
-        }
-        total = items?.length;
-        args.params = {
-          ...args?.params,
-          next: response?.next,
-        };
-      } while (total && args.params?.next);
     },
   },
 };
