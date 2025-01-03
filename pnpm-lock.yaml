@@ -216,8 +216,7 @@ importers:
 
   components/acelle_mail: {}
 
-  components/acronis_cyber_protect_cloud:
-    specifiers: {}
+  components/acronis_cyber_protect_cloud: {}
 
   components/action_builder: {}
 
@@ -1183,8 +1182,7 @@ importers:
         specifier: ^0.0.4
         version: 0.0.4
 
-  components/bitdefender_gravityzone:
-    specifiers: {}
+  components/bitdefender_gravityzone: {}
 
   components/bitport: {}
 
@@ -2559,8 +2557,7 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
 
-  components/demandbase:
-    specifiers: {}
+  components/demandbase: {}
 
   components/demio:
     dependencies:
@@ -4490,8 +4487,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/goto_meeting:
-    specifiers: {}
+  components/goto_meeting: {}
 
   components/gotowebinar:
     dependencies:
@@ -8443,8 +8439,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/recruiterflow:
-    specifiers: {}
+  components/recruiterflow: {}
 
   components/recruitis:
     dependencies:
@@ -11666,8 +11661,7 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
-  components/wolfram_alpha:
-    specifiers: {}
+  components/wolfram_alpha: {}
 
   components/wonderchat: {}
 
