@@ -1,12 +1,12 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "../../../shopify/actions/create-product-variant/common.mjs";
+import common from "@pipedream/shopify/actions/create-product-variant/common.mjs";
 
 export default {
   ...common,
   key: "shopify_developer_app-create-product-variant",
   name: "Create Product Variant",
   description: "Create a new product variant. [See the documentation](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#[post]/admin/api/2022-01/products/{product_id}/variants.json)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     shopify,

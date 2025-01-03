@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sftp_password_based_auth",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Pipedream SFTP Components",
   "main": "sftp_password_based_auth.app.mjs",
   "keywords": [
@@ -12,5 +12,8 @@
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/sftp": "^0.4.1"
   }
 }
