@@ -1006,6 +1006,9 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
 
+  components/azure_storage:
+    specifiers: {}
+
   components/backblaze: {}
 
   components/badger_maps:
