@@ -216,8 +216,7 @@ importers:
 
   components/acelle_mail: {}
 
-  components/acronis_cyber_protect_cloud:
-    specifiers: {}
+  components/acronis_cyber_protect_cloud: {}
 
   components/action_builder: {}
 
@@ -1186,8 +1185,7 @@ importers:
         specifier: ^0.0.4
         version: 0.0.4
 
-  components/bitdefender_gravityzone:
-    specifiers: {}
+  components/bitdefender_gravityzone: {}
 
   components/bitport: {}
 
@@ -2562,8 +2560,7 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
 
-  components/demandbase:
-    specifiers: {}
+  components/demandbase: {}
 
   components/demio:
     dependencies:
@@ -4496,8 +4493,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/goto_meeting:
-    specifiers: {}
+  components/goto_meeting: {}
 
   components/gotowebinar:
     dependencies:
@@ -5432,7 +5428,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/kafka: {}
+  components/kafka:
+    dependencies:
+      kafkajs:
+        specifier: ^2.2.4
+        version: 2.2.4
 
   components/kajabi: {}
 
@@ -8449,8 +8449,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/recruiterflow:
-    specifiers: {}
+  components/recruiterflow: {}
 
   components/recruitis:
     dependencies:
@@ -11678,8 +11677,7 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
-  components/wolfram_alpha:
-    specifiers: {}
+  components/wolfram_alpha: {}
 
   components/wonderchat: {}
 
@@ -21470,6 +21468,10 @@ packages:
     resolution: {integrity: sha512-40aUybvhH9t2h71ncA1/1SbtTNCVZHgsTsTgqPUxGWDmUDrXyDf2wMNQKEbdBjbf4AI+fQhbECNTV6lWxQKUzg==}
     engines: {node: '>= 0.4.0'}
 
+  kafkajs@2.2.4:
+    resolution: {integrity: sha512-j/YeapB1vfPT2iOIUn/vxdyKEuhuY2PxMBvf5JWux6iSaukAccrMtXEY/Lb7OvavDhOWME589bpLrEdnVHjfjA==}
+    engines: {node: '>=14.0.0'}
+
   katex@0.12.0:
     resolution: {integrity: sha512-y+8btoc/CK70XqcHqjxiGWBOeIL8upbS0peTPXTvgrh21n1RiWWcIpSWM+4uXq+IAgNh9YYQWdc7LVDPDAEEAg==}
     hasBin: true
@@ -30897,8 +30899,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -38347,6 +38347,8 @@ snapshots:
       safe-buffer: 5.2.1
 
   jwt-simple@0.5.6: {}
+
+  kafkajs@2.2.4: {}
 
   katex@0.12.0:
     dependencies:
