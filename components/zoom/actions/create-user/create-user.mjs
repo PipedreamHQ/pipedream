@@ -8,6 +8,12 @@ export default {
   type: "action",
   props: {
     zoom,
+    paidAccountAlert: {
+      propDefinition: [
+        zoom,
+        "paidAccountAlert",
+      ],
+    },
     action: {
       type: "string",
       label: "Action",

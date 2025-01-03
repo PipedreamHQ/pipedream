@@ -8,6 +8,12 @@ export default {
   type: "action",
   props: {
     zoom,
+    paidAccountAlert: {
+      propDefinition: [
+        zoom,
+        "paidAccountAlert",
+      ],
+    },
     infoBox: {
       type: "alert",
       alertType: "info",

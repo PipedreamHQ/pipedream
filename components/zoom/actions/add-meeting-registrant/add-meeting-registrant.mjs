@@ -9,6 +9,12 @@ export default {
   type: "action",
   props: {
     app,
+    paidAccountAlert: {
+      propDefinition: [
+        app,
+        "paidAccountAlert",
+      ],
+    },
     meetingId: {
       propDefinition: [
         app,

@@ -8,6 +8,12 @@ export default {
   type: "action",
   props: {
     app,
+    paidAccountAlert: {
+      propDefinition: [
+        app,
+        "paidAccountAlert",
+      ],
+    },
     webinarId: {
       propDefinition: [
         app,

@@ -4,11 +4,17 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "zoom-add-webinar-registrant",
   name: "Add Webinar Registrant",
-  description: "Registers a participant for a webinar. Requires a paid Zoom account.[See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/webinars/POST/webinars/{webinarId}/registrants)",
+  description: "Registers a participant for a webinar. Requires a paid Zoom account. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/webinars/POST/webinars/{webinarId}/registrants)",
   version: "0.3.4",
   type: "action",
   props: {
     app,
+    paidAccountAlert: {
+      propDefinition: [
+        app,
+        "paidAccountAlert",
+      ],
+    },
     webinarId: {
       propDefinition: [
         app,

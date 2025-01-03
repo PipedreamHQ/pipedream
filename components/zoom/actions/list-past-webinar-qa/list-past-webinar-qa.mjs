@@ -1,31 +1,34 @@
-// legacy_hash_id: a_67iQp1
-import { axios } from "@pipedream/platform";
+import zoom from "../../zoom.app.mjs";
 
 export default {
   key: "zoom-list-past-webinar-qa",
   name: "List Past Webinar Q&A",
-  description: "The  feature for Webinars allows attendees to ask questions during the Webinar and for the panelists, co-hosts and host to answer their questions. Use this API to list Q&A of a specific Webinar.",
-  version: "0.1.4",
+  description: "List Q&A of a specific Webinar. Requires a paid Zoom account. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/webinars/GET/past_webinars/{webinarId}/qa)",
+  version: "0.1.5",
   type: "action",
   props: {
-    zoom: {
-      type: "app",
-      app: "zoom",
+    zoom,
+    paidAccountAlert: {
+      propDefinition: [
+        zoom,
+        "paidAccountAlert",
+      ],
     },
-    webinarID: {
-      type: "string",
-      label: "Webinar ID",
-      description: "The Zoom Webinar ID of the webinar you'd like to update.",
+    webinarId: {
+      propDefinition: [
+        zoom,
+        "webinarId",
+      ],
     },
   },
   async run({ $ }) {
-    const config = {
-      url: `https://api.zoom.us/v2/past_webinars/${this.webinarID}/qa`,
-      headers: {
-        Authorization: `Bearer ${this.zoom.$auth.oauth_access_token}`,
-      },
-    };
+    const response = await this.listPastWebinarQA({
+      $,
+      webinarId: this.webinarId,
+    });
 
-    return await axios($, config);
+    $.export("$summary", `Successfully retrieved Q&A for webinar with ID: ${this.webinarId}`);
+
+    return response;
   },
 };
