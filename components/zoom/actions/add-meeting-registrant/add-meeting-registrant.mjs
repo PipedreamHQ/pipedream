@@ -1,10 +1,11 @@
 import app from "../../zoom.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "zoom-add-meeting-registrant",
   name: "Add Meeting Registrant",
-  description: "Registers a participant for a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/meetingRegistrantCreate)",
-  version: "0.3.3",
+  description: "Registers a participant for a meeting. Requires a paid Zoom account. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/meetings/POST/meetings/{meetingId}/registrants)",
+  version: "0.3.4",
   type: "action",
   props: {
     app,
@@ -13,12 +14,7 @@ export default {
         app,
         "meetingId",
       ],
-    },
-    occurrenceIds: {
-      propDefinition: [
-        app,
-        "occurrenceIds",
-      ],
+      description: "The Meeting ID to add the registrant to",
     },
     email: {
       propDefinition: [
@@ -36,6 +32,15 @@ export default {
       propDefinition: [
         app,
         "lastName",
+      ],
+    },
+    occurrenceIds: {
+      propDefinition: [
+        app,
+        "occurrenceIds",
+        (c) => ({
+          meetingId: c.meetingId,
+        }),
       ],
     },
     address: {
@@ -160,7 +165,7 @@ export default {
       step,
       meetingId,
       params: {
-        occurrence_ids: occurrenceIds,
+        occurrence_ids: occurrenceIds && occurrenceIds.join(","),
       },
       data: {
         email,
@@ -179,9 +184,7 @@ export default {
         role_in_purchase_process: roleInPurchaseProcess,
         no_of_employees: noOfEmployees,
         comments,
-        custom_questions: typeof(customQuestions) === "undefined"
-          ? customQuestions
-          : JSON.parse(customQuestions),
+        custom_questions: utils.parseObj(customQuestions),
       },
     });
 

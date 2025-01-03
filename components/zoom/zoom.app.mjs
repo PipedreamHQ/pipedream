@@ -33,7 +33,7 @@ export default {
     meetingId: {
       type: "integer",
       label: "Meeting ID",
-      description: "The meeting ID to get details for.",
+      description: "The meeting ID to get details for",
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         const response = await this.listMeetings({
@@ -52,15 +52,39 @@ export default {
           },
         };
       },
-      optional: true,
     },
     userId: {
       type: "string",
       label: "User Id",
-      description: "The user ID or email address of the user.",
+      description: "The user ID or email address of the user",
       async options({ prevContext }) {
         const { nextPageToken } = prevContext;
         const response = await this.listUsers({
+          params: {
+            next_page_token: nextPageToken,
+          },
+        });
+
+        return {
+          options: response.users.map(({
+            display_name: name, email, id: value,
+          }) => ({
+            label: `${name} - ${email}`,
+            value,
+          })),
+          context: {
+            nextPageToken: response.next_page_token,
+          },
+        };
+      },
+    },
+    phoneUserId: {
+      type: "string",
+      label: "User Id",
+      description: "The user ID or email address of the user",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const response = await this.listPhoneUsers({
           params: {
             next_page_token: nextPageToken,
           },
@@ -82,122 +106,170 @@ export default {
     includeAudioRecordings: {
       type: "boolean",
       label: "Include Audio Recordings",
-      description:
-        "This source emits video (MP4) recordings only by default. Set this prop to true to include audio recordings",
+      description: "This source emits video (MP4) recordings only by default. Set this prop to true to include audio recordings",
       optional: true,
       default: false,
     },
     includeChatTranscripts: {
       type: "boolean",
       label: "Include Chat Transcripts",
-      description:
-        "This source emits video (MP4) recordings only by default. Set this prop to `true` to include chat transcripts",
+      description: "This source emits video (MP4) recordings only by default. Set this prop to `true` to include chat transcripts",
       optional: true,
       default: false,
     },
     occurrenceIds: {
-      type: "string",
+      type: "string[]",
       label: "Occurrence IDs",
-      description: "Occurrence IDs. You can find these with the meeting get API. Multiple values separated by comma.",
+      description: "An array of meeting occurance IDs to register for",
       optional: true,
+      async options({
+        meetingId, webinarId,
+      }) {
+        const { occurrences } = meetingId
+          ? await this.getMeeting({
+            meetingId,
+          })
+          : await this.getWebinar({
+            webinarId,
+          });
+        return occurrences?.map(({
+          occurrence_id: value, start_time: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     email: {
       type: "string",
       label: "Email",
-      description: "A valid email address of the registrant.",
+      description: "A valid email address of the registrant",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext;
+        const response = await this.listUsers({
+          params: {
+            next_page_token: nextPageToken,
+          },
+        });
+
+        return {
+          options: response.users.map(({
+            display_name: name, email,
+          }) => ({
+            label: `${name} - ${email}`,
+            value: email,
+          })),
+          context: {
+            nextPageToken: response.next_page_token,
+          },
+        };
+      },
     },
     firstName: {
       type: "string",
       label: "First Name",
-      description: "Registrant's first name.",
+      description: "Registrant's first name",
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "Registrant's last name.",
+      description: "Registrant's last name",
     },
     address: {
       type: "string",
       label: "Address",
-      description: "Registrant's address.",
+      description: "Registrant's address",
       optional: true,
     },
     city: {
       type: "string",
       label: "City",
-      description: "Registrant's city.",
-      optional: true,
-    },
-    country: {
-      type: "string",
-      label: "Country",
-      description: "Registrant's country.",
-      optional: true,
-    },
-    zip: {
-      type: "string",
-      label: "Zip/Postal Code",
-      description: "Registrant's Zip/Postal code.",
+      description: "Registrant's city",
       optional: true,
     },
     state: {
       type: "string",
       label: "State/Province",
-      description: "Registrant's State/Province.",
+      description: "Registrant's State/Province",
+      optional: true,
+    },
+    zip: {
+      type: "string",
+      label: "Zip/Postal Code",
+      description: "Registrant's Zip/Postal code",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Registrant's country",
       optional: true,
     },
     phone: {
       type: "string",
       label: "Phone",
-      description: "Registrant's Phone number.",
+      description: "Registrant's Phone number",
       optional: true,
     },
     industry: {
       type: "string",
       label: "Industry",
-      description: "Registrant's industry.",
+      description: "Registrant's industry",
       optional: true,
     },
     org: {
       type: "string",
       label: "Organization",
-      description: "Registrant's Organization.",
+      description: "Registrant's Organization",
       optional: true,
     },
     jobTitle: {
       type: "string",
       label: "Job Title",
-      description: "Registrant's job title.",
+      description: "Registrant's job title",
       optional: true,
     },
     purchasingTimeFrame: {
       type: "string",
       label: "Purchasing Time Frame",
       description: "This field can be included to gauge interest of webinar attendees towards buying your product or service.",
+      options: [
+        "Within a month",
+        "1-3 months",
+        "4-6 months",
+        "More than 6 months",
+        "No timeframe",
+      ],
       optional: true,
     },
     roleInPurchaseProcess: {
       type: "string",
       label: "Role in Purchase Process",
-      description: "Role in Purchase Process.",
+      description: "Role in Purchase Process",
+      options: [
+        "Decision Maker",
+        "Evaluator/Recommender",
+        "Influencer",
+        "Not involved",
+      ],
       optional: true,
     },
     noOfEmployees: {
       type: "string",
       label: "Number of Employees",
-      description: "Number of Employees.",
+      description: "The registrant's number of employees",
       optional: true,
     },
     comments: {
       type: "string",
       label: "Comments",
-      description: "A field that allows registrants to provide any questions or comments that they might have.",
+      description: "The registrant's questions and comments",
       optional: true,
     },
     customQuestions: {
       type: "string",
       label: "Custom Questions",
-      description: "Custom questions.",
+      description: "An array of objects containing the keys **title** (the title of the question) and **value** (the question's response value). Example: `[{ \"title\": \"What do you hope to learn from this?\", \"value\": \"Look forward to learning how you come up with new recipes and what other services you offer.\" }]`",
       optional: true,
     },
     nextPageToken: {
@@ -209,7 +281,7 @@ export default {
     max: {
       type: "integer",
       label: "Max Resources",
-      description: "The maximum number of resources to retrieve.",
+      description: "The maximum number of resources to retrieve",
       optional: true,
       default: constants.MAX_RESOURCES,
       min: 1,
@@ -242,11 +314,33 @@ export default {
         ...args,
       });
     },
+    delete(args = {}) {
+      return this._makeRequest({
+        method: "delete",
+        ...args,
+      });
+    },
     getPastMeetingDetails({
       meetingId, ...args
     } = {}) {
       return this._makeRequest({
         path: `/past_meetings/${meetingId}`,
+        ...args,
+      });
+    },
+    getMeeting({
+      meetingId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/meetings/${meetingId}`,
+        ...args,
+      });
+    },
+    getWebinar({
+      webinarId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/webinars/${webinarId}`,
         ...args,
       });
     },
@@ -277,6 +371,12 @@ export default {
       });
     },
     listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    listPhoneUsers(opts = {}) {
       return this._makeRequest({
         path: "/phone/users",
         ...opts,

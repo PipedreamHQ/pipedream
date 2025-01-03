@@ -11,7 +11,7 @@ export default {
     userId: {
       propDefinition: [
         zoom,
-        "userId",
+        "phoneUserId",
       ],
     },
   },

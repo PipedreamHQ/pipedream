@@ -1,10 +1,11 @@
 import app from "../../zoom.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "zoom-add-webinar-registrant",
   name: "Add Webinar Registrant",
-  description: "Registers a participant for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrantcreate).",
-  version: "0.3.3",
+  description: "Registers a participant for a webinar. Requires a paid Zoom account.[See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/webinars/POST/webinars/{webinarId}/registrants)",
+  version: "0.3.4",
   type: "action",
   props: {
     app,
@@ -13,12 +14,7 @@ export default {
         app,
         "webinarId",
       ],
-    },
-    occurrenceIds: {
-      propDefinition: [
-        app,
-        "occurrenceIds",
-      ],
+      description: "The Webinar ID to add the registrant to",
     },
     email: {
       propDefinition: [
@@ -38,6 +34,15 @@ export default {
         "lastName",
       ],
     },
+    occurrenceIds: {
+      propDefinition: [
+        app,
+        "occurrenceIds",
+        (c) => ({
+          webinarId: c.webinarId,
+        }),
+      ],
+    },
     address: {
       propDefinition: [
         app,
@@ -50,10 +55,10 @@ export default {
         "city",
       ],
     },
-    country: {
+    state: {
       propDefinition: [
         app,
-        "country",
+        "state",
       ],
     },
     zip: {
@@ -62,10 +67,10 @@ export default {
         "zip",
       ],
     },
-    state: {
+    country: {
       propDefinition: [
         app,
-        "state",
+        "country",
       ],
     },
     phone: {
@@ -160,7 +165,7 @@ export default {
       step,
       webinarId,
       params: {
-        occurrence_ids: occurrenceIds,
+        occurrence_ids: occurrenceIds && occurrenceIds.join(","),
       },
       data: {
         email,
@@ -179,9 +184,7 @@ export default {
         role_in_purchase_process: roleInPurchaseProcess,
         no_of_employees: noOfEmployees,
         comments,
-        custom_questions: typeof(customQuestions) === "undefined"
-          ? customQuestions
-          : JSON.parse(customQuestions),
+        custom_questions: utils.parseObj(customQuestions),
       },
     });
 
