@@ -7198,6 +7198,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      bottleneck:
+        specifier: ^2.19.5
+        version: 2.19.5
 
   components/openweather_api:
     dependencies:
