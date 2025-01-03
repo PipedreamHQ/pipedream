@@ -1,4 +1,4 @@
-import ramp from "../ramp/ramp.app.mjs";
+import ramp from "@pipedream/ramp";
 
 export default {
   type: "app",

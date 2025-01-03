@@ -1,4 +1,4 @@
-import common from "../canva/canva.app.mjs";
+import common from "@pipedream/canva";
 
 export default {
   ...common,

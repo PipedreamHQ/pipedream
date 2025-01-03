@@ -1,6 +1,6 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import { toSingleLineString } from "../../../shopify/actions/common/common.mjs";
-import common from "../../../shopify/actions/create-smart-collection/common.mjs";
+import { toSingleLineString } from "@pipedream/shopify/actions/common/common.mjs";
+import common from "@pipedream/shopify/actions/create-smart-collection/common.mjs";
 
 export default {
   ...common,
@@ -11,7 +11,7 @@ export default {
     You can fill in any number of rules by selecting more than one option in each prop.
     [See documentation](https://shopify.dev/api/admin-rest/2021-10/resources/smartcollection#post-smart-collections)
   `),
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     shopify,

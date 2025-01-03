@@ -1,5 +1,5 @@
 import app from "../../quickbooks_sandbox.app.mjs";
-import common from "../../../quickbooks/actions/create-purchase/create-purchase.mjs";
+import common from "@pipedream/quickbooks/actions/create-purchase/create-purchase.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "quickbooks_sandbox-create-purchase",
-  version: "0.1.2",
+  version: "0.1.3",
   name,
   description,
   type,

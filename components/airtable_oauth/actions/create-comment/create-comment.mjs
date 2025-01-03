@@ -3,8 +3,8 @@ import common from "../common/common.mjs";
 export default {
   key: "airtable_oauth-create-comment",
   name: "Create Comment",
-  description: "Create a new comment on a record. [See the documentation](https://airtable.com/developers/web/api/create-comment)",
-  version: "0.0.7",
+  description: "Create a comment on a selected record. [See the documentation](https://airtable.com/developers/web/api/create-comment)",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -23,7 +23,7 @@ export default {
     comment: {
       type: "string",
       label: "Comment",
-      description: "The text comment",
+      description: "The text comment to create",
     },
   },
   async run({ $ }) {

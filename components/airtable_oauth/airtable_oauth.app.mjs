@@ -18,7 +18,7 @@ export default {
     baseId: {
       type: "string",
       label: "Base",
-      description: "The base ID",
+      description: "The Base ID.",
       async options({ prevContext }) {
         const params = {};
         if (prevContext?.newOffset) {
@@ -44,7 +44,7 @@ export default {
     tableId: {
       type: "string",
       label: "Table",
-      description: "The table ID. If referencing a **Base** dynamically using data from another step (e.g., `{{steps.trigger.event.metadata.baseId}}`), you will not be able to select from the list of Tables, and automatic table options will not work when configuring this step. Please enter a custom expression to specify the **Table**.",
+      description: "The Table ID.",
       async options({ baseId }) {
         let tables;
         try {
@@ -63,7 +63,7 @@ export default {
     viewId: {
       type: "string",
       label: "View",
-      description: "The view ID. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.trigger.event.metadata.tableId}}`), you will not be able to select from the list of Views for this step. Please enter a custom expression to specify the **View**.",
+      description: "The View ID.",
       async options({
         baseId, tableId,
       }) {
@@ -85,8 +85,8 @@ export default {
     },
     sortFieldId: {
       type: "string",
-      label: "Sort: Field",
-      description: "Optionally select a field to sort results. To sort by multiple fields, use the **Filter by Forumla** field. If referencing a **Table** dynamically using data from another step (e.g., `{{steps.mydata.$return_value}}`), automatic field options won't work when configuring this step. Please enter a custom expression to specify the **Sort: Field**.",
+      label: "Sort by Field",
+      description: "Optionally select a field to sort results by. To sort by multiple fields, use the **Filter by Formula** field.",
       optional: true,
       async options({
         baseId, tableId,
@@ -180,14 +180,14 @@ export default {
     },
     returnFieldsByFieldId: {
       type: "boolean",
-      label: "Return Fields By Field ID",
-      description: "An optional boolean value that lets you return field objects where the key is the field id. This defaults to `false`, which returns field objects where the key is the field name.",
+      label: "Return Fields By ID",
+      description: "If set to `true`, the returned field objects will have the field ID as the key, instead of the field name.",
       optional: true,
     },
     sortDirection: {
       type: "string",
       label: "Sort: Direction",
-      description: "This field will be ignored if you don't select a field to sort by.",
+      description: "If sorting by a field, which direction to sort by.",
       options: SORT_DIRECTION_OPTIONS,
       default: "desc",
       optional: true,
@@ -195,30 +195,37 @@ export default {
     maxRecords: {
       type: "integer",
       label: "Max Records",
-      description: "Optionally limit the maximum number of records to return. Leave blank to retrieve all records.",
+      description: "The maximum number of records to return. Leave blank to retrieve all records.",
       optional: true,
     },
     filterByFormula: {
       type: "string",
       label: "Filter by Formula",
-      description: "Optionally provide a [formula](https://support.airtable.com/hc/en-us/articles/203255215-Formula-Field-Reference) used to filter records. The formula will be evaluated for each record, and if the result is not `0`, `false`, `\"\"`, `NaN`, `[]`, or `#Error!` the record will be included in the response. For example, to only include records where `Name` isn't empty, pass `NOT({Name} = '')`.",
+      description: "Optionally provide a [formula (see info on the documentation)](https://support.airtable.com/hc/en-us/articles/203255215-Formula-Field-Reference) used to filter records. The formula will be evaluated for each record, and if the result is not `0`, `false`, `\"\"`, `NaN`, `[]`, or `#Error!` the record will be included in the response. For example, to only include records where `Name` isn't empty, use `NOT({Name} = '')`.",
       optional: true,
     },
     records: {
-      type: "string",
+      type: "string[]",
       label: "Records",
-      description: "Provide an array of objects. Each object should represent a new record with the column name as the key and the data to insert as the corresponding value (e.g., passing `[{\"foo\":\"bar\",\"id\":123},{\"foo\":\"baz\",\"id\":456}]` will create two records and with values added to the fields `foo` and `id`). The most common pattern is to reference an array of objects exported by a previous step (e.g., `{{steps.foo.$return_value}}`). You may also enter or construct a string that will `JSON.parse()` to an array of objects.",
+      description: "Each item in the array should be an object in JSON format, representing a new record. The keys are the column names and the corresponding values are the data to insert.",
     },
     typecast: {
       type: "boolean",
       label: "Typecast",
-      description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. Automatic conversion is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources.",
+      description: "The Airtable API will perform best-effort automatic data conversion from string values if the typecast parameter is `True`. This is disabled by default to ensure data integrity, but it may be helpful for integrating with 3rd party data sources.",
       optional: true,
     },
     record: {
       type: "object",
       label: "Record",
-      description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also pass a JSON object as a custom expression with key/value pairs representing columns and values (e.g., `{{ {\"foo\":\"bar\",\"id\":123} }}`). A common pattern is to reference an object exported by a previous step (e.g., `{{steps.foo.$return_value}}`).",
+      description: "Enter the column name for the key and the corresponding column value. You can include all, some, or none of the field values. You may also use a custom expression.",
+    },
+    customExpressionInfo: {
+      type: "alert",
+      alertType: "info",
+      content: `A custom expression can be a JSON object with key/value pairs representing columns and values, e.g. \`{{ { "foo": "bar", "id": 123 } }}\`.
+\\
+You can also reference an object exported by a previous step, e.g. \`{{steps.foo.$return_value}}\`.`,
     },
   },
   methods: {
