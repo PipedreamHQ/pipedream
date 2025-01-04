@@ -62,6 +62,31 @@ export default {
       label: "Additional Transformations",
       description: "Additional transformations to apply to the resource. [See the documentation](https://cloudinary.com/documentation/transformation_reference) for all available transformations. Example: `{ \"angle\": 90, \"color_space\": \"srgb\"}`",
     },
+    transformationString: {
+      type: "string",
+      label: "Transformation String",
+      description: "A string representing the transformation to apply to the resource. You can use the [Cloudinary Transformation Builder](https://tx.cloudinary.com/) to create and preview the transformation, then copy the string here. Example: `c_fill,h_500,w_500` is the transformation string in the URL `https://res.cloudinary.com/demo/video/upload/c_fill,h_500,w_500/samples/cld-sample-video.mp4`",
+      optional: true,
+    },
+    namedTransformation: {
+      type: "string",
+      label: "Named Transformation",
+      description: "Select a pre-configured named transformation to apply to the resource. You can create and manage transformations in the [Cloudinary Transformation Builder](https://tx.cloudinary.com).",
+      optional: true,
+      async options({ prevContext: { cursor } }) {
+        const {
+          transformations, next_cursor,
+        } = await this.getTransformations({
+          next_cursor: cursor,
+        });
+        return {
+          options: transformations?.filter?.((t) => t.named).map((t) => t.name.replace(/^t_/, "")),
+          context: {
+            cursor: next_cursor,
+          },
+        };
+      },
+    },
   },
   methods: {
     _client() {
@@ -84,6 +109,9 @@ export default {
     },
     async uploadMedia(file, options) {
       return this._client().uploader.upload(file, options);
+    },
+    async getTransformations(args) {
+      return this._client().api.transformations(args);
     },
   },
 };
