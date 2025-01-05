@@ -216,8 +216,7 @@ importers:
 
   components/acelle_mail: {}
 
-  components/acronis_cyber_protect_cloud:
-    specifiers: {}
+  components/acronis_cyber_protect_cloud: {}
 
   components/action_builder: {}
 
@@ -1006,8 +1005,7 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
 
-  components/azure_storage:
-    specifiers: {}
+  components/azure_storage: {}
 
   components/backblaze: {}
 
@@ -1186,8 +1184,7 @@ importers:
         specifier: ^0.0.4
         version: 0.0.4
 
-  components/bitdefender_gravityzone:
-    specifiers: {}
+  components/bitdefender_gravityzone: {}
 
   components/bitport: {}
 
@@ -2562,8 +2559,7 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
 
-  components/demandbase:
-    specifiers: {}
+  components/demandbase: {}
 
   components/demio:
     dependencies:
@@ -3159,8 +3155,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/elevio:
-    specifiers: {}
+  components/elevio: {}
 
   components/elmah_io:
     dependencies:
@@ -4496,8 +4491,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/goto_meeting:
-    specifiers: {}
+  components/goto_meeting: {}
 
   components/gotowebinar:
     dependencies:
@@ -8317,8 +8311,7 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/ragie:
-    specifiers: {}
+  components/ragie: {}
 
   components/railsr: {}
 
@@ -8452,8 +8445,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/recruiterflow:
-    specifiers: {}
+  components/recruiterflow: {}
 
   components/recruitis:
     dependencies:
@@ -8512,8 +8504,7 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
-  components/refiner:
-    specifiers: {}
+  components/refiner: {}
 
   components/reflect:
     dependencies:
@@ -11048,8 +11039,7 @@ importers:
         specifier: ^6.2.13
         version: 6.2.13
 
-  components/typefully:
-    specifiers: {}
+  components/typefully: {}
 
   components/typless: {}
 
@@ -11574,8 +11564,7 @@ importers:
 
   components/weworkbook: {}
 
-  components/what_are_those:
-    specifiers: {}
+  components/what_are_those: {}
 
   components/whatconverts: {}
 
@@ -11684,8 +11673,7 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
-  components/wolfram_alpha:
-    specifiers: {}
+  components/wolfram_alpha: {}
 
   components/wonderchat: {}
 
