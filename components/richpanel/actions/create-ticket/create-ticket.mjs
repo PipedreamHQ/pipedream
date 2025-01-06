@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import richpanel from "../../richpanel.app.mjs";
+import { VIA_CHANNEL_OPTIONS } from "./common/constants.mjs";
 
 export default {
   key: "richpanel-create-ticket",
@@ -36,23 +37,20 @@ export default {
       ],
     },
     viaChannel: {
-      propDefinition: [
-        richpanel,
-        "viaChannel",
-      ],
+      type: "string",
+      label: "Via Channel",
+      description: "The channel via which the ticket is created",
+      options: VIA_CHANNEL_OPTIONS,
     },
     viaSourceFrom: {
-      propDefinition: [
-        richpanel,
-        "viaSourceFrom",
-      ],
+      type: "object",
+      label: "Via Source From",
+      description: "The object source from which the ticket was created. **Examples: {\"address\": \"abc@email.com\"} or {\"id\": \"+16692668044\"}. It depends on the selected channel**.",
     },
     viaSourceTo: {
-      propDefinition: [
-        richpanel,
-        "viaSourceTo",
-      ],
-      optional: true,
+      type: "object",
+      label: "Via Source To",
+      description: "The object source to which the ticket was created. **Examples: {\"address\": \"abc@email.com\"} or {\"id\": \"+16692668044\"}. It depends on the selected channel**.",
     },
     tags: {
       propDefinition: [

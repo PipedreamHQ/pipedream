@@ -4,7 +4,7 @@ export default {
   key: "richpanel-add-ticket-message",
   name: "Add Ticket Message",
   description: "Adds a message to an existing ticket. [See the documentation](https://developer.richpanel.com/reference/update-a-conversation)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     richpanel,
@@ -40,7 +40,7 @@ export default {
         },
       },
     });
-    $.export("$summary", `Added message to ticket ${this.messageId} successfully`);
+    $.export("$summary", `Added message to ticket ${this.conversationId} successfully`);
     return response;
   },
 };

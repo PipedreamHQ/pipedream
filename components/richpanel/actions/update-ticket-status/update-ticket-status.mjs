@@ -4,7 +4,7 @@ export default {
   key: "richpanel-update-ticket-status",
   name: "Update Ticket Status",
   description: "Updates the status of an existing ticket in Richpanel. [See the documentation](https://developer.richpanel.com/reference/update-a-conversation).",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     richpanel,
@@ -24,6 +24,7 @@ export default {
   async run({ $ }) {
     const response = await this.richpanel.updateTicket({
       $,
+      conversationId: this.conversationId,
       data: {
         ticket: {
           status: this.status,

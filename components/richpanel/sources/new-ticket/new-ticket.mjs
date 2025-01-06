@@ -12,7 +12,7 @@ export default {
   methods: {
     ...common.methods,
     getDateField() {
-      return "created_at";
+      return "createdAt";
     },
     getSummary(item) {
       return `New Ticket: ${item.subject}`;

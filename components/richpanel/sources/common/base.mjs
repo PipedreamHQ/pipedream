@@ -1,4 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import { camelToSnakeCase } from "../../common/utils.mjs";
 import richpanel from "../../richpanel.app.mjs";
 
 export default {
@@ -14,10 +15,17 @@ export default {
   },
   methods: {
     _getLastDate() {
-      return this.db.get("lastDate") || 0;
+      return this.db.get("lastDate") || "1970-01-01";
     },
     _setLastDate(lastDate) {
       this.db.set("lastDate", lastDate);
+    },
+    async prepareData(data) {
+      const response = [];
+      for await (const item of data) {
+        response.push(item);
+      }
+      return response;
     },
     getParams() {
       return {};
@@ -28,32 +36,27 @@ export default {
 
       const response = this.richpanel.paginate({
         fn: this.richpanel.listTickets,
+        maxResults,
         params: {
           ...this.getParams(),
+          startDate: lastDate,
           sortKey: dateField,
-          order: "DESC",
+          sortOrder: "DESC",
         },
       });
 
-      let responseArray = [];
-      for await (const item of response) {
-        if (Date.parse(item[dateField]) <= lastDate) break;
-        responseArray.push(item);
-      }
+      let responseArray = await this.prepareData(response, lastDate);
 
       if (responseArray.length) {
-        if (maxResults && (responseArray.length > maxResults)) {
-          responseArray.length = maxResults;
-        }
-        this._setLastDate(responseArray[0][dateField]);
+        this._setLastDate(responseArray[0][camelToSnakeCase(dateField)]);
       }
 
       for (const item of responseArray.reverse()) {
-        const dateField = item[dateField];
+        const dateVal = item[camelToSnakeCase(dateField)];
         this.$emit(item, {
-          id: `${item.id}-${dateField}`,
+          id: `${item.id}-${dateVal}`,
           summary: this.getSummary(item),
-          ts: Date.parse(dateField),
+          ts: Date.parse(dateVal),
         });
       }
     },

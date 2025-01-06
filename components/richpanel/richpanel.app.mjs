@@ -2,7 +2,6 @@ import { axios } from "@pipedream/platform";
 import {
   COMMENT_SENDER_TYPE_OPTIONS,
   STATUS_OPTIONS,
-  VIA_CHANNEL_OPTIONS,
 } from "./common/constants.mjs";
 
 export default {
@@ -17,7 +16,7 @@ export default {
     status: {
       type: "string",
       label: "Status",
-      description: "The status of the new ticket",
+      description: "The status of the ticket",
       options: STATUS_OPTIONS,
     },
     commentBody: {
@@ -30,22 +29,6 @@ export default {
       label: "Comment Sender Type",
       description: "The sender type of the comment",
       options: COMMENT_SENDER_TYPE_OPTIONS,
-    },
-    viaChannel: {
-      type: "string",
-      label: "Via Channel",
-      description: "The channel via which the ticket is created",
-      options: VIA_CHANNEL_OPTIONS,
-    },
-    viaSourceFrom: {
-      type: "object",
-      label: "Via Source From",
-      description: "The object source from which the ticket was created. **Examples: {\"address\": \"abc@email.com\"} or {\"id\": \"+16692668044\"}. It depends on the selected channel**.",
-    },
-    viaSourceTo: {
-      type: "object",
-      label: "Via Source To",
-      description: "The object source to which the ticket was created. **Examples: {\"address\": \"abc@email.com\"} or {\"id\": \"+16692668044\"}. It depends on the selected channel**.",
     },
     tags: {
       type: "string[]",
@@ -62,137 +45,12 @@ export default {
         }));
       },
     },
-
-    eventFilterStatus: {
-      type: "string[]",
-      label: "Filter by Status",
-      description: "Filter emitted events by ticket status",
-      options: [
-        {
-          label: "Open",
-          value: "OPEN",
-        },
-        {
-          label: "Closed",
-          value: "CLOSED",
-        },
-        {
-          label: "Snoozed",
-          value: "SNOOZED",
-        },
-      ],
-    },
-    eventFilterPriority: {
-      type: "string[]",
-      label: "Filter by Priority",
-      description: "Filter emitted events by ticket priority",
-      options: [
-        {
-          label: "Low",
-          value: "LOW",
-        },
-        {
-          label: "Medium",
-          value: "MEDIUM",
-        },
-        {
-          label: "High",
-          value: "HIGH",
-        },
-      ],
-    },
-    eventFilterAssignedAgent: {
-      type: "string[]",
-      label: "Filter by Assigned Agent",
-      description: "Filter emitted events by assigned agent",
-      async options() {
-        const tickets = await this.paginate(this.listTickets, {
-          per_page: 100,
-        });
-        const agents = tickets.map((ticket) => ticket.assignee_id).filter(Boolean);
-        const uniqueAgents = [
-          ...new Set(agents),
-        ];
-        return uniqueAgents.map((agent) => ({
-          label: agent,
-          value: agent,
-        }));
-      },
-    },
-    eventFilterChannel: {
-      type: "string[]",
-      label: "Filter by Channel",
-      description: "Filter emitted events by communication channel",
-      options: [
-        {
-          label: "Email",
-          value: "email",
-        },
-        {
-          label: "Chat",
-          value: "chat",
-        },
-      ],
-    },
-    eventFilterDesiredStatuses: {
-      type: "string[]",
-      label: "Desired Statuses to Monitor",
-      description: "Specify desired statuses to monitor for status updates",
-      options: [
-        {
-          label: "Open",
-          value: "OPEN",
-        },
-        {
-          label: "Pending",
-          value: "PENDING",
-        },
-        {
-          label: "Resolved",
-          value: "RESOLVED",
-        },
-      ],
-    },
-    addMessageId: {
-      type: "string",
-      label: "Ticket ID",
-      description: "ID of the ticket to add a message to",
-      async options() {
-        const tickets = await this.paginate(this.listTickets, {
-          per_page: 100,
-        });
-        return tickets.map((ticket) => ({
-          label: ticket.subject || ticket.id,
-          value: ticket.id,
-        }));
-      },
-    },
-    addMessageBody: {
-      type: "string",
-      label: "Comment Body",
-      description: "Body of the comment to add",
-    },
-    addMessageSenderType: {
-      type: "string",
-      label: "Comment Sender Type",
-      description: "The sender type of the comment",
-      options: [
-        {
-          label: "Customer",
-          value: "customer",
-        },
-        {
-          label: "Operator",
-          value: "operator",
-        },
-      ],
-    },
     conversationId: {
       type: "string",
       label: "Ticket ID",
       description: "ID of the ticket to update",
       async options({ page }) {
-        const ticket = await this.listTickets({
+        const { ticket } = await this.listTickets({
           params: {
             page: page + 1,
           },
@@ -208,33 +66,6 @@ export default {
         }));
       },
     },
-    updateStatus: {
-      type: "string",
-      label: "Status",
-      description: "New status of the ticket",
-      options: [
-        {
-          label: "Open",
-          value: "OPEN",
-        },
-        {
-          label: "Closed",
-          value: "CLOSED",
-        },
-        {
-          label: "Snoozed",
-          value: "SNOOZED",
-        },
-        {
-          label: "Pending",
-          value: "PENDING",
-        },
-        {
-          label: "Resolved",
-          value: "RESOLVED",
-        },
-      ],
-    },
   },
   methods: {
     _baseUrl() {
@@ -249,14 +80,11 @@ export default {
     _makeRequest({
       $ = this, path, ...opts
     }) {
-      const config = {
+      return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(),
         ...opts,
-      };
-      console.log("config: ", config);
-      console.log("config: ", JSON.stringify(config));
-      return axios($, config);
+      });
     },
     createTicket(opts = {}) {
       return this._makeRequest({
@@ -273,7 +101,7 @@ export default {
     listTickets(opts = {}) {
       return this._makeRequest({
         path: "/tickets",
-        opts,
+        ...opts,
       });
     },
     updateTicket({
@@ -286,23 +114,35 @@ export default {
       });
     },
 
-    // Pagination helper method
-    async paginate(fn, opts = {}) {
-      let results = [];
-      let page = 1;
-      let perPage = opts.per_page || 30;
-      while (true) {
-        const response = await fn({
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const { ticket } = await fn({
+          params,
           ...opts,
-          page,
-          per_page: perPage,
         });
-        if (!response || response.length === 0) break;
-        results = results.concat(response);
-        if (response.length < perPage) break;
-        page += 1;
-      }
-      return results;
+
+        if (!ticket) {
+          return;
+        }
+
+        for (const d of ticket) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = ticket && ticket.length;
+
+      } while (hasMore);
     },
   },
 };

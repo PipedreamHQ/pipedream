@@ -7,10 +7,6 @@ export const STATUS_OPTIONS = [
     label: "Closed",
     value: "CLOSED",
   },
-  {
-    label: "Snoozed",
-    value: "SNOOZED",
-  },
 ];
 
 export const COMMENT_SENDER_TYPE_OPTIONS = [
