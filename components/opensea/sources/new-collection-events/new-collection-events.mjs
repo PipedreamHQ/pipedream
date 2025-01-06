@@ -4,7 +4,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 export default {
   key: "opensea-new-collection-events",
   name: "New Collection Events",
-  description: "Emit new listings for a collection. [See the documentation](https://docs.opensea.io/reference/get_all_listings_on_collection_v2)",
+  description: "Emit new filtered events for a collection. [See the documentation](https://docs.opensea.io/reference/list_events_by_collection)",
   version: "0.0.4",
   dedupe: "unique",
   type: "source",
@@ -22,61 +22,67 @@ export default {
       label: "Collection Slug",
       description: "Unique string to identify a collection on OpenSea. This can be found by visiting the collection on the OpenSea website and noting the last path parameter.",
     },
+    eventType: {
+      type: "string[]",
+      options: [
+        "all",
+        "cancel",
+        "listing",
+        "offer",
+        "order",
+        "redemption",
+        "sale",
+        "transfer",
+      ],
+      label: "Event Type",
+      description: "The type of event to filter by. If not provided, only sales will be returned.",
+      optional: true,
+    },
   },
   methods: {
-    _getNextCursor() {
-      return this.db.get("nextCursor");
+    _getLastTimestamp() {
+      return this.db.get("lastTimestamp");
     },
-    _setNextCursor(nextCursor) {
-      this.db.set("nextCursor", nextCursor);
+    _setLastTimestamp(ts) {
+      this.db.set("lastTimestamp", ts);
     },
-    async getPaginatedCollectionEvents() {
-      const args = {
-        collectionSlug: this.collectionSlug,
-        params: {
-          limit: 100,
-          next: this._getNextCursor(),
-        },
-      };
-
-      let lastNextCursor, total = 0;
-      const results = [];
-
-      do {
-        const {
-          listings, next,
-        } = await this.opensea.retrieveEvents(args);
-        results.push(...listings);
-        total = listings?.length;
-        lastNextCursor = args.params.next;
-        args.params.next = next;
-      } while (total && args.params?.next);
-
-      this._setNextCursor(lastNextCursor);
-      return results;
-    },
-    emitEvents(items) {
-      items.forEach((item) => {
-        const meta = this.generateMeta(item);
-        this.$emit(item, meta);
-      });
-    },
-    generateMeta(item) {
+    generateMeta(event) {
       return {
-        id: item.order_hash,
-        summary: `New ${item.type} ${item.chain} Listing`,
-        ts: item.protocol_data.parameters.startTime,
+        id: event.order_hash,
+        summary: `${event.asset.name || event.nft.name} ${this.eventType} event`,
+        ts: event.event_timestamp,
       };
     },
     async processEvent(max) {
-      let items = await this.getPaginatedCollectionEvents();
-      if (!items?.length) {
+      const lastTimestamp = this._getLastTimestamp();
+      let next = null;
+      let events = [];
+      do {
+        const resp = await this.opensea.retrieveEvents({
+          collectionSlug: this.collectionSlug,
+          params: {
+            event_type: this.eventType,
+            after: lastTimestamp,
+            next,
+          },
+        });
+        if (!resp?.asset_events) {
+          break;
+        }
+        events.push(...resp.asset_events);
+        next = resp.next;
+      } while (lastTimestamp && next);
+
+      if (!events.length) {
         return;
       }
+      this._setLastTimestamp(events[0].event_timestamp);
       if (max) {
-        items = items.slice(-1 * max);
+        events = events.slice(0, max);
       }
-      this.emitEvents(items);
+      events.reverse().forEach((event) => {
+        this.$emit(event, this.generateMeta(event));
+      });
     },
   },
   hooks: {

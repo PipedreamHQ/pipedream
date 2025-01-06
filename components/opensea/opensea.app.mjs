@@ -31,7 +31,7 @@ export default {
       collectionSlug, ...opts
     }) {
       return this._makeRequest({
-        path: `/listings/collection/${collectionSlug}/all`,
+        path: `/events/collection/${collectionSlug}`,
         ...opts,
       });
     },
