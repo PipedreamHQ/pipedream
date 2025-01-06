@@ -181,7 +181,7 @@ export default {
   },
   async run() {
     const after = this._getAfter();
-    const params = this.getParams(after);
+    const params = await this.getParams(after);
     await this.processResults(after, params);
   },
 };
