@@ -1,11 +1,9 @@
 {
   "name": "@pipedream/sdk",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Pipedream SDK",
+  "type": "commonjs",
   "main": "dist/server/server/index.js",
-  "module": "dist/server/server/index.js",
-  "types": "dist/server/server/index.d.ts",
-  "browser": "./dist/browser/browser/index.js",
   "exports": {
     ".": {
       "browser": "./dist/browser/browser/index.js",
@@ -14,14 +12,14 @@
       "default": "./dist/server/server/index.js"
     },
     "./server": {
+      "types": "./dist/server/server/index.d.ts",
       "import": "./dist/server/server/index.js",
-      "require": "./dist/server/server/index.js",
-      "types": "./dist/server/server/index.d.ts"
+      "require": "./dist/server/server/index.js"
     },
     "./browser": {
+      "types": "./dist/browser/browser/index.d.ts",
       "import": "./dist/browser/browser/index.js",
-      "require": "./dist/browser/browser/index.js",
-      "types": "./dist/browser/browser/index.d.ts"
+      "require": "./dist/browser/browser/index.js"
     }
   },
   "engines": {
