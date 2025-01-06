@@ -48,7 +48,7 @@ export default {
     dueOn: {
       type: "string",
       label: "Due On",
-      description: "Due date (ISO 8601) of the card (e.g. `2023-12-12`).",
+      description: "The due date of the card, in `YYYY-MM-DD` format.",
       optional: true,
     },
     notify: {
