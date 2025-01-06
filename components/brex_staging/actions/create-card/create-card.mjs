@@ -1,4 +1,4 @@
-import common from "../../../brex/actions/create-card/common.mjs";
+import common from "@pipedream/brex/actions/create-card/common.mjs";
 import brexApp from "../../brex_staging.app.mjs";
 
 export default {
@@ -6,7 +6,7 @@ export default {
   name: "Create Card",
   description: "Creates a new card. [See the docs here](https://developer.brex.com/openapi/team_api/#operation/createCard).",
   key: "brex_staging-create-card",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     brexApp,

@@ -6,7 +6,7 @@ export default {
   key: "shopify_developer_app-new-product-updated",
   name: "New Product Updated (Instant)",
   description: "Emit new event for each product updated in a store.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

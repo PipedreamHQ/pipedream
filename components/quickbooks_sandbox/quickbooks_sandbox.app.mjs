@@ -1,4 +1,4 @@
-import common from "../quickbooks/quickbooks.app.mjs";
+import common from "@pipedream/quickbooks";
 
 export default {
   ...common,
