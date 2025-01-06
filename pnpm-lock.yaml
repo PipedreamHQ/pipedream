@@ -3104,6 +3104,9 @@ importers:
 
   components/easypost: {}
 
+  components/easypromos:
+    specifiers: {}
+
   components/easysendy:
     dependencies:
       '@pipedream/platform':
