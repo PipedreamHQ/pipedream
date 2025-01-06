@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { VIA_CHANNEL_OPTIONS } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import richpanel from "../../richpanel.app.mjs";
-import { VIA_CHANNEL_OPTIONS } from "./common/constants.mjs";
 
 export default {
   key: "richpanel-create-ticket",
