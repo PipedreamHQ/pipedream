@@ -1,28 +1,14 @@
 import app from "../../basecamp.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "basecamp-create-message",
   name: "Create Message",
   description: "Publishes a message in the project and message board selected. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/messages.md#create-a-message)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   props: {
-    app,
-    accountId: {
-      propDefinition: [
-        app,
-        "accountId",
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        app,
-        "projectId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
-    },
+    ...common.props,
     messageBoardId: {
       propDefinition: [
         app,

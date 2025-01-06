@@ -1,28 +1,14 @@
 import app from "../../basecamp.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "basecamp-create-card",
   name: "Create a Card",
   description: "Creates a card in a selected column. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/card_table_cards.md#create-a-card)",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   props: {
-    app,
-    accountId: {
-      propDefinition: [
-        app,
-        "accountId",
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        app,
-        "projectId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
-    },
+    ...common.props,
     cardTableId: {
       propDefinition: [
         app,

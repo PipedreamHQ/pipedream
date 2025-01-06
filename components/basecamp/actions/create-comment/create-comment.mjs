@@ -1,28 +1,14 @@
 import app from "../../basecamp.app.mjs";
+import common from "../common/common.mjs";
 
 export default {
   key: "basecamp-create-comment",
   name: "Create a Comment",
-  description: "Publishes a comment to the select recording. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/comments.md#create-a-comment)",
+  description: "Publishes a comment to the select recording. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/comments.md#create-a-comment)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   props: {
-    app,
-    accountId: {
-      propDefinition: [
-        app,
-        "accountId",
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        app,
-        "projectId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
-    },
+    ...common.props,
     recordingType: {
       propDefinition: [
         app,
