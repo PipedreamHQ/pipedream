@@ -7,8 +7,8 @@ export default {
   propDefinitions: {
     accountId: {
       type: "string",
-      label: "Account Id",
-      description: "The ID of the account.",
+      label: "Account ID",
+      description: "Select an account or provide an account ID.",
       async options() {
         const accounts = await this.getAccounts({});
         return accounts.map(({
@@ -22,8 +22,8 @@ export default {
     },
     projectId: {
       type: "string",
-      label: "Project Id",
-      description: "The ID of the project.",
+      label: "Project ID",
+      description: "Select a project or provide a project ID.",
       async options({
         accountId, page,
       }) {
@@ -44,8 +44,8 @@ export default {
     },
     messageBoardId: {
       type: "string",
-      label: "Message Board Id",
-      description: "The ID of the message board.",
+      label: "Message Board ID",
+      description: "Select a message board or provide a message board ID.",
       async options({
         accountId,
         projectId,
@@ -66,8 +66,8 @@ export default {
     },
     recordingId: {
       type: "string",
-      label: "Recording Id",
-      description: "The ID of the recording.",
+      label: "Recording ID",
+      description: "Select a recording or provide a recording ID.",
       async options({
         accountId,
         projectId,
@@ -104,7 +104,7 @@ export default {
     peopleIds: {
       type: "string[]",
       label: "People",
-      description: "An array of all people visible to the current user.",
+      description: "One or more people visible to the current user.",
       async options({
         accountId,
         projectId,
@@ -129,8 +129,8 @@ export default {
     },
     todoSetId: {
       type: "string",
-      label: "Todo Set Id",
-      description: "The ID of the todo set.",
+      label: "To-do Set Id",
+      description: "Select a to-do set or provide a to-do set ID.",
       async options({
         accountId,
         projectId,
@@ -151,8 +151,8 @@ export default {
     },
     campfireId: {
       type: "string",
-      label: "Campfire Id",
-      description: "The ID of the campfire.",
+      label: "Campfire ID",
+      description: "Select a campfire or provide a campfire ID.",
       async options({
         accountId,
         projectId,
@@ -173,8 +173,8 @@ export default {
     },
     todoListId: {
       type: "string",
-      label: "Todo List Id",
-      description: "The ID of the todo list.",
+      label: "To-do List Id",
+      description: "The ID of the to-do list.",
       async options({
         accountId,
         projectId,
@@ -201,7 +201,7 @@ export default {
     },
     messageTypeId: {
       type: "string",
-      label: "Message Types",
+      label: "Message Type",
       description: "Select a type for the message.",
       async options({
         accountId,
@@ -222,8 +222,8 @@ export default {
     },
     cardTableId: {
       type: "string",
-      label: "Card Table Id",
-      description: "The card table ID",
+      label: "Card Table ID",
+      description: "Select a card table or provide a card table ID.",
       async options({
         accountId, projectId,
       }) {
@@ -242,7 +242,7 @@ export default {
     columnId: {
       type: "string",
       label: "Column ID",
-      description: "The column ID",
+      description: "Select a column or provide a column ID.",
       async options({
         accountId, projectId, cardTableId,
       }) {
@@ -261,8 +261,8 @@ export default {
     },
     botId: {
       type: "string",
-      label: "Chat Bot ID",
-      description: "The ID of the chatbot to send message from",
+      label: "Chatbot ID",
+      description: "Select a chatbot to send the message from.",
       async options({
         accountId, projectId, campfireId,
       }) {
