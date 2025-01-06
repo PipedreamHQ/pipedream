@@ -6,7 +6,6 @@ import {
   ComponentFormContainer, FrontendClientProvider,
 } from "@pipedream/connect-react";
 import { fetchToken } from "./actions";
-import { DynamicProps } from "../../../../src";
 
 export default function Home() {
   const userId = "my-authed-user-id";
@@ -23,9 +22,13 @@ export default function Home() {
   });
 
   const [
-    dynamicProps,
-    setDynamicProps,
-  ] = useState<DynamicProps<{}>>();
+    dynamicPropsId,
+    setDynamicPropsId,
+  ] = useState<string | undefined>();
+
+  const handleDynamicProps = (dynamicProps: { id: string | undefined }) => {
+    setDynamicPropsId(dynamicProps.id)
+  }
 
   return (
     <>
@@ -35,7 +38,7 @@ export default function Home() {
           userId={userId}
           componentKey="slack-send-message"
           configuredProps={configuredProps}
-          onUpdateDynamicProps={setDynamicProps}
+          onUpdateDynamicProps={handleDynamicProps}
           onUpdateConfiguredProps={setConfiguredProps}
           onSubmit={async () => {
             try {
@@ -43,7 +46,7 @@ export default function Home() {
                 userId,
                 actionId: "slack-send-message",
                 configuredProps,
-                dynamicPropsId: dynamicProps?.id,
+                dynamicPropsId,
               });
             } catch (error) {
               console.error("Action run failed:", error);
