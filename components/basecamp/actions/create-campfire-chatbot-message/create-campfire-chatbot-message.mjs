@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 export default {
   key: "basecamp-create-campfire-chatbot-message",
   name: "Create Campfire Chatbot Message",
-  description: "Creates a line in a Campfire for a Basecamp Chatbot. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/chatbots.md#create-a-line)",
+  description: "Creates a message in a Campfire for a Basecamp Chatbot. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/chatbots.md#create-a-line)",
   type: "action",
   version: "0.0.4",
   props: {

@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 export default {
   key: "basecamp-create-campfire-message",
   name: "Create Campfire Message",
-  description: "Creates a line in a selected Campfire. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/campfires.md#create-a-campfire-line)",
+  description: "Creates a message in a selected Campfire. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/campfires.md#create-a-campfire-line)",
   type: "action",
   version: "0.0.8",
   props: {
