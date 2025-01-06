@@ -6,7 +6,7 @@ import {
   ComponentFormContainer, FrontendClientProvider,
 } from "@pipedream/connect-react";
 import { fetchToken } from "./actions";
-import {DynamicProps} from "../../../../src";
+import { DynamicProps } from "../../../../src";
 
 export default function Home() {
   const userId = "my-authed-user-id";
@@ -25,7 +25,7 @@ export default function Home() {
   const [
     dynamicProps,
     setDynamicProps,
-  ] = useState<DynamicProps<any>>();
+  ] = useState<DynamicProps<{}>>();
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function Home() {
                 userId,
                 actionId: "slack-send-message",
                 configuredProps,
-                dynamicPropsId: dynamicProps?.id
+                dynamicPropsId: dynamicProps?.id,
               });
             } catch (error) {
               console.error("Action run failed:", error);

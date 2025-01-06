@@ -139,7 +139,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   } = useQuery({
     queryKey: [
       "dynamicProps",
-      queryKeyInput
+      queryKeyInput,
     ],
     queryFn: async () => {
       const { dynamicProps } = await client.componentReloadProps(componentReloadPropsInput);
