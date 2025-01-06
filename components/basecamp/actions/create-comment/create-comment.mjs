@@ -4,7 +4,7 @@ import common from "../common/common.mjs";
 export default {
   key: "basecamp-create-comment",
   name: "Create a Comment",
-  description: "Publishes a comment to the select recording. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/comments.md#create-a-comment)",
+  description: "Creates a comment in a selected recording. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/comments.md#create-a-comment)",
   type: "action",
   version: "0.0.8",
   props: {
@@ -33,7 +33,7 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "The body of the comment. See [Rich text guide](https://github.com/basecamp/bc3-api/blob/master/sections/rich_text.md) for what HTML tags are allowed.",
+      description: "The body of the comment. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/comments.md#create-a-comment) for information on using HTML tags.",
     },
   },
   async run({ $ }) {
@@ -54,7 +54,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully posted comment with ID ${comment.id}`);
+    $.export("$summary", `Successfully posted comment (ID: ${comment.id})`);
     return comment;
   },
 };
