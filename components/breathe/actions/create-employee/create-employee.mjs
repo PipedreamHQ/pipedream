@@ -108,7 +108,7 @@ export default {
           division: this.divisionId,
           location: this.locationId,
           working_pattern: this.workingPatternId,
-          holiday_allownace: this.holidayAllowanceId,
+          holiday_allowance: this.holidayAllowanceId,
         },
       },
     });
