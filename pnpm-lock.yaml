@@ -10549,8 +10549,7 @@ importers:
         specifier: ^1.1.0
         version: 1.6.6
 
-  components/textline:
-    specifiers: {}
+  components/textline: {}
 
   components/textlocal:
     dependencies:

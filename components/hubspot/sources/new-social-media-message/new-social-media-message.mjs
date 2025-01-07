@@ -6,7 +6,7 @@ export default {
   key: "hubspot-new-social-media-message",
   name: "New Social Media Message",
   description: "Emit new event when a message is posted from HubSpot to the specified social media channel. Note: Only available for Marketing Hub Enterprise accounts",
-  version: "0.0.16",
+  version: "0.0.17",
   type: "source",
   dedupe: "unique",
   props: {
