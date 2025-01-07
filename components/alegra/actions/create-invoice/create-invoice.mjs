@@ -8,7 +8,7 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "alegra-create-invoice",
   name: "Create Invoice",
-  description: "Creates a new invoice in Alegra. [See the documentation]()",
+  description: "Creates a new invoice in Alegra. [See the documentation](https://developer.alegra.com/reference/post_invoices)",
   version: "0.0.1",
   type: "action",
   props: {
