@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "basecamp-new-comment-created",
   name: "New Comment Created (Instant)",
-  description: "Emit new event when a comment is created. [See the documentation]https://github.com/basecamp/bc3-api/blob/master/sections/webhooks.md#webhooks)",
+  description: "Emit new event when a comment is created. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/webhooks.md#webhooks)",
   version: "0.0.8",
   dedupe: "unique",
   type: "source",

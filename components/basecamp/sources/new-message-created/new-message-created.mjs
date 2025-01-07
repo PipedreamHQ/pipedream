@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "basecamp-new-message-created",
   name: "New Message Created (Instant)",
-  description: "Emit new event when a message is created. [See the documentation]https://github.com/basecamp/bc3-api/blob/master/sections/webhooks.md#webhooks)",
+  description: "Emit new event when a message is created. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/webhooks.md#webhooks)",
   version: "0.0.8",
   dedupe: "unique",
   type: "source",
