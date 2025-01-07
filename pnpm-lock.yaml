@@ -1005,8 +1005,7 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
 
-  components/azure_storage:
-    specifiers: {}
+  components/azure_storage: {}
 
   components/backblaze: {}
 
@@ -3104,8 +3103,7 @@ importers:
 
   components/easypost: {}
 
-  components/easypromos:
-    specifiers: {}
+  components/easypromos: {}
 
   components/easysendy:
     dependencies:
@@ -3159,8 +3157,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/elevio:
-    specifiers: {}
+  components/elevio: {}
 
   components/elmah_io:
     dependencies:
@@ -4823,8 +4820,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/homerun:
-    specifiers: {}
+  components/homerun: {}
 
   components/hookdeck:
     dependencies:
@@ -8319,8 +8315,7 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/ragie:
-    specifiers: {}
+  components/ragie: {}
 
   components/railsr: {}
 
@@ -8513,8 +8508,7 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
-  components/refiner:
-    specifiers: {}
+  components/refiner: {}
 
   components/reflect:
     dependencies:
@@ -10545,8 +10539,7 @@ importers:
         specifier: ^1.1.0
         version: 1.6.6
 
-  components/textline:
-    specifiers: {}
+  components/textline: {}
 
   components/textlocal:
     dependencies:
@@ -11052,8 +11045,7 @@ importers:
         specifier: ^6.2.13
         version: 6.2.13
 
-  components/typefully:
-    specifiers: {}
+  components/typefully: {}
 
   components/typless: {}
 
@@ -11579,7 +11571,10 @@ importers:
   components/weworkbook: {}
 
   components/what_are_those:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/whatconverts: {}
 
