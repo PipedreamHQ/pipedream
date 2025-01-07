@@ -17,7 +17,7 @@ export default {
       ],
       type: "string[]",
       label: "Employee IDs",
-      description: "Return leave requests for the selected employees only",
+      description: "Return leave requests for the selected employees only. If no employees are selected, leave requests for all employees will be returned.",
       optional: true,
     },
   },
@@ -38,6 +38,7 @@ export default {
       if (this.employeeIds?.length === 1) {
         args.params.employee_id = this.employeeIds[0];
       }
+      return args;
     },
     getResourceKey() {
       return "leave_requests";
