@@ -10,11 +10,15 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
-    employeeId: {
+    employeeIds: {
       propDefinition: [
         common.props.breathe,
         "employeeId",
       ],
+      type: "string[]",
+      label: "Employee IDs",
+      description: "Return leave requests for the selected employees only",
+      optional: true,
     },
   },
   methods: {
@@ -26,15 +30,20 @@ export default {
       return this.breathe.listLeaveRequests;
     },
     getArgs(lastTs) {
-      return {
+      const args = {
         params: {
-          employee_id: this.employeeId,
           startDate: lastTs,
         },
       };
+      if (this.employeeIds?.length === 1) {
+        args.params.employee_id = this.employeeIds[0];
+      }
     },
     getResourceKey() {
       return "leave_requests";
+    },
+    isRelevant(leaveRequest) {
+      return !this.employeeIds?.length || this.employeeIds.includes(leaveRequest.employee.id);
     },
     generateMeta(leaveRequest) {
       return {
