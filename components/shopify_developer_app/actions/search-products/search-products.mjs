@@ -1,12 +1,12 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "../../../shopify/actions/search-products/common.mjs";
+import common from "@pipedream/shopify/actions/search-products/common.mjs";
 
 export default {
   ...common,
   key: "shopify_developer_app-search-products",
   name: "Search for Products",
   description: "Search for products. [See the documentation](https://shopify.dev/api/admin-rest/2022-01/resources/product#[get]/admin/api/2022-01/products.json)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     shopify,

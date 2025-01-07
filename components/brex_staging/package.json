@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/brex_staging",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Brex Staging Components",
   "main": "brex_staging.app.js",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/brex": "^0.1.0",
     "axios": "^0.25.0",
     "crypto": "^1.0.1",
     "uuid": "^8.3.2"

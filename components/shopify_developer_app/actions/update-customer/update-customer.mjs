@@ -1,6 +1,6 @@
 import shopify from "../../shopify_developer_app.app.mjs";
 import metafieldActions from "../common/metafield-actions.mjs";
-import common from "../../../shopify/actions/update-customer/common.mjs";
+import common from "@pipedream/shopify/actions/update-customer/common.mjs";
 
 export default {
   ...metafieldActions,
@@ -8,7 +8,7 @@ export default {
   key: "shopify_developer_app-update-customer",
   name: "Update Customer",
   description: "Update a existing customer. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[put]/admin/api/2022-01/customers/{customer_id}.json)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     shopify,

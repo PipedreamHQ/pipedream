@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/what_are_those",
+  "version": "0.0.1",
+  "description": "Pipedream What Are Those Components",
+  "main": "what_are_those.app.mjs",
+  "keywords": [
+    "pipedream",
+    "what_are_those"
+  ],
+  "homepage": "https://pipedream.com/apps/what_are_those",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

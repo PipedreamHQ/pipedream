@@ -1,11 +1,33 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "screenshot_fyi",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://screenshot.fyi/api";
+    },
+    _makeRequest({
+      $ = this,
+      path,
+      params,
+      ...otherOpts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        params: {
+          ...params,
+          accessKey: this.$auth.access_key,
+        },
+        ...otherOpts,
+      });
+    },
+    takeScreenshot(opts = {}) {
+      return this._makeRequest({
+        path: "/take",
+        ...opts,
+      });
     },
   },
 };

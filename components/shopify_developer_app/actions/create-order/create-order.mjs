@@ -1,6 +1,6 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "../../../shopify/actions/create-order/common.mjs";
-import { toSingleLineString } from "../../../shopify/actions/common/common.mjs";
+import common from "@pipedream/shopify/actions/create-order/common.mjs";
+import { toSingleLineString } from "@pipedream/shopify/actions/common/common.mjs";
 
 export default {
   ...common,
@@ -10,7 +10,7 @@ export default {
     For full order object details [see the docs](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/2022-01/orders.json)
     or [see examples](https://shopify.dev/api/admin-rest/2022-01/resources/order#[post]/admin/api/#{api_version}/orders.json_examples)
   `),
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     shopify,

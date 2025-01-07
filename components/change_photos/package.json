@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/change_photos",
+  "version": "0.0.1",
+  "description": "Pipedream change.photos Components",
+  "main": "change_photos.app.mjs",
+  "keywords": [
+    "pipedream",
+    "change_photos"
+  ],
+  "homepage": "https://pipedream.com/apps/change_photos",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

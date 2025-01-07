@@ -7,7 +7,7 @@ export default {
   name: "New Order Fulfilled (Instant)",
   type: "source",
   description: "Emit new event whenever an order is fulfilled.",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   methods: {
     ...common.methods,
