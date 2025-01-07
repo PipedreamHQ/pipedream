@@ -4,13 +4,12 @@ import commonActions from "../../common/actions.mjs";
 
 export default {
   key: "airtable_oauth-create-or-update-record",
-  name: "Create Single Record Or Update",
-  description: "Updates a record if `recordId` is provided or adds a record to a table.",
-  version: "0.0.8",
+  name: "Create or Update Record",
+  description: "Create a new record or update an existing one. [See the documentation](https://airtable.com/developers/web/api/create-records)",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
-    // eslint-disable-next-line pipedream/props-label,pipedream/props-description
     tableId: {
       ...common.props.tableId,
       reloadProps: true,
@@ -27,7 +26,7 @@ export default {
         }),
       ],
       optional: true,
-      description: "Enter a [record ID](https://support.airtable.com/hc/en-us/articles/360051564873-Record-ID) if you want to update an existing record. Leave blank to create a new record.",
+      description: "To update an existing record, select it from the list or provide its [Record ID](https://support.airtable.com/hc/en-us/articles/360051564873-Record-ID). If left blank, a new record will be created.",
     },
     typecast: {
       propDefinition: [

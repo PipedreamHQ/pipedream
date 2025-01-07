@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/docusign_developer",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Docusign_developer Components",
   "main": "docusign_developer.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/docusign": "^0.2.1",
     "@pipedream/platform": "^3.0.3"
   }
 }

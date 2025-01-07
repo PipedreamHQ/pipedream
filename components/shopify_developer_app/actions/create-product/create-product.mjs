@@ -1,12 +1,12 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "../../../shopify/actions/create-product/common.mjs";
+import common from "@pipedream/shopify/actions/create-product/common.mjs";
 
 export default {
   ...common,
   key: "shopify_developer_app-create-product",
   name: "Create Product",
   description: "Create a new product. [See the documentation](https://shopify.dev/api/admin-rest/2022-01/resources/product#[post]/admin/api/2022-01/products.json)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     shopify,

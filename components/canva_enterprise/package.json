@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/canva_enterprise",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Canva Enterprise Components",
   "main": "canva_enterprise.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/canva": "^0.2.3",
     "@pipedream/platform": "^3.0.0"
   }
 }
