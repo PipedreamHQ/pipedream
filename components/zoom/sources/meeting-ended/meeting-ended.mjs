@@ -6,7 +6,7 @@ export default {
   key: "zoom-meeting-ended",
   name: "Meeting Ended (Instant)",
   description: "Emit new event each time a meeting ends where you're the host",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   dedupe: "unique",
   props: {
