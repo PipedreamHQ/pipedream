@@ -83,7 +83,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created card (ID: ${card.id}}`);
+    $.export("$summary", `Successfully created card (ID: ${card.id})`);
     return card;
   },
 };
