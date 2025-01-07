@@ -319,50 +319,52 @@ export default {
     async getProjects(args = {}) {
       return this.makeRequest({
         path: "/projects.json",
-        accountId: args.accountId,
         ...args,
       });
     },
-    async getPeople(args = {}) {
+    async getPeople({
+      projectId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/projects/${args.projectId}/people.json`,
-        accountId: args.accountId,
+        path: `/projects/${projectId}/people.json`,
         ...args,
       });
     },
-    async getMessageTypes(args = {}) {
+    async getMessageTypes({
+      projectId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/buckets/${args.projectId}/categories.json`,
-        accountId: args.accountId,
+        path: `/buckets/${projectId}/categories.json`,
         ...args,
       });
     },
-    async getProject(args = {}) {
+    async getProject({
+      projectId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/projects/${args.projectId}.json`,
-        accountId: args.accountId,
+        path: `/projects/${projectId}.json`,
         ...args,
       });
     },
     async getRecordings(args = {}) {
       return this.makeRequest({
         path: "/projects/recordings.json",
-        accountId: args.accountId,
         ...args,
       });
     },
-    async getTodoLists(args = {}) {
+    async getTodoLists({
+      projectId, todoSetId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/buckets/${args.projectId}/todosets/${args.todoSetId}/todolists.json`,
-        accountId: args.accountId,
+        path: `/buckets/${projectId}/todosets/${todoSetId}/todolists.json`,
         ...args,
       });
     },
-    async createMessage(args = {}) {
+    async createMessage({
+      projectId, messageBoardId, ...args
+    } = {}) {
       return this.makeRequest({
-        $: args.$,
-        accountId: args.accountId,
-        path: `/buckets/${args.projectId}/message_boards/${args.messageBoardId}/messages.json`,
+        path: `/buckets/${projectId}/message_boards/${messageBoardId}/messages.json`,
         method: "post",
         ...args,
       });
@@ -376,55 +378,56 @@ export default {
         ...args,
       });
     },
-    async createCampfireMessage(args = {}) {
+    async createCampfireMessage({
+      projectId, campfireId, ...args
+    } = {}) {
       return this.makeRequest({
-        $: args.$,
-        accountId: args.accountId,
-        path: `/buckets/${args.projectId}/chats/${args.campfireId}/lines.json`,
+        path: `/buckets/${projectId}/chats/${campfireId}/lines.json`,
         method: "post",
         ...args,
       });
     },
-    async createComment(args = {}) {
+    async createComment({
+      projectId, recordingId, ...args
+    } = {}) {
       return this.makeRequest({
-        $: args.$,
-        accountId: args.accountId,
-        path: `/buckets/${args.projectId}/recordings/${args.recordingId}/comments.json`,
+        path: `/buckets/${projectId}/recordings/${recordingId}/comments.json`,
         method: "post",
         ...args,
       });
     },
-    async createTodoItem(args = {}) {
+    async createTodoItem({
+      projectId, todoListId, ...args
+    } = {}) {
       return this.makeRequest({
-        $: args.$,
-        accountId: args.accountId,
-        path: `/buckets/${args.projectId}/todolists/${args.todoListId}/todos.json`,
+        path: `/buckets/${projectId}/todolists/${todoListId}/todos.json`,
         method: "post",
         ...args,
       });
     },
-    async createWebhook(args = {}) {
+    async createWebhook({
+      projectId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/buckets/${args.projectId}/webhooks.json`,
-        accountId: args.accountId,
+        path: `/buckets/${projectId}/webhooks.json`,
         method: "post",
         ...args,
       });
     },
-    async deleteWebhook(args = {}) {
+    async deleteWebhook({
+      projectId, webhookId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/buckets/${args.projectId}/webhooks/${args.webhookId}.json`,
-        accountId: args.accountId,
+        path: `/buckets/${projectId}/webhooks/${webhookId}.json`,
         method: "delete",
         ...args,
       });
     },
     getCardTable({
-      accountId, projectId, cardTableId, ...args
+      projectId, cardTableId, ...args
     }) {
       return this.makeRequest({
         path: `/buckets/${projectId}/card_tables/${cardTableId}.json`,
-        accountId,
         ...args,
       });
     },
@@ -449,20 +452,18 @@ export default {
       return lists;
     },
     getChatbot({
-      accountId, projectId, campfireId, botId, ...args
+      projectId, campfireId, botId, ...args
     }) {
       return this.makeRequest({
         path: `/buckets/${projectId}/chats/${campfireId}/integrations/${botId}.json`,
-        accountId,
         ...args,
       });
     },
     listChatbots({
-      accountId, projectId, campfireId, ...args
+      projectId, campfireId, ...args
     }) {
       return this.makeRequest({
         path: `/buckets/${projectId}/chats/${campfireId}/integrations.json`,
-        accountId,
         ...args,
       });
     },
