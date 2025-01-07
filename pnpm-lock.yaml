@@ -853,8 +853,7 @@ importers:
 
   components/autobound: {}
 
-  components/autodesk:
-    specifiers: {}
+  components/autodesk: {}
 
   components/autoklose: {}
 
