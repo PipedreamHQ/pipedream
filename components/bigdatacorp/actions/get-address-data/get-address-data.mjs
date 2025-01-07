@@ -4,24 +4,25 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "bigdatacorp-get-address-data",
   name: "Get Address Data",
-  description: "Returns the available data for a CEP number according to the selected dataset. [See the documentation](https://docs.bigdatacorp.com.br/plataforma/reference/enderecos_legal_amazon)",
+  description: "Returns the available data for a Zipcode number according to the selected dataset. [See the documentation](https://docs.bigdatacorp.com.br/plataforma/reference/enderecos_legal_amazon)",
   version: "0.0.1",
   type: "action",
   props: {
     app,
-    zipcode: {
+    doc: {
       propDefinition: [
         app,
-        "zipcode",
+        "doc"
       ],
+      description: "Zipcode of the address you want to search for, i.e.: `88048-656`"
     },
     dataset: {
       propDefinition: [
         app,
-        "dataset",
+        "dataset"
       ],
       options: constants.ADDRESS_DATASETS,
-    },
+    }
   },
 
   async run({ $ }) {
@@ -29,12 +30,11 @@ export default {
       $,
       data: {
         Datasets: this.dataset,
-        q: `zipcode{${this.zipcode}}`,
-
-      },
+        q: `zipcode{${this.doc}}`,
+      }
     });
 
-    $.export("$summary", `Successfully sent the request for the '${this.dataset}' dataset`);
+    $.export("$summary", `Successfully sent the request for the '${this.dataset}' dataset. Status: ${response.Status[this.dataset][0].Message}`);
 
     return response;
   },
