@@ -49,7 +49,7 @@ export default {
     generateMeta(event) {
       return {
         id: event.order_hash,
-        summary: `${event.asset.name || event.nft.name} ${this.eventType} event`,
+        summary: `${event.asset.name || event.nft.name}`,
         ts: event.event_timestamp,
       };
     },
