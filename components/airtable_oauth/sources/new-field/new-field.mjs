@@ -1,52 +1,19 @@
-import common from "../common/common.mjs";
+import common from "../common/common-webhook-field.mjs";
 
 export default {
-  name: "New Field",
-  description: "Emit new event for each new field created in a table",
+  ...common,
+  name: "New Field Created (Instant)",
+  description: "Emit new event when a field is created in the selected table. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
   key: "airtable_oauth-new-field",
-  version: "0.0.7",
+  version: "1.0.0",
   type: "source",
-  props: {
-    ...common.props,
-    tableId: {
-      propDefinition: [
-        common.props.airtable,
-        "tableId",
-        ({ baseId }) => ({
-          baseId,
-        }),
-      ],
-      description: "The table ID to watch for changes.",
-    },
-  },
+  dedupe: "unique",
   methods: {
-    _getFieldIds() {
-      return this.db.get("fieldIds") || [];
+    ...common.methods,
+    getChangeTypes() {
+      return [
+        "add",
+      ];
     },
-    _setFieldIds(fieldIds) {
-      this.db.set("fieldIds", fieldIds);
-    },
-  },
-  async run() {
-    const fieldIds = this._getFieldIds();
-
-    const { tables } = await this.airtable.listTables({
-      baseId: this.baseId,
-    });
-    const { fields } = tables.find(({ id }) => id === this.tableId);
-
-    for (const field of fields) {
-      if (fieldIds.includes(field.id)) {
-        continue;
-      }
-      fieldIds.push(field.id);
-      this.$emit(field, {
-        id: field.id,
-        summary: field.name,
-        ts: Date.now(),
-      });
-    }
-
-    this._setFieldIds(fieldIds);
   },
 };

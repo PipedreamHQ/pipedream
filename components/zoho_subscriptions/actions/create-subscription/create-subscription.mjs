@@ -4,8 +4,8 @@ import zohoSubscriptions from "../../zoho_subscriptions.app.mjs";
 export default {
   key: "zoho_subscriptions-create-subscription",
   name: "Create Subscription",
-  version: "0.0.1",
-  description: "Create a new subscription. [See the documentation](https://www.zoho.com/subscriptions/api/v1/subscription/#create-a-subscription)",
+  version: "0.0.2",
+  description: "Create a new subscription. [See the documentation](https://www.zoho.com/billing/api/v1/subscription/#create-a-subscription)",
   type: "action",
   props: {
     zohoSubscriptions,
@@ -29,6 +29,7 @@ export default {
           organizationId,
         }),
       ],
+      reloadProps: true,
     },
     paymentTerms: {
       propDefinition: [
@@ -322,6 +323,35 @@ export default {
       optional: true,
     },
   },
+  async additionalProps(existingProps) {
+    const props = {};
+    if (!this.customerId) {
+      return props;
+    }
+    try {
+      const { customer } = await this.zohoSubscriptions.getCustomer({
+        customerId: this.customerId,
+      });
+      const { contact_person: contactperson } = await this.zohoSubscriptions.getContactPerson({
+        customerId: this.customerId,
+        contactpersonId: customer.primary_contactperson_id,
+      });
+      if (!customer.email && !contactperson.email) {
+        existingProps.contactpersons.hidden = true;
+        props.contactEmail = {
+          type: "string",
+          label: "Contact Email",
+        };
+      }
+    } catch {
+      props.contactEmail = {
+        type: "string",
+        label: "Contact Email",
+        optional: true,
+      };
+    }
+    return props;
+  },
   async run({ $ }) {
     const {
       zohoSubscriptions,
@@ -367,14 +397,15 @@ export default {
       cfdiUsage,
       allowPartialPayments,
       accountId,
+      contactEmail,
     } = this;
 
     if (autoCollect && !cardId) {
-      throw new ConfigurationError("By setting Auto-Collect to `true`, you must to fill in the card Id.");
+      throw new ConfigurationError("If setting Auto-Collect to `true`, you must fill in the card Id.");
     }
 
     if (autoCollect && !accountId) {
-      throw new ConfigurationError("By setting Auto-Collect to `true`, you must to fill in the Account Id.");
+      throw new ConfigurationError("If setting Auto-Collect to `true`, you must fill in the Account Id.");
     }
 
     let exchangeRateFloat = null;
@@ -401,6 +432,27 @@ export default {
         setupFeeFLoat = parseFloat(setupFee);
       } catch (e) {
         throw new ConfigurationError("Setup Fee must be a double.");
+      }
+    }
+
+    const { customer } = await zohoSubscriptions.getCustomer({
+      customerId,
+    });
+    if (contactEmail) {
+      await zohoSubscriptions.updateCustomer({
+        customerId,
+        data: {
+          display_name: customer.display_name,
+          email: contactEmail,
+        },
+      });
+    } else {
+      const { contact_person: contactperson } = await zohoSubscriptions.getContactPerson({
+        customerId,
+        contactpersonId: customer.primary_contactperson_id,
+      });
+      if (!customer.email && !contactperson.email) {
+        throw new ConfigurationError("Customer must have an email address");
       }
     }
 

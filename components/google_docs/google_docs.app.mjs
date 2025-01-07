@@ -1,5 +1,5 @@
 import docs from "@googleapis/docs";
-import googleDrive from "../google_drive/google_drive.app.mjs";
+import googleDrive from "@pipedream/google_drive";
 
 export default {
   type: "app",

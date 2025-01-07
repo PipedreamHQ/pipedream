@@ -1,56 +1,38 @@
-import common from "../common/common.mjs";
+import common from "../common/common-webhook-field.mjs";
+import airtable from "../../airtable_oauth.app.mjs";
 
 export default {
-  name: "New or Modified Field",
-  description: "Emit new event for each new or modified field in a table",
+  ...common,
+  name: "New or Modified Field (Instant)",
+  description: "Emit new event when a field is created or updated in the selected table",
   key: "airtable_oauth-new-or-modified-field",
-  version: "0.0.7",
+  version: "1.0.0",
   type: "source",
+  dedupe: "unique",
+  methods: {
+    ...common.methods,
+    getChangeTypes() {
+      return [
+        "add",
+        "update",
+      ];
+    },
+  },
   props: {
     ...common.props,
-    tableId: {
+    watchSchemasOfFieldIds: {
       propDefinition: [
-        common.props.airtable,
-        "tableId",
-        ({ baseId }) => ({
-          baseId,
+        airtable,
+        "sortFieldId",
+        (c) => ({
+          baseId: c.baseId,
+          tableId: c.tableId,
         }),
       ],
-      description: "The table ID to watch for changes.",
+      type: "string[]",
+      label: "Field Schemas to Watch",
+      description:
+        "Only emit events for updates that modify the schemas of these fields. If omitted, schemas of all fields within the table/view/base are watched",
     },
-  },
-  methods: {
-    _getPrevFields() {
-      return this.db.get("fieldIds") || {};
-    },
-    _setPrevFields(fieldIds) {
-      this.db.set("fieldIds", fieldIds);
-    },
-  },
-  async run() {
-    const prevFields = this._getPrevFields();
-
-    const { tables } = await this.airtable.listTables({
-      baseId: this.baseId,
-    });
-    const { fields } = tables.find(({ id }) => id === this.tableId);
-
-    for (const field of fields) {
-      if (prevFields[field.id] && prevFields[field.id] === JSON.stringify(field)) {
-        continue;
-      }
-      const summary = prevFields[field.id]
-        ? `${field.name} Updated`
-        : `${field.name} Created`;
-      prevFields[field.id] = JSON.stringify(field);
-
-      this.$emit(field, {
-        id: field.id,
-        summary,
-        ts: Date.now(),
-      });
-    }
-
-    this._setPrevFields(prevFields);
   },
 };

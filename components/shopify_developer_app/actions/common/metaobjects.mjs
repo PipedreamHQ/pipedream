@@ -1,4 +1,4 @@
-import metaobjects from "../../../shopify/actions/common/metaobjects.mjs";
+import metaobjects from "@pipedream/shopify/actions/common/metaobjects.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {

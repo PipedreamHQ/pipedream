@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/azure_storage",
+  "version": "0.0.1",
+  "description": "Pipedream Azure Storage Components",
+  "main": "azure_storage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "azure_storage"
+  ],
+  "homepage": "https://pipedream.com/apps/azure_storage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
