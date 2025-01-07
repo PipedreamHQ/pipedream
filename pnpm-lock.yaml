@@ -519,6 +519,12 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/alegra:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/alerty:
     dependencies:
       '@pipedream/platform':
