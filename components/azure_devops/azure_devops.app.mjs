@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-const API_VERSION = "7.1-preview.1";
+const API_VERSION = "5.0";
 
 export default {
   type: "app",
@@ -60,7 +60,7 @@ export default {
     },
     async listAccounts(args = {}) {
       const { value } = await this._makeRequest({
-        url: `https://app.vssps.visualstudio.com/_apis/accounts?ownerId=${this._oauthUid()}`,
+        url: `https://app.vssps.visualstudio.com/_apis/accounts?memberId=${this._oauthUid()}`,
         ...args,
       });
       return value;

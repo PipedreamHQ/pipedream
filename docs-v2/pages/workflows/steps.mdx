@@ -4,7 +4,7 @@ import Callout from '@/components/Callout'
 
 Steps are the building blocks you use to create workflows.
 
-- Use [triggers](/workflows/steps/triggers/), [code](/code/), and [pre-built actions](/docs/components#actions)
+- Use [triggers](/workflows/triggers/), [code](/code/), and [pre-built actions](/components#actions)
 - Steps are run linearly, in the order they appear in your workflow
 - You can pass data between steps using [the `steps` object](#step-exports)
 - Observe the logs, errors, timing, and other execution details for every step
@@ -13,9 +13,9 @@ Steps are the building blocks you use to create workflows.
 
 ### Triggers
 
-Every workflow begins with a [trigger](/workflows/steps/triggers/) step. Trigger steps initiate the execution of a workflow; i.e., workflows execute on each trigger event. For example, you can create an [HTTP trigger](/workflows/steps/triggers/#http) to accept HTTP requests. We give you a unique URL where you can send HTTP requests, and your workflow is executed on each requesingle st.
+Every workflow begins with a [trigger](/workflows/triggers/) step. Trigger steps initiate the execution of a workflow; i.e., workflows execute on each trigger event. For example, you can create an [HTTP trigger](/workflows/triggers/#http) to accept HTTP requests. We give you a unique URL where you can send HTTP requests, and your workflow is executed on each request.
 
-You can add [multiple triggers](/workflows/steps/triggers/#can-i-add-multiple-triggers-to-a-workflow) to a workflow, allowing you to run it on distinct events.
+You can add [multiple triggers](/workflows/triggers/#can-i-add-multiple-triggers-to-a-workflow) to a workflow, allowing you to run it on distinct events.
 
 ### Code, Actions
 

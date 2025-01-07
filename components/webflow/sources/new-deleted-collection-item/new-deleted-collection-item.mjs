@@ -3,9 +3,9 @@ import common from "../common/common.mjs";
 export default {
   type: "source",
   key: "webflow-new-deleted-collection-item",
-  name: "New Deleted Collection Item",
-  description: "Emit new event when a collection item is deleted. [See the docs here](https://developers.webflow.com/#item-model)",
-  version: "0.2.3",
+  name: "Collection Item Deleted",
+  description: "Emit new event when a collection item is deleted. [See the documentation](https://developers.webflow.com/data/reference/webhooks/events/collection-item-deleted)",
+  version: "2.0.0",
   ...common,
   methods: {
     ...common.methods,
@@ -13,10 +13,11 @@ export default {
       return "collection_item_deleted";
     },
     generateMeta(data) {
+      const { id } = data;
       return {
-        id: data.itemId,
-        summary: `Collection item ${data.itemId} deleted.`,
-        ts: Date.parse(data["created-on"]),
+        id,
+        summary: `Item deleted: ${id}`,
+        ts: Date.now(),
       };
     },
   },

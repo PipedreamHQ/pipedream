@@ -5,7 +5,7 @@ export default {
   name: "Get Opportunity",
   description: "Gets a specific opportunity in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#view-opportunity)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     opportunityId: {

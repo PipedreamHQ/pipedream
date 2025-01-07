@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/cloudinary",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Cloudinary Components",
   "main": "cloudinary.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "cloudinary": "^1.36.1"
+    "cloudinary": "^2.5.1"
   }
 }

@@ -15,11 +15,13 @@ This action takes care of all components with dependencies that were modified bu
 ### `all_files`
 
 **Required** List of all files comming from `changed_files` step in `check_version` job github action workflow. It is necessary to set the action `Ana06/get-changed-files@v2.3.0` output in json format like
+
 ```
 ...
 with:
   format: json
 ```
+
 in that way `steps.changed_files.outputs.all` will be converted in array of strings
 
 ## Example usage
@@ -34,8 +36,10 @@ in that way `steps.changed_files.outputs.all` will be converted in array of stri
 ```
 
 ## Build
+
 You need to push all files generated in `dist` folder once you are finished with the build to test the new version of the github action in case you want to make modifications.
+
 ```
 $ cd .github/actions/git-diff-on-components/
-$ npm i && npm run build
+$ pnpm i && pnpm run build
 ```

@@ -6,7 +6,7 @@ export default {
   key: "attio-new-list-entry-instant",
   name: "New List Entry (Instant)",
   description: "Emit new event when a record, such as person, company, or deal, is added to a list",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

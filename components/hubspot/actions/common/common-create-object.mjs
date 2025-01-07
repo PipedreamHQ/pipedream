@@ -9,6 +9,7 @@ export default {
     propertyGroups: {
       type: "string[]",
       label: "Property Groups",
+      hidden: true,
       reloadProps: true,
       async options() {
         const { results: groups } = await this.hubspot.getPropertyGroups({
@@ -19,6 +20,11 @@ export default {
           value: group.name,
         }));
       },
+    },
+    objectProperties: {
+      type: "object",
+      label: "Object Properties",
+      description: "Enter the object properties to create as a JSON object",
     },
   },
   methods: {
@@ -33,17 +39,29 @@ export default {
     isDefaultProperty() {
       return false;
     },
+    createObject(opts = {}) {
+      return this.hubspot.createObject(opts);
+    },
   },
   async run({ $ }) {
     const {
       hubspot,
       /* eslint-disable no-unused-vars */
       propertyGroups,
+      customObjectType,
+      contactId,
       $db,
       updateIfExists,
-      ...properties
+      objectProperties,
+      ...otherProperties
     } = this;
     const objectType = this.getObjectType();
+
+    const properties = objectProperties
+      ? typeof objectProperties === "string"
+        ? JSON.parse(objectProperties)
+        : objectProperties
+      : otherProperties;
 
     // checkbox (string[]) props must be semicolon separated strings
     Object.keys(properties)
@@ -54,7 +72,7 @@ export default {
         }
       });
     try {
-      const response = await hubspot.createObject({
+      const response = await this.createObject({
         $,
         objectType,
         data: {

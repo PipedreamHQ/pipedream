@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-send-email-multiple-recipients",
   name: "Send Email Multiple Recipients",
   description: "This action sends a personalized e-mail to multiple specified recipients. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,

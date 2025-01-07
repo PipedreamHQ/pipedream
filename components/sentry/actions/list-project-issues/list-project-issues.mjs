@@ -2,7 +2,7 @@ import app from "../../sentry.app.mjs";
 
 export default {
   key: "sentry-list-project-issues",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   name: "List Project Issues.",
   description: "Return a list of issues bound to a project. [See the docs here](https://docs.sentry.io/api/issues/list-a-projects-issues/)",

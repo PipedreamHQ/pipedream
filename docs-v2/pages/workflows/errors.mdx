@@ -47,7 +47,7 @@ For example, if your workflow throws a `TypeError`, we'll send you an email, but
 
 ### Test mode vs. live mode
 
-When you're editing and testing your workflow, any unhandled errors will **not** raise errors as emails, nor are they forwarded to [error listeners](#process-errors-with-custom-logic-instead-of-email). Error notifications are only sent when a deployed workflow encounters an error on a live event.
+When you're editing and testing your workflow, any unhandled errors will **not** raise errors as emails, nor are they forwarded to [error listeners](#handle-errors-with-custom-logic). Error notifications are only sent when a deployed workflow encounters an error on a live event.
 
 ## Debug with AI
 
@@ -80,7 +80,7 @@ Unlike [the default system emails](#duplicate-errors-do-not-trigger-duplicate-em
 
 ## Poll the REST API for workflow errors
 
-Pipedream provides a REST API endpoint to [list the most recent 100 workflow errors](/api/rest/#get-workflow-errors) for any given workflow. For example, to list the errors from workflow `p_abc123`, run:
+Pipedream provides a REST API endpoint to [list the most recent 100 workflow errors](/rest-api/#get-workflow-errors) for any given workflow. For example, to list the errors from workflow `p_abc123`, run:
 
 ```bash
 curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?expand=event' \
@@ -107,14 +107,25 @@ By including the `expand=event` query string param, Pipedream will return the fu
           "title": "Jedi"
         },
         "original_context": {
-          "id": "1kodJIW7jVnKfvB2yp1OoPrtbFk",
-          "ts": "2020-11-26T06:06:44.652Z",
-          "workflow_id": "p_abc123",
-          "deployment_id": "d_abc123",
-          "source_type": "SDK",
+          "id": "2po8fyMMKF4SZFrOThm0Ex4zv6M",
+          "ts": "2024-12-05T17:52:54.117Z",
+          "pipeline_id": null,
+          "workflow_id": "p_abc1234",
+          "deployment_id": "d_abc1234",
+          "source_type": "COMPONENT",
           "verified": false,
-          "owner_id": "u_abc123",
-          "platform_version": "3.1.20"
+          "hops": null,
+          "test": false,
+          "replay": false,
+          "owner_id": "o_abc1234",
+          "platform_version": "3.50.4",
+          "workflow_name": "error",
+          "resume": null,
+          "emitter_id": "hi_abc1234",
+          "external_user_id": null,
+          "external_user_environment": null,
+          "trace_id": "2po8fwtzKHVr0VZpJc3EUmdTAms",
+          "project_id": "proj_abc1234"
         },
         "error": {
           "code": "InternalFailure",

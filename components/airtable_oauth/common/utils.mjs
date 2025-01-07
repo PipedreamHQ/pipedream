@@ -37,9 +37,9 @@ function fieldTypeToPropType(fieldType) {
   case FieldType.EXTERNAL_SYNC_SOURCE:
   case FieldType.LAST_MODIFIED_BY:
   case FieldType.LAST_MODIFIED_TIME:
-  case FieldType.URL:
     return "object";
   // string
+  case FieldType.URL:
   case FieldType.SINGLE_COLLABORATOR:
   case FieldType.DATE:
   case FieldType.DATE_TIME:
@@ -70,7 +70,7 @@ function fieldToProp(field) {
   return {
     type: fieldTypeToPropType(field.type),
     label: field.name,
-    description: field.description,
+    description: field.description ?? `Field type: \`${field.type}\`. Field ID: \`${field.id}\``,
     optional: true,
     options: field.options?.choices?.map((choice) => ({
       label: choice.name || choice.id,

@@ -5,7 +5,7 @@ export default {
   key: "seqera-create-compute-environment",
   name: "Create Compute Environment",
   description: "Creates a new compute environment in Seqera Tower. [See the documentation](https://docs.seqera.io/platform/23.3.0/api/overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

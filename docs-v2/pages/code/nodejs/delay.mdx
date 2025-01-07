@@ -5,11 +5,9 @@ import VideoPlayer from '@/components/VideoPlayer'
 
 <VideoPlayer title="Delaying Workflow Steps" src="https://www.youtube.com/embed/IBORwBnIZ-k" startAt="148" />
 
-Use `$.flow.delay` to [delay a step in a workflow](/workflows/flow-control/#delay).
+Use `$.flow.delay` to [delay a step in a workflow](/workflows/control-flow/delay).
 
-These docs show you how to write Node.js code to handle delays. If you don't need to write code, see [our built-in delay actions](/workflows/flow-control/#delay-actions).
-
-
+These docs show you how to write Node.js code to handle delays. If you don't need to write code, see [our built-in delay actions](/workflows/control-flow/delay#delay-actions).
 
 ## Using `$.flow.delay`
 
@@ -96,7 +94,7 @@ export default defineComponent({
 
 ## When delays happen
 
-**Pipedream pauses your workflow at the _end_ of the step where you call `$.flow.delay`**. This lets you [send the `cancel_url` and `resume_url` to third-party systems](#cancel-url-and-resume-url).
+**Pipedream pauses your workflow at the _end_ of the step where you call `$.flow.delay`**. This lets you [send the `cancel_url` and `resume_url` to third-party systems](#cancel_url-and-resume_url).
 
 ```javascript
 export default defineComponent({

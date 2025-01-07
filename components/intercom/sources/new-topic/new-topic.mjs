@@ -1,12 +1,12 @@
-import app from "../../intercom.app.mjs";
-import { v4 as uuid } from "uuid";
 import crypto from "crypto";
+import { v4 as uuid } from "uuid";
+import app from "../../intercom.app.mjs";
 
 export default {
   key: "intercom-new-topic",
   name: "New Topic (Instant)",
   description: "Emit new event for each new topic that you subscribed in your webhook. [See more here](https://developers.intercom.com/building-apps/docs/setting-up-webhooks).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

@@ -5,7 +5,7 @@ export default {
   key: "loops_so-delete-contact",
   name: "Delete Contact",
   description: "Delete an existing contact. [See the documentation](https://loops.so/docs/api-reference/delete-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     loops,

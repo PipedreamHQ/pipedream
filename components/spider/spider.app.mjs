@@ -1,11 +1,32 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "spider",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.spider.cloud";
+    },
+    async _makeRequest({
+      $ = this, path = "/", headers, ...otherOpts
+    } = {}) {
+      return axios($, {
+        ...otherOpts,
+        url: this._baseUrl() + path,
+        headers: {
+          ...headers,
+          "Authorization": `Bearer ${this.$auth.api_key}`,
+          "Content-Type": "application/json",
+        },
+      });
+    },
+    async initiateCrawl(args) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/crawl",
+        ...args,
+      });
     },
   },
 };
