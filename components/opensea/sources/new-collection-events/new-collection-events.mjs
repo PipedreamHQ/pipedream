@@ -23,7 +23,7 @@ export default {
       description: "Unique string to identify a collection on OpenSea. This can be found by visiting the collection on the OpenSea website and noting the last path parameter.",
     },
     eventType: {
-      type: "string[]",
+      type: "string",
       options: [
         "all",
         "cancel",
@@ -49,7 +49,7 @@ export default {
     generateMeta(event) {
       return {
         id: event.order_hash,
-        summary: `${event.asset.name || event.nft.name}`,
+        summary: `${event.asset?.name || event.nft?.name}`,
         ts: event.event_timestamp,
       };
     },
