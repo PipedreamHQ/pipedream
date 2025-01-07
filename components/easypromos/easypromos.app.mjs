@@ -3,120 +3,137 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "easypromos",
-  version: "0.0.{{ts}}",
   propDefinitions: {
-    userid: {
+    userId: {
       type: "integer",
       label: "User ID",
       description: "The ID of the user",
-      async options() {
-        const users = await this.getUsers();
-        return users.map((user) => ({
-          label: user.name,
-          value: user.id,
-        }));
+      async options({
+        promotionId, prevContext,
+      }) {
+        const {
+          items, paging,
+        } = await this.getUsers({
+          promotionId,
+          params: {
+            next_cursor: prevContext.nextCursor,
+          },
+        });
+        return {
+          options: items.map(({
+            id: value, email: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextCursor: paging.next_cursor,
+          },
+        };
       },
     },
-    promotionid: {
+    promotionId: {
       type: "integer",
       label: "Promotion ID",
       description: "The ID of the promotion",
-      async options() {
-        const promotions = await this.getPromotions();
-        return promotions.map((promotion) => ({
-          label: promotion.name,
-          value: promotion.id,
-        }));
+      async options({ prevContext }) {
+        const {
+          items, paging,
+        } = await this.getPromotions({
+          params: {
+            next_cursor: prevContext.nextCursor,
+          },
+        });
+        return {
+          options: items.map(({
+            id: value, title, internal_ref: ref,
+          }) => ({
+            label: ref || title,
+            value,
+          })),
+          context: {
+            nextCursor: paging.next_cursor,
+          },
+        };
       },
     },
   },
   methods: {
-    // Existing method
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    // Base URL for the Easypromos API
     _baseUrl() {
-      return "https://api.easypromos.com";
+      return "https://api.easypromosapp.com/v2";
     },
-    // Helper method to make HTTP requests
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        data,
-        params,
-        headers = {},
-        ...otherOpts
-      } = opts;
-
-      const requestHeaders = {
-        ...headers,
-        Authorization: `Bearer ${this.$auth.access_token}`,
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
       };
-
-      if (data) {
-        requestHeaders["Content-Type"] = "application/json";
-      }
-
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        method,
         url: this._baseUrl() + path,
-        headers: requestHeaders,
-        data,
-        params,
-        ...otherOpts,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    // Method to fetch users
-    async getUsers(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/users",
-        params: opts.params,
-      });
-    },
-    // Method to fetch promotions
-    async getPromotions(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/promotions",
-        params: opts.params,
-      });
-    },
-    // Emit event when a user earns or spends coins
-    async emitCoinTransaction({
-      userid, promotionid,
+    getCoinTransactions({
+      promotionId, ...opts
     }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/coin-transactions",
-        data: {
-          user_id: userid,
-          promotion_id: promotionid,
-        },
+        path: `/coin_transactions/${promotionId}`,
+        ...opts,
       });
     },
-    // Emit event when a registered user submits participation
-    async emitParticipationSubmission({ promotionid }) {
+    getUsers({
+      promotionId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/participations",
-        data: {
-          promotion_id: promotionid,
-        },
+        path: `/users/${promotionId}`,
+        ...opts,
       });
     },
-    // Emit event when a user registers in the promotion
-    async emitUserRegistration({ promotionid }) {
+    getParticipations({
+      promotionId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/registrations",
-        data: {
-          promotion_id: promotionid,
-        },
+        path: `/participations/${promotionId}`,
+        ...opts,
       });
+    },
+    getPromotions(opts = {}) {
+      return this._makeRequest({
+        path: "/promotions",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let nextCursor = null;
+
+      do {
+        params.next_cursor = nextCursor;
+        const {
+          items,
+          paging: { next_cursor },
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of items) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        nextCursor = next_cursor;
+        hasMore = nextCursor;
+
+      } while (hasMore);
     },
   },
 };
