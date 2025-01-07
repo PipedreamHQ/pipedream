@@ -1,5 +1,5 @@
 import app from "../../basecamp.app.mjs";
-import common from "../common/common.mjs";
+import common from "../../common/common.mjs";
 
 export default {
   key: "basecamp-create-campfire-message",

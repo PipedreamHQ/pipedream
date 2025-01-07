@@ -1,4 +1,4 @@
-import app from "../../basecamp.app.mjs";
+import app from "../basecamp.app.mjs";
 
 export default {
   props: {
