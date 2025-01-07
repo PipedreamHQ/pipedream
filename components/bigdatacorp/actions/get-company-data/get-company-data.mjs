@@ -12,17 +12,17 @@ export default {
     doc: {
       propDefinition: [
         app,
-        "doc"
+        "doc",
       ],
-      description: "Document Number of the entity you want to search for, i.e.: `27.823.957/0001-94`"
+      description: "Document Number of the entity you want to search for, i.e.: `27.823.957/0001-94`",
     },
     dataset: {
       propDefinition: [
         app,
-        "dataset"
+        "dataset",
       ],
       options: constants.COMPANY_DATASETS,
-    }
+    },
   },
 
   async run({ $ }) {
@@ -31,7 +31,7 @@ export default {
       data: {
         Datasets: this.dataset,
         q: `doc{${this.doc}}`,
-      }
+      },
     });
 
     $.export("$summary", `Successfully sent the request for the '${this.dataset}' dataset. Status: ${response.Status[this.dataset][0].Message}`);

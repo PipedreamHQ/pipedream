@@ -12,17 +12,17 @@ export default {
     doc: {
       propDefinition: [
         app,
-        "doc"
+        "doc",
       ],
-      description: "Zipcode of the address you want to search for, i.e.: `88048-656`"
+      description: "Zipcode of the address you want to search for, i.e.: `88048-656`",
     },
     dataset: {
       propDefinition: [
         app,
-        "dataset"
+        "dataset",
       ],
       options: constants.ADDRESS_DATASETS,
-    }
+    },
   },
 
   async run({ $ }) {
@@ -31,7 +31,7 @@ export default {
       data: {
         Datasets: this.dataset,
         q: `zipcode{${this.doc}}`,
-      }
+      },
     });
 
     $.export("$summary", `Successfully sent the request for the '${this.dataset}' dataset. Status: ${response.Status[this.dataset][0].Message}`);

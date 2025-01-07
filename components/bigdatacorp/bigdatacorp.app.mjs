@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://plataforma.bigdatacorp.com.br`;
+      return "https://plataforma.bigdatacorp.com.br";
     },
     async _makeRequest(opts = {}) {
       const {
@@ -31,7 +31,7 @@ export default {
         url: this._baseUrl() + path,
         headers: {
           ...headers,
-          "Accept": `application/json`,
+          "Accept": "application/json",
           "AccessToken": `${this.$auth.access_token}`,
           "TokenId": `${this.$auth.token_id}`,
         },
