@@ -1,67 +1,75 @@
-import what_are_those from "../../what_are_those.app.mjs";
-import { axios } from "@pipedream/platform";
+import FormData from "form-data";
+import fs from "fs";
+import { checkTmp } from "../../common/utils.mjs";
+import app from "../../what_are_those.app.mjs";
 
 export default {
   key: "what_are_those-grade-sneakers-condition",
   name: "Grade and Authenticate Sneakers",
-  description: "Grades and authenticates sneakers using provided images. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Grades and authenticates sneakers using provided images. [See the documentation](https://documenter.getpostman.com/view/3847098/2sAY4rDQDs#13d527e8-5d8f-4511-857c-b40b8dd921b8)",
+  version: "0.0.1",
   type: "action",
   props: {
-    what_are_those,
+    app,
     frontImage: {
-      propDefinition: [
-        what_are_those,
-        "frontImage",
-      ],
+      type: "string",
+      label: "Front Image",
+      description: "Base64 encoded or multipart form data image of the front.",
     },
     leftImage: {
-      propDefinition: [
-        what_are_those,
-        "leftImage",
-      ],
+      type: "string",
+      label: "Left Image",
+      description: "Base64 encoded or multipart form data image of the left side.",
     },
     rightImage: {
-      propDefinition: [
-        what_are_those,
-        "rightImage",
-      ],
+      type: "string",
+      label: "Right Image",
+      description: "Base64 encoded or multipart form data image of the right side.",
     },
     soleImage: {
-      propDefinition: [
-        what_are_those,
-        "soleImage",
-      ],
+      type: "string",
+      label: "Sole Image",
+      description: "Base64 encoded or multipart form data image of the sole.",
     },
     insoleImage: {
-      propDefinition: [
-        what_are_those,
-        "insoleImage",
-      ],
+      type: "string",
+      label: "Insole Image",
+      description: "Base64 encoded or multipart form data image of the insole.",
     },
     sizeTagImage: {
-      propDefinition: [
-        what_are_those,
-        "sizeTagImage",
-      ],
+      type: "string",
+      label: "Size Tag Image",
+      description: "Base64 encoded or multipart form data image of the size tag.",
     },
     type: {
-      propDefinition: [
-        what_are_those,
-        "type",
+      type: "string",
+      label: "Use Type",
+      description: "the type parameter to see specific types of data.",
+      options: [
+        "grading",
+        "authentication",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.what_are_those.gradeAuthenticateSneakers({
-      frontImage: this.frontImage,
-      leftImage: this.leftImage,
-      rightImage: this.rightImage,
-      soleImage: this.soleImage,
-      insoleImage: this.insoleImage,
-      sizeTagImage: this.sizeTagImage,
-      type: this.type,
+    const data = new FormData();
+    data.append("image1", fs.createReadStream(checkTmp(this.frontImage)));
+    data.append("image2", fs.createReadStream(checkTmp(this.leftImage)));
+    data.append("image3", fs.createReadStream(checkTmp(this.rightImage)));
+    data.append("image4", fs.createReadStream(checkTmp(this.soleImage)));
+    data.append("image5", fs.createReadStream(checkTmp(this.insoleImage)));
+    data.append("image6", fs.createReadStream(checkTmp(this.sizeTagImage)));
+
+    const response = await this.app.gradeAuthenticateSneakers({
+      headers: {
+        ...data.getHeaders(),
+      },
+      data: data,
+      maxBodyLength: Infinity,
+      params: {
+        type: this.type,
+      },
     });
     $.export("$summary", "Successfully graded and authenticated sneakers.");
     return response;
