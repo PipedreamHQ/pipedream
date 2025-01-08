@@ -7201,6 +7201,9 @@ importers:
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/openweather_api:
     dependencies:
