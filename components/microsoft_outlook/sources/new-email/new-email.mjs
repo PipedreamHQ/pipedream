@@ -34,11 +34,13 @@ export default {
     async getSampleEvents({ pageSize }) {
       const folders = this.folderIds?.length
         ? this.folderIds.map((id) => `/me/mailFolders/${id}/messages`)
-        : ["/me/messages"];
+        : [
+          "/me/messages",
+        ];
 
       const results = [];
       for (const folder of folders) {
-        const messages = await this.microsoftOutlook.listMessages({
+        const { value: messages } = await this.microsoftOutlook.listMessages({
           resource: folder,
           params: {
             $top: pageSize,
@@ -51,8 +53,10 @@ export default {
     },
     emitEvent(item) {
       this.$emit(
-        { email: item },
-        this.generateMeta(item)
+        {
+          email: item,
+        },
+        this.generateMeta(item),
       );
     },
     generateMeta(item) {
@@ -66,7 +70,9 @@ export default {
   async run(event) {
     const folders = this.folderIds?.length
       ? this.folderIds.map((id) => `/me/mailFolders/${id}/messages`)
-      : ["/me/messages"];
+      : [
+        "/me/messages",
+      ];
 
     for (const folder of folders) {
       await this.run({
