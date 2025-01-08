@@ -808,6 +808,7 @@ export abstract class BaseClient {
     if (opts?.hasTriggers != null) {
       params.has_triggers = opts.hasTriggers ? "1" : "0";
     }
+
     this.addRelationOpts(params, opts);
     return this.makeAuthorizedRequest<GetAppsResponse>(
       "/apps",
