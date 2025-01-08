@@ -13,7 +13,9 @@ export default {
     const response = await this.app.getOrders({
       $,
     });
-    $.export("$summary", `Successfully retrieved ${response.results.length} orders`);
+    if (response?.results?.length) {
+      $.export("$summary", `Successfully retrieved ${response.results.length} orders`);
+    }
     return response;
   },
 };
