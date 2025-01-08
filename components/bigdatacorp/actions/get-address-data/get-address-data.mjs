@@ -34,7 +34,12 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully sent the request for the '${this.dataset}' dataset. Status: ${response.Status[this.dataset][0].Message}`);
+    const status = response.Status[this.dataset[0].Message;
+    if (status === "OK") {
+       $.export("$summary", `Successfully sent the request for the '${this.dataset}' dataset. Status: ${status}`);
+    } else {
+       throw new Error(status);
+    }
 
     return response;
   },
