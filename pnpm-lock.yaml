@@ -6119,7 +6119,11 @@ importers:
         specifier: ^2.0.5
         version: 2.3.0
 
-  components/mailgenius: {}
+  components/mailgenius:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/mailgun:
     dependencies:
