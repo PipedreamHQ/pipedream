@@ -71,6 +71,8 @@ export default {
     });
 
     $.export("$summary", "Successfully posted campfire chatbot message");
-    return message;
+    return message ?? {
+      content,
+    };
   },
 };
