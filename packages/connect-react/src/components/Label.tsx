@@ -23,7 +23,6 @@ export function Label<T extends ConfigurableProps, U extends ConfigurableProp>(p
     color: theme.colors.neutral90,
     fontWeight: 450,
     gridArea: "label",
-    textTransform: "capitalize",
     lineHeight: "1.5",
   };
 
