@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/autodesk",
+  "version": "0.0.1",
+  "description": "Pipedream Autodesk Components",
+  "main": "autodesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "autodesk"
+  ],
+  "homepage": "https://pipedream.com/apps/autodesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

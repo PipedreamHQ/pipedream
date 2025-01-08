@@ -6,7 +6,7 @@ export default {
   key: "hubspot-update-custom-object",
   name: "Update Custom Object",
   description: "Update a custom object in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/custom-objects#update-existing-custom-objects)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   methods: {
     ...common.methods,

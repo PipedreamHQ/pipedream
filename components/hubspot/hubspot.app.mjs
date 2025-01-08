@@ -1008,5 +1008,19 @@ export default {
         ...opts,
       });
     },
+    listNotes(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/notes",
+        ...opts,
+      });
+    },
+    listTasks(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/tasks",
+        ...opts,
+      });
+    },
   },
 };

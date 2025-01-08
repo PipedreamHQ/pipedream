@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/demandbase",
+  "version": "0.0.1",
+  "description": "Pipedream Demandbase Components",
+  "main": "demandbase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "demandbase"
+  ],
+  "homepage": "https://pipedream.com/apps/demandbase",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
