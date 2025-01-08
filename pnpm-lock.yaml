@@ -5204,8 +5204,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/instantly:
-    specifiers: {}
+  components/instantly: {}
 
   components/instapaper:
     dependencies:
@@ -6644,8 +6643,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/motive:
-    specifiers: {}
+  components/motive: {}
 
   components/moxie:
     dependencies:
@@ -10832,8 +10830,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/traffit:
-    specifiers: {}
+  components/traffit: {}
 
   components/trainual: {}
 
