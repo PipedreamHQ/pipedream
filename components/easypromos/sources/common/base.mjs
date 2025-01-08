@@ -16,6 +16,12 @@ export default {
       alertType: "info",
       content: "The Easypromos API only works with \"White Label\" promotions, any other type will not appear in the list.",
     },
+    promotionId: {
+      propDefinition: [
+        easypromos,
+        "promotionId",
+      ],
+    },
   },
   methods: {
     _getLastId() {

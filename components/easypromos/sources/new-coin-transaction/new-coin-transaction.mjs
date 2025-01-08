@@ -9,15 +9,6 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    promotionId: {
-      propDefinition: [
-        common.props.easypromos,
-        "promotionId",
-      ],
-    },
-  },
   methods: {
     ...common.methods,
     getFunction() {

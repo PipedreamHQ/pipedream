@@ -46,10 +46,10 @@ export default {
         });
         return {
           options: items.map(({
-            id: value, title, internal_ref: ref,
+            id, title, internal_ref: ref,
           }) => ({
             label: ref || title,
-            value,
+            value: parseInt(id),
           })),
           context: {
             nextCursor: paging.next_cursor,
