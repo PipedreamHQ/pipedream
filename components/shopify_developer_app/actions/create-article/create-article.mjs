@@ -1,12 +1,12 @@
 import app from "../../common/rest-admin.mjs";
-import common from "../../../shopify/actions/create-article/common.mjs";
+import common from "@pipedream/shopify/actions/create-article/common.mjs";
 
 export default {
   ...common,
   key: "shopify_developer_app-create-article",
   name: "Create Article",
   description: "Create a new blog article. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#post-blogs-blog-id-articles)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     app,

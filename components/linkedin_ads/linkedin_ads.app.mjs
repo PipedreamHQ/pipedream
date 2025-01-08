@@ -1,4 +1,4 @@
-import app from "../linkedin/linkedin.app.mjs";
+import app from "@pipedream/linkedin";
 import utils from "./common/utils.mjs";
 
 export default {
