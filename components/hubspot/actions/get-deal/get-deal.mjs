@@ -6,7 +6,7 @@ export default {
   key: "hubspot-get-deal",
   name: "Get Deal",
   description: "Gets a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals#endpoint?spec=GET-/crm/v3/objects/deals/{dealId})",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     ...common.props,

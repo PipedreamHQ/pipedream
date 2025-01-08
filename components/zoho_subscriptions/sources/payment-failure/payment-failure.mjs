@@ -5,7 +5,7 @@ import zohoSubscriptions from "../../zoho_subscriptions.app.mjs";
 export default {
   key: "zoho_subscriptions-payment-failure",
   name: "New Payment Failure",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a payment fails to process.",
   type: "source",
   dedupe: "unique",
