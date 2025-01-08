@@ -14,32 +14,32 @@ export default {
     frontImage: {
       type: "string",
       label: "Front Image",
-      description: "Base64 encoded or multipart form data image of the front.",
+      description: "The path to the front image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
     },
     leftImage: {
       type: "string",
       label: "Left Image",
-      description: "Base64 encoded or multipart form data image of the left side.",
+      description: "The path to the left image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
     },
     rightImage: {
       type: "string",
       label: "Right Image",
-      description: "Base64 encoded or multipart form data image of the right side.",
+      description: "The path to the right image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
     },
     soleImage: {
       type: "string",
       label: "Sole Image",
-      description: "Base64 encoded or multipart form data image of the sole.",
+      description: "The path to the sole image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
     },
     insoleImage: {
       type: "string",
       label: "Insole Image",
-      description: "Base64 encoded or multipart form data image of the insole.",
+      description: "The path to the insole image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
     },
     sizeTagImage: {
       type: "string",
       label: "Size Tag Image",
-      description: "Base64 encoded or multipart form data image of the size tag.",
+      description: "The path to the sizeTag image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
     },
     type: {
       type: "string",
