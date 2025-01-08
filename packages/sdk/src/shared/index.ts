@@ -800,13 +800,19 @@ export abstract class BaseClient {
       params.q = opts.q;
     }
     if (opts?.hasActions != null) {
-      params.has_actions = opts.hasActions ? "1" : "0";
+      params.has_actions = opts.hasActions
+        ? "1"
+        : "0";
     }
     if (opts?.hasComponents != null) {
-      params.has_components = opts.hasComponents ? "1" : "0";
+      params.has_components = opts.hasComponents
+        ? "1"
+        : "0";
     }
     if (opts?.hasTriggers != null) {
-      params.has_triggers = opts.hasTriggers ? "1" : "0";
+      params.has_triggers = opts.hasTriggers
+        ? "1"
+        : "0";
     }
 
     this.addRelationOpts(params, opts);
