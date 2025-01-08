@@ -1,5 +1,6 @@
 import opensea from "../../opensea.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import md5 from "md5";
 
 export default {
   key: "opensea-new-collection-events",
@@ -35,7 +36,8 @@ export default {
         "transfer",
       ],
       label: "Event Type",
-      description: "The type of event to filter by. If not provided, only sales will be returned.",
+      description: "The type of event to filter by",
+      default: "all",
       optional: true,
     },
   },
@@ -48,8 +50,8 @@ export default {
     },
     generateMeta(event) {
       return {
-        id: event.order_hash,
-        summary: `${event.asset?.name || event.nft?.name}`,
+        id: md5(JSON.stringify(event)),
+        summary: `New ${event.event_type} event`,
         ts: event.event_timestamp,
       };
     },
