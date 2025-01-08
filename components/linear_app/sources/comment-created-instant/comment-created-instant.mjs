@@ -5,9 +5,9 @@ export default {
   ...common,
   key: "linear_app-comment-created-instant",
   name: "New Created Comment (Instant)",
-  description: "Emit new event when a new comment is created. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
+  description: "Emit new event when a new comment is created. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.1.6",
+  version: "0.1.7",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -49,6 +49,11 @@ export default {
           },
         },
       };
+    },
+    getResource(comment) {
+      return this.linearApp.getComment({
+        commentId: comment.id,
+      });
     },
     getMetadata(resource) {
       const {

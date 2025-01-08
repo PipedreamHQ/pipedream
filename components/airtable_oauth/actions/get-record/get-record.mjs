@@ -5,8 +5,8 @@ import commonActions from "../../common/actions.mjs";
 export default {
   key: "airtable_oauth-get-record",
   name: "Get Record",
-  description: "Get a record from a table by record ID. [See the documentation](https://airtable.com/developers/web/api/get-record)",
-  version: "0.0.8",
+  description: "Get data of a selected record from a table. [See the documentation](https://airtable.com/developers/web/api/get-record)",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,

@@ -15,7 +15,7 @@ export default {
   propDefinitions: {
     orgName: {
       label: "Organization",
-      description: "The name of the Github organization. The name is not case sensitive.",
+      description: "The name of the Github organization (not case sensitive).",
       type: "string",
       async options() {
         const organizations = await this.getOrganizations();
@@ -25,7 +25,7 @@ export default {
     },
     repoFullname: {
       label: "Repository",
-      description: "The name of the repository. The name is not case sensitive",
+      description: "The name of the repository (not case sensitive). The format should be `owner/repo` (for example, `PipedreamHQ/pipedream`).",
       type: "string",
       async options({ org }) {
         const repositories = await this.getRepos({
@@ -886,6 +886,15 @@ export default {
       const response = await this._client().request(`GET /repos/${repoFullname}/stargazers`, {
         ...args,
         per_page: 100,
+      });
+
+      return response.data;
+    },
+    async starRepo({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`PUT /user/starred/${repoFullname}`, {
+        ...args,
       });
 
       return response.data;

@@ -6,8 +6,9 @@ export default {
   name: "New Records in View",
   description: "Emit new event for each new record in a view",
   key: "airtable_oauth-new-records-in-view",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
+  dedupe: "unique",
   props: {
     ...base.props,
     tableId: {
@@ -78,7 +79,7 @@ export default {
 
       this.$emit(record, {
         ts: moment(record.createdTime).valueOf(),
-        summary: JSON.stringify(record.fields),
+        summary: `New record: ${record.id}`,
         id: record.id,
       });
       if (!maxTimestamp || moment(record.createdTime).valueOf() > moment(maxTimestamp).valueOf()) {

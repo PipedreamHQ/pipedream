@@ -1,4 +1,4 @@
-import sftpApp from "../sftp/sftp.app.mjs";
+import sftpApp from "@pipedream/sftp";
 
 export default {
   ...sftpApp,

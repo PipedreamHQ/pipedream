@@ -1,6 +1,6 @@
 import shopify from "../../shopify_developer_app.app.mjs";
 import metaobjects from "../common/metaobjects.mjs";
-import common from "../../../shopify/actions/create-metaobject/common.mjs";
+import common from "@pipedream/shopify/actions/create-metaobject/common.mjs";
 
 export default {
   ...metaobjects,
@@ -8,7 +8,7 @@ export default {
   key: "shopify_developer_app-create-metaobject",
   name: "Create Metaobject",
   description: "Creates a metaobject. [See the documentation](https://shopify.dev/docs/api/admin-graphql/2023-04/mutations/metaobjectCreate)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     shopify,
