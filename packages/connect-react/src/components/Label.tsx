@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
-import type { ConfigurableProp, ConfigurableProps } from "@pipedream/sdk";
+import type {
+  ConfigurableProp, ConfigurableProps,
+} from "@pipedream/sdk";
 import { useCustomize } from "../hooks/customization-context";
 import type { FormFieldContext } from "../hooks/form-field-context";
 import { FormContext } from "../hooks/form-context";
@@ -23,12 +25,12 @@ export function Label<T extends ConfigurableProps, U extends ConfigurableProp>(p
     color: theme.colors.neutral90,
     fontWeight: 450,
     gridArea: "label",
-    textTransform: "capitalize",
     lineHeight: "1.5",
   };
 
   // XXX have to fix typing in customization (and elsewere really)
   return (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <label htmlFor={id} {...getProps("label", baseStyles, props as any)}>{text}</label>
   );
 }
