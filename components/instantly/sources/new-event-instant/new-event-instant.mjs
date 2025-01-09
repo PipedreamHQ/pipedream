@@ -1,128 +1,67 @@
 import instantly from "../../instantly.app.mjs";
-import crypto from "crypto";
-import { axios } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "instantly-new-event-instant",
-  name: "New Event in Instantly",
-  description: "Emit new event when an activity occurs in your Instantly workspace. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  name: "New Event in Instantly (Instant)",
+  description: "Emit new event when an activity occurs in your Instantly workspace.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    instantly: {
-      type: "app",
-      app: "instantly",
+    instantly,
+    http: "$.interface.http",
+    db: "$.service.db",
+    campaignId: {
+      propDefinition: [
+        instantly,
+        "campaignId",
+      ],
+      optional: true,
     },
     eventType: {
       propDefinition: [
-        "instantly",
+        instantly,
         "eventType",
       ],
-    },
-    campaign: {
-      propDefinition: [
-        "instantly",
-        "campaign",
-      ],
-    },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: {
-      type: "$.service.db",
+      optional: true,
     },
   },
   methods: {
-    _getWebhookId() {
-      return this.db.get("webhookId");
+    _getHookId() {
+      return this.db.get("hookId");
     },
-    _setWebhookId(id) {
-      this.db.set("webhookId", id);
-    },
-    async createWebhook(callbackUrl) {
-      const response = await this.instantly._makeRequest({
-        method: "POST",
-        path: "/webhook/create",
-        data: {
-          callback_url: callbackUrl,
-          event_type: this.eventType,
-          campaign_id: this.campaign,
-        },
-      });
-      return response;
-    },
-    async deleteWebhook(webhookId) {
-      await this.instantly._makeRequest({
-        method: "POST",
-        path: "/webhook/delete",
-        data: {
-          webhook_id: webhookId,
-        },
-      });
-    },
-    async listMostRecentEvents() {
-      const events = await this.instantly._makeRequest({
-        method: "GET",
-        path: "/events/list",
-        params: {
-          event_type: this.eventType,
-          campaign_id: this.campaign,
-          limit: 50,
-        },
-      });
-      return events;
+    _setHookId(hookId) {
+      this.db.set("hookId", hookId);
     },
   },
   hooks: {
-    async deploy() {
-      const events = await this.listMostRecentEvents();
-      for (const event of events) {
-        this.$emit(event, {
-          id: event.id || event.timestamp || Date.now(),
-          summary: `New event: ${event.type} for campaign ${this.campaign}`,
-          ts: event.timestamp
-            ? Date.parse(event.timestamp)
-            : Date.now(),
-        });
-      }
-    },
     async activate() {
-      const callbackUrl = this.http.endpoint;
-      const webhook = await this.createWebhook(callbackUrl);
-      this._setWebhookId(webhook.id);
+      const response = await this.instantly.createWebhook({
+        data: {
+          hookUrl: this.http.endpoint,
+          event_type: this.eventType,
+          campaign: this.campaignId,
+        },
+      });
+      this._setHookId(response.id);
     },
     async deactivate() {
-      const webhookId = await this._getWebhookId();
-      if (webhookId) {
-        await this.deleteWebhook(webhookId);
-        await this._setWebhookId(null);
-      }
+      const webhookId = this._getHookId();
+      await this.instantly.deleteWebhook({
+        data: {
+          hook_id: webhookId,
+        },
+      });
     },
   },
-  async run(event) {
-    const secret = this.instantly.$auth.api_key;
-    const signature = event.headers["x-signature"];
-    const rawBody = JSON.stringify(event.body);
-    const computedSignature = crypto
-      .createHmac("sha256", secret)
-      .update(rawBody)
-      .digest("base64");
-    if (computedSignature !== signature) {
-      this.http.respond({
-        status: 401,
-        body: "Unauthorized",
-      });
-      return;
-    }
-    const eventData = event.body;
-    this.$emit(eventData, {
-      id: eventData.id || eventData.timestamp || Date.now(),
-      summary: `New event: ${eventData.type} for campaign ${this.campaign}`,
-      ts: eventData.timestamp
-        ? Date.parse(eventData.timestamp)
-        : Date.now(),
+  async run({ body }) {
+    const ts = Date.parse(new Date());
+    this.$emit(body, {
+      id: `${body.resource}-${ts}`,
+      summary: `New event from ${body.lead_email} for campaign ${body.campaign_name}`,
+      ts: ts,
     });
   },
+  sampleEmit,
 };
