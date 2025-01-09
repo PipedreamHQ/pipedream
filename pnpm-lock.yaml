@@ -1132,7 +1132,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/bigdatacorp: {}
+  components/bigdatacorp:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/bigmailer:
     dependencies:
