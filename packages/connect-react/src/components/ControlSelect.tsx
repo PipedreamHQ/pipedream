@@ -1,20 +1,26 @@
 import { useMemo } from "react";
-import Select, { Props as ReactSelectProps } from "react-select";
+import Select, {
+  Props as ReactSelectProps, components,
+} from "react-select";
 import type { CSSObjectWithLabel } from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
+import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
 type ControlSelectProps<T> = {
   isCreatable?: boolean;
   options: {label: string; value: T;}[];
   selectProps?: ReactSelectProps;
+  canLoadMore?: boolean;
+  showLoadMoreButton?: boolean;
+  onLoadMore?: () => void;
 };
 
 export function ControlSelect<T>({
-  isCreatable, options, selectProps,
+  isCreatable, options, selectProps, canLoadMore, showLoadMoreButton, onLoadMore,
 }: ControlSelectProps<T>) {
   const formFieldCtx = useFormFieldContext();
   const {
@@ -69,6 +75,24 @@ export function ControlSelect<T>({
     options,
   ]);
 
+  const LoadMore = ({ children, ...props }) => {
+    return (
+      <components.MenuList  {...props}>
+        {children}
+        <div className="pt-4">
+          <LoadMoreButton enabled={canLoadMore} onClick={onLoadMore}/>
+        </div>
+      </components.MenuList>
+    )
+  }
+
+  const props = select.getProps("controlSelect", baseSelectProps)
+  if (showLoadMoreButton) {
+    props.components = {
+      ...props.components,
+      MenuList: LoadMore,
+    }
+  }
   const MaybeCreatableSelect = isCreatable
     ? CreatableSelect
     : Select;
@@ -81,7 +105,7 @@ export function ControlSelect<T>({
       isMulti={prop.type.endsWith("[]")}
       isClearable={true}
       required={!prop.optional}
-      {...select.getProps("controlSelect", baseSelectProps)}
+      {...props}
       {...selectProps}
       onChange={(o) => {
         if (o) {
