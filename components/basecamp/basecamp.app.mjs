@@ -241,8 +241,8 @@ export default {
     },
     columnId: {
       type: "string",
-      label: "Column ID",
-      description: "Select a column or provide a column ID.",
+      label: "Card Column ID",
+      description: "Select a card column or provide a column ID.",
       async options({
         accountId, projectId, cardTableId,
       }) {
@@ -252,6 +252,26 @@ export default {
           cardTableId,
         });
         return columns.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
+    cardId: {
+      type: "string",
+      label: "Card ID",
+      description: "Select a card or provide a card ID.",
+      async options({
+        accountId, projectId, columnId,
+      }) {
+        const cards = await this.getCards({
+          accountId,
+          projectId,
+          columnId,
+        });
+        return cards.map(({
           id: value, title: label,
         }) => ({
           value,
@@ -441,15 +461,17 @@ export default {
       const cardTables = dock.filter(({ name }) => name === "kanban_board");
       return cardTables;
     },
-    async getColumns({
-      accountId, projectId, cardTableId,
-    }) {
-      const { lists } = await this.getCardTable({
-        accountId,
-        projectId,
-        cardTableId: cardTableId,
-      });
+    async getColumns(args) {
+      const { lists } = await this.getCardTable(args);
       return lists;
+    },
+    async getCards({
+      projectId, columnId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/buckets/${projectId}/card_tables/lists/${columnId}/cards.json`,
+        ...args,
+      });
     },
     getChatbot({
       projectId, campfireId, botId, ...args
