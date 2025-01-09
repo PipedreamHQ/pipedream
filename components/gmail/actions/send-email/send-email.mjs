@@ -6,7 +6,7 @@ export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/send)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     gmail,
@@ -79,8 +79,11 @@ export default {
     inReplyTo: {
       propDefinition: [
         gmail,
-        "inReplyTo",
+        "message",
       ],
+      label: "In Reply To",
+      description: "Specify the `message-id` this email is replying to.",
+      optional: true,
     },
     mimeType: {
       propDefinition: [
