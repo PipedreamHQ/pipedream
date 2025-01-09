@@ -519,6 +519,12 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/alegra:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/alerty:
     dependencies:
       '@pipedream/platform':
@@ -1126,7 +1132,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/bigdatacorp: {}
+  components/bigdatacorp:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/bigmailer:
     dependencies:
@@ -1347,7 +1357,11 @@ importers:
 
   components/braze: {}
 
-  components/breathe: {}
+  components/breathe:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/brevo:
     dependencies:
@@ -1677,6 +1691,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/charthop:
+    specifiers: {}
 
   components/chartmogul:
     dependencies:
@@ -5194,6 +5211,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/instantly: {}
+
   components/instapaper:
     dependencies:
       '@pipedream/platform':
@@ -6113,7 +6132,11 @@ importers:
         specifier: ^2.0.5
         version: 2.3.0
 
-  components/mailgenius: {}
+  components/mailgenius:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/mailgun:
     dependencies:
@@ -6626,6 +6649,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/motive: {}
 
   components/moxie:
     dependencies:
@@ -7252,6 +7277,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/opensrs:
+    specifiers: {}
 
   components/openweather_api:
     dependencies:
@@ -8736,7 +8764,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/richpanel: {}
+  components/richpanel:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/ringcentral:
     dependencies:
@@ -10808,6 +10840,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/traffit: {}
+
   components/trainual: {}
 
   components/trakt: {}
@@ -11850,6 +11884,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/xverify:
+    specifiers: {}
 
   components/y_gy:
     dependencies:
