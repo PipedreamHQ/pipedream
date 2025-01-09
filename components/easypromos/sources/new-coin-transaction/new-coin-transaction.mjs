@@ -9,6 +9,14 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    info2: {
+      type: "alert",
+      alertType: "warning",
+      content: "You can only use this trigger with promotions that have the 'Virtual Coins' feature enabled.",
+    },
+  },
   methods: {
     ...common.methods,
     getFunction() {

@@ -1,4 +1,6 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "@pipedream/platform";
 import easypromos from "../../easypromos.app.mjs";
 
 export default {
@@ -35,19 +37,27 @@ export default {
     },
     async emitEvent(maxResults = false) {
       const lastId = this._getLastId();
-
-      const response = this.easypromos.paginate({
-        fn: this.getFunction(),
-        ...this.getOpts(),
-        params: {
-          order: "created_desc",
-        },
-      });
-
       let responseArray = [];
-      for await (const item of response) {
-        if (item.id <= lastId) break;
-        responseArray.push(item);
+
+      try {
+        const response = this.easypromos.paginate({
+          fn: this.getFunction(),
+          ...this.getOpts(),
+          params: {
+            order: "created_desc",
+          },
+        });
+
+        for await (const item of response) {
+          if (item.id <= lastId) break;
+          responseArray.push(item);
+        }
+      } catch (err) {
+        console.log(err);
+        if (err?.response?.data?.code === 0) {
+          throw new ConfigurationError("You can only use this trigger with promotions that have the 'Virtual Coins' feature enabled.");
+        }
+        throw new ConfigurationError(err);
       }
 
       if (responseArray.length) {
