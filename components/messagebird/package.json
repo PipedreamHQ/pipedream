@@ -2,7 +2,7 @@
   "name": "@pipedream/messagebird",
   "version": "0.1.0",
   "description": "Pipedream MessageBird  Components",
-  "main": "/messagebird.app.mjs",
+  "main": "messagebird.app.mjs",
   "keywords": [
     "pipedream",
     "messagebird"

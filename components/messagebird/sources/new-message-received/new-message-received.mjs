@@ -38,7 +38,6 @@ export default {
         "line",
         "instagram",
         "facebook",
-        "line",
         "viber",
         "linkedin",
         "tiktok",
