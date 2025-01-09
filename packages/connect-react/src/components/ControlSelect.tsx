@@ -30,7 +30,7 @@ export function ControlSelect<T>({
     select, theme,
   } = useCustomize();
 
-  const baseSelectProps: BaseReactSelectProps<any, any, any> = {
+  const baseSelectProps: BaseReactSelectProps<never, never, never> = {
     styles: {
       container: (base): CSSObjectWithLabel => ({
         ...base,
@@ -75,7 +75,9 @@ export function ControlSelect<T>({
     options,
   ]);
 
-  const LoadMore = ({ children, ...props }) => {
+  const LoadMore = ({
+    children, ...props
+  }) => {
     return (
       <components.MenuList  {...props}>
         {children}
@@ -125,7 +127,9 @@ export function ControlSelect<T>({
             }
           } else if (typeof o === "object" && "value" in o) {
             if (prop.withLabel) {
-              onChange({__lv: o});
+              onChange({
+                __lv: o,
+              });
             } else {
               onChange(o.value);
             }
