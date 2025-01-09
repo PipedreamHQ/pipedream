@@ -1688,6 +1688,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/charthop:
+    specifiers: {}
+
   components/chartmogul:
     dependencies:
       '@pipedream/platform':
@@ -7270,6 +7273,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/opensrs:
+    specifiers: {}
 
   components/openweather_api:
     dependencies:
