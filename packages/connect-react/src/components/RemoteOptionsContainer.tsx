@@ -138,6 +138,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     enabled: !!queryEnabled,
   });
 
+  const showLoadMoreButton = () => {
+    return !isFetching && !error && pageable.prevContext !== undefined
+  }
+
   // TODO show error in different spot!
   const placeholder = error
     ? error.message
@@ -153,7 +157,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
   return (
     <ControlSelect
       canLoadMore={canLoadMore}
-      showLoadMoreButton={!isFetching && !error}
+      showLoadMoreButton={showLoadMoreButton()}
       onLoadMore={onLoadMore}
       options={data || []}
       // XXX isSearchable if pageQuery? or maybe in all cases? or maybe NOT when pageQuery
