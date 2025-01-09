@@ -12,12 +12,12 @@ export default {
       async options() {
         const response = await this.getOrders();
         const orderIds = response.results;
-        return orderIds.map(({
+        return orderIds?.map(({
           order_id, employee_info,
         }) => ({
           value: order_id,
           label: employee_info.name,
-        }));
+        })) || [];
       },
     },
     typeOfEquipment: {
@@ -132,7 +132,8 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://remoteretrieval.com/RR-enterprise/remoteretrieval/public/index.php/api/v1";
+      // return "https://remoteretrieval.com/RR-enterprise/remoteretrieval/public/index.php/api/v1";
+      return "https://remoteretrieval.com/api/v1";
     },
     async _makeRequest(opts = {}) {
       const {
