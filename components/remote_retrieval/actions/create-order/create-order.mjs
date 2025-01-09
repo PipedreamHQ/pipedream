@@ -4,7 +4,7 @@ export default {
   key: "remote_retrieval-create-order",
   name: "Create Order",
   description: "Create order in Remote Retrieval. [See the documentation](https://www.remoteretrieval.com/api-integration/#create-order)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
