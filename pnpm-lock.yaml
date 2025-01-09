@@ -1692,8 +1692,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/charthop:
-    specifiers: {}
+  components/charthop: {}
 
   components/chartmogul:
     dependencies:
@@ -7278,8 +7277,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/opensrs:
-    specifiers: {}
+  components/opensrs: {}
 
   components/openweather_api:
     dependencies:
@@ -11881,8 +11879,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/xverify:
-    specifiers: {}
+  components/xverify: {}
 
   components/y_gy:
     dependencies:
@@ -11952,6 +11949,12 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/youtube_analytics_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/youtube_data_api:
     dependencies:
@@ -30938,8 +30941,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
