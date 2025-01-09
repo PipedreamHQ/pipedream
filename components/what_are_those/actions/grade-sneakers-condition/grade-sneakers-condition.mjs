@@ -70,6 +70,7 @@ export default {
       params: {
         type: this.type,
       },
+      timeout: 120000,
     });
     $.export("$summary", "Successfully graded and authenticated sneakers.");
     return response;
