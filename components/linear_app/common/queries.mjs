@@ -50,10 +50,18 @@ export default {
   listProjects: `
     query ListProjects(
       $filter: ProjectFilter,
+      $before: String,
+      $after: String,
+      $first: Int,
+      $last: Int,
       $orderBy: PaginationOrderBy
     ) {
       projects(
         filter: $filter,
+        before: $before,
+        after: $after,
+        first: $first,
+        last: $last,
         orderBy: $orderBy
       ) {
         pageInfo {

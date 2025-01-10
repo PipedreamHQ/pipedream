@@ -1,4 +1,10 @@
-import projectUpdatedInstant from "@pipedream/linear_app/sources/project-updated-instant/project-updated-instant.mjs";
+//import projectUpdatedInstant from
+//"@pipedream/linear_app/sources/project-updated-instant/project-updated-instant.mjs";
+import projectUpdatedInstant from "../../../linear_app/sources/project-updated-instant/project-updated-instant.mjs";
+
+// TODO: Will update above statement to import from @pipedream/linear_app
+// after updates to linear_app are published
+
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */
