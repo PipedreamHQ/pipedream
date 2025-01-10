@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useMemo } from "react";
 import Select, {
   Props as ReactSelectProps, components,
@@ -14,13 +15,12 @@ type ControlSelectProps<T> = {
   isCreatable?: boolean;
   options: {label: string; value: T;}[];
   selectProps?: ReactSelectProps;
-  canLoadMore?: boolean;
   showLoadMoreButton?: boolean;
   onLoadMore?: () => void;
 };
 
 export function ControlSelect<T>({
-  isCreatable, options, selectProps, canLoadMore, showLoadMoreButton, onLoadMore,
+  isCreatable, options, selectProps, showLoadMoreButton, onLoadMore,
 }: ControlSelectProps<T>) {
   const formFieldCtx = useFormFieldContext();
   const {
@@ -76,13 +76,14 @@ export function ControlSelect<T>({
   ]);
 
   const LoadMore = ({
+    // eslint-disable-next-line react/prop-types
     children, ...props
   }) => {
     return (
       <components.MenuList  {...props}>
-        {children}
+        { children }
         <div className="pt-4">
-          <LoadMoreButton enabled={canLoadMore} onClick={onLoadMore}/>
+          <LoadMoreButton onChange={onLoadMore}/>
         </div>
       </components.MenuList>
     )

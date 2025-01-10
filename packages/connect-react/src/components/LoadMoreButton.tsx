@@ -2,14 +2,11 @@ import { useCustomize } from "../hooks/customization-context";
 import type { CSSProperties } from "react";
 
 export type ButtonProps = {
-  enabled: boolean;
-  onClick: () => void;
+  onChange: () => void;
 };
 
 export const LoadMoreButton = (props: ButtonProps) => {
-  const {
-    enabled, onClick,
-  } = props;
+  const { onChange } = props;
   const {
     getProps, theme,
   } = useCustomize();
@@ -27,9 +24,10 @@ export const LoadMoreButton = (props: ButtonProps) => {
     cursor: "pointer",
     width: "100%",
   };
+
   return (
-    <button disabled={!enabled} onClick={onClick} type="button" {...getProps("loadMoreButton", baseStyles, props)}>
-     Load More
+    <button onClick={onChange} type="button" {...getProps("loadMoreButton", baseStyles, props)}>
+      Load More
     </button>
   );
 };

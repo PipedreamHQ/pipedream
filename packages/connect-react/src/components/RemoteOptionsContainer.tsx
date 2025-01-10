@@ -44,7 +44,8 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     setPageable,
   ] = useState({
     page: 0,
-    prevContext: undefined,
+    prevContext: {},
+    data: [],
   })
 
   const configuredPropsUpTo: Record<string, unknown> = {};
@@ -75,19 +76,22 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     setError,
   ] = useState<{ name: string; message: string; }>();
 
-  const [
-    canLoadMore,
-    setCanLoadMore,
-  ] = useState<boolean>(false);
-
   const onLoadMore = () => {
     setPage(pageable.page)
     setContext(pageable.prevContext)
+    setPageable({
+      ...pageable,
+      prevContext: {},
+    })
+  }
+
+  const canLoadMore = () => {
+    return Object.keys(pageable.prevContext || {}).length > 0
   }
 
   // TODO handle error!
   const {
-    isFetching, data, refetch,
+    isFetching, refetch,
   } = useQuery({
     queryKey: [
       "componentConfigure",
@@ -97,15 +101,11 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       setError(undefined);
       const res = await client.componentConfigure(componentConfigureInput);
 
-      // console.log("res", res)
       // XXX look at errors in response here too
       const {
         options, stringOptions, errors,
       } = res;
-      setPageable({
-        page: page + 1,
-        prevContext: res.context,
-      })
+
       if (errors?.length) {
         // TODO field context setError? (for validity, etc.)
         try {
@@ -118,9 +118,9 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         }
         return [];
       }
+      let _options = []
       if (options?.length) {
-        setCanLoadMore(true)
-        return options;
+        _options = options;
       }
       if (stringOptions?.length) {
         const options = [];
@@ -130,16 +130,24 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
             value: stringOption,
           });
         }
-        setCanLoadMore(true)
-        return options;
+        _options = options;
       }
-      return [];
+      const data = [
+        ...pageable.data,
+        ..._options,
+      ]
+      setPageable({
+        page: page + 1,
+        prevContext: res.context,
+        data,
+      })
+      return data;
     },
     enabled: !!queryEnabled,
   });
 
   const showLoadMoreButton = () => {
-    return !isFetching && !error && pageable.prevContext !== undefined
+    return !isFetching && !error && canLoadMore()
   }
 
   // TODO show error in different spot!
@@ -156,10 +164,9 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
   return (
     <ControlSelect
-      canLoadMore={canLoadMore}
       showLoadMoreButton={showLoadMoreButton()}
       onLoadMore={onLoadMore}
-      options={data || []}
+      options={pageable.data}
       // XXX isSearchable if pageQuery? or maybe in all cases? or maybe NOT when pageQuery
       selectProps={{
         isLoading: isFetching,
