@@ -1,33 +1,27 @@
 import app from "../../basecamp.app.mjs";
+import common from "../../common/common.mjs";
 
 export default {
   key: "basecamp-create-comment",
   name: "Create a Comment",
-  description: "Publishes a comment to the select recording. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/comments.md#create-a-comment)",
+  description: "Creates a comment in a selected recording. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/comments.md#create-a-comment)",
   type: "action",
-  version: "0.0.7",
+  version: "0.1.0",
   props: {
-    app,
-    accountId: {
-      propDefinition: [
-        app,
-        "accountId",
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        app,
-        "projectId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
+    ...common.props,
+    recordingTypeAlert: {
+      type: "alert",
+      alertType: "info",
+      content: `You can select either a **Recording** (by selecting the recording type) or a **Card** (by selecting the card table and column) to create the comment on.
+\\
+If both are specified, the **Card** will take precedence.`,
     },
     recordingType: {
       propDefinition: [
         app,
         "recordingType",
       ],
+      optional: true,
     },
     recordingId: {
       propDefinition: [
@@ -43,18 +37,60 @@ export default {
           recordingType,
         }),
       ],
+      optional: true,
+    },
+    cardTableId: {
+      propDefinition: [
+        app,
+        "cardTableId",
+        ({
+          accountId, projectId,
+        }) => ({
+          accountId,
+          projectId,
+        }),
+      ],
+      optional: true,
+    },
+    columnId: {
+      propDefinition: [
+        app,
+        "columnId",
+        ({
+          accountId, projectId, cardTableId,
+        }) => ({
+          accountId,
+          projectId,
+          cardTableId,
+        }),
+      ],
+      optional: true,
+    },
+    cardId: {
+      propDefinition: [
+        app,
+        "cardId",
+        ({
+          accountId, projectId, cardTableId, columnId,
+        }) => ({
+          accountId,
+          projectId,
+          cardTableId,
+          columnId,
+        }),
+      ],
+      optional: true,
     },
     content: {
       type: "string",
       label: "Content",
-      description: "The body of the comment. See [Rich text guide](https://github.com/basecamp/bc3-api/blob/master/sections/rich_text.md) for what HTML tags are allowed.",
+      description: "The body of the comment. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/comments.md#create-a-comment) for information on using HTML tags.",
     },
   },
   async run({ $ }) {
     const {
       accountId,
       projectId,
-      recordingId,
       content,
     } = this;
 
@@ -62,13 +98,13 @@ export default {
       $,
       accountId,
       projectId,
-      recordingId,
+      recordingId: this.cardId ?? this.recordingId,
       data: {
         content,
       },
     });
 
-    $.export("$summary", `Successfully posted comment with ID ${comment.id}`);
+    $.export("$summary", `Successfully posted comment (ID: ${comment.id})`);
     return comment;
   },
 };
