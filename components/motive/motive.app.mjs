@@ -3,124 +3,96 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "motive",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     driverId: {
       type: "string",
       label: "Driver ID",
       description: "Filter to a specific driver",
-      optional: true,
     },
     safetyCategory: {
       type: "string",
       label: "Safety Category",
       description: "Filter to a specific safety category",
-      optional: true,
-    },
-    username: {
-      type: "string",
-      label: "Username",
-      description: "Username to retrieve user details",
-      optional: true,
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "Email to retrieve user details",
-      optional: true,
     },
     driverCompanyId: {
       type: "string",
       label: "Driver Company ID",
       description: "Driver company ID to retrieve user details",
-      optional: true,
-    },
-    phone: {
-      type: "string",
-      label: "Phone",
-      description: "Phone number to retrieve user details",
-      optional: true,
+      async options({ page }) {
+        const { users } = await this.listUsers({
+          params: {
+            page_no: page + 1,
+            role: "driver",
+          },
+        });
+
+        return users.map(({ user }) => ({
+          label: user.email || `${user.first_name} ${user.last_name}`,
+          value: user.driver_company_id,
+        }));
+      },
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.gomotive.com";
+      return "https://api.gomotive.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          "user-agent": "@PipedreamHQ/pipedream v0.1",
-          "Authorization": `Bearer ${this.$auth.api_token}`,
-        },
+        url: this._baseUrl() + path,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listHosViolations(opts = {}) {
-      const params = {};
-      if (opts.driverId) params.driver_id = opts.driverId;
+    listHosViolations(opts = {}) {
       return this._makeRequest({
         method: "GET",
         path: "/hos_violations",
-        params,
         ...opts,
       });
     },
-    async listDriverPerformanceEvents(opts = {}) {
-      const params = {};
-      if (opts.safetyCategory) params.safety_category = opts.safetyCategory;
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/company_webhooks",
+        ...opts,
+      });
+    },
+    updateWebhook({
+      webhookId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/company_webhooks/${webhookId}`,
+        ...opts,
+      });
+    },
+    listDriverPerformanceEvents(opts = {}) {
       return this._makeRequest({
         method: "GET",
         path: "/driver_performance_events",
-        params,
         ...opts,
       });
     },
-    async retrieveUserDetails(opts = {}) {
-      const {
-        username, email, driverCompanyId, phone, ...otherOpts
-      } = opts;
-      const queryParams = {};
-      if (username) queryParams.username = username;
-      if (email) queryParams.email = email;
-      if (driverCompanyId) queryParams.driver_company_id = driverCompanyId;
-      if (phone) queryParams.phone = phone;
-
+    retrieveUserDetails(opts = {}) {
       return this._makeRequest({
         method: "GET",
         path: "/users/lookup",
-        params: queryParams,
-        ...otherOpts,
+        ...opts,
       });
-    },
-    async paginate(fn, ...args) {
-      const results = [];
-      let hasMore = true;
-      let page = 1;
-
-      while (hasMore) {
-        const response = await fn({
-          ...args,
-          page,
-        });
-        if (!Array.isArray(response) || response.length === 0) {
-          hasMore = false;
-        } else {
-          results.push(...response);
-          page += 1;
-        }
-      }
-
-      return results;
     },
   },
 };
