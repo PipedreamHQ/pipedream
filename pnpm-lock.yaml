@@ -2787,6 +2787,9 @@ importers:
 
   components/dispatch: {}
 
+  components/dixa:
+    specifiers: {}
+
   components/dnsfilter:
     dependencies:
       '@pipedream/platform':
