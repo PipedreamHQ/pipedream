@@ -1849,6 +1849,9 @@ importers:
 
   components/clarify: {}
 
+  components/clear_books:
+    specifiers: {}
+
   components/clearbit:
     dependencies:
       '@pipedream/platform':
