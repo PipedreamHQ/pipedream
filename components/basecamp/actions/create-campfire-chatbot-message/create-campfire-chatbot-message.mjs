@@ -1,28 +1,14 @@
 import app from "../../basecamp.app.mjs";
+import common from "../../common/common.mjs";
 
 export default {
   key: "basecamp-create-campfire-chatbot-message",
   name: "Create Campfire Chatbot Message",
-  description: "Creates a line in the Campfire for a Basecamp Chatbot. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/chatbots.md#create-a-line)",
+  description: "Creates a message in a Campfire for a Basecamp Chatbot. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/chatbots.md#create-a-line)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
-    app,
-    accountId: {
-      propDefinition: [
-        app,
-        "accountId",
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        app,
-        "projectId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
-    },
+    ...common.props,
     campfireId: {
       propDefinition: [
         app,
@@ -54,7 +40,7 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "The plain text body for the Campfire line.",
+      description: "The plain text body for the Campfire message.",
     },
   },
   async run({ $ }) {
@@ -84,7 +70,9 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully posted campfire chatbot message.");
-    return message;
+    $.export("$summary", "Successfully posted campfire chatbot message");
+    return message ?? {
+      content,
+    };
   },
 };

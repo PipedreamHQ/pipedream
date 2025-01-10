@@ -24,15 +24,13 @@ export const TECHNOLOGY_OPTIONS = [
 export const NETWORK_OPTIONS = {
   "ethereum": [
     "ethereum sepolia testnet",
-    "ethereum goerli testnet",
     "ethereum mainnet",
-    "polygon mumbai testnet",
+    "polygon amoy testnet",
     "polygon mainnet",
     "avalanche fuji testnet",
     "avalanche c-chain mainnet",
     "xdc apothem testnet",
     "xdc network mainnet",
-    "Defined on demand",
   ],
   "substrate": [
     "polkadot westend",

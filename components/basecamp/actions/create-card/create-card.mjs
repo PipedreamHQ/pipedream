@@ -1,28 +1,14 @@
 import app from "../../basecamp.app.mjs";
+import common from "../../common/common.mjs";
 
 export default {
   key: "basecamp-create-card",
   name: "Create a Card",
-  description: "Creates a card in the select column. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/card_table_cards.md#create-a-card)",
+  description: "Creates a card in a selected column. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/card_table_cards.md#create-a-card)",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   props: {
-    app,
-    accountId: {
-      propDefinition: [
-        app,
-        "accountId",
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        app,
-        "projectId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
-    },
+    ...common.props,
     cardTableId: {
       propDefinition: [
         app,
@@ -51,25 +37,26 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "Title of the card",
+      description: "The title of the new card.",
     },
     content: {
       type: "string",
       label: "Content",
-      description: "Content of the card",
+      description: "The content of the card. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/card_table_cards.md#create-a-card) for information on using HTML tags.",
       optional: true,
     },
     dueOn: {
       type: "string",
-      label: "Due on",
-      description: "Due date (ISO 8601) of the card, e.g.: `2023-12-12`",
+      label: "Due On",
+      description: "The due date of the card, in `YYYY-MM-DD` format.",
       optional: true,
     },
     notify: {
       type: "boolean",
-      label: "Notify",
-      description: "Whether to notify assignees. Defaults to false",
+      label: "Notify Assignees",
+      description: "Whether to notify assignees.",
       optional: true,
+      default: false,
     },
   },
   async run({ $ }) {
@@ -96,7 +83,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created card with ID ${card.id}`);
+    $.export("$summary", `Successfully created card (ID: ${card.id})`);
     return card;
   },
 };
