@@ -519,6 +519,12 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/alegra:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/alerty:
     dependencies:
       '@pipedream/platform':
@@ -853,6 +859,8 @@ importers:
 
   components/autobound: {}
 
+  components/autodesk: {}
+
   components/autoklose: {}
 
   components/autom:
@@ -1124,7 +1132,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/bigdatacorp: {}
+  components/bigdatacorp:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/bigmailer:
     dependencies:
@@ -1345,7 +1357,11 @@ importers:
 
   components/braze: {}
 
-  components/breathe: {}
+  components/breathe:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/brevo:
     dependencies:
@@ -1645,7 +1661,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/change_photos: {}
+  components/change_photos:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/changenow: {}
 
@@ -1671,6 +1691,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/charthop: {}
 
   components/chartmogul:
     dependencies:
@@ -1826,6 +1848,8 @@ importers:
         version: 3.0.1(web-streams-polyfill@3.3.3)
 
   components/clarify: {}
+
+  components/clear_books: {}
 
   components/clearbit:
     dependencies:
@@ -1997,8 +2021,8 @@ importers:
   components/cloudinary:
     dependencies:
       cloudinary:
-        specifier: ^1.36.1
-        version: 1.41.3
+        specifier: ^2.5.1
+        version: 2.5.1
 
   components/cloudlayer: {}
 
@@ -2765,6 +2789,8 @@ importers:
 
   components/dispatch: {}
 
+  components/dixa: {}
+
   components/dnsfilter:
     dependencies:
       '@pipedream/platform':
@@ -3102,6 +3128,12 @@ importers:
         version: 9.0.1
 
   components/easypost: {}
+
+  components/easypromos:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/easysendy:
     dependencies:
@@ -4818,6 +4850,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/homerun: {}
+
   components/hookdeck:
     dependencies:
       '@pipedream/platform':
@@ -5183,6 +5217,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/instantly: {}
 
   components/instapaper:
     dependencies:
@@ -6103,7 +6139,11 @@ importers:
         specifier: ^2.0.5
         version: 2.3.0
 
-  components/mailgenius: {}
+  components/mailgenius:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/mailgun:
     dependencies:
@@ -6617,6 +6657,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/motive: {}
+
   components/moxie:
     dependencies:
       '@pipedream/platform':
@@ -6816,6 +6858,8 @@ importers:
 
   components/nextdns: {}
 
+  components/nextdoor: {}
+
   components/nexudus: {}
 
   components/nexweave:
@@ -6935,6 +6979,9 @@ importers:
       '@notionhq/client':
         specifier: ^2.2.3
         version: 2.2.15
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
       '@tryfabric/martian':
         specifier: ^1.2.4
         version: 1.2.4
@@ -7237,8 +7284,16 @@ importers:
   components/opensea:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
+      bottleneck:
+        specifier: ^2.19.5
+        version: 2.19.5
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
+
+  components/opensrs: {}
 
   components/openweather_api:
     dependencies:
@@ -8723,7 +8778,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/richpanel: {}
+  components/richpanel:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/ringcentral:
     dependencies:
@@ -10535,6 +10594,8 @@ importers:
         specifier: ^1.1.0
         version: 1.6.6
 
+  components/textline: {}
+
   components/textlocal:
     dependencies:
       '@pipedream/platform':
@@ -10792,6 +10853,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/traffit: {}
 
   components/trainual: {}
 
@@ -11832,6 +11895,8 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
+  components/xverify: {}
+
   components/y_gy:
     dependencies:
       '@pipedream/platform':
@@ -12230,6 +12295,9 @@ importers:
 
   components/zoho_subscriptions:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
       moment:
         specifier: ^2.29.4
         version: 2.30.1
@@ -18173,14 +18241,9 @@ packages:
   cloudflare@2.9.1:
     resolution: {integrity: sha512-x8yXPPoloy7xQ9GCKnsvQ3U1nwvcLndA2B3nxwSjIWxgLTUJOyakeEDsrqxZO8Dr6FkGdaXwy554fQVMpOabiw==}
 
-  cloudinary-core@2.13.1:
-    resolution: {integrity: sha512-z53GPNWnvU0Zi+ns8CIVbZBfj7ps/++zDvwIyiFuq5p1MoK+KUCg0k5mBceDDHTnx1gHmHUd9aohS+gDxPNt6w==}
-    peerDependencies:
-      lodash: '>=4.0'
-
-  cloudinary@1.41.3:
-    resolution: {integrity: sha512-4o84y+E7dbif3lMns+p3UW6w6hLHEifbX/7zBJvaih1E9QNMZITENQ14GPYJC4JmhygYXsuuBb9bRA3xWEoOfg==}
-    engines: {node: '>=0.6'}
+  cloudinary@2.5.1:
+    resolution: {integrity: sha512-CNg6uU53Hl4FEVynkTGpt5bQEAQWDHi3H+Sm62FzKf5uQHipSN2v7qVqS8GRVqeb0T1WNV+22+75DOJeRXYeSQ==}
+    engines: {node: '>=9'}
 
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
@@ -18379,9 +18442,6 @@ packages:
 
   core-js-compat@3.39.0:
     resolution: {integrity: sha512-VgEUx3VwlExr5no0tXlBt+silBvhTryPwCXRI2Id1PN8WTKu7MreethvddqOubrYxkFdv/RnYrqlv1sFNAUelw==}
-
-  core-js@3.39.0:
-    resolution: {integrity: sha512-raM0ew0/jJUqkJ0E6e8UDtl+y/7ktFivgWvqw8dNSQeNWoSDLvQ1H/RN3aPXB9tBd4/FhyR4RDPGhsNIMsAn7g==}
 
   core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
@@ -24684,22 +24744,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please downgrade to v7.1.5 if you need IE/ActiveXObject support OR upgrade to v8.0.0 as we no longer support IE and published an incorrect patch version (see https://github.com/visionmedia/superagent/issues/1731)
 
   supports-color@2.0.0:
     resolution: {integrity: sha512-KKNVtd6pCYgPIKU4cp2733HWYCpplQhddZLBUryaAHou723x+FRzQ5Df824Fj+IyyuiQTRoub4SnIFfIcrp70g==}
@@ -34078,14 +34138,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  cloudinary-core@2.13.1(lodash@4.17.21):
+  cloudinary@2.5.1:
     dependencies:
-      lodash: 4.17.21
-
-  cloudinary@1.41.3:
-    dependencies:
-      cloudinary-core: 2.13.1(lodash@4.17.21)
-      core-js: 3.39.0
       lodash: 4.17.21
       q: 1.5.1
 
@@ -34293,8 +34347,6 @@ snapshots:
   core-js-compat@3.39.0:
     dependencies:
       browserslist: 4.24.2
-
-  core-js@3.39.0: {}
 
   core-util-is@1.0.2: {}
 

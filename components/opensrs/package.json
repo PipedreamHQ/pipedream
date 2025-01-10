@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/opensrs",
+  "version": "0.0.1",
+  "description": "Pipedream OpenSRS Components",
+  "main": "opensrs.app.mjs",
+  "keywords": [
+    "pipedream",
+    "opensrs"
+  ],
+  "homepage": "https://pipedream.com/apps/opensrs",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

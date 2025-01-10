@@ -4,7 +4,7 @@ export default {
   key: "remote_retrieval-get-order-details",
   name: "Get Order Details",
   description: "Get the details of the specified order. [See the documentation](https://www.remoteretrieval.com/api-integration/#order-detail)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

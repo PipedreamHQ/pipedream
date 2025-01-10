@@ -333,6 +333,19 @@ export type ConfigureComponentOpts = ExternalUserId & {
   dynamicPropsId?: string;
 
   query?: string;
+
+  /**
+   * A 0 indexed page number. Use with APIs that accept a
+   * numeric page number for pagination.
+   */
+  page?: number;
+
+  /**
+   * A string representing the context for the previous options
+   * execution. Use with APIs that accept a token representing the last
+   * record for pagination.
+   */
+  prevContext?: never;
 };
 
 /**
@@ -787,14 +800,21 @@ export abstract class BaseClient {
       params.q = opts.q;
     }
     if (opts?.hasActions != null) {
-      params.has_actions = opts.hasActions ? "1" : "0";
+      params.has_actions = opts.hasActions
+        ? "1"
+        : "0";
     }
     if (opts?.hasComponents != null) {
-      params.has_components = opts.hasComponents ? "1" : "0";
+      params.has_components = opts.hasComponents
+        ? "1"
+        : "0";
     }
     if (opts?.hasTriggers != null) {
-      params.has_triggers = opts.hasTriggers ? "1" : "0";
+      params.has_triggers = opts.hasTriggers
+        ? "1"
+        : "0";
     }
+
     this.addRelationOpts(params, opts);
     return this.makeAuthorizedRequest<GetAppsResponse>(
       "/apps",
@@ -949,6 +969,8 @@ export abstract class BaseClient {
       prop_name: opts.propName,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
+      page: opts.page,
+      prev_context: opts.prevContext,
     };
     return this.makeConnectRequest<ConfigureComponentResponse>("/components/configure", {
       method: "POST",
