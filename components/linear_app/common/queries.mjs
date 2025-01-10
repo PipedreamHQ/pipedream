@@ -48,13 +48,23 @@ export default {
     ${fragments.comment}
   `,
   listProjects: `
-    query ListProjects {
-      projects {
+    query ListProjects(
+      $filter: ProjectFilter,
+      $orderBy: PaginationOrderBy
+    ) {
+      projects(
+        filter: $filter,
+        orderBy: $orderBy
+      ) {
+        pageInfo {
+          ...PageInfo
+        }
         nodes {
-          id
-          name
+          ...Project
         }
       }
     }
+    ${fragments.project}
+    ${fragments.pageInfo}
   `,
 };
