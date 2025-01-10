@@ -1,0 +1,17 @@
+{
+    "name": "@pipedream/linkup",
+    "version": "0.0.1",
+    "description": "Pipedream Linkup Components",
+    "main": "linkup.app.mjs",
+    "keywords": [
+      "pipedream",
+      "linkup",
+      "AI",
+      "Search"
+    ],
+    "homepage": "https://pipedream.com/apps/linkup",
+    "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+    "publishConfig": {
+      "access": "public"
+    }
+  }
