@@ -3129,7 +3129,11 @@ importers:
 
   components/easypost: {}
 
-  components/easypromos: {}
+  components/easypromos:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/easysendy:
     dependencies:
