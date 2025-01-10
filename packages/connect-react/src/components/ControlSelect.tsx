@@ -92,6 +92,7 @@ export function ControlSelect<T>({
   const props = select.getProps("controlSelect", baseSelectProps)
   if (showLoadMoreButton) {
     props.components = {
+      // eslint-disable-next-line react/prop-types
       ...props.components,
       MenuList: LoadMore,
     }
