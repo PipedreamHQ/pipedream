@@ -50,7 +50,7 @@ export default {
     leads: {
       type: "string[]",
       label: "Leads",
-      description: "An array of lead objects to add to the campaign. **Example: [{ \"email\":\"john2@abc.com\", \"first_name\":\"John\", \"last_name\":\"Doe\", \"company_name\":\"Instantly\", \"personalization\":\"Loved your latest post\", \"phone\":\"123456789\", \"website\":\"instantly.ai\", \"custom_variables\":{ \"favorite_restaurant\":\"Chipotle\", \"language\":\"English\", },}]**",
+      description: "An array of lead objects to add to the campaign. **Example: [{ \"email\":\"john2@abc.com\", \"first_name\":\"John\", \"last_name\":\"Doe\", \"company_name\":\"Instantly\", \"personalization\":\"Loved your latest post\", \"phone\":\"123456789\", \"website\":\"instantly.ai\", \"custom_variables\":{ \"favorite_restaurant\":\"Chipotle\", \"language\":\"English\"}}]**",
     },
     skipIfInWorkspace: {
       type: "boolean",
