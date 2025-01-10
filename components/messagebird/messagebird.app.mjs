@@ -16,6 +16,9 @@ export default {
       async options({
         organizationId, prevContext,
       }) {
+        if (!organizationId) {
+          return [];
+        }
         const { next: pageToken } = prevContext;
         const {
           results, nextPageToken,
@@ -47,6 +50,9 @@ export default {
       async options({
         workspaceId, prevContext,
       }) {
+        if (!workspaceId) {
+          return [];
+        }
         const { next: pageToken } = prevContext;
         const {
           results, nextPageToken,
@@ -78,6 +84,9 @@ export default {
       async options({
         workspaceId, prevContext,
       }) {
+        if (!workspaceId) {
+          return [];
+        }
         const { next: pageToken } = prevContext;
         const {
           results, nextPageToken,
@@ -108,6 +117,9 @@ export default {
       description: "An array of unique list identifiers to add the contact to",
       optional: true,
       async options({ workspaceId }) {
+        if (!workspaceId) {
+          return [];
+        }
         const { results } = await this.listLists({
           workspaceId,
         });
