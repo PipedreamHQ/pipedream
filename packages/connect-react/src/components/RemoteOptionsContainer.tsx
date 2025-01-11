@@ -35,6 +35,11 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
   ] = useState<number>(0);
 
   const [
+    canLoadMore,
+    setCanLoadMore,
+  ] = useState<boolean>(true);
+
+  const [
     context,
     setContext,
   ] = useState<never | undefined>(undefined);
@@ -46,6 +51,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     page: 0,
     prevContext: {},
     data: [],
+    values: new Set(),
   })
 
   const configuredPropsUpTo: Record<string, unknown> = {};
@@ -83,10 +89,6 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       ...pageable,
       prevContext: {},
     })
-  }
-
-  const canLoadMore = () => {
-    return Object.keys(pageable.prevContext || {}).length > 0
   }
 
   // TODO handle error!
@@ -132,22 +134,41 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         }
         _options = options;
       }
-      const data = [
-        ...pageable.data,
-        ..._options,
-      ]
-      setPageable({
-        page: page + 1,
-        prevContext: res.context,
-        data,
-      })
+
+      const newOptions = []
+      const allValues = new Set(pageable.values)
+      for (const o of _options || []) {
+        const value = typeof o === "string"
+          ? o
+          : o.value
+        if (allValues.has(value)) {
+          continue
+        }
+        allValues.add(value)
+        newOptions.push(o)
+      }
+      let data = pageable.data
+      if (newOptions.length) {
+        data = [
+          ...pageable.data,
+          ...newOptions,
+        ]
+        setPageable({
+          page: page + 1,
+          prevContext: res.context,
+          data,
+          values: allValues,
+        })
+      } else {
+        setCanLoadMore(false)
+      }
       return data;
     },
     enabled: !!queryEnabled,
   });
 
   const showLoadMoreButton = () => {
-    return !isFetching && !error && canLoadMore()
+    return !isFetching && !error && canLoadMore
   }
 
   // TODO show error in different spot!
