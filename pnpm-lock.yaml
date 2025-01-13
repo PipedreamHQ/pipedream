@@ -11107,7 +11107,11 @@ importers:
         specifier: ^6.2.13
         version: 6.2.13
 
-  components/typefully: {}
+  components/typefully:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/typless: {}
 
