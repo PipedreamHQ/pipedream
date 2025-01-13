@@ -11636,7 +11636,11 @@ importers:
 
   components/weworkbook: {}
 
-  components/what_are_those: {}
+  components/what_are_those:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/whatconverts: {}
 
