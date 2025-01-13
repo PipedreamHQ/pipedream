@@ -52,7 +52,7 @@ export default {
       const meta = this.generateMeta(message);
       this.$emit(message, meta);
 
-      if (Date.parse(message.createdDatetime) > Date.parse(lastTs)) {
+      if (!lastTs || Date.parse(message.createdDatetime) > Date.parse(lastTs)) {
         lastTs = message.createdDatetime;
       }
     }
