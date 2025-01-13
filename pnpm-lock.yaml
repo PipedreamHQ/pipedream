@@ -5695,6 +5695,12 @@ importers:
 
   components/lattice: {}
 
+  components/launch_darkly_oauth:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/launchdarkly:
     dependencies:
       '@pipedream/platform':
