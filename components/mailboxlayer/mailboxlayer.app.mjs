@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "linkup",
+  app: "mailboxlayer",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
