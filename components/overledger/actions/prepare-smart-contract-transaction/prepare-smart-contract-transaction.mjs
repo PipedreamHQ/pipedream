@@ -8,7 +8,7 @@ export default {
   key: "overledger-prepare-smart-contract-transaction",
   name: "Prepare Smart Contract Transaction",
   description: "Prepares a smart contract transaction for signing on the Overledger platform. [See the documentation](https://developers.quant.network/reference/preparesmartcontractwrite)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     overledger,

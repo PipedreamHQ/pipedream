@@ -129,12 +129,17 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     configuredProps,
     dynamicPropsId: dynamicProps?.id,
   };
+  const queryKeyInput = {
+    ...componentReloadPropsInput,
+  }
+
   const {
     isFetching: dynamicPropsQueryIsFetching,
     // TODO error
   } = useQuery({
     queryKey: [
       "dynamicProps",
+      queryKeyInput,
     ],
     queryFn: async () => {
       const { dynamicProps } = await client.componentReloadProps(componentReloadPropsInput);
@@ -338,6 +343,11 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     const idx = configurableProps.findIndex((p) => p.name === prop.name);
     if (!enabled) {
       setConfiguredProp(idx, undefined);
+    } else if (__configuredProps?.[prop.name as keyof ConfiguredProps<T>] !== undefined) {
+      setConfiguredProp(
+        idx,
+        __configuredProps[prop.name as keyof ConfiguredProps<T>],
+      );
     } else if ("default" in prop && prop.default != null) {
       setConfiguredProp(idx, prop.default);
     }
