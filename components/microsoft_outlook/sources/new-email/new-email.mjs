@@ -97,7 +97,6 @@ export default {
     },
     emitEvent(item) {
       if (this.isRelevant(item)) {
-        console.log(this.generateMeta(item));
         this.$emit(
           {
             email: item,
