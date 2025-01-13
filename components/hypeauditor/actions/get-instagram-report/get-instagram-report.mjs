@@ -25,7 +25,7 @@ export default {
 
   async run({ $ }) {
     if (!this.userId && !this.username) {
-      throw new ConfigurationError("You need to inform a Channel ID or Channel Username");
+      throw new ConfigurationError("You need to provide either a User ID or Username");
     }
 
     const response = await this.app.getInstagramReport({
