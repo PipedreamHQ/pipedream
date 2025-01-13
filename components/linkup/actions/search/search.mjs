@@ -1,19 +1,13 @@
-import { LinkupClient } from "linkup-sdk";
 import app from "../../linkup.app.mjs";
 
 export default {
   name: "Linkup Search",
-  description: "Search and retrieve insights using the Linkup API.",
-  key: "linkup_search",
+  description: "Search and retrieve insights using the Linkup API. [See the documentation](https://docs.linkup.so/pages/api-reference/endpoint/post-search)",
+  key: "linkup-search",
   version: "0.0.1",
   type: "action",
   props: {
-    apiKey: {
-      type: "string",
-      label: "API Key",
-      description: "Your API Key for the Linkup API.",
-      secret: true,
-    },
+    app,
     query: {
       type: "string",
       label: "Query",
@@ -22,40 +16,92 @@ export default {
     depth: {
       type: "string",
       label: "Search Depth",
-      description: "Specify the depth of the search.",
+      description: "Defines the precision of the search. `standard` returns results quickly; `deep` takes longer but yields more complete results.",
+      options: [
+        "standard",
+        "deep",
+      ],
     },
     outputType: {
       type: "string",
       label: "Output Type",
-      description: "The format of the search results.",
+      description: "The type of output you want to get. Use `structured` for a custom-formatted response defined by `structuredOutputSchema`",
+      options: [
+        {
+          value: "sourcedAnswer",
+          label: "Natural language answer and its sources",
+        },
+        {
+          value: "searchResults",
+          label: "Raw context",
+        },
+        {
+          value: "structured",
+          label: "Json format of the response",
+        },
+      ],
+      reloadProps: true,
     },
     structuredOutputSchema: {
       type: "string",
       label: "Structured Output Schema",
-      description: "Schema for structured output (only applicable if Output Type is 'structured').",
+      description: "Schema for structured output (only applicable if Output Type is 'structured'). Provide a JSON schema (as a string) representing the desired response format.",
+      optional: true,
+      hidden: true,
+    },
+    includeImages: {
+      type: "boolean",
+      label: "Include Images",
+      description: "Defines whether the API should include images in its results",
       optional: true,
     },
   },
-  async run({
-    query, depth, outputType, structuredOutputSchema,
-  }) {
-    const apiKey = app.getApiKey();
-
-    const client = new LinkupClient({
-      apiKey,
-    });
-    const params = {
-      query: query,
-      depth: depth,
-      outputType: outputType,
-    };
-
-    if (outputType === "structured" && structuredOutputSchema) {
-      params.structuredOutputSchema = structuredOutputSchema;
+  additionalProps(props) {
+    if (this.outputType === "structured") {
+      props.structuredOutputSchema.optional = false;
+      props.structuredOutputSchema.hidden = false;
+      props.structuredOutputSchema.default = `{
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "year": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "name",
+                "year"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "results"
+        ],
+        "additionalProperties": false
+      }`;
     }
+    return {};
+  },
+  async run({ $ }) {
     try {
-      const response = await client.search(params);
-
+      const response = await this.app.search({
+        query: this.query,
+        depth: this.depth,
+        outputType: this.outputType,
+        structuredOutputSchema:
+          this.structuredOutputSchema && JSON.parse(this.structuredOutputSchema),
+        includeImages: this.includeImages,
+      });
+      $.export("$summary", "Successfully completed search query");
       return response;
     } catch (error) {
       console.error("Error calling Linkup API:", error);
