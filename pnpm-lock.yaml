@@ -1048,8 +1048,8 @@ importers:
   components/basecamp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/baselinker:
     dependencies:
@@ -1848,6 +1848,8 @@ importers:
         version: 3.0.1(web-streams-polyfill@3.3.3)
 
   components/clarify: {}
+
+  components/clear_books: {}
 
   components/clearbit:
     dependencies:
@@ -2787,6 +2789,8 @@ importers:
 
   components/dispatch: {}
 
+  components/dixa: {}
+
   components/dnsfilter:
     dependencies:
       '@pipedream/platform':
@@ -3125,7 +3129,11 @@ importers:
 
   components/easypost: {}
 
-  components/easypromos: {}
+  components/easypromos:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/easysendy:
     dependencies:
@@ -5881,6 +5889,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/linkup: {}
+
   components/linqs_cc: {}
 
   components/liondesk: {}
@@ -6078,6 +6088,9 @@ importers:
       moment:
         specifier: ^2.29.4
         version: 2.30.1
+
+  components/mailboxlayer:
+    specifiers: {}
 
   components/mailboxvalidator:
     dependencies:
@@ -6854,6 +6867,8 @@ importers:
 
   components/nextdns: {}
 
+  components/nextdoor: {}
+
   components/nexudus: {}
 
   components/nexweave:
@@ -7278,8 +7293,14 @@ importers:
   components/opensea:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
+      bottleneck:
+        specifier: ^2.19.5
+        version: 2.19.5
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/opensrs: {}
 

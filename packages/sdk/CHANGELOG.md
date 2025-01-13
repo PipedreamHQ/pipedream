@@ -1,5 +1,12 @@
 <!-- markdownlint-disable MD024 -->
+
 # Changelog
+
+## [1.1.4] - 2025-01-08
+
+### Added
+
+- Add pagination parameters to component configuration (`page` and `prevContext`)
 
 ## [1.1.3] - 2024-12-13
 
@@ -90,8 +97,8 @@
 ### Changed
 
 - The backend client used to default to `production` if the environment was not
-specified. Now `environment` is a required argument for `createBackendClient`
-and must be one of `production` or `development`.
+  specified. Now `environment` is a required argument for `createBackendClient`
+  and must be one of `production` or `development`.
 
 ## [1.0.4] - 2024-11-15
 
