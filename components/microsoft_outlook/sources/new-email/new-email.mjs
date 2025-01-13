@@ -1,4 +1,5 @@
 import common from "../common.mjs";
+import md5 from "md5";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -8,12 +9,13 @@ export default {
   description: "Emit new event when an email is received in specified folders.",
   version: "0.0.10",
   type: "source",
+  dedupe: "unique",
   props: {
     ...common.props,
     folderIds: {
       type: "string[]",
       label: "Folder IDs to Monitor",
-      description: "Specify the folder IDs or names in Outlook that you want to monitor for new emails. Leave empty to monitor all folders.",
+      description: "Specify the folder IDs or names in Outlook that you want to monitor for new emails. Leave empty to monitor all folders (excluding \"Sent Items\" and \"Drafts\").",
       optional: true,
       async options() {
         const { value: folders } = await this.listFolders();
@@ -29,11 +31,12 @@ export default {
   hooks: {
     ...common.hooks,
     async deploy() {
-      this.db.set("sentItemFolderId", await this.getSentItemFolderId());
+      this.db.set("sentItemFolderId", await this.getFolderIdByName("Sent Items"));
+      this.db.set("draftsFolderId", await this.getFolderIdByName("Drafts"));
 
       const events = await this.getSampleEvents({
         pageSize: 25,
-      }); console.log(events);
+      });
       if (!events || events.length == 0) {
         return;
       }
@@ -58,9 +61,9 @@ export default {
         path: "/me/mailFolders",
       });
     },
-    async getSentItemFolderId() {
+    async getFolderIdByName(name) {
       const { value: folders } = await this.listFolders();
-      const { id } = folders.find(({ displayName }) => displayName === "Sent Items");
+      const { id } = folders.find(({ displayName }) => displayName === name);
       return id;
     },
     async getSampleEvents({ pageSize }) {
@@ -85,14 +88,16 @@ export default {
     },
     isRelevant(item) {
       if (this.folderIds?.length) {
-        return true;
+        return this.folderIds.includes(item.parentFolderId);
       }
-      // if no folderIds are specified, filter out items in Sent Items
+      // if no folderIds are specified, filter out items in Sent Items & Drafts
       const sentItemFolderId = this.db.get("sentItemFolderId");
-      return item.parentFolderId !== sentItemFolderId;
+      const draftsFolderId = this.db.get("draftsFolderId");
+      return item.parentFolderId !== sentItemFolderId && item.parentFolderId !== draftsFolderId;
     },
     emitEvent(item) {
       if (this.isRelevant(item)) {
+        console.log(this.generateMeta(item));
         this.$emit(
           {
             email: item,
@@ -103,7 +108,7 @@ export default {
     },
     generateMeta(item) {
       return {
-        id: item.id,
+        id: md5(item.id), // id > 64 characters, so dedupe on hash of id
         summary: `New email (ID:${item.id})`,
         ts: Date.parse(item.createdDateTime),
       };
