@@ -3177,6 +3177,8 @@ importers:
 
   components/efinder: {}
 
+  components/egnyte: {}
+
   components/elastic_email: {}
 
   components/elasticemail: {}
@@ -5221,7 +5223,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/instantly: {}
+  components/instantly:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/instapaper:
     dependencies:
@@ -6468,6 +6474,9 @@ importers:
       js-base64:
         specifier: ^3.7.2
         version: 3.7.7
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
@@ -7360,6 +7369,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/osu: {}
 
   components/otter_waiver:
     dependencies:
@@ -11127,6 +11138,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/uber_direct: {}
+
   components/uberduck:
     dependencies:
       '@pipedream/platform':
@@ -11642,7 +11655,11 @@ importers:
 
   components/weworkbook: {}
 
-  components/what_are_those: {}
+  components/what_are_those:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/whatconverts: {}
 
@@ -11980,6 +11997,12 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/youtube_analytics_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/youtube_data_api:
     dependencies:
@@ -12398,11 +12421,11 @@ importers:
         specifier: ^14.2.5
         version: 14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       nextra:
-        specifier: latest
-        version: 4.0.0(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
+        specifier: ^3
+        version: 3.3.1(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
       nextra-theme-docs:
-        specifier: latest
-        version: 4.0.0(@types/react@18.3.12)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nextra@4.0.0(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^3
+        version: 3.3.1(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nextra@3.3.1(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -22960,6 +22983,10 @@ packages:
   p-limit@4.0.0:
     resolution: {integrity: sha512-5b0R4txpzjPWVw/cXXUResoD4hb6U/x9BH08L7nw+GN1sezDzPdxeRvpc9c433fZhBan/wusjbCsqwqm4EIBIQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  p-limit@6.2.0:
+    resolution: {integrity: sha512-kuUqqHNUqoIWp/c467RI4X6mmyuojY5jGutNU0wVTmEOOfcuwLqyMVoAi9MKi2Ak+5i9+nhmrK4ufZE8069kHA==}
+    engines: {node: '>=18'}
 
   p-locate@4.1.0:
     resolution: {integrity: sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A==}
@@ -39978,6 +40005,7 @@ snapshots:
       mdast-util-to-hast: 13.2.0
       negotiator: 1.0.0
       next: 14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      p-limit: 6.2.0
       react: 18.3.1
       react-compiler-runtime: 0.0.0-experimental-22c6e49-20241219(react@18.3.1)
       react-dom: 18.3.1(react@18.3.1)
@@ -40414,6 +40442,10 @@ snapshots:
       yocto-queue: 0.1.0
 
   p-limit@4.0.0:
+    dependencies:
+      yocto-queue: 1.1.1
+
+  p-limit@6.2.0:
     dependencies:
       yocto-queue: 1.1.1
 
