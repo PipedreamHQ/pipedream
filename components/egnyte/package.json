@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/egnyte",
+  "version": "0.0.1",
+  "description": "Pipedream Egnyte Components",
+  "main": "egnyte.app.mjs",
+  "keywords": [
+    "pipedream",
+    "egnyte"
+  ],
+  "homepage": "https://pipedream.com/apps/egnyte",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
