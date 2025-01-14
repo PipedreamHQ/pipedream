@@ -54,7 +54,7 @@ export default {
       options: [
         {
           value: "text/plain",
-          label: "Plain text",
+          label: "Plain Text",
         },
         {
           value: "text/markdown",
