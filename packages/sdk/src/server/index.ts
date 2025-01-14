@@ -350,4 +350,14 @@ export class BackendClient extends BaseClient {
       method: "GET",
     });
   }
+  public getProxyRequest(url: string, method: string, body: string, params: any): Promise<ProjectInfoResponse> {
+    const url64 = btoa(url).replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+    return this.makeConnectRequest(`/proxy/${url64}`, {
+      method,
+      body,
+      params,
+    });
+  }
 }
