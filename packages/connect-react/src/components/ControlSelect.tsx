@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useMemo } from "react";
 import Select, {
   Props as ReactSelectProps, components,
