@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -42,7 +43,7 @@ export default {
       type: "string",
       label: "Sort By Date",
       description: "Sort by date. If 0, then sort by relevance. If 1, then sort by date",
-      options: constants.BOOLEAN_OPTIONS,
+      options: constants.SEARCH_SORTING_OPTIONS,
       optional: true,
     },
     type: {
@@ -50,6 +51,27 @@ export default {
       label: "Type",
       description: "What type of contents do you want to search for?",
       options: constants.TYPE_OPTIONS,
+      optional: true,
+    },
+    showTranscript: {
+      type: "string",
+      label: "Show Transcript",
+      description: "To include the transcript of this episode or not?",
+      options: constants.TRANSCRIPT_OPTIONS,
+      optional: true,
+    },
+    nextEpisodePubDate: {
+      type: "string",
+      label: "Next Episode Pub Date",
+      description: "For episodes pagination. It's the value of `next_episode_pub_date` from the response of last request",
+      options: constants.EPISODES_SORTING_OPTIONS,
+      optional: true,
+    },
+    sort: {
+      type: "string",
+      label: "Sort",
+      description: "What type of contents do you want to search for?",
+      options: constants.EPISODES_SORTING_OPTIONS,
       optional: true,
     },
     language: {
@@ -111,6 +133,12 @@ export default {
         ...args,
       });
     },
+    async getLanguages(args = {}) {
+      return this._makeRequest({
+        path: "/languages",
+        ...args,
+      });
+    },
     async listPodcasts({
       q,
       language,
@@ -118,6 +146,10 @@ export default {
       offset,
       ...args
     }) {
+      if (!q) {
+        throw new ConfigurationError("You need to inform a query to list the IDs. Alternatively you can directly inform an ID unsing the custom expression function.");
+      }
+
       return this._makeRequest({
         path: "/search",
         params: {
@@ -126,12 +158,6 @@ export default {
           language: language,
           offset: offset,
         },
-        ...args,
-      });
-    },
-    async getLanguages(args = {}) {
-      return this._makeRequest({
-        path: "/languages",
         ...args,
       });
     },

@@ -13,6 +13,7 @@ export default {
         app,
         "q",
       ],
+      optional: true,
     },
     language: {
       propDefinition: [
@@ -37,12 +38,21 @@ export default {
         }),
       ],
     },
+    showTranscript: {
+      propDefinition: [
+        app,
+        "showTranscript",
+      ],
+    },
   },
 
   async run({ $ }) {
     const response = await this.app.getEpisodeDetails({
       $,
       id: this.id,
+      params: {
+        show_transcript: this.showTranscript,
+      },
     });
 
     $.export("$summary", `Successfully retrieved details for the episode '${response.title}'`);

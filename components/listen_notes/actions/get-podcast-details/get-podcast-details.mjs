@@ -13,6 +13,7 @@ export default {
         app,
         "q",
       ],
+      optional: true,
     },
     language: {
       propDefinition: [
@@ -38,12 +39,28 @@ export default {
         }),
       ],
     },
+    nextEpisodePubDate: {
+      propDefinition: [
+        app,
+        "nextEpisodePubDate",
+      ],
+    },
+    sort: {
+      propDefinition: [
+        app,
+        "sort",
+      ],
+    },
   },
 
   async run({ $ }) {
     const response = await this.app.getPodcastDetails({
       $,
       id: this.id,
+      params: {
+        next_episode_pub_date: this.nextEpisodePubDate,
+        sort: this.sort,
+      },
     });
 
     $.export("$summary", `Successfully retrieved details for the podcast '${response.title}'`);
