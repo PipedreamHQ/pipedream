@@ -1,51 +1,102 @@
 import dixa from "../../dixa.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "dixa-create-conversation",
   name: "Create Conversation",
-  description: "Creates a new email or contact form-based conversation. [See the documentation](https://docs.dixa.io/openapi).",
-  version: "0.0.{{ts}}",
+  description: "Creates a new email or contact form-based conversation. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Conversations/#tag/Conversations/operation/postConversations).",
+  version: "0.0.1",
   type: "action",
   props: {
-    dixa: {
-      type: "app",
-      app: "dixa",
-    },
-    subject: {
+    dixa,
+    requesterId: {
       propDefinition: [
-        "dixa",
-        "subject",
+        dixa,
+        "endUserId",
+      ],
+      label: "Requester Id",
+    },
+    direction: {
+      propDefinition: [
+        dixa,
+        "direction",
+      ],
+      reloadProps: true,
+    },
+    channel: {
+      type: "string",
+      label: "Channel",
+      description: "For outbound, only Email is supported. Inbound also supports ContactForm.",
+      options: [
+        "Email",
+        "ContactForm",
       ],
     },
     emailIntegrationId: {
       propDefinition: [
-        "dixa",
+        dixa,
         "emailIntegrationId",
       ],
     },
-    messageType: {
+    subject: {
       propDefinition: [
-        "dixa",
-        "messageType",
+        dixa,
+        "subject",
       ],
+    },
+    message: {
+      type: "string",
+      label: "Message",
+      description: "The content message.",
     },
     language: {
       propDefinition: [
-        "dixa",
+        dixa,
         "language",
       ],
       optional: true,
     },
+    agentId: {
+      propDefinition: [
+        dixa,
+        "agentId",
+      ],
+      optional: true,
+    },
+  },
+  async additionalProps(props) {
+    props.agentId.hidden = !this.direction === "Outbound";
+    props.channel.options = this.direction === "Outbound"
+      ? [
+        "Email",
+      ]
+      : [
+        "ContactForm",
+        "Email",
+      ];
+    return {};
   },
   async run({ $ }) {
     const response = await this.dixa.createConversation({
-      subject: this.subject,
-      emailIntegrationId: this.emailIntegrationId,
-      messageType: this.messageType,
-      language: this.language,
+      $,
+      data: {
+        subject: this.subject,
+        emailIntegrationId: this.emailIntegrationId,
+        language: this.language,
+        requesterId: this.requesterId,
+        message: {
+          agentId: this.direction === "Outbound"
+            ? this.agentId
+            : undefined,
+          content: {
+            _type: "Text",
+            value: this.message,
+          },
+          _type: this.direction,
+        },
+        _type: this.channel,
+      },
     });
-    $.export("$summary", `Created conversation with subject: ${response.subject} and ID: ${response.id}`);
+    $.export("$summary", `Created conversation with Id: ${response.data.id}`);
     return response;
   },
 };

@@ -1,56 +1,65 @@
 import dixa from "../../dixa.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "dixa-add-message",
   name: "Add Message to Conversation",
-  description: "Adds a message to an existing conversation. [See the documentation]().",
-  version: "0.0.{{ts}}",
+  description: "Adds a message to an existing conversation. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Conversations/#tag/Conversations/operation/postConversationsConversationidMessages).",
+  version: "0.0.1",
   type: "action",
   props: {
     dixa,
+    endUserId: {
+      propDefinition: [
+        dixa,
+        "endUserId",
+      ],
+    },
     conversationId: {
       propDefinition: [
         dixa,
         "conversationId",
+        ({ endUserId }) => ({
+          endUserId,
+        }),
       ],
-    },
-    attachments: {
-      propDefinition: [
-        dixa,
-        "attachments",
-      ],
-      optional: true,
     },
     content: {
+      type: "string",
+      label: "Content",
+      description: "Content of the message",
+    },
+    direction: {
       propDefinition: [
         dixa,
-        "content",
+        "direction",
       ],
-      optional: true,
+      reloadProps: true,
     },
-    externalId: {
+    agentId: {
       propDefinition: [
         dixa,
-        "externalId",
+        "agentId",
       ],
-      optional: true,
     },
-    integrationEmail: {
-      propDefinition: [
-        dixa,
-        "integrationEmail",
-      ],
-      optional: true,
-    },
+  },
+  async additionalProps(props) {
+    props.agentId.hidden = !this.direction === "Outbound";
+    return {};
   },
   async run({ $ }) {
     const response = await this.dixa.addMessage({
+      $,
       conversationId: this.conversationId,
-      attachments: this.attachments,
-      content: this.content,
-      externalId: this.externalId,
-      integrationEmail: this.integrationEmail,
+      data: {
+        content: {
+          agentId: this.direction === "Outbound"
+            ? this.agentId
+            : undefined,
+          value: this.content,
+          _type: "Text",
+        },
+        _type: this.direction,
+      },
     });
     $.export("$summary", `Added message to conversation ${this.conversationId}`);
     return response;

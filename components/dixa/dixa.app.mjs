@@ -3,240 +3,210 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "dixa",
-  version: "0.0.{{ts}}",
   propDefinitions: {
-    name: {
+    endUserId: {
       type: "string",
-      label: "Name",
-      description: "Name of the event",
+      label: "End User Id",
+      description: "The id of the end user.",
+      async options({ page }) {
+        const { data } = await this.listEndUsers({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data.map(({
+          id: value, displayName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    direction: {
+      type: "string",
+      label: "Direction",
+      description: "The direction of the message",
+      options: [
+        "Inbound",
+        "Outbound",
+      ],
+    },
+    emailIntegrationId: {
+      type: "string",
+      label: "Email Integration ID",
+      description: "The contact endpoint in the organization.",
+      async options() {
+        const { data } = await this.listContactEndpoints();
+        return data.filter(({ _type }) => _type === "EmailEndpoint").map(({ address }) => address);
+      },
     },
     subject: {
       type: "string",
       label: "Subject",
       description: "The subject of the conversation",
     },
-    emailIntegrationId: {
-      type: "string",
-      label: "Email Integration ID",
-      description: "The ID of the email integration",
-    },
-    messageType: {
-      type: "string",
-      label: "Message Type",
-      description: "The type of the message",
-      options: [
-        {
-          label: "Inbound",
-          value: "inbound",
-        },
-        {
-          label: "Outbound",
-          value: "outbound",
-        },
-      ],
-    },
     language: {
       type: "string",
       label: "Language",
-      description: "Language of the conversation",
-      optional: true,
+      description: "The [2-letter ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) language of the conversation",
+    },
+    agentId: {
+      type: "string",
+      label: "Agent Id",
+      description: "The id of the agent.",
+      hidden: true,
+      async options({ page }) {
+        const { data } = await this.listAgents({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, displayName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     conversationId: {
       type: "string",
       label: "Conversation ID",
       description: "The ID of the conversation",
-      async options() {
-        const conversations = await this.listConversations();
-        return conversations.map((conv) => ({
-          label: conv.name || `Conversation ${conv.id}`,
-          value: conv.id,
-        }));
+      async options({ endUserId }) {
+        const { data } = await this.listConversations({
+          endUserId,
+        });
+        return data.map(({
+          id: value, direction, toEmail, fromEmail,
+        }) => {
+          return {
+            label: `${direction} - ${direction === "Inbound"
+              ? fromEmail
+              : toEmail}`,
+            value,
+          };
+        });
       },
-    },
-    attachments: {
-      type: "string[]",
-      label: "Attachments",
-      description: "List of files to include in the message",
-      optional: true,
-    },
-    content: {
-      type: "string",
-      label: "Content",
-      description: "Content of the message",
-      optional: true,
-    },
-    externalId: {
-      type: "string",
-      label: "External ID",
-      description: "External ID of the message",
-      optional: true,
-    },
-    integrationEmail: {
-      type: "string",
-      label: "Integration Email",
-      description: "Email for the integration",
-      optional: true,
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The ID of the user",
-      async options() {
-        const users = await this.listUsers();
-        return users.map((user) => ({
-          label: user.name || `User ${user.id}`,
-          value: user.id,
-        }));
-      },
-    },
-    attributes: {
-      type: "string",
-      label: "Attributes",
-      description: "Key-value pairs of attributes to update in JSON format",
-      optional: true,
     },
     tagId: {
       type: "string",
       label: "Tag ID",
       description: "The ID of the tag to add",
       async options() {
-        const tags = await this.listTags();
-        return tags.map((tag) => ({
-          label: tag.name || `Tag ${tag.id}`,
-          value: tag.id,
-        }));
+        const { data } = await this.listTags();
+        return data
+          .filter(({ state }) => state === "Active")
+          .map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          }));
       },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.dixa.io/v1";
+      return "https://dev.dixa.io/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers = {}, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "authorization": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_token}`,
-          "Content-Type": "application/json",
-        },
-      });
-    },
-    async listConversations(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/conversations",
+        headers: this._headers(),
         ...opts,
       });
     },
-    async listUsers(opts = {}) {
+    listEndUsers(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/users",
+        path: "/endusers",
         ...opts,
       });
     },
-    async listTags(opts = {}) {
+    listAgents(opts = {}) {
       return this._makeRequest({
-        method: "GET",
+        path: "/agents",
+        ...opts,
+      });
+    },
+    listContactEndpoints(opts = {}) {
+      return this._makeRequest({
+        path: "/contact-endpoints",
+        ...opts,
+      });
+    },
+    listConversations({
+      endUserId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/endusers/${endUserId}/conversations`,
+        ...opts,
+      });
+    },
+    listCustomAttributes() {
+      return this._makeRequest({
+        path: "/custom-attributes",
+      });
+    },
+    addTag({
+      conversationId, tagId,
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/conversations/${conversationId}/tags/${tagId}`,
+      });
+    },
+    updateCustomAttributes({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/endusers/${userId}/custom-attributes`,
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
+      });
+    },
+    listTags(opts = {}) {
+      return this._makeRequest({
         path: "/tags",
         ...opts,
       });
     },
-    async createConversation({
-      subject, emailIntegrationId, messageType, language,
-    }) {
-      const data = {
-        subject: this.subject,
-        email_integration_id: this.emailIntegrationId,
-        message_type: this.messageType,
-      };
-      if (this.language) {
-        data.language = this.language;
-      }
+    createConversation(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/conversations",
-        data,
+        ...opts,
       });
     },
-    async addMessage({
-      conversationId, attachments, content, externalId, integrationEmail,
-    }) {
-      const data = {};
-      if (this.attachments && this.attachments.length > 0) {
-        data.attachments = this.attachments.map((file) => ({
-          file,
-        }));
-      }
-      if (this.content) {
-        data.content = this.content;
-      }
-      if (this.externalId) {
-        data.external_id = this.externalId;
-      }
-      if (this.integrationEmail) {
-        data.integration_email = this.integrationEmail;
-      }
-      return this._makeRequest({
-        method: "POST",
-        path: `/conversations/${this.conversationId}/messages`,
-        data,
-      });
-    },
-    async updateCustomAttributes({
-      userId, attributes,
-    }) {
-      let parsedAttributes = {};
-      if (this.attributes) {
-        try {
-          parsedAttributes = JSON.parse(this.attributes);
-        } catch (e) {
-          throw new Error("Attributes must be a valid JSON string.");
-        }
-      }
-      return this._makeRequest({
-        method: "PUT",
-        path: `/users/${this.userId}/attributes`,
-        data: parsedAttributes,
-      });
-    },
-    async addTag({
-      conversationId, tagId,
+    addMessage({
+      conversationId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/conversations/${this.conversationId}/tags`,
-        data: {
-          tag_id: this.tagId,
-        },
+        path: `/conversations/${conversationId}/messages`,
+        ...opts,
       });
-    },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let hasMore = true;
-      let page = 1;
-      while (hasMore) {
-        const response = await fn({
-          ...opts,
-          page,
-        });
-        if (response.length === 0) {
-          hasMore = false;
-        } else {
-          results = results.concat(response);
-          page += 1;
-        }
-      }
-      return results;
     },
   },
 };
