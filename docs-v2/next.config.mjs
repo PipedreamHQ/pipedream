@@ -51,6 +51,9 @@ export default withNextra({
     DELAY_MIN_MAX_TIME:
       "You can pause your workflow for as little as one millisecond, or as long as one year",
     PUBLIC_APPS: "2,400",
+    REGISTRY_ACTIONS: "5,300",
+    REGISTRY_SOURCES: "2,500",
+    REGISTRY_COMPONENTS: "8,000",
     FREE_INSPECTOR_EVENT_LIMIT: "7 days of events",
     WARM_WORKERS_INTERVAL: "10 minutes",
     WARM_WORKERS_CREDITS_PER_INTERVAL: "5",
