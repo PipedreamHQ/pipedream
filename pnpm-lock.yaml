@@ -1263,6 +1263,9 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/bluesnap:
+    specifiers: {}
+
   components/boldsign:
     dependencies:
       '@pipedream/platform':
