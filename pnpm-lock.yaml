@@ -5848,8 +5848,8 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
       '@pipedream/linear_app':
-        specifier: ^0.5.7
-        version: 0.5.7
+        specifier: ^0.6.0
+        version: 0.6.0
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -15171,8 +15171,8 @@ packages:
   '@pipedream/helpers@1.3.12':
     resolution: {integrity: sha512-k305RiFddUBtKY11V9G2aqYD8ICgarHV+A0Isxh0j3il4asnht0q4+t6ykPOb+hl5uo9UV8WY+9eAWlj6VFt6Q==}
 
-  '@pipedream/linear_app@0.5.7':
-    resolution: {integrity: sha512-QiHmFSOwWhchNPCIjjk/psmfQ61SVPuvHACLtmE6DOeJkYFJIM2yliNo9Ks/Psc8iVFrHhJc00h33fFIw3CVsA==}
+  '@pipedream/linear_app@0.6.0':
+    resolution: {integrity: sha512-vM5xDIw9xMkNuNAozzbaWuK8NdVKL+AZFkTnea0DDgTcndsBGyX1oY/3PKOrpfqRQ2LtNSb6o089WkxBiI/uNA==}
 
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
@@ -30480,7 +30480,7 @@ snapshots:
       '@pipedream/types': 0.0.5
       lodash-es: 4.17.21
 
-  '@pipedream/linear_app@0.5.7':
+  '@pipedream/linear_app@0.6.0':
     dependencies:
       '@linear/sdk': 13.0.0
       '@pipedream/platform': 3.0.3
