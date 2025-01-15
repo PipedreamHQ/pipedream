@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.1.5] - 2025-01-14
+
+### Changed
+
+- Corrected the return type of `reloadComponentProps`
+
 ## [1.1.4] - 2025-01-08
 
 ### Added
