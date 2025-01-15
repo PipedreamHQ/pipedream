@@ -39,7 +39,7 @@ export default {
     },
   },
   async run({ body }) {
-    const ts = Date.parse(new Date());
+    const ts = Date.now();
     this.$emit(body, {
       id: body.event_id,
       summary: this.getSummary(body),

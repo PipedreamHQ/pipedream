@@ -64,7 +64,7 @@ export default {
     },
   },
   async additionalProps(props) {
-    props.agentId.hidden = !this.direction === "Outbound";
+    props.agentId.hidden = !(this.direction === "Outbound");
     props.channel.options = this.direction === "Outbound"
       ? [
         "Email",

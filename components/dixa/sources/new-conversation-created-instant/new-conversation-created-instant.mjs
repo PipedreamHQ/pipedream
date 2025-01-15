@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "dixa-new-conversation-created-instant",
   name: "New Conversation Created (Instant)",
-  description: "Emit new event when a conversation is created in Dixa.",
+  description: "Emit new event when a conversation is created in Dixa. [See the documentation](https://docs.dixa.io/openapi/dixa-api/v1/tag/Webhooks/).",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
