@@ -9592,8 +9592,7 @@ importers:
 
   components/showpad: {}
 
-  components/shutterstock:
-    specifiers: {}
+  components/shutterstock: {}
 
   components/sidetracker: {}
 
@@ -12551,8 +12550,8 @@ importers:
         specifier: file:../..
         version: file:packages/connect-react(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
       '@pipedream/sdk':
-        specifier: ^1.0.6
-        version: 1.0.7
+        specifier: ^1.1.4
+        version: 1.1.5
       next:
         specifier: 15.0.3
         version: 15.0.3(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
@@ -15224,8 +15223,8 @@ packages:
     resolution: {integrity: sha512-f8FXEaoBqIOQpI4vVOO8OrHRAjwQYO4pKIwMUcGRkzS5KJ6cZ/7JYYGyXEu7NcS+y1VfyegtbJWu4tWacDjQZg==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/sdk@1.0.7':
-    resolution: {integrity: sha512-ec3XowyXvy6KPxlr0/roOgv1Y2K3PQXJKYm1dc5ezewxImMon/FdHrxLOTIaqq2CGdTG/PG60EIR1Jm9LTOQlQ==}
+  '@pipedream/sdk@1.1.5':
+    resolution: {integrity: sha512-q+dGMsNSvIcDCi6JZES7pwNBW8Ms318WMNavO71Cye0bCtloeDSj5TiFbScy64/2FHja9keKAZ9ev8yVSsM+ew==}
     engines: {node: '>=18.0.0'}
 
   '@pipedream/sftp@0.4.1':
@@ -30625,7 +30624,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@pipedream/sdk@1.0.7':
+  '@pipedream/sdk@1.1.5':
     dependencies:
       '@rails/actioncable': 8.0.0
       commander: 12.1.0
@@ -31013,6 +31012,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
