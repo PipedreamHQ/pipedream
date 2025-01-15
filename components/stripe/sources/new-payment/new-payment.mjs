@@ -5,7 +5,7 @@ export default {
   key: "stripe-new-payment",
   name: "New Payment",
   type: "source",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Emit new event for each new payment",
   methods: {
     ...common.methods,
@@ -13,6 +13,16 @@ export default {
       return [
         "payment_intent.created",
       ];
+    },
+    emitEvent(event) {
+      const amount = event.data.object?.amount;
+      this.$emit(event, {
+        id: event.id,
+        summary: `New payment${amount
+          ? " of $" + amount
+          : ""} received`,
+        ts: Date.parse(event.created),
+      });
     },
   },
 };

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/easypromos",
+  "version": "0.1.0",
+  "description": "Pipedream Easypromos Components",
+  "main": "easypromos.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easypromos"
+  ],
+  "homepage": "https://pipedream.com/apps/easypromos",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

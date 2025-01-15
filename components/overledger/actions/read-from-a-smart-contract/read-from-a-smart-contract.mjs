@@ -8,7 +8,7 @@ export default {
   key: "overledger-read-from-a-smart-contract",
   name: "Read from a smart contract",
   description: "Reads data from a specified smart contract on the Overledger network.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     overledger,

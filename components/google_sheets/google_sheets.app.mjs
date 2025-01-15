@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import sheets from "@googleapis/sheets";
-import googleDrive from "../google_drive/google_drive.app.mjs";
+import googleDrive from "@pipedream/google_drive";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
 } from "./common/constants.mjs";

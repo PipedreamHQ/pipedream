@@ -1,4 +1,4 @@
-import commonApp from "../shopify/common-app.mjs";
+import commonApp from "@pipedream/shopify/common-app.mjs";
 import Shopify from "shopify-api-node";
 
 export default {

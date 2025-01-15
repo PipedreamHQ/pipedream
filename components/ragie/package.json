@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ragie",
+  "version": "0.0.1",
+  "description": "Pipedream Ragie Components",
+  "main": "ragie.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ragie"
+  ],
+  "homepage": "https://pipedream.com/apps/ragie",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

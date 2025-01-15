@@ -276,7 +276,7 @@ export type Account = {
 };
 
 /**
- * The request options for reconfiguring a component's props when dealing with
+ * The request options for reloading a component's props when dealing with
  * dynamic props.
  */
 export type ReloadComponentPropsOpts = ExternalUserId & {
@@ -294,11 +294,29 @@ export type ReloadComponentPropsOpts = ExternalUserId & {
   configuredProps: ConfiguredProps<ConfigurableProps>;
 
   /**
-   * The ID of the last prop reconfiguration (or none when reconfiguring the
-   * props for the first time).
+   * The ID of the last prop reload (or none when reloading the props for the
+   * first time).
    */
   dynamicPropsId?: string;
 };
+
+export type ReloadComponentPropsResponse = {
+  // XXX observations
+
+  /**
+   * A list of errors that occurred during the prop reloading process.
+   */
+  errors: string[]
+
+  /**
+   * Dynamic props object containing the dynamic props ID and the dynamic
+   * configurable props for the component.
+   */
+  dynamicProps: {
+    id: string
+    configurableProps: ConfigurableProps
+  }
+}
 
 /**
  * @deprecated Use `ReloadComponentPropsOpts` instead.
@@ -333,6 +351,19 @@ export type ConfigureComponentOpts = ExternalUserId & {
   dynamicPropsId?: string;
 
   query?: string;
+
+  /**
+   * A 0 indexed page number. Use with APIs that accept a
+   * numeric page number for pagination.
+   */
+  page?: number;
+
+  /**
+   * A string representing the context for the previous options
+   * execution. Use with APIs that accept a token representing the last
+   * record for pagination.
+   */
+  prevContext?: never;
 };
 
 /**
@@ -787,14 +818,21 @@ export abstract class BaseClient {
       params.q = opts.q;
     }
     if (opts?.hasActions != null) {
-      params.has_actions = opts.hasActions ? "1" : "0";
+      params.has_actions = opts.hasActions
+        ? "1"
+        : "0";
     }
     if (opts?.hasComponents != null) {
-      params.has_components = opts.hasComponents ? "1" : "0";
+      params.has_components = opts.hasComponents
+        ? "1"
+        : "0";
     }
     if (opts?.hasTriggers != null) {
-      params.has_triggers = opts.hasTriggers ? "1" : "0";
+      params.has_triggers = opts.hasTriggers
+        ? "1"
+        : "0";
     }
+
     this.addRelationOpts(params, opts);
     return this.makeAuthorizedRequest<GetAppsResponse>(
       "/apps",
@@ -949,6 +987,8 @@ export abstract class BaseClient {
       prop_name: opts.propName,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
+      page: opts.page,
+      prev_context: opts.prevContext,
     };
     return this.makeConnectRequest<ConfigureComponentResponse>("/components/configure", {
       method: "POST",
@@ -1008,7 +1048,7 @@ export abstract class BaseClient {
       dynamic_props_id: opts.dynamicPropsId,
     };
 
-    return this.makeConnectRequest<ConfiguredProps<ConfigurableProps>>(
+    return this.makeConnectRequest<ReloadComponentPropsResponse>(
       "/components/props", {
       // TODO trigger
         method: "POST",

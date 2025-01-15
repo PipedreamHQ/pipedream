@@ -8,7 +8,7 @@ export default {
     cardId: {
       type: "string",
       label: "Card Id",
-      description: "Enter the card Id of the card which has to be updated..",
+      description: "Enter the card Id of the card which is to be updated.",
       async options({
         page, customerId, organizationId,
       }) {
@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     _apiUrl() {
-      return `${this.$auth.api_domain}/subscriptions/v1`;
+      return `${this.$auth.api_domain}/billing/v1`;
     },
     _getHeaders(organizationId = null) {
       const headers = {
@@ -157,10 +157,35 @@ export default {
 
       return axios($, clearObj(config));
     },
+    getCustomer({
+      customerId, ...args
+    }) {
+      return this._makeRequest({
+        path: `customers/${customerId}`,
+        ...args,
+      });
+    },
+    getContactPerson({
+      customerId, contactpersonId, ...args
+    }) {
+      return this._makeRequest({
+        path: `customers/${customerId}/contactpersons/${contactpersonId}`,
+        ...args,
+      });
+    },
     createCustomer(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "customers",
+        ...args,
+      });
+    },
+    updateCustomer({
+      customerId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `customers/${customerId}`,
         ...args,
       });
     },

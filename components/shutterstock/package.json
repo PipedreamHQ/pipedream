@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/shutterstock",
+  "version": "0.0.1",
+  "description": "Pipedream Shutterstock Components",
+  "main": "shutterstock.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shutterstock"
+  ],
+  "homepage": "https://pipedream.com/apps/shutterstock",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
