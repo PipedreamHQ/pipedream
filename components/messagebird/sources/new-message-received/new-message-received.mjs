@@ -12,19 +12,10 @@ export default {
     messagebird,
     http: "$.interface.http",
     db: "$.service.db",
-    organizationId: {
-      propDefinition: [
-        messagebird,
-        "organizationId",
-      ],
-    },
     workspaceId: {
       propDefinition: [
         messagebird,
         "workspaceId",
-        (c) => ({
-          organizationId: c.organizationId,
-        }),
       ],
     },
     platform: {
@@ -48,7 +39,6 @@ export default {
   hooks: {
     async activate() {
       const { id } = await this.messagebird.createWebhook({
-        organizationId: this.organizationId,
         workspaceId: this.workspaceId,
         data: {
           service: "channels",
@@ -62,7 +52,6 @@ export default {
       const hookId = this._getHookId();
       if (hookId) {
         await this.messagebird.deleteWebhook({
-          organizationId: this.organizationId,
           workspaceId: this.workspaceId,
           hookId,
         });

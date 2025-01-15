@@ -8,19 +8,10 @@ export default {
   type: "action",
   props: {
     messagebird,
-    organizationId: {
-      propDefinition: [
-        messagebird,
-        "organizationId",
-      ],
-    },
     workspaceId: {
       propDefinition: [
         messagebird,
         "workspaceId",
-        (c) => ({
-          organizationId: c.organizationId,
-        }),
       ],
     },
     channelId: {

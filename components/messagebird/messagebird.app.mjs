@@ -4,26 +4,16 @@ export default {
   type: "app",
   app: "messagebird",
   propDefinitions: {
-    organizationId: {
-      type: "string",
-      label: "Organization ID",
-      description: "The unique identifier of an organization. Found in Organization Settings",
-    },
     workspaceId: {
       type: "string",
       label: "Workspace ID",
       description: "The unique identifier of a workspace",
-      async options({
-        organizationId, prevContext,
-      }) {
-        if (!organizationId) {
-          return [];
-        }
+      async options({ prevContext }) {
         const { next: pageToken } = prevContext;
         const {
           results, nextPageToken,
         } = await this.listWorkspaces({
-          organizationId,
+          organizationId: this._organizationId(),
           params: pageToken
             ? {
               pageToken,
@@ -136,6 +126,9 @@ export default {
     _baseUrl() {
       return "https://api.bird.com";
     },
+    _organizationId() {
+      return this.$auth.organization_id;
+    },
     _makeRequest({
       $ = this,
       path,
@@ -150,28 +143,26 @@ export default {
       });
     },
     createWebhook({
-      organizationId, workspaceId, ...opts
+      workspaceId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/organizations/${organizationId}/workspaces/${workspaceId}/webhook-subscriptions`,
+        path: `/organizations/${this._organizationId()}/workspaces/${workspaceId}/webhook-subscriptions`,
         ...opts,
       });
     },
     deleteWebhook({
-      organizationId, workspaceId, hookId, ...opts
+      workspaceId, hookId, ...opts
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/organizations/${organizationId}/workspaces/${workspaceId}/webhook-subscriptions/${hookId}`,
+        path: `/organizations/${this._organizationId()}/workspaces/${workspaceId}/webhook-subscriptions/${hookId}`,
         ...opts,
       });
     },
-    listWorkspaces({
-      organizationId, ...opts
-    }) {
+    listWorkspaces(opts = {}) {
       return this._makeRequest({
-        path: `/organizations/${organizationId}/workspaces`,
+        path: `/organizations/${this._organizationId()}/workspaces`,
         ...opts,
       });
     },
