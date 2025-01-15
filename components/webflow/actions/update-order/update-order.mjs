@@ -1,22 +1,22 @@
-import webflow from "../../webflow.app.mjs";
+import app from "../../webflow.app.mjs";
 
 export default {
   key: "webflow-update-order",
   name: "Update Order",
-  description: "Update an order. [See the docs here](https://developers.webflow.com/#update-order)",
-  version: "0.0.4",
+  description: "Update an order. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/update)",
+  version: "2.0.0",
   type: "action",
   props: {
-    webflow,
+    app,
     siteId: {
       propDefinition: [
-        webflow,
+        app,
         "sites",
       ],
     },
     orderId: {
       propDefinition: [
-        webflow,
+        app,
         "orders",
       ],
     },
@@ -40,23 +40,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const apiClient = this.webflow._createApiClient();
-
     const {
-      comment,
-      shippingProvider,
-      shippingTracking,
+      app, siteId, orderId, ...data
     } = this;
 
-    const response = await apiClient.post(`/sites/${this.siteId}/order/${this.orderId}`, {
-      data: {
-        fields: {
-          comment,
-          shippingProvider,
-          shippingTracking,
-        },
-      },
-    });
+    const response = await app.updateOrder(siteId, orderId, data);
 
     $.export("$summary", "Successfully updated order");
 

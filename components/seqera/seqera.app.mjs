@@ -165,9 +165,11 @@ export default {
         ...args,
       });
     },
-    listRuns(args = {}) {
+    listWorkflows({
+      workspaceId, ...args
+    }) {
       return this._makeRequest({
-        path: "/ga4gh/wes/v1/runs",
+        path: `/workflow?workspaceId=${workspaceId}`,
         ...args,
       });
     },
@@ -177,18 +179,18 @@ export default {
       resourceName,
       max = constants.DEFAULT_MAX,
     }) {
-      let nextPageToken;
+      const params = {
+        ...resourcesFnArgs?.params,
+        max: constants.DEFAULT_LIMIT,
+        offset: 0,
+      };
       let resourcesCount = 0;
 
       while (true) {
         const response =
           await resourcesFn({
             ...resourcesFnArgs,
-            params: {
-              ...resourcesFnArgs?.params,
-              page_size: constants.DEFAULT_LIMIT,
-              page_token: nextPageToken,
-            },
+            params,
           });
 
         const nextResources = resourceName && response[resourceName] || response;
@@ -207,12 +209,12 @@ export default {
           }
         }
 
-        if (Number(response.next_page_token) === 0) {
+        if (resourcesCount >= response.totalSize) {
           console.log("No more pages found");
           return;
         }
 
-        nextPageToken = response.next_page_token;
+        params.offset += params.max;
       }
     },
     paginate(args = {}) {

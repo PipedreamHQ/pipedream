@@ -4,10 +4,10 @@ import Callout from '@/components/Callout'
 
 Events trigger workflow executions. The event that triggers your workflow depends on the trigger you select for your workflow:
 
-- [HTTP triggers](/workflows/steps/triggers/#http) invoke your workflow on HTTP requests.
-- [Cron triggers](/workflows/steps/triggers/#schedule) invoke your workflow on a time schedule (e.g., on an interval).
-- [Email triggers](/workflows/steps/triggers/#email) invoke your workflow on inbound emails.
-- [Event sources](/workflows/steps/triggers/#app-based-triggers) invoke your workflow on events from apps like Twitter, Google Calendar, and more.
+- [HTTP triggers](/workflows/triggers#http) invoke your workflow on HTTP requests.
+- [Cron triggers](/workflows/triggers#schedule) invoke your workflow on a time schedule (e.g., on an interval).
+- [Email triggers](/workflows/triggers#email) invoke your workflow on inbound emails.
+- [Event sources](/workflows/triggers#app-based-triggers) invoke your workflow on events from apps like Twitter, Google Calendar, and more.
 
 ## Selecting a test event
 
@@ -19,7 +19,7 @@ You can select any event you've previously sent to your trigger as your test eve
 
 ## Examining event data
 
-When you select an event, you'll see [the incoming event data](#event-format) and the [event context](#steps-trigger-context) for that event:
+When you select an event, you'll see [the incoming event data](#event-format) and the [event context](#stepstriggercontext) for that event:
 
 ![The event and context in a trigger initiation](https://res.cloudinary.com/pipedreamin/image/upload/v1648759141/docs/components/CleanShot_2022-03-31_at_16.30.37_jwwwdy.png)
 
@@ -86,7 +86,7 @@ You can use the data in `steps.trigger.context` to uniquely identify the Pipedre
 | `deployment_id`    |                                      A globally-unique string representing the current version of the workflow                                       |
 | `emitter_id`       |                            The ID of the workflow trigger that emitted this event, e.g. the [event source](/sources) ID.                             |
 | `id`               |                                  A unique, Pipedream-provided identifier for the event that triggered this workflow                                  |
-| `owner_id`         |                        The Pipedream-assigned [workspace ID](/workspaces/#finding-your-workspace-s-id) that owns the workflow                        |
+| `owner_id`         |                        The Pipedream-assigned [workspace ID](/workspaces/#finding-your-workspaces-id) that owns the workflow                        |
 | `platform_version` |                                         The version of the Pipedream execution environment this event ran on                                         |
 | `replay`           |                                                 A boolean, whether the event was replayed via the UI                                                 |
 | `trace_id`         | Holds the same value for all executions tied to an original event. [See below for more details](#how-do-i-retrieve-the-execution-id-for-a-workflow). |
@@ -115,7 +115,7 @@ Other paid plans have longer retention. [See the pricing page](https://pipedream
 
 Events are also stored in [event history](/event-history) for up to 30 days, depending on your plan. [See the pricing page](https://pipedream.com/pricing) for the retention on your plan.
 
-Events that are [delayed](/workflows/flow-control#delay) or [suspended](/glossary#suspend) are retained for the duration of the delay. After the delay, the workflow is executed, and the event data is retained according to the rules above.
+Events that are [delayed](/workflows/control-flow/delay) or [suspended](/glossary#suspend) are retained for the duration of the delay. After the delay, the workflow is executed, and the event data is retained according to the rules above.
 
 <Callout type="info">
 For an extended history of events across all of your workflows, included processed events, with the ability to filter by status and time range, please see the [Event History](/event-history/).

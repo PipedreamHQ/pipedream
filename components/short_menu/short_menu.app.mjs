@@ -1,11 +1,31 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "short_menu",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.shortmenu.com";
+    },
+    _makeRequest({
+      $ = this,
+      path,
+      ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          "x-api-key": `${this.$auth.api_key}`,
+        },
+        ...opts,
+      });
+    },
+    createShortLink(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/links",
+        ...opts,
+      });
     },
   },
 };

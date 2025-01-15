@@ -9,7 +9,7 @@ export default {
   key: "notion-updated-page",
   name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -37,6 +37,11 @@ export default {
       ],
       description: "Only emit events when one or more of the selected properties have changed",
       optional: true,
+    },
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Source not saving? Your database might be too large. If deployment takes longer than one minute, an error will occur.",
     },
   },
   hooks: {

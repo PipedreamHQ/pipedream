@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/zoho_books",
+  "version": "0.2.0",
+  "description": "Pipedream Zoho Books Components",
+  "main": "zoho_books.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_books"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_books",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

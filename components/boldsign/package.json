@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/boldsign",
+  "version": "0.1.0",
+  "description": "Pipedream BoldSign Components",
+  "main": "boldsign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "boldsign"
+  ],
+  "homepage": "https://pipedream.com/apps/boldsign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

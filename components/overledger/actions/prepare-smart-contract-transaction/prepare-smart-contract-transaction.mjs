@@ -8,10 +8,16 @@ export default {
   key: "overledger-prepare-smart-contract-transaction",
   name: "Prepare Smart Contract Transaction",
   description: "Prepares a smart contract transaction for signing on the Overledger platform. [See the documentation](https://developers.quant.network/reference/preparesmartcontractwrite)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     overledger,
+    environment: {
+      propDefinition: [
+        overledger,
+        "environment",
+      ],
+    },
     locationTechnology: {
       type: "string",
       label: "Location Technology",
@@ -22,18 +28,18 @@ export default {
     signingAccountId: {
       type: "string",
       label: "Signing Account ID",
-      description: "The blockchain account that will sign the transaction.",
+      description: "The blockchain account ID/address that will be sending this transaction",
+    },
+    smartContractId: {
+      type: "string",
+      label: "Smart Contract ID",
+      description: "The ID/address of the smart contract to interact with.",
+
     },
     functionName: {
       type: "string",
       label: "Function Name",
       description: "The name of the function to call on the smart contract.",
-    },
-    smartContractId: {
-      propDefinition: [
-        overledger,
-        "smartContractId",
-      ],
     },
     inputParameters: {
       type: "string[]",
@@ -55,18 +61,21 @@ export default {
     return props;
   },
   async run({ $ }) {
+    const requestBody = {
+      location: {
+        technology: this.locationTechnology,
+        network: this.locationNetwork,
+      },
+      signingAccountId: this.signingAccountId,
+      functionName: this.functionName,
+      smartContractId: this.smartContractId,
+      inputParameters: parseObject(this.inputParameters), //parse these values using the parseObject function at this shouls turn the JSON string into JSON objects to used in the request body.
+    };
+
     const response = await this.overledger.prepareSmartContractTransaction({
       $,
-      data: {
-        location: {
-          technology: this.locationTechnology,
-          network: this.locationNetwork,
-        },
-        signingAccountId: this.signingAccountId,
-        functionName: this.functionName,
-        smartContractId: this.smartContractId,
-        inputParameters: this.inputParameters && parseObject(this.inputParameters),
-      },
+      environment: this.environment,
+      data: requestBody,
     });
     $.export("$summary", "Smart contract transaction prepared successfully");
     return response;

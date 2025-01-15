@@ -6,7 +6,7 @@ export default {
   key: "attio-new-record-created-instant",
   name: "New Record Created (Instant)",
   description: "Emit new event when new record, such as person, company or deal gets created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

@@ -7,28 +7,32 @@ export default {
   name: "New Subtask Created",
   description: "Emit new event when a subtask is created",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     ...base.props,
-    taskId: {
+    taskIds: {
       propDefinition: [
         base.props.wrike,
         "taskId",
-        (c) => ({
-          folderId: c.folderId,
-          spaceId: c.spaceId,
-        }),
       ],
-      description: "Receive notifications for subtasks of a task",
+      type: "string[]",
+      label: "Task IDs",
+      description: "Receive notifications for subtasks of the specified task(s)",
+      optional: true,
     },
   },
   hooks: {
     ...base.hooks,
     async deploy() {
       console.log("Retrieving historical events...");
-      const subtasks = await this.wrike.getSubtasks({
-        taskId: this.taskId,
-      });
+      const taskIds = this.taskIds || (await this.wrike.listTasks({}))?.map(({ id }) => id) || [];
+      const subtasks = [];
+      for (const taskId of taskIds) {
+        const taskSubtasks = await this.wrike.getSubtasks({
+          taskId,
+        });
+        subtasks.push(...taskSubtasks);
+      }
       for (const subtask of subtasks.slice(-constants.DEPLOY_LIMIT)) {
         this.emitEvent(subtask);
       }
@@ -55,7 +59,7 @@ export default {
       const task = await this.wrike.getTask({
         taskId: data.taskId,
       });
-      if (task.superTaskIds.includes(this.taskId)) {
+      if (!this.taskIds || task.superTaskIds.some((id) => this.taskIds.includes(id))) {
         this.emitEvent(task);
       }
     }

@@ -1,15 +1,16 @@
-import sftpApp from "../../sftp.app.mjs";
+import { createHash } from "crypto";
+import app from "../../sftp.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "sftp-watch-remote-directory",
   name: "New Remote Directory Watcher",
   description: "Emit new events when files get created, changed or deleted from a remote directory. [See the docs](https://github.com/theophilusx/ssh2-sftp-client#orgfac43d1)",
-  version: "0.0.4",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   props: {
-    sftpApp,
+    app,
     timer: {
       type: "$.interface.timer",
       default: {
@@ -121,9 +122,13 @@ export default {
       }
     },
     getEventId(event) {
-      return `${event.event}|${event.path}|${event.size}|${event.modifyTime}`;
+      return createHash("md5")
+        .update(event.path + event.modifyTime)
+        .digest("hex");
     },
     emitEvents(events) {
+      // sort events by modification time in ascending order
+      events.sort((a, b) => a.modifyTime - b.modifyTime);
       for (const fileChangeEvent of events) {
         this.$emit(fileChangeEvent, {
           id: this.getEventId(fileChangeEvent),
@@ -132,17 +137,11 @@ export default {
         });
       }
     },
-    async connect() {
-      return await this.sftpApp.connect();
-    },
-    async disconnect(sftp) {
-      await sftp.end();
-    },
   },
   async run() {
     this.validateRootDirectory(this.rootDirectory);
 
-    const sftp = await this.connect();
+    const sftp = await this.app.connect();
 
     let directories = [
       {
@@ -159,6 +158,6 @@ export default {
     this.emitEvents(filesChangesWithEvent);
 
     this.setFiles(currentFiles);
-    await this.disconnect(sftp);
+    await this.app.disconnect(sftp);
   },
 };

@@ -1,44 +1,24 @@
-import constants from "../../common/constants.mjs";
 import common from "../common/common.mjs";
 
 export default {
   type: "source",
   key: "webflow-new-site-published",
-  name: "New Site Published",
-  description: "Emit new event when a site is published. [See the docs here](https://developers.webflow.com/#trigger-types)",
-  version: "0.2.3",
+  name: "Site Published",
+  description: "Emit new event when a site is published. [See the documentation](https://developers.webflow.com/data/reference/webhooks/events/site-publish)",
+  version: "2.0.0",
   ...common,
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      console.log("Retrieving historical events...");
-
-      const sites = await this._makeRequest("/sites", {
-        limit: this.historicalEventsNumber,
-      });
-
-      const filtered = sites.filter((site) => site.lastPublished);
-      const sliced = filtered.slice(
-        filtered.length - constants.DEPLOY_OFFSET,
-        constants.DEPLOY_OFFSET,
-      );
-      const sorted = sliced.sort((a, b) => Date.parse(a.lastPublished) > Date.parse(b.lastPublished)
-        ? -1
-        : 1);
-
-      this.emitHistoricalEvents(sorted);
-    },
-  },
   methods: {
     ...common.methods,
     getWebhookTriggerType() {
       return "site_publish";
     },
-    generateMeta(data) {
+    generateMeta({
+      siteId, publishedOn,
+    }) {
       return {
-        id: `${data.site}-${data.publishTime}`,
-        summary: `The site ${data.site} has been published.`,
-        ts: data.publishTime,
+        id: `${siteId}-${publishedOn}`,
+        summary: `Site published: ${siteId}`,
+        ts: Date.parse(publishedOn),
       };
     },
   },

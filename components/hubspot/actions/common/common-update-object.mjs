@@ -19,6 +19,11 @@ export default {
         }));
       },
     },
+    objectProperties: {
+      type: "object",
+      label: "Object Properties",
+      description: "Enter the object properties to update as a JSON object",
+    },
   },
   methods: {
     ...common.methods,
@@ -32,11 +37,19 @@ export default {
       hubspot,
       /* eslint-disable no-unused-vars */
       propertyGroups,
+      customObjectType,
       $db,
       objectId,
-      ...properties
+      objectProperties,
+      ...otherProperties
     } = this;
     const objectType = this.getObjectType();
+
+    const properties = objectProperties
+      ? typeof objectProperties === "string"
+        ? JSON.parse(objectProperties)
+        : objectProperties
+      : otherProperties;
 
     // checkbox (string[]) props must be semicolon separated strings
     Object.keys(properties)

@@ -1,18 +1,19 @@
 {
   "name": "@pipedream/docusign_developer",
-  "version": "0.1.3",
+  "version": "0.2.1",
   "description": "Pipedream Docusign_developer Components",
-  "main": "docusign_developer.app.js",
+  "main": "docusign_developer.app.mjs",
   "keywords": [
     "pipedream",
     "docusign_developer"
   ],
   "homepage": "https://pipedream.com/apps/docusign_developer",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
-  "dependencies": {
-    "@pipedream/platform": "^1.1.1"
-  },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/docusign": "^0.2.1",
+    "@pipedream/platform": "^3.0.3"
   }
 }

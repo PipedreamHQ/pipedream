@@ -3,8 +3,8 @@ import calendly from "../../calendly_v2.app.mjs";
 export default {
   key: "calendly_v2-list-events",
   name: "List Events",
-  description: "List events for an user. [See the docs](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEy-list-events)",
-  version: "0.0.3",
+  description: "List events for an user. [See the documentation](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEy-list-events)",
+  version: "0.0.4",
   type: "action",
   props: {
     calendly,
@@ -22,7 +22,7 @@ export default {
           organization: c.organization,
         }),
       ],
-      description: "Returns events for a specified user, or leave blank for your own events",
+      description: "Returns events for a specified user",
       optional: true,
     },
     inviteeEmail: {
@@ -52,7 +52,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {};
+    const params = {
+      organization: this.organization,
+    };
     if (this.inviteeEmail) params.invitee_email = this.inviteeEmail;
     if (this.status) params.status = this.status;
     if (this.paginate) params.paginate = this.paginate;
