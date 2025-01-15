@@ -738,8 +738,8 @@ export abstract class BaseClient {
     };
 
     return this.makeRequest(path, {
-      headers,
       ...opts,
+      headers,
     });
   }
 

@@ -110,6 +110,19 @@ export type GetAccountByIdOpts = {
 };
 
 /**
+ * Parameters for the retrieval of an account from the Connect API
+ */
+export type MakeProxyRequestOpts = {
+  /**
+   * Whether to retrieve the account's credentials or not.
+   */
+  method: string;
+  headers: Record<string, string>;
+  //headers: Record<string, string>;
+  body: any
+};
+
+/**
  * Creates a new instance of BackendClient with the provided options.
  *
  * @example
@@ -350,14 +363,24 @@ export class BackendClient extends BaseClient {
       method: "GET",
     });
   }
-  public getProxyRequest(url: string, method: string, body: string, params: any): Promise<ProjectInfoResponse> {
+  //public getProxyRequest(url: string, method: string, body: string, params: any): Promise<ProjectInfoResponse> {
+  public makeProxyRequest(url: string, query: any, opts: MakeProxyRequestOpts): Promise<ProjectInfoResponse> {
     const url64 = btoa(url).replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=+$/, "");
-    return this.makeConnectRequest(`/proxy/${url64}`, {
-      method,
-      body,
-      params,
-    });
+
+    const newHeaders = Object.keys(opts.headers).reduce<{ [key: string]: string }>((acc, key) => {
+      acc[`x-pd-proxy-${key}`] = opts.headers[key];
+      return acc;
+    }, {});
+
+    const newOpts = {
+      method: opts.method,
+      body: opts.body,
+      headers: newHeaders,
+      params: query,
+    }
+
+    return this.makeConnectRequest(`/proxy/${url64}`, newOpts);
   }
 }
