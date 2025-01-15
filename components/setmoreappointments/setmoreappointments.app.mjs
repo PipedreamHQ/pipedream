@@ -114,16 +114,16 @@ export default {
       params,
       resourceKey,
     }) {
-      let total;
       do {
-        const { data } = await resourceFn(params);
+        const { data } = await resourceFn({
+          params,
+        });
         const items = data[resourceKey];
         for (const item of items) {
           yield item;
         }
-        total = items?.length;
         params.cursor = data.cursor;
-      } while (total);
+      } while (params.cursor);
     },
   },
 };

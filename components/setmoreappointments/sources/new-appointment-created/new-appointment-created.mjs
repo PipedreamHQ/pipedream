@@ -1,11 +1,12 @@
 import setmore from "../../setmoreappointments.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "setmoreappointments-new-appointment-created",
   name: "New Appointment Created",
   description: "Emit new event when a new appointment is created in Setmore. [See the documentation](https://setmore.docs.apiary.io/#introduction/appointments/fetch-appointments-by-date-range)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -42,6 +43,11 @@ export default {
       const now = new Date();
       return this.formatDate(now);
     },
+    getYearFromNow() {
+      const now = new Date();
+      now.setFullYear(now.getFullYear() + 1);
+      return this.formatDate(now);
+    },
     formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
       const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -58,7 +64,7 @@ export default {
   },
   async run() {
     const startDate = this._getLastDate();
-    const endDate = this.getToday();
+    const endDate = this.getYearFromNow();
 
     const appointments = this.setmore.paginate({
       resourceFn: this.setmore.listAppointments,
@@ -72,10 +78,11 @@ export default {
     });
 
     for await (const appointment of appointments) {
-      const meta = this.generateMeta();
+      const meta = this.generateMeta(appointment);
       this.$emit(appointment, meta);
     }
 
-    this._setLastDate(endDate);
+    this._setLastDate(this.getToday());
   },
+  sampleEmit,
 };
