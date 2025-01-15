@@ -63,9 +63,9 @@ export default {
     const lineItems = [];
     for (let i = 1; i <= this.numLineItems; i++) {
       lineItems.push({
-        unitPrice: this[`line_items_${i}_unit_price`],
-        quantity: this[`line_items_${i}_quantity`],
-        description: this[`line_items_${i}_description`],
+        unitPrice: this[`line_item_${i}_unit_price`],
+        quantity: this[`line_item_${i}_quantity`],
+        description: this[`line_item_${i}_description`],
       });
     }
 
