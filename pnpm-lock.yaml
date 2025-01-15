@@ -11508,6 +11508,9 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
+  components/vonage:
+    specifiers: {}
+
   components/vosfactures: {}
 
   components/vryno:
