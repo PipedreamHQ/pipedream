@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/youtube_analytics_api",
+  "version": "0.0.1",
+  "description": "Pipedream Youtube Analytics API Components",
+  "main": "youtube_analytics_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "youtube_analytics_api"
+  ],
+  "homepage": "https://pipedream.com/apps/youtube_analytics_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}
