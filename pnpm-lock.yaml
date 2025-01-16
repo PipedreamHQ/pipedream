@@ -1554,8 +1554,7 @@ importers:
 
   components/calllerapi: {}
 
-  components/callminer:
-    specifiers: {}
+  components/callminer: {}
 
   components/callpage:
     dependencies:
@@ -6033,8 +6032,7 @@ importers:
 
   components/logistia_route_planner: {}
 
-  components/logo_dev:
-    specifiers: {}
+  components/logo_dev: {}
 
   components/logoraisr: {}
 
