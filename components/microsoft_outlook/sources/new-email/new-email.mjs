@@ -7,7 +7,7 @@ export default {
   key: "microsoft_outlook-new-email",
   name: "New Email Event (Instant)",
   description: "Emit new event when an email is received in specified folders.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "source",
   dedupe: "unique",
   props: {
@@ -63,8 +63,8 @@ export default {
     },
     async getFolderIdByName(name) {
       const { value: folders } = await this.listFolders();
-      const { id } = folders.find(({ displayName }) => displayName === name);
-      return id;
+      const folder = folders.find(({ displayName }) => displayName === name);
+      return folder?.id;
     },
     async getSampleEvents({ pageSize }) {
       const folders = this.folderIds?.length
