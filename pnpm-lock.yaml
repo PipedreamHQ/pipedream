@@ -1554,6 +1554,9 @@ importers:
 
   components/calllerapi: {}
 
+  components/callminer:
+    specifiers: {}
+
   components/callpage:
     dependencies:
       '@pipedream/platform':
