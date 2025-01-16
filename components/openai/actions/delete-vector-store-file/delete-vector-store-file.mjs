@@ -4,7 +4,7 @@ export default {
   key: "openai-delete-vector-store-file",
   name: "Delete Vector Store File",
   description: "Deletes a vector store file. [See the documentation](https://platform.openai.com/docs/api-reference/vector-stores-files/deleteFile)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     openai,
