@@ -1,54 +1,26 @@
-import ocrspace from "../../ocrspace.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/process-base.mjs";
 
 export default {
+  ...common,
   key: "ocrspace-process-pdf",
   name: "Process PDF for OCR",
-  description: "Submit a PDF for OCR processing. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Submit a PDF for OCR processing. [See the documentation](https://ocr.space/ocrapi)",
+  version: "0.0.1",
   type: "action",
   props: {
-    ocrspace: {
-      type: "app",
-      app: "ocrspace",
-    },
-    pdfUrl: {
+    ...common.props,
+    file: {
       propDefinition: [
-        ocrspace,
-        "pdfUrl",
+        common.props.ocrspace,
+        "file",
       ],
-    },
-    pdfFile: {
-      propDefinition: [
-        ocrspace,
-        "pdfFile",
-      ],
-    },
-    pdfLanguage: {
-      propDefinition: [
-        ocrspace,
-        "pdfLanguage",
-      ],
-      optional: true,
-    },
-    pdfPages: {
-      propDefinition: [
-        ocrspace,
-        "pdfPages",
-      ],
-      optional: true,
+      label: "PDF File",
+      description: "The URL of the PDF file or the path to the file saved to the `/tmp` directory  (e.g. `/tmp/example.jpg`)  to process. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
   },
-  async run({ $ }) {
-    const response = await this.ocrspace.submitPdf({
-      pdfUrl: this.pdfUrl,
-      pdfFile: this.pdfFile,
-      pdfLanguage: this.pdfLanguage,
-      pdfPages: this.pdfPages,
-    });
-
-    const jobId = response.JobId || response.jobId || "N/A";
-    $.export("$summary", `Submitted PDF for OCR processing. Job ID: ${jobId}`);
-    return response;
+  methods: {
+    getSummary() {
+      return "Submitted PDF for OCR processing.";
+    },
   },
 };

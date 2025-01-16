@@ -1,363 +1,90 @@
 import { axios } from "@pipedream/platform";
-import FormData from "form-data";
+import {
+  IMAGE_FILETYPE_OPTIONS,
+  LANGUAGE_OPTIONS,
+  OCR_ENGINE_OPTIONS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "ocrspace",
-  version: "0.0.{{ts}}",
   propDefinitions: {
-    webhookUrl: {
+    file: {
       type: "string",
-      label: "Webhook URL",
-      description: "The URL to receive notifications of completed OCR processing.",
+      label: "Image",
+      description: "The URL of the image or the path to the file saved to the `/tmp` directory  (e.g. `/tmp/example.jpg`)  to process. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
-    monitoredFolder: {
+    language: {
       type: "string",
-      label: "Monitored Folder",
-      description: "Optional folder to monitor for new file uploads.",
+      label: "Language",
+      description: "Language setting for image OCR processing.",
+      options: LANGUAGE_OPTIONS,
       optional: true,
     },
-    processingQueue: {
+    isOverlayRequired: {
+      type: "boolean",
+      label: "Is Overlay Required",
+      description: "If true, returns the coordinates of the bounding boxes for each word. If false, the OCR'ed text is returned only as a text block (this makes the JSON reponse smaller). Overlay data can be used, for example, to show [text over the image](https://ocr.space/english).",
+      optional: true,
+    },
+    filetype: {
       type: "string",
-      label: "Processing Queue",
-      description: "Optional processing queue to monitor for new file uploads.",
+      label: "File Type",
+      description: "Overwrites the automatic file type detection based on content-type. Supported image file formats are png, jpg (jpeg), gif, tif (tiff) and bmp. For document ocr, the api supports the Adobe PDF format. Multi-page TIFF files are supported.",
+      options: IMAGE_FILETYPE_OPTIONS,
       optional: true,
     },
-    imageUrl: {
+    detectOrientation: {
+      type: "boolean",
+      label: "Detect Orientation",
+      description: "If set to true, the api autorotates the image correctly and sets the TextOrientation parameter in the JSON response. If the image is not rotated, then TextOrientation=0, otherwise it is the degree of the rotation, e. g. \"270\".",
+      optional: true,
+    },
+    scale: {
+      type: "boolean",
+      label: "Scale",
+      description: "If set to true, the api does some internal upscaling. This can improve the OCR result significantly, especially for low-resolution PDF scans. Note that the front page demo uses scale=true, but the API uses scale=false by default. See also this OCR forum post.",
+      optional: true,
+    },
+    isTable: {
+      type: "boolean",
+      label: "Is Table",
+      description: "If set to true, the OCR logic makes sure that the parsed text result is always returned line by line. This switch is recommended for [table OCR](https://ocr.space/tablerecognition), [receipt OCR](https://ocr.space/receiptscanning), invoice processing and all other type of input documents that have a table like structure.",
+      optional: true,
+    },
+    ocrEngine: {
       type: "string",
-      label: "Image File URL",
-      description: "The URL of the image file to submit for OCR processing.",
+      label: "OCR Engine",
+      description: "Engine 1 is default. [See OCR Engines](https://ocr.space/OCRAPI#ocrengine).",
+      options: OCR_ENGINE_OPTIONS,
       optional: true,
-    },
-    imageFile: {
-      type: "file",
-      label: "Image File Upload",
-      description: "The image file to submit for OCR processing.",
-      optional: true,
-    },
-    imageLanguage: {
-      type: "string",
-      label: "Image Language",
-      description: "Optional language setting for image OCR processing.",
-      optional: true,
-      options: [
-        {
-          label: "Arabic",
-          value: "ara",
-        },
-        {
-          label: "Bulgarian",
-          value: "bul",
-        },
-        {
-          label: "Chinese (Simplified)",
-          value: "chs",
-        },
-        {
-          label: "Chinese (Traditional)",
-          value: "cht",
-        },
-        {
-          label: "Croatian",
-          value: "hrv",
-        },
-        {
-          label: "Czech",
-          value: "cze",
-        },
-        {
-          label: "Danish",
-          value: "dan",
-        },
-        {
-          label: "Dutch",
-          value: "dut",
-        },
-        {
-          label: "English",
-          value: "eng",
-        },
-        {
-          label: "Finnish",
-          value: "fin",
-        },
-        {
-          label: "French",
-          value: "fre",
-        },
-        {
-          label: "German",
-          value: "ger",
-        },
-        {
-          label: "Greek",
-          value: "gre",
-        },
-        {
-          label: "Hungarian",
-          value: "hun",
-        },
-        {
-          label: "Korean",
-          value: "kor",
-        },
-        {
-          label: "Italian",
-          value: "ita",
-        },
-        {
-          label: "Japanese",
-          value: "jpn",
-        },
-        {
-          label: "Polish",
-          value: "pol",
-        },
-        {
-          label: "Portuguese",
-          value: "por",
-        },
-        {
-          label: "Russian",
-          value: "rus",
-        },
-        {
-          label: "Slovenian",
-          value: "slv",
-        },
-        {
-          label: "Spanish",
-          value: "spa",
-        },
-        {
-          label: "Swedish",
-          value: "swe",
-        },
-        {
-          label: "Turkish",
-          value: "tur",
-        },
-      ],
-    },
-    pdfUrl: {
-      type: "string",
-      label: "PDF File URL",
-      description: "The URL of the PDF file to submit for OCR processing.",
-      optional: true,
-    },
-    pdfFile: {
-      type: "file",
-      label: "PDF File Upload",
-      description: "The PDF file to submit for OCR processing.",
-      optional: true,
-    },
-    pdfLanguage: {
-      type: "string",
-      label: "PDF Language",
-      description: "Optional language setting for PDF OCR processing.",
-      optional: true,
-      options: [
-        {
-          label: "Arabic",
-          value: "ara",
-        },
-        {
-          label: "Bulgarian",
-          value: "bul",
-        },
-        {
-          label: "Chinese (Simplified)",
-          value: "chs",
-        },
-        {
-          label: "Chinese (Traditional)",
-          value: "cht",
-        },
-        {
-          label: "Croatian",
-          value: "hrv",
-        },
-        {
-          label: "Czech",
-          value: "cze",
-        },
-        {
-          label: "Danish",
-          value: "dan",
-        },
-        {
-          label: "Dutch",
-          value: "dut",
-        },
-        {
-          label: "English",
-          value: "eng",
-        },
-        {
-          label: "Finnish",
-          value: "fin",
-        },
-        {
-          label: "French",
-          value: "fre",
-        },
-        {
-          label: "German",
-          value: "ger",
-        },
-        {
-          label: "Greek",
-          value: "gre",
-        },
-        {
-          label: "Hungarian",
-          value: "hun",
-        },
-        {
-          label: "Korean",
-          value: "kor",
-        },
-        {
-          label: "Italian",
-          value: "ita",
-        },
-        {
-          label: "Japanese",
-          value: "jpn",
-        },
-        {
-          label: "Polish",
-          value: "pol",
-        },
-        {
-          label: "Portuguese",
-          value: "por",
-        },
-        {
-          label: "Russian",
-          value: "rus",
-        },
-        {
-          label: "Slovenian",
-          value: "slv",
-        },
-        {
-          label: "Spanish",
-          value: "spa",
-        },
-        {
-          label: "Swedish",
-          value: "swe",
-        },
-        {
-          label: "Turkish",
-          value: "tur",
-        },
-      ],
-    },
-    pdfPages: {
-      type: "string",
-      label: "PDF Pages",
-      description: "Optional specific pages to process in the PDF file.",
-      optional: true,
-    },
-    jobId: {
-      type: "string",
-      label: "Job ID",
-      description: "The Job ID to retrieve the processed OCR result.",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.ocr.space";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $, method = "POST", path = "/parse/image", headers, ...otherOpts
-      } = opts;
+    _headers(headers = {}) {
+      return {
+        "apikey": this.$auth.apikey,
+        ...headers,
+      };
+    },
+    _makeRequest({
+      $ = this, path, headers, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          apikey: this.$auth.apikey,
-        },
+        headers: this._headers(headers),
+        ...opts,
       });
     },
-    async submitImage(opts = {}) {
-      const {
-        imageUrl, imageFile, imageLanguage,
-      } = opts;
-      const formData = new FormData();
-      if (imageUrl) {
-        formData.append("url", imageUrl);
-      }
-      if (imageFile) {
-        formData.append("file", imageFile);
-      }
-      formData.append("isOverlayRequired", false);
-      if (imageLanguage) {
-        formData.append("language", imageLanguage);
-      }
+    processImage(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/parse/image",
-        method: "POST",
-        data: formData,
-        headers: formData.getHeaders(),
+        ...opts,
       });
-    },
-    async submitPdf(opts = {}) {
-      const {
-        pdfUrl, pdfFile, pdfLanguage, pdfPages,
-      } = opts;
-      const formData = new FormData();
-      if (pdfUrl) {
-        formData.append("url", pdfUrl);
-      }
-      if (pdfFile) {
-        formData.append("file", pdfFile);
-      }
-      formData.append("isOverlayRequired", false);
-      if (pdfLanguage) {
-        formData.append("language", pdfLanguage);
-      }
-      if (pdfPages) {
-        formData.append("pages", pdfPages);
-      }
-      return this._makeRequest({
-        path: "/parse/image",
-        method: "POST",
-        data: formData,
-        headers: formData.getHeaders(),
-      });
-    },
-    async retrieveOcrResult(opts = {}) {
-      const { jobId } = opts;
-      const path = `/parse/image/${jobId}`;
-      return this._makeRequest({
-        path,
-        method: "GET",
-      });
-    },
-    async emitOcrJobCompleted(data) {
-      const { webhookUrl } = this;
-      await axios(this, {
-        method: "POST",
-        url: webhookUrl,
-        data,
-      });
-    },
-    async emitNewFileUploaded(data) {
-      const { webhookUrl } = this;
-      await axios(this, {
-        method: "POST",
-        url: webhookUrl,
-        data,
-      });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
