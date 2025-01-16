@@ -1,4 +1,10 @@
 import { axios } from "@pipedream/platform";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 500, // 2 requests per second
+  maxConcurrent: 1,
+});
+const axiosRateLimiter = limiter.wrap(axios);
 
 export default {
   type: "app",
@@ -13,26 +19,22 @@ export default {
       headers,
       ...otherOpts
     }) {
-      return axios($ || this, {
+      const config = {
         url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
         ...otherOpts,
-      });
+      };
+      return axiosRateLimiter($, config);
     },
-    createWebhook(opts = {}) {
+    getFolder({
+      folderPath, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/webhooks",
+        path: `/fs/${folderPath}`,
         ...opts,
-      });
-    },
-    deleteWebhook({ hookId }) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/webhooks/${hookId}`,
       });
     },
     createFolder({ folderPath }) {

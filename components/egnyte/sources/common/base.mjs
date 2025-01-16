@@ -1,66 +1,80 @@
 import egnyte from "../../egnyte.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   props: {
     egnyte,
     db: "$.service.db",
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
-    folderPaths: {
-      type: "string[]",
-      label: "Folder Paths",
-      description: "An array of folder paths (example: `/Shared/Documents`) to watch for updates. You may specify up to 100 paths.",
-    },
-  },
-  hooks: {
-    async activate() {
-      const { webhookId } = await this.egnyte.createWebhook({
-        data: {
-          url: this.http.endpoint,
-          eventType: this.getEventType(),
-          path: this.folderPaths.join(","),
-        },
-      });
-      this._setHookId(webhookId);
-    },
-    async deactivate() {
-      const hookId = this._getHookId();
-      if (hookId) {
-        await this.egnyte.deleteWebhook({
-          hookId,
-        });
-      }
+    folderPath: {
+      type: "string",
+      label: "Folder Path",
+      description: "The folder path (example: `/Shared/Documents`) to watch for updates.",
     },
   },
   methods: {
-    _getHookId() {
-      return this.db.get("hookId");
+    _getLastTs() {
+      return this.db.get("lastTs") || 0;
     },
-    _setHookId(hookId) {
-      this.db.set("hookId", hookId);
+    _setLastTs(lastTs) {
+      this.db.set("lastTs", lastTs);
+    },
+    getResourceType() {
+      throw new Error("getResourceType is not implemented");
     },
     generateMeta() {
       throw new Error("generateMeta is not implemented");
     },
-    getEventType() {
-      throw new Error("getEventType is not implemented");
-    },
   },
-  async run(event) {
-    this.http.respond({
-      status: 200,
-    });
+  async run() {
+    const lastTs = this._getLastTs();
+    let maxTs = lastTs;
+    const resourceType = this.getResourceType();
 
-    const { body } = event;
-    if (!body || !body?.length) {
-      return;
-    }
+    // Recursively process folder and subfolders
+    const processFolder = async (folderPath) => {
+      const results = await this.egnyte.getFolder({
+        folderPath,
+        params: {
+          sort_by: "last_modified",
+          sort_direction: "descending",
+        },
+      });
 
-    for (const item of body) {
-      const meta = this.generateMeta(item); console.log(meta);
-      this.$emit(item, meta);
-    }
+      const items = results[resourceType];
+      if (!items?.length) {
+        return;
+      }
+      const newItems = [];
+
+      for (const item of items) {
+        const ts = item.uploaded;
+        if (ts >= lastTs) {
+          newItems.push(item);
+          maxTs = Math.max(ts, maxTs);
+        }
+      }
+
+      const folders = results.folders;
+      if (folders?.length) {
+        for (const folder of folders) {
+          await processFolder(folder.path);
+        }
+      }
+
+      newItems.reverse().forEach((item) => {
+        const meta = this.generateMeta(item);
+        this.$emit(item, meta);
+      });
+    };
+
+    await processFolder(this.folderPath);
+
+    this._setLastTs(maxTs);
   },
 };
