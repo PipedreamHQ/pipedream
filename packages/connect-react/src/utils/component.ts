@@ -97,12 +97,11 @@ export function stringPropErrors(opts: ValidationOpts<ConfigurablePropString>): 
   const _value = valueFromOption(opts.value)
 
   if (!opts.prop.default) {
-    if (typeof _value === "undefined" || _value == null) return [
-      "required",
-    ]
-    if (!String(_value).length) return [
-      "string must not be empty",
-    ]
+    if (typeof _value === "undefined" || _value == null) {
+      return [
+        "required",
+      ]
+    }
   }
 }
 
