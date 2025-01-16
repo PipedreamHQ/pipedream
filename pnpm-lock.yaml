@@ -6027,6 +6027,9 @@ importers:
 
   components/logistia_route_planner: {}
 
+  components/logo_dev:
+    specifiers: {}
+
   components/logoraisr: {}
 
   components/logsnag: {}
