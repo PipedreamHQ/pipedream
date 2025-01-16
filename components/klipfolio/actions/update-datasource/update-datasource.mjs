@@ -44,7 +44,9 @@ export default {
         refresh_interval: parseInt(this.refreshInterval, 10),
       },
     });
+
     $.export("$summary", `Successfully updated Datasource named '${this.name}'`);
+
     return response;
   },
 };
