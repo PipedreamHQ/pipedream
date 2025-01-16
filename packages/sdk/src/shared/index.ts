@@ -276,7 +276,7 @@ export type Account = {
 };
 
 /**
- * The request options for reconfiguring a component's props when dealing with
+ * The request options for reloading a component's props when dealing with
  * dynamic props.
  */
 export type ReloadComponentPropsOpts = ExternalUserId & {
@@ -294,11 +294,29 @@ export type ReloadComponentPropsOpts = ExternalUserId & {
   configuredProps: ConfiguredProps<ConfigurableProps>;
 
   /**
-   * The ID of the last prop reconfiguration (or none when reconfiguring the
-   * props for the first time).
+   * The ID of the last prop reload (or none when reloading the props for the
+   * first time).
    */
   dynamicPropsId?: string;
 };
+
+export type ReloadComponentPropsResponse = {
+  // XXX observations
+
+  /**
+   * A list of errors that occurred during the prop reloading process.
+   */
+  errors: string[]
+
+  /**
+   * Dynamic props object containing the dynamic props ID and the dynamic
+   * configurable props for the component.
+   */
+  dynamicProps: {
+    id: string
+    configurableProps: ConfigurableProps
+  }
+}
 
 /**
  * @deprecated Use `ReloadComponentPropsOpts` instead.
@@ -1030,7 +1048,7 @@ export abstract class BaseClient {
       dynamic_props_id: opts.dynamicPropsId,
     };
 
-    return this.makeConnectRequest<ConfiguredProps<ConfigurableProps>>(
+    return this.makeConnectRequest<ReloadComponentPropsResponse>(
       "/components/props", {
       // TODO trigger
         method: "POST",

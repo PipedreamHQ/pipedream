@@ -349,7 +349,7 @@ export default {
       const models = await this.models({
         $,
       });
-      return models.filter((model) => model.id.match(/turbo|gpt/gi));
+      return models.filter((model) => model.id.match(/4o|o[1-9]/gi));
     },
     async getCompletionModels({ $ }) {
       const models = await this.models({
