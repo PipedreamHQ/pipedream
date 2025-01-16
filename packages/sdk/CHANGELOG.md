@@ -1,11 +1,60 @@
 <!-- markdownlint-disable MD024 -->
+
 # Changelog
+
+## [1.1.5] - 2025-01-14
+
+### Changed
+
+- Corrected the return type of `reloadComponentProps`
+
+## [1.1.4] - 2025-01-08
+
+### Added
+
+- Add pagination parameters to component configuration (`page` and `prevContext`)
+
+## [1.1.3] - 2024-12-13
+
+### Added
+
+- Can now filter `getApps` by whether app `hasComponents`,
+  `hasActions`, or `hasTriggers` in the registry
+
+## [1.1.2] - 2024-12-12
+
+### Changed
+
+- Fixed the docstring referring to the `componentConfigure` and
+  `reloadComponentProps` methods of the components API
+
+## [1.1.1] - 2024-12-11
+
+### Changed
+
+- Remove deprecated asynchronous response handling code.
+
+## [1.1.0] - 2024-12-10
+
+### Added
+
+- Documented the public methods and types for the components API
+
+### Changed
+
+- Renamed the methods involved with the components API (e.g.
+  `componentConfigure` -> `configureComponent`)
+- Renamed the types used for passing options and accessing responses from the
+  components API endpoints (e.g. `ComponentRequestResponse` ->
+  `GetComponentResponse`)
+- Marked the renamed methods and types as deprecated
 
 ## [1.0.12] - 2024-12-06
 
 ### Added
 
-- Allow passing `before`, `after` pagination cursors for apps, accounts, components endpoints
+- Allow passing `before`, `after` pagination cursors for apps, accounts,
+  components endpoints
 
 ## [1.0.11] - 2024-12-06
 
@@ -36,8 +85,8 @@
 
 ### Changed
 
-- The backend client now correctly uses asynchronous messaging to handle long running
-  operations.
+- The backend client now correctly uses asynchronous messaging to handle long
+  running operations.
 - Updated the backend command line tool to respect the `ENVIRONMENT` env variable
   if set.
 
@@ -46,16 +95,16 @@
 ### Changed
 
 - Use client Connect tokens to make api calls directly from the client.
-- Deprecated the `environments` property on `createFrontendClient` since it is now
-  stored in the token
+- Deprecated the `environments` property on `createFrontendClient` since it is
+  now stored in the token
 
 ## [1.0.5] - 2024-11-18
 
 ### Changed
 
 - The backend client used to default to `production` if the environment was not
-specified. Now `environment` is a required argument for `createBackendClient`
-and must be one of `production` or `development`.  
+  specified. Now `environment` is a required argument for `createBackendClient`
+  and must be one of `production` or `development`.
 
 ## [1.0.4] - 2024-11-15
 

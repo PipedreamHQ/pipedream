@@ -1,26 +1,38 @@
 import { axios } from "@pipedream/platform";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 200, // 5 requests per second
+  maxConcurrent: 1,
+});
+const axiosRateLimiter = limiter.wrap(axios);
 
 export default {
   type: "app",
   app: "opensea",
   propDefinitions: {},
   methods: {
-    async retrieveEvents({
-      $, contract, eventType, occurredAfter, cursor,
+    _baseUrl() {
+      return "https://api.opensea.io/api/v2";
+    },
+    _makeRequest({
+      $ = this,
+      path,
+      ...otherOpts
     }) {
-      const apiKey = this.$auth.api_key;
-      return axios($ ?? this, {
-        url: "https://api.opensea.io/api/v1/events",
-        params: {
-          only_opensea: false,
-          asset_contract_address: contract,
-          event_type: eventType,
-          occurred_after: occurredAfter,
-          cursor,
-        },
+      return axiosRateLimiter($, {
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          "X-API-KEY": apiKey,
+          "X-API-KEY": this.$auth.api_key,
         },
+        ...otherOpts,
+      });
+    },
+    retrieveEvents({
+      collectionSlug, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/events/collection/${collectionSlug}`,
+        ...opts,
       });
     },
   },

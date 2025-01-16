@@ -1,10 +1,5 @@
 // This code is meant to be shared between the browser and server.
 import type {
-  AsyncResponse,
-  AsyncErrorResponse,
-  AsyncResponseManager,
-} from "./async.js";
-import type {
   ConfigurableProps,
   ConfiguredProps,
   V1Component,
@@ -186,6 +181,18 @@ export type GetAppsOpts = RelationOpts & {
    * A search query to filter the apps.
    */
   q?: string;
+  /**
+   * Filter by whether apps have actions in the component registry.
+   */
+  hasActions?: boolean;
+  /**
+   * Filter by whether apps have components in the component registry.
+   */
+  hasComponents?: boolean;
+  /**
+   * Filter by whether apps have triggers in the component registry.
+   */
+  hasTriggers?: boolean;
 };
 
 /**
@@ -269,7 +276,7 @@ export type Account = {
 };
 
 /**
- * The request options for reconfiguring a component's props when dealing with
+ * The request options for reloading a component's props when dealing with
  * dynamic props.
  */
 export type ReloadComponentPropsOpts = ExternalUserId & {
@@ -287,11 +294,29 @@ export type ReloadComponentPropsOpts = ExternalUserId & {
   configuredProps: ConfiguredProps<ConfigurableProps>;
 
   /**
-   * The ID of the last prop reconfiguration (or none when reconfiguring the
-   * props for the first time).
+   * The ID of the last prop reload (or none when reloading the props for the
+   * first time).
    */
   dynamicPropsId?: string;
 };
+
+export type ReloadComponentPropsResponse = {
+  // XXX observations
+
+  /**
+   * A list of errors that occurred during the prop reloading process.
+   */
+  errors: string[]
+
+  /**
+   * Dynamic props object containing the dynamic props ID and the dynamic
+   * configurable props for the component.
+   */
+  dynamicProps: {
+    id: string
+    configurableProps: ConfigurableProps
+  }
+}
 
 /**
  * @deprecated Use `ReloadComponentPropsOpts` instead.
@@ -326,6 +351,19 @@ export type ConfigureComponentOpts = ExternalUserId & {
   dynamicPropsId?: string;
 
   query?: string;
+
+  /**
+   * A 0 indexed page number. Use with APIs that accept a
+   * numeric page number for pagination.
+   */
+  page?: number;
+
+  /**
+   * A string representing the context for the previous options
+   * execution. Use with APIs that accept a token representing the last
+   * record for pagination.
+   */
+  prevContext?: never;
 };
 
 /**
@@ -580,7 +618,6 @@ export interface AsyncRequestOptions extends RequestOptions {
 export abstract class BaseClient {
   version = sdkVersion;
   protected apiHost: string;
-  protected abstract asyncResponseManager: AsyncResponseManager;
   protected readonly baseApiUrl: string;
   protected environment: string;
   protected projectId?: string;
@@ -745,35 +782,6 @@ export abstract class BaseClient {
   }
 
   /**
-   * Makes a request to the Connect API using Connect authorization.
-   * This version makes an asynchronous request, fulfilled via Websocket.
-   *
-   * @template T - The expected response type.
-   * @param path - The API endpoint path.
-   * @param opts - The options for the request.
-   * @returns A promise resolving to the API response.
-   */
-  protected async makeConnectRequestAsync<T extends object>(
-    path: string,
-    opts: AsyncRequestOptions,
-  ): Promise<T> {
-    await this.asyncResponseManager.ensureConnected();
-    const data = await this.makeConnectRequest<
-      AsyncResponse | AsyncErrorResponse | T
-    >(path, opts);
-    if ("errors" in data && data.errors.length) {
-      throw new Error(data.errors[0]);
-    }
-    if ("async_handle" in data && data.async_handle) {
-      const result = await this.asyncResponseManager.waitFor<T>(
-        data.async_handle,
-      );
-      return result;
-    }
-    return data as T;
-  }
-
-  /**
    * Retrieves the list of accounts associated with the project.
    *
    * @param params - The query parameters for retrieving accounts.
@@ -809,6 +817,22 @@ export abstract class BaseClient {
     if (opts?.q) {
       params.q = opts.q;
     }
+    if (opts?.hasActions != null) {
+      params.has_actions = opts.hasActions
+        ? "1"
+        : "0";
+    }
+    if (opts?.hasComponents != null) {
+      params.has_components = opts.hasComponents
+        ? "1"
+        : "0";
+    }
+    if (opts?.hasTriggers != null) {
+      params.has_triggers = opts.hasTriggers
+        ? "1"
+        : "0";
+    }
+
     this.addRelationOpts(params, opts);
     return this.makeAuthorizedRequest<GetAppsResponse>(
       "/apps",
@@ -939,8 +963,10 @@ export abstract class BaseClient {
    *  },
    *  propName: "channel",
    *  configuredProps: {
-   *    authProvisionId: "apn_z8hD1b4",
-   *  }
+   *    slack: {
+    *     authProvisionId: "apn_z8hD1b4",
+    *   },
+   *  },
    * });
    * console.log(options);
    */
@@ -956,14 +982,15 @@ export abstract class BaseClient {
       : componentId;
 
     const body = {
-      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: externalUserId,
       id,
       prop_name: opts.propName,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
+      page: opts.page,
+      prev_context: opts.prevContext,
     };
-    return this.makeConnectRequestAsync<ConfigureComponentResponse>("/components/configure", {
+    return this.makeConnectRequest<ConfigureComponentResponse>("/components/configure", {
       method: "POST",
       body,
     });
@@ -992,8 +1019,10 @@ export abstract class BaseClient {
    *    key: "slack-send-message",
    *  },
    *  configuredProps: {
-   *    authProvisionId: "apn_z8hD1b4",
-   *  }
+   *    slack: {
+   *      authProvisionId: "apn_z8hD1b4",
+   *    },
+   *  },
    * });
    *
    * const { configurableProps, id: dynamicPropsId } = dynamicProps;
@@ -1013,14 +1042,13 @@ export abstract class BaseClient {
 
     // RpcActionReloadPropsInput
     const body = {
-      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: externalUserId,
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
     };
 
-    return this.makeConnectRequestAsync<ConfiguredProps<ConfigurableProps>>(
+    return this.makeConnectRequest<ReloadComponentPropsResponse>(
       "/components/props", {
       // TODO trigger
         method: "POST",
@@ -1072,13 +1100,12 @@ export abstract class BaseClient {
       : actionId;
 
     const body = {
-      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: externalUserId,
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
     };
-    return this.makeConnectRequestAsync<RunActionResponse>("/actions/run", {
+    return this.makeConnectRequest<RunActionResponse>("/actions/run", {
       method: "POST",
       body,
     });
@@ -1126,14 +1153,13 @@ export abstract class BaseClient {
       : triggerId;
 
     const body = {
-      async_handle: this.asyncResponseManager.createAsyncHandle(),
       external_user_id: externalUserId,
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
       webhook_url: opts.webhookUrl,
     };
-    return this.makeConnectRequestAsync<V1DeployedComponent>("/triggers/deploy", {
+    return this.makeConnectRequest<V1DeployedComponent>("/triggers/deploy", {
       method: "POST",
       body,
     });

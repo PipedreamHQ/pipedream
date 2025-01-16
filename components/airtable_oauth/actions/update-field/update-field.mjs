@@ -4,8 +4,8 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "airtable_oauth-update-field",
   name: "Update Field",
-  description: "Updates an existing field in a table. [See the documentation](https://airtable.com/developers/web/api/update-field)",
-  version: "0.0.7",
+  description: "Update an existing field in a table. [See the documentation](https://airtable.com/developers/web/api/update-field)",
+  version: "0.0.8",
   type: "action",
   props: {
     ...common.props,
@@ -27,19 +27,19 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "The name of the field",
+      description: "The new name of the field",
       optional: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "The description for the field",
+      description: "The new description of the field",
       optional: true,
     },
   },
   async run({ $ }) {
     if (!this.name && !this.description) {
-      throw new ConfigurationError("At least one of `name` or `description` must be provided.");
+      throw new ConfigurationError("At least one of `Name` or `Description` must be provided.");
     }
 
     const data = {};

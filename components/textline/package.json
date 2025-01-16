@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/textline",
+  "version": "0.0.1",
+  "description": "Pipedream Textline Components",
+  "main": "textline.app.mjs",
+  "keywords": [
+    "pipedream",
+    "textline"
+  ],
+  "homepage": "https://pipedream.com/apps/textline",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

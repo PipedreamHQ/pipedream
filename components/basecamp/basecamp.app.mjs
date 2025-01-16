@@ -7,8 +7,8 @@ export default {
   propDefinitions: {
     accountId: {
       type: "string",
-      label: "Account Id",
-      description: "The ID of the account.",
+      label: "Account ID",
+      description: "Select an account or provide an account ID.",
       async options() {
         const accounts = await this.getAccounts({});
         return accounts.map(({
@@ -22,8 +22,8 @@ export default {
     },
     projectId: {
       type: "string",
-      label: "Project Id",
-      description: "The ID of the project.",
+      label: "Project ID",
+      description: "Select a project or provide a project ID.",
       async options({
         accountId, page,
       }) {
@@ -44,8 +44,8 @@ export default {
     },
     messageBoardId: {
       type: "string",
-      label: "Message Board Id",
-      description: "The ID of the message board.",
+      label: "Message Board ID",
+      description: "Select a message board or provide a message board ID.",
       async options({
         accountId,
         projectId,
@@ -66,8 +66,8 @@ export default {
     },
     recordingId: {
       type: "string",
-      label: "Recording Id",
-      description: "The ID of the recording.",
+      label: "Recording ID",
+      description: "Select a recording or provide a recording ID.",
       async options({
         accountId,
         projectId,
@@ -104,7 +104,7 @@ export default {
     peopleIds: {
       type: "string[]",
       label: "People",
-      description: "An array of all people visible to the current user.",
+      description: "One or more people visible to the current user.",
       async options({
         accountId,
         projectId,
@@ -129,8 +129,8 @@ export default {
     },
     todoSetId: {
       type: "string",
-      label: "Todo Set Id",
-      description: "The ID of the todo set.",
+      label: "To-do Set Id",
+      description: "Select a to-do set or provide a to-do set ID.",
       async options({
         accountId,
         projectId,
@@ -151,8 +151,8 @@ export default {
     },
     campfireId: {
       type: "string",
-      label: "Campfire Id",
-      description: "The ID of the campfire.",
+      label: "Campfire ID",
+      description: "Select a campfire or provide a campfire ID.",
       async options({
         accountId,
         projectId,
@@ -173,8 +173,8 @@ export default {
     },
     todoListId: {
       type: "string",
-      label: "Todo List Id",
-      description: "The ID of the todo list.",
+      label: "To-do List Id",
+      description: "The ID of the to-do list.",
       async options({
         accountId,
         projectId,
@@ -201,7 +201,7 @@ export default {
     },
     messageTypeId: {
       type: "string",
-      label: "Message Types",
+      label: "Message Type",
       description: "Select a type for the message.",
       async options({
         accountId,
@@ -222,8 +222,8 @@ export default {
     },
     cardTableId: {
       type: "string",
-      label: "Card Table Id",
-      description: "The card table ID",
+      label: "Card Table ID",
+      description: "Select a card table or provide a card table ID.",
       async options({
         accountId, projectId,
       }) {
@@ -241,8 +241,8 @@ export default {
     },
     columnId: {
       type: "string",
-      label: "Column ID",
-      description: "The column ID",
+      label: "Card Column ID",
+      description: "Select a card column or provide a column ID.",
       async options({
         accountId, projectId, cardTableId,
       }) {
@@ -259,10 +259,30 @@ export default {
         }));
       },
     },
+    cardId: {
+      type: "string",
+      label: "Card ID",
+      description: "Select a card or provide a card ID.",
+      async options({
+        accountId, projectId, columnId,
+      }) {
+        const cards = await this.getCards({
+          accountId,
+          projectId,
+          columnId,
+        });
+        return cards.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
     botId: {
       type: "string",
-      label: "Chat Bot ID",
-      description: "The ID of the chatbot to send message from",
+      label: "Chatbot ID",
+      description: "Select a chatbot to send the message from.",
       async options({
         accountId, projectId, campfireId,
       }) {
@@ -319,50 +339,52 @@ export default {
     async getProjects(args = {}) {
       return this.makeRequest({
         path: "/projects.json",
-        accountId: args.accountId,
         ...args,
       });
     },
-    async getPeople(args = {}) {
+    async getPeople({
+      projectId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/projects/${args.projectId}/people.json`,
-        accountId: args.accountId,
+        path: `/projects/${projectId}/people.json`,
         ...args,
       });
     },
-    async getMessageTypes(args = {}) {
+    async getMessageTypes({
+      projectId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/buckets/${args.projectId}/categories.json`,
-        accountId: args.accountId,
+        path: `/buckets/${projectId}/categories.json`,
         ...args,
       });
     },
-    async getProject(args = {}) {
+    async getProject({
+      projectId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/projects/${args.projectId}.json`,
-        accountId: args.accountId,
+        path: `/projects/${projectId}.json`,
         ...args,
       });
     },
     async getRecordings(args = {}) {
       return this.makeRequest({
         path: "/projects/recordings.json",
-        accountId: args.accountId,
         ...args,
       });
     },
-    async getTodoLists(args = {}) {
+    async getTodoLists({
+      projectId, todoSetId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/buckets/${args.projectId}/todosets/${args.todoSetId}/todolists.json`,
-        accountId: args.accountId,
+        path: `/buckets/${projectId}/todosets/${todoSetId}/todolists.json`,
         ...args,
       });
     },
-    async createMessage(args = {}) {
+    async createMessage({
+      projectId, messageBoardId, ...args
+    } = {}) {
       return this.makeRequest({
-        $: args.$,
-        accountId: args.accountId,
-        path: `/buckets/${args.projectId}/message_boards/${args.messageBoardId}/messages.json`,
+        path: `/buckets/${projectId}/message_boards/${messageBoardId}/messages.json`,
         method: "post",
         ...args,
       });
@@ -376,55 +398,56 @@ export default {
         ...args,
       });
     },
-    async createCampfireMessage(args = {}) {
+    async createCampfireMessage({
+      projectId, campfireId, ...args
+    } = {}) {
       return this.makeRequest({
-        $: args.$,
-        accountId: args.accountId,
-        path: `/buckets/${args.projectId}/chats/${args.campfireId}/lines.json`,
+        path: `/buckets/${projectId}/chats/${campfireId}/lines.json`,
         method: "post",
         ...args,
       });
     },
-    async createComment(args = {}) {
+    async createComment({
+      projectId, recordingId, ...args
+    } = {}) {
       return this.makeRequest({
-        $: args.$,
-        accountId: args.accountId,
-        path: `/buckets/${args.projectId}/recordings/${args.recordingId}/comments.json`,
+        path: `/buckets/${projectId}/recordings/${recordingId}/comments.json`,
         method: "post",
         ...args,
       });
     },
-    async createTodoItem(args = {}) {
+    async createTodoItem({
+      projectId, todoListId, ...args
+    } = {}) {
       return this.makeRequest({
-        $: args.$,
-        accountId: args.accountId,
-        path: `/buckets/${args.projectId}/todolists/${args.todoListId}/todos.json`,
+        path: `/buckets/${projectId}/todolists/${todoListId}/todos.json`,
         method: "post",
         ...args,
       });
     },
-    async createWebhook(args = {}) {
+    async createWebhook({
+      projectId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/buckets/${args.projectId}/webhooks.json`,
-        accountId: args.accountId,
+        path: `/buckets/${projectId}/webhooks.json`,
         method: "post",
         ...args,
       });
     },
-    async deleteWebhook(args = {}) {
+    async deleteWebhook({
+      projectId, webhookId, ...args
+    } = {}) {
       return this.makeRequest({
-        path: `/buckets/${args.projectId}/webhooks/${args.webhookId}.json`,
-        accountId: args.accountId,
+        path: `/buckets/${projectId}/webhooks/${webhookId}.json`,
         method: "delete",
         ...args,
       });
     },
     getCardTable({
-      accountId, projectId, cardTableId, ...args
+      projectId, cardTableId, ...args
     }) {
       return this.makeRequest({
         path: `/buckets/${projectId}/card_tables/${cardTableId}.json`,
-        accountId,
         ...args,
       });
     },
@@ -438,31 +461,31 @@ export default {
       const cardTables = dock.filter(({ name }) => name === "kanban_board");
       return cardTables;
     },
-    async getColumns({
-      accountId, projectId, cardTableId,
-    }) {
-      const { lists } = await this.getCardTable({
-        accountId,
-        projectId,
-        cardTableId: cardTableId,
-      });
+    async getColumns(args) {
+      const { lists } = await this.getCardTable(args);
       return lists;
     },
+    async getCards({
+      projectId, columnId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/buckets/${projectId}/card_tables/lists/${columnId}/cards.json`,
+        ...args,
+      });
+    },
     getChatbot({
-      accountId, projectId, campfireId, botId, ...args
+      projectId, campfireId, botId, ...args
     }) {
       return this.makeRequest({
         path: `/buckets/${projectId}/chats/${campfireId}/integrations/${botId}.json`,
-        accountId,
         ...args,
       });
     },
     listChatbots({
-      accountId, projectId, campfireId, ...args
+      projectId, campfireId, ...args
     }) {
       return this.makeRequest({
         path: `/buckets/${projectId}/chats/${campfireId}/integrations.json`,
-        accountId,
         ...args,
       });
     },

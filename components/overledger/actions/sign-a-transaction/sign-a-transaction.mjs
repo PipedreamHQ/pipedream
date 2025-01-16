@@ -1,11 +1,13 @@
 import overledger from "../../overledger.app.mjs";
-import { TECHNOLOGY_OPTIONS, UNIT_OPTIONS } from "../../common/constants.mjs";
+import {
+  TECHNOLOGY_OPTIONS, UNIT_OPTIONS,
+} from "../../common/constants.mjs";
 
 export default {
   key: "overledger-sign-a-transaction",
   name: "Sign a transaction",
   description: "Sign a transaction using Overledger - Part 2 of [Overledger Pattern](https://developers.quant.network/reference/overledger-pattern). [See documentation](https://developers.quant.network/reference/sandboxsigning)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     overledger,
