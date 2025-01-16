@@ -4,7 +4,7 @@ export default {
   key: "openai-retrieve-vector-store",
   name: "Retrieve Vector Store",
   description: "Retrieve a vector store. [See the documentation](https://platform.openai.com/docs/api-reference/vector-stores/retrieve)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     openai,
