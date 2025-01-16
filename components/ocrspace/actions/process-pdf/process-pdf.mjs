@@ -15,7 +15,7 @@ export default {
         "file",
       ],
       label: "PDF File",
-      description: "The URL of the PDF file or the path to the file saved to the `/tmp` directory  (e.g. `/tmp/example.jpg`)  to process. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      description: "The URL of the PDF file or the path to the file saved to the `/tmp` directory  (e.g. `/tmp/example.pdf`)  to process. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
   },
   methods: {

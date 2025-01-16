@@ -1,4 +1,5 @@
 import fs from "fs";
+import mime from "mime";
 
 export const isValidUrl = (urlString) => {
   var urlPattern = new RegExp("^(https?:\\/\\/)?" + // validate protocol
@@ -19,10 +20,12 @@ export const checkTmp = (filename) => {
 
 export const getUrlOrFile = (url) => {
   if (!isValidUrl(url)) {
-    const data = fs.readFileSync(checkTmp(url));
+    const filePath = checkTmp(url);
+    const data = fs.readFileSync(filePath);
+    const mimeType = mime.getType(filePath);
     const base64Image = Buffer.from(data, "binary").toString("base64");
     return {
-      file: `data:image/jpeg;base64,${base64Image}`,
+      file: `data:${mimeType};base64,${base64Image}`,
     };
   }
   return {
