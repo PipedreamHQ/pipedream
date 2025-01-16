@@ -52,7 +52,7 @@ export default {
       conversationId: this.conversationId,
       data: {
         content: {
-          agentId: this.direction === "Outbound"
+          agentId: this.direction !== "Outbound"
             ? this.agentId
             : undefined,
           value: this.content,
