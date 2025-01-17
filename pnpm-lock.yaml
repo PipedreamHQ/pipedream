@@ -3283,6 +3283,9 @@ importers:
 
   components/eodhd_apis: {}
 
+  components/epic_games:
+    specifiers: {}
+
   components/epsy:
     dependencies:
       '@pipedream/platform':
