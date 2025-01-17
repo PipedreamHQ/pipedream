@@ -98,7 +98,7 @@ export function stringPropErrors(opts: ValidationOpts<ConfigurablePropString>): 
     prop, value: valueOpt,
   } = opts
 
-  if (!prop.default && (valueOpt == null || typeof value === "undefined")) return [
+  if (!prop.default && (valueOpt == null || typeof valueOpt === "undefined")) return [
     "required",
   ]
 }
