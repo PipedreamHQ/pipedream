@@ -136,4 +136,34 @@ export default {
       url
     }
   `,
+  projectUpdate: `
+    fragment ProjectUpdate on ProjectUpdate {
+      id
+      body
+      health
+      project {
+        id
+        name
+        lead {
+          id
+          name
+        }
+        initiatives {
+          nodes {
+            name
+          }
+        }
+      }
+      user {
+        id
+      }
+      createdAt
+      updatedAt
+      body
+      bodyData
+      slugId
+      infoSnapshot
+      url
+    }
+  `,
 };
