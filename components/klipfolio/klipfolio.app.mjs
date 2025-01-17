@@ -61,6 +61,7 @@ export default {
       type: "object",
       label: "Additional Properties",
       description: "Data source additional properties. For example, Google Analytics API has the following properties: `oauth_provider_id`, `oauth_user_header`, `oauth_user_token`, `token_id`, `prop:profile_id`.",
+      optional: true
     },
   },
   methods: {
