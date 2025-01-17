@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import FormData from "form-data";
 import { getUrlOrFile } from "../../common/utils.mjs";
 import ocrspace from "../../ocrspace.app.mjs";
@@ -49,7 +50,7 @@ export default {
     } = getUrlOrFile(this.file);
 
     if (url) data.append("url", url);
-    if (file) data.append("file", file);
+    if (file) data.append("base64Image", file);
     if (this.imageLanguage) data.append("language", this.imageLanguage);
     if (this.isOverlayRequired) data.append("isOverlayRequired", `${this.isOverlayRequired}`);
     if (this.filetype) data.append("filetype", this.filetype);
@@ -65,6 +66,11 @@ export default {
     });
 
     $.export("$summary", this.getSummary());
+
+    if (response.ErrorMessage) {
+      throw new ConfigurationError(response.ErrorMessage[0]);
+    }
+
     return response;
   },
 };
