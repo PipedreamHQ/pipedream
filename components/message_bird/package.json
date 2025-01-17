@@ -1,13 +1,13 @@
 {
-  "name": "@pipedream/messagebird",
-  "version": "0.1.0",
-  "description": "Pipedream MessageBird  Components",
-  "main": "messagebird.app.mjs",
+  "name": "@pipedream/message_bird",
+  "version": "0.0.1",
+  "description": "Pipedream MessageBird Components",
+  "main": "message_bird.app.mjs",
   "keywords": [
     "pipedream",
-    "messagebird"
+    "message_bird"
   ],
-  "homepage": "https://pipedream.com/apps/messagebird",
+  "homepage": "https://pipedream.com/apps/message_bird",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
