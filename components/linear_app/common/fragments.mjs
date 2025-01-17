@@ -159,7 +159,6 @@ export default {
       }
       createdAt
       updatedAt
-      body
       bodyData
       slugId
       infoSnapshot
