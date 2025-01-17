@@ -1,11 +1,13 @@
+import FormData from "form-data";
+import fs from "fs";
+import { checkTmp } from "../../common/utils.mjs";
 import ragie from "../../ragie.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ragie-create-document",
   name: "Create Document",
   description: "Creates a new document in Ragie. [See the documentation](https://docs.ragie.ai/reference/createdocument)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     ragie,
@@ -23,42 +25,44 @@ export default {
       optional: true,
     },
     metadata: {
-      propDefinition: [
-        ragie,
-        "createDocumentMetadata",
-      ],
+      type: "object",
+      label: "Metadata",
+      description: "Metadata for the document. Keys must be strings. Values may be strings, numbers, booleans, or lists of strings.",
       optional: true,
     },
     externalId: {
-      propDefinition: [
-        ragie,
-        "createDocumentExternalId",
-      ],
+      type: "string",
+      label: "External ID",
+      description: "An optional identifier for the document. A common value might be an ID in an external system or the URL where the source file may be found.",
       optional: true,
     },
     name: {
-      propDefinition: [
-        ragie,
-        "createDocumentName",
-      ],
+      type: "string",
+      label: "Name",
+      description: "An optional name for the document. If set, the document will have this name. Otherwise, it will default to the file's name.",
       optional: true,
     },
     partition: {
       propDefinition: [
         ragie,
-        "createDocumentPartition",
+        "partition",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
+    const data = new FormData();
+    data.append("file", fs.createReadStream(checkTmp(this.file)));
+    if (this.mode) data.append("mode", this.mode);
+    if (this.metadata) data.append("metadata", JSON.stringify(this.metadata));
+    if (this.externalId) data.append("external_id", this.externalId);
+    if (this.name) data.append("name", this.name);
+    if (this.partition) data.append("partition", this.partition);
+
     const response = await this.ragie.createDocument({
-      createDocumentFile: this.file,
-      createDocumentMode: this.mode,
-      createDocumentMetadata: this.metadata,
-      createDocumentExternalId: this.externalId,
-      createDocumentName: this.name,
-      createDocumentPartition: this.partition,
+      $,
+      data,
+      headers: data.getHeaders(),
     });
 
     $.export("$summary", `Created document: ${response.name} (ID: ${response.id})`);

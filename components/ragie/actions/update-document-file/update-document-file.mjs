@@ -1,49 +1,48 @@
+import FormData from "form-data";
+import fs from "fs";
+import { checkTmp } from "../../common/utils.mjs";
 import ragie from "../../ragie.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ragie-update-document-file",
   name: "Update Document File",
-  description: "Updates an existing document file in Ragie. [See the documentation]().",
-  version: "0.0.{{ts}}",
+  description: "Updates an existing document file in Ragie. [See the documentation](https://docs.ragie.ai/reference/updatedocumentfile).",
+  version: "0.0.1",
   type: "action",
   props: {
     ragie,
-    updateDocumentId: {
+    documentId: {
       propDefinition: [
         ragie,
-        "updateDocumentId",
+        "documentId",
       ],
     },
-    updateDocumentFile: {
+    mode: {
       propDefinition: [
         ragie,
-        "updateDocumentFile",
-      ],
-    },
-    updateDocumentMode: {
-      propDefinition: [
-        ragie,
-        "updateDocumentMode",
+        "createDocumentMode",
       ],
       optional: true,
     },
-    updateDocumentPartition: {
+    file: {
       propDefinition: [
         ragie,
-        "updateDocumentPartition",
+        "createDocumentFile",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
+    const data = new FormData();
+    data.append("file", fs.createReadStream(checkTmp(this.file)));
+    if (this.mode) data.append("mode", this.mode);
+
     const response = await this.ragie.updateDocumentFile({
-      updateDocumentId: this.updateDocumentId,
-      updateDocumentFile: this.updateDocumentFile,
-      updateDocumentMode: this.updateDocumentMode,
-      updateDocumentPartition: this.updateDocumentPartition,
+      $,
+      documentId: this.documentId,
+      data,
+      headers: data.getHeaders(),
     });
-    $.export("$summary", `Successfully updated document file with ID: ${this.updateDocumentId}`);
+    $.export("$summary", `Successfully updated document file with ID: ${this.documentId}`);
     return response;
   },
 };
