@@ -51,10 +51,10 @@ export default {
       $,
       conversationId: this.conversationId,
       data: {
+        agentId: this.direction === "Outbound"
+          ? this.agentId
+          : undefined,
         content: {
-          agentId: this.direction !== "Outbound"
-            ? this.agentId
-            : undefined,
           value: this.content,
           _type: "Text",
         },
