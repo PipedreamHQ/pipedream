@@ -1554,8 +1554,7 @@ importers:
 
   components/calllerapi: {}
 
-  components/callminer:
-    specifiers: {}
+  components/callminer: {}
 
   components/callpage:
     dependencies:
@@ -8407,7 +8406,11 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/ragie: {}
+  components/ragie:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/railsr: {}
 
