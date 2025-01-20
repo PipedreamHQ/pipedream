@@ -11821,6 +11821,9 @@ importers:
 
   components/wolfram_alpha: {}
 
+  components/wolfram_alpha_api:
+    specifiers: {}
+
   components/wonderchat: {}
 
   components/woocommerce:
