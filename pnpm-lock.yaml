@@ -566,6 +566,9 @@ importers:
 
   components/alphamoon: {}
 
+  components/alteryx_analytics_cloud:
+    specifiers: {}
+
   components/altiria:
     dependencies:
       '@pipedream/platform':
