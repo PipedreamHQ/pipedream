@@ -20,14 +20,14 @@ export default {
     mode: {
       propDefinition: [
         ragie,
-        "createDocumentMode",
+        "documentMode",
       ],
       optional: true,
     },
     file: {
       propDefinition: [
         ragie,
-        "createDocumentFile",
+        "documentFile",
       ],
     },
   },

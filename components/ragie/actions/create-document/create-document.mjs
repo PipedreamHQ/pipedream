@@ -14,13 +14,13 @@ export default {
     file: {
       propDefinition: [
         ragie,
-        "createDocumentFile",
+        "documentFile",
       ],
     },
     mode: {
       propDefinition: [
         ragie,
-        "createDocumentMode",
+        "documentMode",
       ],
       optional: true,
     },
