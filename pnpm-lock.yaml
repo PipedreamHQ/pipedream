@@ -11424,6 +11424,9 @@ importers:
 
   components/vero: {}
 
+  components/verticalresponse:
+    specifiers: {}
+
   components/vestaboard:
     dependencies:
       '@pipedream/platform':
