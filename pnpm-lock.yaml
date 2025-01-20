@@ -7157,6 +7157,15 @@ importers:
 
   components/ocr_web_service: {}
 
+  components/ocrspace:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      mime:
+        specifier: ^4.0.6
+        version: 4.0.6
+
   components/octoparse: {}
 
   components/octopus_deploy: {}
