@@ -4875,6 +4875,9 @@ importers:
 
   components/homerun: {}
 
+  components/honeyhive:
+    specifiers: {}
+
   components/hookdeck:
     dependencies:
       '@pipedream/platform':
