@@ -3195,7 +3195,23 @@ importers:
 
   components/efinder: {}
 
-  components/egnyte: {}
+  components/egnyte:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      bottleneck:
+        specifier: ^2.19.5
+        version: 2.19.5
+      form-data:
+        specifier: ^4.0.1
+        version: 4.0.1
+      mime:
+        specifier: ^4.0.6
+        version: 4.0.6
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
 
   components/elastic_email: {}
 
@@ -22423,6 +22439,11 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
+  mime@4.0.6:
+    resolution: {integrity: sha512-4rGt7rvQHBbaSOF9POGkk1ocRP16Md1x36Xma8sz8h8/vfCUI2OtEIeCqe4Ofes853x4xDoPiFLIT47J5fI/7A==}
+    engines: {node: '>=16'}
+    hasBin: true
+
   mimer@2.0.2:
     resolution: {integrity: sha512-izxvjsB7Ur5HrTbPu6VKTrzxSMBFBqyZQc6dWlZNQ4/wAvf886fD4lrjtFd8IQ8/WmZKdxKjUtqFFNaj3hQ52g==}
     engines: {node: '>= 12'}
@@ -39722,6 +39743,8 @@ snapshots:
   mime@3.0.0: {}
 
   mime@4.0.4: {}
+
+  mime@4.0.6: {}
 
   mimer@2.0.2: {}
 
