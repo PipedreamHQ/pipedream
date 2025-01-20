@@ -81,7 +81,7 @@ export default {
       optional: true,
     },
     emailInboxId: {
-      type: "boolean",
+      type: "string",
       label: "Email Inbox Id",
       description: "ID of the Email Inbox",
       hidden: true,
