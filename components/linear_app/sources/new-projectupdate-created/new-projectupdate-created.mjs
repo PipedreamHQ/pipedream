@@ -5,8 +5,8 @@ import linearApp from "../../linear_app.app.mjs";
 export default {
   ...common,
   key: "linear_app-new-projectupdate-created",
-  name: "New Project Update (Instant)",
-  description: "Emit new event when a new Project Update is created. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
+  name: "New Project Update Written (Instant)",
+  description: "Project updates are short status reports on the health of your projects. Emit new event when a new Project Update is written. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",
