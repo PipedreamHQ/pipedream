@@ -63,7 +63,10 @@ export default {
           },
         ];
 
-        const fetchFoldersRecursively = async (folderId) => {
+        const fetchFoldersRecursively = async (folderId, depth = 0, maxDepth = 10) => {
+          if (depth > maxDepth) {
+            return;
+          }
           const { data } = await this.getFolderContent({
             projectId,
             folderId,
@@ -81,7 +84,7 @@ export default {
           options.push(...folders);
 
           for (const folder of folders) {
-            await fetchFoldersRecursively(folder.value);
+            await fetchFoldersRecursively(folder.value, depth + 1, maxDepth);
           }
         };
 
@@ -260,6 +263,7 @@ export default {
             return;
           }
           hasMore = data?.length === args.params["page[limit]"];
+          args.params["page[number]"] += 1;
         }
       }
     },
