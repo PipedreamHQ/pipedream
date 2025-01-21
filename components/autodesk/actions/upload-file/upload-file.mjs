@@ -1,18 +1,37 @@
 import autodesk from "../../autodesk.app.mjs";
-import { axios } from "@pipedream/platform";
+import fs from "fs";
 
 export default {
   key: "autodesk-upload-file",
-  name: "Upload File to Autodesk Project or Folder",
-  description: "Uploads a new file to a specified project or folder in Autodesk. [See the documentation]().",
-  version: "0.0.{{ts}}",
+  name: "Upload File",
+  description: "Uploads a new file to a specified folder in Autodesk. [See the documentation](https://aps.autodesk.com/en/docs/data/v2/tutorials/upload-file/).",
+  version: "0.0.1",
   type: "action",
   props: {
     autodesk,
+    hubId: {
+      propDefinition: [
+        autodesk,
+        "hubId",
+      ],
+    },
     projectId: {
       propDefinition: [
         autodesk,
         "projectId",
+        (c) => ({
+          hubId: c.hubId,
+        }),
+      ],
+    },
+    folderId: {
+      propDefinition: [
+        autodesk,
+        "folderId",
+        (c) => ({
+          hubId: c.hubId,
+          projectId: c.projectId,
+        }),
       ],
     },
     fileName: {
@@ -20,32 +39,80 @@ export default {
       label: "File Name",
       description: "The name of the file to upload",
     },
-    fileContent: {
+    filePath: {
       type: "string",
-      label: "File Content",
-      description: "The content of the file to upload",
-    },
-    folderId: {
-      propDefinition: [
-        autodesk,
-        "folderId",
-      ],
-      optional: true,
+      label: "File Path",
+      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
     },
   },
   async run({ $ }) {
-    this.autodesk.projectId = this.projectId;
-    this.autodesk.fileName = this.fileName;
-    this.autodesk.fileContent = this.fileContent;
-    if (this.folderId) {
-      this.autodesk.folderId = this.folderId;
-    }
+    // Create storage location
+    const { data } = await this.autodesk.createStorageLocation({
+      $,
+      projectId: this.projectId,
+      data: {
+        jsonapi: {
+          version: "1.0",
+        },
+        data: {
+          type: "objects",
+          attributes: {
+            name: this.fileName,
+          },
+          relationships: {
+            target: {
+              data: {
+                type: "folders",
+                id: this.folderId,
+              },
+            },
+          },
+        },
+      },
+    });
 
-    const response = await this.autodesk.uploadFile();
+    const objectId = data.id;
+    const [
+      bucketKey,
+      objectKey,
+    ] = objectId.match(/^urn:adsk\.objects:os\.object:([^/]+)\/(.+)$/);
 
-    $.export("$summary", `Uploaded file "${this.fileName}" to project "${this.projectId}"${this.folderId
-      ? ` and folder "${this.folderId}"`
-      : ""}.`);
+    // Generate signed URL
+    const {
+      urls, uploadKey,
+    } = await this.autodesk.generateSignedUrl({
+      $,
+      bucketKey,
+      objectKey,
+    });
+
+    const signedUrl = urls[0];
+
+    // Upload to signed URL
+    const fileStream = fs.createReadStream(this.filePath.includes("tmp/")
+      ? this.filePath
+      : `/tmp/${this.filePath}`);
+
+    await this.autodesk._makeRequest({
+      $,
+      url: signedUrl,
+      data: fileStream,
+      headers: {
+        "Content-Type": "application/octet-stream",
+      },
+    });
+
+    // Complete the upload
+    const response = await this.autodesk.completeUpload({
+      $,
+      bucketKey,
+      objectKey,
+      data: {
+        uploadKey,
+      },
+    });
+
+    $.export("$summary", `Successfully uploaded file ${this.fileName}`);
     return response;
   },
 };

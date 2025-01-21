@@ -3,286 +3,265 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "autodesk",
-  version: "0.0.{{ts}}",
   propDefinitions: {
-    workspaceId: {
+    hubId: {
       type: "string",
-      label: "Workspace",
-      description: "The workspace to monitor for new projects",
+      label: "Hub ID",
+      description: "The identifier of a hub",
       async options() {
-        const workspaces = await this.listWorkspaces();
-        return workspaces.map((ws) => ({
-          label: ws.name,
-          value: ws.id,
-        }));
-      },
-    },
-    accountId: {
-      type: "string",
-      label: "Account",
-      description: "The account to monitor for new projects",
-      async options() {
-        const accounts = await this.listAccounts();
-        return accounts.map((acc) => ({
-          label: acc.name,
-          value: acc.id,
-        }));
+        const { data } = await this.listHubs();
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          label: attributes.name,
+          value: id,
+        })) || [];
       },
     },
     projectId: {
       type: "string",
       label: "Project",
-      description: "The project to monitor or manage",
+      description: "The identifier of a project",
       async options({
-        workspaceId, accountId,
+        hubId, page,
       }) {
-        const projects = await this.listProjects({
-          workspaceId,
-          accountId,
+        if (!hubId) {
+          return [];
+        }
+        const { data } = await this.listProjects({
+          hubId,
+          params: {
+            "page[number]": page,
+          },
         });
-        return projects.map((p) => ({
-          label: p.name,
-          value: p.id,
-        }));
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          label: attributes.name,
+          value: id,
+        })) || [];
       },
     },
     folderId: {
       type: "string",
-      label: "Folder",
-      description: "The folder to monitor for new file uploads",
-      async options({ projectId }) {
-        const folders = await this.listFolders({
+      label: "Folder ID",
+      description: "The identifier of a folder",
+      async options({
+        hubId, projectId,
+      }) {
+        if (!hubId || !projectId) {
+          return [];
+        }
+        const rootFolderId = await this.getProjectTopFolderId({
+          hubId,
           projectId,
         });
-        return folders.map((f) => ({
-          label: f.name,
-          value: f.id,
-        }));
+        const options = [
+          {
+            label: "Root Folder",
+            value: rootFolderId,
+          },
+        ];
+
+        const fetchFoldersRecursively = async (folderId) => {
+          const { data } = await this.getFolderContent({
+            projectId,
+            folderId,
+            params: {
+              "filter[type]": "folders",
+            },
+          });
+          const folders = data?.map(({
+            id, attributes,
+          }) => ({
+            label: attributes.name,
+            value: id,
+          })) || [];
+
+          options.push(...folders);
+
+          for (const folder of folders) {
+            await fetchFoldersRecursively(folder.value);
+          }
+        };
+
+        await fetchFoldersRecursively(rootFolderId);
+
+        return options;
       },
     },
     fileId: {
       type: "string",
       label: "File",
-      description: "The file to track versions or update metadata",
+      description: "The identifier of a file",
       async options({
         projectId, folderId,
       }) {
-        const files = await this.listFiles({
+        if (!projectId || !folderId) {
+          return [];
+        }
+        const { data } = await this.getFolderContent({
           projectId,
           folderId,
+          params: {
+            "filter[type]": "items",
+          },
         });
-        return files.map((f) => ({
-          label: f.name,
-          value: f.id,
-        }));
+        return data?.map(({
+          id, attributes,
+        }) => ({
+          label: attributes.displayName,
+          value: id,
+        })) || [];
       },
-    },
-    projectName: {
-      type: "string",
-      label: "Project Name",
-      description: "The name of the new project",
-    },
-    projectDescription: {
-      type: "string",
-      label: "Project Description",
-      description: "The description of the new project",
-      optional: true,
-    },
-    targetWorkspaceId: {
-      type: "string",
-      label: "Target Workspace",
-      description: "The workspace to associate the new project with",
-      async options() {
-        const workspaces = await this.listWorkspaces();
-        return workspaces.map((ws) => ({
-          label: ws.name,
-          value: ws.id,
-        }));
-      },
-      optional: true,
-    },
-    fileName: {
-      type: "string",
-      label: "File Name",
-      description: "The name of the file to upload",
-    },
-    fileContent: {
-      type: "string",
-      label: "File Content",
-      description: "The content of the file to upload",
-    },
-    metadata: {
-      type: "string[]",
-      label: "Metadata",
-      description: "Key-value pairs for the file metadata to update (as JSON strings)",
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://developer.api.autodesk.com"; // Replace with the actual base URL
+      return "https://developer.api.autodesk.com";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this,
+      path,
+      headers,
+      ...otherOpts
+    }) {
       return axios($, {
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.access_token}`, // Adjust based on actual auth scheme
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
           "Content-Type": "application/json",
+          ...headers,
         },
         ...otherOpts,
       });
     },
-    async listWorkspaces(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/project/v1/workspaces",
-        ...opts,
-      });
-    },
-    async listAccounts(opts = {}) {
-      return this._makeRequest({
-        method: "GET",
-        path: "/project/v1/accounts",
-        ...opts,
-      });
-    },
-    async listProjects(opts = {}) {
-      const {
-        workspaceId, accountId,
-      } = opts;
-      const queryParams = {};
-      if (workspaceId) queryParams.workspace_id = workspaceId;
-      if (accountId) queryParams.account_id = accountId;
-      return this._makeRequest({
-        method: "GET",
-        path: "/project/v1/projects",
-        params: queryParams,
-        ...opts,
-      });
-    },
-    async listFolders(opts = {}) {
-      const { projectId } = opts;
-      return this._makeRequest({
-        method: "GET",
-        path: `/data/v1/projects/${projectId}/folders`,
-        ...opts,
-      });
-    },
-    async listFiles(opts = {}) {
-      const {
-        projectId, folderId,
-      } = opts;
-      const path = folderId
-        ? `/data/v1/projects/${projectId}/folders/${folderId}/files`
-        : `/data/v1/projects/${projectId}/files`;
-      return this._makeRequest({
-        method: "GET",
-        path,
-        ...opts,
-      });
-    },
-    async createProject(opts = {}) {
-      const {
-        projectName, projectDescription, targetWorkspaceId,
-      } = this;
-      const data = {
-        name: projectName,
-        description: projectDescription,
-        workspace_id: targetWorkspaceId,
-      };
+    createWebhook({
+      system, event, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/project/v1/projects",
-        data,
+        path: `/webhooks/v1/systems/${system}/events/${event}/hooks`,
         ...opts,
       });
     },
-    async uploadFile(opts = {}) {
-      const {
-        projectId, folderId, fileName, fileContent,
-      } = this;
-      const path = folderId
-        ? `/data/v1/projects/${projectId}/folders/${folderId}/files`
-        : `/data/v1/projects/${projectId}/files`;
-      const data = {
-        name: fileName,
-        content: fileContent,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path,
-        data,
-        ...opts,
-      });
-    },
-    async updateMetadata(opts = {}) {
-      const {
-        fileId, metadata,
-      } = this;
-      const metadataObj = metadata.reduce((acc, item) => {
-        const parsed = JSON.parse(item);
-        return {
-          ...acc,
-          ...parsed,
-        };
-      }, {});
-      return this._makeRequest({
-        method: "PATCH",
-        path: `/data/v1/files/${fileId}/metadata`,
-        data: metadataObj,
-        ...opts,
-      });
-    },
-    async createWebhook(opts = {}) {
-      const {
-        eventType, targetUrl, projectId, folderId, fileId,
-      } = opts;
-      const data = {
-        event_type: eventType,
-        callback_url: targetUrl,
-        project_id: projectId,
-        folder_id: folderId,
-        file_id: fileId,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks/v1/hooks",
-        data,
-        ...opts,
-      });
-    },
-    async deleteWebhook(opts = {}) {
-      const { webhookId } = opts;
+    deleteWebhook({
+      system, event, hookId,
+    }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/webhooks/v1/hooks/${webhookId}`,
+        path: `/webhooks/v1/systems/${system}/events/${event}/hooks/${hookId}`,
+      });
+    },
+    listHubs(opts = {}) {
+      return this._makeRequest({
+        path: "/project/v1/hubs",
         ...opts,
       });
     },
-    async paginate(fn, ...opts) {
-      let results = [];
+    listProjects({
+      hubId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/project/v1/hubs/${hubId}/projects`,
+        ...opts,
+      });
+    },
+    async getProjectTopFolderId({
+      hubId, projectId, ...opts
+    }) {
+      const { data } = await this._makeRequest({
+        path: `/project/v1/hubs/${hubId}/projects/${projectId}/topFolders`,
+        ...opts,
+      });
+      return data[0].id;
+    },
+    getFolderContent({
+      projectId, folderId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/data/v1/projects/${projectId}/folders/${folderId}/contents`,
+        ...opts,
+      });
+    },
+    createFolder({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/data/v1/projects/${projectId}/folders`,
+        headers: {
+          "Content-Type": "application/vnd.api+json",
+        },
+        ...opts,
+      });
+    },
+    updateMetadata({
+      projectId, fileId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/data/v1/projects/${projectId}/items/${fileId}`,
+        headers: {
+          "Content-Type": "application/vnd.api+json",
+        },
+        ...opts,
+      });
+    },
+    createStorageLocation({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/data/v1/projects/${projectId}/storage`,
+        headers: {
+          "Content-Type": "application/vnd.api+json",
+        },
+        ...opts,
+      });
+    },
+    generateSignedUrl({
+      bucketKey, objectKey, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/oss/v2/buckets/${bucketKey}/objects/${objectKey}/signeds3upload`,
+        ...opts,
+      });
+    },
+    completeUpload({
+      bucketKey, objectKey, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/oss/v2/buckets/${bucketKey}/objects/${objectKey}/signeds3upload`,
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn,
+      args,
+      max,
+    }) {
       let hasMore = true;
-      let page = 1;
+      let count = 0;
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          "page[number]": 0,
+          "page[limit]": 200,
+        },
+      };
       while (hasMore) {
-        const response = await fn({
-          ...opts,
-          page,
-        });
-        if (!response || response.length === 0) {
-          hasMore = false;
-        } else {
-          results = results.concat(response);
-          page += 1;
+        const { data } = await fn(args);
+        for (const item of data) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+          hasMore = data?.length === args.params["page[limit]"];
         }
       }
-      return results;
     },
   },
 };
