@@ -96,6 +96,14 @@ export function ControlSelect<T>({
       MenuList: LoadMore,
     }
   }
+
+  const handleCreate = (inputValue: string) => {
+    options.unshift({
+      label: inputValue,
+      value: inputValue,
+    })
+  };
+
   const MaybeCreatableSelect = isCreatable
     ? CreatableSelect
     : Select;
@@ -110,6 +118,7 @@ export function ControlSelect<T>({
       required={!prop.optional}
       {...props}
       {...selectProps}
+      onCreateOption={handleCreate}
       onChange={(o) => {
         if (o) {
           if (Array.isArray(o)) {
