@@ -8297,8 +8297,7 @@ importers:
 
   components/propeller: {}
 
-  components/proposify:
-    specifiers: {}
+  components/proposify: {}
 
   components/proprofs_quiz_maker: {}
 

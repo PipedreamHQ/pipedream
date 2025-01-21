@@ -185,6 +185,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
   return (
     <ControlSelect
+      isCreatable={true}
       showLoadMoreButton={showLoadMoreButton()}
       onLoadMore={onLoadMore}
       options={pageable.data}
