@@ -181,6 +181,17 @@ The ID of your end user. Use whatever ID uniquely identifies the user in your sy
 
 ---
 
+`allowed_origins` **string array**
+
+When using the Connect API to make requests from a client environment like a browser, you must specify the allowed origins for the token. Otherwise, this field is optional. This is a list of URLs that are allowed to make requests with the token. For example:
+
+```json
+{
+  "allowed_origins": ["http://localhost:3000", "https://example.com"]
+}
+```
+---
+
 `success_redirect_uri` **string** (_optional_)
 
 When using [Connect Link](/connect/connect-link), you can optionally redirect your end user to the `success_redirect_uri` on successful completion of the auth flow.
@@ -224,6 +235,7 @@ const pd = createBackendClient({
 
 const { token, expires_at } = await pd.createConnectToken({
   external_user_id: "{your_external_user_id}"  // The end user's ID in your system
+  allowed_origins: ["http://localhost:3000", "https://example.com"], // The allowed origins for the token (required for client-side requests)
 });
 ```
 </Tabs.Tab>
@@ -242,6 +254,7 @@ const pd = createBackendClient({
 
 const { token, expires_at } = await pd.createConnectToken({
   external_user_id: "{your_external_user_id}", // The end user's ID in your system
+  allowed_origins: ["http://localhost:3000", "https://example.com"], // The allowed origins for the token (required for client-side requests)
 });
 ```
 </Tabs.Tab>
@@ -263,7 +276,11 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
   -H "X-PD-Environment: development" \
   -H "Authorization: Bearer {access_token}" \
   -d '{
-    "external_user_id": "{your_external_user_id}"
+    "external_user_id": "{your_external_user_id}",
+    "allowed_origins": [
+      "http://localhost:3000",
+      "https://example.com"
+    ],
   }'
 ```
 </Tabs.Tab>

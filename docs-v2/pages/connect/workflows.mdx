@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 Just like you can build and run internal [workflows](/workflows/) for your team, **you can run workflows for [your end users](/connect/api#external-users), too**.
 
-Whether you're building well-defined integrations or more-autonomous AI agents, workflows provide a powerful set of tools for running [code](/code) or [pre-defined actions](/workflows/actions) on behalf of your users. Pipedream's UI makes it easy to build, test, and [debug](/workflows/inspect) workflows.
+Whether you're building well-defined integrations or autonomous AI agents, workflows provide a powerful set of tools for running [code](/code) or [pre-defined actions](/workflows/actions) on behalf of your users. Pipedream's UI makes it easy to build, test, and [debug](/workflows/inspect) workflows.
 
 ## What are workflows?
 
@@ -44,9 +44,7 @@ Read [the quickstart](/quickstart/) to learn more.
 2. [Configure **OAuth** authorization](/workflows/triggers#oauth) on the trigger.
 
 <Callout type="info">
-To securely run workflows for end users, **configuring OAuth authorization on the trigger is optional but strongly recommended.**
-
-[Create a Pipedream OAuth client](/rest-api/auth#creating-an-oauth-client) to authenticate requests to the Pipedream API and workflows.
+To securely run workflows for end users, **configuring OAuth authorization on the trigger is optional but strongly recommended.** [Create a Pipedream OAuth client](/rest-api/auth#creating-an-oauth-client) to authenticate requests to the Pipedream API and workflows.
 </Callout>
 
 ### Configure accounts to use your end users' auth
@@ -234,7 +232,7 @@ curl -X POST https://{your-endpoint-url} \
 </div>
 
 <Callout type="info">
-We plan to improve this interface in the future, and potentially allow developers to store end user metadata and configuration data alongside the connected account for your end users, so you won't need to pass the data at runtime.
+We plan to improve this interface in the future, and potentially allow developers to store end user metadata and configuration data alongside the connected account for your end users, so you won't need to pass the data at runtime. [Let us know](https://pipedream.com/support) if that's a feature you'd like to see.
 </Callout>
 
 ## Testing workflow steps
