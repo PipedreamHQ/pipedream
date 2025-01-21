@@ -8,7 +8,7 @@ export default {
   name: "New Issue Status Updated (Instant)",
   description: "Emit new event when the status of an issue is updated. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.1.8",
+  version: "0.1.9",
   dedupe: "unique",
   props: {
     linearApp: common.props.linearApp,
