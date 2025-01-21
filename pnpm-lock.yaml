@@ -566,8 +566,7 @@ importers:
 
   components/alphamoon: {}
 
-  components/alteryx_analytics_cloud:
-    specifiers: {}
+  components/alteryx_analytics_cloud: {}
 
   components/altiria:
     dependencies:
@@ -702,8 +701,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/apaleo:
-    specifiers: {}
+  components/apaleo: {}
 
   components/apex_27: {}
 
@@ -868,7 +866,11 @@ importers:
 
   components/autobound: {}
 
-  components/autodesk: {}
+  components/autodesk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/autoklose: {}
 
@@ -4895,8 +4897,7 @@ importers:
 
   components/homerun: {}
 
-  components/honeyhive:
-    specifiers: {}
+  components/honeyhive: {}
 
   components/hookdeck:
     dependencies:
@@ -7017,8 +7018,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/nmbrs:
-    specifiers: {}
+  components/nmbrs: {}
 
   components/nocodb:
     dependencies:
@@ -11453,8 +11453,7 @@ importers:
 
   components/vero: {}
 
-  components/verticalresponse:
-    specifiers: {}
+  components/verticalresponse: {}
 
   components/vestaboard:
     dependencies:
@@ -11841,8 +11840,7 @@ importers:
 
   components/wolfram_alpha: {}
 
-  components/wolfram_alpha_api:
-    specifiers: {}
+  components/wolfram_alpha_api: {}
 
   components/wonderchat: {}
 
