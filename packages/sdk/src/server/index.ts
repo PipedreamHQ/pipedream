@@ -262,11 +262,20 @@ export class BackendClient extends BaseClient {
    * Retrieves a specific account by ID.
    *
    * @param accountId - The ID of the account to retrieve.
+   * @param params - Additional options for the request.
    * @returns A promise resolving to the account.
    *
    * @example
    * ```typescript
    * const account = await client.getAccountById("account-id");
+   * console.log(account);
+   * ```
+   *
+   * @example
+   * ```typescript
+   * const account = await client.getAccountById("account-id", {
+   *   include_credentials: true,
+   * });
    * console.log(account);
    * ```
    */
