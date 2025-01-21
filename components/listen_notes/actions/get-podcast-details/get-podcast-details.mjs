@@ -62,9 +62,7 @@ export default {
         sort: this.sort,
       },
     });
-
     $.export("$summary", `Successfully retrieved details for the podcast '${response.title}'`);
-
     return response;
   },
 };

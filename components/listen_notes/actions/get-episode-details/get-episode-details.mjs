@@ -54,9 +54,7 @@ export default {
         show_transcript: this.showTranscript,
       },
     });
-
     $.export("$summary", `Successfully retrieved details for the episode '${response.title}'`);
-
     return response;
   },
 };

@@ -50,9 +50,7 @@ export default {
         language: this.language,
       },
     });
-
     $.export("$summary", `Successfully retrieved ${response.results.length} results`);
-
     return response;
   },
 };

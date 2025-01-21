@@ -63,8 +63,7 @@ export default {
     nextEpisodePubDate: {
       type: "string",
       label: "Next Episode Pub Date",
-      description: "For episodes pagination. It's the value of `next_episode_pub_date` from the response of last request",
-      options: constants.EPISODES_SORTING_OPTIONS,
+      description: "For episodes pagination. It's the value of `next_episode_pub_date` from the response of last request. It is an Epoch Unix timestamp in milliseconds, i.e.: `1479154463000`",
       optional: true,
     },
     sort: {
