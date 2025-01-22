@@ -1082,8 +1082,7 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/battle_net:
-    specifiers: {}
+  components/battle_net: {}
 
   components/bc_gov_news: {}
 
@@ -5496,8 +5495,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/jumpcloud:
-    specifiers: {}
+  components/jumpcloud: {}
 
   components/jumpseller:
     dependencies:
@@ -7187,8 +7185,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/odoo:
-    specifiers: {}
+  components/odoo: {}
 
   components/offlight:
     dependencies:
