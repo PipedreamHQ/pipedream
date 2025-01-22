@@ -597,8 +597,6 @@ const pd = createBackendClient({
 });
 
 const account = await pd.getAccountById(accountId, {
-  app: "github", // optional, filter by app
-  external_user_id: "user-abc-123", // optional, filter by external user ID
   include_credentials: true, // optional, set to true to include credentials
 });
 
@@ -622,8 +620,6 @@ const pd = createBackendClient({
 const accountId = "{account_id}"; // Replace with your account ID
 
 const account = await pd.getAccountById(accountId, {
-  app: "github", // optional, filter by app
-  external_user_id: "user-abc-123", // optional, filter by external user ID
   include_credentials: true, // optional, set to true to include credentials
 });
 
