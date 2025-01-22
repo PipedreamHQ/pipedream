@@ -4363,8 +4363,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       '@pipedream/google_drive':
-        specifier: ^0.6.19
-        version: 0.6.19
+        specifier: ^0.8.8
+        version: 0.8.8
 
   components/google_drive:
     dependencies:
@@ -8294,8 +8294,7 @@ importers:
 
   components/propeller: {}
 
-  components/proposify:
-    specifiers: {}
+  components/proposify: {}
 
   components/proprofs_quiz_maker: {}
 
@@ -15295,6 +15294,9 @@ packages:
 
   '@pipedream/google_drive@0.6.19':
     resolution: {integrity: sha512-+JtwPhh0mHN3z3bOeyfw6OIztPhT0cVy/r/rpB5b0TFKWVly25Wz6Zv6zug5EhzyEt6DT7dnh9CpIhlxEj7SuA==}
+
+  '@pipedream/google_drive@0.8.8':
+    resolution: {integrity: sha512-cwRCfFv86+GW0G3huAzhXCPvZ+BWaQ+KAeOlGUJBCK1sPsHzNWY1sOAOvDKDVPh1xiSyCzO29+e9UynCfcCSrw==}
 
   '@pipedream/helper_functions@0.3.13':
     resolution: {integrity: sha512-67zXT5rMccSYEeQCEKjO0g/U2Wnc3q1ErRWt0sivqJEF/KYqAb3tWmznDYGACbC8L6ML0WWSWRy7nEGt5Vyuaw==}
@@ -31091,6 +31093,21 @@ snapshots:
       - debug
 
   '@pipedream/google_drive@0.6.19':
+    dependencies:
+      '@googleapis/drive': 2.4.0
+      '@pipedream/platform': 1.6.6
+      cron-parser: 4.9.0
+      google-docs-mustaches: 1.2.2
+      got: 13.0.0
+      lodash: 4.17.21
+      mime-db: 1.53.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+
+  '@pipedream/google_drive@0.8.8':
     dependencies:
       '@googleapis/drive': 2.4.0
       '@pipedream/platform': 1.6.6
