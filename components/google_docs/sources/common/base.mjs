@@ -1,17 +1,17 @@
 import newFilesInstant from "@pipedream/google_drive/sources/new-files-instant/new-files-instant.mjs";
-import googleDrive from "../../google_docs.app.mjs";
-import { MY_DRIVE_VALUE } from "../../../google_drive/common/constants.mjs";
+import app from "../../google_docs.app.mjs";
+import { MY_DRIVE_VALUE } from "@pipedream/google_drive/common/constants.mjs";
 
 export default {
   ...newFilesInstant,
   props: {
-    googleDrive,
+    app,
     db: "$.service.db",
     http: "$.interface.http",
     timer: newFilesInstant.props.timer,
     folders: {
       propDefinition: [
-        googleDrive,
+        app,
         "folderId",
       ],
       type: "string[]",
@@ -30,7 +30,7 @@ export default {
   methods: {
     ...newFilesInstant.methods,
     getDriveId() {
-      return googleDrive.methods.getDriveId(MY_DRIVE_VALUE);
+      return app.methods.getDriveId(MY_DRIVE_VALUE);
     },
     shouldProcess(file) {
       return (
@@ -48,7 +48,7 @@ export default {
     async getDocumentsFromFiles(files, limit) {
       return files.reduce(async (acc, file) => {
         const docs = await acc;
-        const fileInfo = await this.googleDrive.getFile(file.id);
+        const fileInfo = await this.app.getFile(file.id);
         return docs.length >= limit
           ? docs
           : docs.concat(fileInfo);
@@ -59,13 +59,13 @@ export default {
 
       if (!foldersIds?.length) {
         const opts = this.getDocumentsFromFolderOpts("root");
-        const { files } = await this.googleDrive.listFilesInPage(null, opts);
+        const { files } = await this.app.listFilesInPage(null, opts);
         return this.getDocumentsFromFiles(files, limit);
       }
 
       return foldersIds.reduce(async (docs, folderId) => {
         const opts = this.getDocumentsFromFolderOpts(folderId);
-        const { files } = await this.googleDrive.listFilesInPage(null, opts);
+        const { files } = await this.app.listFilesInPage(null, opts);
         const nextDocuments = await this.getDocumentsFromFiles(files, limit);
         return (await docs).concat(nextDocuments);
       }, []);
@@ -75,7 +75,7 @@ export default {
         if (!this.shouldProcess(file)) {
           continue;
         }
-        const doc = await this.googleDrive.getDocument(file.id);
+        const doc = await this.app.getDocument(file.id);
         this.$emit(doc, this.generateMeta(doc));
       }
     },
