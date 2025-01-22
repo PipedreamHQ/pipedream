@@ -1082,6 +1082,9 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
+  components/battle_net:
+    specifiers: {}
+
   components/bc_gov_news: {}
 
   components/beaconchain:
