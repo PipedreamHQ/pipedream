@@ -2,6 +2,13 @@
 
 # Changelog
 
+## [1.1.6] - 2025-01-21
+
+### Changed
+
+- Fixed the docs of the `getAccountById` method in the backend client to remove
+  arguments that are not actually supported.
+
 ## [1.1.5] - 2025-01-14
 
 ### Changed
