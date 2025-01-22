@@ -3,10 +3,10 @@ import common from "../common/common-polling.mjs";
 export default {
   ...common,
   key: "monday-new-board",
-  name: "New Board",
-  description: "Emit new event when a new board is created in Monday.",
+  name: "New Board Created",
+  description: "Emit new event when a board is created in Monday. [See the documentation](https://developer.monday.com/api-reference/reference/webhooks#sample-payload-for-webhook-events)",
   type: "source",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
   props: {
     ...common.props,
