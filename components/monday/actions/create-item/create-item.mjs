@@ -6,7 +6,7 @@ export default {
   ...commonCreateItem,
   key: "monday-create-item",
   name: "Create Item",
-  description: "Creates an item. [See the documentation](https://api.developer.monday.com/docs/items-queries#create-an-item)",
+  description: "Creates an item. [See the documentation](https://developer.monday.com/api-reference/reference/items#create-an-item)",
   type: "action",
   version: "0.0.10",
   props: {
