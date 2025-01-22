@@ -4741,6 +4741,9 @@ importers:
 
   components/hasura: {}
 
+  components/have_i_been_pwned:
+    specifiers: {}
+
   components/heartbeat: {}
 
   components/heedjy:
