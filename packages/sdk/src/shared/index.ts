@@ -572,12 +572,12 @@ export type DeployTriggerOpts = ExternalUserId & {
  */
 export type DeleteTriggerOpts = {
   /**
-   * The ID of the trigger you're deleting.
+   * The ID of the trigger you're deleting (`dc_xxxxxxx` for example ).
    */
   id: string;
 
   /**
-   * Your end user ID, for whom you deployed the trigger.
+   * The end user ID, for whom you deployed the trigger.
    */
   externalUserId: string;
 
