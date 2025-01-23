@@ -18,19 +18,19 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "The new column's title.",
+      description: "The title of the new column.",
     },
     columnType: {
       type: "string",
       label: "Column Type",
-      description: "The new column's title",
+      description: "The type of the new column.",
       options: constants.COLUMN_TYPE_OPTIONS,
       reloadProps: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "The column's description.",
+      description: "The description of the new column.",
       optional: true,
     },
   },
@@ -39,7 +39,7 @@ export default {
     const defaults = {
       type: "string",
       label: "Defaults",
-      description: "The new column's defaults. For use with column types `status` or `dropdown`. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for additional information.",
+      description: "The new column's defaults. For use with column types `status` or `dropdown`. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for more information.",
       optional: true,
     };
     if (this.columnType === "status") {

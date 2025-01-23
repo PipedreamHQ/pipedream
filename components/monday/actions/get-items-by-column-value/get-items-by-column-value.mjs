@@ -22,7 +22,7 @@ export default {
     value: {
       type: "string",
       label: "Value",
-      description: "The value to serach for. [See documentation](https://developer.monday.com/api-reference/docs/items-by-column-values#supported-limited-support-and-unsupported-columns) for additional information about column values.",
+      description: "The value to search for. [See the documentation](https://developer.monday.com/api-reference/docs/items-by-column-values#supported-limited-support-and-unsupported-columns) for additional information about column values.",
     },
   },
   async run({ $ }) {

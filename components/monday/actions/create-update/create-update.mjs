@@ -33,7 +33,7 @@ export default {
     },
     parentId: {
       label: "Parent Update ID",
-      description: "The parent post identifier",
+      description: "Select a parent update or provide an update ID.",
       propDefinition: [
         monday,
         "updateId",

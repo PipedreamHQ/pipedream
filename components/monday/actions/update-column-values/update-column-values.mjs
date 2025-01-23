@@ -12,9 +12,13 @@ export default {
   type: "action",
   props: {
     ...common.props,
+    updateInfoBox: {
+      type: "alert",
+      alertType: "info",
+      content: "See the [Column types reference](https://developer.monday.com/api-reference/docs/column-types-reference) to find the proper data structures for supported column types.",
+    },
     boardId: {
       ...common.props.boardId,
-      description: "The board's unique identifier. See the [Column types reference](https://developer.monday.com/api-reference/docs/column-types-reference) to find the proper data structures for supported column types.",
       reloadProps: true,
     },
     itemId: {
