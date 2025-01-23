@@ -12071,6 +12071,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/yext:
+    specifiers: {}
+
   components/yoast_seo: {}
 
   components/yoplanning:
