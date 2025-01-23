@@ -3,7 +3,7 @@ import app from "../../linkup.app.mjs";
 export default {
   name: "Linkup Answer",
   description: "Get a natural language answer to your natural language question.",
-  key: "linkup-search",
+  key: "linkup-answer",
   version: "0.0.1",
   type: "action",
   props: {
