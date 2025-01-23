@@ -14,7 +14,7 @@ export default {
       type: "integer",
       min: 1,
       label: "Max API Requests per Execution",
-      description: "The maximum number of API requests to make per execution (e.g., multiple requests are required to retrieve paginated results)",
+      description: "The maximum number of API requests to make per execution (multiple requests are required to retrieve paginated results)",
       optional: true,
       default: 1,
     },
