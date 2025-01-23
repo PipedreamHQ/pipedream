@@ -93,31 +93,6 @@ export default {
         return options;
       },
     },
-    fileId: {
-      type: "string",
-      label: "File",
-      description: "The identifier of a file",
-      async options({
-        projectId, folderId,
-      }) {
-        if (!projectId || !folderId) {
-          return [];
-        }
-        const { data } = await this.getFolderContent({
-          projectId,
-          folderId,
-          params: {
-            "filter[type]": "items",
-          },
-        });
-        return data?.map(({
-          id, attributes,
-        }) => ({
-          label: attributes.displayName,
-          value: id,
-        })) || [];
-      },
-    },
   },
   methods: {
     _baseUrl() {
@@ -193,18 +168,6 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/data/v1/projects/${projectId}/folders`,
-        headers: {
-          "Content-Type": "application/vnd.api+json",
-        },
-        ...opts,
-      });
-    },
-    updateMetadata({
-      projectId, fileId, ...opts
-    }) {
-      return this._makeRequest({
-        method: "PATCH",
-        path: `/data/v1/projects/${projectId}/items/${fileId}`,
         headers: {
           "Content-Type": "application/vnd.api+json",
         },

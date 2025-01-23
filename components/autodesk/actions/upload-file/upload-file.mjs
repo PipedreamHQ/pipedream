@@ -1,7 +1,6 @@
 import autodesk from "../../autodesk.app.mjs";
 import { axios } from "@pipedream/platform";
 import fs from "fs";
-import FormData from "form-data";
 
 export default {
   key: "autodesk-upload-file",
@@ -102,18 +101,19 @@ export default {
     const signedUrl = urls[0];
 
     // Upload to signed URL
-    const form = new FormData();
-    form.append("file", fs.createReadStream(this.filePath.includes("tmp/")
+    const filePath = this.filePath.includes("tmp/")
       ? this.filePath
-      : `/tmp/${this.filePath}`));
+      : `/tmp/${this.filePath}`;
+    const fileStream = fs.createReadStream(filePath);
+    const fileSize = fs.statSync(filePath).size;
 
     await axios($, {
       url: signedUrl,
-      data: form,
+      data: fileStream,
       method: "PUT",
       headers: {
-        ...form.getHeaders(),
         "Content-Type": "application/octet-stream",
+        "Content-Length": fileSize,
       },
       maxContentLength: Infinity,
       maxBodyLength: Infinity,
@@ -161,25 +161,27 @@ export default {
             },
           },
         },
-        included: {
-          type: "versions",
-          id: "1",
-          attributes: {
-            name: this.fileName,
-            extension: {
-              type: this.type.replace("items", "versions"),
-              version: "1.0",
+        included: [
+          {
+            type: "versions",
+            id: "1",
+            attributes: {
+              name: this.fileName,
+              extension: {
+                type: this.type.replace("items", "versions"),
+                version: "1.0",
+              },
             },
-          },
-          relationships: {
-            storage: {
-              data: {
-                type: "objects",
-                id: objectId,
+            relationships: {
+              storage: {
+                data: {
+                  type: "objects",
+                  id: objectId,
+                },
               },
             },
           },
-        },
+        ],
       },
     });
 
