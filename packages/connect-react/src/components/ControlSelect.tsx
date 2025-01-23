@@ -47,10 +47,17 @@ export function ControlSelect<T>({
         if (typeof ret[0] !== "object") {
           const lvs = [];
           for (const o of ret) {
-            lvs.push({
+            let obj = {
               label: o,
               value: o,
-            });
+            }
+            for (const item of options) {
+              if (item.value === o) {
+                obj = item;
+                break;
+              }
+            }
+            lvs.push(obj);
           }
           ret = lvs;
         }
