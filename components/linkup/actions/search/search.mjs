@@ -4,7 +4,7 @@ export default {
   name: "Linkup Search",
   description: "Retrieve a list of objects relevant to a natural language search query.",
   key: "linkup-search",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
