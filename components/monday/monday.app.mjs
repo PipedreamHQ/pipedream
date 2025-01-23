@@ -34,7 +34,7 @@ export default {
     folderId: {
       type: "integer",
       label: "Folder ID",
-      description: "Optionally select a folder to create the board in, or provide a  folder ID.",
+      description: "Optionally select a folder to create the board in, or provide a folder ID.",
       optional: true,
       async options({ workspaceId }) {
         return this.listFolderOptions({
