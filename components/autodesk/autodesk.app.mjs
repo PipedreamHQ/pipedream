@@ -240,6 +240,18 @@ export default {
         ...opts,
       });
     },
+    createFirstVersionOfFile({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/data/v1/projects/${projectId}/items`,
+        headers: {
+          "Content-Type": "application/vnd.api+json",
+        },
+        ...opts,
+      });
+    },
     async *paginate({
       fn,
       args,
