@@ -2059,6 +2059,57 @@ which you want to deploy the trigger.
 
 ##### Examples
 
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// List all deployed triggers for the specified user
+const { data: triggers } = await pd.getTriggers({
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// List all deployed triggers for the specified user
+const { data: triggers } = await pd.getTriggers({
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
 ```bash
 # First, obtain an OAuth access token
 curl -X POST https://api.pipedream.com/v1/oauth/token \
@@ -2080,6 +2131,8 @@ curl -X GET \
   -H "x-pd-environment: development" \
   -d "external_user_id={external_user_id}"
 ```
+</Tabs.Tab>
+</Tabs>
 
 ##### Example response
 
@@ -2250,6 +2303,59 @@ which you want to deploy the trigger.
 
 ##### Examples
 
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the deployed trigger for the specified user
+const { data: trigger } = await pd.getTrigger({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the deployed trigger for the specified user
+const { data: trigger } = await pd.getTrigger({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
 ```bash
 # First, obtain an OAuth access token
 curl -X POST https://api.pipedream.com/v1/oauth/token \
@@ -2271,6 +2377,8 @@ curl -X GET \
   -H "x-pd-environment: development" \
   -d "external_user_id={external_user_id}"
 ```
+</Tabs.Tab>
+</Tabs>
 
 ##### Example response
 
@@ -2369,6 +2477,57 @@ which you want to deploy the trigger.
 
 ##### Examples
 
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Delete the deployed trigger for the specified user. The method doesn't return
+// any data.
+await pd.deleteTrigger({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Delete the deployed trigger for the specified user. The method doesn't return
+// any data.
+await pd.deleteTrigger({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
 ```bash
 # First, obtain an OAuth access token
 curl -X POST https://api.pipedream.com/v1/oauth/token \
@@ -2390,7 +2549,673 @@ curl -X DELETE \
   -H "x-pd-environment: development" \
   -d "external_user_id={external_user_id}"
 ```
+</Tabs.Tab>
+</Tabs>
 
 ##### Response
 
 Pipedream returns a `204 No Content` response on successful deletion
+
+
+#### Retrieve the events emitted by a deployed trigger
+
+Retrieve a list of the last events that a deployed trigger emitted.
+
+```text
+GET /deployed-triggers/{deployed_component_id}/events/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+`n` **number** (_optional_)
+
+The number of events to retrieve. Defaults to 10, and it's capped at 100.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// List the last 10 events emitted by the deployed trigger of the specified user
+const { data: events } = await pd.getTriggerEvents({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// List the last 10 events emitted by the deployed trigger of the specified user
+const { data: events } = await pd.getTriggerEvents({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all events emitted by the specified deployed trigger.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/events" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "data": [
+    {
+      "e": {
+        "method": "PUT",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1737155977519,
+      "id": "1737155977519-0"
+    },
+    {
+      "e": {
+        "method": "PUT",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1737062972013,
+      "id": "1737062972013-0"
+    },
+    {
+      "e": {
+        "method": "POST",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1737047546217,
+      "id": "1737047546217-0"
+    },
+    {
+      "e": {
+        "method": "GET",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1736985883016,
+      "id": "1736985883016-0"
+    }
+  ]
+}
+```
+
+#### Retrieve the webhooks listening to a deployed trigger
+
+Retrieve the list of webhook URLs listening to a deployed trigger.
+
+```text
+GET /deployed-triggers/{deployed_component_id}/webhooks/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the list of webhook URLs listening to the deployed trigger for the
+// specified user
+const { webhook_urls: urls } = await pd.getTriggerWebhooks({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the list of webhook URLs listening to the deployed trigger for the
+// specified user
+const { webhook_urls: urls } = await pd.getTriggerWebhooks({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all webhook URLs listening to the specified deployed trigger.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/webhooks/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "webhook_urls": [
+    "https://events.example.com/gitlab-new-issue",
+  ]
+}
+```
+
+#### Update the webhooks listening to a deployed trigger
+
+Update the list of webhook URLs that will listen to a deployed trigger.
+
+```text
+PUT /deployed-triggers/{deployed_component_id}/webhooks/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+##### Body parameters
+
+`webhook_urls` **string[]**
+
+The list of webhook URLs that will listen to the deployed trigger.
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// The new list of webhook URLs that will listen to the deployed trigger
+const webhookUrls = [
+  "https://events.example.com/gitlab-new-issue",
+];
+
+// Update the list of webhook URLs listening to the deployed trigger
+const { webhook_urls: confirmedUrls } = await pd.updateTriggerWebhooks({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  webhookUrls,
+});
+
+// `webhookUrls` will match `confirmedUrls` if the update was successful
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// The new list of webhook URLs that will listen to the deployed trigger
+const webhookUrls = [
+  "https://events.example.com/gitlab-new-issue",
+];
+
+// Update the list of webhook URLs listening to the deployed trigger
+const { webhook_urls: confirmedUrls } = await pd.updateTriggerWebhooks({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  webhookUrls,
+});
+
+// `webhookUrls` will match `confirmedUrls` if the update was successful
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will update the list of webhook URLs listening to the specified deployed trigger.
+
+curl -X PUT \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/webhooks/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d '{"external_user_id": "{external_user_id}", "webhook_urls": ["https://events.example.com/gitlab-new-issue"]}'
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "webhook_urls": [
+    "https://events.example.com/gitlab-new-issue",
+  ]
+}
+```
+
+#### Retrieve the workflows listening to a deployed trigger
+
+Retrieve the list of workflow IDs listening to a deployed trigger.
+
+```text
+GET /deployed-triggers/{deployed_component_id}/workflows/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the list of workflow IDs listening to the deployed trigger for the
+// specified user
+const { workflow_ids: ids } = await pd.getTriggerWorkflows({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the list of workflow IDs listening to the deployed trigger for the
+// specified user
+const { workflow_ids: ids } = await pd.getTriggerWorkflows({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all workflow IDs listening to the specified deployed trigger.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/workflows/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "workflow_ids": [
+    "p_ERRCzw",
+    "p_2LniLm",
+  ]
+}
+```
+
+#### Update the workflows listening to a deployed trigger
+
+Update the list of workflows that will listen to a deployed trigger.
+
+```text
+PUT /deployed-triggers/{deployed_component_id}/workflows/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+##### Body parameters
+
+`workflow_ids` **string[]**
+
+The list of workflow IDs that will listen to the deployed trigger.
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// The new list of workflow IDs that will listen to the deployed trigger
+const workflowIds = [
+  "p_ERRCzw",
+  "p_2LniLm",
+];
+
+// Update the list of workflows listening to the deployed trigger
+const { workflow_ids: confirmedIds } = await pd.updateTriggerWorkflows({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  webhookUrls,
+});
+
+// `workflowIds` will match `confirmedIds` if the update was successful
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// The new list of workflow IDs that will listen to the deployed trigger
+const workflowIds = [
+  "p_ERRCzw",
+  "p_2LniLm",
+];
+
+// Update the list of workflows listening to the deployed trigger
+const { workflow_ids: confirmedIds } = await pd.updateTriggerWorkflows({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  webhookUrls,
+});
+
+// `workflowIds` will match `confirmedIds` if the update was successful
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will update the list of webhook URLs listening to the specified deployed trigger.
+
+curl -X PUT \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/webhooks/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d '{"external_user_id": "{external_user_id}", "workflow_ids": ["p_ERRCzw", "p_2LniLm"]}'
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "workflow_ids": [
+    "p_ERRCzw",
+    "p_2LniLm",
+  ]
+}
+```
+
