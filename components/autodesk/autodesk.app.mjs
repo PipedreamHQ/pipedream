@@ -237,9 +237,9 @@ export default {
           if (max && ++count >= max) {
             return;
           }
-          hasMore = data?.length === args.params["page[limit]"];
-          args.params["page[number]"] += 1;
         }
+        hasMore = data?.length === args.params["page[limit]"];
+        args.params["page[number]"] += 1;
       }
     },
   },
