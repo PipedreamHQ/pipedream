@@ -997,6 +997,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/azure_api_for_fhir:
+    specifiers: {}
+
   components/azure_devops:
     dependencies:
       '@pipedream/platform':
