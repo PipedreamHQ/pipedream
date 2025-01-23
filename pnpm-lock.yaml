@@ -997,8 +997,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/azure_api_for_fhir:
-    specifiers: {}
+  components/azure_api_for_fhir: {}
 
   components/azure_devops:
     dependencies:
@@ -3416,8 +3415,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/exist:
-    specifiers: {}
+  components/exist: {}
 
   components/expedy:
     dependencies:
@@ -4746,8 +4744,7 @@ importers:
 
   components/hasura: {}
 
-  components/have_i_been_pwned:
-    specifiers: {}
+  components/have_i_been_pwned: {}
 
   components/heartbeat: {}
 
@@ -6612,8 +6609,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/mindbody:
-    specifiers: {}
+  components/mindbody: {}
 
   components/mindmeister: {}
 
@@ -7668,8 +7664,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/paylocity:
-    specifiers: {}
+  components/paylocity: {}
 
   components/paymo:
     dependencies:
@@ -9209,7 +9204,11 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/scrapingant: {}
+  components/scrapingant:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/scrapingbee: {}
 
@@ -12083,8 +12082,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/yext:
-    specifiers: {}
+  components/yext: {}
 
   components/yoast_seo: {}
 
