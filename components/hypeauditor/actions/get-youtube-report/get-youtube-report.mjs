@@ -1,35 +1,42 @@
-import hypeauditor from "../../hypeauditor.app.mjs";
+import app from "../../hypeauditor.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "hypeauditor-get-youtube-report",
-  name: "Get YouTube Report",
-  description: "Generates a comprehensive YouTube report for a specified channel. [See the documentation](https://hypeauditor.readme.io/reference/report_youtube)",
+  name: "Get Youtube Report",
+  description: "Returns a report about the specified Youtube channel. [See the documentation](https://hypeauditor.readme.io/reference/report_youtube)",
   version: "0.0.1",
   type: "action",
   props: {
-    hypeauditor,
-    channel: {
+    app,
+    channelId: {
       propDefinition: [
-        hypeauditor,
-        "youtubeChannel",
+        app,
+        "channelId",
       ],
     },
-    features: {
+    channelUsername: {
       propDefinition: [
-        hypeauditor,
-        "youtubeFeatures",
+        app,
+        "channelUsername",
       ],
     },
   },
+
   async run({ $ }) {
-    const {
-      hypeauditor, ...params
-    } = this;
-    const response = await hypeauditor.getYouTubeReport({
+    if (!this.channelId && !this.channelUsername) {
+      throw new ConfigurationError("You need to inform a Channel ID or Channel Username");
+    }
+
+    const response = await this.app.getYoutubeReport({
       $,
-      params,
+      data: {
+        channel: this.channelId ?? this.channelUsername,
+      },
     });
-    $.export("$summary", `Successfully fetched YouTube report for channel ${this.channel}`);
+
+    $.export("$summary", `Successfully sent the request. Report state: '${response.result.report_state}'`);
+
     return response;
   },
 };

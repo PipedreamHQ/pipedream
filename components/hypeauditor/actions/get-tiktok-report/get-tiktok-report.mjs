@@ -1,29 +1,31 @@
-import hypeauditor from "../../hypeauditor.app.mjs";
+import app from "../../hypeauditor.app.mjs";
 
 export default {
   key: "hypeauditor-get-tiktok-report",
-  name: "Get TikTok Report",
-  description: "Generates a comprehensive TikTok report for a specified channel. [See the documentation](https://hypeauditor.readme.io/reference/report_tiktok)",
+  name: "Get Tiktok Report",
+  description: "Returns a report about the specified Tiktok channel. [See the documentation](https://hypeauditor.readme.io/reference/get_report_tiktok)",
   version: "0.0.1",
   type: "action",
   props: {
-    hypeauditor,
-    channel: {
+    app,
+    channelUsername: {
       propDefinition: [
-        hypeauditor,
-        "tiktokChannel",
+        app,
+        "channelUsername",
       ],
+      optional: false,
     },
   },
+
   async run({ $ }) {
-    const {
-      hypeauditor, ...params
-    } = this;
-    const response = await hypeauditor.getTikTokReport({
+    const response = await this.app.getTiktokReport({
       $,
-      params,
+      data: {
+        channel: this.channelUsername,
+      },
     });
-    $.export("$summary", `Successfully fetched TikTok report for channel ${this.channel}`);
+    $.export("$summary", `Successfully sent the request. Report state: '${response.result.report_state}'`);
+
     return response;
   },
 };
