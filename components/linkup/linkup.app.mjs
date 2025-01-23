@@ -14,5 +14,9 @@ export default {
       const client = this._getClient();
       return client.search(params);
     },
+    answer(params) {
+      const client = this._getClient();
+      return client.search(params);
+    },
   },
 };
