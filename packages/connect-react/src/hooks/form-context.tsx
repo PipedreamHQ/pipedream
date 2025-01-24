@@ -365,9 +365,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       }
     }
     // propsNeedConfiguring.splice(0, propsNeedConfiguring.length, ..._propsNeedConfiguring)
-    // For some reason registerField is called in recursive loop if an empty
-    // propsNeedConfiguring is set to an empty _propsNeedConfiguring
-    if (!propsNeedConfiguring.length && !_propsNeedConfiguring.length) return
     setPropsNeedConfiguring(_propsNeedConfiguring)
   }
 
@@ -376,7 +373,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       fields[field.prop.name] = field
       return fields
     });
-    checkPropsNeedConfiguring()
   };
 
   // console.log("***", configurableProps, configuredProps)
