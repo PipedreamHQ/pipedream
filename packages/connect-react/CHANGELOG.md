@@ -1,6 +1,12 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.24] - 2025-01-24
+
+- Fix the bug where inputting multiple strings into an array prop would merge the strings into one
+- Fix custom string input for remote options
+- Fix the reloading of a previously selected remote option when re-rendering the form component
+
 # [1.0.0-preview.23] - 2025-01-22
 
 - Show the prop label instead of the value after selecting from a dropdown for string array props
