@@ -63,7 +63,6 @@ export function ControlSelect<T>({
   };
 
   const selectValue = useMemo(() => {
-    console.log("rawValue: ", rawValue)
     let ret = rawValue;
     if (ret != null) {
       if (Array.isArray(ret)) {
