@@ -66,13 +66,6 @@ export function ControlSelect<T>({
     console.log("rawValue: ", rawValue)
     let ret = rawValue;
     if (ret != null) {
-      // if (!options || !options.length) {
-      //   // Options would not be available when reloading the component
-      //   return {
-      //     label: value,
-      //     value: value,
-      //   }
-      // }
       if (Array.isArray(ret)) {
         // if simple, make lv (XXX combine this with other place this happens)
         if (typeof ret[0] !== "object") {
@@ -100,6 +93,11 @@ export function ControlSelect<T>({
               ret = item;
               break;
             }
+          }
+        } else {
+          ret = {
+            label: rawValue,
+            value: rawValue,
           }
         }
       } else if (ret.__lv) {
