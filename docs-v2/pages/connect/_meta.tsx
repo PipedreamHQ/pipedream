@@ -12,7 +12,7 @@ export default {
     "title": "Running workflows",
   },
   "components": {
-    "title": "Running components",
+    "title": "Embedding components",
   },
   "api": {
     "title": "API & SDK reference",

@@ -2,6 +2,25 @@
 
 # Changelog
 
+## [1.2.0] - 2025-01-23
+
+### Added
+
+- New methods and types to interact with the deployed triggers API
+
+## [1.1.6] - 2025-01-21
+
+### Changed
+
+- Fixed the docs of the `getAccountById` method in the backend client to remove
+  arguments that are not actually supported.
+
+## [1.1.5] - 2025-01-14
+
+### Changed
+
+- Corrected the return type of `reloadComponentProps`
+
 ## [1.1.4] - 2025-01-08
 
 ### Added

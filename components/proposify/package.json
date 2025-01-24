@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/proposify",
+  "version": "0.0.1",
+  "description": "Pipedream Proposify Components",
+  "main": "proposify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "proposify"
+  ],
+  "homepage": "https://pipedream.com/apps/proposify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

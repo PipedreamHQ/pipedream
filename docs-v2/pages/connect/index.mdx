@@ -12,9 +12,9 @@ You have full, code-level control over how these integrations work in your app. 
 Connect lets you:
 
 1. Handle authorization or accept API keys on behalf of your users, for any of Pipedream's [{process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps). Use the [Client SDK](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk) or [Connect Link](/connect/quickstart#or-use-connect-link) to accept auth in minutes.
-2. Securely retrieve OAuth access tokens, API keys, and other credentials for your end users with Pipedream's [REST API](/connect/api)
-3. [Run workflows](/connect/workflows) for your end users with Pipedream's [workflow builder](/workflows), [serverless runtime](/), and thousands of no-code [triggers](/workflows/triggers) and [actions](/workflows/actions). Build complex integrations in minutes, writing code when you need it and using no-code components when you don't. Pipedream workflows are easy to modify, debug, and scale.
-4. [Embed any Pipedream action or trigger](/connect/components) to run on behalf of your users, directly from within your application.
+2. Securely retrieve OAuth access tokens, API keys, and other credentials for your end users with Pipedream's [REST API](/connect/api).
+3. [Embed any Pipedream action or trigger](/connect/components) to run on behalf of your users, directly from within your application.
+4. [Run workflows](/connect/workflows) for your end users with Pipedream's [workflow builder](/workflows), [serverless runtime](/), and thousands of no-code [triggers](/workflows/triggers) and [actions](/workflows/actions). Build complex integrations in minutes, writing code when you need it and using no-code components when you don't. Pipedream workflows are easy to modify, debug, and scale.
 
 <br />
 
@@ -33,13 +33,13 @@ Pipedream Connect lets you build any API integration into your product in minute
 
 ## Getting started
 
-Watch [the demo](https://www.youtube.com/embed/xhUagMsogkQ) or visit [the quickstart](/connect/quickstart) to build your first integration.
+Visit [the managed auth quickstart](/connect/quickstart) to build your first integration.
 
 ## App configuration for OAuth apps
 
 Pipedream has more than {process.env.PUBLIC_APPS} apps available for you to integrate via Connect. Getting started is easy — just follow the [quickstart](/connect/quickstart) to get up and running.
 
-By default, apps that use OAuth to authenticate will use Pipedream's official OAuth client. To deploy your integrations to production, you'll need to configure your own OAuth client. Read more about OAuth clients in Pipedream [here](/connected-accounts/oauth-clients).
+By default, apps that use OAuth to authenticate will use Pipedream's OAuth client. Depending on your use case, you may need to configure your own OAuth client. Read more about OAuth clients in Pipedream [here](/connected-accounts/oauth-clients).
 
 [Let us know](https://pipedream.com/support) if the app you're looking for isn't listed [here](https://pipedream.com/apps).
 
@@ -47,14 +47,14 @@ By default, apps that use OAuth to authenticate will use Pipedream's official OA
 
 To view or delete your users' connected accounts:
 
-1. Open your project
+1. Open your project in Pipedream
 2. Click the **Connect** tab on the left
 3. Click the **Users** tab at the top
 
 You'll see a list of all users, their connected accounts, and the option to delete any accounts from the UI. You can also retrieve and delete all your users via the API ([see the docs for reference](/connect/api)).
 
 <Callout type="warning">
-Connect currently supports one connected account per user / app / environment combination.
+Connect currently supports one connected account per user, app, environment combination.
 
 So if user `abc-123` in your application connects their Slack account in `production`, then that same user connects a different Slack workspace (also in `production`), the first connected account will get overwritten in Pipedream and replaced by the second.
 </Callout>

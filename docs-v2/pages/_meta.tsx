@@ -4,14 +4,14 @@ export default {
   "workspaces": "Workspaces",
   "projects": "Projects",
   "workflows": "Workflows",
+  "connect": {
+    title: "Pipedream Connect",
+  },
   "code": "Code",
   "data-stores": "Data Stores",
   "databases": "Databases",
   "connected-accounts": "Connected Accounts",
   "apps": "Integrations",
-  "connect": {
-    title: "Pipedream Connect",
-  },
   "components": "Components",
   "sources": "Sources",
   "event-history": "Event History",

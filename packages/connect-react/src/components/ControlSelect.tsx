@@ -1,20 +1,25 @@
 import { useMemo } from "react";
-import Select, { Props as ReactSelectProps } from "react-select";
+import Select, {
+  Props as ReactSelectProps, components,
+} from "react-select";
 import type { CSSObjectWithLabel } from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
+import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
 type ControlSelectProps<T> = {
   isCreatable?: boolean;
   options: {label: string; value: T;}[];
   selectProps?: ReactSelectProps;
+  showLoadMoreButton?: boolean;
+  onLoadMore?: () => void;
 };
 
 export function ControlSelect<T>({
-  isCreatable, options, selectProps,
+  isCreatable, options, selectProps, showLoadMoreButton, onLoadMore,
 }: ControlSelectProps<T>) {
   const formFieldCtx = useFormFieldContext();
   const {
@@ -24,7 +29,7 @@ export function ControlSelect<T>({
     select, theme,
   } = useCustomize();
 
-  const baseSelectProps: BaseReactSelectProps<any, any, any> = {
+  const baseSelectProps: BaseReactSelectProps<never, never, never> = {
     styles: {
       container: (base): CSSObjectWithLabel => ({
         ...base,
@@ -42,10 +47,17 @@ export function ControlSelect<T>({
         if (typeof ret[0] !== "object") {
           const lvs = [];
           for (const o of ret) {
-            lvs.push({
+            let obj = {
               label: o,
               value: o,
-            });
+            }
+            for (const item of options) {
+              if (item.value === o) {
+                obj = item;
+                break;
+              }
+            }
+            lvs.push(obj);
           }
           ret = lvs;
         }
@@ -69,6 +81,36 @@ export function ControlSelect<T>({
     options,
   ]);
 
+  const LoadMore = ({
+    // eslint-disable-next-line react/prop-types
+    children, ...props
+  }) => {
+    return (
+      <components.MenuList  {...props}>
+        { children }
+        <div className="pt-4">
+          <LoadMoreButton onChange={onLoadMore}/>
+        </div>
+      </components.MenuList>
+    )
+  }
+
+  const props = select.getProps("controlSelect", baseSelectProps)
+  if (showLoadMoreButton) {
+    props.components = {
+      // eslint-disable-next-line react/prop-types
+      ...props.components,
+      MenuList: LoadMore,
+    }
+  }
+
+  const handleCreate = (inputValue: string) => {
+    options.unshift({
+      label: inputValue,
+      value: inputValue,
+    })
+  };
+
   const MaybeCreatableSelect = isCreatable
     ? CreatableSelect
     : Select;
@@ -81,8 +123,9 @@ export function ControlSelect<T>({
       isMulti={prop.type.endsWith("[]")}
       isClearable={true}
       required={!prop.optional}
-      {...select.getProps("controlSelect", baseSelectProps)}
+      {...props}
       {...selectProps}
+      onCreateOption={handleCreate}
       onChange={(o) => {
         if (o) {
           if (Array.isArray(o)) {
@@ -101,7 +144,9 @@ export function ControlSelect<T>({
             }
           } else if (typeof o === "object" && "value" in o) {
             if (prop.withLabel) {
-              onChange({__lv: o});
+              onChange({
+                __lv: o,
+              });
             } else {
               onChange(o.value);
             }

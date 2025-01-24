@@ -1,11 +1,18 @@
+import { LinkupClient } from "linkup-sdk";
+
 export default {
   type: "app",
   app: "linkup",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _getClient() {
+      return new LinkupClient({
+        apiKey: this.$auth.api_key,
+      });
+    },
+    search(params) {
+      const client = this._getClient();
+      return client.search(params);
     },
   },
 };

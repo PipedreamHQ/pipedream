@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/verticalresponse",
+  "version": "0.0.1",
+  "description": "Pipedream VerticalResponse Components",
+  "main": "verticalresponse.app.mjs",
+  "keywords": [
+    "pipedream",
+    "verticalresponse"
+  ],
+  "homepage": "https://pipedream.com/apps/verticalresponse",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
