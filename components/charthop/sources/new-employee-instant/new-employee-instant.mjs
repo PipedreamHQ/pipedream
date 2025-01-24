@@ -1,5 +1,4 @@
 import charthop from "../../charthop.app.mjs";
-import { axios } from "@pipedream/platform";
 import crypto from "crypto";
 
 export default {

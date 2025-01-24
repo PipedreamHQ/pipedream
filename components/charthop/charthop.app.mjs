@@ -3,8 +3,120 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "charthop",
-  version: "0.0.{{ts}}",
   propDefinitions: {
+    orgId: {
+      type: "string",
+      label: "Organization ID",
+      description: "The identifier of an organization",
+      async options({ prevContext }) {
+        const params = prevContext?.from
+          ? {
+            from: prevContext.from,
+          }
+          : {};
+        const { data } = await this.listOrgs({
+          params,
+        });
+        const options = data.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+        return {
+          options,
+          context: {
+            from: options[options.length - 1].id,
+          },
+        };
+      },
+    },
+    employeeId: {
+      type: "string",
+      label: "Employee ID",
+      description: "The identifier of an employee",
+      async options({
+        orgId, prevContext,
+      }) {
+        const params = prevContext?.from
+          ? {
+            from: prevContext.from,
+          }
+          : {};
+        const { data } = await this.listUsers({
+          params: {
+            ...params,
+            orgId,
+          },
+        });
+        const employees = [];
+        const employeeRoleId = await this.getEmployeeRoleId({
+          orgId,
+        });
+        for (const user of data) {
+          if (user.orgs.find((u) => u.orgId === orgId && u.roleId === employeeRoleId)) {
+            employees.push(user);
+          }
+        }
+        const options = employees.map(({
+          id: value, name,
+        }) => ({
+          value,
+          label: (`${name.first} ${name.last}`).trim(),
+        }));
+        return {
+          options,
+          context: {
+            from: data[data.length - 1].id,
+          },
+        };
+      },
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "First name of the employee",
+    },
+    middleName: {
+      type: "string",
+      label: "Middle Name",
+      description: "Middle name of the employee",
+      optional: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "Last name of the employee",
+    },
+    preferredFirstName: {
+      type: "string",
+      label: "Preferred First Name",
+      description: "The preferred first name of the employee",
+      optional: true,
+    },
+    preferredLastName: {
+      type: "string",
+      label: "Preferred Last Name",
+      description: "The preferred last name of the employee",
+      optional: true,
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "Email address of the employee",
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "The status of the emaployee",
+      options: [
+        "SUPERUSER",
+        "NORMAL",
+        "INACTIVE",
+        "UNINSTALLED",
+      ],
+      optional: true,
+    },
     // Event Filters for New Employee Added
     newEmployeeDepartmentFilter: {
       type: "string",
@@ -42,41 +154,6 @@ export default {
       type: "string",
       label: "Division Filter",
       description: "Optional division filter for organizational structure change events.",
-      optional: true,
-    },
-
-    // Action: Add New Employee
-    addEmployeeName: {
-      type: "string",
-      label: "Employee Name",
-      description: "Name of the new employee.",
-    },
-    addEmployeeEmail: {
-      type: "string",
-      label: "Employee Email",
-      description: "Email address of the new employee.",
-    },
-    addEmployeeRole: {
-      type: "string",
-      label: "Employee Role",
-      description: "Role of the new employee.",
-    },
-    addEmployeeStartDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Optional start date for the new employee.",
-      optional: true,
-    },
-    addEmployeeDepartment: {
-      type: "string",
-      label: "Department",
-      description: "Optional department for the new employee.",
-      optional: true,
-    },
-    addEmployeeCustomFields: {
-      type: "string[]",
-      label: "Custom Fields",
-      description: "Optional custom fields for the new employee. Provide as JSON strings.",
       optional: true,
     },
 
@@ -123,28 +200,52 @@ export default {
     },
   },
   methods: {
-    // Existing method
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-
     _baseUrl() {
-      return "https://api.charthop.com";
+      return "https://api.charthop.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this,
+      path,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
         url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
           "Authorization": `Bearer ${this.$auth.api_token}`,
           "Content-Type": "application/json",
         },
       });
+    },
+    listOrgs(opts = {}) {
+      return this._makeRequest({
+        path: "/org",
+        ...opts,
+      });
+    },
+    listRoles({
+      orgId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/org/${orgId}/role`,
+        ...opts,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/user",
+        ...opts,
+      });
+    },
+    async getEmployeeRoleId({
+      orgId, ...opts
+    }) {
+      const { data } = await this.listRoles({
+        orgId,
+        ...opts,
+      });
+      const employeeRole = data.filter(({ label }) => label === "Employee");
+      return employeeRole.id;
     },
     // Event: Emit New Employee Added Event
     async emitNewEmployeeAddedEvent(opts = {}) {
@@ -154,7 +255,7 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/events/new-employee-added",
-        data,
+        ...opts,
       });
     },
     // Event: Emit Compensation Updated Event
@@ -165,7 +266,7 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/events/compensation-updated",
-        data,
+        ...opts,
       });
     },
     // Event: Emit Organizational Structure Changed Event
@@ -176,42 +277,31 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/events/org-structure-changed",
-        data,
+        ...opts,
       });
     },
-
-    // Action: Add New Employee
-    async addEmployee(opts = {}) {
-      const data = {
-        name: this.addEmployeeName,
-        email: this.addEmployeeEmail,
-        role: this.addEmployeeRole,
-      };
-      if (this.addEmployeeStartDate) data.start_date = this.addEmployeeStartDate;
-      if (this.addEmployeeDepartment) data.department = this.addEmployeeDepartment;
-      if (this.addEmployeeCustomFields) {
-        data.custom_fields = this.addEmployeeCustomFields.map((field) => JSON.parse(field));
-      }
+    getUser({
+      userId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/user/${userId}`,
+        ...opts,
+      });
+    },
+    createUser(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/employees",
-        data,
+        path: "/user",
+        ...opts,
       });
     },
-
-    // Action: Update Employee Profile
-    async updateEmployeeProfile(opts = {}) {
-      const data = {};
-      if (this.updateFields) {
-        data.fields_to_update = this.updateFields.map((field) => JSON.parse(field));
-      }
-      if (this.updateMetadata) {
-        data.metadata = JSON.parse(this.updateMetadata);
-      }
+    updateUser({
+      userId, ...opts
+    }) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/employees/${this.updateEmployeeId}`,
-        data,
+        method: "PATCH",
+        path: `/user/${userId}`,
+        ...opts,
       });
     },
 
@@ -230,7 +320,7 @@ export default {
       return this._makeRequest({
         method: "PUT",
         path: `/employees/${this.modifyCompensationEmployeeId}/compensation`,
-        data,
+        ...opts,
       });
     },
   },

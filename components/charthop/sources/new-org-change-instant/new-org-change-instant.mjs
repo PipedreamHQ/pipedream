@@ -1,5 +1,4 @@
 import charthop from "../../charthop.app.mjs";
-import { axios } from "@pipedream/platform";
 import crypto from "crypto";
 
 export default {
@@ -10,10 +9,7 @@ export default {
   type: "source",
   dedupe: "unique",
   props: {
-    charthop: {
-      type: "app",
-      app: "charthop",
-    },
+    charthop,
     http: {
       type: "$.interface.http",
       customResponse: true,
