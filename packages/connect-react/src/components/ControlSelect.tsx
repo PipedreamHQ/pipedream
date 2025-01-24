@@ -163,8 +163,6 @@ export function ControlSelect<T>({
         ]
       }
     }
-    console.log("newRawValue: ", newRawValue)
-    console.log("newSelectOptions: ", newSelectOptions)
     setRawValue(newRawValue)
     handleChange(newRawValue)
   };
