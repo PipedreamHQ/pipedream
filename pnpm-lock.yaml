@@ -5333,6 +5333,12 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/invoice_ninja:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/invoicing_plus: {}
 
   components/ip2location:
@@ -8294,8 +8300,7 @@ importers:
 
   components/propeller: {}
 
-  components/proposify:
-    specifiers: {}
+  components/proposify: {}
 
   components/proprofs_quiz_maker: {}
 
