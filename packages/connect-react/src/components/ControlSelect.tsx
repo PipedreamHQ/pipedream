@@ -63,6 +63,7 @@ export function ControlSelect<T>({
   };
 
   const selectValue = useMemo(() => {
+    console.log("rawValue: ", rawValue)
     let ret = rawValue;
     if (ret != null) {
       // if (!options || !options.length) {
@@ -81,7 +82,7 @@ export function ControlSelect<T>({
               label: o,
               value: o,
             }
-            for (const item of options) {
+            for (const item of selectOptions) {
               if (item.value === o) {
                 obj = item;
                 break;
@@ -92,9 +93,9 @@ export function ControlSelect<T>({
           ret = lvs;
         }
       } else if (typeof ret !== "object") {
-        const lvOptions = options?.[0] && typeof options[0] === "object";
+        const lvOptions = selectOptions?.[0] && typeof selectOptions[0] === "object";
         if (lvOptions) {
-          for (const item of options) {
+          for (const item of selectOptions) {
             if (item.value === rawValue) {
               ret = item;
               break;
@@ -108,7 +109,7 @@ export function ControlSelect<T>({
     return ret;
   }, [
     rawValue,
-    options,
+    selectOptions,
   ]);
 
   const LoadMore = ({
@@ -165,6 +166,8 @@ export function ControlSelect<T>({
         ]
       }
     }
+    console.log("newRawValue: ", newRawValue)
+    console.log("newSelectOptions: ", newSelectOptions)
     setRawValue(newRawValue)
     handleChange(newRawValue)
   };
