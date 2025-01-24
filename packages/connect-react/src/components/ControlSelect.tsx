@@ -47,10 +47,17 @@ export function ControlSelect<T>({
         if (typeof ret[0] !== "object") {
           const lvs = [];
           for (const o of ret) {
-            lvs.push({
+            let obj = {
               label: o,
               value: o,
-            });
+            }
+            for (const item of options) {
+              if (item.value === o) {
+                obj = item;
+                break;
+              }
+            }
+            lvs.push(obj);
           }
           ret = lvs;
         }
@@ -96,6 +103,14 @@ export function ControlSelect<T>({
       MenuList: LoadMore,
     }
   }
+
+  const handleCreate = (inputValue: string) => {
+    options.unshift({
+      label: inputValue,
+      value: inputValue,
+    })
+  };
+
   const MaybeCreatableSelect = isCreatable
     ? CreatableSelect
     : Select;
@@ -110,6 +125,7 @@ export function ControlSelect<T>({
       required={!prop.optional}
       {...props}
       {...selectProps}
+      onCreateOption={handleCreate}
       onChange={(o) => {
         if (o) {
           if (Array.isArray(o)) {

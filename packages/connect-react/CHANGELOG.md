@@ -1,6 +1,14 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.23] - 2025-01-22
+
+- Show the prop label instead of the value after selecting from a dropdown for string array props
+
+# [1.0.0-preview.22] - 2025-01-21
+
+- Allow custom string input for remote options
+
 # [1.0.0-preview.21] - 2025-01-17
 
 - Fix a bug in async prop value validation when the prop is a string
