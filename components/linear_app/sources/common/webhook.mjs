@@ -61,6 +61,9 @@ export default {
     isRelevant() {
       return true;
     },
+    isRelevantPolling() {
+      return true;
+    },
     useGraphQl() {
       return true;
     },
@@ -108,6 +111,7 @@ export default {
 
       resources
         .reverse()
+        .filter((resource) => this.isRelevantPolling(resource))
         .forEach((resource) => {
           this.$emit(resource, this.getMetadata(resource));
         });

@@ -4,7 +4,7 @@ import fs from "fs";
 
 export default {
   name: "Create Image (Dall-E)",
-  version: "0.1.19",
+  version: "0.1.20",
   key: "openai-create-image",
   description: "Creates an image given a prompt returning a URL to the image. [See the documentation](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
