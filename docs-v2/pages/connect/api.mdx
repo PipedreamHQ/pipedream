@@ -142,12 +142,92 @@ External User IDs are limited to 250 characters.
 
 ## Rate limits
 
+### Pipedream rate limits
+
 | API Endpoint               | Rate Limit                                           |
 |----------------------------|------------------------------------------------------|
 | `POST /tokens`   | 100 requests per minute per `external_user_id`            |
 | `GET */accounts/*`| The sum of requests across all `*/accounts/*` endpoints must not exceed 100 requests per minute. This includes requests to `/accounts`, `/apps/:app_id/accounts`, `/accounts/:account_id`, and more — any request for account metadata and credentials is counted towards this total. |
 
 If you need higher rate limits, please [reach out](https://pipedream.com/support).
+
+### Developer rate limits
+
+- You can optionally set rate limits for your users to control their usage of the Connect API from within your application, to prevent runaway use or abuse.
+- Specify a time window in seconds and how many requests to allow in that window. The API will give you a `rate_limit_token` that you'll need to include in future `/connect/` requests:
+
+```
+POST /rate_limits
+```
+
+**Body parameters**
+
+`window_size_seconds` **integer**
+
+Define the size of the time window in seconds.
+
+---
+
+`requests_per_window` **integer**
+
+Define the number of requests you want to allow per time window.
+
+**Example request**
+
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# Define the rate limit parameters
+
+curl -X POST https://api.pipedream.com/v1/connect/rate_limits \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "window_size_seconds": 10,
+    "requests_per_window": 1000
+  }'
+```
+
+**Example response**
+```json
+{
+  "token": "CiKpqRdTmNwLfhzSvYxBjAkMnVbXuQrWeZyHgPtJsDcEvFpLnE"
+}
+```
+
+**Example usage**
+
+```
+# The response will include a rate limit token. Pass it as a header in your downstream requests to the Connect API.
+# Below is an example request that runs the "List Commits" action for the Gitlab app.
+
+echo '{
+  "external_user_id": "jverce",
+  "id": "gitlab-list-commits",
+  "configured_props": {
+    "gitlab": {
+      "authProvisionId": "apn_kVh9AoD"
+    },
+    "projectId": 45672541,
+    "refName": "main"
+  }
+}' > data.json
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-rate-limit: {rate_limit_token}" \ # Pass the rate limit token in the header
+  -d @data.json
+'
+```
 
 ## API Reference
 
