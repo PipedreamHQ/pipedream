@@ -1874,6 +1874,9 @@ importers:
 
   components/clarify: {}
 
+  components/claris_filemaker_server_odata_api:
+    specifiers: {}
+
   components/clear_books:
     dependencies:
       '@pipedream/platform':
