@@ -71,6 +71,7 @@ export default {
   version: "",
   description: "",
   props: {},
+  async additionalProps(previousPropDefs),
   methods: {},
   hooks: {
     async activate() {},
@@ -92,6 +93,7 @@ export default {
 | `version`     | `string` | required                | The component version. There are no constraints on the version, but [semantic versioning](https://semver.org/) is required for any components published to the [Pipedream registry](/components/guidelines/).                                                                                                                                                          |
 | `description` | `string` | recommended             | The description will appear in the Pipedream UI to aid in discovery and to contextualize instantiated components                                                                                                                                                                                                                                                       |
 | `props`       | `object` | optional                | [Props](#props) are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`).                                                                                                        |
+| `additionalProps` | `method` | optional            | Defines modifications to make to the props definition when using [Dynamic props](#dynamic-props).                        |
 | `methods`     | `object` | optional                | Define component methods for the component instance. They can be referenced via `this` (e.g., `this.methodName()`).                                                                                                                                                                                                                                                    |
 | `hooks`       | `object` | optional (sources only) | [Hooks](#hooks) are functions that are executed when specific component lifecycle events occur.                                                                                                                                                                                                                                                                        |
 | `dedupe`      | `string` | optional (sources only) | You may specify a [dedupe strategy](#dedupe-strategies) to be applied to emitted events                                                                                                                                                                                                                                                                                |
@@ -126,6 +128,8 @@ props: {
     label: "",
     description: "",
     options: [], // OR async options() {} to return dynamic options
+    useQuery: true || false,
+    reloadProps: true || false,
     optional: true || false,
     propDefinition: [],
     default: "",
@@ -145,6 +149,7 @@ props: {
 | `description`    | `string`                             | optional  | Displayed near the prop input. Typically used to contextualize the prop or provide instructions to help users input the correct value. Markdown is supported.                                                                                                                                                                                                                                                                                                                  |
 | `options`        | `string[]` or `object[]` or `method` | optional  | Provide an array to display options to a user in a drop down menu.<br />&nbsp;<br />**`[]` Basic usage**<br />Array of strings. E.g.,<br />`['option 1', 'option 2']`<br />&nbsp;<br />**`object[]` Define Label and Value**<br />`[{ label: 'Label 1', value: 'label1'}, { label: 'Label 2', value: 'label2'}]`<br />&nbsp;<br />**`method` Dynamic Options**<br />You can generate options dynamically (e.g., based on real-time API requests with pagination). See configuration details below. |
 | `useQuery`       | `boolean`                            | optional  | Use in conjunction with **Dynamic Options**. If set to `true`, the prop accepts a real-time query that can be used by the `options` method to obtain results according to that query.                                                                                                                                                                                                                                                                                          |
+| `reloadProps`    | `boolean`                            | optional  | Use in conjunction with [Dynamic props](#dynamic-props). If set to `true`, changes made to this property will cause `additionalProps` to be reloaded for the component. Defaults to `false`. |
 | `optional`       | `boolean`                            | optional  | Set to `true` to make this prop optional. Defaults to `false`.                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `propDefinition` | `[]`                                 | optional  | Re-use a prop defined in an app file. When you include a prop definition, the prop will inherit values for all the properties listed here. However, you can override those values by redefining them for a given prop instance. See **propDefinitions** below for usage.                                                                                                                                                                                                       |
 | `default`        | `string`                             | optional  | Define a default value if the field is not completed. Can only be defined for optional fields (required fields require explicit user input).                                                                                                                                                                                                                                                                                                                                   |
@@ -374,7 +379,7 @@ hasHeaders: {
 },
 ```
 
-When a user chooses a value for this prop, Pipedream runs the `additionalProps` component method to render props:
+When a user chooses a value for this prop, Pipedream runs the `additionalProps` component method (note, __not__ at `methods.additionalProps`) to render props:
 
 ```javascript
 async additionalProps() {
