@@ -3371,7 +3371,7 @@ const workflowIds = [
 const { workflow_ids: confirmedIds } = await pd.updateTriggerWorkflows({
   id: "dc_gzumK2e",
   externalUserId: "jverce",
-  webhookUrls,
+  workflowIds,
 });
 
 // `workflowIds` will match `confirmedIds` if the update was successful
