@@ -9279,8 +9279,7 @@ importers:
         specifier: 3.0.1
         version: 3.0.1
 
-  components/seen:
-    specifiers: {}
+  components/seen: {}
 
   components/segment:
     dependencies:
