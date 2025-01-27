@@ -4580,7 +4580,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/goto_meeting: {}
+  components/goto_meeting:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/gotowebinar:
     dependencies:
@@ -9279,8 +9283,7 @@ importers:
         specifier: 3.0.1
         version: 3.0.1
 
-  components/seen:
-    specifiers: {}
+  components/seen: {}
 
   components/segment:
     dependencies:
