@@ -209,7 +209,10 @@ export default {
     });
 
     if (!schema.searchableProperties.includes(searchProperty)) {
-      throw new ConfigurationError(`\`${searchProperty}\` is not a searchable property of object type \`${objectType}\``);
+      throw new ConfigurationError(
+        `Property \`${searchProperty}\` is not a searchable property of object type \`${objectType}\`. ` +
+        `\n\nAvailable searchable properties are: \`${schema.searchableProperties.join("`, `")}\``,
+      );
     }
 
     const properties = creationProps
