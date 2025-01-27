@@ -24,14 +24,14 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   } = props;
   const { queryDisabledIdx } = form;
   const {
-    prop, idx, value,
+    prop, idx,
   } = field;
   const app = "app" in field.extra
     ? field.extra.app
     : undefined;
 
   if (prop.remoteOptions || prop.type === "$.discord.channel") {
-    return <RemoteOptionsContainer prevValues={value} queryEnabled={queryDisabledIdx == null || queryDisabledIdx >= idx} />;
+    return <RemoteOptionsContainer queryEnabled={queryDisabledIdx == null || queryDisabledIdx >= idx} />;
   }
 
   if ("options" in prop && prop.options) {

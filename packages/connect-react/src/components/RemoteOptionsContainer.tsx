@@ -8,12 +8,9 @@ import { ControlSelect } from "./ControlSelect";
 
 export type RemoteOptionsContainerProps = {
   queryEnabled?: boolean;
-  prevValues?: never;
 };
 
-export function RemoteOptionsContainer({
-  queryEnabled, prevValues,
-}: RemoteOptionsContainerProps) {
+export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerProps) {
   const client = useFrontendClient();
   const {
     userId,
