@@ -1,9 +1,9 @@
 import app from "../../linkup.app.mjs";
 
 export default {
-  name: "Linkup Search",
-  description: "Search and retrieve insights using the Linkup API. [See the documentation](https://docs.linkup.so/pages/api-reference/endpoint/post-search)",
-  key: "linkup-search",
+  name: "Linkup Sourced",
+  description: "Get a natural language answer to your natural language question",
+  key: "linkup-sourced",
   version: "0.1.1",
   type: "action",
   props: {
