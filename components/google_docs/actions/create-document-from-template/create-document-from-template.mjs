@@ -24,6 +24,7 @@ export default {
         app,
         "docId",
       ],
+      label: "Template",
       description:
         "Select the template document you'd like to use as the template, or use a custom expression to reference a document ID from a previous step. Template documents should contain placeholders in the format `{{xyz}}`.",
     },
