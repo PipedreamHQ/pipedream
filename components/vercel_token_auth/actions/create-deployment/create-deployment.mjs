@@ -59,7 +59,7 @@ export default {
         ref: this.branch,
       },
     };
-    if (!this.project) {
+    if (!this.project) {  // projectSettings required if project is not specified
       data.projectSettings = {
         buildCommand: null,
         commandForIgnoringBuildStep: null,

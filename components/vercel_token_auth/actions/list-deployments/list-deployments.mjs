@@ -19,7 +19,7 @@ export default {
         vercelTokenAuth,
         "project",
         (c) => ({
-          teamId: c.teamId,
+          teamId: c.team,
         }),
       ],
     },

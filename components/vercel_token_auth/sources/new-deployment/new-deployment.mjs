@@ -28,7 +28,7 @@ export default {
         vercelTokenAuth,
         "project",
         (c) => ({
-          teamId: c.teamId,
+          teamId: c.team,
         }),
       ],
     },
@@ -72,7 +72,7 @@ export default {
     },
     async processEvent(max) {
       const params = {
-        teamId: this.teamId,
+        teamId: this.team,
         projectId: this.project,
         state: this.state,
       };
