@@ -3,8 +3,8 @@ import vercelTokenAuth from "../../vercel_token_auth.app.mjs";
 export default {
   key: "vercel_token_auth-create-deployment",
   name: "Create Deployment",
-  description: "Create a new deployment from a GitHub repository. [See the docs](https://vercel.com/docs/rest-api#endpoints/deployments/create-a-new-deployment)",
-  version: "0.0.3",
+  description: "Create a new deployment from a GitHub repository. [See the documentation](https://vercel.com/docs/rest-api/endpoints/deployments#create-a-new-deployment)",
+  version: "0.0.4",
   type: "action",
   props: {
     vercelTokenAuth,
@@ -13,10 +13,19 @@ export default {
       label: "Name",
       description: "A string with the project name used in the deployment URL",
     },
+    team: {
+      propDefinition: [
+        vercelTokenAuth,
+        "team",
+      ],
+    },
     project: {
       propDefinition: [
         vercelTokenAuth,
         "project",
+        (c) => ({
+          teamId: c.team,
+        }),
       ],
       description: "The target project identifier in which the deployment will be created. When defined, this parameter overrides name",
     },
@@ -30,12 +39,6 @@ export default {
       label: "Branch",
       description: "Branch of repository to deploy to",
       default: "main",
-    },
-    team: {
-      propDefinition: [
-        vercelTokenAuth,
-        "team",
-      ],
     },
     public: {
       type: "boolean",
@@ -56,6 +59,21 @@ export default {
         ref: this.branch,
       },
     };
+    if (!this.project) {
+      data.projectSettings = {
+        buildCommand: null,
+        commandForIgnoringBuildStep: null,
+        devCommand: null,
+        framework: null,
+        installCommand: null,
+        nodeVersion: "22.x",
+        outputDirectory: null,
+        rootDirectory: null,
+        serverlessFunctionRegion: null,
+        skipGitConnectDuringLink: true,
+        sourceFilesOutsideRootDirectory: true,
+      };
+    }
     const res = await this.vercelTokenAuth.createDeployment(data, $);
     $.export("$summary", "Successfully created new deployment");
     return res;
