@@ -1,4 +1,7 @@
-import { useMemo } from "react";
+import {
+  useEffect,
+  useMemo, useState,
+} from "react";
 import Select, {
   Props as ReactSelectProps, components,
 } from "react-select";
@@ -28,6 +31,26 @@ export function ControlSelect<T>({
   const {
     select, theme,
   } = useCustomize();
+  const [
+    selectOptions,
+    setSelectOptions,
+  ] = useState(options);
+  const [
+    rawValue,
+    setRawValue,
+  ] = useState(value);
+
+  useEffect(() => {
+    setSelectOptions(options)
+  }, [
+    options,
+  ])
+
+  useEffect(() => {
+    setRawValue(value)
+  }, [
+    value,
+  ])
 
   const baseSelectProps: BaseReactSelectProps<never, never, never> = {
     styles: {
@@ -40,7 +63,7 @@ export function ControlSelect<T>({
   };
 
   const selectValue = useMemo(() => {
-    let ret = value;
+    let ret = rawValue;
     if (ret != null) {
       if (Array.isArray(ret)) {
         // if simple, make lv (XXX combine this with other place this happens)
@@ -51,7 +74,7 @@ export function ControlSelect<T>({
               label: o,
               value: o,
             }
-            for (const item of options) {
+            for (const item of selectOptions) {
               if (item.value === o) {
                 obj = item;
                 break;
@@ -62,13 +85,18 @@ export function ControlSelect<T>({
           ret = lvs;
         }
       } else if (typeof ret !== "object") {
-        const lvOptions = options?.[0] && typeof options[0] === "object";
+        const lvOptions = selectOptions?.[0] && typeof selectOptions[0] === "object";
         if (lvOptions) {
-          for (const item of options) {
-            if (item.value === value) {
+          for (const item of selectOptions) {
+            if (item.value === rawValue) {
               ret = item;
               break;
             }
+          }
+        } else {
+          ret = {
+            label: rawValue,
+            value: rawValue,
           }
         }
       } else if (ret.__lv) {
@@ -77,8 +105,8 @@ export function ControlSelect<T>({
     }
     return ret;
   }, [
-    value,
-    options,
+    rawValue,
+    selectOptions,
   ]);
 
   const LoadMore = ({
@@ -105,11 +133,77 @@ export function ControlSelect<T>({
   }
 
   const handleCreate = (inputValue: string) => {
-    options.unshift({
-      label: inputValue,
-      value: inputValue,
-    })
+    const createOption = (input: unknown) => {
+      if (typeof input === "object") return input
+      return {
+        label: input,
+        value: input,
+      }
+    }
+    const newOption = createOption(inputValue)
+    let newRawValue = newOption
+    const newSelectOptions = selectOptions
+      ? [
+        newOption,
+        ...selectOptions,
+      ]
+      : [
+        newOption,
+      ]
+    setSelectOptions(newSelectOptions);
+    if (prop.type.endsWith("[]")) {
+      if (Array.isArray(rawValue)) {
+        newRawValue = [
+          ...rawValue.map(createOption),
+          newOption,
+        ]
+      } else {
+        newRawValue = [
+          newOption,
+        ]
+      }
+    }
+    setRawValue(newRawValue)
+    handleChange(newRawValue)
   };
+
+  const handleChange = (o: unknown) => {
+    if (o) {
+      if (Array.isArray(o)) {
+        if (typeof o[0] === "object" && "value" in o[0]) {
+          const vs = [];
+          for (const _o of o) {
+            if (prop.withLabel) {
+              vs.push(_o);
+            } else {
+              vs.push(_o.value);
+            }
+          }
+          onChange(vs);
+        } else {
+          onChange(o);
+        }
+      } else if (typeof o === "object" && "value" in o) {
+        if (prop.withLabel) {
+          onChange({
+            __lv: o,
+          });
+        } else {
+          onChange(o.value);
+        }
+      } else {
+        throw new Error("unhandled option type"); // TODO
+      }
+    } else {
+      onChange(undefined);
+    }
+  }
+
+  const additionalProps = {
+    onCreateOption: prop.remoteOptions
+      ? handleCreate
+      : undefined,
+  }
 
   const MaybeCreatableSelect = isCreatable
     ? CreatableSelect
@@ -118,45 +212,15 @@ export function ControlSelect<T>({
     <MaybeCreatableSelect
       inputId={id}
       instanceId={id}
-      options={options}
+      options={selectOptions}
       value={selectValue}
       isMulti={prop.type.endsWith("[]")}
       isClearable={true}
       required={!prop.optional}
       {...props}
       {...selectProps}
-      onCreateOption={handleCreate}
-      onChange={(o) => {
-        if (o) {
-          if (Array.isArray(o)) {
-            if (typeof o[0] === "object" && "value" in o[0]) {
-              const vs = [];
-              for (const _o of o) {
-                if (prop.withLabel) {
-                  vs.push(_o);
-                } else {
-                  vs.push(_o.value);
-                }
-              }
-              onChange(vs);
-            } else {
-              onChange(o);
-            }
-          } else if (typeof o === "object" && "value" in o) {
-            if (prop.withLabel) {
-              onChange({
-                __lv: o,
-              });
-            } else {
-              onChange(o.value);
-            }
-          } else {
-            throw new Error("unhandled option type"); // TODO
-          }
-        } else {
-          onChange(undefined);
-        }
-      }}
+      {...additionalProps}
+      onChange={handleChange}
     />
   );
 }
