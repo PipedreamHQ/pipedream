@@ -27,7 +27,7 @@ export default {
         fields: "*",
       });
 
-      const { files } = await this.app.listFilesInPage(null, args);
+      const { files } = await this.googleDrive.listFilesInPage(null, args);
       if (!files?.length) {
         return;
       }

@@ -2,7 +2,7 @@ import common from "../common/base.mjs";
 import {
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
-} from "../../../google_drive/common/constants.mjs";
+} from "@pipedream/google_drive/common/constants.mjs";
 
 export default {
   ...common,
@@ -31,7 +31,7 @@ export default {
       const filteredFiles = this.checkMinimumInterval(changedFiles);
 
       for (const file of filteredFiles) {
-        file.parents = (await this.app.getFile(file.id, {
+        file.parents = (await this.googleDrive.getFile(file.id, {
           fields: "parents",
         })).parents;
 
@@ -42,7 +42,7 @@ export default {
           continue;
         }
 
-        const doc = await this.app.getDocument(file.id);
+        const doc = await this.googleDrive.getDocument(file.id);
         const meta = this.generateMeta(doc);
         this.$emit(doc, meta);
       }
