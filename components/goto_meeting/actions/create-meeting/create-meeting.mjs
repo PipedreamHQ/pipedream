@@ -1,80 +1,67 @@
-import goto_meeting from "../../goto_meeting.app.mjs";
-import { axios } from "@pipedream/platform";
+import { MEETING_TYPE_OPTIONS } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
+import app from "../../goto_meeting.app.mjs";
 
 export default {
   key: "goto_meeting-create-meeting",
   name: "Create Meeting",
-  description: "Creates a scheduled meeting in GoTo Meeting. [See the documentation](), ",
-  version: "0.0.{{ts}}",
+  description: "Creates a scheduled meeting in GoTo Meeting. [See the documentation](https://developer.goto.com/GoToMeetingV1#tag/Meetings/operation/createMeeting)",
+  version: "0.0.1",
   type: "action",
   props: {
-    goto_meeting: {
-      type: "app",
-      app: "goto_meeting",
-    },
+    app,
     subject: {
-      propDefinition: [
-        goto_meeting,
-        "subject",
-      ],
+      type: "string",
+      label: "Subject",
+      description: "The subject of the meeting",
     },
     startTime: {
-      propDefinition: [
-        goto_meeting,
-        "startTime",
-      ],
+      type: "string",
+      label: "Start Time",
+      description: "The start time of the meeting in ISO 8601 format",
     },
     endTime: {
-      propDefinition: [
-        goto_meeting,
-        "endTime",
-      ],
+      type: "string",
+      label: "End Time",
+      description: "The end time of the meeting in ISO 8601 format",
     },
     passwordRequired: {
-      propDefinition: [
-        goto_meeting,
-        "passwordRequired",
-      ],
+      type: "boolean",
+      label: "Password Required",
+      description: "Whether a password is required to join the meeting",
     },
     conferenceCallInfo: {
-      propDefinition: [
-        goto_meeting,
-        "conferenceCallInfo",
-      ],
+      type: "string",
+      label: "Conference Call Info",
+      description: "Information for the conference call",
     },
     meetingType: {
-      propDefinition: [
-        goto_meeting,
-        "meetingType",
-      ],
-    },
-    timezoneKey: {
-      propDefinition: [
-        goto_meeting,
-        "timezoneKey",
-      ],
-      optional: true,
+      type: "string",
+      label: "Meeting Type",
+      description: "The type of the meeting",
+      options: MEETING_TYPE_OPTIONS,
     },
     coorganizerKeys: {
-      propDefinition: [
-        goto_meeting,
-        "coorganizerKeys",
-      ],
+      type: "string[]",
+      label: "Co-Organizer Keys",
+      description: "Keys of the co-organizers for the meeting",
       optional: true,
     },
   },
   async run({ $ }) {
-    const meeting = await this.goto_meeting.createScheduledMeeting({
-      subject: this.subject,
-      startTime: this.startTime,
-      endTime: this.endTime,
-      passwordRequired: this.passwordRequired,
-      conferenceCallInfo: this.conferenceCallInfo,
-      meetingType: this.meetingType,
-      timezoneKey: this.timezoneKey,
-      coorganizerKeys: this.coorganizerKeys,
+    const meeting = await this.app.createScheduledMeeting({
+      $,
+      data: {
+        subject: this.subject,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        passwordRequired: this.passwordRequired,
+        conferenceCallInfo: this.conferenceCallInfo,
+        meetingType: this.meetingType,
+        coorganizerKeys: parseObject(this.coorganizerKeys),
+      },
     });
-    $.export("$summary", `Meeting Created: ${meeting.subject}`);
+    $.export("$summary", `Meeting Created: ${meeting[0].meetingid}`);
     return meeting;
   },
 };
