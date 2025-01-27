@@ -11466,8 +11466,8 @@ importers:
   components/vercel_token_auth:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/verdict_as_a_service:
     dependencies:
