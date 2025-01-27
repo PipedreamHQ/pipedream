@@ -23,50 +23,12 @@ export default {
       ],
     },
   },
-  additionalProps(props) {
-    if (this.outputType === "structured") {
-      props.structuredOutputSchema.optional = false;
-      props.structuredOutputSchema.hidden = false;
-      props.structuredOutputSchema.default = `{
-        "type": "object",
-        "properties": {
-          "results": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string"
-                },
-                "year": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "name",
-                "year"
-              ],
-              "additionalProperties": false
-            }
-          }
-        },
-        "required": [
-          "results"
-        ],
-        "additionalProperties": false
-      }`;
-    }
-    return {};
-  },
   async run({ $ }) {
     try {
       const response = await this.app.search({
         query: this.query,
         depth: this.depth,
-        outputType: this.outputType,
-        structuredOutputSchema:
-          this.structuredOutputSchema && JSON.parse(this.structuredOutputSchema),
-        includeImages: this.includeImages,
+        outputType: "sourcedAnswer",
       });
       $.export("$summary", "Successfully completed search query");
       return response;
