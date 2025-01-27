@@ -48,10 +48,16 @@ export default {
     type: {
       type: "string",
       label: "Extension Type",
-      description: "The type of file extension. For BIM 360 Docs folders, use `items:autodesk.bim360:File`. For all other services, use `items:autodesk.core:File`.",
+      description: "The type of file extension. For BIM 360 Docs files, use `items:autodesk.bim360:File`. For all other services, use `items:autodesk.core:File`.",
       options: [
-        "items:autodesk.core:File",
-        "items:autodesk.bim360:File",
+        {
+          label: "BIM 360 Docs files",
+          value: "items:autodesk.core:File",
+        },
+        {
+          label: "Other files",
+          value: "items:autodesk.bim360:File",
+        },
       ],
       default: "items:autodesk.core:File",
       optional: true,

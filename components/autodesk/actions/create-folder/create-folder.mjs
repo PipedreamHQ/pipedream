@@ -45,8 +45,14 @@ export default {
       label: "Extension Type",
       description: "The type of folder extension. For BIM 360 Docs folders, use `folders:autodesk.bim360:Folder`. For all other services, use `folders:autodesk.core:Folder`.",
       options: [
-        "folders:autodesk.core:Folder",
-        "folders:autodesk.bim360:Folder",
+        {
+          label: "BIM 360 Docs folders",
+          value: "folders:autodesk.core:Folder",
+        },
+        {
+          label: "Other folders",
+          value: "folders:autodesk.bim360:Folder",
+        },
       ],
       default: "folders:autodesk.core:Folder",
       optional: true,
