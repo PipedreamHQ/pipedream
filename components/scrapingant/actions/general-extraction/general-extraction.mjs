@@ -3,7 +3,7 @@ import app from "../../scrapingant.app.mjs";
 export default {
   key: "scrapingant-general-extraction",
   name: "General Extraction",
-  description: "Send a request using the standard extraction method of ScrapingAnt.",
+  description: "Send a request using the standard extraction method of ScrapingAnt. [See the documentation](https://docs.scrapingant.com/request-response-format)",
   version: "0.0.1",
   type: "action",
   props: {
