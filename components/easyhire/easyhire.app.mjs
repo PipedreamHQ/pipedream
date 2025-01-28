@@ -3,24 +3,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "easyhire",
-  propDefinitions: {
-    candidateId: {
-      type: "string",
-      label: "Candidate ID",
-      description: "The ID of the candidate to be assessed",
-    },
-    evaluationScore: {
-      type: "integer",
-      label: "Evaluation Score",
-      description: "The score of the candidate's evaluation",
-    },
-    comments: {
-      type: "string",
-      label: "Comments",
-      description: "Comments about the candidate's performance",
-      optional: true,
-    },
-  },
+  propDefinitions: {},
   methods: {
     _baseUrl() {
       return "https://easyhire.ai/api";
@@ -41,23 +24,16 @@ export default {
           ...headers,
           "Content-Type": "application/json",
           "Authorization": `Api-Key ${this.$auth.api_key}`,
+          "Accept-Version": "v1",
         },
       });
     },
-    async assessCandidate({
-      candidateId, evaluationScore, comments,
-    }) {
+    createApplication(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/candidate/${candidateId}/score/`,
-        data: {
-          score: evaluationScore,
-          comments: comments || "",
-        },
+        path: "/create-application/",
+        ...opts,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
