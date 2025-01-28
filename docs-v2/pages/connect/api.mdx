@@ -205,8 +205,9 @@ curl -X POST https://api.pipedream.com/v1/connect/rate_limits \
 
 **Example usage**
 
-```
-# The response will include a rate limit token. Pass it as a header in your downstream requests to the Connect API.
+```bash
+# The response will include a rate limit token. 
+# Pass it as a header in your downstream requests to the Connect API.
 # Below is an example request that runs the "List Commits" action for the Gitlab app.
 
 curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run" \
@@ -2009,7 +2010,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run
 
 #### Deploy a trigger
 
-Deploy a trigger component for a Pipedream Connect user in a project.
+Deploy a trigger component that will emit events to a webhook or workflow for a Pipedream Connect user.
 
 ```text
 POST /triggers/deploy
@@ -2039,9 +2040,19 @@ which you want to execute the action.
 
 ---
 
-`webhook_url` **string**
+`webhook_url` **string** (_optional_)
 
 The URL to which the trigger will send events.
+
+---
+
+`workflow_url` **string** (_optional_)
+
+The Pipedream workflow ID to which you want to emit events (ex, `p_1234567`).
+
+<Callout type="warning">
+The workflow must be in the same Pipedream project as the trigger.
+</Callout>
 
 ---
 
