@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/claris_filemaker_server_odata_api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Claris Filemaker Server OData API Components",
   "main": "claris_filemaker_server_odata_api.app.mjs",
   "keywords": [

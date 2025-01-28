@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/seen",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream SEEN Components",
   "main": "seen.app.mjs",
   "keywords": [
