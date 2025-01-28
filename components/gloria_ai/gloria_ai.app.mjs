@@ -3,7 +3,6 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "gloria_ai",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     leadName: {
       type: "string",
@@ -26,6 +25,10 @@ export default {
       type: "string",
       label: "Initiation",
       description: "Initiation details for the lead",
+      options: [
+        "Inbound",
+        "Outbound",
+      ],
       optional: true,
     },
     tags: {
@@ -38,47 +41,36 @@ export default {
       type: "string",
       label: "Status",
       description: "Status of the lead",
+      options: [
+        "active",
+        "archived",
+        "favorite",
+      ],
       optional: true,
     },
   },
   methods: {
-    // Existing method from the existing app file
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.iamgloria.com/api";
+      return "https://api.iamgloria.com/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this,
+      path,
+      ...otherOpts
+    }) {
       return axios($, {
         ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "Authorization": `Bearer ${this.$auth.api_key}`,
+          "tenant-id": `${this.$auth.tenant_id}`,
         },
       });
     },
-    async createContact(opts = {}) {
+    createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/v1/contacts",
-        data: {
-          name: this.leadName,
-          phone: this.phone,
-          email: this.email,
-          initiation: this.initiation,
-          tags: this.tags,
-          status: this.status,
-        },
+        path: "/contacts",
         ...opts,
       });
     },

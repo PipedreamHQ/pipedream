@@ -1,62 +1,72 @@
-import gloria_ai from "../../gloria_ai.app.mjs";
-import { axios } from "@pipedream/platform";
+import gloriaAi from "../../gloria_ai.app.mjs";
 
 export default {
   key: "gloria_ai-create-lead",
   name: "Create Lead",
-  description: "Creates a new lead/contact in Gloria.ai. [See the documentation]().",
-  version: "0.0.{{ts}}",
+  description: "Creates a new lead/contact in Gloria.ai. [See the documentation](https://api.iamgloria.com/api).",
+  version: "0.0.1",
   type: "action",
   props: {
-    gloria_ai: {
-      type: "app",
-      app: "gloria_ai",
-    },
+    gloriaAi,
     leadName: {
       propDefinition: [
-        "gloria_ai",
+        gloriaAi,
         "leadName",
       ],
     },
     phone: {
       propDefinition: [
-        "gloria_ai",
+        gloriaAi,
         "phone",
       ],
-      optional: true,
     },
     email: {
       propDefinition: [
-        "gloria_ai",
+        gloriaAi,
         "email",
       ],
-      optional: true,
     },
     initiation: {
       propDefinition: [
-        "gloria_ai",
+        gloriaAi,
         "initiation",
       ],
-      optional: true,
     },
     tags: {
       propDefinition: [
-        "gloria_ai",
+        gloriaAi,
         "tags",
       ],
-      optional: true,
     },
     status: {
       propDefinition: [
-        "gloria_ai",
+        gloriaAi,
         "status",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.gloria_ai.createContact();
-    $.export("$summary", `Created lead ${this.leadName}`);
+    const response = await this.gloriaAi.createContact({
+      $,
+      data: {
+        tenantId: this.gloriaAi.$auth.tenant_id,
+        createdAt: Date.now(),
+        name: [
+          this.leadName,
+        ],
+        phone: this.phone && [
+          this.phone,
+        ],
+        email: this.email && [
+          this.email,
+        ],
+        origin: "api",
+        initiation: this.initiation,
+        tags: this.tags,
+        status: this.status,
+      },
+    });
+    $.export("$summary", `Successfully created lead with ID: ${response.id}`);
     return response;
   },
 };
