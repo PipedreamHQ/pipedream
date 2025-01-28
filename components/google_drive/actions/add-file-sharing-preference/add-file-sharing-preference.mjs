@@ -20,7 +20,7 @@ export default {
   name: "Share File or Folder",
   description:
     "Add a [sharing permission](https://support.google.com/drive/answer/7166529) to the sharing preferences of a file or folder and provide a sharing URL. [See the documentation](https://developers.google.com/drive/api/v3/reference/permissions/create)",
-  version: "0.1.9",
+  version: "0.2.0",
   type: "action",
   props: {
     googleDrive,
@@ -31,6 +31,12 @@ export default {
       ],
       optional: true,
     },
+    propConfigAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "Please select either a **file** or a **folder** to share.",
+      hidden: false,
+    },
     fileId: {
       propDefinition: [
         googleDrive,
@@ -40,6 +46,7 @@ export default {
         }),
       ],
       optional: true,
+      reloadProps: true,
       description: "The file to share. You must specify either a file or a folder.",
     },
     folderId: {
@@ -58,15 +65,15 @@ export default {
         googleDrive,
         "type",
       ],
+      hidden: true,
       reloadProps: true,
     },
   },
-  async additionalProps() {
+  async additionalProps(props) {
     const obj = {};
     const {
       fileId, folderId, type,
     } = this;
-    if (!(fileId || folderId) || !type) return obj;
 
     const emailAddress = {
       type: "string",
@@ -108,15 +115,19 @@ export default {
       options.push(GOOGLE_DRIVE_ROLE_OPTION_FILEORGANIZER);
     }
 
-    return {
-      ...obj,
-      role: {
-        type: "string",
-        label: "Role",
-        description: "The role granted by this permission",
-        options,
-      },
-    };
+    if (fileId || folderId) {
+      props.type.hidden = false;
+      props.propConfigAlert.hidden = true;
+      return {
+        ...obj,
+        role: {
+          type: "string",
+          label: "Role",
+          description: "The role granted by this permission",
+          options,
+        },
+      };
+    }
   },
   async run({ $ }) {
     const {
