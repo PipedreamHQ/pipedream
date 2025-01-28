@@ -47,7 +47,6 @@ export default {
         "watchedDrive",
       ],
       description: "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
-      optional: false,
     },
 
     sheetID: {
