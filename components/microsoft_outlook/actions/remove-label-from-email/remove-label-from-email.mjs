@@ -27,11 +27,11 @@ export default {
       $,
       messageId: this.messageId,
     });
-    let labels = message?.categories; console.log(labels);
+    let labels = message?.categories;
 
-    const index = labels.indexOf(this.labelId); console.log(index);
+    const index = labels.indexOf(this.labelId);
     if (index > -1) {
-      labels.splice(index, 1); console.log(labels);
+      labels.splice(index, 1);
     }
 
     const response = await this.microsoftOutlook.updateMessage({
