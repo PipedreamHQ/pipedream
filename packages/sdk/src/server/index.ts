@@ -6,7 +6,7 @@ import {
   AccessToken, ClientCredentials,
 } from "simple-oauth2";
 import {
-  Account, BaseClient, type AppInfo, type ConnectTokenResponse,
+  Account, BaseClient, type AppInfo, type ConnectTokenResponse, type RequestOptions
 } from "../shared";
 export * from "../shared";
 
@@ -117,9 +117,9 @@ export type MakeProxyRequestOpts = {
    * Whether to retrieve the account's credentials or not.
    */
   method: string;
-  headers: Record<string, string>;
+  headers?: Record<string, string>;
   //headers: Record<string, string>;
-  body: any
+  body?: any
 };
 
 /**
@@ -369,16 +369,21 @@ export class BackendClient extends BaseClient {
     .replace(/\//g, "_")
     .replace(/=+$/, "");
 
-    const newHeaders = Object.keys(opts.headers).reduce<{ [key: string]: string }>((acc, key) => {
-      acc[`x-pd-proxy-${key}`] = opts.headers[key];
+    const headers = opts.headers || {};
+
+    const newHeaders = Object.keys(headers).reduce<{ [key: string]: string }>((acc, key) => {
+      acc[`x-pd-proxy-${key}`] = headers[key];
       return acc;
     }, {});
 
-    const newOpts = {
+    const newOpts: RequestOptions = {
       method: opts.method,
-      body: opts.body,
       headers: newHeaders,
       params: query,
+    }
+
+    if (opts.body) {
+      newOpts.body = opts.body
     }
 
     return this.makeConnectRequest(`/proxy/${url64}`, newOpts);
