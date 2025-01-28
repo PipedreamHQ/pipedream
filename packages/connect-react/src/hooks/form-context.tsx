@@ -13,6 +13,7 @@ import {
   appPropErrors, arrayPropErrors, booleanPropErrors, integerPropErrors,
   stringPropErrors,
 } from "../utils/component";
+import _ from "lodash";
 
 export type DynamicProps<T extends ConfigurableProps> = { id: string; configurableProps: T; }; // TODO
 
@@ -374,6 +375,15 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       }
     }
     // propsNeedConfiguring.splice(0, propsNeedConfiguring.length, ..._propsNeedConfiguring)
+
+    // Prevent useEffect/useState infinite loop by updating
+    // propsNeedConfiguring only if there is an actual change to the list of
+    // props that need to be configured.
+    // NB: The infinite loop is triggered because of calling
+    // checkPropsNeedConfiguring() from registerField, which is called
+    // from inside useEffect.
+    if (_propsNeedConfiguring && propsNeedConfiguring && _.isEqual(_propsNeedConfiguring, propsNeedConfiguring)) return;
+
     setPropsNeedConfiguring(_propsNeedConfiguring)
   }
 
@@ -382,6 +392,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       fields[field.prop.name] = field
       return fields
     });
+    checkPropsNeedConfiguring()
   };
 
   // console.log("***", configurableProps, configuredProps)
