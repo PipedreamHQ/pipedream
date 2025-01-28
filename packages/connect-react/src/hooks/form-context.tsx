@@ -255,6 +255,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   };
 
   useEffect(() => {
+    // Initialize queryDisabledIdx on load so that we don't force users
+    // to reconfigure a prop they've already configured whenever the page
+    // or component is reloaded
     updateConfiguredPropsQueryDisabledIdx(_configuredProps)
   }, [
     _configuredProps,
