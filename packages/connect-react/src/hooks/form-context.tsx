@@ -255,6 +255,12 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   };
 
   useEffect(() => {
+    updateConfiguredPropsQueryDisabledIdx(_configuredProps)
+  }, [
+    _configuredProps,
+  ]);
+
+  useEffect(() => {
     const newConfiguredProps: ConfiguredProps<T> = {};
     for (const prop of configurableProps) {
       if (prop.hidden) {
