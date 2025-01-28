@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/claris_filemaker_server_odata_api",
+  "version": "0.0.2",
+  "description": "Pipedream Claris Filemaker Server OData API Components",
+  "main": "claris_filemaker_server_odata_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "claris_filemaker_server_odata_api"
+  ],
+  "homepage": "https://pipedream.com/apps/claris_filemaker_server_odata_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

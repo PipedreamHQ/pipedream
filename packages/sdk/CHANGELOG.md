@@ -2,6 +2,25 @@
 
 # Changelog
 
+## [1.2.1] - 2025-01-24
+
+### Added
+
+- New types related to API paginated responses
+- New type for a prop configuration options
+
+### Changed
+
+- Fixed the types of the trigger retrieval and deployment methods in the backend
+  client to correctly reflect the actual response (which is nested inside a
+  `data` field).
+
+## [1.2.0] - 2025-01-23
+
+### Added
+
+- New methods and types to interact with the deployed triggers API
+
 ## [1.1.6] - 2025-01-21
 
 ### Changed
