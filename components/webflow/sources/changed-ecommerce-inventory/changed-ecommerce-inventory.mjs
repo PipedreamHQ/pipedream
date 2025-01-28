@@ -3,9 +3,9 @@ import common from "../common/common.mjs";
 export default {
   type: "source",
   key: "webflow-changed-ecommerce-inventory",
-  name: "New Changed E-commerce Inventory",
-  description: "Emit new event when an e-commerce inventory level changes. [See the docs here](https://developers.webflow.com/#item-inventory)",
-  version: "0.2.3",
+  name: "E-commerce Inventory Updated",
+  description: "Emit new event when an e-commerce inventory level changes. [See the documentation](https://developers.webflow.com/data/reference/webhooks/events/ecomm-inventory-changed)",
+  version: "2.0.0",
   ...common,
   methods: {
     ...common.methods,
@@ -13,12 +13,13 @@ export default {
       return "ecomm_inventory_changed";
     },
     generateMeta(data) {
-      const now = Date.now();
+      const ts = Date.now();
+      const { id } = data;
 
       return {
-        id: `${data._id}-${now}`,
-        summary: `E-commerce ${data._id} inventory changed`,
-        ts: now,
+        id: `${id}-${ts}`,
+        summary: `E-comm inventory updated: ${id}`,
+        ts,
       };
     },
   },

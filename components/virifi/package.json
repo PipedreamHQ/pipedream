@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/virifi",
+  "version": "0.0.1",
+  "description": "Pipedream Virifi Components",
+  "main": "virifi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "virifi"
+  ],
+  "homepage": "https://pipedream.com/apps/virifi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/bigdatacorp",
+  "version": "0.1.1",
+  "description": "Pipedream BigDataCorp Components",
+  "main": "bigdatacorp.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bigdatacorp"
+  ],
+  "homepage": "https://pipedream.com/apps/bigdatacorp",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

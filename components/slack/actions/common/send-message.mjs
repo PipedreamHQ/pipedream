@@ -61,11 +61,8 @@ export default {
       propDefinition: [
         slack,
         "messageTs",
-        (c) => ({
-          channel: c.conversation,
-        }),
       ],
-      description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead.",
+      description: "Provide another message's `ts` value to make this message a reply (e.g., if triggering on new Slack messages, enter `{{event.ts}}`). Avoid using a reply's `ts` value; use its parent instead. e.g. `1403051575.000407`.",
       optional: true,
       hidden: true,
     },
@@ -173,6 +170,9 @@ export default {
         },
       };
     },
+    getChannelId() {
+      return this.conversation ?? this.reply_channel;
+    },
   },
   async run({ $ }) {
     let blocks = this.blocks;
@@ -210,7 +210,7 @@ export default {
 
     const obj = {
       text: this.text,
-      channel: this.conversation ?? this.reply_channel,
+      channel: await this.getChannelId(),
       attachments: this.attachments,
       unfurl_links: this.unfurl_links,
       unfurl_media: this.unfurl_media,

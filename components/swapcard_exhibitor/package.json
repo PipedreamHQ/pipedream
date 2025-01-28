@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/swapcard_exhibitor",
+  "version": "0.1.0",
+  "description": "Pipedream Swapcard Exhibitor Components",
+  "main": "swapcard_exhibitor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "swapcard_exhibitor"
+  ],
+  "homepage": "https://pipedream.com/apps/swapcard_exhibitor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1"
+  }
+}
+

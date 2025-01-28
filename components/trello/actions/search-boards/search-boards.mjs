@@ -1,56 +1,60 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-search-boards",
   name: "Search Boards",
-  description: "Searches for boards matching the specified query. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get)",
-  version: "0.2.4",
+  description: "Searches for boards matching the specified query. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get).",
+  version: "0.3.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     query: {
       propDefinition: [
-        common.props.trello,
+        app,
         "query",
       ],
     },
     idOrganizations: {
       propDefinition: [
-        common.props.trello,
+        app,
         "idOrganizations",
       ],
       description: "Specify the organizations to search for boards in",
     },
     partial: {
       propDefinition: [
-        common.props.trello,
+        app,
         "partial",
       ],
+      optional: true,
     },
     boardFields: {
       propDefinition: [
-        common.props.trello,
+        app,
         "boardFields",
       ],
+      optional: true,
     },
     boardsLimit: {
       type: "integer",
       label: "Boards Limit",
       description: "The maximum number of boards to return.",
       default: 10,
+      optional: true,
     },
   },
   async run({ $ }) {
-    const opts = {
-      query: this.query,
-      idOrganizations: this.idOrganizations,
-      modelTypes: "boards",
-      board_fields: this.boardFields.join(","),
-      boards_limit: this.boardsLimit,
-      partial: this.partial,
-    };
-    const { boards } = await this.trello.searchBoards(opts, $);
+    const { boards } = await this.app.search({
+      $,
+      params: {
+        query: this.query,
+        idOrganizations: this.idOrganizations?.join(","),
+        modelTypes: "boards",
+        board_fields: this.boardFields.join(","),
+        boards_limit: this.boardsLimit,
+        partial: this.partial,
+      },
+    });
     $.export("$summary", `Successfully retrieved ${boards.length} board(s)`);
     return boards;
   },

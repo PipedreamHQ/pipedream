@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/traffit",
+  "version": "0.0.1",
+  "description": "Pipedream Traffit Components",
+  "main": "traffit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "traffit"
+  ],
+  "homepage": "https://pipedream.com/apps/traffit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

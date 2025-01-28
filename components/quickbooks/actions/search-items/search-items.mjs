@@ -4,18 +4,11 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-search-items",
   name: "Search Items",
-  description: "Searches for items. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#query-an-item)",
-  version: "0.1.3",
+  description: "Searches for items. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#query-an-item)",
+  version: "0.1.8",
   type: "action",
   props: {
     quickbooks,
-    includeClause: {
-      propDefinition: [
-        quickbooks,
-        "includeClause",
-      ],
-      optional: false,
-    },
     maxResults: {
       propDefinition: [
         quickbooks,
@@ -41,40 +34,29 @@ export default {
       ],
       optional: false,
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
-    if (!this.includeClause || !this.whereClause) {
-      throw new ConfigurationError("Must provide includeClause, whereClause parameters.");
+    if (!this.whereClause) {
+      throw new ConfigurationError("Must provide whereClause parameter.");
     }
 
-    var orderClause = "";
-    if (this.orderClause) {
-      orderClause = ` ORDERBY  ${this.orderClause}`;
-    }
+    const orderClause = this.orderClause
+      ? ` ORDERBY  ${this.orderClause}`
+      : "";
 
-    var startPosition = "";
-    if (this.startPosition) {
-      startPosition = ` STARTPOSITION  ${this.startPosition}`;
-    }
+    const startPosition = this.startPosition
+      ? ` STARTPOSITION  ${this.startPosition}`
+      : "";
 
-    var maxResults = "";
-    if (this.maxResults) {
-      maxResults = ` MAXRESULTS ${this.maxResults}` || "";
-    }
+    const maxResults = this.maxResults
+      ? ` MAXRESULTS ${this.maxResults}`
+      : "";
 
-    //Prepares the request's query parameter
-    const query = `select ${this.includeClause} from Item where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
+    const query = `select * from Item where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
 
     const response = await this.quickbooks.query({
       $,
       params: {
-        minorversion: this.minorVersion,
         query,
       },
     });

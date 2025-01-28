@@ -1,9 +1,11 @@
 import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
-import queries from "./common/queries.mjs";
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
+import constants from "./actions/common/constants.mjs";
+import mutations from "./common/mutations.mjs";
+import queries from "./common/queries.mjs";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -13,7 +15,7 @@ export default {
   propDefinitions: {
     orgName: {
       label: "Organization",
-      description: "The name of the Github organization. The name is not case sensitive.",
+      description: "The name of the Github organization (not case sensitive).",
       type: "string",
       async options() {
         const organizations = await this.getOrganizations();
@@ -23,7 +25,7 @@ export default {
     },
     repoFullname: {
       label: "Repository",
-      description: "The name of the repository. The name is not case sensitive",
+      description: "The name of the repository (not case sensitive). The format should be `owner/repo` (for example, `PipedreamHQ/pipedream`).",
       type: "string",
       async options({ org }) {
         const repositories = await this.getRepos({
@@ -96,19 +98,39 @@ export default {
     },
     status: {
       label: "Item Status",
-      description: "The status for a project item",
-      type: "string",
+      description: "The status(es) to emit events for. If not specified, events will be emitted for all statuses.",
+      type: "string[]",
       async options({
         org, repo, project,
       }) {
-        const { statuses } = await this.getProjectV2Statuses({
+        const { options } = await this.getProjectV2StatusField({
           repoOwner: org,
           repoName: repo,
           project,
         });
 
-        return statuses.map((status) => ({
+        return options.map((status) => ({
           label: status.name,
+          value: status.id,
+        }));
+      },
+    },
+    projectItem: {
+      label: "Project (V2) Item",
+      description: "The project item to update",
+      type: "string",
+      async options({
+        org, repo, project,
+      }) {
+        const items = await this.getProjectV2Items({
+          repoOwner: org,
+          repoName: repo,
+          project,
+          amount: 100,
+        });
+
+        return items.map((status) => ({
+          label: status.fieldValueByName?.text ?? status.id,
           value: status.id,
         }));
       },
@@ -141,12 +163,15 @@ export default {
       label: "Issue Number",
       description: "The issue number",
       type: "integer",
-      async options({ repoFullname }) {
+      async options({
+        repoFullname, page = 0,
+      }) {
         const issues = await this.getRepositoryIssues({
+          page: page + 1,
           repoFullname,
         });
 
-        return issues.map((issue) => ({
+        return issues?.filter?.((issue) => !issue.pull_request).map((issue) => ({
           label: issue.title,
           value: +issue.number,
         }));
@@ -161,9 +186,7 @@ export default {
       }) {
         const branches = await this.getBranches({
           repoFullname,
-          params: {
-            page: page + 1,
-          },
+          page: page + 1,
         });
 
         return branches.map((branch) => ({
@@ -176,14 +199,32 @@ export default {
       type: "integer",
       label: "PR Number",
       description: "A pull request number",
-      async options({ repoFullname }) {
+      async options({
+        repoFullname, page = 0,
+      }) {
         const prs = await this.getRepositoryPullRequests({
+          page: page + 1,
           repoFullname,
         });
 
         return prs.map((pr) => ({
           label: pr.title,
           value: +pr.number,
+        }));
+      },
+    },
+    milestoneNumber: {
+      type: "integer",
+      label: "Milestone Number",
+      description: "The number of a milestone to associate this issue with.",
+      async options({ repoFullname }) {
+        const items = await this.getRepositoryMilestones({
+          repoFullname,
+        });
+
+        return items.map((item) => ({
+          label: item.title,
+          value: +item.number,
         }));
       },
     },
@@ -228,6 +269,48 @@ export default {
         return teams.map((team) => ({
           label: team.name,
           value: team.id,
+        }));
+      },
+    },
+    workflowId: {
+      type: "string",
+      label: "Workflow Id",
+      description: "The Id of the workflow.",
+      async options({
+        repoFullname, page,
+      }) {
+        const { workflows: items } = await this.listWorkflows({
+          repoFullname,
+          perPage: constants.LIMIT,
+          page,
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    workflowRunId: {
+      type: "string",
+      label: "Workflow Run Id",
+      description: "The Id of the workflow Run.",
+      async options({
+        repoFullname, page,
+      }) {
+        const { workflow_runs: items } = await this.listWorkflowRuns({
+          repoFullname,
+          perPage: constants.LIMIT,
+          page,
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -317,6 +400,7 @@ export default {
       repoFullname,
       path,
       mediaType,
+      ...args
     }) {
       return this._makeRequest({
         path: `/repos/${repoFullname}/contents/${path}`,
@@ -325,6 +409,7 @@ export default {
             Accept: mediaType,
           },
         }),
+        ...args,
       });
     },
     async getRepositoryLabels({ repoFullname }) {
@@ -333,10 +418,14 @@ export default {
     async getRepositoryCollaborators({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/collaborators`, {});
     },
-    async getRepositoryIssues({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/issues`, {
+    async getRepositoryIssues({
+      repoFullname, ...args
+    }) {
+      const results = await this._client().request(`GET /repos/${repoFullname}/issues`, {
         state: "all",
+        ...args,
       });
+      return results.data;
     },
     async getRepositoryProjects({ repoFullname }) {
       return this._client().paginate(`GET /repos/${repoFullname}/projects`, {});
@@ -358,7 +447,7 @@ export default {
           response?.organization?.projectsV2?.pageInfo?.endCursor,
       };
     },
-    async getProjectV2Statuses({
+    async getProjectV2StatusField({
       repoOwner, repoName, project,
     }) {
       const response = await this.graphql(repoName ?
@@ -369,10 +458,56 @@ export default {
         project,
       });
 
-      return {
-        statuses: response?.repository?.projectV2?.field?.options ??
-          response?.organization?.projectV2?.field?.options,
-      };
+      return (response.repository ?? response.organization).projectV2?.field;
+
+    },
+    async getProjectV2Id({
+      repoOwner, repoName, project,
+    }) {
+      const response = await this.graphql(repoName ?
+        queries.repoProjectIdQuery :
+        queries.orgProjectIdQuery, {
+        repoOwner,
+        repoName,
+        project,
+      });
+
+      return (response.repository ?? response.organization).projectV2?.id;
+
+    },
+    async getProjectV2Items({
+      repoName, repoOwner, project, amount,
+    }) {
+      const response = await this.graphql(repoName ?
+        queries.projectItemsQuery :
+        queries.organizationProjectItemsQuery,
+      {
+        repoOwner,
+        repoName,
+        project,
+        amount,
+      });
+
+      return (response.repository ?? response.organization).projectV2?.items?.nodes;
+    },
+    async updateProjectV2ItemStatus({
+      projectId, itemId, fieldId, value,
+    }) {
+      return this.graphql(mutations.updateProjectItemMutation, {
+        projectId,
+        itemId,
+        fieldId,
+        value,
+      });
+    },
+    async updateProjectV2ItemPosition({
+      projectId, itemId,
+    }) {
+      return this.graphql(mutations.updateProjectItemPositionMutation, {
+        projectId,
+        itemId,
+        afterId: null,
+      });
     },
     async getProjectColumns({ project }) {
       return this._client().paginate(`GET /projects/${project}/columns`, {});
@@ -484,8 +619,11 @@ export default {
 
       return issues;
     },
-    async getRepositoryPullRequests({ repoFullname }) {
-      return this._client().paginate(`GET /repos/${repoFullname}/pulls`, {});
+    async getRepositoryPullRequests({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/pulls`, args ?? {});
+      return response.data;
     },
     async getPullRequestForCommit({
       repoFullname, sha,
@@ -539,6 +677,11 @@ export default {
       const fileExists = await this._makeRequest({
         path: `/repos/${repoFullname}/contents/${path}`,
         validateStatus: () => true,
+        ...(branch && {
+          params: {
+            ref: branch,
+          },
+        }),
       });
       if (fileExists.sha) {
         console.log("File exists, overwriting.");
@@ -585,10 +728,77 @@ export default {
 
       return response.data;
     },
+    async listWorkflows({
+      repoFullname,
+      perPage,
+      page,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/actions/workflows`, {
+        per_page: perPage,
+        page: page,
+      });
+
+      return response.data;
+    },
+    async listWorkflowRuns({
+      repoFullname,
+      perPage,
+      page,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/actions/runs`, {
+        per_page: perPage,
+        page: page,
+      });
+
+      return response.data;
+    },
+    async getWorkflowRun({
+      repoFullname, workflowRunId,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/actions/runs/${workflowRunId}`);
+
+      return response.data;
+    },
+    createWorkflowDispatch({
+      repoFullname,
+      workflowId,
+      ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/repos/${repoFullname}/actions/workflows/${workflowId}/dispatches`,
+        ...opts,
+      });
+    },
+    disableWorkflow({
+      repoFullname,
+      workflowId,
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/repos/${repoFullname}/actions/workflows/${workflowId}/disable`,
+      });
+    },
+    enableWorkflow({
+      repoFullname,
+      workflowId,
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/repos/${repoFullname}/actions/workflows/${workflowId}/enable`,
+      });
+    },
     async getUserRepoPermissions({
       repoFullname, username,
     }) {
       const response = await this._client().request(`GET /repos/${repoFullname}/collaborators/${username}/permission`, {});
+
+      return response.data;
+    },
+    async getOrgUserInfo({
+      org, username,
+    }) {
+      const response = await this._client().request(`GET /orgs/${org}/memberships/${username}`, {});
 
       return response.data;
     },
@@ -676,6 +886,15 @@ export default {
       const response = await this._client().request(`GET /repos/${repoFullname}/stargazers`, {
         ...args,
         per_page: 100,
+      });
+
+      return response.data;
+    },
+    async starRepo({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`PUT /user/starred/${repoFullname}`, {
+        ...args,
       });
 
       return response.data;

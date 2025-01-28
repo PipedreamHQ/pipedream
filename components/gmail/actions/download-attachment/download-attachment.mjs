@@ -1,50 +1,60 @@
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 import fs from "fs";
 import path from "path";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  ...common,
   key: "gmail-download-attachment",
-  name: "Download Attachement",
+  name: "Download Attachment",
   description: "Download an attachment by attachmentId to the /tmp directory. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get)",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
-    ...common.props,
+    gmail,
     messageId: {
       propDefinition: [
-        common.props.gmail,
-        "message",
+        gmail,
+        "messageWithAttachments",
       ],
     },
     attachmentId: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "attachmentId",
         ({ messageId }) => ({
           messageId,
         }),
       ],
+      withLabel: true,
     },
     filename: {
       type: "string",
       label: "Filename",
       description: "Name of the new file. Example: `test.jpg`",
+      optional: true,
     },
   },
   async run({ $ }) {
+    const attachmentId = this.attachmentId.value || this.attachmentId;
+
     const attachment = await this.gmail.getAttachment({
       messageId: this.messageId,
-      attachmentId: this.attachmentId,
+      attachmentId,
     });
 
-    const filePath = path.join("/tmp", this.filename);
+    const filename = this.filename || this.attachmentId.label;
+    if (!filename) {
+      throw new ConfigurationError("Please enter a filename to save the downloaded file as in the `/tmp` directory.");
+    }
+
+    const filePath = path.join("/tmp", filename);
     const buffer = Buffer.from(attachment.data, "base64");
     fs.writeFileSync(filePath, buffer);
 
-    $.export("$summary", `Successfully created file ${this.filename} in \`/tmp\` directory`);
+    $.export("$summary", `Successfully created file ${filename} in \`/tmp\` directory`);
 
     return {
+      filename,
       filePath,
     };
   },

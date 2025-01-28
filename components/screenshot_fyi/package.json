@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/screenshot_fyi",
+  "version": "0.1.0",
+  "description": "Pipedream screenshot.fyi Components",
+  "main": "screenshot_fyi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "screenshot_fyi"
+  ],
+  "homepage": "https://pipedream.com/apps/screenshot_fyi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

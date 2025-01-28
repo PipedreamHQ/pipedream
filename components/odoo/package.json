@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/odoo",
+  "version": "0.0.1",
+  "description": "Pipedream Odoo Components",
+  "main": "odoo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "odoo"
+  ],
+  "homepage": "https://pipedream.com/apps/odoo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

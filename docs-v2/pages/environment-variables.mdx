@@ -73,7 +73,7 @@ Reference the same environment variable in Python:
 
 ```python
 import os
-print(os.environ[API_KEY])
+print(os.environ["API_KEY"])
 ```
 
 Variable names are case-sensitive. Use the key name you defined when referencing your variable in `process.env`.
@@ -113,6 +113,10 @@ You can reference the value of environment variables using `{{process.env.YOUR_E
   alt="Env Vars in object explorer"
   src="https://res.cloudinary.com/pipedreamin/image/upload/v1708551738/env-vars-feb-2024/env-vars-object-explorer-v2_x9afzl.png"
 />
+
+<Callout type="info">
+  [Private components](https://pipedream.com/docs/components#using-components) (actions or triggers) do not have direct access to workspace or project variables as public components or code steps. Add a prop specifically for the variable you need. For sensitive data like API keys, [configure the prop as a secret](https://pipedream.com/docs/components/api#props). In your prop configuration, set the value to `{{process.env.YOUR_ENV_VAR}}` to securely reference the environment variable.
+</Callout>
 
 ## Frequently Asked Questions
 

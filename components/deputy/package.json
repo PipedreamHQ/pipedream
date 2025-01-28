@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/deputy",
+  "version": "0.0.1",
+  "description": "Pipedream Deputy Components",
+  "main": "deputy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "deputy"
+  ],
+  "homepage": "https://pipedream.com/apps/deputy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.1"
+  }
+}

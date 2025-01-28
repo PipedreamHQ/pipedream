@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import sheets from "@googleapis/sheets";
-import googleDrive from "../google_drive/google_drive.app.mjs";
+import googleDrive from "@pipedream/google_drive";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
 } from "./common/constants.mjs";
@@ -59,12 +59,14 @@ export default {
       type: "string",
       label: "Spreadsheet",
       description: "The Spreadsheet ID",
+      useQuery: true,
       options({
+        query,
         prevContext,
         driveId,
       }) {
         const { nextPageToken } = prevContext;
-        return this.listSheetsOptions(driveId, nextPageToken);
+        return this.listSheetsOptions(driveId, nextPageToken, query);
       },
     },
     worksheetIDs: {
@@ -250,8 +252,11 @@ export default {
       }
       return sum;
     },
-    async listSheetsOptions(driveId, pageToken = null) {
-      const q = "mimeType='application/vnd.google-apps.spreadsheet'";
+    async listSheetsOptions(driveId, pageToken = null, query) {
+      const searchQuery = query
+        ? ` and name contains '${query}'`
+        : "";
+      const q = `mimeType='application/vnd.google-apps.spreadsheet'${searchQuery}`;
       let request = {
         q,
       };

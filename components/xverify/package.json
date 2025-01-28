@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/xverify",
+  "version": "0.1.1",
+  "description": "Pipedream Xverify Components",
+  "main": "xverify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "xverify"
+  ],
+  "homepage": "https://pipedream.com/apps/xverify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

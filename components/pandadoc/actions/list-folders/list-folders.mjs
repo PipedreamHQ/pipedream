@@ -3,9 +3,9 @@ import app from "../../pandadoc.app.mjs";
 export default {
   key: "pandadoc-list-folders",
   name: "List Folders",
-  description: "List folders which contain Documents [See the docs here](https://developers.pandadoc.com/reference/list-documents-folders)",
+  description: "List folders which contain Documents. [See the documentation here](https://developers.pandadoc.com/reference/list-documents-folders)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
   props: {
     app,
     parentFolderId: {

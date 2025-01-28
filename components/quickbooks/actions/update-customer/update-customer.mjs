@@ -4,11 +4,17 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-update-customer",
   name: "Update Customer",
-  description: "Updates a customer. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#full-update-a-customer)",
-  version: "0.1.3",
+  description: "Updates a customer. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#full-update-a-customer)",
+  version: "0.1.8",
   type: "action",
   props: {
     quickbooks,
+    customerId: {
+      propDefinition: [
+        quickbooks,
+        "customer",
+      ],
+    },
     displayName: {
       propDefinition: [
         quickbooks,
@@ -48,20 +54,14 @@ export default {
     currencyRefValue: {
       propDefinition: [
         quickbooks,
-        "currencyRefValue",
-      ],
-    },
-    currencyRefName: {
-      propDefinition: [
-        quickbooks,
-        "currencyRefName",
+        "currency",
       ],
     },
     active: {
       description: "If true, this entity is currently enabled for use by QuickBooks. If there is an amount in `Customer.Balance` when setting this Customer object to inactive through the QuickBooks UI, a CreditMemo balancing transaction is created for the amount.",
       label: "Active",
       optional: true,
-      type: "string",
+      type: "boolean",
     },
     alternatePhoneFreeFormNumber: {
       description: "Specifies the alternate phone number in free form.",
@@ -69,29 +69,14 @@ export default {
       optional: true,
       type: "string",
     },
-    arAccountRefName: {
-      description: "Name of the accounts receivable account to be used for this customer. Each customer must have his own AR account. Applicable for France companies, only. Available when endpoint is evoked with the minorversion=3 query parameter. Query the Account name list resource to determine the appropriate Account object for this reference, where Account.AccountType=Accounts Receivable. Use `Account.Name` from that object for `ARAccountRef.name`.",
-      label: "Ar Account Ref Name",
-      optional: true,
-      type: "string",
-    },
     arAccountRefValue: {
-      description: "Id of the accounts receivable account to be used for this customer. Each customer must have his own AR account. Applicable for France companies, only. Available when endpoint is evoked with the minorversion=3 query parameter. Query the Account name list resource to determine the appropriate Account object for this reference, where Account.AccountType=Accounts Receivable. Use `Account.Id` from that object for `ARAccountRef.value`.",
-      label: "Ar Account Ref Value",
-      optional: true,
+      description: "ID of the accounts receivable account to be used for this customer. Each customer must have his own AR account. Applicable for France companies, only. Available when endpoint is evoked with the minorversion=3 query parameter. Query the Account name list resource to determine the appropriate Account object for this reference, where Account.AccountType=Accounts Receivable. Use `Account.Id` from that object for `ARAccountRef.value`.",
+      label: "AR Account Ref Value",
       type: "string",
-    },
-    balance: {
-      description: "Specifies the open balance amount or the amount unpaid by the customer. For the create operation, this represents the opening balance for the customer. When returned in response to the query request it represents the current open balance (unpaid amount) for that customer. Write-on-create.",
-      label: "Balance",
-      optional: true,
-      type: "string",
-    },
-    balanceWithJob: {
-      description: "Cumulative open balance amount for the Customer (or Job) and all its sub-jobs. Cannot be written to QuickBooks.",
-      label: "Balance With Job",
-      optional: true,
-      type: "string",
+      propDefinition: [
+        quickbooks,
+        "accountIds",
+      ],
     },
     billAddrCity: {
       description: "City name for the billing address.",
@@ -108,12 +93,6 @@ export default {
     billAddrCountrySubDivisionCode: {
       description: "Region within a country for the billing address. For example, state name for USA, province name for Canada.",
       label: "Bill Addr Country Sub Division Code",
-      optional: true,
-      type: "string",
-    },
-    billAddrId: {
-      description: "Unique identifier of the QuickBooks object for the billing address, used for modifying the address. \nThe BillAddr object represents the default billing address. If a physical address is updated from within the transaction object, the QuickBooks Online API flows individual address components differently into the Line elements of the transaction response then when the transaction was first created:\n* `Line1` and `Line2` elements are populated with the customer name and company name.\n* Original `Line1` through `Line5` contents, `City`, `SubDivisionCode`, and `PostalCode` flow into `Line3` through `Line5` as a free format strings.",
-      label: "Bill Addr Id",
       optional: true,
       type: "string",
     },
@@ -183,25 +162,14 @@ export default {
       optional: true,
       type: "string",
     },
-    customerId: {
-      description: "Unique identifier for the customer object to be updated.",
-      label: "Customer Id",
-      type: "string",
-    },
     customerTypeRefValue: {
-      description: "Id referencing to the customer type assigned to a customer. This field is only returned if the customer is assigned a customer type.",
-      label: "Customer Type Ref Value",
-      optional: true,
-      type: "string",
-    },
-    defaultTaxCodeName: {
-      description: "Id of the default tax code associated with this Customer object. Reference is valid if `Customer.Taxable` is set to true; otherwise, it is ignored. If automated sales tax is enabled (`Preferences.TaxPrefs.PartnerTaxEnabled` is set to true) the default tax code is set by the system and can not be overridden. Query the `TaxCode` name list resource to determine the appropriate `TaxCode` object for this reference. Use `TaxCode.Name` from that object for `DefaultTaxCodeRef.name`.",
-      label: "Default Tax Code Name",
-      optional: true,
-      type: "string",
+      propDefinition: [
+        quickbooks,
+        "customerType",
+      ],
     },
     defaultTaxCodeValue: {
-      description: "Id of the default tax code associated with this Customer object. Reference is valid if `Customer.Taxable` is set to true; otherwise, it is ignored. If automated sales tax is enabled (`Preferences.TaxPrefs.PartnerTaxEnabled` is set to true) the default tax code is set by the system and can not be overridden. Query the `TaxCode` name list resource to determine the appropriate `TaxCode` object for this reference. Use `TaxCode.Id` from that object for `DefaultTaxCodeRef.value`.",
+      description: "ID of the default tax code associated with this Customer object. Reference is valid if `Customer.Taxable` is set to true; otherwise, it is ignored. If automated sales tax is enabled (`Preferences.TaxPrefs.PartnerTaxEnabled` is set to true) the default tax code is set by the system and can not be overridden. Query the `TaxCode` name list resource to determine the appropriate `TaxCode` object for this reference. Use `TaxCode.Id` from that object for `DefaultTaxCodeRef.value`.",
       label: "Default Tax Code Value",
       optional: true,
       type: "string",
@@ -233,12 +201,6 @@ export default {
       ],
       type: "string",
     },
-    isProject: {
-      description: "If true, indicates this is a Project.",
-      label: "Is Project",
-      optional: true,
-      type: "boolean",
-    },
     job: {
       description: "If true, this is a Job or sub-customer. If false or null, this is a top level customer, not a Job or sub-customer.",
       label: "Job",
@@ -257,35 +219,11 @@ export default {
       optional: true,
       type: "string",
     },
-    openBalanceDate: {
-      description: "Date of the Open Balance for the create operation. Write-on-create.",
-      label: "Open Balance Date",
-      optional: true,
-      type: "string",
-    },
-    parentRefName: {
-      description: "Name referencing to a Customer object that is the immediate parent of the Sub-Customer/Job in the hierarchical Customer:Job list. Required for the create operation if this object is a sub-customer or Job. Query the Customer name list resource to determine the appropriate Customer object for this reference. Use `Customer.Name` from that object for `ParentRef.name`.",
-      label: "Parent Ref Name",
-      optional: true,
-      type: "string",
-    },
-    parentRefValue: {
-      description: "Id referencing to a Customer object that is the immediate parent of the Sub-Customer/Job in the hierarchical Customer:Job list. Required for the create operation if this object is a sub-customer or Job. Query the Customer name list resource to determine the appropriate Customer object for this reference. Use `Customer.Id` from that object for `ParentRef.value`.",
-      label: "Parent Ref Value",
-      optional: true,
-      type: "string",
-    },
-    paymentMethodRefName: {
-      description: "Id referencing a PaymentMethod object associated with this Customer object. Query the PaymentMethod name list resource to determine the appropriate PaymentMethod object for this reference. Use `PaymentMethod.Name` from that object for `PaymentMethodRef.name`.",
-      label: "Payment Method Ref Name",
-      optional: true,
-      type: "string",
-    },
     paymentMethodRefValue: {
-      description: "Id referencing a PaymentMethod object associated with this Customer object. Query the PaymentMethod name list resource to determine the appropriate PaymentMethod object for this reference. Use `PaymentMethod.Id` from that object for `PaymentMethodRef.value`.",
-      label: "Payment Method Ref Value",
-      optional: true,
-      type: "string",
+      propDefinition: [
+        quickbooks,
+        "paymentMethod",
+      ],
     },
     preferredDeliveryMethod: {
       description: "Preferred delivery method. Values are `Print`, `Email`, or `None`.",
@@ -328,17 +266,13 @@ export default {
       optional: true,
       type: "string",
     },
-    saleTermRefName: {
-      description: "Name of a SalesTerm object associated with this Customer object. Query the Term name list resource to determine the appropriate Term object for this reference. Use `Term.Name` from that object for `SalesTermRef.name`.",
-      label: "Sale Term Ref Name",
-      optional: true,
-      type: "string",
-    },
     saleTermRefValue: {
-      description: "Id of a SalesTerm object associated with this Customer object. Query the Term name list resource to determine the appropriate Term object for this reference. Use `Term.Id` from that object for `SalesTermRef.value`.",
-      label: "Sale Term Ref Value",
-      optional: true,
+      description: "ID of a SalesTerm object associated with this Customer object. Query the Term name list resource to determine the appropriate Term object for this reference. Use `Term.Id` from that object for `SalesTermRef.value`.",
       type: "string",
+      propDefinition: [
+        quickbooks,
+        "termIds",
+      ],
     },
     secondaryTaxIdentifier: {
       description: "Also called UTR No. in ( UK ) , CST Reg No. ( IN ) also represents the tax registration number of the Person or Organization. This value is masked in responses, exposing only last five characters. For example, the ID of `123-45-6789` is returned as `XXXXXX56789`",
@@ -418,21 +352,11 @@ export default {
       optional: true,
       type: "string",
     },
-    sparseUpdate: {
-      description: "When set to `true`, sparse updating provides the ability to update a subset of properties for a given object; only elements specified in the request are updated. Missing elements are left untouched.",
-      label: "Sparse Update",
-      type: "string",
-    },
-    syncToken: {
-      description: "Version number of the object. It is used to lock an object for use by one app at a time. As soon as an application modifies an object, its SyncToken is incremented. Attempts to modify an object specifying an older SyncToken fails. Only the latest version of the object is maintained by QuickBooks Online.",
-      label: "Sync Token",
-      type: "string",
-    },
     taxable: {
       description: "If true, transactions for this customer are taxable. Default behavior with minor version 10 and above: true, if `DefaultTaxCodeRef` is defined or false if `TaxExemptionReasonId` is set.",
       label: "Taxable",
       optional: true,
-      type: "string",
+      type: "boolean",
     },
     taxExemptionReasonId: {
       label: "Tax Exemption Reason Id",
@@ -463,28 +387,54 @@ export default {
       optional: true,
       type: "string",
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
+  },
+  methods: {
+    async getSyncToken($) {
+      const { Customer: customer } = await this.quickbooks.getCustomer({
+        $,
+        customerId: this.customerId,
+      });
+      return customer.SyncToken;
     },
   },
   async run({ $ }) {
-    //See Quickbooks API docs at: https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#full-update-a-customer
-
     if (
       !this.displayName &&
       (!this.title && !this.givenName && !this.middleName && !this.familyName && !this.suffix) ||
-      !this.customerId || !this.syncToken || this.sparseUpdate === undefined
+      !this.customerId
     ) {
-      throw new ConfigurationError("Must provide displayName or at least one of title, givenName, middleName, familyName, or suffix, and customerId, syncToken parameters.");
+      throw new ConfigurationError("Must provide displayName or at least one of title, givenName, middleName, familyName, or suffix, and customerId parameters.");
     }
+
+    const hasBillingAddress = this.billAddrPostalCode
+      || this.billAddrCity
+      || this.billAddrCountry
+      || this.billAddrLine5
+      || this.billAddrLine4
+      || this.billAddrLine3
+      || this.billAddrLine2
+      || this.billAddrLine1
+      || this.billAddrLate
+      || this.billAddrLong
+      || this.billAddrCountrySubDivisionCode;
+
+    const hasShippingAddress = this.shipAddrId
+      || this.shipAddrPostalCode
+      || this.shipAddrCity
+      || this.shipAddrCountry
+      || this.shipAddrLine5
+      || this.shipAddrLine4
+      || this.shipAddrLine3
+      || this.shipAddrLine2
+      || this.shipAddrLine1
+      || this.shipAddrLate
+      || this.shipAddrLong
+      || this.shipAddrCountrySubDivisionCode;
 
     const response = await this.quickbooks.updateCustomer({
       $,
       data: {
-        sparse: this.sparseUpdate,
+        sparse: true,
         Id: this.customerId,
         DisplayName: this.displayName,
         Suffix: this.suffix,
@@ -492,58 +442,49 @@ export default {
         MiddleName: this.middleName,
         FamilyName: this.familyName,
         GivenName: this.givenName,
-        SyncToken: this.syncToken,
-        PrimaryEmailAddr: this.primaryEmailAddr,
+        SyncToken: await this.getSyncToken($),
+        PrimaryEmailAddr: this.primaryEmailAddr && {
+          Address: this.primaryEmailAddr,
+        },
         ResaleNum: this.resaleNum,
         SecondaryTaxIdentifier: this.secondaryTaxIdentifier,
-        ARAccountRef: {
+        ARAccountRef: this.arAccountRefValue && {
           value: this.arAccountRefValue,
-          name: this.arAccountRefName,
         },
-        DefaultTaxCodeRef: {
+        DefaultTaxCodeRef: this.defaultTaxCodeValue && {
           value: this.defaultTaxCodeValue,
-          name: this.defaultTaxCodeName,
         },
         PreferredDeliveryMethod: this.preferredDeliveryMethod,
         GSTIN: this.GSTIN,
-        SalesTermRef: {
+        SalesTermRef: this.saleTermRefValue && {
           value: this.saleTermRefValue,
-          name: this.saleRermRefName,
         },
-        CustomerTypeRef: {
-          value: this.customerRypeRefValue,
+        CustomerTypeRef: this.customerTypeRefValue && {
+          value: this.customerTypeRefValue,
         },
-        Fax: {
+        Fax: this.faxFreeFormNumber && {
           FreeFormNumber: this.faxFreeFormNumber,
         },
         BusinessNumber: this.businessNumber,
         BillWithParent: this.billWithParent,
-        CurrencyRef: {
+        CurrencyRef: this.currencyRefValue && {
           value: this.currencyRefValue,
-          name: this.currencyRefName,
         },
-        Mobile: {
+        Mobile: this.mobileFreeFormNumber && {
           FreeFormNumber: this.mobileFreeFormNumber,
         },
         Job: this.job,
-        BalanceWithJobs: this.balanceWithJob,
-        PrimaryPhone: {
+        PrimaryPhone: this.primaryPhoneFreeFormNumber && {
           FreeFormNumber: this.primaryPhoneFreeFormNumber,
         },
-        OpenBalanceDate: this.openBalanceDate,
         Taxable: this.taxable,
-        AlternatePhone: {
+        AlternatePhone: this.alternatePhoneFreeFormNumber && {
           FreeFormNumber: this.alternatePhoneFreeFormNumber,
-        },
-        ParentRef: {
-          value: this.parentRefValue,
-          name: this.parentRefName,
         },
         Notes: this.notes,
         WebAddr: this.webAddr,
         Active: this.active,
-        Balance: this.balance,
-        ShipAddr: {
+        ShipAddr: hasShippingAddress && {
           Id: this.shipAddrId,
           PostalCode: this.shipAddrPostalCode,
           City: this.shipAddrCity,
@@ -557,17 +498,14 @@ export default {
           Long: this.shipAddrLong,
           CountrySubDivisionCode: this.shipAddrCountrySubDivisionCode,
         },
-        PaymentMethodRef: {
+        PaymentMethodRef: this.paymentMethodRefValue && {
           value: this.paymentMethodRefValue,
-          name: this.paymentMethodRefName,
         },
-        IsProject: this.isProject,
         CompanyName: this.companyName,
         PrimaryTaxIdentifier: this.primaryTaxIdentifier,
         GSTRegistrationType: this.gstRegistrationType,
         PrintOnCheckName: this.printOnCheckName,
-        BillAddr: {
-          Id: this.billAddrId,
+        BillAddr: hasBillingAddress && {
           PostalCode: this.billAddrPostalCode,
           City: this.billAddrCity,
           Country: this.billAddrCountry,
@@ -582,13 +520,10 @@ export default {
         },
         TaxExemptionReasonId: this.taxExemptionReasonId,
       },
-      params: {
-        minorversion: this.minorVersion,
-      },
     });
 
     if (response) {
-      $.export("summary", `Successfully updated customer with id ${this.customerId}`);
+      $.export("summary", `Successfully updated customer with ID ${this.customerId}`);
     }
 
     return response;

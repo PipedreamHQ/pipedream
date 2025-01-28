@@ -3,8 +3,8 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-create-payment",
   name: "Create Payment",
-  description: "Creates a payment. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/payment#create-a-payment)",
-  version: "0.0.2",
+  description: "Creates a payment. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/payment#create-a-payment)",
+  version: "0.0.7",
   type: "action",
   props: {
     quickbooks,
@@ -14,26 +14,15 @@ export default {
       type: "string",
     },
     customerRefValue: {
-      label: "Customer Reference Value",
-      description: "Reference to a customer or job. Query the Customer name list resource to determine the appropriate Customer object for this reference. Use `Customer.Id` from that object for `CustomerRef.value`.",
-      type: "string",
-    },
-    customerRefName: {
       propDefinition: [
         quickbooks,
-        "customerRefName",
+        "customer",
       ],
     },
     currencyRefValue: {
       propDefinition: [
         quickbooks,
-        "currencyRefValue",
-      ],
-    },
-    currencyRefName: {
-      propDefinition: [
-        quickbooks,
-        "currencyRefName",
+        "currency",
       ],
     },
   },
@@ -44,17 +33,15 @@ export default {
         TotalAmt: this.totalAmount,
         CustomerRef: {
           value: this.customerRefValue,
-          name: this.customerRefName,
         },
         CurrencyRef: {
           value: this.currencyRefValue,
-          name: this.currencyRefName,
         },
       },
     });
 
     if (response) {
-      $.export("summary", `Successfully created payment with id ${response.Payment.Id}`);
+      $.export("summary", `Successfully created payment with ID ${response.Payment.Id}`);
     }
 
     return response;

@@ -1,0 +1,21 @@
+# End Workflow
+
+To terminate the workflow prior to the last step, use the **End Workflow** pre-built action or `$.flow.exit()` in code.
+
+![End Workflow](./images/end_workflow.png)
+
+## End Workflow Using a Pre-Built Action
+
+- Select and configure the End Workflow action from the step selector
+- When the step runs, the workflow execution will stop
+- You may configure an optional reason for ending the workflow execution. This reason will be surfaced when inspecting the event execution.
+    
+    ![Reason](./images/reason.png)
+    
+
+## End Workflow in Code
+
+Check the reference for your preferred language to learn how to end the workflow execution in code.
+
+- [Ending a workflow in Node.js](/code/nodejs#ending-a-workflow-early)
+- [Ending a workflow in Python](/code/python#ending-a-workflow-early)

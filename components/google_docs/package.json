@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_docs",
-  "version": "0.3.6",
+  "version": "0.4.1",
   "description": "Pipedream Google_docs Components",
   "main": "google_docs.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@googleapis/docs": "^0.2.0"
+    "@googleapis/docs": "^3.3.0",
+    "@pipedream/google_drive": "^0.6.19"
   }
 }

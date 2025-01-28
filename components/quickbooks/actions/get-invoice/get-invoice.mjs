@@ -4,21 +4,15 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-get-invoice",
   name: "Get Invoice",
-  description: "Returns info about an invoice. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#read-an-invoice)",
-  version: "0.2.4",
+  description: "Returns info about an invoice. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#read-an-invoice)",
+  version: "0.2.9",
   type: "action",
   props: {
     quickbooks,
     invoiceId: {
-      label: "Invoice ID",
-      type: "string",
-      description: "Id of the invoice to get details of.",
-      optional: true,
-    },
-    minorVersion: {
       propDefinition: [
         quickbooks,
-        "minorVersion",
+        "invoiceId",
       ],
     },
   },
@@ -30,13 +24,10 @@ export default {
     const response = await this.quickbooks.getInvoice({
       $,
       invoiceId: this.invoiceId,
-      params: {
-        minorversion: this.minorVersion,
-      },
     });
 
     if (response) {
-      $.export("summary", `Successfully retrieved invoice with id ${response.Invoice.Id}`);
+      $.export("summary", `Successfully retrieved invoice with ID ${response.Invoice.Id}`);
     }
 
     return response;

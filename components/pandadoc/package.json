@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pandadoc",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "description": "Pipedream PandaDoc Components",
   "main": "pandadoc.app.mjs",
   "keywords": [

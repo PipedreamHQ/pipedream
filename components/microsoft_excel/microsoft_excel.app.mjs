@@ -9,7 +9,7 @@ export default {
       label: "Folder Id",
       description: "The ID of the folder where the item is located.",
       async options() {
-        const folders = await this.listFolders();
+        const folders = await this.listFolderOptions();
         return [
           "root",
           ...folders,
@@ -99,11 +99,11 @@ export default {
       return axios($, config);
     },
     addRow({
-      itemId, tableId, ...args
+      itemId, tableId, tableName, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `me/drive/items/${itemId}/workbook/tables/${tableId}/rows`,
+        path: `me/drive/items/${itemId}/workbook/tables/${tableId || tableName}/rows/add`,
         ...args,
       });
     },
@@ -119,38 +119,6 @@ export default {
         method: "DELETE",
         path: `subscriptions/${hookId}`,
       });
-    },
-    async listFolders({
-      folderId = null,
-      prefix = "", ...args
-    } = {}) {
-      const foldersArray = [];
-      const { value: items } = await this._makeRequest({
-        path: folderId
-          ? `/me/drive/items/${folderId}/children`
-          : "me/drive/root/children",
-        ...args,
-      });
-
-      const folders = items.filter((item) => item.folder);
-      for (const {
-        id, name, folder: { childCount = null },
-      } of folders) {
-        foldersArray.push({
-          value: id,
-          label: `${prefix}${name}`,
-        });
-
-        if (childCount) {
-          const children = await this.listFolders({
-            folderId: id,
-            prefix: prefix + "-",
-          });
-          foldersArray.push(...children);
-        }
-      }
-
-      return foldersArray;
     },
     listItems({
       folderId, ...args
@@ -170,6 +138,7 @@ export default {
         ...args,
       });
     },
+    // List tables endpoint is not supported for personal accounts
     listTables({
       itemId, ...args
     }) {
@@ -195,6 +164,88 @@ export default {
         path: `subscriptions/${hookId}`,
         ...args,
       });
+    },
+    batch(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "$batch",
+        ...args,
+      });
+    },
+    async listFolderOptions({
+      folderId = null, prefix = "", batchLimit = 20, ...args
+    } = {}) {
+      const options = [];
+      const stack = [
+        {
+          folderId,
+          prefix,
+        },
+      ];
+      const history = [];
+
+      try {
+        while (stack.length) {
+          const currentBatch = [];
+          while (stack.length && currentBatch.length < batchLimit) {
+            const {
+              folderId,
+              prefix,
+            } = stack.shift();
+            history.push({
+              folderId,
+              prefix,
+            });
+            currentBatch.push({
+              id: folderId || "root",
+              method: "GET",
+              url: folderId
+                ? `/me/drive/items/${folderId}/children?$filter=folder ne null`
+                : "/me/drive/root/children?$filter=folder ne null",
+            });
+          }
+
+          const { responses: batchResponses } =
+            await this.batch({
+              ...args,
+              data: {
+                ...args?.data,
+                requests: currentBatch,
+              },
+            });
+
+          batchResponses.forEach(({
+            id, status, body,
+          }) => {
+            if (status === 200) {
+              body.value.forEach((item) => {
+                const {
+                  id, name, folder: { childCount }, parentReference: { id: parentId },
+                } = item;
+                const prefix = history.find(({ folderId }) => folderId === parentId)?.prefix || "";
+                const currentLabel = `${prefix}${name}`;
+                options.push({
+                  value: id,
+                  label: currentLabel,
+                });
+
+                if (childCount) {
+                  stack.push({
+                    folderId: id,
+                    prefix: `${currentLabel}/`,
+                  });
+                }
+              });
+            } else {
+              console.error(`Error in batch request ${id}:`, JSON.stringify(body));
+            }
+          });
+        }
+      } catch (error) {
+        console.error("Error listing folders:", error);
+      }
+
+      return options;
     },
   },
 };

@@ -3,8 +3,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-replace-image",
   name: "Replace Image",
-  description: "Replace image in a existing document. [See the docs](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceImageRequest)",
-  version: "0.0.3",
+  description: "Replace image in a existing document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceImageRequest)",
+  version: "0.0.5",
   type: "action",
   props: {
     googleDocs,
@@ -37,9 +37,8 @@ export default {
       uri: this.imageUri,
     };
     await this.googleDocs.replaceImage(this.docId, image);
-    $.export("$summary", "Successfully replaced image in doc");
-    return {
-      documentId: this.docId,
-    };
+    const doc = this.googleDocs.getDocument(this.docId);
+    $.export("$summary", `Successfully replaced image in doc with ID: ${this.docId}`);
+    return doc;
   },
 };

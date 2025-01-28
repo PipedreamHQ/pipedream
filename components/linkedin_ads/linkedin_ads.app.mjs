@@ -1,4 +1,4 @@
-import app from "../linkedin/linkedin.app.mjs";
+import app from "@pipedream/linkedin";
 import utils from "./common/utils.mjs";
 
 export default {
@@ -123,6 +123,31 @@ export default {
         }));
       },
     },
+    leadFormId: {
+      type: "string",
+      label: "Lead Form ID",
+      description: "Select the lead form to retrieve responses for.",
+      async options({
+        page, adAccountId,
+      }) {
+        const count = 20;
+        const { elements } = await this.searchLeadForms({
+          params: {
+            q: "owner",
+            owner: `(sponsoredAccount:${this.getSponsoredAccountUrn(adAccountId)})`,
+            count,
+            start: page * count,
+          },
+        });
+        return elements.map(({
+          id,
+          name: label,
+        }) => ({
+          label,
+          value: String(id),
+        }));
+      },
+    },
   },
   methods: {
     ...app.methods,
@@ -141,6 +166,9 @@ export default {
     getEventUrn(id) {
       return `urn:li:event:${id}`;
     },
+    getVersionedLeadGenFormUrn(id, version = 1) {
+      return `urn:li:versionedLeadGenForm:(urn:li:leadGenForm:${id},${version})`;
+    },
     searchCampaigns({
       adAccountId, ...args
     } = {}) {
@@ -154,9 +182,16 @@ export default {
         "owner",
       ];
       return this._makeRequest({
-        debug: true,
         path: "/leadForms",
         paramsSerializer: utils.getParamsSerializer(utils.encodeParamKeys(keys)),
+        ...args,
+      });
+    },
+    getLeadForm({
+      leadFormId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/leadForms/${leadFormId}`,
         ...args,
       });
     },
@@ -165,7 +200,6 @@ export default {
         "organizer",
       ];
       return this._makeRequest({
-        debug: true,
         path: "/events",
         paramsSerializer: utils.getParamsSerializer(utils.encodeParamKeys(keys)),
         transformResponse: utils.transformResponse,
@@ -174,7 +208,6 @@ export default {
     },
     searchConversions(args = {}) {
       return this._makeRequest({
-        debug: true,
         path: "/conversions",
         paramsSerializer: utils.getParamsSerializer(utils.encodeFn),
         ...args,
@@ -187,7 +220,6 @@ export default {
         "associatedEntity",
       ];
       return this._makeRequest({
-        debug: true,
         path: "/leadFormResponses",
         paramsSerializer: utils.getParamsSerializer(utils.encodeParamKeys(keys)),
         ...args,

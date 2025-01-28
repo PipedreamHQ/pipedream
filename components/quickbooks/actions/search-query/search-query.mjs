@@ -4,8 +4,8 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-search-query",
   name: "Search Query",
-  description: "Performs a search query against a Quickbooks entity. [See docs here](https://developer.intuit.com/app/develophttps://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries)",
-  version: "0.1.3",
+  description: "Performs a search query against a Quickbooks entity. [See the documentation](https://developer.intuit.com/app/develophttps://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries)",
+  version: "0.1.8",
   type: "action",
   props: {
     quickbooks,
@@ -13,12 +13,6 @@ export default {
       label: "Search Query",
       type: "string",
       description: "A search query against a Quickbooks entity. See query language syntax, limitations, and other specifications on [Data queries](https://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries)",
-    },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
     },
   },
   async run({ $ }) {
@@ -29,7 +23,6 @@ export default {
     const response = await this.quickbooks.query({
       $,
       params: {
-        minorversion: this.minorVersion,
         query: this.searchQuery,
       },
     });
@@ -37,5 +30,6 @@ export default {
     if (response) {
       $.export("summary", "Successfully retrieved query results");
     }
+    return response;
   },
 };

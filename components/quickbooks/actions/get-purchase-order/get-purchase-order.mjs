@@ -4,20 +4,15 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-get-purchase-order",
   name: "Get Purchase Order",
-  description: "Returns details about a purchase order. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#read-a-purchase-order)",
-  version: "0.1.3",
+  description: "Returns details about a purchase order. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#read-a-purchase-order)",
+  version: "0.1.8",
   type: "action",
   props: {
     quickbooks,
     purchaseOrderId: {
-      label: "Purchase Order ID",
-      type: "string",
-      description: "Id of the purchase order to get details of.",
-    },
-    minorVersion: {
       propDefinition: [
         quickbooks,
-        "minorVersion",
+        "purchaseOrderId",
       ],
     },
   },
@@ -29,13 +24,11 @@ export default {
     const response = await this.quickbooks.getPurchaseOrder({
       $,
       purchaseOrderId: this.purchaseOrderId,
-      params: {
-        minorversion: this.minorVersion,
-      },
+      params: {},
     });
 
     if (response) {
-      $.export("summary", `Successfully retrieved purchase order with id ${response.PurchaseOrder.Id}`);
+      $.export("summary", `Successfully retrieved purchase order with ID ${response.PurchaseOrder.Id}`);
     }
 
     return response;

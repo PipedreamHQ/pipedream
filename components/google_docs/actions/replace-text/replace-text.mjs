@@ -3,8 +3,8 @@ import googleDocs from "../../google_docs.app.mjs";
 export default {
   key: "google_docs-replace-text",
   name: "Replace Text",
-  description: "Replace all instances of matched text in a existing document. [See the docs](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
-  version: "0.0.3",
+  description: "Replace all instances of matched text in an existing document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
+  version: "0.0.5",
   type: "action",
   props: {
     googleDocs,
@@ -45,9 +45,8 @@ export default {
       },
     };
     await this.googleDocs.replaceText(this.docId, text);
-    $.export("$summary", "Successfully replaced text in doc");
-    return {
-      documentId: this.docId,
-    };
+    const doc = this.googleDocs.getDocument(this.docId);
+    $.export("$summary", `Successfully replaced text in doc with ID: ${this.docId}`);
+    return doc;
   },
 };

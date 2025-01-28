@@ -1,5 +1,5 @@
 import docs from "@googleapis/docs";
-import googleDrive from "../google_drive/google_drive.app.mjs";
+import googleDrive from "@pipedream/google_drive";
 
 export default {
   type: "app",
@@ -9,12 +9,13 @@ export default {
     docId: {
       type: "string",
       label: "Document",
-      description: "Select a document or enter a custom expression to pass a value from a previous step (e.g., `{{steps.foo.$return_value.documentId}}`) or to manually enter a static ID (e.g., `1KuEN7k8jVP3Qi0_svM5OO8oEuiLkq0csihobF67eat8`).",
+      description: "Search for and select a document. You can also use a custom expression to pass a value from a previous step (e.g., `{{steps.foo.$return_value.documentId}}`) or you can enter a static ID (e.g., `1KuEN7k8jVP3Qi0_svM5OO8oEuiLkq0csihobF67eat8`).",
+      useQuery: true,
       async options({
-        prevContext, driveId,
+        prevContext, driveId, query,
       }) {
         const { nextPageToken } = prevContext;
-        return this.listDocsOptions(driveId, nextPageToken);
+        return this.listDocsOptions(driveId, query, nextPageToken);
       },
     },
     imageId: {
@@ -128,8 +129,11 @@ export default {
     async replaceImage(documentId, image) {
       return this._batchUpdate(documentId, "replaceImage", image);
     },
-    async listDocsOptions(driveId, pageToken = null) {
-      const q = "mimeType='application/vnd.google-apps.document'";
+    async listDocsOptions(driveId, query, pageToken = null) {
+      let q = "mimeType='application/vnd.google-apps.document'";
+      if (query) {
+        q = `${q} and name contains '${query}'`;
+      }
       let request = {
         q,
       };

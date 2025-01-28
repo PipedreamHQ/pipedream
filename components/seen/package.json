@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/seen",
+  "version": "0.0.2",
+  "description": "Pipedream SEEN Components",
+  "main": "seen.app.mjs",
+  "keywords": [
+    "pipedream",
+    "seen"
+  ],
+  "homepage": "https://pipedream.com/apps/seen",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

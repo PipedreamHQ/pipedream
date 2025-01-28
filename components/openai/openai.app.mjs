@@ -21,7 +21,7 @@ export default {
       async options() {
         return (await this.getChatCompletionModels({})).map((model) => model.id);
       },
-      default: "gpt-3.5-turbo",
+      default: "gpt-4o-mini",
     },
     embeddingsModelId: {
       label: "Model",
@@ -61,6 +61,58 @@ export default {
             label: assistant.name || assistant.id,
             value: assistant.id,
           })),
+          context: {
+            after,
+          },
+        };
+      },
+    },
+    vectorStoreId: {
+      type: "string",
+      label: "Vector Store ID",
+      description: "The identifier of a vector store",
+      async options({ prevContext }) {
+        const params = prevContext?.after
+          ? {
+            after: prevContext.after,
+          }
+          : {};
+        const {
+          data: vectorStores, last_id: after,
+        } = await this.listVectorStores({
+          params,
+        });
+        return {
+          options: vectorStores.map((vectorStore) => ({
+            label: vectorStore.name || vectorStore.id,
+            value: vectorStore.id,
+          })),
+          context: {
+            after,
+          },
+        };
+      },
+    },
+    vectorStoreFileId: {
+      type: "string",
+      label: "Vector Store File ID",
+      description: "The identifier of a vector store file",
+      async options({
+        vectorStoreId, prevContext,
+      }) {
+        const params = prevContext?.after
+          ? {
+            after: prevContext.after,
+          }
+          : {};
+        const {
+          data: vectorStoreFiles, last_id: after,
+        } = await this.listVectorStoreFiles({
+          vectorStoreId,
+          params,
+        });
+        return {
+          options: vectorStoreFiles.map((vectorStoreFile) => vectorStoreFile.id),
           context: {
             after,
           },
@@ -264,7 +316,7 @@ export default {
         "User-Agent": "@PipedreamHQ/pipedream v1.0",
       };
     },
-    _betaHeaders(version = "v1") {
+    _betaHeaders(version = "v2") {
       return {
         ...this._commonHeaders(),
         "OpenAI-Beta": `assistants=${version}`,
@@ -297,7 +349,7 @@ export default {
       const models = await this.models({
         $,
       });
-      return models.filter((model) => model.id.match(/turbo|gpt/gi));
+      return models.filter((model) => model.id.match(/4o|o[1-9]/gi));
     },
     async getCompletionModels({ $ }) {
       const models = await this.models({
@@ -620,9 +672,74 @@ export default {
         ...args,
       });
     },
+    getVectorStore({
+      vectorStoreId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector_stores/${vectorStoreId}`,
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
     listVectorStores(args = {}) {
       return this._makeRequest({
         path: "/vector_stores",
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    createVectorStore(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/vector_stores",
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    deleteVectorStore({
+      vectorStoreId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/vector_stores/${vectorStoreId}`,
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    getVectorStoreFile({
+      vectorStoreId, vectorStoreFileId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector_stores/${vectorStoreId}/files/${vectorStoreFileId}`,
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    listVectorStoreFiles({
+      vectorStoreId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/vector_stores/${vectorStoreId}/files`,
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    createVectorStoreFile({
+      vectorStoreId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/vector_stores/${vectorStoreId}/files`,
+        headers: this._betaHeaders("v2"),
+        ...args,
+      });
+    },
+    deleteVectorStoreFile({
+      vectorStoreId, vectorStoreFileId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/vector_stores/${vectorStoreId}/files/${vectorStoreFileId}`,
         headers: this._betaHeaders("v2"),
         ...args,
       });

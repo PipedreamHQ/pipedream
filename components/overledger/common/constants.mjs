@@ -24,15 +24,13 @@ export const TECHNOLOGY_OPTIONS = [
 export const NETWORK_OPTIONS = {
   "ethereum": [
     "ethereum sepolia testnet",
-    "ethereum goerli testnet",
     "ethereum mainnet",
-    "polygon mumbai testnet",
+    "polygon amoy testnet",
     "polygon mainnet",
     "avalanche fuji testnet",
     "avalanche c-chain mainnet",
     "xdc apothem testnet",
     "xdc network mainnet",
-    "Defined on demand",
   ],
   "substrate": [
     "polkadot westend",
@@ -49,4 +47,23 @@ export const NETWORK_OPTIONS = {
   "hyperledger fabric": [
     "Sandbox",
   ],
+};
+//Overledger environment to be used - Test or Live
+export const OVERLEDGER_INSTANCE = [
+  {
+    label: "Sandbox",
+    value: "sandbox",
+  },
+  {
+    label: "Overledger",
+    value: "overledger",
+  },
+];
+///unit options to allow for the correct selection based on the location network
+export const UNIT_OPTIONS = {
+  "ethereum": "ETH",               // Ethereum's token symbol is ETH
+  "substrate": "DOT",              // Polkadot's token symbol is DOT
+  "xrp ledger": "XRP",             // XRP Ledger's token symbol is XRP
+  "bitcoin": "BTC",                // Bitcoin's token symbol is BTC
+  "hyperledger fabric": "FAB",     // Placeholder for Hyperledger Fabric's token symbol
 };

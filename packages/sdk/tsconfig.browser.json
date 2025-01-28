@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "es2017",
+    "lib": ["ES5", "DOM", "es2017"],
+    "declaration": true,
+    "outDir": "dist/browser",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "types": [],
+    "allowJs": true
+  },
+  "include": [
+    "src/browser/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,61 +1,71 @@
-// legacy_hash_id: a_8KiV84
-import { axios } from "@pipedream/platform";
+import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-search-members",
   name: "Search Members",
-  description: "Search for Trello members.",
-  version: "0.1.3",
+  description: "Search for Trello members. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-members-get).",
+  version: "0.2.1",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
-    },
+    app,
     query: {
       type: "string",
+      label: "Search Query",
       description: "Search query 1 to 16384 characters long",
     },
-    limit: {
-      type: "integer",
-      description: "The maximum number of results to return. Maximum of 20.",
-      optional: true,
-    },
     idBoard: {
-      type: "string",
+      label: "Board ID",
+      description: "The ID of the board to search for members.",
       optional: true,
+      propDefinition: [
+        app,
+        "board",
+      ],
     },
     idOrganization: {
       type: "string",
+      label: "Organization ID",
+      description: "The ID of the organization to search for members.",
       optional: true,
+      propDefinition: [
+        app,
+        "idOrganizations",
+      ],
     },
-    onlyOrgMembers: {
-      type: "boolean",
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of results to return. Maximum of 20.",
       optional: true,
     },
   },
   async run({ $ }) {
-    const trelloParams = [
-      "query",
-      "limit",
-      "idBoard",
-      "idOrganization",
-      "onlyOrgMembers",
-    ];
-    let p = this;
+    const {
+      query,
+      limit,
+      idBoard,
+      idOrganization,
+    } = this;
 
-    const queryString = trelloParams.filter((param) => p[param]).map((param) => `${param}=${p[param]}`)
-      .join("&");
+    const onlyOrgMembers = idBoard || idOrganization;
 
-    return await axios($, {
-      url: `https://api.trello.com/1/search/members?${queryString}`,
-      method: "GET",
-    }, {
-      token: {
-        key: this.trello.$auth.oauth_access_token,
-        secret: this.trello.$auth.oauth_refresh_token,
+    const response = await this.app.searchMembers({
+      $,
+      params: {
+        query,
+        limit,
+        idBoard,
+        idOrganization,
+        onlyOrgMembers,
       },
-      oauthSignerUri: this.trello.$auth.oauth_signer_uri,
     });
+
+    if (response?.length) {
+      $.export("$summary", `Successfully found ${response.length} member${response.length === 1
+        ? ""
+        : "s"}`);
+    }
+
+    return response;
   },
 };

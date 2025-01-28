@@ -1,18 +1,19 @@
 {
   "name": "@pipedream/linkedin_ads",
-  "version": "0.2.0",
+  "version": "0.3.2",
   "description": "Pipedream LinkedIn Ads Components",
   "main": "linkedin_ads.app.mjs",
   "keywords": [
     "pipedream",
     "linkedin_ads"
   ],
-  "files": [
-    "dist"
-  ],
   "homepage": "https://pipedream.com/apps/linkedin_ads",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/linkedin": "^0.1.1",
+    "@pipedream/platform": "^3.0.3"
   }
 }

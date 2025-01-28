@@ -7,7 +7,7 @@ export default {
   key: "zoho_workdrive-download-file",
   name: "Download File to Tmp Direcory",
   description: "Download a file to the /tmp directory. [See the documentation](https://workdrive.zoho.com/apidocs/v1/filesfolders/downloadserverfile)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -78,11 +78,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const fileName = this.fileName || this.fileId.label;
+    const fileId = this.fileId?.value ?? this.fileId;
+    const fileName = this.fileName ?? this.fileId?.label ?? "file";
     const filePath = getFilePath(fileName);
 
     const fileContent = await this.downloadFile({
-      fileId: this.fileId.value,
+      fileId,
     });
 
     fs.writeFileSync(filePath, fileContent);

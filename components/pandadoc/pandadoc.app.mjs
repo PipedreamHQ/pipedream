@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { DOCUMENT_STATUS_COMPLETED } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,10 +9,32 @@ export default {
       type: "string",
       label: "Document Id",
       description: "Specify document's ID",
-      async options() {
+      async options({ page }) {
         const response = await this.listDocuments({
           params: {
             deleted: false,
+            page: page || undefined,
+          },
+        });
+        return response?.results?.map(({
+          id,
+          name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+      },
+    },
+    completedDocumentId: {
+      type: "string",
+      label: "Completed Document Id",
+      description: "Select a completed document or provide its ID",
+      async options({ page }) {
+        const response = await this.listDocuments({
+          params: {
+            deleted: false,
+            status: DOCUMENT_STATUS_COMPLETED,
+            page: page || undefined,
           },
         });
         return response?.results?.map(({
@@ -27,10 +50,11 @@ export default {
       type: "string",
       label: "Template Id",
       description: "Specify template's ID",
-      async options() {
+      async options({ page }) {
         const response = await this.listTemplates({
           params: {
             deleted: false,
+            page: page || undefined,
           },
         });
         return response?.results?.map(({
@@ -47,8 +71,12 @@ export default {
       label: "Document Folder Id",
       description: "Specify the document folder ID",
       optional: true,
-      async options() {
-        const response = await this.listDocumentFolders();
+      async options({ page }) {
+        const response = await this.listDocumentFolders({
+          params: {
+            page: page || undefined,
+          },
+        });
         return response?.results?.map(({
           uuid,
           name,
@@ -77,6 +105,17 @@ export default {
       If the first_name and last_name not passed the system: 1. creates a new contact, 
       if none exists with the given email; or 2. gets the existing contact with the given email that already exists.
       \n\nE.g. \`{ "email": "john.doe@pipedream.com", "first_name": "John", "last_name": "Doe", "role": "user" }\``,
+    },
+    separateFiles: {
+      type: "boolean",
+      label: "Separate Files",
+      description: "Download document bundle as a zip-archive of separate PDFs (1 file per section)",
+      optional: true,
+    },
+    outputFilename: {
+      type: "string",
+      label: "Output Filename",
+      description: "The filename of the downloaded file in the `tmp` folder.",
     },
   },
   methods: {
@@ -201,6 +240,24 @@ export default {
     }) {
       return this.makeRequest({
         path: `/documents/${id}`,
+        ...args,
+      });
+    },
+    downloadDocument({
+      id, ...args
+    }) {
+      return this.makeRequest({
+        path: `/documents/${id}/download`,
+        responseType: "arraybuffer",
+        ...args,
+      });
+    },
+    downloadProtectedDocument({
+      id, ...args
+    }) {
+      return this.makeRequest({
+        path: `/documents/${id}/download-protected`,
+        responseType: "arraybuffer",
         ...args,
       });
     },

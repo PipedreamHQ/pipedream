@@ -1,34 +1,41 @@
-import common from "../../common/verify-client-id.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
-  ...common,
   key: "gmail-add-label-to-email",
   name: "Add Label to Email",
-  description: "Add a label to an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
-  version: "0.0.3",
+  description: "Add label(s) to an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
+  version: "0.0.6",
   type: "action",
   props: {
-    ...common.props,
+    gmail,
     message: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "message",
       ],
     },
-    label: {
+    addLabelIds: {
       propDefinition: [
-        common.props.gmail,
+        gmail,
         "label",
       ],
-      withLabel: true,
+      type: "string[]",
+      label: "Labels",
     },
   },
   async run({ $ }) {
-    const response = await this.gmail.addLabelToEmail({
-      message: this.message,
-      label: this.label.value,
+    const {
+      gmail,
+      message,
+      addLabelIds = [],
+    } = this;
+
+    const response = await gmail.updateLabels({
+      message,
+      addLabelIds,
     });
-    $.export("$summary", `Successfully added ${this.label.label} label to email`);
+
+    $.export("$summary", `Successfully added ${addLabelIds.length} label(s)`);
     return response;
   },
 };

@@ -4,18 +4,11 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-search-accounts",
   name: "Search Accounts",
-  description: "Search for accounts. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/account#query-an-account)",
-  version: "0.2.3",
+  description: "Search for accounts. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/account#query-an-account)",
+  version: "0.2.8",
   type: "action",
   props: {
     quickbooks,
-    includeClause: {
-      propDefinition: [
-        quickbooks,
-        "includeClause",
-      ],
-      optional: false,
-    },
     maxResults: {
       propDefinition: [
         quickbooks,
@@ -41,40 +34,32 @@ export default {
       ],
       optional: false,
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
-    if (!this.includeClause || !this.whereClause) {
-      throw new ConfigurationError("Must provide includeClause, whereClause parameters.");
+    if (!this.whereClause) {
+      throw new ConfigurationError("Must provide whereClause parameter.");
     }
 
-    var orderClause = "";
+    let orderClause = "";
     if (this.orderClause) {
       orderClause = ` ORDERBY  ${this.orderClause}`;
     }
 
-    var startPosition = "";
+    let startPosition = "";
     if (this.startPosition) {
       startPosition = ` STARTPOSITION  ${this.startPosition}`;
     }
 
-    var maxResults = "";
+    let maxResults = "";
     if (this.maxResults) {
-      maxResults = ` MAXRESULTS ${this.maxResults}` || "";
+      maxResults = ` MAXRESULTS ${this.maxResults}`;
     }
 
-    //Prepares the request's query parameter
-    const query = `select ${this.includeClause} from Account where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
+    const query = `select * from Account where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
 
     const response = await this.quickbooks.query({
       $,
       params: {
-        minorversion: this.minorVersion,
         query,
       },
     });

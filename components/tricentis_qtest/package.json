@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/tricentis_qtest",
+  "version": "0.1.0",
+  "description": "Pipedream Tricentis qTest Components",
+  "main": "tricentis_qtest.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tricentis_qtest"
+  ],
+  "homepage": "https://pipedream.com/apps/tricentis_qtest",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

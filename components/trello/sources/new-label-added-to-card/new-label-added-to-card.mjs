@@ -1,54 +1,62 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "trello-new-label-added-to-card",
   name: "New Label Added To Card (Instant)",
   description: "Emit new event for each label added to a card.",
-  version: "0.0.12",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,
     board: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "board",
       ],
     },
-    lists: {
+    list: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "lists",
         (c) => ({
           board: c.board,
         }),
       ],
+      type: "string",
+      label: "List",
+      description: "If specified, events will only be emitted when a label is added to a card in the specified lists",
     },
     cards: {
       propDefinition: [
-        common.props.trello,
+        common.props.app,
         "cards",
         (c) => ({
           board: c.board,
+          list: c.list,
         }),
       ],
+      description: "If specified, events will only be emitted when a label is added to one of the specified cards",
     },
   },
   hooks: {
     ...common.hooks,
     async deploy() {
-      if (this.cards && this.cards.length > 0) {
+      if (this.cards?.length) {
         await this.emitLabelsFromCardIds(this.cards);
         return;
       }
-      if (this.lists && this.lists.length > 0) {
-        for (const listId of this.lists) {
-          const cards = await this.trello.getCardsInList(listId);
-          await this.emitLabelsFromCards(cards);
-        }
+      if (this.list) {
+        const cards = await this.app.getCardsInList({
+          listId: this.list,
+        });
+        await this.emitLabelsFromCards(cards);
         return;
       }
-      const cards = await this.trello.getCards(this.board);
+      const cards = await this.app.getCards({
+        boardId: this.board,
+      });
       await this.emitLabelsFromCards(cards);
     },
   },
@@ -58,7 +66,9 @@ export default {
       for (const card of cards) {
         const labelIds = card.idLabels;
         for (const labelId of labelIds) {
-          const label = await this.trello.getLabel(labelId);
+          const label = await this.app.getLabel({
+            labelId,
+          });
           let summary = label.color;
           summary += label.name
             ? ` - ${label.name}`
@@ -74,8 +84,10 @@ export default {
     },
     async emitLabelsFromCardIds(cardIds) {
       const cards = [];
-      for (const id of cardIds) {
-        const card = await this.trello.getCard(id);
+      for (const cardId of cardIds) {
+        const card = await this.app.getCard({
+          cardId,
+        });
         cards.push(card);
       }
       await this.emitLabelsFromCards(cards);
@@ -92,26 +104,22 @@ export default {
     _setLabelColor(labelColor) {
       this.db.set("labelColor", labelColor);
     },
-    isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "addLabelToCard";
+    isCorrectEventType({ type }) {
+      return type === "addLabelToCard";
     },
-    async getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
-      const labelName = event.body?.action?.data?.label?.name;
-      const labelColor = event.body?.action?.data?.label?.color;
+    getResult({ data }) {
       /** Record labelName & labelColor to use in generateMeta() */
-      this._setLabelName(labelName);
-      this._setLabelColor(labelColor);
-      return this.trello.getCard(cardId);
+      this._setLabelName(data?.label?.name);
+      this._setLabelColor(data?.label?.color);
+      return this.app.getCard({
+        cardId: data?.card?.id,
+      });
     },
     isRelevant({ result: card }) {
       return (
         (!this.board || this.board === card.idBoard) &&
-        (!this.lists ||
-          this.lists.length === 0 ||
-          this.lists.includes(card.idList)) &&
-        (!this.cards || this.cards.length === 0 || this.cards.includes(card.id))
+        (!this.list || this.list === card.idList) &&
+        (!this.cards?.length || this.cards.includes(card.id))
       );
     },
     generateMeta({
@@ -135,4 +143,5 @@ export default {
       this.$emit(card, meta);
     },
   },
+  sampleEmit,
 };

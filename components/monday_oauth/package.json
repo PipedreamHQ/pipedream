@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/monday_oauth",
+  "version": "0.1.1",
+  "description": "Pipedream monday.com (OAuth) Components",
+  "main": "monday_oauth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "monday_oauth"
+  ],
+  "homepage": "https://pipedream.com/apps/monday_oauth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/monday": "^0.6.3",
+    "monday-sdk-js": "^0.5.5"
+  }
+}

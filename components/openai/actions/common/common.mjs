@@ -1,4 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
+import { parse } from "../../common/helpers.mjs";
+import fs from "fs";
 
 const CHAT_DOCS_MESSAGE_FORMAT_URL = "https://platform.openai.com/docs/guides/chat/introduction";
 
@@ -90,6 +93,20 @@ export default {
         }
       }
 
+      if (this.audio) {
+        const fileContent = fs.readFileSync(this.audio.includes("tmp/")
+          ? this.audio
+          : `/tmp/${this.audio}`).toString("base64");
+        const extension = this.audio.match(/\.(\w+)$/)?.[1];
+        content.push({
+          type: "input_audio",
+          input_audio: {
+            data: fileContent,
+            format: extension,
+          },
+        });
+      }
+
       content.push({
         "type": "text",
         "text": this.userMessage,
@@ -148,9 +165,17 @@ export default {
 
       const responseFormat = {};
 
+      const jsonSchemaObj =
+        this.responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value
+          ? {
+            json_schema: parse(this.jsonSchema),
+          }
+          : {};
+
       if (this.modelId != "gpt-4-vision-preview") {
         responseFormat["response_format"] = {
           type: this.responseFormat,
+          ...jsonSchemaObj,
         };
       }
 

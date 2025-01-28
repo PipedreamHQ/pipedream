@@ -4,18 +4,11 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-search-customers",
   name: "Search Customers",
-  description: "Searches for customers. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#query-a-customer)",
-  version: "0.1.3",
+  description: "Searches for customers. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#query-a-customer)",
+  version: "0.1.8",
   type: "action",
   props: {
     quickbooks,
-    includeClause: {
-      propDefinition: [
-        quickbooks,
-        "includeClause",
-      ],
-      optional: false,
-    },
     maxResults: {
       propDefinition: [
         quickbooks,
@@ -41,40 +34,32 @@ export default {
       ],
       optional: false,
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
-    if (!this.includeClause || !this.whereClause) {
-      throw new ConfigurationError("Must provide includeClause, whereClause parameters.");
+    if (!this.whereClause) {
+      throw new ConfigurationError("Must provide whereClause parameter.");
     }
 
-    var orderClause = "";
+    let orderClause = "";
     if (this.orderClause) {
       orderClause = ` ORDERBY  ${this.orderClause}`;
     }
 
-    var startPosition = "";
+    let startPosition = "";
     if (this.startPosition) {
       startPosition = ` STARTPOSITION  ${this.startPosition}`;
     }
 
-    var maxResults = "";
+    let maxResults = "";
     if (this.maxResults) {
-      maxResults = ` MAXRESULTS ${this.maxResults}` || "";
+      maxResults = ` MAXRESULTS ${this.maxResults}`;
     }
 
-    //Prepares the request's query parameter
-    const query = `select ${this.includeClause} from Customer where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
+    const query = `select * from Customer where ${this.whereClause}${orderClause}${startPosition}${maxResults}`;
 
     const response = await this.quickbooks.query({
       $,
       params: {
-        minorversion: this.minorVersion,
         query,
       },
     });

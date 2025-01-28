@@ -5,7 +5,7 @@ export default {
   key: "grist-add-update-records",
   name: "Add Or Update Records",
   description: "Add records in a specified table or updates existing matching records. [See the documentation](https://support.getgrist.com/api/#tag/records/operation/replaceRecords)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

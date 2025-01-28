@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/homerun",
+  "version": "0.0.1",
+  "description": "Pipedream Homerun Components",
+  "main": "homerun.app.mjs",
+  "keywords": [
+    "pipedream",
+    "homerun"
+  ],
+  "homepage": "https://pipedream.com/apps/homerun",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

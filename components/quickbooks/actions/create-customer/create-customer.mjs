@@ -4,8 +4,8 @@ import quickbooks from "../../quickbooks.app.mjs";
 export default {
   key: "quickbooks-create-customer",
   name: "Create Customer",
-  description: "Creates a customer. [See docs here](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#create-a-customer)",
-  version: "0.1.3",
+  description: "Creates a customer. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#create-a-customer)",
+  version: "0.1.8",
   type: "action",
   props: {
     quickbooks,
@@ -45,12 +45,6 @@ export default {
         "suffix",
       ],
     },
-    minorVersion: {
-      propDefinition: [
-        quickbooks,
-        "minorVersion",
-      ],
-    },
   },
   async run({ $ }) {
     if (
@@ -70,13 +64,10 @@ export default {
         FamilyName: this.familyName,
         GivenName: this.givenName,
       },
-      params: {
-        minorversion: this.minorVersion,
-      },
     });
 
     if (response) {
-      $.export("summary", `Successfully created customer with id ${response.Customer.Id}`);
+      $.export("summary", `Successfully created customer with ID ${response.Customer.Id}`);
     }
 
     return response;

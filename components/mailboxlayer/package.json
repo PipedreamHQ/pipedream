@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mailboxlayer",
+  "version": "0.0.1",
+  "description": "Pipedream Mailboxlayer Components",
+  "main": "mailboxlayer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailboxlayer"
+  ],
+  "homepage": "https://pipedream.com/apps/mailboxlayer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

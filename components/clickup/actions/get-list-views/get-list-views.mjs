@@ -1,12 +1,12 @@
-import common from "../common/list-props.mjs";
 import builder from "../../common/builder.mjs";
+import common from "../common/list-props.mjs";
 
 export default {
   ...common,
   key: "clickup-get-list-views",
   name: "Get List Views",
   description: "Get all views of a list. See the docs [here](https://clickup.com/api) in **Views / Get List Views** section.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,

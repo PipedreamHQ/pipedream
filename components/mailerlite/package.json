@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mailerlite",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Pipedream Mailerlite Components",
   "main": "mailerlite.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "lodash.pickby": "^4.6.0",
-    "mailerlite-api-v2-node": "^1.2.0"
+    "@pipedream/platform": "^3.0.3",
+    "lodash.pickby": "^4.6.0"
   }
 }

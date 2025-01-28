@@ -1,5 +1,5 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "../../../shopify/sources/new-page/common.mjs";
+import common from "@pipedream/shopify/sources/new-page/common.mjs";
 
 export default {
   ...common,
@@ -7,7 +7,7 @@ export default {
   name: "New Page",
   type: "source",
   description: "Emit new event for each new page published.",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     shopify,

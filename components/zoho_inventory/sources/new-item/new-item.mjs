@@ -5,7 +5,7 @@ export default {
   key: "zoho_inventory-new-item",
   name: "New Item",
   description: "Emit new event each time a new item is created in Zoho Inventory",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

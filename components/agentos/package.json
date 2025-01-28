@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/agentos",
+  "version": "0.0.1",
+  "description": "Pipedream agentOS Components",
+  "main": "agentos.app.mjs",
+  "keywords": [
+    "pipedream",
+    "agentos"
+  ],
+  "homepage": "https://pipedream.com/apps/agentos",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

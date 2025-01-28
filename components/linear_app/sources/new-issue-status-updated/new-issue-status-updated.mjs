@@ -1,18 +1,18 @@
 import common from "../common/webhook.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "linear_app-new-issue-status-updated",
   name: "New Issue Status Updated (Instant)",
-  description: "Emit new event when the status of an issue is updated. See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
+  description: "Emit new event when the status of an issue is updated. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.1.5",
+  version: "0.1.9",
   dedupe: "unique",
   props: {
     linearApp: common.props.linearApp,
-    http: common.props.http,
-    db: common.props.db,
+    db: "$.service.db",
     teamId: {
       label: "Team ID",
       type: "string",
@@ -20,7 +20,7 @@ export default {
         common.props.linearApp,
         "teamId",
       ],
-      optional: true,
+      reloadProps: true,
     },
     projectId: {
       propDefinition: [
@@ -41,6 +41,12 @@ export default {
   },
   methods: {
     ...common.methods,
+    _getPreviousStatuses() {
+      return this.db.get("previousStatuses") || {};
+    },
+    _setPreviousStatuses(previousStatuses) {
+      this.db.set("previousStatuses", previousStatuses);
+    },
     getResourceTypes() {
       return [
         constants.RESOURCE_TYPE.ISSUE,
@@ -79,6 +85,11 @@ export default {
     isRelevant(body) {
       return body?.updatedFrom?.stateId && (!this.stateId || body.data.stateId === this.stateId);
     },
+    getResource(issue) {
+      return this.linearApp.getIssue({
+        issueId: issue.id,
+      });
+    },
     getMetadata(resource) {
       const {
         delivery,
@@ -86,11 +97,43 @@ export default {
         data,
         updatedAt,
       } = resource;
+      const ts = Date.parse(updatedAt);
       return {
-        id: delivery || resource.id,
+        id: delivery || `${resource.id}-${ts}`,
         summary: `Issue status updated: ${data?.title || title}`,
-        ts: Date.parse(updatedAt),
+        ts,
       };
+    },
+    async emitPolledResources() {
+      const previousStatuses = this._getPreviousStatuses();
+      const newStatuses = {};
+
+      const stream = this.linearApp.paginateResources({
+        resourcesFn: this.getResourcesFn(),
+        resourcesFnArgs: this.getResourcesFnArgs(),
+        useGraphQl: this.useGraphQl(),
+        max: 1000,
+      });
+      const resources = await utils.streamIterator(stream);
+
+      const updatedResources = [];
+      for (const issue of resources) {
+        newStatuses[issue.id] = issue.state.id;
+        if (issue.createdAt === issue.updatedAt) {
+          continue;
+        }
+        if (previousStatuses[issue.id] !== issue.state.id) {
+          updatedResources.push(issue);
+        }
+      }
+
+      this._setPreviousStatuses(newStatuses);
+
+      updatedResources
+        .reverse()
+        .forEach((resource) => {
+          this.$emit(resource, this.getMetadata(resource));
+        });
     },
   },
 };
