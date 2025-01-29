@@ -57,7 +57,7 @@ export default {
       throw new ConfigurationError("Must enter one and only one of `keyword`, `email`, `owner`, or `company`");
     }
 
-    const response = this.whoisfreaks.domainLookup({
+    const response = await this.whoisfreaks.domainLookup({
       $,
       params: {
         keyword: this.keyword,
