@@ -36,7 +36,6 @@ export default {
           ...params,
           apiKey: this.$auth.api_key,
         },
-        debug: true,
         ...opts,
       });
     },
