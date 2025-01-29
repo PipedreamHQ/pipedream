@@ -292,6 +292,9 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
+  components/adobe_document_generation_api:
+    specifiers: {}
+
   components/adobe_pdf_services:
     dependencies:
       '@adobe/pdfservices-node-sdk':
