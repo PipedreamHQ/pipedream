@@ -6542,8 +6542,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.7
       '@pipedream/platform':
-        specifier: ^1.1.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -6559,6 +6559,9 @@ importers:
 
   components/microsoft_outlook:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
       axios:
         specifier: ^0.21.1
         version: 0.21.4
@@ -6575,8 +6578,8 @@ importers:
   components/microsoft_outlook_calendar:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/microsoft_power_bi:
     dependencies:
