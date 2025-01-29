@@ -40,6 +40,8 @@ export default {
         "fileUrl",
       ],
       description: "The URL of the file to use to update content",
+      optional: false,
+      hidden: true,
     },
     filePath: {
       propDefinition: [
@@ -51,6 +53,8 @@ export default {
         directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
         (e.g., \`/tmp/myFile.csv\`) with which to update content
       `),
+      optional: false,
+      hidden: true,
     },
     name: {
       propDefinition: [
