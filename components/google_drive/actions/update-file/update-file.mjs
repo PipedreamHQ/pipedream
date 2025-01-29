@@ -3,20 +3,20 @@ import {
   toSingleLineString,
   getFileStream,
 } from "../../common/utils.mjs";
+import {
+  additionalProps, useFileUrlOrPath,
+} from "../../common/filePathOrUrl.mjs";
 
 export default {
   key: "google_drive-update-file",
   name: "Update File",
   description: "Update a file's metadata and/or content. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.1.8",
+  version: "1.0.0",
   type: "action",
+  additionalProps,
   props: {
     googleDrive,
-    requiredPropsAlert: {
-      type: "alert",
-      alertType: "info",
-      content: "Either `File URL` or `File Path` should be specified.",
-    },
+    useFileUrlOrPath,
     drive: {
       propDefinition: [
         googleDrive,
