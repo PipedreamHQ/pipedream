@@ -10495,6 +10495,9 @@ importers:
 
   components/syncro: {}
 
+  components/synthflow:
+    specifiers: {}
+
   components/t2m_url_shortener: {}
 
   components/tableau:

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/synthflow",
+  "version": "0.0.1",
+  "description": "Pipedream Synthflow Components",
+  "main": "synthflow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "synthflow"
+  ],
+  "homepage": "https://pipedream.com/apps/synthflow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
