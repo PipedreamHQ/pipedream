@@ -292,8 +292,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/adobe_document_generation_api:
-    specifiers: {}
+  components/adobe_document_generation_api: {}
 
   components/adobe_pdf_services:
     dependencies:
@@ -10501,8 +10500,7 @@ importers:
 
   components/syncro: {}
 
-  components/synthflow:
-    specifiers: {}
+  components/synthflow: {}
 
   components/t2m_url_shortener: {}
 
@@ -11823,7 +11821,11 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
 
-  components/whoisfreaks: {}
+  components/whoisfreaks:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/whop:
     dependencies:
