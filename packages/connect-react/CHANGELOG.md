@@ -1,6 +1,11 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.25] - 2025-01-28
+
+- Show prop labels instead of values after selecting dynamic props
+- Fix the bug where a remote option would not be reloaded when the form component is re-rendered
+
 # [1.0.0-preview.24] - 2025-01-24
 
 - Fix the bug where inputting multiple strings into an array prop would merge the strings into one
