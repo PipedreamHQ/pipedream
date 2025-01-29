@@ -8,14 +8,14 @@ export default {
   key: "google_drive-update-file",
   name: "Update File",
   description: "Update a file's metadata and/or content. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     googleDrive,
     requiredPropsAlert: {
       type: "alert",
       alertType: "info",
-      content: "Either `File URL` and `File Path` should be specified.",
+      content: "Either `File URL` or `File Path` should be specified.",
     },
     drive: {
       propDefinition: [

@@ -11,14 +11,14 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "0.1.10",
+  version: "0.1.11",
   type: "action",
   props: {
     googleDrive,
     infoAlert: {
       type: "alert",
       alertType: "info",
-      content: "Either `File URL` and `File Path` should be specified.",
+      content: "Either `File URL` or `File Path` should be specified.",
     },
     drive: {
       propDefinition: [
@@ -95,7 +95,7 @@ export default {
     } = this;
     let { uploadType } = this;
     if (!fileUrl && !filePath) {
-      throw new ConfigurationError("Either `File URL` and `File Path` should be specified.");
+      throw new ConfigurationError("Either `File URL` or `File Path` should be specified.");
     }
     const driveId = this.googleDrive.getDriveId(this.drive);
 
