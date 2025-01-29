@@ -5,7 +5,7 @@ export default {
   key: "intercom-tag-added-to-conversation",
   name: "Tag Added To Conversation",
   description: "Emit new event each time a new tag is added to a conversation.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {
