@@ -6518,6 +6518,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/microsoft_dynamics_365_sales:
+    specifiers: {}
+
   components/microsoft_entra_id:
     dependencies:
       '@pipedream/platform':
