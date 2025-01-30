@@ -145,7 +145,14 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/_2markdown: {}
+  components/_2markdown:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      form-data:
+        specifier: ^4.0.1
+        version: 4.0.1
 
   components/_360nrs:
     dependencies:
@@ -292,8 +299,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/adobe_document_generation_api:
-    specifiers: {}
+  components/adobe_document_generation_api: {}
 
   components/adobe_pdf_services:
     dependencies:
@@ -5049,8 +5055,7 @@ importers:
 
   components/humanitix: {}
 
-  components/humanlayer:
-    specifiers: {}
+  components/humanlayer: {}
 
   components/humanloop: {}
 
@@ -6521,8 +6526,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/microsoft_dynamics_365_sales:
-    specifiers: {}
+  components/microsoft_dynamics_365_sales: {}
 
   components/microsoft_entra_id:
     dependencies:
@@ -8015,8 +8019,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/planhat:
-    specifiers: {}
+  components/planhat: {}
 
   components/planly: {}
 
@@ -10510,8 +10513,7 @@ importers:
 
   components/syncro: {}
 
-  components/synthflow:
-    specifiers: {}
+  components/synthflow: {}
 
   components/t2m_url_shortener: {}
 
@@ -31763,6 +31765,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
