@@ -1,6 +1,8 @@
 import type { CSSProperties } from "react";
 import Markdown from "react-markdown";
-import { ConfigurableProp, ConfigurableProps } from "@pipedream/sdk";
+import {
+  ConfigurableProp, ConfigurableProps,
+} from "@pipedream/sdk";
 import { useCustomize } from "../hooks/customization-context";
 import { FormFieldContext } from "../hooks/form-field-context";
 import { FormContext } from "../hooks/form-context";
