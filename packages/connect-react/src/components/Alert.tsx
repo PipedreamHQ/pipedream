@@ -53,5 +53,13 @@ export function Alert({ prop }: AlertProps) {
     alertStyles = baseStyles
   }
 
-  return <div className={`pd-alert-${prop.alertType}`} style={alertStyles}><Markdown>{prop.content}</Markdown></div>
+  return (<div className={`pd-alert-${prop.alertType}`} style={alertStyles}>
+    <Markdown components={{
+      a: ({ ...props }) => {
+        return <a {...props} target="_blank" rel="noopener noreferrer" />;
+      },
+    }}>
+      {prop.content}
+    </Markdown>
+  </div>)
 }
