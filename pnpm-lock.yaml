@@ -5048,8 +5048,7 @@ importers:
 
   components/humanitix: {}
 
-  components/humanlayer:
-    specifiers: {}
+  components/humanlayer: {}
 
   components/humanloop: {}
 
@@ -6520,8 +6519,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/microsoft_dynamics_365_sales:
-    specifiers: {}
+  components/microsoft_dynamics_365_sales: {}
 
   components/microsoft_entra_id:
     dependencies:
@@ -8014,8 +8012,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/planhat:
-    specifiers: {}
+  components/planhat: {}
 
   components/planly: {}
 
