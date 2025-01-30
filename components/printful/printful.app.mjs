@@ -7,8 +7,8 @@ export default {
   propDefinitions: {
     storeId: {
       type: "string",
-      label: "Store Id",
-      description: "The store id to use for the request",
+      label: "Store ID",
+      description: "Select a store or provide s store ID to use for the request",
       async options({ page }) {
         const { result } = await this.listStores({
           params: {
@@ -27,7 +27,7 @@ export default {
     },
     productId: {
       type: "string",
-      label: "Product Id",
+      label: "Product ID",
       description: "Sync Product ID (integer) or External ID (if prefixed with @)",
       async options({
         storeId, page,
@@ -64,13 +64,11 @@ export default {
     _makeRequest({
       $ = this, path, headers, ...opts
     }) {
-      const config = {
+      return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(headers),
         ...opts,
-      };
-      console.log("config: ", config);
-      return axios($, config);
+      });
     },
     createOrder(opts = {}) {
       return this._makeRequest({

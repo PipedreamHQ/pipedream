@@ -1,3 +1,4 @@
+import { LOCALE_OPTIONS } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import printful from "../../printful.app.mjs";
 
@@ -60,7 +61,8 @@ export default {
     locale: {
       type: "string",
       label: "Locale",
-      description: "Locale in which shipping rate names will be returned. Available options: `en_US` (default), `es_ES`",
+      description: "Locale in which shipping rate names will be returned",
+      options: LOCALE_OPTIONS,
       optional: true,
     },
   },

@@ -11,7 +11,7 @@ export default {
     alert: {
       type: "alert",
       alertType: "warning",
-      content: "**Note** that only one webhook URL can be active for a store, so calling this method disables all existing webhook configuration.",
+      content: "**Note** that only one webhook URL can be active for a store, so all existing webhook configuration will be disabled upon creating this source.",
     },
     storeId: {
       propDefinition: [

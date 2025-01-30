@@ -51,7 +51,7 @@ export default {
             {
               "type": "default",
               "id": 10,
-              "url": "​https://www.example.com/files/tshirts/example.png",
+              "url": "https://www.example.com/files/tshirts/example.png",
               "options": [
                 {
                   "id": "template_type",
@@ -107,7 +107,7 @@ export default {
             {
               "type": "default",
               "id": 10,
-              "url": "​https://www.example.com/files/tshirts/example.png",
+              "url": "https://www.example.com/files/tshirts/example.png",
               "options": [
                 {
                   "id": "template_type",
@@ -208,7 +208,7 @@ export default {
         "email": "your-name@your-domain.com",
         "phone": "+371 28888888",
         "message": "Message on packing slip",
-        "logo_url": "​http://www.your-domain.com/packing-logo.png",
+        "logo_url": "http://www.your-domain.com/packing-logo.png",
         "store_name": "Your store name",
         "custom_order_id": "kkk2344lm"
       }

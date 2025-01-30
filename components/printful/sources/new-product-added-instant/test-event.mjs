@@ -10,7 +10,7 @@ export default {
       "name": "T-shirt",
       "variants": 10,
       "synced": 10,
-      "thumbnail_url": "​https://your-domain.com/path/to/image.png",
+      "thumbnail_url": "https://your-domain.com/path/to/image.png",
       "is_ignored": true
     }
   }

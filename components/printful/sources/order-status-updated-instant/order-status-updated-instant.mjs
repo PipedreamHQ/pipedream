@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "printful-order-status-updated-instant",
-  name: "New Order Status Updated (Instant)",
+  name: "Order Status Updated (Instant)",
   description: "Emit new event when the status of an existing Printful order is updated.",
   version: "0.0.1",
   type: "source",

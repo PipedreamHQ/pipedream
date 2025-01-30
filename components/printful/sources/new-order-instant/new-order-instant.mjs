@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "printful-new-order-instant",
-  name: "New Order (Instant)",
+  name: "New Order Created (Instant)",
   description: "Emit new event when a new order is created in your Printful account.",
   version: "0.0.1",
   type: "source",

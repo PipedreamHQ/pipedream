@@ -5,7 +5,7 @@ export default {
   name: "Create Order",
   version: "0.0.1",
   key: "printful-create-order",
-  description: "Creates a new order in your Printful account. [See docs here](https://developers.printful.com/docs/#operation/createOrder)",
+  description: "Creates a new order in your Printful account. [See the documentaion](https://developers.printful.com/docs/#operation/createOrder)",
   type: "action",
   props: {
     printful,
@@ -98,7 +98,7 @@ export default {
     items: {
       label: "Items",
       description: "Array of items in the order. E.g. `[ { \"id\": 1, \"variant_id\": 2, \"quantity\": 3, \"price\": \"13.60\", \"retail_price\": \"9.90\", \"name\": \"Beauty Poster\", \"product\": { \"product_id\": 301, \"variant_id\": 500, \"name\": \"Red T-Shirt\" }, \"files\": [{\"url\": \"https://file.com/060b204a37f.png\"}] } ]`",
-      type: "string",
+      type: "string[]",
     },
   },
   additionalProps(props) {
