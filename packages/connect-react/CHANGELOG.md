@@ -1,6 +1,14 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.27] - 2025-01-30
+ 
+- Add styling to alerts
+
+# [1.0.0-preview.26] - 2025-01-29
+
+- No change
+
 # [1.0.0-preview.25] - 2025-01-28
 
 - Show prop labels instead of values after selecting dynamic props
