@@ -292,8 +292,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/adobe_document_generation_api:
-    specifiers: {}
+  components/adobe_document_generation_api: {}
 
   components/adobe_pdf_services:
     dependencies:
@@ -10501,8 +10500,7 @@ importers:
 
   components/syncro: {}
 
-  components/synthflow:
-    specifiers: {}
+  components/synthflow: {}
 
   components/t2m_url_shortener: {}
 
@@ -12216,7 +12214,14 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/zenscrape: {}
+  components/zenscrape:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/zenserp: {}
 
@@ -31754,6 +31759,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
