@@ -1,31 +1,32 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 import tinyurl from "../../tinyurl.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "tinyurl-create-shortened-link",
   name: "Create Shortened Link",
   description: "Creates a new shortened link. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     tinyurl,
-    destinationUrl: {
+    url: {
       propDefinition: [
         tinyurl,
-        "destinationUrl",
+        "url",
       ],
     },
-    customAlias: {
+    domain: {
       propDefinition: [
         tinyurl,
-        "customAlias",
+        "domain",
       ],
       optional: true,
     },
-    expirationDate: {
+    alias: {
       propDefinition: [
         tinyurl,
-        "expirationDate",
+        "alias",
       ],
       optional: true,
     },
@@ -36,10 +37,38 @@ export default {
       ],
       optional: true,
     },
+    expiresAt: {
+      propDefinition: [
+        tinyurl,
+        "expiresAt",
+      ],
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "The alias description",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const response = await this.tinyurl.createTinyURL();
-    $.export("$summary", `Created TinyURL: ${response.url}`);
-    return response;
+    try {
+      const response = await this.tinyurl.createTinyURL({
+        $,
+        data: {
+          url: this.url,
+          domain: this.domain,
+          alias: this.alias,
+          tags: parseObject(this.tags)?.join(","),
+          expires_at: this.expiresAt,
+          description: this.description,
+        },
+      });
+      $.export("$summary", `Created TinyURL: ${response.data.tiny_url}`);
+      return response;
+    } catch ({ response }) {
+      throw new ConfigurationError(response?.data?.errors[0]);
+    }
   },
 };
+
