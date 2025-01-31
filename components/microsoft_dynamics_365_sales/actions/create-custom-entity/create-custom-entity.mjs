@@ -144,12 +144,13 @@ export default {
       },
     });
 
+    const entityId = headers["odata-entityid"].substring(headers["odata-entityid"].lastIndexOf("/") + 1);
     const response = await this.microsoft.getEntity({
       $,
-      entityId: headers["odata-entityid"].substring(headers["odata-entityid"].lastIndexOf("/") + 1),
+      entityId,
     });
 
-    $.export("$summary", "Successfully created custom entity");
+    $.export("$summary", `Successfully created custom entity with ID: ${entityId}`);
 
     return response;
   },
