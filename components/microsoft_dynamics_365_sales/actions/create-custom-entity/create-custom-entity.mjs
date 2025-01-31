@@ -70,7 +70,7 @@ export default {
         : [];
     },
     removeSpaces(str) {
-      return str.replace(" ", "");
+      return str.replace(/\s+/g, "");
     },
     buildLocalizedLabelArray(label) {
       return [
