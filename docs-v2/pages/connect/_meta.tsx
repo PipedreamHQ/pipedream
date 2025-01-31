@@ -17,6 +17,9 @@ export default {
   "api": {
     "title": "API & SDK reference",
   },
+  "api-proxy": {
+    "title": "API proxy",
+  },
   "tokens": {
     "title": "Connect tokens",
   },

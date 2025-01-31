@@ -1,0 +1,200 @@
+import { Tabs } from 'nextra/components'
+import Callout from '@/components/Callout'
+
+# Connect Proxy
+
+Pipedream Connect provides a proxy API that you can use to send authenticated requests to any integrated API on behalf of your users, which is useful for a few scenarios:
+
+1. You need code-level control and you want to use [Pipedream's OAuth](/connect/oauth-clients#using-pipedream-oauth) instead of [your own OAuth client](/connect/oauth-clients#using-your-own-oauth-client)
+2. There isn't a [pre-built action](/connect/components) for the app, or you need to modify the request
+
+## Overview
+
+The Connect proxy enables you to interface with any integrated API and make authenticated requests on behalf of your users, without dealing with OAuth or storing end user credentials.
+
+- You send a request to the proxy and identify the end user you want to act on behalf of
+- The proxy then makes the request to the downstream API and injects your end user's auth credentials
+- The proxy returns the response 
+
+[include a diagram here]
+
+<Callout type="info">
+Before getting started with the Connect proxy, make sure you've already gone through the [managed auth quickstart](/connect/managed-auth) for Pipedream Connect.
+</Callout>
+
+## Getting started
+
+You can send requests to the Connect proxy using:
+
+- A REST API (`/v1/connect/{projectId}/proxy`) # fix this ref
+- Or via the [Pipedream SDK](/connect/sdk) with a fetch-style interface (`makeProxyRequest`)
+
+To make the request to the Connect proxy, you'll need:
+
+- A Pipedream OAuth client to make authenticated requests to Pipedream's API # add a link
+- The external user ID for your end user (ex, `abc-123`) # add link
+- Connect environment (ex, `production` or `development`) # add link
+- The account ID for your end user's connected account (ex, `apn_1234567`) # add a link to accounts endpoint
+
+For the downstream API request, you'll need:
+
+### URL
+- The URL of the API you want to call (ex, `https://slack.com/api/chat.postMessage`)
+- If using the REST API, this should be a Base64 encoded string appended to the end of the proxy URL. For example:
+
+```
+https://api.pipedream.com/v1/connect/{projectId}/proxy/{base64EncodedURLString}
+
+# make sure that's right
+```
+
+### HTTP method and body
+- When sending a request to the Connect proxy, use the HTTP method that the downstream API requires
+- The body (if applicable) should be included in the request body
+
+### Headers
+- You can send headers to Pipedream and you can also include headers to send to the downstream APIs
+- For Pipedream headers, use the `x-pd-` prefix. For example:
+
+```
+x-pd-external-user-id: abc-123
+x-pd-environment: production
+```
+
+- For downstream API headers, don't prepend with anything, and we'll forward them as-is
+
+
+#### Code examples
+
+Deploy a trigger component that will emit events to a webhook or workflow for a Pipedream Connect user.
+
+```text
+POST /triggers/deploy
+```
+
+##### Body parameters
+
+`id` **string**
+
+The key that identifies the action component (see the [component structure
+table](/components/api#component-structure)).
+
+---
+
+`configured_props` **object**
+
+The props that have already been configured for the component. This is a
+JSON-serializable object with the prop names as keys and the configured values
+as values.
+
+---
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to execute the action.
+
+---
+
+`webhook_url` **string** (_optional_)
+
+The URL to which the trigger will send events.
+
+---
+
+`workflow_url` **string** (_optional_)
+
+The Pipedream workflow ID to which you want to emit events (ex, `p_1234567`).
+
+<Callout type="warning">
+The workflow must be in the same Pipedream project as the trigger.
+</Callout>
+
+---
+
+`dynamic_props_id` **string** (_optional_)
+
+The ID of the last prop reconfiguration (if applicable).
+
+##### Examples
+
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const prodClient = createBackendClient({
+  environment: {environment},
+  projectId: {your_projectId},
+  credentials: {
+    clientId: {your_oauth_client_id},
+    clientSecret: {your_oauth_client_secret}
+  },
+});
+
+const prodUrl = "{api_url_you_want_to_call}"
+const prodOptions = {
+  account_id: "{account_id}", // The account ID for your end user (ex, apn_1234567)
+  external_user_id: "{external_user_id}", // The external user ID for your end user
+}
+
+try {
+//const resp = await client.makeProxyRequest("https://eogeajyqofyfi86.m.pipedream2.net/hello/world?query=boo&foo=bar",
+const resp = await prodClient.makeProxyRequest(
+  prodUrl,
+  prodOptions,
+  {
+  method: "POST",
+  body: {
+    hello: "world",
+  },
+  headers: {
+    "test-header": "hi",
+    "xxxxxxxxx": "aaaaaaaaaa"
+  },
+})
+console.log(`resp: ${JSON.stringify(resp)}`);
+} catch (e) {
+  console.log(e.response)
+  console.error(e);
+}
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will deploy the "New Issue (Instant)" trigger for the Gitlab app.
+
+echo '{
+  "external_user_id": "jverce",
+  "id": "gitlab-new-issue",
+  "configured_props": {
+    "gitlab": {
+      "authProvisionId": "apn_kVh9AoD"
+    },
+    "projectId": 45672541,
+  },
+  "webhook_url": "https://events.example.com/gitlab-new-issue"
+}' > data.json
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/deploy" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -d @data.json
+```
+</Tabs.Tab>
+
+</Tabs>
