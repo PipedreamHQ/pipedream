@@ -5,10 +5,7 @@ export default defineConfig({
     server: "./src/server/index.ts",
     cli: "./src/server/cli.ts",
   },
-  format: [
-    "cjs",
-    "esm",
-  ],
+  format: "esm",
   minify: true,
   sourcemap: true,
   dts: true,
