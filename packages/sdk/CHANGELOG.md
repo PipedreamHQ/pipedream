@@ -2,6 +2,19 @@
 
 # Changelog
 
+## [1.3.0] - 2025-01-30
+
+### Added
+
+- Edge compatible (or closer to it) by replacing `simple-oauth2` with `oauth4webapi`
+- Output esm and cjs instead of just cjs
+- Minimized bundle size
+
+### Chore
+
+- Modernized package to be type: "module"
+- Removed `jest-fetch-mock`
+
 ## [1.2.1] - 2025-01-24
 
 ### Added
