@@ -6519,7 +6519,14 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/microsoft_dynamics_365_sales: {}
+  components/microsoft_dynamics_365_sales:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      pluralize:
+        specifier: ^8.0.0
+        version: 8.0.0
 
   components/microsoft_entra_id:
     dependencies:
@@ -10285,8 +10292,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/storerocket:
-    specifiers: {}
+  components/storerocket: {}
 
   components/stormboard: {}
 
@@ -32103,6 +32109,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
