@@ -43,5 +43,11 @@ export function Description<T extends ConfigurableProps, U extends ConfigurableP
   if (!prop.description) {
     return null;
   }
-  return <div className={getClassNames("description", props)} style={getStyles("description", baseStyles, props)}><Markdown>{markdown}</Markdown></div>;
+  return <div className={getClassNames("description", props)} style={getStyles("description", baseStyles, props)}> <Markdown components={{
+    a: ({ ...props }) => {
+      return <a {...props} target="_blank" rel="noopener noreferrer" />;
+    },
+  }}>
+    {markdown}
+  </Markdown></div>;
 }
