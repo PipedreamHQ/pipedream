@@ -10285,8 +10285,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/storerocket:
-    specifiers: {}
+  components/storerocket: {}
 
   components/stormboard: {}
 
