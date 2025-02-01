@@ -3,20 +3,20 @@ import {
   toSingleLineString,
   getFileStream,
 } from "../../common/utils.mjs";
+import {
+  additionalProps, useFileUrlOrPath,
+} from "../../common/filePathOrUrl.mjs";
 
 export default {
   key: "google_drive-update-file",
   name: "Update File",
   description: "Update a file's metadata and/or content. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.1.7",
+  version: "1.0.0",
   type: "action",
+  additionalProps,
   props: {
     googleDrive,
-    requiredPropsAlert: {
-      type: "alert",
-      alertType: "info",
-      content: "Either `File URL` and `File Path` should be specified.",
-    },
+    useFileUrlOrPath,
     drive: {
       propDefinition: [
         googleDrive,
@@ -40,6 +40,8 @@ export default {
         "fileUrl",
       ],
       description: "The URL of the file to use to update content",
+      optional: false,
+      hidden: true,
     },
     filePath: {
       propDefinition: [
@@ -51,6 +53,8 @@ export default {
         directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
         (e.g., \`/tmp/myFile.csv\`) with which to update content
       `),
+      optional: false,
+      hidden: true,
     },
     name: {
       propDefinition: [
