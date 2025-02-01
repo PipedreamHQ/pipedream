@@ -73,7 +73,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, userId,
+    component, configuredProps: __configuredProps, propNames, userId, sdkErrors,
   } = formProps;
   const componentId = component.key;
 
@@ -93,6 +93,11 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     errors,
     setErrors,
   ] = useState<Record<string, string[]>>({});
+
+  const [
+    configurationErrors,
+    setConfigurationErrors,
+  ] = useState<string[]>([]);
 
   const [
     enabledOptionalProps,
@@ -265,6 +270,12 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   useEffect(() => {
+    handleSdkErrors(sdkErrors)
+  }, [
+    sdkErrors,
+  ]);
+
+  useEffect(() => {
     const newConfiguredProps: ConfiguredProps<T> = {};
     for (const prop of configurableProps) {
       if (prop.hidden) {
@@ -394,6 +405,28 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     });
     checkPropsNeedConfiguring()
   };
+
+  const handleSdkErrors = (o: unknown[] | unknown | undefined) => {
+    if (!o) return
+    const os = o
+    if (Array.isArray(os) && os.length > 0) {
+      const newErrors = os.map((it) => {
+        const name = it.err?.name
+        const message = it.err?.message
+        if (name && message) return JSON.stringify({
+          name,
+          message,
+        })
+        return undefined
+      }).filter((e) => e !== undefined)
+      if (newErrors) setErrors({
+        ...errors,
+        sdkErrors: newErrors,
+      })
+    } else if (typeof o === "object") {
+      // TODO: handle rails api errors here
+    }
+  }
 
   // console.log("***", configurableProps, configuredProps)
   const value: FormContext<T> = {
