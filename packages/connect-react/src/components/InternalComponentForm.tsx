@@ -1,4 +1,6 @@
-import { Suspense } from "react";
+import {
+  Suspense, useEffect, useState,
+} from "react";
 import type {
   CSSProperties, FormEventHandler,
 } from "react";
@@ -23,11 +25,36 @@ export function InternalComponentForm() {
     optionalPropSetEnabled,
     props: formContextProps,
     setSubmitting,
+    sdkErrors: __sdkErrors,
+    submitting,
   } = formContext;
 
   const {
     hideOptionalProps, onSubmit,
   } = formContextProps;
+
+  const [
+    sdkErrors,
+    setSdkErrors,
+  ] = useState<ConfigurablePropAlert[]>([])
+
+  useEffect(() => {
+    if (submitting) setSdkErrors([])
+    else {
+      if (__sdkErrors && __sdkErrors.length) {
+        setSdkErrors(__sdkErrors.map((e) => {
+          return {
+            type: "alert",
+            alertType: "error",
+            content: `# ${e.name}\n${e.message}`,
+          }
+        }))
+      }
+    }
+  }, [
+    __sdkErrors,
+    submitting,
+  ]);
 
   const {
     getComponents, getProps, theme,
@@ -96,6 +123,7 @@ export function InternalComponentForm() {
   }
 
   // TODO improve the error boundary thing (use default Alert component maybe)
+
   return (
     <ErrorBoundary fallback={(err) => <p style={{
       color: "red",
@@ -130,6 +158,7 @@ export function InternalComponentForm() {
               </div>
             </div>
             : null}
+          { sdkErrors?.map((e, idx) => <Alert prop={e} key={idx}/>)}
           {onSubmit && <ControlSubmit form={formContext} />}
         </form>
       </Suspense>

@@ -27,37 +27,20 @@ export function Errors<T extends ConfigurableProps, U extends ConfigurableProp>(
   // TODO depending on type does different shit... we might need async loader around the label, etc.?
   // maybe that should just be handled by FormFieldContext instead of container?
 
-  const formattedErrors: ConfigurablePropAlert[] = []
-  // for (const key in fieldErrors) {
-  const key = "xxx"
-  if (key === "sdkErrors") {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    formattedErrors.push(...errors[key].map((e) => {
-      const o = JSON.parse(e)
-      return {
-        type: "alert",
-        alertType: "error",
-        content: `#${o.name}\n${o.message}`,
-      }
-    }))
-  } else {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    formattedErrors.push(...errors[prop.name].map((e) => {
-      return {
-        type: "alert",
-        alertType: "error",
-        content: e,
-      }
-    }))
+  const formattedErrors: ConfigurablePropAlert[] = errors[prop.name].map((e) => {
+    return {
+      type: "alert",
+      alertType: "error",
+      content: e,
+    }
+  })
+
+  const baseStyles = {
+    display: "grid",
+    gridTemplateColumns: "max-content",
   }
-  // }
 
   return (
-    // <ul {...getProps("errors", baseStyles, props)}>
-    //   {errors.map((msg) => <li key={msg} {...getProps("error", baseStyles, props)}>{msg}</li>)}
-    // </ul>
-    <>{formattedErrors.map((fe, idx: number) => <Alert prop={fe} key={idx}/>)}</>
+    <div className="pd-errors" style={baseStyles}>{formattedErrors.map((fe, idx: number) => <Alert prop={fe} key={idx}/>)}</div>
   );
 }

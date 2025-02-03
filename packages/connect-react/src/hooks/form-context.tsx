@@ -24,6 +24,7 @@ export type FormContext<T extends ConfigurableProps> = {
   dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
   errors: Record<string, string[]>;
+  sdkErrors: Record<string, string>[];
   fields: Record<string, FormFieldContext<ConfigurableProp>>;
   id: string;
   isValid: boolean;
@@ -73,7 +74,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, userId, sdkErrors,
+    component, configuredProps: __configuredProps, propNames, userId, sdkErrors: __sdkErrors,
   } = formProps;
   const componentId = component.key;
 
@@ -95,9 +96,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ] = useState<Record<string, string[]>>({});
 
   const [
-    configurationErrors,
-    setConfigurationErrors,
-  ] = useState<string[]>([]);
+    sdkErrors,
+    setSdkErrors,
+  ] = useState<Record<string, string>[]>([])
 
   const [
     enabledOptionalProps,
@@ -270,9 +271,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   useEffect(() => {
-    handleSdkErrors(sdkErrors)
+    handleSdkErrors(__sdkErrors)
   }, [
-    sdkErrors,
+    __sdkErrors,
   ]);
 
   useEffect(() => {
@@ -411,18 +412,15 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     const os = o
     if (Array.isArray(os) && os.length > 0) {
       const newErrors = os.map((it) => {
-        const name = it.err?.name
-        const message = it.err?.message
-        if (name && message) return JSON.stringify({
+        const name: string = it.err?.name
+        const message: string = it.err?.message
+        if (name && message) return {
           name,
           message,
-        })
+        } as Record<string, string>
         return undefined
       }).filter((e) => e !== undefined)
-      if (newErrors) setErrors({
-        ...errors,
-        sdkErrors: newErrors,
-      })
+      setSdkErrors(newErrors)
     } else if (typeof o === "object") {
       // TODO: handle rails api errors here
     }
@@ -449,6 +447,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setConfiguredProp,
     setSubmitting,
     submitting,
+    sdkErrors,
   };
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
 };
