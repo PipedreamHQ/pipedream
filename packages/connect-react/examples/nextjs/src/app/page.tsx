@@ -27,8 +27,8 @@ export default function Home() {
   ] = useState<string | undefined>();
 
   const [
-    errors,
-    setErrors,
+    sdkErrors,
+    setSdkErrors,
   ] = useState<unknown[] | unknown | undefined>(undefined);
 
   const handleDynamicProps = (dynamicProps: { id: string | undefined }) => {
@@ -45,18 +45,19 @@ export default function Home() {
           configuredProps={configuredProps}
           onUpdateDynamicProps={handleDynamicProps}
           onUpdateConfiguredProps={setConfiguredProps}
-          sdkErrors={errors}
+          sdkErrors={sdkErrors}
+          environment={client.getEnvironment()}
           onSubmit={async () => {
             try {
-              const result = await client.actionRun({
+              const result = await client.runAction({
                 userId,
                 actionId: "gmail-new-email-received",
                 configuredProps,
                 dynamicPropsId,
               });
-              setErrors(result?.os)
+              setSdkErrors(result?.os)
             } catch (error) {
-              setErrors(error as unknown)
+              setSdkErrors(error as unknown)
               console.error("Action run failed:", error);
             }
           }}

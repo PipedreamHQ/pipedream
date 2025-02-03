@@ -27,6 +27,7 @@ export function InternalComponentForm() {
     setSubmitting,
     sdkErrors: __sdkErrors,
     submitting,
+    isDevelopment,
   } = formContext;
 
   const {
@@ -158,7 +159,7 @@ export function InternalComponentForm() {
               </div>
             </div>
             : null}
-          { sdkErrors?.map((e, idx) => <Alert prop={e} key={idx}/>)}
+          { isDevelopment && sdkErrors?.map((e, idx) => <Alert prop={e} key={idx}/>)}
           {onSubmit && <ControlSubmit form={formContext} />}
         </form>
       </Suspense>

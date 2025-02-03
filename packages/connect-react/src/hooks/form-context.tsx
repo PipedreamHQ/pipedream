@@ -38,6 +38,7 @@ export type FormContext<T extends ConfigurableProps> = {
   setSubmitting: (submitting: boolean) => void;
   submitting: boolean;
   userId: string;
+  isDevelopment: boolean;
 };
 
 export const skippablePropTypes = [
@@ -74,7 +75,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, userId, sdkErrors: __sdkErrors,
+    component, configuredProps: __configuredProps, propNames, userId, sdkErrors: __sdkErrors, environment,
   } = formProps;
   const componentId = component.key;
 
@@ -99,6 +100,11 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     sdkErrors,
     setSdkErrors,
   ] = useState<Record<string, string>[]>([])
+
+  const [
+    isDevelopment,
+    setIsDevelopment,
+  ] = useState<boolean>(environment === "development")
 
   const [
     enabledOptionalProps,
@@ -448,6 +454,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setSubmitting,
     submitting,
     sdkErrors,
+    isDevelopment,
   };
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
 };
