@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/wolfram_alpha_api",
+  "version": "0.0.1",
+  "description": "Pipedream Wolfram Alpha API Components",
+  "main": "wolfram_alpha_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wolfram_alpha_api"
+  ],
+  "homepage": "https://pipedream.com/apps/wolfram_alpha_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

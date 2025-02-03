@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/message_bird",
+  "version": "0.0.1",
+  "description": "Pipedream MessageBird Components",
+  "main": "message_bird.app.mjs",
+  "keywords": [
+    "pipedream",
+    "message_bird"
+  ],
+  "homepage": "https://pipedream.com/apps/message_bird",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/ocrspace",
+  "version": "0.1.0",
+  "description": "Pipedream OCRSpace Components",
+  "main": "ocrspace.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ocrspace"
+  ],
+  "homepage": "https://pipedream.com/apps/ocrspace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "mime": "^4.0.6"
+  }
+}
