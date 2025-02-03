@@ -875,7 +875,11 @@ importers:
 
   components/autobound: {}
 
-  components/autodesk: {}
+  components/autodesk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/autoklose: {}
 
