@@ -1,5 +1,4 @@
 import gorgiasOauth from "../../gorgias_oauth.app.mjs";
-import constants from "../../common/constants.mjs";
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
@@ -8,7 +7,7 @@ export default {
   key: "gorgias_oauth-create-ticket-message",
   name: "Create Ticket Message",
   description: "Create a message for a ticket in the Gorgias system. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     gorgiasOauth,
@@ -19,25 +18,49 @@ export default {
       ],
       description: "The ID of the ticket to add a message to",
     },
-    channel: {
-      propDefinition: [
-        gorgiasOauth,
-        "channel",
-      ],
+    fromAgent: {
+      type: "boolean",
+      label: "From Agent",
+      description: "Whether the message was sent by your company to a customer, or the opposite",
+      reloadProps: true,
     },
-    fromAddress: {
+    fromUser: {
       propDefinition: [
         gorgiasOauth,
-        "address",
+        "userId",
       ],
-      label: "From Address",
+      label: "From User",
+      description: "User who sent the message",
+      optional: false,
+      hidden: true,
     },
-    toAddress: {
+    toUser: {
       propDefinition: [
         gorgiasOauth,
-        "address",
+        "userId",
       ],
-      label: "To Address",
+      label: "To User",
+      description: "The user receiving the message",
+      optional: false,
+      hidden: true,
+    },
+    fromCustomer: {
+      propDefinition: [
+        gorgiasOauth,
+        "customerId",
+      ],
+      label: "From Customer",
+      description: "The customer who sent the message",
+      hidden: true,
+    },
+    toCustomer: {
+      propDefinition: [
+        gorgiasOauth,
+        "customerId",
+      ],
+      label: "To Customer",
+      description: "The customer receiving the message",
+      hidden: true,
     },
     message: {
       type: "string",
@@ -70,37 +93,21 @@ export default {
       description: "The name of the file to attach",
       optional: true,
     },
-    fromAgent: {
-      type: "boolean",
-      label: "From Agent",
-      description: "Whether the message was sent by your company to a customer, or the opposite",
-      default: false,
-      optional: true,
-    },
     sentDatetime: {
       type: "string",
       label: "Sent Datetime",
       description: "When the message was sent. If ommited, the message will be sent by Gorgias. E.g. `2025-01-27T19:38:52.028Z`",
       optional: true,
     },
-    sourceType: {
-      type: "string",
-      label: "Source Type",
-      description: "Describes more detailed channel information of how the message is sent/received",
-      options: constants.sourceTypes,
-      optional: true,
-    },
+  },
+  additionalProps(props) {
+    props.toUser.hidden = this.fromAgent;
+    props.fromCustomer.hidden = this.fromAgent;
+    props.toCustomer.hidden = !this.fromAgent;
+    props.fromUser.hidden = !this.fromAgent;
+    return {};
   },
   methods: {
-    createMessage({
-      ticketId, ...opts
-    }) {
-      return this.gorgiasOauth._makeRequest({
-        method: "POST",
-        path: `/tickets/${ticketId}/messages`,
-        ...opts,
-      });
-    },
     async getAttachmentInfo($, url) {
       const { headers } = await axios($, {
         method: "HEAD",
@@ -111,6 +118,26 @@ export default {
         contentType: headers["content-type"],
         size: headers["content-length"],
       };
+    },
+    async getEmail($, id, type = "from") {
+      const {
+        gorgiasOauth: {
+          retrieveUser, retrieveCustomer,
+        },
+      } = this;
+      const fn = this.fromAgent
+        ? type === "from"
+          ? retrieveUser
+          : retrieveCustomer
+        : type === "from"
+          ? retrieveCustomer
+          : retrieveUser;
+
+      const { email } = await fn({
+        $,
+        id,
+      });
+      return email;
     },
   },
   async run({ $ }) {
@@ -127,19 +154,26 @@ export default {
       } = await this.getAttachmentInfo($, this.attachmentUrl));
     }
 
-    const response = await this.createMessage({
+    const fromId = this.fromAgent
+      ? this.fromUser
+      : this.fromCustomer;
+
+    const toId = this.fromAgent
+      ? this.toCustomer
+      : this.toUser;
+
+    const response = await this.gorgiasOauth.createMessage({
       $,
       ticketId: this.ticketId,
       data: {
-        channel: this.channel,
+        channel: "email",
         source: {
-          type: this.sourceType,
           from: {
-            address: this.fromAddress,
+            address: await this.getEmail($, fromId, "from"),
           },
           to: [
             {
-              address: this.toAddress,
+              address: await this.getEmail($, toId, "to"),
             },
           ],
         },
@@ -156,6 +190,12 @@ export default {
             size,
           },
         ],
+        sender: {
+          id: this.fromId,
+        },
+        receiver: {
+          id: this.toId,
+        },
       },
     });
 
