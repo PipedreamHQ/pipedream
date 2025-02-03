@@ -872,6 +872,14 @@ export abstract class BaseClient {
   }
 
   /**
+   * Retrieves the current environment the client is configured to use.
+   * @returns {string} The current environment.
+   */
+  public getEnvironment(): string {
+    return this.environment;
+  }
+
+  /**
    * Makes an HTTP request
    *
    * @template T - The expected response type.

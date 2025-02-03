@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.3.2] - 2025-02-3
+
+### Changed
+
+- Add getEnvironment function to BaseClient
+
 ## [1.3.1] - 2025-01-30
 
 ### Changed
