@@ -1903,7 +1903,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/clearly_defined: {}
+  components/clearly_defined:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/clearout:
     dependencies:
