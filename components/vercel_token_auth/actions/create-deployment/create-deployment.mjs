@@ -1,4 +1,5 @@
 import vercelTokenAuth from "../../vercel_token_auth.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "vercel_token_auth-create-deployment",
@@ -27,18 +28,9 @@ export default {
           teamId: c.team,
         }),
       ],
-      description: "The target project identifier in which the deployment will be created. When defined, this parameter overrides name",
-    },
-    repoId: {
-      type: "string",
-      label: "Git Source Repository Id",
-      description: "Id of the source repository",
-    },
-    branch: {
-      type: "string",
-      label: "Branch",
-      description: "Branch of repository to deploy to",
-      default: "main",
+      description: "The target project identifier in which the deployment will be created",
+      optional: false,
+      reloadProps: true,
     },
     public: {
       type: "boolean",
@@ -47,7 +39,38 @@ export default {
       optional: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+
+    if (!this.project) {
+      return props;
+    }
+
+    props.branch = {
+      type: "string",
+      label: "Branch",
+      description: "Branch of repository to deploy to",
+      default: "main",
+    };
+
+    try {
+      const { link } = await this.vercelTokenAuth.getProject(this.project);
+      if (link) {
+        props.branch.description = `Branch of \`${link.repo}\` repository to deploye to`;
+        props.branch.default = link?.productionBranch || "main";
+      }
+      return props;
+    } catch {
+      return props;
+    }
+  },
   async run({ $ }) {
+    const { link } = await this.vercelTokenAuth.getProject(this.project, $);
+    if (!link?.repoId) {
+      throw new ConfigurationError(`No linked repository found for project with ID: ${this.project}`);
+    }
+    const repoId = link.repoId;
+
     const data = {
       name: this.name,
       project: this.project,
@@ -55,25 +78,10 @@ export default {
       public: this.public,
       gitSource: {
         type: "github",
-        repoId: this.repoId,
+        repoId,
         ref: this.branch,
       },
     };
-    if (!this.project) {  // projectSettings required if project is not specified
-      data.projectSettings = {
-        buildCommand: null,
-        commandForIgnoringBuildStep: null,
-        devCommand: null,
-        framework: null,
-        installCommand: null,
-        nodeVersion: "22.x",
-        outputDirectory: null,
-        rootDirectory: null,
-        serverlessFunctionRegion: null,
-        skipGitConnectDuringLink: true,
-        sourceFilesOutsideRootDirectory: true,
-      };
-    }
     const res = await this.vercelTokenAuth.createDeployment(data, $);
     $.export("$summary", "Successfully created new deployment");
     return res;

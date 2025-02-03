@@ -115,6 +115,12 @@ export default {
       }
       return allResults;
     },
+    async getProject(projectId, $) {
+      const config = {
+        endpoint: `v9/projects/${projectId}`,
+      };
+      return this.makeRequest(config, $);
+    },
     async listProjects(params, max, $) {
       const config = {
         method: "GET",
