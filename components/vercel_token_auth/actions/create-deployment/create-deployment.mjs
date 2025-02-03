@@ -56,7 +56,7 @@ export default {
     try {
       const { link } = await this.vercelTokenAuth.getProject(this.project);
       if (link) {
-        props.branch.description = `Branch of \`${link.repo}\` repository to deploye to`;
+        props.branch.description = `Branch of \`${link.repo}\` repository to deploy to`;
         props.branch.default = link?.productionBranch || "main";
       }
       return props;
