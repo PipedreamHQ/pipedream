@@ -27,19 +27,19 @@ export default {
     transcriber: {
       type: "object",
       label: "Transcriber",
-      description: "A formated JSON object for the assistant's transcriber. **Example: { \"provider\": \"talkscriber\", \"language\": \"en\", \"model\": \"whisper\" }**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "A formatted JSON object for the assistant's transcriber. **Example: { \"provider\": \"talkscriber\", \"language\": \"en\", \"model\": \"whisper\" }**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     model: {
       type: "object",
       label: "Model",
-      description: "A formated JSON object for the assistant's LLM. **Example: {\"provider\": \"xai\", \"model\": \"grok-beta\", \"emotionRecognitionEnabled\": true, \"knowledgeBase\": {\"server\": {\"url\": \"url\", \"timeoutSeconds\": 20}}, \"knowledgeBaseId\": \"model\", \"maxTokens\": 1.1, \"messages\": [{\"role\": \"assistant\"}], \"numFastTurns\": 1.1, \"temperature\": 1.1, \"toolIds\": [\"model\"], \"tools\": [{\"type\": \"transferCall\", \"async\": false}]}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "A formatted JSON object for the assistant's LLM. **Example: {\"provider\": \"xai\", \"model\": \"grok-beta\", \"emotionRecognitionEnabled\": true, \"knowledgeBase\": {\"server\": {\"url\": \"url\", \"timeoutSeconds\": 20}}, \"knowledgeBaseId\": \"model\", \"maxTokens\": 1.1, \"messages\": [{\"role\": \"assistant\"}], \"numFastTurns\": 1.1, \"temperature\": 1.1, \"toolIds\": [\"model\"], \"tools\": [{\"type\": \"transferCall\", \"async\": false}]}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     voice: {
       type: "object",
       label: "Voice",
-      description: "A formated JSON object  for the assistant's voice. **Example: {\"provider\":\"tavus\",\"voiceId\":\"r52da2535a\",\"callbackUrl\":\"voice\",\"chunkPlan\":{\"enabled\":true,\"minCharacters\":30,\"punctuationBoundaries\":[\"。\",\"，\",\".\",\"!\",\"?\",\";\",\"،\",\"۔\",\"।\",\"॥\",\"|\",\"||\",\",\",\":\"],\"formatPlan\":{\"enabled\":true,\"numberToDigitsCutoff\":2025}},\"conversationName\":\"voice\",\"conversationalContext\":\"voice\",\"customGreeting\":\"voice\",\"fallbackPlan\":{\"voices\":[{\"provider\":\"tavus\",\"voiceId\":\"r52da2535a\"}]},\"personaId\":\"voice\",\"properties\":{\"maxCallDuration\":1.1,\"participantLeftTimeout\":1.1,\"participantAbsentTimeout\":1.1,\"enableRecording\":true,\"enableTranscription\":true,\"applyGreenscreen\":true,\"language\":\"language\",\"recordingS3BucketName\":\"recordingS3BucketName\",\"recordingS3BucketRegion\":\"recordingS3BucketRegion\",\"awsAssumeRoleArn\":\"awsAssumeRoleArn\"}}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "A formatted JSON object for the assistant's voice. **Example: {\"provider\":\"tavus\",\"voiceId\":\"r52da2535a\",\"callbackUrl\":\"voice\",\"chunkPlan\":{\"enabled\":true,\"minCharacters\":30,\"punctuationBoundaries\":[\"。\",\",\",\".\",\"!\",\"?\",\";\",\"،\",\",\",\"।\",\"॥\",\"|\",\"||\",\",\",\":\"],\"formatPlan\":{\"enabled\":true,\"numberToDigitsCutoff\":2025}},\"conversationName\":\"voice\",\"conversationalContext\":\"voice\",\"customGreeting\":\"voice\",\"fallbackPlan\":{\"voices\":[{\"provider\":\"tavus\",\"voiceId\":\"r52da2535a\"}]},\"personaId\":\"voice\",\"properties\":{\"maxCallDuration\":1.1,\"participantLeftTimeout\":1.1,\"participantAbsentTimeout\":1.1,\"enableRecording\":true,\"enableTranscription\":true,\"applyGreenscreen\":true,\"language\":\"language\",\"recordingS3BucketName\":\"recordingS3BucketName\",\"recordingS3BucketRegion\":\"recordingS3BucketRegion\",\"awsAssumeRoleArn\":\"awsAssumeRoleArn\"}}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     firstMessage: {
@@ -78,16 +78,18 @@ export default {
     silenceTimeoutSeconds: {
       type: "integer",
       label: "Silence Timeout Seconds",
-      description: "How many seconds of silence to wait before ending the call. Defaults to 30",
+      description: "How many seconds of silence to wait before ending the call.",
       optional: true,
+      default: 30,
       min: 10,
       max: 3600,
     },
     maxDurationSeconds: {
       type: "integer",
       label: "Max Duration Seconds",
-      description: "This is the maximum number of seconds that the call will last. When the call reaches this duration, it will be ended. Defaults to 600 (10 minutes)",
+      description: "This is the maximum number of seconds that the call will last. When the call reaches this duration, it will be ended.",
       optional: true,
+      default: 600,
       min: 10,
       max: 43200,
     },
@@ -113,13 +115,13 @@ export default {
     transportConfigurations: {
       type: "string[]",
       label: "Transport Configurations",
-      description: "These are the configurations to be passed to the transport providers of assistant's calls, like Twilio. You can store multiple configurations for different transport providers. For a call, only the configuration matching the call transport provider is used. **Example: [{\"provider\":\"twilio\",\"timeout\":60,\"record\":false,\"recordingChannels\":\"mono\"}]**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "These are the configurations to be passed to the transport providers of assistant's calls, like Twilio. You can store multiple configurations for different transport providers. For a call, only the configuration matching the call transport provider is used. **Example: [{\"provider\":\"twilio\",\"timeout\":60,\"record\":false,\"recordingChannels\":\"mono\"}]**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     credentials: {
       type: "string[]",
       label: "Credentials",
-      description: "These are dynamic credentials that will be used for the assistant calls. By default, all the credentials are available for use in the call but you can supplement an additional credentials using this. Dynamic credentials override existing credentials. **Example: [{\"provider\":\"xai\",\"apiKey\":\"credentials\",\"name\":\"credentials\"}]**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "These are dynamic credentials that will be used for the assistant calls. By default, all the credentials are available for use in the call but you can supplement an additional credentials using this. Dynamic credentials override existing credentials. **Example: [{\"provider\":\"xai\",\"apiKey\":\"credentials\",\"name\":\"credentials\"}]**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     name: {
@@ -131,7 +133,7 @@ export default {
     voicemailDetection: {
       type: "object",
       label: "Voicemail Detection",
-      description: "These are the settings to configure or disable voicemail detection. Alternatively, voicemail detection can be configured using the model.tools=[VoicemailTool]. This uses Twilio's built-in detection while the VoicemailTool relies on the model to detect if a voicemail was reached. You can use neither of them, one of them, or both of them. By default, Twilio built-in detection is enabled while VoicemailTool is not. **Example: {\"provider\":\"twilio\",\"voicemailDetectionTypes\":[\"machine_end_beep\",\"machine_end_silence\"],\"enabled\":true,\"machineDetectionTimeout\":1.1,\"machineDetectionSpeechThreshold\":1.1,\"machineDetectionSpeechEndThreshold\":1.1,\"machineDetectionSilenceTimeout\":1.1}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "These are the settings to configure or disable voicemail detection. Alternatively, voicemail detection can be configured using the model.tools=[VoicemailTool]. This uses Twilio's built-in detection while the VoicemailTool relies on the model to detect if a voicemail was reached. You can use neither of them, one of them, or both of them. By default, Twilio built-in detection is enabled while VoicemailTool is not. **Example: {\"provider\":\"twilio\",\"voicemailDetectionTypes\":[\"machine_end_beep\",\"machine_end_silence\"],\"enabled\":true,\"machineDetectionTimeout\":1.1,\"machineDetectionSpeechThreshold\":1.1,\"machineDetectionSpeechEndThreshold\":1.1,\"machineDetectionSilenceTimeout\":1.1}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     voicemailMessage: {
@@ -161,37 +163,37 @@ export default {
     analysisPlan: {
       type: "object",
       label: "Analysis Plan",
-      description: "This is the plan for analysis of assistant's calls. Stored in `call.analysis`. **Example: {\"summaryPlan\":{\"messages\":[{\"key\":\"value\"}],\"enabled\":true,\"timeoutSeconds\":1.1},\"structuredDataPlan\":{\"messages\":[{\"key\":\"value\"}],\"enabled\":true,\"schema\":{\"type\":\"string\"},\"timeoutSeconds\":1.1},\"successEvaluationPlan\":{\"rubric\":\"NumericScale\",\"messages\":[{\"key\":\"value\"}],\"enabled\":true,\"timeoutSeconds\":1.1}}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "This is the plan for analysis of assistant's calls. Stored in `call.analysis`. **Example: {\"summaryPlan\":{\"messages\":[{\"key\":\"value\"}],\"enabled\":true,\"timeoutSeconds\":1.1},\"structuredDataPlan\":{\"messages\":[{\"key\":\"value\"}],\"enabled\":true,\"schema\":{\"type\":\"string\"},\"timeoutSeconds\":1.1},\"successEvaluationPlan\":{\"rubric\":\"NumericScale\",\"messages\":[{\"key\":\"value\"}],\"enabled\":true,\"timeoutSeconds\":1.1}}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     artifactPlan: {
       type: "object",
       label: "Artifact Plan",
-      description: "This is the plan for artifacts generated during assistant's calls. Stored in call.artifact. **Note:** `recordingEnabled` is currently at the root level. It will be moved to `artifactPlan` in the future, but will remain backwards compatible. **Example: {\"recordingEnabled\":true,\"videoRecordingEnabled\":false,\"transcriptPlan\":{\"enabled\":true,\"assistantName\":\"assistantName\",\"userName\":\"userName\"},\"recordingPath\":\"recordingPath\"}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "This is the plan for artifacts generated during assistant's calls. Stored in call.artifact. **Note:** `recordingEnabled` is currently at the root level. It will be moved to `artifactPlan` in the future, but will remain backwards compatible. **Example: {\"recordingEnabled\":true,\"videoRecordingEnabled\":false,\"transcriptPlan\":{\"enabled\":true,\"assistantName\":\"assistantName\",\"userName\":\"userName\"},\"recordingPath\":\"recordingPath\"}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     messagePlan: {
       type: "object",
       label: "Message Plan",
-      description: "This is the plan for static predefined messages that can be spoken by the assistant during the call, like idleMessages. **Note:** `firstMessage`, `voicemailMessage`, and `endCallMessage` are currently at the root level. They will be moved to ` ` in the future, but will remain backwards compatible. **Example: {\"idleMessages\":[\"idleMessages\"],\"idleMessageMaxSpokenCount\":1.1,\"idleTimeoutSeconds\":1.1}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "This is the plan for static predefined messages that can be spoken by the assistant during the call, like idleMessages. **Note:** `firstMessage`, `voicemailMessage`, and `endCallMessage` are currently at the root level. They will be moved to `messagePlan` in the future, but will remain backwards compatible. **Example: {\"idleMessages\":[\"idleMessages\"],\"idleMessageMaxSpokenCount\":1.1,\"idleTimeoutSeconds\":1.1}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     startSpeakingPlan: {
       type: "object",
       label: "Start Speaking Plan",
-      description: "This is the plan for when the assistant should start talking. **Example: {\"waitSeconds\":0.4,\"smartEndpointingEnabled\":false,\"customEndpointingRules\":[{\"type\":\"both\",\"assistantRegex\":\"customEndpointingRules\",\"customerRegex\":\"customEndpointingRules\",\"timeoutSeconds\":1.1}],\"transcriptionEndpointingPlan\":{\"onPunctuationSeconds\":0.1,\"onNoPunctuationSeconds\":1.5,\"onNumberSeconds\":0.5}}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "This is the plan for when the assistant should start talking. **Example: {\"waitSeconds\":0.4,\"smartEndpointingEnabled\":false,\"customEndpointingRules\":[{\"type\":\"both\",\"assistantRegex\":\"customEndpointingRules\",\"customerRegex\":\"customEndpointingRules\",\"timeoutSeconds\":1.1}],\"transcriptionEndpointingPlan\":{\"onPunctuationSeconds\":0.1,\"onNoPunctuationSeconds\":1.5,\"onNumberSeconds\":0.5}}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     stopSpeakingPlan: {
       type: "object",
       label: "Stop Speaking Plan",
-      description: "This is the plan for when assistant should stop talking on customer interruption. **Example: {\"numWords\":0,\"voiceSeconds\":0.2,\"backoffSeconds\":1}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "This is the plan for when assistant should stop talking on customer interruption. **Example: {\"numWords\":0,\"voiceSeconds\":0.2,\"backoffSeconds\":1}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     monitorPlan: {
       type: "object",
       label: "Monitor Plan",
-      description: "This is the plan for real-time monitoring of the assistant's calls. **Note:** `serverMessages`, `clientMessages`, `serverUrl` and `serverUrlSecret` are currently at the root level but will be moved to `monitorPlan` in the future. Will remain backwards compatible. **Example: {\"listenEnabled\":false,\"controlEnabled\":false}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "This is the plan for real-time monitoring of the assistant's calls. **Note:** `serverMessages`, `clientMessages`, `serverUrl` and `serverUrlSecret` are currently at the root level but will be moved to `monitorPlan` in the future. Will remain backwards compatible. **Example: {\"listenEnabled\":false,\"controlEnabled\":false}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
     credentialIds: {
@@ -203,7 +205,7 @@ export default {
     server: {
       type: "object",
       label: "Server",
-      description: "This is where Vapi will send webhooks. You can find all webhooks available along with their shape in ServerMessage schema. **Example: {\"url\":\"url\",\"timeoutSeconds\":20,\"secret\":\"secret\",\"headers\":{\"key\":\"value\"}}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for futher details",
+      description: "This is where Vapi will send webhooks. You can find all webhooks available along with their shape in ServerMessage schema. **Example: {\"url\":\"url\",\"timeoutSeconds\":20,\"secret\":\"secret\",\"headers\":{\"key\":\"value\"}}**. [See the documentation](https://docs.vapi.ai/api-reference/assistants/update) for further details",
       optional: true,
     },
   },

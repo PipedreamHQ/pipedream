@@ -44,7 +44,7 @@ export default {
   },
   async run({ $ }) {
     if (!this.assistantId && !this.squadId) {
-      throw new ConfigurationError("Need Either `Assistant Id` Or `Squad Id`");
+      throw new ConfigurationError("Specify either `Assistant Id` or `Squad Id`");
     }
 
     const response = await this.vapi.startConversation({
