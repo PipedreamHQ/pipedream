@@ -191,10 +191,10 @@ export default {
           },
         ],
         sender: {
-          id: this.fromId,
+          id: fromId,
         },
         receiver: {
-          id: this.toId,
+          id: toId,
         },
       },
     });
