@@ -57,7 +57,7 @@ export default {
     blockResource: {
       type: "string[]",
       label: "Block Resource",
-      description: "Prevents cloud browser from loading specified resource types. Available resource types: `document`, `stylesheet`, `image`, `media`, `font`, `script`, `texttrack`, `xhr`, `fetch`, `eventsource`, `websocket`, `manifest`, `other`. This feature works only with `browser=true`",
+      description: "Prevents cloud browser from loading the specified resource types",
       optional: true,
     },
   },
