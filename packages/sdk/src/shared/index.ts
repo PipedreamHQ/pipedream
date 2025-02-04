@@ -117,6 +117,14 @@ export type App = AppInfo & {
 export type AppResponse = App;
 
 /**
+ * A configuration option for a component's prop.
+ */
+export type PropOption = {
+  label: string;
+  value: string;
+};
+
+/**
  * The response received after configuring a component's prop.
  */
 export type ConfigureComponentResponse = {
@@ -135,7 +143,7 @@ export type ConfigureComponentResponse = {
    * }
    * ```
    */
-  options: { label: string; value: string; }[];
+  options: PropOption[];
 
   /**
    * The options for the prop that's being configured. This field is applicable
@@ -168,6 +176,41 @@ export type RelationOpts = {
    */
   limit?: number;
 };
+
+/**
+ * Pagination attributes for API responses.
+ */
+export type ResponsePageInfo = {
+  /**
+   * The total number of records available.
+   */
+  total_count: number;
+
+  /**
+   * The number of records returned in the current response.
+   */
+  count: number;
+
+  /**
+   * The cursor to retrieve the next page of records.
+   */
+  start_cursor: string;
+
+  /**
+   * The cursor of the last page of records.
+   */
+  end_cursor: string;
+};
+
+/**
+ * The response attributes for paginated API responses.
+ */
+export type PaginationResponse = {
+  /**
+   * The pagination information for the response.
+   */
+  page_info: ResponsePageInfo;
+}
 
 /**
  * @deprecated Use `ConfigureComponentResponse` instead.
@@ -567,6 +610,16 @@ export type DeployTriggerOpts = ExternalUserId & {
 };
 
 /**
+ * The response received after deploying a trigger.
+ */
+export type DeployTriggerResponse = {
+  /**
+   * The contents of the deployed trigger.
+   */
+  data: V1DeployedComponent;
+}
+
+/**
  * The request options for deleting a deployed trigger owned by a particular
  * user.
  */
@@ -603,6 +656,16 @@ export type GetTriggerOpts = {
    * Your end user ID, for whom you deployed the trigger.
    */
   externalUserId: string;
+};
+
+/**
+ * The response received after retrieving a deployed trigger.
+ */
+export type GetTriggerResponse = {
+  /**
+   * The contents of the deployed trigger.
+   */
+  data: V1DeployedComponent;
 };
 
 /**
@@ -692,6 +755,19 @@ export type GetTriggersOpts = RelationOpts & {
   externalUserId: string;
 };
 
+/**
+ * The response received after retrieving a list of deployed triggers.
+ */
+export type GetTriggersResponse = PaginationResponse & {
+  /**
+   * The list of deployed triggers.
+   */
+  data: V1DeployedComponent[];
+};
+
+/**
+ * The request options for updating a trigger.
+ */
 export type UpdateTriggerOpts = {
   /**
    * The ID of the trigger you're updating.
@@ -1314,7 +1390,7 @@ export abstract class BaseClient {
       dynamic_props_id: opts.dynamicPropsId,
       webhook_url: opts.webhookUrl,
     };
-    return this.makeConnectRequest<V1DeployedComponent>("/triggers/deploy", {
+    return this.makeConnectRequest<DeployTriggerResponse>("/triggers/deploy", {
       method: "POST",
       body,
     });
@@ -1361,7 +1437,7 @@ export abstract class BaseClient {
       externalUserId,
     } = opts;
 
-    return this.makeConnectRequest<V1DeployedComponent>(`/deployed-triggers/${id}`, {
+    return this.makeConnectRequest<GetTriggerResponse>(`/deployed-triggers/${id}`, {
       method: "GET",
       params: {
         external_user_id: externalUserId,
@@ -1378,7 +1454,7 @@ export abstract class BaseClient {
   public getTriggers(opts: GetTriggersOpts) {
     const { externalUserId } = opts;
 
-    return this.makeConnectRequest<V1DeployedComponent[]>("/deployed-triggers", {
+    return this.makeConnectRequest<GetTriggersResponse>("/deployed-triggers", {
       method: "GET",
       params: {
         external_user_id: externalUserId,

@@ -9,7 +9,7 @@ export default {
   type: "source",
   name: "New Worksheet (Instant)",
   description: "Emit new event each time a new worksheet is created in a spreadsheet.",
-  version: "0.1.9",
+  version: "0.1.10",
   dedupe: "unique",
   hooks: {
     ...httpBase.hooks,
