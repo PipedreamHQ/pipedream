@@ -52,20 +52,48 @@ export default {
   },
   async run({ $ }) {
     try {
++    // Validate that at least one store-specific field is provided
++    const storeFields = {
++      address: this.address,
++      id: this.id,
++      email: this.email,
++      username: this.username,
++    };
++    
++    if (!Object.values(storeFields).some(value => value !== undefined)) {
++      throw new Error("At least one store-specific field must be provided");
++    }
++
++    // Filter out undefined values from payload
++    const data = Object.entries(storeFields)
++      .reduce((acc, [key, value]) => {
++        if (value !== undefined) {
++          acc[key] = value;
++        }
++        return acc;
++      }, {});
++
++    const endpoint = new URL(
++      `bin-actions/add/${encodeURIComponent(this.dynamicDataId)}/${encodeURIComponent(this.dataSecret)}`,
++      "https://api.bitbadges.io/api/v0/"
++    ).toString();
++
       await axios($, {
         method: "POST",
-        url: `https://api.bitbadges.io/api/v0/bin-actions/add/${this.dynamicDataId}/${this.dataSecret}`,
+-      url: `https://api.bitbadges.io/api/v0/bin-actions/add/${this.dynamicDataId}/${this.dataSecret}`,
++      url: endpoint,
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
           "x-api-key": this.bitbadges.$auth.api_key,
         },
-        data: {
-          address: this.address,
-          id: this.id,
-          email: this.email,
-          username: this.username,
-        },
+-      data: {
+-        address: this.address,
+-        id: this.id,
+-        email: this.email,
+-        username: this.username,
+-      },
++      data,
       });
 
       // Validate successful response
