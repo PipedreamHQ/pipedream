@@ -49,10 +49,27 @@ export default {
                 "The username to add to the dynamic data store. Only applicable if it is a socials store.",
       optional: true,
     },
-  },
-  async run({ $ }) {
-    try {
-      // Validate that at least one store-specific field is provided
+    validateProps() {
+      // Validate email format if provided
+      if (this.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+        throw new Error("Invalid email format");
+      }
+
+      // Validate blockchain address
+      if (this.address && !/^[a-zA-Z0-9-_]+$/.test(this.address)) {
+        throw new Error("Invalid blockchain address format");
+      }
+
+      // Validate ID format if provided
+      if (this.id && !/^[a-zA-Z0-9-_]+$/.test(this.id)) {
+        throw new Error("Invalid ID format");
+      }
+
+      // Validate username format if provided
+      if (this.username && !/^[a-zA-Z0-9-_]+$/.test(this.username)) {
+        throw new Error("Invalid username format");
+      }
+
       const storeFields = {
         address: this.address,
         id: this.id,
@@ -63,6 +80,19 @@ export default {
       if (!Object.values(storeFields).some((value) => value !== undefined)) {
         throw new Error("At least one store-specific field must be provided");
       }
+
+      return true;
+    },
+  },
+  async run({ $ }) {
+    try {
+      // Validate that at least one store-specific field is provided
+      const storeFields = {
+        address: this.address,
+        id: this.id,
+        email: this.email,
+        username: this.username,
+      };
 
       // Filter out undefined values from payload
       const data = Object.entries(storeFields)

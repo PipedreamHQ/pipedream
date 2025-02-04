@@ -27,39 +27,25 @@ export default {
       default: false,
     },
     validateProps() {
-      const storeFields = {
-        address: this.address,
-        id: this.id,
-        email: this.email,
-        username: this.username,
-      };
-
-      const providedFields = Object.entries(storeFields)
-        .filter(([
-          ,
-          value,
-        ]) => value !== undefined);
-
-      if (providedFields.length === 0) {
-        throw new Error("At least one store-specific field (address, id, email, or username) must be provided");
+      const details = this.claimInfo.split("-");
+      if (details.length !== 3 || !details.every((part) => part.trim())) {
+        throw new Error(
+          "Invalid claim details: each part must be non-empty",
+        );
       }
 
-      // Add email format validation
-      if (this.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
-        throw new Error("Invalid email format");
+      if (!/^[a-zA-Z0-9-_]+$/.test(this.address)) {
+        throw new Error("Invalid address format");
       }
 
-      return true;
+      if (!/^[a-zA-Z0-9-_]+$/.test(this.claimInfo)) {
+        throw new Error("Invalid claim info format");
+      }
     },
   },
 
   async run({ $ }) {
     const details = this.claimInfo.split("-");
-    if (details.length !== 3 || !details.every((part) => part.trim())) {
-      throw new Error(
-        "Invalid claim details: each part must be non-empty",
-      );
-    }
 
     // Sanitize and validate each part
     const [
