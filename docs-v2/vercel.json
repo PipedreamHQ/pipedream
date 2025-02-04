@@ -313,6 +313,10 @@
     {
       "source": "/docs/connect/webhooks",
       "destination": "/docs/connect/managed-auth/webhooks"
+    },
+    {
+      "source": "/connect/oauth-clients#using-your-own-oauth-client",
+      "destination": "/connect/managed-auth/oauth-clients#using-a-custom-oauth-client"
     }
   ]
 }
