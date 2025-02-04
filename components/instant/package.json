@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/instant",
+  "version": "0.0.1",
+  "description": "Pipedream Instant Components",
+  "main": "instant.app.mjs",
+  "keywords": [
+    "pipedream",
+    "instant"
+  ],
+  "homepage": "https://pipedream.com/apps/instant",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

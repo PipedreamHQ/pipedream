@@ -1,5 +1,6 @@
 import docs from "@googleapis/docs";
 import googleDrive from "@pipedream/google_drive";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -36,7 +37,7 @@ export default {
     imageUri: {
       type: "string",
       label: "Image URL",
-      description: "The URL of the image you want to insert to the doc",
+      description: "The URL of the image you want to insert into the doc",
     },
     text: {
       type: "string",
@@ -105,7 +106,8 @@ export default {
       const { data } = await this.docs().documents.get({
         documentId,
       });
-      return data;
+      const doc = utils.addTextContentToDocument(data);
+      return doc;
     },
     async createEmptyDoc(title) {
       const { data: createdDoc } = await this.docs().documents.create({
