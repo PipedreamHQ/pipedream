@@ -51,7 +51,9 @@ describe("BackendClient", () => {
           url: "https://api.pipedream.com/v1/test-path",
         },
         response: {
-          json: { data: "test-response" },
+          json: {
+            data: "test-response",
+          },
         },
       })
 
@@ -73,7 +75,9 @@ describe("BackendClient", () => {
           },
         },
         response: {
-          json: { success: true },
+          json: {
+            success: true,
+          },
         },
       })
 
@@ -117,7 +121,9 @@ describe("BackendClient", () => {
           },
         },
         response: {
-          json: { success: true },
+          json: {
+            success: true,
+          },
         },
       })
 
@@ -145,7 +151,9 @@ describe("BackendClient", () => {
           },
         },
         response: {
-          json: { success: true },
+          json: {
+            success: true,
+          },
         },
       })
 
@@ -312,10 +320,12 @@ describe("BackendClient", () => {
           url: `https://api.pipedream.com/v1/connect/${projectId}/accounts?app=app-1`,
         },
         response: {
-          json: [{
-            id: "account-1",
-            name: "Test Account",
-          }],
+          json: [
+            {
+              id: "account-1",
+              name: "Test Account",
+            },
+          ],
         },
       });
 
@@ -340,10 +350,12 @@ describe("BackendClient", () => {
           url: `https://api.pipedream.com/v1/connect/${projectId}/accounts?external_user_id=external-id-1`,
         },
         response: {
-          json: [{
-            id: "account-1",
-            name: "Test Account",
-          }],
+          json: [
+            {
+              id: "account-1",
+              name: "Test Account",
+            },
+          ],
         },
       });
 
@@ -465,7 +477,9 @@ describe("BackendClient", () => {
           },
         },
         response: {
-          json: { result: "workflow-response" },
+          json: {
+            result: "workflow-response",
+          },
         },
       })
 
@@ -481,8 +495,10 @@ describe("BackendClient", () => {
     });
 
     it("should invoke a workflow with OAuth auth type", async () => {
-      const token = ""+Math.random()
-      fetchMock.expectAccessTokenSuccess({ accessToken: token });
+      const token = "" + Math.random()
+      fetchMock.expectAccessTokenSuccess({
+        accessToken: token,
+      });
       fetchMock.expect({
         request: {
           url: "https://example.com/workflow",
@@ -491,7 +507,9 @@ describe("BackendClient", () => {
           },
         },
         response: {
-          json: { result: "workflow-response" },
+          json: {
+            result: "workflow-response",
+          },
         },
       })
 
@@ -503,7 +521,7 @@ describe("BackendClient", () => {
     });
 
     it("should invoke a workflow with static bearer auth type", async () => {
-      const token = ""+Math.random()
+      const token = "" + Math.random()
       fetchMock.expect({
         request: {
           url: "https://example.com/workflow",
@@ -512,7 +530,9 @@ describe("BackendClient", () => {
           },
         },
         response: {
-          json: { result: "workflow-response" },
+          json: {
+            result: "workflow-response",
+          },
         },
       })
 
@@ -538,7 +558,9 @@ describe("BackendClient", () => {
           url: "https://api.pipedream.com/v1/test-path",
         },
         response: {
-          json: { success: true },
+          json: {
+            success: true,
+          },
         },
       })
 
@@ -571,7 +593,9 @@ describe("BackendClient", () => {
           },
         },
         response: {
-          json: { result: "workflow-response" },
+          json: {
+            result: "workflow-response",
+          },
         },
       })
 
@@ -697,17 +721,17 @@ describe("BackendClient", () => {
 type ExpectRequest = {
   method?: string
   url?: string | RegExp
-  json?: Record<string, any>
+  json?: Record<string, never>
   headersContaining?: Record<string, string>
 }
 type MockResponse =
   | Response
-  | { status?: number; json?: any }
+  | { status?: number; json?: never }
 type IfOpts = {
   method: string
   url: string
   headers: Record<string, string> // NonNullable<RequestInit["headers"]>
-  json?: any // body json
+  json?: never // body json
   // XXX etc.
 }
 function setupFetchMock() {
@@ -716,7 +740,7 @@ function setupFetchMock() {
     response: () => Response
   }[] = []
 
-  const jsonResponse = (o: any, opts?: { status?: number }) => {
+  const jsonResponse = (o: never, opts?: { status?: number }) => {
     return new Response(JSON.stringify(o), {
       status: opts?.status,
       headers: {
@@ -728,13 +752,18 @@ function setupFetchMock() {
   beforeEach(() => {
     intercepts = [];
     // without these generics this fails typecheck and can't figure out why
-    jest.spyOn<any, any, any>(global, "fetch").mockImplementation(jest.fn<typeof fetch>(async (...args: Parameters<typeof fetch>) => {
-      const [url, init] = args
-      let json: any
+    jest.spyOn<never, never, never>(global, "fetch").mockImplementation(jest.fn<typeof fetch>(async (...args: Parameters<typeof fetch>) => {
+      const [
+        url,
+        init,
+      ] = args
+      let json: never
       if (init?.body && typeof init.body === "string") {
         try {
           json = JSON.parse(init.body)
-        } catch {}
+        } catch {
+          // pass
+        }
       }
       if (url instanceof Request) {
         throw new Error("not supported")
@@ -764,7 +793,9 @@ function setupFetchMock() {
 
   // const _expect = (opts: { if: (opts: IfOpts) => boolean, jsonResponse?: any, response?: Response }) => {
   const _expect = (opts: { request: ExpectRequest, response: MockResponse }) => {
-    const { method, url, headersContaining, json } = opts.request
+    const {
+      method, url, headersContaining, json,
+    } = opts.request
     intercepts.push({
       if: (ifOpts) => {
         if (method && ifOpts.method !== method) return false
@@ -806,7 +837,7 @@ function setupFetchMock() {
   }
 
   const expectAccessTokenSuccess = (opts?: { accessToken?: string; expiresIn?: number }) => {
-    const accessToken = opts?.accessToken || ""+Math.random()
+    const accessToken = opts?.accessToken || "" + Math.random()
     _expect({
       request: {
         url: /\/v1\/oauth\/token$/,
