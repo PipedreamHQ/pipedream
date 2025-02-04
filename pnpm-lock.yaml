@@ -12043,7 +12043,11 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
 
-  components/writer: {}
+  components/writer:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/writesonic: {}
 
