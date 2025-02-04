@@ -32,6 +32,11 @@ export default {
       optional: false,
       reloadProps: true,
     },
+    branch: {
+      type: "string",
+      label: "Branch",
+      description: "Branch of repository to deploy to",
+    },
     public: {
       type: "boolean",
       label: "Public",
@@ -39,32 +44,29 @@ export default {
       optional: true,
     },
   },
-  async additionalProps() {
-    const props = {};
-
+  async additionalProps(props) {
     if (!this.project) {
-      return props;
+      return {};
     }
-
-    props.branch = {
-      type: "string",
-      label: "Branch",
-      description: "Branch of repository to deploy to",
-      default: "main",
-    };
-
     try {
       const { link } = await this.vercelTokenAuth.getProject(this.project);
       if (link) {
         props.branch.description = `Branch of \`${link.repo}\` repository to deploy to`;
         props.branch.default = link?.productionBranch || "main";
+      } else {
+        props.branch.default = "main";
       }
-      return props;
     } catch {
-      return props;
+      props.branch.default = "main";
+      return {};
     }
+    return {};
   },
   async run({ $ }) {
+    if (!this.branch) {
+      throw new ConfigurationError("Branch prop is required");
+    }
+
     const { link } = await this.vercelTokenAuth.getProject(this.project, $);
     if (!link?.repoId) {
       throw new ConfigurationError(`No linked repository found for project with ID: ${this.project}`);
