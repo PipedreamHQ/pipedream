@@ -36,11 +36,12 @@ export default {
     const passwordPluginId = details[1];
     const password = details[2];
 
-    const endpoint = `https://api.bitbadges.io/api/v0/claims/${
-      this.isSimulation
-        ? "simulate"
-        : "complete"
-    }/${claimId}/${this.address}`;
+    const baseUrl = "https://api.bitbadges.io/api/v0/claims";
+    const action = this.isSimulation ? "simulate" : "complete";
+    const endpoint = new URL(
+      `${action}/${encodeURIComponent(claimId)}/${encodeURIComponent(this.address)}`,
+      baseUrl
+    ).toString();
 
     const data = {
       _expectedVersion: -1,
