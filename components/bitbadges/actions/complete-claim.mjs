@@ -28,8 +28,17 @@ export default {
   },
   async run({ $ }) {
     const details = this.claimInfo.split("-");
-    if (details.length !== 3) {
-      throw new Error("Invalid claim details parsed");
+    if (details.length !== 3 || !details.every(part => part.trim())) {
+      throw new Error("Invalid claim details: each part must be non-empty");
+    }
+    
+    // Sanitize and validate each part
+    const [claimId, passwordPluginId, password] = details.map(part => part.trim());
+    if (!/^[a-zA-Z0-9-_]+$/.test(claimId)) {
+      throw new Error("Invalid claim ID format");
+    }
+    if (!/^[a-zA-Z0-9-_]+$/.test(passwordPluginId)) {
+      throw new Error("Invalid password plugin ID format");
     }
 
     const claimId = details[0];
