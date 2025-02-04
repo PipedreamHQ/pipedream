@@ -381,8 +381,13 @@ export class BackendClient extends BaseClient {
       method: "GET",
     });
   }
-  //public getProxyRequest(url: string, method: string, body: string, params: any): Promise<ProjectInfoResponse> {
-  public makeProxyRequest(url: string, query: any, opts: MakeProxyRequestOpts): Promise<ProjectInfoResponse> {
+
+  /**
+   * Makes a proxy request to a URL with the specified query parameters and options.
+   *
+   * @returns A promise resolving to the response from the downstream service
+   */
+  public makeProxyRequest(url: string, query: any, opts: MakeProxyRequestOpts): Promise<any> {
     const url64 = btoa(url).replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=+$/, "");
