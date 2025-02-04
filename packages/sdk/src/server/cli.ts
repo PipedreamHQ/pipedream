@@ -1,4 +1,4 @@
-import { createBackendClient } from "./index";
+import { createBackendClient } from "./index.js";
 import { program } from "commander";
 
 const {
