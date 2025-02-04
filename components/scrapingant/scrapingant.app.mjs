@@ -37,7 +37,7 @@ export default {
     proxyType: {
       type: "string",
       label: "Proxy Type",
-      description: "Specifies proxy type to make request from",
+      description: "Specifies the proxy type to make the request from",
       options: constants.PROXY_TYPES,
       optional: true,
     },
