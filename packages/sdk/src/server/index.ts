@@ -156,7 +156,7 @@ export class BackendClient extends BaseClient {
     token: string
     expiresAt: number
   };
-  protected override projectId: string;
+  protected override projectId: string = "";
 
   /**
    * Constructs a new ServerClient instance.
@@ -212,7 +212,11 @@ export class BackendClient extends BaseClient {
   }
 
   private async ensureValidOauthAccessToken(): Promise<string> {
-    const { client, clientAuth, as } = this.oauthClient
+    const {
+      client,
+      clientAuth,
+      as,
+    } = this.oauthClient
 
     let attempts = 0;
     const maxAttempts = 2;
@@ -234,7 +238,9 @@ export class BackendClient extends BaseClient {
           token: oauthTokenResponse.access_token,
           expiresAt: Date.now() + (oauthTokenResponse.expires_in || 0) * 1000,
         };
-      } catch {}
+      } catch {
+        // pass
+      }
 
       attempts++;
     }
