@@ -1,5 +1,6 @@
 export default {
   "index": "Overview",
+  "users": "Users",
   "quickstart": "Quickstart",
   "tokens": "Connect Tokens",
   "connect-link": "Connect Link",
