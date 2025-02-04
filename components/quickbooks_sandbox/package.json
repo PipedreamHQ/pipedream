@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/quickbooks_sandbox",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Quickbooks Sandbox Components",
   "main": "quickbooks_sandbox.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/quickbooks": "^0.5.0"
+    "@pipedream/quickbooks": "^0.5.1"
   }
 }

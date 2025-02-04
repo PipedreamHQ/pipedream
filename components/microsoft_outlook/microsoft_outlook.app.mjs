@@ -100,6 +100,41 @@ export default {
       type: "object",
       optional: true,
     },
+    labelId: {
+      type: "string",
+      label: "Label ID",
+      description: "The identifier of the label/category to add",
+      async options() {
+        const { value: labels } = await this.listLabels();
+        return labels?.map(({
+          id: value, displayName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    messageId: {
+      type: "string",
+      label: "Message ID",
+      description: "The identifier of the message to update",
+      async options({ page }) {
+        const limit = 50;
+        const { value } = await this.listMessages({
+          params: {
+            $top: limit,
+            $skip: limit * page,
+            $orderby: "createdDateTime desc",
+          },
+        });
+        return value?.map(({
+          id: value, subject: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     _getUrl(path) {
@@ -283,6 +318,21 @@ export default {
       return await this._makeRequest({
         method: "GET",
         path: `/me/contacts/${contactId}`,
+        ...args,
+      });
+    },
+    listLabels(args = {}) {
+      return this._makeRequest({
+        path: "/me/outlook/masterCategories",
+        ...args,
+      });
+    },
+    updateMessage({
+      messageId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `/me/messages/${messageId}`,
         ...args,
       });
     },
