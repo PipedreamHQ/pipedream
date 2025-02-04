@@ -26,7 +26,33 @@ export default {
       description: "Boolean to determine if this is a simulated run",
       default: false,
     },
+    validateProps() {
+      const storeFields = {
+        address: this.address,
+        id: this.id,
+        email: this.email,
+        username: this.username,
+      };
+
+      const providedFields = Object.entries(storeFields)
+        .filter(([
+          ,
+          value,
+        ]) => value !== undefined);
+
+      if (providedFields.length === 0) {
+        throw new Error("At least one store-specific field (address, id, email, or username) must be provided");
+      }
+
+      // Add email format validation
+      if (this.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+        throw new Error("Invalid email format");
+      }
+
+      return true;
+    },
   },
+
   async run({ $ }) {
     const details = this.claimInfo.split("-");
     if (details.length !== 3 || !details.every((part) => part.trim())) {
