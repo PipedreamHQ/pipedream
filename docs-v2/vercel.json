@@ -289,6 +289,30 @@
     {
       "source": "/docs/connect/quickstart#connect-a-users-account",
       "destination": "/docs/connect/quickstart#connect-your-users-account"
+    },
+    {
+      "source": "/docs/connect/connect-link",
+      "destination": "/docs/connect/managed-auth/connect-link"
+    },
+    {
+      "source": "/docs/connect/customize-your-app",
+      "destination": "/docs/connect/managed-auth/customization"
+    },
+    {
+      "source": "/docs/connect/oauth-clients",
+      "destination": "/docs/connect/managed-auth/oauth-clients"
+    },
+    {
+      "source": "/docs/connect/quickstart",
+      "destination": "/docs/connect/managed-auth/quickstart"
+    },
+    {
+      "source": "/docs/connect/tokens",
+      "destination": "/docs/connect/managed-auth/tokens"
+    },
+    {
+      "source": "/docs/connect/webhooks",
+      "destination": "/docs/connect/managed-auth/webhooks"
     }
   ]
 }
