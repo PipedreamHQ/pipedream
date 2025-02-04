@@ -721,17 +721,17 @@ describe("BackendClient", () => {
 type ExpectRequest = {
   method?: string
   url?: string | RegExp
-  json?: Record<string, never>
+  json?: Record<string, unknown>
   headersContaining?: Record<string, string>
 }
 type MockResponse =
   | Response
-  | { status?: number; json?: never }
+  | { status?: number; json?: unknown }
 type IfOpts = {
   method: string
   url: string
   headers: Record<string, string> // NonNullable<RequestInit["headers"]>
-  json?: never // body json
+  json?: unknown // body json
   // XXX etc.
 }
 function setupFetchMock() {
@@ -740,7 +740,7 @@ function setupFetchMock() {
     response: () => Response
   }[] = []
 
-  const jsonResponse = (o: never, opts?: { status?: number }) => {
+  const jsonResponse = (o: unknown, opts?: { status?: number }) => {
     return new Response(JSON.stringify(o), {
       status: opts?.status,
       headers: {
@@ -752,12 +752,12 @@ function setupFetchMock() {
   beforeEach(() => {
     intercepts = [];
     // without these generics this fails typecheck and can't figure out why
-    jest.spyOn<never, never, never>(global, "fetch").mockImplementation(jest.fn<typeof fetch>(async (...args: Parameters<typeof fetch>) => {
+    jest.spyOn<any, any, any>(global, "fetch").mockImplementation(jest.fn<typeof fetch>(async (...args: Parameters<typeof fetch>) => { // eslint-disable-line @typescript-eslint/no-explicit-any
       const [
         url,
         init,
       ] = args
-      let json: never
+      let json: unknown
       if (init?.body && typeof init.body === "string") {
         try {
           json = JSON.parse(init.body)
