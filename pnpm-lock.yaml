@@ -11474,7 +11474,14 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/vapi: {}
+  components/vapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      form-data:
+        specifier: ^4.0.1
+        version: 4.0.1
 
   components/vbout:
     dependencies:
