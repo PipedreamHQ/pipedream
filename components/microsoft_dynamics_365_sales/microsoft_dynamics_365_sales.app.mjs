@@ -25,7 +25,7 @@ export default {
       description: "Identifier of a solution",
       async options() {
         const { value } = await this.listSolutions();
-        return value?.map(({
+        return value?.filter(({ isvisible }) => isvisible)?.map(({
           solutionid: value, uniquename, friendlyname,
         }) => ({
           value,
