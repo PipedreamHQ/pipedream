@@ -13,6 +13,12 @@ import {
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_LINE_ITEM_PROPERTIES,
 } from "./common/constants.mjs";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 250, // 4 requests per second
+  maxConcurrent: 1,
+});
+const axiosRateLimiter = limiter.wrap(axios);
 
 export default {
   type: "app",
@@ -473,7 +479,7 @@ export default {
       params,
       ...otherOpts
     }) {
-      return axios($, {
+      return axiosRateLimiter($, {
         url: `${BASE_URL}${api}${endpoint}`,
         headers: this._getHeaders(),
         data: data && this.trimStringValues(data),
