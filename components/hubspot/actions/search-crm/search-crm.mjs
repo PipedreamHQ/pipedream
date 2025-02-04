@@ -16,7 +16,7 @@ export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
   description: "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
   props: {
     hubspot,
@@ -89,7 +89,7 @@ export default {
     props.searchValue = {
       type: "string",
       label: "Search Value",
-      description: "Search for objects where the specified search field/property matches the search value",
+      description: "Search for objects where the specified search field/property contains an match of the search value",
     };
     const defaultProperties = this.getDefaultProperties();
     if (defaultProperties?.length) {
