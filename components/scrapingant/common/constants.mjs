@@ -108,57 +108,19 @@ export default {
     },
   ],
   RESOURCE_TYPES: [
-    {
-      label: "Document",
-      value: "document",
-    },
-    {
-      label: "Stylesheet",
-      value: "stylesheet",
-    },
-    {
-      label: "Image",
-      value: "image",
-    },
-    {
-      label: "Media",
-      value: "media",
-    },
-    {
-      label: "Font",
-      value: "font",
-    },
-    {
-      label: "Script",
-      value: "script",
-    },
-    {
-      label: "Texttrack",
-      value: "texttrack",
-    },
-    {
-      label: "XHR",
-      value: "xhr",
-    },
-    {
-      label: "Fetch",
-      value: "fetch",
-    },
-    {
-      label: "Eventsource",
-      value: "eventsource",
-    },
-    {
-      label: "Websocket",
-      value: "websocket",
-    },
-    {
-      label: "Manifest",
-      value: "manifest",
-    },
-    {
-      label: "Other",
-      value: "other",
-    },
+    "document",
+    "stylesheet",
+    "image",
+    "media",
+    "font",
+    "script",
+    "texttrack",
+    "xhr",
+    "fetch",
+    "eventsource",
+    "websocket",
+    "manifest",
+    "other",
   ],
+
 };

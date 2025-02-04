@@ -19,7 +19,7 @@ export default {
     returnPageSource: {
       type: "boolean",
       label: "Return Page Source",
-      description: "Enables returning data returned by the server and unaltered by the browser. Default: false. When true - JS won't be rendered. This feature works only with `browser=true`",
+      description: "Enables returning data returned by the server and unaltered by the browser. When true JS won't be rendered",
       optional: true,
     },
     cookies: {
@@ -31,7 +31,7 @@ export default {
     jsSnippet: {
       type: "string",
       label: "JS Snippet",
-      description: "Base64 encoded JS snippet to run once page being loaded in the ScrapingAnt browser. This feature works only with `browser=true`",
+      description: "Base64 encoded JS snippet to run once page being loaded in the ScrapingAnt browser",
       optional: true,
     },
     proxyType: {
@@ -57,7 +57,8 @@ export default {
     blockResource: {
       type: "string[]",
       label: "Block Resource",
-      description: "Prevents cloud browser from loading the specified resource types",
+      description: "Prevents cloud browser from loading specified resource types",
+      options: constants.RESOURCE_TYPES,
       optional: true,
     },
   },

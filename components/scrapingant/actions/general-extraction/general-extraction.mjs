@@ -19,12 +19,15 @@ export default {
         app,
         "browser",
       ],
+      reloadProps: true,
     },
     returnPageSource: {
       propDefinition: [
         app,
         "returnPageSource",
       ],
+      disabled: true,
+      hidden: true,
     },
     cookies: {
       propDefinition: [
@@ -37,6 +40,8 @@ export default {
         app,
         "jsSnippet",
       ],
+      disabled: true,
+      hidden: true,
     },
     proxyType: {
       propDefinition: [
@@ -61,8 +66,27 @@ export default {
         app,
         "blockResource",
       ],
+      disabled: true,
+      hidden: true,
     },
   },
+  async additionalProps(existingProps) {
+    const props = {};
+    if (this.browser) {
+      existingProps.returnPageSource.hidden = false;
+      existingProps.returnPageSource.disabled = false;
+    }
+    if (this.browser) {
+      existingProps.jsSnippet.hidden = false;
+      existingProps.jsSnippet.disabled = false;
+    }
+    if (this.browser) {
+      existingProps.blockResource.hidden = false;
+      existingProps.blockResource.disabled = false;
+    }
+    return props;
+  },
+
   async run({ $ }) {
     const response = await this.app.generalExtraction({
       $,
@@ -78,9 +102,7 @@ export default {
         block_resource: this.blockResource,
       },
     });
-
     $.export("$summary", "Successfully sent the request to ScrapingAnt");
-
     return response;
   },
 };
