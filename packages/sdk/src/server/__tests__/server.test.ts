@@ -1,3 +1,4 @@
+import { jest } from "@jest/globals"
 import {
   BackendClient,
   BackendClientOpts,
@@ -726,17 +727,22 @@ function setupFetchMock() {
 
   beforeEach(() => {
     intercepts = [];
-    jest.spyOn(global, "fetch").mockImplementation(jest.fn((url: string, init: RequestInit) => {
+    // without these generics this fails typecheck and can't figure out why
+    jest.spyOn<any, any, any>(global, "fetch").mockImplementation(jest.fn<typeof fetch>(async (...args: Parameters<typeof fetch>) => {
+      const [url, init] = args
       let json: any
-      if (init.body && typeof init.body === "string") {
+      if (init?.body && typeof init.body === "string") {
         try {
           json = JSON.parse(init.body)
         } catch {}
       }
+      if (url instanceof Request) {
+        throw new Error("not supported")
+      }
       const ifOpts: IfOpts = {
-        method: init.method || "GET",
-        url,
-        headers: init.headers as Record<string, string> || {},
+        method: init?.method || "GET",
+        url: url.toString(),
+        headers: init?.headers as Record<string, string> || {},
         json,
       }
       for (let i = 0; i < intercepts.length; i++) {

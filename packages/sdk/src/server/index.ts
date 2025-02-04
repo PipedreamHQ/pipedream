@@ -143,7 +143,7 @@ export class BackendClient extends BaseClient {
     token: string
     expiresAt: number
   };
-  protected override projectId: string;
+  protected override projectId: string = "";
 
   /**
    * Constructs a new ServerClient instance.
