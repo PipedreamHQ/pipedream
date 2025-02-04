@@ -102,18 +102,20 @@ export default {
         },
         data,
       });
-
-      const result = response;
-
-      // Note: This means a successful trigger (add to queue), not a claim completion
-      // You can use the claimAttemptId to poll
-      return {
+      // Validate response structure
+      if (!response?.claimAttemptId) {
+        throw new Error("Invalid response: missing claimAttemptId");
+      }
+      const result = {
         success: true,
-        claimAttemptId: result.claimAttemptId || "",
+        claimAttemptId: response.claimAttemptId,
         currentTimestamp: Date.now(),
       };
+      return result;
     } catch (error) {
-      throw new Error(`Failed to complete claim: ${error.message}`);
+      // Sanitize error message
+      const safeMessage = "Failed to complete claim. Please try again later.";
+      throw new Error(safeMessage);
     }
   },
 };
