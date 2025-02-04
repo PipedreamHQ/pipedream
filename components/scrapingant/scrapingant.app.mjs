@@ -8,7 +8,7 @@ export default {
     url: {
       type: "string",
       label: "URL",
-      description: "URL to scrape. This is a required parameter",
+      description: "The URL to scrape",
     },
     browser: {
       type: "boolean",
