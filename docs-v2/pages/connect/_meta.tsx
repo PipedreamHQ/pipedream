@@ -6,7 +6,7 @@ export default {
     "title": "Use cases",
   },
   "managed-auth": {
-    "title": "Managed authentication",
+    "title": "Managed auth",
   },
   "components": {
     "title": "Pre-built tools",

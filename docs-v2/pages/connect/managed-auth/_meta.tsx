@@ -4,7 +4,7 @@ export default {
   "quickstart": "Quickstart",
   "tokens": "Connect Tokens",
   "connect-link": "Connect Link",
-  "oauth-clients": "OAuth clients",
+  "oauth-clients": "OAuth Clients",
   "webhooks": "Webhooks",
-  "customize-your-app": "Customize your app",
+  "customization": "Customization",
 } as const
