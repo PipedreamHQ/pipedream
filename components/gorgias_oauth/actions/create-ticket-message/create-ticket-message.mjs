@@ -162,6 +162,17 @@ export default {
       ? this.toCustomer
       : this.toUser;
 
+    if (!fromId) {
+      throw new ConfigurationError(`"${this.fromAgent
+        ? "From User"
+        : "From Customer"}" is required when "From Agent" is set to \`${this.fromAgent}\``);
+    }
+    if (!toId) {
+      throw new ConfigurationError(`"${this.fromAgent
+        ? "To Customer"
+        : "To User"}" is required when "From Agent" is set to \`${this.fromAgent}\``);
+    }
+
     const response = await this.gorgiasOauth.createMessage({
       $,
       ticketId: this.ticketId,
