@@ -12714,8 +12714,8 @@ importers:
         specifier: file:../..
         version: file:packages/connect-react(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
       '@pipedream/sdk':
-        specifier: ^1.3.1
-        version: 1.3.1
+        specifier: ^1.3.2
+        version: 1.3.2
       next:
         specifier: 15.0.3
         version: 15.0.3(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
@@ -15603,8 +15603,8 @@ packages:
     resolution: {integrity: sha512-f8FXEaoBqIOQpI4vVOO8OrHRAjwQYO4pKIwMUcGRkzS5KJ6cZ/7JYYGyXEu7NcS+y1VfyegtbJWu4tWacDjQZg==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/sdk@1.3.1':
-    resolution: {integrity: sha512-4DJsXxx6bpaeDdQTz9bLt61T2WUBBN/d/aJtjIuaQZEe+B+E0akFVSw1FFOKpu6JfiXe7RH+pnhdqbBs3PM95A==}
+  '@pipedream/sdk@1.3.2':
+    resolution: {integrity: sha512-50/eSDsR5fV2pyScgbAmfMiZ4kGxxvN2Zrg9RZa/Dt11VsQAcRNza1Vy8cGD6rc3luPeXwlGk+Diu0ynAtAKlA==}
     engines: {node: '>=18.0.0'}
 
   '@pipedream/sftp@0.4.1':
@@ -31764,7 +31764,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@pipedream/sdk@1.3.1':
+  '@pipedream/sdk@1.3.2':
     dependencies:
       '@rails/actioncable': 8.0.0
       commander: 12.1.0
