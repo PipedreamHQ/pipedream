@@ -89,7 +89,7 @@ export default {
     props.searchValue = {
       type: "string",
       label: "Search Value",
-      description: "Search for objects where the specified search field/property contains an match of the search value",
+      description: "Search for objects where the specified search field/property contains an exact match of the search value",
     };
     const defaultProperties = this.getDefaultProperties();
     if (defaultProperties?.length) {
