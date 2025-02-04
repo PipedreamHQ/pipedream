@@ -4,7 +4,7 @@
 
 import * as oauth from "oauth4webapi";
 import {
-  Account, BaseClient, type AppInfo, type ConnectTokenResponse, type RequestOptions
+  Account, BaseClient, type AppInfo, type ConnectTokenResponse, type RequestOptions,
 } from "../shared/index.js";
 export * from "../shared/index.js";
 
@@ -116,8 +116,7 @@ export type MakeProxyRequestOpts = {
    */
   method: string;
   headers?: Record<string, string>;
-  //headers: Record<string, string>;
-  body?: any
+  body?: string;
 };
 
 /**
@@ -393,10 +392,10 @@ export class BackendClient extends BaseClient {
    *
    * @returns A promise resolving to the response from the downstream service
    */
-  public makeProxyRequest(url: string, query: any, opts: MakeProxyRequestOpts): Promise<any> {
+  public makeProxyRequest(url: string, query: Record<string, string | boolean | number | null>, opts: MakeProxyRequestOpts): Promise<string> {
     const url64 = btoa(url).replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
 
     const headers = opts.headers || {};
 
