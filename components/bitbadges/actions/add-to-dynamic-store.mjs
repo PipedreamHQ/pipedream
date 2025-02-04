@@ -68,12 +68,25 @@ export default {
         },
       });
 
+      // Validate successful response
+      const result = {
+        success: true,
+        timestamp: Date.now(),
+      };
+      $.export("result", result);
       return {
         success: true,
+        timestamp: Date.now(),
       };
     } catch (error) {
-      $.export("error", error);
-      throw error;
+      // Sanitize and structure error information
+      const errorInfo = {
+        message: "Failed to add to dynamic store. Please try again later.",
+        code: error.response?.status,
+        timestamp: Date.now(),
+      };
+      $.export("error", errorInfo);
+      throw new Error(errorInfo.message);
     }
   },
 };

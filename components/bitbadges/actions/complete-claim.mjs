@@ -12,7 +12,8 @@ export default {
     claimInfo: {
       type: "string",
       label: "Claim Info",
-      description: "Claim details passed as a string in the format \"claimId-passwordPluginId-password\"",
+      description:
+                "Claim details passed as a string in the format \"claimId-passwordPluginId-password\"",
     },
     address: {
       type: "string",
@@ -28,19 +29,34 @@ export default {
   },
   async run({ $ }) {
     const details = this.claimInfo.split("-");
-    if (details.length !== 3) {
-      throw new Error("Invalid claim details parsed");
+    if (details.length !== 3 || !details.every((part) => part.trim())) {
+      throw new Error(
+        "Invalid claim details: each part must be non-empty",
+      );
     }
 
-    const claimId = details[0];
-    const passwordPluginId = details[1];
-    const password = details[2];
+    // Sanitize and validate each part
+    const [
+      claimId,
+      passwordPluginId,
+      password,
+    ] = details.map((part) =>
+      part.trim());
+    if (!/^[a-zA-Z0-9-_]+$/.test(claimId)) {
+      throw new Error("Invalid claim ID format");
+    }
+    if (!/^[a-zA-Z0-9-_]+$/.test(passwordPluginId)) {
+      throw new Error("Invalid password plugin ID format");
+    }
 
-    const endpoint = `https://api.bitbadges.io/api/v0/claims/${
-      this.isSimulation
-        ? "simulate"
-        : "complete"
-    }/${claimId}/${this.address}`;
+    const baseUrl = "https://api.bitbadges.io/api/v0/claims";
+    const action = this.isSimulation
+      ? "simulate"
+      : "complete";
+    const endpoint = new URL(
+      `${action}/${encodeURIComponent(claimId)}/${encodeURIComponent(this.address)}`,
+      baseUrl,
+    ).toString();
 
     const data = {
       _expectedVersion: -1,
