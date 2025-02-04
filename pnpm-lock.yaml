@@ -145,7 +145,14 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/_2markdown: {}
+  components/_2markdown:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      form-data:
+        specifier: ^4.0.1
+        version: 4.0.1
 
   components/_360nrs:
     dependencies:
@@ -868,7 +875,11 @@ importers:
 
   components/autobound: {}
 
-  components/autodesk: {}
+  components/autodesk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/autoklose: {}
 
@@ -1892,7 +1903,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/clearly_defined: {}
+  components/clearly_defined:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/clearout:
     dependencies:
@@ -4173,7 +4188,11 @@ importers:
 
   components/glide: {}
 
-  components/gloria_ai: {}
+  components/gloria_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/gloww:
     dependencies:
@@ -11829,7 +11848,11 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
 
-  components/whoisfreaks: {}
+  components/whoisfreaks:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/whop:
     dependencies:
