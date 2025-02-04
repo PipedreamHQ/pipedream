@@ -155,7 +155,20 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       queryKeyInput,
     ],
     queryFn: async () => {
-      const { dynamicProps } = await client.componentReloadProps(componentReloadPropsInput);
+      const result = await client.componentReloadProps(componentReloadPropsInput);
+      const {
+        dynamicProps, observations, errors: __errors,
+      } = result
+      const errorsAndObservations = []
+      if (observations) {
+        errorsAndObservations.push(...observations)
+      }
+      if (__errors) {
+        errorsAndObservations.push(...__errors)
+      }
+      if (errorsAndObservations) {
+        handleSdkErrors(errorsAndObservations)
+      }
       // XXX what about if null?
       // TODO observation errors, etc.
       if (dynamicProps) {
@@ -255,6 +268,10 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const updateConfiguredProps = (configuredProps: ConfiguredProps<T>) => {
     setConfiguredProps(configuredProps);
     updateConfiguredPropsQueryDisabledIdx(configuredProps);
+    updateConfigurationErrors(configuredProps)
+  };
+
+  const updateConfigurationErrors = (configuredProps: ConfiguredProps<T>) => {
     const _errors: typeof errors = {};
     for (let idx = 0; idx < configurableProps.length; idx++) {
       const prop = configurableProps[idx];
@@ -274,6 +291,14 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     updateConfiguredPropsQueryDisabledIdx(_configuredProps)
   }, [
     _configuredProps,
+  ]);
+
+  useEffect(() => {
+    updateConfigurationErrors(configuredProps)
+  }, [
+    configuredProps,
+    reloadPropIdx,
+    queryDisabledIdx,
   ]);
 
   useEffect(() => {
@@ -414,22 +439,76 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   };
 
   const handleSdkErrors = (o: unknown[] | unknown | undefined) => {
+    const newErrors = [
+      ...sdkErrors,
+    ]
     if (!o) return
-    const os = o
-    if (Array.isArray(os) && os.length > 0) {
-      const newErrors = os.map((it) => {
-        const name: string = it.err?.name
-        const message: string = it.err?.message
-        if (name && message) return {
-          name,
-          message,
-        } as Record<string, string>
-        return undefined
-      }).filter((e) => e !== undefined)
-      setSdkErrors(newErrors)
-    } else if (typeof o === "object") {
-      // TODO: handle rails api errors here
+    const handleObservationErrors = (observation: never) => {
+      const name: string = observation.err?.name
+      const message: string = observation.err?.message
+      if (name && message) return {
+        name,
+        message,
+      } as Record<string, string>
     }
+
+    if (Array.isArray(o) && o.length > 0) {
+      for (let i = 0; i < o.length; i++) {
+        const item = o[i]
+        if (typeof item === "string") {
+          try {
+            const json = JSON.parse(item)
+            const name = json.name
+            const message = json.message
+            if (name && message) {
+              newErrors.push({
+                name,
+                message,
+              } as Record<string, string>)
+            }
+          } catch (e) {
+            // pass
+          }
+        } else if (typeof item === "object" && "name" in item && "message" in item) {
+          const name = item.name
+          const message = item.message
+          if (name && message) {
+            newErrors.push({
+              name,
+              message,
+            } as Record<string, string>)
+          }
+        } else if (typeof item === "object" && item.k === "error") {
+          const res = handleObservationErrors(item)
+          if (res) newErrors.push(res)
+        }
+      }
+    } else if (typeof o === "object" && "os" in o || "observations" in o) {
+      const os = o.os || o.observations
+      if (Array.isArray(os) && os.length > 0) {
+        newErrors.push(
+          ...os.filter((it) => it.k === "error")
+            .map(handleObservationErrors)
+            .filter((e) => e !== undefined),
+        )
+      }
+    } else if (typeof o === "object" && "message" in o) {
+      // Handle HTTP errors thrown by the SDK
+      try {
+        const json = JSON.parse(o.message)
+        const obs = json.data?.observations || []
+        if (obs && obs.length > 0) {
+          newErrors.push(
+            ...obs?.filter((it) => it.k === "error")
+              .map(handleObservationErrors)
+              .filter((e) => e !== undefined),
+          )
+        }
+      } catch (e) {
+        // pass
+      }
+    }
+    setSdkErrors(newErrors)
   }
 
   // console.log("***", configurableProps, configuredProps)
