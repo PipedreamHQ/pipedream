@@ -51,7 +51,7 @@ export default {
     waitForSelector: {
       type: "string",
       label: "Wait for Selector",
-      description: "The CSS selector of the element our service will wait for before returning result. This feature works only with `browser=true`",
+      description: "The CSS selector of the element Scrapingant will wait for before returning the result",
       optional: true,
     },
     blockResource: {
