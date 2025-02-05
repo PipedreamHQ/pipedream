@@ -2615,7 +2615,11 @@ importers:
 
   components/deepl: {}
 
-  components/deepseek: {}
+  components/deepseek:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/defastra:
     dependencies:
@@ -5694,8 +5698,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/klipy:
-    specifiers: {}
+  components/klipy: {}
 
   components/knack:
     dependencies:
