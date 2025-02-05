@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/sdk",
   "type": "module",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Pipedream SDK",
   "main": "./dist/server.js",
   "module": "./dist/server.js",
@@ -40,7 +40,7 @@
     "prepublish": "pnpm run build",
     "prebuild": "node scripts/updateVersion.js",
     "build": "rm -rf dist && pnpm run prebuild && tsup --config tsup.server.cjs.config.js && tsup --config tsup.server.esm.config.js && tsup --config tsup.browser.config.js",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest",
     "watch": "nodemon --watch src --exec 'pnpm run build'",
     "cli": "node dist/server/cli.js"
   },
