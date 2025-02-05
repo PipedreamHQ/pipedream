@@ -3,13 +3,25 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "refiner",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     userId: {
       type: "string",
       label: "User ID",
       description: "The ID of the user to identify or track events for.",
-      optional: true,
+      async options({ page }) {
+        const { items } = await this.listContacts({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return items.map(({
+          uuid: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     email: {
       type: "string",
@@ -17,94 +29,105 @@ export default {
       description: "The email address of the user to identify or track events for.",
       optional: true,
     },
-    eventName: {
+    segmentId: {
       type: "string",
-      label: "Event Name",
-      description: "The name of the event or signal being tracked.",
+      label: "Segment ID",
+      description: "The ID of the segment to emit events for.",
+      async options({ page }) {
+        const { items } = await this.listSegments({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return items.map(({
+          uuid: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.refiner.io/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-          "user-agent": "@PipedreamHQ/pipedream v0.1",
-          "Content-Type": "application/json",
-        },
-        ...otherOpts,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async identifyUser(opts = {}) {
-      const {
-        userId, email, ...attributes
-      } = opts;
-      if (!userId && !email) {
-        throw new Error("Either userId or email must be provided to identify the user.");
-      }
-      const data = {
-        ...(userId && {
-          id: userId,
-        }),
-        ...(email && {
-          email,
-        }),
-        ...attributes,
-      };
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    listResponses(opts = {}) {
+      return this._makeRequest({
+        path: "/responses",
+        ...opts,
+      });
+    },
+    listSegments(opts = {}) {
+      return this._makeRequest({
+        path: "/segments",
+        ...opts,
+      });
+    },
+    identifyUser(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/identify-user",
-        data,
+        ...opts,
       });
     },
-    async trackEvent(opts = {}) {
-      const {
-        eventName, userId, email,
-      } = opts;
-      if (!eventName) {
-        throw new Error("eventName is required to track an event.");
-      }
-      if (!userId && !email) {
-        throw new Error("Either userId or email must be provided to track the event.");
-      }
-      const data = {
-        event: eventName,
-        ...(userId && {
-          id: userId,
-        }),
-        ...(email && {
-          email,
-        }),
-      };
+    trackEvent(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/track-event",
-        data,
+        ...opts,
       });
     },
-    async emitSurveyCompleted() {
-      return this._makeRequest({
-        method: "POST",
-        path: "/emit-survey-completed",
-      });
-    },
-    async emitSegmentEntered() {
-      return this._makeRequest({
-        method: "POST",
-        path: "/emit-segment-entered",
-      });
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          items,
+          pagination: {
+            current_page, last_page,
+          },
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of items) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = current_page < last_page;
+
+      } while (hasMore);
     },
   },
 };
