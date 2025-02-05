@@ -3277,7 +3277,11 @@ importers:
 
   components/elorus: {}
 
-  components/email_verifier_api: {}
+  components/email_verifier_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/emailable:
     dependencies:
@@ -5694,8 +5698,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/klipy:
-    specifiers: {}
+  components/klipy: {}
 
   components/knack:
     dependencies:
