@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.3.3] - 2025-02-5
+
+### Changed
+
+- Add makeProxyRequest function to BaseClient
+
 ## [1.3.2] - 2025-02-3
 
 ### Changed
