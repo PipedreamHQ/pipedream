@@ -102,8 +102,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ] = useState<Record<string, string>[]>([])
 
   const [
-    enableDebugging,
-    setEnableDebugging,
+    enableDebugging
+    ,
   ] = useState<boolean>(__enableDebugging === true)
 
   const [
@@ -464,6 +464,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
                 message,
               } as Record<string, string>)
             }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (e) {
             // pass
           }
@@ -498,10 +499,11 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         if (data && "observations" in data) {
           const obs = data.observations || []
           if (obs && obs.length > 0) {
+            const res = obs.filter((it) => it.k === "error")
+              ?.map(handleObservationErrors)
+              ?.filter((e) => e !== undefined) || []
             newErrors.push(
-              ...obs?.filter((it) => it.k === "error")
-                .map(handleObservationErrors)
-                .filter((e) => e !== undefined),
+              ...res,
             )
           }
         } else if (data && "error" in data && "details" in data) {
@@ -516,6 +518,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
             //   })
           })
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         // pass
       }

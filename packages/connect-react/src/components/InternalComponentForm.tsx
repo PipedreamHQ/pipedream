@@ -13,7 +13,9 @@ import { InternalField } from "./InternalField";
 import { Alert } from "./Alert";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { ControlSubmit } from "./ControlSubmit";
-import type { ConfigurableProp } from "@pipedream/sdk";
+import type {
+  ConfigurableProp, ConfigurablePropAlert,
+} from "@pipedream/sdk";
 
 export function InternalComponentForm() {
   const formContext = useFormContext();
