@@ -8726,7 +8726,11 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
-  components/refiner: {}
+  components/refiner:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/reflect:
     dependencies:
