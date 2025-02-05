@@ -10,12 +10,13 @@ import {
   DEFAULT_LEAD_PROPERTIES,
 } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
   description: "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
   props: {
     hubspot,
@@ -88,7 +89,7 @@ export default {
     props.searchValue = {
       type: "string",
       label: "Search Value",
-      description: "Search for objects where the specified search field/property matches the search value",
+      description: "Search for objects where the specified search field/property contains an exact match of the search value",
     };
     const defaultProperties = this.getDefaultProperties();
     if (defaultProperties?.length) {
@@ -202,6 +203,17 @@ export default {
       creationProps,
       ...otherProperties
     } = this;
+
+    const schema = await this.hubspot.getSchema({
+      objectType,
+    });
+
+    if (!schema.searchableProperties.includes(searchProperty)) {
+      throw new ConfigurationError(
+        `Property \`${searchProperty}\` is not a searchable property of object type \`${objectType}\`. ` +
+        `\n\nAvailable searchable properties are: \`${schema.searchableProperties.join("`, `")}\``,
+      );
+    }
 
     const properties = creationProps
       ? typeof creationProps === "string"
