@@ -25,7 +25,7 @@ export default {
     },
     getParams() {
       return {
-        regment_uuid: this.segmentId,
+        segment_uuid: this.segmentId,
       };
     },
     getSummary(item) {
