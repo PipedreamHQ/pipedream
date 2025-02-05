@@ -2548,7 +2548,11 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/dataforseo: {}
+  components/dataforseo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/datagma: {}
 
