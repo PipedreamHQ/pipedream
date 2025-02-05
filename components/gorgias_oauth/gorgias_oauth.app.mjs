@@ -329,6 +329,14 @@ export default {
         path: `customers/${id}`,
       });
     },
+    async retrieveUser({
+      $, id,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `users/${id}`,
+      });
+    },
     async listCustomers({
       $, params,
     }) {
@@ -390,6 +398,15 @@ export default {
     listTags(opts = {}) {
       return this._makeRequest({
         path: "/tags",
+        ...opts,
+      });
+    },
+    createMessage({
+      ticketId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/messages`,
         ...opts,
       });
     },

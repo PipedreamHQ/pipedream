@@ -5,7 +5,7 @@ export default {
   key: "gorgias_oauth-create-customer",
   name: "Create Customer",
   description: "Create a new customer. [See the docs](https://developers.gorgias.com/reference/post_api-customers)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     gorgias_oauth,

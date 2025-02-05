@@ -1522,6 +1522,9 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
+  components/buysellads:
+    specifiers: {}
+
   components/bybit:
     dependencies:
       '@pipedream/platform':
@@ -2548,7 +2551,11 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/dataforseo: {}
+  components/dataforseo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/datagma: {}
 
@@ -5690,6 +5697,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/klipy:
+    specifiers: {}
+
   components/knack:
     dependencies:
       '@pipedream/platform':
@@ -6540,7 +6550,14 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/microsoft_dynamics_365_sales: {}
+  components/microsoft_dynamics_365_sales:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      pluralize:
+        specifier: ^8.0.0
+        version: 8.0.0
 
   components/microsoft_entra_id:
     dependencies:
@@ -10942,6 +10959,12 @@ importers:
         specifier: ^0.12.5
         version: 0.12.5
 
+  components/tinyurl:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/tisane_labs:
     dependencies:
       '@pipedream/platform':
@@ -11513,8 +11536,8 @@ importers:
   components/vercel_token_auth:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/verdict_as_a_service:
     dependencies:
@@ -12254,7 +12277,14 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/zenscrape: {}
+  components/zenscrape:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/zenserp: {}
 
