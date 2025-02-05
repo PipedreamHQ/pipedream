@@ -10949,6 +10949,12 @@ importers:
         specifier: ^0.12.5
         version: 0.12.5
 
+  components/tinyurl:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/tisane_labs:
     dependencies:
       '@pipedream/platform':
