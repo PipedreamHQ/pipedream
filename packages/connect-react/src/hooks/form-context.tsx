@@ -439,7 +439,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   };
 
   const handleSdkErrors = (o: unknown[] | unknown | undefined) => {
-    const newErrors = [
+    let newErrors = [
       ...sdkErrors,
     ]
     if (!o) return
@@ -496,17 +496,33 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       // Handle HTTP errors thrown by the SDK
       try {
         const json = JSON.parse(o.message)
-        const obs = json.data?.observations || []
-        if (obs && obs.length > 0) {
-          newErrors.push(
-            ...obs?.filter((it) => it.k === "error")
-              .map(handleObservationErrors)
-              .filter((e) => e !== undefined),
-          )
+        const data = json.data
+        if (data && "observations" in data) {
+          const obs = data.observations || []
+          if (obs && obs.length > 0) {
+            newErrors.push(
+              ...obs?.filter((it) => it.k === "error")
+                .map(handleObservationErrors)
+                .filter((e) => e !== undefined),
+            )
+          }
+        } else if (data && "error" in data && "details" in data) {
+          newErrors.push({
+            name: data.error,
+            message: JSON.stringify(data.details),
+            //     message: ` // TODO: It would be nice to render the JSON in markdown
+            // \`\`\`json
+            // ${JSON.stringify(data.details)}
+            // \`\`\`
+            // `,
+            //   })
+          })
         }
       } catch (e) {
         // pass
       }
+    } else {
+      newErrors = []
     }
     setSdkErrors(newErrors)
   }

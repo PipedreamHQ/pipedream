@@ -8,7 +8,8 @@ import {
 import { fetchToken } from "./actions";
 
 export default function Home() {
-  const userId = "demo-32aaf9cd-5df0-4ffe-86b5-db43a61a842c"; //gmail-new-email-received
+  // const userId = "demo-32aaf9cd-5df0-4ffe-86b5-db43a61a842c"; //gmail-new-email-received
+  const userId = "demo-937d4e64-100a-4e32-9dbb-a73c279e91b3"; // goole_sheets add new row
   const client = createFrontendClient({
     environment: "development",
     externalUserId: userId,
@@ -41,7 +42,7 @@ export default function Home() {
       <FrontendClientProvider client={client}>
         <ComponentFormContainer
           userId={userId}
-          componentKey="gmail-new-email-received"
+          componentKey="google_sheets-add-single-row"
           configuredProps={configuredProps}
           onUpdateDynamicProps={handleDynamicProps}
           onUpdateConfiguredProps={setConfiguredProps}
@@ -51,11 +52,11 @@ export default function Home() {
             try {
               const result = await client.runAction({
                 userId,
-                actionId: "gmail-new-email-received",
+                actionId: "google_sheets-add-single-row",
                 configuredProps,
                 dynamicPropsId,
               });
-              setSdkErrors(result?.os)
+              setSdkErrors(result)
             } catch (error) {
               setSdkErrors(error as unknown)
               console.error("Action run failed:", error);
