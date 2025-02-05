@@ -17,7 +17,7 @@ The Connect proxy enables you to interface with any integrated API and make auth
 - The proxy sends the request to the downstream API and dynamically inserts your end user's auth credentials
 - The proxy returns the response from the downstream API back to you
 
-[include a diagram here]
+![Connect API proxy visualization](https://res.cloudinary.com/pipedreamin/image/upload/v1738734958/pd-connect-proxy-viz_y8fzuk.png)
 
 <Callout type="info">
 Before getting started with the Connect proxy, make sure you've already gone through the [managed auth quickstart](/connect/managed-auth/quickstart) for Pipedream Connect.
@@ -49,10 +49,8 @@ You can send requests to the Connect proxy using the [Pipedream SDK](/connect/sd
 
 **Headers**
 
-- If using the REST API, include the `Authorization` header with your Pipedream OAuth access token (`Bearer {access_token}`). **This does not get forwarded to the downstream API.**
-- Any other headers you include will be forwarded to the downstream API, with the exception of those with the `x-pd-` prefix
-- For downstream API headers, don't prepend with anything, and we'll forward them as-is. For example:
-
+- If using the REST API, include the `Authorization` header with your Pipedream OAuth access token (`Bearer {access_token}`)
+- Only headers that contain the prefix `x-pd-proxy` will get forwarded to the downstream API
 
 <Tabs items={['Node.js', 'HTTP (cURL)']}>
 
@@ -69,15 +67,15 @@ const pd = createBackendClient({
   },
 });
 
-const url = "https://slack.com/api/chat.postMessage"
-const options = {
+const url = "https://slack.com/api/chat.postMessage" // No need to Base64 encode the URL if using the SDK
+const params = {
   account_id: "{account_id}", // The account ID for your end user (ex, apn_1234567)
   external_user_id: "{external_user_id}", // The external user ID for your end user
 }
 
 const resp = await pd.makeProxyRequest(
   url,
-  options,
+  params,
   {
   method: "POST",
   body: {
