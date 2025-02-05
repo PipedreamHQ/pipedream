@@ -1,4 +1,4 @@
-import { ConfigurationError } from "@pipedream/platform/dist";
+import { ConfigurationError } from "@pipedream/platform";
 import refiner from "../../refiner.app.mjs";
 
 export default {
