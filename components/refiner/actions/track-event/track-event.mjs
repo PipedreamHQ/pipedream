@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform/dist";
 import refiner from "../../refiner.app.mjs";
 
 export default {
@@ -30,7 +31,7 @@ export default {
   },
   async run({ $ }) {
     if (!this.userId && !this.email) {
-      throw new Error("Either userId or email must be provided to track the event.");
+      throw new ConfigurationError("Either User ID or Email must be provided to track the event.");
     }
 
     const response = await this.refiner.trackEvent({

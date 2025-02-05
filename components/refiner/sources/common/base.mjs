@@ -30,8 +30,6 @@ export default {
       let responseArray = [];
       for await (const item of response) {
         const itemDate = this.getItemDate(item);
-
-        if (!itemDate.length) continue;
         if (Date.parse(itemDate) <= lastDate) break;
         responseArray.push(item);
       }

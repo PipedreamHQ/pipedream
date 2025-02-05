@@ -26,7 +26,7 @@ export default {
   },
   async run({ $ }) {
     if (!this.userId && !this.email) {
-      throw new ConfigurationError("Either User Id or E mail must be provided to identify the user.");
+      throw new ConfigurationError("Either User ID or Email must be provided to identify the user.");
     }
 
     const response = await this.refiner.identifyUser({
