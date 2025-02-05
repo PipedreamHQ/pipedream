@@ -149,6 +149,11 @@ type ComponentFormProps = {
   onUpdateConfiguredProps: (v: Record<string, any>) => void;
   /** Hide optional props section */
   hideOptionalProps: boolean;
+  /** SDK response payload or the error object from catching SDK request failures. 
+   * Used in conjunction with enableDebugging to show errors in the form.*/
+  sdkErrors: unknown[] | unknown | undefined;
+  /** Whether to show show errors in the form. Requires sdkErrors to be set. */
+  enableDebugging?: boolean;
 };
 ```
 
