@@ -108,15 +108,45 @@ export type GetAccountByIdOpts = {
 };
 
 /**
- * Parameters for the retrieval of an account from the Connect API
+ * Options used to determine the external user and account to be used in Connect Proxy API
  */
-export type MakeProxyRequestOpts = {
+export type ProxyApiOpts  = {
   /**
-   * Whether to retrieve the account's credentials or not.
+   * Search parameters to be added to the proxy request.  external_user_id and account_id are required.
+   */
+  searchParams: Record<string, string>;
+};
+
+/**
+ * fetch-like options for the Target of the Connect Proxy Api Request
+ */
+export type ProxyTargetApiOpts = {
+  /**
+   * http method for the request
    */
   method: string;
+  /**
+   * http headers for the request
+   */
   headers?: Record<string, string>;
+  /**
+   * http body for the request
+   */
   body?: string;
+};
+
+/**
+ * object that contains the url and options for the target of the Connect Proxy Api Request
+ */
+export type ProxyTargetApiRequest = {
+  /**
+   * URL for the target of the request.  Search parameters must be included here.
+   */
+  url: string;
+  /**
+   * fetch-like options for the target of the Connect Proxy Request
+   */
+  options: ProxyTargetApiOpts;
 };
 
 /**
@@ -388,16 +418,16 @@ export class BackendClient extends BaseClient {
   }
 
   /**
-   * Makes a proxy request to a URL with the specified query parameters and options.
+   * Makes a proxy request to the target app API with the specified query parameters and options.
    *
    * @returns A promise resolving to the response from the downstream service
    */
-  public makeProxyRequest(url: string, query: Record<string, string | boolean | number | null>, opts: MakeProxyRequestOpts): Promise<string> {
-    const url64 = btoa(url).replace(/\+/g, "-")
+  public makeProxyRequest(proxyOptions: ProxyApiOpts, targetRequest: ProxyTargetApiRequest): Promise<string> {
+    const url64 = btoa(targetRequest.url).replace(/\+/g, "-")
       .replace(/\//g, "_")
       .replace(/=+$/, "");
 
-    const headers = opts.headers || {};
+    const headers = targetRequest.options.headers || {};
 
     const newHeaders = Object.keys(headers).reduce<{ [key: string]: string }>((acc, key) => {
       acc[`x-pd-proxy-${key}`] = headers[key];
@@ -405,13 +435,13 @@ export class BackendClient extends BaseClient {
     }, {});
 
     const newOpts: RequestOptions = {
-      method: opts.method,
+      method: targetRequest.options.method,
       headers: newHeaders,
-      params: query,
+      params: proxyOptions.searchParams,
     }
 
-    if (opts.body) {
-      newOpts.body = opts.body
+    if (targetRequest.options.body) {
+      newOpts.body = targetRequest.options.body
     }
 
     return this.makeConnectRequest(`/proxy/${url64}`, newOpts);
