@@ -960,10 +960,7 @@ export abstract class BaseClient {
     if (!response.ok) {
       const errorBody = await response.text();
       throw new Error(
-        JSON.stringify({
-          message: `HTTP error! status: ${response.status}`,
-          data: errorBody,
-        }),
+        `HTTP error! status: ${response.status}, body: ${errorBody}`,
       );
     }
 

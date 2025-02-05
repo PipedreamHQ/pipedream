@@ -2,12 +2,6 @@
 
 # Changelog
 
-## [1.3.3] - 2025-02-4
-
-### Changed
-
-- Fix SDK error handler so that it throws a JSON string instead of an unparseable string object
-
 ## [1.3.2] - 2025-02-3
 
 ### Changed
