@@ -124,7 +124,7 @@ export type ProxyTargetApiOpts = {
   /**
    * http method for the request
    */
-  method: string;
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   /**
    * http headers for the request
    */
