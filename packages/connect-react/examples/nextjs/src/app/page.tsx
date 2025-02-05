@@ -45,7 +45,7 @@ export default function Home() {
           onUpdateDynamicProps={handleDynamicProps}
           onUpdateConfiguredProps={setConfiguredProps}
           sdkErrors={sdkErrors}
-          environment={client.getEnvironment()}
+          enableDebugging={true}
           onSubmit={async () => {
             try {
               const result = await client.runAction({

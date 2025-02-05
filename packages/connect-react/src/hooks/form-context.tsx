@@ -38,7 +38,7 @@ export type FormContext<T extends ConfigurableProps> = {
   setSubmitting: (submitting: boolean) => void;
   submitting: boolean;
   userId: string;
-  isDevelopment: boolean;
+  enableDebugging: boolean;
 };
 
 export const skippablePropTypes = [
@@ -75,7 +75,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, userId, sdkErrors: __sdkErrors, environment,
+    component, configuredProps: __configuredProps, propNames, userId, sdkErrors: __sdkErrors, enableDebugging: __enableDebugging,
   } = formProps;
   const componentId = component.key;
 
@@ -102,9 +102,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ] = useState<Record<string, string>[]>([])
 
   const [
-    isDevelopment,
-    setIsDevelopment,
-  ] = useState<boolean>(environment === "development")
+    enableDebugging,
+    setEnableDebugging,
+  ] = useState<boolean>(__enableDebugging === true)
 
   const [
     enabledOptionalProps,
@@ -159,16 +159,14 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       const {
         dynamicProps, observations, errors: __errors,
       } = result
-      const errorsAndObservations = []
-      if (observations) {
-        errorsAndObservations.push(...observations)
+
+      // Prioritize errors from observations over the errors array
+      if (observations && observations.filter((o) => o.k === "error").length > 0) {
+        handleSdkErrors(observations)
+      } else {
+        handleSdkErrors(__errors)
       }
-      if (__errors) {
-        errorsAndObservations.push(...__errors)
-      }
-      if (errorsAndObservations) {
-        handleSdkErrors(errorsAndObservations)
-      }
+
       // XXX what about if null?
       // TODO observation errors, etc.
       if (dynamicProps) {
@@ -549,7 +547,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setSubmitting,
     submitting,
     sdkErrors,
-    isDevelopment,
+    enableDebugging,
   };
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
 };
