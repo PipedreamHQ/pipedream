@@ -1,20 +1,18 @@
 import deepseek from "../../deepseek.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "deepseek-get-balance",
   name: "Get User Balance",
   description: "Retrieves the user's current balance. [See the documentation](https://api-docs.deepseek.com/api/get-user-balance)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    deepseek: {
-      type: "app",
-      app: "deepseek",
-    },
+    deepseek,
   },
   async run({ $ }) {
-    const response = await this.deepseek.getUserBalance();
+    const response = await this.deepseek.getUserBalance({
+      $,
+    });
     $.export("$summary", "Successfully retrieved user balance");
     return response;
   },
