@@ -143,6 +143,20 @@ export default {
         })) || [];
       },
     },
+    folderIds: {
+      type: "string[]",
+      label: "Folder IDs to Monitor",
+      description: "Specify the folder IDs or names in Outlook that you want to monitor for new emails. Leave empty to monitor all folders (excluding \"Sent Items\" and \"Drafts\").",
+      async options() {
+        const { value: folders } = await this.listFolders();
+        return folders?.map(({
+          id: value, displayName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     _getUrl(path) {
@@ -332,6 +346,21 @@ export default {
     listLabels(args = {}) {
       return this._makeRequest({
         path: "/me/outlook/masterCategories",
+        ...args,
+      });
+    },
+    listFolders(args = {}) {
+      return this._makeRequest({
+        path: "/me/mailFolders",
+        ...args,
+      });
+    },
+    moveMessage({
+      messageId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/me/messages/${messageId}/move`,
         ...args,
       });
     },
