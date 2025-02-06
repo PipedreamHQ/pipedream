@@ -1522,6 +1522,8 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
+  components/buysellads: {}
+
   components/bybit:
     dependencies:
       '@pipedream/platform':
@@ -4403,8 +4405,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       '@pipedream/google_drive':
-        specifier: ^0.6.19
-        version: 0.6.19
+        specifier: ^0.8.8
+        version: 0.8.8
 
   components/google_drive:
     dependencies:
@@ -5316,6 +5318,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/instant: {}
+
   components/instantly:
     dependencies:
       '@pipedream/platform':
@@ -5691,6 +5695,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/klipy: {}
 
   components/knack:
     dependencies:
@@ -6542,7 +6548,14 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/microsoft_dynamics_365_sales: {}
+  components/microsoft_dynamics_365_sales:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      pluralize:
+        specifier: ^8.0.0
+        version: 8.0.0
 
   components/microsoft_entra_id:
     dependencies:
@@ -7448,7 +7461,14 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
 
-  components/opensrs: {}
+  components/opensrs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      fast-xml-parser:
+        specifier: ^4.3.2
+        version: 4.5.0
 
   components/openweather_api:
     dependencies:
@@ -10944,6 +10964,12 @@ importers:
         specifier: ^0.12.5
         version: 0.12.5
 
+  components/tinyurl:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/tisane_labs:
     dependencies:
       '@pipedream/platform':
@@ -11478,7 +11504,14 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/vapi: {}
+  components/vapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      form-data:
+        specifier: ^4.0.1
+        version: 4.0.1
 
   components/vbout:
     dependencies:
@@ -11508,8 +11541,8 @@ importers:
   components/vercel_token_auth:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/verdict_as_a_service:
     dependencies:
@@ -12253,7 +12286,14 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/zenscrape: {}
+  components/zenscrape:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/zenserp: {}
 
@@ -15540,6 +15580,9 @@ packages:
 
   '@pipedream/google_drive@0.6.19':
     resolution: {integrity: sha512-+JtwPhh0mHN3z3bOeyfw6OIztPhT0cVy/r/rpB5b0TFKWVly25Wz6Zv6zug5EhzyEt6DT7dnh9CpIhlxEj7SuA==}
+
+  '@pipedream/google_drive@0.8.8':
+    resolution: {integrity: sha512-cwRCfFv86+GW0G3huAzhXCPvZ+BWaQ+KAeOlGUJBCK1sPsHzNWY1sOAOvDKDVPh1xiSyCzO29+e9UynCfcCSrw==}
 
   '@pipedream/helper_functions@0.3.13':
     resolution: {integrity: sha512-67zXT5rMccSYEeQCEKjO0g/U2Wnc3q1ErRWt0sivqJEF/KYqAb3tWmznDYGACbC8L6ML0WWSWRy7nEGt5Vyuaw==}
@@ -31588,6 +31631,21 @@ snapshots:
       - encoding
       - supports-color
 
+  '@pipedream/google_drive@0.8.8':
+    dependencies:
+      '@googleapis/drive': 2.4.0
+      '@pipedream/platform': 1.6.6
+      cron-parser: 4.9.0
+      google-docs-mustaches: 1.2.2
+      got: 13.0.0
+      lodash: 4.17.21
+      mime-db: 1.53.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+
   '@pipedream/helper_functions@0.3.13':
     dependencies:
       '@pipedream/platform': 1.6.6
@@ -32133,8 +32191,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
