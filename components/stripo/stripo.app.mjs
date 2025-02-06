@@ -3,24 +3,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "stripo",
-  propDefinitions: {
-    templateId: {
-      type: "string",
-      label: "Template ID",
-      description: "An ID of a template with the auto-generated area. Please note that this template should be yours (saved in the project you have access to), not a basic or a public one.",
-      async options({ page }) {
-        const { data } = await this.listTemplates({
-          params: page,
-        });
-        return data?.map(({
-          templateId: value, name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
-      },
-    },
-  },
+  propDefinitions: {},
   methods: {
     _baseUrl() {
       return "https://my.stripo.email/emailgeneration/v1";
@@ -34,22 +17,40 @@ export default {
         url: `${this._baseUrl()}${path}`,
         headers: {
           "Stripo-Api-Auth": this.$auth.api_key,
+          "Content-Type": "application/json",
         },
         ...opts,
       });
     },
-    listTemplates(opts = {}) {
+    listEmails(opts = {}) {
       return this._makeRequest({
-        path: "/templates",
+        path: "/emails",
         ...opts,
       });
     },
-    createEmail(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/email",
-        ...opts,
-      });
+    async *paginate({
+      fn, params, max,
+    }) {
+      params = {
+        ...params,
+        page: 0,
+      };
+      let totalResults, count = 0;
+      do {
+        const {
+          data, total,
+        } = await fn({
+          params,
+        });
+        totalResults = total;
+        for (const item of data) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+      } while (count < totalResults);
     },
   },
 };
