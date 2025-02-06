@@ -14,9 +14,9 @@ import {
   stringPropErrors,
 } from "../utils/component";
 import _ from "lodash";
-import type {
-  SdkError, Observation,
-} from "@pipedream/types"
+import {
+  Observation, SdkError,
+} from "../types";
 
 export type DynamicProps<T extends ConfigurableProps> = { id: string; configurableProps: T; }; // TODO
 

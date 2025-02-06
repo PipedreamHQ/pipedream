@@ -17,7 +17,7 @@ export type FormFieldContext<T extends ConfigurableProp> = {
   onChange: (value: PropValue<T["type"]> | undefined) => void;
   extra: FormFieldContextExtra<T>;
   errors: Record<string, string[]>;
-  enableDebugging: boolean;
+  enableDebugging?: boolean;
 };
 
 export const FormFieldContext = createContext<FormFieldContext<any /* XXX fix */> | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
