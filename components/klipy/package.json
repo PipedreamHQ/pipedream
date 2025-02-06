@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/klipy",
+  "version": "0.0.1",
+  "description": "Pipedream Klipy Components",
+  "main": "klipy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "klipy"
+  ],
+  "homepage": "https://pipedream.com/apps/klipy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

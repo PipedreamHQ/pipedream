@@ -1,4 +1,5 @@
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "microsoft_outlook-add-label-to-email",
@@ -14,10 +15,14 @@ export default {
         "messageId",
       ],
     },
-    labelId: {
+    label: {
       propDefinition: [
         microsoftOutlook,
-        "labelId",
+        "label",
+        (c) => ({
+          messageId: c.messageId,
+          excludeMessageLabels: true,
+        }),
       ],
     },
   },
@@ -29,13 +34,17 @@ export default {
 
     const labels = message?.categories;
 
+    if (labels.includes(this.label)) {
+      throw new ConfigurationError(`Message already contains label "${this.label}".`);
+    }
+
     const response = await this.microsoftOutlook.updateMessage({
       $,
       messageId: this.messageId,
       data: {
         categories: [
           ...labels,
-          this.labelId,
+          this.label,
         ],
       },
     });

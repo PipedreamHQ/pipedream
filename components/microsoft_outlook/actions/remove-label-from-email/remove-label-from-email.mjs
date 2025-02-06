@@ -14,12 +14,16 @@ export default {
         "messageId",
       ],
     },
-    labelId: {
+    label: {
       propDefinition: [
         microsoftOutlook,
-        "labelId",
+        "label",
+        (c) => ({
+          messageId: c.messageId,
+          onlyMessageLabels: true,
+        }),
       ],
-      description: "The identifier of the label/category to remove",
+      description: "The name of the label/category to remove",
     },
   },
   async run({ $ }) {
@@ -29,7 +33,7 @@ export default {
     });
     let labels = message?.categories;
 
-    const index = labels.indexOf(this.labelId);
+    const index = labels.indexOf(this.label);
     if (index > -1) {
       labels.splice(index, 1);
     }
