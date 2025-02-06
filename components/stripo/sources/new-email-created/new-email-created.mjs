@@ -19,10 +19,10 @@ export default {
       },
     },
     query: {
-      type: "string",
-      label: "Query",
-      description: "A query to search for",
-      optional: true,
+      propDefinition: [
+        stripo,
+        "query",
+      ],
     },
   },
   methods: {
