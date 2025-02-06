@@ -9759,7 +9759,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/shortpixel: {}
+  components/shortpixel:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/shotstack:
     dependencies:
