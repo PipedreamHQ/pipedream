@@ -50,7 +50,7 @@ export function InternalComponentForm() {
             type: "alert",
             alertType: "error",
             content: `# ${e.name}\n${e.message}`,
-          }
+          } as ConfigurablePropAlert
         }))
       }
     }

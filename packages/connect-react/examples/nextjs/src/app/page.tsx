@@ -26,9 +26,9 @@ export default function Home() {
   ] = useState<string | undefined>();
 
   const [
-    sdkErrors,
-    setSdkErrors,
-  ] = useState<unknown[] | unknown | undefined>(undefined);
+    sdkResponse,
+    setSdkResponse,
+  ] = useState<unknown | undefined>(undefined);
 
   const handleDynamicProps = (dynamicProps: { id: string | undefined }) => {
     setDynamicPropsId(dynamicProps.id)
@@ -44,19 +44,18 @@ export default function Home() {
           configuredProps={configuredProps}
           onUpdateDynamicProps={handleDynamicProps}
           onUpdateConfiguredProps={setConfiguredProps}
-          sdkErrors={sdkErrors}
+          sdkResponse={sdkResponse}
           enableDebugging={true}
           onSubmit={async () => {
             try {
-              const result = await client.runAction({
+              const response = await client.runAction({
                 userId,
                 actionId: "slack-send-message",
                 configuredProps,
                 dynamicPropsId,
               });
-              setSdkErrors(result)
+              setSdkResponse(response)
             } catch (error) {
-              setSdkErrors(error as unknown)
               console.error("Action run failed:", error);
             }
           }}

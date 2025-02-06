@@ -397,3 +397,15 @@ export function defineAction<
 (component: Action<Methods, ActionPropDefinitions>): Action<Methods, ActionPropDefinitions> {
   return component;
 }
+
+export type SdkError = {
+  name: string;
+  message: string;
+}
+
+export type Observation = {
+  ts: number;
+  k: string;
+  h?: string;
+  err?: Error;
+}

@@ -14,6 +14,9 @@ import {
   stringPropErrors,
 } from "../utils/component";
 import _ from "lodash";
+import type {
+  SdkError, Observation,
+} from "@pipedream/types"
 
 export type DynamicProps<T extends ConfigurableProps> = { id: string; configurableProps: T; }; // TODO
 
@@ -24,7 +27,7 @@ export type FormContext<T extends ConfigurableProps> = {
   dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
   errors: Record<string, string[]>;
-  sdkErrors: Record<string, string>[];
+  sdkErrors: SdkError[];
   fields: Record<string, FormFieldContext<ConfigurableProp>>;
   id: string;
   isValid: boolean;
@@ -75,7 +78,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, userId, sdkErrors: __sdkErrors, enableDebugging: __enableDebugging,
+    component, configuredProps: __configuredProps, propNames, userId, sdkResponse, enableDebugging: __enableDebugging,
   } = formProps;
   const componentId = component.key;
 
@@ -99,7 +102,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const [
     sdkErrors,
     setSdkErrors,
-  ] = useState<Record<string, string>[]>([])
+  ] = useState<SdkError[]>([])
 
   const [
     enableDebugging
@@ -300,9 +303,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   useEffect(() => {
-    handleSdkErrors(__sdkErrors)
+    handleSdkErrors(sdkResponse)
   }, [
-    __sdkErrors,
+    sdkResponse,
   ]);
 
   useEffect(() => {
@@ -436,92 +439,102 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     checkPropsNeedConfiguring()
   };
 
-  const handleSdkErrors = (o: unknown[] | unknown | undefined) => {
+  const handleSdkErrors = (sdkResponse: unknown[] | unknown | undefined) => {
+    if (!sdkResponse) return
+
     let newErrors = [
       ...sdkErrors,
     ]
-    if (!o) return
-    const handleObservationErrors = (observation: never) => {
-      const name: string = observation.err?.name
-      const message: string = observation.err?.message
-      if (name && message) return {
-        name,
-        message,
-      } as Record<string, string>
-    }
 
-    if (Array.isArray(o) && o.length > 0) {
-      for (let i = 0; i < o.length; i++) {
-        const item = o[i]
-        if (typeof item === "string") {
-          try {
-            const json = JSON.parse(item)
-            const name = json.name
-            const message = json.message
-            if (name && message) {
-              newErrors.push({
-                name,
-                message,
-              } as Record<string, string>)
-            }
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          } catch (e) {
-            // pass
-          }
-        } else if (typeof item === "object" && "name" in item && "message" in item) {
-          const name = item.name
-          const message = item.message
-          if (name && message) {
-            newErrors.push({
-              name,
-              message,
-            } as Record<string, string>)
-          }
-        } else if (typeof item === "object" && item.k === "error") {
-          const res = handleObservationErrors(item)
-          if (res) newErrors.push(res)
-        }
-      }
-    } else if (typeof o === "object" && "os" in o || "observations" in o) {
-      const os = o.os || o.observations
-      if (Array.isArray(os) && os.length > 0) {
-        newErrors.push(
-          ...os.filter((it) => it.k === "error")
-            .map(handleObservationErrors)
-            .filter((e) => e !== undefined),
-        )
-      }
-    } else if (typeof o === "object" && "message" in o) {
-      // Handle HTTP errors thrown by the SDK
+    const errorFromString = (item: string, ret: SdkError[]) => {
       try {
-        const json = JSON.parse(o.message)
-        const data = json.data
-        if (data && "observations" in data) {
-          const obs = data.observations || []
-          if (obs && obs.length > 0) {
-            const res = obs.filter((it) => it.k === "error")
-              ?.map(handleObservationErrors)
-              ?.filter((e) => e !== undefined) || []
-            newErrors.push(
-              ...res,
-            )
-          }
-        } else if (data && "error" in data && "details" in data) {
-          newErrors.push({
-            name: data.error,
-            message: JSON.stringify(data.details),
-            //     message: ` // TODO: It would be nice to render the JSON in markdown
-            // \`\`\`json
-            // ${JSON.stringify(data.details)}
-            // \`\`\`
-            // `,
-            //   })
-          })
+        const json = JSON.parse(item)
+        const err: SdkError = {
+          name: json.name,
+          message: json.message,
+        }
+        if (err.name && err.message) {
+          ret.push(err)
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         // pass
       }
+    }
+
+    const errorFromObject = (item: unknown, ret: SdkError[]) => {
+      const err: SdkError = {
+        name: item.name,
+        message: item.message,
+      }
+      if (err.name && err.message) {
+        ret.push(err)
+      }
+    }
+
+    const errorFromObservationError = (item: Error, ret: SdkError[]) => {
+      const err: SdkError = {
+        name: item.err?.name,
+        message: item.err?.message,
+      }
+      if (err.name && err.message) {
+        ret.push(err)
+      }
+    }
+
+    const errorFromObservation = (payload: Observation, ret: SdkError[]) => {
+      const os = payload.os || payload.observations
+      if (Array.isArray(os) && os.length > 0) {
+        for (let i = 0; i < os.length; i++) {
+          if (os[i].k !== "error") continue
+          errorFromObservationError(os[i], ret)
+        }
+      }
+    }
+
+    const errorFromDetails = (data: unknown, ret: SdkError[]) => {
+      ret.push({
+        name: data.error,
+        message: JSON.stringify(data.details),
+        //     message: ` // TODO: It would be nice to render the JSON in markdown
+        // \`\`\`json
+        // ${JSON.stringify(data.details)}
+        // \`\`\`
+        // `,
+        //   })
+      })
+    }
+
+    const errorFromHttpError = (payload: Error, ret: SdkError[]) => {
+      // Handle HTTP errors thrown by the SDK
+      try {
+        const data = JSON.parse(payload.message)?.data
+        if (data && "observations" in data) {
+          errorFromObservation(data, ret)
+        } else if (data && "error" in data && "details" in data) {
+          errorFromDetails(data, ret)
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // pass
+      }
+    }
+
+    if (Array.isArray(sdkResponse) && sdkResponse.length > 0) {
+      for (let i = 0; i < sdkResponse.length; i++) {
+        const item = sdkResponse[i]
+        if (typeof item === "string") {
+          errorFromString(item, newErrors)
+        } else if (typeof item === "object" && "name" in item && "message" in item) {
+          errorFromObject(item, newErrors)
+        } else if (typeof item === "object" && item.k === "error") {
+          errorFromObservationError(item, newErrors)
+        }
+      }
+    } else if (typeof sdkResponse === "object" && "os" in sdkResponse || "observations" in sdkResponse) {
+      errorFromObservation(sdkResponse, newErrors)
+    } else if (typeof sdkResponse === "object" && "message" in sdkResponse) {
+      errorFromHttpError(sdkResponse, newErrors)
     } else {
       newErrors = []
     }
