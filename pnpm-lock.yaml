@@ -8251,6 +8251,12 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
+  components/printful:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/printful_oauth:
     dependencies:
       '@pipedream/platform':
