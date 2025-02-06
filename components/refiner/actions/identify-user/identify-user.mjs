@@ -4,7 +4,7 @@ import refiner from "../../refiner.app.mjs";
 export default {
   key: "refiner-identify-user",
   name: "Identify User",
-  description: "Creates or updates a user profile in Refiner. [See the documentation](https://refiner.io/docs/api/#identify-user)",
+  description: "Identify a user with user ID or email. If the user does not exist, a new one will be created. [See the documentation](https://refiner.io/docs/api/#identify-user)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "refiner-new-segment-entry",
   name: "New Segment Entry",
-  description: "Emit new event whenever a user enters a segment in Refiner.",
+  description: "Emit new event whenever a user enters a segment in Refiner. [See the documentation](https://refiner.io/docs/api/#get-contacts)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

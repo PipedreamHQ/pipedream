@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "refiner-new-survey-completion",
   name: "New Survey Completion",
-  description: "Emit new event whenever a user completes a survey in Refiner.",
+  description: "Emit new event whenever a user completes a survey in Refiner. [See the documentation](https://refiner.io/docs/api/#get-responses)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
