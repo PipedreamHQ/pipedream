@@ -75,15 +75,12 @@ export default {
     if (this.browser) {
       existingProps.returnPageSource.hidden = false;
       existingProps.returnPageSource.disabled = false;
-    }
-    if (this.browser) {
       existingProps.jsSnippet.hidden = false;
       existingProps.jsSnippet.disabled = false;
-    }
-    if (this.browser) {
       existingProps.blockResource.hidden = false;
       existingProps.blockResource.disabled = false;
     }
+
     return props;
   },
 
