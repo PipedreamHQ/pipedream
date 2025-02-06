@@ -36,7 +36,11 @@ export function Errors<T extends ConfigurableProps, U extends ConfigurableProp>(
     gridTemplateColumns: "max-content",
   }
 
+  const FormattedErrors = () => {
+    return <>{formattedErrors.map((fe, idx: number) => <Alert prop={fe} key={idx}/>)}</>
+  }
+
   return (
-    <div className="pd-errors" style={baseStyles}>{formattedErrors.map((fe, idx: number) => <Alert prop={fe} key={idx}/>)}</div>
+    <div className="pd-errors" style={baseStyles}><FormattedErrors/></div>
   );
 }
