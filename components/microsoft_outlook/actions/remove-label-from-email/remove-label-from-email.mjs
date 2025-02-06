@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-remove-label-from-email",
   name: "Remove Label from Email",
   description: "Removes a label/category from an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     microsoftOutlook,
@@ -14,12 +14,16 @@ export default {
         "messageId",
       ],
     },
-    labelId: {
+    label: {
       propDefinition: [
         microsoftOutlook,
-        "labelId",
+        "label",
+        (c) => ({
+          messageId: c.messageId,
+          onlyMessageLabels: true,
+        }),
       ],
-      description: "The identifier of the label/category to remove",
+      description: "The name of the label/category to remove",
     },
   },
   async run({ $ }) {
@@ -29,7 +33,7 @@ export default {
     });
     let labels = message?.categories;
 
-    const index = labels.indexOf(this.labelId);
+    const index = labels.indexOf(this.label);
     if (index > -1) {
       labels.splice(index, 1);
     }

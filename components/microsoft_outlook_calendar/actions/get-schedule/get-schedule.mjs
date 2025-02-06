@@ -4,14 +4,14 @@ export default {
   key: "microsoft_outlook_calendar-get-schedule",
   name: "Get Free/Busy Schedule",
   description: "Get the free/busy availability information for a collection of users, distributions lists, or resources (rooms or equipment) for a specified time period. [See the documentation](https://learn.microsoft.com/en-us/graph/api/calendar-getschedule)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     microsoftOutlook,
     schedules: {
       type: "string[]",
-      label: "Schedules",
-      description: "A collection of SMTP addresses of users, distribution lists, or resources to get availability information for",
+      label: "Emails",
+      description: "A list of emails of users, distribution lists, or resources. For example: `[ \"adelev@contoso.com\" , \"meganb@contoso.com\" ]`",
     },
     start: {
       propDefinition: [

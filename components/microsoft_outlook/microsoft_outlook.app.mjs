@@ -100,18 +100,26 @@ export default {
       type: "object",
       optional: true,
     },
-    labelId: {
+    label: {
       type: "string",
-      label: "Label ID",
-      description: "The identifier of the label/category to add",
-      async options() {
-        const { value: labels } = await this.listLabels();
-        return labels?.map(({
-          id: value, displayName: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
+      label: "Label",
+      description: "The name of the label/category to add",
+      async options({
+        messageId, excludeMessageLabels, onlyMessageLabels,
+      }) {
+        const { value } = await this.listLabels();
+        let labels = value;
+        if (messageId) {
+          const { categories } = await this.getMessage({
+            messageId,
+          });
+          labels = excludeMessageLabels
+            ? labels.filter(({ displayName }) => !categories.includes(displayName))
+            : onlyMessageLabels
+              ? labels.filter(({ displayName }) => categories.includes(displayName))
+              : labels;
+        }
+        return labels?.map(({ displayName }) => displayName) || [];
       },
     },
     messageId: {
