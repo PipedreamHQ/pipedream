@@ -7,7 +7,7 @@ export default {
   key: "microsoft_outlook-new-email",
   name: "New Email Event (Instant)",
   description: "Emit new event when an email is received in specified folders.",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "source",
   dedupe: "unique",
   props: {
