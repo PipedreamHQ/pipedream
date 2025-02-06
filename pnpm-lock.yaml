@@ -9273,7 +9273,11 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/scrapingant: {}
+  components/scrapingant:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/scrapingbee: {}
 
