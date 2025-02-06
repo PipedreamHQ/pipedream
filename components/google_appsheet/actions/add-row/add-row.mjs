@@ -1,23 +1,18 @@
-import appsheet from "../../appsheet.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
 
 export default {
-  key: "appsheet-add-row",
+  ...common,
+  key: "google_appsheet-add-row",
   name: "Add Row",
-  description: "Adds a new row to a specific table in an AppSheet app. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Adds a new row to a specific table in an AppSheet app. [See the documentation](https://support.google.com/appsheet/answer/10104797?hl=en&ref_topic=10105767&sjid=1665780.0.1444403316-SA#)",
+  version: "0.0.1",
   type: "action",
-  props: {
-    appsheet,
-    rowData: {
-      type: "object",
-      label: "Row Data",
-      description: "JSON object representing the new row data",
+  methods: {
+    getAction() {
+      return "Add";
     },
-  },
-  async run({ $ }) {
-    const response = await this.appsheet.addRow(this.rowData);
-    $.export("$summary", "Added a new row successfully");
-    return response;
+    getSummary() {
+      return "Added a new row successfully";
+    },
   },
 };

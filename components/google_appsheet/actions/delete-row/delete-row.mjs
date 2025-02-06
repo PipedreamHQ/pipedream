@@ -1,26 +1,26 @@
-import google_appsheet from "../../google_appsheet.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "google_appsheet-delete-row",
   name: "Delete Row",
-  description: "Deletes a specific row from a table in an AppSheet app. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Deletes a specific row from a table in an AppSheet app. [See the documentation](https://support.google.com/appsheet/answer/10105399?hl=en&ref_topic=10105767&sjid=1665780.0.1444403316-SA)",
+  version: "0.0.1",
   type: "action",
   props: {
-    google_appsheet: {
-      type: "app",
-      app: "google_appsheet",
-    },
-    rowId: {
-      type: "string",
-      label: "Row ID",
-      description: "The ID of the row to delete",
+    ...common.props,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "The `Row` value may contain field values of the key field values of the record to be deleted.",
     },
   },
-  async run({ $ }) {
-    const response = await this.google_appsheet.deleteRow(this.rowId);
-    $.export("$summary", `Deleted row with ID ${this.rowId}`);
-    return response;
+  methods: {
+    getAction() {
+      return "Delete";
+    },
+    getSummary(response) {
+      return `${response.Rows.length} successfully delete!`;
+    },
   },
 };

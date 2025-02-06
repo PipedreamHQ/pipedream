@@ -1,27 +1,28 @@
-import google_appsheet from "../../google_appsheet.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "google_appsheet-update-row",
   name: "Update Row",
-  description: "Updates an existing row in a specific table in an AppSheet app. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Updates an existing row in a specific table in an AppSheet app. [See the documentation](https://support.google.com/appsheet/answer/10105002?hl=en&ref_topic=10105767&sjid=1665780.0.1444403316-SA)",
+  version: "0.0.1",
   type: "action",
   props: {
-    google_appsheet,
-    rowId: {
-      type: "string",
-      label: "Row ID",
-      description: "The ID of the row to update",
-    },
-    fieldsToUpdate: {
-      type: "object",
-      label: "Fields to Update",
-      description: "Key-value pairs of fields to update",
+    ...common.props,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: `The \`Row\` value must include the key field values of the record to be updated.
+      \nThe \`Row\` value may contain one or more field values of other fields to be updated in the record.
+      \nIf a field's name is omitted, that field's value is not changed. If the field can be assigned a string value and the field value you specify is "" then the field's value will be cleared.`,
     },
   },
-  async run({ $ }) {
-    const response = await this.google_appsheet.updateRow(this.rowId, this.fieldsToUpdate);
-    $.export("$summary", `Updated row with ID ${this.rowId}`);
-    return response;
+  methods: {
+    getAction() {
+      return "Edit";
+    },
+    getSummary(response) {
+      return `${response.Rows.length} successfully updated!`;
+    },
   },
 };
