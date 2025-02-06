@@ -17,6 +17,10 @@ import type {
   ConfigurableProp, ConfigurablePropAlert,
 } from "@pipedream/sdk";
 
+const alwaysShowSdkErrors = [
+  "ConfigurationError",
+]
+
 export function InternalComponentForm() {
   const formContext = useFormContext();
   const {
@@ -31,6 +35,8 @@ export function InternalComponentForm() {
     submitting,
     enableDebugging,
   } = formContext;
+
+  const showSdkErrors = enableDebugging || __sdkErrors.filter((e) => alwaysShowSdkErrors.includes(e.name)).length > 0
 
   const {
     hideOptionalProps, onSubmit,
@@ -161,7 +167,7 @@ export function InternalComponentForm() {
               </div>
             </div>
             : null}
-          { enableDebugging && sdkErrors?.map((e, idx) => <Alert prop={e} key={idx}/>)}
+          { showSdkErrors && sdkErrors?.map((e, idx) => <Alert prop={e} key={idx}/>)}
           {onSubmit && <ControlSubmit form={formContext} />}
         </form>
       </Suspense>

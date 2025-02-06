@@ -13,8 +13,12 @@ export type ErrorsProps<T extends ConfigurableProps, U extends ConfigurableProp>
 export function Errors<T extends ConfigurableProps, U extends ConfigurableProp>(props: ErrorsProps<T, U>) {
   const { field } = props;
   const {
-    errors = {}, prop = {},
+    errors = {}, prop = {}, enableDebugging,
   } = field
+
+  if (!enableDebugging) {
+    return null
+  }
 
   if (!errors[prop.name]) {
     return null

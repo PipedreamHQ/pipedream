@@ -21,9 +21,7 @@ export function Field<T extends ConfigurableProp>(props: FieldProps<T>) {
   const {
     form, field,
   } = props;
-  const {
-    prop, enableDebugging,
-  } = field;
+  const { prop } = field;
   const {
     getProps, getComponents,
   } = useCustomize();
@@ -65,7 +63,7 @@ export function Field<T extends ConfigurableProp>(props: FieldProps<T>) {
       <Label text={labelText} field={field} form={form} />
       <Control field={field} form={form} />
       <Description markdown={prop.description} field={field} form={form} />
-      { enableDebugging && <Errors field={field} form={form} /> }
+      <Errors field={field} form={form} />
     </div>
   );
 }
