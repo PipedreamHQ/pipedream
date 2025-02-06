@@ -8,7 +8,7 @@ export default {
   name: "Create Subitem",
   description: "Creates a subitem. [See the documentation](https://developer.monday.com/api-reference/reference/subitems#create-a-subitem)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
   props: {
     monday,
     boardId: {
@@ -26,14 +26,14 @@ export default {
         }),
       ],
       optional: false,
-      description: "The parent item's unique identifier",
+      description: "Select a parent item or provide an item ID.",
     },
     itemName: {
       propDefinition: [
         monday,
         "itemName",
       ],
-      description: "The new subitem's name",
+      description: "The new subitem's name.",
     },
     ...commonCreateItem.props,
   },

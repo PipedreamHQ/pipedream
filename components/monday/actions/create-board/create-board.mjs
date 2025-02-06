@@ -4,9 +4,9 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-create-board",
   name: "Create Board",
-  description: "Creates a new board. [See the documentation](https://api.developer.monday.com/docs/boards#create-a-board)",
+  description: "Creates a new board. [See the documentation](https://developer.monday.com/api-reference/reference/boards#create-a-board)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   props: {
     monday,
     boardName: {
