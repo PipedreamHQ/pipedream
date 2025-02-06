@@ -40,8 +40,6 @@ export function Field<T extends ConfigurableProp>(props: FieldProps<T>) {
     Label, Description, Errors,
   } = getComponents();
 
-  const errors: string[] = []; // TODO get from field context, can be added or removed by Control, etc.
-
   const app = "app" in field.extra
     ? field.extra.app
     : undefined;
@@ -59,12 +57,13 @@ export function Field<T extends ConfigurableProp>(props: FieldProps<T>) {
   // maybe that should just be handled by FormFieldContext instead of container?
   // XXX rename to FieldErrors + add FormErrors (to ComponentFormInternal)
   // XXX use similar pattern as app below for boolean and checkboxing DOM re-ordering?
+
   return (
     <div {...getProps("field", baseStyles, props)}>
       <Label text={labelText} field={field} form={form} />
       <Control field={field} form={form} />
       <Description markdown={prop.description} field={field} form={form} />
-      <Errors errors={errors} field={field} form={form} />
+      <Errors field={field} form={form} />
     </div>
   );
 }

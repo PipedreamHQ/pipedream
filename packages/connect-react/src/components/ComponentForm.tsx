@@ -20,6 +20,8 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
   onUpdateConfiguredProps?: (v: U) => void; // XXX onChange?
   onUpdateDynamicProps?: (dp: DynamicProps<T>) => void;
   hideOptionalProps?: boolean;
+  sdkResponse?: unknown | undefined;
+  enableDebugging?: boolean;
 };
 
 export function ComponentForm<T extends ConfigurableProps>(props: ComponentFormProps<T>) {
