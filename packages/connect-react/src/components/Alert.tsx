@@ -8,11 +8,9 @@ type AlertProps = {
 export function Alert({ prop }: AlertProps) {
   const baseStyles = {
     background: "#e2e3e5",
-    borderRadius: "10px",
-    paddingTop: "2px",
-    paddingLeft: "10px",
-    paddingRight: "10px",
-    paddingBottom: "2px",
+    borderRadius: "4px",
+    padding: "10px",
+    border: "1px solid",
   }
 
   const warningStyles = {
