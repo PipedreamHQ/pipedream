@@ -5,7 +5,7 @@ export default {
   "projects": "Projects",
   "workflows": "Workflows",
   "connect": {
-    title: "Pipedream Connect",
+    title: "Connect",
   },
   "code": "Code",
   "data-stores": "Data Stores",

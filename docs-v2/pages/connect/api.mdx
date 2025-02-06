@@ -70,7 +70,7 @@ You'll primarily use the browser SDK to let your users securely connect apps fro
 1. [Create a short-lived token on your server](#create-a-new-token)
 2. Initiate auth with that token to securely connect an account for a specific user
 
-Here's a Next.js example [from our quickstart](/connect/quickstart):
+Here's a Next.js example [from our quickstart](/connect/managed-auth/quickstart):
 
 ```typescript
 import { createFrontendClient } from "@pipedream/sdk/browser"
@@ -408,7 +408,7 @@ You can find the app's ID in the response from the [List apps](/rest-api#list-ap
 
 `oauth_app_id` **string** (_optional_)
 
-The ID of the [OAuth app](/connect/quickstart#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
+The ID of the [OAuth app](/connect/managed-auth/quickstart#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
 
 ---
 
@@ -427,7 +427,7 @@ Never return user credentials to the client
 </Callout>
 
 <Callout type="info">
-To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/oauth-clients#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/oauth-clients#using-pipedream-oauth).
+To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/managed-auth/oauth-clients#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/managed-auth/oauth-clients#using-pipedream-oauth).
 </Callout>
 
 ##### Examples
@@ -680,7 +680,7 @@ Never return user credentials to the client
 </Callout>
 
 <Callout type="info">
-To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/oauth-clients#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/oauth-clients#using-pipedream-oauth).
+To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/managed-auth/oauth-clients#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/managed-auth/oauth-clients#using-pipedream-oauth).
 </Callout>
 
 ##### Examples
@@ -927,7 +927,7 @@ DELETE /{project_id}/apps/{app_id}/accounts
 
 `app_id` **string**
 
-The app ID for which you want to delete all connected accounts. `app_id` can be `oauth_app_id` for [OAuth apps](/connect/quickstart#create-a-pipedream-oauth-client) or name slug for key-based apps, which you can find under the **Authentication** section of any [app page](https://pipedream.com/apps)
+The app ID for which you want to delete all connected accounts. `app_id` can be `oauth_app_id` for [OAuth apps](/connect/managed-auth/quickstart#create-a-pipedream-oauth-client) or name slug for key-based apps, which you can find under the **Authentication** section of any [app page](https://pipedream.com/apps)
 
 ##### Examples
 
