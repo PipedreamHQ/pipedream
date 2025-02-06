@@ -6,7 +6,7 @@ export default {
   key: "zoho_books-create-invoice",
   name: "Create Invoice",
   description: "Creates an invoice for your customer. [See the documentation](https://www.zoho.com/books/api/v3/invoices/#create-an-invoice)",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     zohoBooks,
