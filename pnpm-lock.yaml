@@ -1891,11 +1891,9 @@ importers:
 
   components/clarify: {}
 
-  components/claris_filemaker_server_admin_api:
-    specifiers: {}
+  components/claris_filemaker_server_admin_api: {}
 
-  components/claris_filemaker_server_data_api:
-    specifiers: {}
+  components/claris_filemaker_server_data_api: {}
 
   components/claris_filemaker_server_odata_api: {}
 
@@ -6810,8 +6808,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/morgen:
-    specifiers: {}
+  components/morgen: {}
 
   components/morningmate:
     dependencies:
@@ -11862,7 +11859,11 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/webscraping_ai: {}
+  components/webscraping_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/webvizio:
     dependencies:
