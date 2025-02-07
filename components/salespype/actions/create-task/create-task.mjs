@@ -1,11 +1,10 @@
 import salespype from "../../salespype.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "salespype-create-task",
   name: "Create Task",
-  description: "Creates a new task in Salespype. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Creates a new task in Salespype. [See the documentation](https://documenter.getpostman.com/view/5101444/2s93Y3u1Eb#a9c6449a-b844-465c-a342-deea01e52c3f)",
+  version: "0.0.1",
   type: "action",
   props: {
     salespype,
@@ -16,10 +15,9 @@ export default {
       ],
     },
     task: {
-      propDefinition: [
-        salespype,
-        "task",
-      ],
+      type: "string",
+      label: "Task",
+      description: "The task description",
     },
     taskTypeId: {
       propDefinition: [
@@ -28,54 +26,45 @@ export default {
       ],
     },
     date: {
-      propDefinition: [
-        salespype,
-        "date",
-      ],
-      optional: true,
+      type: "string",
+      label: "Date",
+      description: "The date for the task. E.g. `2021-02-20`",
     },
     time: {
-      propDefinition: [
-        salespype,
-        "time",
-      ],
-      optional: true,
+      type: "string",
+      label: "Time",
+      description: "The time for the task. E.g. `34:00:34`",
     },
     duration: {
-      propDefinition: [
-        salespype,
-        "duration",
-      ],
-      optional: true,
+      type: "string",
+      label: "Duration",
+      description: "The duration of the task. E.g. `34:00:34`",
     },
     note: {
-      propDefinition: [
-        salespype,
-        "note",
-      ],
-      optional: true,
+      type: "string",
+      label: "Note",
+      description: "Additional notes for the task",
     },
   },
   async run({ $ }) {
-    const taskData = {
-      contact_id: this.contactId,
-      task: this.task,
-      task_type_id: this.taskTypeId,
-      ...(this.date && {
+    const {
+      task, message,
+    } = await this.salespype.createTask({
+      $,
+      contactId: this.contactId,
+      data: {
+        task: this.task,
+        taskTypeId: this.taskTypeId,
         date: this.date,
-      }),
-      ...(this.time && {
         time: this.time,
-      }),
-      ...(this.duration && {
         duration: this.duration,
-      }),
-      ...(this.note && {
         note: this.note,
-      }),
-    };
+      },
+    });
 
-    const task = await this.salespype.createTask(taskData);
+    if (message) {
+      throw new Error(`${message}`);
+    }
 
     $.export("$summary", `Created task '${this.task}' with ID ${task.id}`);
     return task;

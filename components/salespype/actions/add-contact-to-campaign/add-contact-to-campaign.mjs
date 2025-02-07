@@ -1,11 +1,10 @@
 import salespype from "../../salespype.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "salespype-add-contact-to-campaign",
   name: "Add Contact to Campaign",
-  description: "Adds a contact to a campaign. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Adds a contact to a campaign. [See the documentation](https://documenter.getpostman.com/view/5101444/2s93Y3u1Eb#4b2f8b3e-155d-4485-9a25-4f7d98d04b53)",
+  version: "0.0.1",
   type: "action",
   props: {
     salespype,
@@ -24,6 +23,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.salespype.addContactToCampaign({
+      $,
       campaignId: this.campaignId,
       contactId: this.contactId,
     });

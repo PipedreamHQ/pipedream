@@ -3,271 +3,140 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "salespype",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     contactId: {
       type: "string",
       label: "Contact ID",
       description: "The unique identifier of the contact",
+      async options({ page }) {
+        const { contacts } = await this.listContacts({
+          params: {
+            page: page + 1,
+          },
+        });
+        return contacts?.map(({
+          id: value, fullName: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     campaignId: {
       type: "string",
       label: "Campaign ID",
       description: "The unique identifier of the campaign",
-    },
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The first name of the contact",
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The last name of the contact",
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The email address of the contact",
-    },
-    address: {
-      type: "string",
-      label: "Address",
-      description: "The address of the contact",
-      optional: true,
-    },
-    city: {
-      type: "string",
-      label: "City",
-      description: "The city of the contact",
-      optional: true,
-    },
-    state: {
-      type: "string",
-      label: "State",
-      description: "The state of the contact",
-      optional: true,
-    },
-    zip: {
-      type: "string",
-      label: "ZIP Code",
-      description: "The ZIP code of the contact",
-      optional: true,
-    },
-    country: {
-      type: "string",
-      label: "Country",
-      description: "The country of the contact",
-      optional: true,
-    },
-    companyName: {
-      type: "string",
-      label: "Company Name",
-      description: "The company name of the contact",
-      optional: true,
-    },
-    birthDate: {
-      type: "string",
-      label: "Birthdate",
-      description: "The birthdate of the contact",
-      optional: true,
-    },
-    task: {
-      type: "string",
-      label: "Task",
-      description: "The task description",
+      async options({ page }) {
+        const { campaigns } = await this.listCampaigns({
+          params: {
+            page: page + 1,
+          },
+        });
+        return campaigns?.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
     taskTypeId: {
       type: "string",
       label: "Task Type ID",
       description: "The unique identifier of the task type",
-    },
-    date: {
-      type: "string",
-      label: "Date",
-      description: "The date for the task",
-      optional: true,
-    },
-    time: {
-      type: "string",
-      label: "Time",
-      description: "The time for the task",
-      optional: true,
-    },
-    duration: {
-      type: "string",
-      label: "Duration",
-      description: "The duration of the task",
-      optional: true,
-    },
-    note: {
-      type: "string",
-      label: "Note",
-      description: "Additional notes for the task",
-      optional: true,
+      async options() {
+        const { taskTypes } = await this.listTaskTypes();
+        return taskTypes?.map(({
+          id: value, task: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.salespype.com";
+      return "https://api.pypepro.io/crm/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _makeRequest({
+      $ = this,
+      path,
+      ...otherOpts
+    }) {
       return axios($, {
-        method,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          apikey: this.$auth.api_token,
         },
         ...otherOpts,
       });
     },
-    async createContact(opts = {}) {
-      const {
-        firstName,
-        lastName,
-        email,
-        address,
-        city,
-        state,
-        zip,
-        country,
-        companyName,
-        birthDate,
-      } = opts;
-      const data = {
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        ...(address && {
-          address,
-        }),
-        ...(city && {
-          city,
-        }),
-        ...(state && {
-          state,
-        }),
-        ...(zip && {
-          zip,
-        }),
-        ...(country && {
-          country,
-        }),
-        ...(companyName && {
-          company_name: companyName,
-        }),
-        ...(birthDate && {
-          birthdate: birthDate,
-        }),
-      };
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts/list",
+        ...opts,
+      });
+    },
+    listCampaigns(opts = {}) {
+      return this._makeRequest({
+        path: "/campaigns",
+        ...opts,
+      });
+    },
+    listTaskTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/tasks/types",
+        ...opts,
+      });
+    },
+    createContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contacts",
-        data,
+        ...opts,
       });
     },
-    async updateContact(opts = {}) {
-      const {
-        contactId,
-        firstName,
-        lastName,
-        email,
-        address,
-        city,
-        state,
-        zip,
-        country,
-        companyName,
-        birthDate,
-      } = opts;
-      const data = {
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        ...(address && {
-          address,
-        }),
-        ...(city && {
-          city,
-        }),
-        ...(state && {
-          state,
-        }),
-        ...(zip && {
-          zip,
-        }),
-        ...(country && {
-          country,
-        }),
-        ...(companyName && {
-          company_name: companyName,
-        }),
-        ...(birthDate && {
-          birthdate: birthDate,
-        }),
+    addContactToCampaign({
+      campaignId, contactId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/campaigns/${campaignId}/contacts/${contactId}`,
+        ...opts,
+      });
+    },
+    createTask({
+      contactId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tasks/contacts/${contactId}`,
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params, resourceKey, max,
+    }) {
+      params = {
+        ...params,
+        page: 0,
       };
-      return this._makeRequest({
-        method: "PUT",
-        path: `/contacts/${contactId}`,
-        data,
-      });
-    },
-    async createCampaign(opts = {}) {
-      const data = {};
-      return this._makeRequest({
-        method: "POST",
-        path: "/campaigns",
-        data,
-      });
-    },
-    async addContactToCampaign(opts = {}) {
-      const {
-        campaignId, contactId,
-      } = opts;
-      return this._makeRequest({
-        method: "POST",
-        path: `/campaigns/${campaignId}/add_contact`,
-        data: {
-          contact_id: contactId,
-        },
-      });
-    },
-    async createTask(opts = {}) {
-      const {
-        contactId,
-        task,
-        taskTypeId,
-        date,
-        time,
-        duration,
-        note,
-      } = opts;
-      const data = {
-        contact_id: contactId,
-        task,
-        task_type_id: taskTypeId,
-        ...(date && {
-          date,
-        }),
-        ...(time && {
-          time,
-        }),
-        ...(duration && {
-          duration,
-        }),
-        ...(note && {
-          note,
-        }),
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: "/tasks",
-        data,
-      });
+      let totalPages, count = 0;;
+      do {
+        params.page++;
+        const results = await fn({
+          params,
+        });
+        const items = results[resourceKey];
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        totalPages = results.totalPages;
+      } while (params.page < totalPages);
     },
   },
 };

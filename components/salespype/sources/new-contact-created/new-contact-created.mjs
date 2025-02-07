@@ -1,86 +1,30 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
-import salespype from "../../salespype.app.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "salespype-new-contact-created",
   name: "New Contact Created",
-  description: "Emit new event when a new contact is created. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new contact is created. [See the documentation](https://documenter.getpostman.com/view/5101444/2s93Y3u1Eb#e8b86665-e0b3-4c2e-9bd0-05fcf81f6c48)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    salespype: {
-      type: "app",
-      app: "salespype",
+  methods: {
+    ...common.methods,
+    getResourceFn() {
+      return this.salespype.listContacts;
     },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
+    getResourceKey() {
+      return "contacts";
     },
-  },
-  hooks: {
-    async deploy() {
-      const contacts = await this.salespype._makeRequest({
-        method: "GET",
-        path: "/contacts",
-        params: {
-          limit: 50,
-          sort: "created_at_desc",
-        },
-      });
-
-      for (const contact of contacts) {
-        this.$emit(contact, {
-          id: contact.contactId,
-          summary: `New Contact: ${contact.firstName} ${contact.lastName}`,
-          ts: new Date(contact.created_at).getTime(),
-        });
-      }
-
-      if (contacts.length > 0) {
-        const lastContact = contacts[0];
-        this.db.set("lastTimestamp", new Date(lastContact.created_at).getTime());
-      }
+    getFieldValue(contact) {
+      return Date.parse(contact.createdAt);
     },
-    async activate() {
-      // No webhook to create
+    generateMeta(contact) {
+      return {
+        id: contact.id,
+        summary: `New Contact Created: ${contact.id}`,
+        ts: Date.parse(contact.createdAt),
+      };
     },
-    async deactivate() {
-      // No webhook to delete
-    },
-  },
-  async run() {
-    const lastTimestamp = this.db.get("lastTimestamp") || 0;
-
-    const contacts = await this.salespype._makeRequest({
-      method: "GET",
-      path: "/contacts",
-      params: {
-        since: lastTimestamp,
-        limit: 50,
-        sort: "created_at_desc",
-      },
-    });
-
-    for (const contact of contacts) {
-      const contactTs = new Date(contact.created_at).getTime();
-      if (contactTs > lastTimestamp) {
-        this.$emit(contact, {
-          id: contact.contactId,
-          summary: `New Contact: ${contact.firstName} ${contact.lastName}`,
-          ts: contactTs,
-        });
-      }
-    }
-
-    if (contacts.length > 0) {
-      const newLastTimestamp = new Date(contacts[0].created_at).getTime();
-      this.db.set("lastTimestamp", newLastTimestamp);
-    }
   },
 };

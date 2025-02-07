@@ -1,75 +1,35 @@
-import salespype from "../../salespype.app.mjs";
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import common from "../common/base.mjs";
+import md5 from "md5";
 
 export default {
+  ...common,
   key: "salespype-contact-updated",
-  name: "Salespype Contact Updated",
-  description: "Emit a new event when an existing contact is updated. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  name: "Contact Updated",
+  description: "Emit new event when an existing contact is updated. [See the documentation](https://documenter.getpostman.com/view/5101444/2s93Y3u1Eb#e8b86665-e0b3-4c2e-9bd0-05fcf81f6c48)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    salespype,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    contactId: {
-      propDefinition: [
-        salespype,
-        "contactId",
-      ],
-    },
-  },
-  hooks: {
-    async deploy() {
-      const contact = await this.fetchContact();
-      if (contact) {
-        this.$emit(contact, {
-          summary: `Contact Updated: ${contact.first_name} ${contact.last_name}`,
-          ts: new Date(contact.updated_at).getTime(),
-        });
-        await this.db.set(`contact_${this.contactId}`, contact.updated_at);
-      }
-    },
-    async activate() {
-      // No webhook setup required for polling source
-    },
-    async deactivate() {
-      // No webhook teardown required for polling source
-    },
-  },
-  async run() {
-    const contact = await this.fetchContact();
-    if (contact) {
-      const lastUpdated = await this.db.get(`contact_${this.contactId}`);
-      const currentUpdated = contact.updated_at;
-
-      if (!lastUpdated || new Date(currentUpdated) > new Date(lastUpdated)) {
-        this.$emit(contact, {
-          summary: `Contact Updated: ${contact.first_name} ${contact.last_name}`,
-          ts: new Date(currentUpdated).getTime(),
-        });
-        await this.db.set(`contact_${this.contactId}`, currentUpdated);
-      }
-    }
-  },
   methods: {
-    async fetchContact() {
-      try {
-        const contact = await this.salespype._makeRequest({
-          method: "GET",
-          path: `/contacts/${this.contactId}`,
-        });
-        return contact;
-      } catch (error) {
-        this.$emitError(error);
-      }
+    ...common.methods,
+    getResourceFn() {
+      return this.salespype.listContacts;
+    },
+    getResourceKey() {
+      return "contacts";
+    },
+    getFieldValue(contact) {
+      return Date.parse(contact.updatedAt);
+    },
+    generateMeta(contact) {
+      return {
+        id: md5(JSON.stringify({
+          ...contact,
+          createdAt: undefined,
+          updatedAt: undefined,
+        })),
+        summary: `Contact Updated: ${contact.id}`,
+        ts: Date.parse(contact.updatedAt),
+      };
     },
   },
 };
