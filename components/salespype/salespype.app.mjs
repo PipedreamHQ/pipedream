@@ -122,7 +122,7 @@ export default {
         ...params,
         page: 0,
       };
-      let totalPages, count = 0;;
+      let totalPages, count = 0;
       do {
         params.page++;
         const results = await fn({
