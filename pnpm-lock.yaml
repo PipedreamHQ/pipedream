@@ -6810,6 +6810,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/morgen:
+    specifiers: {}
+
   components/morningmate:
     dependencies:
       '@pipedream/platform':
