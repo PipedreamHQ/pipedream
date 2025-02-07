@@ -10399,7 +10399,11 @@ importers:
         specifier: ^8.168.0
         version: 8.222.0
 
-  components/stripo: {}
+  components/stripo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/studio_by_ai21_labs: {}
 
