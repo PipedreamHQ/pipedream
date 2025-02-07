@@ -12,7 +12,7 @@ export default {
     row: {
       type: "object",
       label: "Row",
-      description: "JSON object representing the new row data",
+      description: "JSON object representing the row data",
     },
   },
   methods: {

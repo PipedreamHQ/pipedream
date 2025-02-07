@@ -17,17 +17,30 @@ export default {
       ],
     },
   },
+  methods: {
+    getData() {
+      return {};
+    },
+  },
   async run({ $ }) {
+    const dataRow = parseObject(this.row);
+    const rows = dataRow
+      ? [
+        dataRow,
+      ]
+      : [];
+
     const response = await this.appsheet.post({
       $,
       tableName: this.tableName,
       data: {
         Action: this.getAction(),
-        Rows: [
-          parseObject(this.row),
-        ],
+        Rows: rows,
+        ...this.getData(),
       },
     });
+    console.log("response: ", response);
+
     $.export("$summary", this.getSummary(response));
     return response;
   },
