@@ -35,7 +35,6 @@ export default {
           access_token: this.$auth.access_token,
           ...params,
         },
-        debug: true,
         ...otherOpts,
       });
     },
