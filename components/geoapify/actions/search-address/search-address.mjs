@@ -1,40 +1,41 @@
 import geoapify from "../../geoapify.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "geoapify-search-address",
   name: "Search Address",
   description: "Retrieves geocoding information for a given address. [See the documentation](https://apidocs.geoapify.com/docs/geocoding/forward-geocoding/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     geoapify,
     address: {
-      propDefinition: [
-        "geoapify",
-        "address",
-      ],
+      type: "string",
+      label: "Address",
+      description: "The address to search. E.g. `44 Montgomery St., San Francisco, CA 94104`",
     },
     type: {
       propDefinition: [
-        "geoapify",
-        "type",
+        geoapify,
+        "locationType",
       ],
     },
     format: {
       propDefinition: [
-        "geoapify",
+        geoapify,
         "format",
       ],
     },
   },
   async run({ $ }) {
     const response = await this.geoapify.geocodeAddress({
-      address: this.address,
-      type: this.type,
-      format: this.format,
+      $,
+      params: {
+        text: this.address,
+        type: this.type,
+        format: this.format,
+      },
     });
-    $.export("$summary", `Successfully retrieved geocoding information for address ${this.address}`);
+    $.export("$summary", `Successfully retrieved geocoding information for address: ${this.address}`);
     return response;
   },
 };

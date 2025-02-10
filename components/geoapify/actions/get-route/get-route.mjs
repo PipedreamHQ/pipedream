@@ -1,79 +1,69 @@
 import geoapify from "../../geoapify.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "geoapify-get-route",
   name: "Get Route",
   description: "Calculates a route between two sets of latitude and longitude points. [See the documentation](https://apidocs.geoapify.com/docs/routing/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     geoapify,
     fromLatitude: {
-      propDefinition: [
-        geoapify,
-        "fromLatitude",
-      ],
+      type: "string",
+      label: "From Latitude",
+      description: "The latitude of the starting point",
     },
     fromLongitude: {
-      propDefinition: [
-        geoapify,
-        "fromLongitude",
-      ],
+      type: "string",
+      label: "From Longitude",
+      description: "The longitude of the starting point",
     },
     toLatitude: {
-      propDefinition: [
-        geoapify,
-        "toLatitude",
-      ],
+      type: "string",
+      label: "To Latitude",
+      description: "The latitude of the destination point",
     },
     toLongitude: {
-      propDefinition: [
-        geoapify,
-        "toLongitude",
-      ],
+      type: "string",
+      label: "To Longitude",
+      description: "The longitude of the destination point",
     },
     mode: {
       propDefinition: [
         geoapify,
         "mode",
       ],
-      optional: true,
     },
     type: {
       propDefinition: [
         geoapify,
-        "type",
+        "routeOptimizationType",
       ],
-      optional: true,
     },
     units: {
       propDefinition: [
         geoapify,
         "units",
       ],
-      optional: true,
     },
     format: {
       propDefinition: [
         geoapify,
         "format",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
     const route = await this.geoapify.calculateRoute({
-      fromLatitude: this.fromLatitude,
-      fromLongitude: this.fromLongitude,
-      toLatitude: this.toLatitude,
-      toLongitude: this.toLongitude,
-      mode: this.mode,
-      type: this.type,
-      units: this.units,
-      format: this.format,
+      $,
+      params: {
+        waypoints: `${this.fromLatitude},${this.fromLongitude}|${this.toLatitude},${this.toLongitude}`,
+        mode: this.mode,
+        type: this.type,
+        units: this.units,
+        format: this.format,
+      },
     });
-
     $.export("$summary", "Route calculated successfully");
     return route;
   },
