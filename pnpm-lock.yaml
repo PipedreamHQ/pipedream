@@ -9209,7 +9209,14 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/salespype: {}
+  components/salespype:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/salestown: {}
 
