@@ -1,7 +1,7 @@
 import { axios } from "@pipedream/platform";
 
+// Please remove this comment after testing DJ-2872
 export default {
-  // foo: "bar",
   type: "app",
   app: "slottable",
   propDefinitions: {},
