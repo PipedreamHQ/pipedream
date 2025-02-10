@@ -23,12 +23,12 @@ export default {
     filePath: {
       type: "string",
       label: "File Path",
-      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      description: "The path to a tileset source file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
     },
     recipe: {
       type: "object",
       label: "Recipe",
-      description: "A recipe that describes how the GeoJSON data you uploaded should be transformed into tiles. For more information on how to create and format recipes, see the ]Recipe reference](https://docs.mapbox.com/mapbox-tiling-service/reference/) and [Recipe examples](https://docs.mapbox.com/mapbox-tiling-service/examples/).",
+      description: "A recipe that describes how the GeoJSON data you uploaded should be transformed into tiles. A tileset source is raw geographic data formatted as [line-delimited GeoJSON](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON), or a supported [raster file format](https://docs.mapbox.com/mapbox-tiling-service/raster/supported-file-formats/). For more information on how to create and format recipes, see the ]Recipe reference](https://docs.mapbox.com/mapbox-tiling-service/reference/) and [Recipe examples](https://docs.mapbox.com/mapbox-tiling-service/examples/).",
     },
     description: {
       type: "string",
