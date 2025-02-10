@@ -41,7 +41,6 @@ export default {
         };
       },
     },
-
     group: {
       type: "string",
       label: "Group",

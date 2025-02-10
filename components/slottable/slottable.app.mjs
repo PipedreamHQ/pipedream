@@ -1,6 +1,7 @@
 import { axios } from "@pipedream/platform";
 
 export default {
+  foo: "bar",
   type: "app",
   app: "slottable",
   propDefinitions: {},
