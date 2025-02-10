@@ -3258,8 +3258,7 @@ importers:
         specifier: ^0.12.7
         version: 0.12.7
 
-  components/elastic_cloud:
-    specifiers: {}
+  components/elastic_cloud: {}
 
   components/elastic_email: {}
 
@@ -4209,8 +4208,7 @@ importers:
 
   components/glide: {}
 
-  components/globalping:
-    specifiers: {}
+  components/globalping: {}
 
   components/gloria_ai:
     dependencies:
@@ -6339,8 +6337,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/mailtrap:
-    specifiers: {}
+  components/mailtrap: {}
 
   components/mailwizz:
     dependencies:
@@ -6376,7 +6373,14 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/mapbox: {}
+  components/mapbox:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      form-data:
+        specifier: ^4.0.1
+        version: 4.0.1
 
   components/mapulus:
     dependencies:
@@ -9902,8 +9906,7 @@ importers:
 
   components/simplybook_me: {}
 
-  components/sinch_messagemedia:
-    specifiers: {}
+  components/sinch_messagemedia: {}
 
   components/sitecreator_io:
     dependencies:
