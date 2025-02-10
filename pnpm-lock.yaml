@@ -9891,6 +9891,9 @@ importers:
 
   components/simplybook_me: {}
 
+  components/sinch_messagemedia:
+    specifiers: {}
+
   components/sitecreator_io:
     dependencies:
       '@pipedream/platform':
