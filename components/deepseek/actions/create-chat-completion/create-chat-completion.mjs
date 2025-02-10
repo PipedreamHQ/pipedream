@@ -117,7 +117,7 @@ export default {
           : null,
         stop: parseObject(this.stop),
         stream: this.stream,
-        stream_options: this.stram
+        stream_options: this.stream
           ? {
             include_usage: this.streamIncludeUsage,
           }
