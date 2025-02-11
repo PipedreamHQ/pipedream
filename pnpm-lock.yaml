@@ -774,8 +774,7 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3
 
-  components/applicantstack:
-    specifiers: {}
+  components/applicantstack: {}
 
   components/appointedd:
     dependencies:
@@ -1044,7 +1043,14 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
 
-  components/azure_storage: {}
+  components/azure_storage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      mime-types:
+        specifier: ^2.1.35
+        version: 2.1.35
 
   components/backblaze: {}
 
@@ -3606,8 +3612,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/felt:
-    specifiers: {}
+  components/felt: {}
 
   components/fibery:
     dependencies:
@@ -7578,8 +7583,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/ory:
-    specifiers: {}
+  components/ory: {}
 
   components/osu: {}
 
@@ -12402,8 +12406,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/zep:
-    specifiers: {}
+  components/zep: {}
 
   components/zerobounce:
     dependencies:
@@ -32298,8 +32301,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
