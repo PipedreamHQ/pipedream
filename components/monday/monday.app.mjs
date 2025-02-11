@@ -13,7 +13,7 @@ export default {
     boardId: {
       type: "string",
       label: "Board ID",
-      description: "Select a board, or provide a board ID.",
+      description: "Select a board, or provide a board ID",
       async options({ page }) {
         return this.listBoardsOptions({
           page: page + 1,
@@ -34,7 +34,7 @@ export default {
     folderId: {
       type: "integer",
       label: "Folder ID",
-      description: "Optionally select a folder to create the board in, or provide a folder ID.",
+      description: "Optionally select a folder to create the board in, or provide a folder ID",
       optional: true,
       async options({ workspaceId }) {
         return this.listFolderOptions({
@@ -45,7 +45,7 @@ export default {
     workspaceId: {
       type: "integer",
       label: "Workspace ID",
-      description: "Select a workspace to create the board in, or provide a workspace ID. If not specified, the **Main Workspace** will be used.",
+      description: "Select a workspace to create the board in, or provide a workspace ID. If not specified, the **Main Workspace** will be used",
       optional: true,
       async options() {
         return this.listWorkspacesOptions();
@@ -54,18 +54,18 @@ export default {
     templateId: {
       type: "integer",
       label: "Board Template ID",
-      description: "The board's template ID. You can obtain it from the URL when selecting the desired board (e.g. `https://{subdomain}.monday.com/boards/2419687965`) where `2419687965` is the template ID. [See the documentation](https://developer.monday.com/api-reference/reference/boards#create-a-board) for more information.",
+      description: "The board's template ID. You can obtain it from the URL when selecting the desired board (e.g. `https://{subdomain}.monday.com/boards/2419687965`) where `2419687965` is the template ID. [See the documentation](https://developer.monday.com/api-reference/reference/boards#create-a-board) for more information",
       optional: true,
     },
     groupName: {
       type: "string",
       label: "Group Name",
-      description: "The name of the new group.",
+      description: "The name of the new group",
     },
     groupId: {
       type: "string",
       label: "Group ID",
-      description: "Select a group or provide a group ID.",
+      description: "Select a group or provide a group ID",
       optional: true,
       async options({ boardId }) {
         return this.listGroupsOptions({
@@ -98,7 +98,7 @@ export default {
     itemId: {
       type: "string",
       label: "Item ID",
-      description: "Select an item or provide an item ID.",
+      description: "Select an item or provide an item ID",
       optional: true,
       async options({
         boardId, prevContext,
@@ -112,7 +112,7 @@ export default {
     updateId: {
       type: "string",
       label: "Update ID",
-      description: "Select an update or provide an update ID.",
+      description: "Select an update or provide an update ID",
       optional: true,
       async options({
         page, boardId,
@@ -126,7 +126,7 @@ export default {
     column: {
       type: "string",
       label: "Column",
-      description: "Select a column to watch for changes.",
+      description: "Select a column to watch for changes",
       async options({ boardId }) {
         const columns = await this.listColumnOptions({
           boardId: +boardId,

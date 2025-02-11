@@ -29,7 +29,7 @@ export default {
       ],
       type: "string[]",
       label: "Columns",
-      description: "Select the column(s) to return data from.",
+      description: "Select the column(s) to return data from",
       optional: true,
     },
   },

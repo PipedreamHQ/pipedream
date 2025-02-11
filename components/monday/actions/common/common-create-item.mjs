@@ -14,7 +14,7 @@ export default {
         }),
       ],
       type: "string[]",
-      description: "Select which item columns to set values for.",
+      description: "Select which item columns to set values for",
       reloadProps: true,
     },
   },
@@ -26,13 +26,14 @@ export default {
     const columnData = await this.monday.listColumns({
       boardId: +this.boardId,
     });
+    console.log(columnData);
     for (const column of this.columns) {
       let description, options;
       options = getColumnOptions(columnData, column);
       if (column === "person") {
-        description = "The ID of a person/user.";
+        description = "The ID of a person/user";
       } else if (column === "date4") {
-        description = "A date string in `YYYY-MM-DD` format, e.g. `2022-09-02`.";
+        description = "A date string in `YYYY-MM-DD` format, e.g. `2022-09-02`";
       } else if (options) {
         description = `Select a value from the list for column "${column}".`;
       } else {

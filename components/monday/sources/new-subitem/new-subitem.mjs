@@ -13,7 +13,7 @@ export default {
     alertBox: {
       type: "alert",
       alertType: "warning",
-      content: "To create this trigger, you need to have at least one subitem previously created on your board.",
+      content: "To create this trigger, you need to have at least one subitem previously created on your board",
     },
     boardId: {
       propDefinition: [
@@ -25,7 +25,7 @@ export default {
   methods: {
     ...common.methods,
     getWebhookCreationError() {
-      return "Failed to establish webhook. To create this trigger, you need to have at least one subitem previously created on your board.";
+      return "Failed to establish webhook. To create this trigger, you need to have at least one subitem previously created on your board";
     },
     getWebhookArgs() {
       return {

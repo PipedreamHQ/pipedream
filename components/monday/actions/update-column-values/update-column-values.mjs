@@ -16,7 +16,7 @@ export default {
     updateInfoBox: {
       type: "alert",
       alertType: "info",
-      content: "See the [Column types reference](https://developer.monday.com/api-reference/reference/column-types-reference) to find the proper data structures for supported column types.",
+      content: "See the [Column types reference](https://developer.monday.com/api-reference/reference/column-types-reference) to find the proper data structures for supported column types",
     },
     boardId: {
       ...common.props.boardId,
@@ -50,7 +50,7 @@ export default {
           options: getColumnOptions(columns, id),
         };
         if (column.type === "file") {
-          props[column.id].description += ". The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).";
+          props[column.id].description += ". The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)";
         }
       }
     }

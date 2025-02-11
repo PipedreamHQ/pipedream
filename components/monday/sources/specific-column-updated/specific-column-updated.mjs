@@ -19,7 +19,7 @@ export default {
     alertBox: {
       type: "alert",
       alertType: "warning",
-      content: "For changes to `Name`, use the **Name Updated** trigger.",
+      content: "For changes to `Name`, use the **Name Updated** trigger",
     },
     column: {
       propDefinition: [

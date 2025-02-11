@@ -35,7 +35,7 @@ export default {
         label: "Value",
         description: `The value to search for.${options
           ? ""
-          : " [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values#supported-and-unsupported-columns) for additional information about column values."} `,
+          : " [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values#supported-and-unsupported-columns) for additional information about column values"} `,
         options,
       },
     };

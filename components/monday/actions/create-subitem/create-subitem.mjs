@@ -26,14 +26,14 @@ export default {
         }),
       ],
       optional: false,
-      description: "Select a parent item or provide an item ID.",
+      description: "Select a parent item or provide an item ID",
     },
     itemName: {
       propDefinition: [
         monday,
         "itemName",
       ],
-      description: "The new subitem's name.",
+      description: "The new subitem's name",
     },
     ...commonCreateItem.props,
   },

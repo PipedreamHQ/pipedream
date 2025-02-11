@@ -33,17 +33,25 @@ export function getColumnOptions(allColumnData, columnId) {
   )?.settings_str;
   if (columnOptions) {
     try {
-      return Object.entries(JSON.parse(columnOptions).labels).map(
-        ([
-          value,
-          label,
-        ]) => ({
-          label: label !== ""
-            ? label
-            : value,
-          value,
-        }),
-      );
+      const labels = JSON.parse(columnOptions).labels;
+      return Array.isArray(labels)
+        ? labels.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id.toString(),
+        }))
+        : Object.entries(labels).map(
+          ([
+            value,
+            label,
+          ]) => ({
+            label: label !== ""
+              ? label
+              : value,
+            value,
+          }),
+        );
     } catch (err) {
       console.log(`Error parsing options for column "${columnId}": ${err}`);
     }
