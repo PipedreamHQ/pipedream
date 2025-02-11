@@ -130,7 +130,7 @@ pd init app google_calendar
 
 #### `pd init action`
 
-Creates a new directory and [a component action](/components#actions) from a template.
+Creates a new directory and [a component action](/workflows/contributing/components#actions) from a template.
 
 ```bash
 # Creates add-new-event/ directory and add-new-event.mjs file
@@ -146,7 +146,7 @@ Creates a new directory and [an event source](/sources/) from a template.
 pd init source cancelled-event
 ```
 
-You can attach [database](/components/api/#db), [HTTP](/components/api/#http), or [Timer](/components/api/#timer) props to your template using the following flags:
+You can attach [database](/workflows/contributing/components/api/#db), [HTTP](/workflows/contributing/components/api/#http), or [Timer](/workflows/contributing/components/api/#timer) props to your template using the following flags:
 
 | Prop type | Flag      |
 | --------- | --------- |
@@ -202,7 +202,7 @@ Log in to Pipedream CLI and persist API key locally. See [Logging into the CLI](
 
 Unsets the local API key tied to your account.
 
-Running `pd logout` without any arguments removes the default API key from your [config file](/cli/reference/#cli-config-file).
+Running `pd logout` without any arguments removes the default API key from your [config file](/workflows/cli/reference/#cli-config-file).
 
 You can remove the API key for a specific profile by running:
 
@@ -302,9 +302,9 @@ You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pip
 
 ### Creating a profile for a workspace
 
-If you're working with resources in an [workspace](/workspaces/), you'll need to add an `org_id` to your profile.
+If you're working with resources in an [workspace](/workflows/workspaces/), you'll need to add an `org_id` to your profile.
 
-1. [Retrieve your workspaces's ID](/workspaces/#finding-your-workspaces-id)
+1. [Retrieve your workspaces's ID](/workflows/workspaces/#finding-your-workspaces-id)
 2. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
 
 ```bash
@@ -352,4 +352,3 @@ Otherwise, it will be found in `$HOME/.config/pipedream`.
 Pipedream tracks CLI usage data to report errors and usage stats. We use this data exclusively for the purpose of internal analytics (see [our privacy policy](https://pipedream.com/privacy) for more information).
 
 If you'd like to opt-out of CLI analytics, set the `PD_CLI_DO_NOT_TRACK` environment variable to `true` or `1`.
-

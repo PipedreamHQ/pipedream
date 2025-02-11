@@ -56,7 +56,7 @@ You'll find your workspace's limits in the **Data Stores** section of usage dash
 
 ## HTTP Triggers
 
-The following limits apply to [HTTP triggers](/workflows/triggers/#http).
+The following limits apply to [HTTP triggers](/docs/workflows/visual-builder/triggers/#http).
 
 ### HTTP Request Body Size
 
@@ -66,8 +66,8 @@ Your endpoint will issue a `413 Payload Too Large` status code when the body of 
 
 **Pipedream supports two different ways to bypass this limit**. Both of these interfaces support uploading data up to `5TB`, though you may encounter other platform limits.
 
-- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/triggers/#sending-large-payloads).
-- You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/triggers/#large-file-support).
+- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/docs/workflows/visual-builder/triggers/#sending-large-payloads).
+- You can upload multiple large files, like images and videos, using the [large file upload interface](/docs/workflows/visual-builder/triggers/#large-file-support).
 
 ### QPS (Queries Per Second)
 
@@ -81,13 +81,13 @@ We'll also accept short bursts of traffic, as long as you remain close to an ave
 
 ## Email Triggers
 
-Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also apply to [email triggers](/workflows/triggers/#email).
+Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also apply to [email triggers](/docs/workflows/visual-builder/triggers/#email).
 
 The only limit that differs between email and HTTP triggers is the payload size: the total size of an email sent to a workflow - its body, headers, and attachments - is limited to {process.env.EMAIL_PAYLOAD_SIZE_LIMIT}.
 
 ## Memory
 
-By default, workflows run with {process.env.MEMORY_LIMIT} of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/settings/#memory), up to {process.env.MEMORY_ABSOLUTE_LIMIT}.
+By default, workflows run with {process.env.MEMORY_LIMIT} of memory. You can modify a workflow's memory [in your workflow's Settings](/workflows/visual-builder/settings/#memory), up to {process.env.MEMORY_ABSOLUTE_LIMIT}.
 
 Increasing your workflow's memory gives you a proportional increase in CPU. If your workflow is limited by memory or compute, increasing your workflow's memory can reduce its overall runtime and make it more performant.
 
@@ -117,11 +117,11 @@ You can increase the timeout limit, up to a max value set by your plan:
 | Free tiers |    300 seconds (5 min)     |
 | Paid tiers |   750 seconds (12.5 min)   |
 
-Events that trigger a **Timeout** error will appear in red in the [Inspector](/workflows/inspect/). You'll see the timeout error, also in red, in the cell at which the code timed out.
+Events that trigger a **Timeout** error will appear in red in the [Inspector](/workflows/visual-builder/inspect). You'll see the timeout error, also in red, in the cell at which the code timed out.
 
 ### Event / Execution History
 
-The [Inspector](/workflows/inspect/#the-inspector) shows the execution history for a given workflow. Events have a limited retention period, depending on your plan:
+The [Inspector](/workflows/visual-builder/inspect#the-inspector) shows the execution history for a given workflow. Events have a limited retention period, depending on your plan:
 
 |    Tier    |                           Events retained per workflow                           |
 | :--------: | :------------------------------------------------------------------------------: |
@@ -132,7 +132,7 @@ The execution details for a specific event also expires after {process.env.INSPE
 
 ### Logs, Step Exports, and other observability
 
-The total size of `console.log()` statements, [step exports](/workflows/steps/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of {process.env.FUNCTION_PAYLOAD_LIMIT}. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
+The total size of `console.log()` statements, [step exports](/workflows/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of {process.env.FUNCTION_PAYLOAD_LIMIT}. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
 This limit cannot be raised.
 

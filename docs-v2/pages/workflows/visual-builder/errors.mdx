@@ -11,7 +11,7 @@ Both types of errors will trigger [error notifications](#error-notifications), c
 
 ## Auto-retry
 
-You can [automatically retry events](/workflows/settings#auto-retry-errors) that yield an error. This can help for transient errors that occur when making API requests, like when a service is down or your request times out.
+You can [automatically retry events](/workflows/visual-builder/settings#auto-retry-errors) that yield an error. This can help for transient errors that occur when making API requests, like when a service is down or your request times out.
 
 ## Apply conditional logic
 
@@ -80,7 +80,7 @@ Unlike [the default system emails](#duplicate-errors-do-not-trigger-duplicate-em
 
 ## Poll the REST API for workflow errors
 
-Pipedream provides a REST API endpoint to [list the most recent 100 workflow errors](/rest-api/#get-workflow-errors) for any given workflow. For example, to list the errors from workflow `p_abc123`, run:
+Pipedream provides a REST API endpoint to [list the most recent 100 workflow errors](/workflows/rest-api/#get-workflow-errors) for any given workflow. For example, to list the errors from workflow `p_abc123`, run:
 
 ```bash
 curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?expand=event' \

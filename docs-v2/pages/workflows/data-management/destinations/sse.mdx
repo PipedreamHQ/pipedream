@@ -1,6 +1,6 @@
 # Server-Sent Events (SSE)
 
-Pipedream supports [Server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) (SSE) as a destination, enabling you to send events from a workflow directly to a client subscribed to the event stream. 
+Pipedream supports [Server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) (SSE) as a destination, enabling you to send events from a workflow directly to a client subscribed to the event stream.
 
 ## What is SSE?
 
@@ -16,7 +16,7 @@ Beyond web browsers, any program that's able to create an [`EventSource` interfa
 
 ## Sending data to an SSE Destination in workflows
 
-You can send data to an SSE Destination in [Node.js code steps](/code/nodejs/) using the `$.send.sse()` function.
+You can send data to an SSE Destination in [Node.js code steps](/workflows/visual-builder/code/nodejs/) using the `$.send.sse()` function.
 
 1. Add a new step to your workflow
 2. Select the option to **Run custom code** and choose the Node.js runtime.
@@ -28,7 +28,7 @@ export default defineComponent({
     $.send.sse({
       channel: "events", // Required, corresponds to the event in the SSE spec
       payload: { // Required, the event payload
-        name: "Luke Skywalker" 
+        name: "Luke Skywalker"
       }
     });
   }
@@ -61,7 +61,7 @@ you won't have to `await` the execution of the SSE Destination requests in your 
 
 ## Using `$.send.sse` in component actions
 
-If you're authoring a [component action](/components#actions), you can send events to an SSE destination using `$.send.sse`.
+If you're authoring a [component action](/workflows/contributing/components#actions), you can send events to an SSE destination using `$.send.sse`.
 
 `$.send.sse` functions the same as [`$.send.sse` in workflow code steps](#sending-data-to-an-sse-destination-in-workflows):
 
@@ -110,7 +110,7 @@ If you've already sent events to your SSE destination, you should see those even
 
 It's easy to setup a simple webpage to `console.log()` all events from an event stream. You can find a lot more examples of how to work with SSE on the web, but this should help you understand the basic concepts.
 
-You'll need to create two files in the same directory on your machine: an `index.html` file for the HTML. 
+You'll need to create two files in the same directory on your machine: an `index.html` file for the HTML.
 
 **index.html**
 

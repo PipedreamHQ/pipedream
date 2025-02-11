@@ -41,13 +41,13 @@ or a specific version:
 
 ## Authentication
 
-See the [REST API Authentication docs](/rest-api/auth).
+See the [REST API Authentication docs](/workflows/rest-api/auth).
 
 ### TypeScript SDK (server)
 
 Most of your interactions with the Connect API will happen on the server, to protect API requests and user credentials. You'll use the SDK in [your frontend](#typescript-sdk-browser) to let users connect accounts. Once connected, you'll use the SDK on the server to retrieve credentials, invoke workflows on their behalf, and more.
 
-[Create a Pipedream OAuth client](/rest-api/auth#oauth) and instantiate the SDK with your client ID and secret:
+[Create a Pipedream OAuth client](/workflows/rest-api/auth#oauth) and instantiate the SDK with your client ID and secret:
 
 ```typescript
 import { createBackendClient } from "@pipedream/sdk/server";
@@ -206,7 +206,7 @@ curl -X POST https://api.pipedream.com/v1/connect/rate_limits \
 **Example usage**
 
 ```bash
-# The response will include a rate limit token. 
+# The response will include a rate limit token.
 # Pass it as a header in your downstream requests to the Connect API.
 # Below is an example request that runs the "List Commits" action for the Gitlab app.
 
@@ -1120,7 +1120,7 @@ apps](/rest-api#list-apps) endpoint, and the name slug under the
 `q` **string** (_optional_)
 
 A search query to filter the components by key (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api#component-structure)).
 
 ##### Examples
 
@@ -1257,7 +1257,7 @@ Either `triggers`, `actions`, or `components`.
 `component_key` **string**
 
 The key that identifies the component (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api#component-structure)).
 
 ##### Examples
 
@@ -1414,7 +1414,7 @@ want to retrieve accounts for.
 `id` **string**
 
 The key that identifies the component (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api#component-structure)).
 
 ---
 
@@ -1597,7 +1597,7 @@ Reload the component's props after configuring a dynamic prop, based on the
 current component's configuration. This endpoint will use the component's
 configuration to retrieve a new list of props depending on the value of the
 props that were configured so far. See the [Dynamic
-Props](/connect/components#dynamic-props-optional) section for more information.
+Props](/connect/workflows/contributing/components#dynamic-props-optional) section for more information.
 
 ```text
 GET /{component_type}/props
@@ -1629,7 +1629,7 @@ want to retrieve accounts for.
 `id` **string**
 
 The key that identifies the component (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api#component-structure)).
 
 ---
 
@@ -1832,7 +1832,7 @@ POST /actions/run
 `id` **string**
 
 The key that identifies the action component (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api#component-structure)).
 
 ---
 
@@ -2021,7 +2021,7 @@ POST /triggers/deploy
 `id` **string**
 
 The key that identifies the action component (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api#component-structure)).
 
 ---
 
@@ -3500,4 +3500,3 @@ curl -X PUT \
   ]
 }
 ```
-

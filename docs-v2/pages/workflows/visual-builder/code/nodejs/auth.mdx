@@ -4,9 +4,9 @@ import VideoPlayer from '@/components/VideoPlayer';
 
 <VideoPlayer src="https://www.youtube.com/embed/rckGb8BbPuk" title="Connecting apps to Node.js Code Steps" />
 
-When you use [prebuilt actions](/components#actions) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/connected-accounts/#connecting-accounts) for that app and run your workflow.
+When you use [prebuilt actions](/workflows/contributing/components#actions) tied to apps, you don't need to write the code to authorize API requests. Just [connect your account](/workflows/integrations/connected-accounts/#connecting-accounts) for that app and run your workflow.
 
-But sometimes you'll need to [write your own code](/code/nodejs/). You can also connect apps to custom code steps, using the auth information to authorize requests to that app.
+But sometimes you'll need to [write your own code](/workflows/visual-builder/code/nodejs/). You can also connect apps to custom code steps, using the auth information to authorize requests to that app.
 
 For example, you may want to send a Slack message from a step. We use Slack's OAuth integration to authorize sending messages from your workflows.
 
@@ -36,11 +36,11 @@ export default defineComponent({
 
 Then click the **Refresh fields** button in the editor to render the Slack field based on the `slack` prop:
 
-![Refresh the prop defintions to rebuild the steps fields](./images/v3/code/nodejs/auth/refresh-fields-after-connecting-slack.png)
+![Refresh the prop defintions to rebuild the steps fields](./images/v3/workflows/visual-builder/code/nodejs/auth/refresh-fields-after-connecting-slack.png)
 
 Now the step in the workflow builder will allow you to connect your Slack account:
 
-![Connect a Slack account to a Node.js code step using a prop](./images/v3/code/nodejs/auth/slack-field-rendered.png)
+![Connect a Slack account to a Node.js code step using a prop](./images/v3/workflows/visual-builder/code/nodejs/auth/slack-field-rendered.png)
 
 ## Accessing connected account data with `this.appName.$auth`
 
@@ -115,7 +115,7 @@ This code operates as a template you can extend, and comes preconfigured with th
 
 ### Manually connecting apps to steps
 
-See the Connected Accounts docs for [connecting an account to a code step](/connected-accounts/#from-a-code-step).
+See the Connected Accounts docs for [connecting an account to a code step](/workflows/integrations/connected-accounts/#from-a-code-step).
 
 ## Custom auth tokens / secrets
 
@@ -123,4 +123,4 @@ When you want to connect to a 3rd party service that isn't supported by Pipedrea
 
 ## Learn more about `props`
 
-Not only can `props` be used to connect apps to workflow steps, but they can also be used to [collect properties collected from user input](/code/nodejs/#passing-props-to-code-steps) and [save data between workflow runs](/code/nodejs/using-data-stores/).
+Not only can `props` be used to connect apps to workflow steps, but they can also be used to [collect properties collected from user input](/workflows/visual-builder/code/nodejs/#passing-props-to-code-steps) and [save data between workflow runs](/workflows/visual-builder/code/nodejs/using-data-stores/).

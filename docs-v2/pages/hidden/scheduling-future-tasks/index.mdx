@@ -1,6 +1,6 @@
 # Scheduling future tasks
 
-Pipedream includes an event source which exposes an HTTP API for scheduling one-time tasks. You can schedule tasks at any timestamp, with second-level precision, up to one year in the future. 
+Pipedream includes an event source which exposes an HTTP API for scheduling one-time tasks. You can schedule tasks at any timestamp, with second-level precision, up to one year in the future.
 
 [Click here to create this source](https://pipedream.com/sources?action=create&key=pipedream-new-scheduled-tasks), or visit [https://pipedream.com/sources/new](https://pipedream.com/sources/new), select the **Pipedream** app, and the **New Scheduled Tasks** source.
 
@@ -13,7 +13,7 @@ To [schedule a new task](#scheduling-a-task), just send an HTTP `POST` request t
 }
 ```
 
-When the timestamp arrives and the task is invoked, the source will emit the payload passed in your original, scheduled request. This allows you to trigger [a Pipedream workflow](/workflows/) at the scheduled time, passing the `message` and `timestamp` to the workflow as an [incoming event](/workflows/events/).
+When the timestamp arrives and the task is invoked, the source will emit the payload passed in your original, scheduled request. This allows you to trigger [a Pipedream workflow](/workflows/) at the scheduled time, passing the `message` and `timestamp` to the workflow as an [incoming event](/docs/workflows/visual-builder/triggers/).
 
 You can also listen for these events in your own app / infra, by [subscribing to your source's SSE stream](/api/sse/). Each time a scheduled task is emitted from your Pipedream source, it also emits a message to that SSE stream. Any application (a Docker container, a Rails app, etc.) listening to that SSE stream can react to that message to run whatever code you'd like.
 
@@ -175,6 +175,6 @@ Scheduled tasks are emitted by the event source as events, which you can consume
 - [Pipedream workflows](/workflows/)
 - [A source-specific SSE stream](/api/sse/)
 - [The Pipedream REST API](/api/rest/)
-- [The Pipedream CLI](/cli/reference/#installing-the-cli)
+- [The Pipedream CLI](/workflows/cli/reference/#installing-the-cli)
 
 [See the docs on consuming events from sources](/sources/#consuming-events-from-sources) for more information.

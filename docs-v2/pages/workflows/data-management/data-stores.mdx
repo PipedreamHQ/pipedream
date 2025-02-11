@@ -20,7 +20,7 @@ Data stores are useful for:
 
 You can connect to the same data store across workflows, so they're also great for sharing state across different services.
 
-You can use pre-built, no-code actions to store, update, and clear data, or interact with data stores programmatically in [Node.js](/code/nodejs/using-data-stores/) or [Python](/code/python/using-data-stores/).
+You can use pre-built, no-code actions to store, update, and clear data, or interact with data stores programmatically in [Node.js](/workflows/visual-builder/code/nodejs/using-data-stores/) or [Python](/workflows/visual-builder/code/pythonusing-data-stores/).
 
 ## Using pre-built Data Store actions
 
@@ -46,7 +46,7 @@ Configure the action:
 
 For example, to store the timestamp when the workflow was initially triggered, set the **Key** to **Triggered At** and the **Value** to `{{steps.trigger.context.ts}}`.
 
-The **Key** must evaluate to a string. You can pass a static string, reference [exports](/workflows/steps/#step-exports) from a previous step, or use [any valid expression](/workflows/using-props/#entering-expressions).
+The **Key** must evaluate to a string. You can pass a static string, reference [exports](/workflows/#step-exports) from a previous step, or use [any valid expression](/workflows/using-props/#entering-expressions).
 
 ![Workflow trigger example](pages/images/v3/data-stores/update-data-store-key-by-reference.png)
 
@@ -126,7 +126,7 @@ Then remove the data store from any linked steps.
 
 ## Using data stores in code steps
 
-Refer to the [Node.js](/code/nodejs/using-data-stores/) and [Python](/code/python/using-data-stores/) data store docs to learn how to use data stores in code steps. You can get, set, delete and perform any other data store operations in code. You cannot use data stores in [Bash](/code/bash/) or [Go](/code/go/) code steps.
+Refer to the [Node.js](/workflows/visual-builder/code/nodejs/using-data-stores/) and [Python](/workflows/visual-builder/code/pythonusing-data-stores/) data store docs to learn how to use data stores in code steps. You can get, set, delete and perform any other data store operations in code. You cannot use data stores in [Bash](/workflows/visual-builder/code/bash/) or [Go](/workflows/visual-builder/code/go/) code steps.
 
 ## Compression
 
@@ -178,7 +178,7 @@ The following Node.js example action will export the data in chunks via an HTTP 
   `chunkSize`.
 </Callout>
 
-- Adjust your [workflow memory and timeout settings](/workflows/settings/) according to the size of the data in your data store. Set the memory at 512 MB and timeout to 60 seconds and adjust higher if needed.
+- Adjust your [workflow memory and timeout settings](/workflows/visual-builder/settings/) according to the size of the data in your data store. Set the memory at 512 MB and timeout to 60 seconds and adjust higher if needed.
 
 - Monitor the exports of this step after each execution for any potential errors preventing a full export. Run the step as many times as needed until all your data is exported.
 

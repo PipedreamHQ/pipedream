@@ -1,4 +1,4 @@
 export default {
-  "troubleshooting": "Overview",
+  "index": "Overview",
   "faq": "FAQ",
 } as const

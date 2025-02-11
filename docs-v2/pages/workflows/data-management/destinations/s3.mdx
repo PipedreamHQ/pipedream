@@ -6,9 +6,9 @@ import PublicIPs from '@/components/PublicIPs'
 
 ## Using `$.send.s3` in workflows
 
-You can send data to an S3 Destination in [Node.js code steps](/code/nodejs/) using `$.send.s3()`.
+You can send data to an S3 Destination in [Node.js code steps](/workflows/visual-builder/code/nodejs/) using `$.send.s3()`.
 
-`$.send.s3()` takes the following parameters: 
+`$.send.s3()` takes the following parameters:
 
 ```javascript
 $.send.s3({
@@ -22,7 +22,7 @@ Like with any `$.send` function, you can use `$.send.s3()` conditionally, within
 
 ## Using `$.send.s3` in component actions
 
-If you're authoring a [component action](/components#actions), you can deliver data to an S3 destination using `$.send.s3`.
+If you're authoring a [component action](/workflows/contributing/components#actions), you can deliver data to an S3 destination using `$.send.s3`.
 
 `$.send.s3` functions the same as [`$.send.s3` in workflow code steps](#using-sends3-in-workflows):
 
@@ -101,4 +101,3 @@ S3 provides a mechanism to [limit operations only from specific IP addresses](ht
 <PublicIPs />
 
 This list may change over time. If you've previously whitelisted these IP addresses and are having trouble uploading S3 objects, please check to ensure this list matches your firewall rules.
-

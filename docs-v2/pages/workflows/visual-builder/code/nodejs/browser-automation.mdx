@@ -32,7 +32,7 @@ Then using this browser you can open new [Pages](https://pptr.dev/api/puppeteer.
 export default defineComponent({
   async run({steps, $}) {
     const browser = await puppeteer.browser();
-    
+
     // Interact with the web page programmatically
     // See Puppeeter's Page documentation for available methods:
     // https://pptr.dev/api/puppeteer.page
@@ -259,7 +259,7 @@ import { playwright } from '@pipedream/browsers';
 export default defineComponent({
   async run({steps, $}) {
     const browser = await playwright.browser();
-    
+
     // Interact with the web page programmatically
     // See Playwright's Page documentation for available methods:
     // https://playwright.dev/docs/api/class-page
@@ -531,7 +531,7 @@ Remember to close the browser instance _before_ the step finishes. Otherwise, th
 
 ### Out of memory errors or slow starts
 
-For best results, we recommend increasing the amount of memory available to your workflow to 2 gigabytes. You can adjust the available memory in the [workflow settings](https://pipedream.com/docs/workflows/settings/#memory).
+For best results, we recommend increasing the amount of memory available to your workflow to 2 gigabytes. You can adjust the available memory in the [workflow settings](https://pipedream.com/docs/workflows/visual-builder/settings/#memory).
 
 ### Which browser are these packages using?
 

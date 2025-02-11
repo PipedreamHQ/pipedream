@@ -1,4 +1,4 @@
 export default {
-  "pricing": "Overview",
+  "index": "Overview",
   "faq": "FAQ",
 } as const

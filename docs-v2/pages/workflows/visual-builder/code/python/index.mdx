@@ -23,14 +23,14 @@ def handler(pd: "pipedream"):
   return {"foo": {"test": True}}
 ```
 
-You can also perform more complex operations, including [leveraging your connected accounts to make authenticated API requests](/code/python/auth/), [accessing Data Stores](/code/python/using-data-stores/) and [installing PyPI packages](/code/python/#using-third-party-packages).
+You can also perform more complex operations, including [leveraging your connected accounts to make authenticated API requests](/workflows/visual-builder/code/pythonauth/), [accessing Data Stores](/workflows/visual-builder/code/pythonusing-data-stores/) and [installing PyPI packages](/workflows/visual-builder/code/python#using-third-party-packages).
 
-- [Install PyPI Packages](/code/python/#using-third-party-packages)
-- [Import data exported from other steps](/code/python/#using-data-from-another-step)
-- [Export data to downstream steps](/code/python/#sending-data-downstream-to-other-steps)
-- [Retrieve data from a data store](/code/python/using-data-stores/#retrieving-data)
-- [Store data into a data store](/code/python/using-data-stores/#saving-data)
-- [Access API credentials from connected accounts](/code/python/auth/)
+- [Install PyPI Packages](/workflows/visual-builder/code/python#using-third-party-packages)
+- [Import data exported from other steps](/workflows/visual-builder/code/python#using-data-from-another-step)
+- [Export data to downstream steps](/workflows/visual-builder/code/python#sending-data-downstream-to-other-steps)
+- [Retrieve data from a data store](/workflows/visual-builder/code/pythonusing-data-stores/#retrieving-data)
+- [Store data into a data store](/workflows/visual-builder/code/pythonusing-data-stores/#saving-data)
+- [Access API credentials from connected accounts](/workflows/visual-builder/code/pythonauth/)
 
 ## Logging and debugging
 
@@ -72,7 +72,7 @@ vs.
 import telegram
 ```
 
-Use the built in [magic comment system to resolve these mismatches](/code/python/import-mappings/):
+Use the built in [magic comment system to resolve these mismatches](/workflows/visual-builder/code/pythonimport-mappings/):
 
 ```python
 # pipedream add-package python-telegram-bot
@@ -83,7 +83,7 @@ import telegram
 
 Each time you deploy a workflow with Python code, Pipedream downloads the PyPi packages you `import` in your step. **By default, Pipedream deploys the latest version of the PyPi package each time you deploy a change**.
 
-There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a workflow, you can add that version in a [magic comment](/code/python/import-mappings/), for example:
+There are many cases where you may want to specify the version of the packages you're using. If you'd like to use a _specific_ version of a package in a workflow, you can add that version in a [magic comment](/workflows/visual-builder/code/pythonimport-mappings/), for example:
 
 ```python
 # pipedream add-package pandas==2.0.0
@@ -100,11 +100,11 @@ We recommend using the popular `requests` HTTP client package available in Pytho
 
 No need to run `pip install`, just `import requests` at the top of your step's code and it's available for your code to use.
 
-See the [Making HTTP Requests with Python](/code/python/http-requests/) docs for more information.
+See the [Making HTTP Requests with Python](/workflows/visual-builder/code/pythonhttp-requests/) docs for more information.
 
 ## Returning HTTP responses
 
-You can return HTTP responses from [HTTP-triggered workflows](/workflows/triggers/#http) using the `pd.respond()` method:
+You can return HTTP responses from [HTTP-triggered workflows](/docs/workflows/visual-builder/triggers/#http) using the `pd.respond()` method:
 
 ```python
 def handler(pd: "pipedream"):
@@ -123,7 +123,7 @@ Unlike the [Node.js equivalent](https://pipedream.com/docs/workflows/steps/trigg
 </Callout>
 
 <Callout type="info">
-_Don't forget_ to [configure your workflow's HTTP trigger to allow a custom response](/workflows/triggers/#http-responses). Otherwise your workflow will return the default response.
+_Don't forget_ to [configure your workflow's HTTP trigger to allow a custom response](/docs/workflows/visual-builder/triggers/#http-responses). Otherwise your workflow will return the default response.
 </Callout>
 
 ## Sharing data between steps
@@ -295,4 +295,4 @@ The `/tmp` directory is accessible from your workflow steps for saving and retri
 
 You have full access to read and write both files in `/tmp`.
 
-See the [Working with the filesystem in Python](/code/python/working-with-files/) docs for more information.
+See the [Working with the filesystem in Python](/workflows/visual-builder/code/pythonworking-with-files/) docs for more information.

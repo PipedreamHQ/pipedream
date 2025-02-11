@@ -2,7 +2,7 @@
 
 The Email Destination allows you send an email to _yourself_ — the email address tied to the account you signed up with — at any step of a workflow.
 
-You can use this to email yourself when you receive a specific event, for example when a user signs up on your app. You can send yourself an email when a cron job finishes running, or when a job fails. Anywhere you need an email notification, you can use the Email Destination! 
+You can use this to email yourself when you receive a specific event, for example when a user signs up on your app. You can send yourself an email when a cron job finishes running, or when a job fails. Anywhere you need an email notification, you can use the Email Destination!
 
 
 
@@ -15,7 +15,7 @@ You can use this to email yourself when you receive a specific event, for exampl
 
 ### Using `$.send.email` in workflows
 
-You can send data to an Email Destination in [Node.js code steps](/code/nodejs/), too, using the `$.send.email()` function. **This allows you to send emails to yourself programmatically, if you need more control than actions provide**.
+You can send data to an Email Destination in [Node.js code steps](/workflows/visual-builder/code/nodejs/), too, using the `$.send.email()` function. **This allows you to send emails to yourself programmatically, if you need more control than actions provide**.
 
 `$.send.email()` takes the same parameters as the corresponding action:
 
@@ -37,7 +37,7 @@ Like with any `$.send` function, you can use `$.send.email()` conditionally, wit
 
 ### Using `$.send.email` in component actions
 
-If you're authoring a [component action](/components#actions), you can deliver data to an email destination using `$.send.email`.
+If you're authoring a [component action](/workflows/contributing/components#actions), you can deliver data to an email destination using `$.send.email`.
 
 `$.send.email` functions the same as [`$.send.email` in workflow code steps](#using-sendemail-in-workflows):
 
@@ -56,4 +56,3 @@ export default defineComponent({
 ## Delivery details
 
 All emails come from **notifications@pipedream.com**.
-

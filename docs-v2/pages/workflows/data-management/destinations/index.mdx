@@ -1,6 +1,6 @@
 # Destinations
 
-**Destinations**, like [actions](/components#actions), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
+**Destinations**, like [actions](/workflows/contributing/components#actions), abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
 
 However, Destinations are different than actions in two ways:
 
@@ -23,7 +23,7 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 
 ### Using destinations in workflows
 
-You can send data to Destinations in [Node.js code steps](/code/nodejs/), too, using `$.send` functions.
+You can send data to Destinations in [Node.js code steps](/workflows/visual-builder/code/nodejs/), too, using `$.send` functions.
 
 `$.send` is an object provided by Pipedream that exposes destination-specific functions like `$.send.http()`, `$.send.s3()`, and more. This allows you to send data to destinations programmatically, if you need more control than the default actions provide.
 
@@ -70,7 +70,7 @@ you won't have to `await` the execution of the HTTP requests in your workflow. W
 
 ### Using destinations in actions
 
-If you're authoring a [component action](/components#actions), you can deliver data to destinations, too. `$.send` isn't directly available to actions like it is for workflow code steps. Instead, you use `$.send` to access the destination-specific functions:
+If you're authoring a [component action](/workflows/contributing/components#actions), you can deliver data to destinations, too. `$.send` isn't directly available to actions like it is for workflow code steps. Instead, you use `$.send` to access the destination-specific functions:
 
 ```javascript
 export default {
@@ -90,11 +90,10 @@ export default {
 }
 ```
 
-[See the component action API docs](/components/api/#actions) for more details.
+[See the component action API docs](/workflows/contributing/components/api/#actions) for more details.
 
 ## Asynchronous Delivery
 
 Events are delivered to destinations _asynchronously_ — that is, separate from the execution of your workflow. **This means you're not waiting for network or connection I/O in the middle of your function, which can be costly**.
 
 Some destination payloads, like HTTP, are delivered within seconds. For other destinations, like S3 and SQL, we collect individual events into a batch and send the batch to the destination. See the [docs for a specific destination](#available-destinations) for the relevant batch delivery frequency.
-

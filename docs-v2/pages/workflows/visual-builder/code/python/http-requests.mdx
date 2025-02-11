@@ -6,7 +6,7 @@ HTTP requests are fundamental to working with APIs or other web services. You ca
 
 **Below, we'll review how to make HTTP requests using Python code on Pipedream.**
 
-We recommend using the popular `requests` HTTP client package available in Python to send HTTP requests, but [you can use any PyPi package you'd like on Pipedream](/code/python/#using-third-party-packages).
+We recommend using the popular `requests` HTTP client package available in Python to send HTTP requests, but [you can use any PyPi package you'd like on Pipedream](/workflows/visual-builder/code/python#using-third-party-packages).
 
 
 
@@ -174,7 +174,7 @@ def handler(pd: "pipedream"):
 
 ## Downloading a file to the `/tmp` directory
 
-This example shows you how to download a file to a file in [the `/tmp` directory](/code/python/working-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
+This example shows you how to download a file to a file in [the `/tmp` directory](/workflows/visual-builder/code/pythonworking-with-files/). This can be especially helpful for downloading large files: it streams the file to disk, minimizing the memory the workflow uses when downloading the file.
 
 ```python
 import requests
@@ -194,7 +194,7 @@ def handler(pd: "pipedream"):
 
 ## Uploading a file from the `/tmp` directory
 
-This example shows you how to make a `multipart/form-data` request with a file as a form part. You can store and read any files from [the `/tmp` directory](/code/python/working-with-files/#the-tmp-directory).
+This example shows you how to make a `multipart/form-data` request with a file as a form part. You can store and read any files from [the `/tmp` directory](/workflows/visual-builder/code/pythonworking-with-files/#the-tmp-directory).
 
 This can be especially helpful for uploading large files: it streams the file from disk, minimizing the memory the workflow uses when uploading the file.
 
@@ -277,8 +277,8 @@ import requests
 def handler(pd: "pipedream"):
   url = "https://api.github.com/graphql"
   query = """
-query { 
-  viewer { 
+query {
+  viewer {
     login
   }
 }
