@@ -11,12 +11,12 @@ export default {
     startCoordinate: {
       type: "string",
       label: "Start Coordinate",
-      description: "The starting point in the format `longitude,latitude`, E.g. `37.835819,-85.244869`",
+      description: "The starting point in the format `longitude,latitude`, E.g. `-85.244869,37.835819`",
     },
     endCoordinate: {
       type: "string",
       label: "End Coordinate",
-      description: "The ending point in the format `longitude,latitude`, E.g. `37.835819,-85.244869`",
+      description: "The ending point in the format `longitude,latitude`, E.g. `-85.244869,37.835819`",
     },
     transportationMode: {
       propDefinition: [
