@@ -1,7 +1,7 @@
 export const LANGUAGE_CODE_OPTIONS = [
   {
     label: "Afrikaans",
-    value: "s",
+    value: "af",
   },
   {
     label: "Albanian",
