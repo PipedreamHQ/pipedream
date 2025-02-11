@@ -1,4 +1,3 @@
-import constants from "../../common/constants.mjs";
 import { capitalizeWord } from "../../common/utils.mjs";
 import monday from "../../monday.app.mjs";
 
@@ -22,12 +21,29 @@ export default {
     if (!this.columns) {
       return props;
     }
-    let options;
+    const columnData = await this.monday.listColumns({
+      boardId: +this.boardId,
+    });
     for (const column of this.columns) {
-      let description;
-      if (column === "status") {
-        description = "The status of the item. [See more about status values here](https://view.monday.com/1073554546-ad9f20a427a16e67ded630108994c11b?r=use1).";
-        options = constants.STATUS_OPTIONS;
+      let description, options;
+      const columnOptions = columnData.find(({ id }) => id === column)?.settings_str;
+      if (columnOptions) {
+        try {
+          options = Object.entries(JSON.parse(columnOptions).labels).map(([
+            value,
+            label,
+          ]) => ({
+            label: label !== ""
+              ? label
+              : value,
+            value,
+          }));
+        } catch (err) {
+          console.log(`Error parsing options for column "${column}": ${err}`);
+        }
+      }
+      if (column.endsWith("status")) {
+        description = "A status value for the item. [See more about status values here](https://view.monday.com/1073554546-ad9f20a427a16e67ded630108994c11b?r=use1).";
       } else if (column === "person") {
         description = "The ID of a person/user.";
       } else if (column === "date4") {

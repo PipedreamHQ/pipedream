@@ -128,7 +128,7 @@ export default {
       label: "Column",
       description: "Select a column to watch for changes.",
       async options({ boardId }) {
-        const columns = await this.listColumns({
+        const columns = await this.listColumnOptions({
           boardId: +boardId,
         });
         return columns
@@ -306,6 +306,15 @@ export default {
           variables,
         },
       });
+    },
+    async listColumnOptions(variables) {
+      const { data } = await this.makeRequest({
+        query: queries.listColumnOptions,
+        options: {
+          variables,
+        },
+      });
+      return data?.boards[0]?.columns;
     },
     async listColumns(variables) {
       const { data } = await this.makeRequest({
