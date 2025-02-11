@@ -11,12 +11,12 @@ export default {
     startCoordinate: {
       type: "string",
       label: "Start Coordinate",
-      description: "The starting point in the format `longitude,latitude`",
+      description: "The starting point in the format `longitude,latitude`, E.g. `37.835819,-85.244869`",
     },
     endCoordinate: {
       type: "string",
       label: "End Coordinate",
-      description: "The ending point in the format `longitude,latitude`",
+      description: "The ending point in the format `longitude,latitude`, E.g. `37.835819,-85.244869`",
     },
     transportationMode: {
       propDefinition: [
@@ -28,6 +28,7 @@ export default {
       type: "boolean",
       label: "Steps",
       description: "Whether to return steps and turn-by-turn instructions (`true`) or not (`false`, default)",
+      optional: true,
     },
     alternatives: {
       type: "boolean",

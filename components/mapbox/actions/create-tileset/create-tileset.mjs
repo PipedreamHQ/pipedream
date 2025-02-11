@@ -18,7 +18,7 @@ export default {
     tilesetName: {
       type: "string",
       label: "Tileset Name",
-      description: "A unique name for the tileset source to be created. Limited to 32 characters. The only allowed special characters are - and _.",
+      description: "A unique name for the tileset source to be created. Limited to 32 characters. The only allowed special characters are `-` (hyphen) and `_` (underscore)",
     },
     filePath: {
       type: "string",
@@ -28,7 +28,7 @@ export default {
     recipe: {
       type: "object",
       label: "Recipe",
-      description: "A recipe that describes how the GeoJSON data you uploaded should be transformed into tiles. A tileset source is raw geographic data formatted as [line-delimited GeoJSON](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON), or a supported [raster file format](https://docs.mapbox.com/mapbox-tiling-service/raster/supported-file-formats/). For more information on how to create and format recipes, see the ]Recipe reference](https://docs.mapbox.com/mapbox-tiling-service/reference/) and [Recipe examples](https://docs.mapbox.com/mapbox-tiling-service/examples/).",
+      description: "A recipe that describes how the GeoJSON data you uploaded should be transformed into tiles. A tileset source is raw geographic data formatted as [line-delimited GeoJSON](https://en.wikipedia.org/wiki/JSON_streaming#Line-delimited_JSON), or a supported [raster file format](https://docs.mapbox.com/mapbox-tiling-service/raster/supported-file-formats/). For more information on how to create and format recipes, see the [Recipe reference](https://docs.mapbox.com/mapbox-tiling-service/reference/) and [Recipe examples](https://docs.mapbox.com/mapbox-tiling-service/examples/).",
     },
     description: {
       type: "string",
