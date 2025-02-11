@@ -7276,6 +7276,9 @@ importers:
 
   components/odoo: {}
 
+  components/office_365_management:
+    specifiers: {}
+
   components/offlight:
     dependencies:
       '@pipedream/platform':
