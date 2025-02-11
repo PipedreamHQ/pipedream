@@ -2,13 +2,14 @@ import common from "../common/column-values.mjs";
 import { axios } from "@pipedream/platform";
 import fs from "fs";
 import FormData from "form-data";
+import { getColumnOptions } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "monday-update-column-values",
   name: "Update Column Values",
   description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
-  version: "0.0.6",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
@@ -34,14 +35,19 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (this.boardId) {
-      const columns = await this.getColumns(this.boardId);
+    const { boardId } = this;
+    if (boardId) {
+      const columns = await this.monday.listColumns({
+        boardId: +boardId,
+      });
       for (const column of columns) {
-        props[column.id] = {
+        const id = column.id;
+        props[id] = {
           type: "string",
           label: column.title,
-          description: `The value for column ${column.title}`,
+          description: `The value for the "${column.title}" column (\`${id}\`)`,
           optional: true,
+          options: getColumnOptions(columns, id),
         };
         if (column.type === "file") {
           props[column.id].description += ". The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).";

@@ -1,4 +1,6 @@
-import { capitalizeWord } from "../../common/utils.mjs";
+import {
+  capitalizeWord, getColumnOptions,
+} from "../../common/utils.mjs";
 import monday from "../../monday.app.mjs";
 
 export default {
@@ -26,30 +28,15 @@ export default {
     });
     for (const column of this.columns) {
       let description, options;
-      const columnOptions = columnData.find(({ id }) => id === column)?.settings_str;
-      if (columnOptions) {
-        try {
-          options = Object.entries(JSON.parse(columnOptions).labels).map(([
-            value,
-            label,
-          ]) => ({
-            label: label !== ""
-              ? label
-              : value,
-            value,
-          }));
-        } catch (err) {
-          console.log(`Error parsing options for column "${column}": ${err}`);
-        }
-      }
-      if (column.endsWith("status")) {
-        description = "A status value for the item. [See more about status values here](https://view.monday.com/1073554546-ad9f20a427a16e67ded630108994c11b?r=use1).";
-      } else if (column === "person") {
+      options = getColumnOptions(columnData, column);
+      if (column === "person") {
         description = "The ID of a person/user.";
       } else if (column === "date4") {
         description = "A date string in `YYYY-MM-DD` format, e.g. `2022-09-02`.";
+      } else if (options) {
+        description = `Select a value from the list for column "${column}".`;
       } else {
-        description = `Value for column ${column}. See the [Column Type Reference](https://developer.monday.com/api-reference/reference/column-types-reference) to learn more about entering column type values.`;
+        description = `Value for column "${column}". See the [Column Type Reference](https://developer.monday.com/api-reference/reference/column-types-reference) to learn more about entering column type values.`;
       }
       props[column] = {
         type: "string",

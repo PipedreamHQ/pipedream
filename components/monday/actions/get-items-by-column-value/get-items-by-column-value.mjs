@@ -1,3 +1,4 @@
+import { getColumnOptions } from "../../common/utils.mjs";
 import common from "../common/column-values.mjs";
 
 export default {
@@ -5,7 +6,7 @@ export default {
   key: "monday-get-items-by-column-value",
   name: "Get Items By Column Value",
   description: "Searches a column for items matching a value. [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values)",
-  version: "0.0.6",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
@@ -18,12 +19,26 @@ export default {
         }),
       ],
       description: "The column to search",
+      reloadProps: true,
     },
-    value: {
-      type: "string",
-      label: "Value",
-      description: "The value to search for. [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values#supported-and-unsupported-columns) for additional information about column values.",
-    },
+  },
+  async additionalProps() {
+    const columnData = await this.monday.listColumns({
+      boardId: +this.boardId,
+    });
+
+    const options = getColumnOptions(columnData, this.columnId);
+
+    return {
+      value: {
+        type: "string",
+        label: "Value",
+        description: `The value to search for.${options
+          ? ""
+          : " [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values#supported-and-unsupported-columns) for additional information about column values."} `,
+        options,
+      },
+    };
   },
   async run({ $ }) {
     const response = await this.monday.getItemsByColumnValue({
