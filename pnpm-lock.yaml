@@ -2454,6 +2454,9 @@ importers:
         specifier: ^0.1.6
         version: 0.1.6
 
+  components/current_rms:
+    specifiers: {}
+
   components/customer_fields:
     dependencies:
       '@pipedream/platform':
