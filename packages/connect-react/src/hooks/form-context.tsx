@@ -41,7 +41,7 @@ export type FormContext<T extends ConfigurableProps> = {
   setSubmitting: (submitting: boolean) => void;
   submitting: boolean;
   userId: string;
-  enableDebugging: boolean;
+  enableDebugging?: boolean;
 };
 
 export const skippablePropTypes = [
@@ -78,7 +78,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, userId, sdkResponse, enableDebugging: __enableDebugging,
+    component, configuredProps: __configuredProps, propNames, userId, sdkResponse, enableDebugging,
   } = formProps;
   const componentId = component.key;
 
@@ -103,11 +103,6 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     sdkErrors,
     setSdkErrors,
   ] = useState<SdkError[]>([])
-
-  const [
-    enableDebugging
-    ,
-  ] = useState<boolean>(__enableDebugging === true)
 
   const [
     enabledOptionalProps,
