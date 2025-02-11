@@ -41,7 +41,7 @@ export type FormContext<T extends ConfigurableProps> = {
   setSubmitting: (submitting: boolean) => void;
   submitting: boolean;
   userId: string;
-  enableDebugging: boolean;
+  enableDebugging?: boolean;
 };
 
 export const skippablePropTypes = [
