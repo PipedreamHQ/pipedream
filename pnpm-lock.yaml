@@ -2624,7 +2624,11 @@ importers:
 
   components/deepl: {}
 
-  components/deepseek: {}
+  components/deepseek:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/defastra:
     dependencies:
