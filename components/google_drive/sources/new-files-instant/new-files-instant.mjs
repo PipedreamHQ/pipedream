@@ -9,8 +9,8 @@ export default {
   ...common,
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
-  description: "Emit new event when a new file is added in your linked Google Drive",
-  version: "0.1.11",
+  description: "Emit new event when a new file is added in your linked Google Drive - LOG TEST",
+  version: "1.2.{{ts}}",
   type: "source",
   dedupe: "unique",
   props: {
@@ -42,6 +42,7 @@ export default {
   },
   hooks: {
     async deploy() {
+      const deployLogs = [];
       const daysAgo = new Date();
       daysAgo.setDate(daysAgo.getDate() - 30);
       const timeString = daysAgo.toISOString();
@@ -55,7 +56,17 @@ export default {
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
-      this.emitFiles(files);
+      this.emitFiles(files, deployLogs);
+
+      const ts = Date.now();
+      this.$emit(
+        deployLogs,
+        {
+          summary: "Deploy hook logs",
+          id: `deploylogs-${ts}`,
+          ts,
+        },
+      );
     },
     ...common.hooks,
     async activate() {
@@ -84,19 +95,25 @@ export default {
         GOOGLE_DRIVE_NOTIFICATION_CHANGE,
       ];
     },
-    emitFiles(files) {
+    emitFiles(files, logs) {
+      let count = 0;
       for (const file of files) {
+        logs.push(this._generateLog("4A check file " + file.id));
         if (!this.shouldProcess(file)) {
+          logs.push(this._generateLog("4B not proccessing file " + file.id));
           continue;
         }
+        logs.push(this._generateLog("4C emit file " + file.id));
         this.$emit(file, {
           summary: `New File: ${file.name}`,
           id: file.id,
           ts: Date.parse(file.createdTime),
         });
+        count++;
       }
+      return count;
     },
-    async processChanges() {
+    async processChanges(_changedFiles, _headers, logs) {
       const lastFileCreatedTime = this._getLastFileCreatedTime();
       const timeString = new Date(lastFileCreatedTime).toISOString();
 
@@ -108,13 +125,18 @@ export default {
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
+      logs.push(this._generateLog("3A listed files in page: " + JSON.stringify(files)));
+
       if (!files?.length) {
-        return;
+        logs.push(this._generateLog("3B no files, ending"));
+        return 0;
       }
 
-      this.emitFiles(files);
+      const emitCount = this.emitFiles(files, logs);
 
+      logs.push(this._generateLog("3C finished emitting files, setting last created time"));
       this._setLastFileCreatedTime(Date.parse(files[0].createdTime));
+      return emitCount;
     },
   },
   sampleEmit,

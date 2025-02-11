@@ -126,80 +126,118 @@ export default {
     processChanges() {
       throw new Error("processChanges is not implemented");
     },
+    _generateLog(message) {
+      return {
+        ts: Date.now(),
+        message,
+      };
+    },
   },
   async run(event) {
+    let amountEmits = 0;
+    const logs = [];
+    try {
     // This function is polymorphic: it can be triggered as a cron job, to make
     // sure we renew watch requests for specific files, or via HTTP request (the
     // change payloads from Google)
-    const subscription = this._getSubscription();
-    const channelID = this._getChannelID();
-    const pageToken = this._getPageToken();
+      const subscription = this._getSubscription();
+      const channelID = this._getChannelID();
+      const pageToken = this._getPageToken();
 
-    // Component was invoked by timer
-    if (event.timestamp) {
-      const {
-        newChannelID,
-        newPageToken,
-        expiration,
-        resourceId,
-      } = await this.googleDrive.renewSubscription(
-        this.drive,
-        subscription,
-        this.http.endpoint,
-        channelID,
-        pageToken,
-      );
+      logs.push(this._generateLog("0A event struct: " + JSON.stringify(event)));
 
-      this._setSubscription({
-        expiration,
-        resourceId,
-      });
-      this._setChannelID(newChannelID);
-      this._setPageToken(newPageToken);
-      return;
-    }
+      // Component was invoked by timer
+      if (event.timestamp) {
+        logs.push(this._generateLog("1A timer run: begin renew subscription"));
+        const {
+          newChannelID,
+          newPageToken,
+          expiration,
+          resourceId,
+        } = await this.googleDrive.renewSubscription(
+          this.drive,
+          subscription,
+          this.http.endpoint,
+          channelID,
+          pageToken,
+        );
 
-    const { headers } = event;
-    if (!this.googleDrive.checkHeaders(headers, subscription, channelID)) {
-      return;
-    }
+        logs.push(this._generateLog("1B renewed subscription"));
 
-    if (!includes(this.getUpdateTypes(), headers["x-goog-resource-state"])) {
-      console.log(
-        `Update type ${headers["x-goog-resource-state"]} not in list of updates to watch: `,
-        this.getUpdateTypes(),
-      );
-      return;
-    }
+        this._setSubscription({
+          expiration,
+          resourceId,
+        });
+        this._setChannelID(newChannelID);
+        this._setPageToken(newPageToken);
 
-    // We observed false positives where a single change to a document would trigger two changes:
-    // one to "properties" and another to "content,properties". But changes to properties
-    // alone are legitimate, most users just won't want this source to emit in those cases.
-    // If x-goog-changed is _only_ set to "properties", only move on if the user set the prop
-    if (
-      !this.watchForPropertiesChanges &&
+        logs.push(this._generateLog("1C set db values, ending"));
+        return;
+      }
+
+      logs.push(this._generateLog("2A webhook run"));
+
+      const { headers } = event;
+      if (!this.googleDrive.checkHeaders(headers, subscription, channelID)) {
+        logs.push(this._generateLog("2B failed headers check, ending"));
+        return;
+      }
+
+      if (!includes(this.getUpdateTypes(), headers["x-goog-resource-state"])) {
+        console.log(
+          `Update type ${headers["x-goog-resource-state"]} not in list of updates to watch: `,
+          this.getUpdateTypes(),
+        );
+        logs.push(this._generateLog("2C update type not watched, ending"));
+        return;
+      }
+
+      // We observed false positives where a single change to a document would trigger two changes:
+      // one to "properties" and another to "content,properties". But changes to properties
+      // alone are legitimate, most users just won't want this source to emit in those cases.
+      // If x-goog-changed is _only_ set to "properties", only move on if the user set the prop
+      if (
+        !this.watchForPropertiesChanges &&
       headers["x-goog-changed"] === "properties"
-    ) {
-      console.log(
-        "Change to properties only, which this component is set to ignore. Exiting",
-      );
-      return;
-    }
+      ) {
+        console.log(
+          "Change to properties only, which this component is set to ignore. Exiting",
+        );
+        logs.push(this._generateLog("2D property changes only"));
+        return;
+      }
 
-    const driveId = this.getDriveId();
-    const changedFilesStream = this.googleDrive.listChanges(pageToken, driveId);
-    for await (const changedFilesPage of changedFilesStream) {
-      const {
-        changedFiles,
-        nextPageToken,
-      } = changedFilesPage;
+      const driveId = this.getDriveId();
+      const changedFilesStream = this.googleDrive.listChanges(pageToken, driveId);
+      logs.push(this._generateLog("2E obtained changed files"));
+      for await (const changedFilesPage of changedFilesStream) {
+        const {
+          changedFiles,
+          nextPageToken,
+        } = changedFilesPage;
 
-      // Process all the changed files retrieved from the current page
-      await this.processChanges(changedFiles, headers);
+        logs.push(this._generateLog("2F will proccess changedFilesPage: " + JSON.stringify(changedFilesPage)));
+        // Process all the changed files retrieved from the current page
+        const processResponse = await this.processChanges(changedFiles, headers, logs);
+        amountEmits += processResponse;
 
-      // After successfully processing the changed files, we store the page
-      // token of the next page
-      this._setPageToken(nextPageToken);
+        // After successfully processing the changed files, we store the page
+        // token of the next page
+        this._setPageToken(nextPageToken);
+        logs.push(this._generateLog("2G set page token: " + nextPageToken));
+      }
+    } finally {
+      const ts = Date.now();
+      this.$emit({
+        amountEmits,
+        logs,
+      }, {
+        summary: amountEmits
+          ? `Logs for ${amountEmits} emits`
+          : `Logs ${ts}`,
+        id: `logs-${ts}`,
+        ts,
+      });
     }
   },
 };
