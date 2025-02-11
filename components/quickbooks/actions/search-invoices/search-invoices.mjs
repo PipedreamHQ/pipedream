@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-search-invoices",
   name: "Search Invoices",
   description: "Searches for invoices. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#query-an-invoice)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     quickbooks,

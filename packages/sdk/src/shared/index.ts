@@ -4,6 +4,7 @@ import type {
   ConfiguredProps,
   V1Component,
   V1DeployedComponent,
+  V1EmittedEvent,
 } from "./component.js";
 export * from "./component.js";
 import { version as sdkVersion } from "../version.js";
@@ -116,6 +117,14 @@ export type App = AppInfo & {
 export type AppResponse = App;
 
 /**
+ * A configuration option for a component's prop.
+ */
+export type PropOption = {
+  label: string;
+  value: string;
+};
+
+/**
  * The response received after configuring a component's prop.
  */
 export type ConfigureComponentResponse = {
@@ -134,7 +143,7 @@ export type ConfigureComponentResponse = {
    * }
    * ```
    */
-  options: { label: string; value: string; }[];
+  options: PropOption[];
 
   /**
    * The options for the prop that's being configured. This field is applicable
@@ -167,6 +176,41 @@ export type RelationOpts = {
    */
   limit?: number;
 };
+
+/**
+ * Pagination attributes for API responses.
+ */
+export type ResponsePageInfo = {
+  /**
+   * The total number of records available.
+   */
+  total_count: number;
+
+  /**
+   * The number of records returned in the current response.
+   */
+  count: number;
+
+  /**
+   * The cursor to retrieve the next page of records.
+   */
+  start_cursor: string;
+
+  /**
+   * The cursor of the last page of records.
+   */
+  end_cursor: string;
+};
+
+/**
+ * The response attributes for paginated API responses.
+ */
+export type PaginationResponse = {
+  /**
+   * The pagination information for the response.
+   */
+  page_info: ResponsePageInfo;
+}
 
 /**
  * @deprecated Use `ConfigureComponentResponse` instead.
@@ -554,9 +598,196 @@ export type DeployTriggerOpts = ExternalUserId & {
   dynamicPropsId?: string;
 
   /**
+   * The ID of the workflow that the trigger will use to send the events it
+   * generates.
+   */
+  workflowId?: string;
+
+  /**
    * The webhook URL that the trigger will use to send the events it generates.
    */
   webhookUrl?: string;
+};
+
+/**
+ * The response received after deploying a trigger.
+ */
+export type DeployTriggerResponse = {
+  /**
+   * The contents of the deployed trigger.
+   */
+  data: V1DeployedComponent;
+}
+
+/**
+ * The request options for deleting a deployed trigger owned by a particular
+ * user.
+ */
+export type DeleteTriggerOpts = {
+  /**
+   * The ID of the trigger you're deleting (`dc_xxxxxxx` for example ).
+   */
+  id: string;
+
+  /**
+   * The end user ID, for whom you deployed the trigger.
+   */
+  externalUserId: string;
+
+  /**
+   * When explicitly set, the API will ignore any errors that occur during the
+   * deactivation hook of the trigger, effectively forcing the deletion of the
+   * trigger.
+   */
+  ignoreHookErrors?: boolean;
+};
+
+/**
+ * The request options for retrieving a deployed trigger owned by a particular
+ * user.
+ */
+export type GetTriggerOpts = {
+  /**
+   * The ID of the trigger you're retrieving.
+   */
+  id: string;
+
+  /**
+   * Your end user ID, for whom you deployed the trigger.
+   */
+  externalUserId: string;
+};
+
+/**
+ * The response received after retrieving a deployed trigger.
+ */
+export type GetTriggerResponse = {
+  /**
+   * The contents of the deployed trigger.
+   */
+  data: V1DeployedComponent;
+};
+
+/**
+ * The request options for retrieving the events emitted by a deployed trigger.
+ */
+export type GetTriggerEventsOpts = GetTriggerOpts & {
+  /**
+   * The number of events to retrieve (defaults to 20 if not provided).
+   */
+  limit?: number;
+};
+
+/**
+ * The response from retrieving the events emitted by a deployed trigger.
+ */
+export type GetTriggerEventsResponse = {
+  /**
+   * The list of events emitted by the trigger.
+   */
+  data: V1EmittedEvent[];
+};
+
+/**
+ * The request options for retrieving the workflows that listen to events
+ * emitted by a specific trigger.
+ */
+export type GetTriggerWorkflowsOpts = GetTriggerOpts;
+
+/**
+ * The response from retrieving the workflows that listen to events emitted by a
+ * specific trigger.
+ */
+export type GetTriggerWorkflowsResponse = {
+  /**
+   * The list of workflow IDs that listen to events emitted by the trigger.
+   */
+  workflow_ids: string[];
+};
+
+/**
+ * The request options for updating the workflows that listen to events emitted
+ * by a specific trigger.
+ */
+export type UpdateTriggerWorkflowsOpts = GetTriggerOpts & {
+  /**
+   * The workflow IDs that should to events emitted by the trigger.
+   */
+  workflowIds: string[];
+}
+
+/**
+ * The request options for retrieving the webhooks that listen to events
+ * emitted by a specific trigger.
+ */
+export type GetTriggerWebhooksOpts = GetTriggerOpts;
+
+/**
+ * The response from retrieving the webhooks that listen to events emitted by a
+ * specific trigger.
+ */
+export type GetTriggerWebhooksResponse = {
+  /**
+   * The list of webhook URLs that listen to events emitted by the trigger.
+   */
+  webhook_urls: string[];
+};
+
+/**
+ * The request options for updating the webhooks that listen to events emitted
+ * by a specific trigger.
+ */
+export type UpdateTriggerWebhooksOpts = GetTriggerOpts & {
+  /**
+   * The webhook URLs that should to events emitted by the trigger.
+   */
+  webhookUrls: string[];
+}
+
+/**
+ * The request options for retrieving a list of deployed triggers for a
+ * particular user.
+ */
+export type GetTriggersOpts = RelationOpts & {
+  /**
+   * Your end user ID, for whom you deployed the trigger.
+   */
+  externalUserId: string;
+};
+
+/**
+ * The response received after retrieving a list of deployed triggers.
+ */
+export type GetTriggersResponse = PaginationResponse & {
+  /**
+   * The list of deployed triggers.
+   */
+  data: V1DeployedComponent[];
+};
+
+/**
+ * The request options for updating a trigger.
+ */
+export type UpdateTriggerOpts = {
+  /**
+   * The ID of the trigger you're updating.
+   */
+  id: string;
+
+  /**
+   * Your end user ID, for whom you deployed the trigger.
+   */
+  externalUserId: string;
+
+  /**
+   * The state to which the trigger should be updated.
+   */
+  active?: boolean;
+
+  /**
+   * The new name of the trigger.
+   */
+  name?: string;
 };
 
 /**
@@ -590,7 +821,7 @@ export interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
   /**
    * Query parameters to include in the request URL.
    */
-  params?: Record<string, string | boolean | number>;
+  params?: Record<string, string | boolean | number | null>;
 
   /**
    * Headers to include in the request.
@@ -638,6 +869,14 @@ export abstract class BaseClient {
     this.apiHost = apiHost;
     this.baseApiUrl = `https://${apiHost}/v1`;
     this.workflowDomain = workflowDomain;
+  }
+
+  /**
+   * Retrieves the current environment the client is configured to use.
+   * @returns {string} The current environment.
+   */
+  public getEnvironment(): string {
+    return this.environment;
   }
 
   /**
@@ -756,8 +995,8 @@ export abstract class BaseClient {
     };
 
     return this.makeRequest(path, {
-      headers,
       ...opts,
+      headers,
     });
   }
 
@@ -1159,7 +1398,7 @@ export abstract class BaseClient {
       dynamic_props_id: opts.dynamicPropsId,
       webhook_url: opts.webhookUrl,
     };
-    return this.makeConnectRequest<V1DeployedComponent>("/triggers/deploy", {
+    return this.makeConnectRequest<DeployTriggerResponse>("/triggers/deploy", {
       method: "POST",
       body,
     });
@@ -1170,6 +1409,221 @@ export abstract class BaseClient {
    */
   public triggerDeploy(opts: DeployTriggerOpts) {
     return this.deployTrigger(opts);
+  }
+
+  /**
+   * Deletes a specific trigger.
+   *
+   * @param opts - The options for deleting the trigger.
+   * @returns No content
+   */
+  public deleteTrigger(opts: DeleteTriggerOpts) {
+    const {
+      id,
+      externalUserId,
+      ignoreHookErrors = null,
+    } = opts;
+
+    return this.makeConnectRequest<void>(`/deployed-triggers/${id}`, {
+      method: "DELETE",
+      params: {
+        external_user_id: externalUserId,
+        ignore_hook_errors: ignoreHookErrors,
+      },
+    });
+  }
+
+  /**
+   * Retrieves the metadata for a specific trigger.
+   *
+   * @param opts - The options for retrieving the trigger.
+   * @returns A promise resolving to the trigger metadata.
+   */
+  public getTrigger(opts: GetTriggerOpts) {
+    const {
+      id,
+      externalUserId,
+    } = opts;
+
+    return this.makeConnectRequest<GetTriggerResponse>(`/deployed-triggers/${id}`, {
+      method: "GET",
+      params: {
+        external_user_id: externalUserId,
+      },
+    });
+  }
+
+  /**
+   * Retrieves the metadata for all deployed triggers
+   *
+   * @param opts - The options for retrieving the triggers.
+   * @returns A promise resolving to a list of the trigger metadata.
+   */
+  public getTriggers(opts: GetTriggersOpts) {
+    const { externalUserId } = opts;
+
+    return this.makeConnectRequest<GetTriggersResponse>("/deployed-triggers", {
+      method: "GET",
+      params: {
+        external_user_id: externalUserId,
+      },
+    });
+  }
+
+  /**
+   * Updates a specific trigger.
+   *
+   * @param opts - The options for updating the trigger.
+   * @returns A promise resolving to the trigger metadata.
+   */
+  public updateTrigger(opts: UpdateTriggerOpts) {
+    const {
+      id,
+      externalUserId,
+      active = null,
+      name = null,
+    } = opts;
+
+    return this.makeConnectRequest<V1DeployedComponent>(`/deployed-triggers/${id}`, {
+      method: "PUT",
+      params: {
+        external_user_id: externalUserId,
+      },
+      body: {
+        active,
+        name,
+      },
+    });
+  }
+
+  /**
+   * Retrieves the last events emitted by a specific trigger.
+   *
+   * @param opts - The options for retrieving the trigger events.
+   * @returns A promise resolving to a list of emitted events.
+   */
+  public getTriggerEvents(opts: GetTriggerEventsOpts) {
+    const {
+      id,
+      externalUserId,
+      limit = null,
+    } = opts;
+
+    return this.makeConnectRequest<GetTriggerEventsResponse>(
+      `/deployed-triggers/${id}/events`, {
+        method: "GET",
+        params: {
+          external_user_id: externalUserId,
+          n: limit,
+        },
+      },
+    );
+  }
+
+  /**
+   * Retrieves the list of workflows to which the trigger emits events.
+   *
+   * @param opts - The options for retrieving the listening workflows.
+   * @returns A promise resolving to a list of workflows.
+   */
+  public getTriggerWorkflows(opts: GetTriggerWorkflowsOpts) {
+    const {
+      id,
+      externalUserId,
+    } = opts;
+
+    return this.makeConnectRequest<GetTriggerWorkflowsResponse>(
+      `/deployed-triggers/${id}/pipelines`, {
+        method: "GET",
+        params: {
+          external_user_id: externalUserId,
+        },
+      },
+    );
+  }
+
+  /**
+   * Updates the list of workflows to which the trigger will emit events.
+   *
+   * @param opts - The options for updating the listening workflows.
+   * @throws If `workflowIds` is not an array.
+   * @returns A promise resolving to a list of workflows.
+   */
+  public updateTriggerWorkflows(opts: UpdateTriggerWorkflowsOpts) {
+    const {
+      id,
+      externalUserId,
+      workflowIds,
+    } = opts;
+
+    if (!Array.isArray(workflowIds)) {
+      throw new Error("workflowIds must be an array");
+    }
+
+    return this.makeConnectRequest<GetTriggerWorkflowsResponse>(
+      `/deployed-triggers/${id}/pipelines`, {
+        method: "PUT",
+        params: {
+          external_user_id: externalUserId,
+        },
+        body: {
+          workflow_ids: workflowIds,
+        },
+      },
+    );
+  }
+
+  /**
+   * Retrieves the list of webhooks to which the trigger emits events.
+   *
+   * @param opts - The options for retrieving the listening webhooks.
+   * @returns A promise resolving to a list of webhooks.
+   */
+  public getTriggerWebhooks(opts: GetTriggerWebhooksOpts) {
+    const {
+      id,
+      externalUserId,
+    } = opts;
+
+    return this.makeConnectRequest<GetTriggerWebhooksResponse>(
+      `/deployed-triggers/${id}/webhooks`, {
+        method: "GET",
+        params: {
+          external_user_id: externalUserId,
+        },
+      },
+    );
+  }
+
+  /**
+   * Updates the list of webhooks to which the trigger will emit events.
+   *
+   * @param opts - The options for updating the listening webhooks.
+   * @throws If `webhookUrls` is not an array.
+   * @returns A promise resolving to a list of webhooks.
+   */
+  public updateTriggerWebhooks(opts: UpdateTriggerWebhooksOpts) {
+    const {
+      id,
+      externalUserId,
+      webhookUrls,
+    } = opts;
+
+    if (!Array.isArray(webhookUrls)) {
+      throw new Error("webhookUrls must be an array");
+    }
+
+    return this.makeConnectRequest<GetTriggerWebhooksResponse>(
+      `/deployed-triggers/${id}/webhooks`, {
+        method: "PUT",
+        params: {
+          external_user_id: externalUserId,
+        },
+        body: {
+          webhook_urls: webhookUrls,
+        },
+      },
+    );
   }
 
   /**

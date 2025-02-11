@@ -2,14 +2,14 @@ import common from "../common/base.mjs";
 import {
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
-} from "../../../google_drive/common/constants.mjs";
+} from "@pipedream/google_drive/common/constants.mjs";
 
 export default {
   ...common,
   key: "google_docs-new-or-updated-document",
   name: "New or Updated Document (Instant)",
   description: "Emit new event when a document is created or updated in Google Docs. [See the documentation](https://developers.google.com/drive/api/reference/rest/v3/changes/watch)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

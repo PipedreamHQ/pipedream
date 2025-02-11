@@ -5,7 +5,7 @@ export default {
   key: "intercom-new-lead",
   name: "New Leads",
   description: "Emit new event each time a new lead is added.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

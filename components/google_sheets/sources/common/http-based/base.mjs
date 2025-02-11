@@ -41,6 +41,14 @@ export default {
         intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
       },
     },
+    watchedDrive: {
+      propDefinition: [
+        googleSheets,
+        "watchedDrive",
+      ],
+      description: "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+    },
+
     sheetID: {
       propDefinition: [
         googleSheets,

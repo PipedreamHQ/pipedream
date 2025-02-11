@@ -2,13 +2,11 @@
 // Pipedream project's public and secret keys and access customer credentials.
 // See the browser/ directory for the browser client.
 
+import * as oauth from "oauth4webapi";
 import {
-  AccessToken, ClientCredentials,
-} from "simple-oauth2";
-import {
-  Account, BaseClient, type AppInfo, type ConnectTokenResponse,
-} from "../shared";
-export * from "../shared";
+  Account, BaseClient, type AppInfo, type ConnectTokenResponse, type RequestOptions,
+} from "../shared/index.js";
+export * from "../shared/index.js";
 
 /**
  * OAuth credentials for your Pipedream account, containing client ID and
@@ -110,6 +108,48 @@ export type GetAccountByIdOpts = {
 };
 
 /**
+ * Options used to determine the external user and account to be used in Connect Proxy API
+ */
+export type ProxyApiOpts  = {
+  /**
+   * Search parameters to be added to the proxy request.  external_user_id and account_id are required.
+   */
+  searchParams: Record<string, string>;
+};
+
+/**
+ * fetch-like options for the Target of the Connect Proxy Api Request
+ */
+export type ProxyTargetApiOpts = {
+  /**
+   * http method for the request
+   */
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  /**
+   * http headers for the request
+   */
+  headers?: Record<string, string>;
+  /**
+   * http body for the request
+   */
+  body?: string;
+};
+
+/**
+ * object that contains the url and options for the target of the Connect Proxy Api Request
+ */
+export type ProxyTargetApiRequest = {
+  /**
+   * URL for the target of the request.  Search parameters must be included here.
+   */
+  url: string;
+  /**
+   * fetch-like options for the target of the Connect Proxy Request
+   */
+  options: ProxyTargetApiOpts;
+};
+
+/**
  * Creates a new instance of BackendClient with the provided options.
  *
  * @example
@@ -136,9 +176,16 @@ export function createBackendClient(opts: BackendClientOpts) {
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
 export class BackendClient extends BaseClient {
-  private oauthClient: ClientCredentials;
-  private oauthToken?: AccessToken;
-  protected projectId: string;
+  private oauthClient: {
+    client: oauth.Client
+    clientAuth: oauth.ClientAuth
+    as: oauth.AuthorizationServer
+  };
+  private oauthAccessToken?: {
+    token: string
+    expiresAt: number
+  };
+  protected override projectId: string = "";
 
   /**
    * Constructs a new ServerClient instance.
@@ -151,8 +198,7 @@ export class BackendClient extends BaseClient {
 
     this.ensureValidEnvironment(opts.environment);
     this.projectId = opts.projectId;
-
-    this.oauthClient = this.newOauthClient(opts.credentials, this.baseApiUrl);
+    this.oauthClient = this.newOauthClient(opts.credentials, this.apiHost);
   }
 
   private ensureValidEnvironment(environment?: string) {
@@ -175,59 +221,70 @@ export class BackendClient extends BaseClient {
     if (!clientId || !clientSecret) {
       throw new Error("OAuth client ID and secret are required");
     }
-
-    const client = {
-      id: clientId,
-      secret: clientSecret,
-    };
-    return new ClientCredentials({
+    const client: oauth.Client = {
+      client_id: clientId,
+    }
+    const clientAuth = oauth.ClientSecretPost(clientSecret)
+    const as: oauth.AuthorizationServer = {
+      issuer: tokenHost,
+      token_endpoint: `https://${tokenHost}/v1/oauth/token`,
+    }
+    return {
       client,
-      auth: {
-        tokenHost,
-        tokenPath: "/v1/oauth/token",
-      },
-    });
+      clientAuth,
+      as,
+    }
   }
 
   protected authHeaders(): string | Promise<string> {
     return this.oauthAuthorizationHeader();
   }
 
-  private async ensureValidOauthToken() {
-    if (this.oauthToken && !this.oauthToken.expired) return;
+  private async ensureValidOauthAccessToken(): Promise<string> {
+    const {
+      client,
+      clientAuth,
+      as,
+    } = this.oauthClient
 
     let attempts = 0;
-    const maxAttempts = 2; // Prevent potential infinite loops
+    const maxAttempts = 2;
 
-    do {
+    while (!this.oauthAccessToken || this.oauthAccessToken.expiresAt - Date.now() <= 0) {
+      if (attempts > maxAttempts) {
+        throw new Error("ran out of attempts trying to retrieve oauth access token");
+      }
       if (attempts > 0) {
         // Wait for a short duration before retrying to avoid rapid retries
         await new Promise((resolve) => setTimeout(resolve, 100));
       }
 
+      const parameters = new URLSearchParams();
       try {
-        this.oauthToken = await this.oauthClient.getToken({});
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        throw new Error(`Failed to obtain OAuth token: ${error.message}`);
+        const response = await oauth.clientCredentialsGrantRequest(as, client, clientAuth, parameters);
+        const oauthTokenResponse = await oauth.processClientCredentialsResponse(as, client, response);
+        this.oauthAccessToken = {
+          token: oauthTokenResponse.access_token,
+          expiresAt: Date.now() + (oauthTokenResponse.expires_in || 0) * 1000,
+        };
+      } catch {
+        // pass
       }
 
       attempts++;
-    } while (this.oauthToken.expired() && attempts < maxAttempts);
-
-    if (this.oauthToken.expired()) {
-      throw new Error("Unable to obtain a valid (non-expired) OAuth token");
     }
+
+    return this.oauthAccessToken.token;
   }
 
   private async oauthAuthorizationHeader(): Promise<string> {
     if (!this.oauthClient) {
-      throw new Error("OAuth client not configured");
+      throw new Error("OAuth client not configured")
     }
 
-    await this.ensureValidOauthToken();
+    const accessToken = await this.ensureValidOauthAccessToken();
 
-    return `Bearer ${(this.oauthToken as AccessToken).token.access_token}`;
+    return `Bearer ${accessToken}`;
   }
 
   /**
@@ -262,11 +319,20 @@ export class BackendClient extends BaseClient {
    * Retrieves a specific account by ID.
    *
    * @param accountId - The ID of the account to retrieve.
+   * @param params - Additional options for the request.
    * @returns A promise resolving to the account.
    *
    * @example
    * ```typescript
    * const account = await client.getAccountById("account-id");
+   * console.log(account);
+   * ```
+   *
+   * @example
+   * ```typescript
+   * const account = await client.getAccountById("account-id", {
+   *   include_credentials: true,
+   * });
    * console.log(account);
    * ```
    */
@@ -349,5 +415,35 @@ export class BackendClient extends BaseClient {
     return this.makeConnectRequest("/projects/info", {
       method: "GET",
     });
+  }
+
+  /**
+   * Makes a proxy request to the target app API with the specified query parameters and options.
+   *
+   * @returns A promise resolving to the response from the downstream service
+   */
+  public makeProxyRequest(proxyOptions: ProxyApiOpts, targetRequest: ProxyTargetApiRequest): Promise<string> {
+    const url64 = btoa(targetRequest.url).replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+
+    const headers = targetRequest.options.headers || {};
+
+    const newHeaders = Object.keys(headers).reduce<{ [key: string]: string }>((acc, key) => {
+      acc[`x-pd-proxy-${key}`] = headers[key];
+      return acc;
+    }, {});
+
+    const newOpts: RequestOptions = {
+      method: targetRequest.options.method,
+      headers: newHeaders,
+      params: proxyOptions.searchParams,
+    }
+
+    if (targetRequest.options.body) {
+      newOpts.body = targetRequest.options.body
+    }
+
+    return this.makeConnectRequest(`/proxy/${url64}`, newOpts);
   }
 }

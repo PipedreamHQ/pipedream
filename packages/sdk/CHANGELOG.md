@@ -2,6 +2,63 @@
 
 # Changelog
 
+## [1.3.3] - 2025-02-5
+
+### Changed
+
+- Add makeProxyRequest function to BaseClient
+
+## [1.3.2] - 2025-02-3
+
+### Changed
+
+- Add getEnvironment function to BaseClient
+
+## [1.3.1] - 2025-01-30
+
+### Changed
+
+- Fix cjs build to transpile and include `oauth4webapi`
+
+## [1.3.0] - 2025-01-30
+
+### Added
+
+- Edge compatible (or closer to it) by replacing `simple-oauth2` with `oauth4webapi`
+- Output esm and cjs instead of just cjs
+- Minimized bundle size
+
+### Chore
+
+- Modernized package to be type: "module"
+- Removed `jest-fetch-mock`
+
+## [1.2.1] - 2025-01-24
+
+### Added
+
+- New types related to API paginated responses
+- New type for a prop configuration options
+
+### Changed
+
+- Fixed the types of the trigger retrieval and deployment methods in the backend
+  client to correctly reflect the actual response (which is nested inside a
+  `data` field).
+
+## [1.2.0] - 2025-01-23
+
+### Added
+
+- New methods and types to interact with the deployed triggers API
+
+## [1.1.6] - 2025-01-21
+
+### Changed
+
+- Fixed the docs of the `getAccountById` method in the backend client to remove
+  arguments that are not actually supported.
+
 ## [1.1.5] - 2025-01-14
 
 ### Changed
