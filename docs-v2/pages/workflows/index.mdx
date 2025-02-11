@@ -5,7 +5,7 @@ import Callout from '@/components/Callout'
 
 <VideoPlayer src="https://www.youtube.com/embed/wnDijEtYaT0" title="What are workflows?" />
 
-Workflows make it easy to integrate your apps, data, and APIs - all with no servers or infrastructure to manage. They're sequences of [steps](/workflows/steps) [triggered by an event](/docs/workflows/visual-builder/triggers), like an HTTP request, or new rows in a Google sheet.
+Workflows make it easy to integrate your apps, data, and APIs - all with no servers or infrastructure to manage. They're sequences of [steps](/workflows/steps) [triggered by an event](/workflows/visual-builder/triggers), like an HTTP request, or new rows in a Google sheet.
 
 You can use [pre-built actions](/workflows/actions/) or custom [Node.js](/workflows/visual-builder/code/nodejs/), [Python](/workflows/visual-builder/code/python), [Golang](/workflows/visual-builder/code/go/), or [Bash](/workflows/visual-builder/code/bash/) code in workflows and connect to any of our {process.env.PUBLIC_APPS} integrated apps.
 
@@ -15,16 +15,16 @@ Read [our quickstart](/quickstart/) or watch our videos on [Pipedream University
 
 Steps are the building blocks you use to create workflows.
 
-- Use [triggers](/docs/workflows/visual-builder/triggers/), [code](/code/), and [pre-built actions](/workflows/contributing/components#actions)
+- Use [triggers](/workflows/visual-builder/triggers/), [code](/code/), and [pre-built actions](/workflows/contributing/components#actions)
 - Steps are run linearly, in the order they appear in your workflow
 - You can pass data between steps using [the `steps` object](#step-exports)
 - Observe the logs, errors, timing, and other execution details for every step
 
 ### Triggers
 
-Every workflow begins with a [trigger](/docs/workflows/visual-builder/triggers/) step. Trigger steps initiate the execution of a workflow; i.e., workflows execute on each trigger event. For example, you can create an [HTTP trigger](/docs/workflows/visual-builder/triggers/#http) to accept HTTP requests. We give you a unique URL where you can send HTTP requests, and your workflow is executed on each request.
+Every workflow begins with a [trigger](/workflows/visual-builder/triggers/) step. Trigger steps initiate the execution of a workflow; i.e., workflows execute on each trigger event. For example, you can create an [HTTP trigger](/workflows/visual-builder/triggers/#http) to accept HTTP requests. We give you a unique URL where you can send HTTP requests, and your workflow is executed on each request.
 
-You can add [multiple triggers](/docs/workflows/visual-builder/triggers/#can-i-add-multiple-triggers-to-a-workflow) to a workflow, allowing you to run it on distinct events.
+You can add [multiple triggers](/workflows/visual-builder/triggers/#can-i-add-multiple-triggers-to-a-workflow) to a workflow, allowing you to run it on distinct events.
 
 ### Code, Actions
 

@@ -15,13 +15,13 @@ Whether you're building well-defined integrations or autonomous AI agents, workf
 <img width="500px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1730935490/docs/pCBdtm7Ca9CdPHTe76PwfzddY_qowz2v.avif" />
 </div>
 
-Workflows are sequences of [steps](/workflows/steps) [triggered by an event](/docs/workflows/visual-builder/triggers), like an HTTP request, or new rows in a Google sheet.
+Workflows are sequences of [steps](/workflows/steps) [triggered by an event](/workflows/visual-builder/triggers), like an HTTP request, or new rows in a Google sheet.
 
 You can use [pre-built actions](/workflows/actions/) or custom [Node.js](/workflows/visual-builder/code/nodejs/), [Python](/workflows/visual-builder/code/python), [Golang](/workflows/visual-builder/code/go/), or [Bash](/workflows/visual-builder/code/bash/) code in workflows and connect to any of our {process.env.PUBLIC_APPS} integrated apps.
 
 Workflows also have built-in:
 
-- [Flow control](/workflows/control-flow)
+- [Flow control](/workflows/visual-builder/control-flow)
 - [Concurrency and throttling](/workflows/concurrency-and-throttling)
 - [Key-value stores](/data-stores)
 - [Error handling](/workflows/errors)
@@ -36,13 +36,13 @@ Read [the quickstart](/quickstart/) to learn more.
 
 ### Create a workflow
 
-[Create a new workflow](/workflows#how-do-i-create-a-new-workflow) or open an existing one.
+[Create a new workflow](/workflows) or open an existing one.
 
 ### Add an HTTP trigger
 
 To get started building workflows for your end users:
 
-1. Add an [HTTP trigger](/docs/workflows/visual-builder/triggers#http) to your workflow
+1. Add an [HTTP trigger](/workflows/visual-builder/triggers#http) to your workflow
 2. Generate a test event with the required headers:
    - `x-pd-environment: development`
    - `x-pd-external-user-id: {your_external_user_id}`
@@ -112,7 +112,7 @@ npm i @pipedream/sdk
 To invoke workflows, you'll need:
 
 1. The OAuth client ID and secret from your OAuth client in **step 2 above** (if configured)
-2. Your [Project ID](/projects#finding-your-projects-id)
+2. Your [Project ID](/workflows/projects#finding-your-projects-id)
 3. Your workflow's HTTP endpoint URL
 4. The [external user ID](/connect/api#external-users) of the user you'd like to run the workflow for
 5. The [Connect environment](/connect/environments) tied to the user's account
@@ -268,7 +268,7 @@ The most common way to trigger workflows is via HTTP webhook. We strongly recomm
 To get started, you'll need:
 
 - [OAuth client ID and secret](/workflows/rest-api/auth#creating-an-oauth-client) (optional but recommended)
-- Your [project ID](/projects#finding-your-projects-id)
+- Your [project ID](/workflows/projects#finding-your-projects-id)
 - Your workflow's HTTP endpoint URL
 - The [external user ID](/connect/api#external-users) of your end user
 - The [Connect environment](/connect/environments)

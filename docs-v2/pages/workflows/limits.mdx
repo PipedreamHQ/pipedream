@@ -56,7 +56,7 @@ You'll find your workspace's limits in the **Data Stores** section of usage dash
 
 ## HTTP Triggers
 
-The following limits apply to [HTTP triggers](/docs/workflows/visual-builder/triggers/#http).
+The following limits apply to [HTTP triggers](/workflows/visual-builder/triggers/#http).
 
 ### HTTP Request Body Size
 
@@ -66,8 +66,8 @@ Your endpoint will issue a `413 Payload Too Large` status code when the body of 
 
 **Pipedream supports two different ways to bypass this limit**. Both of these interfaces support uploading data up to `5TB`, though you may encounter other platform limits.
 
-- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/docs/workflows/visual-builder/triggers/#sending-large-payloads).
-- You can upload multiple large files, like images and videos, using the [large file upload interface](/docs/workflows/visual-builder/triggers/#large-file-support).
+- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/visual-builder/triggers/#sending-large-payloads).
+- You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/visual-builder/triggers/#large-file-support).
 
 ### QPS (Queries Per Second)
 
@@ -81,7 +81,7 @@ We'll also accept short bursts of traffic, as long as you remain close to an ave
 
 ## Email Triggers
 
-Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also apply to [email triggers](/docs/workflows/visual-builder/triggers/#email).
+Currently, most of the [limits that apply to HTTP triggers](#http-triggers) also apply to [email triggers](/workflows/visual-builder/triggers/#email).
 
 The only limit that differs between email and HTTP triggers is the payload size: the total size of an email sent to a workflow - its body, headers, and attachments - is limited to {process.env.EMAIL_PAYLOAD_SIZE_LIMIT}.
 
@@ -91,7 +91,7 @@ By default, workflows run with {process.env.MEMORY_LIMIT} of memory. You can mod
 
 Increasing your workflow's memory gives you a proportional increase in CPU. If your workflow is limited by memory or compute, increasing your workflow's memory can reduce its overall runtime and make it more performant.
 
-**Pipedream charges credits proportional to your memory configuration**. [Read more here](/pricing/#how-does-workflow-memory-affect-credits).
+**Pipedream charges credits proportional to your memory configuration**. [Read more here](/pricing/faq#how-does-workflow-memory-affect-credits).
 
 ## Disk
 

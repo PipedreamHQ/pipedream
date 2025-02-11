@@ -13,7 +13,7 @@ When testing the API or using the CLI, you can use your user API key. This key i
 
 ## OAuth
 
-Workspace administrators can create OAuth clients in your workspace's [API settings](https://pipedream.com/settings/api). 
+Workspace administrators can create OAuth clients in your workspace's [API settings](https://pipedream.com/settings/api).
 
 Since API requests are meant to be made server-side, and since grants are not tied to individual end users, all OAuth clients are [**Client Credentials** applications](https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/).
 
@@ -33,7 +33,7 @@ If you're running a server that executes JavaScript, we recommend using [the Pip
 
 ```javascript
 import { createBackendClient } from "@pipedream/sdk/server";
- 
+
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
   credentials: {
@@ -77,7 +77,7 @@ See [the OAuth section of the security docs](/privacy-and-security#pipedream-res
 
 ## User API keys
 
-When you sign up for Pipedream, an API key is automatically generated for your user account. You can use this key to authorize requests to the API. 
+When you sign up for Pipedream, an API key is automatically generated for your user account. You can use this key to authorize requests to the API.
 
 You'll find this API key in your [User Settings](https://pipedream.com/user) (**My Account** -> **API Key**).
 
@@ -110,4 +110,4 @@ curl 'https://api.pipedream.com/v1/users/me' \
 
 ## Using the Pipedream CLI
 
-You can [link the CLI to your Pipedream account](/cli/login/), which will automatically pass your API key in the `Authorization` header with every API request.
+You can [link the CLI to your Pipedream account](/workflows/cli/login), which will automatically pass your API key in the `Authorization` header with every API request.

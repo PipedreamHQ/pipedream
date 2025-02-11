@@ -107,7 +107,7 @@ Props are custom attributes you can register on a component. When a value is pas
 | [Interface](#interface-props)   | Attaches a Pipedream interface to your component (e.g., an HTTP interface or timer)           |
 | [Service](#service-props)       | Attaches a Pipedream service to your component (e.g., a key-value database to maintain state) |
 | [App](#app-props)               | Enables managed auth for a component                                                          |
-| [Data Store](/data-stores/#using-data-stores-in-code-steps) | Provides access to a Pipedream [data store](/data-stores/)        |
+| [Data Store](/workflows/data-management/data-stores/#using-data-stores-in-code-steps) | Provides access to a Pipedream [data store](/data-stores/)        |
 | [HTTP Request](#http-request-prop)| Enables components to execute HTTP requests based on user input                             |
 | [Alert](#alert-prop)| Renders an informational alert in the prop form to help users configure the source or action                             |
 
@@ -624,7 +624,7 @@ props: {
 
 #### App Props
 
-App props are normally defined in an [app file](/components/guidelines/#app-files), separate from individual components. See [the `components/` directory of the pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components) for example app files.
+App props are normally defined in an [app file](/workflows/contributing/components/guidelines#app-files), separate from individual components. See [the `components/` directory of the pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components) for example app files.
 
 **Definition**
 
@@ -642,7 +642,7 @@ props: {
 | Property          | Type     | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ----------------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`            | `string` | required  | Value must be `app`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| `app`             | `string` | required  | Value must be set to the name slug for an app registered on Pipedream. [App files](/components/guidelines/#app-files) are programmatically generated for all integrated apps on Pipedream. To find your app's slug, visit the `components` directory of [the Pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components), find the app file (the file that ends with `.app.mjs`), and find the `app` property at the root of that module. If you don't see an app listed, please [open an issue here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D). |
+| `app`             | `string` | required  | Value must be set to the name slug for an app registered on Pipedream. [App files](/workflows/contributing/components/guidelines#app-files) are programmatically generated for all integrated apps on Pipedream. To find your app's slug, visit the `components` directory of [the Pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components), find the app file (the file that ends with `.app.mjs`), and find the `app` property at the root of that module. If you don't see an app listed, please [open an issue here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D). |
 | `propDefinitions` | `object` | optional  | An object that contains objects with predefined user input props. See the section on User Input Props above to learn about the shapes that can be defined and how to reference in components using the `propDefinition` property                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `methods`         | `object` | optional  | Define app-specific methods. Methods can be referenced within the app object context via `this` (e.g., `this.methodName()`) and within a component via `this.myAppPropName` (e.g., `this.myAppPropName.methodName()`).                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
@@ -878,7 +878,7 @@ When your workflow runs, you'll see the named exports appear below your step, wi
 
 ##### Returning HTTP responses with `$.respond`
 
-`$.respond` lets you issue HTTP responses from your workflow. [See the full `$.respond` docs for more information](/docs/workflows/visual-builder/triggers/#customizing-the-http-response).
+`$.respond` lets you issue HTTP responses from your workflow. [See the full `$.respond` docs for more information](/workflows/visual-builder/triggers/#customizing-the-http-response).
 
 ```javascript
 async run({ $ }) {
@@ -920,43 +920,43 @@ $.export(
 
 ##### `$.send`
 
-`$.send` allows you to send data to [Pipedream destinations](/destinations/).
+`$.send` allows you to send data to [Pipedream destinations](/workflows/data-management/destinations/).
 
 **`$.send.http`**
 
-[See the HTTP destination docs](/destinations/http/#using-sendhttp-in-component-actions).
+[See the HTTP destination docs](/workflows/data-management/destinations/http/#using-sendhttp-in-component-actions).
 
 **`$.send.email`**
 
-[See the Email destination docs](/destinations/email/#using-sendemail-in-component-actions).
+[See the Email destination docs](/workflows/data-management/destinations/email/#using-sendemail-in-component-actions).
 
 **`$.send.s3`**
 
-[See the S3 destination docs](/destinations/s3/#using-sends3-in-component-actions).
+[See the S3 destination docs](/workflows/data-management/destinations/s3/#using-sends3-in-component-actions).
 
 **`$.send.emit`**
 
-[See the Emit destination docs](/destinations/emit/#using-sendemit-in-component-actions).
+[See the Emit destination docs](/workflows/data-management/destinations/emit/#using-sendemit-in-component-actions).
 
 **`$.send.sse`**
 
-[See the SSE destination docs](/destinations/sse/#using-sendsse-in-component-actions).
+[See the SSE destination docs](/workflows/data-management/destinations/sse/#using-sendsse-in-component-actions).
 
 ##### `$.context`
 
-`$.context` exposes [the same properties as `steps.trigger.context`](/docs/workflows/visual-builder/triggers/#stepstriggercontext), and more. Action authors can use it to get context about the calling workflow and the execution.
+`$.context` exposes [the same properties as `steps.trigger.context`](/workflows/visual-builder/triggers/#stepstriggercontext), and more. Action authors can use it to get context about the calling workflow and the execution.
 
-All properties from [`steps.trigger.context`](/docs/workflows/visual-builder/triggers/#stepstriggercontext) are exposed, as well as:
+All properties from [`steps.trigger.context`](/workflows/visual-builder/triggers/#stepstriggercontext) are exposed, as well as:
 
 | Property   |                                                                       Description                                                                       |
 | ---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------: |
 | `deadline` |               An epoch millisecond timestamp marking the point when the workflow is configured to [timeout](/workflows/limits/#time-per-execution).               |
 | `JIT`      |             Stands for "just in time" (environment). `true` if the user is testing the step, `false` if the step is running in production.              |
-| `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/docs/workflows/visual-builder/triggers/#stepstriggercontext) for more detail. |
+| `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/workflows/visual-builder/triggers/#stepstriggercontext) for more detail. |
 
 ### Environment variables
 
-[Environment variables](/environment-variables/) are not accessible within sources or actions directly. Since components can be used by anyone, you cannot guarantee that a user will have a specific variable set in their environment.
+[Environment variables](/workflows/environment-variables/) are not accessible within sources or actions directly. Since components can be used by anyone, you cannot guarantee that a user will have a specific variable set in their environment.
 
 In sources, you can use [`secret` props](#props) to reference sensitive data.
 

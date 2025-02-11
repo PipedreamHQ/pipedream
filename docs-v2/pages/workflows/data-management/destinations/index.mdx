@@ -13,11 +13,11 @@ The docs below discuss features common to all Destinations. See the [docs for a 
 
 ## Available Destinations
 
-- [HTTP](/destinations/http/)
-- [Email](/destinations/email/)
-- [S3](/destinations/s3/)
-- [SSE](/destinations/sse/)
-- [Emit to another listener](/destinations/emit/)
+- [HTTP](/workflows/data-management/destinations/http/)
+- [Email](/workflows/data-management/destinations/email/)
+- [S3](/workflows/data-management/destinations/s3/)
+- [SSE](/workflows/data-management/destinations/sse/)
+- [Emit to another listener](/workflows/data-management/destinations/emit/)
 
 ## Using destinations
 
@@ -45,7 +45,7 @@ export default defineComponent({
 })
 ```
 
-See the docs for the [HTTP destination](/destinations/http/) to learn more about all the options you can pass to the `$.send.http()` function.
+See the docs for the [HTTP destination](/workflows/data-management/destinations/http/) to learn more about all the options you can pass to the `$.send.http()` function.
 
 Again, it's important to remember that **Destination delivery is asynchronous**. If you iterate over an array of values and send an HTTP request for each:
 

@@ -32,31 +32,31 @@
     },
     {
       "source": "/docs/notebook/inspector/",
-      "destination": "/docs/workflows/visual-builder/triggers/inspect/"
+      "destination": "/workflows/visual-builder/triggers/inspect/"
     },
     {
-      "source": "/docs/notebook/destinations/s3/",
-      "destination": "/destinations/s3/"
+      "source": "/docs/notebook/workflows/data-management/destinations/s3/",
+      "destination": "/workflows/data-management/destinations/s3/"
     },
     {
-      "source": "/docs/notebook/destinations/sse/",
-      "destination": "/destinations/sse/"
+      "source": "/docs/notebook/workflows/data-management/destinations/sse/",
+      "destination": "/workflows/data-management/destinations/sse/"
     },
     {
-      "source": "/docs/notebook/destinations/snowflake/",
-      "destination": "/destinations/snowflake/"
+      "source": "/docs/notebook/workflows/data-management/destinations/snowflake/",
+      "destination": "/workflows/data-management/destinations/snowflake/"
     },
     {
-      "source": "/docs/notebook/destinations/http/",
-      "destination": "/destinations/http/"
+      "source": "/docs/notebook/workflows/data-management/destinations/http/",
+      "destination": "/workflows/data-management/destinations/http/"
     },
     {
-      "source": "/docs/notebook/destinations/email/",
-      "destination": "/destinations/email/"
+      "source": "/docs/notebook/workflows/data-management/destinations/email/",
+      "destination": "/workflows/data-management/destinations/email/"
     },
     {
-      "source": "/docs/notebook/destinations/",
-      "destination": "/destinations/"
+      "source": "/docs/notebook/workflows/data-management/destinations/",
+      "destination": "/workflows/data-management/destinations/"
     },
     {
       "source": "/docs/notebook/code/",
@@ -64,7 +64,7 @@
     },
     {
       "source": "/docs/notebook/observability/",
-      "destination": "/docs/workflows/visual-builder/triggers/inspect/"
+      "destination": "/workflows/visual-builder/triggers/inspect/"
     },
     {
       "source": "/docs/notebook/sources/",
@@ -76,7 +76,7 @@
     },
     {
       "source": "/docs/notebook/sql/",
-      "destination": "/destinations/"
+      "destination": "/workflows/data-management/destinations/"
     },
     {
       "source": "/docs/what-is-pipedream/",
@@ -167,7 +167,7 @@
       "destination": "/docs/apps/"
     },
     {
-      "source": "/docs/docs/workflows/visual-builder/triggers/cold-starts/",
+      "source": "/docs/workflows/visual-builder/triggers/cold-starts/",
       "destination": "/workflows/visual-builder/settings/#eliminate-cold-starts"
     },
     {
@@ -227,12 +227,12 @@
       "destination": "/docs/quickstart/github-sync"
     },
     {
-      "source": "/docs/docs/workflows/visual-builder/triggers/inspect",
+      "source": "/docs/workflows/visual-builder/triggers/inspect",
       "destination": "/docs/workflows/inspect"
     },
     {
       "source": "/docs/workflows/steps/triggers",
-      "destination": "/docs/docs/workflows/visual-builder/triggers"
+      "destination": "/docs/workflows/visual-builder/triggers"
     },
     {
       "source": "/docs/workflows/steps/actions",
@@ -240,7 +240,7 @@
     },
     {
       "source": "/docs/workflows/flow-control",
-      "destination": "/docs/workflows/control-flow"
+      "destination": "/docs/workflows/visual-builder/control-flow"
     },
     {
       "source": "/docs/workflows/workspaces/okta",

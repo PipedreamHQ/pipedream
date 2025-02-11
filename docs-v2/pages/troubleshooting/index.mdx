@@ -32,7 +32,7 @@ If you're still seeing the issue after trying these steps, please reach out in [
 
 ## I need help with my GitHub Synced Project
 
-[See FAQ here](https://pipedream.com/docs/workflows/projects/git#frequently-asked-questions).
+[See FAQ here](https://pipedream.com/docs/workflows/git#frequently-asked-questions).
 
 ## Why is my trigger not emitting events?
 
@@ -137,8 +137,8 @@ By default, Pipedream limits the size of incoming HTTP payloads. If you exceed t
 
 Pipedream supports two different ways to bypass this limit. Both of these interfaces support uploading data up to `5TB`, though you may encounter other [platform limits](/workflows/limits/).
 
-- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/docs/workflows/visual-builder/triggers/#sending-large-payloads).
-- You can upload multiple large files, like images and videos, using the [large file upload interface](/docs/workflows/visual-builder/triggers/#large-file-support).
+- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/visual-builder/triggers/#sending-large-payloads).
+- You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/visual-builder/triggers/#large-file-support).
 
 ## Function Payload Limit Exceeded
 
@@ -156,9 +156,9 @@ Often, objects with this many nested objects result from a programming error tha
 
 ## Event Queue Full
 
-Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the [maximum queue size](/workflows/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow), you may encounter an **Event Queue Full** error.
+Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the [maximum queue size](/workflows/visual-builder/settings/concurrency-and-throttling#increasing-the-queue-size-for-a-workflow), you may encounter an **Event Queue Full** error.
 
-[Paid plans](https://pipedream.com/pricing) can [increase their queue size up to {process.env.MAX_WORKFLOW_QUEUE_SIZE}](/workflows/concurrency-and-throttling/#increasing-the-queue-size-for-a-workflow) for a given workflow.
+[Paid plans](https://pipedream.com/pricing) can [increase their queue size up to {process.env.MAX_WORKFLOW_QUEUE_SIZE}](/workflows/visual-builder/settings/concurrency-and-throttling#increasing-the-queue-size-for-a-workflow) for a given workflow.
 
 ## Credit Budget Exceeded
 
@@ -178,7 +178,7 @@ There are a few known ways this can be caused and how to solve them.
 
 Pipedream components are updated continously. But when new versions of actions and sources are published to the Pipedream Component Registry, your workflows are not updated by default.
 
-[An **Update** prompt](/workflows/actions/#updating-actions-to-the-latest-version) is shown in the in the top right of the action if the component has a new version available.
+[An **Update** prompt](/workflows/visual-builder/actions#updating-actions-to-the-latest-version) is shown in the in the top right of the action if the component has a new version available.
 
 Sources do not feature an update button at this time, to receive the latest version, you'll need to create a new source, then attach it to your workflow.
 
@@ -199,7 +199,7 @@ Some Pipedream components use NPM packages
 
 Some Pipedream components like pre-built [actions and triggers for Slack use NPM packages](https://github.com/PipedreamHQ/pipedream/blob/9aea8653dc65d438d968971df72e95b17f52d51c/components/slack/slack.app.mjs#L1).
 
-In order to downgrade these packages, you'll need to fork the Pipedream Github Repository and deploy your own changes to test them privately. Then you can [contribute the fix back into the main Pipedream Repository](https://pipedream.com/docs/apps/contributing/#contribution-process).
+In order to downgrade these packages, you'll need to fork the Pipedream Github Repository and deploy your own changes to test them privately. Then you can [contribute the fix back into the main Pipedream Repository](https://pipedream.com/docs/workflows/contributing#contribution-process).
 </Callout>
 
 ### Packages consuming all available storage

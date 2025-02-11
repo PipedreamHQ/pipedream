@@ -1090,7 +1090,7 @@ DELETE /sources/{id}
 ## Subscriptions
 
 <Callout type="warning">
-  The Subscriptions API is currently incompatible with projects that have [GitHub Sync](https://pipedream.com/docs/workflows/projects/git) enabled. To [trigger another workflow](https://pipedream.com/docs/workflows/visual-builder/code/nodejs#invoke-another-workflow), use `$.flow.trigger` instead.
+  The Subscriptions API is currently incompatible with projects that have [GitHub Sync](https://pipedream.com/docs/workflows/git) enabled. To [trigger another workflow](https://pipedream.com/docs/workflows/visual-builder/code/nodejs#invoke-another-workflow), use `$.flow.trigger` instead.
 </Callout>
 
 ### Listen for events from another source or workflow
@@ -1508,7 +1508,7 @@ curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
 
 ### Invoke workflow
 
-You can invoke workflows by making an HTTP request to a workflow's HTTP trigger. [See the docs on authorizing requests and invoking workflows](/docs/workflows/visual-builder/triggers#authorizing-http-requests) for more detail.
+You can invoke workflows by making an HTTP request to a workflow's HTTP trigger. [See the docs on authorizing requests and invoking workflows](/workflows/visual-builder/triggers#authorizing-http-requests) for more detail.
 
 ### Create a Workflow
 
@@ -1890,7 +1890,7 @@ curl 'https://api.pipedream.com/v1/workflows/p_abc123?org_id=o_abc123' \
 ### Get Workflow Emits
 
 Retrieve up to the last 100 events emitted from a workflow using
-[`$send.emit()`](/destinations/emit/#emit-events).
+[`$send.emit()`](/workflows/data-management/destinations/emit/#emit-events).
 
 #### Endpoint
 

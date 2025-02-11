@@ -64,7 +64,7 @@ Yes, you can add any number of triggers to a workflow. Click the top right menu 
 
 ### Shape of the `steps.trigger.event` object
 
-In all workflows, you have access to [event data](/docs/workflows/visual-builder/triggers/#event-format) using the variable `steps.trigger.event`.
+In all workflows, you have access to [event data](/workflows/visual-builder/triggers/#event-format) using the variable `steps.trigger.event`.
 
 The shape of the event is specific to the source. For example, RSS sources produce events with a `url` and `title` property representing the data provided by new items from a feed. Google Calendar sources produce events with a meeting title, start date, etc.
 
@@ -87,7 +87,7 @@ Pipedream also supports [custom domains](/workflows/domains). This lets you host
 
 ### Accessing HTTP request data
 
-You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/docs/workflows/visual-builder/triggers/#event-format), accessible in any [code](/code/) or [action](/workflows/contributing/components#actions) step.
+You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/workflows/visual-builder/triggers/#event-format), accessible in any [code](/code/) or [action](/workflows/contributing/components#actions) step.
 
 ### Valid Requests
 
@@ -267,7 +267,7 @@ If you need to disable logging for _all_ requests, use the workflow's [Data Rete
 
 #### `x-pd-notrigger`
 
-Set to `1` to send an event to the workflow for testing. Pipedream will **not** trigger the production version of the workflow, but will display the event in the [list of test events](/docs/workflows/visual-builder/triggers/#selecting-a-test-event) on the HTTP trigger.
+Set to `1` to send an event to the workflow for testing. Pipedream will **not** trigger the production version of the workflow, but will display the event in the [list of test events](/workflows/visual-builder/triggers/#selecting-a-test-event) on the HTTP trigger.
 
 #### Limits
 
@@ -420,7 +420,7 @@ When you're processing HTTP requests, you often don't need to issue any special 
 <Callout type="info">
 **How can my workflow run faster?**
 
-See [our guide on running workflows faster](/troubleshooting#how-can-my-workflow-run-faster).
+See [our guide on running workflows faster](/troubleshooting/faq#how-can-my-workflow-run-faster).
 </Callout>
 
 #### Customizing the HTTP response
@@ -592,9 +592,9 @@ Clicking on a specific job shows the execution details for that job — all the 
 
 ### Trigger a notification to an external service (email, Slack, etc.)
 
-You can send yourself a notification — for example, an email or a Slack message — at any point in a workflow by using the relevant [Action](/workflows/contributing/components#actions) or [Destination](/destinations/).
+You can send yourself a notification — for example, an email or a Slack message — at any point in a workflow by using the relevant [Action](/workflows/contributing/components#actions) or [Destination](/workflows/data-management/destinations/).
 
-If you'd like to email yourself when a job finishes successfully, you can use the [Email Destination](/destinations/email/). You can send yourself a Slack message using the Slack Action, or trigger an [HTTP request](/destinations/http/) to an external service.
+If you'd like to email yourself when a job finishes successfully, you can use the [Email Destination](/workflows/data-management/destinations/email/). You can send yourself a Slack message using the Slack Action, or trigger an [HTTP request](/workflows/data-management/destinations/http/) to an external service.
 
 You can also [write code](/code/) to trigger any complex notification logic you'd like.
 
@@ -606,7 +606,7 @@ Any time a scheduled job runs, you'll see a new execution appear in the [Inspect
 
 Code steps show [logs](/workflows/visual-builder/code/nodejs/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
 
-[Actions](/workflows/contributing/components#actions) and [Destinations](/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
+[Actions](/workflows/contributing/components#actions) and [Destinations](/workflows/data-management/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/workflows/data-management/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
 
 ## Email
 
@@ -620,7 +620,7 @@ Pipedream creates an email address specific to your workflow. Any email sent to 
 
 As soon as you send an email to the workflow-specific address, Pipedream parses its body, headers, and attachments into a JavaScript object it exposes in the `steps.trigger.event` variable that you can access within your workflow. This transformation can take a few seconds to perform. Once done, Pipedream will immediately trigger your workflow with the transformed payload.
 
-[Read more about the shape of the email trigger event](/docs/workflows/visual-builder/triggers/#email).
+[Read more about the shape of the email trigger event](/workflows/visual-builder/triggers/#email).
 
 ### Sending large emails
 
@@ -731,10 +731,10 @@ This will create an RSS [event source](/sources/) that polls the feed for new it
 
 Events trigger workflow executions. The event that triggers your workflow depends on the trigger you select for your workflow:
 
-- [HTTP triggers](/docs/workflows/visual-builder/triggers#http) invoke your workflow on HTTP requests.
-- [Cron triggers](/docs/workflows/visual-builder/triggers#schedule) invoke your workflow on a time schedule (e.g., on an interval).
-- [Email triggers](/docs/workflows/visual-builder/triggers#email) invoke your workflow on inbound emails.
-- [Event sources](/docs/workflows/visual-builder/triggers#app-based-triggers) invoke your workflow on events from apps like Twitter, Google Calendar, and more.
+- [HTTP triggers](/workflows/visual-builder/triggers#http) invoke your workflow on HTTP requests.
+- [Cron triggers](/workflows/visual-builder/triggers#schedule) invoke your workflow on a time schedule (e.g., on an interval).
+- [Email triggers](/workflows/visual-builder/triggers#email) invoke your workflow on inbound emails.
+- [Event sources](/workflows/visual-builder/triggers#app-based-triggers) invoke your workflow on events from apps like Twitter, Google Calendar, and more.
 
 ### Selecting a test event
 
@@ -840,12 +840,12 @@ On the Free and Basic plans, each workflow retains at most 100 events or 7 days 
 
 Other paid plans have longer retention. [See the pricing page](https://pipedream.com/pricing) for details.
 
-Events are also stored in [event history](/event-history) for up to 30 days, depending on your plan. [See the pricing page](https://pipedream.com/pricing) for the retention on your plan.
+Events are also stored in [event history](/workflows/event-history) for up to 30 days, depending on your plan. [See the pricing page](https://pipedream.com/pricing) for the retention on your plan.
 
-Events that are [delayed](/workflows/control-flow/delay) or [suspended](/glossary#suspend) are retained for the duration of the delay. After the delay, the workflow is executed, and the event data is retained according to the rules above.
+Events that are [delayed](/workflows/visual-builder/control-flow/delay) or [suspended](/glossary#suspend) are retained for the duration of the delay. After the delay, the workflow is executed, and the event data is retained according to the rules above.
 
 <Callout type="info">
-For an extended history of events across all of your workflows, included processed events, with the ability to filter by status and time range, please see the [Event History](/event-history/).
+For an extended history of events across all of your workflows, included processed events, with the ability to filter by status and time range, please see the [Event History](/workflows/event-history/).
 </Callout>
 
 ## Don't see a trigger you need?

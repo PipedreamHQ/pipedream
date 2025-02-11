@@ -170,7 +170,7 @@ This defines [a Node.js component](/workflows/contributing/components/api/). Com
 
 - Pass input to steps using [props](/workflows/visual-builder/code/nodejs/#passing-props-to-code-steps)
 - [Connect an account to a step](/workflows/integrations/connected-accounts/#from-a-code-step)
-- [Issue HTTP responses](/docs/workflows/visual-builder/triggers/#http-responses)
+- [Issue HTTP responses](/workflows/visual-builder/triggers/#http-responses)
 - Perform workflow-level flow control, like [ending a workflow early](#ending-a-workflow-early)
 
 When the step runs, Pipedream executes the `run` method:
@@ -344,13 +344,13 @@ Within a step, the [normal rules of JavaScript variable scope](https://developer
 There are two ways to make HTTP requests in code steps:
 
 - Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/workflows/visual-builder/code/nodejs/http-requests/).
-- [Use `$.send.http()`](/destinations/http/#using-sendhttp-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
+- [Use `$.send.http()`](/workflows/data-management/destinations/http/#using-sendhttp-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
 
-In general, if you just need to make an HTTP request but don't care about the response, [use `$.send.http()`](/destinations/http/#using-sendhttp-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/workflows/visual-builder/code/nodejs/http-requests/).
+In general, if you just need to make an HTTP request but don't care about the response, [use `$.send.http()`](/workflows/data-management/destinations/http/#using-sendhttp-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/workflows/visual-builder/code/nodejs/http-requests/).
 
 ## Returning HTTP responses
 
-You can return HTTP responses from [HTTP-triggered workflows](/docs/workflows/visual-builder/triggers/#http) using the [`$.respond()` function](/docs/workflows/visual-builder/triggers/#http-responses).
+You can return HTTP responses from [HTTP-triggered workflows](/workflows/visual-builder/triggers/#http) using the [`$.respond()` function](/workflows/visual-builder/triggers/#http-responses).
 
 ## Invoke another workflow
 
@@ -460,9 +460,9 @@ export default defineComponent({
 
 Workflow code is private. Still, we recommend you don't include secrets — API keys, tokens, or other sensitive values — directly in code steps.
 
-Pipedream supports [environment variables](/environment-variables/) for keeping secrets separate from code. Once you create an environment variable in Pipedream, you can reference it in any workflow using `process.env.VARIABLE_NAME`. The values of environment variables are private.
+Pipedream supports [environment variables](/workflows/environment-variables/) for keeping secrets separate from code. Once you create an environment variable in Pipedream, you can reference it in any workflow using `process.env.VARIABLE_NAME`. The values of environment variables are private.
 
-See the [Environment Variables](/environment-variables/) docs for more information.
+See the [Environment Variables](/workflows/environment-variables/) docs for more information.
 
 ## Limitations of code steps
 
