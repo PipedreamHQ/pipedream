@@ -1,4 +1,5 @@
 import webscrapingAI from "../../webscraping_ai.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "webscraping_ai-scrape-website-text",
@@ -12,6 +13,78 @@ export default {
       propDefinition: [
         webscrapingAI,
         "targetUrl",
+      ],
+    },
+    headers: {
+      propDefinition: [
+        webscrapingAI,
+        "headers",
+      ],
+    },
+    timeout: {
+      propDefinition: [
+        webscrapingAI,
+        "timeout",
+      ],
+    },
+    js: {
+      propDefinition: [
+        webscrapingAI,
+        "js",
+      ],
+    },
+    jsTimeout: {
+      propDefinition: [
+        webscrapingAI,
+        "jsTimeout",
+      ],
+    },
+    waitFor: {
+      propDefinition: [
+        webscrapingAI,
+        "waitFor",
+      ],
+    },
+    proxy: {
+      propDefinition: [
+        webscrapingAI,
+        "proxy",
+      ],
+    },
+    country: {
+      propDefinition: [
+        webscrapingAI,
+        "country",
+      ],
+    },
+    customProxy: {
+      propDefinition: [
+        webscrapingAI,
+        "customProxy",
+      ],
+    },
+    device: {
+      propDefinition: [
+        webscrapingAI,
+        "device",
+      ],
+    },
+    errorOn404: {
+      propDefinition: [
+        webscrapingAI,
+        "errorOn404",
+      ],
+    },
+    errorOnRedirect: {
+      propDefinition: [
+        webscrapingAI,
+        "errorOnRedirect",
+      ],
+    },
+    jsScript: {
+      propDefinition: [
+        webscrapingAI,
+        "jsScript",
       ],
     },
     textFormat: {
@@ -38,6 +111,18 @@ export default {
       $,
       params: {
         url: this.targetUrl,
+        headers: utils.stringifyHeaders(this.headers),
+        timeout: this.timeout,
+        js: this.js,
+        js_timeout: this.jsTimeout,
+        wait_for: this.waitFor,
+        proxy: this.proxy,
+        country: this.country,
+        custom_proxy: this.customProxy,
+        device: this.device,
+        error_on_404: this.errorOn404,
+        error_on_redirect: this.errorOnRedirect,
+        js_script: this.jsScript,
         text_format: this.textFormat,
         return_links: this.returnLinks,
       },
