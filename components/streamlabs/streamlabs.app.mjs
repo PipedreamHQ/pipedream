@@ -14,17 +14,12 @@ export default {
     _makeRequest({
       $ = this,
       path,
-      params,
       data,
       ...otherOpts
     }) {
       return axios($, {
         ...otherOpts,
         url: `${this._baseUrl()}${path}`,
-        params: {
-          access_token: this._accessToken(),
-          ...params,
-        },
         data: {
           access_token: this._accessToken(),
           ...data,
