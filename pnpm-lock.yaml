@@ -12630,6 +12630,9 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5
 
+  components/zoho_tables:
+    specifiers: {}
+
   components/zoho_workdrive:
     dependencies:
       '@pipedream/platform':
