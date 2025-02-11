@@ -7,7 +7,7 @@ export default {
   ...common,
   key: "monday-update-column-values",
   name: "Update Column Values",
-  description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/docs/columns#change-multiple-column-values)",
+  description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
   version: "0.0.6",
   type: "action",
   props: {
@@ -15,7 +15,7 @@ export default {
     updateInfoBox: {
       type: "alert",
       alertType: "info",
-      content: "See the [Column types reference](https://developer.monday.com/api-reference/docs/column-types-reference) to find the proper data structures for supported column types.",
+      content: "See the [Column types reference](https://developer.monday.com/api-reference/reference/column-types-reference) to find the proper data structures for supported column types.",
     },
     boardId: {
       ...common.props.boardId,

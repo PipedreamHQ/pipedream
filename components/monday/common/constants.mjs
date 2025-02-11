@@ -141,8 +141,172 @@ const BOARD_TYPE = {
   SUB_ITEMS_BOARD: "sub_items_board",
 };
 
+const STATUS_OPTIONS = [
+  {
+    label: "Grey",
+    value: "5",
+  },
+  {
+    label: "Orange",
+    value: "0",
+  },
+  {
+    label: "Green Shadow",
+    value: "1",
+  },
+  {
+    label: "Red Shadow",
+    value: "2",
+  },
+  {
+    label: "Blue Links",
+    value: "3",
+  },
+  {
+    label: "Purple",
+    value: "4",
+  },
+  {
+    label: "Grass Green",
+    value: "6",
+  },
+  {
+    label: "Bright Blue",
+    value: "7",
+  },
+  {
+    label: "Mustered",
+    value: "8",
+  },
+  {
+    label: "Yellow",
+    value: "9",
+  },
+  {
+    label: "Soft Black",
+    value: "10",
+  },
+  {
+    label: "Dark Red",
+    value: "11",
+  },
+  {
+    label: "Dark Pink",
+    value: "12",
+  },
+  {
+    label: "Light Pink",
+    value: "13",
+  },
+  {
+    label: "Dark Purple",
+    value: "14",
+  },
+  {
+    label: "Lime Green",
+    value: "15",
+  },
+  {
+    label: "Turquoise",
+    value: "16",
+  },
+  {
+    label: "Trolley Grey",
+    value: "17",
+  },
+  {
+    label: "Brown",
+    value: "18",
+  },
+  {
+    label: "Dark Orange",
+    value: "19",
+  },
+  {
+    label: "Sunset",
+    value: "101",
+  },
+  {
+    label: "Bubble",
+    value: "102",
+  },
+  {
+    label: "Peach",
+    value: "103",
+  },
+  {
+    label: "Berry",
+    value: "104",
+  },
+  {
+    label: "Winter",
+    value: "105",
+  },
+  {
+    label: "River",
+    value: "106",
+  },
+  {
+    label: "Navy",
+    value: "107",
+  },
+  {
+    label: "Australia",
+    value: "108",
+  },
+  {
+    label: "Indigo",
+    value: "109",
+  },
+  {
+    label: "Dark Indigo",
+    value: "110",
+  },
+  {
+    label: "Pecan",
+    value: "151",
+  },
+  {
+    label: "Light Magic",
+    value: "152",
+  },
+  {
+    label: "Sky",
+    value: "153",
+  },
+  {
+    label: "Cold Blue",
+    value: "154",
+  },
+  {
+    label: "Kids",
+    value: "155",
+  },
+  {
+    label: "Purple Gray",
+    value: "156",
+  },
+  {
+    label: "Corona",
+    value: "157",
+  },
+  {
+    label: "Sail",
+    value: "158",
+  },
+  {
+    label: "Old Rose",
+    value: "159",
+  },
+  {
+    label: "Eden",
+    value: "160",
+  },
+];
+
 export default {
   BOARD_KIND_OPTIONS,
   COLUMN_TYPE_OPTIONS,
   BOARD_TYPE,
+  STATUS_OPTIONS,
 };

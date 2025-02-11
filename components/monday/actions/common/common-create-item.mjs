@@ -1,3 +1,5 @@
+import constants from "../../common/constants.mjs";
+import { capitalizeWord } from "../../common/utils.mjs";
 import monday from "../../monday.app.mjs";
 
 export default {
@@ -20,26 +22,30 @@ export default {
     if (!this.columns) {
       return props;
     }
+    let options;
     for (const column of this.columns) {
       let description;
       if (column === "status") {
         description = "The status of the item. [See more about status values here](https://view.monday.com/1073554546-ad9f20a427a16e67ded630108994c11b?r=use1).";
+        options = constants.STATUS_OPTIONS;
       } else if (column === "person") {
         description = "The ID of a person/user.";
       } else if (column === "date4") {
         description = "A date string in `YYYY-MM-DD` format, e.g. `2022-09-02`.";
       } else {
-        description = `Value for column ${column}. See the [Column Type Reference](https://developer.monday.com/api-reference/docs/column-types-reference) to learn more about entering column type values.`;
+        description = `Value for column ${column}. See the [Column Type Reference](https://developer.monday.com/api-reference/reference/column-types-reference) to learn more about entering column type values.`;
       }
       props[column] = {
         type: "string",
-        label: column,
+        label: capitalizeWord(column),
         description,
+        options,
       };
     }
     return props;
   },
   methods: {
+    capitalizeWord,
     getEmailValue(value) {
       let email = value;
       if (typeof value === "string") {

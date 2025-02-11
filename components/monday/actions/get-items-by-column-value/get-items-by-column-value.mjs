@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "monday-get-items-by-column-value",
   name: "Get Items By Column Value",
-  description: "Searches a column for items matching a value. [See the documentation](https://developer.monday.com/api-reference/docs/items-page-by-column-values)",
+  description: "Searches a column for items matching a value. [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values)",
   version: "0.0.6",
   type: "action",
   props: {
@@ -22,7 +22,7 @@ export default {
     value: {
       type: "string",
       label: "Value",
-      description: "The value to search for. [See the documentation](https://developer.monday.com/api-reference/docs/items-by-column-values#supported-limited-support-and-unsupported-columns) for additional information about column values.",
+      description: "The value to search for. [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values#supported-and-unsupported-columns) for additional information about column values.",
     },
   },
   async run({ $ }) {
