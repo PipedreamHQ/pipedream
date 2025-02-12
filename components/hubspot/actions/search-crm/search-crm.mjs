@@ -50,7 +50,7 @@ export default {
         props.customObjectType = {
           type: "string",
           label: "Custom Object Type",
-          options: await this.getCustomObjectTypes(),
+          options: async () => await this.getCustomObjectTypes(),
           reloadProps: true,
         };
       } catch {
@@ -185,7 +185,7 @@ export default {
       }
     },
     async getCustomObjectTypes() {
-      const { results } = await this.listSchemas();
+      const { results } = await this.hubspot.listSchemas();
       return results?.map(({
         fullyQualifiedName: value, labels,
       }) => ({
