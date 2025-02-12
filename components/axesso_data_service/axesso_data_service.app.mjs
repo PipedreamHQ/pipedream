@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "http://api.axesso.de/amz";
+      return "https://api.axesso.de/amz";
     },
     _makeRequest({
       $ = this,
