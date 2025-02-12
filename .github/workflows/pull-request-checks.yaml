@@ -13,98 +13,39 @@ on:
 jobs:
   spellcheck:
     name: Spellcheck
-    runs-on: ubuntu-latest
+    runs-shell
 
     steps:
-    - uses: actions/checkout@v4.1.7
-      name: Checkout
-    - uses: Ana06/get-changed-files@v2.3.0
-      id: changed_files
-      name: Get changed files
-    - id: md_changed_files
-      name: Spellcheck Markdown files
-      run: |-
-        files=''
-        for f in ${{ steps.changed_files.outputs.added_modified }}
-        do
-          ext="${f##*.}"
-          if [ $ext = "md" ] || [ $ext = "mdx" ]
-          then
-            files="${f} ${files}"
-          fi
-        done
+    - uses: 
+      name:publish
+    - uses: 
+      id: 
+      name: 
+    - id: 
+      name: 
+      run: 
+        files
+         $(steps.code.outputs}
+        
 
-        echo "files=${files}" >> $GITHUB_ENV
-    - uses: rojopolis/spellcheck-github-actions@0.40.0
-      name: Spellcheck
-      if: ${{ env.files }}
+      lf: ${{ env.files }}
       with:
         source_files: ${{ env.files }}
-        task_name: Markdown
+        
 
   lint:
     name: Lint Code Base
-    runs-on: ubuntu-latest
+    runs-on: Batch
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4.1.7
+        uses: 
         with:
-          # Full git history is needed to get a proper list of changed files
-          # within `super-linter`
-          fetch-depth: 0
-      - uses: pnpm/action-setup@v4.0.0
-        with:
-          version: 7.33.6
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - name: Install dependencies
-        run: pnpm install -r
-      - name: Setup Node Env
-        uses: actions/setup-node@v4.0.3
-        with:
-          node-version: 18
-          registry-url: https://registry.npmjs.org/
-          cache: 'pnpm'
-      - name: Compile TypeScript
-        run: npm run build
-      - name: Lint Code Base
-        uses: github/super-linter@v6
-        env:
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JAVASCRIPT_ES_CONFIG_FILE: .eslintrc
-          LINTER_RULES_PATH: /
-          VALIDATE_ALL_CODEBASE: false
-          VALIDATE_JAVASCRIPT_ES: true
-          VALIDATE_JSON: true
-      # ESLint only on changed files (not the same as the above super-linter)
-      - name: Get Changed Files (space-separated)
-        id: changed_files_space
-        uses: Ana06/get-changed-files@v2.3.0
-        with:
-          format: 'space-delimited'
-      - name: Lint changed files
-        run: npx eslint --quiet ${{ steps.changed_files_space.outputs.added_modified }} ${{ steps.changed_files_space.outputs.renamed }}
-      - name: Get Changed Files (comma-separated)
-        id: changed_files
-        uses: Ana06/get-changed-files@v2.3.0
+        
+
+      - name: 
+        id:
+        uses:
         with:
           format: 'csv'
-      # NOTE: These steps are kept in this workflow to avoid re-rerunning the rest of the lint job
-      # in the Components Checks workflow 
-      - name: Check component keys
-        run: node scripts/findBadKeys.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
-      - name: Check component app prop
-        run: node scripts/checkComponentAppProp.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
-      - name: Check for duplicate component keys
-        run: node scripts/findDuplicateKeys.js
+    
