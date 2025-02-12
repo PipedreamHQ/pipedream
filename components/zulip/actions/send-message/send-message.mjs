@@ -31,6 +31,9 @@ export default {
       propDefinition: [
         app,
         "topic",
+        (c) => ({
+          channelId: c.channelId,
+        }),
       ],
     },
     content: {
@@ -58,7 +61,6 @@ export default {
         ? "User ID(s)"
         : "a Channel ID"}.`);
     }
-
     const response = await this.app.sendMessage({
       $,
       params: {
