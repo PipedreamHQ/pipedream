@@ -36,7 +36,9 @@ export default {
         test: this.test,
       },
     });
+
     $.export("$summary", `Successfully bought ${this.number} tree(s)`);
+
     return response;
   },
 };
