@@ -33,7 +33,45 @@ You can send requests to the Connect proxy using the [Pipedream SDK](/connect/sd
 
 Refer to the full Connect API [here](/connect/api).
 
-### Using the Pipedream SDK (preferred)
+### Authenticating on behalf of your user
+
+Most API integrations that use OAuth to authenticate requests require that you pass a user's access token in the `Authorization` header with the `Bearer` prefix. For these apps, the Connect proxy will automatically handle that for you — you don't need to pass any reference to their OAuth access token in this case.
+
+For apps that require a different authentication method, you should include the necessary headers with the value surrounded by `{{ }}` in your request to the proxy, and Pipedream will automatically replace the macro with the real values and forward to the downstream API. For example:
+
+```javascript
+/*
+OpenAI requires that you pass the API key 
+in the `Authorization` header with the `Bearer` prefix:
+*/
+
+headers: {
+  authorization: "Bearer {{api_key}}", 
+}
+
+// Pipedream will replace the `{{api_key}}` macro with the actual API key
+```
+
+```javascript
+/*
+Zoho apps require that you pass the OAuth access token
+in the `Authorization` header with a custom `Zoho-oauthtoken` prefix:
+*/
+
+headers: {
+  authorization: "Zoho-oauthtoken {{oauth_access_token}}", 
+}
+
+// Pipedream will replace the `{{oauth_access_token}}` macro with the actual token
+```
+
+<Callout type="info">
+Refer to the relevant API's developer documentation for the correct way to authenticate requests.
+</Callout>
+
+### Making a request
+
+#### Using the Pipedream SDK
 
 You can use the [Pipedream SDK](https://www.npmjs.com/package/@pipedream/sdk) to send a fetch-style request:
 
@@ -61,8 +99,9 @@ const resp = await pd.makeProxyRequest(
     url: "https://slack.com/api/chat.postMessage", // Include any query params you need; no need to Base64 encode the URL if using the SDK
     options: {
       method: "POST",
-      headers: {
-        hello: "world!" // These get sent to the downstream API
+      headers: { // These get sent to the downstream API
+        authorization: "Bearer {{oauth_access_token}}", // Include the special {{ oauth_access_token }} macro
+        hello: "world!"
       },
       body: {
         text: "hello, world",
@@ -76,7 +115,7 @@ const resp = await pd.makeProxyRequest(
 console.log(resp);
 ```
 
-### Using the REST API
+#### Using the REST API
 
 You can also send a request to the Connect REST API with the below config:
 

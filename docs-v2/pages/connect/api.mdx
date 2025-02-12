@@ -147,7 +147,8 @@ External User IDs are limited to 250 characters.
 | API Endpoint               | Rate Limit                                           |
 |----------------------------|------------------------------------------------------|
 | `POST /tokens`   | 100 requests per minute per `external_user_id`            |
-| `GET */accounts/*`| The sum of requests across all `*/accounts/*` endpoints must not exceed 100 requests per minute. This includes requests to `/accounts`, `/apps/:app_id/accounts`, `/accounts/:account_id`, and more — any request for account metadata and credentials is counted towards this total. |
+| `GET /accounts`| 100 requests per minute per project <br /><br />The sum of requests across all `*/accounts/*` endpoints must not exceed 100 requests per minute. This includes requests to,<br />• `/accounts`<br />• `/apps/:app_id/accounts`<br />• `/accounts/:account_id` |
+| `/proxy` | 100 requests per minute per project |
 
 If you need higher rate limits, please [reach out](https://pipedream.com/support).
 
