@@ -1,137 +1,103 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 6000, // 10 requests per minute (1 request every 6000ms)
+  maxConcurrent: 1,
+});
+const axiosRateLimiter = limiter.wrap(axios);
 
 export default {
   type: "app",
   app: "axesso_data_service",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     url: {
       type: "string",
       label: "Product URL",
-      description: "The URL of the Amazon product to lookup.",
+      description: "The URL of the Amazon product to lookup",
     },
     domainCode: {
       type: "string",
       label: "Domain Code",
-      description: "The domain code for product searches.",
-    },
-    keyword: {
-      type: "string",
-      label: "Keyword",
-      description: "The keyword to search for products.",
-    },
-    asin: {
-      type: "string",
-      label: "ASIN",
-      description: "The ASIN of the product to lookup reviews.",
+      description: "The amazon marketplace domain code",
+      options: constants.DOMAIN_CODES,
     },
     sortBy: {
       type: "string",
       label: "Sort By",
-      description: "The sort option for the search or reviews.",
-      optional: true,
-    },
-    category: {
-      type: "string",
-      label: "Category",
-      description: "The category to filter the product search.",
+      description: "The sort option for the search or reviews",
+      options: constants.SORT_OPTIONS,
       optional: true,
     },
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "The maximum number of search results to return.",
+      description: "The maximum number of results to return. Defaults to `25`",
+      default: 25,
       optional: true,
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://axesso.developer.azure-api.net";
+      return "http://api.axesso.de/amz";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        method,
+    _makeRequest({
+      $ = this,
+      path,
+      ...opts
+    }) {
+      return axiosRateLimiter($, {
         url: `${this._baseUrl()}${path}`,
         headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
+          "axesso-api-key": this.$auth.api_key,
         },
-        ...otherOpts,
+        ...opts,
       });
     },
-    // Requests product detail information
-    async requestProductDetail(opts = {}) {
-      const {
-        url, ...otherOpts
-      } = opts;
+    getProductDetails(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/product/details",
-        params: {
-          url: this.url,
-        },
-        ...otherOpts,
+        path: "/amazon-lookup-product",
+        ...opts,
       });
     },
-    // Searches products by keyword
-    async searchProducts(opts = {}) {
-      const {
-        domainCode, keyword, sortBy, category, maxResults, ...otherOpts
-      } = opts;
+    searchProducts(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/search/products",
-        params: {
-          domainCode: this.domainCode,
-          keyword: this.keyword,
-          sortBy: this.sortBy,
-          category: this.category,
-          maxResults: this.maxResults,
-        },
-        ...otherOpts,
+        path: "/amazon-search-by-keyword-asin",
+        ...opts,
       });
     },
-    // Looks up reviews for a product
-    async lookupReviews(opts = {}) {
-      const {
-        domainCode, asin, sortBy, ...otherOpts
-      } = opts;
+    lookupReviews(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/product/reviews",
-        params: {
-          domainCode: this.domainCode,
-          asin: this.asin,
-          sortBy: this.sortBy,
-        },
-        ...otherOpts,
+        path: "/amazon-lookup-reviews",
+        ...opts,
       });
     },
-    // Handles pagination for listing endpoints
-    async paginate(fn, ...opts) {
-      const results = [];
+    async *paginate({
+      fn, args, resourceKey, max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          page: 1,
+        },
+      };
       let hasMore = true;
-      let page = 1;
+      let count = 0;
       while (hasMore) {
-        const response = await fn({
-          page,
-          ...opts,
-        });
-        if (!response || response.length === 0) {
-          hasMore = false;
-        } else {
-          results.push(...response);
-          page += 1;
+        const response = await fn(args);
+        const items = response[resourceKey];
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
         }
+        if (!items?.length) {
+          hasMore = false;
+        }
+        args.params.page++;
       }
-      return results;
     },
   },
 };

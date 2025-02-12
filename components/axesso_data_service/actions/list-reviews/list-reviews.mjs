@@ -1,41 +1,67 @@
-import axessoDataService from "../../axesso_data_service.app.mjs";
-import { axios } from "@pipedream/platform";
+import axesso from "../../axesso_data_service.app.mjs";
 
 export default {
   key: "axesso_data_service-list-reviews",
   name: "List Reviews",
-  description: "Lists reviews for a product using Axesso Data Service. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Lists reviews for an Amazon product using Axesso Data Service. [See the documentation](https://axesso.developer.azure-api.net/api-details#api=axesso-amazon-data-service&operation=reviews)",
+  version: "0.0.1",
   type: "action",
   props: {
-    axessoDataService,
-    domainCode: {
+    axesso,
+    url: {
       propDefinition: [
-        axessoDataService,
-        "domainCode",
+        axesso,
+        "url",
       ],
     },
-    asin: {
+    domainCode: {
       propDefinition: [
-        axessoDataService,
-        "asin",
+        axesso,
+        "domainCode",
       ],
     },
     sortBy: {
       propDefinition: [
-        axessoDataService,
+        axesso,
         "sortBy",
       ],
-      optional: true,
+    },
+    maxResults: {
+      propDefinition: [
+        axesso,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {
-    const reviews = await this.axessoDataService.lookupReviews({
-      domainCode: this.domainCode,
-      asin: this.asin,
-      sortBy: this.sortBy,
+    const { asin } = await this.axesso.getProductDetails({
+      $,
+      params: {
+        url: this.url,
+        psc: 1,
+      },
     });
-    $.export("$summary", `Fetched reviews for ASIN: ${this.asin}`);
+
+    const results = await this.axesso.paginate({
+      fn: this.axesso.lookupReviews,
+      args: {
+        $,
+        params: {
+          asin,
+          domainCode: this.domainCode,
+          sortBy: this.sortBy,
+        },
+      },
+      resourceKey: "reviews",
+      max: this.maxResults,
+    });
+
+    const reviews = [];
+    for await (const review of results) {
+      reviews.push(review);
+    }
+
+    $.export("$summary", `Fetched reviews for product with ASIN: ${asin}`);
     return reviews;
   },
 };
