@@ -2,6 +2,37 @@
 
 # Changelog
 
+## [1.3.3] - 2025-02-5
+
+### Changed
+
+- Add makeProxyRequest function to BaseClient
+
+## [1.3.2] - 2025-02-3
+
+### Changed
+
+- Add getEnvironment function to BaseClient
+
+## [1.3.1] - 2025-01-30
+
+### Changed
+
+- Fix cjs build to transpile and include `oauth4webapi`
+
+## [1.3.0] - 2025-01-30
+
+### Added
+
+- Edge compatible (or closer to it) by replacing `simple-oauth2` with `oauth4webapi`
+- Output esm and cjs instead of just cjs
+- Minimized bundle size
+
+### Chore
+
+- Modernized package to be type: "module"
+- Removed `jest-fetch-mock`
+
 ## [1.2.1] - 2025-01-24
 
 ### Added

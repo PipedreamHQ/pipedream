@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 
+// Please remove this comment after testing DJ-2872
 export default {
   type: "app",
   app: "slottable",

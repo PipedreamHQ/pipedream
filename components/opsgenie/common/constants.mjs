@@ -1,4 +1,5 @@
 export default {
+  DEFAULT_LIMIT: 20,
   PRIORITY_OPTIONS: [
     "P1",
     "P2",

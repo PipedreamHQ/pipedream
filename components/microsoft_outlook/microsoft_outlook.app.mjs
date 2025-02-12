@@ -100,18 +100,26 @@ export default {
       type: "object",
       optional: true,
     },
-    labelId: {
+    label: {
       type: "string",
-      label: "Label ID",
-      description: "The identifier of the label/category to add",
-      async options() {
-        const { value: labels } = await this.listLabels();
-        return labels?.map(({
-          id: value, displayName: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
+      label: "Label",
+      description: "The name of the label/category to add",
+      async options({
+        messageId, excludeMessageLabels, onlyMessageLabels,
+      }) {
+        const { value } = await this.listLabels();
+        let labels = value;
+        if (messageId) {
+          const { categories } = await this.getMessage({
+            messageId,
+          });
+          labels = excludeMessageLabels
+            ? labels.filter(({ displayName }) => !categories.includes(displayName))
+            : onlyMessageLabels
+              ? labels.filter(({ displayName }) => categories.includes(displayName))
+              : labels;
+        }
+        return labels?.map(({ displayName }) => displayName) || [];
       },
     },
     messageId: {
@@ -129,6 +137,20 @@ export default {
         });
         return value?.map(({
           id: value, subject: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    folderIds: {
+      type: "string[]",
+      label: "Folder IDs to Monitor",
+      description: "Specify the folder IDs or names in Outlook that you want to monitor for new emails. Leave empty to monitor all folders (excluding \"Sent Items\" and \"Drafts\").",
+      async options() {
+        const { value: folders } = await this.listFolders();
+        return folders?.map(({
+          id: value, displayName: label,
         }) => ({
           value,
           label,
@@ -324,6 +346,21 @@ export default {
     listLabels(args = {}) {
       return this._makeRequest({
         path: "/me/outlook/masterCategories",
+        ...args,
+      });
+    },
+    listFolders(args = {}) {
+      return this._makeRequest({
+        path: "/me/mailFolders",
+        ...args,
+      });
+    },
+    moveMessage({
+      messageId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/me/messages/${messageId}/move`,
         ...args,
       });
     },
