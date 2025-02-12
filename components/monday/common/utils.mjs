@@ -27,31 +27,35 @@ export function capitalizeWord(str) {
   return str.slice(0, 1).toUpperCase() + str.slice(1);
 }
 
-export function getColumnOptions(allColumnData, columnId) {
+export function getColumnOptions(allColumnData, columnId, useLabels = false) {
   const columnOptions = allColumnData.find(
     ({ id }) => id === columnId,
   )?.settings_str;
   if (columnOptions) {
     try {
       const labels = JSON.parse(columnOptions).labels;
-      return Array.isArray(labels)
+      return (Array.isArray(labels)
         ? labels.map(({
           id, name,
-        }) => ({
-          label: name,
-          value: id.toString(),
-        }))
+        }) => useLabels
+          ? name
+          : ({
+            label: name,
+            value: id.toString(),
+          }))
         : Object.entries(labels).map(
           ([
             value,
             label,
-          ]) => ({
-            label: label !== ""
-              ? label
-              : value,
-            value,
-          }),
-        );
+          ]) => useLabels
+            ? label
+            : ({
+              label: label !== ""
+                ? label
+                : value,
+              value,
+            }),
+        )).filter((str) => str);
     } catch (err) {
       console.log(`Error parsing options for column "${columnId}": ${err}`);
     }

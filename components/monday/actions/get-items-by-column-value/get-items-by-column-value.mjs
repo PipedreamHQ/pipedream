@@ -27,7 +27,7 @@ export default {
       boardId: +this.boardId,
     });
 
-    const options = getColumnOptions(columnData, this.columnId);
+    const options = getColumnOptions(columnData, this.columnId, true);
 
     return {
       value: {
