@@ -6387,7 +6387,14 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/mapbox: {}
+  components/mapbox:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      form-data:
+        specifier: ^4.0.1
+        version: 4.0.1
 
   components/mapulus:
     dependencies:
