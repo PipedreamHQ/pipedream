@@ -4312,8 +4312,8 @@ importers:
   components/google_ads:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
