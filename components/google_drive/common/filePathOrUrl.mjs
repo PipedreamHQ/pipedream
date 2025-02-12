@@ -1,4 +1,4 @@
-export const useFileUrlOrPath = {
+export const updateType = {
   type: "string",
   label: "Use File URL or File Path",
   description: "Whether to upload a file from a URL or from the `/tmp` folder",
@@ -10,14 +10,17 @@ export const useFileUrlOrPath = {
 };
 
 export async function additionalProps(previousProps) {
-  const { useFileUrlOrPath } = this;
+  const { updateType } = this;
 
-  if (useFileUrlOrPath === "File URL") {
+  if (updateType === "File URL") {
     previousProps.fileUrl.hidden = false;
     previousProps.filePath.hidden = true;
-  } else if (useFileUrlOrPath === "File Path") {
+  } else if (updateType === "File Path") {
     previousProps.fileUrl.hidden = true;
     previousProps.filePath.hidden = false;
+  } else {
+    previousProps.fileUrl.hidden = true;
+    previousProps.filePath.hidden = true;
   }
 
   return {};

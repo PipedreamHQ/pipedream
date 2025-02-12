@@ -6,7 +6,7 @@ import {
 } from "../../common/utils.mjs";
 import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../common/constants.mjs";
 import {
-  additionalProps, useFileUrlOrPath,
+  additionalProps, updateType,
 } from "../../common/filePathOrUrl.mjs";
 
 export default {
@@ -18,7 +18,7 @@ export default {
   additionalProps,
   props: {
     googleDrive,
-    useFileUrlOrPath,
+    updateType,
     drive: {
       propDefinition: [
         googleDrive,
