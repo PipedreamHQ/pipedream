@@ -7,8 +7,9 @@ type AlertProps = {
 
 export function Alert({ prop }: AlertProps) {
   const baseStyles = {
+    width: "100%",
     background: "#e2e3e5",
-    borderRadius: "10px",
+    borderRadius: "5px",
     paddingTop: "2px",
     paddingLeft: "10px",
     paddingRight: "10px",

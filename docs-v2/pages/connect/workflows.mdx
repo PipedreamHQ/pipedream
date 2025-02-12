@@ -71,7 +71,7 @@ When you trigger the workflow, Pipedream will look up the corresponding account 
 
 To run an end-to-end test as an end user, you need to have users and connected accounts in your project. If you already have a **development** account linked, you can skip this step.
 
-If you don't, the fastest way to do this is [on the **Users** tab](/connect#users) in your Pipedream project:
+If you don't, the fastest way to do this is [on the **Users** tab](/connect/managed-auth/users) in your Pipedream project:
 - You'll see there's a button to **Connect account**
 - Go through the flow and make sure to create the account in **development** mode
 - Note the **external user ID** of the account you just connected, you'll need it in the next step
@@ -242,7 +242,7 @@ We plan to improve this interface in the future, and potentially allow developer
 To test a step using the connected account of one of your end users in the builder, you'll need a few things to be configured so that your workflow knows which account to use.
 
 **Make sure you have an external user with the relevant connected account(s) saved to your project:**
-- Go to the **[Users tab](/connect#users)** in the **Connect** section of your project to confirm
+- Go to the **[Users tab](/connect/managed-auth/users)** in the **Connect** section of your project to confirm
 - If not, either connect one from your application or [directly in the UI](#connect-a-test-account)
 
 **Pass the environment and external user ID:**
@@ -393,11 +393,11 @@ Pipedream Connect Error: Required account for hubspot not found for external use
 
 #### No matching external user ID 
 - There was an external user ID passed, but it didn't match any users in the project.
-- Double-check that the external user ID that you passed when invoking the workflow matches one either [in the UI](/connect#users) or [via the API](/connect/api#accounts).
+- Double-check that the external user ID that you passed when invoking the workflow matches one either [in the UI](/connect/managed-auth/users) or [via the API](/connect/api#accounts).
 
 #### Required account not found for external user ID
 - The external user ID was passed when invoking the workflow, but the user doesn't have a connected account for one or more of the apps that are configured to use it in this workflow execution.
-- You can check which connected accounts are available for that user [in the UI](/connect#users) or [via the API](/connect/api#accounts).
+- You can check which connected accounts are available for that user [in the UI](/connect/managed-auth/users) or [via the API](/connect/api#accounts).
 
 #### Running workflows for your users in production requires a higher tier plan
 - Anyone is able to run workflows for your end users in `development`. The Business plan is required to run on behalf of `production` users.

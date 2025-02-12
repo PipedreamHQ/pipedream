@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/elastic_cloud",
+  "version": "0.0.1",
+  "description": "Pipedream Elastic Cloud Components",
+  "main": "elastic_cloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "elastic_cloud"
+  ],
+  "homepage": "https://pipedream.com/apps/elastic_cloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

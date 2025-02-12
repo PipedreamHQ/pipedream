@@ -1891,6 +1891,10 @@ importers:
 
   components/clarify: {}
 
+  components/claris_filemaker_server_admin_api: {}
+
+  components/claris_filemaker_server_data_api: {}
+
   components/claris_filemaker_server_odata_api: {}
 
   components/clear_books:
@@ -2450,6 +2454,8 @@ importers:
         specifier: ^0.1.6
         version: 0.1.6
 
+  components/current_rms: {}
+
   components/customer_fields:
     dependencies:
       '@pipedream/platform':
@@ -2617,7 +2623,11 @@ importers:
 
   components/deepl: {}
 
-  components/deepseek: {}
+  components/deepseek:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/defastra:
     dependencies:
@@ -3254,6 +3264,8 @@ importers:
         specifier: ^0.12.7
         version: 0.12.7
 
+  components/elastic_cloud: {}
+
   components/elastic_email: {}
 
   components/elasticemail: {}
@@ -3267,7 +3279,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/elevio: {}
+  components/elevio:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/elmah_io:
     dependencies:
@@ -3279,7 +3295,11 @@ importers:
 
   components/elorus: {}
 
-  components/email_verifier_api: {}
+  components/email_verifier_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/emailable:
     dependencies:
@@ -4043,7 +4063,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/geoapify: {}
+  components/geoapify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/geodb_cities:
     dependencies:
@@ -4194,6 +4218,8 @@ importers:
 
   components/glide: {}
 
+  components/globalping: {}
+
   components/gloria_ai:
     dependencies:
       '@pipedream/platform':
@@ -4301,7 +4327,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/google_appsheet: {}
+  components/google_appsheet:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/google_calendar:
     dependencies:
@@ -6321,6 +6351,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/mailtrap: {}
+
   components/mailwizz:
     dependencies:
       '@pipedream/platform':
@@ -6800,6 +6832,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/morgen: {}
+
   components/morningmate:
     dependencies:
       '@pipedream/platform':
@@ -7248,6 +7282,8 @@ importers:
         version: 1.6.6
 
   components/odoo: {}
+
+  components/office_365_management: {}
 
   components/offlight:
     dependencies:
@@ -8251,6 +8287,12 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
+  components/printful:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
   components/printful_oauth:
     dependencies:
       '@pipedream/platform':
@@ -8748,7 +8790,11 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
-  components/refiner: {}
+  components/refiner:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/reflect:
     dependencies:
@@ -9176,7 +9222,14 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/salespype: {}
+  components/salespype:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/salestown: {}
 
@@ -9267,7 +9320,11 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/scrapingant: {}
+  components/scrapingant:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/scrapingbee: {}
 
@@ -9741,7 +9798,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/shortpixel: {}
+  components/shortpixel:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/shotstack:
     dependencies:
@@ -9853,6 +9914,8 @@ importers:
   components/simpletexting: {}
 
   components/simplybook_me: {}
+
+  components/sinch_messagemedia: {}
 
   components/sitecreator_io:
     dependencies:
@@ -10107,7 +10170,11 @@ importers:
 
   components/solarwinds_service_desk: {}
 
-  components/solcast: {}
+  components/solcast:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/solve_crm:
     dependencies:
@@ -10372,7 +10439,11 @@ importers:
         specifier: ^8.168.0
         version: 8.222.0
 
-  components/stripo: {}
+  components/stripo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/studio_by_ai21_labs: {}
 
@@ -10791,7 +10862,11 @@ importers:
         specifier: ^1.1.0
         version: 1.6.6
 
-  components/textline: {}
+  components/textline:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/textlocal:
     dependencies:
@@ -11964,7 +12039,11 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
-  components/wolfram_alpha: {}
+  components/wolfram_alpha:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/wolfram_alpha_api: {}
 
@@ -12076,7 +12155,11 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
 
-  components/writer: {}
+  components/writer:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/writesonic: {}
 
@@ -12560,6 +12643,8 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5
 
+  components/zoho_tables: {}
+
   components/zoho_workdrive:
     dependencies:
       '@pipedream/platform':
@@ -12753,8 +12838,8 @@ importers:
         specifier: file:../..
         version: file:packages/connect-react(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
       '@pipedream/sdk':
-        specifier: ^1.1.4
-        version: 1.1.5
+        specifier: ^1.3.3
+        version: 1.3.3
       next:
         specifier: 15.0.3
         version: 15.0.3(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
@@ -15642,8 +15727,8 @@ packages:
     resolution: {integrity: sha512-f8FXEaoBqIOQpI4vVOO8OrHRAjwQYO4pKIwMUcGRkzS5KJ6cZ/7JYYGyXEu7NcS+y1VfyegtbJWu4tWacDjQZg==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/sdk@1.1.5':
-    resolution: {integrity: sha512-q+dGMsNSvIcDCi6JZES7pwNBW8Ms318WMNavO71Cye0bCtloeDSj5TiFbScy64/2FHja9keKAZ9ev8yVSsM+ew==}
+  '@pipedream/sdk@1.3.3':
+    resolution: {integrity: sha512-sh0dZWdQlh7IprVs1Ka04+jMmpwTKf5SlyvaAJFmSbcvJ7So1fj/YLuU3BMXU91ehA1R6DGb66Yr+QzBsANcSA==}
     engines: {node: '>=18.0.0'}
 
   '@pipedream/sftp@0.4.1':
@@ -31803,15 +31888,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@pipedream/sdk@1.1.5':
+  '@pipedream/sdk@1.3.3':
     dependencies:
       '@rails/actioncable': 8.0.0
       commander: 12.1.0
-      simple-oauth2: 5.1.0
+      oauth4webapi: 3.1.4
       ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil
-      - supports-color
       - utf-8-validate
 
   '@pipedream/sftp@0.4.1':

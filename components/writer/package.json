@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/writer",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Writer Components",
-  "main": "dist/app/writer.app.mjs",
+  "main": "writer.app.mjs",
   "keywords": [
     "pipedream",
     "writer"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/writer",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }
