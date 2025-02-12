@@ -40,7 +40,7 @@ You can skip steps 1 and 2 if you already know the component you want to use or 
 
 ### Authenticate to the Pipedream API
 
-Before sending requests to the API, make sure to authenticate using a Pipedream OAuth client:
+Before sending requests to the API, make sure to [authenticate using a Pipedream OAuth client](rest-api/auth#oauth):
 
 <Tabs items={['Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
@@ -80,7 +80,7 @@ All subsequent examples assume that you've either initialized the SDK client or 
 
 ### Find the app you want to use
 
-In order to find the right trigger or action to configure and run, you first need to find the app. In this example, we'll search for `gitlab`.
+To find the right trigger or action to configure and run, first find the app. In this example, we'll search for `gitlab`.
 
 <Tabs items={['Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
@@ -676,8 +676,9 @@ above:
 
 #### Deploying a source
 
-Because sources are exercised by events that happen on a third-party service,
-their semantics are different from actions. Once a source is configured, it must
+Because sources are exercised by events that happen on a third-party service, 
+their semantics are different from actions. Once configured, a source must be 
+deployed to start listening for events. Once a source is configured, it must
 be deployed in order to start listening for events. When deploying a source, you
 can define either a webhook URL or a Pipedream workflow ID to consume those events.
 
