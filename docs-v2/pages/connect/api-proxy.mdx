@@ -99,8 +99,8 @@ const resp = await pd.makeProxyRequest(
     url: "https://slack.com/api/chat.postMessage", // Include any query params you need; no need to Base64 encode the URL if using the SDK
     options: {
       method: "POST",
-      headers: { // These get sent to the downstream API
-        hello: "world!"
+      headers: { 
+        hello: "world!" // Include any headers you need to send to the downstream API
       },
       body: {
         text: "hello, world",
