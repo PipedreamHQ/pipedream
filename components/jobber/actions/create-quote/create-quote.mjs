@@ -4,7 +4,7 @@ export default {
   key: "jobber-create-quote",
   name: "Create Quote",
   description: "Generates a new quote for the client's first property in Jobber. [See the documentation](https://developer.getjobber.com/docs/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     jobber,
