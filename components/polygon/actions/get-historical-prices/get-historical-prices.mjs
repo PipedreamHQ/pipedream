@@ -61,7 +61,7 @@ export default {
       optional: true,
       min: 1,
       max: 5000,
-      defalt: 5000,
+      default: 5000,
     },
   },
   async run({ $ }) {
