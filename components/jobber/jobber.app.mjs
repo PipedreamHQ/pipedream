@@ -74,7 +74,7 @@ export default {
         url: `${this._baseUrl()}${path}`,
         headers: {
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-          "X-JOBBER-GRAPHQL-VERSION": "2023-11-15",
+          "X-JOBBER-GRAPHQL-VERSION": "2025-01-20",
         },
       });
     },
