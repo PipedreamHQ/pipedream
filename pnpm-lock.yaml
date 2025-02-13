@@ -11918,7 +11918,11 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/webscraping_ai: {}
+  components/webscraping_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/webvizio:
     dependencies:
