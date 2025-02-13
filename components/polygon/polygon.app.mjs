@@ -1,143 +1,143 @@
 import { axios } from "@pipedream/platform";
+import { parseNextPage } from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "polygon",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     stockTicker: {
       type: "string",
       label: "Stock Ticker",
-      description: "The stock ticker symbol, e.g., AAPL, MSFT",
+      description: "Specify a case-sensitive ticker symbol. For example, AAPL represents Apple Inc.",
+      async options({
+        page, prevContext,
+      }) {
+        const parsedPage = parseNextPage(prevContext.nextPage);
+
+        const {
+          results, next_url: next,
+        } = await this.listStockTickers({
+          params: {
+            page,
+            cursor: parsedPage,
+          },
+        });
+
+        return {
+          options: results.map(({
+            ticker: value, name,
+          }) => ({
+            label: `${name} (${value})`,
+            value,
+          })),
+          context: {
+            nextPage: next,
+          },
+        };
+      },
     },
-    keywords: {
-      type: "string[]",
-      label: "Keywords",
-      description: "Keywords to filter news articles",
-      optional: true,
-    },
-    newsStockTickers: {
-      type: "string[]",
-      label: "News Stock Tickers",
-      description: "Stock tickers to filter news articles related to specific stocks",
-      optional: true,
-    },
-    timeInterval: {
-      type: "string",
-      label: "Time Interval",
-      description: "Desired time interval for daily price summary",
-      optional: true,
-    },
-    fromDate: {
-      type: "string",
-      label: "From Date",
-      description: "Start date for historical price data (YYYY-MM-DD)",
-      optional: true,
-    },
-    toDate: {
-      type: "string",
-      label: "To Date",
-      description: "End date for historical price data (YYYY-MM-DD)",
-      optional: true,
+    adjusted: {
+      type: "boolean",
+      label: "Adjusted",
+      description: "Whether or not the results are adjusted for splits. By default, results are adjusted. Set this to false to get results that are NOT adjusted for splits.",
     },
   },
   methods: {
-    // Logs authentication keys for debugging purposes
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    // Returns the base URL for Polygon API
     _baseUrl() {
       return "https://api.polygon.io";
     },
-    // Makes an HTTP request using axios with the provided options
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: `${this._baseUrl()}${path}`,
-        params: {
-          apiKey: this.$auth.api_key,
-          ...(otherOpts.params || {}),
-        },
-        headers: {
-          ...headers,
-          "user-agent": "@PipedreamHQ/pipedream v0.1",
-        },
-      });
-    },
-    // Retrieves trade events for the specified stock ticker
-    async getTradeEvents() {
-      return this._makeRequest({
-        path: `/v2/trades/${this.stockTicker}`,
-      });
-    },
-    // Retrieves news articles related to the stock ticker with optional filters
-    async getNewsArticles() {
-      const params = {
-        tickers: this.stockTicker,
-        ...(this.keywords && this.keywords.length > 0
-          ? {
-            keywords: this.keywords.join(","),
-          }
-          : {}),
-        ...(this.newsStockTickers && this.newsStockTickers.length > 0
-          ? {
-            tickers: this.newsStockTickers.join(","),
-          }
-          : {}),
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
       };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
+        ...opts,
+      });
+    },
+    getCurrentPrice({
+      stockTicker, date, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/v1/open-close/${stockTicker}/${date}`,
+        ...opts,
+      });
+    },
+    getHistoricalPriceData({
+      stockTicker, multiplier, timespan, from, to, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/v2/aggs/ticker/${stockTicker}/range/${multiplier}/${timespan}/${from}/${to}`,
+        ...opts,
+      });
+    },
+    getPreviousClose({
+      stockTicker, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/v2/aggs/ticker/${stockTicker}/prev`,
+        ...opts,
+      });
+    },
+    listStockTickers(opts = {}) {
+      return this._makeRequest({
+        path: "/v3/reference/tickers",
+        ...opts,
+      });
+    },
+    getFinancialDetails(opts = {}) {
+      return this._makeRequest({
+        path: "/vX/reference/financials",
+        ...opts,
+      });
+    },
+    getNewsArticles(opts = {}) {
       return this._makeRequest({
         path: "/v2/reference/news",
-        params,
+        ...opts,
       });
     },
-    // Retrieves the daily price summary for the specified stock ticker
-    async getDailyPriceSummary() {
-      const today = new Date().toISOString()
-        .split("T")[0];
-      const path = `/v1/open-close/${this.stockTicker}/${today}`;
-      const params = {
-        adjusted: true,
-        ...(this.timeInterval
-          ? {
-            interval: this.timeInterval,
+    getTradeEvents({
+      stockTicker, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/v3/trades/${stockTicker}`,
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, parseDataFn, maxResults = null, ...opts
+    }) {
+      let next;
+      let count = 0;
+
+      do {
+        params.cursor = next;
+        const data = await fn({
+          params,
+          ...opts,
+        });
+
+        const {
+          parsedData, nextPage,
+        } = parseDataFn(data);
+
+        for (const d of parsedData) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
           }
-          : {}),
-      };
-      return this._makeRequest({
-        path,
-        params,
-      });
-    },
-    // Retrieves the current price for the specified stock ticker
-    async getCurrentPrice() {
-      return this._makeRequest({
-        path: `/v2/snapshot/locale/us/markets/stocks/tickers/${this.stockTicker}`,
-      });
-    },
-    // Fetches historical price data for the specified stock ticker within the date range
-    async getHistoricalPriceData() {
-      if (!this.fromDate || !this.toDate) {
-        throw new Error("Both fromDate and toDate must be provided for historical price data.");
-      }
-      return this._makeRequest({
-        path: `/v2/aggs/ticker/${this.stockTicker}/range/1/day/${this.fromDate}/${this.toDate}`,
-        params: {
-          adjusted: true,
-          sort: "asc",
-          limit: 120,
-        },
-      });
-    },
-    // Retrieves financial details for the specified stock ticker
-    async getFinancialDetails() {
-      return this._makeRequest({
-        path: `/v3/reference/financials/${this.stockTicker}`,
-      });
+        }
+
+        next = nextPage;
+
+      } while (next);
     },
   },
 };

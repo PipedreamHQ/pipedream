@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/polygon",
+  "version": "0.1.0",
+  "description": "Pipedream Polygon Components",
+  "main": "polygon.app.mjs",
+  "keywords": [
+    "pipedream",
+    "polygon"
+  ],
+  "homepage": "https://pipedream.com/apps/polygon",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}
