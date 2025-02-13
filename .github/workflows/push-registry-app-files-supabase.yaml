@@ -28,9 +28,11 @@ jobs:
         with:
           format: json
       - name: Upload modified or newly added *.app.mjs files to Supabase
-        uses: .github/actions/push-registry-app-files-supabase
+        uses: ./.github/actions/push-registry-app-files-supabase
         with:
           changed_files: ${{ steps.changed_files.outputs.all }}
+        run: |
+          pwd && ls -al
 
 #  verify-typescript-components:
 #    name: Verify TypeScript components
