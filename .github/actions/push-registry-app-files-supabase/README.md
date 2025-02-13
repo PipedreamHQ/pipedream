@@ -1,20 +1,16 @@
-# Git diff on components action
+# Push registry app files to Supabase
 
-This action takes care of all components with dependencies that were modified but the version was not incremented.
+This action pushes new and modified `*.app.mjs/*.app.ts` files to Supabase.
 
 ## Inputs
 
-### `base_commit`
+### `changed_files`
 
-**Required** Base commit SHA.
+**Required** List of changed files.
 
-### `head_commit`
+### `supabase_anon_key`
 
-**Required** Head commit SHA.
-
-### `all_files`
-
-**Required** List of all files comming from `changed_files` step in `check_version` job github action workflow. It is necessary to set the action `Ana06/get-changed-files@v2.3.0` output in json format like
+**Required** Supabase key
 
 ```
 ...
@@ -22,24 +18,50 @@ with:
   format: json
 ```
 
-in that way `steps.changed_files.outputs.all` will be converted in array of strings
+in that way `steps.changed_files.outputs.all` will be converted into an array of strings
 
 ## Example usage
 
 ```yaml
-- name: Check git diff for version changes
-  uses: ./.github/actions/git-diff-on-components
-  with:
-    all_files: ${{ steps.changed_files.outputs.all }}
-    base_commit: ${{ github.event.pull_request.base.sha }}
-    head_commit: ${{ github.event.pull_request.head.sha }}
+  - name: Upload modified or newly added *.app.mjs files to Supabase
+    uses: ./.github/actions/push-registry-app-files-supabase
+    with:
+      changed_files: ${{ steps.changed_files.outputs.all }}
+      supabase_anon_key: ${{ secrets.SUPABASE_ANON_KEY }}
 ```
 
-## Build
+## Local Development + Build
 
-You need to push all files generated in `dist` folder once you are finished with the build to test the new version of the github action in case you want to make modifications.
+Run the following command from this action directory to update `dist/index.js` if `src/index.js` has been modified:
+```bash
+cd .github/actions/push-registry-app-files-supabase
+npm run dev
+```
 
+The above command will build and run the dist/index.js. Commit the `dist` directory.
+You might want to change the `on` trigger to `push` event on your local branch when making changes to the action so you
+can test it on GitHub:
+
+## Master
+```yaml
+# .github/workflows/push-registry-app-files-supabase.yaml
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'components/**'
 ```
-$ cd .github/actions/git-diff-on-components/
-$ pnpm i && pnpm run build
+
+## During development
+```yaml
+# .github/workflows/push-registry-app-files-supabase.yaml
+on:
+  push:
+    branches:
+      - feature-branch-name
+    paths:
+      - 'components/**'
+      - '.github/actions/push-registry-app-files-supabase/**'
 ```
+
