@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/applicantstack",
+  "version": "0.0.1",
+  "description": "Pipedream ApplicantStack Components",
+  "main": "applicantstack.app.mjs",
+  "keywords": [
+    "pipedream",
+    "applicantstack"
+  ],
+  "homepage": "https://pipedream.com/apps/applicantstack",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

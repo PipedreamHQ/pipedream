@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/felt",
+  "version": "0.0.1",
+  "description": "Pipedream Felt Components",
+  "main": "felt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "felt"
+  ],
+  "homepage": "https://pipedream.com/apps/felt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
