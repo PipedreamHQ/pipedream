@@ -774,6 +774,9 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3
 
+  components/applicantstack:
+    specifiers: {}
+
   components/appointedd:
     dependencies:
       '@pipedream/platform':
