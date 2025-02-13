@@ -21,9 +21,10 @@ For any OAuth app that supports it, **you can always use your own client.** Your
 <div className="highlightHeaderRowTable">
 | Operation | Details | Environment |
 |--------|---------|------------------------------|
-| [Retrieve credentials via API](/connect/api#accounts) | Fetch the credentials for your end user from Pipedream's API to use in your application. | ✅ `development`<br />❌ `production` |
-| [Invoke workflows](/connect/workflows) | Trigger any Pipedream workflow and use the connected account of your end user | ✅ `development`<br />❌ `production` |
-| [Run components via API](/connect/components) | Run any action and deploy any trigger directly from your application | ✅ `development`<br />✅ `production` |
+| Retrieve user credentrials | [Fetch the credentials](/connect/api#accounts) for your end user from Pipedream's API to use in your app | ✅ `development`<br />❌ `production` |
+| Invoke workflows | [Trigger any Pipedream workflow](/connect/workflows) and use the connected account of your end users | ✅ `development`<br />❌ `production` |
+| Embed prebuilt tools | [Run any action and deploy any trigger](/connect/components) directly from your AI agent or app | ✅ `development`<br />✅ `production` |
+| Proxy API requests | [Write custom code to interface with any integrated API](/connect/api-proxy) while avoiding dealing with user auth | ✅ `development`<br />✅ `production` |
 </div>
 
 ## Using a custom OAuth client
