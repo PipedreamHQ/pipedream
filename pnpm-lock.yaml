@@ -996,7 +996,14 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
 
-  components/axesso_data_service: {}
+  components/axesso_data_service:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      bottleneck:
+        specifier: ^2.19.5
+        version: 2.19.5
 
   components/axis_lms: {}
 
