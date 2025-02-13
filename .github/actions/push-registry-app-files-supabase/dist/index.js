@@ -44864,9 +44864,10 @@ function createMjsPayload(payload, appMjsFiles) {
 }
 
 async function createTsPayload(payload, appTsFiles) {
-  // if (appTsFiles.length > 0) {
-  //
-  // }
+  if (appTsFiles.length > 0) {
+    console.log("Generating mjs files from ts files for: ", appTsFiles)
+    execSync(`pnpm install -r && pnpm run build`);
+  }
 
   // npx tsc --project ../../../components/twitter/tsconfig.json && node .../.../../scripts/tsPostBuild.mjs
 
@@ -44874,11 +44875,8 @@ async function createTsPayload(payload, appTsFiles) {
     const filePath = root + appTsFiles[i]
     const app = filePath.split("/").pop().replace(".app.ts", "")
 
-    console.log("Installing dependencies")
-    execSync("pnpm install")
-
     console.log(`Building ${app}...`)
-    execSync(`npx tsc --project components/${app}/tsconfig.json`);
+    // execSync(`pnpm install -r && npx tsc --project components/${app}/tsconfig.json && node scripts/tsPostBuild.mjs`);
 
     const appDirectory = `components/${app}`
     const content = fs.readFileSync(`${appDirectory}/dist/app/${app}.app.mjs`, {encoding: "utf-8"})
