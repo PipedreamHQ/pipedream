@@ -52,3 +52,4 @@ jobs:
         with:
           changed_files: ${{ steps.changed_files.outputs.all }}
           supabase_anon_key: ${{ secrets.SUPABASE_ANON_KEY }}
+          supabase_uri: ${{ secrets.SUPABASE_URI }}

@@ -7,6 +7,9 @@ inputs:
   supabase_anon_key:
     description: "Supabase anon key"
     required: true
+  supabase_uri:
+    description: "Supabase URI"
+    required: true
 runs:
-  using: "node16"
+  using: "node22"
   main: "dist/index.js"

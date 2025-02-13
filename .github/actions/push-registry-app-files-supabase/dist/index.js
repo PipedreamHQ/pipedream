@@ -44818,7 +44818,7 @@ const { execSync } = __nccwpck_require__(2081);
 
 
 
-const supabaseUrl = "https://ywxbxfcsskoyjwnlpqms.supabase.co"
+const supabaseUrl = core.getInput("supabase_uri");
 const supabaseKey = core.getInput("supabase_anon_key");
 const changedFiles = JSON.parse(core.getInput("changed_files") || "[]");
 
