@@ -38,7 +38,7 @@ const root = "../../../";
 
 function createMjsPayload(payload, appMjsFiles) {
   for (let i = 0; i < appMjsFiles.length; i++) {
-    const filePath = root + appMjsFiles[i]
+    const filePath = appMjsFiles[i]
     const app = filePath.split("/").pop().replace(".app.mjs", "")
     const content = fs.readFileSync(filePath, { encoding: "utf-8" })
     payload.push({
@@ -52,13 +52,13 @@ function createMjsPayload(payload, appMjsFiles) {
 async function createTsPayload(payload, appTsFiles) {
   if (appTsFiles.length > 0) {
     console.log("Generating mjs files from ts files for: ", appTsFiles)
-    execSync(`cd ${root} && pnpm run build`);
+    execSync(`pnpm run build`);
   }
 
   for (let i = 0; i < appTsFiles.length; i++) {
     const filePath = root + appTsFiles[i]
     const app = filePath.split("/").pop().replace(".app.ts", "")
-    const appDirectory = `${root}components/${app}`
+    const appDirectory = `components/${app}`
     const content = fs.readFileSync(`${appDirectory}/dist/app/${app}.app.mjs`, {encoding: "utf-8"})
     payload.push({
       app,
@@ -84,15 +84,15 @@ async function uploadToSupabase(payload) {
 
 async function run() {
   const filesToUpsert = changedFiles.filter(shouldInclude)
-  console.log("Working directory: ")
-  const pwdOutput = execSync("pwd").toString().trim();
-  console.log(pwdOutput);
-
-  console.log("Listing files:");
-  const lsOutput = execSync("ls -al").toString().trim();
-  console.log(lsOutput);
-
-  console.log("Files to upsert: ", filesToUpsert)
+  // console.log("Working directory: ")
+  // const pwdOutput = execSync("pwd").toString().trim();
+  // console.log(pwdOutput);
+  //
+  // console.log("Listing files:");
+  // const lsOutput = execSync("ls -al").toString().trim();
+  // console.log(lsOutput);
+  //
+  // console.log("Files to upsert: ", filesToUpsert)
 
   const appMjsFiles = filesToUpsert.filter(file => file.endsWith('.app.mjs'))
   const appTsFiles = filesToUpsert.filter(file => file.endsWith('.app.ts'))
