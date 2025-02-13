@@ -41,7 +41,7 @@ import {
   User,
 } from "../common/types/responseSchemas";
 import { ERROR_BY_TYPE } from "../common/errorMessage";
-
+// DEBUG 1
 export default defineApp({
   type: "app",
   app: "twitter",

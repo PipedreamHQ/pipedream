@@ -6,14 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = "https://ywxbxfcsskoyjwnlpqms.supabase.co"
 const supabaseKey = core.getInput("supabase_anon_key");
-// const changedFiles = JSON.parse(core.getInput("changed_files") || "[]");
-
-const changedFiles = [
-  '.github/workflows/push-registry-app-files-supabase.yaml',
-  'components/a123formbuilder/a123formbuilder.app.mjs',
-  'components/a123formbuilder/sources/a123formbuilder.app.mjs',
-  'components/twitter/app/twitter.app.ts',
-];
+const changedFiles = JSON.parse(core.getInput("changed_files") || "[]");
 
 const ignoreDirectories = [
   "/actions/",
@@ -34,8 +27,6 @@ const shouldInclude = (file) => {
   return true
 }
 
-const root = "../../../";
-
 function createMjsPayload(payload, appMjsFiles) {
   for (let i = 0; i < appMjsFiles.length; i++) {
     const filePath = appMjsFiles[i]
@@ -55,14 +46,11 @@ async function createTsPayload(payload, appTsFiles) {
     execSync(`pnpm install -r && pnpm run build`);
   }
 
-  // npx tsc --project ../../../components/twitter/tsconfig.json && node .../.../../scripts/tsPostBuild.mjs
-
   for (let i = 0; i < appTsFiles.length; i++) {
-    const filePath = root + appTsFiles[i]
+    const filePath = appTsFiles[i]
     const app = filePath.split("/").pop().replace(".app.ts", "")
 
     console.log(`Building ${app}...`)
-    // execSync(`pnpm install -r && npx tsc --project components/${app}/tsconfig.json && node scripts/tsPostBuild.mjs`);
 
     const appDirectory = `components/${app}`
     const content = fs.readFileSync(`${appDirectory}/dist/app/${app}.app.mjs`, {encoding: "utf-8"})
@@ -90,15 +78,6 @@ async function uploadToSupabase(payload) {
 
 async function run() {
   const filesToUpsert = changedFiles.filter(shouldInclude)
-  // console.log("Working directory: ")
-  // const pwdOutput = execSync("pwd").toString().trim();
-  // console.log(pwdOutput);
-  //
-  // console.log("Listing files:");
-  // const lsOutput = execSync("ls -al").toString().trim();
-  // console.log(lsOutput);
-  //
-  // console.log("Files to upsert: ", filesToUpsert)
 
   const appMjsFiles = filesToUpsert.filter(file => file.endsWith('.app.mjs'))
   const appTsFiles = filesToUpsert.filter(file => file.endsWith('.app.ts'))
@@ -106,7 +85,6 @@ async function run() {
   const payload = [];
   createMjsPayload(payload, appMjsFiles)
   await createTsPayload(payload, appTsFiles)
-  console.log("Payload: ", payload)
   await uploadToSupabase(payload)
 }
 
