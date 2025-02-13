@@ -5,7 +5,7 @@ const { execSync } = require("child_process");
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = "https://ywxbxfcsskoyjwnlpqms.supabase.co"
-const supabaseKey = core.getInput("supabase_key");
+const supabaseKey = core.getInput("supabase_anon_key");
 // const changedFiles = JSON.parse(core.getInput("changed_files") || "[]");
 
 const changedFiles = [

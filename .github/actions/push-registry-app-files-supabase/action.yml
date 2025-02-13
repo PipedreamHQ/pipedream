@@ -4,6 +4,9 @@ inputs:
   changed_files:
     description: "List of all changed files coming from the push_to_supabase job of a github action workflow"
     required: true
+  supabase_anon_key:
+    description: "Supabase anon key"
+    required: true
 runs:
   using: "node16"
   main: "dist/index.js"
