@@ -4,6 +4,7 @@
   "description": "Push registry app files to Supabase",
   "main": "dist/index.js",
   "scripts": {
+    "dev": "pnpm build && node dist/index.js",
     "clean": "rm -rf ./dist",
     "build": "pnpm run clean && ncc build src/index.js --license licenses.txt"
   },
@@ -12,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.9.0",
-    "@actions/exec": "^1.1.1",
+    "@supabase/supabase-js": "^2.48.1",
     "@vercel/ncc": "^0.34.0",
     "ncc": "^0.3.6"
   }
