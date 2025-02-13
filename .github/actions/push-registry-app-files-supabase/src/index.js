@@ -52,7 +52,7 @@ function createMjsPayload(payload, appMjsFiles) {
 async function createTsPayload(payload, appTsFiles) {
   if (appTsFiles.length > 0) {
     console.log("Generating mjs files from ts files for: ", appTsFiles)
-    execSync(`pnpm run build`);
+    execSync(`pnpm install -r && pnpm run build`);
   }
 
   for (let i = 0; i < appTsFiles.length; i++) {
