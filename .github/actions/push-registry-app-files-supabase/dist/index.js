@@ -44819,7 +44819,7 @@ const { execSync } = __nccwpck_require__(2081);
 
 
 const supabaseUrl = "https://ywxbxfcsskoyjwnlpqms.supabase.co"
-const supabaseKey = core.getInput("supabase_key");
+const supabaseKey = core.getInput("supabase_anon_key");
 // const changedFiles = JSON.parse(core.getInput("changed_files") || "[]");
 
 const changedFiles = [
@@ -44866,8 +44866,6 @@ function createMjsPayload(payload, appMjsFiles) {
 async function createTsPayload(payload, appTsFiles) {
   if (appTsFiles.length > 0) {
     console.log("Generating mjs files from ts files for: ", appTsFiles)
-    // const args = ["diff", "--unified=0", `${baseCommit}...${headCommit}`, filePath];
-    // await execCmd("git", args);
     execSync(`cd ${root} && pnpm run build`);
   }
 
@@ -44900,6 +44898,8 @@ async function uploadToSupabase(payload) {
 
 async function run() {
   const filesToUpsert = changedFiles.filter(shouldInclude)
+  console.log("Working directory: ")
+  execSync("pwd && ls -al")
   console.log("Files to upsert: ", filesToUpsert)
 
   const appMjsFiles = filesToUpsert.filter(file => file.endsWith('.app.mjs'))
