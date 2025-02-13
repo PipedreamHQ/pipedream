@@ -774,7 +774,8 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3
 
-  components/applicantstack: {}
+  components/applicantstack:
+    specifiers: {}
 
   components/appointedd:
     dependencies:
@@ -3612,7 +3613,8 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/felt: {}
+  components/felt:
+    specifiers: {}
 
   components/fibery:
     dependencies:
@@ -7583,7 +7585,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/ory: {}
+  components/ory:
+    specifiers: {}
 
   components/osu: {}
 
@@ -12416,7 +12419,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/zep: {}
+  components/zep:
+    specifiers: {}
 
   components/zerobounce:
     dependencies:

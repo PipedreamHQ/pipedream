@@ -4,7 +4,6 @@ import { defineAction } from "@pipedream/types";
 import { getUserId } from "../../common/methods";
 import { AddUserToListParams } from "../../common/types/requestParams";
 
-// DEBUG 1
 const DOCS_LINK =
   "https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/post-lists-id-members";
 

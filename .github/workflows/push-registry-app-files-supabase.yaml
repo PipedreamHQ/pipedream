@@ -1,12 +1,11 @@
 name: Push Registry App Files to Supabase
 
 on:
-  push:
+  pull_request:
     branches:
-      - biz/dj-2899-create-a-github-action-to-upsert-any-changed-app-files-into
+      - master
     paths:
       - 'components/**'
-      - '.github/actions/push-registry-app-files-supabase/**'
 
 jobs:
   push_to_supabase:
