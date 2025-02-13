@@ -14,7 +14,7 @@ const extensionsRegExp = new RegExp("\.[t|j|mj]s$");
 
 const baseCommit = core.getInput("base_commit");
 const headCommit = core.getInput("head_commit");
-const allFiles = JSON.parse(core.getInput("all_files"));
+const allFiles = JSON.parse(core.getInput("changed_files"));
 console.log("DEBUG - Core: ", core)
 console.log("DEBUG - All files that were changed: ", allFiles)
 
