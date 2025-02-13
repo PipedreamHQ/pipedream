@@ -135,7 +135,7 @@ You can also send a request to the Connect REST API with the below config:
 
 - If using the REST API, include the `Authorization` header with your Pipedream OAuth access token (`Bearer {access_token}`)
 - Headers that contain the prefix `x-pd-proxy` will get forwarded to the downstream API
-- If the downstream API requires [custom authorization headers](#authenticating-on-behalf-of-a-user), make sure to prepend with `x-pd-proxy` and include the macro `{{ }}` that Pipedream will replace with the actual value. For example,
+- If the downstream API requires [custom authorization headers](#authenticating-on-behalf-of-your-user), make sure to prepend with `x-pd-proxy` and include the macro `{{ }}` that Pipedream will replace with the actual value. For example,
 
 ```javascript
 "x-pd-proxy-apiKey: {{api_key}}"
