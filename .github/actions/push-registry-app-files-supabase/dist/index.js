@@ -44899,7 +44899,9 @@ async function uploadToSupabase(payload) {
 async function run() {
   const filesToUpsert = changedFiles.filter(shouldInclude)
   console.log("Working directory: ")
-  execSync("pwd && ls -al")
+  execSync("pwd")
+  console.log("ls")
+  execSync("ls")
   console.log("Files to upsert: ", filesToUpsert)
 
   const appMjsFiles = filesToUpsert.filter(file => file.endsWith('.app.mjs'))
