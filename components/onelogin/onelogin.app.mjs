@@ -59,7 +59,7 @@ export default {
       optional: true,
     },
     groupId: {
-      type: "string",
+      type: "integer",
       label: "Group ID",
       description: "Group to which the user belongs.",
       async options() {
@@ -221,38 +221,34 @@ export default {
     },
   },
   methods: {
-    // Existing method
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
-    // Base URL
     _baseUrl() {
-      return "https://api.onelogin.com/api/1";
+      return `https://${this.$auth.subdomain}.onelogin.com/api/1`;
     },
-    // Make Request
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        data,
-        params,
-        headers = {},
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        method,
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      const config = {
         url: this._baseUrl() + path,
-        data: data,
-        params: params,
-        headers: {
-          ...headers,
-          "Authorization": `bearer:${this.$auth.access_token}`,
-          "Content-Type": "application/json",
-        },
-        ...otherOpts,
+        headers: this._headers(),
+        ...opts,
+      };
+      console.log("config: ", config);
+      return axios($, config);
+    },
+    createUser(data, opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/users",
+        data,
+        ...opts,
       });
     },
+
     // Pagination Logic
     async paginate(fn, ...args) {
       const results = [];
@@ -275,45 +271,24 @@ export default {
     },
     // List Groups
     async listGroups(opts = {}) {
-      return this.paginate(async ({ page }) => {
-        const response = await this._makeRequest({
-          path: "/groups",
-          params: {
-            limit: 100,
-            page,
-            ...opts.params,
-          },
-        });
-        return response;
-      }, opts);
+      return this._makeRequest({
+        path: "/groups",
+        ...opts,
+      });
     },
     // List Roles
     async listRoles(opts = {}) {
-      return this.paginate(async ({ page }) => {
-        const response = await this._makeRequest({
-          path: "/roles",
-          params: {
-            limit: 100,
-            page,
-            ...opts.params,
-          },
-        });
-        return response;
-      }, opts);
+      return this._makeRequest({
+        path: "/roles",
+        ...opts,
+      });
     },
     // List Users
     async listUsers(opts = {}) {
-      return this.paginate(async ({ page }) => {
-        const response = await this._makeRequest({
-          path: "/users",
-          params: {
-            limit: 100,
-            page,
-            ...opts.params,
-          },
-        });
-        return response;
-      }, opts);
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
     },
     // List Directories
     async listDirectories(opts = {}) {
@@ -328,15 +303,6 @@ export default {
         });
         return response;
       }, opts);
-    },
-    // Create User
-    async createUser(data, opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/users",
-        data,
-        ...opts,
-      });
     },
     // Update User
     async updateUser(userId, data, opts = {}) {
@@ -355,21 +321,5 @@ export default {
         ...opts,
       });
     },
-    // Emit User Created Event
-    async emitUserCreatedEvent(filters) {
-      // Implementation to emit event based on filters
-      // This would typically involve setting up a webhook or listening to API events
-    },
-    // Emit Login Attempt Event
-    async emitLoginAttemptEvent(filters) {
-      // Implementation to emit event based on filters
-      // This would typically involve setting up a webhook or listening to API events
-    },
-    // Emit Directory Sync Event
-    async emitDirectorySyncEvent(filters) {
-      // Implementation to emit event based on filters
-      // This would typically involve setting up a webhook or listening to API events
-    },
   },
-  version: "0.0.ts",
 };

@@ -1,5 +1,6 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 import onelogin from "../../onelogin.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "onelogin-create-user",
@@ -136,95 +137,32 @@ export default {
   },
   async run({ $ }) {
     if (!this.email && !this.username) {
-      throw new Error("Either email or username must be provided.");
+      throw new ConfigurationError("Either email or username must be provided.");
     }
 
-    const userData = {
-      firstname: this.firstname,
-      lastname: this.lastname,
-      ...(this.email
-        ? {
-          email: this.email,
-        }
-        : {}),
-      ...(this.username
-        ? {
-          username: this.username,
-        }
-        : {}),
-      ...(this.company != null
-        ? {
-          company: this.company,
-        }
-        : {}),
-      ...(this.department != null
-        ? {
-          department: this.department,
-        }
-        : {}),
-      ...(this.directoryId != null
-        ? {
-          directory_id: this.directoryId,
-        }
-        : {}),
-      ...(this.distinguishedName != null
-        ? {
-          distinguished_name: this.distinguishedName,
-        }
-        : {}),
-      ...(this.externalId != null
-        ? {
-          external_id: this.externalId,
-        }
-        : {}),
-      ...(this.groupId != null
-        ? {
-          group_id: parseInt(this.groupId, 10),
-        }
-        : {}),
-      ...(this.invalidLoginAttempts != null
-        ? {
-          invalid_login_attempts: this.invalidLoginAttempts,
-        }
-        : {}),
-      ...(this.localeCode != null
-        ? {
-          locale_code: this.localeCode,
-        }
-        : {}),
-      ...(this.memberOf != null
-        ? {
-          member_of: this.memberOf,
-        }
-        : {}),
-      ...(this.openidName != null
-        ? {
-          openid_name: this.openidName,
-        }
-        : {}),
-      ...(this.phone != null
-        ? {
-          phone: this.phone,
-        }
-        : {}),
-      ...(this.samaccountname != null
-        ? {
-          samaccountname: this.samaccountname,
-        }
-        : {}),
-      ...(this.title != null
-        ? {
-          title: this.title,
-        }
-        : {}),
-      ...(this.customAttributes != null
-        ? {
-          custom_attributes: this.customAttributes,
-        }
-        : {}),
-    };
-
-    const response = await this.onelogin.createUser(userData);
+    const response = await this.onelogin.createUser({
+      $,
+      data: {
+        firstname: this.firstname,
+        lastname: this.lastname,
+        email: this.email,
+        username: this.username,
+        company: this.company,
+        department: this.department,
+        directory_id: this.directoryId,
+        distinguished_name: this.distinguishedName,
+        external_id: this.externalId,
+        group_id: this.groupId,
+        invalid_login_attempts: this.invalidLoginAttempts,
+        locale_code: this.localeCode,
+        member_of: this.memberOf,
+        openid_name: this.openidName,
+        phone: this.phone,
+        samaccountname: this.samaccountname,
+        title: this.title,
+        custom_attributes: parseObject(this.customAttributes),
+      },
+    });
 
     $.export("$summary", `Created user ${response.username} with ID ${response.id}`);
     return response;
