@@ -1,7 +1,7 @@
 name: Push Registry App Files to Supabase
 
 on:
-  pull_request:
+  push:
     branches:
       - master
     paths:

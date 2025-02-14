@@ -8804,8 +8804,7 @@ importers:
 
   components/redmine: {}
 
-  components/referral_rocket:
-    specifiers: {}
+  components/referral_rocket: {}
 
   components/referralhero:
     dependencies:
