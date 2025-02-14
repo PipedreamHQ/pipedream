@@ -76,7 +76,6 @@ export default {
         throw new ConfigurationError(`Error parsing \`Custom Labels\` as JSON: "${err}"`);
       }
     }
-    $.export("debug", defaults);
     const {
       data,
       errors,
