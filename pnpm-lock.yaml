@@ -4494,7 +4494,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/google_maps_platform: {}
+  components/google_maps_platform:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/google_meet:
     dependencies:
