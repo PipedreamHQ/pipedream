@@ -1,5 +1,5 @@
 import app from "../../monday_oauth.app.mjs";
-import common from "../../../monday/actions/create-column/create-column.mjs";
+import common from "@pipedream/monday/actions/create-column/create-column.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
