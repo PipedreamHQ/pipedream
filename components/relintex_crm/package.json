@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/relintex_crm",
+  "version": "0.0.1",
+  "description": "Pipedream Relintex CRM Components",
+  "main": "relintex_crm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "relintex_crm"
+  ],
+  "homepage": "https://pipedream.com/apps/relintex_crm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
