@@ -11,5 +11,5 @@ inputs:
     description: "Supabase URI"
     required: true
 runs:
-  using: "node22"
+  using: "node20"
   main: "dist/index.js"
