@@ -3,10 +3,10 @@ import common from "../common/common-webhook.mjs";
 export default {
   ...common,
   key: "monday-name-updated",
-  name: "New Name Updated (Instant)",
-  description: "Emit new event when an item's Name is updated on a board in Monday.",
+  name: "Name Updated (Instant)",
+  description: "Emit new event when an item's name is updated. [See the documentation](https://developer.monday.com/api-reference/reference/webhooks#sample-payload-for-webhook-events)",
   type: "source",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   hooks: {
     ...common.hooks,
