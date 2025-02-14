@@ -132,11 +132,11 @@ export default {
           boardId: +boardId,
         });
         return columns
-          .filter((column) => column.id !== "name")
+          ?.filter((column) => column.id !== "name")
           .map((column) => ({
             label: column.title,
             value: column.id,
-          }));
+          })) ?? [];
       },
     },
   },
@@ -385,13 +385,13 @@ export default {
 
       const { boards } = data;
       return boards
-        .filter(({ type }) => type !== constants.BOARD_TYPE.SUB_ITEMS_BOARD)
+        ?.filter(({ type }) => type !== constants.BOARD_TYPE.SUB_ITEMS_BOARD)
         .map(({
           id, name,
         }) => ({
           label: name,
           value: id,
-        }));
+        })) ?? [];
     },
     async listFolderOptions(variables) {
       const {
