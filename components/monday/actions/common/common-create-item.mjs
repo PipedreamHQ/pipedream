@@ -26,7 +26,6 @@ export default {
     const columnData = await this.monday.listColumns({
       boardId: +this.boardId,
     });
-    console.log(columnData);
     for (const column of this.columns) {
       let description, options;
       options = getColumnOptions(columnData, column);
