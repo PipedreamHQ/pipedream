@@ -1,7 +1,7 @@
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
 export default {
-  key: "microsoft_outlook-send-email",
+  key: "microsoft_outlook-approve-workflow",
   name: "Approve Workflow",
   description: "Suspend the workflow until approved by email. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun#flowsuspend)",
   version: "0.0.1",
