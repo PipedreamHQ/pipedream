@@ -774,8 +774,7 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3
 
-  components/applicantstack:
-    specifiers: {}
+  components/applicantstack: {}
 
   components/appointedd:
     dependencies:
@@ -3613,8 +3612,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/felt:
-    specifiers: {}
+  components/felt: {}
 
   components/fibery:
     dependencies:
@@ -7585,8 +7583,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/ory:
-    specifiers: {}
+  components/ory: {}
 
   components/osu: {}
 
@@ -8874,8 +8871,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/relintex_crm:
-    specifiers: {}
+  components/relintex_crm: {}
 
   components/remarkety: {}
 
@@ -10371,8 +10367,7 @@ importers:
         specifier: ^4.17.20
         version: 4.17.21
 
-  components/stack_overflow_for_teams:
-    specifiers: {}
+  components/stack_overflow_for_teams: {}
 
   components/stackshare_api: {}
 
@@ -12425,8 +12420,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/zep:
-    specifiers: {}
+  components/zep: {}
 
   components/zerobounce:
     dependencies:
