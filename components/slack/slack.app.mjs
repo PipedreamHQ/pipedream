@@ -295,7 +295,7 @@ export default {
       type: "boolean",
       label: "Unfurl Media",
       description: "Defaults to `false`. Pass `true` to enable unfurling of media content.",
-      default: true,
+      default: false,
       optional: true,
     },
     parse: {
