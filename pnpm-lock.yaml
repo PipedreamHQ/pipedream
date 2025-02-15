@@ -1140,8 +1140,7 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/benchmarkone:
-    specifiers: {}
+  components/benchmarkone: {}
 
   components/better_stack:
     dependencies:
