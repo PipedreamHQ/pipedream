@@ -1,8 +1,8 @@
-async_options = """## Async options
+async_options = """<AsyncOptions>
 
 The `options` method is an optional method that can be defined on a prop. It is used to dynamically generate the options for a prop and can return a static array of options or a Promise that resolves to an array of options:
 
-```
+```json
 [
   {
     label: "Human-readable option 1",
@@ -21,7 +21,7 @@ If an API endpoint exists that can be used to fetch the options for the prop, yo
 
 Example async options methods:
 
-```
+```javascript
 msg: {
   type: "string",
   label: "Message",
@@ -33,7 +33,7 @@ msg: {
 },
 ```
 
-```
+```javascript
 board: {
   type: "string",
   label: "Board",
@@ -45,4 +45,5 @@ board: {
     });
   },
 },
-```"""
+```
+</AsyncOptions>"""

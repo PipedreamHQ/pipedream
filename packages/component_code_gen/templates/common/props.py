@@ -1,9 +1,10 @@
-props = """## Props
+props = """<Props>
 
-The component must contain a `props` property. Props lets the user pass data to the step via a form in the Pipedream UI, so they can fill in the values of the variables.
+Any Pipedream component that uses connected accounts or accepts input must contain a `props` property. Props define component input via a form in the Pipedream UI, so users can connect accounts or fill in the values of the variables.
 
 For example:
 
+```javascript
 export default {
   ...
   props: {
@@ -23,6 +24,7 @@ export default {
     },
   },
 };
+```
 
 ### Naming conventions are critical
 
@@ -42,6 +44,7 @@ string, boolean, and integer props allow for arrays of input, and the array type
 
 Complex props (like arrays of objects) can be passed as string[] props, and each item of the array can be parsed as JSON. If the user asks you to provide an array of object, ALWAYS provide a `type` of string[]. 
 
+```javascript
 export default {
   ...
   props: {
@@ -56,6 +59,7 @@ export default {
     // complexProp is now an array of objects
   }
 };
+```
 
 Optionally, props can have a human-readable `description` describing the param. 
 
@@ -65,6 +69,7 @@ DO NOT INCLUDE optional API parameters as props, unless specified in the instruc
 
 Optional parameters that correspond to the test code should be declared with `optional: true`. Recall that props may contain an `options` method.
 
+```javascript
 export default {
   ...
   props: {
@@ -76,11 +81,13 @@ export default {
     },
   },
 };
+```
 
 `optional: false` is the default, so you don't need to include it for required props.
 
 Within the component's run method, the `this` variable refers to properties of the component. All props are exposed at `this.<name of the key in the props object>`. e.g. `this.input`. `this` doesn't contain any other properties.
 
+```javascript
 export default {
   ...
   props: {
@@ -94,4 +101,6 @@ export default {
     console.log(this.input);
   }
 };
+```
+</Props>
 """
