@@ -1,24 +1,27 @@
-// legacy_hash_id: a_Q3iw4N
-import { axios } from "@pipedream/platform";
+import zoom from "../../zoom.app.mjs";
 
 export default {
   key: "zoom-view-user",
   name: "View User",
-  description: "View your user information",
-  version: "0.1.4",
+  description: "View your user information. [See the documentation](https://developers.zoom.us/docs/api/users/#tag/users/GET/users/{userId})",
+  version: "0.1.5",
   type: "action",
   props: {
-    zoom: {
-      type: "app",
-      app: "zoom",
+    zoom,
+  },
+  methods: {
+    getUser(args = {}) {
+      return this.zoom._makeRequest({
+        path: "/users/me",
+        ...args,
+      });
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      url: "https://api.zoom.us/v2/users/me",
-      headers: {
-        Authorization: `Bearer ${this.zoom.$auth.oauth_access_token}`,
-      },
+    const response = await this.getUser({
+      $,
     });
+    $.export("$summary", `Successfully retrieved user with ID: ${response.id}`);
+    return response;
   },
 };

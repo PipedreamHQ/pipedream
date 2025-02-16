@@ -1,38 +1,49 @@
-// legacy_hash_id: a_Xzi12a
-import { axios } from "@pipedream/platform";
+import zoom from "../../zoom.app.mjs";
 
 export default {
   key: "zoom-get-meeting-details",
   name: "Get Meeting Details",
-  description: "Retrieves the details of a meeting.",
-  version: "0.3.4",
+  description: "Retrieves the details of a meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/meetings/GET/meetings/{meetingId})",
+  version: "0.3.5",
   type: "action",
   props: {
-    zoom: {
-      type: "app",
-      app: "zoom",
+    zoom,
+    meetingId: {
+      propDefinition: [
+        zoom,
+        "meetingId",
+      ],
     },
-    meeting_id: {
-      type: "integer",
-      description: "The meeting ID.",
-    },
-    occurrence_id: {
+    occurrenceId: {
+      propDefinition: [
+        zoom,
+        "occurrenceIds",
+        (c) => ({
+          meetingId: c.meetingId,
+        }),
+      ],
       type: "string",
-      description: "Meeting occurrence ID.",
+      label: "Occurence ID",
+      description: "Meeting occurrence ID. Provide this field to view meeting details of a particular occurrence of the recurring meeting.",
+      optional: true,
+    },
+    showPreviousOccurrences: {
+      type: "boolean",
+      label: "Show Previous Occurrences",
+      description: "Set this field's value to true to view meeting details of all previous occurrences of a recurring meeting.",
       optional: true,
     },
   },
   async run({ $ }) {
-  //See the API docs here: https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meeting
-    const config = {
-      url: `https://api.zoom.us/v2/meetings/${this.meeting_id}`,
+    const response = await this.zoom.getMeeting({
+      $,
+      meetingId: this.meetingId,
       params: {
-        occurrence_id: this.occurrence_id,
+        occurrence_id: this.occurrenceId,
+        show_previous_occurrences: this.showPreviousOccurrences,
       },
-      headers: {
-        Authorization: `Bearer ${this.zoom.$auth.oauth_access_token}`,
-      },
-    };
-    return await axios($, config);
+    });
+    $.export("$summary", `Successfully retreived details for meeting with ID: \`${this.meetingId}\``);
+    return response;
   },
 };
