@@ -313,6 +313,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/adobe_photoshop_lightroom:
+    specifiers: {}
+
   components/adobe_sign: {}
 
   components/adp: {}
@@ -1139,6 +1142,8 @@ importers:
       '@pipedream/types':
         specifier: ^0.1.4
         version: 0.1.6
+
+  components/benchmarkone: {}
 
   components/better_stack:
     dependencies:
@@ -5845,6 +5850,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/langfuse: {}
 
   components/laposta:
     dependencies:
