@@ -313,8 +313,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/adobe_photoshop_lightroom:
-    specifiers: {}
+  components/adobe_photoshop_lightroom: {}
 
   components/adobe_sign: {}
 
