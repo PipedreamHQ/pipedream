@@ -12,6 +12,6 @@ export default {
   "vpc": "Virtual Private Clouds",
   "limits": "Limits",
   "contributing": "Contributing",
-  "rest-api": "Rest API",
+  "rest-api": "REST API",
   "cli": "CLI",
 } as const
