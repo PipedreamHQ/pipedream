@@ -28,7 +28,7 @@ Pipedream's plan for individuals and teams running production workflows. [See th
 
 ### Auto-retry
 
-[A workflow setting](/workflows/visual-builder/settings#auto-retry-errors) that lets you automatically retry an execution from the failed step when it encounters an error.
+[A workflow setting](/core/workflows/settings#auto-retry-errors) that lets you automatically retry an execution from the failed step when it encounters an error.
 
 ## B
 
@@ -92,7 +92,7 @@ The public registry of [components](#component) available to Pipedream users, [a
 
 ### Concurrency
 
-[A workflow setting](/workflows/visual-builder/settings/concurrency-and-throttling#concurrency) that lets users configure the number of concurrent [workers](#worker) available to process events.
+[A workflow setting](/core/workflows/settings/concurrency-and-throttling#concurrency) that lets users configure the number of concurrent [workers](#worker) available to process events.
 
 ### Connected account
 
@@ -118,11 +118,11 @@ An [event source](#event-source) that you create using custom code, or by modify
 
 ### Data retention
 
-A workflow setting that allows you to configure how long Pipedream stores event data and logs associated with [executions](#execution). [See the docs](/workflows/visual-builder/settings#data-retention-controls) for more details.
+A workflow setting that allows you to configure how long Pipedream stores event data and logs associated with [executions](#execution). [See the docs](/core/workflows/settings#data-retention-controls) for more details.
 
 ### Dedicated workers
 
-[Workers](#worker) that remain available to process events, even when the workflow is not running. This can help reduce [cold starts](#cold-start) and improve performance for workflows that require low latency. [See the docs](/workflows/visual-builder/settings#eliminate-cold-starts) for more details.
+[Workers](#worker) that remain available to process events, even when the workflow is not running. This can help reduce [cold starts](#cold-start) and improve performance for workflows that require low latency. [See the docs](/core/workflows/settings#eliminate-cold-starts) for more details.
 
 ### Deduper
 
@@ -130,7 +130,7 @@ A workflow setting that allows you to configure how long Pipedream stores event 
 
 ### Delay
 
-[A built-in service](/workflows/visual-builder/control-flow/delay) that lets you pause a workflow for a specified amount of time. You can delay workflows using pre-built actions, or delay in code.
+[A built-in service](/core/workflows/control-flow/delay) that lets you pause a workflow for a specified amount of time. You can delay workflows using pre-built actions, or delay in code.
 
 ### Destination
 
@@ -183,11 +183,11 @@ Events are emitted by [sources](#event-source) and consumed by workflows. Events
 
 ### Event context
 
-Metadata about a workflow execution, including the timestamp of the event, the event ID, and more. Exposed in [`steps.trigger.context`](/workflows/visual-builder/triggers#stepstriggercontext).
+Metadata about a workflow execution, including the timestamp of the event, the event ID, and more. Exposed in [`steps.trigger.context`](/core/workflows/triggers#stepstriggercontext).
 
 ### Event data
 
-The content of the event, exposed in [`steps.trigger.event`](/workflows/visual-builder/triggers).
+The content of the event, exposed in [`steps.trigger.event`](/core/workflows/triggers).
 
 ### Event history
 
@@ -211,18 +211,18 @@ When a workflow is triggered by an event, the running instance of the workflow o
 
 ### Execution rate controls
 
-The workflow setting that allows users to configure the number of executions a workflow can process per unit time. Also known as throttling. [See the docs](/workflows/visual-builder/settings/concurrency-and-throttling#throttling) for more details.
+The workflow setting that allows users to configure the number of executions a workflow can process per unit time. Also known as throttling. [See the docs](/core/workflows/settings/concurrency-and-throttling#throttling) for more details.
 
 ### Export
 
 Depending on the context, **export** can function as a noun or verb:
 
 - **Noun**: A synonym for [step export](#step-export)
-- **Verb**: The act of exporting data from a step using Pipedream primitives like [`$.export`](/workflows/visual-builder/code/nodejs#using-export) or `return`.
+- **Verb**: The act of exporting data from a step using Pipedream primitives like [`$.export`](/core/workflows/code/nodejs#using-export) or `return`.
 
 ### Expression
 
-In programming, expressions are code that resolve to a value. In Pipedream, [you can use expressions within props forms](/workflows/visual-builder/using-props#entering-expressions) to reference prior steps or compute custom values at runtime.
+In programming, expressions are code that resolve to a value. In Pipedream, [you can use expressions within props forms](/core/workflows/using-props#entering-expressions) to reference prior steps or compute custom values at runtime.
 
 ### External credentials
 
@@ -372,7 +372,7 @@ Pipedream's internal code in the [execution environment](#execution-environment)
 
 ### Object explorer
 
-The [builder](#builder) UI that allows you to search objects [exported](#export) from prior steps. [See the docs](/workflows/visual-builder/using-props#use-the-object-explorer) for more details.
+The [builder](#builder) UI that allows you to search objects [exported](#export) from prior steps. [See the docs](/core/workflows/using-props#use-the-object-explorer) for more details.
 
 ## Q
 
@@ -418,7 +418,7 @@ A connection between a [listener](#listener) and an [emitter](#emitter) that all
 
 ### Suspend
 
-Workflow [executions](#execution) are suspended when you [delay](#delay) or use functions like [`$.flow.suspend`](/workflows/visual-builder/code/nodejs/rerun#flowsuspend) to pause the workflow.
+Workflow [executions](#execution) are suspended when you [delay](#delay) or use functions like [`$.flow.suspend`](/core/workflows/code/nodejs/rerun#flowsuspend) to pause the workflow.
 
 ## T
 
@@ -428,7 +428,7 @@ Synonym for [execution rate controls](#execution-rate-controls).
 
 ### Timeout
 
-All workflows have [a default timeout](/workflows/limits#time-per-execution). You can configure a custom timeout in the [workflow settings](/workflows/visual-builder/settings#execution-timeout-limit).
+All workflows have [a default timeout](/workflows/limits#time-per-execution). You can configure a custom timeout in the [workflow settings](/core/workflows/settings#execution-timeout-limit).
 
 ### `/tmp` directory
 

@@ -68,7 +68,7 @@ Your workflow's ID is the value that starts with `p_`. In this example: `p_abc12
 
 ## How do I invoke another workflow?
 
-We provide a [Trigger Workflow](https://pipedream.com/apps/helper-functions/actions/trigger-workflow) action in the [Helper Functions](https://pipedream.com/apps/helper-functions) app. [See more here](/workflows/visual-builder/code/nodejs#invoke-another-workflow).
+We provide a [Trigger Workflow](https://pipedream.com/apps/helper-functions/actions/trigger-workflow) action in the [Helper Functions](https://pipedream.com/apps/helper-functions) app. [See more here](/core/workflows/code/nodejs#invoke-another-workflow).
 
 Another option is to make an HTTP request to a Pipedream HTTP webhook trigger.
 
@@ -114,15 +114,15 @@ Event sources and workflows have a [default time limit on a given execution](/wo
 To address timeouts, you'll either need to:
 
 1. Figure out why your code is running for longer than expected. It's important to note that **timeouts are not an issue with Pipedream — they are specific to your workflow**. Often, you're making a request to a third party API that doesn't respond in the time you expect, or you're processing a large amount of data in your workflow, and it doesn't complete before you hit the execution limit.
-2. If it's expected that your code is taking a long time to run, you can raise the execution limit of a workflow in your [workflow's settings](/workflows/visual-builder/settings/#execution-timeout-limit). If you need to change the execution limit for an event source, please [reach out to our team](https://pipedream.com/support/).
+2. If it's expected that your code is taking a long time to run, you can raise the execution limit of a workflow in your [workflow's settings](/core/workflows/settings/#execution-timeout-limit). If you need to change the execution limit for an event source, please [reach out to our team](https://pipedream.com/support/).
 
 ## Out of Memory
 
-Pipedream [limits the default memory](/workflows/limits/#memory) available to workflows and event sources. If you exceed this memory, you'll see an **Out of Memory** error. **You can raise the memory of your workflow [in your workflow's Settings](/workflows/visual-builder/settings/#memory)**.
+Pipedream [limits the default memory](/workflows/limits/#memory) available to workflows and event sources. If you exceed this memory, you'll see an **Out of Memory** error. **You can raise the memory of your workflow [in your workflow's Settings](/core/workflows/settings/#memory)**.
 
 This can happen for two main reasons:
 
-1. When you load a large file or object into the workflow's memory (e.g. when you save the content in a variable). Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](/workflows/visual-builder/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).
+1. When you load a large file or object into the workflow's memory (e.g. when you save the content in a variable). Where possible, consider streaming the file to / from disk, instead of storing it in memory, using a [technique like this](/core/workflows/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory).
 2. When you have many steps in your Pipedream workflow. When your workflow runs, Pipedream runs a separate process for each step in your workflow. That incurs some memory overhead. Typically this happens when you have more than 8-10 steps. When you see an OOM error on a workflow with many steps, try increasing the memory.
 
 ## Rate Limit Exceeded
@@ -137,14 +137,14 @@ By default, Pipedream limits the size of incoming HTTP payloads. If you exceed t
 
 Pipedream supports two different ways to bypass this limit. Both of these interfaces support uploading data up to `5TB`, though you may encounter other [platform limits](/workflows/limits/).
 
-- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/workflows/visual-builder/triggers/#sending-large-payloads).
-- You can upload multiple large files, like images and videos, using the [large file upload interface](/workflows/visual-builder/triggers/#large-file-support).
+- You can send large HTTP payloads by passing the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your HTTP request. [Read more here](/core/workflows/triggers/#sending-large-payloads).
+- You can upload multiple large files, like images and videos, using the [large file upload interface](/core/workflows/triggers/#large-file-support).
 
 ## Function Payload Limit Exceeded
 
 The total size of `console.log()` statements, [step exports](/workflows/#step-exports), and the original event data sent to workflows and sources cannot exceed a combined size of {process.env.FUNCTION_PAYLOAD_LIMIT}. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
-Often, this occurs when you pass large data between steps using [step exports](/workflows/#step-exports). You can avoid this error by [writing that data to the `/tmp` directory](/workflows/visual-builder/code/nodejs/working-with-files/#writing-a-file-to-tmp) in one step, and [reading the data into another step](/workflows/visual-builder/code/nodejs/working-with-files/#reading-a-file-from-tmp), which avoids the use of step exports and should keep you under the payload limit.
+Often, this occurs when you pass large data between steps using [step exports](/workflows/#step-exports). You can avoid this error by [writing that data to the `/tmp` directory](/core/workflows/code/nodejs/working-with-files/#writing-a-file-to-tmp) in one step, and [reading the data into another step](/core/workflows/code/nodejs/working-with-files/#reading-a-file-from-tmp), which avoids the use of step exports and should keep you under the payload limit.
 
 Pipedream also compresses the function payload from your workflow, which can yield roughly a 2x-3x increase in payload size (somewhere between `12MB` and `18MB`), depending on the data.
 
@@ -156,9 +156,9 @@ Often, objects with this many nested objects result from a programming error tha
 
 ## Event Queue Full
 
-Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the [maximum queue size](/workflows/visual-builder/settings/concurrency-and-throttling#increasing-the-queue-size-for-a-workflow), you may encounter an **Event Queue Full** error.
+Workflows have a maximum event queue size when using concurrency and throttling controls. If the number of unprocessed events exceeds the [maximum queue size](/core/workflows/settings/concurrency-and-throttling#increasing-the-queue-size-for-a-workflow), you may encounter an **Event Queue Full** error.
 
-[Paid plans](https://pipedream.com/pricing) can [increase their queue size up to {process.env.MAX_WORKFLOW_QUEUE_SIZE}](/workflows/visual-builder/settings/concurrency-and-throttling#increasing-the-queue-size-for-a-workflow) for a given workflow.
+[Paid plans](https://pipedream.com/pricing) can [increase their queue size up to {process.env.MAX_WORKFLOW_QUEUE_SIZE}](/core/workflows/settings/concurrency-and-throttling#increasing-the-queue-size-for-a-workflow) for a given workflow.
 
 ## Credit Budget Exceeded
 
@@ -178,7 +178,7 @@ There are a few known ways this can be caused and how to solve them.
 
 Pipedream components are updated continously. But when new versions of actions and sources are published to the Pipedream Component Registry, your workflows are not updated by default.
 
-[An **Update** prompt](/workflows/visual-builder/actions#updating-actions-to-the-latest-version) is shown in the in the top right of the action if the component has a new version available.
+[An **Update** prompt](/core/workflows/actions#updating-actions-to-the-latest-version) is shown in the in the top right of the action if the component has a new version available.
 
 Sources do not feature an update button at this time, to receive the latest version, you'll need to create a new source, then attach it to your workflow.
 
@@ -190,7 +190,7 @@ By default, Pipedream automatically updates NPM and PyPI packages to the latest 
 
 However, if a new package version includes bugs, or changes it's export signature, then this may cause a `Pipedream Internal Error`.
 
-You can potentially fix this issue by downgrading packages by pinning in [your Node.js](/workflows/visual-builder/code/nodejs/#pinning-package-versions) or [Python code steps](/workflows/visual-builder/code/python#pinning-package-versions) to the last known working version.
+You can potentially fix this issue by downgrading packages by pinning in [your Node.js](/core/workflows/code/nodejs/#pinning-package-versions) or [Python code steps](/core/workflows/code/python#pinning-package-versions) to the last known working version.
 
 Alternatively, if the error is due to a major release that changes the import signature of a package, then modifying your code to match the signature may help.
 
@@ -224,7 +224,7 @@ import pick from "lodash.pick"
 
 This error occurs when Promises or asynchronous code is not properly finished before the next step begins execution.
 
-See the [Asynchronous section of the Node.js documentation](/workflows/visual-builder/code/nodejs/async/#the-problem) for more details.
+See the [Asynchronous section of the Node.js documentation](/core/workflows/code/nodejs/async/#the-problem) for more details.
 
 ### How do I share my workflow with Support?
 

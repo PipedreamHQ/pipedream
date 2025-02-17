@@ -32,7 +32,7 @@
     },
     {
       "source": "/docs/notebook/inspector/",
-      "destination": "/workflows/visual-builder/triggers/inspect/"
+      "destination": "/core/workflows/triggers/inspect/"
     },
     {
       "source": "/docs/notebook/workflows/data-management/destinations/s3/",
@@ -64,7 +64,7 @@
     },
     {
       "source": "/docs/notebook/observability/",
-      "destination": "/workflows/visual-builder/triggers/inspect/"
+      "destination": "/core/workflows/triggers/inspect/"
     },
     {
       "source": "/docs/notebook/sources/",
@@ -108,7 +108,7 @@
     },
     {
       "source": "/docs/workflows/steps/code/async/",
-      "destination": "/docs/workflows/visual-builder/code/nodejs/async/"
+      "destination": "/docs/core/workflows/code/nodejs/async/"
     },
     {
       "source": "/docs/workflows/steps/code/state",
@@ -167,40 +167,40 @@
       "destination": "/docs/apps/"
     },
     {
-      "source": "/docs/workflows/visual-builder/triggers/cold-starts/",
-      "destination": "/workflows/visual-builder/settings/#eliminate-cold-starts"
+      "source": "/docs/core/workflows/triggers/cold-starts/",
+      "destination": "/core/workflows/settings/#eliminate-cold-starts"
     },
     {
       "source": "/docs/workflows/examples/waiting-to-execute-next-step-of-workflow/",
-      "destination": "/docs/workflows/visual-builder/code/nodejs/delay/"
+      "destination": "/docs/core/workflows/code/nodejs/delay/"
     },
     {
       "source": "/docs/workflows/networking/",
       "destination": "/docs/workflows/vpc/"
     },
     {
-      "source": "/docs/workflows/visual-builder/code/python#making-a-get-request",
-      "destination": "/docs/workflows/visual-builder/code/pythonhttp-requests/#making-a-get-request"
+      "source": "/docs/core/workflows/code/python#making-a-get-request",
+      "destination": "/docs/core/workflows/code/pythonhttp-requests/#making-a-get-request"
     },
     {
-      "source": "/docs/workflows/visual-builder/code/python#making-a-post-request",
-      "destination": "/docs/workflows/visual-builder/code/pythonhttp-requests/#making-a-post-request"
+      "source": "/docs/core/workflows/code/python#making-a-post-request",
+      "destination": "/docs/core/workflows/code/pythonhttp-requests/#making-a-post-request"
     },
     {
-      "source": "/docs/workflows/visual-builder/code/python#sending-files",
-      "destination": "/docs/workflows/visual-builder/code/pythonhttp-requests/#sending-files"
+      "source": "/docs/core/workflows/code/python#sending-files",
+      "destination": "/docs/core/workflows/code/pythonhttp-requests/#sending-files"
     },
     {
-      "source": "/docs/workflows/visual-builder/code/python#writing-a-file-to-tmp",
-      "destination": "/docs/workflows/visual-builder/code/pythonworking-with-files/#writing-a-file-to-tmp"
+      "source": "/docs/core/workflows/code/python#writing-a-file-to-tmp",
+      "destination": "/docs/core/workflows/code/pythonworking-with-files/#writing-a-file-to-tmp"
     },
     {
-      "source": "/docs/workflows/visual-builder/code/python#reading-a-file-from-tmp",
-      "destination": "/docs/workflows/visual-builder/code/pythonworking-with-files/#reading-a-file-from-tmp"
+      "source": "/docs/core/workflows/code/python#reading-a-file-from-tmp",
+      "destination": "/docs/core/workflows/code/pythonworking-with-files/#reading-a-file-from-tmp"
     },
     {
-      "source": "/docs/workflows/visual-builder/code/python#listing-files-in-tmp",
-      "destination": "/docs/workflows/visual-builder/code/pythonworking-with-files/#listing-files-in-tmp"
+      "source": "/docs/core/workflows/code/python#listing-files-in-tmp",
+      "destination": "/docs/core/workflows/code/pythonworking-with-files/#listing-files-in-tmp"
     },
     {
       "source": "/docs/api",
@@ -227,12 +227,12 @@
       "destination": "/docs/quickstart/github-sync"
     },
     {
-      "source": "/docs/workflows/visual-builder/triggers/inspect",
+      "source": "/docs/core/workflows/triggers/inspect",
       "destination": "/docs/workflows/inspect"
     },
     {
       "source": "/docs/workflows/steps/triggers",
-      "destination": "/docs/workflows/visual-builder/triggers"
+      "destination": "/docs/core/workflows/triggers"
     },
     {
       "source": "/docs/workflows/steps/actions",
@@ -240,7 +240,7 @@
     },
     {
       "source": "/docs/workflows/flow-control",
-      "destination": "/docs/workflows/visual-builder/control-flow"
+      "destination": "/docs/core/workflows/control-flow"
     },
     {
       "source": "/docs/workflows/workspaces/okta",

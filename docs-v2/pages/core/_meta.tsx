@@ -1,0 +1,17 @@
+export default {
+  "index": "What are workflows?",
+  "workflows": "Workflows",
+  "integrations": "Integrations",
+  "projects": "Projects",
+  "workspaces": "Workspaces",
+  "data-management": "Data Management",
+  "event-history": "Event History",
+  "environment-variables": "Environment Variables",
+  "git": "GitHub Sync",
+  "domains": "Custom Domains",
+  "vpc": "Virtual Private Clouds",
+  "limits": "Limits",
+  "contributing": "Contributing",
+  "rest-api": "REST API",
+  "cli": "CLI",
+} as const

@@ -11,7 +11,7 @@ We are excited to announce that we have launched a new version (v2) of Pipedream
 We have re-imagined the UX from the ground up, made the product much easier to use and have improved performance. In addition, we are introducing powerful new features including:
 
 - **Edit & test** your workflows in separate editing mode without impacting live workflows
-- **Support for multiple languages** including [Node.js](/workflows/visual-builder/code/nodejs), [Python](/code/python), [Bash](/workflows/visual-builder/code/bash) and [Go](/code/go)
+- **Support for multiple languages** including [Node.js](/core/workflows/code/nodejs), [Python](/code/python), [Bash](/core/workflows/code/bash) and [Go](/code/go)
 - **Granular testing** including the ability to test individual steps and more
 - **Multiple triggers** are now supported per workflow
 - **Improved** forms for easier configuration and streamlined building
@@ -129,7 +129,7 @@ defineComponent({
 });
 ```
 
-Allowing all of the scaffolding to be edited opens up the ability to [pass props](/workflows/visual-builder/code/nodejs/#passing-props-to-code-steps) into your Node.js code steps, which we'll cover later.
+Allowing all of the scaffolding to be edited opens up the ability to [pass props](/core/workflows/code/nodejs/#passing-props-to-code-steps) into your Node.js code steps, which we'll cover later.
 
 ### Step Exports
 
@@ -248,7 +248,7 @@ After testing the step, you'll see the Slack app will appear in the **Configurat
 
 You can still return an HTTP response from an HTTP-triggered workflow.
 
-Use [`$.respond`](/workflows/visual-builder/triggers/#http) to send a JSON or string response from the HTTP call that triggered the workflow.
+Use [`$.respond`](/core/workflows/triggers/#http) to send a JSON or string response from the HTTP call that triggered the workflow.
 
 ```javascript
 export default defineComponent({
@@ -280,7 +280,7 @@ If you need assistance transferring workflows across accounts, [please contact u
 
 ### `$checkpoint`
 
-The `$checkpoint` functionality to save data between workflow runs is not supported in v2, and has been replaced by [Data Stores](/workflows/visual-builder/code/nodejs/using-data-stores/).
+The `$checkpoint` functionality to save data between workflow runs is not supported in v2, and has been replaced by [Data Stores](/core/workflows/code/nodejs/using-data-stores/).
 
 ### Public workflows
 
@@ -314,7 +314,7 @@ To replay past events against your deploy v2 workflows, open the event's menu an
 
 ### What are the limitations of the new (v2) workflow builder?
 
-- `$checkpoint` has been removed from v2 workflows, but [Data Stores](/workflows/visual-builder/code/nodejs/using-data-stores/) provides a similar API.
+- `$checkpoint` has been removed from v2 workflows, but [Data Stores](/core/workflows/code/nodejs/using-data-stores/) provides a similar API.
 - Sharing workflows is not supported
 - Making workflows public is not supported
 

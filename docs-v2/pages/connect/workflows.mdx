@@ -15,13 +15,13 @@ Whether you're building well-defined integrations or autonomous AI agents, workf
 <img width="500px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1730935490/docs/pCBdtm7Ca9CdPHTe76PwfzddY_qowz2v.avif" />
 </div>
 
-Workflows are sequences of [steps](/workflows/steps) [triggered by an event](/workflows/visual-builder/triggers), like an HTTP request, or new rows in a Google sheet.
+Workflows are sequences of [steps](/workflows/steps) [triggered by an event](/core/workflows/triggers), like an HTTP request, or new rows in a Google sheet.
 
-You can use [pre-built actions](/workflows/actions/) or custom [Node.js](/workflows/visual-builder/code/nodejs/), [Python](/workflows/visual-builder/code/python), [Golang](/workflows/visual-builder/code/go/), or [Bash](/workflows/visual-builder/code/bash/) code in workflows and connect to any of our {process.env.PUBLIC_APPS} integrated apps.
+You can use [pre-built actions](/workflows/actions/) or custom [Node.js](/core/workflows/code/nodejs/), [Python](/core/workflows/code/python), [Golang](/core/workflows/code/go/), or [Bash](/core/workflows/code/bash/) code in workflows and connect to any of our {process.env.PUBLIC_APPS} integrated apps.
 
 Workflows also have built-in:
 
-- [Flow control](/workflows/visual-builder/control-flow)
+- [Flow control](/core/workflows/control-flow)
 - [Concurrency and throttling](/workflows/concurrency-and-throttling)
 - [Key-value stores](/data-stores)
 - [Error handling](/workflows/errors)
@@ -42,7 +42,7 @@ Read [the quickstart](/quickstart/) to learn more.
 
 To get started building workflows for your end users:
 
-1. Add an [HTTP trigger](/workflows/visual-builder/triggers#http) to your workflow
+1. Add an [HTTP trigger](/core/workflows/triggers#http) to your workflow
 2. Generate a test event with the required headers:
    - `x-pd-environment: development`
    - `x-pd-external-user-id: {your_external_user_id}`
@@ -51,7 +51,7 @@ See the [Triggering your workflow](#triggering-your-workflow) section below for 
 
 ### Configure accounts to use your end users' auth
 
-When you configure [pre-built actions](/workflows/actions) or [custom code that connects to third-party APIs](/workflows/visual-builder/code/nodejs/auth), you can link accounts in one of two ways:
+When you configure [pre-built actions](/workflows/actions) or [custom code that connects to third-party APIs](/core/workflows/code/nodejs/auth), you can link accounts in one of two ways:
 
 1. **Use your own account**: If you're connecting to an API that uses your own API key or developer account — for example, a workflow that connects to the OpenAI API or a PostgreSQL database — click the **Connect account** button to link your own, static account.
 
