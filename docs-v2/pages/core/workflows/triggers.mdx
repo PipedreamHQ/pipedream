@@ -26,15 +26,15 @@ You can trigger a workflow on events from apps like Twitter, Google Calendar, an
 
 When you create a workflow, click **Add Trigger** to view the available triggers:
 
-![Add Trigger button on a new workflow](./images/triggers/add-trigger-button.png)
+![Add Trigger button on a new workflow](/images/triggers/add-trigger-button.png)
 
 This will open a new menu to search and choose a trigger for your workflow:
 
-![App triggers](./images/triggers/select-a-trigger.png)
+![App triggers](/images/triggers/select-a-trigger.png)
 
 Search by **app name** to find triggers associated with your app. For Google Calendar, for example, you can run your workflow every time a new event is **added** to your calendar, each time an event **starts**, **ends**, and more:
 
-![Google Calendar sources](./images/triggers/gcal-triggers.png)
+![Google Calendar sources](/images/triggers/gcal-triggers.png)
 
 Once you select your trigger, you'll be asked to connect any necessary accounts (for example, Google Calendar sources require you authorize Pipedream access to your Google account), and enter the values for any configuration settings.
 
@@ -60,7 +60,7 @@ Moreover, you can access events emitted by sources using Pipedream's [SSE](/api/
 
 Yes, you can add any number of triggers to a workflow. Click the top right menu in the trigger step and select **Add trigger**.
 
-![Add multiple triggers to a workflow](./images/triggers/add-multiple-triggers.png)
+![Add multiple triggers to a workflow](/images/triggers/add-multiple-triggers.png)
 
 ### Shape of the `steps.trigger.event` object
 
@@ -72,11 +72,11 @@ The shape of the event is specific to the source. For example, RSS sources produ
 
 When you select the **HTTP** trigger:
 
-![HTTP API Trigger](./images/triggers/select-http-trigger.png)
+![HTTP API Trigger](/images/triggers/select-http-trigger.png)
 
 Pipedream creates a URL endpoint specific to your workflow:
 
-![HTTP API trigger URL](./images/triggers/http-trigger-url.png)
+![HTTP API trigger URL](/images/triggers/http-trigger-url.png)
 
 You can send any HTTP requests to this endpoint, from anywhere on the web. You can configure the endpoint as the destination URL for a webhook or send HTTP traffic from your application - we'll accept any [valid HTTP request](#valid-requests).
 
@@ -573,7 +573,7 @@ You can write scheduled job to send an HTTP request, send a scheduled email, run
 
 To create a new scheduled job, create a new workflow and search for the **Schedule** trigger:
 
-![Cron Scheduler source](./images/triggers/select-schedule-trigger.png)
+![Cron Scheduler source](/images/triggers/select-schedule-trigger.png)
 
 By default, your trigger will be turned **Off**. **To enable it, select either of the scheduling options**:
 
@@ -612,11 +612,11 @@ Code steps show [logs](/core/workflows/code/nodejs/#logs) below the step itself.
 
 When you select the **Email** trigger:
 
-![Selecting the new email trigger](./images/triggers/select-email-trigger.png)
+![Selecting the new email trigger](/images/triggers/select-email-trigger.png)
 
 Pipedream creates an email address specific to your workflow. Any email sent to this address triggers your workflow:
 
-![Custom workflow email address](./images/triggers/email-trigger.png)
+![Custom workflow email address](/images/triggers/email-trigger.png)
 
 As soon as you send an email to the workflow-specific address, Pipedream parses its body, headers, and attachments into a JavaScript object it exposes in the `steps.trigger.event` variable that you can access within your workflow. This transformation can take a few seconds to perform. Once done, Pipedream will immediately trigger your workflow with the transformed payload.
 
@@ -723,7 +723,7 @@ To overcome this, we suggest uploading your email attachments to your Project's 
 
 Choose the RSS trigger to watch an RSS feed for new items:
 
-![Selecting the RSS feed trigger](./images/triggers/select-rss-trigger.png)
+![Selecting the RSS feed trigger](/images/triggers/select-rss-trigger.png)
 
 This will create an RSS [event source](/sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
 
@@ -740,7 +740,7 @@ Events trigger workflow executions. The event that triggers your workflow depend
 
 When you test any step in your workflow, Pipedream passes the test event you select in the trigger step:
 
-![Selecting a test event in the trigger](./images/select-an-event.png)
+![Selecting a test event in the trigger](/images/triggers/select-an-event.png)
 
 You can select any event you've previously sent to your trigger as your test event, or send a new one.
 

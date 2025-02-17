@@ -12,11 +12,11 @@ Pre-built actions are the fastest way to get started building workflows, but the
 
 For example, to send a message using Slack just search for Slack and use the **Send Message to a Public Channel** action:
 
-![Finding the Slack - Send Message to a Public Channel action](pages/images/v3/http/selecting-pre-buillt-actions.png)
+![Finding the Slack - Send Message to a Public Channel action](/images/http/selecting-pre-buillt-actions.png)
 
 Then connect your Slack account, select a channel and write your message:
 
-![Configuring a Slack - Send Message to a Public Channel action](pages/images/v3/http/configure-slack-pre-built-action-props.png)
+![Configuring a Slack - Send Message to a Public Channel action](/images/http/configure-slack-pre-built-action-props.png)
 
 Now with a few clicks and some text you've integrated Slack into a Pipedream workflow.
 
@@ -30,17 +30,17 @@ All pre-built actions are published from the [Pipedream Component Registry](/app
 
 The HTTP request action is the next most convenient option. Use a Postman-like interface to configure an HTTP request - including the headers, body, and even connecting an account.
 
-![Finding the HTTP request builder action](pages/images/v3/http/selecting-the-slack-api-http-request-builder.png)
+![Finding the HTTP request builder action](/images/http/selecting-the-slack-api-http-request-builder.png)
 
 Selecting this action will display an HTTP request builder, with the Slack app slot to connect your account with.
 
-![Connecting a Slack account to the http request action builder](pages/images/v3/http/connect-slack-account-to-http-request-action.png)
+![Connecting a Slack account to the http request action builder](/images/http/connect-slack-account-to-http-request-action.png)
 
 Once you connect your account to the step, it will automatically configure the authorization headers to match.
 
 For example, the Slack API expects a Bearer token with the `Authorization` header. So Pipedream automatically configures this HTTP request to pass your token to that specific header:
 
-![Showing how Pipedream passes the managed auth token to the header](pages/images/v3/http/viewing-authorization-configuration.png)
+![Showing how Pipedream passes the managed auth token to the header](/images/http/viewing-authorization-configuration.png)
 
 The configuration of the request and management of your token is automatically handled for you. So you can simply modify the request to match the API endpoint you're seeking to interact with.
 
@@ -48,7 +48,7 @@ The configuration of the request and management of your token is automatically h
 
 You can also attach apps to the *Send any HTTP Request* action from the action selection menu. After adding a new step to your workflow, select the *Send any HTTP Request* action:
 
-![Selecting the HTTP request builder action from the step selector menu](pages/images/v3/http/selecting-the-http-request-builder-action.png)
+![Selecting the HTTP request builder action from the step selector menu](/images/http/selecting-the-http-request-builder-action.png)
 
 Then within the HTTP request builder, click the *Autorization Type* dropdown to select a method, and click **Select an app**:
 
@@ -192,7 +192,7 @@ You can leverage `$.flow.rerun` within a `try...catch` block in order to retry a
 
 `axios` has a simple programming API and works well for most use cases. But its default error handling behavior isn't easy to use. When you make an HTTP request and the server responds with an error code in the 4XX or 5XX range of status codes, `axios` returns this stack trace:
 
-![default axios stack trace](./images/default-axios-stack.png)
+![default axios stack trace](/images/http/default-axios-stack.png)
 
 This only communicates the error code, and not any other information (like the body or headers) returned from the server.
 
@@ -200,11 +200,11 @@ Pipedream publishes an `axios` wrapper as a part of [the `@pipedream/platform` p
 
 1. When the HTTP request succeeds (response code < `400`), it returns only the `data` property of the response object — the HTTP response body. This is typically what users want to see when they make an HTTP request:
 
-![pipedream axios success case](./images/pipedream-axios-success.png)
+![pipedream axios success case](/images/http/pipedream-axios-success.png)
 
 2. When the HTTP request _fails_ (response code >= `400`), it displays a detailed error message in the Pipedream UI (the HTTP response body), and returns the whole `axios` response object so users can review details on the HTTP request and response:
 
-![pipedream axios error case](./images/pipedream-axios-stack.png)
+![pipedream axios error case](/images/http/pipedream-axios-stack.png)
 
 ### Using `@pipedream/platform` axios in component actions
 

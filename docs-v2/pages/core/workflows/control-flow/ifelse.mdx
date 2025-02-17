@@ -10,7 +10,7 @@ import { Steps } from 'nextra/components'
 
 If/Else operator is useful when you need to branch based on the value of <b>multiple input variables</b>. You must define both the input variable and condition to evaluate for every rule. If you only need to test for the value of a <b>single input variable</b> (e.g., if you are branching based on the path of an inbound request), the [Switch operator](./switch) may be a better choice.
 
-![if/else configuration](./images/ifelse-configuration.png)
+![if/else configuration](/images/control-flow/ifelse-configuration.png)
 
 ## Capabilities
 
@@ -39,13 +39,13 @@ The If/Else operator is a control flow **Block** with **start** and **end** phas
 
 Add a trigger and generate an event to help you build and test your workflow:
 
-![trigger.gif](./images/trigger.gif)
+![trigger.gif](/images/control-flow/trigger.gif)
 
 ### Add the If/Else control flow block
 
 Click the + button to add a step to the canvas and select If/Else from the Control Flow section on the right. In the “start” phase, configure rules for each branch (optionally toggle the else branch) and then test the step.
 
-![add if else.gif](./images/add_if_else.gif)
+![add if else.gif](/images/control-flow/add_if_else.gif)
 
 <Callout type="info">
 **IMPORTANT:** If you disable the **Else** condition and an event does not match any of the rules, the workflow will continue to the next step after the **If/Else** section. If you want to end workflow execution if no other conditions evaluate to `true`, enable the Else condition and add a **Terminate Workflow** action.
@@ -55,32 +55,32 @@ Click the + button to add a step to the canvas and select If/Else from the Contr
 
 Add a step to the success branch and test it
 
-![add step to branch.gif](./images/add_step_to_branch.gif)
+![add step to branch.gif](/images/control-flow/add_step_to_branch.gif)
 
 ### Merge and continue the parent flow after the branching operation
 
 Test the end phase to export results from the If/Else control flow block.
 
-![test end phase.gif](./images/test_end_phase.gif)
+![test end phase.gif](/images/control-flow/test_end_phase.gif)
 
 Add a step and reference the exports from `ifelse` using the steps object.
 
-![reference end exports.gif](./images/reference_end_exports.gif)
+![reference end exports.gif](/images/control-flow/reference_end_exports.gif)
 
 ### Build and test alternate paths
 
 Generate or select an alternate event to generate data to help you test other branches as you build. When you select a new event, the steps in the root workflow segments go stale. Steps in control flow blocks will only go stale if they are in the known path of execution; i.e., if you test a start phase, the steps in the success path will become stale.
 
-![select different event.gif](./images/select_different_event.gif)
+![select different event.gif](/images/control-flow/select_different_event.gif)
 
 Build, test and deploy the workflow.
 
-![test and deploy.gif](./images/test_and_deploy.gif)
+![test and deploy.gif](/images/control-flow/test_and_deploy.gif)
 
 ### Test the deployed workflow
 
 Generate test events to trigger the deployed workflow and inspect the executions.
 
-![Inspect.gif](./images/Inspect.gif)
+![Inspect.gif](/images/control-flow/Inspect.gif)
 
 </Steps>
