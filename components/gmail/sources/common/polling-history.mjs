@@ -27,7 +27,7 @@ export default {
         maxResults: constants.HISTORICAL_EVENTS,
       };
       if (this.labels?.length) {
-        params.labelIds = this.labelIds;
+        params.labelIds = this.labels;
       }
       let { messages } = await this.gmail.listMessages({
         ...params,
