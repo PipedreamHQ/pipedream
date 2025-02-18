@@ -82,7 +82,7 @@ Pipedream encrypts all OAuth grants, key-based credentials, and environment vari
 
 When you link credentials to a specific source or workflow, the credentials are loaded into that program's [execution environment](#execution-environment), which runs in its own virtual machine, with access to RAM and disk isolated from other users' code.
 
-No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/core/workflows/#step-exports), you can always delete the data for that execution from your source or workflow. These logs will also be deleted automatically based on the [event retention](/core/limits#event--execution-history) for your account.
+No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/core/#step-exports), you can always delete the data for that execution from your source or workflow. These logs will also be deleted automatically based on the [event retention](/core/limits#event-history) for your account.
 
 You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account. You must revoke that access wherever you manage OAuth grants in your third party application.
 
@@ -221,7 +221,7 @@ Pipedream provides annual security training to all employees. Developers go thro
 
 Pipedream retains data only for as long as necessary to provide the core service. Pipedream stores your workflow code, data in data stores, and other data indefinitely, until you choose to delete it.
 
-Event data and the logs associated with workflow executions are stored according to [the retention rules on your account](/core/limits/#event-execution-history).
+Event data and the logs associated with workflow executions are stored according to [the retention rules on your account](/core/limits/#event-history).
 
 Pipedream deletes most internal application logs and logs tied to subprocessors within 30 days. We retain a subset of logs for longer periods where required for security investigations.
 

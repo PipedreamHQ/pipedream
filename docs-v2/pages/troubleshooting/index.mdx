@@ -142,9 +142,9 @@ Pipedream supports two different ways to bypass this limit. Both of these interf
 
 ## Function Payload Limit Exceeded
 
-The total size of `console.log()` statements, [step exports](/core/workflows/#step-exports), and the original event data sent to workflows and sources cannot exceed a combined size of {process.env.FUNCTION_PAYLOAD_LIMIT}. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
+The total size of `console.log()` statements, [step exports](/core/#step-exports), and the original event data sent to workflows and sources cannot exceed a combined size of {process.env.FUNCTION_PAYLOAD_LIMIT}. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
-Often, this occurs when you pass large data between steps using [step exports](/core/workflows/#step-exports). You can avoid this error by [writing that data to the `/tmp` directory](/core/workflows/code/nodejs/working-with-files/#writing-a-file-to-tmp) in one step, and [reading the data into another step](/core/workflows/code/nodejs/working-with-files/#reading-a-file-from-tmp), which avoids the use of step exports and should keep you under the payload limit.
+Often, this occurs when you pass large data between steps using [step exports](/core/#step-exports). You can avoid this error by [writing that data to the `/tmp` directory](/core/workflows/code/nodejs/working-with-files/#writing-a-file-to-tmp) in one step, and [reading the data into another step](/core/workflows/code/nodejs/working-with-files/#reading-a-file-from-tmp), which avoids the use of step exports and should keep you under the payload limit.
 
 Pipedream also compresses the function payload from your workflow, which can yield roughly a 2x-3x increase in payload size (somewhere between `12MB` and `18MB`), depending on the data.
 

@@ -32,7 +32,7 @@ Code steps use the same editor ([Monaco](https://microsoft.github.io/monaco-edit
 
 ## Sharing data between steps
 
-A Node.js step can use data from other steps using [step exports](/core/workflows/#step-exports), it can also export data for other steps to use.
+A Node.js step can use data from other steps using [step exports](/core/#step-exports), it can also export data for other steps to use.
 
 ### Using data from another step
 
@@ -176,7 +176,7 @@ This defines [a Node.js component](/core/contributing/components/api/). Componen
 When the step runs, Pipedream executes the `run` method:
 
 - Any asynchronous code within a code step [**must** be run synchronously](/core/workflows/code/nodejs/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
-- Pipedream passes the `steps` variable to the run method. `steps` is also an object, and contains the [data exported from previous steps](/core/workflows/#step-exports) in your workflow.
+- Pipedream passes the `steps` variable to the run method. `steps` is also an object, and contains the [data exported from previous steps](/core/#step-exports) in your workflow.
 - You also have access to the `$` variable, which gives you access to methods like `$.respond`, `$.export`, [and more](/core/contributing/components/api/#actions).
 
 If you're using [props](/core/workflows/code/nodejs/#passing-props-to-code-steps) or [connect an account to a step](/core/integrations/connected-accounts/#from-a-code-step), the component exposes them in the variable `this`, which refers to the current step:

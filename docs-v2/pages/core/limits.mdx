@@ -119,7 +119,7 @@ You can increase the timeout limit, up to a max value set by your plan:
 
 Events that trigger a **Timeout** error will appear in red in the [Inspector](/core/workflows/inspect/). You'll see the timeout error, also in red, in the cell at which the code timed out.
 
-### Event / Execution History
+### Event History
 
 The [Inspector](/core/workflows/inspect/#the-inspector) shows the execution history for a given workflow. Events have a limited retention period, depending on your plan:
 
@@ -132,7 +132,7 @@ The execution details for a specific event also expires after {process.env.INSPE
 
 ### Logs, Step Exports, and other observability
 
-The total size of `console.log()` statements, [step exports](/core/workflows/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of {process.env.FUNCTION_PAYLOAD_LIMIT}. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
+The total size of `console.log()` statements, [step exports](/core/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of {process.env.FUNCTION_PAYLOAD_LIMIT}. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
 This limit cannot be raised.
 

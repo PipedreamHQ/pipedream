@@ -9,7 +9,7 @@ HTTP requests are fundamental to working with APIs or other web services. You ca
 
 We'll use the [`axios`](https://github.com/axios/axios) and [`got`](https://github.com/sindresorhus/got) HTTP clients in the examples below, but [you can use any npm package you'd like](/core/workflows/code/nodejs/#using-npm-packages) on Pipedream, so feel free to experiment with other clients, too.
 
-If you're developing Pipedream components, you may find the [`@pipedream/platform` version of `axios`](/core/workflows/http#platform-axios/) helpful for displaying error data clearly in the Pipedream UI.
+If you're developing Pipedream components, you may find the [`@pipedream/platform` version of `axios`](/core/workflows/http/#platform-axios) helpful for displaying error data clearly in the Pipedream UI.
 
 If you're new to HTTP, see our [glossary of HTTP terms](https://requestbin.com/blog/working-with-webhooks/#webhooks-glossary-common-terms) for a helpful introduction.
 
@@ -299,7 +299,7 @@ export default defineComponent({
 
 This sends each HTTP request _in sequence_, one after another, and returns an array of response data returned from the URL to which you send the POST request. If you need to make requests _in parallel_, [see these docs](#send-multiple-http-requests-in-parallel).
 
-[Copy this workflow](https://pipedream.com/@dylburger/iterate-over-a-pipedream-step-export-sending-multiple-http-requests-p_ljCAPN/edit) and fill in your destination URL to see how this works. **This workflow iterates over the value of a Pipedream [step export](/core/workflows/#step-exports)** - data returned from a previous step. Since you often want to iterate over data returned from a Pipedream action or other code step, this is a common use case.
+[Copy this workflow](https://pipedream.com/@dylburger/iterate-over-a-pipedream-step-export-sending-multiple-http-requests-p_ljCAPN/edit) and fill in your destination URL to see how this works. **This workflow iterates over the value of a Pipedream [step export](/core/#step-exports)** - data returned from a previous step. Since you often want to iterate over data returned from a Pipedream action or other code step, this is a common use case.
 
 ## Send multiple HTTP requests in parallel
 

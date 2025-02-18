@@ -20,7 +20,7 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 
 - Trigger Node.js code on HTTP requests, timers, cron schedules, or manually
 - Emit data on each event to inspect it. Trigger Pipedream hosted workflows or access it outside of Pipedream via API
-- Accept user input on deploy via [CLI](/core/cli/reference/#pd-deploy), [API](/core/workflows/rest-api/#overview), or [UI](https://pipedream.com/sources)
+- Accept user input on deploy via [CLI](/core/cli/reference/#pd-deploy), [API](/core/rest-api), or [UI](https://pipedream.com/sources)
 - Connect to [{process.env.PUBLIC_APPS}+ apps](https://pipedream.com/apps) using Pipedream managed auth
 - Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
@@ -107,7 +107,7 @@ Props are custom attributes you can register on a component. When a value is pas
 | [Interface](#interface-props)   | Attaches a Pipedream interface to your component (e.g., an HTTP interface or timer)           |
 | [Service](#service-props)       | Attaches a Pipedream service to your component (e.g., a key-value database to maintain state) |
 | [App](#app-props)               | Enables managed auth for a component                                                          |
-| [Data Store](/core/workflows/data-management/data-stores/#using-data-stores-in-code-steps) | Provides access to a Pipedream [data store](/core/data-management/data-stores/)        |
+| [Data Store](/core/data-management/data-stores/#using-data-stores-in-code-steps) | Provides access to a Pipedream [data store](/core/data-management/data-stores/)        |
 | [HTTP Request](#http-request-prop)| Enables components to execute HTTP requests based on user input                             |
 | [Alert](#alert-prop)| Renders an informational alert in the prop form to help users configure the source or action                             |
 
@@ -725,7 +725,7 @@ Refer to GitHub's component sources in the `pipedream` repo for an [example impl
 
 When a user configures a prop with a value, it can hold at most {process.env.CONFIGURED_PROPS_SIZE_LIMIT} data. Consider this when accepting large input in these fields (such as a base64 string).
 
-The {process.env.CONFIGURED_PROPS_SIZE_LIMIT} limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example `{{steps.nodejs.$return_value}}`, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/core/workflows/limits/).
+The {process.env.CONFIGURED_PROPS_SIZE_LIMIT} limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example `{{steps.nodejs.$return_value}}`, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/core/limits/).
 
 ### Methods
 
@@ -920,27 +920,27 @@ $.export(
 
 ##### `$.send`
 
-`$.send` allows you to send data to [Pipedream destinations](/core/workflows/data-management/destinations/).
+`$.send` allows you to send data to [Pipedream destinations](/core/data-management/destinations/).
 
 **`$.send.http`**
 
-[See the HTTP destination docs](/core/workflows/data-management/destinations/http/#using-sendhttp-in-component-actions).
+[See the HTTP destination docs](/core/data-management/destinations/http/#using-sendhttp-in-component-actions).
 
 **`$.send.email`**
 
-[See the Email destination docs](/core/workflows/data-management/destinations/email/#using-sendemail-in-component-actions).
+[See the Email destination docs](/core/data-management/destinations/email/#using-sendemail-in-component-actions).
 
 **`$.send.s3`**
 
-[See the S3 destination docs](/core/workflows/data-management/destinations/s3/#using-sends3-in-component-actions).
+[See the S3 destination docs](/core/data-management/destinations/s3/#using-sends3-in-component-actions).
 
 **`$.send.emit`**
 
-[See the Emit destination docs](/core/workflows/data-management/destinations/emit/#using-sendemit-in-component-actions).
+[See the Emit destination docs](/core/data-management/destinations/emit/#using-sendemit-in-component-actions).
 
 **`$.send.sse`**
 
-[See the SSE destination docs](/core/workflows/data-management/destinations/sse/#using-sendsse-in-component-actions).
+[See the SSE destination docs](/core/data-management/destinations/sse/#using-sendsse-in-component-actions).
 
 ##### `$.context`
 
@@ -950,7 +950,7 @@ All properties from [`steps.trigger.context`](/core/workflows/triggers/#stepstri
 
 | Property   |                                                                       Description                                                                       |
 | ---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------: |
-| `deadline` |               An epoch millisecond timestamp marking the point when the workflow is configured to [timeout](/core/workflows/limits/#time-per-execution).               |
+| `deadline` |               An epoch millisecond timestamp marking the point when the workflow is configured to [timeout](/core/limits/#time-per-execution).               |
 | `JIT`      |             Stands for "just in time" (environment). `true` if the user is testing the step, `false` if the step is running in production.              |
 | `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/core/workflows/triggers/#stepstriggercontext) for more detail. |
 
