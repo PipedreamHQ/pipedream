@@ -80,7 +80,7 @@ Unlike [the default system emails](#duplicate-errors-do-not-trigger-duplicate-em
 
 ## Poll the REST API for workflow errors
 
-Pipedream provides a REST API endpoint to [list the most recent 100 workflow errors]((/core/rest-api/#get-workflow-errors) for any given workflow. For example, to list the errors from workflow `p_abc123`, run:
+Pipedream provides a REST API endpoint to [list the most recent 100 workflow errors](/core/rest-api/#get-workflow-errors) for any given workflow. For example, to list the errors from workflow `p_abc123`, run:
 
 ```bash
 curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?expand=event' \

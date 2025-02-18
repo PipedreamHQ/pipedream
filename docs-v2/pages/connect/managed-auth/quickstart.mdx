@@ -74,7 +74,7 @@ You'll need these when configuring the SDK and making API requests.
 
 ### Generate a short-lived token
 
-To securely initiate account connections for your users, you'll need generate a short-lived token for your users and use that in the [account connection flow](#connect-your-users-account). See [the docs on Connect tokens](/connect/tokens/) for a general overview of why we need to create tokens and scope them to end users.
+To securely initiate account connections for your users, you'll need to generate a short-lived token for your users and use that in the [account connection flow](#connect-your-users-account). See [the docs on Connect tokens](/connect/tokens/) for a general overview of why we need to create tokens and scope them to end users.
 
 In the Next.js example here, we're running [Next server components](https://nextjs.org/docs/app/building-your-application/rendering/server-components) in `app/server.ts`. We call the `serverConnectTokenCreate` method from the frontend to retrieve a token **for a specific user**.
 

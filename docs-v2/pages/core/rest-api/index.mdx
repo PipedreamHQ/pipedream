@@ -483,7 +483,7 @@ POST /components
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream component](/core/contributing/components/api//).
+The full code for a [Pipedream component](/core/contributing/components/api/).
 
 ---
 
@@ -765,7 +765,7 @@ associated with a source. To delete a specific event, or a range of events, you
 can use the `start_id` and `end_id` parameters.
 
 These IDs can be retrieved by using the [`GET /sources/{id}/event_summaries`
-endpoint]((/core/rest-api/#get-source-events), and are tied to the timestamp at which
+endpoint](/core/rest-api/#get-source-events), and are tied to the timestamp at which
 the event was emitted — e.g. `1589486981597-0`. They are therefore naturally
 ordered by time.
 
@@ -956,13 +956,13 @@ POST /sources/
 `component_id` **string** (_optional_)
 
 The ID of a component previously created in your account. [See the component
-endpoints]((/core/rest-api/#components) for information on how to retrieve this ID.
+endpoints](/core/rest-api/#components) for information on how to retrieve this ID.
 
 ---
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream component](/core/contributing/components/api//).
+The full code for a [Pipedream component](/core/contributing/components/api/).
 
 ---
 
@@ -986,7 +986,7 @@ as metadata to identify the location of the code.
 The name of the source.
 
 If absent, this defaults to using the [name
-slug](/core/contributing/components/api//#component-structure)
+slug](/core/contributing/components/api/#component-structure)
 of the component used to create the source.
 
 #### Example Request
@@ -1037,14 +1037,14 @@ PUT /sources/{id}
 `component_id` **string** (_optional_)
 
 The ID of a component previously created in your account. [See the component
-endpoints]((/core/rest-api/#components) for information on how to retrieve this ID.
+endpoints](/core/rest-api/#components) for information on how to retrieve this ID.
 
 ---
 
 `component_code` **string** (_optional_)
 
 The full code for a [Pipedream
-component](/core/contributing/components/api//).
+component](/core/contributing/components/api/).
 
 ---
 
@@ -1067,7 +1067,7 @@ as metadata to identify the location of the code.
 
 The name of the source.
 
-If absent, this defaults to using the [name slug](/core/contributing/components/api//#component-structure)
+If absent, this defaults to using the [name slug](/core/contributing/components/api/#component-structure)
 of the component used to create the source.
 
 ---
@@ -1119,7 +1119,7 @@ workflows or components:
 - `p_*`: Listen to events from all workflows
 - `dc_*`: Listen to events from all event sources
 
-[See the component endpoints]((/core/rest-api/#components) for information on how to
+[See the component endpoints](/core/rest-api/#components) for information on how to
 retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
@@ -1134,7 +1134,7 @@ in your workflow's URL - it's the string `p_2gCPml` in
 event_name=<custom_channel>
 ```
 
-See [the `this.$emit` docs](/core/contributing/components/api//#emit) for more information on how to emit events on custom channels.
+See [the `this.$emit` docs](/core/contributing/components/api/#emit) for more information on how to emit events on custom channels.
 
 Pipedream also exposes channels for logs and errors:
 
@@ -1148,7 +1148,7 @@ Pipedream also exposes channels for logs and errors:
 
 The ID of the component or workflow you'd like to receive events.
 
-[See the component endpoints]((/core/rest-api/#components) for information on how to
+[See the component endpoints](/core/rest-api/#components) for information on how to
 retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
@@ -1202,7 +1202,7 @@ The name of the event stream whose events you'd like to receive:
 
 The ID of the component or workflow you'd like to receive events.
 
-[See the component endpoints]((/core/rest-api/#components) for information on how to
+[See the component endpoints](/core/rest-api/#components) for information on how to
 retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
@@ -1245,7 +1245,7 @@ workflows or components:
 - `p_*`: Listen to events from all workflows
 - `dc_*`: Listen to events from all event sources
 
-[See the component endpoints]((/core/rest-api/#components) for information on how to
+[See the component endpoints](/core/rest-api/#components) for information on how to
 retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
@@ -1256,7 +1256,7 @@ in your workflow's URL - it's the string `p_2gCPml` in
 
 The ID of the component or workflow you'd like to receive events.
 
-[See the component endpoints]((/core/rest-api/#components) for information on how to
+[See the component endpoints](/core/rest-api/#components) for information on how to
 retrieve the ID of existing components. You can retrieve the ID of your workflow
 in your workflow's URL - it's the string `p_2gCPml` in
 `https://pipedream.com/@dylan/example-rss-sql-workflow-p_2gCPml/edit`.
