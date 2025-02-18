@@ -60,7 +60,7 @@ export default {
       description: "Limits the number of base aggregates queried to create the aggregate results. Max 50000 and Default 5000. Read more about how limit is used to calculate aggregate results in our article on [Aggregate Data API Improvements](https://polygon.io/blog/aggs-api-updates).",
       optional: true,
       min: 1,
-      max: 5000,
+      max: 50000,
       default: 5000,
     },
   },

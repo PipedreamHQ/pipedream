@@ -7,7 +7,7 @@ import polygon from "../../polygon.app.mjs";
 export default {
   key: "polygon-get-company-financials",
   name: "Get Company Financials",
-  description: "Retrieves financial details for a specific company by stock ticker. [See the documentation](https://polygon.io/docs/stocks/get_v3_reference_financials).",
+  description: "Retrieves financial details for a specific company by stock ticker. [See the documentation](https://polygon.io/docs/stocks/get_vx_reference_financials).",
   version: "0.0.1",
   type: "action",
   props: {
@@ -21,11 +21,7 @@ export default {
     filingDate: {
       type: "string",
       label: "Filing Date",
-      description: `Query by the date when the filing with financials data was filed in **YYYY-MM-DD** format.
-                  \nBest used when querying over date ranges to find financials based on filings that happen in a time period.
-                  \nExamples:
-                  \nTo get financials based on filings that have happened after January 1, 2009 use the query param filing_date.gte=2009-01-01
-                  \nTo get financials based on filings that happened in the year 2009 use the query params filing_date.gte=2009-01-01&filing_date.lt=2010-01-01`,
+      description: "Query by the date when the filing with financials data was filed in **YYYY-MM-DD** format.",
       optional: true,
     },
     periodOfReportDate: {
@@ -69,9 +65,9 @@ export default {
     const financialDetails = await this.polygon.getFinancialDetails({
       $,
       params: {
-        stockTicker: this.stockTicker,
-        filingDate: this.filingDate,
-        periodOfReportDate: this.periodOfReportDate,
+        ticker: this.stockTicker,
+        filing_date: this.filingDate,
+        period_of_report_date: this.periodOfReportDate,
         timeframe: this.timeframe,
         order: this.order,
         limit: this.limit,
