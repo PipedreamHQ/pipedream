@@ -313,8 +313,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/adobe_photoshop_lightroom:
-    specifiers: {}
+  components/adobe_photoshop_lightroom: {}
 
   components/adobe_sign: {}
 
@@ -3361,7 +3360,11 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/engage: {}
+  components/engage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/enigma: {}
 
@@ -7549,8 +7552,7 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
 
-  components/opnform:
-    specifiers: {}
+  components/opnform: {}
 
   components/opsgenie:
     dependencies:
