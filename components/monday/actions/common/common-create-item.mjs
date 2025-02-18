@@ -1,3 +1,6 @@
+import {
+  capitalizeWord, getColumnOptions,
+} from "../../common/utils.mjs";
 import monday from "../../monday.app.mjs";
 
 export default {
@@ -11,7 +14,7 @@ export default {
         }),
       ],
       type: "string[]",
-      description: "Select columns to fill",
+      description: "Select which item columns to set values for",
       reloadProps: true,
     },
   },
@@ -20,26 +23,32 @@ export default {
     if (!this.columns) {
       return props;
     }
+    const columnData = await this.monday.listColumns({
+      boardId: +this.boardId,
+    });
     for (const column of this.columns) {
-      let description;
-      if (column === "status") {
-        description = "Value for status. [Status Index Value Map](https://view.monday.com/1073554546-ad9f20a427a16e67ded630108994c11b?r=use1)";
-      } else if (column === "person") {
-        description = "The ID of the person/user to add to item";
+      let description, options;
+      options = getColumnOptions(columnData, column);
+      if (column === "person") {
+        description = "The ID of a person/user";
       } else if (column === "date4") {
-        description = "Enter date of item in YYYY-MM-DD format. Eg. `2022-09-02`";
+        description = "A date string in `YYYY-MM-DD` format, e.g. `2022-09-02`";
+      } else if (options) {
+        description = `Select a value from the list for column "${column}".`;
       } else {
-        description = `Value for column ${column}. See the [Column Type Reference](https://developer.monday.com/api-reference/docs/column-types-reference) to learn more about entering column type values.`;
+        description = `Value for column "${column}". See the [Column Type Reference](https://developer.monday.com/api-reference/reference/column-types-reference) to learn more about entering column type values.`;
       }
       props[column] = {
         type: "string",
-        label: column,
+        label: capitalizeWord(column),
         description,
+        options,
       };
     }
     return props;
   },
   methods: {
+    capitalizeWord,
     getEmailValue(value) {
       let email = value;
       if (typeof value === "string") {

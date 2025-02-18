@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.1.9",
+  version: "0.1.10",
   dedupe: "unique",
   props: {
     gmail,
@@ -72,12 +72,27 @@ export default {
       hidden: true,
       reloadProps: true,
     },
-    label: {
+    labels: {
       propDefinition: [
         gmail,
         "label",
       ],
-      default: "INBOX",
+      type: "string[]",
+      label: "Labels",
+      default: [
+        "INBOX",
+      ],
+      optional: true,
+      hidden: true,
+    },
+    excludeLabels: {
+      propDefinition: [
+        gmail,
+        "label",
+      ],
+      type: "string[]",
+      label: "Exclude Labels",
+      description: "Emails with the specified labels will be excluded from results",
       optional: true,
       hidden: true,
     },
@@ -221,7 +236,8 @@ export default {
         };
       }
     }
-    props.label.hidden = false;
+    props.labels.hidden = false;
+    props.excludeLabels.hidden = false;
     return newProps;
   },
   hooks: {
@@ -354,8 +370,8 @@ export default {
         path: "/users/me/watch",
         data: {
           topicName,
-          labelIds: [
-            this.label || "INBOX",
+          labelIds: this.labels || [
+            "INBOX",
           ],
         },
       });
@@ -396,14 +412,18 @@ export default {
       };
     },
     filterHistory(history) {
-      return this.label
-        ? history.filter(
-          (item) =>
-            item.messagesAdded?.length &&
-              item.messagesAdded[0].message.labelIds &&
-              item.messagesAdded[0].message.labelIds.includes(this.label),
-        )
-        : history.filter((item) => item.messagesAdded?.length);
+      let filteredHistory = history.filter((item) => item.messagesAdded?.length);
+      if (this.labels) {
+        filteredHistory = filteredHistory.filter((item) =>
+          item.messagesAdded[0].message.labelIds &&
+          item.messagesAdded[0].message.labelIds.some((i) => this.labels.includes(i)));
+      }
+      if (this.excludeLabels) {
+        filteredHistory = filteredHistory.filter((item) =>
+          item.messagesAdded[0].message.labelIds &&
+          !(item.messagesAdded[0].message.labelIds.some((i) => this.excludeLabels.includes(i))));
+      }
+      return filteredHistory;
     },
     async getMessageDetails(ids) {
       const messages = await Promise.all(ids.map(async (id) => {
@@ -419,14 +439,19 @@ export default {
       }));
       return messages;
     },
-    getHistoryResponse(startHistoryId) {
-      return this.gmail.listHistory({
-        startHistoryId,
-        historyTypes: [
-          "messageAdded",
-        ],
-        labelId: this.label,
-      });
+    async getHistoryResponses(startHistoryId) {
+      const historyResponses = [];
+      for (const labelId of this.labels) {
+        const response = await this.gmail.listHistory({
+          startHistoryId,
+          historyTypes: [
+            "messageAdded",
+          ],
+          labelId,
+        });
+        historyResponses.push(response);
+      }
+      return historyResponses;
     },
   },
   async run(event) {
@@ -495,9 +520,9 @@ export default {
       console.log("Using startHistoryId:", startHistoryId);
 
       // Fetch the history
-      let historyResponse;
+      let historyResponses;
       try {
-        historyResponse = await this.getHistoryResponse(startHistoryId);
+        historyResponses = await this.getHistoryResponses(startHistoryId);
       } catch {
         // catch error thrown if startHistoryId is invalid or expired
 
@@ -507,19 +532,20 @@ export default {
         // set startHistoryId to the historyId received from the webhook
         startHistoryId = parseInt(receivedHistoryId);
         console.log("Using startHistoryId:", startHistoryId);
-        historyResponse = await this.getHistoryResponse(startHistoryId);
+        historyResponses = await this.getHistoryResponses(startHistoryId);
       }
 
       console.log(
-        "History response:",
-        JSON.stringify(historyResponse, null, 2),
+        "History responses:",
+        JSON.stringify(historyResponses, null, 2),
       );
 
       // Process history to find new messages
       const newMessages = [];
-      if (historyResponse.history) {
-        for (const historyItem of historyResponse.history) {
-          if (historyItem.messagesAdded) {
+      for (const historyResponse of historyResponses) {
+        if (historyResponse.history) {
+          const historyResponseFiltered = this.filterHistory(historyResponse.history);
+          for (const historyItem of historyResponseFiltered) {
             newMessages.push(
               ...historyItem.messagesAdded.map((msg) => msg.message),
             );
@@ -540,7 +566,10 @@ export default {
       console.log("Fetched message details count:", messageDetails.length);
 
       // Store the latest historyId in the db
-      const latestHistoryId = historyResponse.historyId || receivedHistoryId;
+      let latestHistoryId = receivedHistoryId;
+      for (const historyResponse of historyResponses) {
+        latestHistoryId = Math.max(latestHistoryId, historyResponse.historyId);
+      }
       this._setLastProcessedHistoryId(latestHistoryId);
       console.log("Updated lastProcessedHistoryId:", latestHistoryId);
 
