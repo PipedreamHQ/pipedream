@@ -35,11 +35,14 @@ export default {
       type: "string",
       label: "Property ID",
       description: "The ID of a property",
-      async options() {
+      async options({ clientId }) {
+        const filter = clientId
+          ? `(filter: { clientId: "${clientId}" })`
+          : "";
         const { data: { properties: { nodes } } } = await this.post({
           data: {
             query: `query GetProperties {
-              properties {
+              properties${filter} {
                 nodes {
                   id
                   address {
