@@ -94,5 +94,31 @@ export default {
         ...opts,
       });
     },
+    async *paginate({
+      fn, params = {}, fieldName, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const data = await fn({
+          params,
+          ...opts,
+        });
+        const items = data[fieldName];
+        for (const d of items) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = items.length;
+
+      } while (hasMore);
+    },
   },
 };

@@ -1,61 +1,63 @@
-import { v4 as uuid } from "uuid";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import motive from "../../motive.app.mjs";
 
 export default {
   props: {
     motive,
-    http: "$.interface.http",
     db: "$.service.db",
+    timer: {
+      type: "$.interface.timer",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
   },
   methods: {
-    _getHookId() {
-      return this.db.get("hookId");
+    _getLastId() {
+      return this.db.get("lastId") || 0;
     },
-    _setHookId(hookId) {
-      this.db.set("hookId", hookId);
+    _setLastId(lastId) {
+      this.db.set("lastId", lastId);
     },
-    filterEvent() {
-      return true;
+    async emitEvent(maxResults = false) {
+      const lastId = this._getLastId();
+      const fieldName = this.getFieldName();
+
+      const response = this.motive.paginate({
+        fn: this.getFunction(),
+        fieldName: `${fieldName}s`,
+      });
+
+      let responseArray = [];
+      for await (const item of response) {
+        const data = item[fieldName];
+        if (data.id <= lastId) break;
+        responseArray.push(data);
+      }
+
+      if (responseArray.length) {
+        if (maxResults && (responseArray.length > maxResults)) {
+          responseArray.length = maxResults;
+        }
+        this._setLastId(responseArray[0].id);
+      }
+
+      for (const item of responseArray.reverse()) {
+        const data = item[fieldName];
+        this.$emit(data, {
+          id: data.id,
+          summary: this.getSummary(data),
+          ts: Date.parse(data.start_time || new Date()),
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      const response = await this.motive.createWebhook({
-        data: {
-          url: this.http.endpoint,
-          secret: uuid(),
-          actions: this.getActions(),
-          format: "json",
-          enabled: true,
-          webhook_type: "POST",
-        },
-      });
-      this._setHookId(response.company_webhook.id);
-    },
-    async activate() {
-      await this.motive.updateWebhook({
-        webhookId: this._getHookId(),
-        data: {
-          enabled: true,
-        },
-      });
-    },
-    async deactivate() {
-      await this.motive.updateWebhook({
-        webhookId: this._getHookId(),
-        data: {
-          enabled: false,
-        },
-      });
+      await this.emitEvent(25);
     },
   },
-  async run({ body }) {
-    if (this.filterEvent(body)) {
-      this.$emit(body, {
-        id: body.id,
-        summary: this.getSummary(body),
-        ts: Date.parse(body.end_time || new Date()),
-      });
-    }
+  async run() {
+    await this.emitEvent();
   },
 };

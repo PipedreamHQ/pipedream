@@ -1,109 +1,123 @@
 export default {
-  "action":"driver_performance_event_created",
-  "id":123,
-  "acceleration":32.23,
-  "end_bearing":110.95,
-  "end_speed":23.868,
-  "end_time":"2023-04-12T01:28:12Z",
-  "lat":37.4121698,
-  "lon":-121.9286528,
-  "m_gps_heading":[
-    114.53,
-    113.91,
-    113.15
+  "id": 828645972,
+  "acceleration": 0.292558613659531,
+  "duration": 2,
+  "end_bearing": 270.36,
+  "end_speed": 30.924,
+  "end_time": "2023-03-16T00:22:53Z",
+  "lat": 43.0361387,
+  "lon": -78.8207746,
+  "m_gps_heading": [
+    269.82,
+    269.3,
+    269.06,
+    268.91,
+    268.93,
+    269.42,
+    269.69,
+    269.23,
+    270.36,
+    278.3,
+    323.29,
+    342.05,
+    344.37,
+    344.19,
+    343.28,
+    341.11
   ],
-  "m_gps_lat":[
-    37.4119784,
-    37.4119346,
-    37.4118874
+  "m_gps_lat": [
+    43.0361491,
+    43.0361477,
+    43.0361451,
+    43.0361428,
+    43.0361407,
+    43.0361387,
+    43.0361387,
+    43.0361381,
+    43.0361383,
+    43.0361438,
+    43.0362017,
+    43.0362433,
+    43.0362853,
+    43.0363294,
+    43.0363748,
+    43.0364192
   ],
-  "m_gps_lon":[
-    -121.9282081,
-    -121.9281022,
-    -121.9279839
+  "m_gps_lon": [
+    -78.8195014,
+    -78.8197336,
+    -78.8199641,
+    -78.8201898,
+    -78.8204033,
+    -78.8206003,
+    -78.8207746,
+    -78.8209258,
+    -78.8210443,
+    -78.8211361,
+    -78.8212513,
+    -78.8212781,
+    -78.8212971,
+    -78.8213152,
+    -78.8213349,
+    -78.8213535
   ],
-  "m_veh_odo":"nil",
-  "m_veh_spd":[
-    31.0,
-    35.0,
-    41.0
+  "m_veh_odo": null,
+  "m_veh_spd": [
+    68,
+    68,
+    66,
+    64,
+    60,
+    54,
+    48,
+    40,
+    22,
+    20.5,
+    19,
+    18,
+    17,
+    18,
+    19,
+    19
   ],
-  "start_bearing":111.45,
-  "start_speed":32.22,
-  "start_time":"2023-04-12T01:28:11Z",
-  "type":"hard_brake",
-  "driver_id":1,
-  "vehicle_id":12,
-  "eld_device_id":123,
-  "camera_media":{
-    "id":321,
-    "available":true,
-    "cam_positions":[
-      "front_facing",
-      "driver_facing"
-    ],
-    "cam_type":"dc54",
-    "uploaded_at":"2023-04-12T01:30:50Z",
-    "start_time":"2023-04-12T01:28:04Z",
-    "duration":15,
-    "downloadable_videos":{
-      "front_facing_enhanced_url":"nil",
-      "front_facing_enhanced_ai_viz_url":"nil",
-      "dual_facing_enhanced_url":"https://keep-truckin-preview.s3.amazonaws.com/uploads/camera_media/media/2436118/mp4-dual_facing-enhanced-7fa92a01-d7d1a59b",
-      "dual_facing_enhanced_ai_viz_url":"nil",
-      "front_facing_plain_url":"https://keep-truckin-preview.s3.amazonaws.com/uploads/camera_media/media/2436118/mp4-front_facing-7fa92a01-38c6-493b-ba3e27aa",
-      "driver_facing_plain_url":"https://keep-truckin-preview.s3.amazonaws.com/uploads/camera_media/media/2436118/mp4-driver_facing-7fa92a01-38c6-493b-ba0b-5f3468c90c4a1de1f81e527bbaea69176acd25cce16c0968310"
-    },
-    "auto_transcode_status":"success",
-    "downloadable_images":{
-      "front_facing_jpg_url":"nil",
-      "driver_facing_jpg_url":"nil"
-    }
+  "start_bearing": 269.69,
+  "start_speed": 48.816,
+  "start_time": "2023-03-16T00:22:51Z",
+  "type": "hard_brake",
+  "driver": null,
+  "vehicle": {
+    "id": 421006,
+    "number": "Camann_Pilot2",
+    "year": "2012",
+    "make": "Honda",
+    "model": "Pilot",
+    "vin": "",
+    "metric_units": false
   },
-  "m_gps_spd":[
-    33.012,
-    38.7,
-    43.416
-  ],
-  "location":"San Jose, CA",
-  "intensity":"-7.1 mph/s",
-  "coaching_status":"pending_review",
-  "coached_at":"nil",
-  "coachable_behaviors":[
-    "hard_brake"
-  ],
-  "coached_behaviors":"nil",
-  "primary_behavior":[
-    "hard_brake"
-  ],
-  "secondary_behaviors":[
-    "no_tag_applies"
-  ],
-  "max_speed":58.86,
-  "min_speed":0.0,
-  "event_intensity":{
-    "name":"Braking Intensity",
-    "value":11.5,
-    "unit_type":"acceleration"
+  "eld_device": {
+    "id": 698247,
+    "identifier": "AABL36GB270042",
+    "model": "lbb-3.6ca"
   },
-  "current_vehicle":{
-    "id":117800,
-    "number":"Sample"
-  },
-  "current_driver":{
-    "id":983335,
-    "first_name":"john",
-    "last_name":"doe",
-    "email":"john_doe@gmail.com",
-    "driver_company_id":"john"
-  },
-  "metadata":{
-    "additional_context":"nil",
-    "annotation_tags":[
-      "no_tag_applies"
-    ],
-    "severity":"low",
-    "trigger":"nil"
-  },
-  "edited_by_fm":false
+  "m_gps_spd": [
+    68.148,
+    68.112,
+    66.852,
+    64.764,
+    61.128,
+    55.872,
+    48.816,
+    41.256,
+    30.924,
+    23.292,
+    19.656,
+    17.928,
+    18.252,
+    18.072,
+    19.548,
+    18.108
+  ],
+  "location": "3.5 km E of North Tonawanda, NY",
+  "intensity": "-10.3 kph/s",
+  "coaching_status": "pending_review"
 }
