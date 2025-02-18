@@ -313,8 +313,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/adobe_photoshop_lightroom:
-    specifiers: {}
+  components/adobe_photoshop_lightroom: {}
 
   components/adobe_sign: {}
 
@@ -2663,7 +2662,11 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
 
-  components/demandbase: {}
+  components/demandbase:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/demio:
     dependencies:
@@ -7549,8 +7552,7 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
 
-  components/opnform:
-    specifiers: {}
+  components/opnform: {}
 
   components/opsgenie:
     dependencies:
@@ -32337,8 +32339,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
