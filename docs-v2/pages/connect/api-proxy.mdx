@@ -5,8 +5,8 @@ import Callout from '@/components/Callout'
 
 Pipedream Connect provides a proxy API that you can use to send authenticated requests to any integrated API on behalf of your users, which is useful in a few scenarios:
 
-1. You need code-level control and you want to use [Pipedream's OAuth](/connect/managed-auth/oauth-clients#using-pipedream-oauth) instead of [your own OAuth client](/connect/managed-auth/oauth-clients#using-a-custom-oauth-client)
-2. There isn't a [pre-built tool](/connect/components) (action) for the app, or you need to modify the request
+1. You need code-level control and you want to use [Pipedream's OAuth](/connect/managed-auth/oauth-clients/#using-pipedream-oauth) instead of [your own OAuth client](/connect/managed-auth/oauth-clients/#using-a-custom-oauth-client)
+2. There isn't a [pre-built tool](/connect/components/) (action) for the app, or you need to modify the request
 3. You want to avoid storing end user credentials in your app
 
 ## Overview
@@ -20,19 +20,19 @@ The Connect proxy enables you to interface with any integrated API and make auth
 ![Connect API proxy visualization](https://res.cloudinary.com/pipedreamin/image/upload/v1738822030/pd-connect-proxy-viz_k5iksb.png)
 
 <Callout type="info">
-Before getting started with the Connect proxy, make sure you've already gone through the [managed auth quickstart](/connect/managed-auth/quickstart) for Pipedream Connect.
+Before getting started with the Connect proxy, make sure you've already gone through the [managed auth quickstart](/connect/managed-auth/quickstart/) for Pipedream Connect.
 </Callout>
 
 ## Getting started
 
-You can send requests to the Connect proxy using the [Pipedream SDK](/connect/sdk) with a fetch-style interface, or by making a request to the [REST API](/workflows/rest-api/connect/proxy).
+You can send requests to the Connect proxy using the [Pipedream SDK](/connect/sdk/) with a fetch-style interface, or by making a request to the [REST API](/core/rest-api/connect/proxy/).
 
-- A [Pipedream OAuth client](/workflows/rest-api/auth#oauth) to make authenticated requests to Pipedream's API
-- Connect [environment](/connect/environments) (ex, `production` or `development`)
-- The [external user ID](/connect/api#external-users) for your end user (ex, `abc-123`)
-- The [account ID](/connect/api#accounts) for your end user's connected account (ex, `apn_1234567`)
+- A [Pipedream OAuth client](/core/rest-api/auth/#oauth) to make authenticated requests to Pipedream's API
+- Connect [environment](/connect/environments/) (ex, `production` or `development`)
+- The [external user ID](/connect/api/#external-users) for your end user (ex, `abc-123`)
+- The [account ID](/connect/api/#accounts) for your end user's connected account (ex, `apn_1234567`)
 
-Refer to the full Connect API [here](/connect/api).
+Refer to the full Connect API [here](/connect/api/).
 
 ### Using the Pipedream SDK (preferred)
 

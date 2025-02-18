@@ -2,7 +2,7 @@
 
 ## Installing the CLI
 
-[See the CLI installation docs](/cli/install/) to learn how to install the CLI for your OS / architecture.
+[See the CLI installation docs](/core/cli/install/) to learn how to install the CLI for your OS / architecture.
 
 ## Command Reference
 
@@ -59,7 +59,7 @@ or author a component locally and deploy that local file:
 pd deploy http.js
 ```
 
-[Read more about authoring your own event sources](/components/quickstart/nodejs/sources/).
+[Read more about authoring your own event sources](/core/contributing/components/quickstart/nodejs/sources/).
 
 ### `pd describe`
 
@@ -121,7 +121,7 @@ Generate new app and component files from templates.
 
 #### `pd init app`
 
-Creates a directory and [an app file](/workflows/contributing/components/guidelines#app-files) from a template
+Creates a directory and [an app file](/(/core/core/contributing/components/guidelines/#app-files) from a template
 
 ```bash
 # Creates google_calendar/ directory and google_calendar.mjs file
@@ -130,7 +130,7 @@ pd init app google_calendar
 
 #### `pd init action`
 
-Creates a new directory and [a component action](/workflows/contributing/components#actions) from a template.
+Creates a new directory and [a component action](/core/contributing/components/#actions) from a template.
 
 ```bash
 # Creates add-new-event/ directory and add-new-event.mjs file
@@ -139,14 +139,14 @@ pd init action add-new-event
 
 #### `pd init source`
 
-Creates a new directory and [an event source](/sources/) from a template.
+Creates a new directory and [an event source](/core/workflows/triggers/) from a template.
 
 ```bash
 # Creates cancelled-event/ directory and cancelled_event.mjs file
 pd init source cancelled-event
 ```
 
-You can attach [database](/workflows/contributing/components/api/#db), [HTTP](/workflows/contributing/components/api/#http), or [Timer](/workflows/contributing/components/api/#timer) props to your template using the following flags:
+You can attach [database](/core/contributing/components/api//#db), [HTTP](/core/contributing/components/api//#http), or [Timer](/core/contributing/components/api//#timer) props to your template using the following flags:
 
 | Prop type | Flag      |
 | --------- | --------- |
@@ -196,13 +196,13 @@ pd list st
 
 ### `pd login`
 
-Log in to Pipedream CLI and persist API key locally. See [Logging into the CLI](/workflows/cli/login) for more information.
+Log in to Pipedream CLI and persist API key locally. See [Logging into the CLI](/core/cli/login/) for more information.
 
 ### `pd logout`
 
 Unsets the local API key tied to your account.
 
-Running `pd logout` without any arguments removes the default API key from your [config file](/workflows/cli/reference/#cli-config-file).
+Running `pd logout` without any arguments removes the default API key from your [config file](/core/cli/reference/#cli-config-file).
 
 You can remove the API key for a specific profile by running:
 
@@ -214,7 +214,7 @@ pd logout -p PROFILE
 
 Event sources produce logs that can be useful for troubleshooting issues with that source. `pd logs` displays logs for a source.
 
-Running `pd logs <source-id-or-name>` connects to the [SSE logs stream tied to your source](/sources/logs/), displaying new logs as the source produces them.
+Running `pd logs <source-id-or-name>` connects to the [SSE logs stream tied to your source](/core/workflows/triggers/), displaying new logs as the source produces them.
 
 Any errors thrown by the source will also appear here.
 
@@ -234,7 +234,7 @@ pd publish my-action.js
 
 ### `pd signup`
 
-Sign up for Pipedream via the CLI and persist your API key locally. See the docs on [Signing up for Pipedream via the CLI](/workflows/cli/login#signing-up-for-pipedream-via-the-cli) for more information.
+Sign up for Pipedream via the CLI and persist your API key locally. See the docs on [Signing up for Pipedream via the CLI](/core/cli/login/#signing-up-for-pipedream-via-the-cli) for more information.
 
 ### `pd unpublish`
 
@@ -279,7 +279,7 @@ Profiles allow you to work with multiple, named Pipedream accounts via the CLI.
 
 ### Creating a new profile
 
-When you [login to the CLI](/workflows/cli/login), the CLI writes the API key for that account to your config file, in the `api_key` field:
+When you [login to the CLI](/core/cli/login/), the CLI writes the API key for that account to your config file, in the `api_key` field:
 
 ```bash
 api_key = abc123
@@ -302,9 +302,9 @@ You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pip
 
 ### Creating a profile for a workspace
 
-If you're working with resources in an [workspace](/workflows/workspaces/), you'll need to add an `org_id` to your profile.
+If you're working with resources in an [workspace](/core/workspaces/), you'll need to add an `org_id` to your profile.
 
-1. [Retrieve your workspaces's ID](/workflows/workspaces/#finding-your-workspaces-id)
+1. [Retrieve your workspaces's ID](/core/workspaces/#finding-your-workspaces-id)
 2. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
 
 ```bash

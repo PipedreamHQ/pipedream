@@ -6,10 +6,10 @@ Pipedream is the fastest way to automate any process that connects APIs. Build a
 
 The Pipedream platform includes:
 
-- A [serverless runtime](/code/) and [workflow service](/workflows/)
+- A [serverless runtime](/core/workflows/code/) and [workflow service](/core/workflows/)
 - SDK to handle [customer authentication](/connect/) for {process.env.PUBLIC_APPS}+ APIs
-- Source-available pre-built [triggers](/workflows/steps/triggers/) and [actions](/workflows/steps/actions/) for [thousands of integrated apps](https://pipedream.com/explore/)
-- One-click [OAuth and key-based authentication](/workflows/integrations/connected-accounts/) for more than {process.env.PUBLIC_APPS} APIs (use tokens directly in code or with pre-built actions)
+- Source-available pre-built [triggers](/core/workflows/triggers/) and [actions](/core/workflows/actions/) for [thousands of integrated apps](https://pipedream.com/explore/)
+- One-click [OAuth and key-based authentication](/core/integrations/connected-accounts/) for more than {process.env.PUBLIC_APPS} APIs (use tokens directly in code or with pre-built actions)
 
 <VideoPlayer
   src="https://www.youtube.com/embed/Y-4byg2pXL0"
@@ -24,9 +24,9 @@ To get started, [sign up for a free account](https://pipedream.com/auth/signup) 
 
 Once you understand the basics of workflow development, learn how to get more out of Pipedream:
 
-- [Use code in workflows](/code/)
-- [Develop custom actions](/components/quickstart/nodejs/actions/)
-- [Develop custom triggers](/components/quickstart/nodejs/sources/)
+- [Use code in workflows](/core/workflows/code/)
+- [Develop custom actions](/core/contributing/components/quickstart/nodejs/actions/)
+- [Develop custom triggers](/core/contributing/components/quickstart/nodejs/sources/)
 
 ## Use Cases
 
@@ -40,7 +40,7 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 
 - Connecting SaaS apps
 - General API orchestration and automation
-- Database automations ([learn about connecting to resources behind a firewall](/databases))
+- Database automations ([learn about connecting to resources behind a firewall](/core/data-management/databases/))
 - Custom notifications and alerting
 - Mobile and JAMstack backends
 - Rate limiting, request smoothing
@@ -50,13 +50,13 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 
 ## Source-available
 
-Pipedream maintains a [source-available component registry](https://github.com/pipedreamhq/pipedream/) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR to contribute new components](/workflows/contributing#contribution-process) via GitHub.
+Pipedream maintains a [source-available component registry](https://github.com/pipedreamhq/pipedream/) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR to contribute new components](/core/workflows/contributing#contribution-process) via GitHub.
 
 ## Contributing
 
 We hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to help us improve the product for the entire community and grow the platform by:
 
-- [Contributing components](/apps/contributing/) to the [Pipedream registry](https://github.com/pipedreamhq/pipedream) or sharing via your own GitHub repo
+- [Contributing components](/core/contributing/) to the [Pipedream registry](https://github.com/pipedreamhq/pipedream) or sharing via your own GitHub repo
 - Asking and answering questions in our [public community](https://pipedream.com/community/)
 - [Reporting bugs](https://pipedream.com/community/c/bugs/9) and [requesting features](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+) that help us build a better product
 - Following us on [Twitter](https://twitter.com/pipedream), starring our [GitHub repo](https://github.com/PipedreamHQ/pipedream) and subscribing to our [YouTube channel](https://www.youtube.com/c/pipedreamhq)

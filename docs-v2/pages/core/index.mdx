@@ -5,9 +5,9 @@ import Callout from '@/components/Callout'
 
 <VideoPlayer src="https://www.youtube.com/embed/wnDijEtYaT0" title="What are workflows?" />
 
-Workflows make it easy to integrate your apps, data, and APIs - all with no servers or infrastructure to manage. They're sequences of [steps](/workflows/steps) [triggered by an event](/core/workflows/triggers), like an HTTP request, or new rows in a Google sheet.
+Workflows make it easy to integrate your apps, data, and APIs - all with no servers or infrastructure to manage. They're sequences of [steps](/core/#steps) [triggered by an event](/core/workflows/triggers/), like an HTTP request, or new rows in a Google sheet.
 
-You can use [pre-built actions](/workflows/actions/) or custom [Node.js](/core/workflows/code/nodejs/), [Python](/core/workflows/code/python), [Golang](/core/workflows/code/go/), or [Bash](/core/workflows/code/bash/) code in workflows and connect to any of our {process.env.PUBLIC_APPS} integrated apps.
+You can use [pre-built actions](/core/workflows/actions/) or custom [Node.js](/core/workflows/code/nodejs/), [Python](/core/workflows/code/python/), [Golang](/core/workflows/code/go/), or [Bash](/core/workflows/code/bash/) code in workflows and connect to any of our {process.env.PUBLIC_APPS} integrated apps.
 
 Read [our quickstart](/quickstart/) or watch our videos on [Pipedream University](https://pipedream.com/university) to learn more.
 
@@ -15,7 +15,7 @@ Read [our quickstart](/quickstart/) or watch our videos on [Pipedream University
 
 Steps are the building blocks you use to create workflows.
 
-- Use [triggers](/core/workflows/triggers/), [code](/code/), and [pre-built actions](/workflows/contributing/components#actions)
+- Use [triggers](/core/workflows/triggers/), [code](/core/workflows/code/), and [pre-built actions](/core/contributing/components/#actions)
 - Steps are run linearly, in the order they appear in your workflow
 - You can pass data between steps using [the `steps` object](#step-exports)
 - Observe the logs, errors, timing, and other execution details for every step
@@ -28,7 +28,7 @@ You can add [multiple triggers](/core/workflows/triggers/#can-i-add-multiple-tri
 
 ### Code, Actions
 
-[Actions](/workflows/contributing/components#actions) and [code](/code/) steps drive the logic of your workflow. Anytime your workflow runs, Pipedream executes each step of your workflow in order. Actions are prebuilt code steps that let you connect to hundreds of APIs without writing code. When you need more control than the default actions provide, code steps let you write any custom Node.js code.
+[Actions](/core/contributing/components/#actions) and [code](/core/workflows/code/) steps drive the logic of your workflow. Anytime your workflow runs, Pipedream executes each step of your workflow in order. Actions are prebuilt code steps that let you connect to hundreds of APIs without writing code. When you need more control than the default actions provide, code steps let you write any custom Node.js code.
 
 Code and action steps cannot precede triggers, since they'll have no data to operate on.
 
@@ -71,7 +71,7 @@ Step exports allow you to pass data between steps. Any data exported from a step
 For examples of supported data types in your steps language, see the examples below.
 
 * [Node.js (Javascript)](/core/workflows/code/nodejs/#sharing-data-between-steps)
-* [Python](/core/workflows/code/python#sharing-data-between-steps)
+* [Python](/core/workflows/code/python/#sharing-data-between-steps)
 * [Bash](/core/workflows/code/bash/#sharing-data-between-steps)
 * [Go](/core/workflows/code/go/#sharing-data-between-steps)
 

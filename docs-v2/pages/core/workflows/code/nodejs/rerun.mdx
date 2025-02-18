@@ -53,7 +53,7 @@ These URLs are specific to a single execution of your workflow. While the workfl
 - Sending an HTTP request to the `cancel_url` will cancel that execution
 - Sending an HTTP request to the `resume_url` will resume that execution
 
-If you resume a workflow, any data sent in the HTTP request is passed to the workflow and returned in the `$resume_data` [step export](/workflows/#step-exports) of the suspended step. For example, if you call `$.flow.suspend` within a step named `code`, the `$resume_data` export should contain the data sent in the `resume_url` request:
+If you resume a workflow, any data sent in the HTTP request is passed to the workflow and returned in the `$resume_data` [step export](/core/workflows/#step-exports) of the suspended step. For example, if you call `$.flow.suspend` within a step named `code`, the `$resume_data` export should contain the data sent in the `resume_url` request:
 
 <br />
 <img
@@ -63,7 +63,7 @@ If you resume a workflow, any data sent in the HTTP request is passed to the wor
 />
 <br />
 
-Requests to the `resume_url` have [the same limits as any HTTP request to Pipedream](/workflows/limits/#http-request-body-size), but you can send larger payloads using our [large payload](/core/workflows/triggers/#sending-large-payloads) or [large file](/core/workflows/triggers/#large-file-support) interfaces.
+Requests to the `resume_url` have [the same limits as any HTTP request to Pipedream](/core/limits/#http-request-body-size), but you can send larger payloads using our [large payload](/core/workflows/triggers/#sending-large-payloads) or [large file](/core/workflows/triggers/#large-file-support) interfaces.
 
 ### Default timeout of 24 hours
 

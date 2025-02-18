@@ -2,7 +2,7 @@ import Callout from '@/components/Callout'
 
 # Plans and Pricing
 
-We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/workflows/contributing/components#sources), [workflows](/workflows), [actions](/workflows/contributing/components#actions), and other integration components so that other Pipedream users benefit from your work.
+We believe anyone should be able to run simple, low-volume workflows at no cost. We also hope that you share your [sources](/core/contributing/components/#sources), [workflows](/core/workflows/), [actions](/core/contributing/components/#actions), and other integration components so that other Pipedream users benefit from your work.
 
 To support these goals, Pipedream offers a generous [free tier](#free-tier), and you can **[request a free trial of our Advanced or Business plan](https://pipedream.com/pricing)**. You can run sources and workflows for free within the limits of the free tier. If you hit these limits, you can upgrade to one of our [paid tiers](#paid-tiers).
 
@@ -12,7 +12,7 @@ To support these goals, Pipedream offers a generous [free tier](#free-tier), and
 
 Free Tiers have access to all pre-built actions and triggers, and all of the workflow building capabilites as other paid tiers.
 
-But Free account have a [daily limit of free credits](/workflows/limits#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/workflows/limits/) apply to Free Accounts as well.
+But Free account have a [daily limit of free credits](/core/limits/#daily-credits-limit) that cannot be exceed. Standard [Pipedream platform limits](/core/limits/) apply to Free Accounts as well.
 
 To lift the daily credit limit and increase the number of workflows and connected accounts [upgrade to a paid tier](https://pipedream.com/pricing).
 
@@ -22,7 +22,7 @@ Free Tier accounts can connect up to 3 different service accounts like Twitter, 
 
 ### Free Tier Workflow Limitations
 
-Free Tier accounts have a [daily credit limit](/workflows/limits#daily-credits-limit) and have limits on the number of active workflows. Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
+Free Tier accounts have a [daily credit limit](/core/limits/#daily-credits-limit) and have limits on the number of active workflows. Upgrading to a [paid tier](https://pipedream.com/pricing) will increase the number of available active workflows and connected accounts.
 
 ### Free Tier Polling Interval Limitations
 
@@ -48,7 +48,7 @@ Pipedream uses a number of terms to describe platform metrics and details of our
 
 ### Credits
 
-Pipedream charges one credit per 30 seconds of compute time at 256MB megabytes of memory (the default) per [workflow segment](/core/workflows/control-flow#workflow-segments). Credits are also charged for [dedicated workers](/core/workflows/settings/#eliminate-cold-starts).
+Pipedream charges one credit per 30 seconds of compute time at 256MB megabytes of memory (the default) per [workflow segment](/core/workflows/control-flow/#workflow-segments). Credits are also charged for [dedicated workers](/core/workflows/settings/#eliminate-cold-starts).
 
 Unlike some other platforms, Pipedream does not charge for usage based on the number of steps. Credits are not charged for workflows during development or testing.
 
@@ -88,12 +88,12 @@ If an active workflow isn't executed in a billing period no credit usage is incu
 
 #### Source Credit Usage
 
-When an [event source](/sources) triggers a workflow, **the source execution is included for free.** This includes workspaces on the [Free Tier](/pricing/#free-tier).
+When an [event source](/core/workflows/triggers/) triggers a workflow, **the source execution is included for free.** This includes workspaces on the [Free Tier](/pricing/#free-tier).
 
 When a source is configured as a workflow trigger, the core value is in the workflow. You won't be charged for two credits (one to run the source, one to run the workflow) when the workflow contains the core logic.
 
 <Callout type="info">
-This free credit per execution **only** applies to sources from the [Pipedream public registry](/sources). If you deploy a private custom source to your account, then all computation time including the inital 30 seconds for that private source counts toward credits.
+This free credit per execution **only** applies to sources from the [Pipedream public registry](/core/workflows/triggers/). If you deploy a private custom source to your account, then all computation time including the inital 30 seconds for that private source counts toward credits.
 </Callout>
 
 <Callout type="info">
@@ -124,7 +124,7 @@ Many of the usage statistics for paid users are tied to a **billing period**. Yo
 
 For example, if you sign up on Jan 1st, your first billing period will last one month, ending around Feb 1st, at which point you'll start a new billing period.
 
-Your invoices are tied to your billing period. [Read more about invoicing / billing here](/pricing/faq#when-am-i-billed-for-paid-plans).
+Your invoices are tied to your billing period. [Read more about invoicing / billing here](/pricing/faq/#when-am-i-billed-for-paid-plans).
 
 ### Included Credits
 
@@ -132,7 +132,7 @@ When you sign up for a paid plan, you pay a platform fee at the start of each [b
 
 ### Additional Credits
 
-Any credits you run over your [included credit](/workflows/limits/#daily-credits-limit) are called **additional credits**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](/pricing/faq#when-am-i-billed-for-paid-plans).
+Any credits you run over your [included credit](/core/limits/#daily-credits-limit) are called **additional credits**. This usage is added to the invoice for your next [billing period](#billing-period), according to the [invoicing cycle described here](/pricing/faq/#when-am-i-billed-for-paid-plans).
 
 ### Data Store Keys
 

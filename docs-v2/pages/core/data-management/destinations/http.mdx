@@ -67,7 +67,7 @@ you won't have to `await` the execution of the HTTP requests in your workflow. W
 
 ## Using `$.send.http` in component actions
 
-If you're authoring a [component action](/workflows/contributing/components#actions), you can deliver data to an HTTP destination using `$.send.http`.
+If you're authoring a [component action](/core/contributing/components/#actions), you can deliver data to an HTTP destination using `$.send.http`.
 
 `$.send.http` functions the same as [`$.send.http` in workflow code steps](#using-sendhttp-in-workflows):
 
@@ -113,7 +113,7 @@ Currently, Pipedream will not retry any failed request. If your HTTP destination
 ## IP addresses for Pipedream HTTP requests
 
 <Callout type="info">
-These IP addresses are tied to **requests sent with `$.send.http` only, not other HTTP requests made from workflows**. To whitelist standard HTTP requests from Pipedream workflows, [use VPCs](/workflows/vpc).
+These IP addresses are tied to **requests sent with `$.send.http` only, not other HTTP requests made from workflows**. To whitelist standard HTTP requests from Pipedream workflows, [use VPCs](/core/vpc/).
 </Callout>
 
 When you make an HTTP request using `$.send.http()`, the traffic will come from one of the following IP addresses:

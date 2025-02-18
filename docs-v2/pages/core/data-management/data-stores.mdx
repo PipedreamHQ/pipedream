@@ -20,7 +20,7 @@ Data stores are useful for:
 
 You can connect to the same data store across workflows, so they're also great for sharing state across different services.
 
-You can use pre-built, no-code actions to store, update, and clear data, or interact with data stores programmatically in [Node.js](/core/workflows/code/nodejs/using-data-stores/) or [Python](/core/workflows/code/pythonusing-data-stores/).
+You can use pre-built, no-code actions to store, update, and clear data, or interact with data stores programmatically in [Node.js](/core/workflows/code/nodejs/using-data-stores/) or [Python](/core/workflows/code/python/using-data-stores/).
 
 ## Using pre-built Data Store actions
 
@@ -46,7 +46,7 @@ Configure the action:
 
 For example, to store the timestamp when the workflow was initially triggered, set the **Key** to **Triggered At** and the **Value** to `{{steps.trigger.context.ts}}`.
 
-The **Key** must evaluate to a string. You can pass a static string, reference [exports](/workflows/#step-exports) from a previous step, or use [any valid expression](/core/workflows/using-props#entering-expressions).
+The **Key** must evaluate to a string. You can pass a static string, reference [exports](/core/workflows/#step-exports) from a previous step, or use [any valid expression](/core/workflows/using-props/#entering-expressions).
 
 ![Workflow trigger example](/images/data-stores/update-data-store-key-by-reference.png)
 
@@ -126,7 +126,7 @@ Then remove the data store from any linked steps.
 
 ## Using data stores in code steps
 
-Refer to the [Node.js](/core/workflows/code/nodejs/using-data-stores/) and [Python](/core/workflows/code/pythonusing-data-stores/) data store docs to learn how to use data stores in code steps. You can get, set, delete and perform any other data store operations in code. You cannot use data stores in [Bash](/core/workflows/code/bash/) or [Go](/core/workflows/code/go/) code steps.
+Refer to the [Node.js](/core/workflows/code/nodejs/using-data-stores/) and [Python](/core/workflows/code/python/using-data-stores/) data store docs to learn how to use data stores in code steps. You can get, set, delete and perform any other data store operations in code. You cannot use data stores in [Bash](/core/workflows/code/bash/) or [Go](/core/workflows/code/go/) code steps.
 
 ## Compression
 
@@ -152,7 +152,7 @@ You'll find your workspace's limits in the **Data Stores** section of usage dash
 ## Atomic operations
 
 Data store operations are not atomic or transactional, which can lead to race conditions.
-To ensure atomic operations, be sure to limit access to a data store key to a [single workflow with a single worker](/workflows/concurrency-and-throttling) or use a service that supports atomic operations from among our [integrated apps](https://pipedream.com/apps).
+To ensure atomic operations, be sure to limit access to a data store key to a [single workflow with a single worker](/core/workflows/settings/concurrency-and-throttling/) or use a service that supports atomic operations from among our [integrated apps](https://pipedream.com/apps).
 
 ## Supported data types
 

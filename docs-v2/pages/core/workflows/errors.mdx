@@ -4,20 +4,20 @@ import VideoPlayer from "@/components/VideoPlayer";
 
 Two types of errors are raised in Pipedream workflows:
 
-- **Workflow errors** — Errors in the workflow execution environment, like [Timeouts](/troubleshooting#timeout) or [Out of Memory](/troubleshooting#out-of-memory) errors. Often, you can change your workflow's configuration to fix them. You can find more details on these errors [in our troubleshooting guide](/troubleshooting).
-- **Step errors** — Errors raised by individual [code](/code) or [action](/workflows/actions) steps. These can be syntax errors, errors raised by the Node or Python runtime, errors with input data, and more. Pipedream will surface details about the error and the stack trace, and you can even [debug these errors with AI](#debug-with-ai).
+- **Workflow errors** — Errors in the workflow execution environment, like [Timeouts](/troubleshooting/#timeout) or [Out of Memory](/troubleshooting/#out-of-memory) errors. Often, you can change your workflow's configuration to fix them. You can find more details on these errors [in our troubleshooting guide](/troubleshooting).
+- **Step errors** — Errors raised by individual [code](/core/workflows/code/) or [action](/core/workflows/actions/) steps. These can be syntax errors, errors raised by the Node or Python runtime, errors with input data, and more. Pipedream will surface details about the error and the stack trace, and you can even [debug these errors with AI](#debug-with-ai).
 
 Both types of errors will trigger [error notifications](#error-notifications), can be handled by [custom error handlers](#handle-errors-with-custom-logic), and will show up in [the REST API](#poll-the-rest-api-for-workflow-errors).
 
 ## Auto-retry
 
-You can [automatically retry events](/core/workflows/settings#auto-retry-errors) that yield an error. This can help for transient errors that occur when making API requests, like when a service is down or your request times out.
+You can [automatically retry events](/core/workflows/settings/#auto-retry-errors) that yield an error. This can help for transient errors that occur when making API requests, like when a service is down or your request times out.
 
 ## Apply conditional logic
 
 Many errors result from the data you're processing. You might only receive certain data from a webhook under certain conditions, or have malformed data in the payload that causes an error.
 
-You can apply conditional logic in code, or using the [If / Else operator](/core/workflows/control-flow/ifelse), handling these conditions accordingly.
+You can apply conditional logic in code, or using the [If / Else operator](/core/workflows/control-flow/ifelse/), handling these conditions accordingly.
 
 ## Error notifications
 
@@ -51,7 +51,7 @@ When you're editing and testing your workflow, any unhandled errors will **not**
 
 ## Debug with AI
 
-You can debug errors in [code](/code) or [action](/workflows/actions) steps with AI by pressing the **Debug with AI** button at the bottom of any error.
+You can debug errors in [code](/core/workflows/code/) or [action](/core/workflows/actions/) steps with AI by pressing the **Debug with AI** button at the bottom of any error.
 
 ### Data we send with errors
 
@@ -59,7 +59,7 @@ When you debug an error with AI, Pipedream sends the following information to Op
 
 - The error code, message, and stack trace
 - The step's code
-- The input added to the step configuration. This **does not** contain the event data that triggered your workflow, just the static input entered in the step configuration, like the URL of an HTTP request, or the names of [step exports](/workflows#step-exports).
+- The input added to the step configuration. This **does not** contain the event data that triggered your workflow, just the static input entered in the step configuration, like the URL of an HTTP request, or the names of [step exports](/core/workflows/#step-exports).
 
 We explicitly **do not** send the event data that triggered the error, or any other information about your account or workflow.
 
@@ -80,7 +80,7 @@ Unlike [the default system emails](#duplicate-errors-do-not-trigger-duplicate-em
 
 ## Poll the REST API for workflow errors
 
-Pipedream provides a REST API endpoint to [list the most recent 100 workflow errors](/workflows/rest-api/#get-workflow-errors) for any given workflow. For example, to list the errors from workflow `p_abc123`, run:
+Pipedream provides a REST API endpoint to [list the most recent 100 workflow errors]((/core/rest-api/#get-workflow-errors) for any given workflow. For example, to list the errors from workflow `p_abc123`, run:
 
 ```bash
 curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?expand=event' \

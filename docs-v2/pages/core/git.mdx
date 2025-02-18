@@ -15,10 +15,6 @@ Capabilities include:
 - Edit in Pipedream or use a local editor and synchronize via GitHub (e.g., edit code, find and replace across multiple steps or workflows)
 - Organize workflows into projects with support for nested folders
 
-<Callout type="info">
-Follow our [quickstart guide](/quickstart/github-sync/) to start building projects on Pipedream using GitHub Sync.
-</Callout>
-
 ## Getting Started
 
 ### Create a new project and enable GitHub Sync
@@ -223,7 +219,7 @@ This error occurs when **both** of the below conditions are met:
 Since Pipedream can't verify the person who merged that change should have access to use the connected account in a workflow in this case, we block these deploys.
 
 To resolve this error:
-1. Make sure all the connected accounts in the project's workflows are [accessible to the entire workspace](/workflows/integrations/connected-accounts/#access-control)
+1. Make sure all the connected accounts in the project's workflows are [accessible to the entire workspace](/core/integrations/connected-accounts/#access-control)
 2. Re-trigger a sync with Pipedream by making a nominal change to the workflow **from outside the Pipedream UI** (via github.com or locally), then merge that change to production
 
 ### Can I sync an existing GitHub Repository with workflows to a new Pipedream Project?

@@ -22,7 +22,7 @@ If there's a specific trigger you'd like supported, please [let us know](https:/
 
 ## App-based Triggers
 
-You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/sources/). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
+You can trigger a workflow on events from apps like Twitter, Google Calendar, and more using [event sources](/core/workflows/triggers/). Event sources run as separate resources from your workflow, which allows you to trigger _multiple_ workflows using the same source. Here, we'll refer to event sources and workflow triggers interchangeably.
 
 When you create a workflow, click **Add Trigger** to view the available triggers:
 
@@ -48,7 +48,7 @@ Then you can select a specific test event and manually trigger your workflow wit
 
 You'll notice the docs use the terms **event source** and **trigger** interchangeably above. It's useful to clarify the distinction in the context of workflows.
 
-[Event sources](/sources/) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
+[Event sources](/core/workflows/triggers/) run code that collects events from some app or service and emits events as the source produces them. An event source can be used to **trigger** any number of workflows.
 
 For example, you might create a single source to listen for new Twitter mentions for a keyword, then trigger multiple workflows each time a new tweet is found: one to [send new tweets to Slack](https://pipedream.com/@pravin/twitter-mentions-slack-p_dDCA5e/edit), another to [save those tweets to an Amazon S3 bucket](https://pipedream.com/@dylan/twitter-to-s3-p_KwCZGA/readme), etc.
 
@@ -82,12 +82,12 @@ You can send any HTTP requests to this endpoint, from anywhere on the web. You c
 
 <Callout type="info">
 
-Pipedream also supports [custom domains](/workflows/domains). This lets you host endpoints on `https://endpoint.yourdomain.com` instead of the default \`{process.env.ENDPOINT_BASE_URL}\` domain.
+Pipedream also supports [custom domains](/core/domains/). This lets you host endpoints on `https://endpoint.yourdomain.com` instead of the default \`{process.env.ENDPOINT_BASE_URL}\` domain.
 </Callout>
 
 ### Accessing HTTP request data
 
-You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/core/workflows/triggers/#event-format), accessible in any [code](/code/) or [action](/workflows/contributing/components#actions) step.
+You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/core/workflows/triggers/#event-format), accessible in any [code](/core/workflows/code/) or [action](/core/contributing/components/#actions) step.
 
 ### Valid Requests
 
@@ -125,15 +125,15 @@ curl -H 'Authorization: Bearer <your token>' https://myendpoint.m.pipedream.net
 
 #### OAuth
 
-You can also authorize requests using [Pipedream OAuth clients](/workflows/rest-api/auth#oauth):
+You can also authorize requests using [Pipedream OAuth clients](/core/rest-api/auth/#oauth):
 
 1. Open the **Configure** section of the HTTP trigger.
 2. Select **OAuth**.
-3. If you don't have an existing OAuth client, [create one in your workspace's API settings](/workflows/rest-api/auth#creating-an-oauth-client).
+3. If you don't have an existing OAuth client, [create one in your workspace's API settings]((/core/rest-api/auth#creating-an-oauth-client).
 
 ![OAuth authorization](https://res.cloudinary.com/pipedreamin/image/upload/v1729791415/Google_Chrome_-_Untitled_Workflow_-_10-24-2024_10-30_AM_-_Build_-_Pipedream_2024-10-24_at_10.36.04_AM_ujx34e.png)
 
-Next, you'll need to [generate an OAuth access token](/workflows/rest-api/auth#how-to-get-an-access-token).
+Next, you'll need to [generate an OAuth access token](/core/rest-api/auth/#how-to-get-an-access-token).
 
 When making HTTP requests, pass the OAuth access token as a `Bearer` token in the `Authorization` header:
 
@@ -224,13 +224,13 @@ For example, you could require JWT tokens and validate those tokens using the [`
 
 ### Custom domains
 
-To configure endpoints on your own domain, e.g. `endpoint.yourdomain.com` instead of the default `*.m.pipedream.net` domain, see the [custom domains](/workflows/domains) docs.
+To configure endpoints on your own domain, e.g. `endpoint.yourdomain.com` instead of the default `*.m.pipedream.net` domain, see the [custom domains](/core/domains/) docs.
 
 ### How Pipedream handles JSON payloads
 
 When you send JSON in the HTTP payload, or when JSON data is sent in the payload from a webhook provider, **Pipedream converts that JSON to its equivalent JavaScript object**. The trigger data can be referenced using [the `steps` object](#shape-of-the-stepstriggerevent-object).
 
-In the [Inspector](/core/workflows/inspect), we present `steps.trigger.event` cleanly, indenting nested properties, to make the payload easy to read. Since `steps.trigger.event` is a JavaScript object, it's easy to reference and manipulate properties of the payload using dot-notation.
+In the [Inspector](/core/workflows/inspect/), we present `steps.trigger.event` cleanly, indenting nested properties, to make the payload easy to read. Since `steps.trigger.event` is a JavaScript object, it's easy to reference and manipulate properties of the payload using dot-notation.
 
 ### How Pipedream handles `multipart/form-data`
 
@@ -271,13 +271,13 @@ Set to `1` to send an event to the workflow for testing. Pipedream will **not** 
 
 #### Limits
 
-You can send any content, up to the [HTTP payload size limit](/workflows/limits/#http-request-body-size), as a part of the form request. The content of uploaded images or other binary files does not contribute to this limit — the contents of the file will be uploaded at a Pipedream URL you have access to within your source or workflow. See the section on [Large File Support](#large-file-support) for more detail.
+You can send any content, up to the [HTTP payload size limit](/core/limits/#http-request-body-size), as a part of the form request. The content of uploaded images or other binary files does not contribute to this limit — the contents of the file will be uploaded at a Pipedream URL you have access to within your source or workflow. See the section on [Large File Support](#large-file-support) for more detail.
 
 ### Sending large payloads
 
 _If you're uploading files, like images or videos, you should use the [large file upload interface](#large-file-support), instead_.
 
-By default, the body of HTTP requests sent to a source or workflow is limited to {process.env.PAYLOAD_SIZE_LIMIT}. **But you can send an HTTP payload of any size to a [workflow](/workflows/) or an [event source](/sources/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
+By default, the body of HTTP requests sent to a source or workflow is limited to {process.env.PAYLOAD_SIZE_LIMIT}. **But you can send an HTTP payload of any size to a [workflow](/core/workflows/) or an [event source](/core/workflows/triggers/) by including the `pipedream_upload_body=1` query string or an `x-pd-upload-body: 1` HTTP header in your request**.
 
 ```bash
 curl -d '{ "name": "Yoda" }' \
@@ -333,13 +333,13 @@ Your raw payload is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.am
 
 #### Limits
 
-**You can upload payloads up to 5TB in size**. However, payloads that large may trigger [other Pipedream limits](/workflows/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
+**You can upload payloads up to 5TB in size**. However, payloads that large may trigger [other Pipedream limits](/core/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
 
 ### Large File Support
 
 _This interface is best used for uploading large files, like images or videos. If you're sending JSON or other data directly in the HTTP payload, and encountering a **Request Entity Too Large** error, review the section above for [sending large payloads](#sending-large-payloads)_.
 
-You can upload any file to a [workflow](/workflows/) or an [event source](/sources/) by making a `multipart/form-data` HTTP request with the file as one of the form parts. **Pipedream saves that file to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/), generating a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes**. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
+You can upload any file to a [workflow](/core/workflows/) or an [event source](/core/workflows/triggers/) by making a `multipart/form-data` HTTP request with the file as one of the form parts. **Pipedream saves that file to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.com/s3/), generating a [signed URL](https://docs.aws.amazon.com/AmazonS3/latest/dev/ShareObjectPreSignedURL.html) that allows you to access to that file for up to 30 minutes**. After 30 minutes, the signed URL will be invalidated, and the file will be deleted.
 
 In workflows, these file URLs are provided in the `steps.trigger.event.body` variable, so you can download the file using the URL within your workflow, or pass the URL on to another third-party system for it to process.
 
@@ -357,7 +357,7 @@ curl -F 'image=@my_image.png' https://myendpoint.m.pipedream.net
 
 The `-F` tells `cURL` we're sending form data, with a single "part": a field named `image`, with the content of the image as the value (the `@` allows `cURL` to reference a local file).
 
-When you send this image to a workflow, Pipedream [parses the form data](#how-pipedream-handles-multipartform-data) and converts it to a JavaScript object, `event.body`. Select the event from the [inspector](/core/workflows/inspect#the-inspector), and you'll see the `image` property under `event.body`:
+When you send this image to a workflow, Pipedream [parses the form data](#how-pipedream-handles-multipartform-data) and converts it to a JavaScript object, `event.body`. Select the event from the [inspector](/core/workflows/inspect/#the-inspector), and you'll see the `image` property under `event.body`:
 
 ![Image form data](/images/triggers/image_form_data.png)
 
@@ -390,7 +390,7 @@ await pipeline(
 
 Since large files are uploaded using a `Content-Type` of `multipart/form-data`, the limits that apply to [form data](#how-pipedream-handles-multipartform-data) also apply here.
 
-The content of the file itself does not contribute to the HTTP payload limit imposed for forms. **You can upload files up to 5TB in size**. However, files that large may trigger [other Pipedream limits](/workflows/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
+The content of the file itself does not contribute to the HTTP payload limit imposed for forms. **You can upload files up to 5TB in size**. However, files that large may trigger [other Pipedream limits](/core/limits/). Please [reach out](https://pipedream.com/support/) with any specific questions or issues.
 
 ### Cross-Origin HTTP Requests
 
@@ -420,7 +420,7 @@ When you're processing HTTP requests, you often don't need to issue any special 
 <Callout type="info">
 **How can my workflow run faster?**
 
-See [our guide on running workflows faster](/troubleshooting/faq#how-can-my-workflow-run-faster).
+See [our guide on running workflows faster](/troubleshooting/faq/#how-can-my-workflow-run-faster).
 </Callout>
 
 #### Customizing the HTTP response
@@ -459,7 +459,7 @@ The value of the `body` property can be either a string, object, a [Buffer](http
 In the case where you return a Readable stream:
 
 - You must `await` the `$.respond` function (`await $.respond({ ... }`)
-- The stream must close and be finished reading within your [workflow execution timeout](/workflows/limits/#time-per-execution).
+- The stream must close and be finished reading within your [workflow execution timeout](/core/limits/#time-per-execution).
 - You cannot return a Readable and use the [`immediate: true`](#returning-a-response-immediately) property of `$.respond`.
 
 #### Timing of `$.respond()` execution
@@ -557,7 +557,7 @@ We'll also issue a 404 response on workflows with an HTTP trigger that have been
 
 #### Too Many Requests
 
-If you send too many requests to your HTTP source within a small period of time, we may issue a `429 Too Many Requests` response. [Review our limits](/workflows/limits/) to understand the conditions where you might be throttled.
+If you send too many requests to your HTTP source within a small period of time, we may issue a `429 Too Many Requests` response. [Review our limits](/core/limits/) to understand the conditions where you might be throttled.
 
 You can also [reach out](https://pipedream.com/support/) to inquire about raising this rate limit.
 
@@ -586,27 +586,27 @@ If you're running a scheduled job once a day, you probably don't want to wait un
 
 ### Job History
 
-You'll see the history of job executions under the **Job History** section of the [Inspector](/core/workflows/inspect).
+You'll see the history of job executions under the **Job History** section of the [Inspector](/core/workflows/inspect/).
 
 Clicking on a specific job shows the execution details for that job — all the logs and observability associated with that run of the workflow.
 
 ### Trigger a notification to an external service (email, Slack, etc.)
 
-You can send yourself a notification — for example, an email or a Slack message — at any point in a workflow by using the relevant [Action](/workflows/contributing/components#actions) or [Destination](/workflows/data-management/destinations/).
+You can send yourself a notification — for example, an email or a Slack message — at any point in a workflow by using the relevant [Action](/core/contributing/components/#actions) or [Destination](/core/data-management/destinations/).
 
-If you'd like to email yourself when a job finishes successfully, you can use the [Email Destination](/workflows/data-management/destinations/email/). You can send yourself a Slack message using the Slack Action, or trigger an [HTTP request](/workflows/data-management/destinations/http/) to an external service.
+If you'd like to email yourself when a job finishes successfully, you can use the [Email Destination](/core/data-management/destinations/email/). You can send yourself a Slack message using the Slack Action, or trigger an [HTTP request](/core/data-management/destinations/http/) to an external service.
 
-You can also [write code](/code/) to trigger any complex notification logic you'd like.
+You can also [write code](/core/workflows/code/) to trigger any complex notification logic you'd like.
 
 ### Troubleshooting your scheduled jobs
 
 When you run a scheduled job, you may need to troubleshoot errors or other execution issues. Pipedream offers built-in, step-level logs that show you detailed execution information that should aid troubleshooting.
 
-Any time a scheduled job runs, you'll see a new execution appear in the [Inspector](/core/workflows/inspect). This shows you when the job ran, how long it took to run, and any errors that might have occurred. **Click on any of these lines in the Inspector to view the details for a given run**.
+Any time a scheduled job runs, you'll see a new execution appear in the [Inspector](/core/workflows/inspect/). This shows you when the job ran, how long it took to run, and any errors that might have occurred. **Click on any of these lines in the Inspector to view the details for a given run**.
 
 Code steps show [logs](/core/workflows/code/nodejs/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
 
-[Actions](/workflows/contributing/components#actions) and [Destinations](/workflows/data-management/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/workflows/data-management/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
+[Actions](/core/contributing/components/#actions) and [Destinations](/core/data-management/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/core/data-management/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
 
 ## Email
 
@@ -682,7 +682,7 @@ Your email is saved to a Pipedream-owned [Amazon S3 bucket](https://aws.amazon.c
 
 ### Email attachments
 
-You can attach any files to your email, up to [the total email size limit](/workflows/limits/#email-triggers).
+You can attach any files to your email, up to [the total email size limit](/core/limits/#email-triggers).
 
 Attachments are stored in `steps.trigger.event.attachments`, which provides an array of attachment objects. Each attachment in that array exposes key properties:
 
@@ -717,7 +717,7 @@ If the presigned URL for the attachment has expired, then you'll need to send an
 
 If you're using email attachments in combination with [`$.flow.delay`](/core/workflows/code/nodejs/delay/) or [`$.flow.rerun`](/core/workflows/code/nodejs/rerun/) which introduces a gap of time between steps in your workflow, then there's a chance the email attachment's URL will expire.
 
-To overcome this, we suggest uploading your email attachments to your Project's [File Store](/workflows/projects/file-stores/) for persistent storage.
+To overcome this, we suggest uploading your email attachments to your Project's [File Store](/core/projects/file-stores/) for persistent storage.
 
 ## RSS
 
@@ -725,16 +725,16 @@ Choose the RSS trigger to watch an RSS feed for new items:
 
 ![Selecting the RSS feed trigger](/images/triggers/select-rss-trigger.png)
 
-This will create an RSS [event source](/sources/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
+This will create an RSS [event source](/core/workflows/triggers/) that polls the feed for new items on the schedule you select. Every time a new item is found, your workflow will run.
 
 ## Events
 
 Events trigger workflow executions. The event that triggers your workflow depends on the trigger you select for your workflow:
 
-- [HTTP triggers](/core/workflows/triggers#http) invoke your workflow on HTTP requests.
-- [Cron triggers](/core/workflows/triggers#schedule) invoke your workflow on a time schedule (e.g., on an interval).
-- [Email triggers](/core/workflows/triggers#email) invoke your workflow on inbound emails.
-- [Event sources](/core/workflows/triggers#app-based-triggers) invoke your workflow on events from apps like Twitter, Google Calendar, and more.
+- [HTTP triggers](/core/workflows/triggers/#http) invoke your workflow on HTTP requests.
+- [Cron triggers](/core/workflows/triggers/#schedule) invoke your workflow on a time schedule (e.g., on an interval).
+- [Email triggers](/core/workflows/triggers/#email) invoke your workflow on inbound emails.
+- [Event sources](/core/workflows/triggers/#app-based-triggers) invoke your workflow on events from apps like Twitter, Google Calendar, and more.
 
 ### Selecting a test event
 
@@ -750,7 +750,7 @@ When you select an event, you'll see [the incoming event data](#event-format) an
 
 ![The event and context in a trigger initiation](https://res.cloudinary.com/pipedreamin/image/upload/v1648759141/docs/components/CleanShot_2022-03-31_at_16.30.37_jwwwdy.png)
 
-Pipedream parses your incoming data and exposes it in the variable [`steps.trigger.event`](#event-format), which you can access in any [workflow step](/workflows/steps/).
+Pipedream parses your incoming data and exposes it in the variable [`steps.trigger.event`](#event-format), which you can access in any [workflow step](/core/#steps).
 
 ### Copying references to event data
 
@@ -772,7 +772,7 @@ When you send an event to your workflow, Pipedream takes the trigger data — fo
 
 **This data is exposed in the `steps.trigger.event` variable. You can reference this variable in any step of your workflow**.
 
-You can reference your event data in any [code](/code/) or [action](/workflows/contributing/components#actions) step. See those docs or the general [docs on passing data between steps](/workflows/steps/) for more information.
+You can reference your event data in any [code](/core/workflows/code/) or [action](/core/contributing/components/#actions) step. See those docs or the general [docs on passing data between steps](/core/#steps) for more information.
 
 The specific shape of `steps.trigger.event` depends on the trigger type:
 
@@ -811,9 +811,9 @@ You can use the data in `steps.trigger.context` to uniquely identify the Pipedre
 | Property           |                                                                     Description                                                                      |
 | ------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------: |
 | `deployment_id`    |                                      A globally-unique string representing the current version of the workflow                                       |
-| `emitter_id`       |                            The ID of the workflow trigger that emitted this event, e.g. the [event source](/sources) ID.                             |
+| `emitter_id`       |                            The ID of the workflow trigger that emitted this event, e.g. the [event source](/core/workflows/triggers/) ID.                             |
 | `id`               |                                  A unique, Pipedream-provided identifier for the event that triggered this workflow                                  |
-| `owner_id`         |                        The Pipedream-assigned [workspace ID](/workflows/workspaces/#finding-your-workspaces-id) that owns the workflow                        |
+| `owner_id`         |                        The Pipedream-assigned [workspace ID](/core/workspaces/#finding-your-workspaces-id) that owns the workflow                        |
 | `platform_version` |                                         The version of the Pipedream execution environment this event ran on                                         |
 | `replay`           |                                                 A boolean, whether the event was replayed via the UI                                                 |
 | `trace_id`         | Holds the same value for all executions tied to an original event. [See below for more details](#how-do-i-retrieve-the-execution-id-for-a-workflow). |
@@ -840,12 +840,12 @@ On the Free and Basic plans, each workflow retains at most 100 events or 7 days 
 
 Other paid plans have longer retention. [See the pricing page](https://pipedream.com/pricing) for details.
 
-Events are also stored in [event history](/workflows/event-history) for up to 30 days, depending on your plan. [See the pricing page](https://pipedream.com/pricing) for the retention on your plan.
+Events are also stored in [event history](/core/event-history/) for up to 30 days, depending on your plan. [See the pricing page](https://pipedream.com/pricing) for the retention on your plan.
 
-Events that are [delayed](/core/workflows/control-flow/delay) or [suspended](/glossary#suspend) are retained for the duration of the delay. After the delay, the workflow is executed, and the event data is retained according to the rules above.
+Events that are [delayed](/core/workflows/control-flow/delay/) or [suspended](/glossary/#suspend) are retained for the duration of the delay. After the delay, the workflow is executed, and the event data is retained according to the rules above.
 
 <Callout type="info">
-For an extended history of events across all of your workflows, included processed events, with the ability to filter by status and time range, please see the [Event History](/workflows/event-history/).
+For an extended history of events across all of your workflows, included processed events, with the ability to filter by status and time range, please see the [Event History](/core/event-history/).
 </Callout>
 
 ## Don't see a trigger you need?

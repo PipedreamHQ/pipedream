@@ -91,7 +91,7 @@ By default, workflows run with {process.env.MEMORY_LIMIT} of memory. You can mod
 
 Increasing your workflow's memory gives you a proportional increase in CPU. If your workflow is limited by memory or compute, increasing your workflow's memory can reduce its overall runtime and make it more performant.
 
-**Pipedream charges credits proportional to your memory configuration**. [Read more here](/pricing/faq#how-does-workflow-memory-affect-credits).
+**Pipedream charges credits proportional to your memory configuration**. [Read more here](/pricing/faq/#how-does-workflow-memory-affect-credits).
 
 ## Disk
 
@@ -117,11 +117,11 @@ You can increase the timeout limit, up to a max value set by your plan:
 | Free tiers |    300 seconds (5 min)     |
 | Paid tiers |   750 seconds (12.5 min)   |
 
-Events that trigger a **Timeout** error will appear in red in the [Inspector](/core/workflows/inspect). You'll see the timeout error, also in red, in the cell at which the code timed out.
+Events that trigger a **Timeout** error will appear in red in the [Inspector](/core/workflows/inspect/). You'll see the timeout error, also in red, in the cell at which the code timed out.
 
 ### Event / Execution History
 
-The [Inspector](/core/workflows/inspect#the-inspector) shows the execution history for a given workflow. Events have a limited retention period, depending on your plan:
+The [Inspector](/core/workflows/inspect/#the-inspector) shows the execution history for a given workflow. Events have a limited retention period, depending on your plan:
 
 |    Tier    |                           Events retained per workflow                           |
 | :--------: | :------------------------------------------------------------------------------: |
@@ -132,7 +132,7 @@ The execution details for a specific event also expires after {process.env.INSPE
 
 ### Logs, Step Exports, and other observability
 
-The total size of `console.log()` statements, [step exports](/workflows/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of {process.env.FUNCTION_PAYLOAD_LIMIT}. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
+The total size of `console.log()` statements, [step exports](/core/workflows/#step-exports), and the original event data sent to the workflow cannot exceed a combined size of {process.env.FUNCTION_PAYLOAD_LIMIT}. If you produce logs or step exports larger than this - for example, passing around large API responses, CSVs, or other data - you may encounter a **Function Payload Limit Exceeded** in your workflow.
 
 This limit cannot be raised.
 

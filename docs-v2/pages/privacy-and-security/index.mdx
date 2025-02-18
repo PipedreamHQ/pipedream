@@ -64,7 +64,7 @@ Pipedream reacts to potential threats quickly based on [our incident response po
 
 ## User Accounts, Authentication and Authorization
 
-When you sign up for a Pipedream account, you can choose to link your Pipedream login to either an existing [Google](https://google.com) or [Github](https://github.com) account, or create an account directly with Pipedream. Pipedream also supports [single-sign on](/workflows/workspaces/#configuring-single-sign-on-sso).
+When you sign up for a Pipedream account, you can choose to link your Pipedream login to either an existing [Google](https://google.com) or [Github](https://github.com) account, or create an account directly with Pipedream. Pipedream also supports [single-sign on](/core/workspaces/#configuring-single-sign-on-sso).
 
 When you link your Pipedream login to an existing identity provider, Pipedream does not store any passwords tied to your user account — that information is secured with the identity provider. We recommend you configure two-factor authentication in the provider to further protect access to your Pipedream account.
 
@@ -82,13 +82,13 @@ Pipedream encrypts all OAuth grants, key-based credentials, and environment vari
 
 When you link credentials to a specific source or workflow, the credentials are loaded into that program's [execution environment](#execution-environment), which runs in its own virtual machine, with access to RAM and disk isolated from other users' code.
 
-No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/workflows/#step-exports), you can always delete the data for that execution from your source or workflow. These logs will also be deleted automatically based on the [event retention](https://pipedream.com/docs/workflows/limits/#event-execution-history) for your account.
+No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/core/workflows/#step-exports), you can always delete the data for that execution from your source or workflow. These logs will also be deleted automatically based on the [event retention](https://pipedream.com/docs/workflows/limits/#event-execution-history) for your account.
 
 You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account. You must revoke that access wherever you manage OAuth grants in your third party application.
 
 ## Pipedream REST API security, OAuth clients
 
-The Pipedream API supports two methods of authentication: [OAuth](/workflows/rest-api/auth#oauth) and [User API keys](/workflows/rest-api/auth#user-api-keys). **We recommend using OAuth clients** for a few reasons:
+The Pipedream API supports two methods of authentication: [OAuth](/core/rest-api/auth/#oauth) and [User API keys](/core/rest-api/auth/#user-api-keys). **We recommend using OAuth clients** for a few reasons:
 
 ✅ OAuth clients are tied to the workspace, administered by workspace admins <br />
 ✅ Tokens are short-lived <br />
@@ -116,15 +116,15 @@ Access tokens expire after 1 hour. Tokens can be revoked at any time.
 
 ## Pipedream Connect
 
-[Pipedream Connect](/connect) is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**.
+[Pipedream Connect](/connect/) is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**.
 
 ### Client-side SDK
 
-Pipedream provides a [client-side SDK](/connect/api#typescript-sdk-browser) to initiate authorization or accept API keys on behalf of your users in environments that can run JavaScript. You can see the code for that SDK [here](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk).
+Pipedream provides a [client-side SDK](/connect/api/#typescript-sdk-browser) to initiate authorization or accept API keys on behalf of your users in environments that can run JavaScript. You can see the code for that SDK [here](https://github.com/PipedreamHQ/pipedream/tree/master/packages/sdk).
 
 When you initiate authorization, you must:
 
-1. [Create a server-side token for a specific end user](/connect/api#create-a-new-token)
+1. [Create a server-side token for a specific end user](/connect/api/#create-a-new-token)
 2. Initiate auth with that token, connecting an account for a specific user
 
 These tokens can only initiate the auth connection flow. They have no permissions to access credentials or perform other operations against the REST API. They are meant to be scoped to a specific user, for use in clients that need to initiate auth flows.
@@ -133,13 +133,13 @@ Tokens expire after 4 hours, at which point you must create a new token for that
 
 ### Connect Link
 
-You can also use [Connect Link](/connect/connect-link) to generate a URL that initiates the authorization flow for a specific user. This is useful when you want to initiate the auth flow from a client-side environment that can't run JavaScript, or include the link in an email, chat message, etc.
+You can also use [Connect Link](/connect/connect-link/) to generate a URL that initiates the authorization flow for a specific user. This is useful when you want to initiate the auth flow from a client-side environment that can't run JavaScript, or include the link in an email, chat message, etc.
 
 Like tokens, Connect Links are coupled to specific users, and expire after 4 hours.
 
 ### REST API
 
-The Pipedream Connect API is a subset of the [Pipedream REST API](/workflows/rest-api/). See the [REST API Security](#pipedream-rest-api-security-oauth-clients) section for more information on how we secure the API.
+The Pipedream Connect API is a subset of the [Pipedream REST API]((/core/rest-api/). See the [REST API Security](#pipedream-rest-api-security-oauth-clients) section for more information on how we secure the API.
 
 ## Execution environment
 
@@ -153,13 +153,13 @@ Instances of running VMs are called **workers**. If Pipedream spins up three VMs
 
 By default, outbound traffic shares the same network as other AWS services deployed in the `us-east-1` region. That means network requests from your workflows (e.g. an HTTP request or a connection to a database) originate from the standard range of AWS IP addresses.
 
-[Pipedream VPCs](/workflows/vpc/) enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresses that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform). Outbound network requests from workflows that run in a VPC will originate from these IP addresses, and only workflows in your workspace will run there.
+[Pipedream VPCs](/core/vpc/) enable you to run workflows in dedicated and isolated networks with static outbound egress IP addresses that are unique to your workspace (unlike other platforms that provide static IPs common to all customers on the platform). Outbound network requests from workflows that run in a VPC will originate from these IP addresses, and only workflows in your workspace will run there.
 
 ## Encryption of data in transit, TLS (SSL) Certificates
 
 When you use the Pipedream web application at [https://pipedream.com](https://pipedream.com), traffic between your client and Pipedream services is encrypted in transit. When you create an HTTP interface in Pipedream, the Pipedream UI defaults to displaying the HTTPS endpoint, which we recommend you use when sending HTTP traffic to Pipedream so that your data is encrypted in transit.
 
-All Pipedream-managed certificates, including those we create for [custom domains](/workflows/domains/), are created using [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/). This eliminates the need for our employees to manage certificate private keys: these keys are managed and secured by Amazon. Certificate renewal is also handled by Amazon.
+All Pipedream-managed certificates, including those we create for [custom domains](/core/domains/), are created using [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/). This eliminates the need for our employees to manage certificate private keys: these keys are managed and secured by Amazon. Certificate renewal is also handled by Amazon.
 
 ## Encryption of data at rest
 
@@ -221,7 +221,7 @@ Pipedream provides annual security training to all employees. Developers go thro
 
 Pipedream retains data only for as long as necessary to provide the core service. Pipedream stores your workflow code, data in data stores, and other data indefinitely, until you choose to delete it.
 
-Event data and the logs associated with workflow executions are stored according to [the retention rules on your account](/workflows/limits/#event-execution-history).
+Event data and the logs associated with workflow executions are stored according to [the retention rules on your account](/core/limits/#event-execution-history).
 
 Pipedream deletes most internal application logs and logs tied to subprocessors within 30 days. We retain a subset of logs for longer periods where required for security investigations.
 
