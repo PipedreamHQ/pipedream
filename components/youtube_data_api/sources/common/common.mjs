@@ -71,7 +71,10 @@ export default {
         fn: this.youtubeDataApi.getVideos,
         params,
       });
-      videos.forEach((video) => this.emitEvent(video));
+      videos.forEach((video) => this.emitEvent({
+        ...video,
+        url: `https://www.youtube.com/watch?v=${video.id.videoId}`,
+      }));
       return videos[0].snippet.publishedAt;
     },
     async paginatePlaylistItems(params, publishedAfter = null) {
@@ -104,7 +107,7 @@ export default {
           count++;
           if (this.isRelevant(item, publishedAfter)) {
             results.push(item);
-            if ((params.maxResults && results.length >= params.maxResults) || !nextPageToken) {
+            if (params.maxResults && results.length >= params.maxResults) {
               done = true;
               break;
             }
@@ -112,7 +115,7 @@ export default {
         }
         params.pageToken = nextPageToken;
         totalResults = pageInfo.totalResults;
-      } while ((count < totalResults) && !done);
+      } while ((count < totalResults) && params.pageToken && !done);
       return results;
     },
   },

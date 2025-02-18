@@ -115,4 +115,22 @@ export default {
     "replies",
     "snippet",
   ],
+  VIDEO_DURATIONS: [
+    {
+      label: "Do not filter video search results based on their duration. This is the default value.",
+      value: "any",
+    },
+    {
+      label: "Only include videos longer than 20 minutes",
+      value: "long",
+    },
+    {
+      label: "Only include videos that are between four and 20 minutes long (inclusive)",
+      value: "medium",
+    },
+    {
+      label: "Only include videos that are less than four minutes long",
+      value: "short",
+    },
+  ],
 };
