@@ -196,7 +196,7 @@ You can leverage `$.flow.rerun` within a `try...catch` block in order to retry a
 
 This only communicates the error code, and not any other information (like the body or headers) returned from the server.
 
-Pipedream publishes an `axios` wrapper as a part of [the `@pipedream/platform` package](https://github.com/PipedreamHQ/platform). This presents the same programming API as `axios`, but implements two helpful features:
+Pipedream publishes an `axios` wrapper as a part of [the `@pipedream/platform` package](https://github.com/PipedreamHQ/pipedream/tree/master/platform). This presents the same programming API as `axios`, but implements two helpful features:
 
 1. When the HTTP request succeeds (response code < `400`), it returns only the `data` property of the response object — the HTTP response body. This is typically what users want to see when they make an HTTP request:
 

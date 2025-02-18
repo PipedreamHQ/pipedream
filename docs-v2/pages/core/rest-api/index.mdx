@@ -40,7 +40,7 @@ header set to `application/json`. For example:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts"}'
 ```
 
 ## Common Parameters
@@ -492,7 +492,7 @@ The full code for a [Pipedream component](/core/contributing/components/api//).
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts`.
 
 ---
 
@@ -508,7 +508,7 @@ Here's an example of how to create an RSS component from a Github URL:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts"}'
 ```
 
 #### Example Response
@@ -971,7 +971,7 @@ The full code for a [Pipedream component](/core/contributing/components/api//).
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts`.
 
 ---
 
@@ -995,7 +995,7 @@ of the component used to create the source.
 curl https://api.pipedream.com/v1/sources \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
 ```
 
 #### Example Response
@@ -1053,7 +1053,7 @@ component](/core/contributing/components/api//).
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts`.
 
 ---
 
@@ -1090,7 +1090,7 @@ DELETE /sources/{id}
 ## Subscriptions
 
 <Callout type="warning">
-  The Subscriptions API is currently incompatible with projects that have [GitHub Sync](https://pipedream.com/docs/workflows/git) enabled. To [trigger another workflow](https://pipedream.com/docs/core/workflows/code/nodejs#invoke-another-workflow), use `$.flow.trigger` instead.
+  The Subscriptions API is currently incompatible with projects that have [GitHub Sync](/core/git/) enabled. To [trigger another workflow](/core/workflows/code/nodejs/#invoke-another-workflow), use `$.flow.trigger` instead.
 </Callout>
 
 ### Listen for events from another source or workflow

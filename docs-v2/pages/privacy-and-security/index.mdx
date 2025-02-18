@@ -82,7 +82,7 @@ Pipedream encrypts all OAuth grants, key-based credentials, and environment vari
 
 When you link credentials to a specific source or workflow, the credentials are loaded into that program's [execution environment](#execution-environment), which runs in its own virtual machine, with access to RAM and disk isolated from other users' code.
 
-No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/core/workflows/#step-exports), you can always delete the data for that execution from your source or workflow. These logs will also be deleted automatically based on the [event retention](https://pipedream.com/docs/workflows/limits/#event-execution-history) for your account.
+No credentials are logged in your source or workflow by default. If you log their values or [export data from a step](/core/workflows/#step-exports), you can always delete the data for that execution from your source or workflow. These logs will also be deleted automatically based on the [event retention](/core/limits#event--execution-history) for your account.
 
 You can delete your OAuth grants or key-based credentials at any time by visiting [https://pipedream.com/accounts](https://pipedream.com/accounts). Deleting OAuth grants within Pipedream **do not** revoke Pipedream's access to your account. You must revoke that access wherever you manage OAuth grants in your third party application.
 
@@ -108,7 +108,7 @@ You can revoke a specific client secret at any time by visiting [https://pipedre
 
 Since Pipedream uses client credentials grants, access tokens must not be shared with end users or stored anywhere outside of your server environment.
 
-Access tokens are issued as JWTs, signed with an ED25519 private key. The public key used to verify these tokens is available at [https:/api.pipedream.com/.well-known/jwks.json](https://pipedream.com/.well-known/jwks.json). See [this workflow template](https://pipedream.com/new?h=tch_rBf76M) for example code you can use to validate these tokens.
+Access tokens are issued as JWTs, signed with an ED25519 private key. The public key used to verify these tokens is available at https://api.pipedream.com/.well-known/jwks.json. See [this workflow template](https://pipedream.com/new?h=tch_rBf76M) for example code you can use to validate these tokens.
 
 Access tokens are hashed before being saved in the Pipedream database, and are encrypted at rest.
 
