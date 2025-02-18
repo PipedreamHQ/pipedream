@@ -26,11 +26,11 @@ export default {
       const params = {
         maxResults: constants.HISTORICAL_EVENTS,
       };
-      if (this.label) {
-        params.labelIds = this.label;
+      if (this.labels?.length) {
+        params.labelIds = this.labels;
       }
       let { messages } = await this.gmail.listMessages({
-        params,
+        ...params,
       });
       if (!messages?.length) {
         return;
@@ -48,30 +48,42 @@ export default {
         startHistoryId,
         historyTypes: this.getHistoryTypes(),
       };
-      if (this.label) {
-        opts.labelId = this.label;
+
+      const length = this.labels?.length > 0
+        ? this.labels.length
+        : 1;
+      let maxHistoryId = 0;
+
+      for (let i = 0; i < length; i++) {
+        if (this.labels) {
+          opts.labelId = this.labels[i];
+        }
+
+        const {
+          history, historyId,
+        } = await this.gmail.listHistory(opts);
+
+        if (!history) {
+          continue;
+        }
+
+        maxHistoryId = Math.max(maxHistoryId, historyId);
+        const responseArray = this.filterHistory(history);
+
+        for (const item of responseArray) {
+          await this.emitFullMessage(item.messages[0].id);
+        }
       }
-
-      const {
-        history, historyId,
-      } = await this.gmail.listHistory(opts);
-
-      if (!history) {
-        return;
-      }
-      this._setLastHistoryId(historyId);
-
-      const responseArray = this.filterHistory(history);
-      for (const item of responseArray) {
-        await this.emitFullMessage(item.messages[0].id);
+      if (maxHistoryId > 0) {
+        this._setLastHistoryId(maxHistoryId);
       }
     },
     async emitRecentMessages() {
       const opts = {
         maxResults: constants.HISTORICAL_EVENTS,
       };
-      if (this.label) {
-        opts.labelIds = this.label;
+      if (this.labels?.length) {
+        opts.labelIds = this.labels;
       }
       let { messages } = await this.gmail.listMessages(opts);
       if (!messages?.length) {
@@ -88,6 +100,9 @@ export default {
         message = await this.gmail.getMessage({
           id,
         });
+        if (this.excludeLabels && message.labelIds.some((i) => this.excludeLabels.includes(i))) {
+          return;
+        }
       } catch {
         console.log(`Message ${id} not found`);
       }
