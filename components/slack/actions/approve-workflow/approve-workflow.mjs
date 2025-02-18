@@ -4,8 +4,8 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "slack-approve-workflow",
   name: "Approve Workflow",
-  description: "Suspend the workflow until approved by a slack message. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun#flowsuspend)",
-  version: "0.0.1",
+  description: "Suspend the workflow until approved by a Slack message. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun#flowsuspend)",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,
@@ -36,7 +36,7 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      description: "A text message to include with the Approve and Cancel Buttons",
+      description: "Text to include with the Approve and Cancel Buttons",
     },
   },
   async run({ $ }) {
@@ -63,6 +63,7 @@ export default {
                 type: "plain_text",
                 text: "Approve",
               },
+              style: "primary",
               url: resume_url,
             },
             {
@@ -71,6 +72,7 @@ export default {
                 type: "plain_text",
                 text: "Cancel",
               },
+              style: "danger",
               url: cancel_url,
             },
           ],
