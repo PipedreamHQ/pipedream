@@ -41,7 +41,7 @@ export default {
       };
       if (this.regionCode && this.regionCode.length === 2) {
         dynamicProps.videoCategoryId = {
-          label: "Video Category Id",
+          label: "Video Category ID",
           description: "The videoCategoryId parameter identifies the video category for which the chart should be retrieved. By default, charts are not restricted to a particular category.",
           type: "string",
           optional: true,

@@ -18,7 +18,7 @@ export default {
     },
     videoIds: {
       type: "string[]",
-      label: "Video Ids",
+      label: "Video IDs",
       description: "Array of identifiers of the videos to be removed from the playlist",
       async options() {
         const { data } = await this.youtubeDataApi.getPlaylistItems({

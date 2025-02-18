@@ -1,5 +1,5 @@
 import youtube from "@googleapis/youtube";
-import { toArray } from "./utils.mjs";
+import { toArray } from "./common/utils.mjs";
 import { promisify } from "util";
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
 
@@ -12,12 +12,12 @@ export default {
       reloadProps: true,
     },
     playlistId: {
-      label: "Playlist Id",
+      label: "Playlist ID",
       description: "The playlistId parameter specifies a unique YouTube playlist ID.",
       type: "string",
     },
     channelId: {
-      label: "Channel Id",
+      label: "Channel ID",
       description: "The channelId parameter specifies a unique YouTube channel ID.",
       type: "string",
     },
@@ -56,7 +56,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Maximum Results",
-      description: "The maximum number of results in a channel to return. Should be divisible by 5 (ex. 5, 10, 15).",
+      description: "The maximum number of items that should be returned in the result set. Acceptable values are 0 to 50, inclusive.",
       default: 20,
     },
     title: {
@@ -113,7 +113,7 @@ export default {
     },
     userOwnedPlaylist: {
       type: "string",
-      label: "Playlist Id",
+      label: "Playlist ID",
       description: "Add items to the selected playlist",
       async options({ prevContext }) {
         const { pageToken } = prevContext;
@@ -140,9 +140,11 @@ export default {
     },
     userOwnedVideo: {
       type: "string",
-      label: "Video Id",
+      label: "Video ID",
       description: "Select the video to update",
-      async options({ prevContext }) {
+      async options({
+        prevContext, channelId,
+      }) {
         const { pageToken } = prevContext;
         const params = {
           part: [
@@ -150,9 +152,13 @@ export default {
             "snippet",
           ],
           type: "video",
-          forMine: true,
           pageToken,
         };
+        if (channelId) {
+          params.channelId = channelId;
+        } else {
+          params.forMine = true;
+        }
         const { data } = await this.getVideos(params);
         const options = data.items?.map((item) => ({
           label: item.snippet.title,
@@ -168,7 +174,7 @@ export default {
     },
     userOwnedChannel: {
       type: "string",
-      label: "Channel Id",
+      label: "Channel ID",
       description: "Select the channel to update",
       async options({ prevContext }) {
         const { pageToken } = prevContext;
