@@ -71,12 +71,20 @@ export default {
       schema = await this.hubspot.getSchema({
         objectType,
       });
+      const properties = schema.properties;
+      const searchableProperties = schema.searchableProperties?.map((prop) => {
+        const propData = properties.find(({ name }) => name === prop);
+        return {
+          label: propData.label,
+          value: propData.name,
+        };
+      });
 
       props.searchProperty = {
         type: "string",
         label: "Search Property",
         description: "The field to search",
-        options: schema.searchableProperties,
+        options: searchableProperties,
       };
     } catch {
       props.searchProperty = {
