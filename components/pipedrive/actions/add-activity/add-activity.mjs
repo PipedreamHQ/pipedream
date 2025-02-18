@@ -61,7 +61,7 @@ export default {
         pipedriveApp,
         "projectId",
       ],
-      description: "ID of the organization this activity will be associated with",
+      description: "ID of the project this activity will be associated with",
     },
     dueDate: {
       type: "string",
@@ -102,7 +102,7 @@ export default {
     participants: {
       type: "string[]",
       label: "Participants",
-      description: "List of multiple persons (participants) this activity will be associated with. If omitted, single participant from `person_id` field is used. It requires a structure as follows: `[{\"person_id\":1,\"primary_flag\":true}]`",
+      description: "List of multiple persons (participants) this activity will be associated with. If omitted, single participant from `person_id` field is used. It requires a structure as follows: `[{\"person_id\":1,\"primary\":true}]`",
       optional: true,
       propDefinition: [
         pipedriveApp,
@@ -112,7 +112,7 @@ export default {
     attendees: {
       type: "string[]",
       label: "Attendees",
-      description: "Attendees of the activity. This can be either your existing Pipedrive contacts or an external email address. It requires a structure as follows: `[{\"email_address\":\"mail@example.org\"}]` or `[{\"person_id\":1, \"email_address\":\"mail@example.org\"}]`",
+      description: "Attendees of the activity. This can be either your existing Pipedrive contacts or an external email address. It requires a structure as follows: `[{\"email\":\"mail@example.org\"}]`",
       optional: true,
       async options({ prevContext }) {
         if (prevContext?.cursor === false) {
