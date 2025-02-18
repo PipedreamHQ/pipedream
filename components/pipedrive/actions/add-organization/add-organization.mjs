@@ -1,10 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-add-organization",
   name: "Add Organization",
   description: "Adds a new organization. See the Pipedrive API docs for Organizations [here](https://developers.pipedrive.com/docs/api/v1/Organizations#addOrganization)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     pipedriveApp,
@@ -33,32 +34,23 @@ export default {
         pipedriveApp,
         "addTime",
       ],
-      description: "Optional creation date & time of the organization in UTC. Requires admin user API token. Format: `YYYY-MM-DD HH:MM:SS`",
+      description: "Optional creation date & time of the organization in UTC. Requires admin user API token. Format: `YYYY-MM-DDTHH:MM:SSZ`",
     },
   },
   async run({ $ }) {
-    const {
-      name,
-      ownerId,
-      visibleTo,
-      addTime,
-    } = this;
-
     try {
-      const resp =
-        await this.pipedriveApp.addOrganization({
-          name,
-          owner_id: ownerId,
-          visible_to: visibleTo,
-          add_time: addTime,
-        });
+      const resp = await this.pipedriveApp.addOrganization({
+        name: this.name,
+        owner_id: this.ownerId,
+        visible_to: this.visibleTo,
+        add_time: this.addTime,
+      });
 
       $.export("$summary", "Successfully added organization");
 
       return resp;
-    } catch (error) {
-      console.error(error.context?.body || error);
-      throw error.context?.body?.error || "Failed to add organization";
+    } catch ({ error }) {
+      throw new ConfigurationError(error);
     }
   },
 };
