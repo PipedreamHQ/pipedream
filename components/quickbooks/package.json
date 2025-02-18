@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/quickbooks",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Pipedream Quickbooks Components",
   "main": "quickbooks.app.mjs",
   "keywords": [

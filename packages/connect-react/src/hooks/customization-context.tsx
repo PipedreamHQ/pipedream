@@ -33,12 +33,14 @@ import { Errors } from "../components/Errors";
 import { Field } from "../components/Field";
 import { Label } from "../components/Label";
 import { OptionalFieldButton } from "../components/OptionalFieldButton";
+import { LoadMoreButton } from "../components/LoadMoreButton";
 
 export const defaultComponents = {
   Description,
   Errors,
   Label,
   OptionalFieldButton,
+  Button: LoadMoreButton,
 };
 
 export type ReactSelectComponents = {
@@ -76,6 +78,7 @@ export type CustomizableProps = {
   label: ComponentProps<typeof Label>;
   optionalFields: ComponentProps<typeof ComponentForm>;
   optionalFieldButton: ComponentProps<typeof OptionalFieldButton>;
+  loadMoreButton: ComponentProps<typeof LoadMoreButton>;
 };
 
 export type CustomClassNamesFn<K extends keyof CustomizableProps> = ((opts: CustomizationOpts<CustomizableProps[K]>) => string);

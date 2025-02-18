@@ -5,35 +5,23 @@ export default {
   "use-cases": {
     "title": "Use cases",
   },
-  "quickstart": {
+  "managed-auth": {
     "title": "Managed auth",
   },
-  "workflows": {
-    "title": "Running workflows",
-  },
   "components": {
-    "title": "Running components",
+    "title": "Pre-built tools",
   },
-  "api": {
-    "title": "API & SDK reference",
+  "api-proxy": {
+    "title": "API proxy",
   },
-  "tokens": {
-    "title": "Connect tokens",
+  "workflows": {
+    "title": "Workflows",
   },
   "environments": {
     "title": "Environments",
   },
-  "oauth-clients": {
-    "title": "OAuth clients",
-  },
-  "webhooks": {
-    "title": "Webhooks",
-  },
-  "connect-link": {
-    "title": "Connect Link",
-  },
-  "customize-your-app": {
-    "title": "Customize your app",
+  "api": {
+    "title": "API & SDK reference",
   },
   "troubleshooting": {
     "title": "Troubleshooting",

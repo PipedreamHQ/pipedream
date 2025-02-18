@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "monday-get-column-values",
   name: "Get Column Values",
-  description: "Return values of a specific column or columns for a board item. [See the documentation](https://developer.monday.com/api-reference/docs/column-values-v2)",
-  version: "0.0.5",
+  description: "Return values of specific column(s) for a board item. [See the documentation](https://developer.monday.com/api-reference/reference/column-values-v2)",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
@@ -29,7 +29,7 @@ export default {
       ],
       type: "string[]",
       label: "Columns",
-      description: "Return data from the specified column(s)",
+      description: "Select the column(s) to return data from",
       optional: true,
     },
   },
@@ -49,7 +49,7 @@ export default {
       throw new Error(response.errors[0].message);
     }
 
-    $.export("$summary", `Successfully retrieved column values for item with ID ${this.itemId}.`);
+    $.export("$summary", `Successfully retrieved column values for item with ID ${this.itemId}`);
 
     return this.formatColumnValues(response.data.items);
   },

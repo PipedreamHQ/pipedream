@@ -108,3 +108,25 @@ export type V1DeployedComponent<T extends ConfigurableProps = any> = { // eslint
   name_slug: string;
   callback_observations?: unknown;
 };
+
+export type V1EmittedEvent = {
+  /**
+   * The event's payload.
+   */
+  e: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  /**
+   * The event's type (set to "emit" currently).
+   */
+  k: string;
+
+  /**
+   * The event's timestamp in epoch milliseconds.
+   */
+  ts: number;
+
+  /**
+   * The event's unique ID.
+   */
+  id: string;
+}

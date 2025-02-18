@@ -6,7 +6,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   ...common,
   name: "Chat",
-  version: "0.2.4",
+  version: "0.2.5",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",

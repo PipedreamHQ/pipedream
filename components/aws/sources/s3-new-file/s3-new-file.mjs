@@ -6,7 +6,7 @@ export default {
   key: "aws-s3-new-file",
   name: "New S3 File",
   description: "Emit new event when a file is added to an S3 bucket",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   methods: {
     ...base.methods,

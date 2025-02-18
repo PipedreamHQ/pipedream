@@ -5,7 +5,7 @@ export default {
   key: "vercel_token_auth-new-deployment",
   name: "New Deployment",
   description: "Emit new event when a deployment is created",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -17,10 +17,19 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    team: {
+      propDefinition: [
+        vercelTokenAuth,
+        "team",
+      ],
+    },
     project: {
       propDefinition: [
         vercelTokenAuth,
         "project",
+        (c) => ({
+          teamId: c.team,
+        }),
       ],
     },
     state: {
@@ -63,6 +72,7 @@ export default {
     },
     async processEvent(max) {
       const params = {
+        teamId: this.team,
         projectId: this.project,
         state: this.state,
       };
