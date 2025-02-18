@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/opnform",
+  "version": "0.0.1",
+  "description": "Pipedream OpnForm Components",
+  "main": "opnform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "opnform"
+  ],
+  "homepage": "https://pipedream.com/apps/opnform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

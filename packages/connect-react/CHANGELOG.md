@@ -1,6 +1,14 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.0-preview.29] - 2025-02-10
+
+- Fix enableDebugging state update bug
+
+# [1.0.0-preview.28] - 2025-02-05
+
+- Surface SDK errors in the form
+
 # [1.0.0-preview.27] - 2025-01-30
  
 - Add styling to alerts

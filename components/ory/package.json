@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ory",
+  "version": "0.0.1",
+  "description": "Pipedream Ory Components",
+  "main": "ory.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ory"
+  ],
+  "homepage": "https://pipedream.com/apps/ory",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
