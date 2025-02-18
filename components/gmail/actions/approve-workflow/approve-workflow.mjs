@@ -25,6 +25,7 @@ export default {
         gmail,
         "body",
       ],
+      description: "Include an email body to send. Supports HTML",
       optional: true,
     },
     bodyType: {
@@ -33,7 +34,7 @@ export default {
         "bodyType",
       ],
       hidden: true,
-      default: "plaintext",
+      default: "html",
     },
   },
   async run({ $ }) {
