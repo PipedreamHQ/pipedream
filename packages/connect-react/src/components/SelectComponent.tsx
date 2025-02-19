@@ -1,7 +1,9 @@
 import { useId } from "react";
 import Select from "react-select";
 import { useComponents } from "../hooks/use-components";
-import { AppResponse, V1Component } from "@pipedream/sdk";
+import {
+  AppResponse, V1Component,
+} from "@pipedream/sdk";
 
 type SelectComponentProps = {
   app?: Partial<AppResponse> & { name_slug: string; };
@@ -17,7 +19,9 @@ export function SelectComponent({
   onChange,
 }: SelectComponentProps) {
   const instanceId = useId();
-  const { isLoading, components } = useComponents({
+  const {
+    isLoading, components,
+  } = useComponents({
     app: app?.name_slug,
     componentType,
   });
