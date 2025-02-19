@@ -313,6 +313,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/adobe_photoshop_lightroom: {}
+
   components/adobe_sign: {}
 
   components/adp: {}
@@ -1140,6 +1142,8 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
+  components/benchmarkone: {}
+
   components/better_stack:
     dependencies:
       '@pipedream/platform':
@@ -1442,6 +1446,9 @@ importers:
       qs:
         specifier: ^6.11.2
         version: 6.13.1
+
+  components/brillium:
+    specifiers: {}
 
   components/brosix: {}
 
@@ -5846,6 +5853,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/langfuse: {}
+
   components/laposta:
     dependencies:
       '@pipedream/platform':
@@ -7542,6 +7551,8 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
 
+  components/opnform: {}
+
   components/opsgenie:
     dependencies:
       '@pipedream/platform':
@@ -8803,6 +8814,8 @@ importers:
         version: 6.13.1
 
   components/redmine: {}
+
+  components/referral_rocket: {}
 
   components/referralhero:
     dependencies:

@@ -3,10 +3,10 @@ import common from "../common/common-webhook.mjs";
 export default {
   ...common,
   key: "monday-specific-column-updated",
-  name: "New Specific Column Updated (Instant)",
-  description: "Emit new event when a value in the specified column is updated on a board in Monday. For changes to Name, use the Name Updated Trigger.",
+  name: "Specific Column Updated (Instant)",
+  description: "Emit new event when a value in the specified column is updated. [See the documentation](https://developer.monday.com/api-reference/reference/webhooks#sample-payload-for-webhook-events)",
   type: "source",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   hooks: {
     ...common.hooks,
@@ -16,6 +16,11 @@ export default {
   },
   props: {
     ...common.props,
+    alertBox: {
+      type: "alert",
+      alertType: "warning",
+      content: "For changes to `Name`, use the **Name Updated** trigger",
+    },
     column: {
       propDefinition: [
         common.props.monday,

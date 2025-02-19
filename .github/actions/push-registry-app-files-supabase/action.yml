@@ -1,0 +1,15 @@
+name: "Push registry app files to Supabase"
+description: "Push registry app files that have changed to Supabase. If any *app.ts files have changed, run pnpm build for the affected app to generate the *.app.mjs file."
+inputs:
+  changed_files:
+    description: "List of all changed files coming from the push_to_supabase job of a github action workflow"
+    required: true
+  supabase_anon_key:
+    description: "Supabase anon key"
+    required: true
+  supabase_uri:
+    description: "Supabase URI"
+    required: true
+runs:
+  using: "node20"
+  main: "dist/index.js"

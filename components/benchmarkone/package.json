@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/benchmarkone",
+  "version": "0.0.1",
+  "description": "Pipedream BenchmarkONE Components",
+  "main": "benchmarkone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "benchmarkone"
+  ],
+  "homepage": "https://pipedream.com/apps/benchmarkone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

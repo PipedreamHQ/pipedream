@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/brillium",
+  "version": "0.0.1",
+  "description": "Pipedream Brillium Components",
+  "main": "brillium.app.mjs",
+  "keywords": [
+    "pipedream",
+    "brillium"
+  ],
+  "homepage": "https://pipedream.com/apps/brillium",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
