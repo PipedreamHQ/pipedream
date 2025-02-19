@@ -6,7 +6,7 @@ import { useApps } from "../hooks/use-apps";
 import { AppResponse } from "@pipedream/sdk";
 
 type SelectAppProps = {
-  value?: Partial<AppResponse> & { name_slug: string; };
+  value?: Partial<AppResponse> & { name_slug: string; name: string; id: string };
   onChange?: (app?: AppResponse) => void;
 };
 
@@ -25,7 +25,9 @@ export function SelectApp({
   } = useApps({
     q,
   });
-  const { Option } = components;
+  console.log("apps: ", apps);
+  const { Option, SingleValue } = components;
+  const selectedValue = apps?.find((o) => o.name_slug === value?.name_slug) || null;
   return (
     <Select
       instanceId={instanceId}
@@ -52,14 +54,38 @@ export function SelectApp({
             </div>
           </Option>
         ),
+        SingleValue: (singleValueProps) => (
+          <SingleValue {...singleValueProps}>
+            <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+              <img
+                src={`https://pipedream.com/s.v0/${singleValueProps.data.id}/logo/48`}
+                style={{ height: 24, width: 24 }}
+                alt={singleValueProps.data.name}
+              />
+              <span style={{ whiteSpace: "nowrap" }}>
+                {singleValueProps.data.name}
+              </span>
+            </div>
+          </SingleValue>
+        ),
         IndicatorSeparator: () => null,
       }}
       options={apps || []}
+      //options={[...(value ? [value] : []), ...apps]}
       getOptionLabel={(o) => o.name || o.name_slug} // TODO fetch initial value app so we show name
       getOptionValue={(o) => o.name_slug}
-      value={value}
-      onChange={(o) => onChange?.((o as AppResponse) || undefined)}
-      onInputChange={(v) => setQ(v)}
+      value={selectedValue}
+//      value={apps?.find((app) => app.name_slug === value?.name_slug) || null}
+      onChange={(o) => {
+        console.log("onChange", o);
+        onChange?.((o as AppResponse) || undefined)
+      }}
+      onInputChange={(v) => {
+        console.log("onInputChange", v);
+        if (v) {
+          setQ(v)
+        }
+      }}
       isLoading={isLoading}
     />
   );
