@@ -1,17 +1,24 @@
-export default {
-  parseOrUndefined(value) {
-    if (value === undefined) {
-      return undefined;
+export const parseObject = (obj) => {
+  if (!obj) return undefined;
+
+  if (Array.isArray(obj)) {
+    return obj.map((item) => {
+      if (typeof item === "string") {
+        try {
+          return JSON.parse(item);
+        } catch (e) {
+          return item;
+        }
+      }
+      return item;
+    });
+  }
+  if (typeof obj === "string") {
+    try {
+      return JSON.parse(obj);
+    } catch (e) {
+      return obj;
     }
-    return typeof(value) === "object"
-      ? value
-      : JSON.parse(value);
-  },
-  async streamIterator(stream) {
-    const resources = [];
-    for await (const resource of stream) {
-      resources.push(resource);
-    }
-    return resources;
-  },
+  }
+  return obj;
 };
