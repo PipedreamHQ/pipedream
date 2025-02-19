@@ -387,16 +387,28 @@ Sometimes you want to end your workflow early, or otherwise stop or cancel the e
 **In any code step, calling `return $.flow.exit()` will end the execution of the workflow immediately.** No remaining code in that step, and no code or destination steps below, will run for the current event.
 
 <Callout type="info">
-It's a good practice to use `return $.flow.exit()` to immediately exit the workflow.
-In contrast, `$.flow.exit()` on its own will end the workflow only after executing all remaining code in the step.
+`$.flow.exit()` does not exit the workflow immediately, only after all remaining code has been executed.
+If you want to exit the workflow immediately, you need to use other control structures to do so.
+It is best practice to return the value of `$.flow.exit()`.
 </Callout>
+
+```javascript
+export default defineComponent({
+  async run({ steps, $ }) {
+    $.flow.exit();
+    console.log(
+      "This code will still run, the workflow is ended after"
+    );
+  },
+});
+```
 
 ```javascript
 export default defineComponent({
   async run({ steps, $ }) {
     return $.flow.exit();
     console.log(
-      "This code will not run, since $.flow.exit() was called above it"
+      "This code will not run, as we returned from the `run` function early"
     );
   },
 });
