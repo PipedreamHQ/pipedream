@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/bash",
+  "version": "0.6.0",
+  "description": "Pipedream bash Components",
+  "main": "bash.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bash"
+  ],
+  "homepage": "https://pipedream.com/apps/bash",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

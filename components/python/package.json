@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/python",
+  "version": "0.6.0",
+  "description": "Pipedream python Components",
+  "main": "python.app.mjs",
+  "keywords": [
+    "pipedream",
+    "python"
+  ],
+  "homepage": "https://pipedream.com/apps/python",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
