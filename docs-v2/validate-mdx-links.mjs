@@ -111,7 +111,7 @@ function extractAnchors(content, filePath) {
   const basePath = "/" + relativePath.replace(/\.mdx$/, "");
   const baseDir = dirname(basePath);
 
-  // For basePath /code/nodejs.mdx -> /code/nodejs
+  // For basePath /core/workflows/code/nodejs.mdx -> /core/workflows/code/nodejs
   const normalizedBasePath = normalizePath(basePath);
   anchors.add(normalizedBasePath.toLowerCase());
 

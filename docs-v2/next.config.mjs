@@ -16,6 +16,26 @@ export default withNextra({
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/abuse",
+        destination: "/hidden/abuse",
+      },
+      {
+        source: "/scheduling-future-tasks",
+        destination: "/hidden/scheduling-future-tasks",
+      },
+      {
+        source: "/status",
+        destination: "/hidden/status",
+      },
+      {
+        source: "/subprocessors",
+        destination: "/hidden/subprocessors",
+      },
+    ];
+  },
   env: {
     PIPEDREAM_NODE_VERSION: "20",
     PIPEDREAM_BASE_URL: "https://pipedream.com",
