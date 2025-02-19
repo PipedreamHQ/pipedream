@@ -18,8 +18,8 @@ export default {
   ...common,
   key: "google_ads-create-report",
   name: "Create Report",
-  description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/fields/v16/overview)",
-  version: "0.1.0",
+  description: "Generates a report from your Google Ads data. [See the documentation](https://developers.google.com/google-ads/api/fields/v18/overview)",
+  version: "0.1.1",
   type: "action",
   props: {
     ...common.props,
@@ -43,7 +43,7 @@ export default {
       docsAlert: {
         type: "alert",
         alertType: "info",
-        content: `[See the documentation](https://developers.google.com/google-ads/api/fields/v16/${value}) for more information on available fields, segments and metrics.`,
+        content: `[See the documentation](https://developers.google.com/google-ads/api/fields/v18/${value}) for more information on available fields, segments and metrics.`,
       },
       objectFilter: {
         type: "string[]",
@@ -106,7 +106,7 @@ export default {
       segments: {
         type: "string[]",
         label: "Segments",
-        description: "Select any segments you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/fields/v16/segments)",
+        description: "Select any segments you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/fields/v18/segments)",
         options: resource.segments,
         default: [
           "segments.date",
@@ -117,7 +117,7 @@ export default {
       metrics: {
         type: "string[]",
         label: "Metrics",
-        description: "Select any metrics you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/fields/v16/metrics)",
+        description: "Select any metrics you want to include in your report. See the documentation [here](https://developers.google.com/google-ads/api/fields/v18/metrics)",
         options: resource.metrics,
         optional: true,
         reloadProps: true,

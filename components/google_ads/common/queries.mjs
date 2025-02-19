@@ -20,6 +20,7 @@ function listUserLists() {
   const fields = [
     "id",
     "name",
+    "type",
   ].map((s) => `user_list.${s}`).join(", ");
 
   return `SELECT ${fields} FROM user_list`;

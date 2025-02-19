@@ -21,7 +21,7 @@ export default {
           accountId,
           customerClientId,
         });
-        return response?.map(({
+        return response?.filter(({ userList: { type } }) => type === "CRM_BASED")?.map(({
           userList: {
             id, name,
           },
@@ -34,7 +34,7 @@ export default {
     accountId: {
       type: "string",
       label: "Use Google Ads As",
-      description: "Select an account from the list of [customers directly accessible by the authenticated user](https://developers.google.com/google-ads/api/rest/reference/rest/v16/customers/listAccessibleCustomers). This is usually a **Manager Account**, used as `login-customer-id`",
+      description: "Select an account from the list of [customers directly accessible by the authenticated user](https://developers.google.com/google-ads/api/rest/reference/rest/v18/customers/listAccessibleCustomers). This is usually a **Manager Account**, used as `login-customer-id`",
       async options() {
         const response = await this.listAccessibleCustomers();
         return response?.map(((resourceName) => ({
@@ -46,7 +46,7 @@ export default {
     customerClientId: {
       type: "string",
       label: "Managed Account",
-      description: "Select a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v16/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy).",
+      description: "Select a [customer client](https://developers.google.com/google-ads/api/reference/rpc/v18/CustomerClient) from the list of [customers linked to the selected account](https://developers.google.com/google-ads/api/docs/account-management/get-account-hierarchy).",
       useQuery: true,
       optional: true,
       async options({
@@ -71,7 +71,7 @@ export default {
     leadFormId: {
       type: "string",
       label: "Lead Form ID",
-      description: "Select a [Lead Form](https://developers.google.com/google-ads/api/rest/reference/rest/v16/Asset#LeadFormAsset) to watch for new entries.",
+      description: "Select a [Lead Form](https://developers.google.com/google-ads/api/rest/reference/rest/v18/Asset#LeadFormAsset) to watch for new entries.",
       async options({
         accountId, customerClientId,
       }) {
@@ -121,7 +121,7 @@ export default {
     }) {
       console.log("Executing query: ", query);
       const response = await this._makeRequest({
-        path: "/v16/customers/{customerClientId}/googleAds:search",
+        path: "/v18/customers/{customerClientId}/googleAds:search",
         method: "post",
         data: {
           query,
@@ -132,7 +132,7 @@ export default {
     },
     async listAccessibleCustomers() {
       const response = await this._makeRequest({
-        path: "/v16/customers:listAccessibleCustomers",
+        path: "/v18/customers:listAccessibleCustomers",
       });
       return response.resourceNames;
     },
@@ -151,7 +151,7 @@ export default {
     },
     async createUserList(args) {
       const response = await this._makeRequest({
-        path: "v16/customers/{customerClientId}/userLists:mutate",
+        path: "v18/customers/{customerClientId}/userLists:mutate",
         method: "post",
         ...args,
       });
@@ -200,7 +200,6 @@ export default {
       return this.search({
         query: QUERIES.listResources(resource, query),
         params: {
-          pageSize: 100,
           pageToken,
         },
         ...args,
@@ -217,7 +216,7 @@ export default {
     },
     async createConversionAction(args) {
       const response = await this._makeRequest({
-        path: "v16/customers/{customerClientId}/conversionActions:mutate",
+        path: "v18/customers/{customerClientId}/conversionActions:mutate",
         method: "post",
         ...args,
       });
@@ -228,14 +227,14 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/v16/${path}:addOperations`,
+        path: `/v18/${path}:addOperations`,
         ...opts,
       });
     },
     async createOfflineUserDataJob(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/v16/customers/{customerClientId}/offlineUserDataJobs:create",
+        path: "/v18/customers/{customerClientId}/offlineUserDataJobs:create",
         ...opts,
       });
     },
@@ -244,7 +243,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/v16/${path}:run`,
+        path: `/v18/${path}:run`,
         ...args,
       });
     },
