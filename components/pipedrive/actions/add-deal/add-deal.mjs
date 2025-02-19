@@ -58,12 +58,6 @@ export default {
         "dealCurrency",
       ],
     },
-    addTime: {
-      propDefinition: [
-        pipedriveApp,
-        "addTime",
-      ],
-    },
     status: {
       propDefinition: [
         pipedriveApp,
@@ -101,7 +95,6 @@ export default {
           stage_id: this.stageId,
           value: this.value,
           currency: this.currency,
-          add_time: this.addTime,
           status: this.status,
           probability: this.probability,
           lost_reason: this.lostReason,

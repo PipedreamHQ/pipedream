@@ -29,13 +29,6 @@ export default {
       ],
       description: "Visibility of the organization. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.",
     },
-    addTime: {
-      propDefinition: [
-        pipedriveApp,
-        "addTime",
-      ],
-      description: "Optional creation date & time of the organization in UTC. Requires admin user API token. Format: `YYYY-MM-DDTHH:MM:SSZ`",
-    },
   },
   async run({ $ }) {
     try {
@@ -43,7 +36,6 @@ export default {
         name: this.name,
         owner_id: this.ownerId,
         visible_to: this.visibleTo,
-        add_time: this.addTime,
       });
 
       $.export("$summary", "Successfully added organization");

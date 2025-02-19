@@ -32,13 +32,13 @@ export default {
     },
     emails: {
       type: "string[]",
-      label: "Email",
+      label: "Emails",
       description: "Email addresses (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"email1@email.com\", \"primary\":true, \"label\":\"work\"}**",
       optional: true,
     },
     phones: {
       type: "string[]",
-      label: "Phone",
+      label: "Phones",
       description: "Phone numbers (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"12345\", \"primary\":true, \"label\":\"work\"}**",
       optional: true,
     },
@@ -49,13 +49,6 @@ export default {
       ],
       description: "Visibility of the person. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.",
     },
-    addTime: {
-      propDefinition: [
-        pipedriveApp,
-        "addTime",
-      ],
-      description: "Optional creation date & time of the person in UTC. Requires admin user API token. Format: `YYYY-MM-DDTHH:MM:SSZ`",
-    },
   },
   async run({ $ }) {
     try {
@@ -64,7 +57,6 @@ export default {
           name: this.name,
           owner_id: this.ownerId,
           org_id: this.organizationId,
-          add_time: this.addTime,
           emails: parseObject(this.emails),
           phones: parseObject(this.phones),
           visible_to: this.visibleTo,

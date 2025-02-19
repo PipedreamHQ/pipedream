@@ -1,5 +1,6 @@
 import { ConfigurationError } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
@@ -16,9 +17,9 @@ export default {
       description: "The search term to look for. Minimum 2 characters (or 1 if using exact_match).",
     },
     fields: {
-      type: "string",
+      type: "string[]",
       label: "Search fields",
-      description: "A comma-separated string array. The fields to perform the search from. Defaults to all of them.",
+      description: "An array containing fields to perform the search from. Defaults to all of them.",
       optional: true,
       options: constants.FIELD_OPTIONS,
     },
@@ -60,7 +61,7 @@ export default {
       const resp =
         await this.pipedriveApp.searchPersons({
           term: this.term,
-          fields: this.fields,
+          fields: parseObject(this.fields),
           exact_match: this.exactMatch,
           org_id: this.organizationId,
           include_fields: this.includeFields,
