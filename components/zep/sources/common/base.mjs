@@ -25,7 +25,7 @@ export default {
       results.forEach((item) => this.emitEvent(item));
     },
     async getSessions({
-      lastTs, orderBy, max,
+      lastTs, orderBy, max, updateLastTs = true,
     }) {
       const params = {
         page_size: max || 1000,
@@ -53,7 +53,9 @@ export default {
       if (!sessions.length) {
         return [];
       }
-      this._setLastTs(Date.parse(sessions[0][orderBy]));
+      if (updateLastTs) {
+        this._setLastTs(Date.parse(sessions[0][orderBy]));
+      }
       return sessions.reverse();
     },
     emitEvent(item) {

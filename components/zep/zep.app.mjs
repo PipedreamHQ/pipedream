@@ -30,10 +30,12 @@ export default {
           },
         });
         return users?.map(({
-          user_id: value, first_name: firstName, last_name: lastName,
+          user_id: value, first_name: firstName, last_name: lastName, email,
         }) => ({
           value,
-          label: (`${firstName} ${lastName}`).trim(),
+          label: firstName || lastName
+            ? (`${firstName} ${lastName}`).trim()
+            : email || value,
         })) || [];
       },
     },
@@ -90,6 +92,13 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/sessions",
+        ...opts,
+      });
+    },
+    createUser(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/users",
         ...opts,
       });
     },

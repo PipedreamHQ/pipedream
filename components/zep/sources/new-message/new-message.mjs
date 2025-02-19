@@ -8,31 +8,32 @@ export default {
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    sessionId: {
-      propDefinition: [
-        common.props.zep,
-        "sessionId",
-      ],
-    },
-  },
   methods: {
     ...common.methods,
     async getNewResults(lastTs, max) {
-      const results = this.paginateMessages();
-
+      const sessionIds = await this.getRecentlyUpdatedSessionIds(lastTs);
       let messages = [];
-      for await (const message of results) {
-        const ts = Date.parse(message.created_at);
-        if (ts >= lastTs) {
-          messages.push(message);
+      let maxTs = lastTs;
+
+      for (const sessionId of sessionIds) {
+        const results = this.paginateMessages(sessionId);
+
+        for await (const message of results) {
+          const ts = Date.parse(message.created_at);
+          if (ts >= lastTs) {
+            messages.push({
+              ...message,
+              session_id: sessionId,
+            });
+            maxTs = Math.max(maxTs, ts);
+          }
         }
       }
 
-      if (messages.length) {
-        this._setLastTs(Date.parse(messages[messages.length - 1].created_at));
-      }
+      this._setLastTs(maxTs);
+
+      // sort by created_at
+      messages = messages.sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at));
 
       if (max) {
         messages = messages.slice(-1 * max);
@@ -40,7 +41,16 @@ export default {
 
       return messages;
     },
-    async *paginateMessages() {
+    async getRecentlyUpdatedSessionIds(lastTs) {
+      const sessions = await this.getSessions({
+        lastTs,
+        orderBy: "updated_at",
+        updateLastTs: false,
+        max: 100,
+      });
+      return sessions?.map(({ session_id: id }) => id) || [];
+    },
+    async *paginateMessages(sessionId) {
       const params = {
         limit: 1000,
         cursor: 1,
@@ -49,7 +59,7 @@ export default {
 
       do {
         const { messages } = await this.zep.listMessages({
-          sessionId: this.sessionId,
+          sessionId,
           params,
         });
         for (const message of messages) {
