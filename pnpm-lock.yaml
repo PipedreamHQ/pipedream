@@ -546,12 +546,6 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/airtable:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
-
   components/airtable_oauth:
     dependencies:
       '@pipedream/platform':
@@ -1908,12 +1902,6 @@ importers:
         version: 1.3.3
 
   components/calendarhero: {}
-
-  components/calendly:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
 
   components/calendly_v2:
     dependencies:
@@ -3428,12 +3416,6 @@ importers:
       lodash.maxby:
         specifier: ^4.6.0
         version: 4.6.0
-
-  components/discord_webhook:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
 
   components/discourse:
     dependencies:
@@ -5072,12 +5054,6 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
 
-  components/gmail_custom_oauth:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
-
   components/gmodstore: {}
 
   components/go:
@@ -5133,12 +5109,6 @@ importers:
         version: 1.6.6
 
   components/google:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
-
-  components/google-merchant-center:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.0.0
@@ -8099,12 +8069,6 @@ importers:
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
-
-  components/mysql_ssl:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
 
   components/n8n_io: {}
 
@@ -13036,12 +13000,6 @@ importers:
         version: 2.2.6
 
   components/twitter_ads: {}
-
-  components/twitter_developer_app:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
 
   components/txt_werk:
     dependencies:
