@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/breezy_hr",
+  "version": "0.6.0",
+  "description": "Pipedream breezy_hr Components",
+  "main": "breezy_hr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "breezy_hr"
+  ],
+  "homepage": "https://pipedream.com/apps/breezy_hr",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

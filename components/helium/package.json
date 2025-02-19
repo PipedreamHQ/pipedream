@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/helium",
+  "version": "0.6.0",
+  "description": "Pipedream helium Components",
+  "main": "helium.app.mjs",
+  "keywords": [
+    "pipedream",
+    "helium"
+  ],
+  "homepage": "https://pipedream.com/apps/helium",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

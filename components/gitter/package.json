@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/gitter",
+  "version": "0.6.0",
+  "description": "Pipedream gitter Components",
+  "main": "gitter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gitter"
+  ],
+  "homepage": "https://pipedream.com/apps/gitter",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

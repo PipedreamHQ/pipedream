@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/tilda",
+  "version": "0.6.0",
+  "description": "Pipedream tilda Components",
+  "main": "tilda.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tilda"
+  ],
+  "homepage": "https://pipedream.com/apps/tilda",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

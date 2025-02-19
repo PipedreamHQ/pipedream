@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/etermin",
+  "version": "0.6.0",
+  "description": "Pipedream etermin Components",
+  "main": "etermin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "etermin"
+  ],
+  "homepage": "https://pipedream.com/apps/etermin",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/locate",
+  "version": "0.6.0",
+  "description": "Pipedream locate Components",
+  "main": "locate.app.mjs",
+  "keywords": [
+    "pipedream",
+    "locate"
+  ],
+  "homepage": "https://pipedream.com/apps/locate",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

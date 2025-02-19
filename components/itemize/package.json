@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/itemize",
+  "version": "0.6.0",
+  "description": "Pipedream itemize Components",
+  "main": "itemize.app.mjs",
+  "keywords": [
+    "pipedream",
+    "itemize"
+  ],
+  "homepage": "https://pipedream.com/apps/itemize",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

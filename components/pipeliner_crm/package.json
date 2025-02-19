@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/pipeliner_crm",
+  "version": "0.6.0",
+  "description": "Pipedream pipeliner_crm Components",
+  "main": "pipeliner_crm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pipeliner_crm"
+  ],
+  "homepage": "https://pipedream.com/apps/pipeliner_crm",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

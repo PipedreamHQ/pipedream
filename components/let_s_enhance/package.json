@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/let_s_enhance",
+  "version": "0.6.0",
+  "description": "Pipedream let_s_enhance Components",
+  "main": "let_s_enhance.app.mjs",
+  "keywords": [
+    "pipedream",
+    "let_s_enhance"
+  ],
+  "homepage": "https://pipedream.com/apps/let_s_enhance",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

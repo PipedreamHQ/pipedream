@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/directus",
+  "version": "0.6.0",
+  "description": "Pipedream directus Components",
+  "main": "directus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "directus"
+  ],
+  "homepage": "https://pipedream.com/apps/directus",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/zerys",
+  "version": "0.6.0",
+  "description": "Pipedream zerys Components",
+  "main": "zerys.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zerys"
+  ],
+  "homepage": "https://pipedream.com/apps/zerys",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

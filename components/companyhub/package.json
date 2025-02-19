@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/companyhub",
+  "version": "0.6.0",
+  "description": "Pipedream companyhub Components",
+  "main": "companyhub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "companyhub"
+  ],
+  "homepage": "https://pipedream.com/apps/companyhub",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/discord_webhook",
+  "version": "0.6.0",
+  "description": "Pipedream discord_webhook Components",
+  "main": "discord_webhook.app.mjs",
+  "keywords": [
+    "pipedream",
+    "discord_webhook"
+  ],
+  "homepage": "https://pipedream.com/apps/discord_webhook",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

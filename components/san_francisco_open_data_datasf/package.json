@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/san_francisco_open_data_datasf",
+  "version": "0.6.0",
+  "description": "Pipedream san_francisco_open_data_datasf Components",
+  "main": "san_francisco_open_data_datasf.app.mjs",
+  "keywords": [
+    "pipedream",
+    "san_francisco_open_data_datasf"
+  ],
+  "homepage": "https://pipedream.com/apps/san_francisco_open_data_datasf",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/smartthings",
+  "version": "0.6.0",
+  "description": "Pipedream smartthings Components",
+  "main": "smartthings.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smartthings"
+  ],
+  "homepage": "https://pipedream.com/apps/smartthings",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/gemini_public",
+  "version": "0.6.0",
+  "description": "Pipedream gemini_public Components",
+  "main": "gemini_public.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gemini_public"
+  ],
+  "homepage": "https://pipedream.com/apps/gemini_public",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

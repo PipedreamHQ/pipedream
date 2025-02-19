@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/webinarjam",
+  "version": "0.6.0",
+  "description": "Pipedream webinarjam Components",
+  "main": "webinarjam.app.mjs",
+  "keywords": [
+    "pipedream",
+    "webinarjam"
+  ],
+  "homepage": "https://pipedream.com/apps/webinarjam",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

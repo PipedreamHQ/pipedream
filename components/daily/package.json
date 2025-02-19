@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/daily",
+  "version": "0.6.0",
+  "description": "Pipedream daily Components",
+  "main": "daily.app.mjs",
+  "keywords": [
+    "pipedream",
+    "daily"
+  ],
+  "homepage": "https://pipedream.com/apps/daily",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

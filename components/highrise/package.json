@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/highrise",
+  "version": "0.6.0",
+  "description": "Pipedream highrise Components",
+  "main": "highrise.app.mjs",
+  "keywords": [
+    "pipedream",
+    "highrise"
+  ],
+  "homepage": "https://pipedream.com/apps/highrise",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/automizy",
+  "version": "0.6.0",
+  "description": "Pipedream automizy Components",
+  "main": "automizy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "automizy"
+  ],
+  "homepage": "https://pipedream.com/apps/automizy",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

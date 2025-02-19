@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/riddle_quiz_maker",
+  "version": "0.6.0",
+  "description": "Pipedream riddle_quiz_maker Components",
+  "main": "riddle_quiz_maker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "riddle_quiz_maker"
+  ],
+  "homepage": "https://pipedream.com/apps/riddle_quiz_maker",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

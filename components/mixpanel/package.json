@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/mixpanel",
+  "version": "0.6.0",
+  "description": "Pipedream mixpanel Components",
+  "main": "mixpanel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mixpanel"
+  ],
+  "homepage": "https://pipedream.com/apps/mixpanel",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

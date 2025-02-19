@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/simplero",
+  "version": "0.6.0",
+  "description": "Pipedream simplero Components",
+  "main": "simplero.app.mjs",
+  "keywords": [
+    "pipedream",
+    "simplero"
+  ],
+  "homepage": "https://pipedream.com/apps/simplero",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
