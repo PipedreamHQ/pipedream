@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/zoom_chatbot",
+  "version": "0.6.0",
+  "description": "Pipedream zoom_chatbot Components",
+  "main": "zoom_chatbot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoom_chatbot"
+  ],
+  "homepage": "https://pipedream.com/apps/zoom_chatbot",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

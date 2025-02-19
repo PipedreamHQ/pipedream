@@ -3,10 +3,10 @@ import common from "../common/common-polling.mjs";
 export default {
   ...common,
   key: "monday-new-user",
-  name: "New User",
-  description: "Emit new event when a new user is created in Monday.",
+  name: "New User Created",
+  description: "Emit new event when a new user is created in Monday. [See the documentation](https://developer.monday.com/api-reference/reference/webhooks#sample-payload-for-webhook-events)",
   type: "source",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
   methods: {
     ...common.methods,

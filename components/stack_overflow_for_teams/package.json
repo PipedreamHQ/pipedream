@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/stack_overflow_for_teams",
+  "version": "0.0.1",
+  "description": "Pipedream Stack Overflow for Teams Components",
+  "main": "stack_overflow_for_teams.app.mjs",
+  "keywords": [
+    "pipedream",
+    "stack_overflow_for_teams"
+  ],
+  "homepage": "https://pipedream.com/apps/stack_overflow_for_teams",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

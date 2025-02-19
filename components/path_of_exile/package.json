@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/path_of_exile",
+  "version": "0.6.0",
+  "description": "Pipedream path_of_exile Components",
+  "main": "path_of_exile.app.mjs",
+  "keywords": [
+    "pipedream",
+    "path_of_exile"
+  ],
+  "homepage": "https://pipedream.com/apps/path_of_exile",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,4 +1,4 @@
-import pipedrive from "pipedrive";
+import pipedrive from "pipedrive@13.2.7";
 import constants from "./common/constants.mjs";
 
 export default {

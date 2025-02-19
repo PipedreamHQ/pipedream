@@ -1,12 +1,13 @@
 import constants from "../../common/constants.mjs";
 import monday from "../../monday.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "monday-create-column",
   name: "Create Column",
   description: "Creates a column. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-column)",
   type: "action",
-  version: "0.0.8",
+  version: "0.1.0",
   props: {
     monday,
     boardId: {
@@ -18,45 +19,63 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "The new column's title.",
+      description: "The title of the new column",
     },
     columnType: {
       type: "string",
       label: "Column Type",
-      description: "The new column's title",
+      description: "The type of the new column",
       options: constants.COLUMN_TYPE_OPTIONS,
       reloadProps: true,
     },
     description: {
       type: "string",
       label: "Description",
-      description: "The column's description.",
+      description: "The description of the new column",
       optional: true,
     },
   },
   async additionalProps() {
     const props = {};
-    const defaults = {
-      type: "string",
-      label: "Defaults",
-      description: "The new column's defaults. For use with column types `status` or `dropdown`. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for additional information.",
-      optional: true,
-    };
-    if (this.columnType === "status") {
+    if ([
+      "status",
+      "dropdown",
+    ].includes(this.columnType)) {
       props.defaults = {
-        ...defaults,
-        default: "{\"labels\":{\"1\":\"Option1\",\"2\":\"Option2\",\"3\":\"Option3\",\"4\": \"Option4\"}}",
-      };
-    }
-    if (this.columnType === "dropdown") {
-      props.defaults = {
-        ...defaults,
-        default: "{\"settings\":{\"labels\":[{\"id\":1,\"name\":\"Option1\"}, {\"id\":2,\"name\":\"Option2\"}, {\"id\":3,\"name\":\"Option3\"}]}}",
+        type: "string",
+        label: "Custom Labels (Defaults)",
+        description: "The new column's custom labels (defaults). For use with column types `status` or `dropdown`. Should be an object in the format `{ \"1\": \"Technology\", \"2\": \"Marketing\" }` where each key is the label ID and each value is the label text. [See the documentation](https://developer.monday.com/api-reference/reference/columns#create-a-status-or-dropdown-column-with-custom-labels) for more information.",
+        optional: true,
       };
     }
     return props;
   },
   async run({ $ }) {
+    let { defaults } = this;
+    if (defaults) {
+      try {
+        if (this.columnType === "status") {
+          defaults = JSON.stringify({
+            labels: JSON.parse(defaults),
+          });
+        } else if (this.columnType === "dropdown") {
+          const obj = JSON.parse(defaults);
+          defaults = JSON.stringify({
+            settings: {
+              labels: Object.entries(obj).map(([
+                id,
+                name,
+              ]) => ({
+                id: Number(id),
+                name,
+              })),
+            },
+          });
+        }
+      } catch (err) {
+        throw new ConfigurationError(`Error parsing \`Custom Labels\` as JSON: "${err}"`);
+      }
+    }
     const {
       data,
       errors,
@@ -66,11 +85,7 @@ export default {
         boardId: +this.boardId,
         title: this.title,
         columnType: this.columnType,
-        defaults: this.defaults
-          ? typeof this.defaults !== "string"
-            ? JSON.stringify(this.defaults)
-            : this.defaults
-          : undefined,
+        defaults,
         description: this.description,
       });
 

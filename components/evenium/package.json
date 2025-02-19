@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/evenium",
+  "version": "0.6.0",
+  "description": "Pipedream evenium Components",
+  "main": "evenium.app.mjs",
+  "keywords": [
+    "pipedream",
+    "evenium"
+  ],
+  "homepage": "https://pipedream.com/apps/evenium",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
