@@ -1,4 +1,4 @@
-import { useId, useEffect } from "react";
+import { useId } from "react";
 import Select from "react-select";
 import { useComponents } from "../hooks/use-components";
 import { AppResponse, V1Component } from "@pipedream/sdk";
@@ -22,6 +22,8 @@ export function SelectComponent({
     componentType,
   });
 
+  const selectedValue = components?.find((c) => c.key === value?.key) || null;
+
   return (
     <Select
       instanceId={instanceId}
@@ -30,7 +32,7 @@ export function SelectComponent({
       options={components}
       getOptionLabel={(o) => o.name || o.key}
       getOptionValue={(o) => o.key}
-      value={value}
+      value={selectedValue}
       onChange={(o) => onChange?.((o as V1Component) || undefined)}
       isLoading={isLoading}
       components={{
