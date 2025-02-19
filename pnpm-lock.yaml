@@ -674,8 +674,8 @@ importers:
   components/alpha_vantage:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.3.0
-        version: 1.6.6
+        specifier: ^3.0.0
+        version: 3.0.3
 
   components/alphamoon: {}
 
@@ -13328,12 +13328,6 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.0
         version: 1.6.6
-
-  components/vercel:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
 
   components/vercel_token_auth:
     dependencies:
