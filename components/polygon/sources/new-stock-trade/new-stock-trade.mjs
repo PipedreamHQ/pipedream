@@ -30,8 +30,8 @@ export default {
     getFunction() {
       return this.app.getPreviousClose;
     },
-    getSummary(item) {
-      return `New trade for ${item.sym} at $${item.p}`;
+    getSummary() {
+      return `New trade for ${this.stockTicker}`;
     },
     getData() {
       return {
