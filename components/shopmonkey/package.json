@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/shopmonkey",
+  "version": "0.6.0",
+  "description": "Pipedream shopmonkey Components",
+  "main": "shopmonkey.app.mjs",
+  "keywords": [
+    "pipedream",
+    "shopmonkey"
+  ],
+  "homepage": "https://pipedream.com/apps/shopmonkey",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

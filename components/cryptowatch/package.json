@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/cryptowatch",
+  "version": "0.6.0",
+  "description": "Pipedream cryptowatch Components",
+  "main": "cryptowatch.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cryptowatch"
+  ],
+  "homepage": "https://pipedream.com/apps/cryptowatch",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

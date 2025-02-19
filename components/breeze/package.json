@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/breeze",
+  "version": "0.6.0",
+  "description": "Pipedream breeze Components",
+  "main": "breeze.app.mjs",
+  "keywords": [
+    "pipedream",
+    "breeze"
+  ],
+  "homepage": "https://pipedream.com/apps/breeze",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
