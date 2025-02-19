@@ -194,9 +194,11 @@ export default [
       "**/.eslintrc",
       "**/*.json",
     ],
-
     languageOptions: {
       parser: parser,
+    },
+    rules: {
+      "eol-last": "off",
     },
   },
   {
