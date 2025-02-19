@@ -9,6 +9,11 @@ export default {
   type: "action",
   props: {
     zep,
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The unique identifier of the new user",
+    },
     email: {
       type: "string",
       label: "Email",
@@ -38,12 +43,6 @@ export default {
         zep,
         "metadata",
       ],
-      optional: true,
-    },
-    userId: {
-      type: "string",
-      label: "User ID",
-      description: "The unique identifier of the new user",
       optional: true,
     },
   },
