@@ -1447,6 +1447,9 @@ importers:
         specifier: ^6.11.2
         version: 6.13.1
 
+  components/brillium:
+    specifiers: {}
+
   components/brosix: {}
 
   components/browse_ai:
