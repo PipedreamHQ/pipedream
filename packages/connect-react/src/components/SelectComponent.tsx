@@ -4,9 +4,9 @@ import { useComponents } from "../hooks/use-components";
 import { AppResponse, V1Component } from "@pipedream/sdk";
 
 type SelectComponentProps = {
-  app?: Partial<AppResponse> & { name_slug: string };
+  app?: Partial<AppResponse> & { name_slug: string; };
   componentType?: "action" | "trigger";
-  value?: Partial<V1Component> & { key: string };
+  value?: Partial<V1Component> & { key: string; };
   onChange?: (component?: V1Component) => void;
 };
 
@@ -41,4 +41,3 @@ export function SelectComponent({
     />
   );
 }
-

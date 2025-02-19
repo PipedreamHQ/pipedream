@@ -13,9 +13,6 @@ export const useApps = (input?: GetAppsOpts) => {
       input,
     ],
     queryFn: () => client.apps(input),
-//    keepPreviousData: true,
-//    staleTime: 1000 * 60 * 5, // Cache results for 5 minutes
-//    cacheTime: 1000 * 60 * 10, // Keep cache for 10 minutes
   });
 
   return {

@@ -6,7 +6,7 @@ import { useApps } from "../hooks/use-apps";
 import { AppResponse } from "@pipedream/sdk";
 
 type SelectAppProps = {
-  value?: Partial<AppResponse> & { name_slug: string; name: string; id: string };
+  value?: Partial<AppResponse> & { name_slug: string; };
   onChange?: (app?: AppResponse) => void;
 };
 
@@ -25,7 +25,6 @@ export function SelectApp({
   } = useApps({
     q,
   });
-  console.log("apps: ", apps);
   const { Option, SingleValue } = components;
   const selectedValue = apps?.find((o) => o.name_slug === value?.name_slug) || null;
   return (
@@ -71,20 +70,12 @@ export function SelectApp({
         IndicatorSeparator: () => null,
       }}
       options={apps || []}
-      //options={[...(value ? [value] : []), ...apps]}
       getOptionLabel={(o) => o.name || o.name_slug} // TODO fetch initial value app so we show name
       getOptionValue={(o) => o.name_slug}
       value={selectedValue}
-//      value={apps?.find((app) => app.name_slug === value?.name_slug) || null}
-      onChange={(o) => {
-        console.log("onChange", o);
-        onChange?.((o as AppResponse) || undefined)
-      }}
+      onChange={(o) => onChange?.((o as AppResponse) || undefined)}
       onInputChange={(v) => {
-        console.log("onInputChange", v);
-        if (v) {
-          setQ(v)
-        }
+        if(v) setQ(v)
       }}
       isLoading={isLoading}
     />
