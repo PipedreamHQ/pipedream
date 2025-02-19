@@ -18,7 +18,8 @@
   },
   "scripts": {
     "build": "vite build",
-    "prepare": "pnpm run build"
+    "prepare": "pnpm run build",
+    "watch": "NODE_ENV=development vite build --watch --mode development"
   },
   "publishConfig": {
     "access": "public"
