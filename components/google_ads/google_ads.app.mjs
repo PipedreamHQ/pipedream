@@ -21,7 +21,7 @@ export default {
           accountId,
           customerClientId,
         });
-        return response?.map(({
+        return response?.filter(({ userList: { type } }) => type === "CRM_BASED")?.map(({
           userList: {
             id, name,
           },
