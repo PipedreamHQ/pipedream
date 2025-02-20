@@ -9529,6 +9529,9 @@ importers:
 
   components/popupsmart: {}
 
+  components/portabilling:
+    specifiers: {}
+
   components/portfolio_optimizer: {}
 
   components/postalytics:
